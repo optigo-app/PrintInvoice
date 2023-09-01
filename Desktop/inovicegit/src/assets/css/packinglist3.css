@@ -142,7 +142,7 @@
     display: flex;
     justify-content: space-between;
     /* width: 1226.8pt; */
-    width: 1098px;
+    width: 1096px;
     border-top: 1px solid #8e8e8e;
     border-left: 1px solid #8e8e8e;
     /* border-top: #8e8e8e; */
@@ -300,6 +300,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 13px;
     /* border-right: 1px solid #989898; */
     line-height: 8px;
 }
@@ -310,7 +311,7 @@
 
 .th4Wpcl3 {
     /* width: 50pt; */
-    width: 35px;
+    width: 40px;
     height: 15pt;
     display: flex;
     justify-content: center;
@@ -565,6 +566,7 @@
     /* border: 1px 0px solid black; */
     border-left: 1px solid black;
     border-right: 1px solid black;
+    width: 1096px;
 }
 
 .amountSummarySectionpcl3 {
@@ -582,17 +584,17 @@
     justify-content: space-between;
     border: 1px solid #989898;
     border-top: 0px;
-    min-height: 170px;
+    min-height: 140px;
 }
 
 .amountSummarySectionpcl3DIAM {
-    width: 190px;
+    width: 152px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border: 1px solid #989898;
     border-top: 0px;
-    min-height: 170px;
+    min-height: 140px;
 }
 
 .fapcl3 {
@@ -603,10 +605,26 @@
 .fapcl3D {
     display: flex;
     justify-content: space-between;
-    width: 184.5px;
+    width: 176.5px;
 }
 
-
+.fapcl3DE {
+    display: flex;
+    justify-content: space-between;
+    width: 152.5px;
+}
+.totamtpcl3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    word-break: break-word;
+    font-size: 13px;
+    line-height: 12px;
+    text-align: center;
+}
+.headbodypcl3{
+    font-size: 11.5px;
+}
 .mrpWpcl3 {
     display: flex;
     justify-content: end;
@@ -626,7 +644,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 7.5rem;
+    width: 9.5rem;
     padding-left: 1rem;
     font-size: 12px;
 }
@@ -650,7 +668,7 @@
 }
 
 .sumpcl3 {
-    width: 376px;
+    width: 368px;
     height: 18pt;
     display: flex;
     justify-content: center;
@@ -660,7 +678,7 @@
 }
 
 .diaDetailpcl3 {
-    width: 190px;
+    width: 150px;
     height: 24px;
     display: flex;
     justify-content: center;
@@ -686,7 +704,7 @@
     align-items: flex-end;
     /* height: 166pt; */
     /* height: 100%; */
-    height: 194px;
+    height: 164px;
     font-weight: 700;
     border: 1px solid #989898;
 }
@@ -773,7 +791,12 @@
     right: 0;
     user-select: none;
 }
-
+.createpcl3{
+    font-size: 16px;
+}
+.fsdpcl3{
+    font-size: 13px;
+}
 @media print {
     .printpcl3 {
         display: none;

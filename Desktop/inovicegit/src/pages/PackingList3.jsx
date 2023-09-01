@@ -2,7 +2,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import "../assets/css/packinglist3.css";
-// import orailImage from './orail.png';
 
 const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
     const [headerData, setHeaderData] = useState({});
@@ -51,9 +50,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
             };
 
             const data = await axios.post(urls, body);
-            console.log(data);
             if (data?.data?.Status == 200) {
-                console.log(data?.data?.Data);
                 let datas = data?.data?.Data;
                 setHeaderData(datas?.BillPrint_Json[0]);
                 setDynamicList1(datas?.BillPrint_Json1);
@@ -75,6 +72,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
     };
 
 
+    // eslint-disable-next-line array-callback-return
     dynamicList2?.length > 0 && dynamicList2.map((e, i) => {
 
         if (e?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -229,7 +227,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
                             <div className='fslhpcl3'>{headerData?.CompanyAddress}</div>
                             <div className='fslhpcl3'>{headerData?.CompanyAddress2}</div>
                             <div className='fslhpcl3'>{headerData?.CompanyCity}-{headerData?.CompanyPinCode}, {headerData?.CompanyState}({headerData?.CompanyCountry})</div>
-                            <div className='fslhpcl3'>T {headerData?.CompanyTellNo}</div>
+                            <div className='fslhpcl3'>Tell No: {headerData?.CompanyTellNo}</div>
                             <div className='fslhpcl3'>{headerData?.CompanyEmail} | {headerData?.CompanyWebsite}</div>
                             {/* <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-EDJHF236D</div> */}
                             <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.vat_cst_pan}</div>
@@ -265,63 +263,63 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
                     </div>
                     <div className='pcl3Table'>
                         <div className='pcl3tableHead'>
-                            <div className='th1pcl3'><b>Sr</b></div>
-                            <div className='th2pcl3'><b>Design</b></div>
+                            <div className='th1pcl3'><b className='fsdpcl3'>Sr</b></div>
+                            <div className='th2pcl3'><b className='fsdpcl3'>Design</b></div>
                             <div className='th3pcl3'>
                                 <div className='th3flexpcl3'>
                                     <div className='th3flex1pcl3'>
-                                        <b>Diamond</b>
+                                        <b className='fsdpcl3'>Diamond</b>
                                     </div>
                                     <div className='th3flex2pcl3'>
-                                        <div className='th3Wpcl3'><b>Code</b></div>
-                                        <div className='th3Wpcl3'><b>Size</b></div>
-                                        <div className='th3Wpcl3'><b>Pcs</b></div>
-                                        <div className='th3Wpcl3'><b>Wt</b></div>
-                                        <div className='th3Wpcl3'><b>Rate</b></div>
-                                        <div className='th3Wpcl3'><b>Amount</b></div>
+                                        <div className='th3Wpcl3'><b className='headbodypcl3'>Code</b></div>
+                                        <div className='th3Wpcl3'><b className='headbodypcl3'>Size</b></div>
+                                        <div className='th3Wpcl3'><b className='headbodypcl3'>Pcs</b></div>
+                                        <div className='th3Wpcl3'><b className='headbodypcl3'>Wt</b></div>
+                                        <div className='th3Wpcl3'><b className='headbodypcl3'>Rate</b></div>
+                                        <div className='th3Wpcl3'><b className='headbodypcl3'>Amount</b></div>
                                     </div>
                                 </div>
                             </div>
                             <div className='th4pcl3'>
                                 <div className='th4flexpcl3'>
                                     <div className='th4flex1pcl3'>
-                                        <b>Metal</b>
+                                        <b className='fsdpcl3'>Metal</b>
                                     </div>
                                     <div className='th4flex2pcl3'>
-                                        <div className='th4Wpcl3'><b>Quality</b></div>
-                                        <div className='th4Wpcl3'><b>GWt</b></div>
-                                        <div className='th4Wpcl3'><b>N+L</b></div>
-                                        <div className='th4Wpcl3'><b>Rate</b></div>
-                                        <div className='th4Wpcl3'><b>Amount</b></div>
+                                        <div className='th4Wpcl3'><b className='headbodypcl3'>Quality</b></div>
+                                        <div className='th4Wpcl3'><b className='headbodypcl3'>GWt</b></div>
+                                        <div className='th4Wpcl3'><b className='headbodypcl3'>N+L</b></div>
+                                        <div className='th4Wpcl3'><b className='headbodypcl3'>Rate</b></div>
+                                        <div className='th4Wpcl3'><b className='headbodypcl3'>Amount</b></div>
                                     </div>
                                 </div>
                             </div>
                             <div className='th5pcl3'>
                                 <div className='th5flexpcl3'>
                                     <div className='th5flex1pcl3'>
-                                        <b>Stone & Misc</b>
+                                        <b className='fsdpcl3'>Stone & Misc</b>
                                     </div>
                                     <div className='th5flex2pcl3'>
-                                        <div className='th5Wpcl3'><b>Code</b></div>
-                                        <div className='th5Wpcl3'><b>Size</b></div>
-                                        <div className='th5Wpcl3'><b>Pcs</b></div>
-                                        <div className='th5Wpcl3'><b>Wt</b></div>
-                                        <div className='th5Wpcl3'><b>Rate</b></div>
-                                        <div className='th5Wpcl3'><b>Amount</b></div>
+                                        <div className='th5Wpcl3'><b className='headbodypcl3'>Code</b></div>
+                                        <div className='th5Wpcl3'><b className='headbodypcl3'>Size</b></div>
+                                        <div className='th5Wpcl3'><b className='headbodypcl3'>Pcs</b></div>
+                                        <div className='th5Wpcl3'><b className='headbodypcl3'>Wt</b></div>
+                                        <div className='th5Wpcl3'><b className='headbodypcl3'>Rate</b></div>
+                                        <div className='th5Wpcl3'><b className='headbodypcl3'>Amount</b></div>
                                     </div>
                                 </div>
                             </div>
                             <div className='th6pcl3'>
                                 <div className='th6flexpcl3'>
-                                    <div className='th6flex1pcl3' style={{ height: "25px" }}><b>Labour & Other Charges</b></div>
+                                    <div className='th6flex1pcl3' style={{ height: "25px" }}><b className='fsdpcl3'>Labour & Other Charges</b></div>
                                     <div className='th6flex2pcl3'>
-                                        <div className='th6Wpcl3'><b>Charges</b></div>
-                                        <div className='th6Wpcl3'><b>Rate</b></div>
-                                        <div className='th6Wpcl3'><b>Amount</b></div>
+                                        <div className='th6Wpcl3'><b className='headbodypcl3'>Charges</b></div>
+                                        <div className='th6Wpcl3'><b className='headbodypcl3'>Rate</b></div>
+                                        <div className='th6Wpcl3'><b className='headbodypcl3'>Amount</b></div>
                                     </div>
                                 </div>
                             </div>
-                            <div className='th7pcl3'><b style={{ fontSize: "11px" }}>Total Amount</b></div>
+                            <div className='th7pcl3'><b className='totamtpcl3'>TOTAL AMOUNT</b></div>
                         </div>
 
                         <div>
@@ -345,24 +343,24 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
                                         <>
                                             < div className='pcl3TableCopy' key={i} >
                                                 <div className='tableBodypcl3'>
-                                                    <div className='thDpcl3'><b>{e?.SrNo}</b></div>
+                                                    <div className='thDpcl3'><b className='fsdpcl3'>{e?.SrNo}</b></div>
                                                 </div>
 
                                                 <div className='tableBodypcl3'>
                                                     <div className='th2Dpcl3'>
                                                         <div className='th2DJobpcl3'>
-                                                            <div>{e?.designno}</div>
-                                                            <div><div>{e?.SrJobno}</div><div>{e?.MetalColor}</div></div>
+                                                            <div className='fsdpcl3'>{e?.designno}</div>
+                                                            <div><div className='fsdpcl3'>{e?.SrJobno}</div><div className='fsdpcl3'>{e?.MetalColor}</div></div>
                                                         </div>
                                                         {imgShow ? <div className='imgpcl3'><img src={(e?.DesignImage) === ('' || undefined) ? e?.defaultimagename : e?.DesignImage} id="Imgpcl3" alt='#' /></div> : ''}
-                                                        <div><div>Certificate# :</div>
-                                                            <div><b>20231408EDFR#</b></div></div>
-                                                        <div className='th2DEpcl3'><div>HUID :</div><div><b>{e?.HUID}</b></div></div>
-                                                        <div className='th2DEpcl3'><div><b>PO : </b></div><div><b>{e?.PO}</b></div></div>
-                                                        <div>{e?.lineid}</div>
-                                                        <div className='th2DEpcl3'><div>Tunch : </div><div> {e?.Tunch}</div> </div>
-                                                        <div><b>{e?.grosswt?.toFixed(3)} gm</b> Gross</div>
-                                                        <div className='th2DEpcl3'><div>Size : </div><div>{e?.Size}</div></div>
+                                                        <div><div className='fsdpcl3'>Certificate# :</div>
+                                                            <div><b className='fsdpcl3'>20231408EDFR#</b></div></div>
+                                                        <div className='th2DEpcl3'><div className='fsdpcl3'>HUID :</div><div><b className='fsdpcl3'>{e?.HUID}</b></div></div>
+                                                        <div className='th2DEpcl3'><div><b className='fsdpcl3'>PO : </b></div><div><b className='fsdpcl3'>{e?.PO}</b></div></div>
+                                                        <div className='fsdpcl3'>{e?.lineid}</div>
+                                                        <div className='th2DEpcl3'><div className='fsdpcl3'>Tunch : </div><div className='fsdpcl3'> {e?.Tunch}</div> </div>
+                                                        <div className='fsdpcl3'><b className='fsdpcl3'>{e?.grosswt?.toFixed(3)} gm</b> Gross</div>
+                                                        <div className='th2DEpcl3'><div className='fsdpcl3'>Size : </div><div className='fsdpcl3'>{e?.Size}</div></div>
                                                     </div>
                                                 </div>
 
@@ -384,7 +382,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
                                                                                 <div className='th3Wpcl3 brRightDpcl3'>{ele?.Pcs}</div>
                                                                                 <div className='th3Wpcl3 brRightDpcl3'>{ele?.Wt}</div>
                                                                                 <div className='th3Wpcl3 brRightDpcl3'>{ele?.Rate}</div>
-                                                                                <div className='th3Wpcl3 brRightDpcl3'><b>{ele?.Amount}</b></div>
+                                                                                <div className='th3Wpcl3 brRightDpcl3'><b style={{fontSize:"12px"}}>{ele?.Amount?.toFixed(2)}</b></div>
                                                                             </div>
                                                                         </>
                                                                     );
@@ -393,13 +391,14 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
 
                                                         }
                                                     </div>
-                                                    <div className='diamondValuepcl3 positionpcl3D' style={{ width: "264px", border: "1px solid #989898", backgroundColor: "#e8e8e8", borderRight:"0px" }}>
+                                                    <div className='diamondValuepcl3 positionpcl3D' style={{ width: "263px",height:"21px", border: "1px solid #989898", backgroundColor: "#e8e8e8", borderRight:"0px", borderLeft:"0px", borderBottom:"0px" }}>
                                                         <div className='th3Wpcl3 brRightDpcl3'></div>
                                                         <div className='th3Wpcl3 brRightDpcl3'></div>
-                                                        <div className='th3Wpcl3 brRightDpcl3'><b>{diapcs}</b></div>
-                                                        <div className='th3Wpcl3 brRightDpcl3'><b>{diawt.toFixed(3)}</b></div>
-                                                        <div className='th3Wpcl3 brRightDpcl3'><b>{diarate}</b></div>
-                                                        <div className='th3Wpcl3 brRightDpcl3'><b>{diaamt?.toFixed(2)}</b></div>
+                                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{diapcs}</b></div>
+                                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{diawt.toFixed(3)}</b></div>
+                                                        {/* <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{diarate}</b></div> */}
+                                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'></b></div>
+                                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{diaamt?.toFixed(2)}</b></div>
                                                     </div>
                                                 </div>
                                                 <div className='metalPcl3 positionpcl3'>
@@ -414,11 +413,11 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
                                                                     return (
                                                                         <>
                                                                             <div className='MetalPcl3' key={index}>
-                                                                                <div className='th4Wpcl3 brRightDpcl3'>{ele?.ShapeName}</div>
-                                                                                <div className='th4Wpcl3 brRightDpcl3'>{e?.grosswt?.toFixed(3)}</div>
-                                                                                <div className='th4Wpcl3 brRightDpcl3'>{e?.NetWt}</div>
-                                                                                <div className='th4Wpcl3 brRightDpcl3'>{ele?.Rate}</div>
-                                                                                <div className='th4Wpcl3 brRightDpcl3'><b>{ele?.Amount?.toFixed(2)}</b></div>
+                                                                                <div className='th4Wpcl3 brRightDpcl3 fsdpcl3'>{ele?.ShapeName}</div>
+                                                                                <div className='th4Wpcl3 brRightDpcl3 fsdpcl3'>{e?.grosswt?.toFixed(3)}</div>
+                                                                                <div className='th4Wpcl3 brRightDpcl3 fsdpcl3'>{e?.NetWt}</div>
+                                                                                <div className='th4Wpcl3 brRightDpcl3 fsdpcl3'>{ele?.Rate}</div>
+                                                                                <div className='th4Wpcl3 brRightDpcl3'><b style={{fontSize:"12px"}}>{ele?.Amount?.toFixed(2)}</b></div>
                                                                             </div>
                                                                         </>
                                                                     );
@@ -428,13 +427,13 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
 
                                                         }
                                                     </div>
-                                                    <div className='MetalPcl3 positionpcl3D' style={{ width: "200px", border: "1px solid #989898", backgroundColor: "#e8e8e8", borderBottom:"0px" }}>
+                                                    <div className='MetalPcl3 positionpcl3D' style={{ width: "199px", border: "1px solid #989898", backgroundColor: "#e8e8e8", borderBottom:"0px", borderLeft:"0px", borderRight:"0px" }}>
                                                         <div className='th4Wpcl3 brRightDpcl3'></div>
-                                                        <div className='th4Wpcl3 brRightDpcl3'><b>{mtpcs}</b></div>
-                                                        <div className='th4Wpcl3 brRightDpcl3'><b>{mtwt?.toFixed(3) == 0 ? '0' : mtwt?.toFixed(3)}</b></div>
+                                                        <div className='th4Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{mtpcs}</b></div>
+                                                        <div className='th4Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{mtwt?.toFixed(3) == 0 ? '0' : mtwt?.toFixed(3)}</b></div>
                                                         <div className='th4Wpcl3 brRightDpcl3'></div>
                                                         <div className='th4Wpcl3 brRightDpcl3'></div>
-                                                        <div className='th4Wpcl3 brRightDpcl3'><b>{mtamt == '' ? '0' : mtamt}</b></div>
+                                                        <div className='th4Wpcl3 brRightDpcl3'><b style={{fontSize:"11.5px"}} >{mtamt == '' ? '0' : mtamt?.toFixed(2)}</b></div>
                                                     </div>
 
                                                 </div>
@@ -451,12 +450,12 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
                                                                     return (
                                                                         <>
                                                                             <div className='diamondValuepcl3' key={index}>
-                                                                                <div className='th3Wpcl3 brRightDpcl3'>{ele?.ShapeName} </div>
-                                                                                <div className='th3Wpcl3 brRightDpcl3'>{ele?.SizeName}</div>
-                                                                                <div className='th3Wpcl3 brRightDpcl3'>{ele?.Pcs}</div>
-                                                                                <div className='th3Wpcl3 brRightDpcl3'>{ele?.Wt}</div>
-                                                                                <div className='th3Wpcl3 brRightDpcl3'>{ele?.Rate}</div>
-                                                                                <div className='th3Wpcl3 brRightDpcl3'><b>{ele?.Amount}</b></div>
+                                                                                <div className='th3Wpcl3 brRightDpcl3 fsdpcl3'>{ele?.ShapeName} </div>
+                                                                                <div className='th3Wpcl3 brRightDpcl3 fsdpcl3'>{ele?.SizeName}</div>
+                                                                                <div className='th3Wpcl3 brRightDpcl3 fsdpcl3'>{ele?.Pcs}</div>
+                                                                                <div className='th3Wpcl3 brRightDpcl3 fsdpcl3'>{ele?.Wt}</div>
+                                                                                <div className='th3Wpcl3 brRightDpcl3 fsdpcl3'>{ele?.Rate}</div>
+                                                                                <div className='th3Wpcl3 brRightDpcl3 fsdpcl3'><b style={{fontSize:"12px"}}>{ele?.Amount?.toFixed(2)}</b></div>
                                                                             </div>
                                                                         </>
                                                                     );
@@ -466,21 +465,21 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
 
                                                         }
                                                     </div>
-                                                    <div className='diamondValuepcl3 positionpcl3D' style={{ width: "264px", border: "1px solid #989898", backgroundColor: "#e8e8e8", borderBottom:"0px", borderRight:"0px", borderLeft:"0px" }}>
+                                                    <div className='diamondValuepcl3 positionpcl3D' style={{ width: "263px",height:"21px", border: "1px solid #989898", backgroundColor: "#e8e8e8", borderBottom:"0px", borderRight:"0px", borderLeft:"0px" }}>
                                                         <div className='th3Wpcl3 brRightDpcl3'></div>
                                                         <div className='th3Wpcl3 brRightDpcl3'></div>
-                                                        <div className='th3Wpcl3 brRightDpcl3'><b>{stpcs == '' ? '0' : stpcs}</b></div>
-                                                        <div className='th3Wpcl3 brRightDpcl3'><b>{(stwt?.toFixed(3)) == '' ? '0' : (stwt?.toFixed(3))}</b></div>
+                                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{stpcs == '' ? '0' : stpcs}</b></div>
+                                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{(stwt?.toFixed(3)) == '' ? '0' : (stwt?.toFixed(3))}</b></div>
                                                         <div className='th3Wpcl3 brRightDpcl3'></div>
-                                                        <div className='th3Wpcl3 brRightDpcl3'><b>{stamt == '' ? '0' : stamt}</b></div>
+                                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{stamt == '' ? '0' : stamt}</b></div>
                                                     </div>
 
                                                 </div>
                                                 <div className='labourPcl3 positionpcl3'>
                                                     <div className='th6flex2pcl3'>
-                                                        <div className='th6Wpcl3 brRightDpcl3'>Labour</div>
-                                                        <div className='th6Wpcl3 brRightDpcl3'>{e?.MaKingCharge_Unit}</div>
-                                                        <div className='th6Wpcl3 brRightDpcl3'>{e?.MakingAmount}</div>
+                                                        <div className='th6Wpcl3 brRightDpcl3 fsdpcl3'>Labour</div>
+                                                        <div className='th6Wpcl3 brRightDpcl3 fsdpcl3'>{e?.MaKingCharge_Unit?.toFixed(2)}</div>
+                                                        <div className='th6Wpcl3 brRightDpcl3 fsdpcl3'>{e?.MakingAmount?.toFixed(2)}</div>
                                                     </div>
                                                     <div>
                                                         {
@@ -491,16 +490,16 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
                                                             </div> : ''
                                                         }
                                                     </div>
-                                                    <div className='th6flex2pcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", border: "1px solid #989898", width: "149px", borderBottom:"0px", borderRight:"0px", borderLeft:"0px" }}>
+                                                    <div className='th6flex2pcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", border: "1px solid #989898", width: "149px",height:"21px", borderBottom:"0px", borderRight:"0px", borderLeft:"0px" }}>
                                                         <div className='th6Wpcl3 brRightDpcl3'></div>
                                                         <div className='th6Wpcl3 brRightDpcl3'></div>
-                                                        <div className='th6Wpcl3 brRightDpcl3'><b>{totmakAmt}</b></div>
+                                                        <div className='th6Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{totmakAmt?.toFixed(2)}</b></div>
                                                     </div>
                                                 </div>
                                                 <div>
                                                     <div className='totalAndDiscountpcl3'>
-                                                        <div className='th7pcl3ss'><b>{e?.TotalAmount?.toFixed(2)}</b></div>
-                                                        <div className='th7pcl3Dis' style={{ backgroundColor: "#e8e8e8", border: "1px solid #989898", width: "68px", borderBottom:"0px", borderRight:"0px", borderLeft:"0px" }}><b>{e?.TotalAmount?.toFixed(2)}</b></div>
+                                                        <div className='th7pcl3ss'><b style={{fontSize:"12px"}}>{e?.TotalAmount?.toFixed(2)}</b></div>
+                                                        <div className='th7pcl3Dis' style={{ backgroundColor: "#e8e8e8", border: "1px solid #989898", width: "68px", height:"21px", borderBottom:"0px", borderRight:"0px", borderLeft:"0px" }}><b className='fsdpcl3'>{e?.TotalAmount?.toFixed(2)}</b></div>
                                                     </div>
 
                                                 </div>
@@ -514,89 +513,89 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
                                     <div className='thDEpcl3'><b></b></div>
                                 </div>
 
-                                <div className='tableBodypcl3' style={{ backgroundColor: "#e8e8e8", borderBottom:"0px" }}>
+                                <div className='tableBodypcl3' style={{ backgroundColor: "#e8e8e8", borderBottom:"0px", height:"22px" }}>
                                     <div className='th2Dpcl3'>
-                                        <div >TOTAL</div>
+                                        <div><b className='fsdpcl3'>TOTAL</b></div>
                                     </div>
                                 </div>
 
                                 <div className='diamondPcl3 positionpcl3'>
-                                    <div className='diamondValuepcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", border: "1px solid #989898", width: "264px", borderBottom:"0px", borderTop:"0px" }}>
+                                    <div className='diamondValuepcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", border: "1px solid #989898", width: "265px",height:"21px", borderBottom:"0px", borderTop:"0px" }}>
                                         <div className='th3Wpcl3 brRightDpcl3'></div>
                                         <div className='th3Wpcl3 brRightDpcl3'></div>
-                                        <div className='th3Wpcl3 brRightDpcl3'><b>{totalObj.totdiapcs}</b></div>
-                                        <div className='th3Wpcl3 brRightDpcl3'><b>{totalObj.totdiawt.toFixed(3)}</b></div>
+                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{totalObj.totdiapcs}</b></div>
+                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{totalObj.totdiawt.toFixed(3)}</b></div>
                                         <div className='th3Wpcl3 brRightDpcl3'></div>
-                                        <div className='th3Wpcl3 brRightDpcl3'><b>{totalObj.totdiaamt.toFixed(3)}</b></div>
+                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{totalObj.totdiaamt.toFixed(2)}</b></div>
                                     </div>
 
                                 </div>
                                 <div className='metalPcl3 positionpcl3'>
-                                    <div className='MetalPcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", width: "200px", lineHeight: "10px", border: "1px solid #989898", borderBottom:"0px", borderTop:"0px", borderLeft:"0px" }}>
+                                    <div className='MetalPcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", width: "199px",height:"21px", lineHeight: "10px", border: "1px solid #989898", borderBottom:"0px", borderTop:"0px", borderLeft:"0px", borderRight:"0px" }}>
                                         <div className='th4Wpcl3 brRightDpcl3'></div>
-                                        <div className='th4Wpcl3 brRightDpcl3'><b>{totalObj.totgrosswt?.toFixed(3)}</b></div>
-                                        <div className='th4Wpcl3 brRightDpcl3'><b>{totalObj.totnetwt?.toFixed(3)}</b></div>
+                                        <div className='th4Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{totalObj.totgrosswt?.toFixed(3)}</b></div>
+                                        <div className='th4Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{totalObj.totnetwt?.toFixed(3)}</b></div>
                                         <div className='th4Wpcl3 brRightDpcl3'></div>
                                         <div className='th4Wpcl3 brRightDpcl3'></div>
-                                        <div className='th4Wpcl3 brRightDpcl3'><b>{totalObj.totmtamt.toFixed(3)}</b></div>
+                                        <div className='th4Wpcl3 brRightDpcl3'><b style={{fontSize:"11.5px"}}>{totalObj.totmtamt.toFixed(2)}</b></div>
                                     </div>
                                 </div>
                                 <div className='diamondPcl3 positionpcl3'>
-                                    <div className='diamondValuepcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", width: "264px" }}>
+                                    <div className='diamondValuepcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", width: "263px" }}>
                                         <div className='th3Wpcl3 brRightDpcl3'></div>
                                         <div className='th3Wpcl3 brRightDpcl3'></div>
-                                        <div className='th3Wpcl3 brRightDpcl3'><b>{totalObj.totstpcs}</b></div>
-                                        <div className='th3Wpcl3 brRightDpcl3'><b>{totalObj.totstwt.toFixed(3)}</b></div>
+                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{totalObj.totstpcs}</b></div>
+                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{totalObj.totstwt.toFixed(3)}</b></div>
                                         <div className='th3Wpcl3 brRightDpcl3'></div>
-                                        <div className='th3Wpcl3 brRightDpcl3'><b>{totalObj.totstamt.toFixed(3)}</b></div>
+                                        <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{totalObj.totstamt.toFixed(2)}</b></div>
                                     </div>
                                 </div>
                                 <div className='labourPcl3'>
-                                    <div className='th6flex2pcl3  ' style={{ backgroundColor: "#e8e8e8", width: "148px", height: "15pt" }}>
+                                    <div className='th6flex2pcl3  ' style={{ backgroundColor: "#e8e8e8", width: "149px", height: "22px" }}>
                                         <div className='th6Wpcl3 brRightDpcl3'></div>
                                         <div className='th6Wpcl3 brRightDpcl3'></div>
-                                        <div className='th6Wpcl3 brRightDpcl3'><b>{totalObj.totmakingAmt}</b></div>
+                                        <div className='th6Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{totalObj.totmakingAmt?.toFixed(2)}</b></div>
                                     </div>
                                 </div>
                                 <div>
                                     <div>
-                                        <div className='th7Dpcl3' style={{ backgroundColor: "#e8e8e8", width: "69px", fontSize: "12px" }}><b>{totalObj.totalAmt}</b></div>
+                                        <div className='th7Dpcl3' style={{ backgroundColor: "#e8e8e8", width: "68px", fontSize: "12px" , height:"22px"}}><b className='fsdpcl3'>{totalObj.totalAmt?.toFixed(2)}</b></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className='sumarypcl3'>
                             <div className='amountSummarySectionpcl3'>
-                                <div className='fapcl3'><div className='mrpWpcl3'>Total Discount</div><div className='mrpWpcl3'>{totalObj?.totDiscount}</div> </div>
-                                <div className='fapcl3'><div className='mrpWpcl3'>Total Amount</div><div className='mrpWpcl3'>{(totalObj.totalAmt) - (totalObj?.totDiscount)}</div> </div>
-                                <div className='fapcl3'><div className='mrpWpcl3'>CGST @ {headerData?.CGST}%</div><div className='mrpWpcl3'>{headerData?.TotalCGSTAmount} </div> </div>
-                                <div className='fapcl3'><div className='mrpWpcl3'>SGST @ {headerData?.SGST}%</div><div className='mrpWpcl3'>{headerData?.TotalSGSTAmount}</div> </div>
-                                <div className='fapcl3'><div className='mrpWpcl3'>Less </div><div className='mrpWpcl3'>{headerData?.AddLess}</div> </div>
-                                <div className='fapcl3'><div className='mrpWpcl3'><b>Final Amount</b></div><div className='mrpWpcl3'><b>{(totalObj.totalAmt) - (totalObj?.totDiscount) + (headerData?.TotalCGSTAmount) + (headerData?.TotalSGSTAmount) + (headerData?.AddLess)}</b> </div> </div>
+                                <div className='fapcl3'><div className='mrpWpcl3 fsdpcl3'>Total Discount</div><div className='mrpWpcl3 fsdpcl3'>{totalObj?.totDiscount?.toFixed(2)}</div> </div>
+                                <div className='fapcl3'><div className='mrpWpcl3 fsdpcl3'>Total Amount</div><div className='mrpWpcl3 fsdpcl3'>{(totalObj.totalAmt?.toFixed(2)) - (totalObj?.totDiscount?.toFixed(2))}</div> </div>
+                                <div className='fapcl3'><div className='mrpWpcl3 fsdpcl3'>CGST @ {headerData?.CGST}%</div><div className='mrpWpcl3 fsdpcl3'>{headerData?.TotalCGSTAmount?.toFixed(2)} </div> </div>
+                                <div className='fapcl3'><div className='mrpWpcl3 fsdpcl3'>SGST @ {headerData?.SGST}%</div><div className='mrpWpcl3 fsdpcl3'>{headerData?.TotalSGSTAmount?.toFixed(2)}</div> </div>
+                                <div className='fapcl3'><div className='mrpWpcl3 fsdpcl3'>Less </div><div className='mrpWpcl3 fsdpcl3'>{headerData?.AddLess?.toFixed(2)}</div> </div>
+                                <div className='fapcl3'><div className='mrpWpcl3'><b className='fsdpcl3'>Final Amount</b></div><div className='mrpWpcl3'><b className='fsdpcl3'>{((totalObj.totalAmt) - (totalObj?.totDiscount) + (headerData?.TotalCGSTAmount) + (headerData?.TotalSGSTAmount) + (headerData?.AddLess))?.toFixed(2)}</b> </div> </div>
                             </div>
                         </div>
                         <div className='footerTotalpcl3'>
                             <div className='footerSummarypcl3'><div className='sumpcl3'>SUMMARY</div>
                                 <div className='flexSumpcl3'>
                                     <div className='amountSummarySectionpcl3SUM'>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D textrightpcl3'><b>GOLD IN 24KT</b></div><div className='mrpWpcl3D textrightpcl3'>{totalObj.totfinewt} gm</div> </div>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>GROSS WT</b></div><div className='mrpWpcl3D'>{totalObj.totgrosswt?.toFixed(3)} gm</div> </div>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>NET WT</b></div><div className='mrpWpcl3D'>{totalObj.totnetwt?.toFixed(3)} gm</div> </div>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>LOSS WT</b></div><div className='mrpWpcl3D'>1,423.47 gm</div> </div>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>DIAMOND WT</b></div><div className='mrpWpcl3D'>{totalObj.totdiapcs}/{totalObj.totdiawt.toFixed(3)} cts</div> </div>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>STONE WT</b></div><div className='mrpWpcl3D'>{totalObj.totcspcs}/{totalObj.totcswt.toFixed(3)} cts</div></div>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>MISC WT</b></div><div className='mrpWpcl3D'>{totalObj.totmiscpcs}/{totalObj.totmiscwt.toFixed(3)} gm</div> </div>
-                                        <div className='diaDetailpcl3' style={{ width: "186pt", height: "18pt" }}></div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D textrightpcl3'><b className='fsdpcl3'>GOLD IN 24KT</b></div><div className='mrpWpcl3D textrightpcl3 fsdpcl3'>{totalObj.totfinewt} gm</div> </div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>GROSS WT</b></div><div className='mrpWpcl3D fsdpcl3'>{totalObj.totgrosswt?.toFixed(3)} gm</div> </div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>NET WT</b></div><div className='mrpWpcl3D fsdpcl3'>{totalObj.totnetwt?.toFixed(3)} gm</div> </div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>LOSS WT</b></div><div className='mrpWpcl3D fsdpcl3'>1,423.47 gm</div> </div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>DIAMOND WT</b></div><div className='mrpWpcl3D fsdpcl3'>{totalObj.totdiapcs}/{totalObj.totdiawt.toFixed(3)} cts</div> </div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>STONE WT</b></div><div className='mrpWpcl3D fsdpcl3'>{totalObj.totcspcs}/{totalObj.totcswt.toFixed(3)} cts</div></div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>MISC WT</b></div><div className='mrpWpcl3D fsdpcl3'>{totalObj.totmiscpcs}/{totalObj.totmiscwt.toFixed(3)} gm</div> </div>
+                                        <div className='diaDetailpcl3' style={{ width: "137pt", height: "18pt" }}></div>
                                     </div>
                                     <div className='amountSummarySectionpcl3SUM'>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>GOLD</b></div><div className='mrpWpcl3D'>{totalObj.totmtamt.toFixed(3)}</div> </div>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>DIAMOND</b></div><div className='mrpWpcl3D'>{totalObj.totdiaamt?.toFixed(3)}</div> </div>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>CST</b></div><div className='mrpWpcl3D'>{totalObj.totcsamt?.toFixed(3)}</div></div>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>MISC</b></div><div className='mrpWpcl3D'>{totalObj.totmiscamt?.toFixed(3)}</div></div>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>MAKING</b></div><div className='mrpWpcl3D'>{totalObj.totmakingAmt?.toFixed(3)} </div> </div>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>OTHER</b></div><div className='mrpWpcl3D'>{totalObj.totOthAmt?.toFixed(3)}</div> </div>
-                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b>LESS</b></div><div className='mrpWpcl3D'>{headerData?.AddLess} </div> </div>
-                                        <div className='fapcl3'><div className='mrpWpcl3 diaDetailpcl3' style={{ width: "182pt" }}><b>Total</b></div><div className='mrpWpcl3 diaDetailpcl3'><b>{(totalObj.totalAmt) - (totalObj?.totDiscount) + (headerData?.TotalCGSTAmount) + (headerData?.TotalSGSTAmount) + (headerData?.AddLess)}</b> </div> </div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>GOLD</b></div><div className='mrpWpcl3D fsdpcl3'>{totalObj.totmtamt.toFixed(3)}</div> </div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>DIAMOND</b></div><div className='mrpWpcl3D fsdpcl3'>{totalObj.totdiaamt?.toFixed(3)}</div> </div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>CST</b></div><div className='mrpWpcl3D fsdpcl3'>{totalObj.totcsamt?.toFixed(3)}</div></div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>MISC</b></div><div className='mrpWpcl3D fsdpcl3'>{totalObj.totmiscamt?.toFixed(3)}</div></div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>MAKING</b></div><div className='mrpWpcl3D fsdpcl3'>{totalObj.totmakingAmt?.toFixed(3)} </div> </div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>OTHER</b></div><div className='mrpWpcl3D fsdpcl3'>{totalObj.totOthAmt?.toFixed(3)}</div> </div>
+                                        <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>LESS</b></div><div className='mrpWpcl3D fsdpcl3'>{headerData?.AddLess} </div> </div>
+                                        <div className='fapcl3'><div className='mrpWpcl3 diaDetailpcl3' style={{ width: "182pt" }}><b className='fsdpcl3'>TOTAL</b></div><div className='mrpWpcl3 diaDetailpcl3'><b className='fsdpcl3'>{(totalObj.totalAmt) - (totalObj?.totDiscount) + (headerData?.TotalCGSTAmount) + (headerData?.TotalSGSTAmount) + (headerData?.AddLess)}</b> </div> </div>
                                     </div>
                                 </div>
                             </div>
@@ -608,7 +607,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
                                         calculatedData?.length > 0 && calculatedData?.map((e, i) => {
                                             return (
                                                 <>
-                                                    <div className='fapcl3D' key={i}><div className='mrpWpcl3D'><b>{e?.ShapeName}</b></div><div className='mrpWpcl3D'>{e?.totalPcs?.toFixed(2)}/{e?.totalWt?.toFixed(3)}</div> </div>
+                                                    <div className='fapcl3DE' key={i}><div className='mrpWpcl3D'><b className='fsdpcl3'>{e?.ShapeName}</b></div><div className='mrpWpcl3D fsdpcl3'>{e?.totalPcs?.toFixed(2)}/{e?.totalWt?.toFixed(3)}</div> </div>
                                                 </>
                                             );
                                         })
@@ -618,17 +617,17 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
                             </div>
                             <div><div className='diaDetailpcl3'>OTHER DETAILS</div>
                                 <div className='amountSummarySectionpcl3DIAM'>
-                                    <div className='fapcl3D'><div className='mrpWpcl3D'><b>RATE IN 24KT</b></div><div className='mrpWpcl3D'>{headerData?.MetalRate24K?.toFixed(2)}</div> </div>
+                                    <div className='fapcl3D'><div className='mrpWpcl3D'><b className='fsdpcl3'>RATE IN 24KT</b></div><div className='mrpWpcl3D fsdpcl3'>{headerData?.MetalRate24K?.toFixed(2)}</div> </div>
                                 </div>
                             </div>
                             <div><div className='diaDetailpcl3'>REMARK</div>
                                 <div className='amountSummarySectionpcl3DIAM'>
-                                    <div className='fapcl3D'><div className='mrpWpcl3D'>{`${headerData?.Remark}`}</div>
+                                    <div className='fapcl3D'><div className='mrpWpcl3D'>{`${headerData?.Remark ?? ''}`}</div>
                                     </div>
                                 </div>
                             </div>
-                            <div className='createdPcl3'><i>Created By</i></div>
-                            <div className='createdPcl3'><i>Checked By</i></div>
+                            <div className='createdPcl3'><i className='createpcl3'>Created By</i></div>
+                            <div className='createdPcl3'><i className='createpcl3'>Checked By</i></div>
                         </div>
                         <div>
                         </div>
