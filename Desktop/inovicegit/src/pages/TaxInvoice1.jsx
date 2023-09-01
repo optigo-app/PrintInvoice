@@ -130,7 +130,7 @@ const TaxInvoice1 = ({  urls, token, invoiceNo, printName  }) => {
 
     return (
         <>{
-            loader ? <Loader /> :     <div className='container taxinvoice1 pt-5 mt-5'>
+            loader ? <Loader /> : <div className='container taxinvoice1 pt-5 mt-5'>
             <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4">
                 <div className="form-check pe-3 mb-0">
                     <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => handleChange(e)} />
@@ -152,7 +152,7 @@ const TaxInvoice1 = ({  urls, token, invoiceNo, printName  }) => {
             <div className="taxinvoice1Head fw-bold text-center mb-1">
                 TAX INVOICE
             </div>
-            <div className="headerInvoice1 d-flex border mb-1 border-2">
+            <div className="headerInvoice1 d-flex border mb-1 border-2 border-black">
                 <div className="header_textInvoice1 border-end p-1">
                     <p className='customer_name_invoice1'>Customer Name: <span className='fw-bold'>{BillPrint_Json?.CustName}</span></p>
                     <p>{BillPrint_Json?.customerAddress1}</p>
@@ -175,8 +175,8 @@ const TaxInvoice1 = ({  urls, token, invoiceNo, printName  }) => {
                     </div>
                 </div>
             </div>
-            <div className="d-flex border-top border-bottom table_invoice1 border-2">
-                <div className='sr_invoice1 d-flex align-items-center justify-content-center fw-bold border-start border-2'>Sr#</div>
+            <div className="d-flex border-top border-bottom table_invoice1 border-2 border-black">
+                <div className='sr_invoice1 d-flex align-items-center justify-content-center fw-bold border-start border-2 border-black'>Sr#</div>
                 <div className='product_discription_invoice1 d-flex align-items-center justify-content-center border-start fw-bold border-end'>Product Description</div>
                 <div className='hsn_invoice1 d-flex align-items-center justify-content-center fw-bold border-end'>HSN</div>
                 <div className='material_invoice1'>
@@ -207,11 +207,11 @@ const TaxInvoice1 = ({  urls, token, invoiceNo, printName  }) => {
                     <p>Material</p>
                     <p>Charge</p>
                 </div>
-                <div className='total_invoice1 d-flex align-items-center justify-content-center fw-bold border-end border-2'>Total</div>
+                <div className='total_invoice1 d-flex align-items-center justify-content-center fw-bold border-end border-2 border-black'>Total</div>
             </div>
             {resultArr.length > 0 && resultArr.map((e, i) => {
-                return <div className="d-flex w-100 border-bottom table_row_invoice1 border-2" key={i}>
-                    <div className='sr_invoice1 min_padding_invoice1 border-start border-2'>{e?.mainData?.SrNo}</div>
+                return <div className="d-flex w-100 border-bottom table_row_invoice1 border-2 border-black" key={i}>
+                    <div className='sr_invoice1 min_padding_invoice1 border-start border-2 border-black'>{e?.mainData?.SrNo}</div>
                     <div className='product_discription_invoice1 min_padding_invoice1 border-start border-end'>
                         <p> {e?.mainData?.Categoryname} {e?.mainData?.Collectionname} {e?.mainData?.DesignNo} | {e?.jobNo}</p>
                         {image && <img src={e?.mainData?.DesignImage} alt="" className='w-100' onError={handleImageError} />}
@@ -244,11 +244,11 @@ const TaxInvoice1 = ({  urls, token, invoiceNo, printName  }) => {
                             })}
                         </div>
                     </div>
-                    <div className='d-flex align-items-center justify-content-end total_invoice1 min_padding_invoice1 border-end border-2'>{(e?.totalAmount).toFixed(2)}</div>
+                    <div className='d-flex align-items-center justify-content-end total_invoice1 min_padding_invoice1 border-end border-2 border-black'>{(e?.totalAmount).toFixed(2)}</div>
                 </div>
             })}
-            <div className="d-flex headHeightInvoice1 border-bottom print_break_avoid_invoice1 border-2">
-                <div className='p-1 d-flex align-items-center sr_invoice1 border-start border-2'></div>
+            <div className="d-flex headHeightInvoice1 border-bottom print_break_avoid_invoice1 border-2 border-black">
+                <div className='p-1 d-flex align-items-center sr_invoice1 border-start border-2 border-black'></div>
                 <div className='p-1 d-flex align-items-center product_discription_invoice1 border-end border-start total_sec_invoice1 fw-bold'>TOTAL</div>
                 <div className='p-1 d-flex align-items-center hsn_invoice1 border-end'></div>
                 <div className='d-flex align-items-center material_invoice_inner1 border-end'>
@@ -263,12 +263,12 @@ const TaxInvoice1 = ({  urls, token, invoiceNo, printName  }) => {
                 </div>
                 <div className='p-1 d-flex align-items-center making_invoice1 border-end'></div>
                 <div className='p-1 d-flex align-items-center others_invoice1 border-end fw-bold justify-content-center'>{totalAmount?.totalOtherAmount}</div>
-                <div className='p-1 d-flex align-items-center total_invoice1 border-end fw-bold justify-content-end border-2'>{totalAmount?.TotalAmount}</div>
+                <div className='p-1 d-flex align-items-center total_invoice1 border-end fw-bold justify-content-end border-2 border-black'>{totalAmount?.TotalAmount}</div>
             </div>
-            <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 border-2">
+            <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 border-2 border-black">
                 <div className="oldGoldInvoice1 border-end d-grid">
-                    <div className='d-flex border-bottom p-1'> <p>Old Gold Purchase Description :</p></div>
                     <div className='d-flex p-1'><p>Narration / Remark:</p></div>
+                    <div className='d-flex border-bottom p-1'> <p>Old Gold Purchase Description :</p></div>
                 </div>
                 <div className="cgst_inovice1 border-end p-1 text-end">
                     <p>Discount</p>
@@ -295,7 +295,7 @@ const TaxInvoice1 = ({  urls, token, invoiceNo, printName  }) => {
                     <p>{totalAmount?.netBalanceAmount !== undefined && (totalAmount?.netBalanceAmount).toFixed(2)}</p>
                 </div>
             </div>
-            <div className="d-flex border-start border-end border-bottom border-2 print_break_avoid_invoice1">
+            <div className="d-flex border-start border-end border-bottom border-2 border-black print_break_avoid_invoice1">
                 <div className="p-1 totalNumbersinvoice1 border-end">
                     <p>In Words Indian Rupees</p>
                     <p className='fw-bold'>{totalAmount?.textnumber}</p>
@@ -307,10 +307,10 @@ const TaxInvoice1 = ({  urls, token, invoiceNo, printName  }) => {
                     ₹ {totalAmount?.netBalanceAmount !== undefined && (totalAmount?.netBalanceAmount).toFixed(2)}
                 </div>
             </div>
-            <div className="d-flex border-start border-end border-bottom p-1 print_break_avoid_invoice1 border-2">
+            <div className="d-flex border-start border-end border-bottom p-1 print_break_avoid_invoice1 border-2 border-black">
                 <div dangerouslySetInnerHTML={{ __html: BillPrint_Json?.Declaration }} className='pt-1'></div>
             </div>
-            <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 border-2">
+            <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 border-2 border-black">
                 <div className='onlineBankinvoice1 border-end p-1'>
                     <p className='fw-bold'>Bank Detail</p>
                     <p>Bank Name: {BillPrint_Json?.bankname}</p>

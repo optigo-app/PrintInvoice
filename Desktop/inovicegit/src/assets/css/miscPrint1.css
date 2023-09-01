@@ -24,11 +24,11 @@
 }
 
 .lessWtMisc1, .mperMisc1, .fineMisc1, .Amount{
-    width: 67.5px;
-    min-width: 67.5px;
+    width: 82.5px;
+    min-width: 82.5px;
 }
 
-.discriptionMisc1, .adpcMisc1, .kpcsMisc1, .kundMisc1, .motiMisc1, .bmotiMisc1, .mopMisc1, .minaMisc1, .bandaiMisc1, .lessWtMisc1, .mperMisc1, .fineMisc1, .Amount, .grsWtMisc1{
+.discriptionMisc1, .adpcMisc1, .kpcsMisc1, .kundMisc1, .motiMisc1, .bmotiMisc1, .mopMisc1, .minaMisc1, .bandaiMisc1, .lessWtMisc1, .mperMisc1, .fineMisc1, .Amount, .grsWtMisc1, .stoneMisc1, .mperMisc1 > p, .fineMisc1 > p, .grsWtMisc1 > p{
     font-size: 15px;
 }
 

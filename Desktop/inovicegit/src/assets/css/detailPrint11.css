@@ -1,30 +1,32 @@
 .containerDetailP11{
     max-width: 297mm !important;
+    line-height: 100%;
+    font-size: 10px;
 }
 
 .srNoDetailPrint11{
-    width: 40px;
-    min-width: 40px;
+    width: 30px;
+    min-width: 30px;
 }
 
 .designDetailPrint11{
-    width: 175px;
-    min-width: 175px;
+    width: 150px;
+    min-width: 150px;
 }
 
 .diamondStoneDetailPrint11{
-    width: 500px;
-    min-width: 500px;
+    width: 489px;
+    min-width: 489px;
 }
 
 .goldDetailPrint11{
-    width: 200px;
-    min-width: 200px;
+    width: 194px;
+    min-width: 194px;
 }
 
 .labourDetailPrint11{
-    width: 200px;
-    min-width: 200px;
+    width: 170px;
+    min-width: 170px;
 }
 
 .totalAmountDetailPrint11{
@@ -33,46 +35,51 @@
 }
 
 .shapeDetailPrint11{
-    width: 60px;
-    min-width: 60px;
+    width: 50px;
+    min-width: 50px;
 }
 
 .sizeDetailPrint11{
-    width: 60px;
-    min-width: 60px;
+    width: 50px;
+    min-width: 50px;
 }
 
 .pcsDetailPrint11{
-    width: 60px;
-    min-width: 60px;
+    width: 50px;
+    min-width: 50px;
 }
 
 .diaDetailPrint11{
-    width: 60px;
-    min-width: 60px;
+    width: 50px;
+    min-width: 50px;
 }
 
 .priceDetailPrint11{
-    width: 60px;
-    min-width: 60px;
+    width: 80px;
+    min-width: 80px;
 }
 
 .diaAmtDetailPrint11{
-    width: 60px;
-    min-width: 60px;
+    width: 50px;
+    min-width: 50px;
 }
 
 .settingTypeDetailPrint11{
-    width: 60px;
-    min-width: 60px;
+    width: 50px;
+    min-width: 50px;
 }
 
 .settingPriceDetailPrint11{
-    width: 60px;
-    min-width: 60px;
+    width: 50px;
+    min-width: 50px;
 }
 
 .totalAmountDetailPrint11{
-    width: 60px;
-    min-width: 60px;
+    width: 59px;
+    min-width: 59px;
+}
+
+
+.pad_bt_20DetailPrint11{
+    padding-bottom: 20px;
 }

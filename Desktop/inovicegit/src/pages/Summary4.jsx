@@ -582,7 +582,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName }) => {
                             <div className="gold_24kt_sum4 w-50">
                                 <div className="d-flex w-100">
                                     <div className="w-50 fw-bold ps-2">GOLD</div>
-                                    <div className="w-50 text-end pe-2">{total.goldAmt}</div>
+                                    <div className="w-50 text-end pe-2">{(total.goldAmt).toFixed(2)}</div>
                                 </div>
                                 <div className="d-flex w-100">
                                     <div className="w-50 fw-bold ps-2">DIAMOND</div>

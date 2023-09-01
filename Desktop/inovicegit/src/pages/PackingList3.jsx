@@ -1,9 +1,10 @@
 // import axios from 'axios';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import "../assets/css/packinglist3.css";
 // import orailImage from './orail.png';
 
-const PackingList3 = ({ billNumber }) => {
+const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
     const [headerData, setHeaderData] = useState({});
     const [imgShow, setImgShow] = useState(true);
     const [dynamicList1, setDynamicList1] = useState([]);
@@ -42,14 +43,28 @@ const PackingList3 = ({ billNumber }) => {
 
     async function loadData() {
         try {
-            const data = await import(`../assets/json/${billNumber}.json`);
-            let datas = {};
-            datas.BillPrint_Json = data.BillPrint_Json;
-            datas.BillPrint_Json1 = data.BillPrint_Json1;
-            datas.BillPrint_Json2 = data.BillPrint_Json2;
-            setHeaderData(datas.BillPrint_Json[0]);
-            setDynamicList1(datas.BillPrint_Json1);
-            setDynamicList2(datas.BillPrint_Json2);
+            // const data = await import(`../assets/json/${billNumber}.json`);
+            // let datas = {};
+            // datas.BillPrint_Json = data.BillPrint_Json;
+            // datas.BillPrint_Json1 = data.BillPrint_Json1;
+            // datas.BillPrint_Json2 = data.BillPrint_Json2;
+            const body = {
+                "token": token,
+                "invoiceno": invoiceNo,
+                "printname": printName
+            };
+
+            const data = await axios.post(urls, body);
+            console.log(data);
+            if (data?.data?.Status == 200) {
+                console.log(data?.data?.Data);
+                let datas = data?.data?.Data;
+                setHeaderData(datas?.BillPrint_Json[0]);
+                setDynamicList1(datas?.BillPrint_Json1);
+                setDynamicList2(datas?.BillPrint_Json2);
+            }else{
+                // console.log(data?.data?.Status, data?.data?.Message);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -211,19 +226,20 @@ const PackingList3 = ({ billNumber }) => {
                     <div className='chboxlabelpcl3'><input type="checkbox" id='chbox' checked={imgShow} onChange={(e) => handleCheckedChange(e)} /> <label htmlFor='chbox'>With Image</label></div><div><button className='btn_white blue' onClick={(e) => handlePrint(e)}>Print</button></div>
                 </div>
                 <div className='containerPCL3'>
-                    <div className='headlinepcl3'><b style={{fontSize:"15px"}}>JEWELLERY PACKAGING LIST</b></div>
+                    <div className='headlinepcl3'><b style={{ fontSize: "15px" }}>JEWELLERY PACKAGING LIST</b></div>
                     <div className='headpcl3'>
                         <div className='headpcl3Content'>
-                            <div className='fslhpcl3'><h5><b style={{fontSize:"13px"}}>{headerData?.CompanyFullName}</b></h5></div>
+                            <div className='fslhpcl3'><h5><b style={{ fontSize: "13px" }}>{headerData?.CompanyFullName}</b></h5></div>
                             <div className='fslhpcl3'>{headerData?.CompanyAddress}</div>
                             <div className='fslhpcl3'>{headerData?.CompanyAddress2}</div>
                             <div className='fslhpcl3'>{headerData?.CompanyCity}-{headerData?.CompanyPinCode}, {headerData?.CompanyState}({headerData?.CompanyCountry})</div>
                             <div className='fslhpcl3'>T {headerData?.CompanyTellNo}</div>
                             <div className='fslhpcl3'>{headerData?.CompanyEmail} | {headerData?.CompanyWebsite}</div>
-                            <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-EDJHF236D</div>
+                            {/* <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-EDJHF236D</div> */}
+                            <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.vat_cst_pan}</div>
                         </div>
-                        {/* <div className='headpcl3Img'><img src={orailImage} alt='#' id='pcl3Img' onError={(e) => handleImageError(e)} /></div> */}
-                        </div>
+                        <div className='headpcl3Img'><img src={headerData?.PrintLogo} alt='#' id='pcl3Img' onError={(e) => handleImageError(e)} /></div>
+                    </div>
                     <div className='dynamicHeadpcl3main'>
                         <div className='dynamicHeadpcl31'>
                             <div className='fslhpcl3'>{headerData?.lblBillTo}</div>
@@ -301,7 +317,7 @@ const PackingList3 = ({ billNumber }) => {
                             </div>
                             <div className='th6pcl3'>
                                 <div className='th6flexpcl3'>
-                                    <div className='th6flex1pcl3' style={{height:"25px"}}><b>Labour & Other Charges</b></div>
+                                    <div className='th6flex1pcl3' style={{ height: "25px" }}><b>Labour & Other Charges</b></div>
                                     <div className='th6flex2pcl3'>
                                         <div className='th6Wpcl3'><b>Charges</b></div>
                                         <div className='th6Wpcl3'><b>Rate</b></div>
@@ -309,7 +325,7 @@ const PackingList3 = ({ billNumber }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='th7pcl3'><b style={{fontSize:"11px"}}>Total Amount</b></div>
+                            <div className='th7pcl3'><b style={{ fontSize: "11px" }}>Total Amount</b></div>
                         </div>
 
                         <div>
@@ -381,7 +397,7 @@ const PackingList3 = ({ billNumber }) => {
 
                                                         }
                                                     </div>
-                                                    <div className='diamondValuepcl3 positionpcl3D' style={{ width: "264px", border: "1px solid #989898", backgroundColor: "#e8e8e8" }}>
+                                                    <div className='diamondValuepcl3 positionpcl3D' style={{ width: "264px", border: "1px solid #989898", backgroundColor: "#e8e8e8", borderRight:"0px" }}>
                                                         <div className='th3Wpcl3 brRightDpcl3'></div>
                                                         <div className='th3Wpcl3 brRightDpcl3'></div>
                                                         <div className='th3Wpcl3 brRightDpcl3'><b>{diapcs}</b></div>
@@ -416,7 +432,7 @@ const PackingList3 = ({ billNumber }) => {
 
                                                         }
                                                     </div>
-                                                    <div className='MetalPcl3 positionpcl3D' style={{ width: "200px", border: "1px solid #989898", backgroundColor: "#e8e8e8" }}>
+                                                    <div className='MetalPcl3 positionpcl3D' style={{ width: "200px", border: "1px solid #989898", backgroundColor: "#e8e8e8", borderBottom:"0px" }}>
                                                         <div className='th4Wpcl3 brRightDpcl3'></div>
                                                         <div className='th4Wpcl3 brRightDpcl3'><b>{mtpcs}</b></div>
                                                         <div className='th4Wpcl3 brRightDpcl3'><b>{mtwt?.toFixed(3) == 0 ? '0' : mtwt?.toFixed(3)}</b></div>
@@ -454,7 +470,7 @@ const PackingList3 = ({ billNumber }) => {
 
                                                         }
                                                     </div>
-                                                    <div className='diamondValuepcl3 positionpcl3D' style={{ width: "264px", border: "1px solid #989898", backgroundColor: "#e8e8e8" }}>
+                                                    <div className='diamondValuepcl3 positionpcl3D' style={{ width: "264px", border: "1px solid #989898", backgroundColor: "#e8e8e8", borderBottom:"0px", borderRight:"0px", borderLeft:"0px" }}>
                                                         <div className='th3Wpcl3 brRightDpcl3'></div>
                                                         <div className='th3Wpcl3 brRightDpcl3'></div>
                                                         <div className='th3Wpcl3 brRightDpcl3'><b>{stpcs == '' ? '0' : stpcs}</b></div>
@@ -479,7 +495,7 @@ const PackingList3 = ({ billNumber }) => {
                                                             </div> : ''
                                                         }
                                                     </div>
-                                                    <div className='th6flex2pcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", border: "1px solid #989898", width: "149px" }}>
+                                                    <div className='th6flex2pcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", border: "1px solid #989898", width: "149px", borderBottom:"0px", borderRight:"0px", borderLeft:"0px" }}>
                                                         <div className='th6Wpcl3 brRightDpcl3'></div>
                                                         <div className='th6Wpcl3 brRightDpcl3'></div>
                                                         <div className='th6Wpcl3 brRightDpcl3'><b>{totmakAmt}</b></div>
@@ -488,7 +504,7 @@ const PackingList3 = ({ billNumber }) => {
                                                 <div>
                                                     <div className='totalAndDiscountpcl3'>
                                                         <div className='th7pcl3ss'><b>{e?.TotalAmount?.toFixed(2)}</b></div>
-                                                        <div className='th7pcl3Dis' style={{ backgroundColor: "#e8e8e8", border: "1px solid #989898", width: "65px", borderRight:"0px" }}><b>{e?.TotalAmount?.toFixed(2)}</b></div>
+                                                        <div className='th7pcl3Dis' style={{ backgroundColor: "#e8e8e8", border: "1px solid #989898", width: "68px", borderBottom:"0px", borderRight:"0px", borderLeft:"0px" }}><b>{e?.TotalAmount?.toFixed(2)}</b></div>
                                                     </div>
 
                                                 </div>
@@ -502,14 +518,14 @@ const PackingList3 = ({ billNumber }) => {
                                     <div className='thDEpcl3'><b></b></div>
                                 </div>
 
-                                <div className='tableBodypcl3' style={{ backgroundColor: "#e8e8e8" }}>
+                                <div className='tableBodypcl3' style={{ backgroundColor: "#e8e8e8", borderBottom:"0px" }}>
                                     <div className='th2Dpcl3'>
                                         <div >TOTAL</div>
                                     </div>
                                 </div>
 
                                 <div className='diamondPcl3 positionpcl3'>
-                                    <div className='diamondValuepcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", border: "1px solid #989898", width: "264px" }}>
+                                    <div className='diamondValuepcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", border: "1px solid #989898", width: "264px", borderBottom:"0px", borderTop:"0px" }}>
                                         <div className='th3Wpcl3 brRightDpcl3'></div>
                                         <div className='th3Wpcl3 brRightDpcl3'></div>
                                         <div className='th3Wpcl3 brRightDpcl3'><b>{totalObj.totdiapcs}</b></div>
@@ -520,7 +536,7 @@ const PackingList3 = ({ billNumber }) => {
 
                                 </div>
                                 <div className='metalPcl3 positionpcl3'>
-                                    <div className='MetalPcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", width: "200px", lineHeight: "10px", border: "1px solid #989898" }}>
+                                    <div className='MetalPcl3 positionpcl3D' style={{ backgroundColor: "#e8e8e8", width: "200px", lineHeight: "10px", border: "1px solid #989898", borderBottom:"0px", borderTop:"0px", borderLeft:"0px" }}>
                                         <div className='th4Wpcl3 brRightDpcl3'></div>
                                         <div className='th4Wpcl3 brRightDpcl3'><b>{totalObj.totgrosswt?.toFixed(3)}</b></div>
                                         <div className='th4Wpcl3 brRightDpcl3'><b>{totalObj.totnetwt?.toFixed(3)}</b></div>
@@ -540,7 +556,7 @@ const PackingList3 = ({ billNumber }) => {
                                     </div>
                                 </div>
                                 <div className='labourPcl3'>
-                                    <div className='th6flex2pcl3  ' style={{ backgroundColor: "#e8e8e8", width: "148px", height:"15pt" }}>
+                                    <div className='th6flex2pcl3  ' style={{ backgroundColor: "#e8e8e8", width: "148px", height: "15pt" }}>
                                         <div className='th6Wpcl3 brRightDpcl3'></div>
                                         <div className='th6Wpcl3 brRightDpcl3'></div>
                                         <div className='th6Wpcl3 brRightDpcl3'><b>{totalObj.totmakingAmt}</b></div>
