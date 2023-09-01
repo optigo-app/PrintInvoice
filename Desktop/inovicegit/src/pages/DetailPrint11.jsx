@@ -51,7 +51,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName }) => {
           <p>Tel:998-858-5214</p>
           <p>vishal@co.in</p>
         </div>
-        <div className="w-50 text-end">
+        <div className="w-50 text-end">   
           <p>invoice#:JS/4933/22-23</p>
           <p>GSTINGST0000130 | STATE CODE GS</p>
           <p>Terms: 100 Days</p>
@@ -163,7 +163,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName }) => {
           <div className='d-flex position-absolute bottom-0 w-100'>	
             <div className='col-8 border-end d-flex align-items-center justify-content-end p-1'><p>12</p></div>
             <div className='col-4 d-flex align-items-center justify-content-end p-1'>
-              <p>123</p>
+              <p>123</p> 
             </div>
           </div>
           </div>
