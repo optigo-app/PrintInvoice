@@ -43,11 +43,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
 
     async function loadData() {
         try {
-            // const data = await import(`../assets/json/${billNumber}.json`);
-            // let datas = {};
-            // datas.BillPrint_Json = data.BillPrint_Json;
-            // datas.BillPrint_Json1 = data.BillPrint_Json1;
-            // datas.BillPrint_Json2 = data.BillPrint_Json2;
+    
             const body = {
                 "token": token,
                 "invoiceno": invoiceNo,
@@ -63,7 +59,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
                 setDynamicList1(datas?.BillPrint_Json1);
                 setDynamicList2(datas?.BillPrint_Json2);
             }else{
-                // console.log(data?.data?.Status, data?.data?.Message);
+                console.log(data?.data?.Status, data?.data?.Message);
             }
         } catch (error) {
             console.log(error);
