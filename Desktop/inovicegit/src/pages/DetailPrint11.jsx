@@ -5,7 +5,7 @@ import { apiCall, handleImageError } from '../GlobalFunctions';
 const DetailPrint11 = ({ urls, token, invoiceNo, printName }) => {
 
   const [loader, setLoader] = useState(true);
-
+// git clone successfully
   const loadData = (data) => {
     console.log(data);
   }
