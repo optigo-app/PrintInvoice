@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+  font-family: "Calibri";
+}
+
+h1, h2, h3, h4, h5, h6, p, a, ul, ol{
+  list-style-type: none;
+  margin: 0 !important;
+  padding: 0;
+  color: #000;
+  text-decoration: unset;
+}
+
+.container {
+  max-width: 1007px !important;
+  padding: 0 15px !important;
+  margin: 0 auto !important;
+}
+
+.btn_white {
+  font-family: Calibri;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  color: #000;
+  position: relative;
+  padding: 5px 7px 5px 5px;
+  background-color: #FFF;
+  border: 1px solid #C9C9C9;
+  background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#E2E2E2));
+  background: -webkit-linear-gradient(top, #FFF, #E2E2E2);
+  background: -moz-linear-gradient(top, #FFF, #E2E2E2);
+  background: -ms-linear-gradient(top, #FFF, #E2E2E2);
+  background: -o-linear-gradient(top, #FFF, #E2E2E2);
+  background: linear-gradient(to bottom, #FFF, #EBEBEB);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0px 1px 0px #F0F0F0, 0px 4px 0px 0px #DBDBDB, 0px 2px 3px #999;
+  -moz-box-shadow: inset 0px 1px 0px #F0F0F0, 0px 4px 0px 0px #DBDBDB, 0px 2px 3px #999;
+  -o-box-shadow: inset 0px 1px 0px #F0F0F0, 0px 4px 0px 0px #DBDBDB, 0px 2px 3px #999;
+  box-shadow: inset 0px 1px 0px #F0F0F0, 0px 4px 0px 0px #DBDBDB, 0px 2px 3px #999;
+}
+
+.blue {
+  border-left: 4px solid #5994BB !important;
+}
+
+.blue:hover {
+  border-left: 4px solid #5994BB !important;
+}
+
+.btn_white:hover {
+  background-color: #FFF !important;
+  border: 1px solid #D8D8D8;
+  background: linear-gradient(bottom, #F1F1F1 0%, #ffffff 100%);
+  background: -o-linear-gradient(bottom, #F1F1F1 0%, #ffffff 100%);
+  background: -moz-linear-gradient(bottom, #F1F1F1 0%, #ffffff 100%);
+  background: -webkit-linear-gradient(bottom, #F1F1F1 0%, #FFF 100%);
+  background: -ms-linear-gradient(bottom, #F1F1F1 0%, #ffffff 100%);
+  background: -webkit-gradient( linear, left bottom, left top, color-stop(0, #FFF), color-stop(1, #FFF) );
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#97B65D, endColorstr=#CAE387);
+  cursor: pointer;
+}
+
+.loader_2 {
+  width: 102.5px;
+  height: 102.5px;
+}

@@ -1,0 +1,277 @@
+.h1_sum4 {
+    font-size: 20px;
+}
+
+.address_sum4>p {
+    margin-bottom: 0;
+}
+
+.address_para_sum4 {
+    font-size: 13.5px;
+}
+
+.logo_sec_sum4>img {
+    max-width: 140px;
+}
+
+.header_section_sum4 {
+    border-bottom: 2px solid #C3C3C3;
+}
+
+.invoice_text_sum4>h2 {
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.invoice_text_sum4>h2>span {
+    font-weight: 700;
+}
+
+.address_line_sum4>p {
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.address_line_sum4>h3 {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.address_lines_sum4>p {
+    font-size: 15px;
+}
+
+.address_lines_sum4>p>span {
+    font-weight: 700;
+}
+
+.sum4_table div {
+    font-size: 12px;
+}
+
+.sr_sum4 {
+    min-width: 40.5px;
+    width: 40.5px;
+}
+
+.design_sum4 {
+    min-width: 95px;
+    width: 95px;
+}
+
+.remark_sum4 {
+    min-width: 115px;
+    width: 115px;
+}
+
+.dia_wt_ctw_sum4,
+.dia_rate_sum4,
+.dia_amt_sum4,
+.cs_wt_sum4,
+.cs_rate_sum4,
+.cs_amt_sum4,
+.gold_fine_sum4 {
+    min-width: 55px;
+    width: 55px;
+}
+
+.g_wt_sum4,
+.nwt_sum4,
+.gold_amt_sum4 {
+    min-width: 65px;
+    width: 65px;
+}
+
+.other_sum4,
+.other_amt_sum4 {
+    min-width: 60px;
+    width: 60px;
+}
+
+.amount_sum_4 {
+    min-width: 86px;
+    width: 86px;
+}
+
+.sum4_table img {
+    max-width: 60px;
+    width: 60px;
+}
+
+.total_sum4 {
+    width: 135.5px;
+}
+
+.bg_total_sum4 {
+    background: #F2F2F2;
+    min-height: 23px;
+}
+
+.summary_detail_sum4 {
+    width: 494px;
+    height: fit-content;
+}
+
+.cgst_sum4 {
+    width: 479px;
+}
+
+.total_sec_sum4>div {
+    font-size: 14px;
+}
+
+.summary_detail_sum4>div {
+    font-size: 15px;
+}
+
+.gold_24kt_sum4 div,
+.cgst_sum4 div {
+    font-size: 15px;
+    line-height: 100%;
+}
+
+.font_16_sum4 {
+    font-size: 16px;
+}
+
+.font_15_sum4 {
+    font-size: 15px;
+}
+
+.font_13_sum4 {
+    font-size: 13px;
+}
+
+
+.metal_type_sum4 {
+    width: 80px;
+    min-width: 80px;
+}
+
+.dia_wt_sum4,
+.GWt_sum4,
+.net_wt_sum4,
+.fine_wt_sum4 {
+    width: 74px;
+    min-width: 74px;
+}
+
+.gold_amount_sum4 {
+    width: 100px;
+    min-width: 100px;
+}
+
+.cgst_sum4>div>div {
+    text-align: center;
+}
+
+.sgst_sec_sum4 {
+    width: 723px;
+}
+
+.sgst_part_sum4 {
+    width: 250px;
+}
+
+.sgst_sec_sum4>div:first-child {
+    font-size: 15px;
+}
+
+.amazon_sum4 {
+    width: 181px;
+}
+
+.amazon_text_sum4 {
+    width: 151px;
+}
+
+.amazon_number_sum4 {
+    width: 30px;
+}
+
+.width_315_sum4 {
+    width: 315px;
+}
+
+.width_295_sum4 {
+    width: 295px;
+}
+
+.remark_list_sum4>li {
+    line-height: 130%;
+    font-size: 15px;
+}
+
+.height_65_sum4 {
+    height: 65px;
+}
+
+.total_sgst_text_sum4 {
+    width: 723.92px;
+}
+
+.total_sgst_number_sum4 {
+    width: 250px;
+}
+
+.total_sgst_sum4 p {
+    font-size: 14px;
+}
+
+.metalTypeSum4,
+.netWtSum4,
+.tunchSum4,
+.pureWtSum4 {
+    width: 137.45px;
+}
+
+.GwtSum4 {
+    width: 115.05px;
+}
+
+.goldPriceSum4 {
+    width: 136.44px;
+}
+
+.goldAmtSum4 {
+    width: 174.7px;
+}
+
+.height34Sum4 {
+    height: 34px;
+}
+
+.diamondTypeSum4 {
+    width: 460px;
+}
+
+.csTypeSum4 {
+    width: 445px;
+}
+
+.DiamondTypeSum4,
+.DiamondPriceSum4,
+.DiamondDiscountSum4,
+.DiamondAmountSum4 {
+    width: 100.17px;
+}
+
+.DiamondCtwSum4 {
+    width: 57.98px;
+}
+
+.cstypeTextSum4 {
+    width: 110.7px;
+}
+
+@media print {
+    .print_sec_sum4 {
+        display: none !important;
+    }
+
+    .sum4_table>div,
+    .note_sec_sum4,
+    .remarks_sum4 {
+        page-break-inside: avoid;
+    }
+}

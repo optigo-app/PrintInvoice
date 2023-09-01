@@ -1,0 +1,168 @@
+.containerEstimate {
+    max-width: 297mm !important;
+}
+
+.mainDetailEstimate {
+    min-width: 100px;
+}
+
+.srNoEstimatePrint {
+    width: 25px;
+    min-width: 25px;
+}
+
+.designEstimatePrint {
+    width: 110px;
+    min-width: 110px;
+}
+
+.diamondEstimatePrint,
+.stoneEstimatePrint {
+    width: 269.5px;
+    min-width: 269.5px;
+}
+
+.metalEstimatePrint {
+    width: 205px;
+    min-width: 205px;
+}
+
+.OtherAmountEstimatePrint,
+.totalAmountEstimatePrint {
+    width: 60px;
+    min-width: 60px;
+}
+
+.labourEstimatePrint {
+    /* width: 115px;
+    min-width: 115px; */
+    width: 90px;
+    min-width: 90px;
+}
+
+.recordEstimatePrint * {
+    font-size: 11px;
+    word-break: break-all;
+}
+
+.width20EstimatePrint {
+    width: 16.67%;
+    min-width: 16.67%;
+}
+
+.width200EstimatePrint {
+    width: 20%;
+    min-width: 20%;
+}
+
+.totalBgEstimatePrint {
+    background: #f5f5f5;
+}
+
+.height_48_estimatePrint {
+    height: 48px;
+}
+
+.height_20_estimatePrint{
+    height: 20px;
+}
+
+.width_38_estimatePrint {
+    width: 38px;
+}
+.totalEstimatePrint {
+    width: 135px;
+    min-width: 135px;
+}
+
+.summaryEstimateprint {
+    width: 320px;
+    min-width: 320px;
+}
+
+.diamondDetailEstimateprint {
+    width: 170px;
+    min-width: 170px;
+}
+
+.otherDetailEstimateprint {
+    width: 150px;
+    min-width: 150px;
+}
+
+.blankDetailEstimatePrint {
+    width: 210px;
+    min-width: 210px;
+}
+
+.createdByEstimatePrint {
+    width: 243px;
+    min-width: 243px;
+}
+
+.height3remEstimatePrint {
+    height: calc(100% + 3rem) !important;
+}
+
+.min_height_24_estimatePrint{
+    min-height: 24px;
+}
+
+.min_height_100EstimatePrint{
+    min-height: 100px;
+}
+
+.height_30_estimatePrint{
+    height: 30px;
+}
+
+.pad_bot_30_estimatePrint{
+    padding-bottom: 30px;
+}
+
+.pad_bot_25_estimatePrint{
+    padding-bottom: 25px;
+}
+
+.pad_bot_29_estimatePrint{
+    padding-bottom: 29px;
+}
+
+.pad_bot_18_estimatePrint {
+    padding-bottom: 18px;
+}
+
+.height_18_estimatePrint {
+    height: 18px;
+}
+
+.height_19_estimatePrint {
+    height: 19px;
+}
+
+.height_28_5_estimatePrint {
+    height: 28.5px;
+}
+.height_29_5_estimatePrint {
+    height: 29.5px;
+}
+
+.width_40_estimatePrint{
+    min-width: 40px;
+    width: 40px;
+}
+
+.width_45_estimatePrint{
+    min-width: 45px;
+    width: 45px;
+}
+
+.pad_bot_40_estimatePrint{
+    padding-bottom: 40px ;
+}
+
+@media print {
+    .recordEstimatePrint {
+        page-break-inside: avoid;
+    }
+}

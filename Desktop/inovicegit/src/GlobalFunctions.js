@@ -1,0 +1,35 @@
+import axios from "axios";
+
+export const handlePrint = (e) => {
+  window.print();
+}
+
+export const handleImageError = (e) => {
+  e.target.src = "http://zen/lib/jo/28/images/default.jpg"
+}
+
+export const CapitalizeWords = (text) => {
+  const capitalizeFirstLetter = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  };
+  const wordsArray = text.split(' ');
+  const capitalizedWordsArray = wordsArray.map(capitalizeFirstLetter);
+  const capitalizedText = capitalizedWordsArray.join(' ');
+  return capitalizedText;
+};
+
+export const apiCall = async (token, invoiceNo, printName, urls) => {
+  const body = {
+    "token": token,
+    "invoiceno": invoiceNo,
+    "printname": printName
+  };
+  try {
+    const response = await axios.post(urls, body);
+    return response.data.Data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+
+}

@@ -1,0 +1,66 @@
+.containerRetailPrint {
+    max-width: 1120px !important;
+}
+
+.headlinepRetailPrint {
+    background-color: #939292;
+    color: white;
+    font-size: 25px;
+    letter-spacing: 1px;
+}
+
+.line_height_110 {
+    line-height: 110%;
+}
+
+.srNoRetailPrint {
+    width: 40px;
+    min-width: 40px;
+}
+
+.poductDiscriptionRetailPrint {
+    width: 146px;
+    min-width: 146px;
+}
+
+.materialDescriptionRetailPrint {
+    width: px;
+    min-width: px;
+}
+
+.materialRetailPrint,
+.qtyRetailPrint {
+    width: 100px;
+    min-width: 100px;
+}
+
+.pcsRetailPrint {
+    width: 60px;
+    min-width: 60px;
+}
+
+.wtRetailPrint {
+    width: 80px;
+}
+
+.rateRetailPrint,
+.amountRetailPrint {
+    width: 100px;
+    min-width: 100px;
+}
+
+.makingRetailPrint,
+.othersRetailPrint,
+.totalRetailPrint {
+    width: 120px;
+    min-width: 120px;
+}
+
+.totalInWordsRetailPrint{
+    width: 727px;
+    min-width: 727px;
+}
+.cgstRetailPrint{
+    width: 240px;    
+    min-width: 240px;
+}
