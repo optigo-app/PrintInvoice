@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    word-break: break-all;
+    /* word-break: break-all; */
     line-height: 100%;
     /* font-size: 13px; */
     font-size: 10px;

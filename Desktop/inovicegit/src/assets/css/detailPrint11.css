@@ -25,13 +25,13 @@
 }
 
 .labourDetailPrint11{
-    width: 170px;
-    min-width: 170px;
+    width: 150px;
+    min-width: 150px;
 }
 
-.totalAmountDetailPrint11{
-    width: 120px;
-    min-width: 120px;
+.totalAmountJewelleryDetailPrint11{
+    width: 76px;
+    min-width: 76px;
 }
 
 .shapeDetailPrint11{
@@ -55,8 +55,8 @@
 }
 
 .priceDetailPrint11{
-    width: 80px;
-    min-width: 80px;
+    width: 70px;
+    min-width: 70px;
 }
 
 .diaAmtDetailPrint11{
@@ -75,11 +75,64 @@
 }
 
 .totalAmountDetailPrint11{
+    width: 69px;
+    min-width: 69px;
+}
+
+.settingTypeTotalDetailPrint11{
+    width: 100px;
+    min-width: 100px;
+}
+
+.pad_bt_20DetailPrint11{
+    padding-bottom: 20px;
+}
+
+.settingTotalPriceDetailPrint11{
     width: 59px;
     min-width: 59px;
 }
 
+.totalDesignDetailPrint11{
+    width: 180px;
+    min-width: 180px;
+}
 
-.pad_bt_20DetailPrint11{
-    padding-bottom: 20px;
+.remarkDetailPrint11{
+    width: 350px;
+    min-width: 350px;
+}
+
+.blankSpaceDetailPrint11{
+    width: 309px;
+    min-width: 309px;
+}
+
+.goldDetailsPrints11{
+    width: 204px;
+    min-width: 204px;
+}
+
+.totalLessDetailPrint11{
+    width: 74px;
+    min-width: 74px;
+}
+
+.totaljewAmountDetailPrint11{
+    width: 154px;
+    min-width: 154px;
+}
+
+.grandTotalDetailprint11{
+    width: 937px;
+    min-width: 937px;
+}
+
+.grandTotalNumberDetailPrint11 {
+    width: 153px;
+    min-width: 153px;
+}
+
+.min_height_20DetailPrint11{
+    min-height: 20px;
 }

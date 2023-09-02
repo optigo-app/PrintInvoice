@@ -237,6 +237,7 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
                 </div>
             </div>
             <div className="d-flex border-bottom border-start border-end">
+                <div className="regNoMiscPrint1 border-end p-1 fw-bold">Reg. No.</div>
                 <div className="discriptionMisc1 border-end p-1 fw-bold">Description</div>
                 <div className="grsWtMisc1 border-end p-1 text-end">
                     <p className='fw-bold'>Grs Wt</p>
@@ -264,6 +265,7 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
             </div>
             {jsonData.length > 0 && jsonData.map((e, i) => {
                 return <div className="d-flex border-bottom border-start border-end" key={i}>
+                    <div className="regNoMiscPrint1 p-1 border-end text-end">{e?.SrJobno}</div>
                     <div className="discriptionMisc1 border-end p-1 height53Misc1"><p className='fs-4'>{e?.SubCategoryname}</p></div>
                     <div className="grsWtMisc1 border-end p-1 text-end height53Misc1">
                         <p className='fs-4'>{e?.grosswt}</p>
@@ -318,6 +320,7 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
                 </div>
             })}
             <div className="d-flex border-bottom border-start border-end">
+                <div className="regNoMiscPrint1 p-1 border-end text-end">{jsonData?.length}</div>
                 <div className="discriptionMisc1 border-end p-1 fw-bold height53Misc1">TOTAL</div>
                 <div className="grsWtMisc1 border-end p-1 text-end height53Misc1">
                     <p className='fw-bold fs-4'>{total?.grsWt}</p>
@@ -327,38 +330,38 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
                     <div className="d-flex">
                         <div className="text-end kundMisc1 border-end p-1 fw-bold height53Misc1">
                             <p className='fw-bold lh-1 fs-4'>{total?.Kund?.weight}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.Kund?.pcs}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.Kund?.Rate}</p>
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.Kund?.pcs}</p> */}
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.Kund?.Rate}</p> */}
                         </div>
                         <div className="text-end motiMisc1 border-end p-1 fw-bold height53Misc1">
                             <p className='fw-bold lh-1 fs-4'>{total?.Moti?.weight}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.Moti?.pcs}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.Moti?.Rate}</p>
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.Moti?.pcs}</p> */}
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.Moti?.Rate}</p> */}
                         </div>
                         <div className="text-end bmotiMisc1 border-end p-1 fw-bold height53Misc1">
                             <p className='fw-bold lh-1 fs-4'>{total?.Bmoti?.weight}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.Bmoti?.pcs}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.Bmoti?.Rate}</p>
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.Bmoti?.pcs}</p> */}
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.Bmoti?.Rate}</p> */}
                         </div>
                         <div className="text-end mopMisc1 border-end p-1 fw-bold height53Misc1">
                             <p className='fw-bold lh-1 fs-4'>{total?.MOPs?.weight}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.MOPs?.pcs}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.MOPs?.Rate}</p>
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.MOPs?.pcs}</p> */}
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.MOPs?.Rate}</p> */}
                         </div>
                         <div className="text-end stoneMisc1 border-end p-1 fw-bold height53Misc1">
                             <p className='fw-bold lh-1 fs-4'>{total?.Stone?.weight}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.Stone?.pcs}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.Stone?.Rate}</p>
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.Stone?.pcs}</p> */}
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.Stone?.Rate}</p> */}
                         </div>
                         <div className="text-end minaMisc1 border-end p-1 fw-bold height53Misc1">
                             <p className='fw-bold lh-1 fs-4'>{total?.Mina?.weight}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.Mina?.pcs}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.Mina?.Rate}</p>
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.Mina?.pcs}</p> */}
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.Mina?.Rate}</p> */}
                         </div>
                         <div className="text-end bandaiMisc1 p-1 fw-bold height53Misc1">
                             <p className='fw-bold lh-1 fs-4'>{total?.Bandai?.weight}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.Bandai?.pcs}</p>
-                            <p className='fw-bold lh-1 fs-4'>{total?.Bandai?.Rate}</p>
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.Bandai?.pcs}</p> */}
+                            {/* <p className='fw-bold lh-1 fs-4'>{total?.Bandai?.Rate}</p> */}
                         </div>
                     </div>
                 </div>
