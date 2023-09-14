@@ -134,7 +134,7 @@ const TaxInvoice1 = ({  urls, token, invoiceNo, printName  }) => {
             <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4">
                 <div className="form-check pe-3 mb-0">
                     <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => handleChange(e)} />
-                    <label className="form-check-label h6 mb-0 mt-1">
+                    <label className="form-check-label h6 mb-0">
                         With Image
                     </label>
                 </div>
@@ -267,7 +267,7 @@ const TaxInvoice1 = ({  urls, token, invoiceNo, printName  }) => {
             </div>
             <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 border-2 border-black">
                 <div className="oldGoldInvoice1 border-end d-grid">
-                    <div className='d-flex p-1'><p>Narration / Remark:</p></div>
+                    <div className='d-flex p-1 border-bottom'><p>Narration / Remark:</p></div>
                     <div className='d-flex border-bottom p-1'> <p>Old Gold Purchase Description :</p></div>
                 </div>
                 <div className="cgst_inovice1 border-end p-1 text-end">
