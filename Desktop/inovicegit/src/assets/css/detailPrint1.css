@@ -1,0 +1,122 @@
+.containerDetailPrint1 {
+    /* max-width: 297mm !important; */
+    max-width: 790.74px !important;
+    padding: 0 15px !important;
+}
+
+.containerDetailPrint1 p {
+    word-break: break-all;
+    font-size: 8px;
+}
+
+.containerDetailPrint1 * {
+    font-size: 12px;
+}
+
+.jewelleryPackingList {
+    background-color: #939292;
+}
+
+.lhDetailPrint1 {
+    line-height: 130%;
+}
+
+.srNoDetailprint11 {
+    width: 21px;
+    min-width: 21px;
+}
+
+.designDetalPrint1 {
+    width: 80px;
+    min-width: 80px;
+}
+
+.diamondDetailPrint1 {
+    width: 186.3px;
+    min-width: 186.3px;
+}
+
+.metalDetailPrint1 {
+    width: 200px;
+    min-width: 200px;
+}
+
+.stoneDetailPrint1 {
+    width: 200px;
+    min-width: 200px;
+}
+
+.otherAmountDetailPrint1 {
+    width: 35px;
+    min-width: 35px;
+}
+
+.labourAmountDetailPrint1 {
+    width: 60px;
+    min-width: 60px;
+}
+
+.totalAmountDetailPrint1 {
+    width: 40px;
+    min-width: 40px;
+}
+
+.metalGoldDetailPrint1 {
+    width: 153.3px;
+    min-width: 153.3px;
+}
+
+.diamondDetailPrint1 * {
+    word-break: break-all;
+}
+
+.parentDetailPrint1 {
+    display: inline-flex;
+    justify-content: space-between;
+}
+
+.metalTotalDetailPrint1 {
+    min-width: 153.3px;
+    width: 153.3px;
+}
+
+.designDetalPrint1Total {
+    width: 101px;
+    min-width: 101px;
+}
+
+.cgstDetailPrint1 {
+    min-width: 720px;
+    width: 720px;
+}
+
+.cgstTotalDetailPrint1 {
+    min-width: 40px;
+    width: 40px;
+}
+
+.summaryPadBotDetailPrint1 {
+    padding-bottom: 30px;
+}
+
+.totalLineDetailPrint1 {
+    min-height: 30px;
+}
+
+.createdByDetailPrint1 {
+    min-height: 200px;
+}
+
+.paddingBottomTotalDetailPrint1 {
+    padding-bottom: 48px;
+}
+
+.totalMinHeightDetailPrint1 {
+    min-height: 25px;
+}
+
+@media print {
+    .recordDetailPrint1 {
+        page-break-inside: avoid;
+    }
+}
