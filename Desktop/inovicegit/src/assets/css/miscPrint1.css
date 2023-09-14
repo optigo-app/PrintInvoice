@@ -4,6 +4,11 @@
     padding: 0 15px;
 }
 
+.container_Misc_1 *{
+    line-height: 100%;
+    word-break: break-all;
+}
+
 .discriptionMisc1{
     width: 65px;
     min-width: 65px;
@@ -23,17 +28,17 @@
     min-width: 50px;
 }
 
-.lessWtMisc1, .mperMisc1, .fineMisc1, .Amount{
+.lessWtMisc1, .mperMisc1, .fineMisc1, .AmountMiscPrint1{
     width: 55px;
     min-width: 55px;
 }
 
-.regNoMiscPrint1, .stoneDetailsMisc1, .discriptionMisc1, .adpcMisc1, .kpcsMisc1, .kundMisc1, .motiMisc1, .bmotiMisc1, .mopMisc1, .minaMisc1, .bandaiMisc1, .lessWtMisc1, .mperMisc1, .fineMisc1, .Amount, .grsWtMisc1, .stoneMisc1, .mperMisc1 > p, .fineMisc1 > p, .grsWtMisc1 > p{
-    font-size: 12px;
+.regNoMiscPrint1, .stoneDetailsMisc1, .discriptionMisc1, .adpcMisc1, .kpcsMisc1, .kundMisc1, .motiMisc1, .bmotiMisc1, .mopMisc1, .minaMisc1, .bandaiMisc1, .lessWtMisc1, .mperMisc1, .fineMisc1, .AmountMiscPrint1, .grsWtMisc1, .stoneMisc1, .mperMisc1 > p, .fineMisc1 > p, .grsWtMisc1 > p{
+    font-size: 11px;
 }
 
 .height53Misc1{
-    min-height: 40px;
+    min-height: 30px;
 }
 
 .regNoMiscPrint1{

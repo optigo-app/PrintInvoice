@@ -61,41 +61,6 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
         }
         let materialName = [];
         datas?.BillPrint_Json1.forEach((e, i) => {
-            let Kund = {
-                weight: 0,
-                pcs: 0,
-                Rate: 0,
-            }
-            let Moti = {
-                weight: 0,
-                pcs: 0,
-                Rate: 0,
-            }
-            let Bmoti = {
-                weight: 0,
-                pcs: 0,
-                Rate: 0,
-            }
-            let MOPs = {
-                weight: 0,
-                pcs: 0,
-                Rate: 0,
-            }
-            let Stone = {
-                weight: 0,
-                pcs: 0,
-                Rate: 0,
-            }
-            let Mina = {
-                weight: 0,
-                pcs: 0,
-                Rate: 0,
-            }
-            let Bandai = {
-                weight: 0,
-                pcs: 0,
-                Rate: 0,
-            }
             let fineWeight = 0;
             let lessWeight = 0;
             let amount = 0;
@@ -103,89 +68,11 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
             total.netWt += e?.NetWt;
             total.MetalPriceRatio += e?.MetalPriceRatio;
             total.Wastage += e?.Wastage;
-            let arr = [];
             total.amount += e?.TotalAmount;
             let materialMiscs = [];
             datas?.BillPrint_Json2.forEach((ele, ind) => {
                 if (e.SrJobno === ele.StockBarcode) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
-                        if (ele?.ShapeName === "KUNDAN") {
-                            Kund.weight += ele?.Wt;
-                            lessWeight += +((ele?.Wt).toFixed(2));
-                            total.lessWeight += +((ele?.Wt).toFixed(2));
-                            Kund.pcs += ele?.Pcs;
-                            Kund.Rate += ele?.Rate;
-                            total.Kund.weight += ele?.Wt;
-                            total.Kund.pcs += ele?.Pcs;
-                            total.Kund.Rate += ele?.Rate;
-                            arr.push(ele);
-                        }
-                        else if (ele?.ShapeName === "MOTI") {
-                            Moti.weight += ele?.Wt;
-                            lessWeight += +((ele?.Wt).toFixed(2));
-                            total.lessWeight += +((ele?.Wt).toFixed(2));
-                            Moti.pcs += ele?.Pcs;
-                            Moti.Rate += ele?.Rate;
-                            total.Moti.weight += ele?.Wt;
-                            total.Moti.pcs += ele?.Pcs;
-                            total.Moti.Rate += ele?.Rate;
-                            arr.push(ele);
-                        }
-                        else if (ele?.ShapeName === "BMoti") {
-                            Bmoti.weight += ele?.Wt;
-                            lessWeight += +((ele?.Wt).toFixed(2));
-                            total.lessWeight += +((ele?.Wt).toFixed(2));
-                            Bmoti.pcs += ele?.Pcs;
-                            Bmoti.Rate += ele?.Rate;
-                            total.Bmoti.weight += ele?.Wt;
-                            total.Bmoti.pcs += ele?.Pcs;
-                            total.Bmoti.Rate += ele?.Rate;
-                            arr.push(ele);
-                        }
-                        else if (ele?.ShapeName === "MOP") {
-                            MOPs.weight += ele?.Wt;
-                            lessWeight += +((ele?.Wt).toFixed(2));
-                            total.lessWeight += +((ele?.Wt).toFixed(2));
-                            MOPs.pcs += ele?.Pcs;
-                            MOPs.Rate += ele?.Rate;
-                            total.MOPs.weight += ele?.Wt;
-                            total.MOPs.pcs += ele?.Pcs;
-                            total.MOPs.Rate += ele?.Rate;
-                            arr.push(ele);
-                        }
-                        else if (ele?.ShapeName === "STONE") {
-                            Stone.weight += ele?.Wt;
-                            lessWeight += +((ele?.Wt).toFixed(2));
-                            total.lessWeight += +((ele?.Wt).toFixed(2));
-                            Stone.pcs += ele?.Pcs;
-                            Stone.Rate += ele?.Rate;
-                            total.Stone.weight += ele?.Wt;
-                            total.Stone.pcs += ele?.Pcs;
-                            total.Stone.Rate += ele?.Rate;
-                            arr.push(ele);
-                        }
-                        else if (ele?.ShapeName === "Mina") {
-                            Mina.weight += ele?.Wt;
-                            lessWeight += +((ele?.Wt).toFixed(2));
-                            total.lessWeight += +((ele?.Wt).toFixed(2));
-                            Mina.pcs += ele?.Pcs;
-                            Mina.Rate += ele?.Rate;
-                            total.Mina.weight += ele?.Wt;
-                            total.Mina.pcs += ele?.Pcs;
-                            total.Mina.Rate += ele?.Rate;
-                            arr.push(ele);
-                        }
-                        else if (ele?.ShapeName === "Bandai") {
-                            Bandai.weight += ele?.Wt;
-                            lessWeight += +((ele?.Wt).toFixed(2));
-                            total.lessWeight += +((ele?.Wt).toFixed(2));
-                            Bandai.pcs += ele?.Pcs;
-                            Bandai.Rate += ele?.Rate;
-                            total.Bandai.weight += ele?.Wt;
-                            total.Bandai.pcs += ele?.Pcs;
-                            total.Bandai.Rate += ele?.Rate;
-                            arr.push(ele);
-                        }
                         let findIndex = materialMiscs.findIndex((elem => elem.ShapeName === ele.ShapeName));
                         if (findIndex === -1) {
                             materialMiscs.push(ele);
@@ -204,20 +91,15 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
                                 }
                             }
                         }
-                        fineWeight += ele?.FineWt;
                         amount += ele?.Amount;
-                        total.fineWeight += ele?.FineWt;
+                        lessWeight += +((ele?.Wt).toFixed(3));
+                        total.lessWeight += +((ele?.Wt).toFixed(3));
                     }
                 }
             });
+            fineWeight += e?.PureNetWt;
+            total.fineWeight += e?.PureNetWt;
             let obj = { ...e };
-            obj.Kund = Kund;
-            obj.Moti = Moti;
-            obj.Bmoti = Bmoti;
-            obj.MOPs = MOPs;
-            obj.Stone = Stone;
-            obj.Mina = Mina;
-            obj.Bandai = Bandai;
             obj.fineWeight = fineWeight;
             obj.amount = amount;
             obj.lessWeight = lessWeight;
@@ -240,11 +122,10 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
                 });
             });
         });
-        console.log(totals);
         setTotalItems(totals);
         setMaterialNames(materialName);
         setJsonData(resultData);
-        total.lessWeight = (total?.lessWeight).toFixed(2);
+        total.lessWeight = (total?.lessWeight).toFixed(3);
         setTotal(total);
     }
 
@@ -268,114 +149,116 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
                     <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
                 </div>
                 <div className="header_misc_1 mt-4 border d-flex justify-content-between">
-                    <div className='p-2 fs-4 fw-bold'>
-                        Customer Name: {primary?.CustName}
+                    <div className='p-2'>
+                        Customer Name: <span className='fw-bold'> {primary?.CustName}</span>
                     </div>
                     <div className="p-2 text-end ">
-                        <p className='fs-4 fw-bold'><span className='fs-4 
+                        <p className=' fw-bold'><span className=' 
                     fw-normal'>Invoice:</span> {primary?.InvoiceNo}</p>
-                        <p className='fs-4 fw-bold'><span className='fs-4 
+                        <p className=' fw-bold'><span className=' 
                     fw-normal'>Date:</span> {primary?.EntryDate}</p>
                     </div>
                 </div>
                 <div className="d-flex border-bottom border-start border-end">
-                    <div className="regNoMiscPrint1 border-end p-1 fw-bold">Reg. No.</div>
-                    <div className="discriptionMisc1 border-end p-1 fw-bold">Description</div>
-                    <div className="grsWtMisc1 border-end p-1 text-end">
+                    <div className="regNoMiscPrint1 border-end p-1 fw-bold d-flex align-items-center justify-content-center">Reg. No.</div>
+                    <div className="discriptionMisc1 border-end  fw-bold d-flex align-items-center justify-content-center text-center">Description</div>
+                    <div className="grsWtMisc1 border-end p-1 text-end d-flex align-items-center justify-content-center flex-column">
                         <p className='fw-bold'>Grs Wt</p>
                         <p className='fw-bold'>Net Wt</p>
                     </div>
                     <div className="">
-                        <div className="stoneDetailsMisc1 border-bottom p-1 text-center fs-4 fw-bold border-end">Stone Details</div>
-                        <div className="d-flex">
+                        <div className="stoneDetailsMisc1 border-bottom p-1 text-center  fw-bold border-end">Stone Details</div>
+                        <div className="d-flex height53Misc1">
                             {materialNames.length > 0 && materialNames.map((e, i) => {
-                                return <div className={`text-end kundMisc1 border-end p-1 fw-bold`} key={i}>{e?.name}</div>
+                                return <div className={`text-end kundMisc1 border-end fw-bold d-flex align-items-center justify-content-center `} key={i}>{e?.name}</div>
                             })}
                             {materialNames.length < 8 && Array.from({ length: 8 - materialNames.length }, (_, index) => {
                                 return <div className={`text-end kundMisc1 border-end p-1 fw-bold`} key={index}></div>
                             })}
                         </div>
                     </div>
-                    <div className="lessWtMisc1 border-end p-1 fw-bold text-end">Less Wt.</div>
-                    <div className="mperMisc1 border-end p-1 text-center">
+                    <div className="lessWtMisc1 border-end p-1 fw-bold text-end d-flex align-items-center justify-content-center">Less Wt.</div>
+                    <div className="mperMisc1 border-end p-1 text-center d-flex align-items-center justify-content-center flex-column">
                         <p className='fw-bold text-end'>M%</p>
                         <p className='fw-bold text-end'>w%</p>
                     </div>
-                    <div className="fineMisc1 border-end p-1 text-end"><p className='fw-bold'>Fine Wt</p></div>
-                    <div className="Amount p-1 text-end fw-bold">Amount</div>
+                    <div className="fineMisc1 border-end p-1  d-flex align-items-center justify-content-center"><p className='fw-bold'>Fine Wt</p></div>
+                    <div className="AmountMiscPrint1 p-1 fw-bold  d-flex align-items-center justify-content-center">Amount</div>
                 </div>
                 {jsonData.length > 0 && jsonData.map((e, i) => {
                     return <div className="d-flex border-bottom border-start border-end" key={i}>
                         <div className="regNoMiscPrint1 p-1 border-end text-end">{e?.SrJobno}</div>
-                        <div className="discriptionMisc1 border-end p-1 height53Misc1"><p className='fs-4'>{e?.SubCategoryname}</p></div>
+                        <div className="discriptionMisc1 border-end p-1 height53Misc1"><p className=''>{e?.SubCategoryname}</p></div>
                         <div className="grsWtMisc1 border-end p-1 text-end height53Misc1">
-                            <p className='fs-4'>{e?.grosswt}</p>
-                            <p className='fs-4'>{e?.NetWt}</p>
+                            <p className=''>{(e?.grosswt)?.toFixed(3)}</p>
+                            <p className=''>{(e?.NetWt)?.toFixed(3)}</p>
                         </div>
                         <div>
                             <div className="d-flex height53Misc1">
                                 {materialNames.length > 0 && materialNames.map((ele, i) => {
                                     const findMaterial = e?.materialMiscs.find(elem => ele?.name === elem?.ShapeName);
                                     return findMaterial ? <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
-                                        <p className='lh-1 fs-4'>{findMaterial?.Wt}</p>
-                                        <p className='lh-1 fs-4'>{findMaterial?.Pcs}</p>
+                                        <p className='lh-1 '>{(findMaterial?.Wt).toFixed(3)}</p>
+                                        <p className='lh-1 '>{findMaterial?.Pcs}</p>
                                     </div> : <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
-                                        <p className='lh-1 fs-4'></p>
-                                        <p className='lh-1 fs-4'></p>
+                                        <p className='lh-1 '></p>
+                                        <p className='lh-1 '></p>
                                     </div>
                                 })}
                                 {materialNames.length < 8 && Array.from({ length: 8 - materialNames.length }, (_, index) => {
                                     return <div className="w-100 text-end kundMisc1 border-end p-1" key={index}>
-                                        <p className='lh-1 fs-4'></p>
-                                        <p className='lh-1 fs-4'></p>
-                                        <p className='lh-1 fs-4'></p>
+                                        <p className='lh-1 '></p>
+                                        <p className='lh-1 '></p>
+                                        <p className='lh-1 '></p>
                                     </div>
                                 })}
                             </div>
                         </div>
-                        <div className="lessWtMisc1 border-end p-1 height53Misc1 text-end">{e?.lessWeight}</div>
+                        <div className="lessWtMisc1 border-end p-1 height53Misc1 text-end">{(e?.lessWeight)?.toFixed(3)}</div>
                         <div className="mperMisc1 border-end p-1 text-center height53Misc1">
-                            <p className='text-end'>{e?.MetalPriceRatio}</p>
-                            <p className='text-end'>{e?.Wastage}</p>
+                            <p className='text-end'>{(e?.MetalPriceRatio)?.toFixed(3)}</p>
+                            <p className='text-end'>{(e?.Wastage)?.toFixed(3)}</p>
                         </div>
-                        <div className="fineMisc1 border-end p-1 text-end height53Misc1 text-end">{e?.fineWeight}</div>
-                        <div className="Amount p-1 text-end height53Misc1 text-end">{e?.TotalAmount}</div>
+                        <div className="fineMisc1 border-end p-1 text-end height53Misc1 text-end">{(e?.fineWeight).toFixed(3)}</div>
+                        <div className="AmountMiscPrint1 p-1 text-end height53Misc1 text-end">{(e?.TotalAmount).toFixed(3)}</div>
                     </div>
                 })}
                 <div className="d-flex border-bottom border-start border-end">
                     <div className="regNoMiscPrint1 p-1 border-end text-end">{jsonData?.length}</div>
                     <div className="discriptionMisc1 border-end p-1 fw-bold height53Misc1">TOTAL</div>
                     <div className="grsWtMisc1 border-end p-1 text-end height53Misc1">
-                        <p className='fw-bold fs-4'>{total?.grsWt}</p>
-                        <p className='fw-bold fs-4'>{total?.netWt}</p>
+                        <p className='fw-bold '>{(total?.grsWt)?.toFixed(3)}</p>
+                        <p className='fw-bold '>{(total?.netWt)?.toFixed(3)}</p>
                     </div>
                     <div>
-                        <div className="d-flex">
+                        <div className="d-flex height53Misc1">
                             {materialNames.length > 0 && materialNames.map((ele, i) => {
                                 const findMaterial = totalItems.find(elem => ele?.name === elem?.name);
                                 return findMaterial ? <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
-                                    <p className='lh-1 fs-4'>{findMaterial?.Wt}</p>
-                                    <p className='lh-1 fs-4'>{findMaterial?.Pcs}</p>
+                                    <p className='lh-1 '>{(findMaterial?.Wt)?.toFixed(3)}</p>
+                                    <p className='lh-1 '>{findMaterial?.Pcs}</p>
                                 </div> : <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
-                                    <p className='lh-1 fs-4'></p>
-                                    <p className='lh-1 fs-4'></p>
+                                    <p className='lh-1 '></p>
+                                    <p className='lh-1 '></p>
                                 </div>
                             })}
-                             {materialNames.length < 8 && Array.from({ length: 8 - materialNames.length }, (_, index) => {
-                                    return <div className="w-100 text-end kundMisc1 border-end p-1" key={index}>
-                                        <p className='lh-1 fs-4'></p>
-                                        <p className='lh-1 fs-4'></p>
-                                    </div>
-                                })}
+                            {materialNames.length < 8 && Array.from({ length: 8 - materialNames.length }, (_, index) => {
+                                return <div className="w-100 text-end kundMisc1 border-end p-1" key={index}>
+                                    <p className='lh-1 '></p>
+                                    <p className='lh-1 '></p>
+                                </div>
+                            })}
                         </div>
                     </div>
                     <div className="lessWtMisc1 border-end p-1 fw-bold height53Misc1 text-end">{total?.lessWeight}</div>
                     <div className="mperMisc1 border-end p-1 text-center height53Misc1">
-                        <p className='fw-bold text-end'>{total?.MetalPriceRatio}</p>
-                        <p className='fw-bold text-end'>{total?.Wastage}</p>
+                        {/* <p className='fw-bold text-end'>{total?.MetalPriceRatio}</p>
+                        <p className='fw-bold text-end'>{total?.Wastage}</p> */}
+                        <p className='fw-bold text-end'></p>
+                        <p className='fw-bold text-end'></p>
                     </div>
-                    <div className="fineMisc1 border-end p-1 text-end height53Misc1"><p className='fw-bold text-end'>{total?.fineWeight}</p></div>
-                    <div className="Amount p-1 text-end fw-bold height53Misc1 text-end">{total?.amount}</div>
+                    <div className="fineMisc1 border-end p-1 text-end height53Misc1"><p className='fw-bold text-end'>{(total?.fineWeight)?.toFixed(3)}</p></div>
+                    <div className="AmountMiscPrint1 p-1 text-end fw-bold height53Misc1 text-end">{(total?.amount)?.toFixed(3)}</div>
                 </div>
             </div>}
         </>
