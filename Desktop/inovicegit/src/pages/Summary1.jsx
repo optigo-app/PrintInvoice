@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import "../assets/css/summary1.css";
-import { CapitalizeWords } from '../GlobalFunctions';
+import { CapitalizeWords, handleImageError } from '../GlobalFunctions';
 import convertor from "number-to-words";
 import Button from "../GlobalFunctions/Button";
 import Loader from '../components/Loader';
@@ -327,7 +327,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName }) => {
                                     <div className='lhhead1sum1'>T {headerData?.CompanyTellNo} {headerData?.CompanyTollFreeNo}</div>
                                     <div className='lhhead1sum1'>{headerData?.CompanyEmail} {headerData?.CompanyWebsite}</div>
                                 </div>
-                                <div><img src={headerData?.PrintLogo} id="sum1Img" alt="#summary1" /></div>
+                                <div><img src={headerData?.PrintLogo} id="sum1Img" alt="#summary1" onError={(e) => handleImageError(e)} /></div>
                             </div>
                             <div className='head3sum1'>
                                 <div className='invoicehead3sum1'><b className='binvsum1'>{headerData?.InvTitle}# :</b> {headerData?.InvoiceNo}</div>
