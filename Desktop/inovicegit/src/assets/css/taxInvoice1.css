@@ -151,7 +151,18 @@
 }
 
 .minHeight20_5_taxInvoice1{
-    min-height: 20.5px;
+    min-height: 14.5px;
+    line-height: 50%;
+}
+
+.d-flex.border-bottom.material_inner_invoice1 {
+    line-height: 50%;
+}
+
+.text-center.border-bottom.material_inner_invoice1.p-1.minHeight20_5_taxInvoice1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @media print{
