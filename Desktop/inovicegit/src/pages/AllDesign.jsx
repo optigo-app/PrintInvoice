@@ -8,6 +8,8 @@ import RetailPrint from './RetailPrint';
 import DetailPrint11 from './DetailPrint11';
 import DetailPrint1 from './DetailPrint1';
 import InvoicePrint from './InvoicePrint';
+import PackingList from './PackingList';
+import Summary1 from './Summary1';
 
 const AllDesign = () => {
     const queryString = window.location.search;
@@ -29,6 +31,8 @@ const AllDesign = () => {
     {atob(printname).toLowerCase() === "detail print 11" && <DetailPrint11 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "detail print 1" && <DetailPrint1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "invoice print" && <InvoicePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
+    {atob(printname).toLowerCase() === "packing list" && <PackingList billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
+    {atob(printname).toLowerCase() === "summary 1" && <Summary1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
   </>
   )
 }
