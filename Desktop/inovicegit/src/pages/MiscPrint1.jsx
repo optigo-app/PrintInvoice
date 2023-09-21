@@ -146,7 +146,7 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
         <>
             {loader ? <Loader /> : <>
                 <div className="printBtn_sec text-end container_Misc_1 pt-4">
-                    <input type="button" className="btn_white blue me-2" value="pdf" onClick={() => toPDF()} />
+                    <input type="button" className="btn_white blue me-2" value="Pdf" onClick={() => toPDF()} />
                     <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
                 </div>
                 <div ref={targetRef} className="container_Misc_1 pt-4">

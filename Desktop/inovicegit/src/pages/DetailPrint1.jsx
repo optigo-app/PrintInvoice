@@ -142,7 +142,6 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
           }
           obj.SettingAmount += ele?.SettingAmount;
           summaries.makingAmount += ele?.SettingAmount;
-          console.log(ele?.SettingAmount);
         }
       });
       discountTotalAmount = e?.TotalAmount - e?.DiscountAmt;
@@ -281,8 +280,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
             <div className='d-flex border-bottom '>
               <p className='fw-bold col-3 d-flex align-items-center justify-content-center border-end '>Code</p>
               <p className='fw-bold col-2 d-flex align-items-center justify-content-center border-end '>Size</p>
-              <p className='fw-bold col-2 d-flex align-items-center justify-content-center border-end '>Pcs</p>
-              <p className='fw-bold col-1 d-flex align-items-center justify-content-center border-end '>Wt</p>
+              <p className='fw-bold col-1 d-flex align-items-center justify-content-center border-end '>Pcs</p>
+              <p className='fw-bold col-2 d-flex align-items-center justify-content-center border-end '>Wt</p>
               <p className='fw-bold col-2 d-flex align-items-center justify-content-center border-end '>Rate</p>
               <p className='fw-bold col-2 d-flex align-items-center justify-content-center text-center'>Amount</p>
             </div>
@@ -356,11 +355,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
                 {image && <img src={e?.DesignImage} alt="" className='w-100 d-block' onError={handleImageError} />}
               </div>
               <div className={`${!image && 'pt-2 '}`}>
-                <p className='text-center'>HUID - {e?.HUID}</p>
-                <p className='text-center'>PO: {e?.PO}</p>
-                <p className='text-center'>{e?.lineid}</p>
+                {e?.HUID !== "" && <p className='text-center'>HUID - {e?.HUID}</p>}
+                {(e?.PO !== "" && e?.PO !== "-") && <p className='text-center'>PO: {e?.PO}</p>}
+                {e?.lineid !== "" && <p className='text-center'>{e?.lineid}</p>}
                 <p className='text-center'>Tunch : {(e?.Tunch).toFixed(3)}</p>
-                <p className='text-center'>4.033 gm </p>
                 <p className='text-center'>Gross Size: {e?.grosswt}</p>
               </div>
             </div>
@@ -390,7 +388,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
               <div className="h-100 paddingBottomTotalDetailPrint1">
                 {e?.metals.length > 0 && e?.metals.map((ele, ind) => {
                   return <div className={`d-flex`} key={ind}>
-                    <p className='col-3 '>{ele?.ShapeName + " "+ele?.QualityName}</p>
+                    <p className='col-3 '>{ele?.ShapeName + " " + ele?.QualityName}</p>
                     <p className='col-2 '>{ele?.Wt}</p>
                     <p className='col-2  text-end'>{e?.NetWt}</p>
                     <p className='col-2  text-end'>{ele?.Rate}</p>
@@ -402,7 +400,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
                   <p className='col-2 '>{e?.metalTotal?.Wt}</p>
                   <p className='col-2  text-end'>{e?.NetWt}</p>
                   <p className='col-2  text-end'></p>
-                  <p className='col-3 text-end'>{e?.metalTotal.Amount}</p>
+                  <p className='col-3 text-end'>{(e?.metalTotal.Amount).toFixed(2)}</p>
                 </div>
               </div>
             </div>
@@ -472,8 +470,6 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
               </div>
             </div>
             <div className="metalGoldDetailPrint1 border-end  position-relative border-bottom">
-              <div className="d-grid pb-4">
-              </div>
             </div>
             <div className="stoneDetailsPrint1 border-end  position-relative border-bottom">
               <div className="d-grid">
@@ -491,8 +487,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
                 </div>
               </div>
             </div>
-            <div className="totalAmountDetailPrint1 border-end  border-bottom ">
-              <p className='text-end'>{(e?.discountTotalAmount).toFixed(2)}</p>
+            <div className="totalAmountDetailPrint1 border-end  border-bottom d-flex align-tems-center justify-content-end">
+              <p className='d-flex align-items-center'>{(e?.discountTotalAmount).toFixed(2)}</p>
             </div>
           </div>
         </div>

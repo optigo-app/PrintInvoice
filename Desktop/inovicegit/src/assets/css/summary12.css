@@ -1,0 +1,53 @@
+.summary12Container {
+    max-width: 788px !important;
+}
+
+.summary12Container .remark_sum4 {
+    min-width: 80px;
+    width: 80px;
+}
+
+.summary12Container .sum4_table div {
+    font-size: 10px;
+}
+
+.summary12Container .dia_wt_ctw_sum4,
+.summary12Container .dia_rate_sum4,
+.summary12Container .dia_amt_sum4,
+.summary12Container .cs_wt_sum4,
+.summary12Container .cs_rate_sum4,
+.summary12Container .cs_amt_sum4,
+.summary12Container .gold_fine_sum4 {
+    min-width: 43.3px;
+    width: 43.3px;
+}
+
+.summary12Container .other_sum4,
+.summary12Container .other_amt_sum4 {
+    min-width: 45px;
+    width: 45px;
+}
+
+.summary12Container .amount_sum_4 {
+    min-width: 60px;
+    width: 60px;
+}
+
+.summary12Container .g_wt_sum4,
+.summary12Container .nwt_sum4,
+.summary12Container .gold_amt_sum4 {
+    min-width: 45px;
+    width: 45px;
+}
+
+.summary12Container .diamondTypeSum4 {
+    width: 400px;
+}
+
+.summary12Container .csTypeSum4 {
+    width: 350px;
+}
+
+.summary12Container .height34Sum4 {
+    height: 25px;
+}

@@ -4,7 +4,9 @@ import { apiCall, handleImageError, handlePrint } from '../GlobalFunctions';
 import Loader from '../components/Loader';
 import { usePDF } from 'react-to-pdf';
 import html2pdf from 'html2pdf.js';
-import { NavLink } from 'react-router-dom';
+import '../assets/css/summary12.css';
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const Summary12 = ({ urls, token, invoiceNo, printName }) => {
     const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
@@ -314,27 +316,18 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
         const pageHeight = 200; // Adjust this value to your page height
         const contentHeight = content.getBoundingClientRect().height;
 
-
         if (contentHeight > pageHeight) {
             // Apply a page break before this content
             content.style.pageBreakAfter = 'always';
         }
-
         // toPDF();
         generatePdf();
     }
 
-
     const generatePdf = () => {
         const content = document.getElementById('pdf-content'); // Replace with the ID of your content div
+        console.log(content);
         if (content) {
-            const pdfOptions = {
-                margin: 10,
-                filename: 'document.pdf',
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            };
             html2pdf(content);
         }
     };
@@ -367,7 +360,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
     }
 
     return (<>{loader ? <Loader /> : <div className=''>
-        <div className="d-flex justify-content-end align-items-center print_sec_sum4 container pt-4">
+        <div className="d-flex justify-content-end align-items-center print_sec_sum4 container summary12Container pt-4">
             <div className="form-check pe-3">
                 <input className="form-check-input border-dark" type="checkbox" checked={header} onChange={e => handleChange(e, "header")} />
                 <label className="form-check-label">
@@ -387,12 +380,12 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                 </label>
             </div>
             <div className="form-check ps-3">
-                {/* <input type="button" className="btn_white blue me-3" value="pdf" onClick={() => pdfGenerator()} /> */}
-                <input type="button" className="btn_white blue me-3" value="pdf" onClick={() => pdfGenerator()} />
+                <input type="button" className="btn_white blue me-3" value="Pdf" onClick={() => pdfGenerator()} />
+                {/* <input type="button" className="btn_white blue me-3" value="Pdf" onClick={() => handleGeneratePdf()} /> */}
                 <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
             </div>
         </div>
-        <div className='pt-5 container pt-4' ref={targetRef} id="pdf-content">
+        <div className=' pt-4 pb-5 summary12Container portrait_container' ref={targetRef} id="pdf-content">
             {header && <div className="d-flex header_section_sum4 justify-content-between align-items-center pb-2 no_break">
                 <div className='address_sum4'>
                     <h1 className='h1_sum4'>{billPrintJson?.CompanyFullName}</h1>
@@ -407,7 +400,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                     <img src={billPrintJson?.PrintLogo} alt="Logo" onError={handleImageError} />
                 </div>
             </div>}
-            <div className="">
+            <div>
                 <div className="d-flex justify-content-between border-bottom p-2 border mt-4 no_break">
                     <div className="invoice_text_sum4">
                         <h2> INVOICE# : <span>{billPrintJson?.InvoiceNo}</span></h2>
@@ -489,318 +482,6 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                             <div className="p-1 pe-2 amount_sum_4 border-end text-end">{e?.TotalAmount}</div>
                         </div>
                     })}
-                    {BillPrintJson1.length > 0 && BillPrintJson1.map((e, i) => {
-                        return <div className="d-flex border-bottom no_break" key={i}>
-                            <div className='p-1 ps-2 sr_sum4 border-start border-end sr_sum4'> <p> {e?.SrNo} </p> </div>
-                            <div className='p-1 design_sum4 border-end'>
-                                <p className="fw-bold">{e?.designno}</p>
-                                <p className='fw-bold'> {e?.SrJobno} - {e?.Categoryname} </p>
-                                {image && <img src={e?.DesignImage} alt="" onError={e => handleImageError(e)} />}
-                                <p className='fw-bold'>{e?.MetalTypePurity}</p>
-                                {e?.HUID !== "" && <p className='fw-bold'> HUID No. : ${e?.HUID}</p>}
-                            </div>
-                            <div className="p-1 remark_sum4 border-end text-end remark_sum4"> <p> {e?.CertRemark} </p> </div>
-                            <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 dia_rate_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })}</div>
-                            <div className="p-1 dia_amt_sum4 border-end text-end "> {
-                                e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                    return <p key={indd}>{ele?.totalAmount}</p>
-                                })
-                            } </div>
-                            <div className="p-1 g_wt_sum4 border-end text-end "> <p> {e?.grosswt} </p> </div>
-                            <div className="p-1 nwt_sum4 border-end text-end "> <p> {e?.MetalDiaWt} </p> </div>
-                            <div className="p-1 other_amt_sum4 border-end text-end "> <p> {e?.OtherCharges} </p> </div>
-                            <div className="p-1 cs_wt_sum4 border-end text-end ">{e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 cs_rate_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })} </div>
-                            <div className="p-1 cs_amt_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalAmount}</p>
-                            })} </div>
-                            <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt).toFixed(3)} </p> </div>
-                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && Math.round((e?.MetalAmount))} </p> </div>
-                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{e?.TotalAmount}</div>
-                        </div>
-                    })}
-                    {BillPrintJson1.length > 0 && BillPrintJson1.map((e, i) => {
-                        return <div className="d-flex border-bottom no_break" key={i}>
-                            <div className='p-1 ps-2 sr_sum4 border-start border-end sr_sum4'> <p> {e?.SrNo} </p> </div>
-                            <div className='p-1 design_sum4 border-end'>
-                                <p className="fw-bold">{e?.designno}</p>
-                                <p className='fw-bold'> {e?.SrJobno} - {e?.Categoryname} </p>
-                                {image && <img src={e?.DesignImage} alt="" onError={e => handleImageError(e)} />}
-                                <p className='fw-bold'>{e?.MetalTypePurity}</p>
-                                {e?.HUID !== "" && <p className='fw-bold'> HUID No. : ${e?.HUID}</p>}
-                            </div>
-                            <div className="p-1 remark_sum4 border-end text-end remark_sum4"> <p> {e?.CertRemark} </p> </div>
-                            <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 dia_rate_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })}</div>
-                            <div className="p-1 dia_amt_sum4 border-end text-end "> {
-                                e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                    return <p key={indd}>{ele?.totalAmount}</p>
-                                })
-                            } </div>
-                            <div className="p-1 g_wt_sum4 border-end text-end "> <p> {e?.grosswt} </p> </div>
-                            <div className="p-1 nwt_sum4 border-end text-end "> <p> {e?.MetalDiaWt} </p> </div>
-                            <div className="p-1 other_amt_sum4 border-end text-end "> <p> {e?.OtherCharges} </p> </div>
-                            <div className="p-1 cs_wt_sum4 border-end text-end ">{e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 cs_rate_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })} </div>
-                            <div className="p-1 cs_amt_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalAmount}</p>
-                            })} </div>
-                            <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt).toFixed(3)} </p> </div>
-                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && Math.round((e?.MetalAmount))} </p> </div>
-                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{e?.TotalAmount}</div>
-                        </div>
-                    })}
-                        {BillPrintJson1.length > 0 && BillPrintJson1.map((e, i) => {
-                        return <div className="d-flex border-bottom no_break" key={i}>
-                            <div className='p-1 ps-2 sr_sum4 border-start border-end sr_sum4'> <p> {e?.SrNo} </p> </div>
-                            <div className='p-1 design_sum4 border-end'>
-                                <p className="fw-bold">{e?.designno}</p>
-                                <p className='fw-bold'> {e?.SrJobno} - {e?.Categoryname} </p>
-                                {image && <img src={e?.DesignImage} alt="" onError={e => handleImageError(e)} />}
-                                <p className='fw-bold'>{e?.MetalTypePurity}</p>
-                                {e?.HUID !== "" && <p className='fw-bold'> HUID No. : ${e?.HUID}</p>}
-                            </div>
-                            <div className="p-1 remark_sum4 border-end text-end remark_sum4"> <p> {e?.CertRemark} </p> </div>
-                            <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 dia_rate_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })}</div>
-                            <div className="p-1 dia_amt_sum4 border-end text-end "> {
-                                e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                    return <p key={indd}>{ele?.totalAmount}</p>
-                                })
-                            } </div>
-                            <div className="p-1 g_wt_sum4 border-end text-end "> <p> {e?.grosswt} </p> </div>
-                            <div className="p-1 nwt_sum4 border-end text-end "> <p> {e?.MetalDiaWt} </p> </div>
-                            <div className="p-1 other_amt_sum4 border-end text-end "> <p> {e?.OtherCharges} </p> </div>
-                            <div className="p-1 cs_wt_sum4 border-end text-end ">{e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 cs_rate_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })} </div>
-                            <div className="p-1 cs_amt_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalAmount}</p>
-                            })} </div>
-                            <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt).toFixed(3)} </p> </div>
-                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && Math.round((e?.MetalAmount))} </p> </div>
-                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{e?.TotalAmount}</div>
-                        </div>
-                    })}
-                    {BillPrintJson1.length > 0 && BillPrintJson1.map((e, i) => {
-                        return <div className="d-flex border-bottom no_break" key={i}>
-                            <div className='p-1 ps-2 sr_sum4 border-start border-end sr_sum4'> <p> {e?.SrNo} </p> </div>
-                            <div className='p-1 design_sum4 border-end'>
-                                <p className="fw-bold">{e?.designno}</p>
-                                <p className='fw-bold'> {e?.SrJobno} - {e?.Categoryname} </p>
-                                {image && <img src={e?.DesignImage} alt="" onError={e => handleImageError(e)} />}
-                                <p className='fw-bold'>{e?.MetalTypePurity}</p>
-                                {e?.HUID !== "" && <p className='fw-bold'> HUID No. : ${e?.HUID}</p>}
-                            </div>
-                            <div className="p-1 remark_sum4 border-end text-end remark_sum4"> <p> {e?.CertRemark} </p> </div>
-                            <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 dia_rate_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })}</div>
-                            <div className="p-1 dia_amt_sum4 border-end text-end "> {
-                                e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                    return <p key={indd}>{ele?.totalAmount}</p>
-                                })
-                            } </div>
-                            <div className="p-1 g_wt_sum4 border-end text-end "> <p> {e?.grosswt} </p> </div>
-                            <div className="p-1 nwt_sum4 border-end text-end "> <p> {e?.MetalDiaWt} </p> </div>
-                            <div className="p-1 other_amt_sum4 border-end text-end "> <p> {e?.OtherCharges} </p> </div>
-                            <div className="p-1 cs_wt_sum4 border-end text-end ">{e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 cs_rate_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })} </div>
-                            <div className="p-1 cs_amt_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalAmount}</p>
-                            })} </div>
-                            <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt).toFixed(3)} </p> </div>
-                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && Math.round((e?.MetalAmount))} </p> </div>
-                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{e?.TotalAmount}</div>
-                        </div>
-                    })}
-                    {BillPrintJson1.length > 0 && BillPrintJson1.map((e, i) => {
-                        return <div className="d-flex border-bottom no_break" key={i}>
-                            <div className='p-1 ps-2 sr_sum4 border-start border-end sr_sum4'> <p> {e?.SrNo} </p> </div>
-                            <div className='p-1 design_sum4 border-end'>
-                                <p className="fw-bold">{e?.designno}</p>
-                                <p className='fw-bold'> {e?.SrJobno} - {e?.Categoryname} </p>
-                                {image && <img src={e?.DesignImage} alt="" onError={e => handleImageError(e)} />}
-                                <p className='fw-bold'>{e?.MetalTypePurity}</p>
-                                {e?.HUID !== "" && <p className='fw-bold'> HUID No. : ${e?.HUID}</p>}
-                            </div>
-                            <div className="p-1 remark_sum4 border-end text-end remark_sum4"> <p> {e?.CertRemark} </p> </div>
-                            <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 dia_rate_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })}</div>
-                            <div className="p-1 dia_amt_sum4 border-end text-end "> {
-                                e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                    return <p key={indd}>{ele?.totalAmount}</p>
-                                })
-                            } </div>
-                            <div className="p-1 g_wt_sum4 border-end text-end "> <p> {e?.grosswt} </p> </div>
-                            <div className="p-1 nwt_sum4 border-end text-end "> <p> {e?.MetalDiaWt} </p> </div>
-                            <div className="p-1 other_amt_sum4 border-end text-end "> <p> {e?.OtherCharges} </p> </div>
-                            <div className="p-1 cs_wt_sum4 border-end text-end ">{e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 cs_rate_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })} </div>
-                            <div className="p-1 cs_amt_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalAmount}</p>
-                            })} </div>
-                            <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt).toFixed(3)} </p> </div>
-                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && Math.round((e?.MetalAmount))} </p> </div>
-                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{e?.TotalAmount}</div>
-                        </div>
-                    })}
-                        {BillPrintJson1.length > 0 && BillPrintJson1.map((e, i) => {
-                        return <div className="d-flex border-bottom no_break" key={i}>
-                            <div className='p-1 ps-2 sr_sum4 border-start border-end sr_sum4'> <p> {e?.SrNo} </p> </div>
-                            <div className='p-1 design_sum4 border-end'>
-                                <p className="fw-bold">{e?.designno}</p>
-                                <p className='fw-bold'> {e?.SrJobno} - {e?.Categoryname} </p>
-                                {image && <img src={e?.DesignImage} alt="" onError={e => handleImageError(e)} />}
-                                <p className='fw-bold'>{e?.MetalTypePurity}</p>
-                                {e?.HUID !== "" && <p className='fw-bold'> HUID No. : ${e?.HUID}</p>}
-                            </div>
-                            <div className="p-1 remark_sum4 border-end text-end remark_sum4"> <p> {e?.CertRemark} </p> </div>
-                            <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 dia_rate_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })}</div>
-                            <div className="p-1 dia_amt_sum4 border-end text-end "> {
-                                e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                    return <p key={indd}>{ele?.totalAmount}</p>
-                                })
-                            } </div>
-                            <div className="p-1 g_wt_sum4 border-end text-end "> <p> {e?.grosswt} </p> </div>
-                            <div className="p-1 nwt_sum4 border-end text-end "> <p> {e?.MetalDiaWt} </p> </div>
-                            <div className="p-1 other_amt_sum4 border-end text-end "> <p> {e?.OtherCharges} </p> </div>
-                            <div className="p-1 cs_wt_sum4 border-end text-end ">{e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 cs_rate_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })} </div>
-                            <div className="p-1 cs_amt_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalAmount}</p>
-                            })} </div>
-                            <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt).toFixed(3)} </p> </div>
-                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && Math.round((e?.MetalAmount))} </p> </div>
-                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{e?.TotalAmount}</div>
-                        </div>
-                    })}
-                    {BillPrintJson1.length > 0 && BillPrintJson1.map((e, i) => {
-                        return <div className="d-flex border-bottom no_break" key={i}>
-                            <div className='p-1 ps-2 sr_sum4 border-start border-end sr_sum4'> <p> {e?.SrNo} </p> </div>
-                            <div className='p-1 design_sum4 border-end'>
-                                <p className="fw-bold">{e?.designno}</p>
-                                <p className='fw-bold'> {e?.SrJobno} - {e?.Categoryname} </p>
-                                {image && <img src={e?.DesignImage} alt="" onError={e => handleImageError(e)} />}
-                                <p className='fw-bold'>{e?.MetalTypePurity}</p>
-                                {e?.HUID !== "" && <p className='fw-bold'> HUID No. : ${e?.HUID}</p>}
-                            </div>
-                            <div className="p-1 remark_sum4 border-end text-end remark_sum4"> <p> {e?.CertRemark} </p> </div>
-                            <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 dia_rate_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })}</div>
-                            <div className="p-1 dia_amt_sum4 border-end text-end "> {
-                                e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                    return <p key={indd}>{ele?.totalAmount}</p>
-                                })
-                            } </div>
-                            <div className="p-1 g_wt_sum4 border-end text-end "> <p> {e?.grosswt} </p> </div>
-                            <div className="p-1 nwt_sum4 border-end text-end "> <p> {e?.MetalDiaWt} </p> </div>
-                            <div className="p-1 other_amt_sum4 border-end text-end "> <p> {e?.OtherCharges} </p> </div>
-                            <div className="p-1 cs_wt_sum4 border-end text-end ">{e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 cs_rate_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })} </div>
-                            <div className="p-1 cs_amt_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalAmount}</p>
-                            })} </div>
-                            <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt).toFixed(3)} </p> </div>
-                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && Math.round((e?.MetalAmount))} </p> </div>
-                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{e?.TotalAmount}</div>
-                        </div>
-                    })}
-                    {BillPrintJson1.length > 0 && BillPrintJson1.map((e, i) => {
-                        return <div className="d-flex border-bottom no_break" key={i}>
-                            <div className='p-1 ps-2 sr_sum4 border-start border-end sr_sum4'> <p> {e?.SrNo} </p> </div>
-                            <div className='p-1 design_sum4 border-end'>
-                                <p className="fw-bold">{e?.designno}</p>
-                                <p className='fw-bold'> {e?.SrJobno} - {e?.Categoryname} </p>
-                                {image && <img src={e?.DesignImage} alt="" onError={e => handleImageError(e)} />}
-                                <p className='fw-bold'>{e?.MetalTypePurity}</p>
-                                {e?.HUID !== "" && <p className='fw-bold'> HUID No. : ${e?.HUID}</p>}
-                            </div>
-                            <div className="p-1 remark_sum4 border-end text-end remark_sum4"> <p> {e?.CertRemark} </p> </div>
-                            <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 dia_rate_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })}</div>
-                            <div className="p-1 dia_amt_sum4 border-end text-end "> {
-                                e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                    return <p key={indd}>{ele?.totalAmount}</p>
-                                })
-                            } </div>
-                            <div className="p-1 g_wt_sum4 border-end text-end "> <p> {e?.grosswt} </p> </div>
-                            <div className="p-1 nwt_sum4 border-end text-end "> <p> {e?.MetalDiaWt} </p> </div>
-                            <div className="p-1 other_amt_sum4 border-end text-end "> <p> {e?.OtherCharges} </p> </div>
-                            <div className="p-1 cs_wt_sum4 border-end text-end ">{e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
-                            })}</div>
-                            <div className="p-1 cs_rate_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
-                            })} </div>
-                            <div className="p-1 cs_amt_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalAmount}</p>
-                            })} </div>
-                            <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt).toFixed(3)} </p> </div>
-                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && Math.round((e?.MetalAmount))} </p> </div>
-                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{e?.TotalAmount}</div>
-                        </div>
-                    })}
                     <div className="total_sec_sum4 d-flex border-bottom mb-1 no_break">
                         <div className="p-1 ps-2 total_sum4 border-start border-end bg_total_sum4 fw-bold text-center">Total</div>
                         <div className="p-1 remark_sum4 border-end text-end bg_total_sum4 fw-bold remark_sum4"> <p>  </p> </div>
@@ -811,7 +492,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                         <div className="p-1 nwt_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {(total.nwt).toFixed(3)} </p> </div>
                         <div className="p-1 other_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {total.otherAmt} </p> </div>
                         <div className="p-1 cs_wt_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {total.csWt} </p> </div>
-                        <div className="p-1 cs_rate_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p>  </p> </div>
+                        <div className="p-1 cs_rate_sum4 border-end text-end  bg_total_sum4 fw-bold"></div>
                         <div className="p-1 cs_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {Math.round(total.csAmt)} </p> </div>
                         <div className="p-1 gold_fine_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {(total.goldFine).toFixed(3)} </p> </div>
                         <div className="p-1 gold_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {Math.round(total.goldAmt)} </p> </div>
@@ -835,7 +516,6 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                                 })}
                             </div>
                         </div>
-
                         <div className="sgst_part_sum4 border">
                             <div className="d-flex justify-content-between px-2 pt-1">
                                 <div className="sgst_text_sum4">
@@ -891,15 +571,15 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                                     </div>
                                     <div className="d-flex w-100">
                                         <div className="w-50 fw-bold ps-2">GROSS WT	</div>
-                                        <div className="w-50 text-end pe-2">{total?.gwt} gm	</div>
+                                        <div className="w-50 text-end pe-2">{(total?.gwt)?.toFixed(3)} gm	</div>
                                     </div>
                                     <div className="d-flex w-100">
-                                        <div className="w-50 fw-bold ps-2">*(G+D) WT	</div>
-                                        <div className="w-50 text-end pe-2">{totalSummary?.gDWt} gm	</div>
+                                        <div className="w-50 fw-bold ps-2">*(G+D) WT</div>
+                                        <div className="w-50 text-end pe-2">{(totalSummary?.gDWt)} gm	</div>
                                     </div>
                                     <div className="d-flex w-100">
-                                        <div className="w-50 fw-bold ps-2">NET WT	</div>
-                                        <div className="w-50 text-end pe-2">{total?.nwt} gm</div>
+                                        <div className="w-50 fw-bold ps-2">NET WT </div>
+                                        <div className="w-50 text-end pe-2">{(total?.nwt)?.toFixed(3)} gm</div>
                                     </div>
                                     <div className="d-flex w-100">
                                         <div className="w-50 fw-bold ps-2">DIAMOND WT</div>
@@ -918,7 +598,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                                 <div className="gold_24kt_sum4 w-50">
                                     <div className="d-flex w-100">
                                         <div className="w-50 fw-bold ps-2">GOLD</div>
-                                        <div className="w-50 text-end pe-2">{(total.goldAmt).toFixed(2)}</div>
+                                        <div className="w-50 text-end pe-2">{(total.goldAmt).toFixed(3)}</div>
                                     </div>
                                     <div className="d-flex w-100">
                                         <div className="w-50 fw-bold ps-2">DIAMOND</div>
@@ -930,7 +610,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                                     </div>
                                     <div className="d-flex w-100">
                                         <div className="w-50 fw-bold ps-2">MAKING</div>
-                                        <div className="w-50 text-end pe-2">{totalSummary?.makingAmount}</div>
+                                        <div className="w-50 text-end pe-2">{(totalSummary?.makingAmount)?.toFixed(3)}</div>
                                     </div>
                                     <div className="d-flex w-100">
                                         <div className="w-50 fw-bold ps-2">OTHER</div>
@@ -970,7 +650,6 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                                     Gold Amount
                                 </div>
                             </div>
-
                             {metalType.length > 0 && metalType.map((e, i) => {
                                 return <div className=" d-flex py-1" key={i}>
                                     <div className="metal_type_sum4 ps-1 text-start">
@@ -1051,7 +730,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                                         {e?.metalType}
                                     </div>
                                     <div className="GwtSum4 border-end d-flex justify-content-end pe-2">
-                                        {e?.grosswt}
+                                    {(e?.grosswt).toFixed(3)}
                                     </div>
                                     <div className="netWtSum4 border-end d-flex justify-content-end pe-2">
                                         {(e?.NetWt).toFixed(3)}
@@ -1101,7 +780,6 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                                     <div className="DiamondDiscountSum4 d-flex justify-content-center align-items-center border-end fw-bold">Discount In %</div>
                                     <div className="DiamondAmountSum4 d-flex justify-content-center align-items-center fw-bold">Diamond Amount</div>
                                 </div>
-
                                 {lastDiamondTable.length > 0 && lastDiamondTable.map((e, i) => {
                                     return <div className="d-flex border" key={i}>
                                         <div className="DiamondTypeSum4 d-flex justify-content-center align-items-center border-end">{e?.name}</div>
@@ -1170,7 +848,6 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                 </div>
             </div>
         </div>
-
     </div>}
 
     </>

@@ -7,6 +7,7 @@
 .containerDetailPrint1 p {
     word-break: break-all;
     font-size: 8px;
+    line-height: 100%;
 }
 
 .containerDetailPrint1 * {
@@ -105,7 +106,7 @@
 }
 
 .totalLineDetailPrint1 {
-    min-height: 30px;
+    min-height: 18px;
 }
 
 .createdByDetailPrint1 {
@@ -113,11 +114,11 @@
 }
 
 .paddingBottomTotalDetailPrint1 {
-    padding-bottom: 48px;
+    padding-bottom: 22px;
 }
 
 .totalMinHeightDetailPrint1 {
-    min-height: 25px;
+    min-height: 18px;
 }
 
 @media print {

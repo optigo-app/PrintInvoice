@@ -14,6 +14,7 @@ import DetailPrint12 from './DetailPrint12';
 import ExportDeclarationForm from './ExportDeclarationForm';
 import PackingList from './PackingList';
 import Summary1 from './Summary1';
+import JewelleryInvoice from './JewelleryInvoice';
 
 const AllDesign = () => {
     const queryString = window.location.search;
@@ -41,6 +42,7 @@ const AllDesign = () => {
     {atob(printname).toLowerCase() === "export declaration form" && <ExportDeclarationForm billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "packing list" && <PackingList billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "summary 1" && <Summary1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
+    {atob(printname).toLowerCase() === "jewellery invoice" && <JewelleryInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
   </>
   )
 }

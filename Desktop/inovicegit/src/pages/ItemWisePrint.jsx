@@ -10,7 +10,7 @@ const ItemWisePrint = () => {
             {/* Print Button */}
             <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4 portrait_container">
                 <div className="form-check">
-                    <input type="button" className="btn_white blue" value="pdf" onClick={() => toPDF()} />
+                    <input type="button" className="btn_white blue" value="Pdf" onClick={() => toPDF()} />
                 </div>
                 <div className="form-check">
                     <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
