@@ -1,0 +1,409 @@
+* {
+    box-sizing: border-box;
+    word-break: break-all;
+
+}
+
+.mainheadersum1 {
+    width: 1000px;
+}
+
+.head1sum1 {
+    height: 30px;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #8b8787;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding-left: 3px;
+}
+
+.head2sum1 {
+    height: 100px;
+    width: 100%;
+    border: 1px solid #e8e8e8;
+    display: flex;
+    justify-content: space-between;
+}
+
+.headingsum1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.subhead2sum1 {
+    padding: 5px;
+}
+
+.head3sum1 {
+    width: 100%;
+    height: 50px;
+    margin-top: 6px;
+    border: 1px solid #e8e8e8;
+    display: flex;
+    justify-content: space-between;
+    padding: 3px;
+}
+
+.invoicehead3sum1 {
+    font-size: 18px;
+    width: 18%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.binvsum1 {
+    font-size: 18px;
+}
+
+.datehead3sum1 {
+    font-size: 18px;
+}
+
+.totgstsum1 {
+    font-size: 15px;
+}
+
+.head4sum1 {
+    width: 100%;
+    height: 115px;
+    border: 1px solid #e8e8e8;
+    border-top: 0px;
+    padding: 5px;
+}
+
+.samplehead4sum1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.lhhead4sum1 {
+    line-height: 15px !important;
+    height: 15px;
+    font-size: 15px;
+}
+
+.lhhead1sum1 {
+    line-height: 18px;
+    font-size: 15px;
+}
+
+.tableSectionSum1 {
+    width: 1000px;
+    border: 1px solid #e8e8e8;
+    margin-top: 7px;
+}
+
+.theadsum1 {
+    height: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e8e8e8;
+    font-weight: bold;
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
+}
+
+.wthsum1 {
+    width: 90.9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    border-right: 1px solid #e8e8e8;
+    height: 100%;
+}
+
+.wtbsum1 {
+    width: 90.9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    border-right: 1px solid #e8e8e8;
+    /* height: 100%; */
+}
+
+.brightsum1 {
+    border-right: 0px;
+}
+
+.srwsum1 {
+    width: 45.5px !important;
+}
+
+.designwsum1 {
+    width: 136.3px;
+}
+
+.tbodysum1 {
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.tbodysum1second {
+    width: 100%;
+    /* min-height: 70px; */
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    border: 1px solid #e8e8e8;
+}
+
+.designContentsum1 {
+    font-size: 15px;
+}
+
+.brbdesignsum1 {
+    border-bottom: 1px solid black;
+    font-size: 13px;
+}
+
+.brbs1 {
+    border-bottom: 0px;
+}
+
+.secondheadsum1 {
+    width: 1000px;
+}
+
+.secondtbodysum1 {
+    border-right: 1px solid #e8e8e8;
+    border-left: 1px solid #e8e8e8;
+    margin-top: 7px;
+    border-top: 1px solid #e8e8e8;
+}
+
+.wtotalsum1 {
+    width: 272.7px;
+}
+
+.htotalrowsum1 {
+    height: 35px;
+}
+
+.totrowfssum1 {
+    font-size: 15px;
+}
+
+.alignleftsum1 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 2px;
+}
+
+.alignrightsum1 {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 2px;
+}
+
+.totaldesignsum1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+    border: 1px solid #e8e8e8;
+    border-top: 0px;
+    height: 65px;
+    padding-right: 3px;
+}
+
+.wtotsum1 {
+    width: 27%;
+    height: 100%;
+    border-left: 1px solid #e8e8e8;
+}
+
+.gsttotsum1 {
+    display: flex;
+    justify-content: flex-end;
+    width: 50%;
+}
+
+.grandtotalsum1 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    border: 1px solid #e8e8e8;
+    border-top: 0px;
+}
+
+.amtwordssum1 {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.wgtsum1 {
+    width: 27.25%;
+}
+
+.summarysum1 {
+    width: 1000px;
+    height: 100px;
+    border: 1px solid #e8e8e8;
+    margin-top: 7px;
+}
+
+.summarysum1fs {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 3px;
+    height: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    border-bottom: 1px solid #e8e8e8;
+    background-color: #e0e0e0;
+}
+
+.summaryDetailsum1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.arrSum1 {
+    height: 16px;
+    width: 100%;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.summwsum1 {
+    display: flex;
+    width: 33.33%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wsummarySum1 {
+    width: 25%;
+}
+
+.notessum1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #e8e8e8;
+    border-top: 0px;
+}
+
+.noteSum1 {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 6px;
+    padding-bottom: 10px;
+}
+
+.noteDemosum1 {
+    line-height: 20px;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 3px;
+}
+
+.addSum1 {
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 2rem;
+    padding: 3px;
+}
+
+.remarkSum1 {
+    height: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.remarkValSum1 {
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    padding: 3px;
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.footerSum1 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 80px;
+    border: 1px solid #e8e8e8;
+    margin-bottom: 1rem;
+}
+
+.footerSignValSum1 {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    border-right: 1px solid #e8e8e8;
+    font-weight: bold;
+    font-size: 14px;
+    padding-bottom: 3px;
+}
+
+.footer2SignValSum1 {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    font-weight: bold;
+    font-size: 14px;
+    padding-bottom: 3px;
+}
+
+.footer1Sum1 {
+    display: flex;
+    width: 50%;
+}
+
+.summary1PrintSum1 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-top: 3rem;
+}
+
+#sum1Img {
+    height: 90px;
+    width: 100px;
+    padding-right: 1rem;
+}
+
+#imgDySum1 {
+    height: 45px;
+    width: 75px;
+    padding-right: 1rem;
+}
+.fs13sum1{
+    font-size: 13px;
+}
+
+@media print {
+    .page_break_after {
+        page-break-after: always;
+    }
+}
