@@ -1,0 +1,39 @@
+.designDetalPrint12 {
+    width: 140px;
+    min-width: 140px;
+}
+
+.diamondDetailPrint12{
+    width: 167.3px;
+    min-width: 167.3px;
+}
+
+.stoneDetailPrint12 {
+    width: 110.3px;
+    min-width: 110.3px;
+}
+
+.metalGoldDetailPrint12 {
+    width: 177.3px;
+    min-width: 177.3px;
+}
+
+.containerDetailPrint12 p {
+    word-break: break-all;
+    font-size: 10px;
+}
+
+.labourAmountDetailPrint12 {
+    width: 65px;
+    min-width: 65px;
+}
+
+.otherAmountDetailPrint12 {
+    width: 40px;
+    min-width: 40px;
+}
+
+.designDetalPrint12Total {
+    width: 161.5px;
+    min-width: 161.5px;
+}

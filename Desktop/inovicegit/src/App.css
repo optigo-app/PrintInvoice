@@ -3,7 +3,16 @@
   font-family: "Calibri";
 }
 
-h1, h2, h3, h4, h5, h6, p, a, ul, ol{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+ul,
+ol {
   list-style-type: none;
   margin: 0 !important;
   padding: 0;
@@ -59,12 +68,36 @@ h1, h2, h3, h4, h5, h6, p, a, ul, ol{
   background: -moz-linear-gradient(bottom, #F1F1F1 0%, #ffffff 100%);
   background: -webkit-linear-gradient(bottom, #F1F1F1 0%, #FFF 100%);
   background: -ms-linear-gradient(bottom, #F1F1F1 0%, #ffffff 100%);
-  background: -webkit-gradient( linear, left bottom, left top, color-stop(0, #FFF), color-stop(1, #FFF) );
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#97B65D, endColorstr=#CAE387);
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #FFF), color-stop(1, #FFF));
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#97B65D, endColorstr=#CAE387);
   cursor: pointer;
 }
 
 .loader_2 {
   width: 102.5px;
   height: 102.5px;
+}
+
+.bgGrey {
+  background: #939292;
+}
+
+.portrait_container {
+  max-width: 808px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.bgLightPink {
+  background: #F5F4F4;
+}
+
+@media print {
+  .no_break {
+    page-break-inside: avoid;
+  }
+}
+
+.no_break {
+  page-break-inside: avoid;
 }

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import "../assets/css/miscPrint1.css";
 import { apiCall, handlePrint } from '../GlobalFunctions';
 import Loader from '../components/Loader';
-
+import { usePDF } from 'react-to-pdf';
 const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
-
+    const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
     const [primary, setPrimary] = useState({});
     const [jsonData, setJsonData] = useState([]);
     const [total, setTotal] = useState({});
@@ -144,61 +144,102 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
 
     return (
         <>
-            {loader ? <Loader /> : <div className='container_Misc_1 pt-4'>
-                <div className="printBtn_sec text-end">
+            {loader ? <Loader /> : <>
+                <div className="printBtn_sec text-end container_Misc_1 pt-4">
+                    <input type="button" className="btn_white blue me-2" value="pdf" onClick={() => toPDF()} />
                     <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
                 </div>
-                <div className="header_misc_1 mt-4 border d-flex justify-content-between">
-                    <div className='p-2'>
-                        Customer Name: <span className='fw-bold'> {primary?.CustName}</span>
-                    </div>
-                    <div className="p-2 text-end ">
-                        <p className=' fw-bold'><span className=' 
+                <div ref={targetRef} className="container_Misc_1 pt-4">
+                    <div className="header_misc_1 mt-4 border d-flex justify-content-between">
+                        <div className='p-2'>
+                            Customer Name: <span className='fw-bold'> {primary?.CustName}</span>
+                        </div>
+                        <div className="p-2 text-end ">
+                            <p className=' fw-bold'><span className=' 
                     fw-normal'>Invoice:</span> {primary?.InvoiceNo}</p>
-                        <p className=' fw-bold'><span className=' 
+                            <p className=' fw-bold'><span className=' 
                     fw-normal'>Date:</span> {primary?.EntryDate}</p>
-                    </div>
-                </div>
-                <div className="d-flex border-bottom border-start border-end">
-                    <div className="regNoMiscPrint1 border-end p-1 fw-bold d-flex align-items-center justify-content-center">Reg. No.</div>
-                    <div className="discriptionMisc1 border-end  fw-bold d-flex align-items-center justify-content-center text-center">Description</div>
-                    <div className="grsWtMisc1 border-end p-1 text-end d-flex align-items-center justify-content-center flex-column">
-                        <p className='fw-bold'>Grs Wt</p>
-                        <p className='fw-bold'>Net Wt</p>
-                    </div>
-                    <div className="">
-                        <div className="stoneDetailsMisc1 border-bottom p-1 text-center  fw-bold border-end">Stone Details</div>
-                        <div className="d-flex height53Misc1">
-                            {materialNames.length > 0 && materialNames.map((e, i) => {
-                                return <div className={`text-end kundMisc1 border-end fw-bold d-flex align-items-center justify-content-center `} key={i}>{e?.name}</div>
-                            })}
-                            {materialNames.length < 8 && Array.from({ length: 8 - materialNames.length }, (_, index) => {
-                                return <div className={`text-end kundMisc1 border-end p-1 fw-bold`} key={index}></div>
-                            })}
                         </div>
                     </div>
-                    <div className="lessWtMisc1 border-end p-1 fw-bold text-end d-flex align-items-center justify-content-center">Less Wt.</div>
-                    <div className="mperMisc1 border-end p-1 text-center d-flex align-items-center justify-content-center flex-column">
-                        <p className='fw-bold text-end'>M%</p>
-                        <p className='fw-bold text-end'>w%</p>
+                    <div className="d-flex border-bottom border-start border-end">
+                        <div className="regNoMiscPrint1 border-end p-1 fw-bold d-flex align-items-center justify-content-center">Reg. No.</div>
+                        <div className="discriptionMisc1 border-end  fw-bold d-flex align-items-center justify-content-center text-center">Description</div>
+                        <div className="grsWtMisc1 border-end p-1 text-end d-flex align-items-center justify-content-center flex-column">
+                            <p className='fw-bold'>Grs Wt</p>
+                            <p className='fw-bold'>Net Wt</p>
+                        </div>
+                        <div className="">
+                            <div className="stoneDetailsMisc1 border-bottom p-1 text-center  fw-bold border-end">Stone Details</div>
+                            <div className="d-flex height53Misc1">
+                                {materialNames.length > 0 && materialNames.map((e, i) => {
+                                    return <div className={`text-end kundMisc1 border-end fw-bold d-flex align-items-center justify-content-center `} key={i}>{e?.name}</div>
+                                })}
+                                {materialNames.length < 8 && Array.from({ length: 8 - materialNames.length }, (_, index) => {
+                                    return <div className={`text-end kundMisc1 border-end p-1 fw-bold`} key={index}></div>
+                                })}
+                            </div>
+                        </div>
+                        <div className="lessWtMisc1 border-end p-1 fw-bold text-end d-flex align-items-center justify-content-center">Less Wt.</div>
+                        <div className="mperMisc1 border-end p-1 text-center d-flex align-items-center justify-content-center flex-column">
+                            <p className='fw-bold text-end'>M%</p>
+                            <p className='fw-bold text-end'>w%</p>
+                        </div>
+                        <div className="fineMisc1 border-end p-1  d-flex align-items-center justify-content-center"><p className='fw-bold'>Fine Wt</p></div>
+                        <div className="AmountMiscPrint1 p-1 fw-bold  d-flex align-items-center justify-content-center">Amount</div>
                     </div>
-                    <div className="fineMisc1 border-end p-1  d-flex align-items-center justify-content-center"><p className='fw-bold'>Fine Wt</p></div>
-                    <div className="AmountMiscPrint1 p-1 fw-bold  d-flex align-items-center justify-content-center">Amount</div>
-                </div>
-                {jsonData.length > 0 && jsonData.map((e, i) => {
-                    return <div className="d-flex border-bottom border-start border-end" key={i}>
-                        <div className="regNoMiscPrint1 p-1 border-end text-end">{e?.SrJobno}</div>
-                        <div className="discriptionMisc1 border-end p-1 height53Misc1"><p className=''>{e?.SubCategoryname}</p></div>
+                    {jsonData.length > 0 && jsonData.map((e, i) => {
+                        return <div className="d-flex border-bottom border-start border-end" key={i}>
+                            <div className="regNoMiscPrint1 p-1 border-end text-end">{e?.SrJobno}</div>
+                            <div className="discriptionMisc1 border-end p-1 height53Misc1"><p className=''>{e?.SubCategoryname}</p></div>
+                            <div className="grsWtMisc1 border-end p-1 text-end height53Misc1">
+                                <p className=''>{(e?.grosswt)?.toFixed(3)}</p>
+                                <p className=''>{(e?.NetWt)?.toFixed(3)}</p>
+                            </div>
+                            <div>
+                                <div className="d-flex height53Misc1">
+                                    {materialNames.length > 0 && materialNames.map((ele, i) => {
+                                        const findMaterial = e?.materialMiscs.find(elem => ele?.name === elem?.ShapeName);
+                                        return findMaterial ? <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
+                                            <p className='lh-1 '>{(findMaterial?.Wt).toFixed(3)}</p>
+                                            <p className='lh-1 '>{findMaterial?.Pcs}</p>
+                                            <p className='lh-1 '>{findMaterial?.Rate !== 0 && (findMaterial?.Rate).toFixed(3)}</p>
+                                        </div> : <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
+                                            <p className='lh-1 '></p>
+                                            <p className='lh-1 '></p>
+                                            <p className='lh-1 '></p>
+                                        </div>
+                                    })}
+                                    {materialNames.length < 8 && Array.from({ length: 8 - materialNames.length }, (_, index) => {
+                                        return <div className="w-100 text-end kundMisc1 border-end p-1" key={index}>
+                                            <p className='lh-1 '></p>
+                                            <p className='lh-1 '></p>
+                                            <p className='lh-1 '></p>
+                                        </div>
+                                    })}
+                                </div>
+                            </div>
+                            <div className="lessWtMisc1 border-end p-1 height53Misc1 text-end">{(e?.lessWeight)?.toFixed(3)}</div>
+                            <div className="mperMisc1 border-end p-1 text-center height53Misc1">
+                                <p className='text-end'>{(e?.MetalPriceRatio)?.toFixed(3)}</p>
+                                <p className='text-end'>{(e?.Wastage)?.toFixed(3)}</p>
+                            </div>
+                            <div className="fineMisc1 border-end p-1 text-end height53Misc1 text-end">{(+(e?.fineWeight)).toFixed(3)}</div>
+                            <div className="AmountMiscPrint1 p-1 text-end height53Misc1 text-end">{(e?.TotalAmount).toFixed(3)}</div>
+                        </div>
+                    })}
+                    <div className="d-flex border-bottom border-start border-end">
+                        <div className="regNoMiscPrint1 p-1 border-end text-end">{jsonData?.length}</div>
+                        <div className="discriptionMisc1 border-end p-1 fw-bold height53Misc1">TOTAL</div>
                         <div className="grsWtMisc1 border-end p-1 text-end height53Misc1">
-                            <p className=''>{(e?.grosswt)?.toFixed(3)}</p>
-                            <p className=''>{(e?.NetWt)?.toFixed(3)}</p>
+                            <p className='fw-bold '>{(total?.grsWt)?.toFixed(3)}</p>
+                            <p className='fw-bold '>{(total?.netWt)?.toFixed(3)}</p>
                         </div>
                         <div>
                             <div className="d-flex height53Misc1">
                                 {materialNames.length > 0 && materialNames.map((ele, i) => {
-                                    const findMaterial = e?.materialMiscs.find(elem => ele?.name === elem?.ShapeName);
+                                    const findMaterial = totalItems.find(elem => ele?.name === elem?.name);
                                     return findMaterial ? <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
-                                        <p className='lh-1 '>{(findMaterial?.Wt).toFixed(3)}</p>
+                                        <p className='lh-1 '>{(findMaterial?.Wt)?.toFixed(3)}</p>
                                         <p className='lh-1 '>{findMaterial?.Pcs}</p>
                                     </div> : <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
                                         <p className='lh-1 '></p>
@@ -209,58 +250,22 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
                                     return <div className="w-100 text-end kundMisc1 border-end p-1" key={index}>
                                         <p className='lh-1 '></p>
                                         <p className='lh-1 '></p>
-                                        <p className='lh-1 '></p>
                                     </div>
                                 })}
                             </div>
                         </div>
-                        <div className="lessWtMisc1 border-end p-1 height53Misc1 text-end">{(e?.lessWeight)?.toFixed(3)}</div>
+                        <div className="lessWtMisc1 border-end p-1 fw-bold height53Misc1 text-end">{total?.lessWeight}</div>
                         <div className="mperMisc1 border-end p-1 text-center height53Misc1">
-                            <p className='text-end'>{(e?.MetalPriceRatio)?.toFixed(3)}</p>
-                            <p className='text-end'>{(e?.Wastage)?.toFixed(3)}</p>
-                        </div>
-                        <div className="fineMisc1 border-end p-1 text-end height53Misc1 text-end">{(e?.fineWeight).toFixed(3)}</div>
-                        <div className="AmountMiscPrint1 p-1 text-end height53Misc1 text-end">{(e?.TotalAmount).toFixed(3)}</div>
-                    </div>
-                })}
-                <div className="d-flex border-bottom border-start border-end">
-                    <div className="regNoMiscPrint1 p-1 border-end text-end">{jsonData?.length}</div>
-                    <div className="discriptionMisc1 border-end p-1 fw-bold height53Misc1">TOTAL</div>
-                    <div className="grsWtMisc1 border-end p-1 text-end height53Misc1">
-                        <p className='fw-bold '>{(total?.grsWt)?.toFixed(3)}</p>
-                        <p className='fw-bold '>{(total?.netWt)?.toFixed(3)}</p>
-                    </div>
-                    <div>
-                        <div className="d-flex height53Misc1">
-                            {materialNames.length > 0 && materialNames.map((ele, i) => {
-                                const findMaterial = totalItems.find(elem => ele?.name === elem?.name);
-                                return findMaterial ? <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
-                                    <p className='lh-1 '>{(findMaterial?.Wt)?.toFixed(3)}</p>
-                                    <p className='lh-1 '>{findMaterial?.Pcs}</p>
-                                </div> : <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
-                                    <p className='lh-1 '></p>
-                                    <p className='lh-1 '></p>
-                                </div>
-                            })}
-                            {materialNames.length < 8 && Array.from({ length: 8 - materialNames.length }, (_, index) => {
-                                return <div className="w-100 text-end kundMisc1 border-end p-1" key={index}>
-                                    <p className='lh-1 '></p>
-                                    <p className='lh-1 '></p>
-                                </div>
-                            })}
-                        </div>
-                    </div>
-                    <div className="lessWtMisc1 border-end p-1 fw-bold height53Misc1 text-end">{total?.lessWeight}</div>
-                    <div className="mperMisc1 border-end p-1 text-center height53Misc1">
-                        {/* <p className='fw-bold text-end'>{total?.MetalPriceRatio}</p>
+                            {/* <p className='fw-bold text-end'>{total?.MetalPriceRatio}</p>
                         <p className='fw-bold text-end'>{total?.Wastage}</p> */}
-                        <p className='fw-bold text-end'></p>
-                        <p className='fw-bold text-end'></p>
+                            <p className='fw-bold text-end'></p>
+                            <p className='fw-bold text-end'></p>
+                        </div>
+                        <div className="fineMisc1 border-end p-1 text-end height53Misc1"><p className='fw-bold text-end'>{+(total?.fineWeight)?.toFixed(3)}</p></div>
+                        <div className="AmountMiscPrint1 p-1 text-end fw-bold height53Misc1 text-end">{(total?.amount)?.toFixed(3)}</div>
                     </div>
-                    <div className="fineMisc1 border-end p-1 text-end height53Misc1"><p className='fw-bold text-end'>{(total?.fineWeight)?.toFixed(3)}</p></div>
-                    <div className="AmountMiscPrint1 p-1 text-end fw-bold height53Misc1 text-end">{(total?.amount)?.toFixed(3)}</div>
                 </div>
-            </div>}
+            </>}
         </>
     )
 }

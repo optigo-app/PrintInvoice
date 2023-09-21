@@ -275,3 +275,19 @@
         page-break-inside: avoid;
     }
 }
+
+@media print {
+    .no_break {
+      page-break-inside: avoid;
+    }
+  }
+  
+  .no_break {
+    page-break-inside: avoid;
+  }
+  
+  @media print {
+    .pno_break {
+      page-break-before: always;
+    }
+  }

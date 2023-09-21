@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import "../assets/css/detailPrint1.css";
+import "../assets/css/detailPrint12.css";
 import { useState } from 'react';
 import { apiCall, handleImageError, handlePrint } from '../GlobalFunctions';
 import Loader from '../components/Loader';
 
-const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
+const DetailPrint12 = ({ token, invoiceNo, printName, urls }) => {
   const [image, setImage] = useState(false);
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
@@ -195,7 +196,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
     sendData();
   }, []);
   return (
-    <>{loader ? <Loader /> : <div className="container containerDetailPrint1 pt-4">
+    <>{loader ? <Loader /> : <div className="container containerDetailPrint1 containerDetailPrint12 pt-4">
       {/* buttons */}
       <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4">
         <div className="form-check d-flex align-items-center">
@@ -213,7 +214,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
         <h1 className='fs-4 p-2 fw-bold text-white'>JEWELLERY PACKAGING LIST</h1>
       </div>
       {/* header */}
-      <div className="d-flex align-items-center pb-2 border-bottom  recordDetailPrint1">
+      <div className="d-flex align-items-center pb-2 border-bottom border-2 recordDetailPrint1">
         <div className="col-6">
           <h2 className='fw-bold fs-5'>{json0Data?.CompanyFullName}</h2>
           <p className='lhDetailPrint1'>{json0Data?.CompanyAddress}</p>
@@ -228,8 +229,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
         </div>
       </div>
       {/* address */}
-      <div className="d-flex border-start border-end  border-bottom mb-1 recordDetailPrint1">
-        <div className="col-4 border-end  p-1">
+      <div className="d-flex border-start border-end border-2 border-bottom mb-2 recordDetailPrint1">
+        <div className="col-4 border-end border-2 p-1">
           <p className='lhDetailPrint1'>{json0Data?.lblBillTo}</p>
           <p className='lhDetailPrint1 fw-bold'>{json0Data?.lblBillTo}</p>
           <p className='lhDetailPrint1'>{json0Data?.customerAddress2}</p>
@@ -240,7 +241,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
           <p className='lhDetailPrint1'>{json0Data?.vat_cst_pan}</p>
           <p className='lhDetailPrint1'>{json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</p>
         </div>
-        <div className="col-4 border-end  p-1">
+        <div className="col-4 border-end border-2 p-1">
           <p className='lhDetailPrint1'>Ship To,</p>
           <p className='lhDetailPrint1 fw-bold'>{json0Data?.customerfirmname}</p>
           <p className='lhDetailPrint1'>{json0Data?.CustName}</p>
@@ -265,72 +266,73 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
         </div>
       </div>
       {/* table header*/}
-      <div className="d-flex w-100 border-top  recordDetailPrint1">
-        <div className="srNoDetailprint11 border-end border-start  border-bottom d-flex justify-content-center align-items-center flex-column">
+      <div className="d-flex w-100 border-top border-2 recordDetailPrint1">
+        <div className="srNoDetailprint11 border-end border-start border-2 border-bottom d-flex justify-content-center align-items-center flex-column">
           <p className='fw-bold'>Sr. </p>
           <p className='fw-bold'>No. </p>
         </div>
-        <div className="designDetalPrint1 border-end  p-1 border-bottom d-flex justify-content-center align-items-center">
+        <div className="designDetalPrint12 border-end border-2 p-1 border-bottom d-flex justify-content-center align-items-center">
           <p className='fw-bold p-1'>Design</p>
         </div>
-        <div className="diamondDetailPrint1 border-end ">
+        <div className="diamondDetailPrint12 border-end border-2">
           <div className="d-grid h-100">
-            <div className='d-flex justify-content-center border-bottom '>
+            <div className='d-flex justify-content-center border-bottom border-2'>
               <p className='fw-bold p-1'>Diamond</p>
             </div>
-            <div className='d-flex border-bottom '>
-              <p className='fw-bold col-3 d-flex align-items-center justify-content-center border-end '>Code</p>
-              <p className='fw-bold col-2 d-flex align-items-center justify-content-center border-end '>Size</p>
-              <p className='fw-bold col-2 d-flex align-items-center justify-content-center border-end '>Pcs</p>
-              <p className='fw-bold col-1 d-flex align-items-center justify-content-center border-end '>Wt</p>
-              <p className='fw-bold col-2 d-flex align-items-center justify-content-center border-end '>Rate</p>
-              <p className='fw-bold col-2 d-flex align-items-center justify-content-center text-center'>Amount</p>
+            <div className='d-flex border-bottom border-2'>
+              <p className='fw-bold col-3 d-flex align-items-center justify-content-center border-end border-2'>Code</p>
+              <p className='fw-bold col-2 d-flex align-items-center justify-content-center border-end border-2'>Size</p>
+              {/* <p className='fw-bold col-2 d-flex align-items-center justify-content-center border-end border-2'>Pcs</p> */}
+              <p className='fw-bold col-2 d-flex align-items-center justify-content-center border-end border-2'>Wt</p>
+              <p className='fw-bold col-2 d-flex align-items-center justify-content-center border-end border-2'>Rate</p>
+              <p className='fw-bold col-3 d-flex align-items-center justify-content-center text-center'>Amount</p>
             </div>
           </div>
         </div>
-        <div className="metalGoldDetailPrint1 border-end ">
+        <div className="metalGoldDetailPrint12 border-end border-2">
           <div className="d-grid h-100">
-            <div className='d-flex justify-content-center align-items-center border-bottom '>
+            <div className='d-flex justify-content-center align-items-center border-bottom border-2'>
               <p className='fw-bold p-1'>Metal  </p>
             </div>
-            <div className='d-flex border-bottom '>
-              <p className='fw-bold col-3 border-end  d-flex align-items-center justify-content-center'>Quality</p>
-              <p className='fw-bold col-2 border-end  d-flex align-items-center justify-content-center'>*Wt</p>
-              <p className='fw-bold col-2 border-end  d-flex align-items-center justify-content-center'>N+L</p>
-              <p className='fw-bold col-2 border-end  d-flex align-items-center justify-content-center'>Rate</p>
+            <div className='d-flex border-bottom border-2'>
+              <p className='fw-bold col-3 border-end border-2 d-flex align-items-center justify-content-center'>Quality</p>
+              <p className='fw-bold col-2 border-end border-2 d-flex align-items-center justify-content-center'>*Wt</p>
+              <p className='fw-bold col-2 border-end border-2 d-flex align-items-center justify-content-center'>N+L</p>
+              <p className='fw-bold col-2 border-end border-2 d-flex align-items-center justify-content-center'>Rate</p>
               <p className='fw-bold col-3 d-flex align-items-center justify-content-center'>Amount</p>
             </div>
           </div>
         </div>
-        <div className="stoneDetailsPrint1 border-end ">
+        <div className="stoneDetailPrint12 border-end border-2">
           <div className="d-grid h-100">
-            <div className='d-flex justify-content-center border-bottom '>
+            <div className='d-flex justify-content-center border-bottom border-2'>
               <p className='fw-bold p-1'>Stone</p>
             </div>
-            <div className='d-flex border-bottom '>
-              <p className='fw-bold col-2 border-end  d-flex align-items-center justify-content-center'>Code</p>
-              <p className='fw-bold col-2 border-end  d-flex align-items-center justify-content-center'>Size</p>
-              <p className='fw-bold col-2 border-end  d-flex align-items-center justify-content-center'>Pcs</p>
-              <p className='fw-bold col-2 border-end  d-flex align-items-center justify-content-center'>Wt</p>
-              <p className='fw-bold col-2 border-end  d-flex align-items-center justify-content-center'>Rate</p>
-              <p className='fw-bold col-2 d-flex align-items-center justify-content-center text-center'>Amount</p>
+            <div className='d-flex border-bottom border-2'>
+              {/* <p className='fw-bold col-2 border-end border-2 d-flex align-items-center justify-content-center'>Code</p>
+              <p className='fw-bold col-2 border-end border-2 d-flex align-items-center justify-content-center'>Size</p>
+              <p className='fw-bold col-2 border-end border-2 d-flex align-items-center justify-content-center'>Pcs</p> */}
+              <p className='fw-bold col-4 border-end border-2 d-flex align-items-center justify-content-center'>Wt</p>
+              <p className='fw-bold col-4 border-end border-2 d-flex align-items-center justify-content-center'>Rate</p>
+              <p className='fw-bold col-4 d-flex align-items-center justify-content-center text-center'>Amount</p>
             </div>
           </div>
         </div>
-        <div className="otherAmountDetailPrint1 border-end  border-bottom d-flex align-items-center justify-content-center flex-column">
+        <div className="otherAmountDetailPrint12 border-end border-2 border-bottom d-flex align-items-center justify-content-center flex-column">
           <p className='fw-bold text-center d-flex align-items-center justify-content-center'>Other </p>
           <p className='fw-bold text-center d-flex align-items-center justify-content-center'>Amount </p>
+
         </div>
-        <div className="labourAmountDetailPrint1 border-end  border-bottom">
+        <div className="labourAmountDetailPrint12 border-end border-2 border-bottom">
           <div className="d-grid h-100">
-            <div className='border-bottom  d-flex align-items-center justify-content-center'><p className='text-center fw-bold'>Labour</p></div>
+            <div className='border-bottom border-2 d-flex align-items-center justify-content-center'><p className='text-center fw-bold'>Labour</p></div>
             <div className='d-flex'>
-              <div className="col-5 border-end  d-flex align-items-center justify-content-center"><p className='fw-bold '>Rate</p></div>
+              <div className="col-5 border-end border-2 d-flex align-items-center justify-content-center"><p className='fw-bold '>Rate</p></div>
               <div className="col-7 d-flex align-items-center justify-content-center"><p className='fw-bold text-end '>Amount</p></div>
             </div>
           </div>
         </div>
-        <div className="totalAmountDetailPrint1 border-end  border-bottom d-flex align-items-center justify-content-center flex-column">
+        <div className="totalAmountDetailPrint1 border-end border-2 border-bottom d-flex align-items-center justify-content-center flex-column">
           <p className='text-center fw-bold '>Total</p>
           <p className='text-center fw-bold '>Amount</p>
         </div>
@@ -339,10 +341,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
       {json1Data.length > 0 && json1Data.map((e, i) => {
         return <div key={i} className='recordDetailPrint1'>
           <div className="d-flex w-100">
-            <div className="srNoDetailprint11 border-end border-start  border-bottom">
+            <div className="srNoDetailprint11 border-end border-start border-2 border-bottom">
               <p className='p-1'>{e?.SrNo}</p>
             </div>
-            <div className="designDetalPrint1 border-end  p-1 border-bottom">
+            <div className="designDetalPrint12 border-end border-2 p-1 border-bottom">
               <div className="d-flex">
                 <div className='col'>
                   <p>{e?.designno}</p>
@@ -355,7 +357,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
               <div>
                 {image && <img src={e?.DesignImage} alt="" className='w-100 d-block' onError={handleImageError} />}
               </div>
-              <div className={`${!image && 'pt-2 '}`}>
+              <div className={`${!image && 'pt-2'}`}>
                 <p className='text-center'>HUID - {e?.HUID}</p>
                 <p className='text-center'>PO: {e?.PO}</p>
                 <p className='text-center'>{e?.lineid}</p>
@@ -364,126 +366,126 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
                 <p className='text-center'>Gross Size: {e?.grosswt}</p>
               </div>
             </div>
-            <div className="diamondDetailPrint1 border-end  position-relative">
+            <div className="diamondDetailPrint12 border-end border-2 position-relative">
               <div className="h-100 paddingBottomTotalDetailPrint1">
                 {e?.diamonds.length > 0 && e?.diamonds.map((ele, ind) => {
                   return <div className={`d-flex justify-content-between `} key={ind}>
-                    <p className='col-3'>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
-                    <p className='col-2 text-center '>{ele?.SizeName}</p>
-                    <p className='col-1   text-end'>{ele?.Pcs}</p>
-                    <p className='col-2   text-end'>{(ele?.Wt).toFixed(2)}</p>
-                    <p className='col-2   text-end'>{ele?.Rate}</p>
-                    <p className='col-2 text-end'>{ele?.Amount}</p>
+                    <p className='col-3  border-2'>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
+                    <p className='col-2 text-center border-2'>{ele?.SizeName}</p>
+                    {/* <p className='col-1  border-2 text-end'>{ele?.Pcs}</p> */}
+                    <p className='col-2  border-2 text-end'>{(ele?.Wt).toFixed(2)}</p>
+                    <p className='col-2  border-2 text-end'>{ele?.Rate}</p>
+                    <p className='col-3 text-end'>{ele?.Amount}</p>
                   </div>
                 })}
-                <div className='d-flex border-bottom position-absolute bottom-0 w-100  border-top totalMinHeightDetailPrint1'>
-                  <p className='col-2 '></p>
-                  <p className='col-2 '></p>
-                  <p className='col-2  text-end'></p>
-                  <p className='col-2  text-end'>{(e?.diamondsTotal?.Wt).toFixed(2)}</p>
-                  <p className='col-2  text-end'></p>
+                <div className='d-flex border-bottom position-absolute bottom-0 w-100 border-2 border-top totalMinHeightDetailPrint1'>
+                  <p className='col-2 border-2'></p>
+                  <p className='col-2 border-2'></p>
+                  <p className='col-2 border-2 text-end'></p>
+                  <p className='col-2 border-2 text-end'>{(e?.diamondsTotal?.Wt).toFixed(2)}</p>
+                  <p className='col-2 border-2 text-end'></p>
                   <p className='col-2 text-end'>{(e?.diamondsTotal?.Amount).toFixed(2)}</p>
                 </div>
               </div>
             </div>
-            <div className="metalGoldDetailPrint1 border-end  position-relative">
+            <div className="metalGoldDetailPrint12 border-end border-2 position-relative">
               <div className="h-100 paddingBottomTotalDetailPrint1">
                 {e?.metals.length > 0 && e?.metals.map((ele, ind) => {
                   return <div className={`d-flex`} key={ind}>
-                    <p className='col-3 '>{ele?.ShapeName + " "+ele?.QualityName}</p>
-                    <p className='col-2 '>{ele?.Wt}</p>
-                    <p className='col-2  text-end'>{e?.NetWt}</p>
-                    <p className='col-2  text-end'>{ele?.Rate}</p>
-                    <p className='col-3  text-end'>{ele?.Amount}</p>
+                    <p className=' col-3 p-1 border-2'>{ele?.QualityName}</p>
+                    <p className=' col-2 p-1 border-2'>{ele?.Wt}</p>
+                    <p className=' col-2 p-1 border-2 text-end'>{e?.NetWt}</p>
+                    <p className=' col-2 p-1 border-2 text-end'>{ele?.Rate}</p>
+                    <p className=' col-3 p-1 text-end'>{ele?.Amount}</p>
                   </div>
                 })}
-                <div className='d-flex position-absolute bottom-0 w-100  totalMinHeightDetailPrint1 border-top border-bottom'>
-                  <p className='col-3 '></p>
-                  <p className='col-2 '>{e?.metalTotal?.Wt}</p>
-                  <p className='col-2  text-end'>{e?.NetWt}</p>
-                  <p className='col-2  text-end'></p>
+                <div className='d-flex position-absolute bottom-0 w-100 border-2 totalMinHeightDetailPrint1 border-top border-bottom'>
+                  <p className='col-3 border-2'></p>
+                  <p className='col-2 border-2'>{e?.metalTotal?.Wt}</p>
+                  <p className='col-2 border-2 text-end'>{e?.NetWt}</p>
+                  <p className='col-2 border-2 text-end'></p>
                   <p className='col-3 text-end'>{e?.metalTotal.Amount}</p>
                 </div>
               </div>
             </div>
-            <div className="stoneDetailsPrint1 border-end  position-relative">
+            <div className="stoneDetailPrint12 border-end border-2 position-relative">
               <div className="h-100 paddingBottomTotalDetailPrint1">
                 {e?.colorStones.length > 0 && e?.colorStones.map((ele, ind) => {
                   return <div className={`d-flex`} key={ind}>
-                    <p className='col-3 '>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
-                    <p className='col-2 text-center '>{ele?.SizeName}</p>
-                    <p className='col-1  text-end'>{ele?.Pcs}</p>
-                    <p className='col-2  text-end'>{ele?.Wt}</p>
-                    <p className='col-2  text-end'>{ele?.Rate}</p>
-                    <p className='col-2 text-end'>{ele?.Amount}</p>
+                    {/* <p className='col-3 border-2'>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
+                    <p className='col-2 text-center border-2'>{ele?.SizeName}</p>
+                    <p className='col-1 border-2 text-end'>{ele?.Pcs}</p> */}
+                    <p className='col-4 border-2 text-end'>{ele?.Wt}</p>
+                    <p className='col-4 border-2 text-end'>{ele?.Rate}</p>
+                    <p className='col-4 text-end'>{ele?.Amount}</p>
                   </div>
                 })}
-                <div className='d-flex border-bottom position-absolute bottom-0 w-100  border-top totalMinHeightDetailPrint1'>
-                  <p className=' col-2 '></p>
-                  <p className=' col-2 '></p>
-                  <p className=' col-2  text-end'></p>
-                  <p className=' col-2  text-end'>{(e?.colorStonesTotal?.Wt).toFixed(2)}</p>
-                  <p className=' col-2  text-end'></p>
+                <div className='d-flex border-bottom position-absolute bottom-0 w-100 border-2 border-top totalMinHeightDetailPrint1'>
+                  <p className=' col-2 border-2'></p>
+                  <p className=' col-2 border-2'></p>
+                  <p className=' col-2 border-2 text-end'></p>
+                  <p className=' col-2 border-2 text-end'>{(e?.colorStonesTotal?.Wt).toFixed(2)}</p>
+                  <p className=' col-2 border-2 text-end'></p>
                   <p className=' col-2 text-end'>{(e?.colorStonesTotal?.Amount).toFixed(2)}</p>
                 </div>
               </div>
             </div>
-            <div className="otherAmountDetailPrint1 border-end  position-relative">
+            <div className="otherAmountDetailPrint12 border-end border-2 position-relative">
               <div className="paddingBottomTotalDetailPrint1">
                 <div>
                   <p className=' text-end'>{e?.OtherCharges}</p>
                 </div>
               </div>
-              <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1">
+              <div className="position-absolute bottom-0 w-100 border-top border-bottom border-2 totalMinHeightDetailPrint1">
                 <p className='text-end '>{e?.OtherCharges}</p>
               </div>
             </div>
-            <div className="labourAmountDetailPrint1 border-end  position-relative">
+            <div className="labourAmountDetailPrint12 border-end border-2 position-relative">
               <div className="d-grid h-100 paddingBottomTotalDetailPrint1">
                 <div className='d-flex '>
                   <div className="col-5 "><p className='text-end'>{e?.MaKingCharge_Unit}</p></div>
                   <div className="col-7"><p className='text-end text-end'>{e?.MakingAmount}</p></div>
                 </div>
               </div>
-              <div className="position-absolute bottom-0 w-100 border-bottom  border-top totalMinHeightDetailPrint1 d-flex">
+              <div className="position-absolute bottom-0 w-100 border-bottom border-2 border-top totalMinHeightDetailPrint1 d-flex">
                 <div className="col-5"><p className='text-end'>{e?.MaKingCharge_Unit}</p></div>
                 <div className="col-7"><p className='text-end'>{e?.MakingAmount}</p></div>
               </div>
             </div>
-            <div className="totalAmountDetailPrint1 border-end  position-relative">
+            <div className="totalAmountDetailPrint1 border-end border-2 position-relative">
               <div className="d-grid h-100 paddingBottomTotalDetailPrint1">
                 <div>
                   <p className='text-end'>{e?.discountTotalAmount}</p>
                 </div>
               </div>
-              <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1">
+              <div className="position-absolute bottom-0 w-100 border-top border-bottom border-2 totalMinHeightDetailPrint1">
                 <p className='text-end'>{e?.TotalAmount}</p>
               </div>
             </div>
           </div>
           <div className="d-flex w-100">
-            <div className="srNoDetailprint11 border-end border-start  border-bottom">
+            <div className="srNoDetailprint11 border-end border-start border-2 border-bottom">
               <p className=' p-1'></p>
             </div>
-            <div className="designDetalPrint1 border-end  p-1 border-bottom">
+            <div className="designDetalPrint12 border-end border-2 p-1 border-bottom">
             </div>
-            <div className="diamondDetailPrint1 border-end  position-relative border-bottom">
+            <div className="diamondDetailPrint12 border-end border-2 position-relative border-bottom">
               <div className="d-grid">
               </div>
             </div>
-            <div className="metalGoldDetailPrint1 border-end  position-relative border-bottom">
+            <div className="metalGoldDetailPrint12 border-end border-2 position-relative border-bottom">
               <div className="d-grid pb-4">
               </div>
             </div>
-            <div className="stoneDetailsPrint1 border-end  position-relative border-bottom">
+            <div className="stoneDetailPrint12 border-end border-2 position-relative border-bottom">
               <div className="d-grid">
-                <p className='p-1  text-end'>Discount {(e?.Discount).toFixed(2)}% @Total Amount</p>
+                <p className='p-1 border-2 text-end'>Discount {(e?.Discount).toFixed(2)}% @Total Amount</p>
               </div>
             </div>
-            <div className="otherAmountDetailPrint1 border-end  border-bottom">
+            <div className="otherAmountDetailPrint12 border-end border-2 border-bottom">
               <p className='d-flex align-items-center justify-content-end'></p>
             </div>
-            <div className="labourAmountDetailPrint1 border-end  border-bottom">
+            <div className="labourAmountDetailPrint12 border-end border-2 border-bottom">
               <div className="d-grid h-100">
                 <div className='d-flex'>
                   <div className="col-5 "><p className=' p-1 text-end'></p></div>
@@ -491,21 +493,21 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
                 </div>
               </div>
             </div>
-            <div className="totalAmountDetailPrint1 border-end  border-bottom ">
+            <div className="totalAmountDetailPrint1 border-end border-2 border-bottom ">
               <p className='text-end'>{(e?.discountTotalAmount).toFixed(2)}</p>
             </div>
           </div>
         </div>
       })}
       {/* cgst */}
-      <div className="d-flex w-100 border-bottom  border-start recordDetailPrint1">
-        <div className="cgstDetailPrint1 text-end border-end  ">
+      <div className="d-flex w-100 border-bottom border-2 border-start recordDetailPrint1">
+        <div className="cgstDetailPrint1 text-end border-end border-2 ">
           <p>Total Discount</p>
           <p>CGST @{json0Data?.CGST}%</p>
           <p>SGST @{json0Data?.SGST}%</p>
           <p>Less</p>
         </div>
-        <div className="cgstTotalDetailPrint1 text-end border-end  ">
+        <div className="cgstTotalDetailPrint1 text-end border-end border-2 ">
           <p>{(total?.discountTotalAmount).toFixed(2)}</p>
           <p>{total?.cgstAmount}</p>
           <p>{total?.sgstAmount}</p>
@@ -514,58 +516,58 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
       </div>
       {/* total */}
       <div className="d-flex w-100 recordDetailPrint1">
-        <div className="designDetalPrint1Total border-end  border-bottom border-start">
+        <div className="designDetalPrint12Total border-end border-2 border-bottom border-start">
           <p className='fw-bold text-center'>Total</p>
         </div>
-        <div className="diamondDetailPrint1 border-end  position-relative border-bottom">
+        <div className="diamondDetailPrint12 border-end border-2 position-relative border-bottom">
           <div className='d-flex'>
-            <p className=' col-3 p-1 '></p>
-            <p className=' col-2 p-1 '></p>
-            <p className=' col-2 p-1  text-end'>{total?.diamondPcs}</p>
-            <p className=' col-2 p-1  text-end'>{(total?.diamondWt).toFixed(2)}</p>
-            <p className=' col-1 p-1  text-end'></p>
-            <p className=' col-2 p-1 text-end'>{(total?.diamondAmount).toFixed(2)}</p>
+            <p className=' col-3 p-1 border-2'></p>
+            <p className=' col-2 p-1 border-2'></p>
+            {/* <p className=' col-2 p-1 border-2 text-end'>{total?.diamondPcs}</p> */}
+            <p className=' col-2 p-1 border-2 text-end'>{(total?.diamondWt).toFixed(2)}</p>
+            <p className=' col-2 p-1 border-2 text-end'></p>
+            <p className=' col-3 p-1 text-end'>{(total?.diamondAmount).toFixed(2)}</p>
           </div>
         </div>
-        <div className="metalTotalDetailPrint1 border-end  position-relative border-bottom">
+        <div className="metalGoldDetailPrint12 border-end border-2 position-relative border-bottom">
           <div className='d-flex'>
-            <p className='col-3 p-1 '></p>
-            <p className='col-2 p-1 '>{(total?.metalWt).toFixed(2)}</p>
-            <p className='col-2 p-1  text-end'>0.452</p>
-            <p className='col-2 p-1  text-end'></p>
+            <p className='col-3 p-1 border-2'></p>
+            <p className='col-2 p-1 border-2'>{(total?.metalWt).toFixed(2)}</p>
+            <p className='col-2 p-1 border-2 text-end'>0.452</p>
+            <p className='col-2 p-1 border-2 text-end'></p>
             <p className='col-3 p-1 text-end'>{(total?.metalAmount).toFixed(2)}</p>
           </div>
         </div>
-        <div className="stoneDetailsPrint1 border-end  position-relative border-bottom">
+        <div className="stoneDetailPrint12 border-end border-2 position-relative border-bottom">
           <div className='d-flex'>
-            <p className='col-2 '></p>
-            <p className='col-2 '></p>
-            <p className='col-2  text-end'>{total?.colorStonePcs}</p>
-            <p className='col-2  text-end'>{(total?.colorStoneWt).toFixed(2)}</p>
-            <p className='col-2  text-end'></p>
-            <p className='col-2 text-end'>{(total?.colorStoneAmount).toFixed(2)}</p>
+            {/* <p className='col-2 border-2'></p>
+            <p className='col-2 border-2'></p>
+            <p className='col-2 border-2 text-end'>{total?.colorStonePcs}</p> */}
+            <p className='col-4 border-2 text-end'>{(total?.colorStoneWt).toFixed(2)}</p>
+            <p className='col-4 border-2 text-end'></p>
+            <p className='col-4 text-end'>{(total?.colorStoneAmount).toFixed(2)}</p>
           </div>
         </div>
-        <div className="otherAmountDetailPrint1 border-end  border-bottom">
+        <div className="otherAmountDetailPrint12 border-end border-2 border-bottom">
           <p className='p-1 d-flex align-items-center justify-content-end'></p>
         </div>
-        <div className="labourAmountDetailPrint1 border-end  border-bottom">
+        <div className="labourAmountDetailPrint12 border-end border-2 border-bottom">
           <div className="d-grid h-100">
             <div className='d-flex justify-content-end'>
               <div className=""><p className=' text-end'>{(total?.discountTotalAmount).toFixed(2)}</p></div>
             </div>
           </div>
         </div>
-        <div className="totalAmountDetailPrint1 border-end  border-bottom ">
+        <div className="totalAmountDetailPrint1 border-end border-2 border-bottom ">
           <p className=' text-end'>{(total?.withDiscountTaxAmount).toFixed(2)}</p>
         </div>
       </div>
       {/* summary */}
       <div className="d-flex w-100 pt-1 recordDetailPrint1">
         <div className="col-4 pe-1">
-          <p className='border-start  fw-bold text-center border-bottom  w-100 border-end border-top'>SUMMARY</p>
-          <div className="d-flex border-end ">
-            <div className="border-start col-6 border-end  position-relative summaryPadBotDetailPrint1 d-flex flex-column">
+          <p className='border-start border-2 fw-bold text-center border-bottom border-2 w-100 border-end border-top'>SUMMARY</p>
+          <div className="d-flex border-end border-2">
+            <div className="border-start col-6 border-end border-2 position-relative summaryPadBotDetailPrint1 d-flex flex-column">
               <div className="d-flex justify-content-between">
                 <p className='fw-bold p-1'>GOLD IN 24KT</p>
                 <p className='p-1'> {(summary?.gold24Kt).toFixed(2)} gm</p>
@@ -590,12 +592,12 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
                 <p className='fw-bold p-1'>STONE WT</p>
                 <p className='p-1'> {summary?.stonePcs} / {(summary?.stoneWt).toFixed(2)} cts</p>
               </div>
-              <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom bottom-0 totalLineDetailPrint1">
+              <div className="d-flex justify-content-between border-top border-2 position-absolute w-100 border-bottom bottom-0 totalLineDetailPrint1">
                 <p className='fw-bold p-1'></p>
                 <p className='p-1'></p>
               </div>
             </div>
-            <div className="col-6 position-relative summaryPadBotDetailPrint1  d-flex flex-column">
+            <div className="col-6 position-relative summaryPadBotDetailPrint1 border-2 d-flex flex-column">
               <div className="d-flex justify-content-between">
                 <p className='fw-bold p-1'>GOLD</p>
                 <p className='p-1'> {(summary?.metalAmount).toFixed(2)}</p>
@@ -620,7 +622,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
                 <p className='fw-bold p-1'>LESS</p>
                 <p className='p-1'> {(summary?.addLess).toFixed(2)}</p>
               </div>
-              <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom  bottom-0 totalLineDetailPrint1">
+              <div className="d-flex justify-content-between border-top border-2 position-absolute w-100 border-bottom  bottom-0 totalLineDetailPrint1">
                 <p className='fw-bold p-1'>TOTAL</p>
                 <p className='p-1'>{(total?.withDiscountTaxAmount).toFixed(2)}</p>
               </div>
@@ -628,8 +630,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
           </div>
         </div>
         <div className="col-2  summaryPadBotDetailPrint1 pe-1">
-          <div className='border-end  border-start border-top'>
-            <p className='fw-bold text-center border-bottom  w-100'>Diamond Detail</p>
+          <div className='border-end border-2 border-start border-top'>
+            <p className='fw-bold text-center border-bottom border-2 w-100'>Diamond Detail</p>
             {diamondDetails.length > 0 && diamondDetails.map((e, i) => {
               return e?.name ? <div className="d-flex" key={i}>
                 <div className="col-6"> <p className='p-1'>{e?.name}</p> </div>
@@ -639,24 +641,24 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
                 <div className="col-6 text-end"> <p className='p-1'>{e?.Pcs} / {(e?.Wt).toFixed(2)} cts</p> </div>
               </div>
             })}
-            <div className="d-flex justify-content-between border-top  w-100 border-bottom totalLineDetailPrint1">
+            <div className="d-flex justify-content-between border-top border-2 w-100 border-bottom totalLineDetailPrint1">
               <p className='fw-bold p-1'></p>
               <p className='p-1'></p>
             </div>
           </div>
         </div>
         <div className="col-2 pe-1">
-          <div className="border-bottom  border-top">
-            <p className='fw-bold text-center border-start border-end border-bottom  w-100 border-start'>OTHER DETAILS</p>
-            <div className="d-flex border-start border-end ">
+          <div className="border-bottom border-2 border-top">
+            <p className='fw-bold text-center border-start border-end border-bottom border-2 w-100 border-start'>OTHER DETAILS</p>
+            <div className="d-flex border-start border-end border-2">
               <div className="col-6"><p className='fw-bold p-1'>RATE IN 24KT</p></div>
               <div className="col-6"><p className="fw-bold text-end p-1">{(json0Data?.MetalRate24K).toFixed(2)}</p></div>
             </div>
           </div>
         </div>
         <div className="col-4">
-          <div className="d-flex  border-start border-end border-bottom createdByDetailPrint1 border-top">
-            <div className="col-6 border-end  d-flex align-items-end justify-content-center">Created By</div>
+          <div className="d-flex border-2 border-start border-end border-bottom createdByDetailPrint1 border-top">
+            <div className="col-6 border-end border-2 d-flex align-items-end justify-content-center">Created By</div>
             <div className="col-6 d-flex align-items-end justify-content-center">Checked By</div>
           </div>
         </div>
@@ -667,4 +669,4 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
   )
 }
 
-export default DetailPrint1
+export default DetailPrint12

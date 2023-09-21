@@ -1,3 +1,19 @@
 .inoviceprintContainer *{
     font-size: 12px;
 }
+
+.minHieght150InvoicePrint{
+    min-height: 150px;
+}
+
+.minHieght28InvoicePrint{
+    min-height: 28px;
+}
+
+.minHeight100InvoicePrint{
+    min-height: 100px;
+}
+
+.minHieght138InvoicePrint{
+    min-height: 138px;
+}

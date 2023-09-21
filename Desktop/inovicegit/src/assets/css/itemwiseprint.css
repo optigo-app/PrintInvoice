@@ -1,0 +1,100 @@
+.itemWisePrintfont * {
+    font-size: 12px;
+}
+
+.metaltypeItemWisePrint {
+    width: 48px;
+    min-width: 48px;
+}
+
+.categoryItemWisePrint {
+    width: 45px;
+    min-width: 45px;
+}
+
+.pkgItemWisePrint {
+    width: 36px;
+    min-width: 36px;
+}
+
+.dpcsItemWisePrint {
+    width: 27px;
+    min-width: 27px;
+}
+
+.gwtItemWisePrint {
+    width: 26px;
+    min-width: 26px;
+}
+
+.countItemWisePrint {
+    width: 30px;
+    min-width: 30px;
+}
+
+.rateItemWisePrint {
+    width: 30px;
+    min-width: 30px;
+}
+
+.mAmtItemWisePrint {
+    width: 35px;
+    min-width: 35px;
+}
+
+.otherAmtItemWisePrint {
+    width: 50px;
+    min-width: 50px;
+}
+
+.wastageItemWisePrint {
+    width: 42px;
+    min-width: 42px;
+}
+
+.makingItemWisePrint {
+    width: 44px;
+    min-width: 44px;
+}
+
+.labourItemWisePrint{
+    width: 48px;
+    min-width: 48px;
+}
+.percentageItemWiseprint{
+    width: 28px;
+    min-width: 28px;
+}
+
+.fineAmt {
+    width: 25px;
+    min-width: 25px;
+}
+
+.totalAmt {
+    width: 46px;
+    min-width: 46px;
+}
+
+.main_pad_item_wise_print > div{
+    padding: 3px;
+    text-align: center;
+}
+
+.main_pad_item_wise_print *, .main_pad_item_wise_print_row * {
+    font-size: 8px;
+}
+
+.main_pad_item_wise_print_row > div{
+    padding: 3px;
+}
+
+.cgstTotalItemWiseRow{
+    min-width: 729px;
+    width: 729px;
+}
+
+.cgstAmountItemWiseRow{
+    min-width: 47px;
+    width: 47px;
+}
