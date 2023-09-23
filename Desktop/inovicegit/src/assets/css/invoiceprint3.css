@@ -1,0 +1,175 @@
+* {
+    box-sizing: border-box;
+    word-break: break-all;
+}
+
+.containerinvp3 {
+    max-width: 1000px !important;
+    padding: 0 15px !important;
+    margin: 2rem auto !important;
+}
+
+.headerinvp3 {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #d8d7d7;
+    width: 20%;
+    padding: 4px;
+}
+
+.head1invp3 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header2invp3 {
+    margin-top: 4px;
+    border: 2px solid #d8d7d7;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 3px;
+}
+
+.winvp3 {
+    width: 15rem;
+}
+
+.theadinvp3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    border: 2px solid #d8d7d7;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.wp1invp3 {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tableinvp3 {
+    display: flex;
+    flex-direction: column;
+}
+
+.wp3invp3 {
+    width: 13.33%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tableinvp3 {
+    display: flex;
+    width: 70%;
+}
+
+.tbodyinvp3 {
+    display: flex;
+    justify-content: space-between;
+    border-left: 2px solid #d8d7d7;
+    border-right: 2px solid #d8d7d7;
+}
+
+.wp1tbinvp3 {
+    width: 29.5%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 3px;
+}
+
+.wp3tbinvp3 {
+    width: 13.33%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tablebodyinvp3 {
+    border-bottom: 2px solid #d8d7d7;
+}
+
+.totalinvp3 {
+    width: 30%;
+    border: 2px solid #d8d7d7;
+    margin-top: 5px;
+}
+
+.wordsinvp3 {
+    height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 2px;
+    align-items: center;
+    width: 100%;
+    border: 2px solid #d8d7d7;
+    margin-top: 5px;
+}
+
+.summaryinvp3 {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.headinvp3 {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.brtopinvp3 {
+    border-top: 2px solid #d8d7d7;
+}
+
+.brrightinvp3 {
+    border-right: 2px solid #d8d7d7;
+}
+
+.fsinvp3 {
+    font-size: 13px;
+}
+
+.descinvp3 {
+    width: 30%;
+}
+
+.discHeadinvp3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    border: 2px solid #d8d7d7;
+    margin-top: 5px;
+    font-weight: bold;
+    border-right: 0px;
+}
+
+.discBodyinvp3 {
+    display: flex;
+    flex-direction: column;
+    word-break: break-all;
+    padding: 1rem;
+    height: 67.5%;
+    border-left: 2px solid #d8d7d7;
+    border-bottom: 2px solid #d8d7d7;
+}
+
+.totspaceinvp3 {
+    height: 21.5px;
+    border-left: 2px solid #d8d7d7;
+    border-bottom: 2px solid #d8d7d7;
+}

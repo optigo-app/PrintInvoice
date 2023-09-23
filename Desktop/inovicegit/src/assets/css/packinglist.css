@@ -85,7 +85,7 @@
 }
 
 .pclinvno {
-    font-size: 15px;
+    font-size: 13px;
     display: flex;
     align-items: center;
 }
@@ -705,9 +705,11 @@
 .totdispcl {
     display: flex;
     justify-content: space-between;
-    width: 125px;
+    /* width: 125px; */
+    width: 200px;
     padding: 2px;
     margin-left: auto;
+    line-height: 12px;
 }
 
 .rowtotalpcl {
@@ -839,6 +841,8 @@
     text-align: center;
     width: 17px;
     border-right: 1px solid #989898;
+    font-size: 13px;
+    line-height: 12px;
 }
 
 .jewpclthead {
@@ -1120,6 +1124,10 @@
     align-items: center;
 }
 
+.fspcl {
+    font-size: 13px;
+}
+
 @media print {
     .btnpcl {
         display: none;
@@ -1128,11 +1136,13 @@
     .tablebodypcl {
         page-break-inside: avoid;
     }
+
     .tablebodypcl::before {
         content: "";
         display: block;
-        border-top: 1px solid #989898; /* Customize the border style as needed */
+        border-top: 1px solid #989898;
+        /* Customize the border style as needed */
     }
-    
+
 
 }

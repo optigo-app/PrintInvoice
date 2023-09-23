@@ -14,7 +14,6 @@
 
 
 
-
 .head3ivp2 {
     width: 100%;
     height: 70px;
@@ -61,11 +60,11 @@
     height: 15px;
     font-size: 15px;
 }
-
+/* 
 .lhhead1sum1 {
     line-height: 18px;
     font-size: 15px;
-}
+} */
 
 .tableSectionivp2 {
     width: 1000px;
@@ -89,7 +88,7 @@
     border-bottom: 0px;
 }
 
-.wthsum1 {
+/* .wthsum1 {
     width: 90.9px;
     display: flex;
     justify-content: center;
@@ -97,7 +96,7 @@
     font-size: 14px;
     border-right: 1px solid #e8e8e8;
     height: 100%;
-}
+} */
 
 .wthivp2 {
     width: 90.9px;
@@ -236,11 +235,11 @@
     border-left: 1px solid #e8e8e8;
 }
 
-.gsttotsum1 {
+/* .gsttotsum1 {
     display: flex;
     justify-content: flex-end;
     width: 50%;
-}
+} */
 
 .grandtotalinvp2 {
     width: 100%;
@@ -326,12 +325,12 @@
     padding: 3px;
 }
 
-.addSum1 {
+/* .addSum1 {
     font-size: 15px;
     font-weight: bold;
     margin-top: 2rem;
     padding: 3px;
-}
+} */
 
 .remarkinvp2 {
     height: 30px;

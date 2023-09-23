@@ -16,6 +16,7 @@ import PackingList from './PackingList';
 import Summary1 from './Summary1';
 import JewelleryInvoice from './JewelleryInvoice';
 import InvoicePrint2 from './InvoicePrint2';
+import InvoicePrint3 from './InvoicePrint3';
 
 const AllDesign = () => {
     const queryString = window.location.search;
@@ -45,6 +46,7 @@ const AllDesign = () => {
     {atob(printname).toLowerCase() === "summary 1" && <Summary1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "jewellery invoice" && <JewelleryInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "invoice print 2" && <InvoicePrint2 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
+    {atob(printname).toLowerCase() === "invoice print 3" && <InvoicePrint3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
   </>
   )
 }
