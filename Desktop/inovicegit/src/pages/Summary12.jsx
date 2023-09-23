@@ -5,9 +5,11 @@ import Loader from '../components/Loader';
 import { usePDF } from 'react-to-pdf';
 import html2pdf from 'html2pdf.js';
 import '../assets/css/summary12.css';
-
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 const Summary12 = ({ urls, token, invoiceNo, printName }) => {
     const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
+
     const [billPrintJson, setBillprintJson] = useState({});
     const [BillPrintJson1, setBillPrintJson1] = useState([]);
     const [summaryDetail, setSummaryDetail] = useState([]);
@@ -323,8 +325,8 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
     }
 
     const generatePdf = () => {
-        const content = document.getElementById('pdf-content'); // Replace with the ID of your content div
-        console.log(content);
+        const content = document.getElementById('divToPrint'); // Replace with the ID of your content div
+        
         if (content) {
             html2pdf(content);
         }
@@ -357,7 +359,19 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
         }
     }
 
-    return (<>{loader ? <Loader /> : <div className=''>
+    const printDocument = () => {
+        const input = document.getElementById("divToPrint");
+        html2canvas(input).then((canvas) => {
+          const imgData = canvas.toDataURL("image/png");
+          const pdf = new jsPDF();
+          pdf.addImage(imgData, "JPEG", 0, 0);
+          pdf.save("download.pdf");
+        });
+      };
+
+
+
+    return (<>{loader ? <Loader /> : <>     <button onClick={printDocument}>Print</button><div className=''>
         <div className="d-flex justify-content-end align-items-center print_sec_sum4 container summary12Container pt-4">
             <div className="form-check pe-3">
                 <input className="form-check-input border-dark" type="checkbox" checked={header} onChange={e => handleChange(e, "header")} />
@@ -383,7 +397,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                 <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
             </div>
         </div>
-        <div className=' pt-4 pb-5 summary12Container portrait_container' ref={targetRef} id="pdf-content">
+        <div className=' pt-4 pb-5 summary12Container portrait_container' ref={targetRef} id="divToPrint">
             {header && <div className="d-flex header_section_sum4 justify-content-between align-items-center pb-2 no_break">
                 <div className='address_sum4'>
                     <h1 className='h1_sum4'>{billPrintJson?.CompanyFullName}</h1>
@@ -846,7 +860,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                 </div>
             </div>
         </div>
-    </div>}
+    </div></>}
 
     </>
     )

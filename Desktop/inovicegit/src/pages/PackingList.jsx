@@ -342,7 +342,7 @@ const PackingList = ({ urls, token, invoiceNo, printName }) => {
                     <div className='pclprint'>
                         <div className='pclheader'>
                             <div className='orailpcl'><img src={headerData?.PrintLogo} alt="orail" id='orailpcl' /></div>
-                            <div className='addresspcl'>{headerData?.CompanyAddress} {headerData?.CompanyAddress2} {headerData?.CompanyCity} - {headerData?.CompanyPinCode}</div>
+                            <div className='addresspcl fspcl'>{headerData?.CompanyAddress} {headerData?.CompanyAddress2} {headerData?.CompanyCity} - {headerData?.CompanyPinCode}</div>
                             <div className='pclheaderplist'>PACKING LIST</div>
                             <div><b style={{ fontSize: "12px" }}>{headerData?.PrintRemark}</b></div>
                         </div>
@@ -356,52 +356,52 @@ const PackingList = ({ urls, token, invoiceNo, printName }) => {
                         <div className='pcltable'>
                             <div className='pcltablecontent'>
                                 <div className='pcltablehead border-start border-end border-bottom border-black'>
-                                    <div className='srnopclthead centerpcl fwboldpcl'>Sr No</div>
-                                    <div className='jewpclthead fwboldpcl'>Jewelcode</div>
+                                    <div className='srnopclthead centerpcl fwboldpcl fspcl'>Sr No</div>
+                                    <div className='jewpclthead fwboldpcl fspcl'>Jewelcode</div>
                                     <div className='diamheadpcl'>
-                                        <p className='diamhpclcol1 fwboldpcl'>Diamond</p>
+                                        <p className='diamhpclcol1 fwboldpcl fspcl'>Diamond</p>
                                         <p className='diamhpclcol'>
-                                            <p className='dcolsthpcl centerpcl fwboldpcl'>Shape</p>
-                                            <p className='dcolsthpcl centerpcl fwboldpcl'>Size</p>
-                                            <p className='dcolsthpcl centerpcl fwboldpcl'>Wt</p>
-                                            <p className='dcolsthpcl centerpcl fwboldpcl'>Rate</p>
-                                            <p className='dcolsthpcl centerpcl fwboldpcl' style={{ borderRight: "0px" }}>Amount</p>
+                                            <p className='dcolsthpcl centerpcl fwboldpcl fspcl'>Shape</p>
+                                            <p className='dcolsthpcl centerpcl fwboldpcl fspcl'>Size</p>
+                                            <p className='dcolsthpcl centerpcl fwboldpcl fspcl'>Wt</p>
+                                            <p className='dcolsthpcl centerpcl fwboldpcl fspcl'>Rate</p>
+                                            <p className='dcolsthpcl centerpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>Amount</p>
                                         </p>
                                     </div>
                                     <div className='diamheadpcl'>
-                                        <p className='diamhpclcol1 fwboldpcl'>Metal</p>
+                                        <p className='diamhpclcol1 fwboldpcl fspcl'>Metal</p>
                                         <p className='diamhpclcol'>
-                                            <p className='dcolsthpcl centerpcl fwboldpcl'>KT</p>
-                                            <p className='dcolsthpcl centerpcl fwboldpcl'>Gr Wt</p>
-                                            <p className='dcolsthpcl centerpcl fwboldpcl'>N + L</p>
-                                            <p className='dcolsthpcl centerpcl fwboldpcl'>Rate</p>
-                                            <p className='dcolsthpcl centerpcl fwboldpcl' style={{ borderRight: "0px" }}>Amount</p>
+                                            <p className='dcolsthpcl centerpcl fwboldpcl fspcl'>KT</p>
+                                            <p className='dcolsthpcl centerpcl fwboldpcl fspcl'>Gr Wt</p>
+                                            <p className='dcolsthpcl centerpcl fwboldpcl fspcl'>N + L</p>
+                                            <p className='dcolsthpcl centerpcl fwboldpcl fspcl'>Rate</p>
+                                            <p className='dcolsthpcl centerpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>Amount</p>
                                         </p>
                                     </div>
                                     <div className='shptheadpcl'>
-                                        <p className='shpcolpcl1 fwboldpcl'>Stone</p>
+                                        <p className='shpcolpcl1 fwboldpcl fspcl'>Stone</p>
                                         <p className='shpcolpclcol'>
-                                            <p className='shpthcolspcl centerpcl fwboldpcl'>Shape</p>
-                                            <p className='shpthcolspcl centerpcl fwboldpcl'>Wt</p>
-                                            <p className='shpthcolspcl centerpcl fwboldpcl'>Rate</p>
-                                            <p className='shpthcolspcl centerpcl fwboldpcl' style={{ borderRight: "0px" }}>Amount</p>
+                                            <p className='shpthcolspcl centerpcl fwboldpcl fspcl'>Shape</p>
+                                            <p className='shpthcolspcl centerpcl fwboldpcl fspcl'>Wt</p>
+                                            <p className='shpthcolspcl centerpcl fwboldpcl fspcl'>Rate</p>
+                                            <p className='shpthcolspcl centerpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>Amount</p>
                                         </p>
                                     </div>
                                     <div className='lotheadpcl'>
-                                        <p className='lbhthpcl fwboldpcl'>Labour</p>
+                                        <p className='lbhthpcl fwboldpcl fspcl'>Labour</p>
                                         <p className='lbhthpclcol'>
-                                            <p className='lopclcol centerpcl fwboldpcl'>Rate</p>
-                                            <p className='lopclcol centerpcl fwboldpcl' style={{ borderRight: "0px" }}>Amount</p>
+                                            <p className='lopclcol centerpcl fwboldpcl fspcl'>Rate</p>
+                                            <p className='lopclcol centerpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>Amount</p>
                                         </p>
                                     </div>
                                     <div className='lotheadpcl'>
-                                        <p className='lbhthpcl fwboldpcl'>Other</p>
+                                        <p className='lbhthpcl fwboldpcl fspcl'>Other</p>
                                         <p className='lbhthpclcol'>
-                                            <p className='lopclcol centerpcl fwboldpcl'>Code</p>
-                                            <p className='lopclcol centerpcl fwboldpcl' style={{ borderRight: "0px" }}>Amount</p>
+                                            <p className='lopclcol centerpcl fwboldpcl fspcl'>Code</p>
+                                            <p className='lopclcol centerpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>Amount</p>
                                         </p>
                                     </div>
-                                    <div className='pricetheadpcl fwboldpcl'>Price</div>
+                                    <div className='pricetheadpcl fwboldpcl fspcl'>Price</div>
                                 </div>
                                 {
                                     resultArray?.map((e, i) => {
@@ -409,200 +409,200 @@ const PackingList = ({ urls, token, invoiceNo, printName }) => {
                                             <>
                                                 <div className='tablebodypcl border-start border-end border-bottom border-black' key={i}>
                                                     <div className='tbodyrowpcl'>
-                                                        <div className='pcltbr1c1'>{e?.SrNo}</div>
-                                                        <div className='pcltbr1c2'>
+                                                        <div className='pcltbr1c1 fspcl'>{e?.SrNo}</div>
+                                                        <div className='pcltbr1c2 fspcl'>
                                                             <div>{e?.SrJobno}</div>
-                                                            <div className='designimgpcl'><img src={e?.DesignImage} alt="packinglist" id='designimgpclid' /></div>
+                                                            <div className='designimgpcl fspcl'><img src={e?.DesignImage} alt="packinglist" id='designimgpclid' /></div>
                                                             <div>{e?.CertificateNo}</div>
                                                             <div>{e?.HUID}</div>
                                                         </div>
                                                         {/* diamond */}
-                                                        <div className='pcltbr1c3'>
-                                                            <div className='dcolsthpcl'>
+                                                        <div className='pcltbr1c3 fspcl'>
+                                                            <div className='dcolsthpcl fspcl'>
                                                                 {
                                                                     // eslint-disable-next-line array-callback-return
                                                                     e?.diamonds?.map((ele, i) => {
-                                                                        return <p className='leftpcl'>{ele?.ShapeName}</p>;
+                                                                        return <p className='leftpcl fspcl'>{ele?.ShapeName}</p>;
                                                                         // if (ele?.StockBarcode === e?.SrJobno) {
                                                                         //     return <p>{ele?.ShapeName}</p>;
                                                                         // }
                                                                     })
                                                                 }
                                                             </div>
-                                                            <div className='dcolsthpcl'>    {
+                                                            <div className='dcolsthpcl fspcl'>    {
                                                                 // eslint-disable-next-line array-callback-return
                                                                 e?.diamonds?.map((ele, i) => {
                                                                     // if (ele?.StockBarcode === e?.SrJobno) {
-                                                                    return <p className='leftpcl'>{ele?.SizeName}</p>;
+                                                                    return <p className='leftpcl fspcl'>{ele?.SizeName}</p>;
                                                                     // }
                                                                 })
                                                             }</div>
-                                                            <div className='dcolsthpcl'>
+                                                            <div className='dcolsthpcl fspcl'>
                                                                 {
                                                                     // eslint-disable-next-line array-callback-return
                                                                     e?.diamonds?.map((ele, i) => {
-                                                                        return <p className='rightpcl'>{ele?.Wt?.toFixed(3)}</p>;
+                                                                        return <p className='rightpcl fspcl'>{ele?.Wt?.toFixed(3)}</p>;
                                                                     })
                                                                 }
 
                                                             </div>
-                                                            <div className='dcolsthpcl'>
+                                                            <div className='dcolsthpcl fspcl'>
                                                                 {
                                                                     // eslint-disable-next-line array-callback-return
                                                                     e?.diamonds?.map((ele, i) => {
-                                                                        return <p className='rightpcl'>{ele?.Rate?.toFixed(2)}</p>;
+                                                                        return <p className='rightpcl fspcl'>{ele?.Rate?.toFixed(2)}</p>;
                                                                     })
                                                                 }
                                                             </div>
-                                                            <div className='dcolsthpcl' style={{ borderRight: "0px" }}>
+                                                            <div className='dcolsthpcl fspcl' style={{ borderRight: "0px" }}>
                                                                 {
                                                                     // eslint-disable-next-line array-callback-return
                                                                     e?.diamonds?.map((ele, i) => {
-                                                                        return <p className='rightpcl'>{ele?.Amount?.toFixed(2)}</p>;
+                                                                        return <p className='rightpcl fspcl'>{ele?.Amount?.toFixed(2)}</p>;
                                                                     })
                                                                 }
                                                             </div>
                                                         </div>
                                                         {/* metal */}
-                                                        <div className='pcltbr1c3'>
-                                                            <div className='dcolsthpcl'>
+                                                        <div className='pcltbr1c3 fspcl'>
+                                                            <div className='dcolsthpcl fspcl'>
                                                                 {
                                                                     // eslint-disable-next-line array-callback-return
                                                                     e?.metal?.map((ele, i) => {
-                                                                        return <p className='leftpcl'>{((ele?.ShapeName) + " " + (ele?.QualityName))}</p>;
+                                                                        return <p className='leftpcl fspcl'>{((ele?.ShapeName) + " " + (ele?.QualityName))}</p>;
                                                                     })
                                                                 }
                                                             </div>
-                                                            <div className='dcolsthpcl rightpcl' >{e?.grosswt?.toFixed(3)}</div>
-                                                            <div className='dcolsthpcl rightpcl'>{
+                                                            <div className='dcolsthpcl rightpcl fspcl' >{e?.grosswt?.toFixed(3)}</div>
+                                                            <div className='dcolsthpcl rightpcl fspcl'>{
                                                                 (
                                                                     (+e?.NetWt?.toFixed(3)) + (+e?.LossWt?.toFixed(3))
                                                                 )?.toFixed(3)
                                                             }</div>
-                                                            <div className='dcolsthpcl'>   {
+                                                            <div className='dcolsthpcl fspcl'>   {
                                                                 // eslint-disable-next-line array-callback-return
                                                                 e?.metal?.map((ele, i) => {
-                                                                    return <p className='rightpcl'>{ele?.Rate?.toFixed(2)}</p>;
+                                                                    return <p className='rightpcl fspcl'>{ele?.Rate?.toFixed(2)}</p>;
                                                                 })
                                                             }</div>
-                                                            <div className='dcolsthpcl' style={{ borderRight: "0px" }}>
+                                                            <div className='dcolsthpcl fspcl' style={{ borderRight: "0px" }}>
                                                                 {
                                                                     // eslint-disable-next-line array-callback-return
                                                                     e?.metal?.map((ele, i) => {
-                                                                        return <p className='rightpcl'>{ele?.Amount?.toFixed(2)}</p>;
+                                                                        return <p className='rightpcl fspcl'>{ele?.Amount?.toFixed(2)}</p>;
                                                                     })
                                                                 }
                                                             </div>
                                                         </div>
                                                         {/* colorstone */}
-                                                        <div className='pcltbr1c5'>
-                                                            <div className='shpthcolspcl'>
+                                                        <div className='pcltbr1c5 fspcl'>
+                                                            <div className='shpthcolspcl fspcl'>
                                                                 {
                                                                     // eslint-disable-next-line array-callback-return
                                                                     e?.colorstone?.map((ele, i) => {
-                                                                        return <p className='leftpcl'>{ele?.ShapeName}</p>;
+                                                                        return <p className='leftpcl fspcl'>{ele?.ShapeName}</p>;
                                                                     })
                                                                 }
                                                             </div>
-                                                            <div className='shpthcolspcl'>
+                                                            <div className='shpthcolspcl fspcl'>
                                                                 {
                                                                     // eslint-disable-next-line array-callback-return
                                                                     e?.colorstone?.map((ele, i) => {
 
-                                                                        return <p className='rightpcl'>{ele?.Wt?.toFixed(3)}</p>;
-
-                                                                    })
-                                                                }
-                                                            </div>
-                                                            <div className='shpthcolspcl'>
-                                                                {
-                                                                    // eslint-disable-next-line array-callback-return
-                                                                    e?.colorstone?.map((ele, i) => {
-
-                                                                        return <p className='rightpcl'>{ele?.Rate?.toFixed(2)}</p>;
+                                                                        return <p className='rightpcl fspcl'>{ele?.Wt?.toFixed(3)}</p>;
 
                                                                     })
                                                                 }
                                                             </div>
-                                                            <div className='shpthcolspcl' style={{ borderRight: "0px" }}>
+                                                            <div className='shpthcolspcl fspcl'>
                                                                 {
                                                                     // eslint-disable-next-line array-callback-return
                                                                     e?.colorstone?.map((ele, i) => {
 
-                                                                        return <p className='rightpcl'>{ele?.Amount?.toFixed(2)}</p>;
+                                                                        return <p className='rightpcl fspcl'>{ele?.Rate?.toFixed(2)}</p>;
+
+                                                                    })
+                                                                }
+                                                            </div>
+                                                            <div className='shpthcolspcl fspcl' style={{ borderRight: "0px" }}>
+                                                                {
+                                                                    // eslint-disable-next-line array-callback-return
+                                                                    e?.colorstone?.map((ele, i) => {
+
+                                                                        return <p className='rightpcl fspcl'>{ele?.Amount?.toFixed(2)}</p>;
 
                                                                     })
                                                                 }
                                                             </div>
                                                         </div>
                                                         {/* labour */}
-                                                        <div className='pcltbr1c6'>
-                                                            <div className='lopclcol rightpcl'>{e?.MaKingCharge_Unit.toFixed(2)}</div>
+                                                        <div className='pcltbr1c6 fspcl'>
+                                                            <div className='lopclcol rightpcl fspcl'>{e?.MaKingCharge_Unit.toFixed(2)}</div>
                                                             {console.log(e)}
-                                                            <div className='lopclcol rightpcl' style={{ borderRight: "0px" }}>{e?.MakingAmount?.toFixed(2)}</div>
+                                                            <div className='lopclcol rightpcl fspcl' style={{ borderRight: "0px" }}>{e?.MakingAmount?.toFixed(2)}</div>
                                                         </div>
                                                         {/* othercharge */}
-                                                        <div className='pcltbr1c6'>
-                                                            <div className='lopclcol'></div>
-                                                            <div className='lopclcol' style={{ borderRight: "0px" }}><p className='rightpcl'>{e?.OtherCharges?.toFixed(2)}</p><p className='rightpcl'>{e?.MiscAmount?.toFixed(2)}</p></div>
+                                                        <div className='pcltbr1c6 fspcl'>
+                                                            <div className='lopclcol fspcl'></div>
+                                                            <div className='lopclcol fspcl' style={{ borderRight: "0px" }}><p className='rightpcl fspcl'>{e?.OtherCharges?.toFixed(2)}</p><p className='rightpcl fspcl'>{e?.MiscAmount?.toFixed(2)}</p></div>
 
                                                         </div>
                                                         {/* price */}
-                                                        <div className='pcltbr1c7 rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{e?.UnitCost?.toFixed(2)}</div>
+                                                        <div className='pcltbr1c7 rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>{e?.UnitCost?.toFixed(2)}</div>
                                                     </div>
-                                                    <div className='tbodyrowpcltot' style={{ borderTop: "1px solid #989898" }}>
-                                                        <div className='srpcltotrowtb' style={{ backgroundColor: "white", height: "14px" }}></div>
-                                                        <div className='jwlpcltotrowtb' style={{ backgroundColor: "white", height: "14px" }}></div>
-                                                        <div className='diapcltotrowtb'>
+                                                    <div className='tbodyrowpcltot fspcl' style={{ borderTop: "1px solid #989898" }}>
+                                                        <div className='srpcltotrowtb fspcl' style={{ backgroundColor: "white", height: "14px" }}></div>
+                                                        <div className='jwlpcltotrowtb fspcl' style={{ backgroundColor: "white", height: "14px" }}></div>
+                                                        <div className='diapcltotrowtb fspcl'>
                                                             <p className='dcolsthpcl'></p>
                                                             <p className='dcolsthpcl'></p>
-                                                            <p className='dcolsthpcl rightpcl fwboldpcl'>
+                                                            <p className='dcolsthpcl rightpcl fwboldpcl fspcl'>
                                                                 {e?.totals?.diamonds?.Wt?.toFixed(3)}
                                                             </p>
                                                             <p className='dcolsthpcl'></p>
-                                                            <p className='dcolsthpcl rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{e?.totals?.diamonds?.Amount?.toFixed(2)}</p>
+                                                            <p className='dcolsthpcl rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>{e?.totals?.diamonds?.Amount?.toFixed(2)}</p>
                                                         </div>
                                                         <div className='diapcltotrowtb'>
                                                             <p className='dcolsthpcl'></p>
-                                                            <p className='dcolsthpcl rightpcl fwboldpcl'>{e?.grosswt?.toFixed(3)}</p>
-                                                            <p className='dcolsthpcl rightpcl fwboldpcl'>{
+                                                            <p className='dcolsthpcl rightpcl fwboldpcl fspcl'>{e?.grosswt?.toFixed(3)}</p>
+                                                            <p className='dcolsthpcl rightpcl fwboldpcl fspcl'>{
                                                                 (
                                                                     (+e?.NetWt?.toFixed(3)) + (+e?.LossWt?.toFixed(3))
                                                                 )?.toFixed(3)
                                                             }</p>
                                                             <p className='dcolsthpcl'></p>
-                                                            <p className='dcolsthpcl rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{e?.totals?.metal?.Amount?.toFixed(2)}</p>
+                                                            <p className='dcolsthpcl rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>{e?.totals?.metal?.Amount?.toFixed(2)}</p>
                                                         </div>
                                                         <div className='stnpcltotrowtb'>
                                                             <p className='shpthcolspcl'></p>
-                                                            <p className='shpthcolspcl rightpcl fwboldpcl'>{e?.totals?.colorstone?.Wt?.toFixed(3)}</p>
+                                                            <p className='shpthcolspcl rightpcl fwboldpcl fspcl'>{e?.totals?.colorstone?.Wt?.toFixed(3)}</p>
                                                             <p className='shpthcolspcl'></p>
-                                                            <p className='shpthcolspcl rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{e?.totals?.colorstone?.Amount?.toFixed(2)}</p>
+                                                            <p className='shpthcolspcl rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>{e?.totals?.colorstone?.Amount?.toFixed(2)}</p>
                                                         </div>
                                                         <div className='lopcltotrowtb'>
                                                             <p className='lopclcol'></p>
 
-                                                            <p className='lopclcol rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{e?.LabourAmountSum?.toFixed(2)}</p>
+                                                            <p className='lopclcol rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>{e?.LabourAmountSum?.toFixed(2)}</p>
                                                         </div>
                                                         <div className='lopcltotrowtb'>
                                                             <p className='lopclcol'></p>
-                                                            <p className='lopclcol rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{e?.OtherChargeAmountSum?.toFixed(2)}</p>
+                                                            <p className='lopclcol rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>{e?.OtherChargeAmountSum?.toFixed(2)}</p>
                                                         </div>
-                                                        <div className='prpcltotrowtb rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{e?.UnitCost?.toFixed(2)}</div>
+                                                        <div className='prpcltotrowtb rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>{e?.UnitCost?.toFixed(2)}</div>
                                                     </div>
-                                                    <div className='tbodyrowpcltot' style={{ borderTop: "1px solid #989898", borderBottom: "1px solid #989898" }}>
-                                                        <div className='srpcltotrowtb' style={{ backgroundColor: "white", height: "13px" }}></div>
-                                                        <div className='jwlpcltotrowtb' style={{ backgroundColor: "white", height: "13px" }}></div>
-                                                        <div className='diapcltotrowtb'>
+                                                    <div className='tbodyrowpcltot fspcl' style={{ borderTop: "1px solid #989898", borderBottom: "1px solid #989898" }}>
+                                                        <div className='srpcltotrowtb fspcl' style={{ backgroundColor: "white", height: "13px" }}></div>
+                                                        <div className='jwlpcltotrowtb fspcl' style={{ backgroundColor: "white", height: "13px" }}></div>
+                                                        <div className='diapcltotrowtb fspcl'>
                                                         </div>
                                                         <div className='diapcltotrowtb'>
                                                         </div>
                                                         <div className='stnpcltotrowtb'>
                                                         </div>
                                                         <div className='lopcltotrowtb dispcltotrowtb' style={{ width: "230.5px" }}>
-                                                            <p className='discpclcs fwboldpcl'>Discount {e?.Discount}% @Total Amount</p><p className='disvalpclcs rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{e?.DiscountAmt?.toFixed(2)}</p>
+                                                            <p className='discpclcs fwboldpcl fspcl'>Discount {e?.Discount}% @Total Amount</p><p className='disvalpclcs rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>{e?.DiscountAmt?.toFixed(2)}</p>
                                                         </div>
-                                                        <div className='prpcltotrowtb rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{e?.TotalAmount?.toFixed(2)}</div>
+                                                        <div className='prpcltotrowtb rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>{e?.TotalAmount?.toFixed(2)}</div>
                                                     </div>
                                                 </div>
                                             </>
@@ -612,27 +612,27 @@ const PackingList = ({ urls, token, invoiceNo, printName }) => {
                             </div>
                             <div className='tbodyrowpcltot border-start border-end border-black' style={{ borderBottom: "1px solid black", height: "16px" }}>
                                 <div className='srpcltotrowtb'></div>
-                                <div className='jwlpcltotrowtb'><b>TOTAL</b></div>
+                                <div className='jwlpcltotrowtb fspcl'><b>TOTAL</b></div>
                                 <div className='diapcltotrowtb'>
                                     <p className='dcolsthpcl'></p>
                                     <p className='dcolsthpcl'></p>
-                                    <p className='dcolsthpcl rightpcl fwboldpcl'>
+                                    <p className='dcolsthpcl rightpcl fwboldpcl fspcl'>
                                         {mainTotal?.diamonds?.Wt?.toFixed(3)}
                                         {/* {e?.totals?.diamonds?.Wt?.toFixed(3)} */}
                                     </p>
                                     <p className='dcolsthpcl'></p>
-                                    <p className='dcolsthpcl rightpcl fwboldpcl' style={{ borderRight: "0px" }}>
+                                    <p className='dcolsthpcl rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>
                                         {mainTotal?.diamonds?.Amount?.toFixed(2)}
                                     </p>
                                 </div>
                                 <div className='diapcltotrowtb'>
                                     <p className='dcolsthpcl'></p>
-                                    <p className='dcolsthpcl rightpcl fwboldpcl'>
+                                    <p className='dcolsthpcl rightpcl fwboldpcl fspcl'>
                                         {totalgrosswt?.toFixed(3)}
                                         {/* {console.log(mainTotal?.colorstone?.Wt?.toFixed(3))} */}
                                         {/* {mainTotal?.colorstone?.Wt?.toFixed(3)} */}
                                     </p>
-                                    <p className='dcolsthpcl rightpcl fwboldpcl'>
+                                    <p className='dcolsthpcl rightpcl fwboldpcl fspcl'>
                                         {totalnetlosswt?.toFixed(3)}`
                                         {/* {`
                                 (
@@ -641,50 +641,50 @@ const PackingList = ({ urls, token, invoiceNo, printName }) => {
                             } */}
                                     </p>
                                     <p className='dcolsthpcl'></p>
-                                    <p className='dcolsthpcl rightpcl fwboldpcl' style={{ borderRight: "0px" }}>
+                                    <p className='dcolsthpcl rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>
                                         {mainTotal.metal?.Amount?.toFixed(2)}
                                     </p>
                                 </div>
                                 <div className='stnpcltotrowtb'>
                                     <p className='shpthcolspcl'></p>
-                                    <p className='shpthcolspcl rightpcl fwboldpcl'>
+                                    <p className='shpthcolspcl rightpcl fwboldpcl fspcl'>
                                         {mainTotal?.colorstone?.Wt?.toFixed(3)}
                                     </p>
                                     <p className='shpthcolspcl'></p>
-                                    <p className='shpthcolspcl rightpcl fwboldpcl' style={{ borderRight: "0px" }}>
+                                    <p className='shpthcolspcl rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>
                                         {mainTotal?.colorstone?.Amount?.toFixed(2)}
                                     </p>
 
                                 </div>
                                 <div className='lopcltotrowtb'>
                                     <p className='lopclcol'></p>
-                                    <p className='lopclcol rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{totalObj.totmakingAmt?.toFixed(2)}</p>
+                                    <p className='lopclcol rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>{totalObj.totmakingAmt?.toFixed(2)}</p>
                                 </div>
                                 <div className='lopcltotrowtb'>
                                     <p className='lopclcol'></p>
-                                    <p className='lopclcol rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{totalOtherAmount?.toFixed(2)}</p>
+                                    <p className='lopclcol rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>{totalOtherAmount?.toFixed(2)}</p>
                                     {/* <p className='lopclcol rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{totalObj.totOthAmt?.toFixed(2)}</p> */}
                                 </div>
-                                <div className='prpcltotrowtb rightpcl fwboldpcl' style={{ borderRight: "0px" }}>
+                                <div className='prpcltotrowtb rightpcl fwboldpcl fspcl' style={{ borderRight: "0px" }}>
                                     {/* {e?.UnitCost?.toFixed(2)} */}
                                     {totalObj.totalAmt?.toFixed(2)}
                                 </div>
                             </div>
                             <div className='tablebodypcl  border-start border-end border-bottom border-black'>
                                 <div className='totdispcl'>
-                                    <p className='summaryalignpcl'>Total Discount</p><p>{totalObj?.totDiscount?.toFixed(2)}</p>
+                                    <p className='summaryalignpcl fspcl'>Total Discount</p><p className='fspcl'>{totalObj?.totDiscount?.toFixed(2)}</p>
                                 </div>
                                 <div className='totdispcl'>
-                                    <p className='summaryalignpcl'>CGST @ {headerData?.CGST?.toFixed(2)}%	</p><p>{headerData?.TotalCGSTAmount?.toFixed(2)}</p>
+                                    <p className='summaryalignpcl fspcl'>CGST @ {headerData?.CGST?.toFixed(2)}%	</p><p className='fspcl'>{headerData?.TotalCGSTAmount?.toFixed(2)}</p>
                                 </div>
                                 <div className='totdispcl'>
-                                    <p className='summaryalignpcl'>SGST @ {headerData?.SGST?.toFixed(2)}%	</p><p>{headerData?.TotalSGSTAmount?.toFixed(2)}</p>
+                                    <p className='summaryalignpcl fspcl'>SGST @ {headerData?.SGST?.toFixed(2)}%	</p><p className='fspcl'>{headerData?.TotalSGSTAmount?.toFixed(2)}</p>
                                 </div>
                                 <div className='totdispcl'>
-                                    <p className='summaryalignpcl'>{headerData?.AddLess?.toFixed(2) > 0 ? 'ADD' : 'Less'}</p><p>{headerData?.AddLess?.toFixed(2)}</p>
+                                    <p className='summaryalignpcl fspcl'>{headerData?.AddLess?.toFixed(2) > 0 ? 'ADD' : 'Less'}</p><p className='fspcl'>{headerData?.AddLess?.toFixed(2)}</p>
                                 </div>
                                 <div className='totdispcl'>
-                                    <p className='summaryalignpcl'>Grand Total</p><p>{((totalObj.totalAmt) + (headerData?.TotalCGSTAmount) + (headerData?.TotalSGSTAmount) + (headerData?.AddLess))?.toFixed(2)} </p>
+                                    <p className='summaryalignpcl fspcl'>Grand Total</p><p className='fspcl'>{((totalObj.totalAmt) + (headerData?.TotalCGSTAmount) + (headerData?.TotalSGSTAmount) + (headerData?.AddLess))?.toFixed(2)} </p>
                                 </div>
                             </div>
                         </div >

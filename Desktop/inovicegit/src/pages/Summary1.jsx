@@ -323,7 +323,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName }) => {
                                 <div className='subhead2sum1'>
                                     <div className='headingsum1'>{headerData?.CompanyFullName}</div>
                                     <div className='lhhead1sum1'>{headerData?.CompanyAddress}</div>
-                                    <div className='lhhead1sum1'>{headerData?.CompanyAddress2}-{headerData?.CompanyPinCode}, {headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+                                    <div className='lhhead1 '>{headerData?.CompanyAddress2}-{headerData?.CompanyPinCode}, {headerData?.CompanyState}({headerData?.CompanyCountry})</div>
                                     <div className='lhhead1sum1'>T {headerData?.CompanyTellNo} {headerData?.CompanyTollFreeNo}</div>
                                     <div className='lhhead1sum1'>{headerData?.CompanyEmail} {headerData?.CompanyWebsite}</div>
                                 </div>
