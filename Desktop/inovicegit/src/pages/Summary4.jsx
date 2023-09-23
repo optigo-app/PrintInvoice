@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../assets/css/summary4.css";
 import { apiCall, handleImageError, handlePrint } from '../GlobalFunctions';
-import axios from 'axios';
 import Loader from '../components/Loader';
 
 const Summary4 = ({ urls, token, invoiceNo, printName }) => {

@@ -1,0 +1,54 @@
+.jewellery_invoice_container {
+    max-width: 783px !important;
+}
+
+.jewellery_invoice_container p {
+    font-size: 12px;
+    line-height: 110%;
+}
+
+.srNoJewelleryinvoice {
+    min-width: 42px;
+    width: 42px;
+}
+
+.designJewelleryInvoice {
+    min-width: 96px;
+    width: 96px;
+}
+
+.goldJewellryInvoice {
+    min-width: 145px;
+    width: 145px;
+}
+
+.QualityJewelleryInvoice {
+    min-width: 72.5px;
+    width: 72.5px;
+}
+
+.othersJewelleryinvoice {
+    min-width: 60px;
+    width: 60px;
+}
+
+.inWordsJewelleryinvoice {
+    width: 572px;
+    min-width: 572px;
+}
+
+.grandTotalJewelleryinvoice {
+    width: 177px;
+    min-width: 177px;
+}
+
+.grandTotalRupeesJewelleryInvoice {
+    min-width: 120px;
+    width: 120px;
+}
+
+
+.grandTotaltaxJewelleryInvoice {
+    min-width: 59px;
+    width: 59px;
+}

@@ -13,9 +13,11 @@ export const CapitalizeWords = (text) => {
     return word.charAt(0).toUpperCase() + word.slice(1);
   };
   const wordsArray = text.split(' ');
-  const capitalizedWordsArray = wordsArray.map(capitalizeFirstLetter);
+  const capitalizedWordsArray = wordsArray.map((word) => {
+    return word.split('-').map(capitalizeFirstLetter).join('-');
+  });
   const capitalizedText = capitalizedWordsArray.join(' ');
-  return capitalizedText;
+  return capitalizedText+" "+"Only";
 };
 
 export const apiCall = async (token, invoiceNo, printName, urls) => {
