@@ -247,6 +247,11 @@
     height: 217px;
     border-bottom: 1px solid #989898;
     word-break: break-all;
+    display: flex;
+    height: 217px;
+    border-bottom: 1px solid #989898;
+    word-break: break-all;
+    position: relative; 
 }
 
 .diaInfo13A {
@@ -267,9 +272,9 @@
     width: 152px;
     object-fit: cover;
     transform: rotate(90deg);
-    position: relative;
+    position: absolute;
     top: 8rem;
-    left: -5rem;
+    left: 18px;
 }
 
 .diaflex13A {
@@ -327,6 +332,7 @@
 .enteryBarcode13AD {
     display: flex;
     height: 243px;
+    position: relative;
 }
 
 .mat13AD {
@@ -383,9 +389,10 @@
     width: 152px;
     object-fit: cover;
     transform: rotate(90deg);
-    position: relative;
+    position: absolute;
     top: 8rem;
-    left: -4rem;
+    left: 20rem;
+
 }
 
 .f13ADuplicate {
