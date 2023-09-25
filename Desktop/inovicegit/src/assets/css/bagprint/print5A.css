@@ -243,6 +243,7 @@
     display: flex;
     height: 217px;
     border-bottom: 1px solid #989898;
+    position: relative;
 }
 
 .diaInfo5A {
@@ -261,9 +262,9 @@
     width: 175px;
     object-fit: cover;
     transform: rotate(90deg);
-    position: relative;
+    position: absolute;
     top: 95px;
-    right: 72px;
+    right: -8.5rem;
 }
 
 .diaflex5A {
@@ -318,6 +319,7 @@
 .enteryBarcode5AD {
     display: flex;
     height: 243px;
+    position: relative;
 }
 
 .mat5AD {
@@ -367,9 +369,9 @@
     width: 175px;
     object-fit: cover;
     transform: rotate(90deg);
-    position: relative;
+    position: absolute;
     top: 95px;
-    right: 72px;
+    right: -8.5rem;
 }
 .f5ADuplicate {
     font-size: 10px;

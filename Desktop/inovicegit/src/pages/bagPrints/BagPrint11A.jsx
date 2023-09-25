@@ -337,6 +337,7 @@ const BagPrint11A = ({ queries, headers }) => {
                                                         </div>
                                                     </div>
                                                     <div className='barcode11A'>
+                                                    {/* <div className=''> */}
                                                         {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd[0]?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd[0]?.serialjobno} />}</>}
                                                     </div>
                                                 </div>

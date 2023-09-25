@@ -128,6 +128,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    position: relative;
 }
 
 .coden17A {
@@ -241,9 +242,9 @@
     height: 25px;
     width: 200px;
     transform: rotate(90deg);
-    position: relative;
+    position: absolute;
     top: 95px;
-    left: -84px;
+    left: 18.3rem;
 }
 
 .barcoden17AD>.barcode_sticker {
@@ -251,19 +252,16 @@
     height: 25px;
     width: 200px;
     transform: rotate(90deg);
-    position: relative;
-    top: 95px;
-    left: -84px;
+    position: absolute;
+    top: 100px;
+    left: 18rem;
+
 }
 
 /* border-bottom: 1px solid #989898;     */
-/* .barcoden17AD{
-    height: 226px;
-    width: 36px;
-    position: relative;
-    right: 32px;
-    top: 84px;
-} */
+ .barcoden17AD{ 
+    width: 35px;
+} 
 .Dmaten17A {
     display: flex;
     justify-content: space-between;
@@ -350,6 +348,7 @@
     justify-content: space-between;
     align-items: center;
     height: 60px;
+    position: relative;
 }
 
 .stvin17A {

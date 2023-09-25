@@ -96,6 +96,13 @@ ol {
   display: none;
 }
 
+
+.d_flex {
+  display: flex;
+  box-sizing: border-box;
+  align-items: flex-start;
+}
+
 @media print {
   .no_break {
     page-break-inside: avoid;

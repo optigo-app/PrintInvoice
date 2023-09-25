@@ -214,13 +214,15 @@
     height: 20px;
     object-fit: cover;
     transform: rotate(90deg);
-    position: relative;
+    position: absolute;
     top: 110px;
-    left: -75px;
+    left: 21rem;
+
 }
 
 .tableBarcdoe16A {
     display: flex;
+    position: relative;
 }
 
 .issue16A {
