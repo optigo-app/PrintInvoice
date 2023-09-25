@@ -1,0 +1,197 @@
+.border_2 {
+    border: 2pt solid #3D3D3D;
+}
+
+.container15Aold {
+    width: 91mm;
+    height: 90mm;
+    border: 2px solid black;
+    margin-left: 1.9rem;
+    margin-top: 3rem;
+    border-radius: 8px;
+}
+
+.p15Awrap {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.firstCell {
+    border: 1.5px solid #9B9B9B;
+    /* border-top: 0px; */
+    border-left: 0px;
+    width: 62px;
+    height: 16px;
+    align-items: center;
+    padding: 1px;
+    box-sizing: border-box;
+    line-height: 7px;
+    word-break: break-all;
+}
+
+.secondCell {
+    border: 1.5px solid #9B9B9B;
+    border-left: 2px;
+    height: 16px;
+    width: 79px;
+    align-items: center;
+    /* padding: 2px; */
+    box-sizing: border-box;
+    line-height: 8px;
+    word-break: break-all;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 2px;
+}
+
+.thirdCell {
+    height: 16px;
+    width: 98.66px;
+    border: 1.5px solid #9B9B9B;
+    border-left: 0px;
+    align-items: center;
+    padding: 1px;
+    box-sizing: border-box;
+    line-height: 7px;
+    word-break: break-all;
+}
+
+.fourthCell {
+    height: 16px;
+    width: 100.66px;
+    border: 1.5px solid #9B9B9B;
+    border-left: 0px;
+    align-items: center;
+    padding: 3px;
+    box-sizing: border-box;
+    border-right: 0px;
+    line-height: 7px;
+    word-break: break-all;
+}
+
+.subFirstCell {
+    height: 16px;
+    width: 76.33px;
+    border: 1.5px solid #9B9B9B;
+    border-left: 0px;
+    align-items: center;
+    /* padding: 1px; */
+    border-top: 0px;
+    box-sizing: border-box;
+    line-height: 7px;
+    word-break: break-all;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 2px;
+}
+
+.subSecondCell {
+    height: 16px;
+    width: 59.55px;
+    border: 1.5px solid #9B9B9B;
+    border-left: 0px;
+    align-items: center;
+    /* padding: 1px; */
+    border-top: 0px;
+    box-sizing: border-box;
+    line-height: 7px;
+    word-break: break-all;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1px;
+
+}
+
+.subThirdCell {
+    height: 16px;
+    width: 61.66px;
+    border: 1.5px solid #9B9B9B;
+    border-left: 0px;
+    align-items: center;
+    /* padding: 1px; */
+    border-top: 0px;
+    border-right: 0px;
+    box-sizing: border-box;
+    line-height: 7px;
+    word-break: break-all;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 2px;
+}
+
+.aside {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 100.5%;
+}
+
+.sub-aside {
+    height: 16px;
+    width: 199.66px;
+    border-bottom: 1.5px solid #9B9B9B;
+    align-items: center;
+    padding: 1px;
+    box-sizing: border-box;
+}
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 27px;
+    width: 345.33px;
+    padding: 7px;
+    box-sizing: border-box;
+}
+
+.barcode15>.barcode_sticker {
+    height: 20px;
+    width: 100px;
+    object-fit: cover;
+    position: relative;
+    right: 10px !important;
+    top: 6px !important;
+    transform: translate(0) rotate(0deg) !important;
+    box-sizing: border-box;
+}
+
+.barcode15 {
+    position: relative;
+    padding-bottom: 12px;
+    box-sizing: border-box;
+}
+
+.imgSize15 {
+    box-sizing: border-box;
+    height: 150px !important;
+    width: 142px !important;
+    /* height: 177.99px;
+    width: 146.99px; */
+    border-right: 1.5px solid #9B9B9B;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+#img15 {
+    box-sizing: border-box;
+    height: 140px !important;
+    width: 135px !important;
+
+}
+
+@media print {
+
+    #main_container:nth-child(7n) {
+        page-break-before: always;
+    }
+
+    .pageBreak {
+        display: none;
+    }
+}

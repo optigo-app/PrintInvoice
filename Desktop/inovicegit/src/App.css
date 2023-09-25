@@ -92,6 +92,10 @@ ol {
   background: #F5F4F4;
 }
 
+.d_none{
+  display: none;
+}
+
 @media print {
   .no_break {
     page-break-inside: avoid;

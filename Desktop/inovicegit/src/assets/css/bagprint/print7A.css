@@ -1,0 +1,309 @@
+* {
+    margin: 0px;
+    box-sizing: border-box;
+    word-break: break-all;
+    line-height: 100%;
+}
+
+.container7A {
+    height: 530px;
+    width: 356px;
+    border: 2px solid black;
+    border-radius: 8px;
+    margin-left: 2rem;
+    margin-top: 2rem;
+}
+
+.head7A {
+    display: flex;
+    height: 119px;
+}
+
+
+
+.footer7A {
+    display: flex;
+    height: 38px;
+}
+
+.head7AjobInfo {
+    display: flex;
+    flex-direction: column;
+    width: 270px;
+    border-right: 1px solid #989898;
+    justify-content: space-between;
+}
+
+.head7AjobInfoJobNO {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px;
+}
+
+.party7A {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mat7AInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #989898;
+    flex-direction: column;
+    /* border-right: 1px solid #989898; */
+}
+
+.pcswt7A {
+    display: flex;
+    justify-content: space-between;
+    height: 16px;
+}
+
+.pcswt7AH {
+    display: flex;
+    justify-content: space-between;
+    height: 16px;
+    align-items: center;
+}
+
+.net7A {
+    border-right: 1px solid #989898;
+    border-bottom: 1px solid #989898;
+    width: 67.5px;
+    height: 16px;
+    display: flex;
+    /* padding-left: 4px; */
+    justify-content: center;
+    align-items: center;
+}
+
+.img7A {
+    height: 101px;
+    border-bottom: 1px solid #989898;
+    border-radius: 0 8px 0 0;
+}
+
+#img7A {
+    height: 96px !important;
+    object-fit: cover;
+    width: 80px !important;
+    border-bottom: 1px solid #989898;
+}
+
+.borderBottom7A {
+    border-bottom: 1px solid #989898;
+}
+
+.imgSize7A {
+    width: 82px;
+}
+
+.main7A {
+    display: flex;
+    height: 320px;
+    width: 352px;
+    margin-top: 8px;
+}
+
+.main7AEntry {
+    display: flex;
+    flex-direction: column;
+    width: 352px;
+}
+
+.tableHead7A {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #989898;
+    /* flex-direction: column; */
+}
+
+.tableHead7B {
+    display: flex;
+    justify-content: space-between;
+    width: 268px;
+    border-bottom: 1px solid #989898;
+    border-right: 1px solid #989898;
+    /* border-top: 1px solid #989898; */
+    /* flex-direction: column; */
+}
+
+.divide7A {
+    display: flex;
+}
+
+.tableHead7C {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 52px;
+    border-bottom: 1px solid #989898;
+    border-right: 1px solid #989898;
+    /* border-top: 1px solid #989898; */
+    /* flex-direction: column; */
+}
+
+.tableHead7CD {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-between;
+    width: 217px;
+    border-bottom: 1px solid #989898;
+    border-right: 1px solid #989898;
+    /* border-top: 1px solid #989898; */
+    /* flex-direction: column; */
+}
+
+.entryVal7A {
+    display: flex;
+}
+
+.type7A {
+    display: flex;
+    width: 269px;
+    height: 15px;
+}
+
+.size7AHeight {
+    height: 10px;
+}
+
+.type7B {
+    display: flex;
+    width: 83px;
+}
+
+.w7A {
+    width: 90px;
+    border-right: 1px solid #989898;
+    height: 15px;
+    /* border-bottom: 1px solid #989898; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* font-weight: bold; */
+    font-size: 10px;
+    line-height: 7.5px;
+    padding-left: 2px;
+}
+
+.w7A b {
+    font-size: 9px;
+}
+
+.size7A {
+    width: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #989898;
+    border-bottom: 1px solid #989898;
+    /* font-weight: bold; */
+}
+
+.dept7A {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #989898;
+    width: 52px;
+    height: 16px;
+}
+
+.dept7AE {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #989898;
+    width: 43px;
+    height: 16px;
+    border-bottom: 1px solid #989898;
+    line-height: 10px;
+}
+
+.dept7AD {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #989898;
+    width: 52px;
+    height: 16px;
+    border-bottom: 1px solid #989898;
+}
+
+.val7A {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dis7A {
+    display: flex;
+    border-right: 1px solid #989898;
+}
+
+.dflexcolumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.fs7A {
+    font-size: 10.4px;
+}
+
+.print7A {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.barcode7A {
+    position: relative;
+    top: -15px;
+    left: -52px;
+}
+
+.barcode7A img.barcode_sticker {
+    position: relative;
+    top: 11px !important;
+    right: unset !important;
+    left: 51px !important;
+    transform: translate(0) rotate(0deg) !important;
+    width: 20mm;
+    /* max-width: 20mm !important; */
+    height: 4mm !important;
+    object-fit: cover;
+}
+
+@media print {
+
+    .container7A {
+        margin-left: 2.3rem;
+    }
+
+    .container7A:nth-child(n+3) {
+        /* page-break-before: always; */
+        margin-top: 1rem;
+    }
+
+    .container7A:nth-child(n+4) {
+        /* page-break-before: always; */
+        margin-top: 1rem;
+    }
+
+    .container7A:nth-child(4n+1) {
+        page-break-before: always;
+        /* margin-top: 2rem; */
+    }
+
+    .container7A:nth-child(4n+1),
+    .container7A:nth-child(4n+2) {
+        margin-top: 2rem;
+    }
+
+
+    /* .pageBreak {
+        display: none;
+    } */
+
+}

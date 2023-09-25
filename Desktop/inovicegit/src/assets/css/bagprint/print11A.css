@@ -1,0 +1,244 @@
+*{
+    word-break: break-all;
+    box-sizing: border-box;
+    line-height: 100%;
+}
+.container11A {
+    width: 347px;
+    height: 370px;
+    border: 2px solid black;
+    border-radius: 8px;
+    margin-top: 18px;
+    margin-left: 20px;
+}
+
+.borderBottom11A {
+    border-bottom: 1px solid #989898;
+}
+
+.header11A {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #989898;
+    height: 130px;
+}
+
+.img11A {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 103px;
+}
+
+#img11A {
+    height: 120px !important;
+    width: 96px !important;
+}
+
+.jobInfo11A {
+    border-right: 1px solid #989898;
+    width: 240px;
+}
+
+.jobRow11A {
+    display: flex;
+    justify-content: space-between;
+    height: 16px;
+    border-bottom: 1px solid #989898;
+    align-items: center;
+}
+
+.jobHead11A {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 18px;
+    border-bottom: 1px solid #989898;
+}
+
+.info11A {
+    display: flex;
+    justify-content: space-between;
+    /* flex-direction: column; */
+    height: 30px;
+    border-bottom: 1px solid #989898;
+}
+
+.infoFlex11A {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex11A {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    border-right: 1px solid #989898;
+    width: 70px;
+    padding-left: 2px;
+}
+
+.border11A {
+    border-right: 1px solid #989898;
+    height: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+}
+
+.tHead11A {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 19.5px;
+    border-bottom: 1px solid #989898;
+}
+
+.tBody11A {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 16px;
+}
+
+.main11A {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 304px;
+}
+
+.tablehead11A {
+    width: 304px;
+    /* border-bottom: 1px solid #989898; */
+}
+
+.tableBody11A {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    border-right: 1px solid #989898;
+}
+
+.mainSet11A {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border-right: 1px solid #989898;
+    /* border-bottom: 1px solid #989898; */
+}
+
+.sideHead11A {
+    border-right: 1px solid #989898;
+    height: 19.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+}
+
+.sideHead11E {
+    border-right: 1px solid #989898;
+    border-bottom: 1px solid #989898;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+}
+
+.sideHead11B {
+    border-right: 1px solid #989898;
+    height: 19.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+}
+
+.sideHead11C {
+    border-right: 1px solid #989898;
+    height: 19.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+}
+
+.ins11A {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #989898;
+    width: 305px;
+}
+
+.bar11A {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ins11A1 {
+    display: flex;
+    border-bottom: 1px solid #989898;
+    height: 20px;
+}
+
+.sls11A {
+    /* border-bottom: 1px solid #989898; */
+    border-right: 1px solid #989898;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+}
+
+.tableBody11AB {
+    display: flex;
+}
+
+.c11A {
+    color: #c7c7c7cc;
+}
+
+.barcode11A {
+    position: relative;
+    top: 0;
+    right: -4px;
+}
+
+.p11A {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+}
+
+.print11A {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.insVal11A{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 2px;
+}
+@media print {
+
+
+    .container11A:nth-child(7n) {
+        
+        page-break-before: always;
+    }
+ 
+
+    .pageBreak {
+        display: none;
+    }
+
+}

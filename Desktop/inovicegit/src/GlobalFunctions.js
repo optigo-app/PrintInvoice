@@ -5,7 +5,7 @@ export const handlePrint = (e) => {
 }
 
 export const handleImageError = (e) => {
-  e.target.src = "http://zen/lib/jo/28/images/default.jpg"
+  e.target.src = "./pages/bagPrints/default.jpg"
 }
 
 export const CapitalizeWords = (text) => {
