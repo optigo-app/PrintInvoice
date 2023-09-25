@@ -1,46 +1,80 @@
 import React from 'react';
 import "../../assets/css/prints/itemwiseprint.css";
-import { handlePrint } from '../../GlobalFunctions';
+import { apiCall, handlePrint } from '../../GlobalFunctions';
 import { usePDF } from 'react-to-pdf';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-const ItemWisePrint = () => {
+const ItemWisePrint = ({token, invoiceNo, printName, urls}) => {
     const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
+    const [loader, setLoader] = useState(true);
+    const [json0Data, setjson0Data] = useState({});
+
+  const loadData = (data) => {
+    console.log(data);
+    setjson0Data(data?.BillPrint_Json[0]);
+    let resultArr = [];
+    data?.BillPrint_Json1.forEach((e, i) => {
+        let obj = {
+
+        }
+        data?.BillPrint_Json2.forEach((ele, ind) => {
+            if(e?.id === ele?.Hid){
+                console.log(e, ele);
+            }
+        })
+    });
+}
+
+    useEffect(() => {
+        const sendData = async () => {
+          try {
+            const data = await apiCall(token, invoiceNo, printName, urls);
+            loadData(data);
+            setLoader(false);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        sendData();
+      }, []);
+    
     return (
         <div className=' itemWisePrintfont'>
             {/* Print Button */}
             <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4 portrait_container">
-                <div className="form-check">
+                {/* <div className="form-check">
                     <input type="button" className="btn_white blue" value="Pdf" onClick={() => toPDF()} />
-                </div>
+                </div> */}
                 <div className="form-check">
                     <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
                 </div>
             </div>
             {/* Heading */}
-            <div ref={targetRef} className='portrait_container'>
+            <div ref={targetRef} className='portrait_container itemWisePrintContainer'>
                 <div className="bgLightPink p-2 border">
-                    <p className='fw-bold'>ITEM DETAIL PRINT</p>
+                    <p className='fw-bold'>{(atob(printName).toUpperCase())}</p>
                 </div>
                 {/* Address */}
                 <div className="border-start border-end border-bottom p-2 d-flex justify-content-between">
                     <div className="col-6">
-                        <p className="fw-bold">TO, SHAH PVT LMT</p>
-                        <p className="px-2">Adajan</p>
-                        <p className="px-2">Surat-395009</p>
-                        <p className="px-2">Phno:-000-000-0001</p>
+                        <p className="fw-bold">TO, {json0Data?.customerfirmname}</p>
+                        <p className="px-2">{json0Data?.customerregion}</p>
+                        <p className="px-2">{json0Data?.customercity}-{json0Data?.PinCode}</p>
+                        <p className="px-2">Phno:-{json0Data?.customermobileno}</p>
                     </div>
                     <div className="col-3">
                         <div className="d-flex">
                             <div className="col-6"><p>INVOICE NO</p></div>
-                            <div className="col-6"><p className='fw-bold'>SK13712022</p></div>
+                            <div className="col-6"><p className='fw-bold'>{json0Data?.InvoiceNo}</p></div>
                         </div>
                         <div className="d-flex">
                             <div className="col-6"><p>DATE</p></div>
-                            <div className="col-6"><p className='fw-bold'>14 Sep 2023</p></div>
+                            <div className="col-6"><p className='fw-bold'>{json0Data?.EntryDate}</p></div>
                         </div>
                         <div className="d-flex">
                             <div className="col-6"><p>24K RATE</p></div>
-                            <div className="col-6"><p className='fw-bold'>500</p></div>
+                            <div className="col-6"><p className='fw-bold'>{json0Data?.MetalRate24K}</p></div>
                         </div>
                     </div>
                 </div>

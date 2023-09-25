@@ -1,3 +1,7 @@
+.itemWisePrintContainer{
+    max-width: 793px;
+}
+
 .itemWisePrintfont * {
     font-size: 12px;
 }
@@ -72,8 +76,8 @@
 }
 
 .totalAmt {
-    width: 46px;
-    min-width: 46px;
+    width: 32px;
+    min-width: 32px;
 }
 
 .main_pad_item_wise_print > div{
@@ -95,6 +99,6 @@
 }
 
 .cgstAmountItemWiseRow{
-    min-width: 47px;
-    width: 47px;
+    min-width: 32px;
+    width: 32px;
 }
