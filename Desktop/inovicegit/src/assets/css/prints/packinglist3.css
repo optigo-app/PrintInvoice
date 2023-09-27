@@ -289,7 +289,7 @@
     justify-content: space-between;
     /* width: 264px; */
     width: 260px;
-    font-size: 14px;
+    font-size: 11px;
     /* width: 260pt; */
 }
 
@@ -531,7 +531,7 @@
     border-right: 1px solid #989898;
     /* width: 25.3rem; */
     /* width: 21.6rem; */
-    width: 264px;
+    width: 261px;
 }
 
 .diamondValuepcl3 {
@@ -544,7 +544,7 @@
     border-right: 1px solid #989898;
     /* width: 21.3rem; */
     /* width: 17.6rem; */
-    width: 200px;
+    width: 204px;
 }
 
 .MetalPcl3 {
@@ -567,6 +567,7 @@
     border-left: 1px solid black;
     border-right: 1px solid black;
     width: 1096px;
+    border-bottom: 1px solid #989898;
 }
 
 .amountSummarySectionpcl3 {
@@ -588,7 +589,7 @@
 }
 
 .amountSummarySectionpcl3DIAM {
-    width: 152px;
+    width: 170px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -605,13 +606,13 @@
 .fapcl3D {
     display: flex;
     justify-content: space-between;
-    width: 176.5px;
+    width: 180px;
 }
 
 .fapcl3DE {
     display: flex;
     justify-content: space-between;
-    width: 152.5px;
+    width: 170px;
 }
 .totamtpcl3{
     display: flex;
@@ -645,7 +646,7 @@
     justify-content: flex-start;
     align-items: center;
     width: 9.5rem;
-    padding-left: 1rem;
+    padding-left: 2px;
     font-size: 12px;
 }
 
@@ -674,16 +675,17 @@
     justify-content: center;
     align-items: center;
     font-weight: 700;
-    background-color: #dbd8d8;
+    background-color: #eeeded;
+    border-left: 1px solid #989898;
 }
 
 .diaDetailpcl3 {
-    width: 150px;
+    width: 167px;
     height: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #dbd8d8;
+    background-color: #eeeded;
     font-weight: 700;
     /* border-bottom: 1px solid #989898; */
 }
@@ -759,11 +761,12 @@
 
 .th7pcl3ss {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    width: 60px;
+    width: 70px;
     height: 16px;
     font-size: 12px;
+    padding-right: 2px;
 }
 
 #pcl3Img {
@@ -795,7 +798,7 @@
     font-size: 16px;
 }
 .fsdpcl3{
-    font-size: 13px;
+    font-size: 10.5px;
 }
 @media print {
     .printpcl3 {

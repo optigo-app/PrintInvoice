@@ -2,11 +2,11 @@ import axios from "axios";
 
 export const handlePrint = (e) => {
   window.print();
-}
+};
 
 export const handleImageError = (e) => {
-  e.target.src = "./pages/bagPrints/default.jpg"
-}
+  e.target.src = "./pages/bagPrints/default.jpg";
+};
 
 export const CapitalizeWords = (text) => {
   const capitalizeFirstLetter = (word) => {
@@ -17,7 +17,7 @@ export const CapitalizeWords = (text) => {
     return word.split('-').map(capitalizeFirstLetter).join('-');
   });
   const capitalizedText = capitalizedWordsArray.join(' ');
-  return capitalizedText+" "+"Only";
+  return capitalizedText + " " + "Only";
 };
 
 export const apiCall = async (token, invoiceNo, printName, urls) => {
@@ -34,4 +34,4 @@ export const apiCall = async (token, invoiceNo, printName, urls) => {
     throw error;
   }
 
-}
+};
