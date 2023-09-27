@@ -18,6 +18,7 @@ import JewelleryInvoice from './prints/JewelleryInvoice';
 import InvoicePrint2 from './prints/InvoicePrint2';
 import InvoicePrint3 from './prints/InvoicePrint3';
 import { useLocation } from 'react-router-dom';
+import TaxInvoice from './prints/TaxInvoice';
 
 const AllDesignPrint = () => {
     const queryString = window.location.search;
@@ -28,6 +29,7 @@ const AllDesignPrint = () => {
     const token = queryParams.get('tkn');
     const invoiceno = queryParams.get('invn');
     const printname = queryParams.get('pnm');
+    console.log(atob(printname).toLowerCase(), billNum, atob(urls), atob(token), atob(invoiceno));
   return (
     <>
     {atob(printname).toLowerCase() === "summary 4" && <Summary4 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
@@ -49,6 +51,7 @@ const AllDesignPrint = () => {
     {atob(printname).toLowerCase() === "invoice print 2" && <InvoicePrint2 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "invoice print 3" && <InvoicePrint3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "packing list" && <InvoicePrint3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
+    {atob(printname).toLowerCase() === "tax invoice" && <TaxInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
   </>
   )
 }

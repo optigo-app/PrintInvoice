@@ -1,5 +1,6 @@
 .itemWisePrintContainer{
     max-width: 793px;
+    zoom: 1.5;
 }
 
 .itemWisePrintfont * {
@@ -176,4 +177,17 @@
 
 .main_pad_item_wise_print_row1 > div {
     padding: 3px;
+}
+
+.printLeftitemWise {
+    margin-right: -183px;
+}
+
+@media print{
+    .itemWisePrintContainer{
+        zoom: unset;
+    }
+    .printLeftitemWise{
+        margin-right: unset;
+    }
 }

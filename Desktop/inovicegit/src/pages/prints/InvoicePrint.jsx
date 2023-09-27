@@ -222,7 +222,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName }) => {
           <p className="fw-bold">COMPANY DETAILS :</p>
           <p>GSTIN. : {json0?.Cust_CST_STATE_No}</p>
           <p>{json0?.Cust_CST_STATE} : {json0?.Cust_CST_STATE_No}</p>
-          <p>PAN NO. : EDJHF236D</p>
+          <p>PAN NO. : {json0?.Pannumber}</p>
           <p>Kindly make your payment by the name of "Orail"</p>
           <p>Payable at ST (GJ) by cheque or DD</p>
           <p>Bank Detail : Bank Account No -</p>

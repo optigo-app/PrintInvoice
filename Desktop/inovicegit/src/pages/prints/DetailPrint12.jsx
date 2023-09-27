@@ -222,7 +222,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls }) => {
           <p className='lhDetailPrint1'>{json0Data?.CompanyCity}-{json0Data?.CompanyPinCode}, {json0Data?.CompanyState}({json0Data?.CompanyCountry})</p>
           <p className='lhDetailPrint1'>T {json0Data?.CompanyTellNo}</p>
           <p className='lhDetailPrint1'>{json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}</p>
-          <p className='lhDetailPrint1'>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No} | PAN-EDJHF236D</p>
+          <p className='lhDetailPrint1'>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No} | PAN-{json0Data?.Pannumber}</p>
         </div>
         <div className="col-6">
           <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/companylogo/projectlogo.png" alt="" className='w-25 d-block ms-auto' />
@@ -348,7 +348,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls }) => {
               <div className="d-flex">
                 <div className='col'>
                   <p>{e?.designno}</p>
-                </div>
+                </div>{console.log(e)}
                 <div className='col'>
                   <p>{e?.SrJobno}</p>
                   <p>{e?.MetalColor}</p>

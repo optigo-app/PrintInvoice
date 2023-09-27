@@ -141,7 +141,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
             <p>{json0Data?.customerAddress3}</p>
             <p>{json0Data?.customercity}{json0Data?.customerpincode}</p>
             <p>{json0Data?.customeremail1}</p>
-            <p>{json0Data?.vat_cst_pan} | PAN-PAN2023</p>
+            <p>{json0Data?.vat_cst_pan} | PAN-{json0Data?.Pannumber}</p>
             <p>STATE CODE-GS</p>
           </div>
           <div className="col-4 p-1 border-end">

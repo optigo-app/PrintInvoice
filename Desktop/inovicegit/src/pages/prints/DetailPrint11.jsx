@@ -84,7 +84,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName }) => {
           <p>{json0Data?.CompanyAddress2}</p>
           <p>{json0Data?.CompanyCity} {json0Data?.CompanyPinCode} {json0Data?.CompanyState} {json0Data?.CompanyCountry}</p>
           <p>{json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}</p>
-          <p>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-EDJHF236D</p>
+          <p>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}</p>
 
         </div>
         <div className='px-1 py-2'>
