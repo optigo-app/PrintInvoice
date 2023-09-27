@@ -371,28 +371,28 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
 
 
 
-    return (<>{loader ? <Loader /> : <>     <button onClick={printDocument}>Print</button><div className=''>
+    return (<>{loader ? <Loader /> : <><div className=''>
         <div className="d-flex justify-content-end align-items-center print_sec_sum4 container summary12Container pt-4">
             <div className="form-check pe-3">
                 <input className="form-check-input border-dark" type="checkbox" checked={header} onChange={e => handleChange(e, "header")} />
-                <label className="form-check-label">
+                <label className="form-check-label pt-1">
                     With Header
                 </label>
             </div>
             <div className="form-check pe-3">
                 <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => handleChange(e, "image")} />
-                <label className="form-check-label">
+                <label className="form-check-label pt-1">
                     With Image
                 </label>
             </div>
             <div className="form-check">
                 <input className="form-check-input border-dark" type="checkbox" checked={summary} onChange={e => handleChange(e, "summary")} />
-                <label className="form-check-label">
+                <label className="form-check-label pt-1">
                     With Summary
                 </label>
             </div>
             <div className="form-check ps-3">
-                <input type="button" className="btn_white blue me-3" value="Pdf" onClick={() => pdfGenerator()} />
+                {/* <input type="button" className="btn_white blue me-3" value="Pdf" onClick={() => pdfGenerator()} /> */}
                 {/* <input type="button" className="btn_white blue me-3" value="Pdf" onClick={() => handleGeneratePdf()} /> */}
                 <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
             </div>
@@ -439,28 +439,29 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                 </div>
                 <div className="sum4_table">
                     <div className='d-flex border-bottom no_break'>
-                        <div className='p-1 ps-2 border-start border-end align-middle text-center sr_sum4'>SR#</div>
-                        <div className='p-1 border-end align-middle text-center design_sum4'>DESIGN</div>
-                        <div className='p-1 border-end align-middle text-center remark_sum4'>Remark</div>
-                        <div className='p-1 border-end align-middle text-center dia_wt_ctw_sum4'>DIA WT (ctw)</div>
-                        <div className='p-1 border-end align-middle text-center dia_rate_sum4'>DIA RATE</div>
-                        <div className='p-1 border-end align-middle text-center dia_amt_sum4'>DIA AMT</div>
-                        <div className='p-1 border-end align-middle text-center g_wt_sum4'>G WT (gm)</div>
-                        <div className='p-1 border-end align-middle text-center nwt_sum4'>NWT (gm)</div>
-                        <div className='p-1 border-end align-middle text-center other_amt_sum4'>Other AMT</div>
-                        <div className='p-1 border-end align-middle text-center cs_wt_sum4'>CS WT (ctw)</div>
-                        <div className='p-1 border-end align-middle text-center cs_rate_sum4'>CS RATE</div>
-                        <div className='p-1 border-end align-middle text-center cs_amt_sum4'>CS AMT</div>
-                        <div className='p-1 border-end align-middle text-center gold_fine_sum4'>GOLD FINE (gm)</div>
-                        <div className='p-1 border-end align-middle text-center gold_amt_sum4'>GOLD AMT</div>
-                        <div className='p-1 pe-2 border-end align-middle text-center amount_sum_4'>AMOUNT</div>
+                        <div className='p-1 fw-bold ps-2 border-start border-end align-middle text-center sr_sum4'>SR#</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center design_sum4'>DESIGN</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center remark_sum4'>Remark</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center dia_wt_ctw_sum4'>DIA WT (ctw)</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center dia_rate_sum4'>DIA RATE</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center dia_amt_sum4'>DIA AMT</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center g_wt_sum4'>G WT (gm)</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center nwt_sum4'>NWT (gm)</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center other_amt_sum4'>Other AMT</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center cs_wt_sum4'>CS WT (ctw)</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center cs_rate_sum4'>CS RATE</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center cs_amt_sum4'>CS AMT</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center gold_fine_sum4'>GOLD FINE (gm)</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center gold_amt_sum4'>GOLD AMT</div>
+                        <div className='p-1 fw-bold pe-2 border-end align-middle text-center amount_sum_4'>AMOUNT</div>
                     </div>
                     {BillPrintJson1.length > 0 && BillPrintJson1.map((e, i) => {
                         return <div className="d-flex border-bottom no_break" key={i}>
                             <div className='p-1 ps-2 sr_sum4 border-start border-end sr_sum4'> <p> {e?.SrNo} </p> </div>
                             <div className='p-1 design_sum4 border-end'>
                                 <p className="fw-bold">{e?.designno}</p>
-                                <p className='fw-bold'> {e?.SrJobno} - {e?.Categoryname} </p>
+                                <p className='fw-bold'> {e?.SrJobno} </p>
+                                <p className="fw-bold">{e?.Categoryname}</p>
                                 {image && <img src={e?.DesignImage} alt="" onError={e => handleImageError(e)} />}
                                 <p className='fw-bold'>{e?.MetalTypePurity}</p>
                                 {e?.HUID !== "" && <p className='fw-bold'> HUID No. : ${e?.HUID}</p>}
@@ -490,7 +491,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                                 return <p key={indd}>{ele?.totalAmount}</p>
                             })} </div>
                             <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt).toFixed(3)} </p> </div>
-                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && Math.round((e?.MetalAmount))} </p> </div>
+                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && (e?.MetalAmount)?.toFixed(2)} </p> </div>
                             <div className="p-1 pe-2 amount_sum_4 border-end text-end">{e?.TotalAmount}</div>
                         </div>
                     })}

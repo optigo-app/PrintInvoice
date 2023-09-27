@@ -446,9 +446,9 @@ const Summary4 = ({ urls, token, invoiceNo, printName }) => {
                             <div className="p-1 cs_amt_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
                                 return <p key={indd}>{ele?.totalAmount}</p>
                             })} </div>
-                            <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt).toFixed(3)} </p> </div>
-                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && Math.round((e?.MetalAmount))} </p> </div>
-                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{e?.TotalAmount}</div>
+                            <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt)?.toFixed(3)} </p> </div>
+                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && (e?.MetalAmount)?.toFixed(3)} </p> </div>
+                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{(e?.TotalAmount)?.toFixed(3)}</div>
                         </div>
                     })}
                     <div className="total_sec_sum4 d-flex border-bottom mb-1">
@@ -492,7 +492,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName }) => {
                                     CGST @ 1.50%
                                 </div>
                                 <div className="sgst_text_sum4">
-                                    {(1.50 / 100) * total.amount}
+                                    {((1.50 / 100) * total.amount).toFixed(3)}
                                 </div>
                             </div>
                             <div className="d-flex justify-content-between px-2">
@@ -500,7 +500,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName }) => {
                                     SGST @ 1.50%
                                 </div>
                                 <div className="sgst_text_sum4">
-                                    {(1.50 / 100) * total.amount}
+                                    {((1.50 / 100) * total.amount).toFixed(3)}
                                 </div>
                             </div>
                             <div className="d-flex justify-content-between px-2">
@@ -805,7 +805,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName }) => {
 
                                     </div>
                                     <div className="cstypeTextSum4 border-end d-flex justify-content-end pe-2 fw-bold align-items-center">
-                                        {lastColorStoneTableTotal?.clrCtw}
+                                        {(lastColorStoneTableTotal?.clrCtw)?.toFixed(3)}
                                     </div>
                                     <div className="cstypeTextSum4 border-end d-flex justify-content-end pe-2 fw-bold align-items-center">
 

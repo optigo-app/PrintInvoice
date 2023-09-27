@@ -37,11 +37,6 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName }) => {
     setJson1Data(resultAr);
     setLoader(false);
   }
-
-  const handleChange = (e) => {
-
-  }
-
   useEffect(() => {
     const sendData = async () => {
       try {

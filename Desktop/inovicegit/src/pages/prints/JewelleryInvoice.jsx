@@ -109,7 +109,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
       {/* Print Button */}
       <div className="d-flex justify-content-end align-items-center print_sec_sum4  portrait_container pt-4 pb-2">
         <div className="form-check ps-3">
-          <input type="button" className="btn_white blue me-3" value="Pdf" onClick={() => pdfGenerator()} />
+          {/* <input type="button" className="btn_white blue me-3" value="Pdf" onClick={() => pdfGenerator()} /> */}
           <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
         </div>
       </div>

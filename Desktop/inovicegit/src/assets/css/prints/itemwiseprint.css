@@ -3,7 +3,7 @@
 }
 
 .itemWisePrintfont * {
-    font-size: 12px;
+    font-size: 10px;
 }
 
 .metaltypeItemWisePrint {
@@ -11,14 +11,29 @@
     min-width: 48px;
 }
 
+.metaltypeItemWisePrint1 {
+    width: 60px;
+    min-width: 60px;
+}
+
 .categoryItemWisePrint {
-    width: 45px;
-    min-width: 45px;
+    width: 51px;
+    min-width: 51px;
+}
+
+.categoryItemWisePrint1 {
+    width: 120px;
+    min-width: 120px;
 }
 
 .pkgItemWisePrint {
-    width: 36px;
-    min-width: 36px;
+    width: 30px;
+    min-width: 30px;
+}
+
+.pkgItemWisePrint1 {
+    width: 35px;
+    min-width: 35px;
 }
 
 .dpcsItemWisePrint {
@@ -31,9 +46,19 @@
     min-width: 26px;
 }
 
+.gwtItemWisePrint1 {
+    width: 40px;
+    min-width: 40px;
+}
+
 .countItemWisePrint {
     width: 30px;
     min-width: 30px;
+}
+
+.countItemWisePrint1 {
+    width: 35px;
+    min-width: 35px;
 }
 
 .rateItemWisePrint {
@@ -41,12 +66,27 @@
     min-width: 30px;
 }
 
+.rateItemWisePrint1 {
+    width: 50px;
+    min-width: 50px;
+}
+
 .mAmtItemWisePrint {
     width: 35px;
     min-width: 35px;
 }
 
+.mAmtItemWisePrint1 {
+    width: 50px;
+    min-width: 50px;
+}
+
 .otherAmtItemWisePrint {
+    width: 50px;
+    min-width: 50px;
+}
+
+.otherAmtItemWisePrint1 {
     width: 50px;
     min-width: 50px;
 }
@@ -55,6 +95,7 @@
     width: 42px;
     min-width: 42px;
 }
+
 
 .makingItemWisePrint {
     width: 44px;
@@ -65,9 +106,19 @@
     width: 48px;
     min-width: 48px;
 }
+
+.labourItemWisePrint1 {
+    width: 57px;
+    min-width: 57px;
+}
+
 .percentageItemWiseprint{
     width: 28px;
     min-width: 28px;
+}
+.percentageItemWiseprint1 {
+    width: 33px;
+    min-width: 33px;
 }
 
 .fineAmt {
@@ -75,30 +126,54 @@
     min-width: 25px;
 }
 
+.fineAmt1 {
+    width: 40px;
+    min-width: 40px;
+}
+
 .totalAmt {
     width: 32px;
     min-width: 32px;
 }
 
+.totalAmt1 {
+    width: 65px;
+    min-width: 65px;
+}
+
 .main_pad_item_wise_print > div{
-    padding: 3px;
+    padding: 1px;
     text-align: center;
 }
 
-.main_pad_item_wise_print *, .main_pad_item_wise_print_row * {
+.main_pad_item_wise_print *, .main_pad_item_wise_print_row *, .main_pad_item_wise_print_row1 * {
     font-size: 8px;
 }
 
 .main_pad_item_wise_print_row > div{
-    padding: 3px;
+    padding: 1px;
 }
 
 .cgstTotalItemWiseRow{
-    min-width: 729px;
-    width: 729px;
+    min-width: 95.8%;
+    width: 95.8%;
+}
+
+.cgstTotalItemWiseRow1 {
+    min-width: 91.43%;
+    width: 91.43%;
 }
 
 .cgstAmountItemWiseRow{
     min-width: 32px;
     width: 32px;
+}
+
+.cgstAmountItemWiseRow1 {
+    min-width: 8.6%;
+    width: 8.6%;
+}
+
+.main_pad_item_wise_print_row1 > div {
+    padding: 3px;
 }
