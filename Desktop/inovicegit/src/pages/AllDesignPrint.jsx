@@ -43,11 +43,12 @@ const AllDesignPrint = () => {
     {(atob(printname).toLowerCase() === "item wise print" || atob(printname).toLowerCase() === "item wise print1" || atob(printname).toLowerCase() === "item wise print2") && <ItemWisePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "detail print 12" && <DetailPrint12 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "export declaration form" && <ExportDeclarationForm billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
-    {atob(printname).toLowerCase() === "packing list" && <PackingList billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
+    {/* {atob(printname).toLowerCase() === "packing list" && <PackingList billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>} */}
     {atob(printname).toLowerCase() === "summary 1" && <Summary1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "jewellery invoice" && <JewelleryInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "invoice print 2" && <InvoicePrint2 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
     {atob(printname).toLowerCase() === "invoice print 3" && <InvoicePrint3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
+    {atob(printname).toLowerCase() === "packing list" && <InvoicePrint3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}/>}
   </>
   )
 }
