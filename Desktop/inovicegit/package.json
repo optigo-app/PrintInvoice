@@ -31,6 +31,7 @@
     "react-to-pdf": "^1.0.1",
     "redux-saga": "^1.2.3",
     "satori": "^0.10.7",
+    "to-words": "^3.6.1",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },

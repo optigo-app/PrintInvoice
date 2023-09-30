@@ -371,7 +371,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
 
 
 
-    return (<>{loader ? <Loader /> : <><div className=''>
+    return (<>{loader ? <Loader /> : <div className='zoom1_5_summary12'><div className=''>
         <div className="d-flex justify-content-end align-items-center print_sec_sum4 container summary12Container pt-4">
             <div className="form-check pe-3">
                 <input className="form-check-input border-dark" type="checkbox" checked={header} onChange={e => handleChange(e, "header")} />
@@ -443,16 +443,16 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                         <div className='p-1 fw-bold border-end align-middle text-center design_sum4'>DESIGN</div>
                         <div className='p-1 fw-bold border-end align-middle text-center remark_sum4'>Remark</div>
                         <div className='p-1 fw-bold border-end align-middle text-center dia_wt_ctw_sum4'>DIA WT (ctw)</div>
-                        <div className='p-1 fw-bold border-end align-middle text-center dia_rate_sum4'>DIA RATE</div>
-                        <div className='p-1 fw-bold border-end align-middle text-center dia_amt_sum4'>DIA AMT</div>
-                        <div className='p-1 fw-bold border-end align-middle text-center g_wt_sum4'>G WT (gm)</div>
-                        <div className='p-1 fw-bold border-end align-middle text-center nwt_sum4'>NWT (gm)</div>
-                        <div className='p-1 fw-bold border-end align-middle text-center other_amt_sum4'>Other AMT</div>
-                        <div className='p-1 fw-bold border-end align-middle text-center cs_wt_sum4'>CS WT (ctw)</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center dia_rate_sum4'><p>DIA </p> <p>RATE</p></div>
+                        <div className='p-1 fw-bold border-end align-middle text-center dia_amt_sum4'><p>DIA </p><p>AMT</p></div>
+                        <div className='p-1 fw-bold border-end align-middle text-center g_wt_sum4'><p>G WT</p><p>(gm)</p> </div>
+                        <div className='p-1 fw-bold border-end align-middle text-center nwt_sum4'><p>NWT</p><p>(gm)</p> </div>
+                        <div className='p-1 fw-bold border-end align-middle text-center other_amt_sum4'><p>Other </p><p>AMT</p></div>
+                        <div className='p-1 fw-bold border-end align-middle text-center cs_wt_sum4'><p>CS WT</p><p>(ctw)</p></div>
                         <div className='p-1 fw-bold border-end align-middle text-center cs_rate_sum4'>CS RATE</div>
                         <div className='p-1 fw-bold border-end align-middle text-center cs_amt_sum4'>CS AMT</div>
-                        <div className='p-1 fw-bold border-end align-middle text-center gold_fine_sum4'>GOLD FINE (gm)</div>
-                        <div className='p-1 fw-bold border-end align-middle text-center gold_amt_sum4'>GOLD AMT</div>
+                        <div className='p-1 fw-bold border-end align-middle text-center gold_fine_sum4'><p>GOLD </p><p>FINE </p><p>(gm)</p></div>
+                        <div className='p-1 fw-bold border-end align-middle text-center gold_amt_sum4'><p>GOLD </p><p>AMT</p></div>
                         <div className='p-1 fw-bold pe-2 border-end align-middle text-center amount_sum_4'>AMOUNT</div>
                     </div>
                     {BillPrintJson1.length > 0 && BillPrintJson1.map((e, i) => {
@@ -492,7 +492,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                             })} </div>
                             <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt).toFixed(3)} </p> </div>
                             <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && (e?.MetalAmount)?.toFixed(2)} </p> </div>
-                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{e?.TotalAmount}</div>
+                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{(e?.TotalAmount).toFixed(2)}</div>
                         </div>
                     })}
                     <div className="total_sec_sum4 d-flex border-bottom mb-1 no_break">
@@ -509,7 +509,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                         <div className="p-1 cs_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {Math.round(total.csAmt)} </p> </div>
                         <div className="p-1 gold_fine_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {(total.goldFine).toFixed(3)} </p> </div>
                         <div className="p-1 gold_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {Math.round(total.goldAmt)} </p> </div>
-                        <div className="p-1 pe-2 amount_sum_4 border-end text-end bg_total_sum4 fw-bold"> <p> {total.amount} </p> </div>
+                        <div className="p-1 pe-2 amount_sum_4 border-end text-end bg_total_sum4 fw-bold"> <p> {(total.amount).toFixed(2)} </p> </div>
                     </div>
                     <div className="d-flex mb-1 no_break">
                         <div className="sgst_sec_sum4 border me-1">
@@ -535,7 +535,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                                     CGST @ 1.50%
                                 </div>
                                 <div className="sgst_text_sum4">
-                                    {(1.50 / 100) * total.amount}
+                                    {((billPrintJson?.CGST / 100) * total.amount).toFixed(2)}
                                 </div>
                             </div>
                             <div className="d-flex justify-content-between px-2">
@@ -543,7 +543,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                                     SGST @ 1.50%
                                 </div>
                                 <div className="sgst_text_sum4">
-                                    {(1.50 / 100) * total.amount}
+                                    {((billPrintJson?.SGST / 100) * total.amount).toFixed(2)}
                                 </div>
                             </div>
                             <div className="d-flex justify-content-between px-2">
@@ -861,7 +861,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                 </div>
             </div>
         </div>
-    </div></>}
+    </div></div>}
 
     </>
     )

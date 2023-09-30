@@ -1,0 +1,150 @@
+.exportPrintContainer{
+    max-width: 762px;
+    padding: 0;
+    margin: 0 auto;
+    zoom: 2;
+}
+
+.withImageExport{
+    padding-top: 2px;
+}
+
+.exportPrintContainer * {
+    font-size: 8px;
+    word-break: break-word;
+}
+.rowExport {
+    padding: 1px;
+}
+
+.srNoExport{
+    width: 15px;    
+    min-width: 15px;
+}
+
+.itemExport{
+    width: 38px;    
+    min-width: 38px;
+}
+
+.ktColExport{
+    width: 16px;    
+    min-width: 16px;
+}
+
+.qtyExport{
+    width: 28px;    
+    min-width: 28px;
+}
+
+.grossExport{
+    width: 35px;    
+    min-width: 35px;
+}
+
+.netExport{
+    width: 30px;    
+    min-width: 30px;
+}
+
+.wastageExport{
+    width: 30px;    
+    min-width: 30px;
+}
+
+.totalGoldExport{
+    width: 36px;    
+    min-width: 36px;
+}
+
+.goldGmExport{
+    width: 35px;    
+    min-width: 35px;
+}
+
+.goldValueExport{
+    width: 36px;
+    min-width: 36px;
+}
+
+.diaShapeExport{
+    width: 35px;    
+    min-width: 35px;
+}
+
+.diamondColorExport{
+    width: 44px;    
+    min-width: 44px;
+}
+
+.diaPcsExport{
+    width: 19px;    
+    min-width: 19px;
+}
+
+
+ .diaCtsExport{
+    width: 29px;    
+    min-width: 29px;
+}
+
+.diaRateExport{
+    width: 29px;
+    min-width: 29px;
+}
+
+.diaValueExport{
+    width: 33px;    
+    min-width: 33px;
+}
+
+.c2csPcsExport{
+    width: 19px;    
+    min-width: 19px;
+}
+
+ .c2csCtsExport{
+    width: 22px;    
+    min-width: 22px;
+}
+
+.c2csRateExport{
+    width: 29px;    
+    min-width: 29px;
+}
+
+.c2csValueExport{
+    width: 27px;    
+    min-width: 27px;
+}
+
+.totalCtsExport{
+    width: 28px;    
+    min-width: 28px;
+}
+
+.totalValExport{
+    width: 38px;    
+    min-width: 38px;
+}
+
+.enamelWtExport{
+    width: 30px;    
+    min-width: 30px;
+}
+
+.labourValueExport{
+    width: 39px;    
+    min-width: 39px;
+}
+
+.totalFobExport{
+    width: 40px;    
+    min-width: 40px;
+}
+
+@media print {
+    .exportPrintContainer{
+        zoom: unset;
+    }
+}

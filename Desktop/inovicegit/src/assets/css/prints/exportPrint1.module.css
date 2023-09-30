@@ -1,0 +1,58 @@
+.containerExportPrint1 {
+    max-width: 798px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.containerExportPrint1 * {
+    font-size: 14px;
+    line-height: 120%;
+}
+
+.srNoExport1 {
+    width: 35px;
+    min-width: 35px;
+}
+
+.discriptionExport1 {
+    width: 122px;
+    min-width: 122px;
+}
+
+.designExport1 {
+    width: 85px;
+    min-width: 85px;
+}
+
+.QuantityPcsExport1 {
+    width: 115px;
+    min-width: 115px;
+}
+
+.HSNCODEExport1 {
+    width: 96px;
+    min-width: 96px;
+}
+
+.GrossWtExport1 {
+    width: 94px;
+    min-width: 94px;
+}
+
+.RateExport1 {
+    width: 102px;
+    min-width: 102px;
+}
+
+.AmountExport1 {
+    width: 117px;
+    min-width: 117px;
+}
+
+.rowExport1 > div{
+    padding: 3px;
+}
+
+.minHeight_24_8ExportPrint1{
+    min-height: 24.8px;
+}

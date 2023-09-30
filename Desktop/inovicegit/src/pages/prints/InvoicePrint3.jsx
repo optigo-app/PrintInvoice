@@ -3,8 +3,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import "../../assets/css/prints/invoiceprint3.css";
 import { CapitalizeWords } from '../../GlobalFunctions';
 import convertor from "number-to-words";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 
 const InvoicePrint3 = ({ urls, token, invoiceNo, printName }) => {
     const [headerData, setHeaderData] = useState();
@@ -377,8 +375,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName }) => {
     useEffect(() => {
         loadData();
     }, []);
-
-    ;
 
     // const printDocument = () => {
     //     const input = document.getElementById("divToPrint");

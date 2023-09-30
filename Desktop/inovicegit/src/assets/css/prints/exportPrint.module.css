@@ -1,0 +1,11 @@
+.containerExportPrint{
+    max-width: 798px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.img_container{
+    display: grid;
+    grid-template-columns: repeat(4, 23.5%);
+    grid-gap: 2%;
+}

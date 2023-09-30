@@ -2,6 +2,10 @@
     max-width: 788px !important;
 }
 
+.zoom1_5_summary12{
+    zoom: 1.5;
+}
+
 .summary12Container .remark_sum4 {
     min-width: 80px;
     width: 80px;
@@ -50,4 +54,10 @@
 
 .summary12Container .height34Sum4 {
     height: 25px;
+}
+
+@media print{
+    .zoom1_5_summary12{
+        zoom: unset;
+    }
 }

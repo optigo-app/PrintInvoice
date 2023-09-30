@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/estimatePrint.css";
-import { apiCall, handleImageError, handleImageLoad, handlePrint } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint } from '../../GlobalFunctions';
 import Loader2 from '../../components/Loader2';
 import Loader from '../../components/Loader';
 
