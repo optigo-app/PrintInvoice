@@ -42,11 +42,11 @@ const BagPrint16A = ({ queries, headers }) => {
                     let datas = await GetData(objs);
                     const orderDatef = formatDate(datas?.rd[0]?.OrderDate);
                     const promiseDatef = formatDate(datas?.rd[0]?.promisedate);
-          
+
                     datas?.rd?.map((e) => {
-                      e.orderDatef = orderDatef;
-                      e.promiseDatef = promiseDatef;
-                      // 
+                        e.orderDatef = orderDatef;
+                        e.promiseDatef = promiseDatef;
+                        // 
                     });
                     // let p_tag = { "SerialJobno": `${url}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
                     // let jsonString = JSON.stringify(p_tag);
@@ -251,7 +251,7 @@ const BagPrint16A = ({ queries, headers }) => {
     // };
 
     const handleImageLoad = (eve, i, dataLen) => {
-        
+
         // if (i === dataLen - 1) {
         //     setTimeout(window.print(), 5000);
         // }
@@ -273,10 +273,6 @@ const BagPrint16A = ({ queries, headers }) => {
                                     if (e?.additional?.chdata?.length === 0) {
                                         return (
                                             <>
-                                                {/* {Array.from({ length: queries?.pageStart }, (_, index) => (
-                                                    index > 0 && <div key={index} className="containerprint16A" style={{ border:"unset" }}></div>
-                                                ))} */}
-
                                                 <div className='containerprint16A' key={i}>
                                                     <div className='head16A'>
                                                         <div className='header16A'>
@@ -316,7 +312,7 @@ const BagPrint16A = ({ queries, headers }) => {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className='img16A'><img src={e.additional.img !== "" ? e.additional.img : require("../../assets/img/default.jpg")} alt="" id="img16A" className="img16Aid" preload="auto" onError={e => handleImageError(e)} onLoad={e => handleImageLoad(e, i, data?.length)} loading="eager"  /></div>
+                                                            <div className='img16A'><img src={e.additional.img !== "" ? e.additional.img : require("../../assets/img/default.jpg")} alt="" id="img16A" className="img16Aid" preload="auto" onError={e => handleImageError(e)} onLoad={e => handleImageLoad(e, i, data?.length)} loading="eager" /></div>
                                                         </div>
                                                     </div>
                                                     <div className='main16A'>
