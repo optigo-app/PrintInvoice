@@ -489,18 +489,18 @@ const Summary4 = ({ urls, token, invoiceNo, printName }) => {
                         <div className="sgst_part_sum4 border">
                             <div className="d-flex justify-content-between px-2 pt-1">
                                 <div className="sgst_text_sum4">
-                                    CGST @ 1.50%
+                                    CGST @ {billPrintJson?.CGST}%
                                 </div>
                                 <div className="sgst_text_sum4">
-                                    {((1.50 / 100) * total.amount).toFixed(3)}
+                                    {((billPrintJson?.CGST / 100) * total.amount).toFixed(3)}
                                 </div>
                             </div>
                             <div className="d-flex justify-content-between px-2">
                                 <div className="sgst_text_sum4">
-                                    SGST @ 1.50%
+                                    SGST @ {billPrintJson?.SGST}%
                                 </div>
                                 <div className="sgst_text_sum4">
-                                    {((1.50 / 100) * total.amount).toFixed(3)}
+                                    {((billPrintJson?.SGST / 100) * total.amount).toFixed(3)}
                                 </div>
                             </div>
                             <div className="d-flex justify-content-between px-2">

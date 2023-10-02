@@ -11,20 +11,20 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName }) => {
     const toWords = new ToWords();
 
     const loadData = (data) => {
-        console.log(data);
         let arr = [];
         data?.BillPrint_Json1.forEach((e, i) => {
             let findIndex = arr.findIndex((ele, ind) => ele?.designno === e?.designno);
             if(findIndex === -1){
                 let obj = {...e};
                 obj.quantityPcs = 1;
-                arr.push(e);
+                arr.push(obj);
             }else{
-                arr[findIsndex].grosswt += e?.grosswt;
-                arr[findIsndex].grosswt += e?.grosswt;
+                arr[findIndex].grosswt += e?.grosswt;
+                arr[findIndex].TotalAmount += e?.TotalAmount;
+                arr[findIndex].quantityPcs += 1;
             }
         })
-        setData(data?.BillPrint_Json1);
+        setData(arr);
         setJson0Data(data?.BillPrint_Json[0])
     }
 
@@ -118,10 +118,10 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName }) => {
                     <div className={`${style.srNoExport1} border-end`}><p className='text-center '>{e?.SrNo}</p></div>
                     <div className={`${style.discriptionExport1} border-end`}><p className='text-center '>{e?.Categoryname} ({e?.MetalPurity})</p></div>
                     <div className={`${style.designExport1} border-end`}><p className='text-center '>{e?.designno}</p></div>
-                    <div className={`${style.QuantityPcsExport1} border-end`}><p className='text-center '>Quantity Pcs</p></div>
+                    <div className={`${style.QuantityPcsExport1} border-end`}><p className='text-center '>{e?.quantityPcs}</p></div>
                     <div className={`${style.HSNCODEExport1} border-end`}><p className='text-center '>{json0Data?.HSN_No}</p></div>
                     <div className={`${style.GrossWtExport1} border-end`}><p className='text-center '>{e?.grosswt}</p></div>
-                    <div className={`${style.RateExport1} border-end`}><p className='text-center '>Rate</p></div>
+                    <div className={`${style.RateExport1} border-end`}><p className='text-center '>{e?.TotalAmount}</p></div>
                     <div className={`${style.AmountExport1} `}><p className='text-center'>{(e?.TotalAmount).toFixed(2)}</p></div>
                 </div>
             })}

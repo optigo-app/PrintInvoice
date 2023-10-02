@@ -1,11 +1,11 @@
 import axios from "axios";
-
+import img from "./assets/img/default.jpg"
 export const handlePrint = (e) => {
   window.print();
 };
 
 export const handleImageError = (e) => {
-  e.target.src = "./pages/bagPrints/default.jpg";
+  e.target.src = img;
 };
 
 export const CapitalizeWords = (text) => {

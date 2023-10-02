@@ -33,7 +33,6 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
     cPcs: 0,
     cWt: 0,
     cAmt: 0,
-
   });
 
   const loadData = (data) => {
@@ -68,7 +67,6 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
         obj.srJobArr = srJobArr;
         arr.push(obj);
       } else {
-        console.log(e);
         arr[findIndex].count += 1;
         arr[findIndex].grosswt += e?.grosswt;
         arr[findIndex].NetWt += e?.NetWt;
@@ -85,9 +83,11 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
     arr.forEach((e, i) => {
       let obj = { ...e };
       obj.FineWt = 0;
+      obj.OtherAmount = 0;
       data?.BillPrint_Json2.forEach((ele, ind) => {
         obj.srJobArr.map((elem, index) => {
           // if (obj?.id === ele?.Hid) {
+            // obj.OtherAmount
             if(elem === ele?.StockBarcode){
             if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
               obj.metalPcs += ele?.Pcs;
@@ -103,7 +103,6 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
               totals.cAmt += ele?.Amount;
               obj.colorStoneWt += ele?.Wt;
               obj.colorStoneAmt += ele?.Amount;
-              obj.FineWt += ele?.FineWt;
             } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
               // diamond
               obj.diamondPcs += ele?.Pcs;
@@ -112,7 +111,6 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
               totals.dAmt += ele?.Amount;
               obj.diamondWt += ele?.Wt;
               obj.diamondAmt += ele?.Amount;
-              obj.FineWt += ele?.FineWt;
             }
           }
         })
@@ -409,7 +407,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
 
                   <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'otherAmtItemWisePrint' : 'otherAmtItemWisePrint1'} border-end`}>
                     <p className="fw-bold text-end">
-                      {e?.MiscAmount !== 0 && (e?.MiscAmount).toFixed(2)}
+                      {e?.OtherCharges !== 0 && (e?.OtherCharges).toFixed(2)}
                     </p>
                   </div>
 
@@ -435,6 +433,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
 
                   <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'fineAmt' : 'fineAmt1'} border-end`}>
                     <p className="fw-bold text-end">
+                      {console.log(e?.FineWt)}
                       {e?.FineWt !== 0 && e?.FineWt}
                     </p>
                   </div>
@@ -449,14 +448,14 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
           {/* Tax */}
           <div className={`bgLightPink d-flex border-start border-end border-bottom ${atob(printName).toLowerCase() === "item wise print" ? 'main_pad_item_wise_print_row' : 'main_pad_item_wise_print_row1'}`}>
             <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'cgstTotalItemWiseRow' : 'cgstTotalItemWiseRow1'}  border-end`}>
-              <p className="fw-bold text-end pb-1">CGST @ {json0Data?.CGST}%</p>
-              <p className="fw-bold text-end pb-1">SGST @ {json0Data?.SGST}%</p>
-              <p className="fw-bold text-end pb-1">LESS @ {json0Data?.AddLess}%</p>
+              <p className="fw-bold text-end pb-1 pe-1">CGST @ {json0Data?.CGST}%</p>
+              <p className="fw-bold text-end pb-1 pe-1">SGST @ {json0Data?.SGST}%</p>
+              <p className="fw-bold text-end pb-1 pe-1">LESS @ {json0Data?.AddLess}%</p>
             </div>
             <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'cgstAmountItemWiseRow' : 'cgstAmountItemWiseRow1'}`}>
-              <p className="fw-bold text-end">{total?.cgst}</p>
-              <p className="fw-bold text-end">{total?.sgst}</p>
-              <p className="fw-bold text-end">{total?.less}</p>
+              <p className="fw-bold text-end pb-1 pb-1">{(total?.cgst)?.toFixed(2)}</p>
+              <p className="fw-bold text-end pb-1 pb-1">{(total?.sgst)?.toFixed(2)}</p>
+              <p className="fw-bold text-end pb-1 pb-1">{(total?.less)?.toFixed(2)}</p>
             </div>
           </div>
           {/* Total */}
