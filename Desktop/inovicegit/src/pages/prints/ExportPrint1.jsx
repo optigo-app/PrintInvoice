@@ -98,7 +98,7 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
             {/* title */}
             <div className="border-start border-end border-bottom p-2">
-                <p className="fw-bold text-center fs-6">GOLD STUDDED JEWELLERY </p>
+                <p className="fw-bold text-center fs-6">{json0Data?.PrintHeadLabel} </p>
             </div>
             {/* table heading */}
             <div className={`d-flex border-bottom border-start border-end ${style.rowExport1}`}>

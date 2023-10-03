@@ -376,7 +376,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
             <div className="printJL">
               <div className="headlineJL">
-                <b style={{ fontSize: "15px" }}>JEWELLERY INVOICE PRINT</b>
+                <b style={{ fontSize: "15px" }}>{headerData?.PrintHeadLabel}</b>
               </div>
               <div className="headJL">
                 <div className="headJLContent">

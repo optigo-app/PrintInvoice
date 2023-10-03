@@ -355,7 +355,7 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
                 {headerData?.CompanyAddress} {headerData?.CompanyAddress2}{" "}
                 {headerData?.CompanyCity} - {headerData?.CompanyPinCode}
               </div>
-              <div className="pclheaderplist">PACKING LIST</div>
+              <div className="pclheaderplist">{headerData?.PrintHeadLabel}</div>
               <div>
                 <b style={{ fontSize: "12px" }}>{headerData?.PrintRemark}</b>
               </div>

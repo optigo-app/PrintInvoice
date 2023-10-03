@@ -105,7 +105,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
             {/* headline retail print */}
             <div className='headlinepRetailPrint w-100 mt-4 py-1 px-2'>
                 <b>
-                    RETAIL INVOICE
+                    {jsonData1?.PrintHeadLabel}
                 </b>
             </div>
             {/* company address */}

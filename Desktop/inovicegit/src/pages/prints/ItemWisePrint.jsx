@@ -198,7 +198,8 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         >
           {/* Heading */}
           <div className="bgLightPink p-2 border">
-            <p className="fw-bold">{atob(printName).toUpperCase()}</p>
+            {/* <p className="fw-bold">{atob(printName).toUpperCase()}</p> */}
+            <p className="fw-bold">{json0Data?.PrintHeadLabel}</p>
           </div>
           {/* Address */}
           <div className="border-start border-end border-bottom p-2 d-flex justify-content-between">

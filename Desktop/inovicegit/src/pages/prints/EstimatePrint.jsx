@@ -267,7 +267,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
             {/* print name */}
             <div className="border p-1 mt-5" >
-                <p className='text-uppercase fw-bold'>Estimate</p>
+                <p className='text-uppercase fw-bold'>{json1Data?.PrintHeadLabel}</p>
             </div>
             {/* customer detail */}
             <div className="py-2 d-flex justify-content-between px-1" >

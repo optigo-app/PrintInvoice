@@ -17,7 +17,6 @@ import Summary1 from './prints/Summary1';
 import JewelleryInvoice from './prints/JewelleryInvoice';
 import InvoicePrint2 from './prints/InvoicePrint2';
 import InvoicePrint3 from './prints/InvoicePrint3';
-import { useLocation } from 'react-router-dom';
 import TaxInvoice from './prints/TaxInvoice';
 import RoughEstimate from './prints/RoughEstimate';
 import JewelleryInvoicePrint from './prints/JewelleryInvoicePrint';
@@ -66,8 +65,6 @@ const AllDesignPrint = () => {
       {atob(printname).toLowerCase() === "jewellery invoice" && <JewelleryInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {atob(printname).toLowerCase() === "invoice print 2" && <InvoicePrint2 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}  evn={evn}/>}
       {atob(printname).toLowerCase() === "invoice print3" && <InvoicePrint3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}  evn={evn}/>}
-      {atob(printname).toLowerCase() === "packing list" && <PackingList billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}  evn={evn}/>}
-      {atob(printname).toLowerCase() === "packing list" && <InvoicePrint3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}  evn={evn}/>}
       {atob(printname).toLowerCase() === "tax invoice" && <TaxInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}  evn={evn}/>}
       {atob(printname).toLowerCase() === "rough estimate" && <RoughEstimate billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname}  evn={evn}/>}
       {atob(printname).toLowerCase() === "export" && <Export billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn}/>}

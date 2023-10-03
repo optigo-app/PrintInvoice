@@ -216,7 +216,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       </div>
       {/* header line*/}
       <div className="jewelleryPackingList mb-2 mt-2 recordDetailPrint1">
-        <h1 className='fs-4 p-2 fw-bold text-white'>JEWELLERY PACKAGING LIST</h1>
+    
+        <h1 className='fs-4 p-2 fw-bold text-white'>{json0Data?.PrintHeadLabel}</h1>
       </div>
       {/* header */}
       <div className="d-flex align-items-center pb-2 border-bottom  recordDetailPrint1">

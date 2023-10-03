@@ -81,7 +81,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
         </div>
       </div>
       {/* heading */}
-      <div className="bgGrey text-uppercase fs-4 fw-bold p-2 text-white mb-2 no_break">Tax Invoice</div>
+      <div className="bgGrey text-uppercase fs-4 fw-bold p-2 text-white mb-2 no_break">{json0?.PrintHeadLabel}</div>
       {/* address */}
       <div className="w-100 d-flex justify-content-between py-2 no_break">
         <div className='col-10 p-1 border border-2 border-white p-1'>

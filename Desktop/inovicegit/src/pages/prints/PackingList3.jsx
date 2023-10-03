@@ -514,7 +514,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
             <div className="containerPCL3">
               <div className="headlinepcl3">
-                <b style={{ fontSize: "15px" }}>JEWELLERY PACKAGING LIST</b>
+                <b style={{ fontSize: "15px" }}>{headerData?.PrintHeadLabel}</b>
               </div>
               <div className="headpcl3">
                 <div className="headpcl3Content">

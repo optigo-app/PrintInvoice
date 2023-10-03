@@ -150,7 +150,7 @@ const TaxInvoice1 = ({  urls, token, invoiceNo, printName, evn  }) => {
                 <p className='ps-1'>PAN-EDJHF236D</p>
             </div>
             <div className="taxinvoice1Head fw-bold text-center mb-1">
-                TAX INVOICE
+                {BillPrint_Json?.PrintHeadLabel}
             </div>
             <div className="headerInvoice1 d-flex border mb-1 border-2 border-black">
                 <div className="header_textInvoice1 border-end p-1">
