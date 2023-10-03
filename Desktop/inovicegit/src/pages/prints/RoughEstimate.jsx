@@ -5,9 +5,9 @@ import { useState } from "react";
 import "../../assets/css/prints/roughestimate.css";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
+import { taxGenrator } from "./../../GlobalFunctions";
 
 const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
-  
   const [json, setJson] = useState({});
   const [json1, setJson1] = useState([]);
   const [json2, setJson2] = useState([]);
@@ -20,6 +20,9 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
   const [TotalCost, setTotalCost] = useState(0);
   const [TotalMAMT, setTotalMAMT] = useState(0);
   const [TotalFWT, setTotalFWT] = useState(0);
+  const [TotalPKG, setTotalPKG] = useState(0);
+  const [taxTotal, setTaxTotal] = useState([]);
+  const [finalAmount, setFinalAmount] = useState(0);
 
   const organizeData = (arr, arr1, arr2) => {
     let FineArr = [];
@@ -47,7 +50,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
       });
       blankArr.push(obj);
     });
-    console.log(blankArr);
+
     let mainTotal = {
       diamonds: {
         Wt: 0,
@@ -247,6 +250,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
         len: group?.length,
         Wastage: 0,
         FineWt: 0,
+        PKG: 0,
       };
 
       group.forEach((item) => {
@@ -262,16 +266,24 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
         sums.MetalAmt += item.MetalAmount;
         sums.Wastage = item?.Wastage;
         sums.FineWt += item?.FineWt;
+        sums.PKG += item?.PackageWt;
       });
       return sums;
     });
     const sumOfLen = result?.reduce((acc, e) => acc + (e?.len || 0), 0);
-    const sumofAmt = result?.reduce((acc, e) => acc + (e?.TotalAmount || 0), 0);
+    let sumofAmt = result?.reduce((acc, e) => acc + (e?.TotalAmount || 0), 0);
     const sumofMAmt = result?.reduce((acc, e) => acc + (e?.MetalAmt || 0), 0);
     const sumofFWT = result?.reduce((acc, e) => acc + (e?.FineWt || 0), 0);
-
-    console.table(result);
-    console.log("Fine Wt Total : ", sumofFWT);
+    const sumofPKG = result?.reduce((acc, e) => acc + (e?.PKG || 0), 0);
+    let allTax = taxGenrator(arr, sumofAmt);
+    sumofAmt += arr?.AddLess;
+    allTax?.length > 0 &&
+      allTax?.forEach((e) => {
+        sumofAmt += +e?.amount;
+      });
+    setTaxTotal(allTax);
+    setFinalAmount(sumofAmt);
+    setTotalPKG(sumofPKG);
     setTotalFWT(sumofFWT);
     setTotalMAMT(sumofMAmt);
     setGroupedLen(sumOfLen);
@@ -378,11 +390,15 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
                   DESCRIPTION
                 </div>
                 <div className="d-flex fw-bold r1RE">
-                  <p className="c1RE brbRE d-flex justify-content-end ">PKG WT</p>
+                  <p className="c1RE brbRE d-flex justify-content-end ">
+                    PKG WT
+                  </p>
                   <p className="c1RE d-flex justify-content-end">G WT</p>
                 </div>
                 <div className="d-flex fw-bold r1RE">
-                  <p className="c1RE brbRE d-flex justify-content-end">NET WT</p>
+                  <p className="c1RE brbRE d-flex justify-content-end">
+                    NET WT
+                  </p>
                   <p className="c1RE d-flex justify-content-end">FINE WT / </p>
                   <p className="c1RE d-flex justify-content-end">M AMT</p>
                 </div>
@@ -394,7 +410,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
               </div>
               {groupedArr?.map((e, i) => {
                 return (
-                  <>
+                  
                     <div className="tbodyRE" key={i}>
                       <div className="d-flex c1QTYRE fs-3">{e?.len}</div>
                       <div className="d-flex qtdRE">
@@ -410,7 +426,9 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
                         <p className="fs-3 fw-bold">{e?.Categoryname}</p>
                       </div>
                       <div className="d-flex r1RE">
-                        <p className="c1RE brbRE fs-3 d-flex justify-content-end">0.000</p>
+                        <p className="c1RE brbRE fs-3 d-flex justify-content-end">
+                          {e?.PKG?.toFixed(3)}
+                        </p>
                         <p className="c1RE fw-bold align-item-end fs-3 d-flex justify-content-end">
                           {e?.grosswt?.toFixed(3)}
                         </p>
@@ -441,7 +459,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
                         </p>
                       </div>
                     </div>
-                  </>
+                
                 );
               })}
               <div
@@ -464,8 +482,12 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
                   <p className="fs-2"></p>
                 </div>
                 <div className="d-flex r1RE">
-                  <p className="c1RE brbRE fs-3 d-flex justify-content-end">0.000</p>
-                  <p className="c1RE fw-bold fs-3 d-flex justify-content-end">{GrossWt?.toFixed(3)}</p>
+                  <p className="c1RE brbRE fs-3 d-flex justify-content-end">
+                    {TotalPKG?.toFixed(2)}
+                  </p>
+                  <p className="c1RE fw-bold fs-3 d-flex justify-content-end">
+                    {GrossWt?.toFixed(3)}
+                  </p>
                 </div>
                 <div className="d-flex r1RE">
                   <div className="c1RE brbRE endRE fs-3">
@@ -495,21 +517,20 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
             </div>
             <div style={{ borderBottom: "1px solid black" }}>
               <div className="grandTotalRE">
-                <div className="d-flex justify-content-between wgtRE">
-                  <div className="fs-3 w-50 d-flex justify-content-end">
-                    CGST@{json?.CGST?.toFixed(2)}%
-                  </div>
-                  <div className="fs-3 w-50 d-flex justify-content-end">
-                    {json?.TotalCGSTAmount?.toFixed(2)}
-                  </div>
-                </div>
-                <div className="d-flex justify-content-between wgtRE">
-                  <div className="fs-3 w-50 d-flex justify-content-end">
-                    SGST@{json?.SGST?.toFixed(2)}%
-                  </div>
-                  <div className="fs-3 w-50 d-flex justify-content-end">
-                    {json?.TotalSGSTAmount?.toFixed(2)}
-                  </div>
+                <div className="d-flex flex-column justify-content-between wgtRE">
+                  {taxTotal?.length > 0 &&
+                    taxTotal?.map((e, i) => {
+                      return (
+                        <div className="d-flex justify-content-between" key={i}>
+                          <div className="d-flex justify-content-end w-50 fs-3">
+                            {e?.name} {e?.per}
+                          </div>
+                          <div className="d-flex justify-content-end w-50 fs-3">
+                            {e?.amount}
+                          </div>
+                        </div>
+                      );
+                    })}
                 </div>
                 <div className="d-flex justify-content-between wgtRE">
                   <div className="fs-3 w-50 d-flex justify-content-end">
@@ -529,12 +550,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
                     TOTAL
                   </div>
                   <div className="fs-3 d-flex justify-content-end w-50 text-black">
-                    {(
-                      TotalCost +
-                      json?.TotalCGSTAmount +
-                      json?.TotalSGSTAmount +
-                      json?.AddLess
-                    )?.toFixed(2)}
+                    {finalAmount?.toFixed(2)}
                   </div>
                 </div>
               </div>

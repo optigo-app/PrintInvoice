@@ -81,7 +81,6 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName }) => {
       });
       blankArr.push(obj);
     });
-    // console.log(blankArr);
     let mainTotal = {
       diamonds: {
         Wt: 0,
@@ -360,7 +359,6 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName }) => {
     let words = CapitalizeWords(convertor.toWords(Math.round(totamt)));
     setInWords(words);
   };
-  console.log(headerData);
   useEffect(() => {
     loadData();
   }, []);
@@ -689,7 +687,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName }) => {
                       <div className="d-flex flex-column justify-content-between px-1">
                         {taxTotal?.map((e, i) => {
                           return (
-                            <div className="d-flex justify-content-between px-1">
+                            <div className="d-flex justify-content-between px-1" key={i}>
                               <div className="w-50 d-flex justify-content-end align-items-center pe-1 brrJL">
                                 {e?.name} {e?.per}
                               </div>

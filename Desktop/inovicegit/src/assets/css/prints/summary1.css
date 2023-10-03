@@ -49,7 +49,7 @@
 
 .invoicehead3sum1 {
     font-size: 18px;
-    width: 18%;
+    width: 22%;
     display: flex;
     justify-content: space-between;
 }
@@ -395,8 +395,8 @@
 
 #imgDySum1 {
     height: 45px;
-    width: 75px;
-    padding-right: 1rem;
+    width: 65px;
+    
 }
 .fs13sum1{
     font-size: 13px;

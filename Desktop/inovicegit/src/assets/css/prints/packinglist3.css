@@ -790,7 +790,7 @@
 }
 
 .printpcl3 {
-    position: fixed;
+    position: relative;
     right: 0;
     user-select: none;
 }
