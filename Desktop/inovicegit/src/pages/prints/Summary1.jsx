@@ -2,8 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/summary1.css";
 import {
+  apiCall,
   CapitalizeWords,
   handleImageError,
+  isObjectEmpty,
   taxGenrator,
 } from "../../GlobalFunctions";
 import convertor from "number-to-words";
@@ -29,8 +31,10 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [mainObj, setMainObj] = useState("");
   const [taxTotal, setTaxTotal] = useState([]);
   const [finalAmount, setFinalAmount] = useState(0);
+  const [msg, setMsg] = useState("");
+  const [loader, setLoader] = useState(true);
 
-  const organizeData = (arr1, arr2, headerDatas) => {
+  const organizeData = (headerDatas, arr1, arr2) => {
     let totgrosswt = 0;
     let totnetlosswt = 0;
     let totallbrAmt = 0;
@@ -244,36 +248,78 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
     setMainObj(newObj);
   };
 
-  async function loadData() {
-    try {
-      const body = {
-        token: token,
-        invoiceno: invoiceNo,
-        printname: printName,
-        Eventname: evn
-      };
+  // async function loadData() {
+  //   try {
+  //     const body = {
+  //       token: token,
+  //       invoiceno: invoiceNo,
+  //       printname: printName,
+  //       Eventname: evn
+  //     };
 
-      const data = await axios.post(urls, body);
-      if (data?.data?.Status == 200) {
-        let datas = data?.data?.Data;
-        setResponsejson(datas);
-        setHeaderData(datas?.BillPrint_Json[0]);
-        setDynamicList1(datas?.BillPrint_Json1);
-        setDynamicList2(datas?.BillPrint_Json2);
-        organizeData(
-          datas?.BillPrint_Json1,
-          datas?.BillPrint_Json2,
-          datas?.BillPrint_Json[0]
-        );
-        countCategorySubCategory(datas?.BillPrint_Json1);
-      } else {
-        console.log(data?.data?.Status, data?.data?.Message);
-      }
+  //     const data = await axios.post(urls, body);
+  //     if (data?.data?.Status == 200) {
+  //       let datas = data?.data?.Data;
+  //       setResponsejson(datas);
+  //       setHeaderData(datas?.BillPrint_Json[0]);
+  //       setDynamicList1(datas?.BillPrint_Json1);
+  //       setDynamicList2(datas?.BillPrint_Json2);
+  //       organizeData(
+  //         datas?.BillPrint_Json1,
+  //         datas?.BillPrint_Json2,
+  //         datas?.BillPrint_Json[0]
+  //       );
+  //       countCategorySubCategory(datas?.BillPrint_Json1);
+  //     } else {
+  //       console.log(data?.data?.Status, data?.data?.Message);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+  async function loadData(data) {
+    
+    try {
+      setHeaderData(data?.BillPrint_Json[0]);
+      setDynamicList1(data?.BillPrint_Json1);
+      setDynamicList2(data?.BillPrint_Json2);
+      organizeData(
+        data?.BillPrint_Json[0],
+        data?.BillPrint_Json1,
+        data?.BillPrint_Json2
+      );
+      countCategorySubCategory(data?.BillPrint_Json1);
+      setLoader(false);
     } catch (error) {
       console.log(error);
     }
   }
 
+  useEffect(() => {
+    const sendData = async () => {
+      try {
+        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        if (data?.Status === "200") {
+          let isEmpty = isObjectEmpty(data?.Data);
+          if (!isEmpty) {
+            loadData(data?.Data);
+            
+            setLoader(false);
+          } else {
+            setLoader(false);
+            setMsg("Data Not Found");
+          }
+        } else {
+          setLoader(false);
+          setMsg(data?.Message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    sendData();
+  }, []);
+  
   const findKeyValuePair = (array, firstName, secondName) => {
     const counts = {};
     array.forEach((item) => {
@@ -298,10 +344,10 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
 
     setSummaryDetail(countsArray);
 
-    let arr1 = countsArray.slice(0, 3);
-    let arr2 = countsArray.slice(3, 6);
-    let arr3 = countsArray.slice(6, 9);
-    let arr4 = countsArray.slice(9, 12);
+    let arr1 = countsArray?.slice(0, 3);
+    let arr2 = countsArray?.slice(3, 6);
+    let arr3 = countsArray?.slice(6, 9);
+    let arr4 = countsArray?.slice(9, 12);
     let obj = {
       firstArr: arr1,
       secondArr: arr2,
@@ -311,17 +357,19 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
     setSummaryDetail(obj);
   };
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  // useEffect(() => {
+  //   loadData();
+  // }, []);
 
   return (
     <>
-      {resultArray?.length === 0 ? (
+      {loader ? (
         <Loader />
       ) : (
         <>
-          <div className="btnpcl">
+        {
+            msg === '' ? <>
+            <div className="btnpcl">
             <Button />
           </div>
           <div className="summary1PrintSum1">
@@ -786,6 +834,9 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
             </div>
           </div>
+            </> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
+        }
+          
         </>
       )}
     </>

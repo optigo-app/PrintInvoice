@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import "../../assets/css/prints/invoiceprint3.css";
-import { CapitalizeWords } from "../../GlobalFunctions";
+import { apiCall, CapitalizeWords, isObjectEmpty } from "../../GlobalFunctions";
 import convertor from "number-to-words";
 import { taxGenrator } from "./../../GlobalFunctions";
 import Loader from "../../components/Loader";
@@ -20,37 +20,38 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [LOM, setLOM] = useState([]);
   const [descArr, setDescArr] = useState("");
   const [taxTotal, setTaxTotal] = useState([]);
+  const [msg, setMsg] = useState("");
+  const [loader, setLoader] = useState(true);
+  // async function loadData() {
+  //   try {
+  //     const body = {
+  //       token: token,
+  //       invoiceno: invoiceNo,
+  //       printname: printName,
+  //       Eventname: evn,
+  //     };
 
-  async function loadData() {
-    try {
-      const body = {
-        token: token,
-        invoiceno: invoiceNo,
-        printname: printName,
-        Eventname: evn,
-      };
-
-      const data = await axios.post(urls, body);
-      if (data?.data?.Status == 200) {
-        let datas = data?.data?.Data;
-        // setResponsejson(datas);
-        setHeaderData(datas?.BillPrint_Json[0]);
-        setJson1(datas?.BillPrint_Json1);
-        setJson2(datas?.BillPrint_Json2);
-        organizeData(
-          datas?.BillPrint_Json[0],
-          datas?.BillPrint_Json1,
-          datas?.BillPrint_Json2
-        );
-        // countCategorySubCategory(datas?.BillPrint_Json1);
-        // countCategories(datas?.BillPrint_Json1);
-      } else {
-        console.log(data?.data?.Status, data?.data?.Message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //     const data = await axios.post(urls, body);
+  //     if (data?.data?.Status == 200) {
+  //       let datas = data?.data?.Data;
+  //       // setResponsejson(datas);
+  //       setHeaderData(datas?.BillPrint_Json[0]);
+  //       setJson1(datas?.BillPrint_Json1);
+  //       setJson2(datas?.BillPrint_Json2);
+  //       organizeData(
+  //         datas?.BillPrint_Json[0],
+  //         datas?.BillPrint_Json1,
+  //         datas?.BillPrint_Json2
+  //       );
+  //       // countCategorySubCategory(datas?.BillPrint_Json1);
+  //       // countCategories(datas?.BillPrint_Json1);
+  //     } else {
+  //       console.log(data?.data?.Status, data?.data?.Message);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   const organizeData = (json, json1, json2) => {
     let resultArr = [];
@@ -379,199 +380,257 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
     const sentence = groupNamesArray.join(", ");
     setDescArr(sentence);
   };
+  async function loadData(data) {
+    try {
+      setHeaderData(data?.BillPrint_Json[0]);
+      setJson1(data?.BillPrint_Json1);
+      setJson2(data?.BillPrint_Json2);
+      organizeData(
+        data?.BillPrint_Json[0],
+        data?.BillPrint_Json1,
+        data?.BillPrint_Json2
+      );
+      // countCategorySubCategory(data?.BillPrint_Json1);
 
+      setLoader(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(() => {
-    loadData();
+    const sendData = async () => {
+      try {
+        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        if (data?.Status === "200") {
+          let isEmpty = isObjectEmpty(data?.Data);
+          if (!isEmpty) {
+            loadData(data?.Data);
+            setLoader(false);
+          } else {
+            setLoader(false);
+            setMsg("Data Not Found");
+          }
+        } else {
+          setLoader(false);
+          setMsg(data?.Message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    sendData();
   }, []);
+  // useEffect(() => {
+  //   loadData();
+  // }, []);
 
   return (
     <>
-      {groupedArr?.length === 0 ? (
+      {loader ? (
         <Loader />
       ) : (
         <>
-          <div className="containerinvp3" id="divToPrint">
-            <div className="headinvp3">
-              <div className="headerinvp3">
-                <div className="head1invp3">
-                  <p className="fw-bold fsinvp3">BILL NO</p>
-                  <p className="fsinvp3">{headerData?.PrintRemark}</p>
-                </div>
-                <div className="head1invp3">
-                  <p className="fw-bold fsinvp3">DATE</p>
-                  <p className="fsinvp3">{headerData?.EntryDate}</p>
-                </div>
-                <div className="head1invp3">
-                  <p className="fw-bold fsinvp3">HSN</p>
-                  <p className="fsinvp3">{headerData?.HSN_No}</p>
-                </div>
-              </div>
-            </div>
-            <div className="header2invp3">
-              <div>
-                <p className="fw-bold fs-6">{headerData?.customerfirmname}</p>
-                <p className="fsinvp3">{headerData?.customerstreet}</p>
-                <p className="fsinvp3">{headerData?.customerregion}</p>
-                <p className="fsinvp3">
-                  {headerData?.customercity} {headerData?.customerpincode}
-                </p>
-                <p className="fsinvp3">
-                  Mobile : {headerData?.customermobileno}
-                </p>
-              </div>
-              <div>
-                <div className="d-flex justify-content-between winvp3">
-                  <p className="fw-bold fsinvp3">
-                    {headerData?.vat_cst_pan?.split("|")?.[0]}
-                  </p>
-                  {/* <p className='fw-bold'>{headerData?.vat_cst_pan?.split("|")?.[1]}</p> */}
-                  {/* <p className='w-50 fw-bold fsinvp3'>GSTIN :</p><p className='w-50 fsinvp3'>{headerData?.vat_cst_pan?.split("-")[1]}</p> */}
-                </div>
-                <p className="fw-bold fsinvp3">
-                  {headerData?.vat_cst_pan?.split("|")?.[1]}
-                </p>
-                <div className="d-flex justify-content-between winvp3">
-                  <p className="w-50 fw-bold fsinvp3">
-                    {headerData?.Cust_CST_STATE} :
-                  </p>
-                  <p className="w-50 fsinvp3">
-                    {headerData?.Cust_CST_STATE_No}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="d-flex">
-              <div className="descinvp3">
-                <div className="discHeadinvp3">DESCRIPTION</div>
-                <div className="discBodyinvp3">
-                  <div>
-                    <p>{descArr}</p>
+          {msg === "" ? (
+            <>
+              <div className="containerinvp3" id="divToPrint">
+                <div className="headinvp3">
+                  <div className="headerinvp3">
+                    <div className="head1invp3">
+                      <p className="fw-bold fsinvp3">BILL NO</p>
+                      <p className="fsinvp3">{headerData?.PrintRemark}</p>
+                    </div>
+                    <div className="head1invp3">
+                      <p className="fw-bold fsinvp3">DATE</p>
+                      <p className="fsinvp3">{headerData?.EntryDate}</p>
+                    </div>
+                    <div className="head1invp3">
+                      <p className="fw-bold fsinvp3">HSN</p>
+                      <p className="fsinvp3">{headerData?.HSN_No}</p>
+                    </div>
                   </div>
                 </div>
-                <div className="totspaceinvp3"></div>
-              </div>
-              <div className="tableinvp3">
-                <div className="theadinvp3">
-                  {/* <p className='wp1invp3 fsinvp3' style={{ borderRight: "2px solid #d8d7d7" }}>DESCRIPTION</p> */}
-                  <p
-                    className="wp1invp3 fsinvp3"
-                    style={{ justifyContent: "flex-start", paddingLeft: "3px" }}
-                  >
-                    DETAIL
-                  </p>
-                  <p className="wp3invp3 fsinvp3">WEIGHT</p>
-                  <p className="wp3invp3 fsinvp3">RATE</p>
-                  <p className="wp3invp3 fsinvp3">AMOUNT</p>
+                <div className="header2invp3">
+                  <div>
+                    <p className="fw-bold fs-6">
+                      {headerData?.customerfirmname}
+                    </p>
+                    <p className="fsinvp3">{headerData?.customerstreet}</p>
+                    <p className="fsinvp3">{headerData?.customerregion}</p>
+                    <p className="fsinvp3">
+                      {headerData?.customercity} {headerData?.customerpincode}
+                    </p>
+                    <p className="fsinvp3">
+                      Mobile : {headerData?.customermobileno}
+                    </p>
+                  </div>
+                  <div>
+                    <div className="d-flex justify-content-between winvp3">
+                      <p className="fw-bold fsinvp3">
+                        {headerData?.vat_cst_pan?.split("|")?.[0]}
+                      </p>
+                      {/* <p className='fw-bold'>{headerData?.vat_cst_pan?.split("|")?.[1]}</p> */}
+                      {/* <p className='w-50 fw-bold fsinvp3'>GSTIN :</p><p className='w-50 fsinvp3'>{headerData?.vat_cst_pan?.split("-")[1]}</p> */}
+                    </div>
+                    <p className="fw-bold fsinvp3">
+                      {headerData?.vat_cst_pan?.split("|")?.[1]}
+                    </p>
+                    <div className="d-flex justify-content-between winvp3">
+                      <p className="w-50 fw-bold fsinvp3">
+                        {headerData?.Cust_CST_STATE}
+                      </p>
+                      <p className="w-50 fsinvp3">
+                        {headerData?.Cust_CST_STATE_No}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="tablebodyinvp3">
-                  {
-                    // json1?.map((e, i) => {
-                    groupedArr?.map((e, i) => {
-                      return (
-                        
+                <div className="d-flex">
+                  <div className="descinvp3">
+                    <div className="discHeadinvp3">DESCRIPTION</div>
+                    <div className="discBodyinvp3">
+                      <div>
+                        <p>{descArr}</p>
+                      </div>
+                    </div>
+                    <div className="totspaceinvp3"></div>
+                  </div>
+                  <div className="tableinvp3">
+                    <div className="theadinvp3">
+                      {/* <p className='wp1invp3 fsinvp3' style={{ borderRight: "2px solid #d8d7d7" }}>DESCRIPTION</p> */}
+                      <p
+                        className="wp1invp3 fsinvp3"
+                        style={{
+                          justifyContent: "flex-start",
+                          paddingLeft: "3px",
+                        }}
+                      >
+                        DETAIL
+                      </p>
+                      <p className="wp3invp3 fsinvp3">WEIGHT</p>
+                      <p className="wp3invp3 fsinvp3">RATE</p>
+                      <p className="wp3invp3 fsinvp3">AMOUNT</p>
+                    </div>
+                    <div className="tablebodyinvp3">
+                      {
+                        // json1?.map((e, i) => {
+                        groupedArr?.map((e, i) => {
+                          return (
+                            <div className="tbodyinvp3" key={i}>
+                              <p className="wp1tbinvp3 fsinvp3">
+                                {e?.MasterManagement_DiamondStoneTypeid === 4
+                                  ? e?.ShapeName + " " + e?.QualityName
+                                  : e?.MasterManagement_DiamondStoneTypeName}
+                              </p>
+                              <p className="wp3tbinvp3 fsinvp3">
+                                {e?.Wt?.toFixed(3)}
+                              </p>
+                              <p className="wp3tbinvp3 fsinvp3">{e?.Rate}</p>
+                              <p className="wp3tbinvp3 fsinvp3">
+                                {e?.Amount?.toFixed(2)}
+                              </p>
+                            </div>
+                          );
+                        })
+                      }
+                      {LOM.map((e, i) => {
+                        return (
                           <div className="tbodyinvp3" key={i}>
-                            <p className="wp1tbinvp3 fsinvp3">
-                              {e?.MasterManagement_DiamondStoneTypeid === 4
-                                ? e?.ShapeName + " " + e?.QualityName
-                                : e?.MasterManagement_DiamondStoneTypeName}
-                            </p>
+                            {/* <p className='wp1tbinvp3 brrightinvp3 fsinvp3'></p> */}
+                            {e?.ShapeName === "MISC" && e?.Amount === 0 ? (
+                              ""
+                            ) : (
+                              <p className="wp1tbinvp3 fsinvp3">
+                                {e?.ShapeName}
+                              </p>
+                            )}
                             <p className="wp3tbinvp3 fsinvp3">
                               {e?.Wt?.toFixed(3)}
                             </p>
                             <p className="wp3tbinvp3 fsinvp3">{e?.Rate}</p>
-                            <p className="wp3tbinvp3 fsinvp3">
-                              {e?.Amount?.toFixed(2)}
-                            </p>
+                            {e?.ShapeName === "MISC" && e?.Amount === 0 ? (
+                              ""
+                            ) : (
+                              <p className="wp3tbinvp3 fsinvp3">
+                                {e?.Amount?.toFixed(2)}
+                              </p>
+                            )}
                           </div>
-                        
-                      );
-                    })
-                  }
-                  {LOM.map((e, i) => {
-                    return (
-                      <div className="tbodyinvp3" key={i}>
-                        {/* <p className='wp1tbinvp3 brrightinvp3 fsinvp3'></p> */}
-                        {e?.ShapeName === "MISC" && e?.Amount === 0 ? (
-                          ""
-                        ) : (
-                          <p className="wp1tbinvp3 fsinvp3">{e?.ShapeName}</p>
-                        )}
-                        <p className="wp3tbinvp3 fsinvp3">
-                          {e?.Wt?.toFixed(3)}
+                        );
+                      })}
+                      <div className="tbodyinvp3 brtopinvp3">
+                        {/* <p className='wp1tbinvp3 brrightinvp3'></p> */}
+                        <p className="wp1tbinvp3 fw-bold fsinvp3 px-2">TOTAL</p>
+                        <p className="wp3tbinvp3"></p>
+                        <p className="wp3tbinvp3"></p>
+                        <p className="wp3tbinvp3 fw-bold fsinvp3">
+                          {mainTotal?.totAmount?.TotalAmount?.toFixed(2)}
                         </p>
-                        <p className="wp3tbinvp3 fsinvp3">{e?.Rate}</p>
-                        {e?.ShapeName === "MISC" && e?.Amount === 0 ? (
-                          ""
-                        ) : (
-                          <p className="wp3tbinvp3 fsinvp3">
-                            {e?.Amount?.toFixed(2)}
-                          </p>
-                        )}
                       </div>
-                    );
-                  })}
-                  <div className="tbodyinvp3 brtopinvp3">
-                    {/* <p className='wp1tbinvp3 brrightinvp3'></p> */}
-                    <p className="wp1tbinvp3 fw-bold fsinvp3 px-2">TOTAL</p>
-                    <p className="wp3tbinvp3"></p>
-                    <p className="wp3tbinvp3"></p>
-                    <p className="wp3tbinvp3 fw-bold fsinvp3">
-                      {mainTotal?.totAmount?.TotalAmount?.toFixed(2)}
-                    </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="summaryinvp3">
+                  <div className="totalinvp3">
+                    <div className="d-flex justify-content-between px-2">
+                      <p className="w-50 text-start fsinvp3">Discount</p>
+                      <p className="w-50 text-end fsinvp3">
+                        {totDiscount?.toFixed(2)}
+                      </p>
+                    </div>
+                    <div className="d-flex justify-content-between px-2">
+                      <p className="fw-bold fsinvp3">Total Amount</p>
+                      <p className="w-50 text-end fsinvp3">
+                        {mainTotal?.totAmount?.TotalAmount?.toFixed(2)}
+                      </p>
+                    </div>
+                    {taxTotal?.length > 0 &&
+                      taxTotal?.map((e, i) => {
+                        return (
+                          <div
+                            className="d-flex justify-content-between px-2"
+                            key={i}
+                          >
+                            <div className="fsinvp3">
+                              {e?.name} {e?.per}
+                            </div>
+                            <div className="fsinvp3">{e?.amount}</div>
+                          </div>
+                        );
+                      })}
+
+                    <div className="d-flex justify-content-between px-2">
+                      <p className="fsinvp3">
+                        {headerData?.AddLess > 0 ? "Add" : "Less"}
+                      </p>
+                      <p className="w-50 text-end fsinvp3">
+                        {headerData?.AddLess}
+                      </p>
+                    </div>
+                    <div
+                      className="d-flex justify-content-between px-2 mt-1"
+                      style={{ borderTop: "5px solid #e8e8e8" }}
+                    >
+                      <p className="fw-bold fsinvp3">Grand Total</p>
+                      <p className="fw-bold w-50 text-end fsinvp3">
+                        {grandTotal}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="wordsinvp3 fsinvp3 px-2 fw-bold">
+                    {inWords}
+                  </div>
+                  <div className="wordsinvp3 fsinvp3">
+                    <p className="fw-bold px-2">NOTE:</p>
+                    <p className="fsinvp3">{headerData?.PrintRemark}</p>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="summaryinvp3">
-              <div className="totalinvp3">
-                <div className="d-flex justify-content-between px-2">
-                  <p className="w-50 text-start fsinvp3">Discount</p>
-                  <p className="w-50 text-end fsinvp3">
-                    {totDiscount?.toFixed(2)}
-                  </p>
-                </div>
-                <div className="d-flex justify-content-between px-2">
-                  <p className="fw-bold fsinvp3">Total Amount</p>
-                  <p className="w-50 text-end fsinvp3">
-                    {mainTotal?.totAmount?.TotalAmount?.toFixed(2)}
-                  </p>
-                </div>
-                {taxTotal?.length > 0 &&
-                  taxTotal?.map((e, i) => {
-                    return (
-                      <div
-                        className="d-flex justify-content-between px-2"
-                        key={i}
-                      >
-                        <div className="fsinvp3">
-                          {e?.name} {e?.per}
-                        </div>
-                        <div className="fsinvp3">{e?.amount}</div>
-                      </div>
-                    );
-                  })}
-
-                <div className="d-flex justify-content-between px-2">
-                  <p className="fsinvp3">
-                    {headerData?.AddLess > 0 ? "Add" : "Less"}
-                  </p>
-                  <p className="w-50 text-end fsinvp3">{headerData?.AddLess}</p>
-                </div>
-                <div
-                  className="d-flex justify-content-between px-2 mt-1"
-                  style={{ borderTop: "5px solid #e8e8e8" }}
-                >
-                  <p className="fw-bold fsinvp3">Grand Total</p>
-                  <p className="fw-bold w-50 text-end fsinvp3">{grandTotal}</p>
-                </div>
-              </div>
-              <div className="wordsinvp3 fsinvp3 px-2 fw-bold">{inWords}</div>
-              <div className="wordsinvp3 fsinvp3">
-                <p className="fw-bold px-2">NOTE:</p>
-                <p className="fsinvp3">{headerData?.PrintRemark}</p>
-              </div>
-            </div>
-          </div>
+            </>
+          ) : (
+            <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
+              {msg}
+            </p>
+          )}
         </>
       )}
     </>

@@ -5,7 +5,7 @@ import { useState } from "react";
 import "../../assets/css/prints/roughestimate.css";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
-import { taxGenrator } from "./../../GlobalFunctions";
+import { apiCall, isObjectEmpty, taxGenrator } from "./../../GlobalFunctions";
 
 const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
   const [json, setJson] = useState({});
@@ -23,6 +23,8 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
   const [TotalPKG, setTotalPKG] = useState(0);
   const [taxTotal, setTaxTotal] = useState([]);
   const [finalAmount, setFinalAmount] = useState(0);
+  const [msg, setMsg] = useState("");
+  const [loader, setLoader] = useState(true);
 
   const organizeData = (arr, arr1, arr2) => {
     let FineArr = [];
@@ -291,36 +293,76 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
     setGroupedArr(result);
   };
 
-  async function loadData() {
+  async function loadData(data) {
     try {
-      const body = {
-        token: token,
-        invoiceno: invoiceNo,
-        printname: printName,
-        Eventname: evn
-      };
-      const data = await axios.post(urls, body);
-      if (data?.data?.Status == 200) {
-        let datas = data?.data?.Data;
-        setJson(datas?.BillPrint_Json[0]);
-        setJson1(datas?.BillPrint_Json1);
-        setJson2(datas?.BillPrint_Json2);
-        organizeData(
-          datas?.BillPrint_Json[0],
-          datas?.BillPrint_Json1,
-          datas?.BillPrint_Json2
-        );
-      } else {
-        console.log(data?.data?.Status, data?.data?.Message);
-      }
+      setJson(data?.BillPrint_Json[0]);
+      setJson1(data?.BillPrint_Json1);
+      setJson2(data?.BillPrint_Json2);
+      organizeData(
+        data?.BillPrint_Json[0],
+        data?.BillPrint_Json1,
+        data?.BillPrint_Json2
+      );
+      // countCategorySubCategory(data?.BillPrint_Json1);
+      setLoader(false);
     } catch (error) {
       console.log(error);
     }
   }
 
   useEffect(() => {
-    loadData();
+    const sendData = async () => {
+      try {
+        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        if (data?.Status === "200") {
+          let isEmpty = isObjectEmpty(data?.Data);
+          if (!isEmpty) {
+            loadData(data?.Data);
+            setLoader(false);
+          } else {
+            setLoader(false);
+            setMsg("Data Not Found");
+          }
+        } else {
+          setLoader(false);
+          setMsg(data?.Message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    sendData();
   }, []);
+  // async function loadData() {
+  //   try {
+  //     const body = {
+  //       token: token,
+  //       invoiceno: invoiceNo,
+  //       printname: printName,
+  //       Eventname: evn
+  //     };
+  //     const data = await axios.post(urls, body);
+  //     if (data?.data?.Status == 200) {
+  //       let datas = data?.data?.Data;
+  //       setJson(datas?.BillPrint_Json[0]);
+  //       setJson1(datas?.BillPrint_Json1);
+  //       setJson2(datas?.BillPrint_Json2);
+  //       organizeData(
+  //         datas?.BillPrint_Json[0],
+  //         datas?.BillPrint_Json1,
+  //         datas?.BillPrint_Json2
+  //       );
+  //     } else {
+  //       console.log(data?.data?.Status, data?.data?.Message);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   loadData();
+  // }, []);
 
   const separatedOthAmt = (obj) => {
     const parsedAmounts = obj?.OtherAmtDetail?.split("#@#")?.map((item) => {
@@ -332,244 +374,266 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
 
   return (
     <>
-      {groupedArr?.length === 0 ? (
+      {loader ? (
         <Loader />
       ) : (
         <>
-          <div className="container_pcl">
-            <div className="btnpcl">
-              <Button />
-            </div>
-            <div className="p-2 d-flex justify-content-center align-items-center fw-bold fs-2">
-              Rough Estimate
-            </div>
-            <div className="header1RE">
-              <div className="fw-bold fs-3 lhRE">{json.companyname}</div>
-              <div className="fw-bold fs-3 lhRE">{json.Company_VAT_GST_No}</div>
-            </div>
-            <div className="header2RE">
-              <div className="d-flex flex-column">
-                <div className="d-flex">
-                  <div className="headerAddRE">To,</div>
-                  <div className="headerAddRE fw-bold">
-                    {json?.customerfirmname}
+          {msg === "" ? (
+            <>
+              <div className="container_pcl">
+                <div className="btnpcl">
+                  <Button />
+                </div>
+                <div className="p-2 d-flex justify-content-center align-items-center fw-bold fs-2">
+                  Rough Estimate
+                </div>
+                <div className="header1RE">
+                  <div className="fw-bold fs-3 lhRE">{json.companyname}</div>
+                  <div className="fw-bold fs-3 lhRE">
+                    {json.Company_VAT_GST_No}
                   </div>
                 </div>
-                <div className="d-flex">
-                  <div className="headerAddRE">{json?.customercity} :</div>{" "}
-                  <div className="headerAddRE">{json?.PinCode}</div>
-                </div>
-                <div className="d-flex">
-                  <div className="headerAddRE">GSTIn :</div>{" "}
-                  <div className="headerAddRE fw-bold">
-                    {json?.vat_cst_pan?.split("-")[1]}
-                  </div>
-                </div>
-                <div className="d-flex">
-                  <div className="headerAddRE">Bill No :</div>{" "}
-                  <div className="headerAddRE fw-bold">{json?.InvoiceNo}</div>
-                </div>
-                <div className="d-flex">
-                  <div className="headerAddRE">Date :</div>{" "}
-                  <div className="headerAddRE fw-bold">{json?.EntryDate}</div>
-                </div>
-              </div>
-              <div className="rateREflex">
-                <div className="rateRE"> 24K RATE : </div>
-                <div className="rateRE fw-bold">
-                  {json?.MetalRate24K?.toFixed(2)}
-                </div>
-              </div>
-            </div>
-            <div className="tableRE">
-              <div className="theadRE">
-                <div className="d-flex fw-bold c1QTYRE ">QTY </div>
-                <div
-                  className="d-flex fw-bold qdRE"
-                  style={{ justifyContent: "flex-start", paddingLeft: "8px" }}
-                >
-                  DESCRIPTION
-                </div>
-                <div className="d-flex fw-bold r1RE">
-                  <p className="c1RE brbRE d-flex justify-content-end ">
-                    PKG WT
-                  </p>
-                  <p className="c1RE d-flex justify-content-end">G WT</p>
-                </div>
-                <div className="d-flex fw-bold r1RE">
-                  <p className="c1RE brbRE d-flex justify-content-end">
-                    NET WT
-                  </p>
-                  <p className="c1RE d-flex justify-content-end">FINE WT / </p>
-                  <p className="c1RE d-flex justify-content-end">M AMT</p>
-                </div>
-                <div className="d-flex fw-bold r1RE">
-                  <p className="c1RE brbRE endRE">LABOUR AMT</p>
-                  <p className="c1RE brbRE endRE">OTHER AMT</p>{" "}
-                  <p className="c1RE endRE">TOTAL AMT</p>
-                </div>
-              </div>
-              {groupedArr?.map((e, i) => {
-                return (
-                  
-                    <div className="tbodyRE" key={i}>
-                      <div className="d-flex c1QTYRE fs-3">{e?.len}</div>
-                      <div className="d-flex qtdRE">
-                        <p className="fs-3">
-                          {e?.MetalPriceRatio?.toFixed(3)} Purity
-                        </p>
-                        {e?.Wastage === 0 ? (
-                          ""
-                        ) : (
-                          <p className="fs-3">W: {e?.Wastage?.toFixed(3)}</p>
-                        )}
-                        <p className="fs-3">{e?.Collectionname}</p>
-                        <p className="fs-3 fw-bold">{e?.Categoryname}</p>
-                      </div>
-                      <div className="d-flex r1RE">
-                        <p className="c1RE brbRE fs-3 d-flex justify-content-end">
-                          {e?.PKG?.toFixed(3)}
-                        </p>
-                        <p className="c1RE fw-bold align-item-end fs-3 d-flex justify-content-end">
-                          {e?.grosswt?.toFixed(3)}
-                        </p>
-                      </div>
-                      <div className="d-flex r1RE">
-                        <p className="c1RE brbRE endRE fs-3">
-                          {e?.NetWt?.toFixed(3)}
-                        </p>
-                        {e?.MetalAmt === 0 ? (
-                          <p className="c1RE endRE fs-3">
-                            {e?.FineWt?.toFixed(3)}
-                          </p>
-                        ) : (
-                          <p className="c1RE endRE fs-3 fw-bold">
-                            {e?.MetalAmt?.toFixed(2)}
-                          </p>
-                        )}
-                      </div>
-                      <div className="d-flex r1RE">
-                        <p className="c1RE brbRE endRE fs-3">
-                          {e?.labourAmount?.toFixed(2)}
-                        </p>
-                        <p className="c1RE brbRE endRE fs-3">
-                          {e?.OtherAmount?.toFixed(2)}
-                        </p>{" "}
-                        <p className="c1RE fw-bold endRE fs-3">
-                          {e?.TotalAmount?.toFixed(2)}
-                        </p>
+                <div className="header2RE">
+                  <div className="d-flex flex-column">
+                    <div className="d-flex">
+                      <div className="headerAddRE">To,</div>
+                      <div className="headerAddRE fw-bold">
+                        {json?.customerfirmname}
                       </div>
                     </div>
-                
-                );
-              })}
-              <div
-                className="tbodyRE"
-                style={{
-                  height: "115px",
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  alignItems: "flex-start",
-                  paddingTop: "5px",
-                }}
-              >
-                <div className="d-flex c1QTYRE fw-bold fs-3">{groupedLen}</div>
-                <div
-                  className="d-flex qtdRE"
-                  style={{ justifyContent: "flex-start" }}
-                >
-                  <p className="fs-3 fw-bold align-items-start">TOTAL</p>
-                  <p className="fs-2"></p>
-                  <p className="fs-2"></p>
-                </div>
-                <div className="d-flex r1RE">
-                  <p className="c1RE brbRE fs-3 d-flex justify-content-end">
-                    {TotalPKG?.toFixed(2)}
-                  </p>
-                  <p className="c1RE fw-bold fs-3 d-flex justify-content-end">
-                    {GrossWt?.toFixed(3)}
-                  </p>
-                </div>
-                <div className="d-flex r1RE">
-                  <div className="c1RE brbRE endRE fs-3">
-                    {NetWt?.toFixed(3)}
+                    <div className="d-flex">
+                      <div className="headerAddRE">{json?.customercity} :</div>{" "}
+                      <div className="headerAddRE">{json?.PinCode}</div>
+                    </div>
+                    <div className="d-flex">
+                      <div className="headerAddRE">GSTIn :</div>{" "}
+                      <div className="headerAddRE fw-bold">
+                        {json?.vat_cst_pan?.split("-")[1]}
+                      </div>
+                    </div>
+                    <div className="d-flex">
+                      <div className="headerAddRE">Bill No :</div>{" "}
+                      <div className="headerAddRE fw-bold">
+                        {json?.InvoiceNo}
+                      </div>
+                    </div>
+                    <div className="d-flex">
+                      <div className="headerAddRE">Date :</div>{" "}
+                      <div className="headerAddRE fw-bold">
+                        {json?.EntryDate}
+                      </div>
+                    </div>
                   </div>
-                  {/* <p className="c1RE endRE fs-3 fw-bold flex-column"> */}
-                  <div className="c1RE brbRE endRE fs-3 fw-bold text-black">
-                    {TotalFWT?.toFixed(3)} /{" "}
+                  <div className="rateREflex">
+                    <div className="rateRE"> 24K RATE : </div>
+                    <div className="rateRE fw-bold">
+                      {json?.MetalRate24K?.toFixed(2)}
+                    </div>
                   </div>
-                  <div className="c1RE brbRE endRE fs-3 fw-bold">
-                    {TotalMAMT?.toFixed(2)}
+                </div>
+                <div className="tableRE">
+                  <div className="theadRE">
+                    <div className="d-flex fw-bold c1QTYRE ">QTY </div>
+                    <div
+                      className="d-flex fw-bold qdRE"
+                      style={{
+                        justifyContent: "flex-start",
+                        paddingLeft: "8px",
+                      }}
+                    >
+                      DESCRIPTION
+                    </div>
+                    <div className="d-flex fw-bold r1RE">
+                      <p className="c1RE brbRE d-flex justify-content-end ">
+                        PKG WT
+                      </p>
+                      <p className="c1RE d-flex justify-content-end">G WT</p>
+                    </div>
+                    <div className="d-flex fw-bold r1RE">
+                      <p className="c1RE brbRE d-flex justify-content-end">
+                        NET WT
+                      </p>
+                      <p className="c1RE d-flex justify-content-end">
+                        FINE WT /{" "}
+                      </p>
+                      <p className="c1RE d-flex justify-content-end">M AMT</p>
+                    </div>
+                    <div className="d-flex fw-bold r1RE">
+                      <p className="c1RE brbRE endRE">LABOUR AMT</p>
+                      <p className="c1RE brbRE endRE">OTHER AMT</p>{" "}
+                      <p className="c1RE endRE">TOTAL AMT</p>
+                    </div>
                   </div>
-                  {/* </p> */}
-                </div>
-                <div className="d-flex r1RE">
-                  <p className="c1RE brbRE endRE fs-3">
-                    {mainTotal.totallabourAmount?.toFixed(2)}
-                  </p>
-                  <p className="c1RE brbRE endRE fs-3">
-                    {mainTotal.totalOtherAmount?.toFixed(2)}
-                  </p>
-                  <p className="c1RE fw-bold endRE fs-3">
-                    {TotalCost?.toFixed(2)}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div style={{ borderBottom: "1px solid black" }}>
-              <div className="grandTotalRE">
-                <div className="d-flex flex-column justify-content-between wgtRE">
-                  {taxTotal?.length > 0 &&
-                    taxTotal?.map((e, i) => {
-                      return (
-                        <div className="d-flex justify-content-between" key={i}>
-                          <div className="d-flex justify-content-end w-50 fs-3">
-                            {e?.name} {e?.per}
-                          </div>
-                          <div className="d-flex justify-content-end w-50 fs-3">
-                            {e?.amount}
-                          </div>
+                  {groupedArr?.map((e, i) => {
+                    return (
+                      <div className="tbodyRE" key={i}>
+                        <div className="d-flex c1QTYRE fs-3">{e?.len}</div>
+                        <div className="d-flex qtdRE">
+                          <p className="fs-3">
+                            {e?.MetalPriceRatio?.toFixed(3)} Purity
+                          </p>
+                          {e?.Wastage === 0 ? (
+                            ""
+                          ) : (
+                            <p className="fs-3">W: {e?.Wastage?.toFixed(3)}</p>
+                          )}
+                          <p className="fs-3">{e?.Collectionname}</p>
+                          <p className="fs-3 fw-bold">{e?.Categoryname}</p>
                         </div>
-                      );
-                    })}
+                        <div className="d-flex r1RE">
+                          <p className="c1RE brbRE fs-3 d-flex justify-content-end">
+                            {e?.PKG?.toFixed(3)}
+                          </p>
+                          <p className="c1RE fw-bold align-item-end fs-3 d-flex justify-content-end">
+                            {e?.grosswt?.toFixed(3)}
+                          </p>
+                        </div>
+                        <div className="d-flex r1RE">
+                          <p className="c1RE brbRE endRE fs-3">
+                            {e?.NetWt?.toFixed(3)}
+                          </p>
+                          {e?.MetalAmt === 0 ? (
+                            <p className="c1RE endRE fs-3">
+                              {e?.FineWt?.toFixed(3)}
+                            </p>
+                          ) : (
+                            <p className="c1RE endRE fs-3 fw-bold">
+                              {e?.MetalAmt?.toFixed(2)}
+                            </p>
+                          )}
+                        </div>
+                        <div className="d-flex r1RE">
+                          <p className="c1RE brbRE endRE fs-3">
+                            {e?.labourAmount?.toFixed(2)}
+                          </p>
+                          <p className="c1RE brbRE endRE fs-3">
+                            {e?.OtherAmount?.toFixed(2)}
+                          </p>{" "}
+                          <p className="c1RE fw-bold endRE fs-3">
+                            {e?.TotalAmount?.toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <div
+                    className="tbodyRE"
+                    style={{
+                      height: "115px",
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      alignItems: "flex-start",
+                      paddingTop: "5px",
+                    }}
+                  >
+                    <div className="d-flex c1QTYRE fw-bold fs-3">
+                      {groupedLen}
+                    </div>
+                    <div
+                      className="d-flex qtdRE"
+                      style={{ justifyContent: "flex-start" }}
+                    >
+                      <p className="fs-3 fw-bold align-items-start">TOTAL</p>
+                      <p className="fs-2"></p>
+                      <p className="fs-2"></p>
+                    </div>
+                    <div className="d-flex r1RE">
+                      <p className="c1RE brbRE fs-3 d-flex justify-content-end">
+                        {TotalPKG?.toFixed(2)}
+                      </p>
+                      <p className="c1RE fw-bold fs-3 d-flex justify-content-end">
+                        {GrossWt?.toFixed(3)}
+                      </p>
+                    </div>
+                    <div className="d-flex r1RE">
+                      <div className="c1RE brbRE endRE fs-3">
+                        {NetWt?.toFixed(3)}
+                      </div>
+                      {/* <p className="c1RE endRE fs-3 fw-bold flex-column"> */}
+                      <div className="c1RE brbRE endRE fs-3 fw-bold text-black">
+                        {TotalFWT?.toFixed(3)} /{" "}
+                      </div>
+                      <div className="c1RE brbRE endRE fs-3 fw-bold">
+                        {TotalMAMT?.toFixed(2)}
+                      </div>
+                      {/* </p> */}
+                    </div>
+                    <div className="d-flex r1RE">
+                      <p className="c1RE brbRE endRE fs-3">
+                        {mainTotal.totallabourAmount?.toFixed(2)}
+                      </p>
+                      <p className="c1RE brbRE endRE fs-3">
+                        {mainTotal.totalOtherAmount?.toFixed(2)}
+                      </p>
+                      <p className="c1RE fw-bold endRE fs-3">
+                        {TotalCost?.toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="d-flex justify-content-between wgtRE">
-                  <div className="fs-3 w-50 d-flex justify-content-end">
-                    Less
+                <div style={{ borderBottom: "1px solid black" }}>
+                  <div className="grandTotalRE">
+                    <div className="d-flex flex-column justify-content-between wgtRE">
+                      {taxTotal?.length > 0 &&
+                        taxTotal?.map((e, i) => {
+                          return (
+                            <div
+                              className="d-flex justify-content-between"
+                              key={i}
+                            >
+                              <div className="d-flex justify-content-end w-50 fs-3">
+                                {e?.name} {e?.per}
+                              </div>
+                              <div className="d-flex justify-content-end w-50 fs-3">
+                                {e?.amount}
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </div>
+                    <div className="d-flex justify-content-between wgtRE">
+                      <div className="fs-3 w-50 d-flex justify-content-end">
+                        Less
+                      </div>
+                      <div className="fs-3 w-50 d-flex justify-content-end">
+                        {json?.AddLess?.toFixed(2)}
+                      </div>
+                    </div>
                   </div>
-                  <div className="fs-3 w-50 d-flex justify-content-end">
-                    {json?.AddLess?.toFixed(2)}
+                  <div className="d-flex justify-content-end fw-bold">
+                    <div
+                      className="d-flex justify-content-between wgtRE"
+                      style={{ paddingTop: "0.5rem", paddingBottom: "0.5rem" }}
+                    >
+                      <div className="fs-3 d-flex justify-content-end w-50 text-black">
+                        TOTAL
+                      </div>
+                      <div className="fs-3 d-flex justify-content-end w-50 text-black">
+                        {finalAmount?.toFixed(2)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="fw-bold fs-5 px-2 py-2 text-black">
+                  Remark : {json?.PrintRemark}
+                </div>
+                <div className="d-flex flex-column align-items-end fs-3">
+                  <div className="wREord">
+                    <span>Order Due Days :</span>{" "}
+                    <span className="fw-bold">{json?.DueDays}</span>
+                  </div>
+                  <div className="wREord">
+                    <span>Order Due Date :</span>{" "}
+                    <span className="fw-bold">{json?.DueDate}</span>
                   </div>
                 </div>
               </div>
-              <div className="d-flex justify-content-end fw-bold">
-                <div
-                  className="d-flex justify-content-between wgtRE"
-                  style={{ paddingTop: "0.5rem", paddingBottom: "0.5rem" }}
-                >
-                  <div className="fs-3 d-flex justify-content-end w-50 text-black">
-                    TOTAL
-                  </div>
-                  <div className="fs-3 d-flex justify-content-end w-50 text-black">
-                    {finalAmount?.toFixed(2)}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="fw-bold fs-5 px-2 py-2 text-black">
-              Remark : {json?.PrintRemark}
-            </div>
-            <div className="d-flex flex-column align-items-end fs-3">
-              <div className="wREord">
-                <span>Order Due Days :</span>{" "}
-                <span className="fw-bold">{json?.DueDays}</span>
-              </div>
-              <div className="wREord">
-                <span>Order Due Date :</span>{" "}
-                <span className="fw-bold">{json?.DueDate}</span>
-              </div>
-            </div>
-          </div>
+            </>
+          ) : (
+            <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
+              {msg}
+            </p>
+          )}
         </>
       )}
     </>

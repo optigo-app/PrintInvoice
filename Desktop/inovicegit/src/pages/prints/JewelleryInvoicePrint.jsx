@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../../assets/css/prints/jewellaryinvoiceprint.css";
 import {
+  apiCall,
   CapitalizeWords,
   handleImageError,
+  isObjectEmpty,
   taxGenrator,
 } from "../../GlobalFunctions";
 import axios from "axios";
@@ -29,28 +31,46 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   const [totalnetlosswt, setTotalnetlosswt] = useState(0);
   const [inWords, setInWords] = useState("");
   const [groupedArr, setGroupedArr] = useState([]);
-  async function loadData() {
+  const [msg, setMsg] = useState("");
+  const [loader, setLoader] = useState(true);
+  // async function loadData() {
+  //   try {
+  //     const body = {
+  //       token: token,
+  //       invoiceno: invoiceNo,
+  //       printname: printName,
+  //       Eventname: evn
+  //     };
+  //     const data = await axios.post(urls, body);
+  //     if (data?.data?.Status == 200) {
+  //       let datas = data?.data?.Data;
+  //       setHeaderData(datas?.BillPrint_Json[0]);
+  //       setDynamicList1(datas?.BillPrint_Json1);
+  //       setDynamicList2(datas?.BillPrint_Json2);
+  //       organizeData(
+  //         datas?.BillPrint_Json[0],
+  //         datas?.BillPrint_Json1,
+  //         datas?.BillPrint_Json2
+  //       );
+  //     } else {
+  //       console.log(data?.data?.Status, data?.data?.Message);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+  async function loadData(data) {
     try {
-      const body = {
-        token: token,
-        invoiceno: invoiceNo,
-        printname: printName,
-        Eventname: evn
-      };
-      const data = await axios.post(urls, body);
-      if (data?.data?.Status == 200) {
-        let datas = data?.data?.Data;
-        setHeaderData(datas?.BillPrint_Json[0]);
-        setDynamicList1(datas?.BillPrint_Json1);
-        setDynamicList2(datas?.BillPrint_Json2);
-        organizeData(
-          datas?.BillPrint_Json[0],
-          datas?.BillPrint_Json1,
-          datas?.BillPrint_Json2
-        );
-      } else {
-        console.log(data?.data?.Status, data?.data?.Message);
-      }
+      setHeaderData(data?.BillPrint_Json[0]);
+      setDynamicList1(data?.BillPrint_Json1);
+      setDynamicList2(data?.BillPrint_Json2);
+      organizeData(
+        data?.BillPrint_Json[0],
+        data?.BillPrint_Json1,
+        data?.BillPrint_Json2
+      );
+      // countCategorySubCategory(data?.BillPrint_Json1);
+      setLoader(false);
     } catch (error) {
       console.log(error);
     }
@@ -361,402 +381,462 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     setInWords(words);
   };
   useEffect(() => {
-    loadData();
+    const sendData = async () => {
+      try {
+        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        if (data?.Status === "200") {
+          let isEmpty = isObjectEmpty(data?.Data);
+          if (!isEmpty) {
+            loadData(data?.Data);
+            setLoader(false);
+          } else {
+            setLoader(false);
+            setMsg("Data Not Found");
+          }
+        } else {
+          setLoader(false);
+          setMsg(data?.Message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    sendData();
   }, []);
 
   return (
     <>
-      {resultArray?.length === 0 ? (
+      {loader ? (
         <Loader />
       ) : (
         <>
-          <div className="containerJL">
-            <div className="btnpcl">
-              <Button />
-            </div>
-            <div className="printJL">
-              <div className="headlineJL">
-                <b style={{ fontSize: "15px" }}>{headerData?.PrintHeadLabel}</b>
-              </div>
-              <div className="headJL">
-                <div className="headJLContent">
-                  <div className="fslhJL">
-                    <h5>
-                      <b style={{ fontSize: "13px", color:"black" }}>
-                        {headerData?.CompanyFullName}
-                      </b>
-                    </h5>
-                  </div>
-                  <div className="fslhJL">{headerData?.CompanyAddress}</div>
-                  <div className="fslhJL">{headerData?.CompanyAddress2}</div>
-                  <div className="fslhJL">
-                    {headerData?.CompanyCity}-{headerData?.CompanyPinCode},{" "}
-                    {headerData?.CompanyState}({headerData?.CompanyCountry})
-                  </div>
-                  <div className="fslhJL">
-                    Tell No: {headerData?.CompanyTellNo}
-                  </div>
-                  <div className="fslhJL">
-                    {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
-                  </div>
-                  {/* <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-EDJHF236D</div> */}
-                  <div className="fslhJL">
-                    {headerData?.Company_VAT_GST_No} |{" "}
-                    {headerData?.Cust_CST_STATE}-{headerData?.vat_cst_pan}
-                  </div>
+          {msg === "" ? (
+            <>
+              <div className="containerJL">
+                <div className="btnpcl">
+                  <Button />
                 </div>
-                <div className="headJLImg">
-                  <img
-                    src={headerData?.PrintLogo}
-                    alt="#"
-                    id="JLImg"
-                    onError={(e) => handleImageError(e)}
-                  />
-                </div>
-              </div>
-              <div className="dynamicHeadJLmain">
-                <div className="dynamicHeadJL1">
-                  <div className="fslhJL">{headerData?.lblBillTo}</div>
-                  <div className="fslhJL">
-                    <b className="JL13">{headerData?.customerfirmname}</b>
+                <div className="printJL">
+                  <div className="headlineJL">
+                    <b style={{ fontSize: "15px" }}>
+                      {headerData?.PrintHeadLabel}
+                    </b>
                   </div>
-                  {headerData?.customerAddress1?.length > 0 ? (
-                    <div className="fslhJL">{headerData?.customerAddress1}</div>
-                  ) : (
-                    ""
-                  )}
-                  {headerData?.customerAddress2?.length > 0 ? (
-                    <div className="fslhJL">{headerData?.customerAddress2}</div>
-                  ) : (
-                    ""
-                  )}
-                  {headerData?.customerAddress3?.length > 0 ? (
-                    <div className="fslhJL">{headerData?.customerAddress3}</div>
-                  ) : (
-                    ""
-                  )}
-                  <div className="fslhJL">
-                    {headerData?.customercity}
-                    {headerData?.customerpincode}
-                  </div>
-                  <div className="fslhJL">{headerData?.customeremail1}</div>
-                  <div className="fslhJL">{headerData?.vat_cst_pan}</div>
-                  <div className="fslhJL">
-                    {headerData?.Cust_CST_STATE} {headerData?.Cust_CST_STATE_No}
-                  </div>
-                </div>
-                <div className="dynamicHeadJL2">
-                  <div className="fslhJL">Ship to</div>
-                  <div className="fslhJL">
-                    <b className="JL13">{headerData?.customerfirmname}</b>
-                  </div>
-                  <div className="fslhJL">{headerData?.CustName}</div>
-                  {headerData?.customerstreet?.length > 0 ? (
-                    <div className="fslhJL">{headerData?.customerstreet}</div>
-                  ) : (
-                    ""
-                  )}
-                  <div className="fslhJL">
-                    {headerData?.customercity}, {headerData?.State}
-                  </div>
-                  <div className="fslhJL">India-{headerData?.PinCode}</div>
-                  <div className="fslhJL">
-                    Mobile No : {headerData?.customermobileno}
-                  </div>
-                </div>
-                <div className="dynamicHeadJL3">
-                  <div className="billnoJL">
-                    <div className="JLbillnow fslhJL ">
-                      <b className="JL13">BILL NO</b>
-                    </div>
-                    <div className="billno3pdlJL JL13 w-100">
-                      {headerData?.InvoiceNo}
-                    </div>
-                  </div>
-                  <div className="billnoJL">
-                    <div className="JLbillnow fslhJL">
-                      <b className="JL13">DATE</b>
-                    </div>
-                    <div className="billno3pdlJL JL13 w-100">
-                      {headerData?.EntryDate}
-                    </div>
-                  </div>
-                  <div className="billnoJL">
-                    <div className="JLbillnow fslhJL">
-                      <b className="JL13">HSN</b>
-                    </div>
-                    <div className="billno3pdlJL JL13 w-100">
-                      {headerData?.HSN_No}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="tableJL">
-                <div className="theadJL fw-bold">
-                  <div className="tc1JL h-100">Sr#</div>
-                  <div className="tc2JL h-100">Description</div>
-                  <div className="tc5JL h-100">
-                    <div className="tc5JL1">Gold</div>
-                    <div className="tc5JL2">
-                      <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL">
-                        Quality
+                  <div className="headJL">
+                    <div className="headJLContent">
+                      <div className="fslhJL">
+                        <h5>
+                          <b style={{ fontSize: "13px", color: "black" }}>
+                            {headerData?.CompanyFullName}
+                          </b>
+                        </h5>
                       </div>
-                      <div className="d-flex justify-content-center align-items-center w-50 h-100">
-                        Gross/Net.
+                      <div className="fslhJL">{headerData?.CompanyAddress}</div>
+                      <div className="fslhJL">
+                        {headerData?.CompanyAddress2}
+                      </div>
+                      <div className="fslhJL">
+                        {headerData?.CompanyCity}-{headerData?.CompanyPinCode},{" "}
+                        {headerData?.CompanyState}({headerData?.CompanyCountry})
+                      </div>
+                      <div className="fslhJL">
+                        Tell No: {headerData?.CompanyTellNo}
+                      </div>
+                      <div className="fslhJL">
+                        {headerData?.CompanyEmail} |{" "}
+                        {headerData?.CompanyWebsite}
+                      </div>
+                      {/* <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-EDJHF236D</div> */}
+                      <div className="fslhJL">
+                        {headerData?.Company_VAT_GST_No} |{" "}
+                        {headerData?.Cust_CST_STATE}-{headerData?.vat_cst_pan}
                       </div>
                     </div>
+                    <div className="headJLImg">
+                      <img
+                        src={headerData?.PrintLogo}
+                        alt="#"
+                        id="JLImg"
+                        onError={(e) => handleImageError(e)}
+                      />
+                    </div>
                   </div>
-                  <div className="tc5JL h-100">
-                    <div className="tc5JL1">Diamond</div>
-                    <div className="tc5JL2">
-                      <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL">
-                        Detail
+                  <div className="dynamicHeadJLmain">
+                    <div className="dynamicHeadJL1">
+                      <div className="fslhJL">{headerData?.lblBillTo}</div>
+                      <div className="fslhJL">
+                        <b className="JL13">{headerData?.customerfirmname}</b>
                       </div>
-                      <div className="d-flex justify-content-center align-items-center w-50 h-100">
-                        Wt.
+                      {headerData?.customerAddress1?.length > 0 ? (
+                        <div className="fslhJL">
+                          {headerData?.customerAddress1}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {headerData?.customerAddress2?.length > 0 ? (
+                        <div className="fslhJL">
+                          {headerData?.customerAddress2}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {headerData?.customerAddress3?.length > 0 ? (
+                        <div className="fslhJL">
+                          {headerData?.customerAddress3}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      <div className="fslhJL">
+                        {headerData?.customercity}
+                        {headerData?.customerpincode}
+                      </div>
+                      <div className="fslhJL">{headerData?.customeremail1}</div>
+                      <div className="fslhJL">{headerData?.vat_cst_pan}</div>
+                      <div className="fslhJL">
+                        {headerData?.Cust_CST_STATE}{" "}
+                        {headerData?.Cust_CST_STATE_No}
+                      </div>
+                    </div>
+                    <div className="dynamicHeadJL2">
+                      <div className="fslhJL">Ship to</div>
+                      <div className="fslhJL">
+                        <b className="JL13">{headerData?.customerfirmname}</b>
+                      </div>
+                      <div className="fslhJL">{headerData?.CustName}</div>
+                      {headerData?.customerstreet?.length > 0 ? (
+                        <div className="fslhJL">
+                          {headerData?.customerstreet}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      <div className="fslhJL">
+                        {headerData?.customercity}, {headerData?.State}
+                      </div>
+                      <div className="fslhJL">India-{headerData?.PinCode}</div>
+                      <div className="fslhJL">
+                        Mobile No : {headerData?.customermobileno}
+                      </div>
+                    </div>
+                    <div className="dynamicHeadJL3">
+                      <div className="billnoJL">
+                        <div className="JLbillnow fslhJL ">
+                          <b className="JL13">BILL NO</b>
+                        </div>
+                        <div className="billno3pdlJL JL13 w-100">
+                          {headerData?.InvoiceNo}
+                        </div>
+                      </div>
+                      <div className="billnoJL">
+                        <div className="JLbillnow fslhJL">
+                          <b className="JL13">DATE</b>
+                        </div>
+                        <div className="billno3pdlJL JL13 w-100">
+                          {headerData?.EntryDate}
+                        </div>
+                      </div>
+                      <div className="billnoJL">
+                        <div className="JLbillnow fslhJL">
+                          <b className="JL13">HSN</b>
+                        </div>
+                        <div className="billno3pdlJL JL13 w-100">
+                          {headerData?.HSN_No}
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="tc5JL h-100">
-                    <div className="tc5JL1">Colorstone</div>
-                    <div className="tc5JL2">
-                      <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL">
-                        Detail
-                      </div>
-                      <div className="d-flex justify-content-center align-items-center w-50 h-100">
-                        Wt.
-                      </div>
-                    </div>
-                  </div>
-                  <div className="tc6JL d-flex justify-content-center h-100">
-                    Others
-                  </div>
-                  <div className="tc7JL d-flex justify-content-center h-100">
-                    Labour
-                  </div>
-                  <div
-                    className="tc8JL d-flex justify-content-center h-100"
-                    style={{ borderRight: "0px" }}
-                  >
-                    Total
-                  </div>
-                </div>
-                <div className="tbodyJL">
-                  {resultArray.length > 0 &&
-                    resultArray?.map((e, i) => {
-                      return (
-                        <div className="trowJL fsJL" key={i}>
-                          <div className="tc1JL">{e?.SrNo}</div>
-                          <div className="tc2JL">
-                            <div>{e?.Categoryname}</div>
-                            <div className="d-flex">
-                              <div>{e?.designno} | </div>
-                              <div>{e?.SrJobno}</div>
-                            </div>
+                  <div className="tableJL">
+                    <div className="theadJL fw-bold">
+                      <div className="tc1JL h-100">Sr#</div>
+                      <div className="tc2JL h-100">Description</div>
+                      <div className="tc5JL h-100">
+                        <div className="tc5JL1">Gold</div>
+                        <div className="tc5JL2">
+                          <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL">
+                            Quality
                           </div>
-                          <div className="tc3JL">
-                            <div className="tc4JL2 h-100">
-                              <div className="d-flex justify-content-start align-items-center w-50 h-100  brrJL ps-1">
-                                {e?.MetalPurity} / {e?.MetalType}{" "}
-                                {e?.MetalColor}
-                              </div>
-                              <div className="d-flex justify-content-end align-items-center w-50 h-100  pe-1">
-                                {e?.grosswt?.toFixed(3)}/{e?.NetWt?.toFixed(3)}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="tc4JL">
-                            {e?.diamonds?.length > 0 ? (
-                              e?.diamonds?.map((el, i) => {
-                                return (
-                                  <div className="tc4JL2 h-100" key={i}>
-                                    <div className="d-flex justify-content-start ps-1 align-items-center w-50 h-100 brrJL">
-                                      {el?.ShapeName} {el?.QualityName}{" "}
-                                      {el?.Colorname}
-                                    </div>
-                                    <div className="d-flex justify-content-end pe-1 align-items-center h-100 w-50 ">
-                                      {el?.Pcs}/{el?.Wt?.toFixed(3)}
-                                    </div>
-                                  </div>
-                                );
-                              })
-                            ) : (
-                              <div className="tc4JL2 h-100" key={i}>
-                                <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL">
-                                  {/* {el?.ShapeName} {el?.QualityName} {el?.Colorname} */}
-                                </div>
-                                <div className="d-flex justify-content-center align-items-center h-100 w-50 ">
-                                  {/* {el?.Pcs}/{el?.Wt?.toFixed(3)} */}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                          <div className="tc5JL">
-                            {e?.colorStones?.length > 0 ? (
-                              e?.colorStones?.map((el, i) => {
-                                return (
-                                  <div className="tc4JL2 h-100" key={i}>
-                                    <div className="d-flex justify-content-start ps-1 align-items-center w-50 h-100 brrJL">
-                                      {el?.ShapeName} {el?.QualityName}{" "}
-                                      {el?.Colorname}
-                                    </div>
-                                    <div className="d-flex justify-content-end pe-1 align-items-center h-100 w-50 ">
-                                      {el?.Pcs}/{el?.Wt?.toFixed(3)}
-                                    </div>
-                                  </div>
-                                );
-                              })
-                            ) : (
-                              <div className="tc4JL2 h-100" key={i}>
-                                <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL">
-                                  {/* {el?.ShapeName} {el?.QualityName} {el?.Colorname} */}
-                                </div>
-                                <div className="d-flex justify-content-center align-items-center h-100 w-50 ">
-                                  {/* {el?.Pcs}/{el?.Wt?.toFixed(3)} */}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                          <div className="tc6JL">
-                            {e?.OtherCharges?.toFixed(2)}
-                          </div>
-                          <div className="tc7JL">
-                            {e?.MakingAmount?.toFixed(2)}
-                          </div>
-                          <div className="tc8JL" style={{ borderRight: "0px" }}>
-                            {e?.UnitCost?.toFixed(2)}
+                          <div className="d-flex justify-content-center align-items-center w-50 h-100">
+                            Gross/Net.
                           </div>
                         </div>
-                      );
-                    })}
-                </div>
-                <div
-                  className="totalrowJL fw-bold fsJL"
-                  style={{ borderTop: "0px" }}
-                >
-                  <div className="tc1JL h-100"></div>
-                  <div className="tc2JL fs-6 h-100">TOTAL</div>
-                  <div className="tc3JL h-100">
-                    <div className="tc4JL2 h-100">
-                      <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL"></div>
-                      <div className="d-flex justify-content-end pe-1 align-items-center w-50 h-100">
-                        {mainTotal?.totalgrosswt?.grosswt?.toFixed(3)}/
-                        {mainTotal?.totalnetwt?.netwt?.toFixed(3)}
+                      </div>
+                      <div className="tc5JL h-100">
+                        <div className="tc5JL1">Diamond</div>
+                        <div className="tc5JL2">
+                          <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL">
+                            Detail
+                          </div>
+                          <div className="d-flex justify-content-center align-items-center w-50 h-100">
+                            Wt.
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tc5JL h-100">
+                        <div className="tc5JL1">Colorstone</div>
+                        <div className="tc5JL2">
+                          <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL">
+                            Detail
+                          </div>
+                          <div className="d-flex justify-content-center align-items-center w-50 h-100">
+                            Wt.
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tc6JL d-flex justify-content-center h-100">
+                        Others
+                      </div>
+                      <div className="tc7JL d-flex justify-content-center h-100">
+                        Labour
+                      </div>
+                      <div
+                        className="tc8JL d-flex justify-content-center h-100"
+                        style={{ borderRight: "0px" }}
+                      >
+                        Total
                       </div>
                     </div>
-                  </div>
-                  <div className="tc4JL h-100">
-                    <div className="tc4JL2 h-100">
-                      <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL"></div>
-                      <div className="d-flex justify-content-end pe-1 align-items-center w-50 h-100">
-                        {mainTotal?.diamonds?.Pcs}/
-                        {mainTotal?.diamonds?.Wt?.toFixed(3)}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="tc5JL h-100">
-                    <div className="tc5JL2 h-100">
-                      <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL"></div>
-                      <div className="d-flex justify-content-end pe-1 align-items-center w-50 h-100">
-                        {mainTotal?.colorstone?.Pcs}/
-                        {mainTotal?.colorstone?.Wt?.toFixed(3)}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="tc6JL d-flex justify-content-end pe-1 h-100">
-                    {mainTotal?.totalOtherAmount?.toFixed(2)}
-                  </div>
-                  <div className="tc7JL d-flex justify-content-end pe-1 h-100">
-                    {mainTotal?.totallabourAmount?.toFixed(2)}
-                  </div>
-                  <div
-                    className="tc8JL d-flex justify-content-end pe-1 h-100"
-                    style={{ borderRight: "0px" }}
-                  >
-                    {mainTotal?.totalunitCost?.toFixed(2)}
-                  </div>
-                </div>
-                <div className="footerJL fsJL d-flex justify-content-between align-items-end ">
-                  <div className="inWordsJL">
-                    <div className="fw-bold py-1 px-1">
-                      In Words Indian Rupees
-                    </div>
-                    <div className="fw-bold py-2 px-1">{inWords}</div>
-                  </div>
-                  <div className="footerTotJL">
-                    <div className="brJL">
-                      <div className="d-flex flex-column justify-content-between px-1">
-                        {taxTotal?.map((e, i) => {
+                    <div className="tbodyJL">
+                      {resultArray.length > 0 &&
+                        resultArray?.map((e, i) => {
                           return (
-                            <div className="d-flex justify-content-between px-1" key={i}>
-                              <div className="w-50 d-flex justify-content-end align-items-center pe-1 brrJL">
-                                {e?.name} {e?.per}
+                            <div className="trowJL fsJL" key={i}>
+                              <div className="tc1JL">{e?.SrNo}</div>
+                              <div className="tc2JL">
+                                <div>{e?.Categoryname}</div>
+                                <div className="d-flex">
+                                  <div>{e?.designno} | </div>
+                                  <div>{e?.SrJobno}</div>
+                                </div>
                               </div>
-                              <div className="w-50 d-flex justify-content-end align-items-center ">
-                                {e?.amount}
+                              <div className="tc3JL">
+                                <div className="tc4JL2 h-100">
+                                  <div className="d-flex justify-content-start align-items-center w-50 h-100  brrJL ps-1">
+                                    {e?.MetalPurity} / {e?.MetalType}{" "}
+                                    {e?.MetalColor}
+                                  </div>
+                                  <div className="d-flex justify-content-end align-items-center w-50 h-100  pe-1">
+                                    {e?.grosswt?.toFixed(3)}/
+                                    {e?.NetWt?.toFixed(3)}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="tc4JL">
+                                {e?.diamonds?.length > 0 ? (
+                                  e?.diamonds?.map((el, i) => {
+                                    return (
+                                      <div className="tc4JL2 h-100" key={i}>
+                                        <div className="d-flex justify-content-start ps-1 align-items-center w-50 h-100 brrJL">
+                                          {el?.ShapeName} {el?.QualityName}{" "}
+                                          {el?.Colorname}
+                                        </div>
+                                        <div className="d-flex justify-content-end pe-1 align-items-center h-100 w-50 ">
+                                          {el?.Pcs}/{el?.Wt?.toFixed(3)}
+                                        </div>
+                                      </div>
+                                    );
+                                  })
+                                ) : (
+                                  <div className="tc4JL2 h-100" key={i}>
+                                    <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL">
+                                      {/* {el?.ShapeName} {el?.QualityName} {el?.Colorname} */}
+                                    </div>
+                                    <div className="d-flex justify-content-center align-items-center h-100 w-50 ">
+                                      {/* {el?.Pcs}/{el?.Wt?.toFixed(3)} */}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                              <div className="tc5JL">
+                                {e?.colorStones?.length > 0 ? (
+                                  e?.colorStones?.map((el, i) => {
+                                    return (
+                                      <div className="tc4JL2 h-100" key={i}>
+                                        <div className="d-flex justify-content-start ps-1 align-items-center w-50 h-100 brrJL">
+                                          {el?.ShapeName} {el?.QualityName}{" "}
+                                          {el?.Colorname}
+                                        </div>
+                                        <div className="d-flex justify-content-end pe-1 align-items-center h-100 w-50 ">
+                                          {el?.Pcs}/{el?.Wt?.toFixed(3)}
+                                        </div>
+                                      </div>
+                                    );
+                                  })
+                                ) : (
+                                  <div className="tc4JL2 h-100" key={i}>
+                                    <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL">
+                                      {/* {el?.ShapeName} {el?.QualityName} {el?.Colorname} */}
+                                    </div>
+                                    <div className="d-flex justify-content-center align-items-center h-100 w-50 ">
+                                      {/* {el?.Pcs}/{el?.Wt?.toFixed(3)} */}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                              <div className="tc6JL">
+                                {e?.OtherCharges?.toFixed(2)}
+                              </div>
+                              <div className="tc7JL">
+                                {e?.MakingAmount?.toFixed(2)}
+                              </div>
+                              <div
+                                className="tc8JL"
+                                style={{ borderRight: "0px" }}
+                              >
+                                {e?.UnitCost?.toFixed(2)}
                               </div>
                             </div>
                           );
                         })}
+                    </div>
+                    <div
+                      className="totalrowJL fw-bold fsJL"
+                      style={{ borderTop: "0px" }}
+                    >
+                      <div className="tc1JL h-100"></div>
+                      <div className="tc2JL fs-6 h-100">TOTAL</div>
+                      <div className="tc3JL h-100">
+                        <div className="tc4JL2 h-100">
+                          <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL"></div>
+                          <div className="d-flex justify-content-end pe-1 align-items-center w-50 h-100">
+                            {mainTotal?.totalgrosswt?.grosswt?.toFixed(3)}/
+                            {mainTotal?.totalnetwt?.netwt?.toFixed(3)}
+                          </div>
+                        </div>
                       </div>
+                      <div className="tc4JL h-100">
+                        <div className="tc4JL2 h-100">
+                          <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL"></div>
+                          <div className="d-flex justify-content-end pe-1 align-items-center w-50 h-100">
+                            {mainTotal?.diamonds?.Pcs}/
+                            {mainTotal?.diamonds?.Wt?.toFixed(3)}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tc5JL h-100">
+                        <div className="tc5JL2 h-100">
+                          <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL"></div>
+                          <div className="d-flex justify-content-end pe-1 align-items-center w-50 h-100">
+                            {mainTotal?.colorstone?.Pcs}/
+                            {mainTotal?.colorstone?.Wt?.toFixed(3)}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="tc6JL d-flex justify-content-end pe-1 h-100">
+                        {mainTotal?.totalOtherAmount?.toFixed(2)}
+                      </div>
+                      <div className="tc7JL d-flex justify-content-end pe-1 h-100">
+                        {mainTotal?.totallabourAmount?.toFixed(2)}
+                      </div>
+                      <div
+                        className="tc8JL d-flex justify-content-end pe-1 h-100"
+                        style={{ borderRight: "0px" }}
+                      >
+                        {mainTotal?.totalunitCost?.toFixed(2)}
+                      </div>
+                    </div>
+                    <div className="footerJL fsJL d-flex justify-content-between align-items-end ">
+                      <div className="inWordsJL">
+                        <div className="fw-bold py-1 px-1">
+                          In Words Indian Rupees
+                        </div>
+                        <div className="fw-bold py-2 px-1">{inWords}</div>
+                      </div>
+                      <div className="footerTotJL">
+                        <div className="brJL">
+                          <div className="d-flex flex-column justify-content-between px-1">
+                            {taxTotal?.map((e, i) => {
+                              return (
+                                <div
+                                  className="d-flex justify-content-between px-1"
+                                  key={i}
+                                >
+                                  <div className="w-50 d-flex justify-content-end align-items-center pe-1 brrJL">
+                                    {e?.name} {e?.per}
+                                  </div>
+                                  <div className="w-50 d-flex justify-content-end align-items-center ">
+                                    {e?.amount}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
 
-                      <div className="d-flex justify-content-between px-1">
-                        <div className="w-50 d-flex justify-content-end align-items-center pe-1 brrJL">
-                          Less
+                          <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 d-flex justify-content-end align-items-center pe-1 brrJL">
+                              Less
+                            </div>
+                            <div className="w-50 d-flex justify-content-end align-items-center pe-1 ">
+                              {headerData?.AddLess?.toFixed(2)}
+                            </div>
+                          </div>
                         </div>
-                        <div className="w-50 d-flex justify-content-end align-items-center pe-1 ">
-                          {headerData?.AddLess?.toFixed(2)}
+                        <div className="d-flex justify-content-between px-1 grandTotalJL">
+                          <div
+                            className="fw-bold w-50 d-flex align-items-center justify-content-end  pe-1 brrJL"
+                            style={{ fontSize: "15px" }}
+                          >
+                            Grand Total
+                          </div>
+                          <div
+                            className="fw-bold w-50 d-flex align-items-center justify-content-end pe-1"
+                            style={{ fontSize: "15px" }}
+                          >
+                            {grandTot?.toFixed(2)}
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className="d-flex justify-content-between px-1 grandTotalJL">
-                      <div className="fw-bold w-50 d-flex align-items-center justify-content-end  pe-1 brrJL" style={{fontSize:"15px"}}>
-                        Grand Total
+                    <div
+                      className="noteJL fw-bold p-1"
+                      dangerouslySetInnerHTML={{
+                        __html: headerData?.Declaration,
+                      }}
+                    ></div>
+                    <div
+                      className="dynamicHeadJLmain"
+                      style={{ borderTop: "0px" }}
+                    >
+                      <div className="dynamicHeadJL1">
+                        <div className="fslhJL fw-bold">Bank Detail</div>
+                        <div className="fslhJL">
+                          <b className="JL13 fw-normal">
+                            Bank Name : {headerData?.bankname}
+                          </b>
+                        </div>
+                        <div className="fslhJL">
+                          BRANCH: {headerData?.bankaddress}
+                        </div>
+                        <div className="fslhJL">
+                          Account Name : {headerData?.accountname}
+                        </div>
+                        <div className="fslhJL">
+                          Account Number : {headerData?.accountnumber}
+                        </div>
+                        <div className="fslhJL">
+                          RTGS/NEFT IFSC:{headerData?.customerAddress3}
+                        </div>
+                        <div className="fslhJL"></div>
                       </div>
-                      <div className="fw-bold w-50 d-flex align-items-center justify-content-end pe-1" style={{fontSize:"15px"}}>
-                        {grandTot?.toFixed(2)}
+                      <div className="dynamicHeadJL2D">
+                        <div>Signature</div>
+                        <div className="fw-bold">Sample Pvt Ltd</div>
+                      </div>
+                      <div className="dynamicHeadJL3D ">
+                        <div>Signature</div>
+                        <div className="fw-bold">ORAIL SERVICE</div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div
-                  className="noteJL fw-bold p-1"
-                  dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
-                ></div>
-                <div className="dynamicHeadJLmain" style={{ borderTop: "0px" }}>
-                  <div className="dynamicHeadJL1">
-                    <div className="fslhJL fw-bold">Bank Detail</div>
-                    <div className="fslhJL">
-                      <b className="JL13 fw-normal">
-                        Bank Name : {headerData?.bankname}
-                      </b>
-                    </div>
-                    <div className="fslhJL">
-                      BRANCH: {headerData?.bankaddress}
-                    </div>
-                    <div className="fslhJL">
-                      Account Name : {headerData?.accountname}
-                    </div>
-                    <div className="fslhJL">
-                      Account Number : {headerData?.accountnumber}
-                    </div>
-                    <div className="fslhJL">
-                      RTGS/NEFT IFSC:{headerData?.customerAddress3}
-                    </div>
-                    <div className="fslhJL"></div>
-                  </div>
-                  <div className="dynamicHeadJL2D">
-                    <div>Signature</div>
-                    <div className="fw-bold">Sample Pvt Ltd</div>
-                  </div>
-                  <div className="dynamicHeadJL3D ">
-                    <div>Signature</div>
-                    <div className="fw-bold">ORAIL SERVICE</div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </>
+          ) : (
+            <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
+              {msg}
+            </p>
+          )}
         </>
       )}
     </>
