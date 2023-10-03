@@ -10,7 +10,7 @@ import convertor from "number-to-words";
 import Button from "./../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 
-const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName }) => {
+const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
   const [imgShow, setImgShow] = useState(true);
   const [dynamicList1, setDynamicList1] = useState([]);
@@ -35,6 +35,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName }) => {
         token: token,
         invoiceno: invoiceNo,
         printname: printName,
+        Eventname: evn
       };
       const data = await axios.post(urls, body);
       if (data?.data?.Status == 200) {

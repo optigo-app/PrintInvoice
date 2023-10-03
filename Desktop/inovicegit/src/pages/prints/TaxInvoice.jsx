@@ -4,7 +4,7 @@ import { apiCall, handlePrint } from "../../GlobalFunctions";
 import Header from "../../components/Header";
 import { useEffect } from "react";
 
-const TaxInvoice = ({token, invoiceNo, printName, urls}) => {
+const TaxInvoice = ({token, invoiceNo, printName, urls, evn}) => {
   const [image, setimage] = useState(false);
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
@@ -20,7 +20,7 @@ const TaxInvoice = ({token, invoiceNo, printName, urls}) => {
   useEffect(() => {
     const sendData = async () => {
         try {
-            const data = await apiCall(token, invoiceNo, printName, urls);
+            const data = await apiCall(token, invoiceNo, printName, urls, evn);
             loadData(data);
             setLoader(false);
 

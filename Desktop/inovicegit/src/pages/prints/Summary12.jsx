@@ -7,7 +7,7 @@ import html2pdf from 'html2pdf.js';
 import '../../assets/css/prints/summary12.css';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-const Summary12 = ({ urls, token, invoiceNo, printName }) => {
+const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
     const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
 
     const [billPrintJson, setBillprintJson] = useState({});
@@ -345,7 +345,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn);
                 loadData(data);
                 setLoader(false);
 

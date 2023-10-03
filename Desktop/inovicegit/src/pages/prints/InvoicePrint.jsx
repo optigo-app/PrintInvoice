@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/invoicePrint.css";
 import { apiCall, handlePrint } from '../../GlobalFunctions';
 
-const InvoicePrint = ({ urls, token, invoiceNo, printName }) => {
+const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
   const [loader, setLoader] = useState(true);
   const [json0, setJson0] = useState({});
@@ -62,7 +62,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn);
         loadData(data);
         setLoader(false);
       } catch (error) {

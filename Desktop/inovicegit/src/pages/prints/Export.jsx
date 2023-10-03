@@ -4,7 +4,7 @@ import { apiCall, handlePrint } from "../../GlobalFunctions";
 import { useState } from "react";
 import Loader from "../../components/Loader";
 
-const Export = ({ urls, token, invoiceNo, printName }) => {
+const Export = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
     const [json0Data, setJson0Data] = useState({});
     const [data, setData] = useState([]);
@@ -130,7 +130,7 @@ const Export = ({ urls, token, invoiceNo, printName }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn);
                 loadData(data);
                 setLoader(false);
             } catch (error) {

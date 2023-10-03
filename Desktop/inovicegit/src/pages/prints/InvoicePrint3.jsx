@@ -6,7 +6,7 @@ import convertor from "number-to-words";
 import { taxGenrator } from "./../../GlobalFunctions";
 import Loader from "../../components/Loader";
 
-const InvoicePrint3 = ({ urls, token, invoiceNo, printName }) => {
+const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState();
   const [json1, setJson1] = useState();
   const [json2, setJson2] = useState();
@@ -27,6 +27,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName }) => {
         token: token,
         invoiceno: invoiceNo,
         printname: printName,
+        Eventname: evn,
       };
 
       const data = await axios.post(urls, body);

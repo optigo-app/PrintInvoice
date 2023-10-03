@@ -3,7 +3,7 @@ import "../../assets/css/prints/detailPrint11.css";
 import { apiCall, handleImageError, handlePrint } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
-const DetailPrint11 = ({ urls, token, invoiceNo, printName }) => {
+const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
 
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
@@ -41,7 +41,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn);
         loadData(data);
         setLoader(false);
       } catch (error) {

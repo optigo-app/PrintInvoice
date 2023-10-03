@@ -4,7 +4,7 @@ import convertor from "number-to-words";
 import "../../assets/css/prints/retailPrint.css";
 import Loader from '../../components/Loader';
 
-const RetailPrint = ({ urls, token, invoiceNo, printName }) => {
+const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [jsonData1, setJsonData1] = useState({});
     const [dataFill, setDataFill] = useState([]);
     const [total, setTotal] = useState({});
@@ -77,7 +77,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName }) => {
     useEffect(() => {
          const sendData = async () => {
                 try {
-                    const data = await apiCall(token, invoiceNo, printName, urls);
+                    const data = await apiCall(token, invoiceNo, printName, urls, evn);
                     loadData(data);
                     setLoader(false);
                 } catch (error) {

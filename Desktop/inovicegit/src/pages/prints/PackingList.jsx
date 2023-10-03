@@ -5,7 +5,7 @@ import axios from "axios";
 import Loader from "../../components/Loader";
 import { taxGenrator } from "../../GlobalFunctions";
 
-const PackingList = ({ urls, token, invoiceNo, printName }) => {
+const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
   const [headerData, setHeaderData] = useState({});
   const [dynamicList1, setDynamicList1] = useState([]);
   const [dynamicList2, setDynamicList2] = useState([]);
@@ -255,6 +255,7 @@ const PackingList = ({ urls, token, invoiceNo, printName }) => {
         token: token,
         invoiceno: invoiceNo,
         printname: printName,
+        Eventname: evn
       };
 
       const data = await axios.post(urls, body);

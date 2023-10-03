@@ -4,7 +4,7 @@ import { apiCall, handlePrint } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { handleImageError } from '../../GlobalFunctions/HandleImageError';
 
-const ExportPrint = ({ urls, token, invoiceNo, printName }) => {
+const ExportPrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
     const [data, setData] = useState([]);
 
@@ -15,7 +15,7 @@ const ExportPrint = ({ urls, token, invoiceNo, printName }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn);
                 loadData(data);
                 setLoader(false);
             } catch (error) {

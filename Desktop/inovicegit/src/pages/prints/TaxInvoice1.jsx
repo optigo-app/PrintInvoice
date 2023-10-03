@@ -4,7 +4,7 @@ import "../../assets/css/prints/taxInvoice1.css";
 import { CapitalizeWords, apiCall, handlePrint } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
-const TaxInvoice1 = ({  urls, token, invoiceNo, printName  }) => {
+const TaxInvoice1 = ({  urls, token, invoiceNo, printName, evn  }) => {
     const [image, setimage] = useState(false);
     const [BillPrint_Json, setBillPrint_Json] = useState({});
     const [BillPrint_Jso1, setBillPrint_Json1] = useState([]);
@@ -117,7 +117,7 @@ const TaxInvoice1 = ({  urls, token, invoiceNo, printName  }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn);
                 loadData(data);
                 setLoader(false)
             } catch (error) {

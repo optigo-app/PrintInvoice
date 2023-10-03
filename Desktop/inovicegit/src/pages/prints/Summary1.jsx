@@ -250,6 +250,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
         token: token,
         invoiceno: invoiceNo,
         printname: printName,
+        Eventname: evn
       };
 
       const data = await axios.post(urls, body);

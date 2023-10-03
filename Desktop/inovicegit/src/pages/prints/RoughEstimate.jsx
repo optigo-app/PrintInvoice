@@ -7,7 +7,7 @@ import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 import { taxGenrator } from "./../../GlobalFunctions";
 
-const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
+const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
   const [json, setJson] = useState({});
   const [json1, setJson1] = useState([]);
   const [json2, setJson2] = useState([]);
@@ -297,6 +297,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName }) => {
         token: token,
         invoiceno: invoiceNo,
         printname: printName,
+        Eventname: evn
       };
       const data = await axios.post(urls, body);
       if (data?.data?.Status == 200) {

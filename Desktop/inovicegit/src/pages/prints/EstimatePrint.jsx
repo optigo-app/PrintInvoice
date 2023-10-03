@@ -4,7 +4,7 @@ import { apiCall, handleImageError, handlePrint, taxGenrator } from '../../Globa
 import Loader2 from '../../components/Loader2';
 import Loader from '../../components/Loader';
 
-const EstimatePrint = ({ urls, token, invoiceNo, printName }) => {
+const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [image, setImage] = useState(false);
     const [json1Data, setJson1Data] = useState({});
     const [json2Data, setJson2Data] = useState([]);
@@ -236,7 +236,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn);
                 loadData(data);
                 setLoader(false);
             } catch (error) {

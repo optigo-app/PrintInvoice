@@ -3,7 +3,7 @@ import "../../assets/css/prints/miscPrint1.css";
 import { apiCall, handlePrint } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { usePDF } from 'react-to-pdf';
-const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
+const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
     const [primary, setPrimary] = useState({});
     const [jsonData, setJsonData] = useState([]);
@@ -132,7 +132,7 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn);
                 loadData(data);
                 setLoader(false);
             } catch (error) {

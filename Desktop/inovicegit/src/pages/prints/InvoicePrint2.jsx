@@ -9,7 +9,7 @@ import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 import { taxGenrator } from "./../../GlobalFunctions";
 
-const InvoicePrint2 = ({ urls, token, invoiceNo, printName }) => {
+const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState();
   const [json1, setJson1] = useState();
   const [json2, setJson2] = useState();
@@ -26,6 +26,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName }) => {
         token: token,
         invoiceno: invoiceNo,
         printname: printName,
+        Eventname: evn
       };
 
       const data = await axios.post(urls, body);

@@ -6,7 +6,7 @@ import Loader from "../../components/Loader";
 import { handleImageError } from "../../GlobalFunctions";
 import { taxGenrator } from "./../../GlobalFunctions";
 
-const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
+const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
   const [imgShow, setImgShow] = useState(true);
   const [dynamicList1, setDynamicList1] = useState([]);
@@ -61,6 +61,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName }) => {
         token: token,
         invoiceno: invoiceNo,
         printname: printName,
+        Eventname: evn
       };
 
       const data = await axios.post(urls, body);

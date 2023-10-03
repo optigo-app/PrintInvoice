@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { ToWords } from 'to-words';
 import Loader from "../../components/Loader";
 
-const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
+const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
   const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [loader, setLoader] = useState(true);
   const toWords = new ToWords();
@@ -163,7 +163,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn);
         loadData(data);
         setLoader(false);
       } catch (error) {
