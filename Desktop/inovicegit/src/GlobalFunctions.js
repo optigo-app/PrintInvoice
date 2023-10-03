@@ -1,5 +1,5 @@
 import axios from "axios";
-import img from "./assets/img/default.jpg"
+import img from "./assets/img/default.jpg";
 export const handlePrint = (e) => {
   window.print();
 };
@@ -25,19 +25,25 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
     token: token,
     invoiceno: invoiceNo,
     printname: printName,
-    Eventname: evn
+    Eventname: evn,
   };
+
   try {
     const response = await axios.post(urls, body);
-    console.log(response?.data);
-    // return response?.data;
-    return response.data.Data;
+    return response?.data;
+
   } catch (error) {
     console.error(error);
-    throw error;
   }
 };
-
+export function isObjectEmpty(obj) {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      return false; // If any property is found, the object is not empty
+    }
+  }
+  return true; // If no properties are found, the object is empty
+}
 export const taxGenrator = (headerData, totalAmount) => {
   let blankArr = [];
 
@@ -48,15 +54,15 @@ export const taxGenrator = (headerData, totalAmount) => {
         if (headerData[`${e}_IsOnDiscount`] === 1) {
           let obj = {
             name: headerData[[`${e}_taxname`]],
-            per: `${(headerData[`${e}_value`]).toFixed(3)}%`,
+            per: `${headerData[`${e}_value`].toFixed(3)}%`,
             amount: ((totalAmount * headerData[`${e}_value`]) / 100).toFixed(2),
           };
           blankArr.push(obj);
         } else {
           let obj = {
             name: headerData[`${e}_taxname`],
-            per: (headerData[`${e}_value`]).toFixed(3),
-            amount: (headerData[`${e}_value`]).toFixed(2),
+            per: headerData[`${e}_value`].toFixed(3),
+            amount: headerData[`${e}_value`].toFixed(2),
           };
           blankArr.push(obj);
         }
@@ -134,7 +140,6 @@ export const taxGenrator = (headerData, totalAmount) => {
     //     blankArr.push(obj);
     //   }
     // }
-
   } else if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 1) {
     let arr = ["CGST", "SGST"];
     arr.forEach((e, i) => {
@@ -155,3 +160,7 @@ export const taxGenrator = (headerData, totalAmount) => {
   }
   return blankArr;
 };
+
+// export const apiResponse = () => {
+
+// }

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import "../../assets/css/prints/detailPrint1.css";
 import { useState } from 'react';
-import { apiCall, handleImageError, handlePrint, taxGenrator } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
 const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
@@ -9,6 +9,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
   const [json1Data, setJson1Data] = useState([]);
+  const [msg, setMsg] = useState("");
   const [total, setTotal] = useState({
     diamondPcs: 0,
     diamondWt: 0,
@@ -192,8 +193,19 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     const sendData = async () => {
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
-        loadData(data);
-        setLoader(false);
+        if(data?.Status === '200'){
+          let isEmpty = isObjectEmpty(data?.Data);
+          if(!isEmpty){
+              loadData(data?.Data);
+              setLoader(false);
+          }else{
+              setLoader(false);
+              setMsg("Data Not Found");
+          }
+      }else{
+              setLoader(false);
+              setMsg(data?.Message);
+      }
       } catch (error) {
         console.error(error);
       }
@@ -201,7 +213,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     sendData();
   }, []);
   return (
-    <>{loader ? <Loader /> : <div className="container containerDetailPrint1 pt-4">
+    <>{loader ? <Loader /> : msg === "" ?
+    <div className="container containerDetailPrint1 pt-4">
       {/* buttons */}
       <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4">
         <div className="form-check d-flex align-items-center">
@@ -667,8 +680,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
           </div>
         </div>
       </div>
-    </div>}
-
+    </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}
     </>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/detailPrint11.css";
-import { apiCall, handleImageError, handlePrint } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
 const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
@@ -9,6 +9,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [json0Data, setJson0Data] = useState({});
   const [json1Data, setJson1Data] = useState([]);
   const [taxes, setTaxes] = useState([]);
+  const [msg, setMsg] = useState("");
 
   const loadData = (data) => {
     setJson0Data(data.BillPrint_Json[0]);
@@ -42,8 +43,19 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
     const sendData = async () => {
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
-        loadData(data);
-        setLoader(false);
+        if(data?.Status === '200'){
+          let isEmpty = isObjectEmpty(data?.Data);
+          if(!isEmpty){
+              loadData(data?.Data);
+              setLoader(false);
+          }else{
+              setLoader(false);
+              setMsg("Data Not Found");
+          }
+      }else{
+              setLoader(false);
+              setMsg(data?.Message);
+      }
       } catch (error) {
         console.error(error);
       }
@@ -52,7 +64,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   }, []);
 
   return (
-    loader ? <Loader /> : <div className='container containerDetailP11 mt-5'>
+    loader ? <Loader /> :  msg === "" ? <div className='container containerDetailP11 mt-5'>
       {/* buttons */}
       <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4">
         <div className="form-check pe-3">
@@ -344,7 +356,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           <p className='p-1'>Signature</p>
         </div>
       </div>
-    </div>
+    </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
   )
 }
 
