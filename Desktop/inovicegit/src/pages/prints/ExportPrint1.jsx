@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import style from "../../assets/css/prints/exportPrint1.module.css";
-import { apiCall, handlePrint } from '../../GlobalFunctions';
+import { apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { ToWords } from 'to-words';
 
@@ -8,17 +8,18 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
     const [data, setData] = useState([]);
     const [json0Data, setJson0Data] = useState({});
+    const [msg, setMsg] = useState("");
     const toWords = new ToWords();
 
     const loadData = (data) => {
         let arr = [];
         data?.BillPrint_Json1.forEach((e, i) => {
             let findIndex = arr.findIndex((ele, ind) => ele?.designno === e?.designno);
-            if(findIndex === -1){
-                let obj = {...e};
+            if (findIndex === -1) {
+                let obj = { ...e };
                 obj.quantityPcs = 1;
                 arr.push(obj);
-            }else{
+            } else {
                 arr[findIndex].grosswt += e?.grosswt;
                 arr[findIndex].TotalAmount += e?.TotalAmount;
                 arr[findIndex].quantityPcs += 1;
@@ -32,8 +33,19 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
         const sendData = async () => {
             try {
                 const data = await apiCall(token, invoiceNo, printName, urls, evn);
-                loadData(data);
-                setLoader(false);
+                if (data?.Status === '200') {
+                    let isEmpty = isObjectEmpty(data?.Data);
+                    if (!isEmpty) {
+                        loadData(data?.Data);
+                        setLoader(false);
+                    } else {
+                        setLoader(false);
+                        setMsg("Data Not Found");
+                    }
+                } else {
+                    setLoader(false);
+                    setMsg(data?.Message);
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -43,7 +55,7 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     }, []);
 
     return (
-        loader ? <Loader /> : <div className={style.containerExportPrint1}>
+        loader ? <Loader /> : msg === "" ? <div className={style.containerExportPrint1}>
             {/* print button */}
             <div className={`d-flex justify-content-end mb-4 align-items-center print_sec_sum4 pt-4 pb-4`}>
                 <div className="form-check ps-3 mt-2">
@@ -191,7 +203,7 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
     )
 }
 

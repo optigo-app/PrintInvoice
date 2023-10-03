@@ -1,9 +1,7 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "../../assets/css/prints/itemwiseprint.css";
-import {  apiCall, handlePrint, taxGenrator } from "../../GlobalFunctions";
+import { apiCall, handlePrint, taxGenrator, isObjectEmpty} from "../../GlobalFunctions";
 import { usePDF } from "react-to-pdf";
-import { useState } from "react";
-import { useEffect } from "react";
 import { ToWords } from 'to-words';
 import Loader from "../../components/Loader";
 
@@ -12,6 +10,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
   const [loader, setLoader] = useState(true);
   const toWords = new ToWords();
   const [json0Data, setjson0Data] = useState({});
+  const [msg, setMsg] = useState("");
   const [data, setData] = useState([]);
   const [total, setTotal] = useState({
     count: 0,
@@ -164,8 +163,19 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
     const sendData = async () => {
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
-        loadData(data);
-        setLoader(false);
+        if (data?.Status === '200') {
+          let isEmpty = isObjectEmpty(data?.Data);
+          if (!isEmpty) {
+            loadData(data?.Data);
+            setLoader(false);
+          } else {
+            setLoader(false);
+            setMsg("Data Not Found");
+          }
+        } else {
+          setLoader(false);
+          setMsg(data?.Message);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -174,10 +184,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
   }, []);
 
   return (<>
-    {loader ?
-      <Loader />
-      :
-      <div className="itemWisePrintfont">
+    {loader ? <Loader /> : msg === "" ? <div className="itemWisePrintfont">
         {/* Print Button */}
         <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4 portrait_container ">
           {/* <div className="form-check">
@@ -565,7 +572,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
             </p>
           </div>
         </div>
-      </div>}
+      </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}
   </>
   );
 };

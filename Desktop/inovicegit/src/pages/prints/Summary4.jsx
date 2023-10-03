@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/summary4.css";
-import { apiCall, handleImageError, handlePrint, taxGenrator } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
 const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
@@ -53,6 +53,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
         colorStoneAmount: 0
     });
     const [loader, setLoader] = useState(true);
+    const [msg, setMsg] = useState("");
 
     const findMaterialWise = (findElement, elementNo, arr) => {
         let resultArr = arr.filter((e, i) => {
@@ -318,8 +319,19 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
         const sendData = async () => {
             try {
                 const data = await apiCall(token, invoiceNo, printName, urls, evn);
-                loadData(data);
-                setLoader(false)
+                if(data?.Status === '200'){
+                    let isEmpty = isObjectEmpty(data?.Data);
+                    if(!isEmpty){
+                        loadData(data?.Data);
+                        setLoader(false);
+                    }else{
+                        setLoader(false);
+                        setMsg("Data Not Found");
+                    }
+                }else{
+                        setLoader(false);
+                        setMsg(data?.Message);
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -340,7 +352,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
         }
     }
 
-    return (<>{loader ? <Loader /> : <div className='container pt-4'>
+    return (<>{loader ? <Loader /> : msg === "" ? <div className='container pt-4'>
         <div className="d-flex justify-content-end align-items-center print_sec_sum4">
             <div className="form-check pe-3">
                 <input className="form-check-input border-dark" type="checkbox" checked={header} onChange={e => handleChange(e, "header")} />
@@ -836,7 +848,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
         </div>
-    </div>}
+    </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}
 
         {/* <Loader /> */}
     </>

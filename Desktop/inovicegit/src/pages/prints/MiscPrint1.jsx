@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/miscPrint1.css";
-import { apiCall, handlePrint } from '../../GlobalFunctions';
+import { apiCall, handlePrint, isObjectEmpty} from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { usePDF } from 'react-to-pdf';
 const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
@@ -9,6 +9,7 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [jsonData, setJsonData] = useState([]);
     const [total, setTotal] = useState({});
     const [loader, setLoader] = useState(true);
+    const [msg, setMsg] = useState("");
     const [materialNames, setMaterialNames] = useState([]);
     const [totalItems, setTotalItems] = useState([]);
 
@@ -133,8 +134,19 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
         const sendData = async () => {
             try {
                 const data = await apiCall(token, invoiceNo, printName, urls, evn);
-                loadData(data);
-                setLoader(false);
+                if (data?.Status === '200') {
+                    let isEmpty = isObjectEmpty(data?.Data);
+                    if (!isEmpty) {
+                        loadData(data?.Data);
+                        setLoader(false);
+                    } else {
+                        setLoader(false);
+                        setMsg("Data Not Found");
+                    }
+                } else {
+                    setLoader(false);
+                    setMsg(data?.Message);
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -144,7 +156,7 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
 
     return (
         <>
-            {loader ? <Loader /> : <>
+            {loader ? <Loader /> : msg === "" ? <>
                 <div className="printBtn_sec text-end container_Misc_1 pt-4">
                     {/* <input type="button" className="btn_white blue me-2" value="Pdf" onClick={() => toPDF()} /> */}
                     <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
@@ -265,7 +277,7 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="AmountMiscPrint1 p-1 text-end fw-bold height53Misc1 text-end">{(total?.amount)?.toFixed(3)}</div>
                     </div>
                 </div>
-            </>}
+            </> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}
         </>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/estimatePrint.css";
-import { apiCall, handleImageError, handlePrint, taxGenrator } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader2 from '../../components/Loader2';
 import Loader from '../../components/Loader';
 
@@ -9,6 +9,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [json1Data, setJson1Data] = useState({});
     const [json2Data, setJson2Data] = useState([]);
     const [imageLoading, setImageLoading] = useState(true);
+    const [msg, setMsg] = useState("");
     const [total, setTotal] = useState({
         totalamount: 0,
         cgstAmount: 0,
@@ -237,8 +238,19 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
         const sendData = async () => {
             try {
                 const data = await apiCall(token, invoiceNo, printName, urls, evn);
-                loadData(data);
-                setLoader(false);
+                if(data?.Status === '200'){
+                    let isEmpty = isObjectEmpty(data?.Data);
+                    if(!isEmpty){
+                        loadData(data?.Data);
+                        setLoader(false);
+                    }else{
+                        setLoader(false);
+                        setMsg("Data Not Found");
+                    }
+                }else{
+                        setLoader(false);
+                        setMsg(data?.Message);
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -252,7 +264,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     };
 
     return (<>
-        {loader ? <Loader /> : <div className='container containerEstimate'>
+        {loader ? <Loader /> : msg === "" ? <div className='container containerEstimate'>
             {/* print button */}
             <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4 mt-5 w-100" >
                 <div className="form-check pe-3 mb-0">
@@ -691,7 +703,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                 </div>
             </div>
-        </div>}
+        </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}
     </>
     )
 }

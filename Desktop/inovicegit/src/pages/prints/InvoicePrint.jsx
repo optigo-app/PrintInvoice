@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/invoicePrint.css";
-import { apiCall, handlePrint } from '../../GlobalFunctions';
+import { apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import Loader from '../../components/Loader';
 
 const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
   const [loader, setLoader] = useState(true);
   const [json0, setJson0] = useState({});
   const [data, setData] = useState([]);
+  const [msg, setMsg] = useState("");
 
   const findOtherName = (arr, ele) => {
     let findIndex = arr.findIndex((e, i) => e?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid && e?.Rate === ele?.Rate);
@@ -63,8 +65,19 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const sendData = async () => {
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
-        loadData(data);
-        setLoader(false);
+        if (data?.Status === '200') {
+          let isEmpty = isObjectEmpty(data?.Data);
+          if (!isEmpty) {
+            loadData(data?.Data);
+            setLoader(false);
+          } else {
+            setLoader(false);
+            setMsg("Data Not Found");
+          }
+        } else {
+          setLoader(false);
+          setMsg(data?.Message);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -73,7 +86,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   }, []);
 
   return (
-    <div className='container portraitContainer inoviceprintContainer'>
+   loader ? <Loader /> : msg === "" ? <div className='container portraitContainer inoviceprintContainer'>
       {/* buttons */}
       <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4">
         <div className="form-check">
@@ -165,19 +178,19 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               {data.length > 0 && data.map((e, i) => {
                 return <div className="d-flex px-1" key={i}>{console.log(e)}
                   <div className="col-6">
-                    <p className="fw-bold">{e?.MasterManagement_DiamondStoneTypeid === 4 ? (e?.ShapeName+" "+e?.QualityName) : e?.MasterManagement_DiamondStoneTypeName}</p>
+                    <p className="fw-bold">{e?.MasterManagement_DiamondStoneTypeid === 4 ? (e?.ShapeName + " " + e?.QualityName) : e?.MasterManagement_DiamondStoneTypeName}</p>
                   </div>
                   <div className="col-3">
                     <p className="fw-bold">{(e?.Wt).toFixed(3)}</p>
                   </div>
                   <div className="col-2">
                     <p className="fw-bold">
-                    {(e?.Rate).toFixed(3)}
+                      {(e?.Rate).toFixed(3)}
                     </p>
                   </div>
                   <div className="col-2">
                     <p className="fw-bold">
-                    {(e?.Amount).toFixed(3)}
+                      {(e?.Amount).toFixed(3)}
                     </p>
                   </div>
                 </div>
@@ -243,7 +256,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
           </div>
         </div>
       </div>
-    </div>
+    </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
   )
 }
 

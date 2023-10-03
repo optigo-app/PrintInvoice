@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import style from "../../assets/css/prints/export.module.css";
-import { apiCall, handlePrint } from "../../GlobalFunctions";
+import { apiCall, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import { useState } from "react";
 import Loader from "../../components/Loader";
 
@@ -8,6 +8,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
     const [json0Data, setJson0Data] = useState({});
     const [data, setData] = useState([]);
+    const [msg, setMsg] = useState("");
     const [total, setTotal] = useState({
         qtyPcsPair: 0,
         grossWt: 0,
@@ -131,8 +132,19 @@ const Export = ({ urls, token, invoiceNo, printName, evn }) => {
         const sendData = async () => {
             try {
                 const data = await apiCall(token, invoiceNo, printName, urls, evn);
-                loadData(data);
-                setLoader(false);
+                if(data?.Status === '200'){
+                    let isEmpty = isObjectEmpty(data?.Data);
+                    if(!isEmpty){
+                        loadData(data?.Data);
+                        setLoader(false);
+                    }else{
+                        setLoader(false);
+                        setMsg("Data Not Found");
+                    }
+                }else{
+                        setLoader(false);
+                        setMsg(data?.Message);
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -141,7 +153,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn }) => {
     }, []);
 
     return (
-        loader ? <Loader /> : <>
+        loader ? <Loader /> : msg === "" ? <>
             {/* print button  */}
             <div className={`d-flex justify-content-end mb-4 align-items-center print_sec_sum4 pt-4 ${style?.exportPrintContainer}`}>
                 <div className="form-check ps-3 mt-2">
@@ -307,7 +319,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                 </div>
             </div>
-        </>
+        </> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
     );
 };
 

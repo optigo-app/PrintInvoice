@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/jewellery_invoice.css";
 import html2pdf from 'html2pdf.js';
-import { apiCall, handleImageError, handlePrint, CapitalizeWords, taxGenrator } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, CapitalizeWords, taxGenrator, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import numberToWords from 'number-to-words';
 import { ToWords } from 'to-words';
@@ -11,6 +11,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
   const [json0Data, setJson0Data] = useState({});
   const [data, setData] = useState([]);
   const [taxes, setTaxes] = useState([]);
+  const [msg, setMsg] = useState("");
   const toWords = new ToWords();
 
   const [total, setTotal] = useState({
@@ -105,9 +106,19 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     const sendData = async () => {
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
-        loadData(data);
-        setLoader(false);
-
+        if (data?.Status === '200') {
+          let isEmpty = isObjectEmpty(data?.Data);
+          if (!isEmpty) {
+            loadData(data?.Data);
+            setLoader(false);
+          } else {
+            setLoader(false);
+            setMsg("Data Not Found");
+          }
+        } else {
+          setLoader(false);
+          setMsg(data?.Message);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -117,7 +128,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
   }, []);
 
   return (
-    loader ? <Loader /> : <>
+    loader ? <Loader /> :msg === "" ? <>
       {/* Print Button */}
       <div className="d-flex justify-content-end align-items-center print_sec_sum4  portrait_container pt-4 pb-2">
         <div className="form-check ps-3">
@@ -466,7 +477,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
           <div className="col-4 p-1"></div>
         </div>
       </div>
-    </>
+    </> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
   )
 }
 

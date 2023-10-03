@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import convertor from "number-to-words";
 import "../../assets/css/prints/taxInvoice1.css";
-import { CapitalizeWords, apiCall, handleImageError, handlePrint, taxGenrator } from '../../GlobalFunctions';
+import { CapitalizeWords, apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { ToWords } from 'to-words';
 
@@ -12,6 +12,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [BillPrint_Json2, setBillPrint_Json2] = useState([]);
     const [resultArr, setResultArr] = useState([]);
     const [totalAmount, setTotalAmount] = useState({});
+    const [msg, setMsg] = useState("");
     const [loader, setLoader] = useState(true);
     const toWords = new ToWords();
     const [taxes, setTaxes] = useState([]);
@@ -128,8 +129,19 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
         const sendData = async () => {
             try {
                 const data = await apiCall(token, invoiceNo, printName, urls, evn);
-                loadData(data);
-                setLoader(false)
+                if (data?.Status === '200') {
+                    let isEmpty = isObjectEmpty(data?.Data);
+                    if (!isEmpty) {
+                        loadData(data?.Data);
+                        setLoader(false);
+                    } else {
+                        setLoader(false);
+                        setMsg("Data Not Found");
+                    }
+                } else {
+                    setLoader(false);
+                    setMsg(data?.Message);
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -140,7 +152,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
 
     return (
         <>{
-            loader ? <Loader /> : <div className='container taxinvoice1 pt-5 mt-5'>
+            loader ? <Loader /> : msg === "" ? <div className='container taxinvoice1 pt-5 mt-5'>
                 <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4">
                     <div className="form-check pe-3 mb-0">
                         <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => handleChange(e)} />
@@ -344,7 +356,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <p className='fw-bold'>ORAIL SERVICE</p>
                     </div>
                 </div>
-            </div>
+            </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
         }</>
 
     )

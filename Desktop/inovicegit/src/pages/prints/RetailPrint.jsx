@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { CapitalizeWords, apiCall, handleImageError, handlePrint, taxGenrator } from '../../GlobalFunctions';
+import { CapitalizeWords, apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import "../../assets/css/prints/retailPrint.css";
 import Loader from '../../components/Loader';
 import { ToWords } from 'to-words';
@@ -10,6 +10,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [total, setTotal] = useState({});
     const [rate, setRate] = useState(true);
     const [loader, setLoader] = useState(true);
+    const [msg, setMsg] = useState("");
     const [taxes, setTaxes] = useState([]);
     const toWords = new ToWords();
 
@@ -77,8 +78,19 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
         const sendData = async () => {
             try {
                 const data = await apiCall(token, invoiceNo, printName, urls, evn);
-                loadData(data);
-                setLoader(false);
+                if(data?.Status === '200'){
+                    let isEmpty = isObjectEmpty(data?.Data);
+                    if(!isEmpty){
+                        loadData(data?.Data);
+                        setLoader(false);
+                    }else{
+                        setLoader(false);
+                        setMsg("Data Not Found");
+                    }
+                }else{
+                        setLoader(false);
+                        setMsg(data?.Message);
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -88,7 +100,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
     return (
         <>
-            {loader ? <Loader /> : <div className='container containerRetailPrint mt-5'>
+            {loader ? <Loader /> : msg === "" ? <div className='container containerRetailPrint mt-5'>
                 {/* print button */}
                 <div className="d-flex w-100 justify-content-end align-items-baseline">
                     <div className="form-check pe-3 mb-0">
@@ -328,7 +340,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         <p className='fw-bold'>{jsonData1?.CompanyFullName}</p>
                     </div>
                 </div>
-            </div>}
+            </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}
         </>
     )
 }
