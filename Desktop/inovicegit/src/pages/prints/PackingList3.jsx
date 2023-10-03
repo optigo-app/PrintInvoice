@@ -531,7 +531,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
     setResultArray(resultArr);
     setMainTotal(mainTotal);
   };
-
+console.log(headerData);
   return (
     <>
       {loader ? (
