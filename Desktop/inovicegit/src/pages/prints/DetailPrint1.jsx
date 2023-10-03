@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import "../../assets/css/prints/detailPrint1.css";
 import { useState } from 'react';
-import { apiCall, handleImageError, handlePrint } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
 const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
@@ -43,6 +43,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
     addLess: 0,
     total: 0
   });
+  const [taxes, setTaxes] = useState([]);
   const [diamondDetails, setDiamondDetails] = useState([]);
 
   const handleChange = (e) => {
@@ -167,7 +168,13 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
     summaries.total = summaries?.metalAmount + summaries?.diamondAmount + summaries?.colorStoneAmount + summaries?.makingAmount + summaries?.otherCharges + summaries?.addLess;
     totals.cgstAmount = (totals?.withoutDiscountTotalAmount * json0?.CGST) / 100;
     totals.sgstAmount = (totals?.withoutDiscountTotalAmount * json0?.SGST) / 100;
-    totals.withDiscountTaxAmount = totals?.totalAmount + totals?.cgstAmount + totals?.sgstAmount - totals?.discountTotalAmount + json0?.AddLess;
+    // totals.withDiscountTaxAmount = totals?.totalAmount + totals?.cgstAmount + totals?.sgstAmount - totals?.discountTotalAmount + json0?.AddLess;
+    let taxValue = taxGenrator(json0, totals?.totalAmount);
+    setTaxes(taxValue);
+    taxValue?.length > 0 && taxValue.forEach((e, i) => {
+      totals.withDiscountTaxAmount += +(e?.amount);
+    });
+    totals.withDiscountTaxAmount += json0?.AddLess - totals?.discountTotalAmount + totals?.totalAmount;
     setSummary(summaries);
     setTotal(totals);
     return resultArr;
@@ -497,14 +504,16 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls }) => {
       <div className="d-flex w-100 border-bottom  border-start recordDetailPrint1">
         <div className="cgstDetailPrint1 text-end border-end  ">
           <p>Total Discount</p>
-          <p>CGST @{json0Data?.CGST}%</p>
-          <p>SGST @{json0Data?.SGST}%</p>
+          {taxes.length > 0 && taxes.map((e, i) => {
+            return <p key={i}>{e?.name} @ {e?.per}</p>
+          })}
           <p>Less</p>
         </div>
         <div className="cgstTotalDetailPrint1 text-end border-end  ">
           <p>{(total?.discountTotalAmount).toFixed(2)}</p>
-          <p>{total?.cgstAmount}</p>
-          <p>{total?.sgstAmount}</p>
+          {taxes.length > 0 && taxes.map((e, i) => {
+            return <p key={i}>{e?.amount}</p>
+          })}
           <p>-0.17</p>
         </div>
       </div>

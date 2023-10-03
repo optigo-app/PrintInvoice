@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { CapitalizeWords, apiCall, handleImageError, handlePrint } from '../../GlobalFunctions';
+import { CapitalizeWords, apiCall, handleImageError, handlePrint, taxGenrator } from '../../GlobalFunctions';
 import convertor from "number-to-words";
 import "../../assets/css/prints/retailPrint.css";
 import Loader from '../../components/Loader';
@@ -10,6 +10,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName }) => {
     const [total, setTotal] = useState({});
     const [rate, setRate] = useState(true);
     const [loader, setLoader] = useState(true);
+    const [taxes, setTaxes] = useState([]);
 
     const loadData = (data) => {
         setJsonData1(data?.BillPrint_Json[0]);
@@ -48,8 +49,19 @@ const RetailPrint = ({ urls, token, invoiceNo, printName }) => {
             totalObj.others += e?.OtherCharges;
             totalObj.sgstAmount = +(((data?.BillPrint_Json[0]?.SGST) * (e?.TotalAmount) / 100).toFixed(2));
             totalObj.cgstAmount = +(((data?.BillPrint_Json[0]?.CGST) * (e?.TotalAmount) / 100).toFixed(2));
-            totalObj.grandTotal = +((totalObj.totalAmount + totalObj.sgstAmount + totalObj.cgstAmount + totalObj.addLess).toFixed(2));
-            totalObj.textInNumbers = CapitalizeWords(convertor.toWords(Math.round(totalObj.grandTotal)))
+            // totalObj.grandTotal = +((totalObj.totalAmount + totalObj.sgstAmount + totalObj.cgstAmount + totalObj.addLess).toFixed(2));
+            totalObj.textInNumbers = CapitalizeWords(convertor.toWords(Math.round(totalObj.grandTotal)));
+
+            // tax
+            let taxValue = taxGenrator(data?.BillPrint_Json[0], totalObj.totalAmount);
+            taxValue.forEach((e, i) => {
+                totalObj.grandTotal +=  +(e?.amount);
+            });
+            totalObj.grandTotal += totalObj.totalAmount + totalObj.addLess;
+            // totalObj.grandTotal = (totalObj.grandTotal).toFixed(2);
+            console.log(totalObj.grandTotal);
+            // tax end
+            
             setTotal(totalObj);
             let obj = { ...e };
             obj.materials = materialArray;
@@ -79,7 +91,6 @@ const RetailPrint = ({ urls, token, invoiceNo, printName }) => {
      <>
      {loader ? <Loader /> :    <div className='container containerRetailPrint mt-5'>
             {/* print button */}
-
             <div className="d-flex w-100 justify-content-end align-items-baseline">
                 <div className="form-check pe-3 mb-0">
                     <input className="form-check-input border-dark" type="checkbox" checked={rate} onChange={e => handleChange(e)} />
@@ -289,7 +300,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName }) => {
                     <p>{total?.cgstAmount}</p>
                     <p>{total?.sgstAmount}</p>
                     <p>{total?.addLess}</p>
-                    <p className='fw-bold'>₹{total?.grandTotal}</p>
+                    <p className='fw-bold'>₹{(total?.grandTotal)?.toFixed(2)}</p>
                 </div>
             </div>
             {/* note */}

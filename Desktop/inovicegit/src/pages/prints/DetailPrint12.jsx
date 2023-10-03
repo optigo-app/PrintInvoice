@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import "../../assets/css/prints/detailPrint1.css";
 import "../../assets/css/prints/detailPrint12.css";
 import { useState } from 'react';
-import { apiCall, handleImageError, handlePrint } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
 const DetailPrint12 = ({ token, invoiceNo, printName, urls }) => {
@@ -10,6 +10,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls }) => {
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
   const [json1Data, setJson1Data] = useState([]);
+  const [taxes, setTaxes] = useState([]);
   const [total, setTotal] = useState({
     diamondPcs: 0,
     diamondWt: 0,
@@ -143,7 +144,6 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls }) => {
           }
           obj.SettingAmount += ele?.SettingAmount;
           summaries.makingAmount += ele?.SettingAmount;
-          console.log(ele?.SettingAmount);
         }
       });
       discountTotalAmount = e?.TotalAmount - e?.DiscountAmt;
@@ -169,7 +169,14 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls }) => {
     summaries.total = summaries?.metalAmount + summaries?.diamondAmount + summaries?.colorStoneAmount + summaries?.makingAmount + summaries?.otherCharges + summaries?.addLess;
     totals.cgstAmount = (totals?.withoutDiscountTotalAmount * json0?.CGST) / 100;
     totals.sgstAmount = (totals?.withoutDiscountTotalAmount * json0?.SGST) / 100;
-    totals.withDiscountTaxAmount = totals?.totalAmount + totals?.cgstAmount + totals?.sgstAmount - totals?.discountTotalAmount + json0?.AddLess;
+    // totals.withDiscountTaxAmount = totals?.totalAmount + totals?.cgstAmount + totals?.sgstAmount - totals?.discountTotalAmount + json0?.AddLess;
+    let taxValue = taxGenrator(json0, totals?.totalAmount);
+    taxValue.length > 0 && taxValue.forEach((e, i) => {
+      totals.withDiscountTaxAmount += +(e?.amount);  
+    });
+    totals.withDiscountTaxAmount += totals?.totalAmount + json0?.AddLess- totals?.discountTotalAmount;
+    totals.withDiscountTaxAmount = (totals.withDiscountTaxAmount).toFixed(2);
+    setTaxes(taxValue);
     setSummary(summaries);
     setTotal(totals);
     return resultArr;
@@ -503,14 +510,16 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls }) => {
       <div className="d-flex w-100 border-bottom border-2 border-start recordDetailPrint1">
         <div className="cgstDetailPrint1 text-end border-end border-2 ">
           <p>Total Discount</p>
-          <p>CGST @{json0Data?.CGST}%</p>
-          <p>SGST @{json0Data?.SGST}%</p>
+          {taxes.length > 0 && taxes.map((e, i) => {
+            return <p key={i}>{e?.name} @ {e?.per}</p>
+          })}
           <p>Less</p>
         </div>
         <div className="cgstTotalDetailPrint1 text-end border-end border-2 ">
           <p>{(total?.discountTotalAmount).toFixed(2)}</p>
-          <p>{total?.cgstAmount}</p>
-          <p>{total?.sgstAmount}</p>
+          {taxes.length > 0 && taxes.map((e, i) => {
+            return <p key={i}>{e?.amount}</p>
+          })}
           <p>-0.17</p>
         </div>
       </div>
@@ -559,7 +568,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls }) => {
           </div>
         </div>
         <div className="totalAmountDetailPrint1 border-end border-2 border-bottom ">
-          <p className=' text-end'>{(total?.withDiscountTaxAmount).toFixed(2)}</p>
+          <p className=' text-end'>{total?.withDiscountTaxAmount}</p>
         </div>
       </div>
       {/* summary */}
@@ -624,7 +633,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls }) => {
               </div>
               <div className="d-flex justify-content-between border-top border-2 position-absolute w-100 border-bottom  bottom-0 totalLineDetailPrint1">
                 <p className='fw-bold p-1'>TOTAL</p>
-                <p className='p-1'>{(total?.withDiscountTaxAmount).toFixed(2)}</p>
+                <p className='p-1'>{total?.withDiscountTaxAmount}</p>
               </div>
             </div>
           </div>

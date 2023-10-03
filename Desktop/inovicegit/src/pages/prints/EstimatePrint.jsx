@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/estimatePrint.css";
-import { apiCall, handleImageError, handlePrint } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, taxGenrator } from '../../GlobalFunctions';
 import Loader2 from '../../components/Loader2';
 import Loader from '../../components/Loader';
 
-const EstimatePrint = ({urls, token, invoiceNo, printName }) => {
+const EstimatePrint = ({ urls, token, invoiceNo, printName }) => {
     const [image, setImage] = useState(false);
     const [json1Data, setJson1Data] = useState({});
     const [json2Data, setJson2Data] = useState([]);
@@ -51,6 +51,7 @@ const EstimatePrint = ({urls, token, invoiceNo, printName }) => {
         otherAmount: 0,
         summaryTotalAmount: 0
     });
+    const [taxes, setTaxes] = useState([]);
     const [diamondDetail, setDiamondDetail] = useState([]);
     const [loader, setLoader] = useState(true);
 
@@ -187,9 +188,20 @@ const EstimatePrint = ({urls, token, invoiceNo, printName }) => {
         });
         totals.cgstAmount = data?.BillPrint_Json[0]?.CGST * totals.totalamount / 100;
         totals.sgstAmount = data?.BillPrint_Json[0]?.SGST * totals.totalamount / 100;
-        totals.finalAmount = totals.totalamount + totals.cgstAmount + totals.sgstAmount + data?.BillPrint_Json[0]?.AddLess;
+        // totals.finalAmount = totals.totalamount + totals.cgstAmount + totals.sgstAmount + data?.BillPrint_Json[0]?.AddLess;
         totals.summaryTotalAmount = (totals.goldAmount + totals.diamondAmount + totals.colorStoneAmount + totals.miscAmount +
             totals.makingAmount + totals.otherAmount + data?.BillPrint_Json[0].AddLess).toFixed(3);
+
+        // taxes
+        let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.totalamount);
+        setTaxes(taxValue);
+        taxValue.forEach((e, i) => {
+            totals.finalAmount += +(e?.amount);
+        });
+        totals.finalAmount += totals.totalamount + data?.BillPrint_Json[0]?.AddLess;
+        totals.finalAmount = (totals.finalAmount)?.toFixed(2);
+        // taxes end
+
         totals.gold24Kt = (totals.gold24Kt / 5).toFixed(3);
         totals.grosswt = (totals.grosswt / 5).toFixed(3);
         totals.gdWt = (totals.gdWt / 5).toFixed(3);
@@ -253,12 +265,10 @@ const EstimatePrint = ({urls, token, invoiceNo, printName }) => {
                     <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
                 </div>
             </div>
-
             {/* print name */}
             <div className="border p-1 mt-5" >
                 <p className='text-uppercase fw-bold'>Estimate</p>
             </div>
-
             {/* customer detail */}
             <div className="py-2 d-flex justify-content-between px-1" >
                 <div>
@@ -280,7 +290,6 @@ const EstimatePrint = ({urls, token, invoiceNo, printName }) => {
                     </div>
                 </div>
             </div>
-
             <div className="my-2 w-100" >
                 {/* heading */}
                 <div className="border-start border-top border-end d-flex border-bottom border-2 recordEstimatePrint overflow-hidden">
@@ -338,7 +347,6 @@ const EstimatePrint = ({urls, token, invoiceNo, printName }) => {
                         <p className='text-center'>Amount </p>
                     </div>
                 </div>
-
                 {/* data */}
                 {json2Data.length > 0 && json2Data.map((e, i) => {
                     return <div className="d-flex border-bottom border-2 recordEstimatePrint overflow-hidden border-end border-start" key={i}>
@@ -463,7 +471,6 @@ const EstimatePrint = ({urls, token, invoiceNo, printName }) => {
                         </div>
                     </div>
                 })}
-
                 {/* cgst */}
                 <div className="d-flex border-bottom border-2 recordEstimatePrint overflow-hidden border-end border-start" >
                     <div className="srNoEstimatePrint p-1">
@@ -485,20 +492,23 @@ const EstimatePrint = ({urls, token, invoiceNo, printName }) => {
                     </div>
                     <div className="labourEstimatePrint border-end">
                         <div className='p-1 text-end'>
-                            <p>CGST @ 1.50%</p>
-                            <p>SGST @ 1.50%</p>
+                            {taxes.length > 0 && taxes.map((e, i) => {
+                                return <p key={i}>{e?.name} @ {e?.per}</p>
+                            })}
                             <p>Add</p>
                         </div>
                     </div>
                     <div className="totalAmountEstimatePrint">
                         <div className='p-1 text-end'>
-                            <p>{total?.cgstAmount}</p>
-                            <p>{total?.sgstAmount}</p>
+                            {taxes.length > 0 && taxes.map((e, i) => {
+                                return <p key={i}>{e?.amount}</p>
+                            })}
+                            {/* <p>{total?.cgstAmount}</p> */}
+                            {/* <p>{total?.sgstAmount}</p> */}
                             <p>{json1Data?.AddLess}</p>
                         </div>
                     </div>
                 </div>
-
                 {/* total */}
                 <div className="d-flex border-bottom border-2 recordEstimatePrint overflow-hidden border-end border-start" >
                     <div className="totalEstimatePrint p-1 border-end totalBgEstimatePrint" >
@@ -554,7 +564,6 @@ const EstimatePrint = ({urls, token, invoiceNo, printName }) => {
                         </div>
                     </div>
                 </div>
-
                 <div className="d-flex recordEstimatePrint overflow-hidden border-2 border-bottom">
                     {/* summary */}
                     <div className="min_height_100EstimatePrint summaryEstimateprint border-end border-start position-relative">
@@ -681,7 +690,6 @@ const EstimatePrint = ({urls, token, invoiceNo, printName }) => {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>}
     </>

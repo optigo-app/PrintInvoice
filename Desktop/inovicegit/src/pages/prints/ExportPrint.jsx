@@ -38,7 +38,7 @@ const ExportPrint = ({ urls, token, invoiceNo, printName }) => {
             {data && data.map((e, i) => {
                 return <div className="border rounded " key={i}>
                     <img src={e?.DesignImage} alt="" className='w-100 pt-2' onError={handleImageError}/>
-                    <div className="p-1">
+                    <div className="p-1 border-top">
                         <div className="d-flex justify-content-between w-100">
                             <p className='fw-bold'>{e?.SrNo}</p>
                             <p className='fw-bold'>{e?.designno}</p>

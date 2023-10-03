@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/summary4.css";
-import { apiCall, handleImageError, handlePrint } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { usePDF } from 'react-to-pdf';
 import html2pdf from 'html2pdf.js';
@@ -57,6 +57,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
         colorStoneAmount: 0
     });
     const [loader, setLoader] = useState(true);
+    const [taxes, setTaxes] = useState([]);
     const findMaterialWise = (findElement, elementNo, arr) => {
         let resultArr = arr.filter((e, i) => {
             return e[findElement] === elementNo
@@ -150,7 +151,14 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
         let sgstMinus = taxJson.SGST / 100 * resultObj.amount;
         let cgstMinus = taxJson.CGST / 100 * resultObj.amount;
         let igstMinus = taxJson.IGST / 100 * resultObj.amount;
-        resultObj.afterTaxAmt = (resultObj.amount + sgstMinus + cgstMinus + igstMinus - Math.abs(taxJson?.AddLess)).toFixed(2);
+        let taxValue = taxGenrator(taxJson, resultObj.amount);
+        setTaxes(taxValue);
+        taxValue.length > 0 && taxValue.forEach((e, i) => {
+            resultObj.afterTaxAmt += +(e?.amount);
+        });
+        resultObj.afterTaxAmt += resultObj.amount + taxJson?.AddLess;
+        resultObj.afterTaxAmt = (resultObj.afterTaxAmt).toFixed(2);
+        // resultObj.afterTaxAmt = (resultObj.amount + sgstMinus + cgstMinus + igstMinus - Math.abs(taxJson?.AddLess)).toFixed(2);
         setTotal(resultObj);
     }
 
@@ -532,7 +540,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                             </div>
                         </div>
                         <div className="sgst_part_sum4 border">
-                            <div className="d-flex justify-content-between px-2 pt-1">
+                            {/* <div className="d-flex justify-content-between px-2 pt-1">
                                 <div className="sgst_text_sum4">
                                     CGST @ {billPrintJson?.CGST}
                                 </div>
@@ -547,7 +555,18 @@ const Summary12 = ({ urls, token, invoiceNo, printName }) => {
                                 <div className="sgst_text_sum4">
                                     {((billPrintJson?.SGST / 100) * total.amount).toFixed(2)}
                                 </div>
-                            </div>
+                            </div> */}
+                                {taxes.length > 0 && taxes.map((e, i) => {
+                                    return <div className="d-flex justify-content-between px-2" key={i}>
+                                    <div className="sgst_text_sum4 fw-bold">
+                                        {e?.name} @ {e?.per}
+                                    </div>
+                                    <div className="sgst_text_sum4 fw-bold">
+                                        {e?.amount}
+                                    </div>
+                                </div>
+                                })}
+
                             <div className="d-flex justify-content-between px-2">
                                 <div className="sgst_text_sum4 fw-bold">
                                     Less
