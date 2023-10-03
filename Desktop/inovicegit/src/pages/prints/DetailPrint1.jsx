@@ -25,7 +25,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     sgstAmount: 0,
     cgstAmount: 0,
     withoutDiscountTotalAmount: 0,
-    withDiscountTaxAmount: 0
+    withDiscountTaxAmount: 0,
+    netWt: 0
   });
   const [summary, setSummary] = useState({
     gold24Kt: 0,
@@ -162,6 +163,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       totals.totalAmount += e?.TotalAmount;
       totals.discountTotalAmount += obj?.DiscountAmt;
       totals.withoutDiscountTotalAmount += e?.TotalAmount;
+      totals.netWt += e?.NetWt;
       resultArr.push(obj);
     });
     setDiamondDetails(diamondDetails);
@@ -410,7 +412,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {e?.metals.length > 0 && e?.metals.map((ele, ind) => {
                   return <div className={`d-flex`} key={ind}>
                     <p className='col-3 '>{ele?.ShapeName + " " + ele?.QualityName}</p>
-                    <p className='col-2 '>{ele?.Wt}</p>
+                    <p className='col-2  text-end'>{ele?.Wt}</p>
                     <p className='col-2  text-end'>{e?.NetWt}</p>
                     <p className='col-2  text-end'>{ele?.Rate}</p>
                     <p className='col-3  text-end'>{ele?.Amount}</p>
@@ -418,7 +420,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 })}
                 <div className='d-flex position-absolute bottom-0 w-100  totalMinHeightDetailPrint1 border-top border-bottom'>
                   <p className='col-3 '></p>
-                  <p className='col-2 '>{e?.metalTotal?.Wt}</p>
+                  <p className='col-2  text-end'>{e?.metalTotal?.Wt}</p>
                   <p className='col-2  text-end'>{e?.NetWt}</p>
                   <p className='col-2  text-end'></p>
                   <p className='col-3 text-end'>{(e?.metalTotal.Amount).toFixed(2)}</p>
@@ -509,7 +511,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
             </div>
             <div className="totalAmountDetailPrint1 border-end  border-bottom d-flex align-tems-center justify-content-end">
-              <p className='d-flex align-items-center'>{(e?.discountTotalAmount).toFixed(2)}</p>
+              <p className='d-flex align-items-center'><span dangerouslySetInnerHTML={{__html: json0Data?.Currencysymbol}}></span> {(e?.discountTotalAmount).toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -550,7 +552,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
           <div className='d-flex'>
             <p className='col-3 p-1 '></p>
             <p className='col-2 p-1 '>{(total?.metalWt).toFixed(2)}</p>
-            <p className='col-2 p-1  text-end'>0.452</p>
+            <p className='col-2 p-1  text-end'>{total?.netWt}</p>
             <p className='col-2 p-1  text-end'></p>
             <p className='col-3 p-1 text-end'>{(total?.metalAmount).toFixed(2)}</p>
           </div>
@@ -559,10 +561,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
           <div className='d-flex'>
             <p className='col-2 '></p>
             <p className='col-2 '></p>
-            <p className='col-2  text-end'>{total?.colorStonePcs}</p>
-            <p className='col-2  text-end'>{(total?.colorStoneWt).toFixed(2)}</p>
-            <p className='col-2  text-end'></p>
-            <p className='col-2 text-end'>{(total?.colorStoneAmount).toFixed(2)}</p>
+            <p className='col-2 text-end d-flex justify-content-end align-items-center h-100 '>{total?.colorStonePcs}</p>
+            <p className='col-2 text-end d-flex justify-content-end align-items-center h-100 '>{(total?.colorStoneWt).toFixed(2)}</p>
+            <p className='col-2 text-end d-flex justify-content-end align-items-center h-100 '></p>
+            <p className='col-2 text-end d-flex justify-content-end align-items-center h-100 '>{(total?.colorStoneAmount).toFixed(2)}</p>
           </div>
         </div>
         <div className="otherAmountDetailPrint1 border-end  border-bottom">
@@ -571,12 +573,12 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
         <div className="labourAmountDetailPrint1 border-end  border-bottom">
           <div className="d-grid h-100">
             <div className='d-flex justify-content-end'>
-              <div className=""><p className=' text-end'>{(total?.discountTotalAmount).toFixed(2)}</p></div>
+              <div className=""><p className='d-flex justify-content-end align-items-center h-100 text-end'>{(total?.discountTotalAmount).toFixed(2)}</p></div>
             </div>
           </div>
         </div>
         <div className="totalAmountDetailPrint1 border-end  border-bottom ">
-          <p className=' text-end'>{(total?.withDiscountTaxAmount).toFixed(2)}</p>
+          <p className='d-flex justify-content-end align-items-center h-100 text-end'><span dangerouslySetInnerHTML={{__html: json0Data?.Currencysymbol}}></span>{(total?.withDiscountTaxAmount).toFixed(2)}</p>
         </div>
       </div>
       {/* summary */}

@@ -513,7 +513,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
             </div>
             <div className="totalAmountDetailPrint1 border-end border-2 border-bottom ">
-              <p className='text-end'>{(e?.discountTotalAmount).toFixed(2)}</p>
+              <p className='text-end'><span dangerouslySetInnerHTML={{__html: json0Data?.Currencysymbol}}></span>{(e?.discountTotalAmount).toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -580,7 +580,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn }) => {
           </div>
         </div>
         <div className="totalAmountDetailPrint1 border-end border-2 border-bottom ">
-          <p className=' text-end'>{total?.withDiscountTaxAmount}</p>
+        <p className=' text-end'><span dangerouslySetInnerHTML={{__html: json0Data?.Currencysymbol}}></span>{total?.withDiscountTaxAmount}</p>
         </div>
       </div>
       {/* summary */}

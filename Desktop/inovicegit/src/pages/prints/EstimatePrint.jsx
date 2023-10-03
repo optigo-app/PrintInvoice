@@ -478,7 +478,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                             </div>
                             <div className="totalBgEstimatePrint position-absolute bottom-0 border-top height_29_5_estimatePrint w-100 d-flex align-items-center justify-content-end">
-                                <div className='p-1 text-end'><p>{e?.TotalAmount}</p></div>
+                                <div className='p-1 text-end'><p><span dangerouslySetInnerHTML={{__html: json1Data?.Currencysymbol}}></span>{e?.TotalAmount}</p></div>
                             </div>
                         </div>
                     </div>
@@ -571,8 +571,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                     <div className="totalAmountEstimatePrint d-flex" >
-                        <div className="totalBgEstimatePrint w-100 h-100">
-                            <div className='text-end p-1'><p>{total?.finalAmount}</p></div>
+                    <div className="totalBgEstimatePrint w-100 h-100">
+                            <div className='text-end p-1'><p><span dangerouslySetInnerHTML={{__html: json1Data?.Currencysymbol}}></span>{total?.finalAmount}</p></div>
                         </div>
                     </div>
                 </div>
