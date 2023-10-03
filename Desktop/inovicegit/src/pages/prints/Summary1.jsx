@@ -608,7 +608,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                           {e?.OtherCharges?.toFixed(2)}
                         </div>
                         <div className="wtbsum1 brightsum1 alignrightsum1">
-                          ₹ {e?.TotalAmount?.toFixed(2)}
+                        <p dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></p> {e?.TotalAmount?.toFixed(2)}
                         </div>
                       </div>
                     )}
@@ -655,7 +655,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </b>
                   </div>
                   <div className="wtbsum1 brightsum1 htotalrowsum1 alignrightsum1">
-                    <b className="totrowfssum1">₹ {TotalAmount?.toFixed(2)}</b>
+                    <b className="totrowfssum1 d-flex"><p dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></p> {TotalAmount?.toFixed(2)}</b>
                   </div>
                 </div>
                 <div className="totaldesignsum1">
@@ -694,7 +694,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>{" "}
                     <div className="d-flex justify-content-end w-50">
                       {" "}
-                      ₹ {finalAmount?.toFixed(2)}
+                     {/* { headerData?.Currencysymbol} ₹ {finalAmount?.toFixed(2)} */}
+                     <p dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></p> {finalAmount?.toFixed(2)}
                     </div>
                   </div>
                 </div>

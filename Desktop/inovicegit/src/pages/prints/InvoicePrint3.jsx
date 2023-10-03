@@ -484,16 +484,28 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                   </div>
                 </div>
-                <div className="d-flex">
-                  <div className="descinvp3">
-                    <div className="discHeadinvp3">DESCRIPTION</div>
-                    <div className="discBodyinvp3">
-                      <div>
-                        <p>{descArr}</p>
+                <div
+                  className="d-flex"
+                  style={{ borderBottom: "2px solid #d8d7d7", borderLeft: "2px solid #d8d7d7" }}
+                >
+                  <div className="w-50 d-flex flex-column justify-content-between position-relative d-flex">
+                    <div className="w-100">
+                      <div className="discHeadinvp3">DESCRIPTION</div>
+                      <div className="w-100">{descArr}</div>
+                    </div>
+                    <div className="empdivinvp3"></div>
+                  </div>
+                  {/* <div className="d-flex flex-column justify-content-between w-50 h-100">
+                    <div className="descinvp3">
+                      <div className="discHeadinvp3">DESCRIPTION</div>
+                      <div className="discBodyinvp3">
+                        <div className="d-flex flex-column justify-content-between h-100">
+                          <p>{descArr}</p>
+                        </div>
                       </div>
                     </div>
                     <div className="totspaceinvp3"></div>
-                  </div>
+                  </div> */}
                   <div className="tableinvp3">
                     <div className="theadinvp3">
                       {/* <p className='wp1invp3 fsinvp3' style={{ borderRight: "2px solid #d8d7d7" }}>DESCRIPTION</p> */}

@@ -446,7 +446,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                           {e?.OtherCharges?.toFixed(2)}
                         </div>
                         <div className="wtbivp2 brightivp2 alignrightinvp2">
-                          ₹ {e?.TotalAmount?.toFixed(2)}
+                        <p dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></p> {e?.TotalAmount?.toFixed(2)}
                         </div>
                       </div>
                     );
@@ -496,8 +496,13 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                         </b>
                       </div>
                       <div className="wtbinvp2 brightinvp2 htotalrowinvp2 alignrightinvp2">
-                        <b className="totrowfsinvp2">
-                          ₹ {mainTotal?.totAmount?.TotalAmount?.toFixed(2)}
+                        <b className="totrowfsinvp2 d-flex">
+                          <p
+                            dangerouslySetInnerHTML={{
+                              __html: headerData?.Currencysymbol,
+                            }}
+                          ></p>{" "}
+                          {mainTotal?.totAmount?.TotalAmount?.toFixed(2)}
                         </b>
                       </div>
                     </div>
@@ -531,8 +536,16 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div className="grandtotalinvp2">
                       <div className="amtwordsinvp2 px-2">{inWords}</div>
-                      <div className="amtwordsinvp2 wtotinvp2 d-flex align-items-center justify-content-end pe-4 wgtinvp2">
-                        Grand Total : ₹ {grandTotal?.toFixed(2)} /-{" "}
+                      <div className="amtwordsinvp2 wtotinvp2 d-flex align-items-center justify-content-end  wgtinvp2">
+                        <div className="w-50 d-flex justify-content-end"> Grand Total :</div>{" "}
+                        <div className="d-flex w-50 justify-content-end ">
+                          <p
+                            dangerouslySetInnerHTML={{
+                              __html: headerData?.Currencysymbol,
+                            }}
+                          ></p>{" "}
+                          {grandTotal?.toFixed(2)} /-{" "}
+                        </div>
                       </div>
                     </div>
                   </div>
