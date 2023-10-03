@@ -98,7 +98,7 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
     };
     let resultArr = [];
     let totalAmt = 0;
-    console.log(arr);
+    
     arr1.map((e, i) => {
       let diamonds = [];
       let colorstone = [];
@@ -236,10 +236,12 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
 
     let allTax = taxGenrator(arr, totalAmt);
 
-    setGrandTot(totalAmt);
     allTax?.forEach((e) => {
       totalAmt += +e?.amount;
     });
+    totalAmt += arr?.AddLess;
+    
+    setGrandTot(totalAmt);
     setTaxTotal(allTax);
     setAesultArray(resultArr);
     setMainTotal(mainTotal);
@@ -336,7 +338,7 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
 
   // console.log(headerData);
   // console.log(dynamicList2);
-
+  
   return (
     <>
       {responsejson?.length === 0 ? (
@@ -387,7 +389,7 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
                   <div className="jewpclthead fwboldpcl fspcl">Jewelcode</div>
                   <div className="diamheadpcl">
                     <p className="diamhpclcol1 fwboldpcl fspcl">Diamond</p>
-                    <p className="diamhpclcol">
+                    <div className="diamhpclcol">
                       <p className="dcolsthpcl centerpcl fwboldpcl fspcl">
                         Shape
                       </p>
@@ -404,11 +406,11 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
                       >
                         Amount
                       </p>
-                    </p>
+                    </div>
                   </div>
                   <div className="diamheadpcl">
                     <p className="diamhpclcol1 fwboldpcl fspcl">Metal</p>
-                    <p className="diamhpclcol">
+                    <div className="diamhpclcol">
                       <p className="dcolsthpcl centerpcl fwboldpcl fspcl">KT</p>
                       <p className="dcolsthpcl centerpcl fwboldpcl fspcl">
                         Gr Wt
@@ -425,11 +427,11 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
                       >
                         Amount
                       </p>
-                    </p>
+                    </div>
                   </div>
                   <div className="shptheadpcl">
                     <p className="shpcolpcl1 fwboldpcl fspcl">Stone</p>
-                    <p className="shpcolpclcol">
+                    <div className="shpcolpclcol">
                       <p className="shpthcolspcl centerpcl fwboldpcl fspcl">
                         Shape
                       </p>
@@ -445,11 +447,11 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
                       >
                         Amount
                       </p>
-                    </p>
+                    </div>
                   </div>
                   <div className="lotheadpcl">
                     <p className="lbhthpcl fwboldpcl fspcl">Labour</p>
-                    <p className="lbhthpclcol">
+                    <div className="lbhthpclcol">
                       <p className="lopclcol centerpcl fwboldpcl fspcl">Rate</p>
                       <p
                         className="lopclcol centerpcl fwboldpcl fspcl"
@@ -457,11 +459,11 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
                       >
                         Amount
                       </p>
-                    </p>
+                    </div>
                   </div>
                   <div className="lotheadpcl">
                     <p className="lbhthpcl fwboldpcl fspcl">Other</p>
-                    <p className="lbhthpclcol">
+                    <div className="lbhthpclcol">
                       <p className="lopclcol centerpcl fwboldpcl fspcl">Code</p>
                       <p
                         className="lopclcol centerpcl fwboldpcl fspcl"
@@ -469,7 +471,7 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
                       >
                         Amount
                       </p>
-                    </p>
+                    </div>
                   </div>
                   <div className="pricetheadpcl fwboldpcl fspcl">Price</div>
                 </div>
@@ -572,7 +574,7 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
                               // eslint-disable-next-line array-callback-return
                               e?.metal?.map((ele, i) => {
                                 return (
-                                  <p className="leftpcl fspcl">
+                                  <p className="leftpcl fspcl" key={i}>
                                     {ele?.ShapeName + " " + ele?.QualityName}
                                   </p>
                                 );
@@ -820,6 +822,7 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
                             {e?.DiscountAmt?.toFixed(2)}
                           </p>
                         </div>
+                        
                         <div
                           className="prpcltotrowtb rightpcl fwboldpcl fspcl"
                           style={{ borderRight: "0px" }}
@@ -914,7 +917,7 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
                   style={{ borderRight: "0px" }}
                 >
                   {/* {e?.UnitCost?.toFixed(2)} */}
-                  {grandtot?.toFixed(2)}
+                  {totalObj?.totalAmt?.toFixed(2)}
                 </div>
               </div>
               <div className="tablebodypcl  border-start border-end border-bottom border-black">
@@ -925,7 +928,7 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
                 {taxtotal?.length > 0 &&
                   taxtotal?.map((e, i) => {
                     return (
-                      <div className="d-flex totdispcl fspcl">
+                      <div className="d-flex totdispcl fspcl" key={i}>
                         <div className="d-flex justify-content-end w-50">
                           {e?.name} {e?.per}
                         </div>
@@ -946,12 +949,8 @@ const PackingList = ({ urls, token, invoiceNo, printName,evn }) => {
                 <div className="totdispcl">
                   <p className="summaryalignpcl fspcl">Grand Total</p>
                   <p className="fspcl">
-                    {(
-                      totalObj.totalAmt +
-                      headerData?.TotalCGSTAmount +
-                      headerData?.TotalSGSTAmount +
-                      headerData?.AddLess
-                    )?.toFixed(2)}
+                    {grandtot?.toFixed(2)}
+
                   </p>
                 </div>
               </div>

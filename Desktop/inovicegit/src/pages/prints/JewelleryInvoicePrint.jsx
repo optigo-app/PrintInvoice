@@ -714,7 +714,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         Grand Total
                       </div>
                       <div className="fw-bold w-50 d-flex align-items-center justify-content-end pe-1" style={{fontSize:"15px"}}>
-                        {grandTot}
+                        {grandTot?.toFixed(2)}
                       </div>
                     </div>
                   </div>

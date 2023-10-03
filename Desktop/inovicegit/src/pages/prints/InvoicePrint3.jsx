@@ -524,18 +524,18 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
             <div className="summaryinvp3">
               <div className="totalinvp3">
-                <p className="d-flex justify-content-between px-2">
+                <div className="d-flex justify-content-between px-2">
                   <p className="w-50 text-start fsinvp3">Discount</p>
                   <p className="w-50 text-end fsinvp3">
                     {totDiscount?.toFixed(2)}
                   </p>
-                </p>
-                <p className="d-flex justify-content-between px-2">
+                </div>
+                <div className="d-flex justify-content-between px-2">
                   <p className="fw-bold fsinvp3">Total Amount</p>
                   <p className="w-50 text-end fsinvp3">
                     {mainTotal?.totAmount?.TotalAmount?.toFixed(2)}
                   </p>
-                </p>
+                </div>
                 {taxTotal?.length > 0 &&
                   taxTotal?.map((e, i) => {
                     return (
@@ -551,19 +551,19 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     );
                   })}
 
-                <p className="d-flex justify-content-between px-2">
+                <div className="d-flex justify-content-between px-2">
                   <p className="fsinvp3">
                     {headerData?.AddLess > 0 ? "Add" : "Less"}
                   </p>
                   <p className="w-50 text-end fsinvp3">{headerData?.AddLess}</p>
-                </p>
-                <p
+                </div>
+                <div
                   className="d-flex justify-content-between px-2 mt-1"
                   style={{ borderTop: "5px solid #e8e8e8" }}
                 >
                   <p className="fw-bold fsinvp3">Grand Total</p>
                   <p className="fw-bold w-50 text-end fsinvp3">{grandTotal}</p>
-                </p>
+                </div>
               </div>
               <div className="wordsinvp3 fsinvp3 px-2 fw-bold">{inWords}</div>
               <div className="wordsinvp3 fsinvp3">

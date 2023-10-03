@@ -2,7 +2,11 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { CapitalizeWords, handleImageError } from "../../GlobalFunctions";
+import {
+  apiCall,
+  CapitalizeWords,
+  handleImageError,
+} from "../../GlobalFunctions";
 import convertor from "number-to-words";
 import "../../assets/css/prints/invoiceprint2.css";
 import Button from "../../GlobalFunctions/Button";
@@ -26,7 +30,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
         token: token,
         invoiceno: invoiceNo,
         printname: printName,
-        Eventname: evn
+        Eventname: evn,
       };
 
       const data = await axios.post(urls, body);
@@ -245,15 +249,24 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
     setTaxTotal(AllTax);
 
     AllTax?.forEach((e) => {
-        grandTot += (+e?.amount);
-    })
+      grandTot += +e?.amount;
+    });
     let words = CapitalizeWords(convertor.toWords(Math.round(grandTot)));
     setInWords(words);
     setGrandTotal(grandTot);
   };
 
   useEffect(() => {
-    loadData();
+    // loadData();
+    const sendData = async () => {
+      try {
+        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        loadData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    sendData();
   }, []);
 
   const findKeyValuePair = (array, firstName, secondName) => {
@@ -313,9 +326,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
             <div className="mainheaderivp2">
               <div className="head3ivp2">
                 <div className="d-flex" style={{ width: "80%" }}>
-                  <div className="fw-bold fs-4 px-2">
-                    INVOICE #:{" "}
-                  </div>
+                  <div className="fw-bold fs-4 px-2">INVOICE #: </div>
                   <div className="fs-5 p-1">{headerData?.PrintRemark}</div>
                 </div>
                 <div className="invoicehead3ivp2 d-flex flex-column">
@@ -363,65 +374,61 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
               {resultArray?.map((e, i) => {
                 return (
-                  
-                    <div className="tbodyivp2" key={i}>
-                      <div className="wtbivp2 srwivp2">{e?.SrNo}</div>
-                      <div className="wtbivp2 designwivp2 d-flex justify-content-around p-1">
-                        <div>
-                          <img
-                            src={e?.DesignImage}
-                            alt="#invp2"
-                            id="imgDyInvp2"
-                            onError={(e) => handleImageError(e)}
-                          />
-                        </div>
-                        <div className="designContentinvp2">
-                          <p
-                            className="brbdesigninvp2"
-                            style={{
-                              fontWeight: "bold",
-                              textAlign: "center",
-                              lineHeight: "8px",
-                              fontSize: "12px",
-                              height: "16px",
-                            }}
-                          >
-                            {e?.designno}
-                          </p>
-                          <p className="brbdesigninvp2 brbinvp2">
-                            {e?.SrJobno}
-                          </p>
-                        </div>
+                  <div className="tbodyivp2" key={i}>
+                    <div className="wtbivp2 srwivp2">{e?.SrNo}</div>
+                    <div className="wtbivp2 designwivp2 d-flex justify-content-around p-1">
+                      <div>
+                        <img
+                          src={e?.DesignImage}
+                          alt="#invp2"
+                          id="imgDyInvp2"
+                          onError={(e) => handleImageError(e)}
+                        />
                       </div>
-                      <div className="wtbivp2 alignleftinvp2">
-                        {e?.MetalTypePurity}
-                      </div>
-                      <div className="wtbivp2 alignrightinvp2">
-                        {e?.grosswt?.toFixed(3)}
-                      </div>
-                      <div className="wtbivp2 alignrightinvp2">
-                        {e?.NetWt?.toFixed(3)}
-                      </div>
-                      <div className="wtbivp2 alignrightinvp2">
-                        {e?.JobWiseTotal?.diamonds?.Pcs}
-                      </div>
-                      <div className="wtbivp2 alignrightinvp2">
-                        {e?.JobWiseTotal?.diamonds?.Wt?.toFixed(3)}
-                      </div>
-                      <div className="wtbivp2 alignrightinvp2">
-                        {e?.JobWiseTotal?.colorstone?.Pcs}
-                      </div>
-                      <div className="wtbivp2 alignrightinvp2">
-                        {e?.JobWiseTotal?.colorstone?.Wt?.toFixed(3)}
-                      </div>
-                      <div className="wtbivp2 alignrightinvp2">
-                        {e?.OtherCharges?.toFixed(2)}
-                      </div>
-                      <div className="wtbivp2 brightivp2 alignrightinvp2">
-                        ₹ {e?.TotalAmount?.toFixed(2)}
+                      <div className="designContentinvp2">
+                        <p
+                          className="brbdesigninvp2"
+                          style={{
+                            fontWeight: "bold",
+                            textAlign: "center",
+                            lineHeight: "8px",
+                            fontSize: "12px",
+                            height: "16px",
+                          }}
+                        >
+                          {e?.designno}
+                        </p>
+                        <p className="brbdesigninvp2 brbinvp2">{e?.SrJobno}</p>
                       </div>
                     </div>
-                  
+                    <div className="wtbivp2 alignleftinvp2">
+                      {e?.MetalTypePurity}
+                    </div>
+                    <div className="wtbivp2 alignrightinvp2">
+                      {e?.grosswt?.toFixed(3)}
+                    </div>
+                    <div className="wtbivp2 alignrightinvp2">
+                      {e?.NetWt?.toFixed(3)}
+                    </div>
+                    <div className="wtbivp2 alignrightinvp2">
+                      {e?.JobWiseTotal?.diamonds?.Pcs}
+                    </div>
+                    <div className="wtbivp2 alignrightinvp2">
+                      {e?.JobWiseTotal?.diamonds?.Wt?.toFixed(3)}
+                    </div>
+                    <div className="wtbivp2 alignrightinvp2">
+                      {e?.JobWiseTotal?.colorstone?.Pcs}
+                    </div>
+                    <div className="wtbivp2 alignrightinvp2">
+                      {e?.JobWiseTotal?.colorstone?.Wt?.toFixed(3)}
+                    </div>
+                    <div className="wtbivp2 alignrightinvp2">
+                      {e?.OtherCharges?.toFixed(2)}
+                    </div>
+                    <div className="wtbivp2 brightivp2 alignrightinvp2">
+                      ₹ {e?.TotalAmount?.toFixed(2)}
+                    </div>
+                  </div>
                 );
               })}
             </div>
@@ -478,9 +485,13 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                   {taxTotal?.length > 0 &&
                     taxTotal?.map((e, i) => {
                       return (
-                        <div className="d-flex justify-content-between wtotinvp2">
-                            <div className="w-50 d-flex justify-content-end">{e?.name} {e?.per}</div>
-                            <div className="w-50 d-flex justify-content-end">{e?.amount}</div>
+                        <div className="d-flex justify-content-between wtotinvp2" key={i}>
+                          <div className="w-50 d-flex justify-content-end">
+                            {e?.name} {e?.per}
+                          </div>
+                          <div className="w-50 d-flex justify-content-end">
+                            {e?.amount}
+                          </div>
                         </div>
                       );
                     })}
@@ -506,86 +517,80 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                   <div className="wsummaryinvp2">
                     {summaryDetail?.firstArr?.map((e, i) => {
                       return (
-                      
-                          <div key={i} className="d-flex arrinvp2">
-                            <div
-                              className="summwinvp2 fs13invp2"
-                              style={{ width: "60%" }}
-                            >
-                              {e?.name}
-                            </div>
-                            <div
-                              className="summwinvp2 fs13invp2"
-                              style={{ width: "20%" }}
-                            >
-                              {" "}
-                              :{" "}
-                            </div>
-                            <div
-                              className="summwinvp2 fs13invp2"
-                              style={{ width: "20%" }}
-                            >
-                              {e?.val}
-                            </div>
+                        <div key={i} className="d-flex arrinvp2">
+                          <div
+                            className="summwinvp2 fs13invp2"
+                            style={{ width: "60%" }}
+                          >
+                            {e?.name}
                           </div>
-                      
+                          <div
+                            className="summwinvp2 fs13invp2"
+                            style={{ width: "20%" }}
+                          >
+                            {" "}
+                            :{" "}
+                          </div>
+                          <div
+                            className="summwinvp2 fs13invp2"
+                            style={{ width: "20%" }}
+                          >
+                            {e?.val}
+                          </div>
+                        </div>
                       );
                     })}
                   </div>
                   <div className="wsummaryinvp2">
                     {summaryDetail?.secondArr?.map((e, i) => {
                       return (
-                        
-                          <div className="d-flex arrinvp2" key={i}>
-                            <div
-                              className="summwinvp2 fs13invp2"
-                              style={{ width: "60%" }}
-                            >
-                              {e?.name}
-                            </div>
-                            <div
-                              className="summwinvp2 fs13invp2"
-                              style={{ width: "20%" }}
-                            >
-                              {" "}
-                              :{" "}
-                            </div>
-                            <div
-                              className="summwinvp2 fs13invp2"
-                              style={{ width: "20%" }}
-                            >
-                              {e?.val}
-                            </div>
+                        <div className="d-flex arrinvp2" key={i}>
+                          <div
+                            className="summwinvp2 fs13invp2"
+                            style={{ width: "60%" }}
+                          >
+                            {e?.name}
                           </div>
-                     
+                          <div
+                            className="summwinvp2 fs13invp2"
+                            style={{ width: "20%" }}
+                          >
+                            {" "}
+                            :{" "}
+                          </div>
+                          <div
+                            className="summwinvp2 fs13invp2"
+                            style={{ width: "20%" }}
+                          >
+                            {e?.val}
+                          </div>
+                        </div>
                       );
                     })}
                   </div>
                   <div className="wsummaryinvp2">
                     {summaryDetail?.thirdArr?.map((e, i) => {
                       return (
-                      
-                          <div className="d-flex arrinvp2" key={i}>
-                            <div
-                              className="summwinvp2 fs13invp2"
-                              style={{ width: "60%" }}
-                            >
-                              {e?.name}
-                            </div>
-                            <div
-                              className="summwinvp2 fs13invp2"
-                              style={{ width: "20%" }}
-                            >
-                              :
-                            </div>
-                            <div
-                              className="summwinvp2 fs13invp2"
-                              style={{ width: "20%" }}
-                            >
-                              {e?.val}
-                            </div>
+                        <div className="d-flex arrinvp2" key={i}>
+                          <div
+                            className="summwinvp2 fs13invp2"
+                            style={{ width: "60%" }}
+                          >
+                            {e?.name}
                           </div>
-                      
+                          <div
+                            className="summwinvp2 fs13invp2"
+                            style={{ width: "20%" }}
+                          >
+                            :
+                          </div>
+                          <div
+                            className="summwinvp2 fs13invp2"
+                            style={{ width: "20%" }}
+                          >
+                            {e?.val}
+                          </div>
+                        </div>
                       );
                     })}
                   </div>

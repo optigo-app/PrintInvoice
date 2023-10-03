@@ -61,7 +61,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
         token: token,
         invoiceno: invoiceNo,
         printname: printName,
-        Eventname: evn
+        Eventname: evn,
       };
 
       const data = await axios.post(urls, body);
@@ -729,442 +729,426 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
                       totmakAmt += e?.OtherCharges + e?.MakingAmount;
                       return (
-                        <>
-                          <div className="pcl3TableCopy" key={i}>
-                            <div className="tableBodypcl3">
-                              <div className="thDpcl3">
-                                <b className="fsdpcl3">{e?.SrNo}</b>
+                        <div className="pcl3TableCopy" key={i}>
+                          <div className="tableBodypcl3">
+                            <div className="thDpcl3">
+                              <b className="fsdpcl3">{e?.SrNo}</b>
+                            </div>
+                          </div>
+
+                          <div className="tableBodypcl3">
+                            <div className="th2Dpcl3">
+                              <div className="th2DJobpcl3">
+                                <div className="fsdpcl3">{e?.designno}</div>
+                                <div>
+                                  <div className="fsdpcl3">{e?.SrJobno}</div>
+                                  <div className="fsdpcl3">{e?.MetalColor}</div>
+                                </div>
+                              </div>
+                              {imgShow ? (
+                                <div className="imgpcl3">
+                                  <img
+                                    src={
+                                      e?.DesignImage === ("" || undefined)
+                                        ? e?.defaultimagename
+                                        : e?.DesignImage
+                                    }
+                                    id="Imgpcl3"
+                                    alt="#"
+                                  />
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                              <div>
+                                <div className="fsdpcl3">Certificate# :</div>
+                                <div>
+                                  <b className="fsdpcl3">{e?.CertificateNo}</b>
+                                </div>
+                              </div>
+                              <div className="th2DEpcl3">
+                                <div className="fsdpcl3">HUID :</div>
+                                <div>
+                                  <b className="fsdpcl3">{e?.HUID}</b>
+                                </div>
+                              </div>
+                              <div className="th2DEpcl3">
+                                <div>
+                                  <b className="fsdpcl3">PO : </b>
+                                </div>
+                                <div>
+                                  <b className="fsdpcl3">{e?.PO}</b>
+                                </div>
+                              </div>
+                              <div className="fsdpcl3">{e?.lineid}</div>
+                              <div className="th2DEpcl3">
+                                <div className="fsdpcl3">Tunch : </div>
+                                <div className="fsdpcl3"> {e?.Tunch}</div>{" "}
+                              </div>
+                              <div className="fsdpcl3">
+                                <b className="fsdpcl3">
+                                  {e?.grosswt?.toFixed(3)} gm
+                                </b>{" "}
+                                Gross
+                              </div>
+                              <div className="th2DEpcl3">
+                                <div className="fsdpcl3">Size : </div>
+                                <div className="fsdpcl3">{e?.Size}</div>
                               </div>
                             </div>
+                          </div>
 
-                            <div className="tableBodypcl3">
-                              <div className="th2Dpcl3">
-                                <div className="th2DJobpcl3">
-                                  <div className="fsdpcl3">{e?.designno}</div>
-                                  <div>
-                                    <div className="fsdpcl3">{e?.SrJobno}</div>
-                                    <div className="fsdpcl3">
-                                      {e?.MetalColor}
-                                    </div>
+                          {/* Diamond */}
+                          <div className="diamondPcl3 positionpcl3">
+                            <div>
+                              {
+                                //diamond
+
+                                e?.diamonds?.length > 0 &&
+                                  e?.diamonds?.map((ele, index) => {
+                                    return (
+                                      <div
+                                        className="diamondValuepcl3"
+                                        key={index}
+                                      >
+                                        <div className="th3Wpcl3 brRightDpcl3">
+                                          {ele?.ShapeName}
+                                        </div>
+                                        <div className="th3Wpcl3 brRightDpcl3">
+                                          {ele?.SizeName}
+                                        </div>
+                                        <div className="th3Wpcl3 brRightDpcl3">
+                                          {ele?.Pcs}
+                                        </div>
+                                        <div className="th3Wpcl3 brRightDpcl3">
+                                          {ele?.Wt}
+                                        </div>
+                                        <div className="th3Wpcl3 brRightDpcl3">
+                                          {ele?.Rate}
+                                        </div>
+                                        <div className="th3Wpcl3 brRightDpcl3">
+                                          <b style={{ fontSize: "12px" }}>
+                                            {ele?.Amount?.toFixed(2)}
+                                          </b>
+                                        </div>
+                                      </div>
+                                    );
+                                    // }
+                                  })
+                              }
+                            </div>
+                            <div
+                              className="diamondValuepcl3 positionpcl3D"
+                              style={{
+                                width: "260px",
+                                height: "21px",
+                                border: "1px solid #989898",
+                                backgroundColor: "#eeeded",
+                                borderRight: "0px",
+                                borderLeft: "0px",
+                                borderBottom: "0px",
+                              }}
+                            >
+                              <div className="th3Wpcl3 brRightDpcl3"></div>
+                              <div className="th3Wpcl3 brRightDpcl3"></div>
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {e?.totals?.diamonds?.Pcs}
+                                </b>
+                              </div>
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {e?.totals?.diamonds?.Wt?.toFixed(3)}
+                                </b>
+                              </div>
+                              {/* <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{diarate}</b></div> */}
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3"></b>
+                              </div>
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {e?.totals?.diamonds?.Amount?.toFixed(2)}
+                                </b>
+                              </div>
+                            </div>
+                          </div>
+                          {/* Metal */}
+                          <div className="metalPcl3 positionpcl3">
+                            <div>
+                              {
+                                //metal
+
+                                e?.metal?.length > 0 &&
+                                  e?.metal?.map((ele, index) => {
+                                    return (
+                                      <div className="MetalPcl3" key={index}>
+                                        <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                          {ele?.ShapeName}
+                                        </div>
+                                        <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                          {e?.grosswt?.toFixed(3)}
+                                        </div>
+                                        <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                          {e?.NetWt?.toFixed(3)}
+                                        </div>
+                                        <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                          {ele?.Rate?.toFixed(2)}
+                                        </div>
+                                        <div className="th4Wpcl3 brRightDpcl3">
+                                          <b style={{ fontSize: "10px" }}>
+                                            {ele?.Amount?.toFixed(2)}
+                                          </b>
+                                        </div>
+                                      </div>
+                                    );
+                                    // }
+                                  })
+                              }
+                              {e?.LossWt === 0 ? (
+                                ""
+                              ) : (
+                                <div className="MetalPcl3">
+                                  <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                    Loss
                                   </div>
-                                </div>
-                                {imgShow ? (
-                                  <div className="imgpcl3">
-                                    <img
-                                      src={
-                                        e?.DesignImage === ("" || undefined)
-                                          ? e?.defaultimagename
-                                          : e?.DesignImage
-                                      }
-                                      id="Imgpcl3"
-                                      alt="#"
-                                    />
+                                  <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                    {e?.LossPer?.toFixed(3)} %
                                   </div>
-                                ) : (
-                                  ""
-                                )}
-                                <div>
-                                  <div className="fsdpcl3">Certificate# :</div>
-                                  <div>
-                                    <b className="fsdpcl3">
-                                      {e?.CertificateNo}
+                                  <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                    {e?.LossWt?.toFixed(3)}
+                                  </div>
+                                  <div className="th4Wpcl3 brRightDpcl3 fsdpcl3"></div>
+                                  <div className="th4Wpcl3 brRightDpcl3">
+                                    <b style={{ fontSize: "10px" }}>
+                                      {e?.LossAmt?.toFixed(2)}
                                     </b>
                                   </div>
                                 </div>
-                                <div className="th2DEpcl3">
-                                  <div className="fsdpcl3">HUID :</div>
-                                  <div>
-                                    <b className="fsdpcl3">{e?.HUID}</b>
-                                  </div>
-                                </div>
-                                <div className="th2DEpcl3">
-                                  <div>
-                                    <b className="fsdpcl3">PO : </b>
-                                  </div>
-                                  <div>
-                                    <b className="fsdpcl3">{e?.PO}</b>
-                                  </div>
-                                </div>
-                                <div className="fsdpcl3">{e?.lineid}</div>
-                                <div className="th2DEpcl3">
-                                  <div className="fsdpcl3">Tunch : </div>
-                                  <div className="fsdpcl3">
-                                    {" "}
-                                    {e?.Tunch}
-                                  </div>{" "}
-                                </div>
-                                <div className="fsdpcl3">
-                                  <b className="fsdpcl3">
-                                    {e?.grosswt?.toFixed(3)} gm
-                                  </b>{" "}
-                                  Gross
-                                </div>
-                                <div className="th2DEpcl3">
-                                  <div className="fsdpcl3">Size : </div>
-                                  <div className="fsdpcl3">{e?.Size}</div>
-                                </div>
+                              )}
+                            </div>
+                            <div
+                              className="MetalPcl3 positionpcl3D"
+                              style={{
+                                width: "201px",
+                                border: "1px solid #989898",
+                                backgroundColor: "#e8e8e8",
+                                borderBottom: "0px",
+                                borderLeft: "0px",
+                                borderRight: "0px",
+                              }}
+                            >
+                              <div className="th4Wpcl3 brRightDpcl3"></div>
+
+                              <div className="th4Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {e?.grosswt?.toFixed(3)}
+                                </b>
+                              </div>
+                              <div className="th4Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {e?.totals?.metal?.Wt?.toFixed(3)}
+                                </b>
+                              </div>
+                              <div className="th4Wpcl3 brRightDpcl3"></div>
+                              {/* <div className='th4Wpcl3 brRightDpcl3'></div> */}
+                              <div className="th4Wpcl3 brRightDpcl3">
+                                <b style={{ fontSize: "10px" }}>
+                                  {e?.totals?.metal?.Amount?.toFixed(2)}
+                                </b>
                               </div>
                             </div>
-
-                            {/* Diamond */}
-                            <div className="diamondPcl3 positionpcl3">
-                              <div>
-                                {
-                                  //diamond
-
-                                  e?.diamonds?.length > 0 &&
-                                    e?.diamonds?.map((ele, index) => {
-                                      return (
-                                        <>
+                          </div>
+                          {/* Stone and Misc */}
+                          <div className="diamondPcl3 positionpcl3">
+                            <div>
+                              {
+                                //stone&misc
+                                e?.stone_misc?.length > 0 &&
+                                  e?.stone_misc?.map((ele, index) => {
+                                    return (
+                                      <div key={index}>
+                                        {ele?.ShapeName ===
+                                        "Certification_IGI" ? (
+                                          ""
+                                        ) : (
                                           <div
                                             className="diamondValuepcl3"
                                             key={index}
                                           >
-                                            <div className="th3Wpcl3 brRightDpcl3">
-                                              {ele?.ShapeName}
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                              {ele?.ShapeName}{" "}
                                             </div>
-                                            <div className="th3Wpcl3 brRightDpcl3">
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
                                               {ele?.SizeName}
                                             </div>
-                                            <div className="th3Wpcl3 brRightDpcl3">
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
                                               {ele?.Pcs}
                                             </div>
-                                            <div className="th3Wpcl3 brRightDpcl3">
-                                              {ele?.Wt}
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                              {ele?.Wt?.toFixed(3)}
                                             </div>
-                                            <div className="th3Wpcl3 brRightDpcl3">
-                                              {ele?.Rate}
-                                            </div>
-                                            <div className="th3Wpcl3 brRightDpcl3">
-                                              <b style={{ fontSize: "12px" }}>
-                                                {ele?.Amount?.toFixed(2)}
-                                              </b>
-                                            </div>
-                                          </div>
-                                        </>
-                                      );
-                                      // }
-                                    })
-                                }
-                              </div>
-                              <div
-                                className="diamondValuepcl3 positionpcl3D"
-                                style={{
-                                  width: "260px",
-                                  height: "21px",
-                                  border: "1px solid #989898",
-                                  backgroundColor: "#eeeded",
-                                  borderRight: "0px",
-                                  borderLeft: "0px",
-                                  borderBottom: "0px",
-                                }}
-                              >
-                                <div className="th3Wpcl3 brRightDpcl3"></div>
-                                <div className="th3Wpcl3 brRightDpcl3"></div>
-                                <div className="th3Wpcl3 brRightDpcl3">
-                                  <b className="fsdpcl3">
-                                    {e?.totals?.diamonds?.Pcs}
-                                  </b>
-                                </div>
-                                <div className="th3Wpcl3 brRightDpcl3">
-                                  <b className="fsdpcl3">
-                                    {e?.totals?.diamonds?.Wt?.toFixed(3)}
-                                  </b>
-                                </div>
-                                {/* <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{diarate}</b></div> */}
-                                <div className="th3Wpcl3 brRightDpcl3">
-                                  <b className="fsdpcl3"></b>
-                                </div>
-                                <div className="th3Wpcl3 brRightDpcl3">
-                                  <b className="fsdpcl3">
-                                    {e?.totals?.diamonds?.Amount?.toFixed(2)}
-                                  </b>
-                                </div>
-                              </div>
-                            </div>
-                            {/* Metal */}
-                            <div className="metalPcl3 positionpcl3">
-                              <div>
-                                {
-                                  //metal
-
-                                  e?.metal?.length > 0 &&
-                                    e?.metal?.map((ele, index) => {
-                                      return (
-                                        <>
-                                          <div
-                                            className="MetalPcl3"
-                                            key={index}
-                                          >
-                                            <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {ele?.ShapeName}
-                                            </div>
-                                            <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {e?.grosswt?.toFixed(3)}
-                                            </div>
-                                            <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {e?.NetWt?.toFixed(3)}
-                                            </div>
-                                            <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
                                               {ele?.Rate?.toFixed(2)}
                                             </div>
-                                            <div className="th4Wpcl3 brRightDpcl3">
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
                                               <b style={{ fontSize: "10px" }}>
                                                 {ele?.Amount?.toFixed(2)}
                                               </b>
                                             </div>
                                           </div>
-                                        </>
-                                      );
-                                      // }
-                                    })
-                                }
-                                {e?.LossWt === 0 ? (
-                                  ""
-                                ) : (
-                                  <div className="MetalPcl3">
-                                    <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                      Loss
-                                    </div>
-                                    <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                      {e?.LossPer?.toFixed(3)} %
-                                    </div>
-                                    <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                      {e?.LossWt?.toFixed(3)}
-                                    </div>
-                                    <div className="th4Wpcl3 brRightDpcl3 fsdpcl3"></div>
-                                    <div className="th4Wpcl3 brRightDpcl3">
-                                      <b style={{ fontSize: "10px" }}>
-                                        {e?.LossAmt?.toFixed(2)}
-                                      </b>
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                              <div
-                                className="MetalPcl3 positionpcl3D"
-                                style={{
-                                  width: "201px",
-                                  border: "1px solid #989898",
-                                  backgroundColor: "#e8e8e8",
-                                  borderBottom: "0px",
-                                  borderLeft: "0px",
-                                  borderRight: "0px",
-                                }}
-                              >
-                                <div className="th4Wpcl3 brRightDpcl3"></div>
-
-                                <div className="th4Wpcl3 brRightDpcl3">
-                                  <b className="fsdpcl3">
-                                    {e?.grosswt?.toFixed(3)}
-                                  </b>
-                                </div>
-                                <div className="th4Wpcl3 brRightDpcl3">
-                                  <b className="fsdpcl3">
-                                    {e?.totals?.metal?.Wt?.toFixed(3)}
-                                  </b>
-                                </div>
-                                <div className="th4Wpcl3 brRightDpcl3"></div>
-                                {/* <div className='th4Wpcl3 brRightDpcl3'></div> */}
-                                <div className="th4Wpcl3 brRightDpcl3">
-                                  <b style={{ fontSize: "10px" }}>
-                                    {e?.totals?.metal?.Amount?.toFixed(2)}
-                                  </b>
-                                </div>
-                              </div>
-                            </div>
-                            {/* Stone and Misc */}
-                            <div className="diamondPcl3 positionpcl3">
-                              <div>
-                                {
-                                  //stone&misc
-                                  e?.stone_misc?.length > 0 &&
-                                    e?.stone_misc?.map((ele, index) => {
-                                      return (
-                                        <>
-                                          {ele?.ShapeName ===
-                                          "Certification_IGI" ? (
-                                            ""
-                                          ) : (
-                                            <div
-                                              className="diamondValuepcl3"
-                                              key={index}
-                                            >
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                {ele?.ShapeName}{" "}
-                                              </div>
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                {ele?.SizeName}
-                                              </div>
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                {ele?.Pcs}
-                                              </div>
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                {ele?.Wt?.toFixed(3)}
-                                              </div>
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                {ele?.Rate?.toFixed(2)}
-                                              </div>
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                <b style={{ fontSize: "10px" }}>
-                                                  {ele?.Amount?.toFixed(2)}
-                                                </b>
-                                              </div>
-                                            </div>
-                                          )}
-                                        </>
-                                      );
-                                    })
-                                }
-                              </div>
-                              <div
-                                className="diamondValuepcl3 positionpcl3D"
-                                style={{
-                                  width: "259px",
-                                  height: "21px",
-                                  border: "1px solid #989898",
-                                  backgroundColor: "#eeeded",
-                                  borderBottom: "0px",
-                                  borderRight: "0px",
-                                  borderLeft: "0px",
-                                }}
-                              >
-                                <div className="th3Wpcl3 brRightDpcl3"></div>
-                                <div className="th3Wpcl3 brRightDpcl3"></div>
-                                <div className="th3Wpcl3 brRightDpcl3">
-                                  <b className="fsdpcl3">
-                                    {e?.totals?.stone_misc?.Pcs}
-                                  </b>
-                                </div>
-                                <div className="th3Wpcl3 brRightDpcl3">
-                                  <b className="fsdpcl3">
-                                    {e?.totals?.stone_misc?.Wt?.toFixed(3)}
-                                  </b>
-                                </div>
-                                <div className="th3Wpcl3 brRightDpcl3"></div>
-                                <div className="th3Wpcl3 brRightDpcl3">
-                                  <b className="fsdpcl3">
-                                    {e?.totals?.stone_misc?.Amount?.toFixed(2)}
-                                  </b>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="labourPcl3 positionpcl3">
-                              {e?.MaKingCharge_Unit === 0 &&
-                              e?.MakingAmount === 0 ? (
-                                ""
-                              ) : (
-                                <div className="th6flex2pcl3">
-                                  <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
-                                    Labour
-                                  </div>
-                                  <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
-                                    {e?.MaKingCharge_Unit?.toFixed(2)}
-                                  </div>
-                                  <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
-                                    {e?.MakingAmount?.toFixed(2)}
-                                  </div>
-                                </div>
-                              )}
-
-                              {e?.OtherAmountInfo?.map((e, i) => {
-                                return (
-                                  <>
-                                    {e?.value === 0 ? (
-                                      ""
-                                    ) : (
-                                      <div className="th6flex2pcl3">
-                                        <div
-                                          className="th6Wpcl3 brRightDpcl3 fsdpcl3"
-                                          style={{
-                                            width: "130px",
-                                            justifyContent: "flex-start",
-                                            paddingLeft: "2px",
-                                          }}
-                                        >
-                                          {e?.name}
-                                        </div>
-                                        <div
-                                          className="th6Wpcl3 brRightDpcl3 fsdpcl3"
-                                          style={{ width: "0px" }}
-                                        ></div>
-                                        <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
-                                          {e?.value?.toFixed(2)}
-                                        </div>
+                                        )}
                                       </div>
-                                    )}
-                                  </>
-                                );
-                              })}
-                              <div>
-                                {e?.OtherCharges?.length > 0 ? (
-                                  <div className="th6flex2pcl3">
-                                    <div className="th6Wpcl3 brRightDpcl3">
-                                      Other Charges
-                                    </div>
-                                    <div className="th6Wpcl3 brRightDpcl3"></div>
-                                    <div className="th6Wpcl3 brRightDpcl3">
-                                      {e?.OtherCharges}
-                                    </div>
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                              </div>
-                              <div
-                                className="th6flex2pcl3 positionpcl3D"
-                                style={{
-                                  backgroundColor: "#eeeded",
-                                  border: "1px solid #989898",
-                                  width: "149px",
-                                  height: "21px",
-                                  borderBottom: "0px",
-                                  borderRight: "0px",
-                                  borderLeft: "0px",
-                                }}
-                              >
-                                <div className="th6Wpcl3 brRightDpcl3"></div>
-                                <div className="th6Wpcl3 brRightDpcl3"></div>
-                                <div className="th6Wpcl3 brRightDpcl3">
-                                  {totmakAmt === 0 ? (
-                                    ""
-                                  ) : (
-                                    <b className="fsdpcl3">
-                                      {totmakAmt?.toFixed(2)}
-                                    </b>
-                                  )}
-                                </div>
-                              </div>
+                                    );
+                                  })
+                              }
                             </div>
-                            <div>
-                              <div className="totalAndDiscountpcl3">
-                                <div className="th7pcl3ss">
-                                  <b style={{ fontSize: "10px" }}>
-                                    {e?.UnitCost?.toFixed(2)}
-                                  </b>
-                                </div>
-                                <div
-                                  className="th7pcl3Dis"
-                                  style={{
-                                    backgroundColor: "#eeeded",
-                                    border: "1px solid #989898",
-                                    width: "70px",
-                                    justifyContent: "flex-end",
-                                    paddingRight: "2px",
-                                    height: "21px",
-                                    borderBottom: "0px",
-                                    borderRight: "0px",
-                                    borderLeft: "0px",
-                                  }}
-                                >
-                                  <b className="fsdpcl3">
-                                    {e?.UnitCost?.toFixed(2)}
-                                  </b>
-                                </div>
+                            <div
+                              className="diamondValuepcl3 positionpcl3D"
+                              style={{
+                                width: "259px",
+                                height: "21px",
+                                border: "1px solid #989898",
+                                backgroundColor: "#eeeded",
+                                borderBottom: "0px",
+                                borderRight: "0px",
+                                borderLeft: "0px",
+                              }}
+                            >
+                              <div className="th3Wpcl3 brRightDpcl3"></div>
+                              <div className="th3Wpcl3 brRightDpcl3"></div>
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {e?.totals?.stone_misc?.Pcs}
+                                </b>
+                              </div>
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {e?.totals?.stone_misc?.Wt?.toFixed(3)}
+                                </b>
+                              </div>
+                              <div className="th3Wpcl3 brRightDpcl3"></div>
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {e?.totals?.stone_misc?.Amount?.toFixed(2)}
+                                </b>
                               </div>
                             </div>
                           </div>
-                        </>
+                          <div className="labourPcl3 positionpcl3">
+                            {e?.MaKingCharge_Unit === 0 &&
+                            e?.MakingAmount === 0 ? (
+                              ""
+                            ) : (
+                              <div className="th6flex2pcl3">
+                                <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
+                                  Labour
+                                </div>
+                                <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
+                                  {e?.MaKingCharge_Unit?.toFixed(2)}
+                                </div>
+                                <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
+                                  {e?.MakingAmount?.toFixed(2)}
+                                </div>
+                              </div>
+                            )}
+
+                            {e?.OtherAmountInfo?.map((e, i) => {
+                              return (
+                                <div key={i}>
+                                  {e?.value === 0 ? (
+                                    ""
+                                  ) : (
+                                    <div className="th6flex2pcl3">
+                                      <div
+                                        className="th6Wpcl3 brRightDpcl3 fsdpcl3"
+                                        style={{
+                                          width: "130px",
+                                          justifyContent: "flex-start",
+                                          paddingLeft: "2px",
+                                        }}
+                                      >
+                                        {e?.name}
+                                      </div>
+                                      <div
+                                        className="th6Wpcl3 brRightDpcl3 fsdpcl3"
+                                        style={{ width: "0px" }}
+                                      ></div>
+                                      <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
+                                        {e?.value?.toFixed(2)}
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
+                            <div>
+                              {e?.OtherCharges?.length > 0 ? (
+                                <div className="th6flex2pcl3">
+                                  <div className="th6Wpcl3 brRightDpcl3">
+                                    Other Charges
+                                  </div>
+                                  <div className="th6Wpcl3 brRightDpcl3"></div>
+                                  <div className="th6Wpcl3 brRightDpcl3">
+                                    {e?.OtherCharges}
+                                  </div>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                            <div
+                              className="th6flex2pcl3 positionpcl3D"
+                              style={{
+                                backgroundColor: "#eeeded",
+                                border: "1px solid #989898",
+                                width: "149px",
+                                height: "21px",
+                                borderBottom: "0px",
+                                borderRight: "0px",
+                                borderLeft: "0px",
+                              }}
+                            >
+                              <div className="th6Wpcl3 brRightDpcl3"></div>
+                              <div className="th6Wpcl3 brRightDpcl3"></div>
+                              <div className="th6Wpcl3 brRightDpcl3">
+                                {totmakAmt === 0 ? (
+                                  ""
+                                ) : (
+                                  <b className="fsdpcl3">
+                                    {totmakAmt?.toFixed(2)}
+                                  </b>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <div className="totalAndDiscountpcl3">
+                              <div className="th7pcl3ss">
+                                <b style={{ fontSize: "10px" }}>
+                                  {e?.UnitCost?.toFixed(2)}
+                                </b>
+                              </div>
+                              <div
+                                className="th7pcl3Dis"
+                                style={{
+                                  backgroundColor: "#eeeded",
+                                  border: "1px solid #989898",
+                                  width: "70px",
+                                  justifyContent: "flex-end",
+                                  paddingRight: "2px",
+                                  height: "21px",
+                                  borderBottom: "0px",
+                                  borderRight: "0px",
+                                  borderLeft: "0px",
+                                }}
+                              >
+                                <b className="fsdpcl3">
+                                  {e?.UnitCost?.toFixed(2)}
+                                </b>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       );
                     })}
                   <div className="pcl3TableCopyD">
@@ -1318,13 +1302,17 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="sumarypcl3">
                   <div className="amountSummarySectionpcl3">
                     <div className="fapcl3">
-                      <div className="d-flex justify-content-end w-50 fsdpcl3">Total Discount</div>
+                      <div className="d-flex justify-content-end w-50 fsdpcl3">
+                        Total Discount
+                      </div>
                       <div className="mrpWpcl3 fsdpcl3">
                         {totalObj?.totDiscount?.toFixed(2)}
                       </div>{" "}
                     </div>
                     <div className="fapcl3">
-                      <div className="d-flex justify-content-end w-50 fsdpcl3">Total Amount</div>
+                      <div className="d-flex justify-content-end w-50 fsdpcl3">
+                        Total Amount
+                      </div>
                       <div className="mrpWpcl3 fsdpcl3">
                         {(
                           +totalUniCostAmt?.toFixed(2) -
@@ -1335,11 +1323,16 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     {taxTotal?.length > 0 &&
                       taxTotal?.map((e, i) => {
                         return (
-                          <div className="d-flex justify-content-between w-100" key={i}>
+                          <div
+                            className="d-flex justify-content-between w-100"
+                            key={i}
+                          >
                             <div className="w-50 d-flex justify-content-end">
                               {e?.name} {e?.per}
                             </div>
-                            <div className="w-50 d-flex justify-content-end">{e?.amount}</div>
+                            <div className="w-50 d-flex justify-content-end">
+                              {e?.amount}
+                            </div>
                           </div>
                         );
                       })}
@@ -1347,7 +1340,9 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     {/* <div className='fapcl3'><div className='mrpWpcl3 fsdpcl3'>CGST @ {headerData?.CGST}%</div><div className='mrpWpcl3 fsdpcl3'>{headerData?.TotalCGSTAmount?.toFixed(2)} </div> </div>
                                         <div className='fapcl3'><div className='mrpWpcl3 fsdpcl3'>SGST @ {headerData?.SGST}%</div><div className='mrpWpcl3 fsdpcl3'>{headerData?.TotalSGSTAmount?.toFixed(2)}</div> </div> */}
                     <div className="fapcl3">
-                      <div className="d-flex justify-content-end w-50 fsdpcl3">Less </div>
+                      <div className="d-flex justify-content-end w-50 fsdpcl3">
+                        Less{" "}
+                      </div>
                       <div className="mrpWpcl3 fsdpcl3">
                         {headerData?.AddLess?.toFixed(2)}
                       </div>{" "}
@@ -1381,7 +1376,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <b className="fsdpcl3">GOLD IN 24KT</b>
                           </div>
                           <div className="mrpWpcl3D textrightpcl3 fsdpcl3 justify-content-end pe-1">
-                            {totalObj.totfinewt} gm
+                            {totalObj.totfinewt?.toFixed(2)} gm
                           </div>{" "}
                         </div>
                         <div className="fapcl3D">
@@ -1506,13 +1501,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           </div>
                           <div className="mrpWpcl3 diaDetailpcl3 justify-content-end pe-1">
                             <b className="fsdpcl3">
-                              {(
-                                totalUniCostAmt -
-                                totalObj?.totDiscount +
-                                headerData?.TotalCGSTAmount +
-                                headerData?.TotalSGSTAmount +
-                                headerData?.AddLess
-                              )?.toFixed(2)}
+                              {finalAmount?.toFixed(2)}
                             </b>{" "}
                           </div>{" "}
                         </div>
@@ -1525,17 +1514,15 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       {calculatedData?.length > 0 &&
                         calculatedData?.map((e, i) => {
                           return (
-                            <>
-                              <div className="fapcl3DE" key={i}>
-                                <div className="mrpWpcl3D">
-                                  <b className="fsdpcl3">{e?.ShapeName}</b>
-                                </div>
-                                <div className="mrpWpcl3D fsdpcl3">
-                                  {e?.totalPcs?.toFixed(2)}/
-                                  {e?.totalWt?.toFixed(3)} cts
-                                </div>{" "}
+                            <div className="fapcl3DE" key={i}>
+                              <div className="mrpWpcl3D">
+                                <b className="fsdpcl3">{e?.ShapeName}</b>
                               </div>
-                            </>
+                              <div className="mrpWpcl3D fsdpcl3">
+                                {e?.totalPcs?.toFixed(2)}/
+                                {e?.totalWt?.toFixed(3)} cts
+                              </div>{" "}
+                            </div>
                           );
                         })}
                       <div
