@@ -20,11 +20,12 @@ export const CapitalizeWords = (text) => {
   return capitalizedText + " " + "Only";
 };
 
-export const apiCall = async (token, invoiceNo, printName, urls) => {
+export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
   const body = {
     token: token,
     invoiceno: invoiceNo,
     printname: printName,
+    Eventname: evn
   };
   try {
     const response = await axios.post(urls, body);

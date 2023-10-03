@@ -1,10 +1,9 @@
 import React from "react";
 import "../../assets/css/prints/itemwiseprint.css";
-import { CapitalizeWords, apiCall, handlePrint } from "../../GlobalFunctions";
+import {  apiCall, handlePrint, taxGenrator } from "../../GlobalFunctions";
 import { usePDF } from "react-to-pdf";
 import { useState } from "react";
 import { useEffect } from "react";
-import numberToWords from "number-to-words";
 import { ToWords } from 'to-words';
 import Loader from "../../components/Loader";
 
@@ -34,7 +33,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
     cWt: 0,
     cAmt: 0,
   });
-
+  const [taxes, setTaxes] = useState([]);
   const loadData = (data) => {
     setjson0Data(data?.BillPrint_Json[0]);
     let totals = { ...total };
@@ -87,8 +86,8 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
       data?.BillPrint_Json2.forEach((ele, ind) => {
         obj.srJobArr.map((elem, index) => {
           // if (obj?.id === ele?.Hid) {
-            // obj.OtherAmount
-            if(elem === ele?.StockBarcode){
+          // obj.OtherAmount
+          if (elem === ele?.StockBarcode) {
             if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
               obj.metalPcs += ele?.Pcs;
               obj.metalWt += ele?.Wt;
@@ -107,7 +106,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
               // diamond
               obj.diamondPcs += ele?.Pcs;
               totals.dPcs += ele?.Pcs;
-              totals.dWt += ele?.Wt;  
+              totals.dWt += ele?.Wt;
               totals.dAmt += ele?.Amount;
               obj.diamondWt += ele?.Wt;
               obj.diamondAmt += ele?.Amount;
@@ -140,14 +139,23 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
       totals.labourAmt += e?.MakingAmount;
       totals.fineAmt += e?.FineWt;
       totals.totalAmt += e?.TotalAmount;
-      console.log(e);
     });
     totals.igst = (totals.totalAmt * data?.BillPrint_Json[0]?.IGST) / 100;
     totals.cgst = (totals.totalAmt * data?.BillPrint_Json[0]?.CGST) / 100;
     totals.sgst = (totals.totalAmt * data?.BillPrint_Json[0]?.SGST) / 100;
     totals.less = data?.BillPrint_Json[0]?.AddLess;
-    totals.totalAmt = totals.totalAmt + totals.cgst + totals.sgst + totals.less;
-    totals.numberToWords =toWords.convert(totals.totalAmt);
+    // totals.totalAmt = totals.totalAmt + totals.cgst + totals.sgst + totals.less;
+    // tax
+    let taxValue = taxGenrator(data?.BillPrint_Json[0], totals.totalAmt);
+    setTaxes(taxValue);
+    taxValue.length > 0 && taxValue.forEach((e, i) => {
+      totals.totalAmt += +(e?.amount);
+    });
+    totals.numberToWords = toWords.convert(totals.totalAmt);
+
+    // tax end
+    totals.totalAmt += totals.less;
+    totals.totalAmt = (totals.totalAmt)?.toFixed(2);
     setTotal(totals);
     setData(resultArr);
   };
@@ -433,7 +441,6 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
 
                   <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'fineAmt' : 'fineAmt1'} border-end`}>
                     <p className="fw-bold text-end">
-                      {console.log(e?.FineWt)}
                       {e?.FineWt !== 0 && e?.FineWt}
                     </p>
                   </div>
@@ -448,13 +455,15 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
           {/* Tax */}
           <div className={`bgLightPink d-flex border-start border-end border-bottom ${atob(printName).toLowerCase() === "item wise print" ? 'main_pad_item_wise_print_row' : 'main_pad_item_wise_print_row1'}`}>
             <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'cgstTotalItemWiseRow' : 'cgstTotalItemWiseRow1'}  border-end`}>
-              <p className="fw-bold text-end pb-1 pe-1">CGST @ {json0Data?.CGST}%</p>
-              <p className="fw-bold text-end pb-1 pe-1">SGST @ {json0Data?.SGST}%</p>
+              {taxes.length > 0 && taxes.map((e, i) => {
+                return <p className="fw-bold text-end pb-1 pe-1" key={i}>{e?.name} @ {e?.per}</p>
+              })}
               <p className="fw-bold text-end pb-1 pe-1">LESS @ {json0Data?.AddLess}%</p>
             </div>
             <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'cgstAmountItemWiseRow' : 'cgstAmountItemWiseRow1'}`}>
-              <p className="fw-bold text-end pb-1 pb-1">{(total?.cgst)?.toFixed(2)}</p>
-              <p className="fw-bold text-end pb-1 pb-1">{(total?.sgst)?.toFixed(2)}</p>
+              {taxes.length > 0 && taxes.map((e, i) => {
+                return <p className="fw-bold text-end pb-1 pb-1" key={i}>{e?.amount}</p>
+              })}
               <p className="fw-bold text-end pb-1 pb-1">{(total?.less)?.toFixed(2)}</p>
             </div>
           </div>
@@ -537,7 +546,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls }) => {
               <p className="fw-bold text-end">{(total?.fineAmt).toFixed(3)}</p>
             </div>
             <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'totalAmt' : 'totalAmt1'}`}>
-              <p className="fw-bold text-end">{(total?.totalAmt).toFixed(2)}</p>
+              <p className="fw-bold text-end">{total?.totalAmt}</p>
             </div>
           </div>
           {/* Amount In Words */}

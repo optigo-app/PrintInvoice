@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/jewellery_invoice.css";
 import html2pdf from 'html2pdf.js';
-import { apiCall, handleImageError, handlePrint, CapitalizeWords } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, CapitalizeWords, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import numberToWords from 'number-to-words';
+import { ToWords } from 'to-words';
 
-const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
+const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
   const [data, setData] = useState([]);
+  const [taxes, setTaxes] = useState([]);
+  const toWords = new ToWords();
+
   const [total, setTotal] = useState({
     grossWt: 0,
     netWt: 0,
@@ -32,7 +36,6 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
 
   const generatePdf = () => {
     const content = document.getElementById('pdf-content'); // Replace with the ID of your content div
-    console.log(content);
     if (content) {
       html2pdf(content);
     }
@@ -41,7 +44,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
   const loadData = (data) => {
     setJson0Data(data?.BillPrint_Json?.[0]);
     let resultArr = [];
-    let totals = {...total};
+    let totals = { ...total };
     data?.BillPrint_Json1.map((e, i) => {
       let obj = { ...e };
       let metal = [];
@@ -81,10 +84,19 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
       totals.total += e?.UnitCost;
       resultArr.push(obj);
     });
-    totals.sgst = totals.total*(data?.BillPrint_Json?.[0]?.SGST)/100;
-    totals.cgst = totals.total*(data?.BillPrint_Json?.[0]?.CGST)/100;
-    totals.afterGst = totals.total +  totals.sgst + totals.cgst;
-    totals.numberInWords =  CapitalizeWords(numberToWords.toWords(totals.afterGst));
+    totals.total = (totals.total).toFixed(2);
+
+    // tax
+
+    let taxValue = taxGenrator(data?.BillPrint_Json[0], +totals.total);
+    setTaxes(taxValue);
+    taxValue.forEach((e, i) => {
+      totals.afterGst += +(e?.amount);
+    });
+    totals.afterGst += +(totals.total);
+    totals.numberInWords = toWords.convert(totals.afterGst);
+
+    // tax end
     setTotal(totals);
     setData(resultArr);
   }
@@ -92,7 +104,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn);
         loadData(data);
         setLoader(false);
 
@@ -116,7 +128,8 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
       <div className='portrait_container jewellery_invoice_container pt-2' id='pdf-content'>
         {/* Main Heading */}
         <div className="w-100 bgGrey p-1">
-          <p className='fs-5 fw-bold text-white'>RETAIL INVOICE</p>
+          {/* <p className='fs-5 fw-bold text-white'>RETAIL INVOICE</p> */}
+          <p className='fs-5 fw-bold text-white'>{json0Data?.PrintHeadLabel}</p>
         </div>
         {/* Address */}
         <div className="d-flex justify-content-between">
@@ -302,14 +315,14 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
               <div className="d-grid h-100">
                 <div className='d-flex'>
                   <div className='QualityJewelleryInvoice border-end border-bottom p-1 d-flex align-items-center flex-column'>
-                      {e?.diamond.length > 0 && e?.diamond.map((ele, ind) => {
-                        return <p key={ind}>{ele?.ShapeName}/{ele?.QualityName}/{ele?.Colorname}</p>
-                      })}
+                    {e?.diamond.length > 0 && e?.diamond.map((ele, ind) => {
+                      return <p key={ind}>{ele?.ShapeName}/{ele?.QualityName}/{ele?.Colorname}</p>
+                    })}
                   </div>
                   <div className='QualityJewelleryInvoice border-end border-bottom p-1 d-flex justify-content-center align-items-end flex-column'>
                     {e?.diamond.length > 0 && e?.diamond.map((ele, ind) => {
-                        return <p key={ind}>{ele?.Pcs}/{(ele?.Wt).toFixed(3)} </p>
-                      })}
+                      return <p key={ind}>{ele?.Pcs}/{(ele?.Wt).toFixed(3)} </p>
+                    })}
                   </div>
                 </div>
               </div>
@@ -392,7 +405,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
             <p className='fw-bold'>53.33</p>
           </div>
           <div className='othersJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom'>
-            <p className='fw-bold'>15,603.46</p>
+            <p className='fw-bold'>{(total?.total)}</p>
           </div>
         </div>
         {/* gst */}
@@ -405,8 +418,11 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
             <div className="d-flex">
               <div className='grandTotalRupeesJewelleryInvoice border-end border-bottom'>
                 <div className="border-bottom p-1">
-                  <p>CGST @ {json0Data?.CGST}%</p>
-                  <p>SGST @ {json0Data?.SGST}%</p>
+                  {taxes.length > 0 && taxes.map((e, i) => {
+                    return <p key={i}>{e?.name} @ {e?.per}%</p>
+                  })}
+                  {/* <p>CGST @ {json0Data?.CGST}%</p> */}
+                  {/* <p>SGST @ {json0Data?.SGST}%</p> */}
                 </div>
                 <div className='p-1'>
                   <p className='fw-bold'>GRAND TOTAL</p>
@@ -414,8 +430,9 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
               </div>
               <div className='grandTotaltaxJewelleryInvoice'>
                 <div className='border-bottom p-1 text-end'>
-                  <p>{(total?.cgst).toFixed(2)}</p>
-                  <p>{(total?.sgst).toFixed(2)}</p>
+                  {taxes.length > 0 && taxes.map((e, i) => {
+                    return <p key={i}>{e?.amount}</p>
+                  })}
                 </div>
                 <div className='p-1 text-end border-bottom'>
                   <p className='fw-bold'>{(total?.afterGst).toFixed(2)}</p>
@@ -430,7 +447,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName }) => {
         </div>
         {/* Bank Address */}
         <div className="d-flex border-bottom border-start border-end mb-2">
-          <div className="col-4 p-1 border-end">{console.log(json0Data)}
+          <div className="col-4 p-1 border-end">
             <p className='fw-bold'>Bank Detail</p>
             <p>Bank Name: {json0Data?.bankname}</p>
             <p>{json0Data?.bankaddress}</p>

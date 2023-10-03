@@ -8,6 +8,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName }) => {
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
   const [json1Data, setJson1Data] = useState([]);
+  const [taxes, setTaxes] = useState([]);
 
   const loadData = (data) => {
     setJson0Data(data.BillPrint_Json[0]);
