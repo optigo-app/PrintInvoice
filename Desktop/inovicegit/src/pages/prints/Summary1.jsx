@@ -10,7 +10,7 @@ import convertor from "number-to-words";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
-  
+
   const [headerData, setHeaderData] = useState({});
   const [dynamicList1, setDynamicList1] = useState([]);
   const [dynamicList2, setDynamicList2] = useState([]);
@@ -417,9 +417,9 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                   <div key={i}>
                     {i !== 0 && i % 12 === 0 ? (
                       <div>
-                        <div className="page_break_after" key={i}></div>
-                        <div className="head1sum1" key={i}>
-                          JEWELLERY INVOICE
+                        <div className="page_break_after"></div>
+                        <div className="head1sum1" >
+                          {headerData?.PrintHeadLabel}
                         </div>
                         <div className="head2sum1">
                           <div className="subhead2sum1">
@@ -449,10 +449,11 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                               src={headerData?.PrintLogo}
                               id="sum1Img"
                               alt="#summary1"
+                              onError={handleImageError}
                             />
                           </div>
                         </div>
-                        <div className="tbodysum1" key={i}>
+                        <div className="tbodysum1" >
                           <div className="wtbsum1 srwsum1">{e?.SrNo}</div>
                           <div className="wtbsum1 designwsum1 d-flex justify-content-around">
                             <div>
@@ -460,6 +461,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 src={e?.DesignImage}
                                 alt="#summary1"
                                 id="imgDySum1"
+                                onError={handleImageError}
                               />
                             </div>
                             <div className="designContentsum1">
@@ -507,7 +509,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                       </div>
                     ) : (
-                      <div className="tbodysum1" key={i}>
+                      <div className="tbodysum1">
                         <div className="wtbsum1 srwsum1">{e?.SrNo}</div>
                         <div className="wtbsum1 designwsum1 d-flex justify-content-around p-1">
                           <div>
@@ -515,6 +517,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                               src={e?.DesignImage}
                               alt="#summary1"
                               id="imgDySum1"
+                              onError={handleImageError}
                             />
                           </div>
                           <div className="designContentsum1">
