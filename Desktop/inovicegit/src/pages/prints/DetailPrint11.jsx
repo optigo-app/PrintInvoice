@@ -137,8 +137,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1'>Size(mm)</p></div>
             <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1'>Pcs</p></div>
             <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1'>DIA WT.</p></div>
-            <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='p-1'>Price / cts </p>
-              <p>( Currency)</p></div>
+            <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='p-1'>Price / cts </p></div>
             <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center p-1 flex-column'><p className='text-center'>Dia Amount</p></div>
             <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center'>"Setting </p><p>Type"</p></div>
             <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center'>Setting Price (Currency) </p></div>
@@ -199,8 +198,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1'>{ele?.SizeName}</p></div>
               <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1'>{ele?.Pcs}</p></div>
               <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1'>{(ele?.Wt)?.toFixed(2)}</p></div>
-              <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='p-1'>{ele?.Amount}</p>
-                <p>( Currency)</p></div>
+              <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='p-1'>{ele?.Amount}</p></div>
               <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center p-1 flex-column'><p className='text-center'>83.750</p></div>
               <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center'>{ele?.SettingName}</p></div>
               <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center'>3.00</p></div>

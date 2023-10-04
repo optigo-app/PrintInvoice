@@ -279,7 +279,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className='p-1 min_padding_invoice1 Carat_invoice_1 border-end'></div>
                             <div className='p-1 min_padding_invoice1 GWT_invoice_1 border-end justify-content-center'>{totalAmount?.gwt}</div>
                             <div className='p-1 min_padding_invoice1 STONE_invoice_1 border-end fw-bold d-block text-center'><p>{totalAmount?.diaWt} Ctw </p><p>{totalAmount?.weightInGram} gm</p></div>
-                            <div className='p-1 NWT_invoice_1 border-end fw-bold d-block align-items-center d-flex justify-content-center'>{totalAmount?.netWeight}</div>
+                            <div className='p-1 NWT_invoice_1 border-end fw-bold d-block align-items-center d-flex justify-content-center'>{(totalAmount?.netWeight)?.toFixed(2)}</div>
                             <div className='p-1 min_padding_invoice1 Rate_invoice_1 fw-bold'></div>
                         </div>
                     </div>
