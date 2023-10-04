@@ -395,7 +395,7 @@
 
 #imgDySum1 {
     height: 45px;
-    width: 65px;
+    width: 45px;
     
 }
 .fs13sum1{
@@ -406,4 +406,8 @@
     .page_break_after {
         page-break-after: always;
     }
+    .summary1PrintSum1{
+        page-break-inside: avoid;
+    }
+
 }

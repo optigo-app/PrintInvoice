@@ -9,8 +9,10 @@
     height: 370px;
     border: 2px solid black;
     border-radius: 8px;
-    margin-top: 18px;
-    margin-left: 20px;
+    margin-top: 1rem;
+    margin-left: 1.3rem;
+    /* margin-top: 18px;
+    margin-left: 20px; */
 }
 
 .borderBottom11A {
@@ -219,7 +221,7 @@
     object-fit: cover;
     transform: rotate(90deg);
     position: absolute;
-    top: 9rem;
+    top: 6rem;
     right: -120px;
 }
 
@@ -234,6 +236,7 @@
     margin-bottom: 2rem;
     display: flex;
     flex-wrap: wrap;
+    font-size: 12px;
 }
 
 .insVal11A {

@@ -11,8 +11,10 @@
     height: 367px;
     border: 2px solid black;
     border-radius: 8px;
-    margin-top: 1.5rem;
-    margin-left: 1.5rem;
+    margin-top: 1.3rem;
+    margin-left: 1.1rem;
+    /* margin-top: 1.5rem;
+    margin-left: 1.5rem; */
 }
 
 .header13A {
@@ -273,7 +275,7 @@
     object-fit: cover;
     transform: rotate(90deg);
     position: absolute;
-    top: 8rem;
+    top: 6rem;
     left: 18px;
 }
 
@@ -390,8 +392,8 @@
     object-fit: cover;
     transform: rotate(90deg);
     position: absolute;
-    top: 8rem;
-    left: 20rem;
+    top: 6rem;
+    left: 15rem;
 
 }
 
@@ -411,6 +413,7 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 2rem;
+    font-size: 12px;
 }
 
 .load13A {

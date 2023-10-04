@@ -5,6 +5,7 @@ import { apiCall, CapitalizeWords, isObjectEmpty } from "../../GlobalFunctions";
 import convertor from "number-to-words";
 import { taxGenrator } from "./../../GlobalFunctions";
 import Loader from "../../components/Loader";
+import Button from "../../GlobalFunctions/Button";
 
 const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState();
@@ -432,6 +433,9 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
         <>
           {msg === "" ? (
             <>
+              <div className="btnpcl">
+                <Button />
+              </div>
               <div className="containerinvp3" id="divToPrint">
                 <div className="headinvp3">
                   <div className="headerinvp3">
@@ -486,7 +490,10 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 <div
                   className="d-flex"
-                  style={{ borderBottom: "2px solid #d8d7d7", borderLeft: "2px solid #d8d7d7" }}
+                  style={{
+                    borderBottom: "2px solid #d8d7d7",
+                    borderLeft: "2px solid #d8d7d7",
+                  }}
                 >
                   <div className="w-50 d-flex flex-column justify-content-between position-relative d-flex">
                     <div className="w-100">

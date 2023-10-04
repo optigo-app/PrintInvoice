@@ -12,12 +12,14 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin-left: 1.5rem;
+    margin-top: 1.5rem;
+    /* margin-left: 0.7rem;
+    margin-top: 0.7rem; */
     /* margin: 1rem; */
-    margin-left: 2rem;
-    margin-top: 2.5rem;
+    /* margin-left: 2rem;
+    margin-top: 2.5rem; */
 }
-
-
 
 .header16A {
     display: flex;
@@ -56,7 +58,7 @@
     align-items: center;
     width: 230px;
     height: 16px;
-    
+
 }
 
 .headJob16A {
@@ -90,28 +92,36 @@
     justify-content: space-between;
     width: 230px;
 }
-.rmw16Apx{
+
+.rmw16Apx {
     /* width: 70px !important; */
     width: 22% !important;
 }
-.qw16Apx{
+
+.qw16Apx {
     width: 15% !important;
 }
-.sw16Apx{
+
+.sw16Apx {
     width: 20% !important;
 }
-.a16Apx{
+
+.a16Apx {
     width: 19% !important;
 }
-.w16Apx{
+
+.w16Apx {
     width: 12% !important;
 }
-.pcs16Aw{
+
+.pcs16Aw {
     width: 50px !important;
 }
-.grw16A{
+
+.grw16A {
     width: 64px !important;
 }
+
 .prop16A {
     height: 16px;
     display: flex;
@@ -144,12 +154,15 @@
     display: flex;
     height: 100px;
 }
-.wd16A{
+
+.wd16A {
     width: 55px !important;
 }
-.wt16A{
+
+.wt16A {
     width: 57.5px !important;
 }
+
 .rmtype16A {
     display: flex;
     justify-content: flex-start;
@@ -174,6 +187,7 @@
     width: 40%;
     font-size: 9.5px;
 }
+
 .pcswtactual16AA {
     width: 60%;
     font-size: 9.5px;
@@ -209,14 +223,14 @@
 
 
 
-.barcode16A .barcode_sticker{
+.barcode16A .barcode_sticker {
     width: 180px;
     height: 20px;
     object-fit: cover;
     transform: rotate(90deg);
     position: absolute;
     top: 110px;
-    left: 21rem;
+    left: 15.8rem;
 
 }
 
@@ -232,24 +246,33 @@
     height: 100%;
     border-bottom: 1px solid black;
 }
-.fs16A{
+
+.fs16A {
     font-size: 12px;
 }
 
-.print16A{
+.print16A {
     display: flex;
     flex-wrap: wrap;
+    font-size: 12px;
 }
-#img16A{
+
+#img16A {
     width: 125px !important;
     height: 127px !important;
     border: none !important;
 }
-.d_none{
+
+.d_none {
     display: none !important;
 }
-@media print{
-    .containerprint16A:nth-child(2n + 1){
+
+@media print {
+    .containerprint16A:nth-child(4n) {
+        page-break-after: always;
+    }
+
+    /* .containerprint16A:nth-child(2n + 1){
         margin-top: 2rem;
     }
     .containerprint16A:nth-child(2n + 2){
@@ -257,5 +280,5 @@
     }
     .containerprint16A:nth-child(4n){
         page-break-after: always;
-    }
+    } */
 }

@@ -1,8 +1,6 @@
 .container_pcl {
-    /* width: 800px; */
     width: 760px;
-    padding: 2rem;
-    /* margin: 15px 0px; */
+    margin: 0 auto;
 }
 
 .header1RE {
@@ -55,8 +53,7 @@
     min-height: 85px;
     display: flex;
     border-bottom: 1px solid black;
-    padding-top: 5px;
-    padding-bottom: 10px;
+    
 }
 
 .qdRE {
@@ -75,8 +72,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding-top: 4px;
-    padding-left: 8px;
+    padding-top: 1px;
     font-size: 28px;
     flex-direction: column;
 }
@@ -139,7 +135,13 @@
     display: flex;
     justify-content: flex-end !important;
 }
-
+.btnpcl{
+display: flex;
+justify-content: flex-end;
+align-items: flex-end;
+width: 95%;
+margin: 3rem;
+ }
 @media print {
     .tbodyRE {
         page-break-inside: avoid;

@@ -13,8 +13,11 @@
     height: 367px;
     border: 2px solid black;
     border-radius: 8px;
-    margin-top: 1.5rem;
-    margin-left: 1.5rem;
+    margin-top: 1.3rem;
+    margin-left: 1.15rem;
+    /* margin-top: 1.5rem;
+    margin-left: 1.5rem; */
+    font-size: 12px;
 }
 
 .header5A {
@@ -264,7 +267,7 @@
     transform: rotate(90deg);
     position: absolute;
     top: 95px;
-    right: -8.5rem;
+    right: -6.5rem;
 }
 
 .diaflex5A {
@@ -371,7 +374,7 @@
     transform: rotate(90deg);
     position: absolute;
     top: 95px;
-    right: -8.5rem;
+    right: -6.5rem;
 }
 .f5ADuplicate {
     font-size: 10px;
