@@ -12,6 +12,7 @@
     border-radius: 8px;
     margin-left: 2rem;
     margin-top: 2rem;
+    font-size: 12px;
 }
 
 .head7A {
@@ -277,33 +278,17 @@
 
 @media print {
 
+
     .container7A {
-        margin-left: 2.3rem;
-    }
-
-    .container7A:nth-child(n+3) {
-        /* page-break-before: always; */
-        margin-top: 1rem;
-    }
-
-    .container7A:nth-child(n+4) {
-        /* page-break-before: always; */
-        margin-top: 1rem;
+        margin-top: 20px;
+        margin-left: 1.7rem;
     }
 
     .container7A:nth-child(4n+1) {
         page-break-before: always;
-        /* margin-top: 2rem; */
-    }
-
-    .container7A:nth-child(4n+1),
-    .container7A:nth-child(4n+2) {
-        margin-top: 2rem;
     }
 
 
-    /* .pageBreak {
-        display: none;
-    } */
+
 
 }

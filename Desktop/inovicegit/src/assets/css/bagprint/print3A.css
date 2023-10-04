@@ -13,8 +13,10 @@
     box-sizing: border-box;
     border: 2px solid black;
     border-radius: 8px;
-    margin-top: 1.7rem;
-    margin-left: 1.2rem;
+    margin-top: 1.3rem;
+    margin-left: 0.8rem;
+    /* margin-top: 1.7rem;
+    margin-left: 1.2rem; */
 }
 
 .imgBox3A {
@@ -298,8 +300,8 @@
 }
 
 #img3A {
-    width: 9rem !important;
-    height: 8rem !important;
+    width:6rem !important;
+    height: 6rem !important;
 }
 
 /* .bag3A{

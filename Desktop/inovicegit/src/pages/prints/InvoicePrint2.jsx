@@ -28,6 +28,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [msg, setMsg] = useState("");
 
   async function loadData(data) {
+    console.log(data);
     try {
       setHeaderData(data?.BillPrint_Json[0]);
       setJson1(data?.BillPrint_Json1);
@@ -97,7 +98,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
       },
     };
     // eslint-disable-next-line array-callback-return
-    json1.map((e) => {
+    json1?.map((e) => {
       let diamondlist = [];
       let colorstonelist = [];
       let metallist = [];
@@ -156,7 +157,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
       mainTotal.totalnetwt.netwt += e?.NetWt;
       totAmt += e?.TotalAmount;
 
-      json2.map((ele) => {
+      json2?.map((ele) => {
         if (ele?.StockBarcode === e?.SrJobno) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamondlist.push(ele);
@@ -240,7 +241,9 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
     AllTax?.forEach((e) => {
       grandTot += +e?.amount;
     });
-    let words = CapitalizeWords(convertor.toWords(Math.round(grandTot)));
+
+    let words = CapitalizeWords(convertor?.toWords(Math.round(grandTot)));
+
     setInWords(words);
     setGrandTotal(grandTot);
   };
@@ -248,6 +251,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
     const sendData = async () => {
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        console.log(data);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

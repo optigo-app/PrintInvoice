@@ -23,6 +23,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
   const [TotalPKG, setTotalPKG] = useState(0);
   const [taxTotal, setTaxTotal] = useState([]);
   const [finalAmount, setFinalAmount] = useState(0);
+  const [totalUnitCost, setTotalUnitCost] = useState(0);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
 
@@ -146,7 +147,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
       mainTotal.totalOtherAmount =
         mainTotal.totalOtherAmount + e?.OtherCharges + e?.MiscAmount;
       mainTotal.totallabourAmount =
-        mainTotal.totallabourAmount + e?.MakingAmount;
+        mainTotal.totallabourAmount + e?.MakingAmount + e?.TotalDiaSetcost;
       arr2.map((ele, ind) => {
         if (e.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -253,30 +254,34 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
         Wastage: 0,
         FineWt: 0,
         PKG: 0,
+        miscAmt: 0,
       };
 
       group.forEach((item) => {
         sums.jobno = item?.SrJobno;
-        sums.TotalAmount += item.TotalAmount;
+        sums.TotalAmount += item.UnitCost;
         sums.grosswt += item.grosswt;
         sums.NetWt += item.NetWt;
         sums.MetalPriceRatio += item.MetalPriceRatio;
-        sums.labourAmount += item.MakingAmount;
-        sums.OtherAmount += item.OtherCharges;
+        sums.labourAmount += item.MakingAmount + item?.TotalDiaSetcost;
+        sums.OtherAmount += item.OtherCharges + item?.MiscAmount;
         sums.Categoryname = Categoryname;
         sums.Collectionname = Collectionname;
         sums.MetalAmt += item.MetalAmount;
         sums.Wastage = item?.Wastage;
         sums.FineWt += item?.FineWt;
         sums.PKG += item?.PackageWt;
+        sums.miscAmt += item?.MiscAmount;
       });
       return sums;
     });
     const sumOfLen = result?.reduce((acc, e) => acc + (e?.len || 0), 0);
     let sumofAmt = result?.reduce((acc, e) => acc + (e?.TotalAmount || 0), 0);
+    const sumUAmt = result?.reduce((acc, e) => acc + (e?.TotalAmount || 0) , 0)
     const sumofMAmt = result?.reduce((acc, e) => acc + (e?.MetalAmt || 0), 0);
     const sumofFWT = result?.reduce((acc, e) => acc + (e?.FineWt || 0), 0);
     const sumofPKG = result?.reduce((acc, e) => acc + (e?.PKG || 0), 0);
+    // const sumofPKG = result?.reduce((acc, e) => acc + (e?.PKG || 0), 0);
     let allTax = taxGenrator(arr, sumofAmt);
     sumofAmt += arr?.AddLess;
     allTax?.length > 0 &&
@@ -284,12 +289,13 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
         sumofAmt += +e?.amount;
       });
     setTaxTotal(allTax);
-    setFinalAmount(sumofAmt);
+    setTotalUnitCost(sumUAmt?.toFixed(2))
+    setFinalAmount(sumofAmt?.toFixed(2));
     setTotalPKG(sumofPKG);
     setTotalFWT(sumofFWT);
     setTotalMAMT(sumofMAmt);
     setGroupedLen(sumOfLen);
-    setTotalCost(sumofAmt);
+    setTotalCost(sumofAmt?.toFixed(2));
     setGroupedArr(result);
   };
 
@@ -333,36 +339,6 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
     };
     sendData();
   }, []);
-  // async function loadData() {
-  //   try {
-  //     const body = {
-  //       token: token,
-  //       invoiceno: invoiceNo,
-  //       printname: printName,
-  //       Eventname: evn
-  //     };
-  //     const data = await axios.post(urls, body);
-  //     if (data?.data?.Status == 200) {
-  //       let datas = data?.data?.Data;
-  //       setJson(datas?.BillPrint_Json[0]);
-  //       setJson1(datas?.BillPrint_Json1);
-  //       setJson2(datas?.BillPrint_Json2);
-  //       organizeData(
-  //         datas?.BillPrint_Json[0],
-  //         datas?.BillPrint_Json1,
-  //         datas?.BillPrint_Json2
-  //       );
-  //     } else {
-  //       console.log(data?.data?.Status, data?.data?.Message);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   loadData();
-  // }, []);
 
   const separatedOthAmt = (obj) => {
     const parsedAmounts = obj?.OtherAmtDetail?.split("#@#")?.map((item) => {
@@ -381,7 +357,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
           {msg === "" ? (
             <>
               <div className="container_pcl">
-                <div className="btnpcl">
+                <div className="btnpclRE">
                   <Button />
                 </div>
                 <div className="p-2 d-flex justify-content-center align-items-center fw-bold fs-2">
@@ -550,9 +526,14 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                         {NetWt?.toFixed(3)}
                       </div>
                       {/* <p className="c1RE endRE fs-3 fw-bold flex-column"> */}
-                      <div className="c1RE brbRE endRE fs-3 fw-bold text-black">
-                        {TotalFWT?.toFixed(3)} /{" "}
-                      </div>
+                      {TotalFWT === 0 ? (
+                        ""
+                      ) : (
+                        <div className="c1RE brbRE endRE fs-3 fw-bold text-black">
+                          {TotalFWT?.toFixed(3)} /{" "}
+                        </div>
+                      )}
+
                       <div className="c1RE brbRE endRE fs-3 fw-bold">
                         {TotalMAMT?.toFixed(2)}
                       </div>
@@ -566,7 +547,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                         {mainTotal.totalOtherAmount?.toFixed(2)}
                       </p>
                       <p className="c1RE fw-bold endRE fs-3">
-                        {TotalCost?.toFixed(2)}
+                        {totalUnitCost}
                       </p>
                     </div>
                   </div>
@@ -609,7 +590,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                         TOTAL
                       </div>
                       <div className="fs-3 d-flex justify-content-end w-50 text-black">
-                        {finalAmount?.toFixed(2)}
+                        {finalAmount}
                       </div>
                     </div>
                   </div>

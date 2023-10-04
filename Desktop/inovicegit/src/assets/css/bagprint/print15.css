@@ -6,8 +6,10 @@
     width: 91mm;
     height: 90mm;
     border: 2px solid black;
-    margin-left: 1.9rem;
-    margin-top: 3rem;
+    margin-left: 1.4rem;
+    margin-top: 2.4rem;
+    /* margin-left: 1.9rem;
+    margin-top: 3rem; */
     border-radius: 8px;
 }
 
@@ -15,6 +17,7 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 2rem;
+    font-size: 12px;
 }
 
 .firstCell {

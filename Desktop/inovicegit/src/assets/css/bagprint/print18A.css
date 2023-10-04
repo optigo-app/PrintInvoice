@@ -9,8 +9,10 @@
     width: 340px;
     border: 2px solid black;
     border-radius: 4px;
-    margin-top: 2.5rem;
-    margin-left: 2rem;
+    margin-top: 2rem;
+    margin-left: 1.6rem;
+    /* margin-top: 2.5rem;
+    margin-left: 2rem; */
 }
 
 .head18A {
@@ -240,7 +242,7 @@
     transform: rotate(90deg);
     position: absolute;
     top: 100px;
-    left: 18.2rem;
+    left: 13.65rem;
 }
 
 .barcode18AD>.barcode_sticker {
@@ -250,7 +252,7 @@
     transform: rotate(90deg);
     position: absolute;
     top: 85px;
-    left: 18.2rem;
+    left: 13.65rem;
 }
 .barcode18AD{
     width: 35px;
@@ -292,7 +294,7 @@
     justify-content: space-between;
     align-items: center;
     height: 25px;
-
+    font-size: 12px;
 }
 
 .p18AD {
@@ -427,6 +429,7 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 2rem;
+    font-size: 12px;
 }
 
 #img18A {

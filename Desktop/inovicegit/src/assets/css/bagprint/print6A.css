@@ -13,6 +13,7 @@
     border-radius: 12px;
     margin-top: 5rem;
     margin-left: 2rem;
+    font-size: 12px;
 }
 
 .jobInfo6A {
@@ -229,7 +230,8 @@
       margin-top: 1rem;
     } */
     .container6A {
-        margin-left: 2.65rem;
+        margin-left: 2rem;
+        margin-top: 3.9rem;
     }
 
     .container6A:nth-child(4n+1) {

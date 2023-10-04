@@ -9,8 +9,10 @@
     width: 340px;
     border: 2px solid black;
     border-radius: 4px;
-    margin-top: 2.5rem;
-    margin-left: 2.15rem;
+    margin-top: 2rem;
+    margin-left: 1.6rem;
+    /* margin-top: 2.5rem;
+    margin-left: 2.15rem; */
 }
 
 .headn17A {
@@ -244,7 +246,7 @@
     transform: rotate(90deg);
     position: absolute;
     top: 95px;
-    left: 18.3rem;
+    left: 13.65rem;
 }
 
 .barcoden17AD>.barcode_sticker {
@@ -254,7 +256,7 @@
     transform: rotate(90deg);
     position: absolute;
     top: 100px;
-    left: 18rem;
+    left: 13.65rem;
 
 }
 
@@ -299,6 +301,7 @@
     justify-content: space-between;
     align-items: center;
     height: 25px;
+    font-size: 12px;
 
 }
 
@@ -450,6 +453,7 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 3rem;
+    font-size: 12px;
 }
 
 @media print {

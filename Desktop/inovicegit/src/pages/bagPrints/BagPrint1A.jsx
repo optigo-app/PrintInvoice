@@ -625,7 +625,7 @@ function BagPrint1A({ queries, headers }) {
                                                                         }
 
                                                                     </div>
-                                                                    <div style={{ fontSize: "14px", paddingLeft: "2px", paddingTop: "2px", lineHeight: "14px" }}><b>INSTRUCTION:</b><span style={{ color: "red" }}>{(e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction).length > 0 ? ((e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction)?.slice(0, 96) == (null || 'null') ? '' : (e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction)?.toUpperCase()?.slice(0, 88)) : ''}</span></div>
+                                                                    <div style={{ fontSize: "14px", paddingLeft: "2px", paddingTop: "2px", lineHeight: "14px", fontSize:"12px" }}><b>INSTRUCTION:</b><span style={{ color: "red" }}>{(e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction).length > 0 ? ((e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction)?.slice(0, 96) == (null || 'null') ? '' : (e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction)?.toUpperCase()?.slice(0, 88)) : ''}</span></div>
                                                                 </div>
                                                                 <div className='barcodeSetPrint1A' style={{ height: "285px", marginTop: "3px" }}>
                                                                     <div className='barcodeprint1A'>
