@@ -184,3 +184,9 @@
     bottom: 0px;
     width: 100%;
 }
+
+@media print{
+    .btnpcl{
+        display: none !important;
+    }
+}

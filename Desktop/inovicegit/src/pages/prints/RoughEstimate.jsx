@@ -495,7 +495,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                   <div
                     className="tbodyRE"
                     style={{
-                      height: "115px",
+                      height: "95px",
                       display: "flex",
                       justifyContent: "flex-start",
                       alignItems: "flex-start",

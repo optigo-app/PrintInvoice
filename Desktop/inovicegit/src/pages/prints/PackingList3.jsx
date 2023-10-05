@@ -61,37 +61,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
   let findingList = [];
   let stoneMiscList = [];
 
-  // async function loadData() {
-  //   try {
-  //     const body = {
-  //       token: token,
-  //       invoiceno: invoiceNo,
-  //       printname: printName,
-  //       Eventname: evn,
-  //     };
-
-  //     const data = await axios.post(urls, body);
-  //     if (data?.data?.Status == 200) {
-  //       let datas = data?.data?.Data;
-  //       setHeaderData(datas?.BillPrint_Json[0]);
-  //       setDynamicList1(datas?.BillPrint_Json1);
-  //       setDynamicList2(datas?.BillPrint_Json2);
-  //       organizeData(
-  //         datas?.BillPrint_Json[0],
-  //         datas?.BillPrint_Json1,
-  //         datas?.BillPrint_Json2
-  //       );
-  //     } else {
-  //       console.log(data?.data?.Status, data?.data?.Message);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   loadData();
-  // }, []);
   async function loadData(data) {
     try {
       setHeaderData(data?.BillPrint_Json[0]);
@@ -111,8 +80,10 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
   useEffect(() => {
     const sendData = async () => {
+      // console.log(atob(token), atob(invoiceNo), atob(printName), atob(urls), atob(evn));
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        console.log(data);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -188,7 +159,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
     });
 
   // eslint-disable-next-line array-callback-return
-  dynamicList1.map((e) => {
+  dynamicList1?.map((e) => {
     totalObj.totalAmt = totalObj.totalAmt + e?.TotalAmount;
     totalObj.totmakingAmt = totalObj.totmakingAmt + e?.MakingAmount;
     totalObj.totDiscount = totalObj.totDiscount + e?.DiscountAmt;
@@ -198,7 +169,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
   });
 
   // eslint-disable-next-line array-callback-return
-  dynamicList2.map((e) => {
+  dynamicList2?.map((e) => {
     totalObj.totfinewt = totalObj.totfinewt + e?.FineWt;
   });
 
@@ -206,7 +177,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
   stoneMiscList = colorStoneList.concat(miscList);
 
-  const d = dynamicList2.reduce((grouped, e) => {
+  const d = dynamicList2?.reduce((grouped, e) => {
     if (e.MasterManagement_DiamondStoneTypeid === 1 && e.ShapeName === "RND") {
       const key = `${e.ShapeName} ${e.QualityName} ${e.Colorname}`;
 
@@ -219,7 +190,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
     return grouped;
   }, {});
 
-  const e = dynamicList2.reduce((grouped, e) => {
+  const e = dynamicList2?.reduce((grouped, e) => {
     if (e.MasterManagement_DiamondStoneTypeid === 1 && e.ShapeName !== "RND") {
       const key = `${e.ShapeName} ${e.QualityName} ${e.Colorname}`;
 
@@ -344,7 +315,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
     let totalUnitPrice = 0;
     let totalAmt = 0;
 
-    arr1.map((e, i) => {
+    arr1?.map((e, i) => {
       let diamonds = [];
       let colorstone = [];
       let metal = [];
