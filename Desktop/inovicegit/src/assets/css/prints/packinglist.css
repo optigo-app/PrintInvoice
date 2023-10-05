@@ -42,7 +42,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 1247px;
+    /* width: 1247px; */
+    width: 1130px;
     height: 150px;
     margin: auto;
 }
@@ -71,7 +72,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 1230px;
+    /* width: 1230px; */
+    width: 1130px;
     height: 40px;
     margin: auto;
 }
@@ -116,7 +118,8 @@
 }
 
 .pcltable {
-    width: 1230px;
+    /* width: 1230px; */
+    width: 1130px;
     margin: auto;
 }
 
@@ -696,7 +699,8 @@
     flex-direction: column;
     /* justify-content: flex-end; */
     align-items: flex-end;
-    width: 1230px;
+    /* width: 1230px; */
+    width: 1130px;
     padding: 3px;
     margin-left: auto;
 
@@ -839,14 +843,16 @@
 .srnopclthead {
     height: 30px;
     text-align: center;
-    width: 17px;
+    /* width: 17px; */
+    width: 2%;
     border-right: 1px solid #989898;
     font-size: 13px;
     line-height: 12px;
 }
 
 .jewpclthead {
-    width: 100px;
+    width: 10%;
+    /* width: 100px; */
     height: 30px;
     text-align: center;
     border-right: 1px solid #989898;
@@ -856,7 +862,8 @@
 }
 
 .diamheadpcl {
-    width: 283px;
+    /* width: 283px; */
+    width: 20%;
     display: flex;
     flex-direction: column;
     height: 30px;
@@ -880,7 +887,8 @@
 
 .shptheadpcl {
     height: 30px;
-    width: 230px;
+    /* width: 230px; */
+    width: 20%;
     display: flex;
     flex-direction: column;
     border-right: 1px solid #989898;
@@ -901,6 +909,7 @@
 .shpcolpclcol {
     height: 15px;
     width: 230px;
+    /* width: 20%; */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -908,12 +917,14 @@
 
 .lotheadpcl {
     height: 30px;
-    width: 115px;
+    /* width: 115px; */
+    width: 10%;
     border-right: 1px solid #989898;
 }
 
 .pricetheadpcl {
-    width: 82px;
+    /* width: 82px; */
+    width: 8%;
     height: 30px;
     display: flex;
     justify-content: center;
@@ -988,7 +999,8 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    width: 17px;
+    /* width: 17px; */
+    width: 2%;
     border-right: 1px solid #989898;
 }
 
@@ -997,7 +1009,8 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    width: 100px;
+    /* width: 100px; */
+    width: 10%;
     border-right: 1px solid #989898;
 }
 
@@ -1006,7 +1019,8 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    width: 283px;
+    /* width: 283px; */
+    width: 20%;
     border-right: 1px solid #989898;
 }
 
@@ -1015,7 +1029,8 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    width: 230px;
+    /* width: 230px; */
+    width: 20%;
     border-right: 1px solid #989898;
 }
 
@@ -1024,7 +1039,8 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    width: 115px;
+    /* width: 115px; */
+    width: 10%;
     border-right: 1px solid #989898;
 }
 
@@ -1033,7 +1049,8 @@
     /* justify-content: center; */
     align-items: center;
     height: 15px;
-    width: 83px;
+    /* width: 83px; */
+    width: 8%;
     border-right: 1px solid #989898;
 }
 
@@ -1066,7 +1083,8 @@
     justify-content: center;
     align-items: flex-start;
     min-height: 110px;
-    width: 17px;
+    /* width: 17px; */
+    width: 2%;
     border-right: 1px solid #989898;
     padding-top: 5px;
 }
@@ -1077,7 +1095,8 @@
     justify-content: space-around;
     align-items: center;
     min-height: 110px;
-    width: 100px;
+    /* width: 100px; */
+    width: 10%;
     border-right: 1px solid #989898;
 }
 
@@ -1086,7 +1105,8 @@
     justify-content: center;
     align-items: flex-start;
     min-height: 110px;
-    width: 284px;
+    /* width: 284px; */
+    width: 20%;
     border-right: 1px solid #989898;
 }
 
@@ -1095,7 +1115,8 @@
     justify-content: center;
     align-items: flex-start;
     min-height: 110px;
-    width: 230px;
+    /* width: 230px; */
+    width: 20%;
     border-right: 1px solid #989898;
 }
 
@@ -1104,7 +1125,8 @@
     justify-content: center;
     align-items: flex-start;
     min-height: 110px;
-    width: 115px;
+    /* width: 115px; */
+    width: 10%;
     border-right: 1px solid #989898;
 }
 
@@ -1113,7 +1135,8 @@
     /* justify-content: center; */
     align-items: flex-start;
     min-height: 110px;
-    width: 82px;
+    /* width: 82px; */
+    width: 8%;
     border-right: 1px solid #989898;
 }
 
@@ -1125,7 +1148,7 @@
 }
 
 .fspcl {
-    font-size: 13px;
+    font-size: 10px;
 }
 
 @media print {

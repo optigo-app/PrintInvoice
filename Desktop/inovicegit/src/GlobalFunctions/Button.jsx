@@ -6,7 +6,7 @@ const Button = () => {
         window.print();
     }
   return (
-    <div><button className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)}>Print</button></div>
+    <div className='d-flex justify-content-end align-items-center mt-1'><button className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)}>Print</button></div>
   )
 }
 

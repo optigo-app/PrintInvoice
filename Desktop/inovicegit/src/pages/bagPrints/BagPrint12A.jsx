@@ -157,8 +157,8 @@ const BagPrint12A = ({ queries, headers }) => {
             {
                 data.length === 0 ? <Loader /> : <>
                     <section className='print_12A'>
-                        <div className="print_btn">
-                            <button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
+                        <div className="print_btn d-flex justify-content-end">
+                            <button className="btn_white blue print_btn " onClick={(e) => handlePrint(e)}>
                                 Print
                             </button>
                         </div>

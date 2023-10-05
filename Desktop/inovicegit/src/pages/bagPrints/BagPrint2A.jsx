@@ -328,7 +328,7 @@ function BagPrint2A({ queries, headers }) {
     return (
         <>
             {
-                data.length === 0 ? <Loader /> : <><div className="print_btn"><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
+                data.length === 0 ? <Loader /> : <><div className="print_btn "><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
                     Print
                 </button></div>
 
