@@ -35,9 +35,7 @@ const AllDesignPrint = () => {
   const invoiceno = queryParams.get('invn');
   const printname = queryParams.get('pnm');
   const evn = queryParams.get('evn');
-  console.log(invoiceno, atob(invoiceno));
-  console.log(printname, atob(printname));
-  console.log(evn, atob(evn));
+
   // console.log(invoiceno, atob(invoiceno));
   // console.log(invoiceno, atob(invoiceno));
   return (
