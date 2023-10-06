@@ -35,11 +35,6 @@ const AllDesignPrint = () => {
   const invoiceno = queryParams.get('invn');
   const printname = queryParams.get('pnm');
   const evn = queryParams.get('evn');
-  console.log(invoiceno, atob(invoiceno));
-  console.log(printname, atob(printname));
-  console.log(evn, atob(evn));
-  // console.log(invoiceno, atob(invoiceno));
-  // console.log(invoiceno, atob(invoiceno));
   return (
     <>
       {atob(printname).toLowerCase() === "summary 4" && <Summary4 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}

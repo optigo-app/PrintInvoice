@@ -69,78 +69,6 @@ export const taxGenrator = (headerData, totalAmount) => {
         }
       }
     });
-
-    // if (headerData?.tax2_taxname !== "") {
-    //   if (headerData?.tax2_IsOnDiscount === 1) {
-    //     let obj = {
-    //       name: headerData?.tax2_taxname,
-    //       per: `${(headerData?.tax2_value).toFixed(3)}%`,
-    //       amount: ((totalAmount * headerData?.tax2_value) / 100).toFixed(2),
-    //     };
-    //     blankArr.push(obj);
-    //   } else {
-    //     let obj = {
-    //       name: headerData?.tax2_taxname,
-    //       per: (headerData?.tax2_value).toFixed(3),
-    //       amount: (headerData?.tax2_value).toFixed(2),
-    //     };
-    //     blankArr.push(obj);
-    //   }
-    // }
-
-    // if (headerData?.tax3_taxname !== "") {
-    //   if (headerData?.tax3_IsOnDiscount === 1) {
-    //     let obj = {
-    //       name: headerData?.tax3_taxname,
-    //       per: `${(headerData?.tax3_value).toFixed(3)}%`,
-    //       amount: ((totalAmount * headerData?.tax3_value) / 100).toFixed(2),
-    //     };
-    //     blankArr.push(obj);
-    //   } else {
-    //     let obj = {
-    //       name: headerData?.tax3_taxname,
-    //       per: (headerData?.tax3_value).toFixed(3),
-    //       amount: (headerData?.tax3_value).toFixed(2),
-    //     };
-    //     blankArr.push(obj);
-    //   }
-    // }
-
-    // if (headerData?.tax4_taxname !== "") {
-    //   if (headerData?.tax4_IsOnDiscount === 1) {
-    //     let obj = {
-    //       name: headerData?.tax4_taxname,
-    //       per: `${(headerData?.tax4_value).toFixed(3)}%`,
-    //       amount: ((totalAmount * headerData?.tax4_value) / 100).toFixed(2),
-    //     };
-    //     blankArr.push(obj);
-    //   } else {
-    //     let obj = {
-    //       name: headerData?.tax4_taxname,
-    //       per: (headerData?.tax4_value).toFixed(3),
-    //       amount: (headerData?.tax4_value).toFixed(2),
-    //     };
-    //     blankArr.push(obj);
-    //   }
-    // }
-
-    // if (headerData?.tax5_taxname !== "") {
-    //   if (headerData?.tax5_IsOnDiscount === 1) {
-    //     let obj = {
-    //       name: headerData?.tax5_taxname,
-    //       per: `${(headerData?.tax5_value).toFixed(3)}%`,
-    //       amount: ((totalAmount * headerData?.tax5_value) / 100).toFixed(2),
-    //     };
-    //     blankArr.push(obj);
-    //   } else {
-    //     let obj = {
-    //       name: headerData?.tax5_taxname,
-    //       per: (headerData?.tax5_value).toFixed(3),
-    //       amount: (headerData?.tax5_value).toFixed(2),
-    //     };
-    //     blankArr.push(obj);
-    //   }
-    // }
   } else if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 1) {
     let arr = ["CGST", "SGST"];
     arr.forEach((e, i) => {
@@ -165,3 +93,11 @@ export const taxGenrator = (headerData, totalAmount) => {
 // export const apiResponse = () => {
 
 // }
+
+
+export const NumberWithCommas = (value) => {
+  // Use toLocaleString to format the number with commas
+  const formattedNumber = value.toLocaleString();
+
+  return formattedNumber;
+}

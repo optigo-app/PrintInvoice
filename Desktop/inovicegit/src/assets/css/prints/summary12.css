@@ -2,8 +2,8 @@
     max-width: 788px !important;
 }
 
-.zoom1_5_summary12{
-    zoom: 1.5;
+.zoom1_5_summary12 {
+    zoom: 1.2;
 }
 
 .summary12Container .remark_sum4 {
@@ -56,8 +56,8 @@
     height: 25px;
 }
 
-@media print{
-    .zoom1_5_summary12{
+@media print {
+    .zoom1_5_summary12 {
         zoom: unset;
     }
 }
