@@ -21,6 +21,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    padding: 1px;
 }
 
 .header2invp3 {
@@ -183,6 +184,13 @@
     position: absolute;
     bottom: 0px;
     width: 100%;
+}
+
+.head1invp3 br {
+    display: none;
+}
+.fsinvp3 br {
+    display: none !important;
 }
 
 @media print{

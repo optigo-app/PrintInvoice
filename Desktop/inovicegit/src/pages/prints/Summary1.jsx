@@ -821,7 +821,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
               <div className="remarkSum1">
                 REMARKS IF ANY :{" "}
-                <p className="remarkValSum1">{headerData?.PrintRemark}</p>
+                <p className="remarkValSum1" dangerouslySetInnerHTML={{__html: headerData?.PrintRemark}}></p>
               </div>
               <div className="footerSum1">
                 <div className="footer1Sum1">

@@ -93,7 +93,7 @@
 
 .tableSectionSum1 {
     width: 1000px;
-    border: 1px solid #e8e8e8;
+    /* border: 1px solid #e8e8e8; */
     margin-top: 7px;
 }
 
@@ -105,9 +105,9 @@
     align-items: center;
     border: 1px solid #e8e8e8;
     font-weight: bold;
-    border-top: 0px;
+    /* border-top: 0px;
     border-right: 0px;
-    border-left: 0px;
+    border-left: 0px; */
 }
 
 .wthsum1 {
@@ -144,11 +144,14 @@
 
 .tbodysum1 {
     width: 100%;
-    min-height: 100px;
+    min-height: 55px;
     display: flex;
     justify-content: space-between;
     height: 100%;
     border-bottom: 1px solid #e8e8e8;
+    border-left: 1px solid #e8e8e8;
+    border-right: 1px solid #e8e8e8;
+
 }
 
 .tbodysum1second {
@@ -401,6 +404,10 @@
 .fs13sum1{
     font-size: 13px;
 }
+
+/* .pcltbr1c2.fspcl, .pcltbr1c1.fspcl, .dcolsthpcl.fspcl, .dcolsthpcl.fspcl, .shpthcolspcl.fspcl, .lopclcol.rightpcl.fspcl, .pcltbr1c7.rightpcl.fwboldpcl.fspcl {
+    padding-top: 7px;
+} */
 
 @media print {
     .page_break_after {
