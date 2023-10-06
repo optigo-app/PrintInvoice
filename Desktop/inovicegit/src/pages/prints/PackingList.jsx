@@ -379,8 +379,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
     totalObj.totOthAmt = totalObj.totOthAmt + e?.OtherCharges + e?.MiscAmount;
   });
 
-  // console.log(headerData);
-  // console.log(dynamicList2);
+
 
   return (
     <>
@@ -410,8 +409,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                     {headerData?.PrintHeadLabel}
                   </div>
                   <div>
-                    <b style={{ fontSize: "12px" }}>
-                      {headerData?.PrintRemark}
+                    <b style={{ fontSize: "12px" }} dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}>
+                      {/* {headerData?.PrintRemark} */}
                     </b>
                   </div>
                 </div>
@@ -887,7 +886,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="stnpcltotrowtb"></div>
                             <div
                               className="lopcltotrowtb dispcltotrowtb"
-                              style={{ width: "230.5px" }}
+                              style={{ width: "20%" }}
                             >
                               <p className="discpclcs fwboldpcl fspcl">
                                 Discount {e?.Discount}% @Total Amount

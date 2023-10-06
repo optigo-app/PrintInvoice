@@ -415,6 +415,10 @@
     font-size: 13px;
 }
 
+br {
+    display:  none !important;
+}
+
 @media print {
     .page_break_after {
         page-break-after: always;

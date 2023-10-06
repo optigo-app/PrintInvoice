@@ -490,7 +490,7 @@ function BagPrint1A({ queries, headers }) {
                                                                         {
                                                                             ele?.data?.map((e, i) => {
                                                                                 return (
-                                                                                    <>
+                                                                                    <div key={i}>
 
                                                                                         {
 
@@ -500,7 +500,7 @@ function BagPrint1A({ queries, headers }) {
                                                                                                     <div className='print1ARM' style={{ width: "300px", borderRight: "0px", display: "flex", justifyContent: "center", alignItems: "center", fontWeight: "bold" }} >{e?.heading?.toUpperCase()}</div>
                                                                                                 </div>
                                                                                                 :
-                                                                                                <>
+                                                                                                <div key={i}>
                                                                                                     {
                                                                                                         (e?.Shapename === "TOTAL") ?
                                                                                                             <div className='print1AMidBody' key={i}>
@@ -518,10 +518,10 @@ function BagPrint1A({ queries, headers }) {
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                             </div> :
-                                                                                                            <>
+                                                                                                            <div key={i}>
 
                                                                                                                 {
-                                                                                                                    e?.MasterManagement_DiamondStoneTypeid === 5 ? <>
+                                                                                                                    e?.MasterManagement_DiamondStoneTypeid === 5 ? <div key={i}>
                                                                                                                         <div className='print1AMidBody' key={i}>
 
                                                                                                                             <div className='print1ARM RMW5' style={{ fontSize: "10.7px", lineHeight: "7px" }}>{e?.LimitedShapeQualityColorCode?.toUpperCase() + " " + e?.Quality?.toUpperCase() + " " + e?.ColorName?.toUpperCase()}</div>
@@ -538,8 +538,8 @@ function BagPrint1A({ queries, headers }) {
                                                                                                                                 </div>
                                                                                                                             </div>
                                                                                                                         </div>
-                                                                                                                    </> : <>
-                                                                                                                        <div className='print1AMidBody' key={i}>
+                                                                                                                    </div> : <div key={i}>
+                                                                                                                        <div className='print1AMidBody' >
 
                                                                                                                             <div className='print1ARM RMW' style={{ fontSize: "10.7px" }}>{e?.LimitedShapeQualityColorCode?.toUpperCase()}</div>
                                                                                                                             <div className='sizename1A' style={{ fontSize: "10.7px", justifyContent: "flex-start", paddingRight: "2px" }}>{(((e?.Sizename) && (e?.Sizename !== "")) && e?.Sizename?.toUpperCase()?.slice(0, 10)) ?? ''}</div>
@@ -555,16 +555,16 @@ function BagPrint1A({ queries, headers }) {
                                                                                                                                 </div>
                                                                                                                             </div>
                                                                                                                         </div>
-                                                                                                                    </>
-                                                                                                                }</>
+                                                                                                                    </div>
+                                                                                                                }</div>
                                                                                                     }
-                                                                                                </>
+                                                                                                </div>
 
 
 
                                                                                         }
 
-                                                                                    </>
+                                                                                    </div>
                                                                                 );
                                                                             })
                                                                         }
@@ -687,7 +687,7 @@ function BagPrint1A({ queries, headers }) {
                                                             {
                                                                 Array.from({ length: (15) }, (i) => {
                                                                     return (
-                                                                        <>
+                                                                        
                                                                             <div className='print1AMidBody' key={i}>
                                                                                 <div className='print1ARM RMW' >{e?.Shapename ?? ''}</div>
                                                                                 <div className='sizename1A'>{e?.Sizename ?? ''}</div>
@@ -710,7 +710,7 @@ function BagPrint1A({ queries, headers }) {
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </>
+                                                                        
                                                                     );
                                                                 })
                                                             }

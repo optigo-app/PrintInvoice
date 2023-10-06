@@ -424,7 +424,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
   // useEffect(() => {
   //   loadData();
   // }, []);
-
+  
   return (
     <>
       {loader ? (
@@ -440,8 +440,11 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="headinvp3">
                   <div className="headerinvp3">
                     <div className="head1invp3">
-                      <p className="fw-bold fsinvp3">BILL NO</p>
-                      <p className="fsinvp3">{headerData?.PrintRemark}</p>
+                      <p className="fw-bold fsinvp3 w-50">BILL NO</p>
+                      <p
+                        className="fsinvp3 w-50 "
+                        dangerouslySetInnerHTML={{ __html: headerData?.Remark }}
+                      ></p>
                     </div>
                     <div className="head1invp3">
                       <p className="fw-bold fsinvp3">DATE</p>
@@ -631,7 +634,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     >
                       <p className="fw-bold fsinvp3">Grand Total</p>
                       <p className="fw-bold w-50 text-end fsinvp3">
-                        {grandTotal}
+                        {grandTotal?.toFixed(3)}
                       </p>
                     </div>
                   </div>
@@ -640,7 +643,12 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div className="wordsinvp3 fsinvp3">
                     <p className="fw-bold px-2">NOTE:</p>
-                    <p className="fsinvp3">{headerData?.PrintRemark}</p>
+                    <p
+                      className="fsinvp3"
+                      dangerouslySetInnerHTML={{
+                        __html: headerData?.PrintRemark,
+                      }}
+                    ></p>
                   </div>
                 </div>
               </div>

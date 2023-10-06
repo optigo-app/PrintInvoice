@@ -83,7 +83,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       // console.log(atob(token), atob(invoiceNo), atob(printName), atob(urls), atob(evn));
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
-        console.log(data);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -502,7 +501,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
     setResultArray(resultArr);
     setMainTotal(mainTotal);
   };
-console.log(headerData);
   return (
     <>
       {loader ? (
@@ -1619,10 +1617,11 @@ console.log(headerData);
                         <div className="diaDetailpcl3">REMARK</div>
                         <div className="amountSummarySectionpcl3DIAM">
                           <div className="fapcl3D" style={{ width: "168px" }}>
-                            <div
+                            <div dangerouslySetInnerHTML={{__html: headerData?.Remark}}></div>
+                            {/* <div
                               className="mrpWpcl3D"
                               style={{ width: "168px" }}
-                            >{`${headerData?.Remark ?? ""}`}</div>
+                            >{`${headerData?.Remark ?? ""}`}</div> */}
                           </div>
                         </div>
                       </div>

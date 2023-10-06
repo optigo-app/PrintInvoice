@@ -377,7 +377,10 @@
 }
 
 .pclprint {
-    margin: 1rem;
+    /* margin: 1rem; */
+    /* display: flex;
+    justify-content: center;
+    flex-direction: column; */
 }
 
 .diarowmaterialpcl {
@@ -851,7 +854,7 @@
 }
 
 .jewpclthead {
-    width: 10%;
+    width: 9%;
     /* width: 100px; */
     height: 30px;
     text-align: center;
@@ -863,7 +866,7 @@
 
 .diamheadpcl {
     /* width: 283px; */
-    width: 20%;
+    width: 21%;
     display: flex;
     flex-direction: column;
     height: 30px;
@@ -888,7 +891,7 @@
 .shptheadpcl {
     height: 30px;
     /* width: 230px; */
-    width: 20%;
+    width: 21%;
     display: flex;
     flex-direction: column;
     border-right: 1px solid #989898;
@@ -908,7 +911,7 @@
 
 .shpcolpclcol {
     height: 15px;
-    width: 230px;
+    /* width: 230px; */
     /* width: 20%; */
     display: flex;
     justify-content: space-between;
@@ -924,7 +927,7 @@
 
 .pricetheadpcl {
     /* width: 82px; */
-    width: 8%;
+    width: 6%;
     height: 30px;
     display: flex;
     justify-content: center;
@@ -1010,7 +1013,7 @@
     align-items: center;
     height: 15px;
     /* width: 100px; */
-    width: 10%;
+    width: 9%;
     border-right: 1px solid #989898;
 }
 
@@ -1020,7 +1023,7 @@
     align-items: center;
     height: 15px;
     /* width: 283px; */
-    width: 20%;
+    width: 21%;
     border-right: 1px solid #989898;
 }
 
@@ -1030,7 +1033,7 @@
     align-items: center;
     height: 15px;
     /* width: 230px; */
-    width: 20%;
+    width: 21%;
     border-right: 1px solid #989898;
 }
 
@@ -1050,7 +1053,7 @@
     align-items: center;
     height: 15px;
     /* width: 83px; */
-    width: 8%;
+    width: 6%;
     border-right: 1px solid #989898;
 }
 
@@ -1096,7 +1099,7 @@
     align-items: center;
     min-height: 110px;
     /* width: 100px; */
-    width: 10%;
+    width: 9%;
     border-right: 1px solid #989898;
 }
 
@@ -1106,7 +1109,7 @@
     align-items: flex-start;
     min-height: 110px;
     /* width: 284px; */
-    width: 20%;
+    width: 21%;
     border-right: 1px solid #989898;
 }
 
@@ -1116,7 +1119,7 @@
     align-items: flex-start;
     min-height: 110px;
     /* width: 230px; */
-    width: 20%;
+    width: 21%;
     border-right: 1px solid #989898;
 }
 
@@ -1136,7 +1139,7 @@
     align-items: flex-start;
     min-height: 110px;
     /* width: 82px; */
-    width: 8%;
+    width: 6%;
     border-right: 1px solid #989898;
 }
 

@@ -28,7 +28,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [msg, setMsg] = useState("");
 
   async function loadData(data) {
-    console.log(data);
+    // console.log(data);
     try {
       setHeaderData(data?.BillPrint_Json[0]);
       setJson1(data?.BillPrint_Json1);
@@ -251,7 +251,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
     const sendData = async () => {
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
-        console.log(data);
+        // console.log(data);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -344,7 +344,8 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                   <div className="head3ivp2">
                     <div className="d-flex" style={{ width: "80%" }}>
                       <div className="fw-bold fs-4 px-2">INVOICE #: </div>
-                      <div className="fs-5 p-1">{headerData?.PrintRemark}</div>
+                      {/* <div className="fs-5 p-1">{headerData?.PrintRemark}</div> */}
+                      <div className="fs-5 p-1" dangerouslySetInnerHTML={{__html:headerData?.Remark}}></div>
                     </div>
                     <div className="invoicehead3ivp2 d-flex flex-column">
                       <div className="d-flex justify-content-around align-items-center binvivp2">
