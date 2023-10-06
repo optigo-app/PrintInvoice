@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/summary4.css";
 import { apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
@@ -143,7 +144,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
             resultObj.gwt += e?.grosswt;
             resultObj.nwt += e?.NetWt;
             resultObj.otherAmt += e?.OtherCharges;
-            resultObj.goldFine += e?.convertednetwt;
+            resultObj.goldFine += +((e?.Tunch * e?.NetWt / 100)?.toFixed(3));
             resultObj.goldAmt += e?.MetalAmount;
             resultObj.amount += +(e?.TotalAmount);
         })
@@ -243,9 +244,11 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
             let colorStoneRate = countDiamondRate(2, findMaterials);
             let totalAmount = countTotalAmount(findMaterials);
             let obj = { ...e };
+            obj.fineWt = (obj?.Tunch * obj?.NetWt / 100)?.toFixed(3);
             obj.diamondsRate = diamondsRate;
             obj.colorStoneRate = colorStoneRate;
             obj.totalAmount = totalAmount;
+            obj.OtherCharges += obj?.MiscAmount + obj?.TotalDiamondHandling;
             json1Arr.push(obj);
         });
         countCategorySubCategory(datas?.BillPrint_Json1);
@@ -262,7 +265,8 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                 gDWt += +(e?.totalWeight);
             });
             const key1Value = obj?.MetalTypePurity;
-            const key2Value = obj?.convertednetwt;
+            // const key2Value = obj?.convertednetwt;
+            const key2Value = obj?.Tunch * obj?.NetWt / 100;
             const key3Value = diaWt;
             const key4Value = obj?.grosswt;
             const key5Value = obj?.NetWt;
@@ -464,6 +468,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <div className='p-1 fw-bold pe-2 border-end align-middle text-center amount_sum_4'>AMOUNT</div>
                                 </div>
                                 {BillPrintJson1.length > 0 && BillPrintJson1.map((e, i) => {
+                                    console.log(e);
                                     return <div className="d-flex border-bottom no_break" key={i}>
                                         <div className='p-1 ps-2 sr_sum4 border-start border-end sr_sum4'> <p> {e?.SrNo} </p> </div>
                                         <div className='p-1 design_sum4 border-end'>
@@ -479,11 +484,11 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             return <p key={indd}>{ele?.totalWeight}</p>
                                         })}</div>
                                         <div className="p-1 dia_rate_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                            return <p key={indd}>{ele?.rate}</p>
+                                            return <p key={indd}>{(+(ele?.rate))?.toFixed(2)}</p>
                                         })}</div>
                                         <div className="p-1 dia_amt_sum4 border-end text-end "> {
                                             e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                                return <p key={indd}>{ele?.totalAmount}</p>
+                                                return <p key={indd}>{(+(ele?.totalAmount))?.toFixed(2)}</p>
                                             })
                                         } </div>
                                         <div className="p-1 g_wt_sum4 border-end text-end "> <p> {(e?.grosswt)?.toFixed(3)} </p> </div>
@@ -493,12 +498,12 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             return <p key={indd}>{ele?.totalWeight}</p>
                                         })}</div>
                                         <div className="p-1 cs_rate_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                            return <p key={indd}>{ele?.rate}</p>
+                                            return <p key={indd}>{(+(ele?.rate))?.toFixed(2)}</p>
                                         })} </div>
                                         <div className="p-1 cs_amt_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                            return <p key={indd}>{ele?.totalAmount}</p>
+                                            return <p key={indd}>{(+(ele?.totalAmount))?.toFixed(2)}</p>
                                         })} </div>
-                                        <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt).toFixed(3)} </p> </div>
+                                        <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {billPrintJson?.MetalRate24K === 0 ? e?.fineWt : '0.000'} </p> </div>
                                         <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && (e?.MetalAmount)?.toFixed(2)} </p> </div>
                                         <div className="p-1 pe-2 amount_sum_4 border-end text-end">{(e?.TotalAmount).toFixed(2)}</div>
                                     </div>
@@ -506,16 +511,16 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <div className="total_sec_sum4 d-flex border-bottom mb-1 no_break">
                                     <div className="p-1 ps-2 total_sum4 border-start border-end bg_total_sum4 fw-bold text-center">Total</div>
                                     <div className="p-1 remark_sum4 border-end text-end bg_total_sum4 fw-bold remark_sum4"> <p>  </p> </div>
-                                    <div className="p-1 dia_wt_ctw_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {total.diaWt} </p> </div>
+                                    <div className="p-1 dia_wt_ctw_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {(+(total.diaWt))?.toFixed(3)} </p> </div>
                                     <div className="p-1 dia_rate_sum4 border-end text-end bg_total_sum4 fw-bold "> <p>  </p> </div>
-                                    <div className="p-1 dia_amt_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {Math.round(total.diaAmt)} </p> </div>
+                                    <div className="p-1 dia_amt_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {(total.diaAmt)?.toFixed(2)} </p> </div>
                                     <div className="p-1 g_wt_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {(total.gwt).toFixed(3)} </p> </div>
                                     <div className="p-1 nwt_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {(total.nwt).toFixed(3)} </p> </div>
                                     <div className="p-1 other_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {(total.otherAmt).toFixed(2)} </p> </div>
                                     <div className="p-1 cs_wt_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {(total.csWt)?.toFixed(3)} </p> </div>
                                     <div className="p-1 cs_rate_sum4 border-end text-end  bg_total_sum4 fw-bold"></div>
-                                    <div className="p-1 cs_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {Math.round(total.csAmt)} </p> </div>
-                                    <div className="p-1 gold_fine_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {(total.goldFine).toFixed(3)} </p> </div>
+                                    <div className="p-1 cs_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {(+(total.csAmt))?.toFixed(2)} </p> </div>
+                                    <div className="p-1 gold_fine_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {billPrintJson?.MetalRate24K === 0 ? (+(total.goldFine)).toFixed(3) : '0.000'} </p> </div>
                                     <div className="p-1 gold_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {Math.round(total.goldAmt)?.toFixed(2)} </p> </div>
                                     <div className="p-1 pe-2 amount_sum_4 border-end text-end bg_total_sum4 fw-bold"> <p> {(total.amount).toFixed(2)} </p> </div>
                                 </div>
@@ -586,7 +591,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <p className='ps-2'>Gold in 24K :</p>
-                                            <p className='pe-2 fw-bold'>{total?.goldAmt === 0 ? (total?.gold24Kt)?.toFixed(3) : (total?.goldAmt)?.toFixed(2)}</p>
+                                            <p className='pe-2 fw-bold'>{billPrintJson?.MetalRate24K === 0 ? (total?.goldFine)?.toFixed(3) : '0.000'}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -599,7 +604,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             <div className="gold_24kt_sum4 w-50 border-end">
                                                 <div className="d-flex w-100">
                                                     <div className="w-50 fw-bold ps-2">GOLD IN 24KT	</div>
-                                                    <div className="w-50 text-end pe-2">{totalSummary?.gold24Kt} gm	</div>
+                                                    <div className="w-50 text-end pe-2">{billPrintJson?.MetalRate24K === 0 ? (+(totalSummary?.gold24Kt))?.toFixed(3) : '0.000'} gm	</div>
                                                 </div>
                                                 <div className="d-flex w-100">
                                                     <div className="w-50 fw-bold ps-2">GROSS WT	</div>
@@ -615,11 +620,11 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                 </div>
                                                 <div className="d-flex w-100">
                                                     <div className="w-50 fw-bold ps-2">DIAMOND WT</div>
-                                                    <div className="w-50 text-end pe-2">{totalSummary?.diamondpcs} / {total?.diaWt} ctw</div>
+                                                    <div className="w-50 text-end pe-2">{totalSummary?.diamondpcs} / {(total?.diaWt)?.toFixed(3)} ctw</div>
                                                 </div>
                                                 <div className="d-flex w-100 mb-2">
                                                     <div className="w-50 fw-bold ps-2">STONE WT</div>
-                                                    <div className="w-50 text-end pe-2">{totalSummary?.colorStonePcs} / {total?.csWt} ctw</div>
+                                                    <div className="w-50 text-end pe-2">{totalSummary?.colorStonePcs} / {(total?.csWt)?.toFixed(3)} ctw</div>
                                                 </div>
 
                                                 <div className="d-flex w-100 bg_total_sum4 py-1">
@@ -628,36 +633,42 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                 </div>
                                             </div>
                                             <div className="gold_24kt_sum4 w-50">
-                                                <div className="d-flex w-100">
-                                                    <div className="w-50 fw-bold ps-2">GOLD</div>
-                                                    <div className="w-50 text-end pe-2">{(total.goldAmt).toFixed(2)}</div>
+                                                <div className="d-flex flex-column justify-content-between h-100">
+                                                    <div>
+                                                        <div className="d-flex w-100">
+                                                            <div className="w-50 fw-bold ps-2">GOLD</div>
+                                                            <div className="w-50 text-end pe-2">{(total.goldAmt).toFixed(2)}</div>
+                                                        </div>
+                                                        <div className="d-flex w-100">
+                                                            <div className="w-50 fw-bold ps-2">DIAMOND</div>
+                                                            <div className="w-50 text-end pe-2">{Math.round(total.diaAmt)}</div>
+                                                        </div>
+                                                        <div className="d-flex w-100">
+                                                            <div className="w-50 fw-bold ps-2">CST</div>
+                                                            <div className="w-50 text-end pe-2">{total.csAmt}</div>
+                                                        </div>
+                                                        <div className="d-flex w-100">
+                                                            <div className="w-50 fw-bold ps-2">MAKING</div>
+                                                            <div className="w-50 text-end pe-2">{(totalSummary?.makingAmount)?.toFixed(3)}</div>
+                                                        </div>
+                                                        <div className="d-flex w-100">
+                                                            <div className="w-50 fw-bold ps-2">OTHER</div>
+                                                            <div className="w-50 text-end pe-2">{(total.otherAmt).toFixed(2)}</div>
+                                                        </div>
+                                                        <div className="d-flex w-100 mb-2">
+                                                            <div className="w-50 fw-bold ps-2">LESS</div>
+                                                            <div className="w-50 text-end pe-2">{billPrintJson?.AddLess}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="d-flex w-100 bg_total_sum4 py-1">
+                                                        <div className="w-50 fw-bold ps-2">Total</div>
+                                                        <div className="w-50 text-end pe-2">{(+(total.goldAmt) +
+                                                            Math.round(total.diaAmt) + +(total.csAmt) +
+                                                            +(totalSummary?.makingAmount) + +((total.otherAmt).toFixed(2)) + +(billPrintJson?.AddLess)).toFixed(2)} </div>
+                                                    </div>
                                                 </div>
-                                                <div className="d-flex w-100">
-                                                    <div className="w-50 fw-bold ps-2">DIAMOND</div>
-                                                    <div className="w-50 text-end pe-2">{Math.round(total.diaAmt)}</div>
-                                                </div>
-                                                <div className="d-flex w-100">
-                                                    <div className="w-50 fw-bold ps-2">CST</div>
-                                                    <div className="w-50 text-end pe-2">{total.csAmt}</div>
-                                                </div>
-                                                <div className="d-flex w-100">
-                                                    <div className="w-50 fw-bold ps-2">MAKING</div>
-                                                    <div className="w-50 text-end pe-2">{(totalSummary?.makingAmount)?.toFixed(3)}</div>
-                                                </div>
-                                                <div className="d-flex w-100">
-                                                    <div className="w-50 fw-bold ps-2">OTHER</div>
-                                                    <div className="w-50 text-end pe-2">{(total.otherAmt).toFixed(2)}</div>
-                                                </div>
-                                                <div className="d-flex w-100 mb-2">
-                                                    <div className="w-50 fw-bold ps-2">LESS</div>
-                                                    <div className="w-50 text-end pe-2">{billPrintJson?.AddLess}</div>
-                                                </div>
-                                                <div className="d-flex w-100 bg_total_sum4 py-1">
-                                                    <div className="w-50 fw-bold ps-2">Total</div>
-                                                    <div className="w-50 text-end pe-2">{(+(total.goldAmt) +
-                                                        Math.round(total.diaAmt) + +(total.csAmt) +
-                                                        +(totalSummary?.makingAmount) + +((total.otherAmt).toFixed(2)) + +(billPrintJson?.AddLess)).toFixed(2)} </div>
-                                                </div>
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -853,10 +864,10 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                         {e?.totalWeight}
                                                     </div>
                                                     <div className="cstypeTextSum4 border-end d-flex justify-content-end pe-2">
-                                                        {e?.rate}
+                                                        {(+(e?.rate))?.toFixed(2)}
                                                     </div>
                                                     <div className="cstypeTextSum4 d-flex justify-content-end pe-2">
-                                                        {e?.totalAmount}
+                                                        {(+(e?.totalAmount))?.toFixed(2)}
                                                     </div>
                                                 </div>
                                             })}
@@ -865,7 +876,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
 
                                                 </div>
                                                 <div className="cstypeTextSum4 border-end d-flex justify-content-end pe-2 fw-bold align-items-center">
-                                                    {lastColorStoneTableTotal?.clrCtw}
+                                                    {(lastColorStoneTableTotal?.clrCtw)?.toFixed(3)}
                                                 </div>
                                                 <div className="cstypeTextSum4 border-end d-flex justify-content-end pe-2 fw-bold align-items-center">
 
@@ -887,4 +898,4 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
     )
 }
 
-export default Summary12
+export default Summary12;

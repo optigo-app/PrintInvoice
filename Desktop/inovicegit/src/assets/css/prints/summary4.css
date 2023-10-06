@@ -89,8 +89,8 @@
 }
 
 .amount_sum_4 {
-    min-width: 86px;
-    width: 86px;
+    min-width: 60px;
+    width: 60px;
 }
 
 .sum4_table img {
@@ -278,16 +278,16 @@
 
 @media print {
     .no_break {
-      page-break-inside: avoid;
+        page-break-inside: avoid;
     }
-  }
-  
-  .no_break {
+}
+
+.no_break {
     page-break-inside: avoid;
-  }
-  
-  @media print {
+}
+
+@media print {
     .pno_break {
-      page-break-before: always;
+        page-break-before: always;
     }
-  }
+}

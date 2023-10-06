@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/miscPrint1.css";
-import { apiCall, handlePrint, isObjectEmpty} from '../../GlobalFunctions';
+import { apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { usePDF } from 'react-to-pdf';
 const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
@@ -14,6 +14,7 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [totalItems, setTotalItems] = useState([]);
 
     const loadData = (datas) => {
+        console.log(datas);
         setPrimary(datas?.BillPrint_Json[0]);
         let resultData = [];
         let total = {

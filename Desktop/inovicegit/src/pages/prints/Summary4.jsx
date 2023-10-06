@@ -319,18 +319,18 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
         const sendData = async () => {
             try {
                 const data = await apiCall(token, invoiceNo, printName, urls, evn);
-                if(data?.Status === '200'){
+                if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
-                    if(!isEmpty){
+                    if (!isEmpty) {
                         loadData(data?.Data);
                         setLoader(false);
-                    }else{
+                    } else {
                         setLoader(false);
                         setMsg("Data Not Found");
                     }
-                }else{
-                        setLoader(false);
-                        setMsg(data?.Message);
+                } else {
+                    setLoader(false);
+                    setMsg(data?.Message);
                 }
             } catch (error) {
                 console.error(error);
@@ -352,7 +352,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
         }
     }
 
-    return (<>{loader ? <Loader /> : msg === "" ? <div className='container pt-4'>
+    return (<>{loader ? <Loader /> : msg === "" ? <div className=' summary12Container portrait_container pt-4'>
         <div className="d-flex justify-content-end align-items-center print_sec_sum4">
             <div className="form-check pe-3">
                 <input className="form-check-input border-dark" type="checkbox" checked={header} onChange={e => handleChange(e, "header")} />
@@ -446,31 +446,31 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <p>{e?.CertRemark} </p>
                             </div>
                             <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalWeight}</p>
+                                return <p key={indd}>{(+(ele?.totalWeight))?.toFixed(3)}</p>
                             })}</div>
                             <div className="p-1 dia_rate_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
+                                return <p key={indd}>{(+(ele?.rate))?.toFixed(2)}</p>
                             })}</div>
                             <div className="p-1 dia_amt_sum4 border-end text-end "> {
                                 e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                    return <p key={indd}>{ele?.totalAmount}</p>
+                                    return <p key={indd}>{(+(ele?.totalAmount))?.toFixed(2)}</p>
                                 })
                             } </div>
                             <div className="p-1 g_wt_sum4 border-end text-end "> <p> {e?.grosswt} </p> </div>
                             <div className="p-1 nwt_sum4 border-end text-end "> <p> {e?.MetalDiaWt} </p> </div>
-                            <div className="p-1 other_amt_sum4 border-end text-end "> <p> {e?.OtherCharges} </p> </div>
+                            <div className="p-1 other_amt_sum4 border-end text-end "> <p> {(e?.OtherCharges)?.toFixed(2)} </p> </div>
                             <div className="p-1 cs_wt_sum4 border-end text-end ">{e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
                                 return <p key={indd}>{ele?.totalWeight}</p>
                             })}</div>
                             <div className="p-1 cs_rate_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.rate}</p>
+                                return <p key={indd}>{(+(ele?.rate))?.toFixed(2)}</p>
                             })} </div>
                             <div className="p-1 cs_amt_sum4 border-end text-end "> {e?.colorStoneRate.length > 0 && e.colorStoneRate.map((ele, indd) => {
-                                return <p key={indd}>{ele?.totalAmount}</p>
+                                return <p key={indd}>{(+(ele?.totalAmount))?.toFixed(2)}</p>
                             })} </div>
-                            <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.convertednetwt && (e?.convertednetwt)?.toFixed(3)} </p> </div>
-                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {e?.MetalAmount && (e?.MetalAmount)?.toFixed(3)} </p> </div>
-                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{(e?.TotalAmount)?.toFixed(3)}</div>
+                            <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {(e?.convertednetwt)?.toFixed(3)} </p> </div>
+                            <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {(e?.MetalAmount)?.toFixed(2)} </p> </div>
+                            <div className="p-1 pe-2 amount_sum_4 border-end text-end">{(e?.TotalAmount)?.toFixed(2)}</div>
                         </div>
                     })}
                     <div className="total_sec_sum4 d-flex border-bottom mb-1">
@@ -482,11 +482,11 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="p-1 g_wt_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {(total.gwt).toFixed(3)} </p> </div>
                         <div className="p-1 nwt_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {(total.nwt).toFixed(3)} </p> </div>
                         <div className="p-1 other_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {total.otherAmt} </p> </div>
-                        <div className="p-1 cs_wt_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {total.csWt} </p> </div>
+                        <div className="p-1 cs_wt_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {(total.csWt)?.toFixed(3)} </p> </div>
                         <div className="p-1 cs_rate_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p>  </p> </div>
-                        <div className="p-1 cs_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {Math.round(total.csAmt)} </p> </div>
+                        <div className="p-1 cs_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {Math.round(+(total.csAmt))?.toFixed(2)} </p> </div>
                         <div className="p-1 gold_fine_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {(total.goldFine).toFixed(3)} </p> </div>
-                        <div className="p-1 gold_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {Math.round(total.goldAmt)} </p> </div>
+                        <div className="p-1 gold_amt_sum4 border-end text-end  bg_total_sum4 fw-bold"> <p> {(+(total.goldAmt))?.toFixed(2)} </p> </div>
                         <div className="p-1 pe-2 amount_sum_4 border-end text-end bg_total_sum4 fw-bold"> <p> {total.amount} </p> </div>
                     </div>
                     <div className="d-flex mb-1">
@@ -552,7 +552,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                             </div>
                             <div className="d-flex justify-content-between">
                                 <p className='ps-2'>Gold in 24K :</p>
-                                <p className='pe-2 fw-bold'>43.253</p>
+                                <p className='pe-2 fw-bold'>{total?.MetalRate24K === 0 ? (total?.gold24Kt)?.toFixed(3) : (total?.gold24Kt)?.toFixed(3)}</p>
                             </div>
                         </div>
                     </div>
@@ -565,7 +565,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <div className="gold_24kt_sum4 w-50 border-end">
                                     <div className="d-flex w-100">
                                         <div className="w-50 fw-bold ps-2">GOLD IN 24KT	</div>
-                                        <div className="w-50 text-end pe-2">{totalSummary?.gold24Kt} gm	</div>
+                                        <div className="w-50 text-end pe-2">{(totalSummary?.gold24Kt)?.toFixed(2)} gm	</div>
                                     </div>
                                     <div className="d-flex w-100">
                                         <div className="w-50 fw-bold ps-2">GROSS WT	</div>
@@ -581,11 +581,11 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     </div>
                                     <div className="d-flex w-100">
                                         <div className="w-50 fw-bold ps-2">DIAMOND WT</div>
-                                        <div className="w-50 text-end pe-2">{totalSummary?.diamondpcs} / {total?.diaWt} ctw</div>
+                                        <div className="w-50 text-end pe-2">{totalSummary?.diamondpcs} / {(total?.diaWt)?.toFixed(3)} ctw</div>
                                     </div>
                                     <div className="d-flex w-100 mb-2">
                                         <div className="w-50 fw-bold ps-2">STONE WT</div>
-                                        <div className="w-50 text-end pe-2">{totalSummary?.colorStonePcs} / {total?.csWt} ctw</div>
+                                        <div className="w-50 text-end pe-2">{totalSummary?.colorStonePcs} / {(total?.csWt)?.toFixed(3)} ctw</div>
                                     </div>
 
                                     <div className="d-flex w-100 bg_total_sum4 py-1">
@@ -600,7 +600,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     </div>
                                     <div className="d-flex w-100">
                                         <div className="w-50 fw-bold ps-2">DIAMOND</div>
-                                        <div className="w-50 text-end pe-2">{Math.round(total.diaAmt)}</div>
+                                        <div className="w-50 text-end pe-2">{(total?.diaAmt)?.toFixed(2)}</div>
                                     </div>
                                     <div className="d-flex w-100">
                                         <div className="w-50 fw-bold ps-2">CST</div>
@@ -667,7 +667,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                                         {(e?.fineWt).toFixed(3)}
                                     </div>
                                     <div className="gold_amount_sum4 text-end pe-1">
-                                        {(e?.MetalAmount).toFixed(3)}
+                                        {(e?.MetalAmount).toFixed(2)}
                                     </div>
                                 </div>
                             })}
@@ -744,7 +744,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                                         {(billPrintJson?.MetalRate24K).toFixed(2)}
                                     </div>
                                     <div className="goldAmtSum4 d-flex justify-content-end pe-2">
-                                        {(e?.MetalAmount).toFixed(3)}
+                                        {(e?.MetalAmount).toFixed(2)}
                                     </div>
                                 </div>
                             })}
@@ -766,7 +766,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <div className="goldPriceSum4 border-end d-flex align-items-center justify-content-end pe-2 fw-bold">
                                 </div>
                                 <div className="goldAmtSum4 d-flex align-items-center justify-content-end pe-2 fw-bold">
-                                    {(metaltypeSum?.MetalAmount).toFixed(3)}
+                                    {(metaltypeSum?.MetalAmount).toFixed(2)}
                                 </div>
                             </div>
                         </div>
@@ -783,18 +783,18 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {lastDiamondTable.length > 0 && lastDiamondTable.map((e, i) => {
                                     return <div className="d-flex border" key={i}>
                                         <div className="DiamondTypeSum4 d-flex justify-content-center align-items-center border-end">{e?.name}</div>
-                                        <div className="DiamondCtwSum4 d-flex justify-content-end pe-2 align-items-center border-end">{e?.totalWeight}</div>
-                                        <div className="DiamondPriceSum4 d-flex justify-content-end pe-2 align-items-center border-end">{e?.rate}</div>
+                                        <div className="DiamondCtwSum4 d-flex justify-content-end pe-2 align-items-center border-end">{(+(e?.totalWeight))?.toFixed(3)}</div>
+                                        <div className="DiamondPriceSum4 d-flex justify-content-end pe-2 align-items-center border-end">{(+(e?.rate))?.toFixed(2)}</div>
                                         <div className="DiamondDiscountSum4 d-flex justify-content-end pe-2 align-items-center border-end">{e?.discount} %</div>
-                                        <div className="DiamondAmountSum4 d-flex justify-content-end pe-2 align-items-center">{(e?.totalAmount)}</div>
+                                        <div className="DiamondAmountSum4 d-flex justify-content-end pe-2 align-items-center">{((+(e?.totalAmount))?.toFixed(2))}</div>
                                     </div>
                                 })}
                                 <div className="d-flex height34Sum4 border bg_total_sum4">
                                     <div className="DiamondTypeSum4 d-flex justify-content-center align-items-center border-end fw-bold">Total</div>
-                                    <div className="DiamondCtwSum4 d-flex justify-content-center align-items-center border-end fw-bold">{lastDiamondTableTotal?.diaCtw}</div>
+                                    <div className="DiamondCtwSum4 d-flex justify-content-end align-items-center border-end fw-bold">{(+(lastDiamondTableTotal?.diaCtw))?.toFixed(3)}</div>
                                     <div className="DiamondPriceSum4 d-flex justify-content-center align-items-center border-end fw-bold"></div>
                                     <div className="DiamondDiscountSum4 d-flex justify-content-center align-items-center border-end fw-bold"></div>
-                                    <div className="DiamondAmountSum4 d-flex justify-content-center align-items-center fw-bold">{lastDiamondTableTotal?.diamondAmount}</div>
+                                    <div className="DiamondAmountSum4 d-flex justify-content-end align-items-center fw-bold px-2">{(+(lastDiamondTableTotal?.diamondAmount))?.toFixed(2)}</div>
                                 </div>
                             </div>
                             <div className="csTypeSum4 height34Sum4">
@@ -821,10 +821,10 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             {e?.totalWeight}
                                         </div>
                                         <div className="cstypeTextSum4 border-end d-flex justify-content-end pe-2">
-                                            {e?.rate}
+                                            {(+(e?.rate))?.toFixed(2)}
                                         </div>
                                         <div className="cstypeTextSum4 d-flex justify-content-end pe-2">
-                                            {e?.totalAmount}
+                                            {(+(e?.totalAmount))?.toFixed(2)}
                                         </div>
                                     </div>
                                 })}
