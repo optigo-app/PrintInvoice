@@ -1,5 +1,6 @@
 .summary12Container {
     max-width: 788px !important;
+    margin-bottom: 50px;
 }
 
 .zoom1_5_summary12 {
@@ -60,6 +61,22 @@
     padding-bottom: 5px;
     font-size: 11px;
     padding-left: 2px;
+}
+
+.summary12Remark br {
+    display: block !important;
+}
+
+.summary12Container .sum4_table .summary12Remark {
+    font-size: 12px;
+    padding-left: 8px;
+}
+
+.remarks_sum4.no_break::after {
+    content: "";
+    display: table;
+    clear: both;
+    padding-bottom: 5px;
 }
 
 @media print {

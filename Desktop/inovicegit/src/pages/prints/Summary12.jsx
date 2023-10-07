@@ -150,7 +150,8 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
             if (e.MetalAmount !== 0) {
                 resultObj.goldFine += 0.000;
             } else {
-                resultObj.goldFine += +((e?.Tunch * e?.NetWt / 100)?.toFixed(3));
+                // resultObj.goldFine += +((e?.Tunch * e?.NetWt / 100)?.toFixed(3));
+                resultObj.goldFine += e?.convertednetwt;
             }
             resultObj.goldAmt += e?.MetalAmount;
             resultObj.amount += +(e?.TotalAmount);
@@ -243,6 +244,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
     }
 
     const loadData = (datas) => {
+        console.log(datas);
         setBillprintJson(datas?.BillPrint_Json[0]);
         let json1Arr = [];
         datas?.BillPrint_Json1?.forEach((e, i) => {
@@ -272,8 +274,8 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                 gDWt += +(e?.totalWeight);
             });
             const key1Value = obj?.MetalTypePurity;
-            // const key2Value = obj?.convertednetwt;
-            const key2Value = obj?.Tunch * obj?.NetWt / 100;
+            const key2Value = obj?.convertednetwt;
+            // const key2Value = obj?.Tunch * obj?.NetWt / 100;
             const key3Value = diaWt;
             const key4Value = obj?.grosswt;
             const key5Value = obj?.NetWt;
@@ -492,7 +494,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             return <p key={indd}>{NumberWithCommas(+(ele?.totalAmount), 2)}</p>
                                         })} </div>
                                         {/* <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {billPrintJson?.MetalRate24K === 0 ? NumberWithCommas(e?.fineWt) : '0.000'} </p> </div> */}
-                                        <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.MetalAmount === 0 ? fixedValues(e?.fineWt, 3) : '0.000'} </p> </div>
+                                        <div className="p-1 gold_fine_sum4 border-end text-end "> <p> {e?.MetalAmount === 0 ? fixedValues(e?.convertednetwt, 3) : '0.000'} </p> </div>
                                         <div className="p-1 gold_amt_sum4 border-end text-end "> <p> {NumberWithCommas(e?.MetalAmount, 2)} </p> </div>
                                         <div className="p-1 pe-2 amount_sum_4 border-end text-end">{NumberWithCommas(e?.TotalAmount, 2)}</div>
                                     </div>
@@ -556,7 +558,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                                 <div className="total_sgst_sum4 mt-1 w-100 border bg_total_sum4 mb-1 no_break d-flex">
                                     <div className="total_sgst_text_sum4">
-                                        <p className='text-end fw-bold pe-2'>TOTAL</p>
+                                        <p className='text-end fw-bold pe-2 pt-1'>TOTAL</p>
                                     </div>
                                     <div className="total_sgst_number_sum4">
                                         <div className="d-flex justify-content-between">
@@ -578,7 +580,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             <div className="gold_24kt_sum4 w-50 border-end">
                                                 <div className="d-flex w-100">
                                                     <div className="w-50 fw-bold ps-2">GOLD IN 24KT	</div>
-                                                    <div className="w-50 text-end pe-2">{total.goldAmt === 0 ? fixedValues(totalSummary?.gold24Kt, 3) : '0.000'} gm</div>
+                                                    <div className="w-50 text-end pe-2">{fixedValues(totalSummary?.gold24Kt, 3)} gm</div>
                                                 </div>
                                                 <div className="d-flex w-100">
                                                     <div className="w-50 fw-bold ps-2">GROSS WT	</div>
@@ -682,7 +684,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                     {fixedValues(e?.NetWt, 3)}
                                                 </div>
                                                 <div className="fine_wt_sum4">
-                                                    {e?.MetalAmount === 0 ? fixedValues(e?.fineWt, 3) : '0.000'}
+                                                    {fixedValues(e?.fineWt, 3)}
                                                 </div>
                                                 <div className="gold_amount_sum4 text-end pe-1">
                                                     {NumberWithCommas(e?.MetalAmount, 2)}
@@ -693,13 +695,11 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                                 <div className="w-100 border px-1 mb-1 note_sec_sum4 p-1 no_break">
                                     <p className='fw-bold font_15_sum4'>TERMS INCLUDED :</p>
-                                    {
-                                        <div dangerouslySetInnerHTML={{ __html: billPrintJson?.Declaration }} className='pt-3 declaration_summary_12' />
-                                    }
+                                    <div dangerouslySetInnerHTML={{ __html: billPrintJson?.Declaration }} className='pt-3 declaration_summary_12' />
                                 </div>
                                 <div className='remarks_sum4 no_break'>
-                                    <p className="fw-bold font_16_sum4">REMARKS : </p>
-                                    <div dangerouslySetInnerHTML={{ __html: billPrintJson?.PrintRemark }}></div>
+                                    <span className="fw-bold font_16_sum4 ps-2 float-start pe-2">REMARKS : </span>
+                                    <div dangerouslySetInnerHTML={{ __html: billPrintJson?.PrintRemark }} className='summary12Remark pt-1'></div>
                                 </div>
                                 <div className="d-flex border mb-2 no_break">
                                     <div className="w-50 border-end height_65_sum4 d-flex justify-content-center align-items-end border-end">
@@ -812,7 +812,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                 <div className="DiamondAmountSum4 d-flex justify-content-end align-items-center fw-bold px-2">{NumberWithCommas(lastDiamondTableTotal?.diamondAmount, 2)}</div>
                                             </div>
                                         </div>
-                                        <div className="csTypeSum4 height34Sum4">
+                                        <div className="csTypeSum4 ">
                                             <div className="d-flex border height34Sum4 ">
                                                 <div className="cstypeTextSum4 border-end fw-bold d-flex justify-content-center align-items-center">
                                                     CS Type

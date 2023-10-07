@@ -795,7 +795,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <div className="DiamondAmountSum4 d-flex justify-content-end align-items-center fw-bold px-2">{NumberWithCommas(lastDiamondTableTotal?.diamondAmount, 2)}</div>
                                 </div>
                             </div>
-                            <div className="csTypeSum4 height34Sum4">
+                            <div className="csTypeSum4 ">
                                 <div className="d-flex border height34Sum4 ">
                                     <div className="cstypeTextSum4 border-end fw-bold d-flex justify-content-center align-items-center">
                                         CS Type
