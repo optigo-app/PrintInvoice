@@ -11,7 +11,7 @@ import {
 import convertor from "number-to-words";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
-// import Header1 from "../../components/headers/Header1";
+import Header1 from "../../components/headers/Header1";
 const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
   const [dynamicList1, setDynamicList1] = useState([]);
@@ -372,82 +372,89 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <Button />
               </div>
               <div className="summary1PrintSum1">
-                {/* <div style={{width:"1000px"}}>
+                <div style={{width:"1000px"}}>
                   <Header1 data={headerData} />
+                </div>
+                {/* <div className="mainheadersum1">
+                  <div className="head1sum1">{headerData?.PrintHeadLabel}</div>
+                  <div className="head2sum1">
+                    <div className="subhead2sum1">
+                      <div className="headingsum1">
+                        {headerData?.CompanyFullName}
+                      </div>
+                      <div className="lhhead1sum1">
+                        {headerData?.CompanyAddress}
+                      </div>
+                      <div className="lhhead1 ">
+                        {headerData?.CompanyAddress2}-
+                        {headerData?.CompanyPinCode}, {headerData?.CompanyState}
+                        ({headerData?.CompanyCountry})
+                      </div>
+                      <div className="lhhead1sum1">
+                        T {headerData?.CompanyTellNo}{" "}
+                        {headerData?.CompanyTollFreeNo}
+                      </div>
+                      <div className="lhhead1sum1">
+                        {headerData?.CompanyEmail} {headerData?.CompanyWebsite}
+                      </div>
+                    </div>
+                    <div>
+                      <img
+                        src={headerData?.PrintLogo}
+                        id="sum1Img"
+                        alt="#summary1"
+                        style={{ paddingTop: "1rem" }}
+                        onError={(e) => handleImageError(e)}
+                      />
+                    </div>
+                  </div>
+                  <div className="head3sum1">
+                    <div className="invoicehead3sum1">
+                      <b className="binvsum1">INVOICE# :</b>{" "}
+                      {headerData?.InvoiceNo}
+                    </div>
+                    <div className="invoicehead3sum1 d-flex flex-column">
+                      <div className="d-flex justify-content-end w-100 align-items-center datehead3sum1">
+                        <div className="binvsum1 w-50 d-flex justify-content-end fw-bold">
+                          DATE :
+                        </div>
+                        <div className="w-50 d-flex justify-content-end">
+                          {headerData?.EntryDate}
+                        </div>
+                      </div>
+                      <div className="d-flex justify-content-end w-100 align-items-center datehead3sum1">
+                        <div className="binvsum1 w-50 d-flex justify-content-end fw-bold">
+                          HSN :
+                        </div>
+                        <div className="w-50 d-flex justify-content-end">
+                          {headerData?.HSN_No}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="head4sum1">
+                    <div className="samplehead4sum1">
+                      {headerData?.customerfirmname}
+                    </div>
+                    <div className="lhhead4sum1">
+                      {headerData?.customerstreet}
+                    </div>
+                    <div className="lhhead4sum1">
+                      Area {headerData?.customerAddress2}
+                    </div>
+                    <div className="lhhead4sum1">
+                      {headerData?.customercity}
+                    </div>
+                    <div className="lhhead4sum1">
+                      {headerData?.customermobileno}
+                    </div>
+                    <div className="lhhead4sum1">
+                      {headerData?.vat_cst_pan} |{" "}
+                      {headerData?.Company_CST_STATE}-
+                      {headerData?.Company_CST_STATE_No}
+                    </div>
+                  </div>
                 </div> */}
-                <div className="mainheadersum1">
-              <div className="head1sum1">{headerData?.PrintHeadLabel}</div>
-              <div className="head2sum1">
-                <div className="subhead2sum1">
-                  <div className="headingsum1">
-                    {headerData?.CompanyFullName}
-                  </div>
-                  <div className="lhhead1sum1">
-                    {headerData?.CompanyAddress}
-                  </div>
-                  <div className="lhhead1 ">
-                    {headerData?.CompanyAddress2}-{headerData?.CompanyPinCode},{" "}
-                    {headerData?.CompanyState}({headerData?.CompanyCountry})
-                  </div>
-                  <div className="lhhead1sum1">
-                    T {headerData?.CompanyTellNo}{" "}
-                    {headerData?.CompanyTollFreeNo}
-                  </div>
-                  <div className="lhhead1sum1">
-                    {headerData?.CompanyEmail} {headerData?.CompanyWebsite}
-                  </div>
-                </div>
-                <div>
-                  <img
-                    src={headerData?.PrintLogo}
-                    id="sum1Img"
-                    alt="#summary1"
-                    style={{ paddingTop: "1rem" }}
-                    onError={(e) => handleImageError(e)}
-                  />
-                </div>
-              </div>
-              <div className="head3sum1">
-                <div className="invoicehead3sum1">
-                  <b className="binvsum1">INVOICE# :</b> {headerData?.InvoiceNo}
-                </div>
-                <div className="invoicehead3sum1 d-flex flex-column">
-                  <div className="d-flex justify-content-end w-100 align-items-center datehead3sum1">
-                    <div className="binvsum1 w-50 d-flex justify-content-end fw-bold">
-                      DATE :
-                    </div>
-                    <div className="w-50 d-flex justify-content-end">
-                      {headerData?.EntryDate}
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-end w-100 align-items-center datehead3sum1">
-                    <div className="binvsum1 w-50 d-flex justify-content-end fw-bold">
-                      HSN :
-                    </div>
-                    <div className="w-50 d-flex justify-content-end">
-                      {headerData?.HSN_No}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="head4sum1">
-                <div className="samplehead4sum1">
-                  {headerData?.customerfirmname}
-                </div>
-                <div className="lhhead4sum1">{headerData?.customerstreet}</div>
-                <div className="lhhead4sum1">
-                  Area {headerData?.customerAddress2}
-                </div>
-                <div className="lhhead4sum1">{headerData?.customercity}</div>
-                <div className="lhhead4sum1">
-                  {headerData?.customermobileno}
-                </div>
-                <div className="lhhead4sum1">
-                  {headerData?.vat_cst_pan} | {headerData?.Company_CST_STATE}-
-                  {headerData?.Company_CST_STATE_No}
-                </div>
-              </div>
-            </div>
                 <div className="tableSectionSum1">
                   <div className="theadsum1">
                     <div className="wthsum1 srwsum1">SR#</div>

@@ -33,7 +33,7 @@ const Header1 = ( { data }  ) => {
           <span className={style.lines}>{data?.customerAddress1}</span>
           <span className={style.lines}>{data?.customerAddress3}</span>
           <span className={style.lines}>{data?.customercity} {data?.customerpincode}</span>
-          <span className={style.lines}>sample@co.in</span>
+          <span className={style.lines}>{data?.customeremail1}</span>
           <span className={style.lines}>GSTIN-25GJERDR202314</span>
           <span className={style.lines}>STATE CODE-25</span>
           <span className={style.lines}>STATE CODE-25</span>
@@ -41,16 +41,16 @@ const Header1 = ( { data }  ) => {
         <div className={style.custDetails}>
           <span className={style.lines}>Ship to</span>
           <span className={style.lines} style={{ fontWeight: "bold" }}>
-            Sample Pvt Ltd
+            {data?.customerfirmname}
           </span>
           <span className={style.lines}>{data?.CustName}</span>
-          <span className={style.lines}>Line 1 25,Krishna park</span>
-          <span className={style.lines}>Surat, Gujarat</span>
-          <span className={style.lines}>India-395002</span>
-          <span className={style.lines}>Mobile No : 787-845-1256</span>
-          <span className={style.lines}>Mobile No : 787-845-1256</span>
-          <span className={style.lines}>Mobile No : 787-845-1256</span>
-          <span className={style.lines}>Mobile No : 787-845-1256</span>
+          <span className={style.lines}>{data?.customerstreet}</span>
+          <span className={style.lines}>{data?.customercity}, {data?.State}</span>
+          <span className={style.lines}>India-{data?.customerpincode}</span>
+          <span className={style.lines}>Mobile No : {data?.customermobileno}</span>
+          <span className={style.lines}></span>
+          <span className={style.lines}></span>
+          <span className={style.lines}></span>
         </div>
         <div className={style.custDetails}>
           <span className={style.invoice}>
@@ -68,10 +68,10 @@ const Header1 = ( { data }  ) => {
           <span className={style.lines}>Line 1 25,Krishna park</span>
           <span className={style.lines}>Surat, Gujarat</span>
           <span className={style.lines}>India-395002</span>
-          <span className={style.lines}>Mobile No : 787-845-1256</span>
-          <span className={style.lines}>Mobile No : 787-845-1256</span>
-          <span className={style.lines}>Mobile No : 787-845-1256</span>
-          <span className={style.lines}>Mobile No : 787-845-1256</span>
+          <span className={style.lines}></span>
+          <span className={style.lines}></span>
+          <span className={style.lines}></span>
+          <span className={style.lines}></span>
         </div>
         <div className={style.custDetails}>
           <span className={style.lines}>Ship to</span>
