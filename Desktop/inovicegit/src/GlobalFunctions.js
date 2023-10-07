@@ -55,14 +55,14 @@ export const taxGenrator = (headerData, totalAmount) => {
         if (headerData[`${e}_IsOnDiscount`] === 1) {
           let obj = {
             name: headerData[[`${e}_taxname`]],
-            per: `${headerData[`${e}_value`].toFixed(3)}%`,
+            per: `${headerData[`${e}_value`].toFixed(2)}%`,
             amount: ((totalAmount * headerData[`${e}_value`]) / 100).toFixed(2),
           };
           blankArr.push(obj);
         } else {
           let obj = {
             name: headerData[`${e}_taxname`],
-            per: headerData[`${e}_value`].toFixed(3),
+            per: headerData[`${e}_value`].toFixed(2),
             amount: headerData[`${e}_value`].toFixed(2),
           };
           blankArr.push(obj);
@@ -74,7 +74,7 @@ export const taxGenrator = (headerData, totalAmount) => {
     arr.forEach((e, i) => {
       let obj = {
         name: e,
-        per: `${headerData[e].toFixed(3)}%`,
+        per: `${headerData[e].toFixed(2)}%`,
         amount: ((totalAmount * headerData[e]) / 100).toFixed(2),
       };
       blankArr.push(obj);
@@ -97,7 +97,7 @@ export const taxGenrator = (headerData, totalAmount) => {
 
 export const NumberWithCommas = (value) => {
   // Use toLocaleString to format the number with commas
-  const formattedNumber = value.toLocaleString();
+  const formattedNumber = parseFloat(value)?.toLocaleString();
 
   return formattedNumber;
 }
