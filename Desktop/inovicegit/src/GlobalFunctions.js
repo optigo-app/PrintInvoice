@@ -104,3 +104,4 @@ export const NumberWithCommas = (value, val) => {
   return formattedNumber;
 }
 
+export const fixedValues = (value, zeroes) => typeof (value) === "number" ? value.toFixed(zeroes) : (+value)?.toFixed(zeroes);

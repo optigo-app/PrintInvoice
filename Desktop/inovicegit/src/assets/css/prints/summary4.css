@@ -11,7 +11,7 @@
 }
 
 .logo_sec_sum4>img {
-    max-width: 140px;
+    max-width: 130px;
 }
 
 .header_section_sum4 {
@@ -182,11 +182,12 @@
 }
 
 .amazon_text_sum4 {
-    width: 151px;
+    width: max-content;
+    padding-right: 10px;
 }
 
 .amazon_number_sum4 {
-    width: 30px;
+    width: max-content;
 }
 
 .width_315_sum4 {
