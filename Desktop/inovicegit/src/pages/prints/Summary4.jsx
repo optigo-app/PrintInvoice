@@ -443,7 +443,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <p>{e?.CertRemark} </p>
                             </div>
                             <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
-                                return <p key={indd}>{(+(ele?.totalWeight))?.toFixed(3)}</p>
+                                return <p key={indd}>{((+(ele?.totalWeight))?.toFixed(3))}</p>
                             })}</div>
                             <div className="p-1 dia_rate_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
                                 return <p key={indd}>{(+(ele?.rate))?.toFixed(2)}</p>

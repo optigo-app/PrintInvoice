@@ -95,9 +95,12 @@ export const taxGenrator = (headerData, totalAmount) => {
 // }
 
 
-export const NumberWithCommas = (value) => {
-  // Use toLocaleString to format the number with commas
-  const formattedNumber = parseFloat(value)?.toLocaleString();
+export const NumberWithCommas = (value, val) => {
+  const formattedNumber = parseFloat(+value)?.toLocaleString(undefined, {
+    minimumFractionDigits: val,
+    maximumFractionDigits: val,
+  });
 
   return formattedNumber;
 }
+
