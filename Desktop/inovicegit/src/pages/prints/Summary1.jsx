@@ -6,6 +6,7 @@ import {
   CapitalizeWords,
   handleImageError,
   isObjectEmpty,
+  NumberWithCommas,
   taxGenrator,
 } from "../../GlobalFunctions";
 import convertor from "number-to-words";
@@ -372,7 +373,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <Button />
               </div>
               <div className="summary1PrintSum1">
-                <div style={{width:"1000px"}}>
+                <div style={{ width: "1000px" }}>
                   <Header1 data={headerData} />
                 </div>
                 {/* <div className="mainheadersum1">
@@ -558,10 +559,17 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {e?.totals?.colorstone?.Wt?.toFixed(3)}
                               </div>
                               <div className="wtbsum1 alignrightsum1">
-                                {e?.OtherCharges?.toFixed(2)}
+                                {/* {e?.OtherCharges?.toFixed(2)} */}
+                                {NumberWithCommas(e?.OtherCharges, 2)}
                               </div>
                               <div className="wtbsum1 brightsum1 alignrightsum1">
-                                ₹ {e?.TotalAmount?.toFixed(2)}
+                                {/* {e?.TotalAmount?.toFixed(2)} */}
+                                <p
+                                  dangerouslySetInnerHTML={{
+                                    __html: headerData?.Currencysymbol,
+                                  }}
+                                ></p>{" "}
+                                {NumberWithCommas(e?.TotalAmount, 2)}
                               </div>
                             </div>
                           </div>
@@ -616,7 +624,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                               {e?.totals?.colorstone?.Wt?.toFixed(3)}
                             </div>
                             <div className="wtbsum1 alignrightsum1">
-                              {e?.OtherCharges?.toFixed(2)}
+                              {/* {e?.OtherCharges?.toFixed(2)} */}
+                              {NumberWithCommas(e?.OtherCharges, 2)}
                             </div>
                             <div className="wtbsum1 brightsum1 alignrightsum1">
                               <p
@@ -624,7 +633,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   __html: headerData?.Currencysymbol,
                                 }}
                               ></p>{" "}
-                              {e?.TotalAmount?.toFixed(2)}
+                              {/* {e?.TotalAmount?.toFixed(2)} */}
+                              {NumberWithCommas(e?.TotalAmount, 2)}
                             </div>
                           </div>
                         )}
@@ -671,7 +681,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                       </div>
                       <div className="wtbsum1 htotalrowsum1 alignrightsum1">
                         <b className="totrowfssum1">
-                          {totalOtherAmount?.toFixed(2)}
+                          {/* {totalOtherAmount?.toFixed(2)} */}
+                          {NumberWithCommas(totalOtherAmount, 2)}
                         </b>
                       </div>
                       <div className="wtbsum1 brightsum1 htotalrowsum1 alignrightsum1">
@@ -681,7 +692,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                               __html: headerData?.Currencysymbol,
                             }}
                           ></p>{" "}
-                          {TotalAmount?.toFixed(2)}
+                          {/* {TotalAmount?.toFixed(2)} */}
+                          {NumberWithCommas(TotalAmount, 2)}
                         </b>
                       </div>
                     </div>
@@ -698,7 +710,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {e?.name} {e?.per}
                               </div>
                               <div className="w-50 d-flex justify-content-end">
-                                {e?.amount}
+                                {/* {e?.amount} */}
+                                {NumberWithCommas(e?.amount, 2)}
                               </div>
                             </div>
                           );
@@ -727,7 +740,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                               __html: headerData?.Currencysymbol,
                             }}
                           ></p>{" "}
-                          {finalAmount?.toFixed(2)}
+                          {/* {finalAmount?.toFixed(2)} */}
+                          {NumberWithCommas(finalAmount, 2)}
                         </div>
                       </div>
                     </div>
@@ -757,6 +771,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 style={{ width: "20%" }}
                               >
                                 {e?.value}
+                                
                               </div>
                             </div>
                           );

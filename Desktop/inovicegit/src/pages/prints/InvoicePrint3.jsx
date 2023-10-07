@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import "../../assets/css/prints/invoiceprint3.css";
-import { apiCall, CapitalizeWords, isObjectEmpty } from "../../GlobalFunctions";
+import { apiCall, CapitalizeWords, isObjectEmpty, NumberWithCommas } from "../../GlobalFunctions";
 import convertor from "number-to-words";
 import { taxGenrator } from "./../../GlobalFunctions";
 import Loader from "../../components/Loader";
@@ -546,9 +546,10 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                               <p className="wp3tbinvp3 fsinvp3">
                                 {e?.Wt?.toFixed(3)}
                               </p>
-                              <p className="wp3tbinvp3 fsinvp3">{e?.Rate}</p>
+                              <p className="wp3tbinvp3 fsinvp3">{NumberWithCommas(e?.Rate, 2) }</p>
                               <p className="wp3tbinvp3 fsinvp3">
-                                {e?.Amount?.toFixed(2)}
+                                {/* {e?.Amount?.toFixed(2)} */}
+                                {NumberWithCommas(e?.Amount, 2)}
                               </p>
                             </div>
                           );
@@ -585,7 +586,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <p className="wp3tbinvp3"></p>
                         <p className="wp3tbinvp3"></p>
                         <p className="wp3tbinvp3 fw-bold fsinvp3">
-                          {mainTotal?.totAmount?.TotalAmount?.toFixed(2)}
+                          {/* {mainTotal?.totAmount?.TotalAmount?.toFixed(2)} */}
+                          {NumberWithCommas(mainTotal?.totAmount?.TotalAmount, 2)}
                         </p>
                       </div>
                     </div>
@@ -596,13 +598,15 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="d-flex justify-content-between px-2">
                       <p className="w-50 text-start fsinvp3">Discount</p>
                       <p className="w-50 text-end fsinvp3">
-                        {totDiscount?.toFixed(2)}
+                        {/* {totDiscount?.toFixed(2)} */}
+                        {NumberWithCommas(totDiscount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between px-2">
                       <p className="fw-bold fsinvp3">Total Amount</p>
                       <p className="w-50 text-end fsinvp3">
-                        {mainTotal?.totAmount?.TotalAmount?.toFixed(2)}
+                        {/* {mainTotal?.totAmount?.TotalAmount?.toFixed(2)} */}
+                        {NumberWithCommas(mainTotal?.totAmount?.TotalAmount, 2)}
                       </p>
                     </div>
                     {taxTotal?.length > 0 &&
@@ -615,7 +619,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="fsinvp3">
                               {e?.name} {e?.per}
                             </div>
-                            <div className="fsinvp3">{e?.amount}</div>
+                            <div className="fsinvp3">{NumberWithCommas(e?.amount, 2)}</div>
                           </div>
                         );
                       })}
@@ -634,7 +638,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     >
                       <p className="fw-bold fsinvp3">Grand Total</p>
                       <p className="fw-bold w-50 text-end fsinvp3">
-                        {grandTotal?.toFixed(3)}
+                        {NumberWithCommas(grandTotal, 2)}
                       </p>
                     </div>
                   </div>

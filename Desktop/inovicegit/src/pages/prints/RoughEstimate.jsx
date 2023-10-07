@@ -5,7 +5,7 @@ import { useState } from "react";
 import "../../assets/css/prints/roughestimate.css";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
-import { apiCall, isObjectEmpty, taxGenrator } from "./../../GlobalFunctions";
+import { apiCall, isObjectEmpty, NumberWithCommas, taxGenrator } from "./../../GlobalFunctions";
 
 const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
   const [json, setJson] = useState({});
@@ -474,19 +474,23 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                             </p>
                           ) : (
                             <p className="c1RE endRE fs-3 fw-bold">
-                              {e?.MetalAmt?.toFixed(2)}
+                              {/* {e?.MetalAmt?.toFixed(2)} */}
+                              {NumberWithCommas(e?.MetalAmt, 2)}
                             </p>
                           )}
                         </div>
                         <div className="d-flex r1RE">
                           <p className="c1RE brbRE endRE fs-3">
-                            {e?.labourAmount?.toFixed(2)}
+                            {/* {e?.labourAmount?.toFixed(2)} */}
+                            {NumberWithCommas(e?.labourAmount, 2)}
                           </p>
                           <p className="c1RE brbRE endRE fs-3">
-                            {e?.OtherAmount?.toFixed(2)}
+                            {/* {e?.OtherAmount?.toFixed(2)} */}
+                            {NumberWithCommas(e?.OtherAmount, 2)}
                           </p>{" "}
                           <p className="c1RE fw-bold endRE fs-3">
-                            {e?.TotalAmount?.toFixed(2)}
+                            {/* {e?.TotalAmount?.toFixed(2)} */}
+                            {NumberWithCommas(e?.TotalAmount, 2)}
                           </p>
                         </div>
                       </div>
@@ -535,19 +539,23 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                       )}
 
                       <div className="c1RE brbRE endRE fs-3 fw-bold">
-                        {TotalMAMT?.toFixed(2)}
+                        {/* {TotalMAMT?.toFixed(2)} */}
+                        {NumberWithCommas(TotalMAMT, 2)}
                       </div>
                       {/* </p> */}
                     </div>
                     <div className="d-flex r1RE">
                       <p className="c1RE brbRE endRE fs-3">
-                        {mainTotal.totallabourAmount?.toFixed(2)}
+                        {/* {mainTotal.totallabourAmount?.toFixed(2)} */}
+                        {NumberWithCommas(mainTotal.totallabourAmount, 2)}
                       </p>
                       <p className="c1RE brbRE endRE fs-3">
-                        {mainTotal.totalOtherAmount?.toFixed(2)}
+                        {/* {mainTotal.totalOtherAmount?.toFixed(2)} */}
+                        {NumberWithCommas(mainTotal.totalOtherAmount, 2)}
                       </p>
                       <p className="c1RE fw-bold endRE fs-3">
-                        {totalUnitCost}
+                        {/* {totalUnitCost} */}
+                        {NumberWithCommas(totalUnitCost, 2)}
                       </p>
                     </div>
                   </div>
@@ -566,7 +574,8 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {e?.name} {e?.per}
                               </div>
                               <div className="d-flex justify-content-end w-50 fs-3">
-                                {e?.amount}
+                                {/* {e?.amount} */}
+                                {NumberWithCommas(e?.amount, 2)}
                               </div>
                             </div>
                           );
@@ -590,7 +599,8 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                         TOTAL
                       </div>
                       <div className="fs-3 d-flex justify-content-end w-50 text-black">
-                        {finalAmount}
+                        {/* {finalAmount} */}
+                        {NumberWithCommas(finalAmount, 2)}
                       </div>
                     </div>
                   </div>

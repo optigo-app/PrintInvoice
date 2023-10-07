@@ -5,6 +5,7 @@ import {
   CapitalizeWords,
   handleImageError,
   isObjectEmpty,
+  NumberWithCommas,
   taxGenrator,
 } from "../../GlobalFunctions";
 import axios from "axios";
@@ -675,16 +676,19 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                 )}
                               </div>
                               <div className="tc6JL">
-                                {e?.OtherCharges?.toFixed(2)}
+                                {/* {e?.OtherCharges?.toFixed(2)} */}
+                                {NumberWithCommas(e?.OtherCharges, 2)}
                               </div>
                               <div className="tc7JL">
-                                {e?.MakingAmount?.toFixed(2)}
+                                {/* {e?.MakingAmount?.toFixed(2)} */}
+                                {NumberWithCommas(e?.MakingAmount, 2)}
                               </div>
                               <div
                                 className="tc8JL"
                                 style={{ borderRight: "0px" }}
                               >
-                                {e?.UnitCost?.toFixed(2)}
+                                {/* {e?.UnitCost?.toFixed(2)} */}
+                                {NumberWithCommas(e?.UnitCost, 2)}
                               </div>
                             </div>
                           );
@@ -724,16 +728,19 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                       </div>
                       <div className="tc6JL d-flex justify-content-end pe-1 h-100">
-                        {mainTotal?.totalOtherAmount?.toFixed(2)}
+                        {/* {mainTotal?.totalOtherAmount?.toFixed(2)} */}
+                        {NumberWithCommas(mainTotal?.totalOtherAmount, 2)}
                       </div>
                       <div className="tc7JL d-flex justify-content-end pe-1 h-100">
-                        {mainTotal?.totallabourAmount?.toFixed(2)}
+                        {/* {mainTotal?.totallabourAmount?.toFixed(2)} */}
+                        {NumberWithCommas(mainTotal?.totallabourAmount, 2)}
                       </div>
                       <div
                         className="tc8JL d-flex justify-content-end pe-1 h-100"
-                        style={{ borderRight: "0px" }}
+                        style={{ borderRight: "0px" , fontSize:"10px"}}
                       >
-                        {mainTotal?.totalunitCost?.toFixed(2)}
+                        {/* {mainTotal?.totalunitCost?.toFixed(2)} */}
+                        {NumberWithCommas(mainTotal?.totalunitCost, 2)}
                       </div>
                     </div>
                     <div className="footerJL fsJL d-flex justify-content-between align-items-end ">
@@ -756,7 +763,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                     {e?.name} {e?.per}
                                   </div>
                                   <div className="w-50 d-flex justify-content-end align-items-center ">
-                                    {e?.amount}
+                                    {NumberWithCommas(e?.amount, 2)}
                                   </div>
                                 </div>
                               );
@@ -783,7 +790,8 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             className="fw-bold w-50 d-flex align-items-center justify-content-end pe-1"
                             style={{ fontSize: "15px" }}
                           >
-                            {grandTot?.toFixed(2)}
+                             {/* {grandTot?.toFixed(2)} */}
+                             {NumberWithCommas(grandTot, 2)}
                           </div>
                         </div>
                       </div>

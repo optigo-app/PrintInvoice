@@ -7,6 +7,7 @@ import {
   CapitalizeWords,
   handleImageError,
   isObjectEmpty,
+  NumberWithCommas,
 } from "../../GlobalFunctions";
 import convertor from "number-to-words";
 import "../../assets/css/prints/invoiceprint2.css";
@@ -448,10 +449,11 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                           {e?.JobWiseTotal?.colorstone?.Wt?.toFixed(3)}
                         </div>
                         <div className="wtbivp2 alignrightinvp2">
-                          {e?.OtherCharges?.toFixed(2)}
+                          {/* {e?.OtherCharges?.toFixed(2)} */}
+                          {NumberWithCommas(e?.OtherCharges, 2)}
                         </div>
                         <div className="wtbivp2 brightivp2 alignrightinvp2">
-                        <p dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></p> {e?.TotalAmount?.toFixed(2)}
+                        <p dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></p> {NumberWithCommas(e?.TotalAmount, 2)}
                         </div>
                       </div>
                     );
@@ -497,7 +499,8 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                       </div>
                       <div className="wtbinvp2 htotalrowinvp2 alignrightinvp2">
                         <b className="totrowfsinvp2">
-                          {mainTotal?.totOthAmt?.Amount?.toFixed(2)}
+                          {/* {mainTotal?.totOthAmt?.Amount?.toFixed(2)} */}
+                          {NumberWithCommas(mainTotal?.totOthAmt?.Amount, 2)}
                         </b>
                       </div>
                       <div className="wtbinvp2 brightinvp2 htotalrowinvp2 alignrightinvp2">
@@ -507,7 +510,8 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                               __html: headerData?.Currencysymbol,
                             }}
                           ></p>{" "}
-                          {mainTotal?.totAmount?.TotalAmount?.toFixed(2)}
+                          {/* {mainTotal?.totAmount?.TotalAmount?.toFixed(2)} */}
+                          {NumberWithCommas(mainTotal?.totAmount?.TotalAmount, 2)}
                         </b>
                       </div>
                     </div>
@@ -525,7 +529,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {e?.name} {e?.per}
                               </div>
                               <div className="w-50 d-flex justify-content-end">
-                                {e?.amount}
+                                {NumberWithCommas(e?.amount, 2)}
                               </div>
                             </div>
                           );
@@ -549,7 +553,8 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                               __html: headerData?.Currencysymbol,
                             }}
                           ></p>{" "}
-                          {grandTotal?.toFixed(2)} /-{" "}
+                          {/* {grandTotal?.toFixed(2)} /-{" "} */}
+                          {NumberWithCommas(grandTotal, 2)} /-{" "}
                         </div>
                       </div>
                     </div>

@@ -7,6 +7,7 @@ import {
   apiCall,
   handleImageError,
   isObjectEmpty,
+  NumberWithCommas,
 } from "../../GlobalFunctions";
 import { taxGenrator } from "./../../GlobalFunctions";
 
@@ -875,11 +876,16 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                               {ele?.Wt}
                                             </div>
                                             <div className="th3Wpcl3 brRightDpcl3">
-                                              {ele?.Rate}
+                                              {/* {ele?.Rate} */}
+                                              {NumberWithCommas(ele?.Rate, 2)}
                                             </div>
                                             <div className="th3Wpcl3 brRightDpcl3">
                                               <b style={{ fontSize: "12px" }}>
-                                                {ele?.Amount?.toFixed(2)}
+                                                {/* {ele?.Amount?.toFixed(2)} */}
+                                                {NumberWithCommas(
+                                                  ele?.Amount,
+                                                  2
+                                                )}
                                               </b>
                                             </div>
                                           </div>
@@ -918,7 +924,11 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   </div>
                                   <div className="th3Wpcl3 brRightDpcl3">
                                     <b className="fsdpcl3">
-                                      {e?.totals?.diamonds?.Amount?.toFixed(2)}
+                                      {/* {e?.totals?.diamonds?.Amount?.toFixed(2)} */}
+                                      {NumberWithCommas(
+                                        e?.totals?.diamonds?.Amount,
+                                        2
+                                      )}
                                     </b>
                                   </div>
                                 </div>
@@ -946,11 +956,16 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                               {e?.NetWt?.toFixed(3)}
                                             </div>
                                             <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {ele?.Rate?.toFixed(2)}
+                                              {/* {ele?.Rate?.toFixed(2)} */}
+                                              {NumberWithCommas(ele?.Rate, 2)}
                                             </div>
                                             <div className="th4Wpcl3 brRightDpcl3">
                                               <b style={{ fontSize: "10px" }}>
-                                                {ele?.Amount?.toFixed(2)}
+                                                {/* {ele?.Amount?.toFixed(2)} */}
+                                                {NumberWithCommas(
+                                                  ele?.Amount,
+                                                  2
+                                                )}
                                               </b>
                                             </div>
                                           </div>
@@ -974,7 +989,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                       <div className="th4Wpcl3 brRightDpcl3 fsdpcl3"></div>
                                       <div className="th4Wpcl3 brRightDpcl3">
                                         <b style={{ fontSize: "10px" }}>
-                                          {e?.LossAmt?.toFixed(2)}
+                                          {/* {e?.LossAmt?.toFixed(2)} */}
+                                          {NumberWithCommas(e?.LossAmt, 2)}
                                         </b>
                                       </div>
                                     </div>
@@ -1007,7 +1023,11 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   {/* <div className='th4Wpcl3 brRightDpcl3'></div> */}
                                   <div className="th4Wpcl3 brRightDpcl3">
                                     <b style={{ fontSize: "10px" }}>
-                                      {e?.totals?.metal?.Amount?.toFixed(2)}
+                                      {/* {e?.totals?.metal?.Amount?.toFixed(2)} */}
+                                      {NumberWithCommas(
+                                        e?.totals?.metal?.Amount,
+                                        2
+                                      )}
                                     </b>
                                   </div>
                                 </div>
@@ -1042,13 +1062,21 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                   {ele?.Wt?.toFixed(3)}
                                                 </div>
                                                 <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                  {ele?.Rate?.toFixed(2)}
+                                                  {/* {ele?.Rate?.toFixed(2)} */}
+                                                  {NumberWithCommas(
+                                                    ele?.Rate,
+                                                    2
+                                                  )}
                                                 </div>
                                                 <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
                                                   <b
                                                     style={{ fontSize: "10px" }}
                                                   >
-                                                    {ele?.Amount?.toFixed(2)}
+                                                    {/* {ele?.Amount?.toFixed(2)} */}
+                                                    {NumberWithCommas(
+                                                      ele?.Amount,
+                                                      2
+                                                    )}
                                                   </b>
                                                 </div>
                                               </div>
@@ -1085,7 +1113,11 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   <div className="th3Wpcl3 brRightDpcl3"></div>
                                   <div className="th3Wpcl3 brRightDpcl3">
                                     <b className="fsdpcl3">
-                                      {e?.totals?.stone_misc?.Amount?.toFixed(
+                                      {/* {e?.totals?.stone_misc?.Amount?.toFixed(
+                                        2
+                                      )} */}
+                                      {NumberWithCommas(
+                                        e?.totals?.stone_misc?.Amount,
                                         2
                                       )}
                                     </b>
@@ -1102,10 +1134,15 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                       Labour
                                     </div>
                                     <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
-                                      {e?.MaKingCharge_Unit?.toFixed(2)}
+                                      {/* {e?.MaKingCharge_Unit?.toFixed(2)} */}
+                                      {NumberWithCommas(
+                                        e?.MaKingCharge_Unit,
+                                        2
+                                      )}
                                     </div>
                                     <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
-                                      {e?.MakingAmount?.toFixed(2)}
+                                      {/* {e?.MakingAmount?.toFixed(2)} */}
+                                      {NumberWithCommas(e?.MakingAmount, 2)}
                                     </div>
                                   </div>
                                 )}
@@ -1132,7 +1169,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             style={{ width: "0px" }}
                                           ></div>
                                           <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
-                                            {e?.value?.toFixed(2)}
+                                            {/* {e?.value?.toFixed(2)} */}
+                                            {NumberWithCommas(e?.value, 2)}
                                           </div>
                                         </div>
                                       )}
@@ -1147,7 +1185,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                       </div>
                                       <div className="th6Wpcl3 brRightDpcl3"></div>
                                       <div className="th6Wpcl3 brRightDpcl3">
-                                        {e?.OtherCharges}
+                                        {/* {e?.OtherCharges} */}
+                                        {NumberWithCommas(e?.OtherCharges, 2)}
                                       </div>
                                     </div>
                                   ) : (
@@ -1173,7 +1212,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                       ""
                                     ) : (
                                       <b className="fsdpcl3">
-                                        {totmakAmt?.toFixed(2)}
+                                        {/* {totmakAmt?.toFixed(2)} */}
+                                        {NumberWithCommas(totmakAmt, 2)}
                                       </b>
                                     )}
                                   </div>
@@ -1183,7 +1223,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <div className="totalAndDiscountpcl3">
                                   <div className="th7pcl3ss">
                                     <b style={{ fontSize: "10px" }}>
-                                      {e?.UnitCost?.toFixed(2)}
+                                      {/* {e?.UnitCost?.toFixed(2)} */}
+                                      {NumberWithCommas(e?.UnitCost, 2)}
                                     </b>
                                   </div>
                                   <div
@@ -1201,7 +1242,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     }}
                                   >
                                     <b className="fsdpcl3">
-                                      {e?.UnitCost?.toFixed(2)}
+                                      {/* {e?.UnitCost?.toFixed(2)} */}
+                                      {NumberWithCommas(e?.UnitCost, 2)}
                                     </b>
                                   </div>
                                 </div>
@@ -1259,7 +1301,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="th3Wpcl3 brRightDpcl3"></div>
                             <div className="th3Wpcl3 brRightDpcl3">
                               <b className="fsdpcl3">
-                                {totalObj.totdiaamt.toFixed(2)}
+                                {/* {totalObj.totdiaamt.toFixed(2)} */}
+                                {NumberWithCommas(totalObj.totdiaamt, 2)}
                               </b>
                             </div>
                           </div>
@@ -1294,7 +1337,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             {/* <div className='th4Wpcl3 brRightDpcl3'></div> */}
                             <div className="th4Wpcl3 brRightDpcl3">
                               <b style={{ fontSize: "10px" }}>
-                                {totalObj.totmtamt.toFixed(2)}
+                                {/* {totalObj.totmtamt.toFixed(2)} */}
+                                {NumberWithCommas(totalObj.totmtamt, 2)}
                               </b>
                             </div>
                           </div>
@@ -1320,7 +1364,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="th3Wpcl3 brRightDpcl3"></div>
                             <div className="th3Wpcl3 brRightDpcl3">
                               <b className="fsdpcl3">
-                                {totalObj.totstamt.toFixed(2)}
+                                {/* {totalObj.totstamt.toFixed(2)} */}
+                                {NumberWithCommas(totalObj.totstamt, 2)}
                               </b>
                             </div>
                           </div>
@@ -1338,7 +1383,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="th6Wpcl3 brRightDpcl3"></div>
                             <div className="th6Wpcl3 brRightDpcl3">
                               <b className="fsdpcl3">
-                                {totalLbhOthAmt?.toFixed(2)}
+                                {/* {totalLbhOthAmt?.toFixed(2)} */}
+                                {NumberWithCommas(totalLbhOthAmt, 2)}
                               </b>
                             </div>
                           </div>
@@ -1355,7 +1401,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                               }}
                             >
                               <b className="fsdpcl3">
-                                {totalUniCostAmt?.toFixed(2)}
+                                {/* {totalUniCostAmt?.toFixed(2)} */}
+                                {NumberWithCommas(totalUniCostAmt, 2)}
                               </b>
                             </div>
                           </div>
@@ -1369,7 +1416,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             Total Discount
                           </div>
                           <div className="mrpWpcl3 fsdpcl3">
-                            {totalObj?.totDiscount?.toFixed(2)}
+                            {/* {totalObj?.totDiscount?.toFixed(2)} */}
+                            {NumberWithCommas(totalObj?.totDiscount, 2)}
                           </div>{" "}
                         </div>
                         <div className="fapcl3">
@@ -1377,10 +1425,10 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             Total Amount
                           </div>
                           <div className="mrpWpcl3 fsdpcl3">
-                            {(
+                            {NumberWithCommas(
                               +totalUniCostAmt?.toFixed(2) -
-                              totalObj?.totDiscount?.toFixed(2)
-                            )?.toFixed(2)}
+                                totalObj?.totDiscount?.toFixed(2)
+                            )}
                           </div>{" "}
                         </div>
                         {taxTotal?.length > 0 &&
@@ -1394,7 +1442,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   {e?.name} {e?.per}
                                 </div>
                                 <div className="w-50 d-flex justify-content-end">
-                                  {e?.amount}
+                                  {/* {e?.amount} */}
+                                  {NumberWithCommas(e?.amount, 2)}
                                 </div>
                               </div>
                             );
@@ -1416,7 +1465,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           </div>
                           <div className="mrpWpcl3">
                             <b className="fsdpcl3">
-                              {finalAmount?.toFixed(2)}
+                              {/* {finalAmount?.toFixed(2)} */}
+                              {NumberWithCommas(finalAmount, 2)}
                               {/* {(
                             totalUniCostAmt -
                             totalObj?.totDiscount +
@@ -1507,7 +1557,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <b className="fsdpcl3">GOLD</b>
                               </div>
                               <div className="mrpWpcl3D fsdpcl3 justify-content-end pe-1">
-                                {totalObj.totmtamt.toFixed(3)}
+                                {/* {totalObj.totmtamt.toFixed(3)} */}
+                                {NumberWithCommas(totalObj.totmtamt, 2)}
                               </div>{" "}
                             </div>
                             <div className="fapcl3D">
@@ -1539,7 +1590,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <b className="fsdpcl3">MAKING</b>
                               </div>
                               <div className="mrpWpcl3D fsdpcl3 justify-content-end pe-1">
-                                {totalObj.totmakingAmt?.toFixed(3)}{" "}
+                                {/* {totalObj.totmakingAmt?.toFixed(3)}{" "} */}
+                                {NumberWithCommas(totalObj.totmakingAmt, 2)}
                               </div>{" "}
                             </div>
                             <div className="fapcl3D">
@@ -1547,7 +1599,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <b className="fsdpcl3">OTHER</b>
                               </div>
                               <div className="mrpWpcl3D fsdpcl3 justify-content-end pe-1">
-                                {totalObj.totOthAmt?.toFixed(3)}
+                                {/* {totalObj.totOthAmt?.toFixed(3)} */}
+                                {NumberWithCommas(totalObj.totOthAmt, 2)}
                               </div>{" "}
                             </div>
                             <div className="fapcl3D">
@@ -1567,7 +1620,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                               </div>
                               <div className="mrpWpcl3 diaDetailpcl3 justify-content-end pe-1">
                                 <b className="fsdpcl3">
-                                  {finalAmount?.toFixed(2)}
+                                  {/* {finalAmount?.toFixed(2)} */}
+                                  {NumberWithCommas(finalAmount, 2)}
                                 </b>{" "}
                               </div>{" "}
                             </div>
@@ -1608,7 +1662,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                               <b className="fsdpcl3">RATE IN 24KT</b>
                             </div>
                             <div className="mrpWpcl3D fsdpcl3">
-                              {headerData?.MetalRate24K?.toFixed(2)}
+                              {/* {headerData?.MetalRate24K?.toFixed(2)} */}
+                              {NumberWithCommas(headerData?.MetalRate24K, 2)}
                             </div>{" "}
                           </div>
                         </div>
@@ -1617,7 +1672,11 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="diaDetailpcl3">REMARK</div>
                         <div className="amountSummarySectionpcl3DIAM">
                           <div className="fapcl3D" style={{ width: "168px" }}>
-                            <div dangerouslySetInnerHTML={{__html: headerData?.Remark}}></div>
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: headerData?.Remark,
+                              }}
+                            ></div>
                             {/* <div
                               className="mrpWpcl3D"
                               style={{ width: "168px" }}
