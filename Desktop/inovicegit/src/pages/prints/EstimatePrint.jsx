@@ -554,15 +554,15 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="d-flex totalBgEstimatePrint bottom-0 w-100">
                             <div className='width20EstimatePrint p-1 h-100'><p></p></div>
                             <div className='width20EstimatePrint p-1 h-100'><p></p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{total?.finalColorStonesTotal?.pcs.toFixed(2)}</p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{total?.finalColorStonesTotal?.weight.toFixed(2)}</p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{total?.finalColorStonesTotal?.rate.toFixed(2)}</p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{total?.finalColorStonesTotal?.amount.toFixed(2)}</p></div>
+                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{NumberWithCommas(total?.finalColorStonesTotal?.pcs, 0)}</p></div>
+                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{fixedValues(total?.finalColorStonesTotal?.weight, 3)}</p></div>
+                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{NumberWithCommas(total?.finalColorStonesTotal?.rate, 2)}</p></div>
+                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{NumberWithCommas(total?.finalColorStonesTotal?.amount, 2)}</p></div>
                         </div>
                     </div>
                     <div className="OtherAmountEstimatePrint border-end" >
                         <div className="totalBgEstimatePrint bottom-0 w-100 h-100">
-                            <div className='h-100 p-1 text-end'><p>{total?.otherAmount}</p></div>
+                            <div className='h-100 p-1 text-end'><p>{NumberWithCommas(total?.otherAmount, 2)}</p></div>
                         </div>
                     </div>
                     <div className="labourEstimatePrint border-end" >
@@ -572,7 +572,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div className="totalAmountEstimatePrint d-flex" >
                         <div className="totalBgEstimatePrint w-100 h-100">
-                            <div className='text-end p-1'><p><span dangerouslySetInnerHTML={{ __html: json1Data?.Currencysymbol }}></span>{total?.finalAmount}</p></div>
+                            <div className='text-end p-1'><p><span dangerouslySetInnerHTML={{ __html: json1Data?.Currencysymbol }}></span>{NumberWithCommas(total?.finalAmount, 2)}</p></div>
                         </div>
                     </div>
                 </div>
@@ -587,60 +587,60 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <div className='w-50 border-end h-100 pb-4'>
                                     <div className="d-flex justify-content-between p-1">
                                         <p>GOLD IN 24KT</p>
-                                        <p>{total?.gold24Kt} gm</p>
+                                        <p>{fixedValues(total?.gold24Kt, 3)} gm</p>
                                     </div>
                                     <div className="d-flex justify-content-between">
                                         <p>GROSS WT</p>
-                                        <p>{total?.grosswt} gm</p>
+                                        <p>{fixedValues(total?.grosswt, 3)} gm</p>
                                     </div>
                                     <div className="d-flex justify-content-between p-1">
                                         <p>*(G+D) WT</p>
-                                        <p>{total?.gdWt} gm</p>
+                                        <p>{fixedValues(total?.gdWt, 3)} gm</p>
                                     </div>
                                     <div className="d-flex justify-content-between p-1">
                                         <p>NET WT</p>
-                                        <p>{total?.NetWt} gm</p>
+                                        <p>{fixedValues(total?.NetWt, 3)} gm</p>
                                     </div>
                                     <div className="d-flex justify-content-between p-1">
                                         <p>DIAMOND WT</p>
-                                        <p>{total?.diaPcs} / {total?.diaWt} cts</p>
+                                        <p>{NumberWithCommas(total?.diaPcs, 0)} / {fixedValues(total?.diaWt, 3)} cts</p>
                                     </div>
                                     <div className="d-flex justify-content-between p-1">
                                         <p>STONE WT</p>
-                                        <p>{total?.stonePcs} / {total?.stoneWt} cts</p>
+                                        <p>{NumberWithCommas(total?.stonePcs, 0)} / {fixedValues(total?.stoneWt, 3)} cts</p>
                                     </div>
                                     <div className="d-flex justify-content-between p-1">
                                         <p>MISC WT</p>
-                                        <p>{total?.miscPcs} / {total?.miscWt} gm</p>
+                                        <p>{NumberWithCommas(total?.miscPcs, 0)} / {fixedValues(total?.miscWt, 3)} gm</p>
                                     </div>
                                 </div>
                                 <div className='w-50 h-100 pb-4'>
                                     <div className="d-flex justify-content-between p-1">
                                         <p>GOLD</p>
-                                        <p>{total?.goldAmount}</p>
+                                        <p>{NumberWithCommas(total?.goldAmount, 2)}</p>
                                     </div>
                                     <div className="d-flex justify-content-between p-1">
                                         <p>DIAMOND</p>
-                                        <p>{total?.diamondAmount}</p>
+                                        <p>{NumberWithCommas(total?.diamondAmount, 2)}</p>
                                     </div>
                                     <div className="d-flex justify-content-between p-1">
                                         <p>CST</p>
-                                        <p>{total?.colorStoneAmount}</p>
+                                        <p>{NumberWithCommas(total?.colorStoneAmount, 2)}</p>
                                     </div><div className="d-flex justify-content-between p-1">
                                         <p>MISC</p>
-                                        <p>{total?.miscAmount}</p>
+                                        <p>{NumberWithCommas(total?.miscAmount, 2)}</p>
                                     </div>
                                     <div className="d-flex justify-content-between p-1">
                                         <p>MAKING</p>
-                                        <p>{total?.makingAmount}</p>
+                                        <p>{NumberWithCommas(total?.makingAmount, 2)}</p>
                                     </div>
                                     <div className="d-flex justify-content-between p-1">
                                         <p>OTHER</p>
-                                        <p>{total?.otherAmount}</p>
+                                        <p>{NumberWithCommas(total?.otherAmount, 2)}</p>
                                     </div>
                                     <div className="d-flex justify-content-between p-1">
                                         <p>ADD</p>
-                                        <p>{json1Data?.AddLess}</p>
+                                        <p>{NumberWithCommas(json1Data?.AddLess, 2)}</p>
                                     </div>
                                 </div>
                             </div>
@@ -650,7 +650,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className='p-1 min_height_24_estimatePrint w-50'>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <div className="fw-bold"><p>TOTAL</p></div>
-                                    <div><p>{total?.summaryTotalAmount}</p></div>
+                                    <div><p>{NumberWithCommas(total?.summaryTotalAmount, 2)}</p></div>
                                 </div>
                             </div>
                         </div>
@@ -666,7 +666,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             {diamondDetail.length > 0 && diamondDetail.map((e, i) => {
                                 return <div className="d-flex w-100 justify-content-between p-1" key={i}>
                                     <p>{e?.shapeQualityColor}</p>
-                                    <p>{e?.pcs} / {e?.wt} cts</p>
+                                    <p>{NumberWithCommas(e?.pcs, 0)} / {fixedValues(e?.wt, 3)} cts</p>
                                 </div>
                             })}
                             <div className="d-flex w-100 justify-content-between p-1">
@@ -684,7 +684,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="totalBgEstimatePrint text-center"><p className="fw-bold p-1">OTHER DETAILS</p></div>
                         <div className="d-flex w-100 justify-content-between p-1">
                             <p>RATE IN 24KT	</p>
-                            <p>{json1Data?.MetalRate24K} gm</p>
+                            <p>{fixedValues(json1Data?.MetalRate24K, 3)} gm</p>
                         </div>
                     </div>
                     {/* remark details  */}

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import style from "../../assets/css/prints/export.module.css";
-import { apiCall, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
+import { NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import { useState } from "react";
 import Loader from "../../components/Loader";
 
@@ -73,7 +73,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn }) => {
                 blankArr[findIndex].counts += 1;
             }
         });
-        let totals = {...total};
+        let totals = { ...total };
         let resultArr = [];
         blankArr.forEach((e, i) => {
             let obj = { ...e };
@@ -132,18 +132,18 @@ const Export = ({ urls, token, invoiceNo, printName, evn }) => {
         const sendData = async () => {
             try {
                 const data = await apiCall(token, invoiceNo, printName, urls, evn);
-                if(data?.Status === '200'){
+                if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
-                    if(!isEmpty){
+                    if (!isEmpty) {
                         loadData(data?.Data);
                         setLoader(false);
-                    }else{
+                    } else {
                         setLoader(false);
                         setMsg("Data Not Found");
                     }
-                }else{
-                        setLoader(false);
-                        setMsg(data?.Message);
+                } else {
+                    setLoader(false);
+                    setMsg(data?.Message);
                 }
             } catch (error) {
                 console.error(error);
@@ -233,13 +233,13 @@ const Export = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className={`border-end ${style.srNoExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{i + 1}</div>
                             <div className={`border-end ${style.itemExport} d-flex align-items-center ${style.rowExport}`}>{e?.Categoryname}</div>
                             <div className={`border-end ${style.ktColExport} d-flex align-items-center ${style.rowExport}`}>{e?.MetalPurity}</div>
-                            <div className={`border-end ${style.qtyExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{e?.counts}</div>
-                            <div className={`border-end ${style.grossExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{(e?.grosswt)?.toFixed(3)}</div>
-                            <div className={`border-end ${style.netExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{(e?.NetWt)?.toFixed(3)}</div>
+                            <div className={`border-end ${style.qtyExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{NumberWithCommas(e?.counts, 0)}</div>
+                            <div className={`border-end ${style.grossExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{fixedValues(e?.grosswt, 3)}</div>
+                            <div className={`border-end ${style.netExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{fixedValues(e?.NetWt, 3)}</div>
                             <div className={`border-end ${style.wastageExport} d-flex align-items-center justify-content-end ${style.rowExport}`}></div>
-                            <div className={`border-end ${style.totalGoldExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{(e?.NetWt)?.toFixed(3)}</div>
-                            <div className={`border-end ${style.goldGmExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{e?.NetWt !== 0 && (e?.metalAmount / e?.NetWt)?.toFixed(2)}</div>
-                            <div className={`border-end ${style.goldValueExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{(e?.metalAmount)?.toFixed(2)}</div>
+                            <div className={`border-end ${style.totalGoldExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{fixedValues(e?.NetWt, 3)}</div>
+                            <div className={`border-end ${style.goldGmExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{e?.NetWt !== 0 && (NumberWithCommas(e?.metalAmount, 2) / fixedValues(e?.NetWt, 3))?.toFixed(2)}</div>
+                            <div className={`border-end ${style.goldValueExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{NumberWithCommas(e?.metalAmount, 2)}</div>
                             <div>
                                 <div className="d-grid h-100">
                                     {e?.diamonds.length > 0 ? e?.diamonds.map((ele, ind) => {
