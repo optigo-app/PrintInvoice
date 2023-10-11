@@ -5,6 +5,7 @@ import {
   apiCall,
   CapitalizeWords,
   handleImageError,
+  HeaderComponent,
   isObjectEmpty,
   NumberWithCommas,
   taxGenrator,
@@ -12,8 +13,7 @@ import {
 import convertor from "number-to-words";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
-import Header1 from './../../components/headers/Header1';
-import Header2 from "../../components/headers/Header2";
+
 const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
   const [dynamicList1, setDynamicList1] = useState([]);
@@ -35,6 +35,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [finalAmount, setFinalAmount] = useState(0);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
+  const [headerComp, setHeaderComp] = useState(null);
 
   const organizeData = (headerDatas, arr1, arr2) => {
     let totgrosswt = 0;
@@ -216,6 +217,10 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
       let sumofOth = e?.OtherCharges + e?.MiscAmount;
       obj.OtherChargeAmountSum = sumofOth;
       resultArr.push(obj);
+
+      let abc = HeaderComponent(headerDatas?.HeaderNo, headerDatas);
+      console.log(abc);
+      setHeaderComp(abc);
     });
 
     let allTax = taxGenrator(headerDatas, totAmount);
@@ -357,7 +362,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
     };
     setSummaryDetail(obj);
   };
-
+  console.log(headerData);
   // useEffect(() => {
   //   loadData();
   // }, []);
@@ -376,7 +381,10 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className="summary1PrintSum1">
                 <div style={{ width: "1000px" }}>
                   {/* <Header1 data={headerData} /> */}
-                  <Header2  data={headerData}/>
+                  {/* { headerData?.HeaderNo }   */}
+
+                  {/* <Header2 data={headerData}/> */}
+                  {headerComp}
                 </div>
                 {/* <div className="mainheadersum1">
                   <div className="head1sum1">{headerData?.PrintHeadLabel}</div>
@@ -773,7 +781,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 style={{ width: "20%" }}
                               >
                                 {e?.value}
-                                
                               </div>
                             </div>
                           );

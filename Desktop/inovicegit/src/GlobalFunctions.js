@@ -1,5 +1,7 @@
 import axios from "axios";
 import img from "./assets/img/default.jpg";
+import Header1 from "./components/headers/Header1";
+import Header2 from "./components/headers/Header2";
 export const handlePrint = (e) => {
   window.print();
 };
@@ -21,7 +23,6 @@ export const CapitalizeWords = (text) => {
 };
 
 export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
-
   const body = {
     token: token,
     invoiceno: invoiceNo,
@@ -32,7 +33,6 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
   try {
     const response = await axios.post(urls, body);
     return response?.data;
-
   } catch (error) {
     console.error(error);
   }
@@ -94,7 +94,6 @@ export const taxGenrator = (headerData, totalAmount) => {
 
 // }
 
-
 export const NumberWithCommas = (value, val) => {
   const formattedNumber = parseFloat(+value)?.toLocaleString(undefined, {
     minimumFractionDigits: val,
@@ -102,6 +101,26 @@ export const NumberWithCommas = (value, val) => {
   });
 
   return formattedNumber;
-}
+};
 
-export const fixedValues = (value, zeroes) => typeof (value) === "number" ? value.toFixed(zeroes) : (+value)?.toFixed(zeroes);
+export const fixedValues = (value, zeroes) =>
+  typeof value === "number" ? value.toFixed(zeroes) : (+value)?.toFixed(zeroes);
+
+export const HeaderComponent = (headNo, headerData) => {
+  let headerComponent;
+
+  switch (headNo) {
+    case "1":
+      headerComponent = <Header1 data={headerData} />;
+
+      break;
+    case "2":
+      headerComponent = <Header2 data={headerData} />;
+      break;
+
+    default:
+      break;
+  }
+
+  return headerComponent;
+};
