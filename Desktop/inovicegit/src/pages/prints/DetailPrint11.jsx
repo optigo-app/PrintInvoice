@@ -238,7 +238,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             <p className='text-center fw-bold'>{fixedValues(e?.grosswt, 3)}gm Gross</p>
             <p className='text-center pb-1'>Size {e?.Size}</p>
           </div>
-          <div className="diamondStoneDetailPrint11 d-grid pb-4 position-relative">
+          <div className="diamondStoneDetailPrint11 d-grid pad_bt_20semiTotalDetailPrint11 position-relative">
             {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
               return <div className='d-flex border-bottom' key={ind}>
                 <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1 fw-bold'>{ele?.ShapeName}</p></div>
@@ -263,16 +263,15 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className='totalAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center'></p></div>
             </div>
             }
-            <div className='d-flex position-absolute w-100 bottom-0 totalHeightDetailPrint11'>
-              <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1'></p></div>
-              <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1'></p></div>
-              <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1'></p></div>
-              <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1'></p></div>
-              <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='p-1'></p></div>
-              <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center p-1 flex-column'><p className='text-center'></p></div>
-              <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center'></p></div>
-              <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center'></p></div>
-              <div className='totalAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center'></p></div>
+            <div className='d-flex position-absolute w-100 bottom-0 totalHeightDetailPrint11 semiTotalDetailPrint11'>
+              <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1 fw-bold'>Total</p></div>
+              <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1 fw-bold'>No. Of Pieces</p></div>
+              <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1 fw-bold'>20</p></div>
+              <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1 fw-bold'>0.678</p></div>
+              <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='p-1 fw-bold'>Diamond Total</p></div>
+              <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center p-1 flex-column'><p className='text-center fw-bold'>159.21</p></div>
+              <div className='settingTypeTotalDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center'>Setting Total</p></div>
+              <div className='totalAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center'>732</p></div>
             </div>
           </div>
           <div className="goldDetailPrint11 border-end d-grid">
@@ -313,13 +312,16 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
             </div>
             <div className='d-flex position-absolute bottom-0 w-100 min_height_20DetailPrint11'>
-              <div className='col-6 border-end d-flex align-items-center justify-content-end p-1'><p>{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
+              <div className='col-6 border-end d-flex align-items-center justify-content-end p-1'><p className='fw-bold'>{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
               <div className='col-6 d-flex align-items-center justify-content-end p-1'>
-                <p>{e?.MakingAmount}</p>
+                <p className='fw-bold'>{e?.MakingAmount}</p>
               </div>
             </div>
           </div>
-          <div className="totalAmountDetailPrint11 d-flex align-items-center justify-content-end p-1 totalAmountDetailPrint11Jewellery"><p>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+          <div className="d-grid pad_bt_20DetailPrint11 position-relative">
+            <div className="totalAmountDetailPrint11 d-flex align-items-center justify-content-end p-1 totalAmountDetailPrint11Jewellery border-bottom"><p>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+            <div className="totalAmountDetailPrint11 d-flex align-items-center justify-content-end p-1 totalAmountDetailPrint11Jewellery position-absolute bottom-0 w-100 min_height_20DetailPrint11"><p className='fw-bold'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+          </div>
         </div>
       })}
       {/* total */}

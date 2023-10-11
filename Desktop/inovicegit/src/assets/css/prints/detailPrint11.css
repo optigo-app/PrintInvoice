@@ -159,6 +159,16 @@
     min-width: 67px;
 }
 
+.pad_bt_20semiTotalDetailPrint11 {
+    padding-bottom: 24px;
+}
+
+.semiTotalDetailPrint11 * {
+    font-size: 8px;
+}
+
+
+
 .totalHeightDetailPrint11 {
     height: 24px;
 }
