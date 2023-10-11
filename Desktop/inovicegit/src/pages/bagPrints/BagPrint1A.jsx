@@ -415,8 +415,8 @@ function BagPrint1A({ queries, headers }) {
                                                                         <div className='print1A_header_bagInfoPart1'>
                                                                             <div className='print1AJobNo' style={{ fontSize: "12px", lineHeight: "8px" }}>BAG {e?.data?.rd[0]?.serialjobno}</div>
                                                                             <div className='print1AJobNo' style={{ lineHeight: "8px" }}>{e?.data?.rd[0]?.Designcode?.toUpperCase()}</div>
-                                                                            <div className='print1AJobNo' style={{ lineHeight: "8px" }}>{e?.data?.rd[0]?.MetalType?.toUpperCase()}</div>
-                                                                            <div className='print1AJobNo' style={{ paddingRight: "3px", lineHeight: "8px" }}>{e?.data?.rd[0]?.MetalColorCo?.toUpperCase()}</div>
+                                                                            <div className='print1AJobNo' style={{ lineHeight: "8px" }}>{e?.data?.rd[0]?.MetalType?.toUpperCase() + " " +e?.data?.rd[0]?.MetalColorCo?.toUpperCase()} </div>
+                                                                            {/* <div className='print1AJobNo' style={{ paddingRight: "3px", lineHeight: "8px" }}></div> */}
                                                                         </div>
                                                                         <div className='print1AMaterial'>
                                                                             <div className='print1AMaterialCG'>
@@ -431,8 +431,8 @@ function BagPrint1A({ queries, headers }) {
                                                                                 <div className='g1A'>SIZE</div>
                                                                                 <div className='custHead1A'>{e?.data?.rd[0]?.Size?.toUpperCase()}</div>
                                                                                 <div className='custCode1A'>{e?.data?.rd[0]?.MetalWeight?.toFixed(3)}</div>
-                                                                                <div className='cst1A'>{e?.additional?.dia?.ActualPcs}/{e?.additional?.dia?.ActualWeight?.toFixed(3)}</div>
-                                                                                <div className='cst1A' style={{ borderRight: "0px" }}>{e?.additional?.clr?.ActualPcs}/{e?.additional?.clr?.ActualWeight?.toFixed(3)}</div></div>
+                                                                                <div className='cst1A'>{e?.additional?.dia?.ActualPcs}/{e?.additional?.dia?.ActualWeight?.toFixed(2)}</div>
+                                                                                <div className='cst1A' style={{ borderRight: "0px" }}>{e?.additional?.clr?.ActualPcs}/{e?.additional?.clr?.ActualWeight?.toFixed(2)}</div></div>
                                                                             <div className='print1AMaterialCG'>
                                                                                 <div className='g1A' style={{ width: "37px" }}>PO</div>
                                                                                 <div className='custHead1A' style={{ "width": "100px" }}>{e?.data?.rd[0]?.PO?.toUpperCase()}</div>
@@ -483,8 +483,8 @@ function BagPrint1A({ queries, headers }) {
                                                                         <div className='print1AMidHead'>
                                                                             <div className='print1ARM' style={{ width: "104px" }}><b>RM CODE</b></div>
                                                                             <div className='sizename1A' style={{ display: "flex", justifyContent: "center", fontSize: "14px", width: "69px" }}><b>RM SIZE</b></div>
-                                                                            <div className='actual1Aflex'><div className='whA1A'><b>ACTUAL</b></div><div className='child1A'><p className='pcswtSet1A'><b>PCS</b></p><p style={{ fontSize: "12px" }}><b>WT</b></p></div></div>
-                                                                            <div className='actual1Aflex' style={{ borderRight: "0px" }}><div className='whA1A'><b>ISSUE</b></div><div className='child1A'><p className='pcswtSet1A'><b>PCS</b></p><p style={{ fontSize: "12px" }}><b>WT</b></p></div></div>
+                                                                            <div className='actual1Aflex' style={{ width:"70px"}}><div className='whA1A' style={{ width:"70px"}}><b>ACTUAL</b></div><div className='child1A' style={{ width:"70px"}}><p className='pcswtSet1A'><b>PCS</b></p><p style={{ fontSize: "12px" }}><b>WT</b></p></div></div>
+                                                                            <div className='actual1Aflex' style={{ borderRight: "0px", width:"55px" }}><div className='whA1A' style={{width:"57px"}}><b>ISSUE</b></div><div className='child1A' style={{width:"57px"}}><p className='pcswtSet1A'><b>PCS</b></p><p style={{ fontSize: "12px" }}><b>WT</b></p></div></div>
                                                                         </div>
 
                                                                         {
@@ -504,12 +504,12 @@ function BagPrint1A({ queries, headers }) {
                                                                                                     {
                                                                                                         (e?.Shapename === "TOTAL") ?
                                                                                                             <div className='print1AMidBody' key={i}>
-                                                                                                                <div className='print1ARM RMW' style={{ fontWeight: "bold", fontSize: "10.7px", display: "flex", justifyContent: "flex-start" }}>{e?.Shapename?.toUpperCase()}</div>
-                                                                                                                <div className='sizename1A' style={{ fontSize: "10.7px" }}>{(((e?.Sizename) && (e?.Sizename !== "")) && (e?.Sizename)?.toUpperCase()?.slice(0, 10)) ?? ''}</div>
+                                                                                                                <div className='print1ARM RMW' style={{ fontWeight: "bold", fontSize: "10.5px", display: "flex", justifyContent: "center" }}>{e?.Shapename?.toUpperCase()}</div>
+                                                                                                                <div className='sizename1A' style={{ fontSize: "10.5px" }}>{(((e?.Sizename) && (e?.Sizename !== "")) && (e?.Sizename)?.toUpperCase()?.slice(0, 10)) ?? ''}</div>
                                                                                                                 <div className='pcswt1A'>
                                                                                                                     <div className='actualPcsWt'>
                                                                                                                         <div className='pcs1A' style={{ fontWeight: "bold", fontSize: "10.5px", display: "flex", justifyContent: "flex-end", lineHeight: "7px", paddingRight: "2px" }}>{e?.ActualPcs}</div>
-                                                                                                                        <div className='pcs1A' style={{ borderRight: "0px", width: "38px", fontWeight: "bold", lineHeight: "8px", fontSize: "10.5px", display: "flex", justifyContent: "flex-end", paddingRight: "1px" }}>{e?.ActualWeight?.toFixed(3)}</div>
+                                                                                                                        <div className='pcs1A' style={{ borderRight: "0px", width: "38px", fontWeight: "bold", lineHeight: "8px", fontSize: "10.5px", display: "flex", justifyContent: "flex-end", paddingRight: "0.5px" }}>{e?.ActualWeight?.toFixed(2)}</div>
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                                 <div className=''>
@@ -524,12 +524,12 @@ function BagPrint1A({ queries, headers }) {
                                                                                                                     e?.MasterManagement_DiamondStoneTypeid === 5 ? <div key={i}>
                                                                                                                         <div className='print1AMidBody' key={i}>
 
-                                                                                                                            <div className='print1ARM RMW5' style={{ fontSize: "10.7px", lineHeight: "7px" }}>{e?.LimitedShapeQualityColorCode?.toUpperCase() + " " + e?.Quality?.toUpperCase() + " " + e?.ColorName?.toUpperCase()}</div>
+                                                                                                                            <div className='print1ARM' style={{ fontSize: "10.5px", lineHeight: "7px", width:"174px" }}>{e?.LimitedShapeQualityColorCode?.toUpperCase() + " " + e?.Quality?.toUpperCase() + " " + e?.ColorName?.toUpperCase()}</div>
 
                                                                                                                             <div className='pcswt1A'>
                                                                                                                                 <div className='actualPcsWt'>
-                                                                                                                                    <div className='pcs1A' style={{ fontSize: "10.7px", justifyContent: "flex-end", paddingRight: "2px" }}>{e?.ActualPcs}</div>
-                                                                                                                                    <div className='pcs1A' style={{ borderRight: "0px", width: "38px", lineHeight: "8px", fontSize: "10.7px", justifyContent: "flex-end", paddingRight: "2px" }}>{e?.ActualWeight?.toFixed(3)}</div>
+                                                                                                                                    <div className='pcs1A' style={{ fontSize: "10.5px", justifyContent: "flex-end", paddingRight: "2px" }}>{e?.ActualPcs}</div>
+                                                                                                                                    <div className='pcs1A' style={{ borderRight: "0px", width: "38px", lineHeight: "8px", fontSize: "10.5px", justifyContent: "flex-end", paddingRight: "2px" }}>{e?.ActualWeight?.toFixed(2)}</div>
                                                                                                                                 </div>
                                                                                                                             </div>
                                                                                                                             <div className=''>
@@ -540,13 +540,13 @@ function BagPrint1A({ queries, headers }) {
                                                                                                                         </div>
                                                                                                                     </div> : <div key={i}>
                                                                                                                         <div className='print1AMidBody' >
-
-                                                                                                                            <div className='print1ARM RMW' style={{ fontSize: "10.7px" }}>{e?.LimitedShapeQualityColorCode?.toUpperCase()}</div>
-                                                                                                                            <div className='sizename1A' style={{ fontSize: "10.7px", justifyContent: "flex-start", paddingRight: "2px" }}>{(((e?.Sizename) && (e?.Sizename !== "")) && e?.Sizename?.toUpperCase()?.slice(0, 10)) ?? ''}</div>
+                                                                                                                    
+                                                                                                                            <div className='print1ARM RMW' style={{ fontSize: "10.5px" }}>{e?.LimitedShapeQualityColorCode?.toUpperCase()}</div>
+                                                                                                                            <div className='sizename1A' style={{ fontSize: "10.5px", justifyContent: "flex-start", paddingRight: "2px" }}>{(((e?.Sizename) && (e?.Sizename !== "")) && e?.Sizename?.toUpperCase()?.slice(0, 12)) ?? ''}</div>
                                                                                                                             <div className='pcswt1A'>
                                                                                                                                 <div className='actualPcsWt'>
-                                                                                                                                    <div className='pcs1A' style={{ fontSize: "10.7px", justifyContent: "flex-end", paddingRight: "2px" }}>{e?.ActualPcs}</div>
-                                                                                                                                    <div className='pcs1A' style={{ borderRight: "0px", width: "38px", lineHeight: "8px", fontSize: "10.7px", justifyContent: "flex-end", paddingRight: "2px" }}>{e?.ActualWeight?.toFixed(3)}</div>
+                                                                                                                                    <div className='pcs1A' style={{ fontSize: "10.5px", justifyContent: "flex-end", paddingRight: "2px" }}>{e?.ActualPcs}</div>
+                                                                                                                                    <div className='pcs1A' style={{ borderRight: "0px", width: "38px", lineHeight: "8px", fontSize: "10.5px", justifyContent: "flex-end", paddingRight: "0.5px" }}>{e?.ActualWeight?.toFixed(2)}</div>
                                                                                                                                 </div>
                                                                                                                             </div>
                                                                                                                             <div className=''>
@@ -625,7 +625,7 @@ function BagPrint1A({ queries, headers }) {
                                                                         }
 
                                                                     </div>
-                                                                    <div style={{ fontSize: "14px", paddingLeft: "2px", paddingTop: "2px", lineHeight: "14px", fontSize:"12px" }}><b>INSTRUCTION:</b><span style={{ color: "red" }}>{(e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction).length > 0 ? ((e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction)?.slice(0, 96) == (null || 'null') ? '' : (e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction)?.toUpperCase()?.slice(0, 88)) : ''}</span></div>
+                                                                    <div style={{ fontSize: "14px", paddingLeft: "2px", paddingTop: "2px", lineHeight: "14px", fontSize:"12px" }}><b>INSTRUCTION:</b><span style={{ color: "red" }}>{(e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction).length > 0 ? ((e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction)?.slice(0, 96) == (null || 'null') ? '' : (e?.data?.rd[0]?.officeuse + " " + e?.data?.rd[0]?.custInstruction + " " + e?.data?.rd[0]?.ProductInstruction)?.toUpperCase()?.slice(0, 88)) : ''}</span></div>
                                                                 </div>
                                                                 <div className='barcodeSetPrint1A' style={{ height: "285px", marginTop: "3px" }}>
                                                                     <div className='barcodeprint1A'>

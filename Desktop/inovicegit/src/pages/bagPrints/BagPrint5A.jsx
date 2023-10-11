@@ -247,7 +247,8 @@ const BagPrint5A = ({ queries, headers }) => {
                                                                                 <div className='head5Ainfo'>
                                                                                     <div className='info5Amid'><p className='f5A diffColor' >CUST.</p><p className='f5A'>{e?.data?.rd[0]?.CustomerCode}</p></div>
                                                                                     <div className='info5Amid'><p className='f5A diffColor' >ORD. DT.</p><p className='f5A'>{e?.data?.rd[0]?.orderDatef ?? ''}</p></div>
-                                                                                    <div className='info5Aend'><p className='f5A diffColor'>DEL. DT.</p><p className='f5A'>{e?.data?.rd[0]?.promiseDatef ?? ''}</p></div>
+                                                                                    {/* <div className='info5Aend'><p className='f5A diffColor'>DEL. DT.</p><p className='f5A'>{e?.data?.rd[0]?.promiseDatef ?? ''}</p></div> */}
+                                                                                    <div className='info5Aend'><p className='f5A diffColor'>DEL. DT.</p><p className='f5A'></p></div>
                                                                                     <div className='info5Alast'><p className='f5A diffColor' style={{ borderRight: "0px" }}>SIZE</p><p className='f5A' style={{ borderRight: "0px" }}>{e?.data?.rd[0]?.Size}</p></div>
                                                                                 </div>
                                                                             </div>
@@ -313,7 +314,7 @@ const BagPrint5A = ({ queries, headers }) => {
                                                                         </div>
                                                                         <div className='footer5A imp5A'>
                                                                             <p className='footer5AIns'> <p className='footer5AIns' style={{ color: "red", paddingLeft: "2px", lineHeight: "11px" }}>CAST INS.{
-                                                                                (((e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction).length > 0)) ? ((e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction == (null || 'null') ? '' : e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction)?.slice(0, 179))
+                                                                                (((e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction).length > 0)) ? ((e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction == (null || 'null') ? '' : e?.data?.rd[0]?.officeuse +" "+ e?.data?.rd[0]?.custInstruction +" "+ e?.data?.rd[0]?.ProductInstruction)?.slice(0, 179))
                                                                                     : ''}</p></p>
                                                                         </div>
                                                                     </div>
@@ -331,7 +332,7 @@ const BagPrint5A = ({ queries, headers }) => {
                                                                                         <div className='diaflex5A'><p className='f5Aval' style={{ height: "33px" }}></p> </div>
                                                                                     </div>
                                                                                     <div className='diaInfo5A'>
-                                                                                        <div className='diaflex5A'><p className='f5Aval'>CS</p><p className='diaVal5A'>{e?.additional?.clr?.ActualPcs}/{e?.additional?.clr?.ActualWeight?.toFixed(3)}</p> </div>
+                                                                                        <div className='diaflex5A'><p className='f5Aval'>CS</p><p className='diaVal5A'>{e?.additional?.clr?.ActualPcs}/{e?.additional?.clr?.ActualWeight?.toFixed(2)}</p> </div>
                                                                                     </div>
                                                                                     <div className='diaInfo5A'>
                                                                                         <div className='diaflex5A'><p className='f5Aval' style={{ height: "33px" }}></p> </div>
@@ -458,7 +459,7 @@ const BagPrint5A = ({ queries, headers }) => {
                                                     </div>
                                                     <div className='mat5ADE'>
                                                         <div className='border5A hw5A'><p className='f5ADuplicate'>LAB</p> <p className='f5ADuplicate'>{e?.data?.rd[0]?.MasterManagement_labname}</p></div>
-                                                        <div className='border5A hw5A'><p className='f5ADuplicate'>SNAP</p> <p className='f5ADuplicate'>{e?.data?.rd[0]?.Management_ProductImageType}</p></div>
+                                                        <div className='border5A hw5A'><p className='f5ADuplicate'>SNAP</p> <p className='f5ADuplicate'>{e?.data?.rd[0]?.MasterManagement_ProductImageType}</p></div>
                                                         <div className='border5A hw5A' style={{ borderRight: "0px" }}><p className='f5ADuplicate'>MAKETYPE</p><p className='f5ADuplicate'>{e?.data?.rd[0]?.mastermanagement_maketypename}</p> </div>
                                                     </div>
                                                     <div className='mat5AD'>

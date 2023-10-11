@@ -86,7 +86,7 @@
 }
 
 #img7A {
-    height: 96px !important;
+    height: 105px !important;
     object-fit: cover;
     width: 80px !important;
     border-bottom: 1px solid #989898;
@@ -116,7 +116,7 @@
 .tableHead7A {
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #989898;
+    /* border-top: 1px solid #989898; */
     /* flex-direction: column; */
 }
 
@@ -162,7 +162,7 @@
 
 .type7A {
     display: flex;
-    width: 269px;
+    width: 353px;
     height: 15px;
 }
 
@@ -172,11 +172,11 @@
 
 .type7B {
     display: flex;
-    width: 83px;
+    width: 130px;
 }
 
 .w7A {
-    width: 90px;
+    width: 74px;
     border-right: 1px solid #989898;
     height: 15px;
     /* border-bottom: 1px solid #989898; */
@@ -184,7 +184,7 @@
     justify-content: flex-start;
     align-items: center;
     /* font-weight: bold; */
-    font-size: 10px;
+    font-size: 9.5px;;
     line-height: 7.5px;
     padding-left: 2px;
 }

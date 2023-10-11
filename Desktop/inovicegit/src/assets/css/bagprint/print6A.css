@@ -17,7 +17,7 @@
 }
 
 .jobInfo6A {
-    width: 349px;
+    width: 345px;
     height: 100px;
     border-bottom: 1px solid #989898;
     display: flex;
@@ -25,7 +25,7 @@
 }
 
 .jobInfo6Aheader {
-    width: 230px;
+    width: 245px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -62,7 +62,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 57.5px;
+    width: 60.5px;
     line-height: 8px;
     font-size: 9.5px;
     /* padding-top: 2px; */
@@ -201,14 +201,14 @@
 }
 
 .imgSize6A {
-    width: 116px;
+    width: 100px;
     /* border-bottom: 1px solid black;
     border-left: 1px solid black; */
     height: 99px;
 }
 
 #img6A {
-    width: 108px !important;
+    width: 100px !important;
     height: 97px !important;
 }
 

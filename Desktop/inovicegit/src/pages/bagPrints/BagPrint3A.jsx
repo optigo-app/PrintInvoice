@@ -253,10 +253,10 @@ const BagPrint3A = ({ queries, headers }) => {
                                     <div className='info3A'>
                                       <p className='info3Acust hw3AD' >Promise</p>
                                       {/* <p className='info3Acust hw3AD' style={{ fontSize: "8.5px" }}>{(e?.data?.rd[0]?.promisedate)?.replace(/\s+/g, "")?.slice(0, 12)}</p> */}
-                                      <p className='info3Acust hw3AD' style={{ fontSize: "8.5px" }}>{(e?.data?.rd[0]?.promiseDatef)?.replace(/\s+/g, "")?.slice(0, 12)}</p>
-                                      <p className='info3Acust hw3Asr' style={{ width: "50px" }}>{e?.data?.rd[0]?.MetalWeight?.toFixed(3)}</p>
-                                      <p className='info3Acust hw3Asr dia3Acss'>{e?.additional?.dia?.ActualPcs}/{e?.additional?.dia?.ActualWeight.toFixed(2)}</p>
-                                      <p className='info3Acust hw3Asr dia3Acss' style={{ borderRight: "0px" }}>{e?.additional?.clr?.ActualPcs}/{e?.additional?.clr?.ActualWeight.toFixed(2)}</p>
+                                      <p className='info3Acust hw3AD' style={{ fontSize: "10px" }}>{(e?.data?.rd[0]?.promiseDatef)?.replace(/\s+/g, "")?.slice(0, 12)}</p>
+                                      <p className='info3Acust hw3Asr' style={{ width: "50px", fontSize:"10px" }}>{e?.data?.rd[0]?.MetalWeight?.toFixed(3)}</p>
+                                      <p className='info3Acust hw3Asr dia3Acss' style={{fontSize:"10px"}}>{e?.additional?.dia?.ActualPcs}/{e?.additional?.dia?.ActualWeight.toFixed(2)}</p>
+                                      <p className='info3Acust hw3Asr dia3Acss' style={{ borderRight: "0px", fontSize:"10px" }}>{e?.additional?.clr?.ActualPcs}/{e?.additional?.clr?.ActualWeight.toFixed(2)}</p>
                                     </div>
                                     <div className='info3A' style={{ borderBottom: "0px" }}>
                                       <p className='info3Acust hw3AD' >FG By</p>
@@ -268,7 +268,7 @@ const BagPrint3A = ({ queries, headers }) => {
                                   </div>
                                   <div className='imgBox3A'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img3A" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                 </div>
-                                <div className='Ins3A' style={{ color: "red", display: "flex" }}><p style={{ fontSize: "12px" }}>Instruction :{((e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction)?.length > 0 ? ((e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction) == (null || 'null') ? '' : (e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction))?.slice(0, 115) : '')}</p></div>
+                                <div className='Ins3A' style={{ display: "flex" }}><p style={{ fontSize: "12px", color: "red", }}>Instruction :{((e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction)?.length > 0 ? ((e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction) == (null || 'null') ? '' : (e?.data?.rd[0]?.officeuse + " " + e?.data?.rd[0]?.custInstruction + " " + e?.data?.rd[0]?.ProductInstruction))?.slice(0, 115) : '')}</p></div>
                                 <div className='enteryBarcode3A'>
                                   <div className='enteryBarcode3ADyn'>
                                     <div className='entry3AHead'>
@@ -284,7 +284,7 @@ const BagPrint3A = ({ queries, headers }) => {
                                           <>
                                             <div className='entry3AHead' style={{ fontWeight: "normal", lineHeight: "8px" }} key={i}>
                                               {/* {a.Shapename === "TOTAL" ? <div className='rmcode3a' style={{ width: '109px' }}><b>{a.Shapename}</b></div> : <div className='rmcode3a' style={{ width: '109px' }}>{a.Shapename}</div>} */}
-                                              {a.Shapename === "TOTAL" ? <div className='rmcode3a' style={{ width: '109px', justifyContent: "flex-start" }}><b>{a.Shapename}</b></div> : <div className='rmcode3a code3Acss' style={{ width: '109px' }}>{a?.LimitedShapeQualityColorCode}</div>}
+                                              {a.Shapename === "TOTAL" ? <div className='rmcode3a' style={{ width: '109px', justifyContent:"flex-start" }}><b>{a.Shapename}</b></div> : <div className='rmcode3a code3Acss' style={{ width: '109px' }}>{a?.LimitedShapeQualityColorCode}</div>}
                                               <div className='rmcode3a' style={{ width: '78px', justifyContent: "flex-start", paddingLeft: "2px", lineHeight: "8px" }}>{a.Sizename}</div>
                                               {a.Shapename === "TOTAL" ? <div className='rmcode3a' style={{ width: '35px' }}><b>{a.ActualPcs}</b></div> : <div className='rmcode3a' style={{ width: '35px' }}>{a.ActualPcs}</div>}
                                               {a.Shapename === "TOTAL" ? <div className='rmcode3a' style={{ width: '45px' }}><b>{a.ActualWeight.toFixed(3)}</b></div> : <div className='rmcode3a' style={{ width: '45px' }}>{a.ActualWeight.toFixed(3)}</div>}
@@ -382,8 +382,8 @@ const BagPrint3A = ({ queries, headers }) => {
                         </div>
                       }
                       <div className='container_3A'>
-                        <div className='header3A' style={{ height: "103px" }}>
-                          <div className='header3ADesc' style={{ height: "103px" }}>
+                        <div className='header3A' style={{ height: "120px" }}>
+                          <div className='header3ADesc' style={{ height: "120px" }}>
                             <div className='jobno3A' style={{ height: "20px", display: "flex", alignItems: "center" }}><p className='job3Ahead'>{e?.data?.rd[0]?.serialjobno}</p><p className='job3Ahead'>{e?.data?.rd[0]?.Designcode}</p><p className='job3Ahead' style={{ marginRight: "3px" }}>{e?.data?.rd[0]?.MetalType} {e?.data?.rd[0]?.MetalColorCo}</p></div>
                             <div className='write3A'>
                               <div className='prlocqc3A'>PRIORITY</div>
@@ -393,7 +393,8 @@ const BagPrint3A = ({ queries, headers }) => {
                             <div className='write3AD'>
                               <div className='prlocqc3AD'><p>SALERS REP.</p><p><b style={{ lineHeight: "9px" }}>{e?.data?.rd[0]?.SalesrepCode}</b></p></div>
                               <div className='prlocqc3AD'><p>FROSTING</p><p><b style={{ lineHeight: "9px" }}>{e?.data?.rd[0]?.MetalFrosting}</b></p></div>
-                              <div className='prlocqc3AD' style={{ borderRight: "0px", lineHeight: "9px" }}><p>ENAMELING</p><p><b style={{ lineHeight: "9px" }}>{e?.data?.rd[0]?.Enamelling}</b></p></div>
+                              <div className='prlocqc3AD' style={{ borderRight: "0px", lineHeight: "9px" }}><p>ENAMELING</p><p className='d-flex flex-column'>
+                                <b  style={{ lineHeight: "9px", padding:"2px" }}>{e?.data?.rd[0]?.Enamelling?.split(" ")?.[0]}</b><b style={{ lineHeight: "9px", padding:"2px" }}>{e?.data?.rd[0]?.Enamelling?.split(" ")?.[1]}</b></p></div>
                             </div>
                             <div className='write3AE'>
                               <div className='prlocqc3AE'><p>LAB</p><p><b style={{ lineHeight: "9px", fontSize: "10.5px" }}>{e?.data?.rd[0]?.MasterManagement_labname}</b></p></div>
@@ -401,7 +402,7 @@ const BagPrint3A = ({ queries, headers }) => {
                               <div className='prlocqc3AE' style={{ borderRight: "0px", lineHeight: "9px" }}><p>MAKETYPE</p><p><b style={{ lineHeight: "9px" }}>{e?.data?.rd[0]?.mastermanagement_maketypename}</b></p></div>
                             </div>
                           </div>
-                          <div className='imgBox3A' style={{ height: "103px" }}><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img3A" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
+                          <div className='imgBox3A' style={{ height: "120px" }}><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img3A" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                         </div>
                         <div className='enteryBarcode3A'>
                           <div className='enteryBarcode3ADyn'>

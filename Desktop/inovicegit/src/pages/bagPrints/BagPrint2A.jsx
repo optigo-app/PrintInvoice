@@ -352,8 +352,8 @@ function BagPrint2A({ queries, headers }) {
                                                                         <div className='print2A_header_bagInfoPart1'>
                                                                             <div className='print2AJobNo' style={{ fontSize: "15px" }}>{e?.data?.rd[0]?.serialjobno}</div>
                                                                             <div className='print2AJobNo'>{e?.data?.rd[0]?.Designcode?.toUpperCase()}</div>
-                                                                            <div className='print2AJobNo'>{e?.data?.rd[0]?.MetalType?.toUpperCase()}</div>
-                                                                            <div className='print2AJobNo'>{e?.data?.rd[0]?.MetalColorCo?.toUpperCase()}</div>
+                                                                            <div className='print2AJobNo'>{e?.data?.rd[0]?.MetalType?.toUpperCase() +" " +e?.data?.rd[0]?.MetalColorCo?.toUpperCase()}</div>
+                                                                            {/* <div className='print2AJobNo'>{e?.data?.rd[0]?.MetalColorCo?.toUpperCase()}</div> */}
                                                                         </div>
 
                                                                         <div className='print2AMaterial'>
@@ -369,10 +369,10 @@ function BagPrint2A({ queries, headers }) {
                                                                                 <div className='g2A'>SIZE</div>
                                                                                 <div className='custHead2A' style={{ width: "60px" }}>{e?.data?.rd[0]?.Size}</div>
                                                                                 <div className='custCode2A'>{e?.data?.rd[0]?.MetalWeight?.toFixed(3)}</div>
-                                                                                <div className='cst2A'>{e?.additional?.dia?.ActualPcs}/{e?.additional?.dia?.ActualWeight?.toFixed(3)}</div>
-                                                                                <div className='cst2A' style={{ borderRight: "0px" }}>{e?.additional?.clr?.ActualPcs}/{e?.additional?.clr?.ActualWeight?.toFixed(3)}</div></div>
+                                                                                <div className='cst2A'>{e?.additional?.dia?.ActualPcs}/{e?.additional?.dia?.ActualWeight?.toFixed(2)}</div>
+                                                                                <div className='cst2A' style={{ borderRight: "0px" }}>{e?.additional?.clr?.ActualPcs}/{e?.additional?.clr?.ActualWeight?.toFixed(2)}</div></div>
                                                                             <div className='print2AMaterialCG'>
-                                                                                <div className='g2A' style={{ width: "39px" }}>PO</div>
+                                                                                <div className='g2A' style={{ width: "38px" }}>PO</div>
                                                                                 <div className='custHead2A' style={{ "width": "100px" }}>{e?.data?.rd[0]?.PO}</div>
                                                                                 <div className='cst2A'><b>BAG DT</b></div>
                                                                                 <div className='cst2A' style={{ borderRight: "0px" }}>{e?.data?.rd[0]?.orderDatef}</div></div>
@@ -423,7 +423,7 @@ function BagPrint2A({ queries, headers }) {
                                                                         <div className='print2AMidHead'>
                                                                             <div className='print2ARM' style={{ width: "104px" }}><b>RM CODE</b></div>
                                                                             <div className='sizename2A' style={{ display: "flex", justifyContent: "center", fontSize: "14px", width: "69px" }}><b>RM SIZE</b></div>
-                                                                            <div className='actual2Aflex' style={{ borderRight: "1px solid black" }}><div className='whA2A'><b>ACTUAL</b></div><div className='child2A'><p className='pcswtSet2A'><b>PCS</b></p><p style={{ fontSize: "12px", paddingTop: "0px" }}><b>WT</b></p></div></div>
+                                                                            <div className='actual2Aflex' style={{ borderRight: "1px solid black", width:"70px" }}><div className='whA2A' style={{width:"70px"}}><b>ACTUAL</b></div><div className='child2A' style={{width:"70px"}}><p className='pcswtSet2A'><b>PCS</b></p><p style={{ fontSize: "12px", paddingTop: "0px" }}><b>WT</b></p></div></div>
                                                                             <div className='actual2Aflex' style={{ borderRight: "0px" }}><div className='whA2A'><b>ISSUE</b></div><div className='child2A'><p className='pcswtSet2A'><b>PCS</b></p><p style={{ fontSize: "12px", paddingTop: "0px", }}><b>WT</b></p></div></div>
                                                                         </div>
 
@@ -445,12 +445,12 @@ function BagPrint2A({ queries, headers }) {
                                                                                                     {
                                                                                                         (e?.Shapename === "TOTAL") ?
                                                                                                             <div className='print2AMidBody'>
-                                                                                                                <div className='print2ARM RMW2A' style={{ fontWeight: "bold", fontSize: "10px" }}>{e?.Shapename}</div>
+                                                                                                                <div className='print2ARM RMW2A' style={{ fontWeight: "bold", fontSize: "10px", justifyContent:"center" }}>{e?.Shapename}</div>
                                                                                                                 <div className='sizename2A' style={{ fontSize: "10.7px" }}>{(((e?.Sizename) && (e?.Sizename !== "")) && e?.Sizename?.slice(0, 10)) ?? ''}</div>
                                                                                                                 <div className='pcswt2A'>
                                                                                                                     <div className='actualPcsWt2A'>
                                                                                                                         <div className='pcs2A' style={{ fontWeight: "bold", fontSize: "10px", lineHeight: "8px" }}>{e?.ActualPcs}</div>
-                                                                                                                        <div className='pcs2A' style={{ borderRight: "0px", width: "40px", fontWeight: "bold", fontSize: "9.5px", lineHeight: "8px", justifyContent: "flex-end", paddingRight: "1px" }}>{e?.ActualWeight?.toFixed(3)}</div>
+                                                                                                                        <div className='pcs2A' style={{ borderRight: "0px", width: "40px", fontWeight: "bold", fontSize: "9.5px", lineHeight: "8px", justifyContent: "flex-end", paddingRight: "1px" }}>{e?.ActualWeight?.toFixed(2)}</div>
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                                 <div className=''>
@@ -478,11 +478,11 @@ function BagPrint2A({ queries, headers }) {
                                                                                                                         </div> : <div className='print2AMidBody'>
                                                                                                                             {/* <div className='print1ARM RMW' style={{fontSize:"10px"}}>{e.Shapename}</div> */}
                                                                                                                             <div className='print2ARM RMW2A' style={{ fontSize: "10px" }}>{e?.LimitedShapeQualityColorCode?.toUpperCase()}</div>
-                                                                                                                            <div className='sizename2A' style={{ fontSize: "10px" }}>{(((e?.Sizename) && (e?.Sizename !== "")) && e?.Sizename?.slice(0, 10)) ?? ''}</div>
+                                                                                                                            <div className='sizename2A' style={{ fontSize: "10px" }}>{(((e?.Sizename) && (e?.Sizename !== "")) && e?.Sizename?.slice(0, 12)) ?? ''}</div>
                                                                                                                             <div className='pcswt2A'>
                                                                                                                                 <div className='actualPcsWt2A'>
                                                                                                                                     <div className='pcs2A' style={{ fontSize: "10px" }}>{e?.ActualPcs}</div>
-                                                                                                                                    <div className='pcs2A' style={{ borderRight: "0px", width: "40px", fontSize: "10px", lineHeight: "8px", justifyContent: "flex-end", paddingRight: "1px" }}>{e?.ActualWeight?.toFixed(3)}</div>
+                                                                                                                                    <div className='pcs2A' style={{ borderRight: "0px", width: "40px", fontSize: "10px", lineHeight: "8px", justifyContent: "flex-end", paddingRight: "1px" }}>{e?.ActualWeight?.toFixed(2)}</div>
                                                                                                                                 </div>
                                                                                                                             </div>
                                                                                                                             <div className=''>
@@ -563,7 +563,7 @@ function BagPrint2A({ queries, headers }) {
                                                                     </div>
                                                                     {
                                                                         (((e?.data?.rd[0]?.officeuse !== null) && (e?.data?.rd[0]?.officeuse !== "null") && (e?.data?.rd[0]?.officeuse !== undefined) && (e?.data?.rd[0]?.officeuse !== '')) ||
-                                                                            ((e?.data?.rd[0]?.ProductInstruction !== null) && (e?.data?.rd[0]?.ProductInstruction !== "null") && (e?.data?.rd[0]?.ProductInstruction !== undefined) && (e?.data?.rd[0]?.ProductInstruction !== ''))) ? <div style={{ fontSize: "14px", paddingLeft: "2px", paddingTop: "2px", lineHeight: "14px", height: "34px" }}><b>INSTRUCTION:</b><span style={{ color: "red" }}>{(e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction).length > 0 ? ((e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction)?.toUpperCase()?.slice(0, 166) == (null || 'null') ? '' : (e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction)?.slice(0, 95)) : ''}</span></div> : <b>INSTRUCTION:</b>
+                                                                            ((e?.data?.rd[0]?.ProductInstruction !== null) && (e?.data?.rd[0]?.ProductInstruction !== "null") && (e?.data?.rd[0]?.ProductInstruction !== undefined) && (e?.data?.rd[0]?.ProductInstruction !== ''))) ? <div style={{ fontSize: "12px", paddingLeft: "2px", paddingTop: "2px", lineHeight: "14px", height: "34px" }}><b>INSTRUCTION:</b><span style={{ color: "red" }}>{(e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction).length > 0 ? ((e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction)?.toUpperCase()?.slice(0, 166) == (null || 'null') ? '' : (e.data.rd[0].officeuse + " " + e?.data?.rd[0]?.custInstruction + " " + e?.data?.rd[0]?.ProductInstruction)?.slice(0, 95)) : ''}</span></div> : <b>INSTRUCTION:</b>
                                                                     }
                                                                     {/* <div style={{ fontSize: "14px", paddingLeft: "2px", paddingTop: "2px", lineHeight: "14px", height: "34px" }}><b>INSTRUCTION:</b><span style={{ color: "red" }}>{(e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction).length > 0 ? ((e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction)?.toUpperCase()?.slice(0, 166) == (null || 'null') ? '' : (e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction)?.slice(0, 95)) : ''}</span></div> */}
                                                                 </div>
