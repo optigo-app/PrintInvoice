@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import convertor from "number-to-words";
 import "../../assets/css/prints/taxInvoice1.css";
-import { CapitalizeWords, apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
+import { CapitalizeWords, NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { ToWords } from 'to-words';
 
@@ -66,7 +66,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
         json1.forEach((e, i) => {
             arrResult.forEach((ele, ind) => {
                 if (e.SrJobno === ele.jobNo) {
-                    let totalAmount = 0;
+                    // let totalAmount = 0;
                     let arr = [];
                     ele.data.forEach((element, index) => {
                         let obj = { ...element }
@@ -82,7 +82,8 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                             totalobj.diaWt += element.Wt;
                         }
                     });
-                    finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e, totalAmount: totalAmount });
+                    // finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e, totalAmount: totalAmount });
+                    finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e });
                     totalobj.totalOtherAmount += e?.OtherCharges;
                     totalobj.netWeight += e?.NetWt;
                     totalobj.gwt += e?.grosswt;
@@ -148,6 +149,8 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
         }
 
         sendData();
+
+
     }, []);
 
     return (
@@ -245,28 +248,28 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 return <div className={`d-flex ${ind !== e?.data?.length - 1 && `border-bottom`} material_inner_invoice1`} key={ind}>
                                     <div className='min_padding_invoice1 material_invoice_1 border-end justify-content-center'>{ele?.ShapeName}</div>
                                     <div className='min_padding_invoice1 Carat_invoice_1 border-end justify-content-center'>{ind === 0 && ele?.QualityName}</div>
-                                    <div className='min_padding_invoice1 GWT_invoice_1 border-end justify-content-center'>{ind === 0 && e?.mainData?.grosswt}</div>
-                                    <div className='min_padding_invoice1 STONE_invoice_1 border-end justify-content-center'>{ele?.ShapeName !== "GOLD" && ele?.Wt}</div>
-                                    <div className='min_padding_invoice1 NWT_invoice_1 border-end justify-content-center'>{ind === 0 && e?.mainData?.NetWt}</div>
-                                    <div className='min_padding_invoice1 Rate_invoice_1 justify-content-end'>{ele?.MasterManagement_DiamondStoneTypeid === 4 && (ele?.Rate).toFixed(2)}</div>
+                                    <div className='min_padding_invoice1 GWT_invoice_1 border-end justify-content-center'>{ind === 0 && fixedValues(e?.mainData?.grosswt, 3)}</div>
+                                    <div className='min_padding_invoice1 STONE_invoice_1 border-end justify-content-center'>{ele?.ShapeName !== "GOLD" && fixedValues(ele?.Wt, 3)}</div>
+                                    <div className='min_padding_invoice1 NWT_invoice_1 border-end justify-content-center'>{ind === 0 && fixedValues(e?.mainData?.NetWt, 3)}</div>
+                                    <div className='min_padding_invoice1 Rate_invoice_1 justify-content-end'>{ele?.MasterManagement_DiamondStoneTypeid === 4 && NumberWithCommas(ele?.Rate, 2)}</div>
                                 </div>
                             })}
 
                         </div>
-                        <div className='d-flex align-items-center justify-content-center making_invoice1 p-1 border-end'>{e?.mainData?.MakingAmount}</div>
+                        <div className='d-flex align-items-center justify-content-center making_invoice1 p-1 border-end'>{NumberWithCommas(e?.mainData?.MakingAmount, 2)}</div>
                         <div className='others_invoice1  border-end'>
                             <div className="d-grid h-100">
                                 <div className='text-center border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1'>
-                                    {(e?.mainData?.OtherCharges).toFixed(2)}
+                                    {NumberWithCommas(e?.mainData?.OtherCharges, 2)}
                                 </div>
                                 {e?.data.length > 0 && e?.data.map((ele, ind) => {
                                     return <div className={`text-center ${ind !== e?.data.length - 1 && `border-bottom`} material_inner_invoice1 p-1 minHeight20_5_taxInvoice1`} key={ind}>
-                                        {(ele?.materialCharges).toFixed(2)}
+                                        {NumberWithCommas(ele?.materialCharges, 2)}
                                     </div>
                                 })}
                             </div>
                         </div>
-                        <div className='d-flex align-items-center justify-content-end total_invoice1 min_padding_invoice1 border-end border-2 border-black'>{(e?.totalAmount).toFixed(2)}</div>
+                        <div className='d-flex align-items-center justify-content-end total_invoice1 min_padding_invoice1 border-end border-2 border-black'>{NumberWithCommas(+e?.mainData?.TotalAmount, 2)}</div>
                     </div>
                 })}
                 <div className="d-flex headHeightInvoice1 border-bottom print_break_avoid_invoice1 border-2 border-black">
@@ -277,27 +280,31 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className='d-flex material_inner_invoice1 h-100'>
                             <div className='p-1 min_padding_invoice1 material_invoice_1 border-end'></div>
                             <div className='p-1 min_padding_invoice1 Carat_invoice_1 border-end'></div>
-                            <div className='p-1 min_padding_invoice1 GWT_invoice_1 border-end justify-content-center'>{totalAmount?.gwt}</div>
-                            <div className='p-1 min_padding_invoice1 STONE_invoice_1 border-end fw-bold d-block text-center'><p>{totalAmount?.diaWt} Ctw </p><p>{totalAmount?.weightInGram} gm</p></div>
-                            <div className='p-1 NWT_invoice_1 border-end fw-bold d-block align-items-center d-flex justify-content-center'>{(totalAmount?.netWeight)?.toFixed(2)}</div>
+                            <div className='p-1 min_padding_invoice1 GWT_invoice_1 border-end justify-content-center'>{fixedValues(totalAmount?.gwt, 3)}</div>
+                            <div className='p-1 min_padding_invoice1 STONE_invoice_1 border-end fw-bold d-block text-center'><p>{fixedValues(totalAmount?.diaWt, 3)} Ctw </p><p>{fixedValues(totalAmount?.weightInGram, 3)} gm</p></div>
+                            <div className='p-1 NWT_invoice_1 border-end fw-bold d-block align-items-center d-flex justify-content-center'>{fixedValues(totalAmount?.netWeight, 3)}</div>
                             <div className='p-1 min_padding_invoice1 Rate_invoice_1 fw-bold'></div>
                         </div>
                     </div>
                     <div className='p-1 d-flex align-items-center making_invoice1 border-end'></div>
-                    <div className='p-1 d-flex align-items-center others_invoice1 border-end fw-bold justify-content-center'>{totalAmount?.totalOtherAmount}</div>
-                    <div className='p-1 d-flex align-items-center total_invoice1 border-end fw-bold justify-content-end border-2 border-black'>{(totalAmount?.TotalAmount)?.toFixed(2)}</div>
+                    <div className='p-1 d-flex align-items-center others_invoice1 border-end fw-bold justify-content-center'>{NumberWithCommas(totalAmount?.totalOtherAmount, 2)}</div>
+                    <div className='p-1 d-flex align-items-center total_invoice1 border-end fw-bold justify-content-end border-2 border-black'>{NumberWithCommas(totalAmount?.TotalAmount, 2)}</div>
                 </div>
                 <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 border-2 border-black">
                     <div className="oldGoldInvoice1 border-end d-grid">
                         <div className='d-flex p-1 border-bottom'><p>Narration / Remark:</p></div>
-                        <div className='d-flex border-bottom p-1'> <p>Old Gold Purchase Description :</p></div>
+                        <div className='d-flex border-bottom p-1 flex-column'>
+                            <p className='pb-1'>Old Gold Purchase Description :</p>
+                            <p className='fw-bold pb-1'>Total Weight :</p>
+                            <p>Total Amount : {BillPrint_Json?.OldGoldAmount}</p>
+                        </div>
                     </div>
                     <div className="cgst_inovice1 border-end p-1 text-end">
                         <p>Discount</p>
                         <p>Total Amt. before Tax</p>
                         {
                             taxes.length > 0 && taxes?.map((e, i) => {
-                                return <p key={i}>{e?.name} @ {e?.per}</p>
+                                return <p key={i}>{e?.name} @ {fixedValues(e?.per, 2)}</p>
                             })
                         }
                         <p>Total Amt. after Tax</p>
@@ -308,19 +315,19 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <p>Net Bal. Amount</p>
                     </div>
                     <div className="totalSumInvoice1 p-1 text-end">
-                        <p>{totalAmount?.discountAmt}</p>
+                        <p>{NumberWithCommas(totalAmount?.discountAmt, 2)}</p>
                         <p>{(totalAmount?.TotalAmount)?.toFixed(2)}</p>
                         {
                             taxes.length > 0 && taxes?.map((e, i) => {
-                                return <p key={i}>{e?.amount}</p>
+                                return <p key={i}>{NumberWithCommas(e?.amount, 2)}</p>
                             })
                         }
                         <p>{totalAmount?.totalAmountAfterTax}</p>
-                        <p>{BillPrint_Json?.OldGoldAmount !== undefined && (BillPrint_Json?.OldGoldAmount).toFixed(2)}</p>
-                        <p>{BillPrint_Json?.AdvanceAmount !== undefined && (BillPrint_Json?.AdvanceAmount).toFixed(2)}</p>
-                        <p>{BillPrint_Json?.CashReceived !== undefined && (BillPrint_Json?.CashReceived).toFixed(2)}</p>
-                        <p>{BillPrint_Json?.BankReceived !== undefined && (BillPrint_Json?.BankReceived).toFixed(2)}</p>
-                        <p>{totalAmount?.netBalanceAmount !== undefined && (totalAmount?.netBalanceAmount).toFixed(2)}</p>
+                        <p>{BillPrint_Json?.OldGoldAmount !== undefined && NumberWithCommas(BillPrint_Json?.OldGoldAmount, 2)}</p>
+                        <p>{BillPrint_Json?.AdvanceAmount !== undefined && NumberWithCommas(BillPrint_Json?.AdvanceAmount, 2)}</p>
+                        <p>{BillPrint_Json?.CashReceived !== undefined && NumberWithCommas(BillPrint_Json?.CashReceived, 2)}</p>
+                        <p>{BillPrint_Json?.BankReceived !== undefined && NumberWithCommas(BillPrint_Json?.BankReceived, 2)}</p>
+                        <p>{totalAmount?.netBalanceAmount !== undefined && NumberWithCommas(totalAmount?.netBalanceAmount, 2)}</p>
                     </div>
                 </div>
                 <div className="d-flex border-start border-end border-bottom border-2 border-black print_break_avoid_invoice1">
@@ -332,7 +339,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         GRAND TOTAL
                     </div>
                     <div className="p-1 d-flex align-items-center justify-content-end totalTaxNumberinvoice1 fw-bold">
-                        ₹ {totalAmount?.netBalanceAmount !== undefined && (totalAmount?.netBalanceAmount).toFixed(2)}
+                        ₹ {totalAmount?.netBalanceAmount !== undefined && NumberWithCommas(totalAmount?.netBalanceAmount, 2)}
                     </div>
                 </div>
                 <div className="d-flex border-start border-end border-bottom p-1 print_break_avoid_invoice1 border-2 border-black">

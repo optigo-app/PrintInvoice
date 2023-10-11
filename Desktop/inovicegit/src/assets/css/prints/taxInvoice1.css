@@ -30,7 +30,7 @@
     min-width: 63.8px;
 }
 
-.hsn_invoice1{
+.hsn_invoice1 {
     display: grid;
     place-items: center;
 }
@@ -118,39 +118,39 @@
     width: 476.48px;
 }
 
-.cgst_inovice1{
+.cgst_inovice1 {
     width: 160px;
 }
 
-.totalSumInvoice1{
+.totalSumInvoice1 {
     width: 92px;
 }
 
-.totalNumbersinvoice1{
+.totalNumbersinvoice1 {
     width: 580px;
 }
 
-.totalTaxinvoice1{
+.totalTaxinvoice1 {
     width: 160px;
 }
 
-.totalTaxNumberinvoice1{
+.totalTaxNumberinvoice1 {
     width: 92px;
 }
 
-.onlineBankinvoice1{
+.onlineBankinvoice1 {
     width: 301px;
 }
 
-.Signatureinvoice1{
+.Signatureinvoice1 {
     width: 276px;
 }
 
-.Signature2invoice1{
+.Signature2invoice1 {
     width: 260px;
 }
 
-.minHeight20_5_taxInvoice1{
+.minHeight20_5_taxInvoice1 {
     min-height: 14.5px;
     line-height: 50%;
 }
@@ -165,8 +165,10 @@
     align-items: center;
 }
 
-@media print{
-    .table_row_invoice1, .print_break_avoid_invoice1{
+@media print {
+
+    .table_row_invoice1,
+    .print_break_avoid_invoice1 {
         page-break-inside: avoid;
     }
 }

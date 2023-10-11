@@ -383,11 +383,11 @@ function BagPrint1A({ queries, headers }) {
             }, 5000);
         }
     }, [data]);
-    
+
     return (
         <>
             {
-                data.length === 0 ? <Loader /> : <><div className="print_btn" style={{display:"flex", justifyContent:"flex-end", margin:"1rem", marginRight:"2rem"}}><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
+                data.length === 0 ? <Loader /> : <><div className="print_btn" style={{ display: "flex", justifyContent: "flex-end", margin: "1rem", marginRight: "2rem" }}><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
                     Print
                 </button></div>
 
@@ -399,6 +399,7 @@ function BagPrint1A({ queries, headers }) {
                                 indexs > 0 && <div key={indexs} className="mainbag1A" style={{ border: "0px" }}></div>
                             ))
                         }
+                        {console.log(data)}
                         {
                             data.length > 0 && data.map((e, i) => {
 
@@ -625,7 +626,7 @@ function BagPrint1A({ queries, headers }) {
                                                                         }
 
                                                                     </div>
-                                                                    <div style={{ fontSize: "14px", paddingLeft: "2px", paddingTop: "2px", lineHeight: "14px", fontSize:"12px" }}><b>INSTRUCTION:</b><span style={{ color: "red" }}>{(e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction).length > 0 ? ((e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction)?.slice(0, 96) == (null || 'null') ? '' : (e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction)?.toUpperCase()?.slice(0, 88)) : ''}</span></div>
+                                                                    <div style={{ fontSize: "14px", paddingLeft: "2px", paddingTop: "2px", lineHeight: "14px", fontSize: "12px" }}><b>INSTRUCTION:</b><span style={{ color: "red" }}>{(e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction).length > 0 ? ((e.data.rd[0].officeuse + e?.data?.rd[0]?.custInstruction + e.data.rd[0].ProductInstruction)?.slice(0, 96) == (null || 'null') ? '' : (e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.custInstruction + e?.data?.rd[0]?.ProductInstruction)?.toUpperCase()?.slice(0, 88)) : ''}</span></div>
                                                                 </div>
                                                                 <div className='barcodeSetPrint1A' style={{ height: "285px", marginTop: "3px" }}>
                                                                     <div className='barcodeprint1A'>
@@ -687,30 +688,30 @@ function BagPrint1A({ queries, headers }) {
                                                             {
                                                                 Array.from({ length: (15) }, (i) => {
                                                                     return (
-                                                                        
-                                                                            <div className='print1AMidBody' key={i}>
-                                                                                <div className='print1ARM RMW' >{e?.Shapename ?? ''}</div>
-                                                                                <div className='sizename1A'>{e?.Sizename ?? ''}</div>
-                                                                                <div className='pcswt1A'>
-                                                                                    <div className='actualPcsWt'>
-                                                                                        <div className='pcs1A'>{e?.ActualPcs ?? ''}</div>
-                                                                                        <div className='' style={{ borderRight: "0px", width: "30px" }}>{e?.ActualWeight ?? ''}</div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div className=''>
-                                                                                    <div className=''>
-                                                                                        <div className='bordered-div' style={{
-                                                                                            width: '33px',
-                                                                                            height: '17px',
-                                                                                            
-                                                                                            borderRight: '1px solid',
-                                                                                            borderBottom: '0px solid',
-                                                                                            borderTop: '0px'
-                                                                                        }}></div><div className=''></div>
-                                                                                    </div>
+
+                                                                        <div className='print1AMidBody' key={i}>
+                                                                            <div className='print1ARM RMW' >{e?.Shapename ?? ''}</div>
+                                                                            <div className='sizename1A'>{e?.Sizename ?? ''}</div>
+                                                                            <div className='pcswt1A'>
+                                                                                <div className='actualPcsWt'>
+                                                                                    <div className='pcs1A'>{e?.ActualPcs ?? ''}</div>
+                                                                                    <div className='' style={{ borderRight: "0px", width: "30px" }}>{e?.ActualWeight ?? ''}</div>
                                                                                 </div>
                                                                             </div>
-                                                                        
+                                                                            <div className=''>
+                                                                                <div className=''>
+                                                                                    <div className='bordered-div' style={{
+                                                                                        width: '33px',
+                                                                                        height: '17px',
+
+                                                                                        borderRight: '1px solid',
+                                                                                        borderBottom: '0px solid',
+                                                                                        borderTop: '0px'
+                                                                                    }}></div><div className=''></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
                                                                     );
                                                                 })
                                                             }

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/miscPrint1.css";
-import { apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, fixedValues, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { usePDF } from 'react-to-pdf';
+import { NumberWithCommas } from '../../GlobalFunctions';
 const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
     const [primary, setPrimary] = useState({});
@@ -168,10 +169,8 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                             Customer Name: <span className='fw-bold'> {primary?.CustName}</span>
                         </div>
                         <div className="p-2 text-end ">
-                            <p className=' fw-bold'><span className=' 
-                    fw-normal'>Invoice:</span> {primary?.InvoiceNo}</p>
-                            <p className=' fw-bold'><span className=' 
-                    fw-normal'>Date:</span> {primary?.EntryDate}</p>
+                            <p className=' fw-bold'><span className='fw-normal'>Invoice:</span> {primary?.InvoiceNo}</p>
+                            <p className=' fw-bold'><span className='fw-normal'>Date:</span> {primary?.EntryDate}</p>
                         </div>
                     </div>
                     <div className="d-flex border-bottom border-start border-end">
@@ -205,17 +204,17 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="regNoMiscPrint1 p-1 border-end text-end">{e?.SrJobno}</div>
                             <div className="discriptionMisc1 border-end p-1 height53Misc1"><p className=''>{e?.SubCategoryname}</p></div>
                             <div className="grsWtMisc1 border-end p-1 text-end height53Misc1">
-                                <p className=''>{(e?.grosswt)?.toFixed(3)}</p>
-                                <p className=''>{(e?.NetWt)?.toFixed(3)}</p>
+                                <p className=''>{fixedValues(e?.grosswt, 2)}</p>
+                                <p className=''>{fixedValues(e?.NetWt, 2)}</p>
                             </div>
                             <div>
                                 <div className="d-flex height53Misc1">
                                     {materialNames.length > 0 && materialNames.map((ele, i) => {
                                         const findMaterial = e?.materialMiscs.find(elem => ele?.name === elem?.ShapeName);
                                         return findMaterial ? <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
-                                            <p className='lh-1 '>{(findMaterial?.Wt).toFixed(3)}</p>
-                                            <p className='lh-1 '>{findMaterial?.Pcs}</p>
-                                            <p className='lh-1 '>{findMaterial?.Rate !== 0 && (findMaterial?.Rate).toFixed(3)}</p>
+                                            <p className='lh-1 '>{fixedValues(findMaterial?.Wt, 2)}</p>
+                                            <p className='lh-1 '>{NumberWithCommas(findMaterial?.Pcs, 0)}</p>
+                                            <p className='lh-1 '>{findMaterial?.Rate !== 0 && NumberWithCommas(findMaterial?.Rate, 2)}</p>
                                         </div> : <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
                                             <p className='lh-1 '></p>
                                             <p className='lh-1 '></p>
@@ -231,29 +230,29 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     })}
                                 </div>
                             </div>
-                            <div className="lessWtMisc1 border-end p-1 height53Misc1 text-end">{(e?.lessWeight)?.toFixed(3)}</div>
+                            <div className="lessWtMisc1 border-end p-1 height53Misc1 text-end">{fixedValues(e?.lessWeight, 2)}</div>
                             <div className="mperMisc1 border-end p-1 text-center height53Misc1">
-                                <p className='text-end'>{(e?.MetalPriceRatio)?.toFixed(3)}</p>
-                                <p className='text-end'>{(e?.Wastage)?.toFixed(3)}</p>
+                                <p className='text-end'>{NumberWithCommas(e?.MetalPriceRatio, 2)}</p>
+                                <p className='text-end'>{NumberWithCommas(e?.Wastage, 2)}</p>
                             </div>
-                            <div className="fineMisc1 border-end p-1 text-end height53Misc1 text-end">{(+(e?.fineWeight)).toFixed(3)}</div>
-                            <div className="AmountMiscPrint1 p-1 text-end height53Misc1 text-end">{(e?.TotalAmount).toFixed(3)}</div>
+                            <div className="fineMisc1 border-end p-1 text-end height53Misc1 text-end">{fixedValues(e?.fineWeight, 2)}</div>
+                            <div className="AmountMiscPrint1 p-1 text-end height53Misc1 text-end">{Math.round(e?.TotalAmount)}</div>
                         </div>
                     })}
                     <div className="d-flex border-bottom border-start border-end">
-                        <div className="regNoMiscPrint1 p-1 border-end text-end">{jsonData?.length}</div>
+                        <div className="regNoMiscPrint1 p-1 border-end text-end">{NumberWithCommas(jsonData?.length, 0)}</div>
                         <div className="discriptionMisc1 border-end p-1 fw-bold height53Misc1">TOTAL</div>
                         <div className="grsWtMisc1 border-end p-1 text-end height53Misc1">
-                            <p className='fw-bold '>{(total?.grsWt)?.toFixed(3)}</p>
-                            <p className='fw-bold '>{(total?.netWt)?.toFixed(3)}</p>
+                            <p className='fw-bold '>{fixedValues(total?.grsWt, 2)}</p>
+                            <p className='fw-bold '>{fixedValues(total?.netWt, 2)}</p>
                         </div>
                         <div>
                             <div className="d-flex height53Misc1">
                                 {materialNames.length > 0 && materialNames.map((ele, i) => {
                                     const findMaterial = totalItems.find(elem => ele?.name === elem?.name);
                                     return findMaterial ? <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
-                                        <p className='lh-1 '>{(findMaterial?.Wt)?.toFixed(3)}</p>
-                                        <p className='lh-1 '>{findMaterial?.Pcs}</p>
+                                        <p className='lh-1 '>{fixedValues(findMaterial?.Wt, 2)}</p>
+                                        <p className='lh-1 '>{NumberWithCommas(findMaterial?.Pcs, 0)}</p>
                                     </div> : <div className="w-100 text-end kundMisc1 border-end p-1" key={i}>
                                         <p className='lh-1 '></p>
                                         <p className='lh-1 '></p>
@@ -267,15 +266,15 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 })}
                             </div>
                         </div>
-                        <div className="lessWtMisc1 border-end p-1 fw-bold height53Misc1 text-end">{total?.lessWeight}</div>
+                        <div className="lessWtMisc1 border-end p-1 fw-bold height53Misc1 text-end">{fixedValues(total?.lessWeight, 2)}</div>
                         <div className="mperMisc1 border-end p-1 text-center height53Misc1">
                             {/* <p className='fw-bold text-end'>{total?.MetalPriceRatio}</p>
                         <p className='fw-bold text-end'>{total?.Wastage}</p> */}
                             <p className='fw-bold text-end'></p>
                             <p className='fw-bold text-end'></p>
                         </div>
-                        <div className="fineMisc1 border-end p-1 text-end height53Misc1"><p className='fw-bold text-end'>{+(total?.fineWeight)?.toFixed(3)}</p></div>
-                        <div className="AmountMiscPrint1 p-1 text-end fw-bold height53Misc1 text-end">{(total?.amount)?.toFixed(3)}</div>
+                        <div className="fineMisc1 border-end p-1 text-end height53Misc1"><p className='fw-bold text-end'>{fixedValues(total?.fineWeight, 2)}</p></div>
+                        <div className="AmountMiscPrint1 p-1 text-end fw-bold height53Misc1 text-end">{Math.round(total?.amount)}</div>
                     </div>
                 </div>
             </> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}

@@ -4,7 +4,7 @@ import { apiCall, handlePrint } from "../../GlobalFunctions";
 import Header from "../../components/Header";
 import { useEffect } from "react";
 
-const TaxInvoice = ({token, invoiceNo, printName, urls, evn}) => {
+const TaxInvoice = ({ token, invoiceNo, printName, urls, evn }) => {
   const [image, setimage] = useState(false);
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
@@ -19,18 +19,55 @@ const TaxInvoice = ({token, invoiceNo, printName, urls, evn}) => {
 
   useEffect(() => {
     const sendData = async () => {
-        try {
-            const data = await apiCall(token, invoiceNo, printName, urls, evn);
-            loadData(data);
-            setLoader(false);
+      try {
+        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        loadData(data);
+        setLoader(false);
 
-        } catch (error) {
-            console.error(error);
-        }
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     sendData();
-}, []);
+    const addPrefixToCSS = (cssString, prefix) => {
+      const lines = cssString.split('\n');
+      let modifiedCSS = '';
+
+      lines.forEach((line) => {
+        // Match and replace class names with the prefix
+        const modifiedLine = line.replace(/\.(\w+)/g, `${prefix}$1`);
+        modifiedCSS += modifiedLine + '\n';
+      });
+
+      // Replace closing curly braces with the prefix
+      modifiedCSS = modifiedCSS.replace(/}/g, `${prefix}}`);
+
+      return modifiedCSS.trim(); // Remove trailing newline
+    };
+    let data =
+      `.tax_invoice_container {
+  background-color: blue
+}
+.headerInvoice1{
+  background-color: orange
+}
+`
+    const prefixedCSS = addPrefixToCSS(data, '${style.');
+    console.log(prefixedCSS);
+
+
+
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = `.tax_invoice_container {
+        background-color: blue
+    }
+    .headerInvoice1{
+        background-color: orange
+    }
+    `;
+    document.head.appendChild(styleElement);
+  }, []);
 
   return (
     <div className={`container pt-5  ${style.tax_invoice_container}`}>
@@ -56,7 +93,7 @@ const TaxInvoice = ({token, invoiceNo, printName, urls, evn}) => {
       <div className="bgGrey p-2">
         <p className="fw-bold text-white fs-4"> DELIVERY  CHALLAN </p>
       </div>
-      <Header data={json0Data}/>
+      <Header data={json0Data} />
     </div>
   );
 };
