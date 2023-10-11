@@ -281,55 +281,82 @@ const BagPrint7A = ({ queries, headers }) => {
                                   <div className='mat7AInfo'>
                                     <div className='pcswt7AH'>
                                       <div className='net7A'><b>Net Wt.</b></div>
-                                      <div className='net7A'>{e?.data?.rd[0]?.netwt}</div>
+                                      <div className='net7A justify-content-end pe-1'>{e?.data?.rd[0]?.netwt}</div>
                                       <div className='net7A'><b>Gr Wt.</b></div>
-                                      <div className='net7A'>{e?.data?.rd[0]?.ActualGrossweight.toFixed(3)}</div>
+                                      <div className='net7A justify-content-end pe-1'>{e?.data?.rd[0]?.ActualGrossweight.toFixed(3)}</div>
                                     </div>
                                     <div className='pcswt7AH'>
                                       <div className='net7A'><b>Dia Pcs:</b></div>
-                                      <div className='net7A'>{e?.additional?.dia?.ActualPcs}</div>
+                                      <div className='net7A justify-content-end pe-1'>{e?.additional?.dia?.ActualPcs}</div>
                                       <div className='net7A'><b>Dia Wt.</b></div>
-                                      <div className='net7A'>{e?.additional?.dia?.ActualWeight.toFixed(3)}</div>
+                                      <div className='net7A justify-content-end pe-1'>{e?.additional?.dia?.ActualWeight.toFixed(3)}</div>
                                     </div>
                                     <div className='pcswt7AH'>
                                       <div className='net7A'><b>Clr Pcs:</b></div>
-                                      <div className='net7A'>{e?.additional?.clr?.ActualPcs}</div>
+                                      <div className='net7A justify-content-end pe-1'>{e?.additional?.clr?.ActualPcs}</div>
                                       <div className='net7A'><b>Clr Wt.</b></div>
-                                      <div className='net7A'>{e?.additional?.clr?.ActualWeight.toFixed(3)}</div>
+                                      <div className='net7A justify-content-end pe-1'>{e?.additional?.clr?.ActualWeight.toFixed(3)}</div>
                                     </div>
                                     <div className='pcswt7AH'>
                                       <div className='net7A'><b>Misc Pcs:</b></div>
-                                      <div className='net7A'>{e?.additional?.misc?.ActualPcs}</div>
+                                      <div className='net7A justify-content-end pe-1'>{e?.additional?.misc?.ActualPcs}</div>
                                       <div className='net7A'><b>Misc Wt.</b></div>
-                                      <div className='net7A'>{e?.additional?.misc?.ActualWeight.toFixed(3)}</div>
+                                      <div className='net7A justify-content-end pe-1'>{e?.additional?.misc?.ActualWeight.toFixed(3)}</div>
                                     </div>
                                   </div>
                                 </div>
-                                <div className='imgSize7A'> <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img7A" alt="" onError={e => handleImageError(e)} loading="eager" onLoad={eve => handleImageLoad(eve, ins, data?.length)} /><div className='borderBottom7A' style={{ fontSize: "11px", lineHeight: "8px", padding: "2px", height: "21px" }}>{e?.data?.rd[0]?.MetalType} {e?.data?.rd[0]?.MetalColorCo}</div></div>
+                                <div className='imgSize7A'> <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img7A" alt="" onError={e => handleImageError(e)} loading="eager" onLoad={eve => handleImageLoad(eve, ins, data?.length)} /><div className='borderBottom7A' style={{ fontSize: "11px", lineHeight: "9px", padding: "2px", height: "21px" }}>{e?.data?.rd[0]?.MetalType} {e?.data?.rd[0]?.MetalColorCo}</div></div>
                               </div>
                               <div className='main7A'>
                                 <div className='main7AEntry'>
                                   <div style={{ height: "13px" }}></div>
                                   <div className='divide7A'>
                                     <div className='tableHead7A'>
-                                      <div className='type7A'><p className='w7A'><b>Type</b></p><p className='w7A'><b>Purity</b></p><p className='w7A'><b>Color</b></p></div>
+                                      <div className='type7A' style={{borderBottom:"1px solid #989898", borderTop:"1px solid #989898"}}>
+                                        <p className='w7A' style={{width:"74px"}}><b>Type</b></p>
+                                        <p className='w7A' style={{width:"61px"}}><b>Purity</b></p>
+                                        <p className='w7A' style={{width:"61px"}}><b>Color</b></p>
+                                        <p className='w7A' style={{width:"74px"}}><b>Size</b></p>
+                                        <p className='w7A' style={{width:"41px"}}><b>Pcs</b></p>
+                                        <p className='w7A' style={{width:"41px"}}><b>Wt</b></p>
+                                        </div>
                                     </div>
-                                    <div className='tableHead7A'>
-                                      <div className='type7B'><p className='size7A' style={{ width: "38px" }}>Size</p><p className='size7A'>Pcs</p><p className='size7A' style={{ borderRight: "0px" }}>Wt.</p></div>
-                                    </div>
+                                    {/* <div className='tableHead7A'>
+                                      <div className='type7B'>
+                                        <p className='size7A' style={{ width: "74px" }}>Size</p>
+                                        <p className='size7A'>Pcs</p>
+                                        <p className='size7A' style={{ borderRight: "0px" }}>Wt.</p>
+                                        </div>
+                                    </div> */}
                                   </div>
                                   <div className='divide7A'>
                                     <div>
                                       {
                                         ele?.data?.map((a) => {
-
+                                          console.log(a)
                                           return (
                                             <>
                                               {
-                                                a?.Shapename === "TOTAL" ? <div className='tableHead7A' style={{ display: "none" }}>
-                                                  <div className='type7A' ><p className='w7A'>{a?.Shapename}</p><p className='w7A'>{a?.QualityCode}</p><p className='w7A'>{a?.ColorCode}</p></div>
+                                                a?.Shapename === "TOTAL" ? <div className='tableHead7A'>
+                                                  <div className='type7A' style={{borderBottom:"1px solid #989898"}}>
+                                                    <p className='w7A' style={{width:"74px"}}>{a?.Sizename}</p>
+                                                    <p className='w7A' style={{width:"61px"}}>{a?.QualityCode}</p>
+                                                    <p className='w7A' style={{width:"61px"}}>{a?.ColorCode}</p>
+                                                    { a?.MasterManagement_DiamondStoneTypeid === 3 && <p className='w7A fw-bold' style={{width:"74px"}}>D {a?.Shapename}</p>}  
+                                                    { a?.MasterManagement_DiamondStoneTypeid === 4 && <p className='w7A fw-bold' style={{width:"74px"}}>C {a?.Shapename}</p>}  
+                                                    { a?.MasterManagement_DiamondStoneTypeid === 5 && <p className='w7A fw-bold' style={{width:"74px"}}>F {a?.Shapename}</p>}  
+                                                    { a?.MasterManagement_DiamondStoneTypeid === 7 && <p className='w7A fw-bold' style={{width:"74px"}}>M {a?.Shapename}</p>}  
+                                                    <p className='w7A fw-bold justify-content-end' style={{width:"41px", paddingRight:"2px"}}>{a?.ActualPcs}</p>
+                                                    <p className='w7A fw-bold justify-content-end' style={{width:"41px", paddingRight:"2px"}}>{a?.ActualWeight?.toFixed(3)}</p>
+                                                    </div>
                                                 </div> : <div className='tableHead7A'>
-                                                  <div className='type7A' style={{ height: "15px" }} ><p className='w7A'>{a?.Shapename}</p><p className='w7A'>{a?.QualityCode}</p><p className='w7A'>{a?.ColorCode}</p></div>
+                                                  <div className='type7A' style={{ height: "15px", borderBottom:"1px solid #989898" }} ><p className='w7A' style={{width:"74px"}}>{a?.Shapename}</p>
+                                                  <p className='w7A' style={{width:"61px"}}>{a?.Quality}</p>
+                                                  <p className='w7A' style={{width:"61px"}}>{a?.ColorCode}</p>
+                                                  <p className='w7A' style={{width:"74px"}}>{a?.Sizename}</p>
+                                                  <p className='w7A justify-content-end' style={{width:"41px", paddingRight:"2px"}}>{a?.ActualPcs}</p>
+                                                  <p className='w7A justify-content-end' style={{width:"41px", paddingRight:"2px"}}>{a?.ActualWeight?.toFixed(3)}</p>
+                                                  </div>
                                                 </div>
                                               }
 
@@ -346,7 +373,14 @@ const BagPrint7A = ({ queries, headers }) => {
                                               //   <div className='type7A' ><p className='w7A'>{a.Shapename}</p><p className='w7A'>{a.QualityCode}</p><p className='w7A'>{a.ColorCode}</p></div>
                                               // </div> : 
                                               <div className='tableHead7A'>
-                                                <div className='type7A' style={{ height: "15px" }} ><p className='w7A'></p><p className='w7A'></p><p className='w7A'></p></div>
+                                                <div className='type7A' style={{ height: "15px", borderBottom:"1px solid #989898" }} >
+                                                  <p className='w7A' style={{width:"74px"}}></p>
+                                                  <p className='w7A' style={{width:"61px"}}></p>
+                                                  <p className='w7A' style={{width:"61px"}}></p>
+                                                  <p className='w7A' style={{width:"74px"}}></p>
+                                                  <p className='w7A' style={{width:"41px"}}></p>
+                                                  <p className='w7A' style={{width:"41px"}}></p>
+                                                  </div>
                                               </div>
                                             }
 
@@ -368,7 +402,7 @@ const BagPrint7A = ({ queries, headers }) => {
 
                                     </div>
                                     <div className='size7AHeight'>
-                                      {
+                                      {/* {
                                         ele?.data?.map((a) => {
                                           return (
                                             <>
@@ -376,29 +410,29 @@ const BagPrint7A = ({ queries, headers }) => {
                                                 a.Shapename === "TOTAL" ?
                                                   <div className=''>
                                                     {
-                                                      a?.MasterManagement_DiamondStoneTypeid === 3 && <div className='type7B' style={{ height: "20px" }}>
-                                                        <p className='size7A' style={{ width: "40px" }}><b style={{ fontSize: "8.5px" }}>D TOTAL</b></p>
+                                                      a?.MasterManagement_DiamondStoneTypeid === 3 && <div className='type7B' style={{ height: "16px" }}>
+                                                        <p className='size7A' style={{ width: "74px" }}><b style={{ fontSize: "10px" }}>D TOTAL</b></p>
                                                         <p className='size7A'><b style={{ fontSize: "9px" }}>{a.ActualPcs}</b></p>
                                                         <p className='size7A'><b style={{ borderRight: "0px", fontSize: "9px" }}></b></p>
                                                       </div>
                                                     }
                                                     {
-                                                      a?.MasterManagement_DiamondStoneTypeid === 4 && <div className='type7B' style={{ height: "20px" }}>
-                                                        <p className='size7A' style={{ width: "40px" }}><b style={{ fontSize: "8.5px" }}>C TOTAL</b></p>
+                                                      a?.MasterManagement_DiamondStoneTypeid === 4 && <div className='type7B' style={{ height: "16px" }}>
+                                                        <p className='size7A' style={{ width: "74px" }}><b style={{ fontSize: "10px" }}>C TOTAL</b></p>
                                                         <p className='size7A' ><b style={{ fontSize: "9px" }}>{a.ActualPcs}</b></p>
                                                         <p className='size7A' ><b style={{ borderRight: "0px", fontSize: "9px" }}></b></p>
                                                       </div>
                                                     }
                                                     {
-                                                      a?.MasterManagement_DiamondStoneTypeid === 5 && <div className='type7B' style={{ height: "20px" }}>
-                                                        <p className='size7A' style={{ width: "40px" }}><b style={{ fontSize: "8.5px" }}>F TOTAL</b></p>
+                                                      a?.MasterManagement_DiamondStoneTypeid === 5 && <div className='type7B' style={{ height: "16px" }}>
+                                                        <p className='size7A' style={{ width: "74px" }}><b style={{ fontSize: "10px" }}>F TOTAL</b></p>
                                                         <p className='size7A'><b style={{ fontSize: "9px" }}>{a.ActualPcs}</b></p>
                                                         <p className='size7A' ><b style={{ borderRight: "0px", fontSize: "9px" }}></b></p>
                                                       </div>
                                                     }
                                                     {
-                                                      a?.MasterManagement_DiamondStoneTypeid === 7 && <div className='type7B' style={{ height: "20px" }}>
-                                                        <p className='size7A' style={{ width: "40px" }}><b style={{ fontSize: "8.5px" }}>M TOTAL</b></p>
+                                                      a?.MasterManagement_DiamondStoneTypeid === 7 && <div className='type7B' style={{ height: "16px" }}>
+                                                        <p className='size7A' style={{ width: "74px" }}><b style={{ fontSize: "10px" }}>M TOTAL</b></p>
                                                         <p className='size7A'><b style={{ fontSize: "9px" }}>{a.ActualPcs}</b></p>
                                                         <p className='size7A' ><b style={{ borderRight: "0px solid", fontSize: "9px" }}></b></p>
                                                       </div>
@@ -406,7 +440,10 @@ const BagPrint7A = ({ queries, headers }) => {
 
                                                   </div> :
                                                   <div className=''>
-                                                    <div className='type7B' style={{ height: "20px" }}><p className='size7A' style={{ width: "40px", display: "flex", justifyContent: "flex-start", paddingLeft: "2px" }}>{a.Sizename}</p><p className='size7A'>{a?.ActualPcs}</p><p className='size7A' style={{ borderRight: "0px" }}>{ }</p></div>
+                                                    <div className='type7B' style={{ height: "16px" }}>
+                                                      <p className='size7A' style={{ width: "74px", display: "flex", justifyContent: "flex-start", paddingLeft: "2px", lineHeight:"8px" }}>{a.Sizename}</p>
+                                                      <p className='size7A'>{a?.ActualPcs}</p>
+                                                      <p className='size7A' style={{ borderRight: "0px" }}>{ }</p></div>
                                                   </div>
                                               }
 
@@ -414,7 +451,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                           );
                                         })
 
-                                      }
+                                      } */}
                                     </div>
                                   </div>
                                   <div>

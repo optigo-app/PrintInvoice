@@ -1,8 +1,10 @@
 import React from "react";
 import style from "../../assets/css/headers/header1.module.css";
 const Header1 = ( { data }  ) => {
+  console.log(data);
   return (
     <>
+    
       <div className={style.headline}>{data?.PrintHeadLabel}</div>
       <div className={style.companyDetails}>
         <div className={style.companyhead}>
@@ -22,6 +24,8 @@ const Header1 = ( { data }  ) => {
         </div>
         <div style={{width:"30%"}} className="d-flex justify-content-center align-item-center h-100"><img src={data?.PrintLogo} alt="" className={style.headerImg} /></div>
       </div>
+
+
       <div className={style.custBlock}>
         <div className={style.custDetails}>
           <span className={style.lines}>Bill To,</span>

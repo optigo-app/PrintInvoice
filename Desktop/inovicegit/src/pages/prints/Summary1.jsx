@@ -13,6 +13,7 @@ import convertor from "number-to-words";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 import Header1 from './../../components/headers/Header1';
+import Header2 from "../../components/headers/Header2";
 const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
   const [dynamicList1, setDynamicList1] = useState([]);
@@ -374,7 +375,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
               <div className="summary1PrintSum1">
                 <div style={{ width: "1000px" }}>
-                  <Header1 data={headerData} />
+                  {/* <Header1 data={headerData} /> */}
+                  <Header2  data={headerData}/>
                 </div>
                 {/* <div className="mainheadersum1">
                   <div className="head1sum1">{headerData?.PrintHeadLabel}</div>
