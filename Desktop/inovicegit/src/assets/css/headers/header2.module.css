@@ -21,8 +21,8 @@
     display: flex;
     justify-content: space-between;
     min-height: 12rem;
-    border-top: 1px solid #8e8e8e;
-    border-left: 1px solid #8e8e8e;
+    border-top: 1px solid #dcd3d3;
+    border-left: 1px solid #dcd3d3;
 }
 
 .lines {
@@ -49,7 +49,7 @@
     font-size: 13px;
     line-height: 100%;
     width: 25%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #dcd3d3;
 }
 .companyhead{
     display: flex;

@@ -276,6 +276,18 @@
     object-fit: cover;
 }
 
+.anotherBarcode7A img.barcode_sticker{
+    
+    position: relative;
+    top: 11px !important;
+    right: unset !important;
+    left: 51px !important;
+    transform: translate(0) rotate(0deg) !important;
+    width: 20mm;
+    /* max-width: 20mm !important; */
+    height: 4mm !important;
+    object-fit: cover;
+}
 @media print {
 
 

@@ -123,7 +123,7 @@ function Jobbagsticker3({ queries, headers }) {
                         index > 0 && <div key={index} className="container  ml_5 mb_10"></div>
                     ))}
                     {
-                        data.length > 0 ? <>
+                        data.length > 0 ? 
                             <div className='container_job_bag_sticker_3'>
                                 {
                                     data.map((e, i) => {
@@ -136,7 +136,7 @@ function Jobbagsticker3({ queries, headers }) {
                                                             <h1 className='h1_3' style={{ lineHeight: "28px" }}>{e.data.rd[0].ProductInstruction ?? ''}</h1>
                                                         </div>
                                                     </div>
-                                                    <div className='databarcode_3'>
+                                                    <div className='databarcode_3' style={{position:"relative"}}>
                                                         <div className='data_center_3'>
                                                             <h1 className='h1_3'> {e.data.rd[0].serialjobno}</h1>
                                                             <h1 className='h1_3'> {e.data.rd[0].Designcode}</h1>
@@ -155,7 +155,7 @@ function Jobbagsticker3({ queries, headers }) {
                                     })
                                 }
                             </div>
-                        </> : ''
+                         : ''
                     }
                 </>
             }

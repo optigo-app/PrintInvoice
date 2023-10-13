@@ -215,8 +215,8 @@ const BagPrint11A = ({ queries, headers }) => {
                         {
                             data.length > 0 && data.map((e, i) => {
                                 return (
-                                    <>
-                                        <div className='container11A'>
+                                    
+                                        <div className='container11A' key={i}>
                                             <div className='header11A'>
                                                 <div className='jobInfo11A'>
                                                     <div className='jobRow11A'>
@@ -286,7 +286,7 @@ const BagPrint11A = ({ queries, headers }) => {
                                                                 <div className='sideHead11B'></div>
                                                             </div>
                                                             <div className='tHead11A'>
-                                                                <div className='sideHead11A'>FLC.</div>
+                                                                <div className='sideHead11A'>FLG.</div>
                                                                 <div className='sideHead11B'></div>
                                                                 <div className='sideHead11B'></div>
                                                                 <div className='sideHead11B'></div>
@@ -348,7 +348,7 @@ const BagPrint11A = ({ queries, headers }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </>
+                                    
                                 );
                             })
                         }

@@ -209,7 +209,7 @@ const BagPrint3A = ({ queries, headers }) => {
   return (
     <>
       {
-        data.length === 0 ? <Loader /> : <><div className="print_btn "><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
+        data.length === 0 ? <Loader /> : <React.Fragment><div className="print_btn "><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
           Print
         </button></div>
 
@@ -219,14 +219,14 @@ const BagPrint3A = ({ queries, headers }) => {
                 index > 0 && <div key={index} className="container_3A" style={{ border: "0px" }}></div>
               ))}
               {
-                data.length > 0 && data.map((e, i) => {
+                data?.length > 0 && data?.map((e, ind) => {
                   return (
-                    <>
+                    <React.Fragment key={ind}>
                       {
                         e?.additional?.pages?.length > 0 ? e?.additional?.pages?.map((ele, i) => {
                           return (
-                            <>
-                              <div className='container_3A'>
+                            
+                              <div className='container_3A' key={i}>
                                 <div className='header3A'>
                                   <div className='header3ADesc'>
                                     <div className='jobno3A' style={{ height: "20px", display: "flex", alignItems: "center" }}><p className='job3Ahead'>{e?.data?.rd[0]?.serialjobno}</p><p className='job3Ahead'>{e?.data?.rd[0]?.Designcode}</p><p className='job3Ahead' style={{ marginRight: "3px" }}>{e?.data?.rd[0]?.MetalType} {e?.data?.rd[0]?.MetalColorCo}</p></div>
@@ -281,7 +281,7 @@ const BagPrint3A = ({ queries, headers }) => {
                                       ele?.data.map((a, i) => {
 
                                         return (
-                                          <>
+                                          
                                             <div className='entry3AHead' style={{ fontWeight: "normal", lineHeight: "8px" }} key={i}>
                                               {/* {a.Shapename === "TOTAL" ? <div className='rmcode3a' style={{ width: '109px' }}><b>{a.Shapename}</b></div> : <div className='rmcode3a' style={{ width: '109px' }}>{a.Shapename}</div>} */}
                                               {a.Shapename === "TOTAL" ? <div className='rmcode3a' style={{ width: '109px', justifyContent:"flex-start" }}><b>{a.Shapename}</b></div> : <div className='rmcode3a code3Acss' style={{ width: '109px' }}>{a?.LimitedShapeQualityColorCode}</div>}
@@ -291,7 +291,7 @@ const BagPrint3A = ({ queries, headers }) => {
                                               <div className='rmcode3a' style={{ width: '21px' }}></div>
                                               <div className='rmcode3a' style={{ borderRight: '0px', width: '21px' }}></div>
                                             </div>
-                                          </>
+                                          
                                         );
                                       })
                                     }
@@ -312,7 +312,7 @@ const BagPrint3A = ({ queries, headers }) => {
                                 </div>
                               </div>
 
-                            </>
+                            
                           );
                         }) : <div className='container_3A'>
                           <div className='header3A'>
@@ -430,7 +430,7 @@ const BagPrint3A = ({ queries, headers }) => {
                                 <div>
                                   {
                                     Array.from({ length: 9 }, (_, index) => (
-                                      <div className='entry3AHeadEntry' style={{ fontWeight: "normal" }}>
+                                      <div className='entry3AHeadEntry' key={index} style={{ fontWeight: "normal" }}>
                                         <div className='rmcode3aDE' style={{ width: "52px" }}></div>
                                         <div className='rmcode3aDE' style={{ width: "51px" }}></div>
                                         <div className='rmcode3aDE' style={{ width: "51px" }}></div>
@@ -450,13 +450,13 @@ const BagPrint3A = ({ queries, headers }) => {
                           <div className='barcode3AD'>{(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd[0]?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd[0]?.serialjobno} />}</>}</div>
                         </div>
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })
               }
             </div>
           </div>
-        </>
+        </React.Fragment>
       }
     </>
   );

@@ -337,14 +337,14 @@ function BagPrint2A({ queries, headers }) {
                             index > 0 && <div key={index} className="mainbag2A" style={{border:"0px"}}></div>
                         ))}
                         {
-                            data.length > 0 && data.map((e, i) => {
+                            data.length > 0 && data.map((e, ind) => {
 
                                 return (
-                                    <>
+                                    <React.Fragment key={ind}>
                                         {
                                             e?.additional?.pages?.length > 0 ? e?.additional?.pages?.map((ele, i) => {
                                                 return (
-                                                    <>
+                                                    <React.Fragment key={i}>
                                                         <div className='mainbag2A'>
                                                             <div className='print2AStartPart'>
                                                                 <div className='print2A_header'>
@@ -431,7 +431,7 @@ function BagPrint2A({ queries, headers }) {
                                                                             ele?.data?.map((e, i) => {
 
                                                                                 return (
-                                                                                    <>
+                                                                                    <React.Fragment key={i}>
 
                                                                                         {
                                                                                             ((e?.heading === "DIAMOND DETAIL") || (e?.heading === "COLOR STONE DETAIL") || (e?.heading === "MISC DETAIL") || (e?.heading === "FINDING DETAIL"))
@@ -440,7 +440,7 @@ function BagPrint2A({ queries, headers }) {
                                                                                                     <div className='print2ARM' style={{ width: "300px", borderRight: "0px", display: "flex", justifyContent: "center", alignItems: "center", fontWeight: "bold" }} >{e?.heading}</div>
                                                                                                 </div>
                                                                                                 :
-                                                                                                <>
+                                                                                                <React.Fragment>
 
                                                                                                     {
                                                                                                         (e?.Shapename === "TOTAL") ?
@@ -459,7 +459,7 @@ function BagPrint2A({ queries, headers }) {
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                             </div> :
-                                                                                                            <>
+                                                                                                            <React.Fragment>
                                                                                                                 {
                                                                                                                     (e?.MasterManagement_DiamondStoneTypeid === 5) ?
                                                                                                                         <div className='print2AMidBody'>
@@ -492,23 +492,23 @@ function BagPrint2A({ queries, headers }) {
                                                                                                                             </div>
                                                                                                                         </div>
                                                                                                                 }
-                                                                                                            </>
+                                                                                                            </React.Fragment>
 
                                                                                                     }
-                                                                                                </>
+                                                                                                </React.Fragment>
 
 
 
                                                                                         }
 
-                                                                                    </>
+                                                                                    </React.Fragment>
                                                                                 );
                                                                             })
                                                                         }
                                                                         {
                                                                             Array.from({ length: (ele?.length) }, (i) => {
                                                                                 return (
-                                                                                    <>
+                                                                                    <React.Fragment key={i}>
                                                                                         {
                                                                                             i !== 0 ? <div className='print2AMidBody'>
                                                                                                 <div className='print2ARM RMW2A' >{e.Shapename ?? ''}</div>
@@ -555,7 +555,7 @@ function BagPrint2A({ queries, headers }) {
                                                                                             </div>
                                                                                         }
 
-                                                                                    </>
+                                                                                    </React.Fragment>
                                                                                 );
                                                                             })
                                                                         }
@@ -574,7 +574,7 @@ function BagPrint2A({ queries, headers }) {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </>
+                                                    </React.Fragment>
                                                 );
                                             }) : <div className='mainbag2A'>
                                                 <div className='print2AStartPart'>
@@ -636,7 +636,7 @@ function BagPrint2A({ queries, headers }) {
                                                             {
                                                                 Array.from({ length: (15) }, (i) => {
                                                                     return (
-                                                                        <>
+                                                                        
                                                                             <div className='print2AMidBody' key={i}>
                                                                                 <div className='print2ARM RMW2A' >{e.Shapename ?? ''}</div>
                                                                                 <div className='sizename2A'>{e.Sizename ?? ''}</div>
@@ -659,7 +659,7 @@ function BagPrint2A({ queries, headers }) {
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </>
+                                                                        
                                                                     );
                                                                 })
                                                             }
@@ -677,7 +677,7 @@ function BagPrint2A({ queries, headers }) {
                                             </div>
                                         }
 
-                                    </>
+                                    </React.Fragment>
                                 );
                             })
                         }

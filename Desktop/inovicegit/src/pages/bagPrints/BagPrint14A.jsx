@@ -243,15 +243,15 @@ function BagPrint14A({ queries, headers }) {
                                     let totpcs = 0;
                                     let totwt = 0;
                                     return (
-                                        <>
+                                        <React.Fragment key={i}>
                                             {
-                                                e?.additional?.pages?.length > 0 ? <>
-                                                    {
-                                                        e?.additional?.pages?.map((a) => {
+                                                e?.additional?.pages?.length > 0 ? 
+                                                    
+                                                        e?.additional?.pages?.map((a, index) => {
 
                                                             return (
-                                                                <>
-                                                                    <div className='container_1'>
+                                                                
+                                                                    <div className='container_1' key={index}>
                                                                         <div className='firstpart'>
                                                                             <div className='firstpart_header'>
                                                                                 <div className='firstpart_one'>
@@ -296,7 +296,7 @@ function BagPrint14A({ queries, headers }) {
                                                                                         a?.data?.map((ele, i) => {
 
                                                                                             return (
-                                                                                                <>
+                                                                                                
                                                                                                     <div style={{ display: "flex" }} key={i}>
                                                                                                         <div className='firstpart_one_1'>
                                                                                                             {/* <div className='firstpart_one_chunk workbreak' style={{ fontWeight: ele?.Shapename === 'TOTAL' ? 'bold' : 'normal' }}>{ele?.Shapename}</div> */}
@@ -312,7 +312,7 @@ function BagPrint14A({ queries, headers }) {
                                                                                                             <div className='semi workbreak'></div>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                </>
+                                                                                                
                                                                                             );
                                                                                         })
 
@@ -451,10 +451,10 @@ function BagPrint14A({ queries, headers }) {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </>
+                                                                
                                                             );
                                                         })
-                                                    } </> :
+                                                      :
                                                     <div className='container_1'>
                                                         <div className='firstpart'>
                                                             <div className='firstpart_header'>
@@ -753,7 +753,7 @@ function BagPrint14A({ queries, headers }) {
 
 
 
-                                        </>
+                                        </React.Fragment>
                                     );
                                 })
                             }
