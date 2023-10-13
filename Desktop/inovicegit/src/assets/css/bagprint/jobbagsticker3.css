@@ -23,9 +23,10 @@
 
 .bag_space {
     box-sizing: border-box;
-    width: 130.6mm !important;
+    width: 145.6mm !important;
+    margin: 0 auto;
     margin-top: 3rem;
-    margin-left: 7rem;
+    /* margin-left: 7rem; */
     page-break-after: always;
 }
 
@@ -38,7 +39,7 @@
     display: flex;
     padding: 1rem;
     position: relative;
-    width: 140mm;
+    width: 135mm;
     height: 120.6mm;
 }
 
@@ -80,7 +81,7 @@
     margin: 0 auto;
     object-fit: cover;
     position: relative;
-    right: -55px;
+    right: -130px;
     top: 115px;
     transform: translate(0) rotate(90deg) !important;
     z-index: 1;
@@ -126,7 +127,7 @@
 
 .img_job3 {
     height: 25rem;
-    width: 25rem;
+    width: 20rem;
 }
 
 .d_none_update {

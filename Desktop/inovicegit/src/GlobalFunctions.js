@@ -1,15 +1,20 @@
 import axios from "axios";
 import img from "./assets/img/default.jpg";
+import Footer1 from "./components/footers/Footer1";
 import Header1 from "./components/headers/Header1";
 import Header2 from "./components/headers/Header2";
+
+//print button function for print pop up
 export const handlePrint = (e) => {
   window.print();
 };
 
+//handle image if api image not coming
 export const handleImageError = (e) => {
   e.target.src = img;
 };
 
+//sentence words first char capital function
 export const CapitalizeWords = (text) => {
   const capitalizeFirstLetter = (word) => {
     return word.charAt(0).toUpperCase() + word.slice(1);
@@ -22,6 +27,7 @@ export const CapitalizeWords = (text) => {
   return capitalizedText + " " + "Only";
 };
 
+//global function of api calling
 export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
   const body = {
     token: token,
@@ -37,6 +43,8 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
     console.error(error);
   }
 };
+
+//api response object checking is obj is empty or not
 export function isObjectEmpty(obj) {
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
@@ -45,6 +53,8 @@ export function isObjectEmpty(obj) {
   }
   return true; // If no properties are found, the object is empty
 }
+
+//tax value calculating function taxGenerator
 export const taxGenrator = (headerData, totalAmount) => {
   let blankArr = [];
 
@@ -90,10 +100,7 @@ export const taxGenrator = (headerData, totalAmount) => {
   return blankArr;
 };
 
-// export const apiResponse = () => {
-
-// }
-
+//number with commas function
 export const NumberWithCommas = (value, val) => {
   const formattedNumber = parseFloat(+value)?.toLocaleString(undefined, {
     minimumFractionDigits: val,
@@ -103,9 +110,11 @@ export const NumberWithCommas = (value, val) => {
   return formattedNumber;
 };
 
+//fixedValues
 export const fixedValues = (value, zeroes) =>
   typeof value === "number" ? value.toFixed(zeroes) : (+value)?.toFixed(zeroes);
 
+//call of header
 export const HeaderComponent = (headNo, headerData) => {
   let headerComponent;
 
@@ -119,6 +128,28 @@ export const HeaderComponent = (headNo, headerData) => {
       break;
 
     default:
+      headerComponent = <Header1 data={headerData} />;
+      break;
+  }
+
+  return headerComponent;
+};
+
+//call of footer
+export const FooterComponent = (footerNo, footerData) => {
+  let headerComponent;
+
+  switch (footerNo) {
+    case "1":
+      headerComponent = <Footer1 data={footerData} />;
+
+      break;
+    case "2":
+      headerComponent = <Footer1 data={footerData} />;
+      break;
+
+    default:
+      headerComponent = <Footer1 data={footerData} />;
       break;
   }
 

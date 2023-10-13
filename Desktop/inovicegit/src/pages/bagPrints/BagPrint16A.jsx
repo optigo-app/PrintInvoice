@@ -272,7 +272,7 @@ const BagPrint16A = ({ queries, headers }) => {
                                 data?.map((e, i) => {
                                     if (e?.additional?.chdata?.length === 0) {
                                         return (
-                                            <>
+                                            
                                                 <div className='containerprint16A' key={i}>
                                                     <div className='head16A'>
                                                         <div className='header16A'>
@@ -408,13 +408,13 @@ const BagPrint16A = ({ queries, headers }) => {
                                                         <div className='ins16A b16A' style={{ borderBottom: "0px", height: "25px" }}>CUST INS: {e?.data?.rd[0]?.custInstruction?.slice(0, 100)}</div>
                                                     </div>
                                                 </div>
-                                            </>
+                                            
                                         );
                                     } else {
                                         return e?.additional?.chdata?.length > 0 && e?.additional?.chdata?.map((chunk, indexnmt) => {
 
-                                            return <>
-                                                <div className='containerprint16A' key={indexnmt}>
+                                            return <React.Fragment key={indexnmt}>
+                                                <div className='containerprint16A' >
                                                     <div className='head16A'>
                                                         <div className='header16A'>
                                                             <div className='headJob16A'>
@@ -436,7 +436,7 @@ const BagPrint16A = ({ queries, headers }) => {
                                                                             <div className='prop16A wt16A'><b className='fs16A'>{(e?.data?.rd[0]?.netwt ?? 0).toFixed(3)}</b></div>
                                                                             <div className='prop16A wt16A'><b className='fs16A'>{e?.additional?.dia?.diaPcs === 0 ? 0 : e?.additional?.dia?.diaPcs}</b></div>
                                                                             <div className='prop16A wt16A'><b className='fs16A'>{e?.additional?.clr?.clrPcs === 0 ? 0 : e?.additional?.clr?.clrPcs}</b></div>
-                                                                            <div className='prop16A wt16A' style={{ borderBottom: "0px" }}><b className='fs16A'>QT23755</b></div>
+                                                                            <div className='prop16A wt16A' style={{ borderBottom: "0px" }}><b className='fs16A'>{e?.data?.rd[0]?.Quotation_SKUNo}</b></div>
                                                                         </div>
                                                                         <div className='mate16A'>
                                                                             <div className='prop16A grw16A'><b className='fs16A'>GR WT:</b></div>
@@ -474,7 +474,7 @@ const BagPrint16A = ({ queries, headers }) => {
                                                                 {
                                                                     chunk?.data?.map((e, indexmap) => {
                                                                         return (
-                                                                            <>
+                                                                            
                                                                                 <div className='table16A' key={indexmap}>
                                                                                     <div className='thead16A'>
                                                                                         {e?.Shapename === "TOTAL" ? <div className='mate16AD rmw16Apx'><div className='rmtype16A'><b style={{ fontSize: "9.5px" }}>{e?.Shapename?.slice(0, 15)}</b></div></div> : <div className='mate16AD rmw16Apx'><div className='rmtype16A'>{e?.Shapename?.slice(0, 15)}</div></div>}
@@ -497,7 +497,7 @@ const BagPrint16A = ({ queries, headers }) => {
                                                                                         <div className='mate16AD w16Apx'><div className='rmtype16A '></div></div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </>
+                                                                            
                                                                         );
                                                                     })
                                                                 }
@@ -581,7 +581,7 @@ const BagPrint16A = ({ queries, headers }) => {
                                                         <div className='ins16A b16A' style={{ borderBottom: "0px", height: "25px" }}>CUST INS: {e?.data?.rd[0]?.custInstruction?.slice(0, 100)}</div>
                                                     </div>
                                                 </div>
-                                            </>;
+                                            </React.Fragment>;
                                         });
 
                                     }

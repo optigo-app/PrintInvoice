@@ -568,13 +568,14 @@
 
 import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BarcodeGenerator from '../../components/BarcodeGenerator';
 import Loader from '../../components/LoaderBag';
 import "../../assets/css/bagprint/print15.css";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
+
 
 const BagPrint15A = ({ queries, headers }) => {
     const location = useLocation();
@@ -749,27 +750,27 @@ const BagPrint15A = ({ queries, headers }) => {
     return (
         <>
             {
-                data.length === 0 ? <Loader /> : <><div className="print_btn"><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
+                data.length === 0 ? <Loader /> : 
+                <div>
+                <div className="print_btn"><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
                     Print
                 </button></div>
-
-
-
                     <div className="p15Awrap">
                         {Array.from({ length: queries?.pageStart }, (_, index) => (
                             index > 0 && <div key={index} className="container15Aold" id="main_container" style={{ border: "0px" }}></div>
                         ))}
                         {data?.length > 0 && data.map((e, i) => {
-                            return (<>
+                            return (
+                            <React.Fragment key={i}>
 
                                 {
-                                    e?.additional?.pages?.length > 0 ? e?.additional?.pages.map((a) => {
+                                    e?.additional?.pages?.length > 0 ? e?.additional?.pages.map((a, index) => {
 
                                         let totalPcsofDiamond = 0;
                                         let totalPcsofColorstone = 0;
                                         return (
-                                            <>
-                                                <div className="container15Aold" id="main_container">
+                                            
+                                                <div className="container15Aold" id="main_container" key={index}>
                                                     <div className="heading">
                                                         <h1 style={{ display: "flex", fontSize: "15px" }}>bag : {e?.data?.rd[0]?.CustomerCode} / {e?.data?.rd[0]?.serialjobno}</h1>
                                                         <div className=" barcode15">
@@ -839,8 +840,8 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                         );
                                                                     })
                                                                 }
-                                                                {a?.diachunk?.dia === undefined && <>
-                                                                    {Array.from({ length: (7) }, (i) => {
+                                                                {a?.diachunk?.dia === undefined && 
+                                                                    Array.from({ length: (7) }, (i) => {
                                                                         return (
                                                                             <div style={{ display: "flex" }} key={i}>
                                                                                 <div className="subFirstCell"></div>
@@ -849,7 +850,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                             </div>
                                                                         );
                                                                     })}
-                                                                </>}
+                                                                
                                                             </div>
                                                             <div>
                                                                 {
@@ -891,13 +892,13 @@ const BagPrint15A = ({ queries, headers }) => {
 
                                                                                     <div className="subFirstCell">{s?.Sizename}</div>
                                                                                     <div className="subSecondCell">{s?.ActualPcs}</div>
-                                                                                    <div className="subThirdCell">{s?.ActualWeight}</div>
+                                                                                    <div className="subThirdCell">{s?.ActualWeight?.toFixed(3)}</div>
                                                                                 </div>
                                                                             );
                                                                         })
                                                                     }
-                                                                    {a?.diachunk?.dia === undefined && <>
-                                                                        {Array.from({ length: (5) }, (i) => {
+                                                                    {a?.diachunk?.dia === undefined && 
+                                                                        Array.from({ length: (5) }, (i) => {
                                                                             return (
                                                                                 <div style={{ display: "flex" }} key={i}>
                                                                                     <div className="subFirstCell"></div>
@@ -906,7 +907,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                                 </div>
                                                                             );
                                                                         })}
-                                                                    </>}
+                                                                    
                                                                 </div>
                                                                 <div>
                                                                     {
@@ -938,7 +939,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </>
+                                            
                                         );
                                     }) : <div className="container15Aold" id="main_container">
                                         <div className="heading">
@@ -999,9 +1000,9 @@ const BagPrint15A = ({ queries, headers }) => {
                                                 <div>
                                                     {
                                                         // logic of empty chunks
-                                                        Array.from({ length: (7) }, (i) => {
+                                                        Array.from({ length: (7) }, (is) => {
                                                             return (
-                                                                <div style={{ display: "flex" }} key={i}>
+                                                                <div style={{ display: "flex" }} key={is}>
                                                                     <div className="subFirstCell"></div>
                                                                     <div className="subSecondCell"></div>
                                                                     <div className="subThirdCell"></div>
@@ -1015,16 +1016,16 @@ const BagPrint15A = ({ queries, headers }) => {
                                         <div className="aside">
                                             <div className="imgSize15"><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager" onLoad={eve => handleImageLoad(eve, i, data?.length)} /></div>
                                             <div>
-                                                <div className="sub-aside"> <b>Total : 0 pcs</b></div>
+                                                <div className="sub-aside"> <b>Total : {e?.additional?.dia?.diaPcs} Pcs</b></div>
                                                 <div className="sub-aside"> <b>Type: Colorstone sieve size</b></div>
                                                 <div>
 
                                                     <div>
                                                         {
                                                             // logic of empty chunks
-                                                            Array.from({ length: (5) }, (i) => {
+                                                            Array.from({ length: (5) }, (i5) => {
                                                                 return (
-                                                                    <div style={{ display: "flex" }} key={i}>
+                                                                    <div style={{ display: "flex" }} key={i5}>
                                                                         <div className="subFirstCell"></div>
                                                                         <div className="subSecondCell"></div>
                                                                         <div className="subThirdCell"></div>
@@ -1041,13 +1042,13 @@ const BagPrint15A = ({ queries, headers }) => {
                                                     <div><p style={{ fontSize: "10px", lineHeight: "9px", padding: "1px" }}>Ins.
                                                         {
 
-                                                            e?.data?.rd?.length > 0 ? <>
+                                                            e?.data?.rd?.length > 0 ? <React.Fragment>
                                                                 {
                                                                     (((e?.data?.rd[0]?.officeuse !== null) && (e?.data?.rd[0]?.officeuse !== "null") && (e?.data?.rd[0]?.officeuse !== "") && (e?.data?.rd[0]?.officeuse !== undefined)) &&
                                                                         ((e?.data?.rd[0]?.ProductInstruction !== null) && (e?.data?.rd[0]?.ProductInstruction !== "null") && (e?.data?.rd[0]?.ProductInstruction !== "") && (e?.data?.rd[0]?.ProductInstruction !== undefined)))
                                                                         ? ((e?.data?.rd[0]?.officeuse) + (e?.data?.rd[0]?.ProductInstruction))?.slice(0, 89) : ''
                                                                 }
-                                                            </> : ''
+                                                            </React.Fragment> : ''
                                                         }
                                                     </p></div>
                                                 </div>
@@ -1057,11 +1058,12 @@ const BagPrint15A = ({ queries, headers }) => {
                                 }
 
                         
-                            </>);
+                            </React.Fragment>
+                            );
                         })
                         }
                     </div>
-                </>
+                </div>
             }
         </>
 

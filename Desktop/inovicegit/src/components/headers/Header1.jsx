@@ -1,7 +1,6 @@
 import React from "react";
 import style from "../../assets/css/headers/header1.module.css";
 const Header1 = ( { data }  ) => {
-  console.log(data);
   return (
     <>
     

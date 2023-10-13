@@ -5,7 +5,9 @@
     padding: 0px;
 
 }
-
+.lineH13A{
+    line-height: 6px;
+}
 .container13A {
     width: 350px;
     height: 367px;
