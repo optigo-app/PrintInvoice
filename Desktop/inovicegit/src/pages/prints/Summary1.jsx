@@ -379,14 +379,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
               <div className="summary1PrintSum1">
                 <div style={{ width: "1000px" }}>
-<<<<<<< HEAD
-                  {/* <Header1 data={headerData} /> */}
-                  {/* { headerData?.HeaderNo }   */}
-
-                  {/* <Header2 data={headerData}/> */}
-                  {console.log(headerComp)}
-=======
->>>>>>> 074cdcd97c704723bc4dc5f112e1d77bbced9774
                   {headerComp}
                 </div>
             
