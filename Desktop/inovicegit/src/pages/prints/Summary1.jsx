@@ -396,7 +396,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         ({headerData?.CompanyCountry})
                       </div>
                       <div className="lhhead1sum1">
-                        T {headerData?.CompanyTellNo}{" "}
+                        T {headerData?.CompanyTellNo}
                         {headerData?.CompanyTollFreeNo}
                       </div>
                       <div className="lhhead1sum1">
@@ -415,7 +415,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div className="head3sum1">
                     <div className="invoicehead3sum1">
-                      <b className="binvsum1">INVOICE# :</b>{" "}
+                      <b className="binvsum1">INVOICE# :</b>
                       {headerData?.InvoiceNo}
                     </div>
                     <div className="invoicehead3sum1 d-flex flex-column">
@@ -454,7 +454,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                       {headerData?.customermobileno}
                     </div>
                     <div className="lhhead4sum1">
-                      {headerData?.vat_cst_pan} |{" "}
+                      {headerData?.vat_cst_pan} |
                       {headerData?.Company_CST_STATE}-
                       {headerData?.Company_CST_STATE_No}
                     </div>
@@ -493,16 +493,16 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                                 <div className="lhhead1sum1">
                                   {headerData?.CompanyAddress2}-
-                                  {headerData?.CompanyPinCode},{" "}
+                                  {headerData?.CompanyPinCode},
                                   {headerData?.CompanyState}(
                                   {headerData?.CompanyCountry})
                                 </div>
                                 <div className="lhhead1sum1">
-                                  T {headerData?.CompanyTellNo}{" "}
+                                  T {headerData?.CompanyTellNo}
                                   {headerData?.CompanyTollFreeNo}
                                 </div>
                                 <div className="lhhead1sum1">
-                                  {headerData?.CompanyEmail}{" "}
+                                  {headerData?.CompanyEmail}
                                   {headerData?.CompanyWebsite}
                                 </div>
                               </div>
@@ -572,7 +572,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   dangerouslySetInnerHTML={{
                                     __html: headerData?.Currencysymbol,
                                   }}
-                                ></p>{" "}
+                                ></p>
                                 {NumberWithCommas(e?.TotalAmount, 2)}
                               </div>
                             </div>
@@ -636,7 +636,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 dangerouslySetInnerHTML={{
                                   __html: headerData?.Currencysymbol,
                                 }}
-                              ></p>{" "}
+                              ></p>
                               {/* {e?.TotalAmount?.toFixed(2)} */}
                               {NumberWithCommas(e?.TotalAmount, 2)}
                             </div>
@@ -695,7 +695,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                             dangerouslySetInnerHTML={{
                               __html: headerData?.Currencysymbol,
                             }}
-                          ></p>{" "}
+                          ></p>
                           {/* {TotalAmount?.toFixed(2)} */}
                           {NumberWithCommas(TotalAmount, 2)}
                         </b>
@@ -734,16 +734,16 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="amtwordssum1 px-2">{inWords}</div>
                       <div className="amtwordssum1 wtotsum1 d-flex align-items-center justify-content-end wgtsum1">
                         <div className="d-flex justify-content-end w-50">
-                          Grand Total :{" "}
-                        </div>{" "}
+                          Grand Total :
+                        </div>
                         <div className="d-flex justify-content-end w-50">
-                          {" "}
+                          
                           {/* { headerData?.Currencysymbol} ₹ {finalAmount?.toFixed(2)} */}
                           <p
                             dangerouslySetInnerHTML={{
                               __html: headerData?.Currencysymbol,
                             }}
-                          ></p>{" "}
+                          ></p>
                           {/* {finalAmount?.toFixed(2)} */}
                           {NumberWithCommas(finalAmount, 2)}
                         </div>
@@ -767,8 +767,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 className="summwsum1 fs13sum1"
                                 style={{ width: "20%" }}
                               >
-                                {" "}
-                                :{" "}
+                                
+                                :
                               </div>
                               <div
                                 className="summwsum1 fs13sum1"
@@ -794,8 +794,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 className="summwsum1 fs13sum1"
                                 style={{ width: "20%" }}
                               >
-                                {" "}
-                                :{" "}
+                                
+                                :
                               </div>
                               <div
                                 className="summwsum1 fs13sum1"
@@ -847,8 +847,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 className="summwsum1 fs13sum1"
                                 style={{ width: "20%" }}
                               >
-                                {" "}
-                                :{" "}
+                                
+                                :
                               </div>
                               <div
                                 className="summwsum1 fs13sum1"
@@ -872,7 +872,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     ></div>
                   </div>
                   <div className="remarkSum1">
-                    REMARKS IF ANY :{" "}
+                    REMARKS IF ANY :
                     <p
                       className="remarkValSum1"
                       dangerouslySetInnerHTML={{

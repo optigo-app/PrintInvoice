@@ -248,6 +248,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/companylogo/projectlogo.png" alt="" className='w-25 d-block ms-auto' />
           </div>
         </div>
+        
         {/* address */}
         <div className="d-flex border-start border-end  border-bottom mb-1 recordDetailPrint1">
           <div className="col-4 border-end  p-1">
