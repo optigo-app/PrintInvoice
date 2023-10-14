@@ -24,6 +24,8 @@ import Export from "./prints/Export";
 import ExportPrint1 from "./prints/ExportPrint1";
 import ExportPrint from "./prints/ExportPrint";
 import Summary13 from './prints/Summary13';
+import HallmarkItemWisePrint from './prints/HallmarkItemWisePrint';
+import JewelleryRetailInvoicePrint3 from './prints/JewelleryRetailInvoicePrint3';
 
 
 const AllDesignPrint = () => {
@@ -57,6 +59,7 @@ const AllDesignPrint = () => {
           || atob(printname).toLowerCase() === "item wise print2")
         && <ItemWisePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />
       }
+      {atob(printname).toLowerCase() === "jewellery item wise" && <HallmarkItemWisePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {
         (atob(printname).toLowerCase() === "jewellary invoice print"
           || atob(printname).toLowerCase() === "labour print")
@@ -74,6 +77,8 @@ const AllDesignPrint = () => {
       {atob(printname).toLowerCase() === "export print" && <ExportPrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {atob(printname).toLowerCase() === "export print 1" && <ExportPrint1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {atob(printname).toLowerCase() === "summary 13" && <Summary13 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {atob(printname).toLowerCase() === "jewellery retail invoice c" && <JewelleryRetailInvoicePrint3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      
     </>
   );
 };

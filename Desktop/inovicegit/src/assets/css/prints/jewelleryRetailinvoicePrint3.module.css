@@ -1,0 +1,40 @@
+.jewelelryRetailInvoiceContainer *{
+    font-size: 12px;
+}
+
+.w_20JewerryRetailInvoicePrint{
+    width: 20%;
+}
+
+.srNoJewerryRetailInvoicePrint{
+    width: 5%;
+}
+
+.productJewerryRetailInvoicePrint{
+    width: 25%;
+}
+.materialJewerryRetailInvoicePrint{
+    width: 50%;
+}
+.metalMakingJewerryRetailInvoicePrint{
+    width: 15%;
+}
+.othersJewerryRetailInvoicePrint{
+    width: 15%;
+}
+
+.totalJewerryRetailInvoicePrint{
+    width: 15%;
+}
+
+.wordsJewerryRetailInvoicePrint{
+    width: 64.05%;
+}
+
+.discountJewerryRetailInvoicePrint{
+    width: 35.9%;
+}
+
+.minHeight20RetailinvoicePrint3{
+    min-height: 20px;
+}
