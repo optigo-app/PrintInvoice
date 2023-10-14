@@ -149,7 +149,7 @@
 //                     imagePath = atob(queryParams.imagepath);
 
 
-//                     let img = imagePath + datas.rd[0].ThumbImagePath;
+//                     let img = imagePath + datas.rd.ThumbImagePath;
 
 //                     let arrs = [];
 //                     mainArr.forEach((ee, ii) => {
@@ -239,7 +239,7 @@
 //                                                 <div className="container15A" id="main_container " style={{ border: "2px solid black" }}>
 //                                                     <div>
 //                                                         <div className="head15A">
-//                                                             <div className="center15A"><b style={{ fontSize: "20px" }}>{e?.data?.rd[0]?.CustomerCode} / {e?.data?.rd[0]?.serialjobno}</b></div>
+//                                                             <div className="center15A"><b style={{ fontSize: "20px" }}>{e?.data?.rd?.CustomerCode} / {e?.data?.rd[0]?.serialjobno}</b></div>
 //                                                             <div className="barcode15A">{(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd[0]?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd[0]?.serialjobno} />}</>}</div>
 //                                                         </div>
 //                                                         <div className="heading15A">
@@ -575,6 +575,8 @@ import Loader from '../../components/LoaderBag';
 import "../../assets/css/bagprint/print15.css";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
+import { organizeData } from './../../GlobalFunctions/OrganizeBagPrintData';
+import { GetData } from './../../GlobalFunctions/GetData';
 
 
 const BagPrint15A = ({ queries, headers }) => {
@@ -582,6 +584,8 @@ const BagPrint15A = ({ queries, headers }) => {
     const queryParams = queryString.parse(location?.search);
     //state for chunksize handle
     let jobs = queryParams?.str_srjobno;
+    const parts = jobs.split(",");
+  const resultString = parts.map((part) => `'${part}'`).join(",");
     if (Object.keys(queryParams)?.length !== 0) {
         jobs = jobs.split(",");
     }
@@ -605,29 +609,28 @@ const BagPrint15A = ({ queries, headers }) => {
     // const handleImageError = (e) => {
     //     e.target.src = require('../assets/images/default.jpg');
     // };
-    let chData = [];
-    const originalData = [];
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const responseData = [];
 
-                for (const url in print) {
+                const objs = {
+                    jobno: resultString,
+                    custid: queries.custid,
+                    printname: queries.printname,
+                    appuserid: queries.appuserid,
+                    url: queries.url,
+                    headers: headers,
+                  };
+          
+                  const allDatas = await GetData(objs);
+                  let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+
+                  datas?.map((a) => {
                     let diamond = [];
                     let colorstone = [];
-                    let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries?.custid}`, "BagPrintName": `${queries?.printname}` };
-                    let jsonString = JSON.stringify(p_tag);
-                    let base64String = btoa(jsonString);
-                    let Body = {
-                        "con": `{\"id\":\"\",\"mode\":\"${queries?.printname}\",\"appuserid\":\"${queries?.appuserid}\"}`,
-                        "p": `${base64String}`,
-                        "f": `${queries?.appuserid} ${queries?.printname}`
-                    };
-                    const urls = atob(queries?.url);
-                    const response = await axios.post(urls, Body, { headers: headers });
-                    let datas = JSON.parse(response?.data?.d);
-
                     let length = 0;
                     let clr = {
                         clrPcs: 0,
@@ -644,13 +647,14 @@ const BagPrint15A = ({ queries, headers }) => {
                     let ArrofSevenSize = [];
                     //arr for colorstone
                     let ArrofFiveSize = [];
-                    datas?.rd1?.map((e, i) => {
+                    a?.rd1?.map((e, i) => {
                         if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
                             length++;
                         }
                         if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-                            e.diaclarity = (e?.Quality + " " + e.ColorName);
-                            // diaQuaCol = (e.ColorName +" "+ e?.Quality);
+                            
+                            e.diaclarity = (e?.Quality + " " + e?.ColorName);
+                            
                             diaQuaCol.push(e);
                             dia.diaPcs = dia?.diaPcs + e?.ActualPcs;
                             dia.diaWt = dia?.diaWt + e?.ActualWeight;
@@ -661,41 +665,39 @@ const BagPrint15A = ({ queries, headers }) => {
                         } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
                             misc.miscWt = misc?.miscWt + e?.ActualWeight;
                         }
-                        if (e?.MasterManagement_DiamondStoneTypeid == "3") {
+                        if (e?.MasterManagement_DiamondStoneTypeid === 3) {
                             ArrofSevenSize.push(e);
-                        } else if (e?.MasterManagement_DiamondStoneTypeid == "4") {
+                        } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
                             ArrofFiveSize.push(e);
                         } else {
                             return '';
                         }
                     });
-                    // console.log(diaQuaCol[0]?.diaclarity);
-                    datas?.rd?.map((e, i) => {
-                        if (i == 0) {
-                            e.diaclarity = diaQuaCol[0]?.diaclarity;
-                        }
-                    });
+
+                    //important
+                    a.rd.diaclarity = diaQuaCol[0]?.diaclarity;
+                    
+
+
                     let imagePath = queryParams?.imagepath;
                     imagePath = atob(queryParams?.imagepath);
-                    let img = imagePath + datas?.rd[0]?.ThumbImagePath;
-                    // let diaclarity = (diaQuaCol[0]?.ColorName + diaQuaCol[0]?.Quality);
-                    // console.log("zzzzzzz",(diaQuaCol[0]?.ColorName + diaQuaCol[0]?.Quality));
+                    let img = imagePath + a?.rd?.ThumbImagePath;
+                    
 
-
-                    for (let i = 0; i < ArrofSevenSize.length; i += chunkSize) {
-                        const dia = ArrofSevenSize.slice(i, i + chunkSize);
-                        let len = 7 - (ArrofSevenSize.slice(i, i + chunkSize)).length;
-                        diamond.push({ dia: dia, length: len });
+                    for (let i = 0; i < ArrofSevenSize?.length; i += chunkSize) {
+                        const dia = ArrofSevenSize?.slice(i, i + chunkSize);
+                        let len = 7 - (ArrofSevenSize?.slice(i, i + chunkSize))?.length;
+                        diamond?.push({ dia: dia, length: len });
                     }
-                    for (let i = 0; i < ArrofFiveSize.length; i += sizeofChunk) {
-                        const clr = ArrofFiveSize.slice(i, i + sizeofChunk);
-                        let len = 5 - (ArrofFiveSize.slice(i, i + sizeofChunk)).length;
-                        colorstone.push({ clr: clr, length: len });
+                    for (let i = 0; i < ArrofFiveSize?.length; i += sizeofChunk) {
+                        const clr = ArrofFiveSize?.slice(i, i + sizeofChunk);
+                        let len = 5 - (ArrofFiveSize?.slice(i, i + sizeofChunk))?.length;
+                        colorstone?.push({ clr: clr, length: len });
                     }
                     //new arr for creating how many templates are use, storing objects 
                     let arr1 = [];
                     if (diamond?.length >= colorstone?.length) {
-                        diamond.map((e, i) => {
+                        diamond?.map((e, i) => {
                             let obj = {};
                             obj.diachunk = e;
                             if (colorstone[i] !== undefined) {
@@ -708,7 +710,7 @@ const BagPrint15A = ({ queries, headers }) => {
                         });
                     }
                     else {
-                        colorstone.map((e, i) => {
+                        colorstone?.map((e, i) => {
                             let obj = {};
                             obj.clrchunk = e;
                             if (diamond[i] !== undefined) {
@@ -721,8 +723,120 @@ const BagPrint15A = ({ queries, headers }) => {
                         });
                     }
 
-                    responseData.push({ data: datas, additional: { length: length, clr: clr, dia: dia, img: img, misc: misc, pages: arr1 } });
-                }
+                    responseData.push({ data: a, additional: { length: length, clr: clr, dia: dia, img: img, misc: misc, pages: arr1 } });
+                    
+                  })
+
+                // for (const url in print) {
+                //     let diamond = [];
+                //     let colorstone = [];
+                //     let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries?.custid}`, "BagPrintName": `${queries?.printname}` };
+                //     let jsonString = JSON.stringify(p_tag);
+                //     let base64String = btoa(jsonString);
+                //     let Body = {
+                //         "con": `{\"id\":\"\",\"mode\":\"${queries?.printname}\",\"appuserid\":\"${queries?.appuserid}\"}`,
+                //         "p": `${base64String}`,
+                //         "f": `${queries?.appuserid} ${queries?.printname}`
+                //     };
+                //     const urls = atob(queries?.url);
+                //     const response = await axios.post(urls, Body, { headers: headers });
+                //     let datas = JSON.parse(response?.data?.d);
+
+                //     let length = 0;
+                //     let clr = {
+                //         clrPcs: 0,
+                //         clrWt: 0
+                //     };
+                //     let dia = {
+                //         diaPcs: 0,
+                //         diaWt: 0
+                //     };
+                //     let misc = {
+                //         miscWt: 0
+                //     };
+                //     let diaQuaCol = [];
+                //     let ArrofSevenSize = [];
+                //     //arr for colorstone
+                //     let ArrofFiveSize = [];
+                //     datas?.rd1?.map((e, i) => {
+                //         if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
+                //             length++;
+                //         }
+                //         if (e?.MasterManagement_DiamondStoneTypeid === 3) {
+                //             e.diaclarity = (e?.Quality + " " + e.ColorName);
+                //             // diaQuaCol = (e.ColorName +" "+ e?.Quality);
+                //             diaQuaCol.push(e);
+                //             dia.diaPcs = dia?.diaPcs + e?.ActualPcs;
+                //             dia.diaWt = dia?.diaWt + e?.ActualWeight;
+
+                //         } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
+                //             clr.clrPcs = clr?.clrPcs + e?.ActualPcs;
+                //             clr.clrWt = clr?.clrWt + e?.ActualWeight;
+                //         } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
+                //             misc.miscWt = misc?.miscWt + e?.ActualWeight;
+                //         }
+                //         if (e?.MasterManagement_DiamondStoneTypeid == "3") {
+                //             ArrofSevenSize.push(e);
+                //         } else if (e?.MasterManagement_DiamondStoneTypeid == "4") {
+                //             ArrofFiveSize.push(e);
+                //         } else {
+                //             return '';
+                //         }
+                //     });
+                //     // console.log(diaQuaCol[0]?.diaclarity);
+                //     datas?.rd?.map((e, i) => {
+                //         if (i == 0) {
+                //             e.diaclarity = diaQuaCol[0]?.diaclarity;
+                //         }
+                //     });
+                //     let imagePath = queryParams?.imagepath;
+                //     imagePath = atob(queryParams?.imagepath);
+                //     let img = imagePath + datas?.rd[0]?.ThumbImagePath;
+                //     // let diaclarity = (diaQuaCol[0]?.ColorName + diaQuaCol[0]?.Quality);
+                //     // console.log("zzzzzzz",(diaQuaCol[0]?.ColorName + diaQuaCol[0]?.Quality));
+
+
+                //     for (let i = 0; i < ArrofSevenSize.length; i += chunkSize) {
+                //         const dia = ArrofSevenSize.slice(i, i + chunkSize);
+                //         let len = 7 - (ArrofSevenSize.slice(i, i + chunkSize)).length;
+                //         diamond.push({ dia: dia, length: len });
+                //     }
+                //     for (let i = 0; i < ArrofFiveSize.length; i += sizeofChunk) {
+                //         const clr = ArrofFiveSize.slice(i, i + sizeofChunk);
+                //         let len = 5 - (ArrofFiveSize.slice(i, i + sizeofChunk)).length;
+                //         colorstone.push({ clr: clr, length: len });
+                //     }
+                //     //new arr for creating how many templates are use, storing objects 
+                //     let arr1 = [];
+                //     if (diamond?.length >= colorstone?.length) {
+                //         diamond.map((e, i) => {
+                //             let obj = {};
+                //             obj.diachunk = e;
+                //             if (colorstone[i] !== undefined) {
+                //                 obj.clrchunk = colorstone[i];
+                //             }
+                //             else {
+                //                 obj.clrchunk = { clr: [], length: 5 };
+                //             }
+                //             arr1?.push(obj);
+                //         });
+                //     }
+                //     else {
+                //         colorstone.map((e, i) => {
+                //             let obj = {};
+                //             obj.clrchunk = e;
+                //             if (diamond[i] !== undefined) {
+                //                 obj.diachunk = diamond[i];
+                //             }
+                //             else {
+                //                 obj.diachunk = { dia: [], length: 7 };
+                //             }
+                //             arr1?.push(obj);
+                //         });
+                //     }
+
+                //     responseData.push({ data: datas, additional: { length: length, clr: clr, dia: dia, img: img, misc: misc, pages: arr1 } });
+                // }
                 setData(responseData);
             } catch (error) {
                 console.log(error);
@@ -759,12 +873,12 @@ const BagPrint15A = ({ queries, headers }) => {
                         {Array.from({ length: queries?.pageStart }, (_, index) => (
                             index > 0 && <div key={index} className="container15Aold" id="main_container" style={{ border: "0px" }}></div>
                         ))}
-                        {data?.length > 0 && data.map((e, i) => {
+                        {data?.length > 0 && data?.map((e, i) => {
                             return (
                             <React.Fragment key={i}>
 
                                 {
-                                    e?.additional?.pages?.length > 0 ? e?.additional?.pages.map((a, index) => {
+                                    e?.additional?.pages?.length > 0 ? e?.additional?.pages?.map((a, index) => {
 
                                         let totalPcsofDiamond = 0;
                                         let totalPcsofColorstone = 0;
@@ -772,41 +886,41 @@ const BagPrint15A = ({ queries, headers }) => {
                                             
                                                 <div className="container15Aold" id="main_container" key={index}>
                                                     <div className="heading">
-                                                        <h1 style={{ display: "flex", fontSize: "15px" }}>bag : {e?.data?.rd[0]?.CustomerCode} / {e?.data?.rd[0]?.serialjobno}</h1>
+                                                        <h1 style={{ display: "flex", fontSize: "15px" }}>bag : {e?.data?.rd?.CustomerCode} / {e?.data?.rd?.serialjobno}</h1>
                                                         <div className=" barcode15">
-                                                            {(e?.data?.rd1?.length !== 0 && e?.data?.rd1 !== undefined) && <>{e?.data?.rd[0]?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd[0]?.serialjobno} />}</>}
+                                                            {(e?.data?.rd1?.length !== 0 && e?.data?.rd1 !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno} />}</>}
                                                         </div>
                                                     </div>
                                                     <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                         <div className="firstCell" > <b>DNS type</b></div>
-                                                        <div className="secondCell"> {e?.data?.rd[0]?.category}</div>
+                                                        <div className="secondCell"> {e?.data?.rd?.category}</div>
                                                         <div className="thirdCell"><b>Item count</b></div>
-                                                        <div className="fourthCell"> {e?.data?.rd[0]?.Quantity}</div>
+                                                        <div className="fourthCell"> {e?.data?.rd?.Quantity}</div>
                                                     </div>
                                                     <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                         <div className="firstCell" style={{ "borderTop": "0px" }}> <b>DNS Name</b></div>
-                                                        <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.Designcode}</div>
+                                                        <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.Designcode}</div>
                                                         <div className="thirdCell" style={{ "borderTop": "0px" }}> <b>Priority</b></div>
-                                                        <div className="fourthCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.prioritycode}</div>
+                                                        <div className="fourthCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.prioritycode}</div>
                                                     </div>
                                                     <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                         <div className="firstCell" style={{ "borderTop": "0px" }}> <b>DNS size</b></div>
-                                                        <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.Size}</div>
+                                                        <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.Size}</div>
                                                         <div className="thirdCell" style={{ "width": "199.33px", "borderTop": "0px", "borderRight": "0px" }}> <b>Type: Diamond sieve size</b></div>
                                                     </div>
                                                     <div style={{ display: "flex" }}>
                                                         <div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                                 <div className="firstCell" style={{ "borderTop": "0px" }} > <b>Raw Metal</b></div>
-                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.MetalType} {e?.data?.rd[0]?.MetalColorCo}</div>
+                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.MetalType} {e?.data?.rd?.MetalColorCo}</div>
                                                             </div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                                 <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Metal wt</b></div>
-                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.MetalWeight?.toFixed(3)}</div>
+                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.MetalWeight?.toFixed(3)}</div>
                                                             </div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                                 <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Dia clarity</b></div>
-                                                                <div className="secondCell" style={{ borderTop: "0px", fontSize: e?.data?.rd[0]?.diaclarity?.length > 16 ? "10px" : "12px" }}>{(e?.data?.rd[0]?.diaclarity ?? 'NA')?.slice(0, 32)}</div>
+                                                                <div className="secondCell" style={{ borderTop: "0px", fontSize: e?.data?.rd?.diaclarity?.length > 16 ? "10px" : "12px" }}>{(e?.data?.rd?.diaclarity ?? 'NA')?.slice(0, 32)}</div>
                                                             </div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                                 <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Dia no / wt</b></div>
@@ -818,11 +932,11 @@ const BagPrint15A = ({ queries, headers }) => {
                                                             </div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                                 <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Order date</b></div>
-                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.OrderDate}</div>
+                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.OrderDate}</div>
                                                             </div>
                                                             <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                                 <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Due date</b></div>
-                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.promisedate}</div>
+                                                                <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.promisedate}</div>
                                                             </div>
                                                         </div>
                                                         <div>
@@ -830,9 +944,9 @@ const BagPrint15A = ({ queries, headers }) => {
                                                             <div>
                                                                 {
                                                                     //logic of put data in chunks for diamond 
-                                                                    a?.diachunk?.dia.map((s, i) => {
+                                                                    a?.diachunk?.dia?.map((s, is) => {
                                                                         return (
-                                                                            <div style={{ display: "flex" }} key={i}>
+                                                                            <div style={{ display: "flex" }} key={is}>
                                                                                 <div className="subFirstCell">{s?.Sizename ?? ''}</div>
                                                                                 <div className="subSecondCell">{s?.ActualPcs ?? ''}</div>
                                                                                 <div className="subThirdCell">{s?.ActualWeight?.toFixed(3) ?? ''}</div>
@@ -841,9 +955,9 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                     })
                                                                 }
                                                                 {a?.diachunk?.dia === undefined && 
-                                                                    Array.from({ length: (7) }, (i) => {
+                                                                    Array.from({ length: (7) }, (ia) => {
                                                                         return (
-                                                                            <div style={{ display: "flex" }} key={i}>
+                                                                            <div style={{ display: "flex" }} key={ia}>
                                                                                 <div className="subFirstCell"></div>
                                                                                 <div className="subSecondCell"></div>
                                                                                 <div className="subThirdCell"></div>
@@ -855,9 +969,9 @@ const BagPrint15A = ({ queries, headers }) => {
                                                             <div>
                                                                 {
                                                                     // logic of empty chunks
-                                                                    Array.from({ length: (a?.diachunk?.length) }, (i) => {
+                                                                    Array.from({ length: (a?.diachunk?.length) }, (il) => {
                                                                         return (
-                                                                            <div style={{ display: "flex" }} key={i}>
+                                                                            <div style={{ display: "flex" }} key={il}>
                                                                                 <div className="subFirstCell"></div>
                                                                                 <div className="subSecondCell"></div>
                                                                                 <div className="subThirdCell"></div>
@@ -885,7 +999,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                 <div>
                                                                     {
                                                                         //logic of put data in chunks for colorstone
-                                                                        a?.clrchunk?.clr.map((s, i) => {
+                                                                        a?.clrchunk?.clr?.map((s, i) => {
 
                                                                             return (
                                                                                 <div style={{ display: "flex" }} key={i}>
@@ -934,7 +1048,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                 <div > <b>Total : {e?.additional?.clr?.clrPcs} pcs</b></div>
                                                             </div>
                                                             <div className="sub-aside" style={{ "borderBottom": "none" }}>
-                                                                <p style={{ fontSize: "10px", lineHeight: "9px" }}>Ins. {((e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.ProductInstruction) == "null" ? '' : (e?.data?.rd[0]?.officeuse + e?.data?.rd[0]?.ProductInstruction)?.slice(0, 89))}</p>
+                                                                <p style={{ fontSize: "10px", lineHeight: "9px" }}>Ins. {((e?.data?.rd?.officeuse + e?.data?.rd?.ProductInstruction) == "null" ? '' : (e?.data?.rd?.officeuse + e?.data?.rd?.ProductInstruction)?.slice(0, 89))}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -943,41 +1057,41 @@ const BagPrint15A = ({ queries, headers }) => {
                                         );
                                     }) : <div className="container15Aold" id="main_container">
                                         <div className="heading">
-                                            <h1 style={{ display: "flex", fontSize: "15px" }}>bag : {e?.data?.rd[0]?.CustomerCode} / {e?.data?.rd[0]?.serialjobno}</h1>
+                                            <h1 style={{ display: "flex", fontSize: "15px" }}>bag : {e?.data?.rd?.CustomerCode} / {e?.data?.rd?.serialjobno}</h1>
                                             <div className=" barcode15">
-                                                {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd[0]?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd[0]?.serialjobno} />}</>}
+                                                {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno} />}</>}
                                             </div>
                                         </div>
                                         <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                             <div className="firstCell" ><b>DNS type</b></div>
-                                            <div className="secondCell"> {e?.data?.rd[0]?.category}</div>
+                                            <div className="secondCell"> {e?.data?.rd?.category}</div>
                                             <div className="thirdCell"><b>Item count</b></div>
-                                            <div className="fourthCell"> {e?.data?.rd[0]?.Quantity}</div>
+                                            <div className="fourthCell"> {e?.data?.rd?.Quantity}</div>
                                         </div>
                                         <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                             <div className="firstCell" style={{ "borderTop": "0px" }}> <b>DNS Name</b></div>
-                                            <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.Designcode}</div>
+                                            <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.Designcode}</div>
                                             <div className="thirdCell" style={{ "borderTop": "0px" }}> <b>Priority</b></div>
-                                            <div className="fourthCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.prioritycode}</div>
+                                            <div className="fourthCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.prioritycode}</div>
                                         </div>
                                         <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                             <div className="firstCell" style={{ "borderTop": "0px" }}> <b>DNS size</b></div>
-                                            <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.Size}</div>
+                                            <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.Size}</div>
                                             <div className="thirdCell" style={{ "width": "199.33px", "borderTop": "0px", "borderRight": "0px" }}> <b>Type: Diamond sieve size</b></div>
                                         </div>
                                         <div style={{ display: "flex" }}>
                                             <div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                     <div className="firstCell" style={{ "borderTop": "0px" }} > <b>Raw Metal</b></div>
-                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.MetalType} {e?.data?.rd[0]?.MetalColorCo}</div>
+                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.MetalType} {e?.data?.rd?.MetalColorCo}</div>
                                                 </div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                     <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Metal wt</b></div>
-                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.MetalWeight?.toFixed(3)}</div>
+                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.MetalWeight?.toFixed(3)}</div>
                                                 </div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                     <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Dia clarity</b></div>
-                                                    <div className="secondCell" style={{ "borderTop": "0px" }}>{e?.data?.rd[0]?.diaclarity ?? 'NA'}</div>
+                                                    <div className="secondCell" style={{ "borderTop": "0px" }}>{e?.data?.rd?.diaclarity ?? 'NA'}</div>
                                                 </div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                     <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Dia no / wt</b></div>
@@ -989,11 +1103,11 @@ const BagPrint15A = ({ queries, headers }) => {
                                                 </div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                     <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Order date</b></div>
-                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.OrderDate}</div>
+                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.OrderDate}</div>
                                                 </div>
                                                 <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                     <div className="firstCell" style={{ "borderTop": "0px" }}> <b>Due date</b></div>
-                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd[0]?.promisedate}</div>
+                                                    <div className="secondCell" style={{ "borderTop": "0px" }}> {e?.data?.rd?.promisedate}</div>
                                                 </div>
                                             </div>
                                             <div>
@@ -1044,9 +1158,9 @@ const BagPrint15A = ({ queries, headers }) => {
 
                                                             e?.data?.rd?.length > 0 ? <React.Fragment>
                                                                 {
-                                                                    (((e?.data?.rd[0]?.officeuse !== null) && (e?.data?.rd[0]?.officeuse !== "null") && (e?.data?.rd[0]?.officeuse !== "") && (e?.data?.rd[0]?.officeuse !== undefined)) &&
-                                                                        ((e?.data?.rd[0]?.ProductInstruction !== null) && (e?.data?.rd[0]?.ProductInstruction !== "null") && (e?.data?.rd[0]?.ProductInstruction !== "") && (e?.data?.rd[0]?.ProductInstruction !== undefined)))
-                                                                        ? ((e?.data?.rd[0]?.officeuse) + (e?.data?.rd[0]?.ProductInstruction))?.slice(0, 89) : ''
+                                                                    (((e?.data?.rd?.officeuse !== null) && (e?.data?.rd?.officeuse !== "null") && (e?.data?.rd?.officeuse !== "") && (e?.data?.rd?.officeuse !== undefined)) &&
+                                                                        ((e?.data?.rd?.ProductInstruction !== null) && (e?.data?.rd?.ProductInstruction !== "null") && (e?.data?.rd?.ProductInstruction !== "") && (e?.data?.rd?.ProductInstruction !== undefined)))
+                                                                        ? ((e?.data?.rd?.officeuse) + (e?.data?.rd?.ProductInstruction))?.slice(0, 89) : ''
                                                                 }
                                                             </React.Fragment> : ''
                                                         }

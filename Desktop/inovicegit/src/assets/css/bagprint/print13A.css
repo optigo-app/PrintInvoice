@@ -278,7 +278,7 @@
     transform: rotate(90deg);
     position: absolute;
     top: 6rem;
-    left: 18px;
+    left: -9px !important;
 }
 
 .diaflex13A {
@@ -395,7 +395,7 @@
     transform: rotate(90deg);
     position: absolute;
     top: 6rem;
-    left: 15rem;
+    left: 13rem !important;
 
 }
 

@@ -229,7 +229,7 @@
     object-fit: cover;
     transform: rotate(90deg);
     position: relative;
-    left: -70px;
+    left: -57px !important;
 }
 
 .priority4A {
@@ -351,7 +351,7 @@
     object-fit: cover;
     transform: rotate(90deg);
     position: relative;
-    left: -70px;
+    left: -58px !important;
     right: -56px !important;
     top: 91px !important;
 }

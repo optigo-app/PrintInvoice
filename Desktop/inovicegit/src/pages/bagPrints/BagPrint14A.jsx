@@ -5,19 +5,22 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import "../../assets/css/bagprint/print14.css";
-import { formatDate } from '../../GlobalFunctions/DateFormat';
-import { GetChunkData } from '../../GlobalFunctions/GetChunkData';
+
 import { GetData } from '../../GlobalFunctions/GetData';
 import { handleImageError } from '../../GlobalFunctions/HandleImageError';
 import { handlePrint } from '../../GlobalFunctions/HandlePrint';
 import BarcodeGenerator from '../../components/BarcodeGenerator';
 import Loader from '../../components/LoaderBag';
+import { organizeData } from '../../GlobalFunctions/OrganizeBagPrintData';
+import { GetChunkData } from './../../GlobalFunctions/GetChunkData';
 
 function BagPrint14A({ queries, headers }) {
     const [data, setData] = useState([]);
     const location = useLocation();
     const queryParams = queryString.parse(location?.search);
     let jobs = queryParams?.str_srjobno;
+    const parts = jobs.split(",");
+  const resultString = parts.map((part) => `'${part}'`).join(",");
     if (Object.keys(queryParams)?.length !== 0) {
         jobs = jobs.split(",");
     }
@@ -32,37 +35,20 @@ function BagPrint14A({ queries, headers }) {
         const fetchData = async () => {
             try {
                 const responseData = [];
-                for (let url in print) {
-                    let chunkData = [];
-                    const objs = {
-                        jobno: print[url],
-                        custid: queries.custid,
-                        printname: queries.printname,
-                        appuserid: queries.appuserid,
-                        url: queries.url,
-                        headers: headers,
-                    };
-                    let datas = await GetData(objs);    
-                    const orderDatef = formatDate(datas?.rd[0]?.OrderDate);
-                    const promiseDatef = formatDate(datas?.rd[0]?.promisedate);
-          
-                    datas?.rd?.map((e) => {
-                      e.orderDatef = orderDatef;
-                      e.promiseDatef = promiseDatef;
-                      // 
-                    });
-                    // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries?.custid}`, "BagPrintName": `${queries?.printname}` };
-                    // let jsonString = JSON.stringify(p_tag);
-                    // let base64String = btoa(jsonString);
-                    // let Body = {
-                    //     "con": `{\"id\":\"\",\"mode\":\"${queries?.printname}\",\"appuserid\":\"${queries?.appuserid}\"}`,
-                    //     "p": `${base64String}`,
-                    //     "f": `${queries?.appuserid} ${queries?.printname}`
-                    // };
-                    // let urls = atob(queries?.url);
-                    // const response = await axios.post(urls, Body, { headers: headers });
-                    // let datas = JSON.parse(response?.data?.d);
 
+                const objs = {
+                    jobno: resultString,
+                    custid: queries.custid,
+                    printname: queries.printname,
+                    appuserid: queries.appuserid,
+                    url: queries.url,
+                    headers: headers,
+                  };
+          
+                  const allDatas = await GetData(objs);
+                  let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+
+                  datas?.map((a) => {
                     let length = 0;
                     let total = {
                         ActualPcs: 0,
@@ -102,7 +88,7 @@ function BagPrint14A({ queries, headers }) {
                     let ArrofMISize = [];
                     let ArrofFSize = [];
 
-                    datas.rd1.map((e, i) => {
+                    a?.rd1?.map((e, i) => {
 
                         if (e?.MasterManagement_DiamondStoneTypeid !== 0) {
                             total.ActualPcs = total?.ActualPcs + e?.ActualPcs;
@@ -130,46 +116,46 @@ function BagPrint14A({ queries, headers }) {
                         }
                     });
 
-                    dia.ActualPcs = +(dia.ActualPcs.toFixed(3));
-                    dia.ActualWeight = +(dia.ActualWeight.toFixed(3));
-                    clr.ActualPcs = +(clr.ActualPcs.toFixed(3));
-                    clr.ActualWeight = +(clr.ActualWeight.toFixed(3));
-                    misc.ActualPcs = +(misc.ActualPcs.toFixed(3));
-                    misc.ActualWeight = +(misc.ActualWeight.toFixed(3));
-                    f.ActualPcs = +(f.ActualPcs.toFixed(3));
-                    f.ActualWeight = +(f.ActualWeight.toFixed(3));
+                    dia.ActualPcs = +(dia.ActualPcs?.toFixed(3));
+                    dia.ActualWeight = +(dia.ActualWeight?.toFixed(3));
+                    clr.ActualPcs = +(clr.ActualPcs?.toFixed(3));
+                    clr.ActualWeight = +(clr.ActualWeight?.toFixed(3));
+                    misc.ActualPcs = +(misc.ActualPcs?.toFixed(3));
+                    misc.ActualWeight = +(misc.ActualWeight?.toFixed(3));
+                    f.ActualPcs = +(f.ActualPcs?.toFixed(3));
+                    f.ActualWeight = +(f.ActualWeight?.toFixed(3));
 
                     // ArrofSevenSize.push(dia);
                     // ArrofFiveSize.push(clr);
                     // ArrofFSize.push(f);
                     // ArrofMISize.push(misc);
 
-                    ArrofSevenSize.map((e) => {
-                        if (e.ActualPcs === 0 && e.ActualWeight == 0) {
+                    ArrofSevenSize?.map((e) => {
+                        if (e?.ActualPcs === 0 && e?.ActualWeight == 0) {
                             ArrofSevenSize = [];
                         } else {
                             e.heading = "DIAMOND DETAIL";
                         }
                     }
                     );
-                    ArrofFiveSize.map((e) => {
-                        if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+                    ArrofFiveSize?.map((e) => {
+                        if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
                             ArrofFiveSize = [];
                         } else {
                             e.heading = "COLOR STONE DETAIL";
                         }
                     }
                     );
-                    ArrofMISize.map((e) => {
-                        if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+                    ArrofMISize?.map((e) => {
+                        if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
                             ArrofMISize = [];
                         } else {
                             e.heading = "MISC DETAIL";
                         }
                     }
                     );
-                    ArrofFSize.map((e) => {
-                        if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+                    ArrofFSize?.map((e) => {
+                        if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
                             ArrofFSize = [];
                         } else {
                             e.heading = "FINDING DETAIL";
@@ -177,21 +163,181 @@ function BagPrint14A({ queries, headers }) {
                     }
                     );
                     let arr = [];
-                    let mainArr = arr.concat(ArrofSevenSize, ArrofFiveSize, ArrofMISize, ArrofFSize);
+                    let mainArr = arr?.concat(ArrofSevenSize, ArrofFiveSize, ArrofMISize, ArrofFSize);
                     let imagePath = queryParams?.imagepath;
                     imagePath = atob(queryParams?.imagepath);
 
 
-                    let img = imagePath + datas?.rd[0]?.ThumbImagePath;
+                    let img = imagePath + a?.rd?.ThumbImagePath;
                     let arrofchunk = GetChunkData(chunkSize17, mainArr);
                     // for (let i = 0; i < mainArr.length; i += chunkSize17) {
                     //     const chunks = mainArr.slice(i, i + chunkSize17);
                     //     let len = 11 - (mainArr.slice(i, i + chunkSize17)).length;
                     //     chunkData.push({ data: chunks, length: len });
                     // }
-                    responseData.push({ data: datas, additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, total: total, pages: arrofchunk } });
+                    responseData.push({ data: a, additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, total: total, pages: arrofchunk } });
+                  })
 
-                }
+                // for (let url in print) {
+                //     let chunkData = [];
+                //     const objs = {
+                //         jobno: print[url],
+                //         custid: queries.custid,
+                //         printname: queries.printname,
+                //         appuserid: queries.appuserid,
+                //         url: queries.url,
+                //         headers: headers,
+                //     };
+                //     let datas = await GetData(objs);    
+                //     const orderDatef = formatDate(datas?.rd?.OrderDate);
+                //     const promiseDatef = formatDate(datas?.rd?.promisedate);
+          
+                //     datas?.rd?.map((e) => {
+                //       e.orderDatef = orderDatef;
+                //       e.promiseDatef = promiseDatef;
+                //       // 
+                //     });
+                //     // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries?.custid}`, "BagPrintName": `${queries?.printname}` };
+                //     // let jsonString = JSON.stringify(p_tag);
+                //     // let base64String = btoa(jsonString);
+                //     // let Body = {
+                //     //     "con": `{\"id\":\"\",\"mode\":\"${queries?.printname}\",\"appuserid\":\"${queries?.appuserid}\"}`,
+                //     //     "p": `${base64String}`,
+                //     //     "f": `${queries?.appuserid} ${queries?.printname}`
+                //     // };
+                //     // let urls = atob(queries?.url);
+                //     // const response = await axios.post(urls, Body, { headers: headers });
+                //     // let datas = JSON.parse(response?.data?.d);
+
+                //     let length = 0;
+                //     let total = {
+                //         ActualPcs: 0,
+                //         ActualWeight: 0,
+                //     };
+                //     let clr = {
+                //         Shapename: "TOTAL",
+                //         Sizename: "",
+                //         ActualPcs: 0,
+                //         ActualWeight: 0,
+                //         // heading: "COLOR STONE DETAIL"
+                //     };
+                //     let dia = {
+                //         Shapename: "TOTAL",
+                //         Sizename: "",
+                //         ActualPcs: 0,
+                //         ActualWeight: 0,
+                //         // heading: "DIAMOND DETAIL"
+                //     };
+                //     let misc = {
+                //         Shapename: "TOTAL",
+                //         Sizename: "",
+                //         ActualPcs: 0,
+                //         ActualWeight: 0,
+                //         // heading: "MISC DETAIL"
+                //     };
+                //     let f = {
+                //         Shapename: "TOTAL",
+                //         Sizename: "",
+                //         ActualPcs: 0,
+                //         ActualWeight: 0,
+                //         // heading: "FINDING DETAIL"
+                //     };
+                //     let ArrofSevenSize = [];
+                //     //arr for colorstone
+                //     let ArrofFiveSize = [];
+                //     let ArrofMISize = [];
+                //     let ArrofFSize = [];
+
+                //     datas.rd1.map((e, i) => {
+
+                //         if (e?.MasterManagement_DiamondStoneTypeid !== 0) {
+                //             total.ActualPcs = total?.ActualPcs + e?.ActualPcs;
+                //             total.ActualWeight = total?.ActualWeight + e?.ActualWeight;
+                //         }
+                //         if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
+                //             length++;
+                //         }
+                //         if (e?.MasterManagement_DiamondStoneTypeid === 3) {
+                //             ArrofSevenSize.push(e);
+                //             dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
+                //             dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
+                //         } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
+                //             ArrofFiveSize.push(e);
+                //             clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
+                //             clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
+                //         } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
+                //             ArrofFSize.push(e);
+                //             f.ActualPcs = f.ActualPcs + e?.ActualPcs;
+                //             f.ActualWeight = f.ActualWeight + e?.ActualWeight;
+                //         } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
+                //             ArrofMISize.push(e);
+                //             misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
+                //             misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
+                //         }
+                //     });
+
+                //     dia.ActualPcs = +(dia.ActualPcs.toFixed(3));
+                //     dia.ActualWeight = +(dia.ActualWeight.toFixed(3));
+                //     clr.ActualPcs = +(clr.ActualPcs.toFixed(3));
+                //     clr.ActualWeight = +(clr.ActualWeight.toFixed(3));
+                //     misc.ActualPcs = +(misc.ActualPcs.toFixed(3));
+                //     misc.ActualWeight = +(misc.ActualWeight.toFixed(3));
+                //     f.ActualPcs = +(f.ActualPcs.toFixed(3));
+                //     f.ActualWeight = +(f.ActualWeight.toFixed(3));
+
+                //     // ArrofSevenSize.push(dia);
+                //     // ArrofFiveSize.push(clr);
+                //     // ArrofFSize.push(f);
+                //     // ArrofMISize.push(misc);
+
+                //     ArrofSevenSize.map((e) => {
+                //         if (e.ActualPcs === 0 && e.ActualWeight == 0) {
+                //             ArrofSevenSize = [];
+                //         } else {
+                //             e.heading = "DIAMOND DETAIL";
+                //         }
+                //     }
+                //     );
+                //     ArrofFiveSize.map((e) => {
+                //         if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+                //             ArrofFiveSize = [];
+                //         } else {
+                //             e.heading = "COLOR STONE DETAIL";
+                //         }
+                //     }
+                //     );
+                //     ArrofMISize.map((e) => {
+                //         if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+                //             ArrofMISize = [];
+                //         } else {
+                //             e.heading = "MISC DETAIL";
+                //         }
+                //     }
+                //     );
+                //     ArrofFSize.map((e) => {
+                //         if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+                //             ArrofFSize = [];
+                //         } else {
+                //             e.heading = "FINDING DETAIL";
+                //         }
+                //     }
+                //     );
+                //     let arr = [];
+                //     let mainArr = arr.concat(ArrofSevenSize, ArrofFiveSize, ArrofMISize, ArrofFSize);
+                //     let imagePath = queryParams?.imagepath;
+                //     imagePath = atob(queryParams?.imagepath);
+
+
+                //     let img = imagePath + datas?.rd?.ThumbImagePath;
+                //     let arrofchunk = GetChunkData(chunkSize17, mainArr);
+                //     // for (let i = 0; i < mainArr.length; i += chunkSize17) {
+                //     //     const chunks = mainArr.slice(i, i + chunkSize17);
+                //     //     let len = 11 - (mainArr.slice(i, i + chunkSize17)).length;
+                //     //     chunkData.push({ data: chunks, length: len });
+                //     // }
+                //     responseData.push({ data: datas, additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, total: total, pages: arrofchunk } });
+
+                // }
                 setData(responseData);
             } catch (error) {
                 console.log(error);
@@ -224,7 +370,6 @@ function BagPrint14A({ queries, headers }) {
         //     setTimeout(window.print(), 5000);
         // }
     };
-
     return (
         <>
             {
@@ -248,28 +393,27 @@ function BagPrint14A({ queries, headers }) {
                                                 e?.additional?.pages?.length > 0 ? 
                                                     
                                                         e?.additional?.pages?.map((a, index) => {
-
                                                             return (
                                                                 
                                                                     <div className='container_1' key={index}>
                                                                         <div className='firstpart'>
                                                                             <div className='firstpart_header'>
                                                                                 <div className='firstpart_one'>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>BAG NO</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd[0]?.serialjobno}`}</div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER NO</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd[0]?.OrderNo}`}</div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>CUSTOMER</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd[0]?.CustomerCode}`}</div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER DATE</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd[0]?.orderDatef ?? ''}`}</div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER PCS</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd[0]?.Quantity}`}</div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>PROMISE DATE</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd[0]?.promiseDatef ?? ''}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>BAG NO</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.serialjobno}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER NO</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.OrderNo}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>CUSTOMER</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.CustomerCode}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER DATE</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.orderDatef ?? ''}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER PCS</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.Quantity}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>PROMISE DATE</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.promiseDatef ?? ''}`}</div></div>
                                                                                     <div className='firstpart_one_1'><div className='firstpart_one_chunk _color' style={{ borderRight: "none" }}></div><div className='firstpart_one_chunk_val workbreak'></div></div>
                                                                                 </div>
                                                                                 <div className='firstpart_two'>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>SIZE</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd[0]?.Size}`}</div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>TONE</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd[0]?.MetalColorCo}`}</div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>KT</div><div className='firstpart_two_chunk workbreak'>{e?.data?.rd[0]?.MetalType?.split(" ")?.[1]}</div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>PO. NO</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd[0]?.PO}`}</div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>S.P.</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd[0]?.SalesrepCode}`}</div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>PRIORITY</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd[0]?.prioritycode}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>SIZE</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd?.Size}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>TONE</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd?.MetalColorCo}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>KT</div><div className='firstpart_two_chunk workbreak'>{e?.data?.rd?.MetalType?.split(" ")?.[1]}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>PO. NO</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd?.PO}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>S.P.</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd?.SalesrepCode}`}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>PRIORITY</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd?.prioritycode}`}</div></div>
                                                                                     <div className='firstpart_one_1'><div className='firstpart_two_chunk '>PROPOSED</div><div className='firstpart_two_chunk workbreak'>ISSUE</div></div>
                                                                                 </div>
                                                                             </div>
@@ -294,7 +438,6 @@ function BagPrint14A({ queries, headers }) {
                                                                                     {
 
                                                                                         a?.data?.map((ele, i) => {
-
                                                                                             return (
                                                                                                 
                                                                                                     <div style={{ display: "flex" }} key={i}>
@@ -396,14 +539,14 @@ function BagPrint14A({ queries, headers }) {
 
                                                                         </div>
                                                                         <div className='secondpart'>
-                                                                            <div className='firstpart_one_1'><div className='firstpart_one_chunk_val _color '>DESIGN NO</div><div className='firstpart_one_chunk workbreak' style={{ borderRight: "none" }}>{`${e?.data?.rd[0]?.Designcode}`}</div></div>
+                                                                            <div className='firstpart_one_1'><div className='firstpart_one_chunk_val _color '>DESIGN NO</div><div className='firstpart_one_chunk workbreak' style={{ borderRight: "none" }}>{`${e?.data?.rd?.Designcode}`}</div></div>
                                                                             <div className='imagediv'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager" onLoad={eve => handleImageLoad(eve, i , data?.length)} /></div>
                                                                             <div className='barcodediv'><div className='barcode14'>
-                                                                                {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd[0]?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd[0]?.serialjobno} />}</>}
+                                                                                {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno} />}</>}
                                                                             </div></div>
-                                                                            <div className='firstpart_one_1'><div className='semi _color'>SPE REM.	:</div><div className='semi_border workbreak flexSPE'>{e?.data?.rd[0]?.ProductInstruction}</div></div>
+                                                                            <div className='firstpart_one_1'><div className='semi _color'>SPE REM.	:</div><div className='semi_border workbreak flexSPE'>{e?.data?.rd?.ProductInstruction}</div></div>
                                                                             <div className='info workbreak flex_data' style={{ fontSize: "12px" }}>
-                                                                                <div>{e?.data?.rd[0]?.productinfo}</div>
+                                                                                <div>{e?.data?.rd?.productinfo}</div>
                                                                             </div>
                                                                             <div className='secondpart_footer_2'>
                                                                                 <div className='fg_info_1 _color font_size'>FG DETAILS</div>
@@ -459,21 +602,21 @@ function BagPrint14A({ queries, headers }) {
                                                         <div className='firstpart'>
                                                             <div className='firstpart_header'>
                                                                 <div className='firstpart_one'>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>BAG NO</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd[0]?.serialjobno ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER NO</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd[0]?.OrderNo ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>CUSTOMER</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd[0]?.CustomerCode ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER DATE</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd[0]?.orderDatef ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER PCS</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd[0]?.Quantity ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>PROMISE DATE</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd[0]?.promiseDatef ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>BAG NO</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.serialjobno ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER NO</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.OrderNo ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>CUSTOMER</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.CustomerCode ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER DATE</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.orderDatef ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>ORDER PCS</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.Quantity ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_one_chunk _color'>PROMISE DATE</div><div className='firstpart_one_chunk_val workbreak'>{`${e?.data?.rd?.promiseDatef ?? ''}`}</div></div>
                                                                     <div className='firstpart_one_1'><div className='firstpart_one_chunk _color' style={{ borderRight: "none" }}></div><div className='firstpart_one_chunk_val workbreak'></div></div>
                                                                 </div>
                                                                 <div className='firstpart_two'>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>SIZE</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd[0]?.Size ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>TONE</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd[0]?.MetalColorCo ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>KT</div><div className='firstpart_two_chunk workbreak'>{e?.data?.rd[0]?.MetalType ?? ''}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>PO. NO</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd[0]?.PO ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>S.P.</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd[0]?.SalesrepCode ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>PRIORITY</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd[0]?.prioritycode ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>SIZE</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd?.Size ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>TONE</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd?.MetalColorCo ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>KT</div><div className='firstpart_two_chunk workbreak'>{e?.data?.rd?.MetalType ?? ''}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>PO. NO</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd?.PO ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>S.P.</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd?.SalesrepCode ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>PRIORITY</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd?.prioritycode ?? ''}`}</div></div>
                                                                     <div className='firstpart_one_1'><div className='firstpart_two_chunk '>PROPOSED</div><div className='firstpart_two_chunk workbreak'>ISSUE</div></div>
                                                                 </div>
                                                             </div>
@@ -484,6 +627,7 @@ function BagPrint14A({ queries, headers }) {
                                                                         <div className='firstpart_one_chunk_val _color'>RM SIZE</div>
                                                                     </div>
                                                                     <div className='firstpart_one_2'>
+                                                                        {/* <div className='semi _color d-flex justify-content-center align-items-center'>PCS</div> */}
                                                                         <div className='semi _color'>PCS</div>
                                                                         <div className='semi _color'>WT</div>
                                                                     </div>
@@ -691,10 +835,10 @@ function BagPrint14A({ queries, headers }) {
                                                             </div>
                                                         </div>
                                                         <div className='secondpart'>
-                                                            <div className='firstpart_one_1'><div className='firstpart_one_chunk_val _color'>DESIGN NO</div><div className='firstpart_one_chunk' style={{ borderRight: "none" }}>{`${e?.data?.rd[0]?.Designcode ?? ''}`}</div></div>
+                                                            <div className='firstpart_one_1'><div className='firstpart_one_chunk_val _color'>DESIGN NO</div><div className='firstpart_one_chunk' style={{ borderRight: "none" }}>{`${e?.data?.rd?.Designcode ?? ''}`}</div></div>
                                                             <div className='imagediv'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  onLoad={eve => handleImageLoad(eve, i ,data?.length)}/></div>
                                                             <div className='barcodediv'><div className='barcode14'>
-                                                                {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd[0]?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd[0]?.serialjobno ?? ''} />}</>}
+                                                                {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno ?? ''} />}</>}
                                                             </div></div>
                                                             <div className='firstpart_one_1'><div className='semi _color'>SPE REM.	:</div><div className='semi_border flexSPE workbreak'></div></div>
                                                             <div className='info flex_data workbreak' style={{ fontSize: "12px" }}>
@@ -703,15 +847,15 @@ function BagPrint14A({ queries, headers }) {
                                                                 <div>Finding INS :</div> */}
                                                             </div>
                                                             <div className='secondpart_footer_2'>
-                                                                <div className='fg_info_1 _color'>FG DETAILS</div>
-                                                                <div className='fg_info_2 _color'>RM TRANSACTION</div>
+                                                                <div className='fg_info_1 _color fs14A'>FG DETAILS</div>
+                                                                <div className='fg_info_2 _color fs14A'>RM TRANSACTION</div>
                                                             </div>
                                                             <div className='secondpart_footer_2'>
-                                                                <div className='fg_info_1'><div className='last_1 _color' style={{ borderRight: "1px solid grey" }}>QTY</div><div className='last_1 _color'>WT</div></div>
+                                                                <div className='fg_info_1'><div className='last_1 _color fs14A' style={{ borderRight: "1px solid grey" }}>QTY</div><div className='last_1 _color fs14A'>WT</div></div>
                                                                 <div className='fg_info_2'>
-                                                                    <div className='last_2 _color' style={{ fontSize: "10.5px" }}>RM CODE </div>
-                                                                    <div className='last_2 _color'> ISSUE </div>
-                                                                    <div className='last_2 _color' style={{ borderRight: "none" }}> RETURN </div>
+                                                                    <div className='last_2 _color fs14A' style={{ fontSize: "10.5px" }}>RM CODE </div>
+                                                                    <div className='last_2 _color fs14A'> ISSUE </div>
+                                                                    <div className='last_2 _color fs14A' style={{ borderRight: "none" }}> RETURN </div>
                                                                 </div>
                                                             </div>
                                                             <div className='secondpart_footer_2'>

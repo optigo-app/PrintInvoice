@@ -270,7 +270,7 @@
     right: unset !important;
     left: 51px !important;
     transform: translate(0) rotate(0deg) !important;
-    width: 20mm;
+    width: 20mm !important;
     /* max-width: 20mm !important; */
     height: 4mm !important;
     object-fit: cover;

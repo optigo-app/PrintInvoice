@@ -396,6 +396,9 @@
 .pr5A {
     padding-right: 2px;
 }
+.lh5A8{
+    line-height: 8px;
+}
 
 @media print {
     /* .print1A:nth-child(6n+1) {

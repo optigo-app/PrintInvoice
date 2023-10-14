@@ -3,6 +3,11 @@
     word-break: break-all;
     box-sizing: border-box;
     line-height: 100%;
+    line-height: 100%;
+}
+.lh1Ady{
+        line-height: 8px;
+
 }
 .container1A{
     display: flex;

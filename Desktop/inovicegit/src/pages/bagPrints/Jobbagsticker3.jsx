@@ -5,11 +5,16 @@ import { useLocation } from 'react-router-dom';
 import "../../assets/css/bagprint/jobbagsticker3.css";
 import Loader from '../../components/LoaderBag';
 import BarcodeStickerGen from './BarcodeStickerGen';
+import { GetData } from './../../GlobalFunctions/GetData';
+import { organizeData } from './../../GlobalFunctions/OrganizeBagPrintData';
 
 function Jobbagsticker3({ queries, headers }) {
     const location = useLocation();
     const queryParams = queryString.parse(location.search);
     let jobs = queryParams.str_srjobno;
+    const parts = jobs.split(",");
+  const resultString = parts.map((part) => `'${part}'`).join(",");
+
     if (Object.keys(queryParams).length !== 0) {
         jobs = jobs.split(",");
     }
@@ -24,19 +29,21 @@ function Jobbagsticker3({ queries, headers }) {
         const fetchData = async () => {
             try {
                 const responseData = [];
-                for (const url in print) {
 
-                    let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-                    let jsonString = JSON.stringify(p_tag);
-                    let base64String = btoa(jsonString);
-                    let Body = {
-                        "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-                        "p": `${base64String}`,
-                        "f": `${queries.appuserid} ${queries.printname}`
-                    };
-                    const urls = atob(queries.url);
-                    const response = await axios.post(urls, Body, { headers: headers });
-                    let datas = JSON.parse(response.data.d);
+                const objs = {
+                    jobno: resultString,
+                    custid: queries.custid,
+                    printname: queries.printname,
+                    appuserid: queries.appuserid,
+                    url: queries.url,
+                    headers: headers,
+                  };
+                  let allDatas = await GetData(objs);
+          
+                  let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+
+                  datas?.map((a) => {
+
                     let length = 0;
                     let clr = {
                         clrPcs: 0,
@@ -52,39 +59,105 @@ function Jobbagsticker3({ queries, headers }) {
                     let ArrofSevenSize = [];
                     //arr for colorstone
                     let ArrofFiveSize = [];
-                    datas.rd1.map((e, i) => {
-                        if (e.ConcatedFullShapeQualityColorCode !== "- - - ") {
+                    a?.rd1?.map((e, i) => {
+                        if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
                             length++;
                         }
-                        if (e.MasterManagement_DiamondStoneTypeid === 3) {
-                            dia.diaPcs = dia.diaPcs + e.ActualPcs;
-                            dia.diaWt = dia.diaWt + e.ActualWeight;
-                        } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
-                            clr.clrPcs = clr.clrPcs + e.ActualPcs;
-                            clr.clrWt = clr.clrWt + e.ActualWeight;
-                        } else if (e.MasterManagement_DiamondStoneTypeid === 7) {
-                            misc.miscWt = misc.miscWt + e.ActualWeight;
+                        if (e?.MasterManagement_DiamondStoneTypeid === 3) {
+                            dia.diaPcs = dia.diaPcs + e?.ActualPcs;
+                            dia.diaWt = dia.diaWt + e?.ActualWeight;
+                        } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
+                            clr.clrPcs = clr.clrPcs + e?.ActualPcs;
+                            clr.clrWt = clr.clrWt + e?.ActualWeight;
+                        } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
+                            misc.miscWt = misc.miscWt + e?.ActualWeight;
                         }
-                        if (e.MasterManagement_DiamondStoneTypeid === 3) {
+                        if (e?.MasterManagement_DiamondStoneTypeid === 3) {
                             ArrofSevenSize.push(e);
-                        } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
+                        } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
                             ArrofFiveSize.push(e);
                         } else {
                             return '';
                         }
                     });
-                    let imagePath = queryParams.imagepath;
-                    imagePath = atob(queryParams.imagepath);
+                    let imagePath = queryParams?.imagepath;
+                    imagePath = atob(queryParams?.imagepath);
                     try {
-                        let cutProductIns = datas?.rd[0]?.ProductInstruction ?? '';
-                        let cutProductionInstruction = cutProductIns.slice(0, 61);
-                        datas.rd[0].ProductInstruction = cutProductionInstruction;
+                        let cutProductIns = a?.rd?.ProductInstruction ?? '';
+                        let cutProductionInstruction = cutProductIns?.slice(0, 61);
+                        a.rd.ProductInstruction = cutProductionInstruction;
                     } catch (error) {
                         console.log(error);
                     }
-                    let img = imagePath + datas.rd[0].ThumbImagePath;
-                    responseData.push({ data: datas, additional: { length: length, clr: clr, dia: dia, img: img, misc: misc } });
-                }
+                    let img = imagePath + a?.rd?.ThumbImagePath;
+                    responseData.push({ data: a, additional: { length: length, clr: clr, dia: dia, img: img, misc: misc } });
+
+
+                  })
+
+
+
+                // for (const url in print) {
+
+                //     let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
+                //     let jsonString = JSON.stringify(p_tag);
+                //     let base64String = btoa(jsonString);
+                //     let Body = {
+                //         "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
+                //         "p": `${base64String}`,
+                //         "f": `${queries.appuserid} ${queries.printname}`
+                //     };
+                //     const urls = atob(queries.url);
+                //     const response = await axios.post(urls, Body, { headers: headers });
+                //     let datas = JSON.parse(response.data.d);
+                //     let length = 0;
+                //     let clr = {
+                //         clrPcs: 0,
+                //         clrWt: 0
+                //     };
+                //     let dia = {
+                //         diaPcs: 0,
+                //         diaWt: 0
+                //     };
+                //     let misc = {
+                //         miscWt: 0
+                //     };
+                //     let ArrofSevenSize = [];
+                //     //arr for colorstone
+                //     let ArrofFiveSize = [];
+                //     datas.rd1.map((e, i) => {
+                //         if (e.ConcatedFullShapeQualityColorCode !== "- - - ") {
+                //             length++;
+                //         }
+                //         if (e.MasterManagement_DiamondStoneTypeid === 3) {
+                //             dia.diaPcs = dia.diaPcs + e.ActualPcs;
+                //             dia.diaWt = dia.diaWt + e.ActualWeight;
+                //         } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
+                //             clr.clrPcs = clr.clrPcs + e.ActualPcs;
+                //             clr.clrWt = clr.clrWt + e.ActualWeight;
+                //         } else if (e.MasterManagement_DiamondStoneTypeid === 7) {
+                //             misc.miscWt = misc.miscWt + e.ActualWeight;
+                //         }
+                //         if (e.MasterManagement_DiamondStoneTypeid === 3) {
+                //             ArrofSevenSize.push(e);
+                //         } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
+                //             ArrofFiveSize.push(e);
+                //         } else {
+                //             return '';
+                //         }
+                //     });
+                //     let imagePath = queryParams.imagepath;
+                //     imagePath = atob(queryParams.imagepath);
+                //     try {
+                //         let cutProductIns = datas?.rd[0]?.ProductInstruction ?? '';
+                //         let cutProductionInstruction = cutProductIns.slice(0, 61);
+                //         datas.rd[0].ProductInstruction = cutProductionInstruction;
+                //     } catch (error) {
+                //         console.log(error);
+                //     }
+                //     let img = imagePath + datas.rd[0].ThumbImagePath;
+                //     responseData.push({ data: datas, additional: { length: length, clr: clr, dia: dia, img: img, misc: misc } });
+                // }
                 setData(responseData);
             } catch (error) {
                 console.log(error);
@@ -131,22 +204,22 @@ function Jobbagsticker3({ queries, headers }) {
                                             <div className='bag_space' key={i}>
                                                 <div className="heading_job_3">
                                                     <div className='img_aside_3'>
-                                                        <div className='img_job3'><img src={e.additional.img !== "" ? e.additional.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} loading="lazy" id='jobsticker3' /></div>
+                                                        <div className='img_job3'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} loading="eager" id='jobsticker3' /></div>
                                                         <div className='ins_3' >
-                                                            <h1 className='h1_3' style={{ lineHeight: "28px" }}>{e.data.rd[0].ProductInstruction ?? ''}</h1>
+                                                            <h1 className='h1_3' style={{ lineHeight: "28px" }}>{e?.data?.rd?.ProductInstruction ?? ''}</h1>
                                                         </div>
                                                     </div>
                                                     <div className='databarcode_3' style={{position:"relative"}}>
                                                         <div className='data_center_3'>
-                                                            <h1 className='h1_3'> {e.data.rd[0].serialjobno}</h1>
-                                                            <h1 className='h1_3'> {e.data.rd[0].Designcode}</h1>
-                                                            <h1 className='h1_3'> {e.data.rd[0].MetalType}</h1>
-                                                            <h1 className='h1_3'> {e.data.rd[0].MetalColorCo}</h1>
-                                                            <h1 className='h1_3'> {e.data.rd[0].category}</h1>
-                                                            <h1 className='h1_3'> {e.data.rd[0].CustomerCode}</h1>
+                                                            <h1 className='h1_3'> {e?.data?.rd?.serialjobno}</h1>
+                                                            <h1 className='h1_3'> {e?.data?.rd?.Designcode}</h1>
+                                                            <h1 className='h1_3'> {e?.data?.rd?.MetalType}</h1>
+                                                            <h1 className='h1_3'> {e?.data?.rd?.MetalColorCo}</h1>
+                                                            <h1 className='h1_3'> {e?.data?.rd?.category}</h1>
+                                                            <h1 className='h1_3'> {e?.data?.rd?.CustomerCode}</h1>
                                                         </div>
                                                         <div style={{ position: "absolute", right: "-13px" }}>
-                                                            {(e.data.rd.length !== 0 && e.data.rd !== undefined) && <>{e.data.rd[0].serialjobno !== undefined && <BarcodeStickerGen data={e.data.rd[0].serialjobno} />}</>}
+                                                            {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeStickerGen data={e?.data?.rd?.serialjobno} />}</>}
                                                         </div>
                                                     </div>
                                                 </div>

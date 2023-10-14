@@ -9,12 +9,15 @@ import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/LoaderBag";
+import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 
 const BagPrint7A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   let jobs = queryParams.str_srjobno;
+  const parts = jobs.split(",");
+  const resultString = parts.map((part) => `'${part}'`).join(",");
   if (Object.keys(queryParams).length !== 0) {
     jobs = jobs.split(",");
   }
@@ -29,38 +32,21 @@ const BagPrint7A = ({ queries, headers }) => {
     const fetchData = async () => {
       try {
         const responseData = [];
-        // const sizeArr = [];
-        for (let url in print) {
+
+        const objs = {
+          jobno: resultString,
+          custid: queries.custid,
+          printname: queries.printname,
+          appuserid: queries.appuserid,
+          url: queries.url,
+          headers: headers,
+        };
+
+        const allDatas = await GetData(objs);
+        let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+
+        datas?.map((a) => {
           let chunkData = [];
-          const objs = {
-            jobno: print[url],
-            custid: queries.custid,
-            printname: queries.printname,
-            appuserid: queries.appuserid,
-            url: queries.url,
-            headers: headers,
-          };
-          let datas = await GetData(objs);
-          const orderDatef = formatDate(datas?.rd[0]?.OrderDate);
-          const promiseDatef = formatDate(datas?.rd[0]?.promisedate);
-
-          datas?.rd?.map((e) => {
-            e.orderDatef = orderDatef;
-            e.promiseDatef = promiseDatef;
-            //
-          });
-          // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-          // let jsonString = JSON.stringify(p_tag);
-          // let base64String = btoa(jsonString);
-          // let Body = {
-          //   "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-          //   "p": `${base64String}`,
-          //   "f": `${queries.appuserid} ${queries.printname}`
-          // };
-          // let urls = atob(queries.url);
-          // const response = await axios.post(urls, Body, { headers: headers });
-          // let datas = JSON.parse(response.data.d);
-
           let length = 0;
           let clr = {
             Shapename: "TOTAL",
@@ -95,89 +81,89 @@ const BagPrint7A = ({ queries, headers }) => {
             // heading: "FINDING DETAIL"
           };
           let ArrofSevenSize = [];
-          //arr for colorstone
           let ArrofFiveSize = [];
           let ArrofMISize = [];
           let ArrofFSize = [];
 
-          datas.rd1.map((e, i) => {
-            if (e.ConcatedFullShapeQualityColorCode !== "- - - ") {
+          a?.rd1?.map((e, i) => {
+            if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
             }
-            if (e.MasterManagement_DiamondStoneTypeid === 3) {
+            if (e?.MasterManagement_DiamondStoneTypeid === 3) {
               ArrofSevenSize.push(e);
               // ArrofSevenSize[0].heading = "DIAMOND DETAIL";
-              dia.ActualPcs = dia.ActualPcs + e.ActualPcs;
-              dia.ActualWeight = dia.ActualWeight + e.ActualWeight;
-            } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
+              dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
+              dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
+            } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
               ArrofFiveSize.push(e);
               // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
-              clr.ActualPcs = clr.ActualPcs + e.ActualPcs;
-              clr.ActualWeight = clr.ActualWeight + e.ActualWeight;
-            } else if (e.MasterManagement_DiamondStoneTypeid === 5) {
+              clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
+              clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
+            } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
               ArrofFSize.push(e);
               // ArrofFSize[0].heading = "FINDING DETAIL";
-              f.ActualPcs = f.ActualPcs + e.ActualPcs;
-              f.ActualWeight = f.ActualWeight + e.ActualWeight;
-            } else if (e.MasterManagement_DiamondStoneTypeid === 7) {
+              f.ActualPcs = f.ActualPcs + e?.ActualPcs;
+              f.ActualWeight = f.ActualWeight + e?.ActualWeight;
+            } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
               ArrofMISize.push(e);
               // ArrofMISize[0].heading = "MISC DETAIL";
-              misc.ActualPcs = misc.ActualPcs + e.ActualPcs;
-              misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
+              misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
+              misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
             }
           });
-          dia.ActualPcs = +dia.ActualPcs.toFixed(3);
-          dia.ActualWeight = +dia.ActualWeight.toFixed(3);
-          clr.ActualPcs = +clr.ActualPcs.toFixed(3);
-          clr.ActualWeight = +clr.ActualWeight.toFixed(3);
-          misc.ActualPcs = +misc.ActualPcs.toFixed(3);
-          misc.ActualWeight = +misc.ActualWeight.toFixed(3);
-          f.ActualPcs = +f.ActualPcs.toFixed(3);
-          f.ActualWeight = +f.ActualWeight.toFixed(3);
+          dia.ActualPcs = +dia.ActualPcs?.toFixed(3);
+          dia.ActualWeight = +dia.ActualWeight?.toFixed(3);
+          clr.ActualPcs = +clr.ActualPcs?.toFixed(3);
+          clr.ActualWeight = +clr.ActualWeight?.toFixed(3);
+          misc.ActualPcs = +misc.ActualPcs?.toFixed(3);
+          misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
+          f.ActualPcs = +f.ActualPcs?.toFixed(3);
+          f.ActualWeight = +f.ActualWeight?.toFixed(3);
 
           ArrofSevenSize.push(dia);
           ArrofFiveSize.push(clr);
           ArrofFSize.push(f);
           ArrofMISize.push(misc);
 
-          ArrofSevenSize.map((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+          ArrofSevenSize?.map((e) => {
+            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               ArrofSevenSize = [];
             } else {
               e.heading = "DIAMOND DETAIL";
             }
           });
-          ArrofFiveSize.map((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+          ArrofFiveSize?.map((e) => {
+            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               ArrofFiveSize = [];
             } else {
               e.heading = "COLOR STONE DETAIL";
             }
           });
-          ArrofMISize.map((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+          ArrofMISize?.map((e) => {
+            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               ArrofMISize = [];
             } else {
               e.heading = "MISC DETAIL";
             }
           });
-          ArrofFSize.map((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+          ArrofFSize?.map((e) => {
+            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               ArrofFSize = [];
             } else {
               e.heading = "FINDING DETAIL";
             }
           });
+
           let arr = [];
           // let sizeArr = [];
-          let mainArr = arr.concat(
+          let mainArr = arr?.concat(
             ArrofSevenSize,
             ArrofFiveSize,
             ArrofMISize,
             ArrofFSize
           );
-          let imagePath = queryParams.imagepath;
-          imagePath = atob(queryParams.imagepath);
+          let imagePath = queryParams?.imagepath;
+          imagePath = atob(queryParams?.imagepath);
 
           // let obj = {};
           // datas?.rd1?.forEach((e) => {
@@ -188,19 +174,16 @@ const BagPrint7A = ({ queries, headers }) => {
           //   // chunkData.push(obj)
           // });
 
-          let img = imagePath + datas?.rd[0]?.ThumbImagePath;
+          let img = imagePath + a?.rd?.ThumbImagePath;
 
-          for (let i = 0; i < mainArr.length; i += chunkSize7) {
-            const chunks = mainArr.slice(i, i + chunkSize7);
-            let len = 6 - mainArr.slice(i, i + chunkSize7).length;
-
-            // let sizeArr = [];
-
+          for (let i = 0; i < mainArr?.length; i += chunkSize7) {
+            const chunks = mainArr?.slice(i, i + chunkSize7);
+            let len = 6 - mainArr?.slice(i, i + chunkSize7)?.length;
             chunkData.push({ data: chunks, length: len });
           }
 
           responseData.push({
-            data: datas,
+            data: a,
             additional: {
               length: length,
               clr: clr,
@@ -211,7 +194,192 @@ const BagPrint7A = ({ queries, headers }) => {
               pages: chunkData,
             },
           });
-        }
+
+        })
+
+        // const sizeArr = [];
+        // for (let url in print) {
+        //   let chunkData = [];
+        //   const objs = {
+        //     jobno: print[url],
+        //     custid: queries.custid,
+        //     printname: queries.printname,
+        //     appuserid: queries.appuserid,
+        //     url: queries.url,
+        //     headers: headers,
+        //   };
+        //   let datas = await GetData(objs);
+        //   const orderDatef = formatDate(datas?.rd?.OrderDate);
+        //   const promiseDatef = formatDate(datas?.rd?.promisedate);
+
+        //   datas?.rd?.map((e) => {
+        //     e.orderDatef = orderDatef;
+        //     e.promiseDatef = promiseDatef;
+        //     //
+        //   });
+        //   // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
+        //   // let jsonString = JSON.stringify(p_tag);
+        //   // let base64String = btoa(jsonString);
+        //   // let Body = {
+        //   //   "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
+        //   //   "p": `${base64String}`,
+        //   //   "f": `${queries.appuserid} ${queries.printname}`
+        //   // };
+        //   // let urls = atob(queries.url);
+        //   // const response = await axios.post(urls, Body, { headers: headers });
+        //   // let datas = JSON.parse(response.data.d);
+
+        //   let length = 0;
+        //   let clr = {
+        //     Shapename: "TOTAL",
+        //     Sizename: "",
+        //     ActualPcs: 0,
+        //     ActualWeight: 0,
+        //     MasterManagement_DiamondStoneTypeid: 4,
+        //     // heading: "COLOR STONE DETAIL"
+        //   };
+        //   let dia = {
+        //     Shapename: "TOTAL",
+        //     Sizename: "",
+        //     ActualPcs: 0,
+        //     ActualWeight: 0,
+        //     MasterManagement_DiamondStoneTypeid: 3,
+        //     // heading: "DIAMOND DETAIL"
+        //   };
+        //   let misc = {
+        //     Shapename: "TOTAL",
+        //     Sizename: "",
+        //     ActualPcs: 0,
+        //     ActualWeight: 0,
+        //     MasterManagement_DiamondStoneTypeid: 7,
+        //     // heading: "MISC DETAIL"
+        //   };
+        //   let f = {
+        //     Shapename: "TOTAL",
+        //     Sizename: "",
+        //     ActualPcs: 0,
+        //     ActualWeight: 0,
+        //     MasterManagement_DiamondStoneTypeid: 5,
+        //     // heading: "FINDING DETAIL"
+        //   };
+        //   let ArrofSevenSize = [];
+        //   //arr for colorstone
+        //   let ArrofFiveSize = [];
+        //   let ArrofMISize = [];
+        //   let ArrofFSize = [];
+
+        //   datas.rd1.map((e, i) => {
+        //     if (e.ConcatedFullShapeQualityColorCode !== "- - - ") {
+        //       length++;
+        //     }
+        //     if (e.MasterManagement_DiamondStoneTypeid === 3) {
+        //       ArrofSevenSize.push(e);
+        //       // ArrofSevenSize[0].heading = "DIAMOND DETAIL";
+        //       dia.ActualPcs = dia.ActualPcs + e.ActualPcs;
+        //       dia.ActualWeight = dia.ActualWeight + e.ActualWeight;
+        //     } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
+        //       ArrofFiveSize.push(e);
+        //       // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
+        //       clr.ActualPcs = clr.ActualPcs + e.ActualPcs;
+        //       clr.ActualWeight = clr.ActualWeight + e.ActualWeight;
+        //     } else if (e.MasterManagement_DiamondStoneTypeid === 5) {
+        //       ArrofFSize.push(e);
+        //       // ArrofFSize[0].heading = "FINDING DETAIL";
+        //       f.ActualPcs = f.ActualPcs + e.ActualPcs;
+        //       f.ActualWeight = f.ActualWeight + e.ActualWeight;
+        //     } else if (e.MasterManagement_DiamondStoneTypeid === 7) {
+        //       ArrofMISize.push(e);
+        //       // ArrofMISize[0].heading = "MISC DETAIL";
+        //       misc.ActualPcs = misc.ActualPcs + e.ActualPcs;
+        //       misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
+        //     }
+        //   });
+        //   dia.ActualPcs = +dia.ActualPcs.toFixed(3);
+        //   dia.ActualWeight = +dia.ActualWeight.toFixed(3);
+        //   clr.ActualPcs = +clr.ActualPcs.toFixed(3);
+        //   clr.ActualWeight = +clr.ActualWeight.toFixed(3);
+        //   misc.ActualPcs = +misc.ActualPcs.toFixed(3);
+        //   misc.ActualWeight = +misc.ActualWeight.toFixed(3);
+        //   f.ActualPcs = +f.ActualPcs.toFixed(3);
+        //   f.ActualWeight = +f.ActualWeight.toFixed(3);
+
+        //   ArrofSevenSize.push(dia);
+        //   ArrofFiveSize.push(clr);
+        //   ArrofFSize.push(f);
+        //   ArrofMISize.push(misc);
+
+        //   ArrofSevenSize.map((e) => {
+        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+        //       ArrofSevenSize = [];
+        //     } else {
+        //       e.heading = "DIAMOND DETAIL";
+        //     }
+        //   });
+        //   ArrofFiveSize.map((e) => {
+        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+        //       ArrofFiveSize = [];
+        //     } else {
+        //       e.heading = "COLOR STONE DETAIL";
+        //     }
+        //   });
+        //   ArrofMISize.map((e) => {
+        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+        //       ArrofMISize = [];
+        //     } else {
+        //       e.heading = "MISC DETAIL";
+        //     }
+        //   });
+        //   ArrofFSize.map((e) => {
+        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+        //       ArrofFSize = [];
+        //     } else {
+        //       e.heading = "FINDING DETAIL";
+        //     }
+        //   });
+        //   let arr = [];
+        //   // let sizeArr = [];
+        //   let mainArr = arr.concat(
+        //     ArrofSevenSize,
+        //     ArrofFiveSize,
+        //     ArrofMISize,
+        //     ArrofFSize
+        //   );
+        //   let imagePath = queryParams.imagepath;
+        //   imagePath = atob(queryParams.imagepath);
+
+        //   // let obj = {};
+        //   // datas?.rd1?.forEach((e) => {
+        //   //   if (e?.MasterManagement_DiamondStoneTypeid !== 0) {
+        //   //     sizeArr.push(e);
+        //   //   }
+        //   //   obj= {...obj, sizeArr}
+        //   //   // chunkData.push(obj)
+        //   // });
+
+        //   let img = imagePath + datas?.rd?.ThumbImagePath;
+
+        //   for (let i = 0; i < mainArr.length; i += chunkSize7) {
+        //     const chunks = mainArr.slice(i, i + chunkSize7);
+        //     let len = 6 - mainArr.slice(i, i + chunkSize7).length;
+
+        //     // let sizeArr = [];
+
+        //     chunkData.push({ data: chunks, length: len });
+        //   }
+
+        //   responseData.push({
+        //     data: datas,
+        //     additional: {
+        //       length: length,
+        //       clr: clr,
+        //       dia: dia,
+        //       f: f,
+        //       img: img,
+        //       misc: misc,
+        //       pages: chunkData,
+        //     },
+        //   });
+        // }
         setData(responseData);
       } catch (error) {
         console.log(error);
@@ -235,7 +403,7 @@ const BagPrint7A = ({ queries, headers }) => {
     // }
   };
   useEffect(() => {
-    if (data.length !== 0) {
+    if (data?.length !== 0) {
       setTimeout(() => {
         window.print();
       }, 5000);
@@ -243,7 +411,7 @@ const BagPrint7A = ({ queries, headers }) => {
   }, [data]);
   return (
     <>
-      {data.length === 0 ? (
+      {data?.length === 0 ? (
         <Loader />
       ) : (
         <>
@@ -258,7 +426,7 @@ const BagPrint7A = ({ queries, headers }) => {
 
           <div className="print7A">
             {Array.from(
-              { length: queries.pageStart },
+              { length: queries?.pageStart },
               (_, index) =>
                 index > 0 && (
                   <div
@@ -280,35 +448,35 @@ const BagPrint7A = ({ queries, headers }) => {
                               <div className="head7AjobInfo">
                                 <div className="head7AjobInfoJobNO">
                                   <div>
-                                    Ord. : {e?.data?.rd[0]?.orderDatef ?? ""}
+                                    Ord. : {e?.data?.rd?.orderDatef ?? ""}
                                   </div>
                                   <div>
-                                    Due : {e?.data?.rd[0]?.promiseDatef ?? ""}
+                                    Due : {e?.data?.rd?.promiseDatef ?? ""}
                                   </div>
                                   <div>
-                                    <b>{e?.data?.rd[0]?.serialjobno}</b>
+                                    <b>{e?.data?.rd?.serialjobno}</b>
                                   </div>
                                 </div>
                                 <div className="party7A">
                                   <div>
-                                    Party: <b>{e?.data?.rd[0]?.CustomerCode}</b>
+                                    Party: <b>{e?.data?.rd?.CustomerCode}</b>
                                   </div>
                                   <div style={{ paddingBottom: "4px" }}>
-                                    Ord No. : <b>{e?.data?.rd[0]?.OrderNo}</b>
+                                    Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
                                   </div>
                                 </div>
                                 <div className="party7A">
                                   <div>
-                                    Dg No. : <b>{e?.data?.rd[0]?.Designcode}</b>
+                                    Dg No. : <b>{e?.data?.rd?.Designcode}</b>
                                   </div>
                                   <div className="barcode7A">
                                     {e?.data?.rd?.length !== 0 &&
                                       e?.data?.rd !== undefined && (
                                         <>
-                                          {e?.data?.rd[0]?.serialjobno !==
+                                          {e?.data?.rd?.serialjobno !==
                                             undefined && (
                                             <BarcodeGenerator
-                                              data={e?.data?.rd[0]?.serialjobno}
+                                              data={e?.data?.rd?.serialjobno}
                                             />
                                           )}
                                         </>
@@ -316,9 +484,9 @@ const BagPrint7A = ({ queries, headers }) => {
                                   </div>
                                 </div>
                                 <div className="party7A">
-                                  <div>Size: {e?.data?.rd[0]?.Size}</div>
-                                  <div>({e?.data?.rd[0]?.Quantity})Pcs</div>
-                                  <div>{e?.data?.rd[0]?.prioritycode}</div>
+                                  <div>Size: {e?.data?.rd?.Size}</div>
+                                  <div>({e?.data?.rd?.Quantity})Pcs</div>
+                                  <div>{e?.data?.rd?.prioritycode}</div>
                                 </div>
 
                                 <div className="mat7AInfo">
@@ -327,13 +495,13 @@ const BagPrint7A = ({ queries, headers }) => {
                                       <b>Net Wt.</b>
                                     </div>
                                     <div className="net7A justify-content-end pe-1">
-                                      {e?.data?.rd[0]?.netwt}
+                                      {e?.data?.rd?.netwt}
                                     </div>
                                     <div className="net7A">
                                       <b>Gr Wt.</b>
                                     </div>
                                     <div className="net7A justify-content-end pe-1">
-                                      {e?.data?.rd[0]?.ActualGrossweight.toFixed(
+                                      {e?.data?.rd?.ActualGrossweight.toFixed(
                                         3
                                       )}
                                     </div>
@@ -413,8 +581,8 @@ const BagPrint7A = ({ queries, headers }) => {
                                     height: "21px",
                                   }}
                                 >
-                                  {e?.data?.rd[0]?.MetalType}{" "}
-                                  {e?.data?.rd[0]?.MetalColorCo}
+                                  {e?.data?.rd?.MetalType}{" "}
+                                  {e?.data?.rd?.MetalColorCo}
                                 </div>
                               </div>
                             </div>
@@ -836,7 +1004,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   {/* <div className="anotherBarcode7A">
                                     hello
                                     <BarcodeGenerator
-                                      data={e?.data?.rd[0]?.serialjobno}
+                                      data={e?.data?.rd?.serialjobno}
                                     />
                                   </div> */}
                                 </div>
@@ -895,19 +1063,19 @@ const BagPrint7A = ({ queries, headers }) => {
                               >
                                 Remark:{" "}
                                 {(
-                                  e?.data?.rd[0]?.custInstruction +
-                                  e?.data?.rd[0]?.QuoteRemark +
-                                  e?.data?.rd[0]?.ProductInstruction
+                                  e?.data?.rd?.custInstruction +
+                                  e?.data?.rd?.QuoteRemark +
+                                  e?.data?.rd?.ProductInstruction
                                 )?.length > 0
-                                  ? e?.data?.rd[0]?.custInstruction +
-                                      e?.data?.rd[0]?.QuoteRemark +
-                                      e?.data?.rd[0]?.ProductInstruction ==
+                                  ? e?.data?.rd?.custInstruction +
+                                      e?.data?.rd?.QuoteRemark +
+                                      e?.data?.rd?.ProductInstruction ==
                                     (null || "null")
                                     ? ""
                                     : (
-                                        e?.data?.rd[0]?.custInstruction +
-                                        e?.data?.rd[0]?.QuoteRemark +
-                                        e?.data?.rd[0]?.ProductInstruction
+                                        e?.data?.rd?.custInstruction +
+                                        e?.data?.rd?.QuoteRemark +
+                                        e?.data?.rd?.ProductInstruction
                                       )?.slice(0, 200)
                                   : ""}
                               </b>
@@ -921,35 +1089,35 @@ const BagPrint7A = ({ queries, headers }) => {
                           <div className="head7AjobInfo">
                             <div className="head7AjobInfoJobNO">
                               <div>
-                                Ord. : {e?.data?.rd[0]?.orderDatef ?? ""}
+                                Ord. : {e?.data?.rd?.orderDatef ?? ""}
                               </div>
                               <div>
-                                Due : {e?.data?.rd[0]?.promiseDatef ?? ""}
+                                Due : {e?.data?.rd?.promiseDatef ?? ""}
                               </div>
                               <div>
-                                <b>{e?.data?.rd[0]?.serialjobno}</b>
-                              </div>
-                            </div>
-                            <div className="party7A">
-                              <div>
-                                Party: <b>{e?.data?.rd[0]?.CustomerCode}</b>
-                              </div>
-                              <div>
-                                Ord No. : <b>{e?.data?.rd[0]?.OrderNo}</b>
+                                <b>{e?.data?.rd?.serialjobno}</b>
                               </div>
                             </div>
                             <div className="party7A">
                               <div>
-                                Dg No. : <b>{e?.data?.rd[0]?.Designcode}</b>
+                                Party: <b>{e?.data?.rd?.CustomerCode}</b>
+                              </div>
+                              <div>
+                                Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
+                              </div>
+                            </div>
+                            <div className="party7A">
+                              <div>
+                                Dg No. : <b>{e?.data?.rd?.Designcode}</b>
                               </div>
                               <div class Name="barcode7A">
                                 {e?.data?.rd?.length !== 0 &&
                                   e?.data?.rd !== undefined && (
                                     <>
-                                      {e?.data?.rd[0]?.serialjobno !==
+                                      {e?.data?.rd?.serialjobno !==
                                         undefined && (
                                         <BarcodeGenerator
-                                          data={e?.data?.rd[0]?.serialjobno}
+                                          data={e?.data?.rd?.serialjobno}
                                         />
                                       )}
                                     </>
@@ -957,7 +1125,7 @@ const BagPrint7A = ({ queries, headers }) => {
                               </div>
                             </div>
                             <div className="party7A">
-                              <div>Size: {e?.data?.rd[0]?.Size}</div>
+                              <div>Size: {e?.data?.rd?.Size}</div>
                               <div>(1)Pcs</div>
                             </div>
 
@@ -967,13 +1135,13 @@ const BagPrint7A = ({ queries, headers }) => {
                                   <b>Net Wt.</b>
                                 </div>
                                 <div className="net7A">
-                                  {e?.data?.rd[0]?.netwt}
+                                  {e?.data?.rd?.netwt}
                                 </div>
                                 <div className="net7A">
                                   <b>Gr Wt.</b>
                                 </div>
                                 <div className="net7A">
-                                  {e?.data?.rd[0]?.ActualGrossweight}
+                                  {e?.data?.rd?.ActualGrossweight}
                                 </div>
                               </div>
                               <div className="pcswt7A">
@@ -1047,8 +1215,8 @@ const BagPrint7A = ({ queries, headers }) => {
                                 height: "22px",
                               }}
                             >
-                              {e?.data?.rd[0]?.MetalType}
-                              {e?.data?.rd[0]?.MetalColorCo}
+                              {e?.data?.rd?.MetalType}
+                              {e?.data?.rd?.MetalColorCo}
                             </div>
                           </div>
                           {/* <div className='imgSize7A'><div className='img7A'>img</div><div className='borderBottom7A'>GOLD 18K YL</div></div> */}
@@ -1198,19 +1366,19 @@ const BagPrint7A = ({ queries, headers }) => {
                           <b>
                             Remark:{" "}
                             {(
-                              e?.data?.rd[0]?.custInstruction +
-                              e?.data?.rd[0]?.QuoteRemark +
-                              e?.data?.rd[0]?.ProductInstruction
+                              e?.data?.rd?.custInstruction +
+                              e?.data?.rd?.QuoteRemark +
+                              e?.data?.rd?.ProductInstruction
                             )?.length > 0
-                              ? e?.data?.rd[0]?.custInstruction +
-                                  e?.data?.rd[0]?.QuoteRemark +
-                                  e?.data?.rd[0]?.ProductInstruction ==
+                              ? e?.data?.rd?.custInstruction +
+                                  e?.data?.rd?.QuoteRemark +
+                                  e?.data?.rd?.ProductInstruction ==
                                 (null || "null")
                                 ? ""
                                 : (
-                                    e?.data?.rd[0]?.custInstruction +
-                                    e?.data?.rd[0]?.QuoteRemark +
-                                    e?.data?.rd[0]?.ProductInstruction
+                                    e?.data?.rd?.custInstruction +
+                                    e?.data?.rd?.QuoteRemark +
+                                    e?.data?.rd?.ProductInstruction
                                   )?.slice(0, 131)
                               : ""}
                           </b>

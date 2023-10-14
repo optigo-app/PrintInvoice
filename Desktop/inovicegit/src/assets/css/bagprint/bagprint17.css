@@ -732,6 +732,11 @@ table {
 }
 
 
+.print_section_17 .container_margin_left {
+  margin-left: 2px !important;
+  margin-right: 0 !important;
+  width: 23rem;
+}
 
 @media print {
 
@@ -741,12 +746,18 @@ table {
   a[href]:after {
     display: none;
   }
+ 
+  .print_section_17 .container_margin_left{
+    margin-top: 20px !important;
+  }
+
+  .print_section_17 .container_margin_left:nth-child(6n+6){
+    page-break-after: always;
+  }
+  
 }
 
 
-.container_margin_left {
-  margin-left: 23px;
-}
 
 .ml_8mm {
   margin-left: 8mm;
