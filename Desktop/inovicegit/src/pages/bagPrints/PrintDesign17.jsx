@@ -218,14 +218,14 @@ const PrintDesign17 = ({ queries, headers }) => {
                 <div className="d_flex flex_wrap m_5 print_section_17">
                     {/* {Array.from({ length: queries.pageStart }, (_, index) => ( */}
                     {Array.from({ length: queries.pageStart }, (_, index) => (
-                        // index > 0 && <div key={index} className="container  ml_5 mb_10"></div>
-                        index > 0 && <div key={index} className="container mb_2 mt_2 pt_2 container_margin_left"></div>
+                        // index > 0 && <div key={index} className="container_17_old  ml_5 mb_10"></div>
+                        index > 0 && <div key={index} className="container_17_old mb_2 mt_2 pt_2 container_margin_left"></div>
                     ))}
                     {
                         data?.map((e, i) => {
                             return <>
                                 {e?.additional?.chdata?.length > 0 ? e?.additional?.chdata?.map((chunk, index) => {
-                                    return <div className="container mb_2 mt_2 pt_2 container_margin_left" key={index}>
+                                    return <div className="container_17_old mb_2 mt_2 pt_2 container_margin_left" key={index}>
                                         <div className="border border-black border-2">
                                             <div className="print_sec d_flex">
                                                 <div className="print_text border_right">
@@ -320,7 +320,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                             </div>
                                         </div>
                                     </div>;
-                                }) : <div className="container mb_2 mt_2 pt_2 container_margin_left" key={i}>
+                                }) : <div className="container_17_old mb_2 mt_2 pt_2 container_margin_left" key={i}>
                                     <div className="border border-black border-2">
                                         <div className="print_sec d_flex">
                                             <div className="print_text border_right">
@@ -411,7 +411,7 @@ import Loader from './../../components/LoaderBag';
                                         </div>
                                     </div>
                                 </div>}
-                                <div className="container mb_2 mt_2 pt_2 container_margin_left" key={i}>
+                                <div className="container_17_old mb_2 mt_2 pt_2 container_margin_left" key={i}>
                                     <div className="border border-black border-2     ">
                                         <div className="d_flex">
                                             <div className="side_1_17">

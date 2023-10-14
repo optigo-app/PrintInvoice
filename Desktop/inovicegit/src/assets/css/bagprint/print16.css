@@ -50,10 +50,6 @@ p.w_33.bold,
   padding-right: 3px;
 }
 
-.container {
-  width: 90mm;
-  height: 98mm;
-}
 
 .container_2 {
   width: 95mm;
@@ -945,11 +941,11 @@ p.w_33.bold,
   box-sizing: border-box;
 }
 
-.container {
+/* .container {
   width: 90mm;
   height: 98mm;
   box-sizing: border-box;
-}
+} */
 
 .container_2 {
   width: 95mm;

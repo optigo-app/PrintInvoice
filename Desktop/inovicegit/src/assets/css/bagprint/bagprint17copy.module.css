@@ -39,7 +39,11 @@ p.w_33.bold,
   padding-right: 3px;
 }
 
-.container {
+/* .container {
+  width: 90mm;
+  height: 98mm;
+} */
+.container_17_old {
   width: 90mm;
   height: 98mm;
 }

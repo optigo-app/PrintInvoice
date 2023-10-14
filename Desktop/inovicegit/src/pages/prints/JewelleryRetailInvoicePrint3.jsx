@@ -112,6 +112,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
             resultArr[findIndex].Collectionname = findRecord?.Collectionname;
             resultArr[findIndex].designno = findRecord?.designno;
             resultArr[findIndex].SrJobno = findRecord?.SrJobno;
+            resultArr[findIndex].DesignImage = findRecord?.DesignImage;
             e?.materials.forEach((ele, ind) => {
               let arr = [1, 2, 3];
               arr.forEach((element, index) => {
@@ -321,11 +322,11 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                 {/* data */}
                 {data.length > 0 && data.map((e, i) => {
                   return <div className="border-start border-end border-bottom d-flex no_break" key={i}>
-                    <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1`}><p className="fw-bold">{i}</p></div>
+                    <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1`}><p className="fw-bold">{i+1}</p></div>
                     <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 fw-bold`}>
                       <p className="fw-bold">{e?.SubCategoryname} {e?.Categoryname}</p>
                       <p className="fw-bold">{e?.designno} | {e?.SrJobno}</p>
-                      <img src="" alt="" />
+                      <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' />
                     </div>
                     <div className={`${style?.materialJewerryRetailInvoicePrint} border-end`}>
                       <div className="d-grid h-100">
