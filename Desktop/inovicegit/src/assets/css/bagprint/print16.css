@@ -908,11 +908,11 @@ ol {
   font-size: 2.1166666667mm;
   box-sizing: border-box;
 }
-
+/* 
 img {
   width: 100%;
   box-sizing: border-box;
-}
+} */
 
 .align_center {
   align-items: center;
