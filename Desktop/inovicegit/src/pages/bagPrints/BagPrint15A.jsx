@@ -853,13 +853,7 @@ const BagPrint15A = ({ queries, headers }) => {
         }
     }, [data]);
 
-    const handleImageLoad = (eve, i, dataLen) => {
 
-        // if ((i === dataLen - 1) && !eve.target.hasPrinted) {
-        //     eve.target.hasPrinted = true;
-        //     setTimeout(() => window.print(), 5000);
-        // }
-    };
 
     return (
         <>
@@ -984,7 +978,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                     </div>
 
                                                     <div className="aside">
-                                                        <div className="imgSize15"><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager" onLoad={eve => handleImageLoad(eve, i, data?.length)} /></div>
+                                                        <div className="imgSize15"><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                                         {/* <div>{e?.data?.rd1?.map((a, i) => {
                                                             if (a.MasterManagement_DiamondStoneTypeid == "3") {
                                                                 totalPcsofDiamond = totalPcsofDiamond + a.ActualPcs;
@@ -1128,7 +1122,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                             </div>
                                         </div>
                                         <div className="aside">
-                                            <div className="imgSize15"><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager" onLoad={eve => handleImageLoad(eve, i, data?.length)} /></div>
+                                            <div className="imgSize15"><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                             <div>
                                                 <div className="sub-aside"> <b>Total : {e?.additional?.dia?.diaPcs} Pcs</b></div>
                                                 <div className="sub-aside"> <b>Type: Colorstone sieve size</b></div>

@@ -387,11 +387,7 @@ const BagPrint6A = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
-  const handleImageLoad = (eve, i, dataLen) => {
-    // if (i === dataLen - 1) {
-    //     setTimeout(window.print(), 5000);
-    // }
-  };
+
   return (
     <>
       {data.length === 0 ? (
@@ -512,9 +508,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   }
                                   id="img6A"
                                   alt=""
-                                  onLoad={(eve) =>
-                                    handleImageLoad(eve, inx, data?.length)
-                                  }
+                                  
                                   onError={(e) => handleImageError(e)}
                                   loading="eager"
                                 />
@@ -764,9 +758,7 @@ const BagPrint6A = ({ queries, headers }) => {
                               alt=""
                               onError={(e) => handleImageError(e)}
                               loading="eager"
-                              onLoad={(eve) =>
-                                handleImageLoad(eve, inx, data?.length)
-                              }
+                           
                             />
                           </div>
                         </div>

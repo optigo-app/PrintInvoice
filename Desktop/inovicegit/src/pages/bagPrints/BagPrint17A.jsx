@@ -436,14 +436,9 @@ const BagPrint17A = ({ queries, headers }) => {
   //     }
   // }, [data]);
 
-  const handleImageLoad = (eve, i, dataLen) => {
-    // if (i === dataLen - 1) {
-    //     setTimeout(window.print(), 5000);
-    // }
-  };
 
   useEffect(() => {
-    if (data.length !== 0) {
+    if (data?.length !== 0) {
       setTimeout(() => {
         window.print();
       }, 5000);
@@ -556,9 +551,7 @@ const BagPrint17A = ({ queries, headers }) => {
                                   onError={(e) => handleImageError(e)}
                                   id="imgn17A"
                                   loading="eager"
-                                  onLoad={(eve) =>
-                                    handleImageLoad(eve, i, data?.length)
-                                  }
+                                 
                                 />
                               </div>
                             </div>
@@ -736,9 +729,7 @@ const BagPrint17A = ({ queries, headers }) => {
                               onError={(e) => handleImageError(e)}
                               id="img18A"
                               loading="eager"
-                              onLoad={(eve) =>
-                                handleImageLoad(eve, i, data?.length)
-                              }
+                            
                             />
                           </div>
                         </div>
@@ -907,9 +898,7 @@ const BagPrint17A = ({ queries, headers }) => {
                             onError={(e) => handleImageError(e)}
                             id="imgn17AD"
                             loading="eager"
-                            onLoad={(eve) =>
-                              handleImageLoad(eve, i, data?.length)
-                            }
+                           
                           />
                         </div>
                       </div>

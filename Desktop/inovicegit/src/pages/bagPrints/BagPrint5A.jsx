@@ -359,11 +359,7 @@ const BagPrint5A = ({ queries, headers }) => {
   //     e.target.src = require('../../assets/img/default.jpg');
   // };
 
-  const handleImageLoad = (eve, i, dataLen) => {
-    // if (i === dataLen - 1) {
-    //     setTimeout(window.print(), 5000);
-    // }
-  };
+
   useEffect(() => {
     if (data.length !== 0) {
       setTimeout(() => {
@@ -614,9 +610,7 @@ const BagPrint5A = ({ queries, headers }) => {
                                         alt=""
                                         onError={(e) => handleImageError(e)}
                                         loading="eager"
-                                        onLoad={(eve) =>
-                                          handleImageLoad(eve, i, data?.length)
-                                        }
+                                      
                                       />
                                     </div>
                                     <div className="barcodeInfo5A">
@@ -826,9 +820,7 @@ const BagPrint5A = ({ queries, headers }) => {
                                     alt=""
                                     onError={(e) => handleImageError(e)}
                                     loading="eager"
-                                    onLoad={(eve) =>
-                                      handleImageLoad(eve, i, data?.length)
-                                    }
+                                 
                                   />
                                 </div>
                                 <div className="barcodeInfo5A">
@@ -1062,9 +1054,7 @@ const BagPrint5A = ({ queries, headers }) => {
                             alt=""
                             onError={(e) => handleImageError(e)}
                             loading="eager"
-                            onLoad={(eve) =>
-                              handleImageLoad(eve, i, data?.length)
-                            }
+                           
                           />
                         </div>
                       </div>

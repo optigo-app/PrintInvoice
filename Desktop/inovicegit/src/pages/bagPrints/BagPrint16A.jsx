@@ -197,9 +197,7 @@ const BagPrint16A = ({ queries, headers }) => {
 
 
 
-  const handleImageLoad = (eve, i, dataLen) => {
 
-  };
   return (
     <>
       <div style={{ marginBottom: "2rem" }}>
@@ -396,9 +394,7 @@ const BagPrint16A = ({ queries, headers }) => {
                               className="img16Aid"
                               preload="auto"
                               onError={(e) => handleImageError(e)}
-                              onLoad={(e) =>
-                                handleImageLoad(e, i, data?.length)
-                              }
+                            
                               loading="eager"
                             />
                           </div>
@@ -828,9 +824,7 @@ const BagPrint16A = ({ queries, headers }) => {
                                     className="img16Aid"
                                     preload="auto"
                                     onError={(e) => handleImageError(e)}
-                                    onLoad={(e) =>
-                                      handleImageLoad(e, i, data?.length)
-                                    }
+                                  
                                     loading="eager"
                                     id="img16A"
                                   />

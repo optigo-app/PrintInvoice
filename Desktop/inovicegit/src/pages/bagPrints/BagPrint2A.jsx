@@ -49,24 +49,23 @@ function BagPrint2A({ queries, headers }) {
           let datas = organizeData(allDatas?.rd, allDatas?.rd1);
   
           datas?.map((a) => {
-          //   console.log(a);
             imgUrls?.push(a?.rd?.ThumbImagePath);
-            let length = 0;
-            let clr = {
-              clrPcs: 0,
-              clrWt: 0,
-            };
-            let dia = {
-              diaPcs: 0,
-              diaWt: 0,
-            };
-            let diamondData = [];
-            let clrData = [];
-            let diamondWeight = 0;
-            let diamondPcs = 0;
-            let clrWeight = 0;
-            let clrpcs = 0;
-            let chData = [];
+            // let length = 0;
+            // let clr = {
+            //   clrPcs: 0,
+            //   clrWt: 0,
+            // };
+            // let dia = {
+            //   diaPcs: 0,
+            //   diaWt: 0,
+            // };
+            // let diamondData = [];
+            // let clrData = [];
+            // let diamondWeight = 0;
+            // let diamondPcs = 0;
+            // let clrWeight = 0;
+            // let clrpcs = 0;
+            // let chData = [];
   
             // let imagePath = queryParams?.imagepath;
             // imagePath = atob(queryParams?.imagepath);
