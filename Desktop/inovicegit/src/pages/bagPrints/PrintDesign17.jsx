@@ -107,7 +107,6 @@ const PrintDesign17 = ({ queries, headers }) => {
 
                   })
 
-
                 // for (const url of print) {
                 //     let p_tag = { "SerialJobno": `${url}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
                 //     let jsonString = JSON.stringify(p_tag);
@@ -175,6 +174,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                 //     obj?.rd[0]?.instructionData?.slice(0, 113);
                 //     responseData.push({ data: obj, additional: { length: length, clr: clr, dia: dia, img: img, misc: misc, chdata: chData } });
                 // }
+
                 setData(responseData);
 
             } catch (error) {
@@ -201,13 +201,6 @@ const PrintDesign17 = ({ queries, headers }) => {
         window.print();
     };
 
-    const handleImageLoad = (eve, i, dataLen) => {
-    //     if (i === dataLen - 1) {
-    //         setTimeout(() => {
-    //             window.print();
-    //         }, 5000);
-    //     }
-    };
     return (
         <div>
             {data.length === 0 ? <Loader /> : <> <div className="print_btn">
@@ -266,7 +259,8 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                     </div>
                                                 </div>
                                                 <div className="print_photo border_bottom" style={{ borderTop: "1px solid black", borderLeft: "1px solid" }}>
-                                                    <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onLoad={eve => handleImageLoad(eve, i, data?.length)} onError={e => handleImageError(e)} loading="eager" />
+                                                    <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} loading="eager" id="img17Old"
+                                                     />
                                                 </div>
                                             </div>
                                             <div className="print_sec d_flex border_bottom">
@@ -367,7 +361,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                 </div>
                                             </div>
                                             <div className="print_photo border_bottom" style={{ borderTop: "1px solid black", borderLeft: "1px solid" }}>
-                                                <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} id="img17D" loading="eager"  onLoad={eve => handleImageLoad(eve, i, data?.length)}/>
+                                                <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} id="img17OldDup" loading="eager" />
                                             </div>
                                         </div>
                                         <div className="print_sec d_flex border_bottom">
@@ -405,9 +399,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                             <div className="w_10 border_right"><div className="upper border_bottom text_center center_item"><p className="semibold">METAL</p></div><div className="lower17 center_item bold" style={{ borderBottom: "1px solid black" }}>{(e?.data?.rd?.["QuotGrossWeight"])?.toFixed(2)}</div></div>
                                             <div className="w_13 border_right"><div className="upper"></div><div className="lower17"></div></div>
                                             <div className="w_9 border_right"><div className="upper border_bottom text_center center_item"><p className="semibold">MISC</p></div><div className="lower17 center_item bold" style={{ borderBottom: "1px solid black !important" }}>{+(e?.additional?.misc?.miscWt)?.toFixed(2)}</div></div>
-                                            <div className="w_12_5mm"><div className="upper"></div><div className="lower17"></div></div>import { GetData } from './../../GlobalFunctions/GetData';
-import Loader from './../../components/LoaderBag';
-
+                                            <div className="w_12_5mm"><div className="upper"></div><div className="lower17"></div></div>
                                         </div>
                                     </div>
                                 </div>}
@@ -455,7 +447,7 @@ import Loader from './../../components/LoaderBag';
                                                 </div>
                                             </div>
                                             <div className="side_2_17" style={{ borderTop: "1px solid black", borderLeft: "1px solid" }}>
-                                                <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} loading="eager" onLoad={eve => handleImageLoad(eve, i, data?.length)} id='img17duplicate' />
+                                                <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} loading="eager" id='img17duplicate' />
                                                 <div className="cvds  pl_3">
                                                     <p className=" bold grey">CVD TEST</p>
                                                 </div>
