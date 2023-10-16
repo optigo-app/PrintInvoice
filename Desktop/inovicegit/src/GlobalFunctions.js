@@ -155,3 +155,21 @@ export const FooterComponent = (footerNo, footerData) => {
 
   return headerComponent;
 };
+
+export const ReceiveInBank = (BankPayDet) => {
+  if(BankPayDet?.length > 0){
+    let arr = BankPayDet.split('@-@');
+    let blankArr = [];
+    arr.forEach(e=> {
+      let obj = {};
+      let val = e.split('#-#');
+      obj.BankName = val[0];
+      obj.label = val[1];
+      obj.amount = +val[2];
+      blankArr.push(obj);
+    });
+    return blankArr;
+  }else{
+    return [];
+  }
+}

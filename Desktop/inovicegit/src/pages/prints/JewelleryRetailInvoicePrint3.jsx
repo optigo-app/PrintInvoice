@@ -8,6 +8,7 @@ import {
   handleImageError,
   isObjectEmpty,
   NumberWithCommas,
+  ReceiveInBank,
   taxGenrator,
 } from "../../GlobalFunctions";
 import Button from "./../../GlobalFunctions/Button";
@@ -33,6 +34,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
     netBalAmount: 0
   });
   const [taxes, setTaxes] = useState([]);
+  const [bank, setBank] = useState([]);
   async function loadData(data) {
     try {
       setHeaderData(data?.BillPrint_Json[0]);
@@ -90,7 +92,13 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
         totals.afterTax += +e?.amount;
       });
       totals.afterTax += totals?.total;
-      totals.netBalAmount = totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount - data?.BillPrint_Json[0]?.CashReceived - data?.BillPrint_Json[0]?.BankReceived;
+      let debitCardinfo = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
+      setBank(debitCardinfo);
+      // totals.netBalAmount = totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount - data?.BillPrint_Json[0]?.CashReceived - data?.BillPrint_Json[0]?.BankReceived;
+      totals.netBalAmount = totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount - data?.BillPrint_Json[0]?.CashReceived;
+      debitCardinfo.length > 0 && debitCardinfo.forEach((e, i) => {
+        totals.netBalAmount -= e.amount;
+      })
       setTaxes(taxValue);
       setTotal(totals);
       let resultArr = [];
@@ -131,7 +139,8 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                 resultArr[findIndex].materials[findIndexss].ShapeName = findRecord?.materials[findShapenameIndex].ShapeName;
                 resultArr[findIndex].materials[findIndexss].QualityName = findRecord?.materials[findShapenameIndex].QualityName;
               }
-            })
+            });
+           
           }
         } else {
           resultArr.push(e);
@@ -326,7 +335,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                     <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 fw-bold`}>
                       <p className="fw-bold">{e?.SubCategoryname} {e?.Categoryname}</p>
                       <p className="fw-bold">{e?.designno} | {e?.SrJobno}</p>
-                      <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' />
+                      <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' className="w-100 p-1"/>
                     </div>
                     <div className={`${style?.materialJewerryRetailInvoicePrint} border-end`}>
                       <div className="d-grid h-100">
@@ -378,7 +387,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                 {/* tax */}
                 <div className="d-flex border-start border-end border-bottom w-100 no_break">
                   <div className={`d-flex justify-content-between flex-column border-end ${style?.wordsJewellry}`}>
-                    <div className={`${style?.wordsJewerryRetailInvoicePrint}p-2 d-flex align-items-center justify-content-center pt-5`}>
+                    <div className={`${style?.wordsJewerryRetailInvoicePrint}p-2 d-flex align-items-center pt-5`}>
                      <div className="p-2 pt-4">
                      <p>In Words Indian Rupees</p>
                       <p className="fw-bold">{toWords.convert(total?.afterTax)}</p>
@@ -398,7 +407,10 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                       <p className="p-1">Total Amt after Tax</p>
                       <p className="p-1">Old Gold</p>
                       <p className="p-1">Recv. in Cash</p>
-                      <p className="p-1">Recv. in Bank</p>
+                      {bank.length > 0 && bank.map((e, i) => {
+                        return <p className="p-1" key={i}>Recv. in Bank ({e?.label})</p>
+                      })}
+                      {/* <p className="p-1">Recv. in Bank</p> */}
                       <p className="p-1">Net Bal. Amount</p>
                       <p className="fw-bold p-1 border-top">GRAND TOTAL</p>
                     </div>
@@ -411,7 +423,10 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                       <p className="p-1 text-end">{NumberWithCommas(total?.afterTax, 2)}</p>
                       <p className="p-1 text-end">{NumberWithCommas(headerData?.OldGoldAmount, 2)}</p>
                       <p className="p-1 text-end">{NumberWithCommas(headerData?.CashReceived, 2)}</p>
-                      <p className="p-1 text-end">{NumberWithCommas(headerData?.BankReceived, 2)}</p>
+                      {bank.length > 0 && bank.map((e, i) => {
+                        return <p className="p-1 text-end" key={i}>{NumberWithCommas(e?.amount, 2)}</p>
+                      })}
+                      {/* <p className="p-1 text-end">{NumberWithCommas(headerData?.BankReceived, 2)}</p> */}
                       <p className="p-1 text-end">{NumberWithCommas(total?.netBalAmount, 2)}</p>
                       <p className="fw-bold text-end p-1 border-top">{NumberWithCommas(total?.afterTax, 2)}</p>
                     </div>

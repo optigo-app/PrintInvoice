@@ -24,10 +24,14 @@
 
 .hsn_invoice1,
 .making_invoice1,
-.others_invoice1,
-.total_invoice1 {
+.others_invoice1 {
     width: 63.8px;
     min-width: 63.8px;
+}
+
+.total_invoice1 {
+    width: 70.8px;
+    min-width: 70.8px;
 }
 
 .hsn_invoice1 {

@@ -254,7 +254,6 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <div className='min_padding_invoice1 Rate_invoice_1 justify-content-end'>{ele?.MasterManagement_DiamondStoneTypeid === 4 && NumberWithCommas(ele?.Rate, 2)}</div>
                                 </div>
                             })}
-
                         </div>
                         <div className='d-flex align-items-center justify-content-center making_invoice1 p-1 border-end'>{NumberWithCommas(e?.mainData?.MakingAmount, 2)}</div>
                         <div className='others_invoice1  border-end'>
