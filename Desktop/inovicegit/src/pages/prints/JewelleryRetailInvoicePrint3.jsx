@@ -12,12 +12,14 @@ import {
 } from "../../GlobalFunctions";
 import Button from "./../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
+import { ToWords } from 'to-words';
 
 const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
   const [data, setdata] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
+  const toWords = new ToWords();
   const [total, setTotal] = useState({
     gwt: 0,
     stoneWt: 0,
@@ -32,7 +34,6 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
   });
   const [taxes, setTaxes] = useState([]);
   async function loadData(data) {
-    console.log(data);
     try {
       setHeaderData(data?.BillPrint_Json[0]);
       let blankArr = [];
@@ -90,7 +91,6 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
       });
       totals.afterTax += totals?.total;
       totals.netBalAmount = totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount - data?.BillPrint_Json[0]?.CashReceived - data?.BillPrint_Json[0]?.BankReceived;
-      // console.log(taxValue);
       setTaxes(taxValue);
       setTotal(totals);
       let resultArr = [];
@@ -207,7 +207,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                     <img
                       src={headerData?.PrintLogo}
                       alt="#"
-                      className="w-50 d-block ms-auto"
+                      className={`w-100 d-block ms-auto ${style?.imgJewelleryRetailinovicePrint3}`}
                       onError={(e) => handleImageError(e)}
                     />
                   </div>
@@ -322,7 +322,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                 {/* data */}
                 {data.length > 0 && data.map((e, i) => {
                   return <div className="border-start border-end border-bottom d-flex no_break" key={i}>
-                    <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1`}><p className="fw-bold">{i+1}</p></div>
+                    <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1`}><p className="fw-bold">{i + 1}</p></div>
                     <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 fw-bold`}>
                       <p className="fw-bold">{e?.SubCategoryname} {e?.Categoryname}</p>
                       <p className="fw-bold">{e?.designno} | {e?.SrJobno}</p>
@@ -377,9 +377,16 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                 </div>
                 {/* tax */}
                 <div className="d-flex border-start border-end border-bottom w-100 no_break">
-                  <div className={`${style?.wordsJewerryRetailInvoicePrint} border-end p-2 d-flex justify-content-center align-items-start flex-column`}>
-                    <p>In Words Indian Rupees</p>
-                    <p>Two Lakhs</p>
+                  <div className={`d-flex justify-content-between flex-column border-end ${style?.wordsJewellry}`}>
+                    <div className={`${style?.wordsJewerryRetailInvoicePrint}p-2 d-flex align-items-center justify-content-center pt-5`}>
+                     <div className="p-2 pt-4">
+                     <p>In Words Indian Rupees</p>
+                      <p className="fw-bold">{toWords.convert(total?.afterTax)}</p>
+                     </div>
+                    </div>
+                    <div className={`${style?.RemarkJewelleryInvoicePrintC} p-2`}>{console.log(headerData)}
+                      <div>Old Gold Purchase Description: <div dangerouslySetInnerHTML={{__html: headerData?.Remark}}></div></div>
+                    </div>
                   </div>
                   <div className={`${style?.discountJewerryRetailInvoicePrint} d-flex`}>
                     <div className="col-7 border-end">

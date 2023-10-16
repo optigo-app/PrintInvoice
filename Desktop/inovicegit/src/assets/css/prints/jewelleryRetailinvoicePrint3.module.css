@@ -1,3 +1,11 @@
+.jewelelryRetailInvoiceContainer{
+    max-width: 1200px !important;
+}
+
+.imgJewelleryRetailinovicePrint3{
+    height: auto !important;
+}
+
 .jewelelryRetailInvoiceContainer *{
     font-size: 12px;
 }
@@ -27,8 +35,19 @@
     width: 15%;
 }
 
-.wordsJewerryRetailInvoicePrint{
+.wordsJewellry{
     width: 64.05%;
+    height: 200px; 
+}
+
+.wordsJewerryRetailInvoicePrint{
+    background-color: #ffcccc;
+    flex: 1 1;
+    border: 1px solid #000; 
+}
+
+.RemarkJewelleryInvoicePrintC{
+    flex: 0 0;
 }
 
 .discountJewerryRetailInvoicePrint{
@@ -37,4 +56,10 @@
 
 .minHeight20RetailinvoicePrint3{
     min-height: 20px;
+}
+
+@media print{
+    .jewelelryRetailInvoiceContainer{
+        max-width: 100% !important;
+    }
 }
