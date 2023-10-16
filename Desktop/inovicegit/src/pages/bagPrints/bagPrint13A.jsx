@@ -345,19 +345,6 @@ const BagPrint13A = ({ queries, headers }) => {
     fetchData();
   }, []);
 
-  // function handlePrint(e) {
-  //     e.preventDefault();
-  //     window.print();
-  // }
-
-  // const handleImageError = (e) => {
-  //     e.target.src = require('../../assets/img/default.jpg');
-  // };
-  const handleImageLoad = (eve, i, dataLen) => {
-    // if (i === dataLen - 1) {
-    //     setTimeout(window.print(), 5000);
-    // }
-  };
   useEffect(() => {
     if (data.length !== 0) {
       setTimeout(() => {
@@ -626,9 +613,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                       id="img13A"
                                       alt=""
                                       onError={(e) => handleImageError(e)}
-                                      onLoad={(eve) =>
-                                        handleImageLoad(eve, i, data?.length)
-                                      }
+                                      
                                       loading="eager"
                                     />
                                   </div>
@@ -834,9 +819,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                   alt=""
                                   onError={(e) => handleImageError(e)}
                                   loading="eager"
-                                  onLoad={(eve) =>
-                                    handleImageLoad(eve, i, data?.length)
-                                  }
+                                 
                                 />
                               </div>
                               <div className="barcodeInfo13A">
@@ -1111,9 +1094,7 @@ const BagPrint13A = ({ queries, headers }) => {
                             alt=""
                             onError={(e) => handleImageError(e)}
                             loading="eager"
-                            onLoad={(eve) =>
-                              handleImageLoad(eve, i, data?.length)
-                            }
+                           
                           />
                         </div>
                       </div>

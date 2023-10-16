@@ -231,11 +231,7 @@ const BagPrint12A = ({ queries, headers }) => {
     //     e.preventDefault();
     //     window.print();
     // }
-    const handleImageLoad = (eve, i, dataLen) => {
-        // if (i === dataLen - 1) {
-        //     setTimeout(window.print(), 5000);
-        // }
-    };
+    
 
     useEffect(() => {
         if (data.length !== 0) {
@@ -358,7 +354,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                             </div>
                                                                         </div>
                                                                         <div className="img_sec_12A border_bottom_2_12A">
-                                                                            <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/Design_Image/rxGjOQumr7MDE0NTIzMw==/Red_Medium/0145233_05082023173015962.jpg" onLoad={e => handleImageLoad(e, i, data?.length)} onError={e => handleImageError(e)} alt="" />
+                                                                            <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/Design_Image/rxGjOQumr7MDE0NTIzMw==/Red_Medium/0145233_05082023173015962.jpg" onError={e => handleImageError(e)} alt="" />
                                                                         </div>
                                                                     </div>
                                                                     <div className="master_detail_12A border_bottom_2_12A">
@@ -552,7 +548,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                 </div>
                                                             </div>
                                                             <div className="img_sec_12A border_bottom_2_12A">
-                                                                <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/Design_Image/rxGjOQumr7MDE0NTIzMw==/Red_Medium/0145233_05082023173015962.jpg" onLoad={e => handleImageLoad(e, i, data?.length)} onError={e => handleImageError(e)} alt="" />
+                                                                <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/Design_Image/rxGjOQumr7MDE0NTIzMw==/Red_Medium/0145233_05082023173015962.jpg" onError={e => handleImageError(e)} alt="" />
                                                             </div>
                                                         </div>
                                                         <div className="master_detail_12A border_bottom_2_12A">

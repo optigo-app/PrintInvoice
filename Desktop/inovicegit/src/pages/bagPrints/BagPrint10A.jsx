@@ -375,11 +375,7 @@ const BagPrint10A = ({ queries, headers }) => {
     }
   }, [data]);
 
-  const handleImageLoad = (eve, i, dataLen) => {
-    // if (i === dataLen - 1) {
-    //     setTimeout(window.print(), 5000);
-    // }
-  };
+
 
   return (
     <>
@@ -598,7 +594,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                       );
                                     })}
                                     {Array.from(
-                                      { length: ele?.length - 1 },
+                                      { length: ele?.length  },
                                       (_, index) => (
                                         <div
                                           className="seaction10Amid"
@@ -670,9 +666,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                         alt=""
                                         onError={(e) => handleImageError(e)}
                                         loading="eager"
-                                        onLoad={(eve) =>
-                                          handleImageLoad(eve, i, data?.length)
-                                        }
+                                      
                                       />
                                     </div>
                                     <div className="barcodeInfo10A">
@@ -731,7 +725,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                         <div
                                           style={{
                                             borderRight: "1px solid #989898",
-                                            height: "39px",
+                                            height: "51px",
                                           }}
                                         ></div>
                                       </div>
@@ -885,9 +879,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     alt=""
                                     onError={(e) => handleImageError(e)}
                                     loading="eager"
-                                    onLoad={(eve) =>
-                                      handleImageLoad(eve, i, data?.length)
-                                    }
+                              
                                   />
                                 </div>
                                 <div className="barcodeInfo10A">
@@ -1152,9 +1144,7 @@ const BagPrint10A = ({ queries, headers }) => {
                               alt=""
                               onError={(e) => handleImageError(e)}
                               loading="eager"
-                              onLoad={(eve) =>
-                                handleImageLoad(eve, i, data?.length)
-                              }
+                           
                             />
                           </div>
                         </div>

@@ -364,12 +364,7 @@ function BagPrint14A({ queries, headers }) {
 
     }, [data]);
 
-    const handleImageLoad = (eve, i, dataLen) => {
 
-        // if (i === dataLen - 1) {
-        //     setTimeout(window.print(), 5000);
-        // }
-    };
     return (
         <>
             {
@@ -540,7 +535,7 @@ function BagPrint14A({ queries, headers }) {
                                                                         </div>
                                                                         <div className='secondpart'>
                                                                             <div className='firstpart_one_1'><div className='firstpart_one_chunk_val _color '>DESIGN NO</div><div className='firstpart_one_chunk workbreak' style={{ borderRight: "none" }}>{`${e?.data?.rd?.Designcode}`}</div></div>
-                                                                            <div className='imagediv'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager" onLoad={eve => handleImageLoad(eve, i , data?.length)} /></div>
+                                                                            <div className='imagediv'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                                                             <div className='barcodediv'><div className='barcode14'>
                                                                                 {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno} />}</>}
                                                                             </div></div>
@@ -836,7 +831,7 @@ function BagPrint14A({ queries, headers }) {
                                                         </div>
                                                         <div className='secondpart'>
                                                             <div className='firstpart_one_1'><div className='firstpart_one_chunk_val _color'>DESIGN NO</div><div className='firstpart_one_chunk' style={{ borderRight: "none" }}>{`${e?.data?.rd?.Designcode ?? ''}`}</div></div>
-                                                            <div className='imagediv'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  onLoad={eve => handleImageLoad(eve, i ,data?.length)}/></div>
+                                                            <div className='imagediv'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img15" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                                             <div className='barcodediv'><div className='barcode14'>
                                                                 {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno ?? ''} />}</>}
                                                             </div></div>

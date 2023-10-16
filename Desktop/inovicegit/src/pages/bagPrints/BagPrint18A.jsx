@@ -430,11 +430,6 @@ const BagPrint18A = ({ queries, headers }) => {
     }
   }, [data]);
 
-  const handleImageLoad = (eve, i, dataLen) => {
-    // if (i === dataLen - 1) {
-    //     setTimeout(window.print(), 5000);
-    // }
-  };
 
   return (
     <>
@@ -567,9 +562,7 @@ const BagPrint18A = ({ queries, headers }) => {
                                       : require("../../assets/img/default.jpg")
                                   }
                                   alt=""
-                                  onLoad={(eve) =>
-                                    handleImageLoad(eve, index, data?.length)
-                                  }
+                                  
                                   onError={(e) => handleImageError(e)}
                                   id="img18A"
                                   loading="eager"
@@ -769,9 +762,7 @@ const BagPrint18A = ({ queries, headers }) => {
                                   : require("../../assets/img/default.jpg")
                               }
                               alt=""
-                              onLoad={(eve) =>
-                                handleImageLoad(eve, index, data?.length)
-                              }
+                             
                               onError={(e) => handleImageError(e)}
                               id="img18A"
                               loading="eager"
@@ -903,9 +894,7 @@ const BagPrint18A = ({ queries, headers }) => {
                             onError={(e) => handleImageError(e)}
                             id="img18AD"
                             loading="eager"
-                            onLoad={(eve) =>
-                              handleImageLoad(eve, index, data?.length)
-                            }
+                           
                           />
                         </div>
                       </div>

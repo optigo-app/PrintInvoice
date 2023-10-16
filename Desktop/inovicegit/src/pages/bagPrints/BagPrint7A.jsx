@@ -397,11 +397,6 @@ const BagPrint7A = ({ queries, headers }) => {
   //   e.target.src = require('../../assets/img/default.jpg');
   // };
 
-  const handleImageLoad = (eve, i, dataLen) => {
-    // if (i === dataLen - 1) {
-    //     setTimeout(window.print(), 5000);
-    // }
-  };
   useEffect(() => {
     if (data?.length !== 0) {
       setTimeout(() => {
@@ -568,9 +563,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   alt=""
                                   onError={(e) => handleImageError(e)}
                                   loading="eager"
-                                  onLoad={(eve) =>
-                                    handleImageLoad(eve, ins, data?.length)
-                                  }
+                               
                                 />
                                 <div
                                   className="borderBottom7A"
@@ -1202,9 +1195,7 @@ const BagPrint7A = ({ queries, headers }) => {
                               alt=""
                               onError={(e) => handleImageError(e)}
                               loading="eager"
-                              onLoad={(eve) =>
-                                handleImageLoad(eve, ins, data?.length)
-                              }
+                          
                             />
                             <div
                               className="borderBottom7A"

@@ -321,7 +321,7 @@ const PrintDesign16 = ({ queries, headers }) => {
   };
 
   useEffect(() => {
-    if (data.length !== 0) {
+    if (data?.length !== 0) {
       setTimeout(() => {
         window.print();
       }, 5000);
@@ -332,11 +332,7 @@ const PrintDesign16 = ({ queries, headers }) => {
     e.preventDefault();
     window.print();
   };
-  const handleImageLoad = (eve, i, dataLen) => {
-    if (i == dataLen - 1) {
-      setTimeout(() => window.print(), 5000);
-    }
-  };
+
   
   return (
     <div>
@@ -662,9 +658,6 @@ const PrintDesign16 = ({ queries, headers }) => {
                                   className="img16"
                                   onError={(e) => handleImageError(e)}
                                   loading="eager"
-                                  onLoad={(eve) =>
-                                    handleImageLoad(eve, i, data?.length)
-                                  }
                                   id="img16"
                                 />
                               </div>
@@ -1381,9 +1374,6 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     className="img16"
                                     onError={(e) => handleImageError(e)}
                                     loading="eager"
-                                    onLoad={(eve) =>
-                                      handleImageLoad(eve, i, data?.length)
-                                    }
                                     id="img16"
                                   />
                                 </div>
