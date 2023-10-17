@@ -4,6 +4,10 @@
     line-height: 120%;
 }
 
+.taxInvoicePirnt1{
+    padding-bottom: 60px;
+    width: 100%;
+}
 
 .taxinvoice1Head {
     font-size: 20px;
@@ -17,9 +21,19 @@
     min-width: 41.8px;
 }
 
+.sr_invoicePrint1{
+    width: 5%;
+    min-width: 5%;
+}
+
 .product_discription_invoice1 {
     width: 125.39px;
     min-width: 125.39px;
+}
+
+.product_discription_invoice_print_1 {
+    width: 20%;
+    min-width: 20%;
 }
 
 .hsn_invoice1,
@@ -32,6 +46,19 @@
 .total_invoice1 {
     width: 70.8px;
     min-width: 70.8px;
+}
+
+.hsn_invoicePrint1,
+.making_invoicePrint1,
+.others_invoicePrint1, 
+.total_invoicePrint1 {
+    width: 10%;
+    min-width: 10%;
+}
+
+.materialInvoicePrint1{
+    width: 35%;
+    min-width: 35%;
 }
 
 .hsn_invoice1 {
@@ -55,9 +82,17 @@
     width: 616px;
 }
 
+.header_textInvoicePrint1{
+    width: 75%;
+}
+
 .header_text_invoice_num {
     width: 220px;
 }
+
+.header_text_invoice_numPrint1{
+    width: 25%;
+} 
 
 .customer_name_invoice1 {
     font-size: 14px;
@@ -89,6 +124,10 @@
     min-width: 61.88px;
 }
 
+.totalNumbersinvoice1 {
+    width: 580px;
+}
+
 .min_padding_invoice1 {
     padding: 2px 2px 2px 5px;
 }
@@ -118,6 +157,10 @@
     width: 581px;
 }
 
+.oldGoldInvoicePrint1, .totalNumbersinvoicePrint1{
+    width: 80%;
+}
+
 .narration_bank_invoice1 {
     width: 476.48px;
 }
@@ -126,13 +169,23 @@
     width: 160px;
 }
 
+.cgstinvoicePrint1{
+    width: 10.1%;    
+}
+
 .totalSumInvoice1 {
     width: 92px;
 }
 
-.totalNumbersinvoice1 {
-    width: 580px;
+.total_sum_invoice_print_1, .totalTaxNumberinvoice_print_1{
+    width: 100px;
 }
+
+.total_sum_invoiceprint1{
+    width: 9.9%;
+} 
+
+
 
 .totalTaxinvoice1 {
     width: 160px;
@@ -174,5 +227,8 @@
     .table_row_invoice1,
     .print_break_avoid_invoice1 {
         page-break-inside: avoid;
+    }
+    .taxInvoicePirnt1{
+        padding-bottom: 0;
     }
 }

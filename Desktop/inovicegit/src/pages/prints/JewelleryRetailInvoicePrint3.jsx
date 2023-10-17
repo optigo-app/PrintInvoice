@@ -43,7 +43,8 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
       data?.BillPrint_Json1.forEach((e, i) => {
         let obj = { ...e };
         totals.gwt += e?.grosswt;
-        totals.nwt += e?.NetWt;
+        // totals.nwt += e?.NetWt;
+        totals.nwt += e?.MetalDiaWt;
         totals.others += e?.OtherCharges;
         totals.total += e?.TotalAmount;
         totals.discount += e?.DiscountAmt;
@@ -208,8 +209,8 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                     </div>
                     {/* <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-EDJHF236D</div> */}
                     <div className="fslhJL">
-                      {headerData?.Company_VAT_GST_No} |{" "}
-                      {headerData?.Cust_CST_STATE}-{headerData?.vat_cst_pan}
+                      {headerData?.Company_VAT_GST_No} | {" "}
+                      {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | {headerData?.vat_cst_pan}
                     </div>
                   </div>
                   <div className="col-2 p-2">
@@ -345,7 +346,8 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                             <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className="fw-bold p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.QualityName}</p></div>
                             <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className="fw-bold p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
                             <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 flex-column`}><p className="fw-bold text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && fixedValues(ele?.Wt, 3)}</p></div>
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} `}><p className="fw-bold p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.NetWt, 3)}</p></div>
+                            {/* <div className={`${style?.w_20JewerryRetailInvoicePrint} `}><p className="fw-bold p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.NetWt, 3)}</p></div> */}
+                            <div className={`${style?.w_20JewerryRetailInvoicePrint} `}><p className="fw-bold p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.MetalDiaWt, 3)}</p></div>
                           </div>
                         }) : <div className="d-flex">
                           <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className="fw-bold p-1 lh-1"></p></div>
@@ -393,14 +395,14 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                       <p className="fw-bold">{toWords.convert(total?.afterTax)}</p>
                      </div>
                     </div>
-                    <div className={`${style?.RemarkJewelleryInvoicePrintC} p-2`}>{console.log(headerData)}
+                    <div className={`${style?.RemarkJewelleryInvoicePrintC} p-2`}>
                       <div>Old Gold Purchase Description: <div dangerouslySetInnerHTML={{__html: headerData?.Remark}}></div></div>
                     </div>
                   </div>
                   <div className={`${style?.discountJewerryRetailInvoicePrint} d-flex`}>
                     <div className="col-7 border-end">
                       <p className="p-1">Discount</p>
-                      <p className="p-1">Total AmT before Tax</p>
+                      <p className="p-1">Total Amt before Tax</p>
                       {taxes.length > 0 && taxes.map((e, i) => {
                         return <p className="p-1" key={i}>{e?.name} @ {e?.per}</p>
                       })}
@@ -428,7 +430,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                       })}
                       {/* <p className="p-1 text-end">{NumberWithCommas(headerData?.BankReceived, 2)}</p> */}
                       <p className="p-1 text-end">{NumberWithCommas(total?.netBalAmount, 2)}</p>
-                      <p className="fw-bold text-end p-1 border-top">{NumberWithCommas(total?.afterTax, 2)}</p>
+                      <p className="fw-bold text-end p-1 border-top"><span dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></span>{NumberWithCommas(total?.afterTax, 2)}</p>
                     </div>
                   </div>
                 </div>

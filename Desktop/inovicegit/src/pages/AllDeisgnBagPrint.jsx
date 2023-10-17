@@ -19,6 +19,7 @@ import BagPrint11A from './bagPrints/BagPrint11A';
 import BagPrint12A from './bagPrints/BagPrint12A';
 // import BagPrint16A from './bagPrints/BagPrint16A';
 import BagPrint18A from './bagPrints/BagPrint18A';
+import BagPrint4B from './bagPrints/BagPrint4B';
 // import BagPrint17A from './bagPrints/BagPrint17A';
 
 // import Bg18 from './bagPrints/Bg18';
@@ -54,6 +55,7 @@ const AllDesignBagPrint = () => {
       {printName === "BagPrint2A" && <BagPrint2A queries={queries} headers={headers} />}
       {printName === "BagPrint3A" && <BagPrint3A queries={queries} headers={headers} />}
       {printName === "BagPrint4A" && <BagPrint4A queries={queries} headers={headers} />}
+      {printName === "BagPrint4B" && <BagPrint4B queries={queries} headers={headers} />}
       {printName === "BagPrint5A" && <BagPrint5A queries={queries} headers={headers} />}
       {printName === "BagPrint6A" && <BagPrint6A queries={queries} headers={headers} />}
       {printName === "BagPrint7A" && <BagPrint7A queries={queries} headers={headers} />}

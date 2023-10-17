@@ -1,0 +1,25 @@
+.diamond_custom_4B {
+    height: 14.8pt;
+    overflow: hidden;
+}
+
+#img4B{
+    height: 150px !important;
+    width: 110px !important;
+}
+
+.part_2_4B {
+    width: 85pt;
+    height: 235pt;
+    overflow: hidden;
+}
+
+.barcode_img_4B>img {
+    top: 72px !important;
+    height: 23px;
+    width: 175px;
+    object-fit: cover;
+    transform: rotate(90deg);
+    position: relative;
+    left: -57px !important;
+}

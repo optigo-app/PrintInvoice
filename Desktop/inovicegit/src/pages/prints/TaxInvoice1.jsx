@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import convertor from "number-to-words";
 import "../../assets/css/prints/taxInvoice1.css";
-import { CapitalizeWords, NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
+import { CapitalizeWords, NumberWithCommas, ReceiveInBank, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { ToWords } from 'to-words';
 
@@ -16,6 +16,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
     const toWords = new ToWords();
     const [taxes, setTaxes] = useState([]);
+    const [bank, setBank] = useState([]);
 
     const handleChange = (e) => {
         image ? setimage(false) : setimage(true);
@@ -77,19 +78,20 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                             totalobj.totalOtherAmount += obj.materialCharges;
                         }
                         arr.push(obj);
-                        totalobj.TotalAmount += element.Amount;
+                        // totalobj.TotalAmount += element.Amount;
                         if (element.ShapeName !== "GOLD" && element.ShapeName !== "MISC") {
                             totalobj.diaWt += element.Wt;
                         }
                     });
                     // finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e, totalAmount: totalAmount });
                     finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e });
-                    totalobj.totalOtherAmount += e?.OtherCharges;
-                    totalobj.netWeight += e?.NetWt;
-                    totalobj.gwt += e?.grosswt;
-                    totalobj.discountAmt += e?.DiscountAmt;
                 }
             });
+            totalobj.TotalAmount += e?.TotalAmount;
+            totalobj.totalOtherAmount += e?.OtherCharges;
+            totalobj.netWeight += e?.NetWt;
+            totalobj.gwt += e?.grosswt;
+            totalobj.discountAmt += e?.DiscountAmt;
         });
         totalobj.cgstTax = +((json0[0].CGST / 100 * +(totalobj.TotalAmount)).toFixed(2));
         totalobj.sgstTax = +((json0[0].SGST / 100 * +(totalobj.TotalAmount)).toFixed(2));
@@ -110,8 +112,14 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
 
         totalobj.diaWt = +((totalobj.diaWt).toFixed(2));
         totalobj.gwt = +((totalobj.gwt).toFixed(2));
-        totalobj.discountAmt = +((totalobj.discountAmt).toFixed(2));
-        totalobj.netBalanceAmount = +((totalobj.totalAmountAfterTax - json0[0].OldGoldAmount - json0[0].AdvanceAmount - json0[0].CashReceived - json0[0].BankReceived).toFixed(2));
+        totalobj.discountAmt = +((totalobj.discountAmt).toFixed(2));          
+        let debitCardinfo = ReceiveInBank(json0[0]?.BankPayDet);
+        setBank(debitCardinfo);
+        // totalobj.netBalanceAmount = +((totalobj.totalAmountAfterTax - json0[0].OldGoldAmount - json0[0].AdvanceAmount - json0[0].CashReceived - json0[0].BankReceived).toFixed(2));
+        totalobj.netBalanceAmount = +(totalobj.totalAmountAfterTax - json0[0].OldGoldAmount - json0[0].AdvanceAmount - json0[0].CashReceived );
+        debitCardinfo.length > 0 && debitCardinfo.forEach((e, i) => {
+            totalobj.netBalanceAmount -= e?.amount
+        });
         // totalobj.textnumber = CapitalizeWords(convertor.toWords(Math.round(totalobj.netBalanceAmount)));
         totalobj.textnumber = toWords.convert(totalobj.netBalanceAmount) + " Only";
         totalobj.weightInGram = +((totalobj.diaWt / 5).toFixed(2));
@@ -155,7 +163,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
 
     return (
         <>{
-            loader ? <Loader /> : msg === "" ? <div className='container taxinvoice1 pt-5 mt-5'>
+            loader ? <Loader /> : msg === "" ? <div className='container taxinvoice1 pt-5 mt-5 taxInvoicePirnt1'>
                 <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4">
                     <div className="form-check pe-3 mb-0">
                         <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => handleChange(e)} />
@@ -178,18 +186,18 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     {BillPrint_Json?.PrintHeadLabel}
                 </div>
                 <div className="headerInvoice1 d-flex border mb-1 border-2 border-black">
-                    <div className="header_textInvoice1 border-end p-1">
+                    <div className="header_textInvoice1 border-end p-1 header_textInvoicePrint1">
                         <p className='customer_name_invoice1'>Customer Name: <span className='fw-bold'>{BillPrint_Json?.CustName}</span></p>
                         <p>{BillPrint_Json?.customerAddress1}</p>
                         <p>{BillPrint_Json?.customerAddress2}</p>
-                        <p>{BillPrint_Json?.customercity}-{BillPrint_Json?.customerpincode}</p>
+                        <p>{BillPrint_Json?.customercity}{BillPrint_Json?.customerpincode}</p>
                         <p>{BillPrint_Json?.CompanyCountry}</p>
                         <p>{BillPrint_Json?.CompanyEmail}</p>
                         <p>Phno:{BillPrint_Json?.customermobileno}</p>
                         <p>{BillPrint_Json?.vat_cst_pan}</p>
                         <p>{BillPrint_Json?.Cust_CST_STATE} - {BillPrint_Json?.Cust_CST_STATE_No}</p>
                     </div>
-                    <div className="header_text_invoice_num p-1">
+                    <div className="header_text_invoice_num header_text_invoice_numPrint1 p-1">
                         <div className="d-flex w-100 justify-content-between">
                             <p className='customer_data_invoice1 fw-bold'>INVOICE NO</p>
                             <p>{BillPrint_Json?.InvoiceNo}</p>
@@ -201,62 +209,62 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                 </div>
                 <div className="d-flex border-top border-bottom table_invoice1 border-2 border-black">
-                    <div className='sr_invoice1 d-flex align-items-center justify-content-center fw-bold border-start border-2 border-black'>Sr#</div>
-                    <div className='product_discription_invoice1 d-flex align-items-center justify-content-center border-start fw-bold border-end'>Product Description</div>
-                    <div className='hsn_invoice1 d-flex align-items-center justify-content-center fw-bold border-end'>HSN</div>
-                    <div className='material_invoice1'>
+                    <div className='sr_invoice1 sr_invoicePrint1 d-flex align-items-center justify-content-center fw-bold border-start border-2 border-black'>Sr#</div>
+                    <div className='product_discription_invoice1 product_discription_invoice_print_1 d-flex align-items-center justify-content-center border-start fw-bold border-end'>Product Description</div>
+                    <div className='hsn_invoice1 hsn_invoicePrint1 d-flex align-items-center justify-content-center fw-bold border-end'>HSN</div>
+                    <div className='material_invoice1 materialInvoicePrint1'>
                         <div className="headHeightInvoice1 d-flex align-items-center justify-content-center fw-bold border-end border-bottom">Material Description</div>
                         <div className="headHeightInvoice1 d-flex">
-                            <div className="material_invoice_1 d-flex align-items-center justify-content-center fw-bold border-end">
+                            <div className="material_invoice_1 d-flex align-items-center justify-content-center fw-bold border-end col-2">
                                 Material
                             </div>
-                            <div className="Carat_invoice_1 d-flex align-items-center justify-content-center fw-bold border-end">
+                            <div className="Carat_invoice_1 d-flex align-items-center justify-content-center fw-bold border-end col-2">
                                 Carat
                             </div>
-                            <div className="GWT_invoice_1 d-flex align-items-center justify-content-center fw-bold border-end">
+                            <div className="GWT_invoice_1 d-flex align-items-center justify-content-center fw-bold border-end col-2">
                                 GWT
                             </div>
-                            <div className="STONE_invoice_1 d-flex align-items-center justify-content-center fw-bold border-end">
+                            <div className="STONE_invoice_1 d-flex align-items-center justify-content-center fw-bold border-end col-2">
                                 Less Wt
                             </div>
-                            <div className="NWT_invoice_1 d-flex align-items-center justify-content-center fw-bold border-end">
+                            <div className="NWT_invoice_1 d-flex align-items-center justify-content-center fw-bold border-end col-2">
                                 NWT
                             </div>
-                            <div className="Rate_invoice_1 d-flex align-items-center justify-content-center fw-bold border-end rateInvoice1">
+                            <div className="Rate_invoice_1 d-flex align-items-center justify-content-center fw-bold border-end rateInvoice1 col-2">
                                 Rate
                             </div>
                         </div>
                     </div>
-                    <div className='making_invoice1 d-flex align-items-center justify-content-center fw-bold border-end'>Making</div>
-                    <div className='others_invoice1 d-flex align-items-center justify-content-center fw-bold border-end flex-column'>
+                    <div className='making_invoice1 making_invoicePrint1 d-flex align-items-center justify-content-center fw-bold border-end'>Making</div>
+                    <div className='others_invoice1 others_invoicePrint1 d-flex align-items-center justify-content-center fw-bold border-end flex-column'>
                         <p>Material</p>
                         <p>Charge</p>
                     </div>
-                    <div className='total_invoice1 d-flex align-items-center justify-content-center fw-bold border-end border-2 border-black'>Total</div>
+                    <div className='total_invoice1 total_invoicePrint1 d-flex align-items-center justify-content-center fw-bold border-end border-2 border-black'>Total</div>
                 </div>
                 {resultArr.length > 0 && resultArr.map((e, i) => {
                     return <div className="d-flex w-100 border-bottom table_row_invoice1 border-2 border-black" key={i}>
-                        <div className='sr_invoice1 min_padding_invoice1 border-start border-2 border-black'>{e?.mainData?.SrNo}</div>
-                        <div className='product_discription_invoice1 min_padding_invoice1 border-start border-end'>
+                        <div className='sr_invoice1 sr_invoicePrint1 min_padding_invoice1 border-start border-2 border-black'>{e?.mainData?.SrNo}</div>
+                        <div className='product_discription_invoice1 product_discription_invoice_print_1 min_padding_invoice1 border-start border-end'>
                             <p> {e?.mainData?.Categoryname} {e?.mainData?.Collectionname} {e?.mainData?.DesignNo} | {e?.jobNo}</p>
-                            {image && <img src={e?.mainData?.DesignImage} alt="" className='w-100' onError={handleImageError} />}
+                            {image && <img src={e?.mainData?.DesignImage} alt="" className='w-100 p-1' onError={handleImageError} />}
                             <p className={`${!image && "pt-3"}`}>HUID-{e?.mainData?.HUID} </p>
                         </div>
-                        <div className='hsn_invoice1 min_padding_invoice1 border-end'>{BillPrint_Json?.HSN_No}</div>
-                        <div className='material_invoice_inner1 border-end'>
+                        <div className='hsn_invoice1 hsn_invoicePrint1 min_padding_invoice1 border-end'>{BillPrint_Json?.HSN_No}</div>
+                        <div className='material_invoice_inner1 border-end materialInvoicePrint1'>
                             {e?.data.length > 0 && e?.data.map((ele, ind) => {
                                 return <div className={`d-flex ${ind !== e?.data?.length - 1 && `border-bottom`} material_inner_invoice1`} key={ind}>
-                                    <div className='min_padding_invoice1 material_invoice_1 border-end justify-content-center'>{ele?.ShapeName}</div>
-                                    <div className='min_padding_invoice1 Carat_invoice_1 border-end justify-content-center'>{ind === 0 && ele?.QualityName}</div>
-                                    <div className='min_padding_invoice1 GWT_invoice_1 border-end justify-content-center'>{ind === 0 && fixedValues(e?.mainData?.grosswt, 3)}</div>
-                                    <div className='min_padding_invoice1 STONE_invoice_1 border-end justify-content-center'>{ele?.ShapeName !== "GOLD" && fixedValues(ele?.Wt, 3)}</div>
-                                    <div className='min_padding_invoice1 NWT_invoice_1 border-end justify-content-center'>{ind === 0 && fixedValues(e?.mainData?.NetWt, 3)}</div>
-                                    <div className='min_padding_invoice1 Rate_invoice_1 justify-content-end'>{ele?.MasterManagement_DiamondStoneTypeid === 4 && NumberWithCommas(ele?.Rate, 2)}</div>
+                                    <div className='min_padding_invoice1 material_invoice_1 border-end justify-content-center col-2'>{ele?.ShapeName}</div>
+                                    <div className='min_padding_invoice1 Carat_invoice_1 border-end justify-content-center col-2'>{ind === 0 && ele?.QualityName}</div>
+                                    <div className='min_padding_invoice1 GWT_invoice_1 border-end justify-content-center col-2'>{ind === 0 && fixedValues(e?.mainData?.grosswt, 3)}</div>
+                                    <div className='min_padding_invoice1 STONE_invoice_1 border-end justify-content-center col-2'>{ele?.ShapeName !== "GOLD" && fixedValues(ele?.Wt, 3)}</div>
+                                    <div className='min_padding_invoice1 NWT_invoice_1 border-end justify-content-center col-2'>{ind === 0 && fixedValues(e?.mainData?.NetWt, 3)}</div>
+                                    <div className='min_padding_invoice1 Rate_invoice_1 justify-content-end col-2'>{ele?.MasterManagement_DiamondStoneTypeid === 4 && NumberWithCommas(ele?.Rate, 2)}</div>
                                 </div>
                             })}
                         </div>
-                        <div className='d-flex align-items-center justify-content-center making_invoice1 p-1 border-end'>{NumberWithCommas(e?.mainData?.MakingAmount, 2)}</div>
-                        <div className='others_invoice1  border-end'>
+                        <div className='d-flex align-items-center justify-content-center making_invoice1 making_invoicePrint1 p-1 border-end'>{NumberWithCommas(e?.mainData?.MakingAmount, 2)}</div>
+                        <div className='others_invoice1 others_invoicePrint1  border-end'>
                             <div className="d-grid h-100">
                                 <div className='text-center border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1'>
                                     {NumberWithCommas(e?.mainData?.OtherCharges, 2)}
@@ -268,29 +276,29 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 })}
                             </div>
                         </div>
-                        <div className='d-flex align-items-center justify-content-end total_invoice1 min_padding_invoice1 border-end border-2 border-black'>{NumberWithCommas(+e?.mainData?.TotalAmount, 2)}</div>
+                        <div className='d-flex align-items-center justify-content-end total_invoice1 total_invoicePrint1 min_padding_invoice1 border-end border-2 border-black'>{NumberWithCommas(+e?.mainData?.TotalAmount, 2)}</div>
                     </div>
                 })}
                 <div className="d-flex headHeightInvoice1 border-bottom print_break_avoid_invoice1 border-2 border-black">
-                    <div className='p-1 d-flex align-items-center sr_invoice1 border-start border-2 border-black'></div>
-                    <div className='p-1 d-flex align-items-center product_discription_invoice1 border-end border-start total_sec_invoice1 fw-bold'>TOTAL</div>
-                    <div className='p-1 d-flex align-items-center hsn_invoice1 border-end'></div>
-                    <div className='d-flex align-items-center material_invoice_inner1 border-end'>
+                    <div className='p-1 d-flex align-items-center sr_invoice1 sr_invoicePrint1 border-start border-2 border-black'></div>
+                    <div className='p-1 d-flex align-items-center product_discription_invoice1 product_discription_invoice_print_1 border-end border-start total_sec_invoice1 fw-bold'>TOTAL</div>
+                    <div className='p-1 d-flex align-items-center hsn_invoice1 hsn_invoicePrint1 border-end'></div>
+                    <div className='d-flex align-items-center material_invoice_inner1 border-end materialInvoicePrint1'>
                         <div className='d-flex material_inner_invoice1 h-100'>
-                            <div className='p-1 min_padding_invoice1 material_invoice_1 border-end'></div>
-                            <div className='p-1 min_padding_invoice1 Carat_invoice_1 border-end'></div>
-                            <div className='p-1 min_padding_invoice1 GWT_invoice_1 border-end justify-content-center'>{fixedValues(totalAmount?.gwt, 3)}</div>
-                            <div className='p-1 min_padding_invoice1 STONE_invoice_1 border-end fw-bold d-block text-center'><p>{fixedValues(totalAmount?.diaWt, 3)} Ctw </p><p>{fixedValues(totalAmount?.weightInGram, 3)} gm</p></div>
-                            <div className='p-1 NWT_invoice_1 border-end fw-bold d-block align-items-center d-flex justify-content-center'>{fixedValues(totalAmount?.netWeight, 3)}</div>
-                            <div className='p-1 min_padding_invoice1 Rate_invoice_1 fw-bold'></div>
+                            <div className='p-1 min_padding_invoice1 material_invoice_1 border-end col-2'></div>
+                            <div className='p-1 min_padding_invoice1 Carat_invoice_1 border-end col-2'></div>
+                            <div className='p-1 min_padding_invoice1 GWT_invoice_1 border-end justify-content-center col-2'>{fixedValues(totalAmount?.gwt, 3)}</div>
+                            <div className='p-1 min_padding_invoice1 STONE_invoice_1 border-end fw-bold d-block text-center col-2'><p>{fixedValues(totalAmount?.diaWt, 3)} Ctw </p><p>{fixedValues(totalAmount?.weightInGram, 3)} gm</p></div>
+                            <div className='p-1 NWT_invoice_1 border-end fw-bold d-block align-items-center d-flex justify-content-center col-2'>{fixedValues(totalAmount?.netWeight, 3)}</div>
+                            <div className='p-1 min_padding_invoice1 Rate_invoice_1 fw-bold col-2'></div>
                         </div>
                     </div>
-                    <div className='p-1 d-flex align-items-center making_invoice1 border-end'></div>
-                    <div className='p-1 d-flex align-items-center others_invoice1 border-end fw-bold justify-content-center'>{NumberWithCommas(totalAmount?.totalOtherAmount, 2)}</div>
-                    <div className='p-1 d-flex align-items-center total_invoice1 border-end fw-bold justify-content-end border-2 border-black'>{NumberWithCommas(totalAmount?.TotalAmount, 2)}</div>
+                    <div className='p-1 d-flex align-items-center making_invoice1 making_invoicePrint1 border-end'></div>
+                    <div className='p-1 d-flex align-items-center others_invoice1 others_invoicePrint1 border-end fw-bold justify-content-center'>{NumberWithCommas(totalAmount?.totalOtherAmount, 2)}</div>
+                    <div className='p-1 d-flex align-items-center total_invoice1 total_invoicePrint1 border-end fw-bold justify-content-end border-2 border-black'>{NumberWithCommas(totalAmount?.TotalAmount, 2)}</div>
                 </div>
                 <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 border-2 border-black">
-                    <div className="oldGoldInvoice1 border-end d-grid">
+                    <div className="oldGoldInvoice1 border-end d-grid oldGoldInvoicePrint1">
                         <div className='d-flex p-1 border-bottom'><p>Narration / Remark:</p></div>
                         <div className='d-flex border-bottom p-1 flex-column'>
                             <p className='pb-1'>Old Gold Purchase Description :</p>
@@ -298,46 +306,51 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <p>Total Amount : {BillPrint_Json?.OldGoldAmount}</p>
                         </div>
                     </div>
-                    <div className="cgst_inovice1 border-end p-1 text-end">
+                    <div className="cgst_inovice1 border-end p-1 text-end cgstinvoicePrint1">
                         <p>Discount</p>
                         <p>Total Amt. before Tax</p>
                         {
                             taxes.length > 0 && taxes?.map((e, i) => {
-                                return <p key={i}>{e?.name} @ {fixedValues(e?.per, 2)}</p>
+                                return <p key={i}>{e?.name} @ {e?.per}</p>
                             })
                         }
                         <p>Total Amt. after Tax</p>
                         <p>Old Gold</p>
                         <p>Advance</p>
                         <p>Recv.in Cash</p>
-                        <p>Recv.in Bank</p>
+                        {bank.length > 0 && bank.map((e, i) => {
+                            return <p key={i}>Recv.in Bank({e?.label})</p>
+                        })}
                         <p>Net Bal. Amount</p>
                     </div>
-                    <div className="totalSumInvoice1 p-1 text-end">
+                    <div className="total_sum_invoice_print_1 total_sum_invoiceprint1 p-1 text-end">
                         <p>{NumberWithCommas(totalAmount?.discountAmt, 2)}</p>
                         <p>{(totalAmount?.TotalAmount)?.toFixed(2)}</p>
                         {
                             taxes.length > 0 && taxes?.map((e, i) => {
-                                return <p key={i}>{NumberWithCommas(e?.amount, 2)}</p>
+                                return <p key={i}>{NumberWithCommas(+e?.amount, 2)}</p>
                             })
                         }
                         <p>{totalAmount?.totalAmountAfterTax}</p>
                         <p>{BillPrint_Json?.OldGoldAmount !== undefined && NumberWithCommas(BillPrint_Json?.OldGoldAmount, 2)}</p>
                         <p>{BillPrint_Json?.AdvanceAmount !== undefined && NumberWithCommas(BillPrint_Json?.AdvanceAmount, 2)}</p>
                         <p>{BillPrint_Json?.CashReceived !== undefined && NumberWithCommas(BillPrint_Json?.CashReceived, 2)}</p>
-                        <p>{BillPrint_Json?.BankReceived !== undefined && NumberWithCommas(BillPrint_Json?.BankReceived, 2)}</p>
+                        {bank.length > 0 && bank.map((e, i) => {
+                            return <p key={i}>{NumberWithCommas(e?.amount, 2)}</p>
+                        })}
+                        {/* <p>{BillPrint_Json?.BankReceived !== undefined && NumberWithCommas(BillPrint_Json?.BankReceived, 2)}</p> */}
                         <p>{totalAmount?.netBalanceAmount !== undefined && NumberWithCommas(totalAmount?.netBalanceAmount, 2)}</p>
                     </div>
                 </div>
                 <div className="d-flex border-start border-end border-bottom border-2 border-black print_break_avoid_invoice1">
-                    <div className="p-1 totalNumbersinvoice1 border-end">
+                    <div className="p-1 totalNumbersinvoice1 border-end totalNumbersinvoicePrint1">
                         <p>In Words Indian Rupees</p>
                         <p className='fw-bold'>{totalAmount?.textnumber}</p>
                     </div>
                     <div className="p-1 totalTaxinvoice1 border-end text-end align-items-center d-flex justify-content-end fw-bold">
                         GRAND TOTAL
                     </div>
-                    <div className="p-1 d-flex align-items-center justify-content-end totalTaxNumberinvoice1 fw-bold">
+                    <div className="p-1 d-flex align-items-center justify-content-end totalTaxNumberinvoice_print_1 fw-bold">
                         ₹ {totalAmount?.netBalanceAmount !== undefined && NumberWithCommas(totalAmount?.netBalanceAmount, 2)}
                     </div>
                 </div>
