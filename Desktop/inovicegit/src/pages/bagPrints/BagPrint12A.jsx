@@ -266,13 +266,13 @@ const BagPrint12A = ({ queries, headers }) => {
                                                             <div className="section_12A" key={ind}>
                                                                 <div className="container_12A">
                                                                     <div className="job_no_12A">
-                                                                        <div className="design_no_12A">
+                                                                        <div className="design_no_12A bg12fs">
                                                                             Bag#:{e?.data?.serialjobno}
                                                                         </div>
                                                                         <div className="blank_12A">
 
                                                                         </div>
-                                                                        <div className="design_m3_12A">
+                                                                        <div className="design_m3_12A bg12fs">
                                                                             Design#:{e?.data?.Designcode}
                                                                         </div>
                                                                     </div>

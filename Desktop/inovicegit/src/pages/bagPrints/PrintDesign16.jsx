@@ -452,7 +452,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     <span
                                       style={{
                                         fontWeight: "700",
-                                        fontSize: "2.5mm",
+                                        fontSize: "2.8mm",
                                       }}
                                     >
                                       {e?.data?.rd?.Quantity === 0
@@ -673,6 +673,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     fontWeight: "900",
                                     paddingLeft: "0.79375mm",
                                     width: "14.853583333mm",
+                                    fontSize:"11.5px"
                                   }}
                                 >
                                   RM TYPE
@@ -696,6 +697,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     fontWeight: "900",
                                     paddingLeft: "0.79375mm",
                                     width: "12.0015mm",
+                                    fontSize:"11.5px"
                                   }}
                                 >
                                   COLOR
@@ -705,6 +707,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                   style={{
                                     height: "3.7041666667mm",
                                     fontWeight: "900",
+                                    fontSize:"11.5px",
                                     paddingLeft: "0.79375mm",
                                     width: "18.880666667mm",
                                   }}
@@ -719,6 +722,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     textAlign: "center",
                                     paddingLeft: "0.79375mm",
                                     width: "16.345958333mm",
+                                    fontSize:"11.5px"
                                   }}
                                 >
                                   ACTUAL
@@ -731,6 +735,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     paddingTop: "2px",
                                     paddingLeft: "0.79375mm",
                                     width: "10.7mm",
+                                    fontSize:"11.5px"
                                   }}
                                 >
                                   WT
@@ -904,7 +909,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                   className="border_top2 border_bottom bag_td "
                                   style={{
                                     paddingLeft: "0.79375mm",
-                                    fontSize: "1.8520833333",
+                                    fontSize: "10px",
                                     height: "3.7041666667mm",
                                     fontWeight: "900",
                                   }}
@@ -1018,7 +1023,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     paddingLeft: "0.79375mm",
                                     height: "7mm",
                                     width: "94mm",
-                                    fontSize: "1.8520833333",
+                                    fontSize: "11px",
                                     minWidth: "100%",
                                     color: "red",
                                     lineHeight: "9.5px",
@@ -1037,7 +1042,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     paddingLeft: "0.79375mm",
                                     height: "7mm",
                                     width: "94mm",
-                                    fontSize: "1.8520833333",
+                                    fontSize: "11px",
                                     minWidth: "100%",
                                     color: "red",
                                     lineHeight: "9.5px",
@@ -1057,7 +1062,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     paddingLeft: "0.79375mm",
                                     height: "6mm",
                                     width: "94mm",
-                                    fontSize: "1.8520833333",
+                                    fontSize: "11px",
                                     minWidth: "100%",
                                     color: "red",
                                     borderBottom: "3px solid black",
@@ -1174,7 +1179,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       <span
                                         style={{
                                           fontWeight: "700",
-                                          fontSize: "2.5mm",
+                                          fontSize: "2.8mm",
                                         }}
                                       >
                                         {e?.data?.rd?.Quantity === 0
@@ -1535,7 +1540,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         fontSize: "9px",
                                         height: "3.7041666667mm",
                                         textAlign: "end",
-                                        lineHeight: "7px",
+                                        lineHeight: "6.5px",
                                         justifyContent: "center",
                                       }}
                                     >
@@ -1555,8 +1560,8 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         height: "3.7041666667mm",
                                         textAlign: "center",
                                         lineHeight: "7px",
-                                        justifyContent: "center",
                                         display: "flex",
+                                        justifyContent: "center",
                                         alignItems: "center",
                                       }}
                                     >
@@ -1568,28 +1573,29 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         e?.ActualPcs?.length > 7
                                           ? "line_height_fontSmall"
                                           : ""
-                                      }`}
-                                      style={{
-                                        width: "7.3792291667mm",
-                                        fontWeight:
-                                          e.totalFontWeight === "900"
-                                            ? "900"
-                                            : "bold",
-                                        fontSize: "9px",
-                                        height: "3.7041666667mm",
-                                        textAlign: "end",
-                                        paddingRight: "0.2645833333mm",
-                                        paddingLeft: "1.3229166667mm",
-                                        lineHeight: "7px",
-                                      }}
+                                      } wtnewclasscol16`}
+                                      // style={{
+                                      //   width: "7.3792291667mm",
+                                      //   fontWeight:
+                                      //     e.totalFontWeight === "900"
+                                      //       ? "900"
+                                      //       : "bold",
+                                      //   fontSize: "9px",
+                                      //   height: "3.7041666667mm",
+                                      //   textAlign: "end",
+                                      //   paddingRight: "0.2645833333mm",
+                                      //   paddingLeft: "1.3229166667mm",
+                                      //   lineHeight: "7px",
+                                      // }}
                                     >
                                       {e?.Shapename === "Total" ? (
                                         <b
                                           style={{
                                             fontSize:
                                               e?.Shapename === "Total"
-                                                ? "10px"
+                                                ? "9px"
                                                 : "inherit",
+                                              
                                           }}
                                         >
                                           {+e?.ActualPcs}
@@ -1604,27 +1610,28 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         e?.ActualWeight?.length > 7
                                           ? "line_height_fontSmall"
                                           : ""
-                                      }`}
-                                      style={{
-                                        width: "8.9667291667mm",
-                                        fontWeight:
-                                          e.totalFontWeight === "900"
-                                            ? "900"
-                                            : "bold",
-                                        fontSize: "9px",
-                                        height: "3.7041666667mm",
-                                        textAlign: "end",
-                                        paddingRight: "1.3229166667mm",
-                                        paddingLeft: "1.3229166667mm",
-                                        lineHeight: "7px",
-                                      }}
+                                      } newclasscol16`}
+                                      // style={{
+                                      //   width: "8.9667291667mm",
+                                      //   fontWeight:
+                                      //     e.totalFontWeight === "900"
+                                      //       ? "900"
+                                      //       : "bold",
+                                      //   fontSize: "9px",
+                                      //   height: "3.7041666667mm",
+                                      //   textAlign: "end",
+                                      //   paddingRight: "1.3229166667mm",
+                                      //   paddingLeft: "1.3229166667mm",
+                                      //   lineHeight: "7px",
+                                      // }}
                                     >
                                       {e?.Shapename === "Total" ? (
                                         <b
                                           style={{
+                                            lineHeight:"6px",
                                             fontSize:
                                               e?.Shapename === "Total"
-                                                ? "9.5px"
+                                                ? "9px"
                                                 : "inherit",
                                           }}
                                         >
@@ -1922,7 +1929,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       paddingLeft: "0.79375mm",
                                       height: "7mm",
                                       width: "94mm",
-                                      fontSize: "1.8520833333",
+                                      fontSize: "11px",
                                       minWidth: "100%",
                                       color: "red",
                                       borderRight: "0px solid",
@@ -1942,7 +1949,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       paddingLeft: "0.79375mm",
                                       height: "7mm",
                                       width: "94mm",
-                                      fontSize: "1.8520833333",
+                                      fontSize: "11px",
                                       minWidth: "100%",
                                       color: "red",
                                       borderRight: "0px solid",
@@ -1963,7 +1970,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       paddingLeft: "0.79375mm",
                                       height: "6mm",
                                       width: "94mm",
-                                      fontSize: "1.8520833333",
+                                      fontSize: "11px",
                                       minWidth: "100%",
                                       color: "red",
                                       borderRight: "0px solid",

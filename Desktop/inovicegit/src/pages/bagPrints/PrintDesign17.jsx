@@ -303,13 +303,13 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                 </div>
                                             </div>
                                             <div className="print-sec d_flex footer">
-                                                <div className="w17Imp border_right"><div className="upper border_bottom text_center center_item"><p className="semibold" style={{ fontSize: "2.2mm" }}>DIAM.</p></div><div className="lower17 center_item bold">{+(e?.additional?.dia?.diaPcs)?.toFixed(2) + "/" + (e?.additional?.dia?.diaWt)?.toFixed(2)}</div></div>
+                                                <div className="w17Imp border_right"><div className="upper border_bottom text_center center_item"><p className="semibold" style={{ fontSize: "2.2mm" }}>DIAM.</p></div><div className="lower17 center_item bold separatedfs17old" style={{fontSize:"9.5px"}}>{+(e?.additional?.dia?.diaPcs)?.toFixed(2) + "/" + (e?.additional?.dia?.diaWt)?.toFixed(2)}</div></div>
                                                 <div className="w_12mm border_right" style={{ borderBottom: "0px solid black" }}><div className="upper"></div><div className="lower17"></div></div>
-                                                <div className="w17cs border_right"><div className="upper border_bottom text_center center_item"><p className="semibold" style={{ fontSize: "2.2mm" }}>CS</p></div><div className="lower17 center_item bold">{+(e?.additional?.clr?.clrPcs)?.toFixed(2) + "/" + +(e?.additional?.clr?.clrWt)?.toFixed(2)}</div></div>
+                                                <div className="w17cs border_right"><div className="upper border_bottom text_center center_item"><p className="semibold" style={{ fontSize: "2.2mm" }}>CS</p></div><div className="lower17 center_item bold separatedfs17old">{+(e?.additional?.clr?.clrPcs)?.toFixed(2) + "/" + +(e?.additional?.clr?.clrWt)?.toFixed(2)}</div></div>
                                                 <div className="w_12mm border_right" style={{ borderBottom: "0px solid black" }}><div className="upper"></div><div className="lower17"></div></div>
-                                                <div className="w_10 border_right"><div className="upper border_bottom text_center center_item"><p className="semibold" style={{ fontSize: "2.2mm" }}>METAL</p></div><div className="lower17 center_item bold">{(e?.data?.rd?.["QuotGrossWeight"])?.toFixed(2)}</div></div>
+                                                <div className="w_10 border_right"><div className="upper border_bottom text_center center_item"><p className="semibold" style={{ fontSize: "2.2mm" }}>METAL</p></div><div className="lower17 center_item bold separatedfs17old">{(e?.data?.rd?.["QuotGrossWeight"])?.toFixed(2)}</div></div>
                                                 <div className="w_13 border_right" style={{ borderBottom: "0px solid black" }}><div className="upper"></div><div className="lower17"></div></div>
-                                                <div className="w_9 border_right"><div className="upper border_bottom text_center center_item"><p className="semibold" style={{ fontSize: "2.2mm" }}>MISC</p></div><div className="lower17 center_item bold">{+(e?.additional?.misc?.miscWt)?.toFixed(2)}</div></div>
+                                                <div className="w_9 border_right"><div className="upper border_bottom text_center center_item"><p className="semibold" style={{ fontSize: "2.2mm" }}>MISC</p></div><div className="lower17 center_item bold separatedfs17old">{+(e?.additional?.misc?.miscWt)?.toFixed(2)}</div></div>
                                                 <div className="w_12_5mm" style={{ borderBottom: "0px solid black" }}><div className="upper"></div><div className="lower17"></div></div>
                                             </div>
                                         </div>
@@ -423,33 +423,33 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                 </div>
 
                                                 <div className="border_bottom h_5 d_flex align_center pl_3 border_right">
-                                                    <p className="bold">{e?.data?.rd?.["PO"]}</p>
+                                                    <p className="bold separatedfs17old">{e?.data?.rd?.["PO"]}</p>
                                                 </div>
                                                 <div className="d_flex border_bottom border_right" style={{ height: "27px" }}>
-                                                    <div className="width_Y border_right p_3 grey bold text_center"><p>Y TR NO  </p></div>
-                                                    <div className="width_Y border_right p_3 grey bold text_center"><p>W TR NO  </p></div>
-                                                    <div className="width_Y border_right p_3 grey bold text_center"><p>P TR NO  </p></div>
-                                                    <div className="width_Y border_right p_3 grey bold text_center"><p>Y CST WT.</p></div>
-                                                    <div className="width_Y border_right p_3 grey bold text_center"><p>W CST WT.</p></div>
-                                                    <div className="width_Y p_3 grey bold text_center"><p>P CST WT. </p></div>
+                                                    <div className="width_Y border_right p_3 grey bold text_center separatedfs17old"><p>Y TR NO  </p></div>
+                                                    <div className="width_Y border_right p_3 grey bold text_center separatedfs17old"><p>W TR NO  </p></div>
+                                                    <div className="width_Y border_right p_3 grey bold text_center separatedfs17old"><p>P TR NO  </p></div>
+                                                    <div className="width_Y border_right p_3 grey bold text_center separatedfs17old"><p>Y CST WT.</p></div>
+                                                    <div className="width_Y border_right p_3 grey bold text_center separatedfs17old"><p>W CST WT.</p></div>
+                                                    <div className="width_Y p_3 grey bold text_center separatedfs17old"><p>P CST WT. </p></div>
                                                 </div>
                                                 <div className="d_flex h_88_17 pl_3 border_bottom border_right" >
-                                                    <p className="w_10  grey bold">METAL</p>
+                                                    <p className="w_10  grey bold separatedfs17old">METAL</p>
                                                     <p className="w_10 center_item">{BackSide[0]?.["METAL"]}</p>
                                                 </div>
                                                 <div className="d_flex h_88_17 pl_3 border_bottom border_right" style={{ borderRight: "none" }}>
-                                                    <p className="w_10  grey bold">STONE</p>
+                                                    <p className="w_10  grey bold separatedfs17old">STONE</p>
                                                     <p className="w_10 center_item">{BackSide[0]?.["STONE"]}</p>
                                                 </div>
                                                 <div className="d_flex h_88_17 pl_3  border_right" style={{ borderRight: "none" }}>
-                                                    <p className="w_10  grey bold">VISUAL</p>
+                                                    <p className="w_10  grey bold separatedfs17old">VISUAL</p>
                                                     <p className="w_10 center_item">{BackSide[0]?.["VISUAL"]}</p>
                                                 </div>
                                             </div>
                                             <div className="side_2_17" style={{ borderTop: "1px solid black", borderLeft: "1px solid" }}>
                                                 <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} loading="eager" id='img17duplicate' />
                                                 <div className="cvds  pl_3">
-                                                    <p className=" bold grey">CVD TEST</p>
+                                                    <p className=" bold grey separatedfs17old  ">CVD TEST</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -457,16 +457,16 @@ const PrintDesign17 = ({ queries, headers }) => {
                                             <div className="d_flex dept">
                                                 <div className="w_98 unique17" >
                                                     <div className="d_flex border_bottom h_4_5" style={{ height: "3.5mm" }}>
-                                                        <div className="width_dept border_right pl_3 border_top bold">DEPT. </div>
-                                                        <div className="width_66 border_right border_top bold text_center">AP </div>
-                                                        <div className="width_6 border_right border_top bold text_center">ISSUE</div>
-                                                        <div className="width_6 border_right border_top bold text_center">RECEIVE</div>
-                                                        <div className="width_6 border_right border_top bold text_center">SCRAP</div>
-                                                        <div className="width_6 border_right border_top bold text_center">PCS</div>
-                                                        <div className="width_6 border_top bold text_center">WORKER</div>
+                                                        <div className="width_dept border_right pl_3 border_top bold separatedfs17old">DEPT. </div>
+                                                        <div className="width_66 border_right border_top bold text_center separatedfs17old">AP </div>
+                                                        <div className="width_6 border_right border_top bold text_center separatedfs17old">ISSUE</div>
+                                                        <div className="width_6 border_right border_top bold text_center separatedfs17old">RECEIVE</div>
+                                                        <div className="width_6 border_right border_top bold text_center separatedfs17old">SCRAP</div>
+                                                        <div className="width_6 border_right border_top bold text_center separatedfs17old">PCS</div>
+                                                        <div className="width_6 border_top bold text_center separatedfs17old">WORKER</div>
                                                     </div>
                                                     <div className="d_flex border_bottom h_4_5">
-                                                        <div className="width_dept border_right pl_3 bold">GRD.</div>
+                                                        <div className="width_dept border_right pl_3 bold separatedfs17old">GRD.</div>
                                                         <div className="width_66 border_right bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
@@ -475,7 +475,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                         <div className="width_6  pl_3 bold"></div>
                                                     </div>
                                                     <div className="d_flex border_bottom h_4_5">
-                                                        <div className="width_dept border_right pl_3 bold">FIL.</div>
+                                                        <div className="width_dept border_right pl_3 bold separatedfs17old">FIL.</div>
                                                         <div className="width_66 border_right bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
@@ -484,7 +484,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                         <div className="width_6  pl_3 bold"></div>
                                                     </div>
                                                     <div className="d_flex border_bottom h_4_5">
-                                                        <div className="width_dept border_right pl_3 bold">ASM.</div>
+                                                        <div className="width_dept border_right pl_3 bold separatedfs17old">ASM.</div>
                                                         <div className="width_66 border_right bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
@@ -493,7 +493,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                         <div className="width_6  pl_3 bold"></div>
                                                     </div>
                                                     <div className="d_flex border_bottom h_4_5">
-                                                        <div className="width_dept border_right pl_3 bold">CNC.</div>
+                                                        <div className="width_dept border_right pl_3 bold separatedfs17old">CNC.</div>
                                                         <div className="width_66 border_right bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
@@ -502,7 +502,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                         <div className="width_6  pl_3 bold"></div>
                                                     </div>
                                                     <div className="d_flex border_bottom h_4_5">
-                                                        <div className="width_dept border_right pl_3 bold">EP/PI.</div>
+                                                        <div className="width_dept border_right pl_3 bold separatedfs17old">EP/PI.</div>
                                                         <div className="width_66 border_right bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
@@ -511,7 +511,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                         <div className="width_6  pl_3 bold"></div>
                                                     </div>
                                                     <div className="d_flex border_bottom h_4_5">
-                                                        <div className="width_dept border_right pl_3 bold">SET.</div>
+                                                        <div className="width_dept border_right pl_3 bold separatedfs17old">SET.</div>
                                                         <div className="width_66 border_right bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
@@ -520,7 +520,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                         <div className="width_6  pl_3 bold"></div>
                                                     </div>
                                                     <div className="d_flex border_bottom h_4_5">
-                                                        <div className="width_dept border_right pl_3 bold">FPL.</div>
+                                                        <div className="width_dept border_right pl_3 bold separatedfs17old">FPL.</div>
                                                         <div className="width_66 border_right bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
@@ -529,7 +529,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                         <div className="width_6  pl_3 bold"></div>
                                                     </div>
                                                     <div className="d_flex border_bottom h_4_5">
-                                                        <div className="width_dept border_right pl_3 bold">PLT.</div>
+                                                        <div className="width_dept border_right pl_3 bold separatedfs17old">PLT.</div>
                                                         <div className="width_66 border_right bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
                                                         <div className="width_6 border_right pl_3 bold"></div>
@@ -538,7 +538,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                         <div className="width_6  pl_3 bold"></div>
                                                     </div>
                                                     <div className="d_flex  h_4_5" style={{ height: "4.4mm" }}>
-                                                        <div className="width_dept border_right pl_3 bold" style={{ borderBottom: "0px solid black" }}>ENM.</div>
+                                                        <div className="width_dept border_right pl_3 bold separatedfs17old" style={{ borderBottom: "0px solid black" }}>ENM.</div>
                                                         <div className="width_66 border_right bold" style={{ borderBottom: "0px solid black" }}></div>
                                                         <div className="width_6 border_right pl_3 bold" style={{ borderBottom: "0px solid black" }}></div>
                                                         <div className="width_6 border_right pl_3 bold" style={{ borderBottom: "0px solid black" }}></div>

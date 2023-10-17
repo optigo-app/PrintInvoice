@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/summary1.css";
 import {
@@ -710,10 +709,10 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                               style={{ width: "27%" }}
                               key={i}
                             >
-                              <div className="w-50 d-flex justify-content-end">
+                              <div className="w-50 d-flex justify-content-end fs-6">
                                 {e?.name} {e?.per}
                               </div>
-                              <div className="w-50 d-flex justify-content-end">
+                              <div className="w-50 d-flex justify-content-end fs-6">
                                 {/* {e?.amount} */}
                                 {NumberWithCommas(e?.amount, 2)}
                               </div>
@@ -733,10 +732,10 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="grandtotalsum1">
                       <div className="amtwordssum1 px-2">{inWords}</div>
                       <div className="amtwordssum1 wtotsum1 d-flex align-items-center justify-content-end wgtsum1">
-                        <div className="d-flex justify-content-end w-50">
+                        <div className="d-flex justify-content-end w-50 fs-6">
                           Grand Total :
                         </div>
-                        <div className="d-flex justify-content-end w-50">
+                        <div className="d-flex justify-content-end w-50 fs-6">
                           
                           {/* { headerData?.Currencysymbol} ₹ {finalAmount?.toFixed(2)} */}
                           <p
