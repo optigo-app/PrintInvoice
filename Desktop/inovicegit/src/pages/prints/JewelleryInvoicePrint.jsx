@@ -771,13 +771,14 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div
                       className="noteJL fw-bold p-1"
+                      
                       dangerouslySetInnerHTML={{
                         __html: headerData?.Declaration,
                       }}
                     ></div>
                     <div
                       className="dynamicHeadJLmain"
-                      style={{ borderTop: "0px" }}
+                      style={{ borderTop: "0px", marginBottom:"2rem" }}
                     >
                       <div className="dynamicHeadJL1">
                         <div className="fslhJL fw-bold">Bank Detail</div>

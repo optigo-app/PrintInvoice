@@ -138,23 +138,23 @@ export const HeaderComponent = (headNo, headerData) => {
 
 //call of footer
 export const FooterComponent = (footerNo, footerData) => {
-  let headerComponent;
+  let footerComponent;
 
   switch (footerNo) {
     case "1":
-      headerComponent = <Footer1 data={footerData} />;
+      footerComponent = <Footer1 data={footerData} />;
 
       break;
     case "2":
-      headerComponent = <Footer1 data={footerData} />;
+      footerComponent = <Footer1 data={footerData} />;
       break;
 
     default:
-      headerComponent = <Footer1 data={footerData} />;
+      footerComponent = <Footer1 data={footerData} />;
       break;
   }
 
-  return headerComponent;
+  return footerComponent;
 };
 
 export const ReceiveInBank = (BankPayDet) => {

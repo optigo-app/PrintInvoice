@@ -290,6 +290,9 @@
     overflow: hidden;
     line-height: 100%;
 }
+.bg12fs{
+    font-size: 10.5px;
+}
 
 @media print {
     .section_12A:nth-child(6n) {

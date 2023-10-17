@@ -21,7 +21,7 @@ ol {
   margin: 0;
   padding: 0;
   text-decoration: unset;
-  font-size: 8px;
+  /* font-size: 8px; */
 }
 
 /* img {
@@ -905,7 +905,7 @@ ol {
   margin: 0;
   padding: 0;
   text-decoration: unset;
-  font-size: 2.1166666667mm;
+  /* font-size: 2.1166666667mm; */
   box-sizing: border-box;
 }
 /* 
@@ -1500,7 +1500,8 @@ table {
 .print_2_head>div {
   box-sizing: border-box;
   font-weight: 700;
-  font-size:2.38125mm;
+  /* font-size:2.38125mm; */
+      font-size: 10.5px;
 }
 
 .mt_2 {
@@ -1811,6 +1812,7 @@ table {
   height: 14px;
   width: 54px;
   line-height: 8px;
+  font-size: 10.5px;
 }
 .header_16_a{
   width: 60.5px;
@@ -1932,6 +1934,29 @@ table {
     margin-top: 3.260417mm;
   } 
    */
+
+   .newclasscol16{
+    width: 8.96673mm !important;
+    font-weight: bold;
+    font-size: 9px;
+    height: 3.70417mm !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    line-height: 7px;
+    padding-right: 2px !important;
+   }
+   .wtnewclasscol16{
+    width:7.3792291667mm !important;
+    font-weight: bold;
+    font-size: 9px;
+    height: 3.70417mm !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    line-height: 7px;
+    padding-right: 2px !important;
+   }
 @media print {
   .container_2.ml_8mm.mb_2.mt_2.pt_2.bag_2:nth-child(4n+1) {
       page-break-before: always;

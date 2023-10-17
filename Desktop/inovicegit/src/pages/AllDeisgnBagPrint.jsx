@@ -41,8 +41,6 @@ const AllDesignBagPrint = () => {
     pageStart: +(queryParams.start_page)
   };
 
-  // console.log(queryParams);
-  // console.log(location);
   const headers = {
     'Content-Type': 'application/json',
     'Authorization': '',

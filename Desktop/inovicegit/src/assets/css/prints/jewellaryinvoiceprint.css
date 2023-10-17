@@ -374,7 +374,7 @@
 }
 
 .noteJL {
-    height: 25px;
+    min-height: 25px;
     border-bottom: 1px solid #8e8e8e;
     border-left: 1px solid #8e8e8e;
     border-right: 1px solid #8e8e8e;
