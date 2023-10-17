@@ -141,25 +141,25 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
       <div className='container containerDetailP11 mt-5'>
         {/* buttons */}
         <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4">
-          <div className="form-check pe-3">
+          <div className="form-check pe-3 pt-2">
             <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => setImage(!image)} />
             <label className="form-check-label pt-1">
               With Image
             </label>
           </div>
-          <div className="form-check pe-3">
+          <div className="form-check pe-3 pt-2">
             <input className="form-check-input border-dark" type="checkbox" checked={diamondSize} onChange={e => setDiamondSize(!diamondSize)} />
             <label className="form-check-label pt-1">
               Diamond Size
             </label>
           </div>
-          <div className="form-check pe-3">
+          <div className="form-check pe-3 pt-2">
             <input className="form-check-input border-dark" type="checkbox" checked={setting} onChange={e => setSetting(!setting)} />
             <label className="form-check-label pt-1">
               Setting Label and Price
             </label>
           </div>
-          <div className="form-check">
+          <div className="form-check pt-2">
             <input className="form-check-input border-dark" type="checkbox" checked={tunch} onChange={e => setTunch(!tunch)} />
             <label className="form-check-label pt-1">
               Tunch
@@ -212,12 +212,12 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             <div className='border-bottom border-end d-flex justify-content-center align-items-center'> <p className='p-1 text-center fw-bold fw-bold'>Diamond & Stone Detail</p> </div>
             <div className='d-flex'>
               <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1 fw-bold'>Shape</p></div>
-              <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1 fw-bold'>Size(mm)</p></div>
+              <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center p-1 flwx-column'><p className='fw-bold'>Size</p><p className="fw-bold">(mm)</p></div>
               <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1 fw-bold'>Pcs</p></div>
               <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='p-1 fw-bold'>DIA</p><p className="p-1 fw-bold"> WT.</p></div>
               <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='p-1 fw-bold'>Price  </p><p className='fw-bold'>/ cts</p></div>
               <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center p-1 flex-column'><p className='text-center fw-bold'>Dia</p><p className="text-center fw-bold"> Amount</p></div>
-              <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>"Setting </p><p>Type"</p></div>
+              <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>Setting </p><p>Type</p></div>
               <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>Setting </p><p className="text-center fw-bold">Price</p></div>
               <div className='totalAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>Total</p><p className="text-center fw-bold"> Amount</p></div>
             </div>
@@ -225,10 +225,6 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           <div className="goldDetailPrint11 border-end d-grid">
             <div className="border-bottom d-flex">
               <p className='p-1 d-flex justify-content-center align-items-center w-100 fw-bold'>Gold</p>
-            </div>
-            <div className='d-flex'>
-              <div className='col-8 border-end d-flex align-items-center justify-content-center'><p className='p-1 fw-bold'>Quality</p></div>
-              <div className='col-4 d-flex align-items-center justify-content-center'><p className='p-1 fw-bold'>18KWG</p></div>
             </div>
           </div>
           <div className="labourDetailPrint11 border-end d-grid">
@@ -258,6 +254,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               <p className='text-center pb-1'>Size {e?.Size}</p>
             </div>
             <div className="diamondStoneDetailPrint11 d-grid pad_bt_20semiTotalDetailPrint11 position-relative">
+              {console.log(e.materials)}
               {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
                 return <div className='d-flex border-bottom' key={ind}>
                   <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{ele?.ShapeName}</p></div>
@@ -294,6 +291,10 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
             </div>
             <div className="goldDetailPrint11 border-end d-grid">
+              <div className='d-flex border-bottom'>
+                <div className='col-7 border-end d-flex align-items-center justify-content-center fw-bold'><p className=''>Quality</p></div>
+                <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{e?.MetalPurity} {e?.MetalColor}</p></div>
+              </div>
               <div className='d-flex border-bottom'>
                 <div className='col-7 border-end d-flex align-items-center justify-content-center fw-bold'><p className=''>Gross Weight(Gms)</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{fixedValues(e?.grosswt, 3)} G</p></div>
@@ -372,7 +373,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               <p className='fw-bold'>{NumberWithCommas(total?.totalLabour, 2)}</p>
             </div>
           </div>
-          <div className="totalAmountDetailPrint11 d-flex align-items-center justify-content-end totalAmountDetailPrint11Jewellery fw-bold"><p>
+          <div className="totalAmountDetailPrint11 d-flex align-items-center justify-content-end totalAmountDetailPrint11Jewellery fw-bold px-1"><p>
             <span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(total?.totalJewelleryAmount, 2)}</p></div>
         </div>
         {/* remark */}
@@ -419,11 +420,11 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
           </div>
           <div className="totaljewAmountDetailPrint11 py-1">
-            <p className='text-end p-1 fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(total?.totalJewelleryAmount, 2)}</p>
+            <p className='text-end py-1 fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(total?.totalJewelleryAmount, 2)}</p>
             {taxes.length > 0 && taxes.map((e, i) => {
-              return <p className='text-end p-1 fw-bold' key={i}><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{e?.amount}</p>
+              return <p className='text-end py-1 fw-bold' key={i}><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{e?.amount}</p>
             })}
-            <p className='text-end p-1 fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{json0Data?.AddLess}</p>
+            <p className='text-end py-1 fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{json0Data?.AddLess}</p>
           </div>
         </div>
         {/* Grand total*/}
@@ -431,7 +432,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           <div className="grandTotalDetailprint11 border-end border-end p-1">
             <p className='fw-bold text-end'>Grand Total </p>
           </div>
-          <div className="grandTotalNumberDetailPrint11 p-1">
+          <div className="grandTotalNumberDetailPrint11 py-1">
             <p className="fw-bold text-end"><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(total?.grandTotal, 2)}</p>
           </div>
         </div>

@@ -44,7 +44,6 @@ const BagPrint4A = ({ queries, headers }) => {
 
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-
         datas?.map((a) => {
           let chunkData = [];
           let chunkSize = 14;

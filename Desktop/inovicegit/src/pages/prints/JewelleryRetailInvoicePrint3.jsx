@@ -96,7 +96,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
       let debitCardinfo = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
       setBank(debitCardinfo);
       // totals.netBalAmount = totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount - data?.BillPrint_Json[0]?.CashReceived - data?.BillPrint_Json[0]?.BankReceived;
-      totals.netBalAmount = totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount - data?.BillPrint_Json[0]?.CashReceived;
+      totals.netBalAmount = totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount - data?.BillPrint_Json[0]?.CashReceived + data?.BillPrint_Json[0]?.AddLess;
       debitCardinfo.length > 0 && debitCardinfo.forEach((e, i) => {
         totals.netBalAmount -= e.amount;
       })
@@ -186,7 +186,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
           {msg === "" ? (
             <> <div className={`container-fluid ${style?.jewelelryRetailInvoiceContainer}`}>
               <div className="btnpcl"> <Button /> </div>
-              <div className=""> <div className="headlineJL w-100 p-2"> <b style={{ fontSize: "15px" }}> {headerData?.PrintHeadLabel} </b> </div>
+              <div className="pt-2"> <div className="headlineJL w-100 p-2"> <b style={{ fontSize: "15px" }}> {headerData?.PrintHeadLabel} </b> </div>
                 <div className="d-flex w-100">
                   <div className="col-10 p-2">
                     <div className="fslhJL">
@@ -286,14 +286,14 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                         {headerData?.HSN_No}
                       </div>
                     </div>
-                    <div className="d-flex">
+                    {headerData?.aadharno !== "" && <div className="d-flex">
                       <div className="col-4">
                         <b className="JL13">AADHAR CARD</b>
                       </div>
                       <div className="col-8">
                         {headerData?.aadharno}
                       </div>
-                    </div>
+                    </div>}
                     <div className="d-flex  position-absolute w-100 pb-2 bottom-0">
                       <div className="col-4">
                         <b className="JL13 fs-6">24K Gold Rate</b>
@@ -336,7 +336,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                     <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 fw-bold`}>
                       <p className="fw-bold">{e?.SubCategoryname} {e?.Categoryname}</p>
                       <p className="fw-bold">{e?.designno} | {e?.SrJobno}</p>
-                      <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' className="w-100 p-1"/>
+                      <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' className="w-75 p-1"/>
                     </div>
                     <div className={`${style?.materialJewerryRetailInvoicePrint} border-end`}>
                       <div className="d-grid h-100">
@@ -376,8 +376,8 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                     <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}></div>
                     <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(total?.gwt, 3)} gm</p> </div>
                     <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 flex-column`}>
-                      <p className="fw-bold p-1 text-end lh-1">{fixedValues(total?.diaColorWt, 3)} Ctw</p>
-                      <p className="fw-bold p-1 text-end lh-1">{fixedValues(total?.stoneWt, 3)} gm</p></div>
+                      <p className="fw-bold pb-1 text-end lh-1">{fixedValues(total?.diaColorWt, 3)} Ctw</p>
+                      <p className="fw-bold text-end lh-1">{fixedValues(total?.stoneWt, 3)} gm</p></div>
                     <div className={`${style?.w_20JewerryRetailInvoicePrint} `}><p className="fw-bold p-1 text-end lh-1">{fixedValues(total?.nwt, 3)} gm</p></div>
                   </div>
                   <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end flex-column`}>
@@ -406,6 +406,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                       {taxes.length > 0 && taxes.map((e, i) => {
                         return <p className="p-1" key={i}>{e?.name} @ {e?.per}</p>
                       })}
+                      <p className="p-1">{headerData?.AddLess >= 0 ? "Add" : "Less"}</p>
                       <p className="p-1">Total Amt after Tax</p>
                       <p className="p-1">Old Gold</p>
                       <p className="p-1">Recv. in Cash</p>
@@ -422,6 +423,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                       {taxes.length > 0 && taxes.map((e, i) => {
                         return <p className="p-1 text-end" key={i}>{NumberWithCommas(+e?.amount, 2)}</p>
                       })}
+                      <p className="p-1 text-end">{NumberWithCommas(headerData?.AddLess, 2)}</p>
                       <p className="p-1 text-end">{NumberWithCommas(total?.afterTax, 2)}</p>
                       <p className="p-1 text-end">{NumberWithCommas(headerData?.OldGoldAmount, 2)}</p>
                       <p className="p-1 text-end">{NumberWithCommas(headerData?.CashReceived, 2)}</p>
