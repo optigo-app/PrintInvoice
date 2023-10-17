@@ -23,6 +23,7 @@ import BagPrint4B from './bagPrints/BagPrint4B';
 // import BagPrint17A from './bagPrints/BagPrint17A';
 
 // import Bg18 from './bagPrints/Bg18';
+// import BagPrint7Acopy from './bagPrints/BagPrint7Acopy';
 
 const AllDesignBagPrint = () => {
   const location = useLocation();
@@ -59,6 +60,7 @@ const AllDesignBagPrint = () => {
       {printName === "BagPrint5A" && <BagPrint5A queries={queries} headers={headers} />}
       {printName === "BagPrint6A" && <BagPrint6A queries={queries} headers={headers} />}
       {printName === "BagPrint7A" && <BagPrint7A queries={queries} headers={headers} />}
+      {/* {printName === "BagPrint7A" && <BagPrint7Acopy queries={queries} headers={headers} />} */}
       {printName === "BagPrint10A" && <BagPrint10A queries={queries} headers={headers} />}
       {printName === "BagPrint11A" && <BagPrint11A queries={queries} headers={headers} />}
       {printName === "BagPrint12A" && <BagPrint12A queries={queries} headers={headers} />}
