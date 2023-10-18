@@ -373,7 +373,7 @@ function BagPrint14A({ queries, headers }) {
                 </button></div>
 
 
-                    <div className='bag14Aflex pad_60_allPrint'>
+                    <div className='bag14Aflex pad_60_allPrint '>
                         <div className='straight_print'>
                             {Array.from({ length: queries.pageStart }, (_, index) => (
                                 index > 0 && <div key={index} className="container_1" style={{ border: "0px" }}></div>
