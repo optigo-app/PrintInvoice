@@ -1,3 +1,6 @@
+*{
+    box-sizing: border-box;
+}
 .border_2 {
     border: 2pt solid #3D3D3D;
 }
@@ -6,8 +9,10 @@
     width: 91mm;
     height: 90mm;
     border: 2px solid black;
-    margin-left: 1.4rem;
-    margin-top: 2.4rem;
+    margin-left: 1.9rem;
+    margin-top: 2.9rem;
+    /* margin-left: 1.4rem;
+    margin-top: 2.4rem; */
     /* margin-left: 1.9rem;
     margin-top: 3rem; */
     border-radius: 8px;
