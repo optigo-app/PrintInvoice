@@ -37,7 +37,6 @@ const BagPrint7Acopy = ({ queries, headers }) => {
 
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-        console.log(datas);
 
         datas?.map((a) => {
           let chunkData = [];
@@ -79,6 +78,19 @@ const BagPrint7Acopy = ({ queries, headers }) => {
           let ArrofMISize = [];
           let ArrofFSize = [];
 
+          const ProductInstruction = a?.rd?.ProductInstruction;
+
+          // Check if productInstruction is not undefined, null, 'null', or an empty string
+          const displayValue =
+            ProductInstruction !== undefined &&
+            ProductInstruction != null &&
+            ProductInstruction !== "null" &&
+            ProductInstruction.trim() !== ""
+              ? ProductInstruction
+              : " ";
+
+          a.rd.updateIns = displayValue;
+          // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
@@ -113,7 +125,6 @@ const BagPrint7Acopy = ({ queries, headers }) => {
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
-
           ArrofSevenSize.push(dia);
           ArrofFiveSize.push(clr);
           ArrofFSize.push(f);
@@ -148,7 +159,6 @@ const BagPrint7Acopy = ({ queries, headers }) => {
             }
           });
           let arr = [];
-          // let sizeArr = [];
           let mainArr = arr?.concat(
             ArrofSevenSize,
             ArrofFiveSize,
@@ -186,13 +196,13 @@ const BagPrint7Acopy = ({ queries, headers }) => {
 
     fetchData();
   }, []);
-  //  useEffect(() => {
-  //     if (data?.length !== 0) {
-  //       setTimeout(() => {
-  //         window.print();
-  //       }, 5000);
-  //     }
-  //   }, [data]);
+  useEffect(() => {
+    if (data?.length !== 0) {
+      setTimeout(() => {
+        window.print();
+      }, 5000);
+    }
+  }, [data]);
 
   return (
     <>
@@ -208,7 +218,7 @@ const BagPrint7Acopy = ({ queries, headers }) => {
               Print
             </button>
           </div>
-          <div className="d-flex flex-wrap mb-5">
+          <div className="d-flex flex-wrap mb-5 pad_60_allPrint">
             {Array.from(
               { length: queries?.pageStart },
               (_, index) =>
@@ -228,43 +238,51 @@ const BagPrint7Acopy = ({ queries, headers }) => {
                       e?.additional?.pages?.map((el, index) => {
                         return (
                           <React.Fragment key={index}>
-                            <div className="container7Acopy">
+                            <div className="container7Acopy ">
                               <div className="head7Acopy">
                                 <div className="headerdesc7Acopy">
                                   <div className="headW7Acopy">
                                     <div className="jobno7Acopy">
-                                      <div>
-                                        <span className="fs7Acopy">
+                                      <div className="h-100 d-flex justify-content-center align-items-center">
+                                        <span className="fs20A fw-bold pe-1">
                                           Ord Dt:
                                         </span>
-                                        <span>{e?.data?.rd?.orderDatef}</span>
+                                        <span className="lh20A fs20A">
+                                          {e?.data?.rd?.orderDatef}
+                                        </span>
                                       </div>
-                                      <div>
-                                        <span className="fs7Acopy">
+                                      <div className="h-100 d-flex justify-content-center align-items-center">
+                                        <span className="fs20A fw-bold pe-1">
                                           Due Dt:
                                         </span>
-                                        <span>{e?.data?.rd?.promiseDatef}</span>
+                                        <span className="lh20A fs20A">
+                                          {e?.data?.rd?.promiseDatef}
+                                        </span>
                                       </div>
-                                      <div className="fs7Acopy">
-                                        <span>Party:</span>
-                                        <span>{e?.data?.rd?.CustomerCode}</span>
+                                      <div className="h-100 d-flex justify-content-center align-items-center">
+                                        <span className="fs20A fw-bold pe-1">
+                                          Party:
+                                        </span>
+                                        <span className="lh20A fs20A">
+                                          {e?.data?.rd?.CustomerCode}
+                                        </span>
                                       </div>
                                     </div>
                                     <div className="barcodebag7Acopy">
                                       <div>
-                                        <div className="h7Acopy fs7Acopy d-flex justify-content-between">
-                                          <span className="fs7Acopy">
-                                            Bag No:
+                                        <div className="h7Acopy fs7Acopy d-flex justify-content-between align-items-center">
+                                          <span className="fs20A fw-bold h-100 d-flex justify-content-center align-items-center">
+                                            Bag No :
                                           </span>
-                                          <span className="fs7Acopy">
+                                          <span className="fs20A lh20A h-100 d-flex justify-content-center align-items-center">
                                             {e?.data?.rd?.serialjobno}
                                           </span>
-                                        </div>
-                                        <div className="h7Acopy fs7Acopy d-flex justify-content-between">
-                                          <span className="fs7Acopy">
-                                            Dgn No:
+                                        </div>  
+                                        <div className="fs20A fs7Acopy d-flex justify-content-between align-items-center">
+                                          <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center">
+                                            Dgn No :
                                           </span>
-                                          <span className="fs7Acopy">
+                                          <span className="fs20A lh20A h-100 d-flex justify-content-center align-items-center ps-1">
                                             {e?.data?.rd?.Designcode}
                                           </span>
                                         </div>
@@ -283,22 +301,43 @@ const BagPrint7Acopy = ({ queries, headers }) => {
                                           paddingTop: "1px",
                                         }}
                                       >
-                                        <span> Remark:</span> <span></span>
+                                        <span className="fs20A fw-bold">
+                                          {" "}
+                                          Remark:
+                                        </span>
+                                        <span className="text-danger lh20A p-1">
+                                          {e?.data?.rd?.updateIns}
+                                        </span>
                                       </div>
                                       <div className="matinfo7Acopy">
-                                        <div className="h327Acopy d-flex justify-content-between p-1">
-                                          KT/CLR:
+                                        <div className="h327Acopy d-flex flex-column justify-content-between ">
+                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-100 fw-bold">
+                                            KT/CLR:
+                                          </span>
+                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-100 lh20A ">
+                                            {e?.data?.rd?.MetalType}
+                                          </span>
                                         </div>
-                                        <div className="h327Acopy d-flex justify-content-between p-1">
-                                          <span>Size:</span>
-                                          <span>{e?.data?.rd?.Size}</span>
+                                        <div className="h327Acopy d-flex justify-content-between ">
+                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 fw-bold">
+                                            Size:
+                                          </span>
+                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 lh20A">
+                                            {e?.data?.rd?.Size}
+                                          </span>
                                         </div>
                                         <div
-                                          className="h327Acopy d-flex justify-content-between p-1"
+                                          className="h327Acopy d-flex justify-content-between"
                                           style={{ borderBottom: "0px" }}
                                         >
-                                          <span>Est Wt:</span>
-                                          <span></span>
+                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 fw-bold">
+                                            Est Wt:
+                                          </span>
+                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 lh20A">
+                                            {e?.data?.rd?.ActualGrossweight?.toFixed(
+                                              3
+                                            )}
+                                          </span>
                                         </div>
                                       </div>
                                     </div>
@@ -387,34 +426,34 @@ const BagPrint7Acopy = ({ queries, headers }) => {
                                 </div>
                                 <div className="d-flex">
                                   <div>
-                                    <div className="wheadsep7Acopy border-start border_color">
+                                    <div className="wheadsep7Acopy border-start border_color fw-bold">
                                       Grind
                                     </div>
-                                    <div className="wheadsep7Acopy border-start border_color">
+                                    <div className="wheadsep7Acopy border-start border_color fw-bold">
                                       Filli
                                     </div>
-                                    <div className="wheadsep7Acopy border-start border_color">
+                                    <div className="wheadsep7Acopy border-start border_color fw-bold">
                                       Buff.
                                     </div>
-                                    <div className="wheadsep7Acopy border-start border_color">
+                                    <div className="wheadsep7Acopy border-start border_color fw-bold">
                                       Filli.
                                     </div>
-                                    <div className="wheadsep7Acopy border-start border_color">
+                                    <div className="wheadsep7Acopy border-start border_color fw-bold">
                                       PPOL
                                     </div>
-                                    <div className="wheadsep7Acopy border-start border_color">
+                                    <div className="wheadsep7Acopy border-start border_color fw-bold">
                                       Sett.
                                     </div>
-                                    <div className="wheadsep7Acopy border-start border_color">
+                                    <div className="wheadsep7Acopy border-start border_color fw-bold">
                                       M FN
                                     </div>
-                                    <div className="wheadsep7Acopy border-start border_color">
+                                    <div className="wheadsep7Acopy border-start border_color fw-bold">
                                       F POL
                                     </div>
-                                    <div className="wheadsep7Acopy border-start border_color">
+                                    <div className="wheadsep7Acopy border-start border_color fw-bold">
                                       Mina
                                     </div>
-                                    <div className="wheadsep7Acopy border_color border-start border_bottom_left_print7Acopy">
+                                    <div className="wheadsep7Acopy border_color border-start border_bottom_left_print7Acopy fw-bold">
                                       Other
                                     </div>
                                   </div>
@@ -512,15 +551,17 @@ const BagPrint7Acopy = ({ queries, headers }) => {
                                 </div>
                                 <div className="diacsentry7Acopy">
                                   <div className="fw-bold pt-1 ps-1">
-                                    <div>Dia Detail:</div>
-                                    <div className="mb-2">
+                                    <div className="pb-1">Diamond Detail:</div>
+                                    <div className="mb-2 lh20A fw-normal">
                                       {e?.additional?.dia?.ActualPcs}/
                                       {e?.additional?.dia?.ActualWeight?.toFixed(
                                         3
                                       )}
                                     </div>
-                                    <div>CS Detail:</div>
-                                    <div>
+                                    <div className="pb-1">
+                                      Color Stone Detail:
+                                    </div>
+                                    <div className="lh20A fw-normal">
                                       {e?.additional?.clr?.ActualPcs}/
                                       {e?.additional?.clr?.ActualWeight?.toFixed(
                                         3
@@ -644,29 +685,43 @@ const BagPrint7Acopy = ({ queries, headers }) => {
                             <div className="headW7Acopy">
                               <div className="jobno7Acopy">
                                 <div>
-                                  <span className="fs7Acopy">Ord Dt:</span>
-                                  <span>{e?.data?.rd?.orderDatef}</span>
+                                  <span className="fs7Acopy fw-bold pe-1">
+                                    Ord Dt:
+                                  </span>
+                                  <span className="lh20A fs20A">
+                                    {e?.data?.rd?.orderDatef}
+                                  </span>
                                 </div>
                                 <div>
-                                  <span className="fs7Acopy">Due Dt:</span>
-                                  <span>{e?.data?.rd?.promiseDatef}</span>
+                                  <span className="fs7Acopy fw-bold pe-1">
+                                    Due Dt:
+                                  </span>
+                                  <span className="lh20A fs20A">
+                                    {e?.data?.rd?.promiseDatef}
+                                  </span>
                                 </div>
                                 <div className="fs7Acopy">
-                                  <span>Party:</span>
-                                  <span>{e?.data?.rd?.CustomerCode}</span>
+                                  <span className="fw-bold pe-1">Party:</span>
+                                  <span className="lh20A fs20A">
+                                    {e?.data?.rd?.CustomerCode}
+                                  </span>
                                 </div>
                               </div>
                               <div className="barcodebag7Acopy">
                                 <div>
                                   <div className="h7Acopy fs7Acopy">
-                                    <span className="fs7Acopy">Bag No:</span>
-                                    <span className="fs7Acopy">
+                                    <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center">
+                                      Bag No:
+                                    </span>
+                                    <span className="fs7Acopy h-100 d-flex justify-content-center align-items-center">
                                       {e?.data?.rd?.serialjobno}
                                     </span>
                                   </div>
                                   <div className="h7Acopy fs7Acopy">
-                                    <span className="fs7Acopy">Dgn No:</span>
-                                    <span className="fs7Acopy">
+                                    <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center">
+                                      Dgn No:
+                                    </span>
+                                    <span className="fs7Acopy h-100 d-flex justify-content-center align-items-center ps-1">
                                       {e?.data?.rd?.Designcode}
                                     </span>
                                   </div>
@@ -685,17 +740,19 @@ const BagPrint7Acopy = ({ queries, headers }) => {
                                     paddingTop: "1px",
                                   }}
                                 >
-                                  <span> Remark:</span>{" "}
+                                  <span className="fw-bold"> Remark:</span>{" "}
                                   <span>{e?.data?.rd?.remark}</span>
                                 </div>
                                 <div className="matinfo7Acopy">
-                                  <div className="h327Acopy">KT/CLR:</div>
+                                  <div className="h327Acopy fw-bold">
+                                    KT/CLR:
+                                  </div>
                                   <div className="h327Acopy">
-                                    <span>Size:</span>
+                                    <span className="fw-bold">Size:</span>
                                     <span>{e?.data?.rd?.Size}</span>
                                   </div>
                                   <div
-                                    className="h327Acopy"
+                                    className="h327Acopy fw-bold"
                                     style={{ borderBottom: "0px" }}
                                   >
                                     Est Wt:
@@ -959,7 +1016,6 @@ const BagPrint7Acopy = ({ queries, headers }) => {
                               Net Wt.
                             </div>
                           </div>
-
                           <div className="footer7Acopy brbnone7Acopy brl7Acopy1"></div>
                           <div className="footer7Acopy brbnone7Acopy brl7Acopy2"></div>
                         </div>

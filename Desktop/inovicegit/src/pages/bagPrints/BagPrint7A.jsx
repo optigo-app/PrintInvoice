@@ -419,7 +419,7 @@ const BagPrint7A = ({ queries, headers }) => {
             </button>
           </div>
 
-          <div className="print7A">
+          <div className="print7A pad_60_allPrint">
             {Array.from(
               { length: queries?.pageStart },
               (_, index) =>

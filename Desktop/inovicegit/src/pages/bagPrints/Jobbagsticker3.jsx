@@ -191,7 +191,9 @@ function Jobbagsticker3({ queries, headers }) {
                 data.length === 0 ? <Loader /> : <><div className="print_btn"><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
                     Print
                 </button></div>
+                <div className='pad_60_allPrint'>
 
+                
                     {Array.from({ length: queries.pageStart }, (_, index) => (
                         index > 0 && <div key={index} className="container  ml_5 mb_10"></div>
                     ))}
@@ -230,6 +232,7 @@ function Jobbagsticker3({ queries, headers }) {
                             </div>
                          : ''
                     }
+                    </div>
                 </>
             }
         </>

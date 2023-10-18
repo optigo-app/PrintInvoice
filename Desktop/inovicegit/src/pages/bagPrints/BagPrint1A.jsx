@@ -554,7 +554,7 @@ function BagPrint1A({ queries, headers }) {
               Print
             </button>
           </div>
-          <div className="print1A">
+          <div className="print1A pad_60_allPrint">
             {Array.from(
               { length: queries?.pageStart },
               (_, indexs) =>

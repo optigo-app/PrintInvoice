@@ -9,8 +9,10 @@
     width: 340px;
     border: 2px solid black;
     border-radius: 4px;
-    margin-top: 2rem;
-    margin-left: 1.6rem;
+    margin-top: 2.6rem;
+    margin-left: 2rem;
+    /* margin-top: 2rem;
+    margin-left: 1.6rem; */
     /* margin-top: 2.5rem;
     margin-left: 2rem; */
 }
@@ -242,7 +244,7 @@
     transform: rotate(90deg);
     position: absolute;
     top: 100px;
-    left: 13.65rem;
+    left: 17.65rem !important;
 }
 
 .barcode18AD>.barcode_sticker {
@@ -252,7 +254,7 @@
     transform: rotate(90deg);
     position: absolute;
     top: 85px;
-    left: 13.65rem;
+    left: 17.65rem !important;
 }
 .barcode18AD{
     width: 35px;
