@@ -5,6 +5,7 @@ import {
   apiCall,
   CapitalizeWords,
   fixedValues,
+  GovernMentDocuments,
   handleImageError,
   isObjectEmpty,
   NumberWithCommas,
@@ -34,6 +35,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
     afterTax: 0,
     netBalAmount: 0
   });
+  const [documents, setDocuments] = useState([]);
   const [taxes, setTaxes] = useState([]);
   const [bank, setBank] = useState([]);
   async function loadData(data) {
@@ -148,6 +150,8 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
         }
       });
       setdata(resultArr);
+      let document = GovernMentDocuments(data?.BillPrint_Json[0]?.DocumentDetail);
+      setDocuments(document);
       setLoader(false);
     } catch (error) {
       console.log(error);
@@ -275,39 +279,41 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
                       {headerData?.Cust_CST_STATE_No}
                     </div>
                   </div>
-                  <div className="col-4 p-2 position-relative">
+                  <div className="col-4 p-2 position-relative pb-5">
                     <div className="d-flex">
-                      <div className="col-4">
-                        <b className="JL13">INVOICE NO</b>
+                      <div className="col-5">
+                        <b className="JL13">INVOICE NO : </b>
                       </div>
-                      <div className="col-8">
+                      <div className="col-7">
                         {headerData?.InvoiceNo}
                       </div>
                     </div>
                     <div className="d-flex">
-                      <div className="col-4">
-                        <b className="JL13">DATE</b>
+                      <div className="col-5">
+                        <b className="JL13">DATE : </b>
                       </div>
-                      <div className="col-8">
+                      <div className="col-7">
                         {headerData?.EntryDate}
                       </div>
                     </div>
                     <div className="d-flex">
-                      <div className="col-4">
-                        <b className="JL13">HSN</b>
+                      <div className="col-5">
+                        <b className="JL13">HSN : </b>
                       </div>
-                      <div className="col-8">
+                      <div className="col-7">
                         {headerData?.HSN_No}
                       </div>
                     </div>
-                    {headerData?.aadharno !== "" && <div className="d-flex">
-                      <div className="col-4">
-                        <b className="JL13">AADHAR CARD</b>
+                    {documents.length > 0 && documents.map((e, i) => {
+                      return <div className="d-flex" key={i}>
+                      <div className="col-5">
+                        <b className="JL13">{e?.label} : </b>
                       </div>
-                      <div className="col-8">
-                        {headerData?.aadharno}
+                      <div className="col-7">
+                        {e?.value}
                       </div>
-                    </div>}
+                    </div>
+                    })}
                     <div className="d-flex  position-absolute w-100 pb-2 bottom-0">
                       <div className="d-flex">
                         <b className="JL13 fs-5 pe-2">24K Gold Rate</b>

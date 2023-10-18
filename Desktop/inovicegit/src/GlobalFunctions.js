@@ -180,3 +180,20 @@ export const checkInstruction = (ins) => {
    return ins;
   }
 }
+
+export const GovernMentDocuments = (documents) => {
+  if(documents?.length > 0){
+    let arr = documents.split('#@#');
+    let blankArr = [];
+    arr.forEach(e=> {
+      let obj = {};
+      let val = e.split('#-#');
+      obj.label = val[0];
+      obj.value = val[1];
+      blankArr.push(obj);
+    });
+    return blankArr;
+  }else{
+    return [];
+  }
+}
