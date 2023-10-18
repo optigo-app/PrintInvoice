@@ -12,6 +12,7 @@ import {
 import convertor from "number-to-words";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
+import Footer2 from "../../components/footers/Footer2";
 
 const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
@@ -376,9 +377,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <Button />
               </div>
               <div className="summary1PrintSum1">
-                <div style={{ width: "1000px" }}>
-                  {headerComp}
-                </div>
+                <div style={{ width: "1000px" }}>{headerComp}</div>
                 {/* <div className="mainheadersum1">
                   <div className="head1sum1">{headerData?.PrintHeadLabel}</div>
                   <div className="head2sum1">
@@ -736,7 +735,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                           Grand Total :
                         </div>
                         <div className="d-flex justify-content-end w-50 fs-6">
-                          
                           {/* { headerData?.Currencysymbol} ₹ {finalAmount?.toFixed(2)} */}
                           <p
                             dangerouslySetInnerHTML={{
@@ -766,7 +764,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 className="summwsum1 fs13sum1"
                                 style={{ width: "20%" }}
                               >
-                                
                                 :
                               </div>
                               <div
@@ -793,7 +790,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 className="summwsum1 fs13sum1"
                                 style={{ width: "20%" }}
                               >
-                                
                                 :
                               </div>
                               <div
@@ -846,7 +842,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 className="summwsum1 fs13sum1"
                                 style={{ width: "20%" }}
                               >
-                                
                                 :
                               </div>
                               <div
@@ -879,7 +874,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                       }}
                     ></p>
                   </div>
-                  <div className="footerSum1">
+                  {/* <div className="footerSum1">
                     <div className="footer1Sum1">
                       <p className="footerSignValSum1">
                         RECEIVER's NAME & SIGNATURE
@@ -888,7 +883,10 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="footer1Sum1">
                       <p className="footer2SignValSum1">for,ORAIL SERVICE</p>
                     </div>
-                  </div>
+                  </div> */}
+                </div>
+                <div style={{width:"1000px"}}>
+                  <Footer2 />
                 </div>
               </div>
             </>

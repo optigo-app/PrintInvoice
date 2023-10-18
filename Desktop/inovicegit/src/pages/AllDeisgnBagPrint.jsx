@@ -13,7 +13,7 @@ import BagPrint5A from './bagPrints/BagPrint5A';
 import BagPrint6A from './bagPrints/BagPrint6A';
 import BagPrint10A from './bagPrints/BagPrint10A';
 import BagPrint13A from './bagPrints/bagPrint13A';
-import BagPrint7A from './bagPrints/BagPrint7A';
+// import BagPrint7A from './bagPrints/BagPrint7A';
 import BagPrint4A from './bagPrints/BagPrint4A';
 import BagPrint11A from './bagPrints/BagPrint11A';
 import BagPrint12A from './bagPrints/BagPrint12A';
@@ -23,7 +23,7 @@ import BagPrint4B from './bagPrints/BagPrint4B';
 // import BagPrint17A from './bagPrints/BagPrint17A';
 
 // import Bg18 from './bagPrints/Bg18';
-// import BagPrint7Acopy from './bagPrints/BagPrint7Acopy';
+import BagPrint7Acopy from './bagPrints/BagPrint7Acopy';
 
 const AllDesignBagPrint = () => {
   const location = useLocation();
@@ -57,8 +57,8 @@ const AllDesignBagPrint = () => {
       {printName === "BagPrint4B" && <BagPrint4B queries={queries} headers={headers} />}
       {printName === "BagPrint5A" && <BagPrint5A queries={queries} headers={headers} />}
       {printName === "BagPrint6A" && <BagPrint6A queries={queries} headers={headers} />}
-      {printName === "BagPrint7A" && <BagPrint7A queries={queries} headers={headers} />}
-      {/* {printName === "BagPrint7A" && <BagPrint7Acopy queries={queries} headers={headers} />} */}
+      {/* {printName === "BagPrint7A" && <BagPrint7A queries={queries} headers={headers} />} */}
+      {printName === "BagPrint7A" && <BagPrint7Acopy queries={queries} headers={headers} />}
       {printName === "BagPrint10A" && <BagPrint10A queries={queries} headers={headers} />}
       {printName === "BagPrint11A" && <BagPrint11A queries={queries} headers={headers} />}
       {printName === "BagPrint12A" && <BagPrint12A queries={queries} headers={headers} />}
