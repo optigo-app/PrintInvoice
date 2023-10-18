@@ -863,7 +863,7 @@ const BagPrint15A = ({ queries, headers }) => {
                 <div className="print_btn"><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
                     Print
                 </button></div>
-                    <div className="p15Awrap">
+                    <div className="p15Awrap pad_60_allPrint">
                         {Array.from({ length: queries?.pageStart }, (_, index) => (
                             index > 0 && <div key={index} className="container15Aold" id="main_container" style={{ border: "0px" }}></div>
                         ))}

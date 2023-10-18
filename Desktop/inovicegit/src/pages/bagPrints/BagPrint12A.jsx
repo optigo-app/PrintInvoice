@@ -226,13 +226,7 @@ const BagPrint12A = ({ queries, headers }) => {
         };
         fetchData();
     }, []);
-
-    // function handlePrint(e) {
-    //     e.preventDefault();
-    //     window.print();
-    // }
     
-
     useEffect(() => {
         if (data.length !== 0) {
             setTimeout(() => {
@@ -251,7 +245,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                 Print
                             </button>
                         </div>
-                        <div className="print_12A_flex">
+                        <div className="print_12A_flex pad_60_allPrint">
                             {Array.from({ length: queries?.pageStart }, (_, index) => (
                                 index > 0 && <div key={index} className="section_12A"></div>
                             ))}

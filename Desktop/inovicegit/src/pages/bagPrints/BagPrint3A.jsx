@@ -357,7 +357,7 @@ const BagPrint3A = ({ queries, headers }) => {
           Print
         </button></div>
 
-          <div className='job3Aflex'>
+          <div className='job3Aflex pad_60_allPrint'>
             <div className='print3A'>
               {Array.from({ length: queries.pageStart }, (_, index) => (
                 index > 0 && <div key={index} className="container_3A" style={{ border: "0px" }}></div>

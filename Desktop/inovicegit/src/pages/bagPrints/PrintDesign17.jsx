@@ -202,7 +202,7 @@ const PrintDesign17 = ({ queries, headers }) => {
     };
 
     return (
-        <div>
+        <div className='pad_60_allPrint'>
             {data.length === 0 ? <Loader /> : <> <div className="print_btn">
                 <button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
                     Print

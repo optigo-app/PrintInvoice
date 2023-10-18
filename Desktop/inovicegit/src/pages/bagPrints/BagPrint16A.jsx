@@ -205,6 +205,7 @@ const BagPrint16A = ({ queries, headers }) => {
           <Loader />
         ) : (
           <>
+          <div className="pad_60_allPrint">
             <div className="print_btn">
               <button
                 className="btn_white blue print_btn"
@@ -1201,6 +1202,7 @@ const BagPrint16A = ({ queries, headers }) => {
                   );
                 }
               })}
+            </div>
             </div>
           </>
         )}
