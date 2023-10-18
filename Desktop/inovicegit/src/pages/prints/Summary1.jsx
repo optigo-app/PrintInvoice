@@ -376,15 +376,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className="btnpcl">
                 <Button />
               </div>
-<<<<<<< HEAD
-              <div className="summary1PrintSum1 pad_60_allPrint">
-                <div style={{ width: "1000px" }}>
-                  {headerComp}
-                </div>
-=======
               <div className="summary1PrintSum1">
                 <div style={{ width: "1000px" }}>{headerComp}</div>
->>>>>>> 6267f44d0c2ffb639b8401c3f7ddadabbbd8bcf6
                 {/* <div className="mainheadersum1">
                   <div className="head1sum1">{headerData?.PrintHeadLabel}</div>
                   <div className="head2sum1">
