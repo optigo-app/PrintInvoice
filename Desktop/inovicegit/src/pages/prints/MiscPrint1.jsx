@@ -159,7 +159,7 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     return (
         <>
             {loader ? <Loader /> : msg === "" ? <>
-                <div className="printBtn_sec text-end container_Misc_1 pt-4">
+                <div className="printBtn_sec text-end container_Misc_1 pt-4 pad_60_allPrint">
                     {/* <input type="button" className="btn_white blue me-2" value="Pdf" onClick={() => toPDF()} /> */}
                     <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
                 </div>

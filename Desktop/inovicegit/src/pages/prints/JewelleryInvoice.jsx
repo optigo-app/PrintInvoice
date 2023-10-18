@@ -136,7 +136,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
           <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
         </div>
       </div>
-      <div className='portrait_container jewellery_invoice_container pt-2' id='pdf-content'>
+      <div className='portrait_container jewellery_invoice_container pt-2 pad_60_allPrint' id='pdf-content'>
         {/* Main Heading */}
         <div className="w-100 bgGrey p-1">
           {/* <p className='fs-5 fw-bold text-white'>RETAIL INVOICE</p> */}

@@ -436,7 +436,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className="btnpcl">
                 <Button />
               </div>
-              <div className="containerinvp3" id="divToPrint">
+              <div className="containerinvp3 pad_60_allPrint" id="divToPrint">
                 <div className="headinvp3">
                   <div className="headerinvp3">
                     <div className="head1invp3">

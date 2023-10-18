@@ -155,7 +155,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn }) => {
     return (
         loader ? <Loader /> : msg === "" ? <>
             {/* print button  */}
-            <div className={`d-flex justify-content-end mb-4 align-items-center print_sec_sum4 pt-4 ${style?.exportPrintContainer}`}>
+            <div className={`d-flex justify-content-end mb-4 align-items-center print_sec_sum4 pt-4 ${style?.exportPrintContainer} pad_60_allPrint`}>
                 <div className="form-check ps-3 mt-2">
                     <input
                         type="button"

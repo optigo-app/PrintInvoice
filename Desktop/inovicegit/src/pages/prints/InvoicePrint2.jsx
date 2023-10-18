@@ -340,7 +340,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className="btnpcl">
                 <Button />
               </div>
-              <div className="summary1Printinvp2">
+              <div className="summary1Printinvp2 pad_60_allPrint">
                 <div className="mainheaderivp2">
                   <div className="head3ivp2">
                     <div className="d-flex" style={{ width: "80%" }}>
