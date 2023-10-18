@@ -10,7 +10,7 @@ import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import "../../assets/css/bagprint/print4b.css";
-import { fixedValues } from "../../GlobalFunctions";
+import { checkInstruction, fixedValues } from "../../GlobalFunctions";
 const BagPrint4B = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -468,9 +468,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                         </div>
                                         <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
                                           {e?.additional?.dia?.ActualPcs}/
-                                          {e?.additional?.dia?.ActualWeight?.toFixed(
-                                            3
-                                          )}
+                                          {e?.additional?.dia?.ActualWeight?.toFixed( 3 )}
                                         </div>
                                         <div className="diamond_custom_4B border_bottom4A"></div>
                                       </div>
@@ -505,14 +503,17 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="part_3_4A">
                                   <div className="cast_ins">
                                     CAST INS.:
-                                    <span className="red_4A">
+                                    <span className="red_4A line_height_123">
 
-                                      {e?.data?.instructionData?.length > 0
+                                      {/* {e?.data?.instructionData?.length > 0
                                         ? e?.data?.instructionData ==
                                           (null || "null")
                                           ? ""
                                           : e?.data?.instructionData
-                                        : ""}
+                                        : ""} */}
+                                        {checkInstruction(e?.data?.officeuse)}
+                                        {checkInstruction(e?.data?.ProductInstruction)}
+                                        {checkInstruction(e?.data?.custInstruction)}
                                     </span>
                                   </div>
                                 </div>
@@ -582,12 +583,11 @@ const BagPrint4B = ({ queries, headers }) => {
                                   <div className="lab_self_4A border_bottom4A">
                                     <div className="priority_sec_4A border_right4A d_flex_4a">
                                       <div className="sales_Rep_text_4A">
-                                        LAB SELF
+                                        LAB {e?.data?.MasterManagement_labname}
                                       </div>
                                       <div className="sales_Rep_letter_4A">
                                         {/* {e?.data?.MasterManagement_labname} */}
                                         PO {e?.data?.PO}
-
                                       </div>
                                     </div>
                                     <div className=" border_right4A  loc4A d_flex_4a ">
@@ -977,7 +977,7 @@ const BagPrint4B = ({ queries, headers }) => {
                           <div className="part_3_4A">
                             <div className="cast_ins">
                               CAST INS.:
-                              <span className="red_4A">
+                              <span className="red_4A line_height_123">
 
                                 {e?.data?.instructionData?.length > 0
                                   ? e?.data?.instructionData == (null || "null")

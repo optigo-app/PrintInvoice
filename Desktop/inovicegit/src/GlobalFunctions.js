@@ -174,3 +174,9 @@ export const ReceiveInBank = (BankPayDet) => {
     return [];
   }
 }
+
+export const checkInstruction = (ins) => {
+  if(ins !== "" && ins !== undefined && ins !== null && ins !== "null")  {
+   return ins;
+  }
+}

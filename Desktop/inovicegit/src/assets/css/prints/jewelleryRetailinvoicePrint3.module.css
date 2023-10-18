@@ -1,15 +1,22 @@
 .jewelelryRetailInvoiceContainer{
-    max-width: 1200px !important;
+    max-width: 900px !important;
     padding-bottom: 60px;
 }
 
 .imgJewelleryRetailinovicePrint3{
     height: auto !important;
-    max-width: 160px;
+    max-width: 115.75px;
+    max-height: 100px;
+    object-fit: contain;
+    object-position: right;
 }
 
 .jewelelryRetailInvoiceContainer *{
     font-size: 12px;
+}
+
+.imageJewelleryC{
+    max-width: 105px;
 }
 
 .w_20JewerryRetailInvoicePrint{
@@ -21,25 +28,25 @@
 }
 
 .productJewerryRetailInvoicePrint{
-    width: 25%;
+    width: 20%;
 }
 .materialJewerryRetailInvoicePrint{
-    width: 50%;
+    width: 65%;
 }
 .metalMakingJewerryRetailInvoicePrint{
-    width: 15%;
+    width: 10%;
 }
 .othersJewerryRetailInvoicePrint{
-    width: 15%;
+    width: 10%;
 }
 
 .totalJewerryRetailInvoicePrint{
-    width: 15%;
+    width: 10%;
 }
 
 .wordsJewellry{
     width: 64.05%;
-    height: 200px; 
+    min-height: 145px; 
 }
 
 .wordsJewerryRetailInvoicePrint{
@@ -58,6 +65,15 @@
 
 .minHeight20RetailinvoicePrint3{
     min-height: 20px;
+}
+
+.right_jewelleryinvoicePrintc{
+    right: -20%;
+}
+
+.declarationUlJewelleryRetailInvoicePrntc h3 sub span{
+    display: block;
+    padding-bottom: 5px;
 }
 
 @media print{

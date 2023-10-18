@@ -5,10 +5,10 @@ import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import Loader from "../../components/LoaderBag";
 import { GetData } from "../../GlobalFunctions/GetData";
-import { formatDate } from "../../GlobalFunctions/DateFormat";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
+import { checkInstruction, fixedValues } from "../../GlobalFunctions";
 
 const BagPrint4A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
@@ -429,7 +429,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                             {elem?.ActualPcs}
                                           </div>
                                           <div className="wt4A border_right4A code4A_text">
-                                            {elem?.ActualWeight}
+                                            {fixedValues(elem?.ActualWeight, 3)}
                                           </div>
                                           <div className="pcs4A border_right4A code4A_text"></div>
                                           <div className="wt4A border_right4A code4A_text"></div>
@@ -484,9 +484,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                         </div>
                                         <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
                                           {e?.additional?.clr?.ActualPcs}/
-                                          {e?.additional?.clr?.ActualWeight?.toFixed(
-                                            3
-                                          )}
+                                          {fixedValues(e?.additional?.clr?.ActualWeight, 3)}
                                         </div>
                                         <div className="diamond_custom_4A border_bottom4A"></div>
                                       </div>
@@ -495,7 +493,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                           METAL
                                         </div>
                                         <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
-                                          {e?.data?.netwt?.toFixed(3)}
+                                          {/* {e?.data?.netwt?.toFixed(3)} */}
+                                          {fixedValues(e?.data?.ActualGrossweight, 3)}
                                         </div>
                                         <div className="diamond_custom_4A "></div>
                                       </div>
@@ -511,13 +510,16 @@ const BagPrint4A = ({ queries, headers }) => {
                                   <div className="cast_ins">
                                     CAST INS.:{" "}
                                     <span className="red_4A">
-                                      {" "}
+                                      {/* {" "}
                                       {e?.data?.instructionData?.length > 0
                                         ? e?.data?.instructionData ==
                                           (null || "null")
                                           ? ""
                                           : e?.data?.instructionData
-                                        : ""}{" "}
+                                        : ""}{" "} */}
+                                      {checkInstruction(e?.data?.officeuse)}
+                                      {checkInstruction(e?.data?.ProductInstruction)}
+                                      {checkInstruction(e?.data?.custInstruction)}
                                     </span>
                                   </div>
                                 </div>
@@ -587,10 +589,11 @@ const BagPrint4A = ({ queries, headers }) => {
                                   <div className="lab_self_4A border_bottom4A">
                                     <div className="priority_sec_4A border_right4A d_flex_4a">
                                       <div className="sales_Rep_text_4A">
-                                        LAB SELF
+                                        LAB {e?.data?.MasterManagement_labname}
                                       </div>
                                       <div className="sales_Rep_letter_4A">
-                                        {e?.data?.MasterManagement_labname}
+                                        {/* {e?.data?.MasterManagement_labname} */}
+                                        PO {e?.data?.PO}
                                       </div>
                                     </div>
                                     <div className=" border_right4A  loc4A d_flex_4a ">
@@ -933,9 +936,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                   </div>
                                   <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
                                     {e?.additional?.clr?.ActualPcs}/
-                                    {e?.additional?.clr?.ActualWeight?.toFixed(
-                                      3
-                                    )}
+                                    {fixedValues(e?.additional?.clr?.ActualWeight, 3)}
                                   </div>
                                   <div className="diamond_custom_4A border_bottom4A"></div>
                                 </div>
@@ -944,7 +945,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                     METAL
                                   </div>
                                   <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
-                                    {e?.data?.netwt?.toFixed(3) ?? "0.000"}
+                                    {/* {e?.data?.netwt?.toFixed(3) ?? "0.000"} */}
+                                    {fixedValues(e?.data?.ActualGrossweight, 3)}
                                   </div>
                                   <div className="diamond_custom_4A "></div>
                                 </div>
@@ -958,12 +960,15 @@ const BagPrint4A = ({ queries, headers }) => {
                             <div className="cast_ins">
                               CAST INS.:{" "}
                               <span className="red_4A">
-                                {" "}
+                                {/* {" "}
                                 {e?.data?.instructionData?.length > 0
                                   ? e?.data?.instructionData == (null || "null")
                                     ? ""
                                     : e?.data?.instructionData
-                                  : ""}{" "}
+                                  : ""}{" "} */}
+                                {checkInstruction(e?.data?.officeuse)}
+                                {checkInstruction(e?.data?.ProductInstruction)}
+                                {checkInstruction(e?.data?.custInstruction)}
                               </span>
                             </div>
                           </div>

@@ -237,7 +237,7 @@ const ExportDeclarationForm = () => {
                             </div>
                             {/* Particulars Table */}
                             <div>
-                                <table class="table table-bordered border-black">
+                                <table className="table table-bordered border-black">
                                     <thead>
                                         <tr>
                                             <th>Particulars</th>

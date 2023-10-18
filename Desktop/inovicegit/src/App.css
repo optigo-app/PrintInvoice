@@ -106,6 +106,10 @@ ol {
   align-items: flex-start;
 }
 
+.line_height_123{
+  line-height: 123%;
+}
+
 @media print {
   .no_break {
     page-break-inside: avoid;
