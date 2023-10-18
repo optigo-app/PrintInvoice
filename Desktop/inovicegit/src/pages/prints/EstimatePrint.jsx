@@ -264,7 +264,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     };
 
     return (<>
-        {loader ? <Loader /> : msg === "" ? <div className='container containerEstimate'>
+        {loader ? <Loader /> : msg === "" ? <div className='container containerEstimate pad_60_allPrint'>
             {/* print button */}
             <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4 mt-5 w-100" >
                 <div className="form-check pe-3 mb-0">

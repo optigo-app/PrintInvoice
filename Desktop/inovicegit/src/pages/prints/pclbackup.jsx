@@ -126,7 +126,7 @@ const PackingList = ({ urls, token, invoiceNo, printName }) => {
             <div className='btnpcl'>
                 <Button />
             </div>
-            <div className='pclprint'>
+            <div className='pclprint pad_60_allPrint'>
                 <div className='pclheader'>
                     <div className='orailpcl'><img src={headerData?.PrintLogo} alt="orail" id='orailpcl' /></div>
                     <div className='addresspcl'>{headerData?.CompanyAddress} {headerData?.CompanyAddress2} {headerData?.CompanyCity} - {headerData?.CompanyPinCode}</div>

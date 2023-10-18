@@ -184,7 +184,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
   }, []);
 
   return (<>
-    {loader ? <Loader /> : msg === "" ? <div className="itemWisePrintfont">
+    {loader ? <Loader /> : msg === "" ? <div className="itemWisePrintfont pad_60_allPrint">
         {/* Print Button */}
         <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4 portrait_container ">
           {/* <div className="form-check">

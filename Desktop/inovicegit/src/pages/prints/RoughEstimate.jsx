@@ -356,7 +356,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
         <>
           {msg === "" ? (
             <>
-              <div className="container_pcl">
+              <div className="container_pcl pad_60_allPrint">
                 <div className="btnpclRE">
                   <Button />
                 </div>

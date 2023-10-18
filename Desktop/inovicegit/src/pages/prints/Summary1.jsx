@@ -375,7 +375,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className="btnpcl">
                 <Button />
               </div>
-              <div className="summary1PrintSum1">
+              <div className="summary1PrintSum1 pad_60_allPrint">
                 <div style={{ width: "1000px" }}>
                   {headerComp}
                 </div>

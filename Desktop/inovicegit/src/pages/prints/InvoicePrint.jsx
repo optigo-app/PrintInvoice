@@ -86,7 +86,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   }, []);
 
   return (
-   loader ? <Loader /> : msg === "" ? <div className='container portraitContainer inoviceprintContainer'>
+   loader ? <Loader /> : msg === "" ? <div className='container portraitContainer inoviceprintContainer pad_60_allPrint'>
       {/* buttons */}
       <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4">
         <div className="form-check">

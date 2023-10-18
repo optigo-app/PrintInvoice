@@ -100,7 +100,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
     return (
         <>
-            {loader ? <Loader /> : msg === "" ? <div className='container containerRetailPrint mt-5'>
+            {loader ? <Loader /> : msg === "" ? <div className='container containerRetailPrint mt-5 pad_60_allPrint'>
                 {/* print button */}
                 <div className="d-flex w-100 justify-content-end align-items-baseline">
                     <div className="form-check pe-3 mb-0">

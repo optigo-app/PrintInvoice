@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../assets/css/prints/jewellaryinvoiceprint.css";
 import style from "../../assets/css/prints/jewelleryRetailinvoicePrint3.module.css";
+import style1 from "../../assets/css/prints/retailInvoicePrint4.module.css";
 import {
   apiCall,
   CapitalizeWords,
@@ -11,11 +12,11 @@ import {
   ReceiveInBank,
   taxGenrator,
 } from "../../GlobalFunctions";
-import Button from "./../../GlobalFunctions/Button";
+import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 import { ToWords } from 'to-words';
 
-const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
+const RetailInvoicePrint4 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
   const [data, setdata] = useState([]);
   const [msg, setMsg] = useState("");
@@ -184,7 +185,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
       ) : (
         <>
           {msg === "" ? (
-            <> <div className={`container-fluid ${style?.jewelelryRetailInvoiceContainer}`}>
+            <> <div className={`container-fluid ${style?.jewelelryRetailInvoiceContainer} pad_60_allPrint`}>
               <div className="btnpcl"> <Button /> </div>
               <div className="pt-2"> <div className="headlineJL w-100 p-2"> <b style={{ fontSize: "15px" }}> {headerData?.PrintHeadLabel} </b> </div>
                 <div className="d-flex w-100">
@@ -308,24 +309,25 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                 <div className="pt-1 no_break">
                   <div className="border d-flex">
                     <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-center`}><p className="fw-bold">Sr#</p></div>
-                    <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 fw-bold d-flex align-items-center justify-content-center`}><p className="fw-bold">Product Description</p></div>
+                    <div className={`${style1?.productRetailInvoicePrint4} border-end p-1 fw-bold d-flex align-items-center justify-content-center`}><p className="fw-bold">Product Description</p></div>
                     <div className={`${style?.materialJewerryRetailInvoicePrint} border-end`}
                     >
                       <div className="border-bottom">
                         <p className="fw-bold p-1 text-center">Material Description</p>
                       </div>
                       <div className="d-flex">
-                        <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">Material</p></div>
-                        <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">Carat</p></div>
-                        <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">GWT</p></div>
-                        <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-center border-end p-1 flex-column`}><p className="fw-bold">STONE/</p><p className="fw-bold">DIA Wt.</p></div>
-                        <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-center`}><p className="fw-bold p-1">NWT</p></div>
+                        <div className={`col-2 d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">Material</p></div>
+                        <div className={`col-2 d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">Carat</p></div>
+                        <div className={`col-2 d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">GWT</p></div>
+                        <div className={`col-2 d-flex align-items-center justify-content-center border-end p-1 flex-column`}><p className="fw-bold">STONE/</p><p className="fw-bold">DIA Wt.</p></div>
+                        <div className={`col-2 d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">NWT</p></div>
+                        <div className={`col-2 d-flex align-items-center justify-content-center`}><p className="fw-bold p-1">Rate</p></div>
                       </div>
                     </div>
-                    <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-center flex-column`}>
-                      <p className="fw-bold">Metal + Making</p>
+                    <div className={`${style1?.MakingRetailInvoicePrint4} border-end d-flex align-items-center justify-content-center flex-column`}>
+                      <p className="fw-bold">Making</p>
                     </div>
-                    <div className={`${style?.othersJewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-center`}><p className="fw-bold">Others</p></div>
+                    <div className={`${style?.othersRetailinvoicePrint4} border-end d-flex align-items-center justify-content-center`}><p className="fw-bold">Others</p></div>
                     <div className={`${style?.totalJewerryRetailInvoicePrint} d-flex align-items-center justify-content-center`}><p className="fw-bold">Total</p></div>
                   </div>
                 </div>
@@ -333,7 +335,7 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                 {data.length > 0 && data.map((e, i) => {
                   return <div className="border-start border-end border-bottom d-flex no_break" key={i}>
                     <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1`}><p className="fw-bold">{i + 1}</p></div>
-                    <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 fw-bold`}>
+                    <div className={`${style1?.productRetailInvoicePrint4} border-end p-1 fw-bold`}>
                       <p className="fw-bold">{e?.SubCategoryname} {e?.Categoryname}</p>
                       <p className="fw-bold">{e?.designno} | {e?.SrJobno}</p>
                       <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' className="w-75 p-1"/>
@@ -342,48 +344,48 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
                       <div className="d-grid h-100">
                         {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
                           return <div className={`d-flex ${ind !== e?.materials.length - 1 && 'border-bottom'}`} key={ind}>
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className="fw-bold p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.ShapeName : ele?.MasterManagement_DiamondStoneTypeName}</p></div>
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className="fw-bold p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.QualityName}</p></div>
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className="fw-bold p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 flex-column`}><p className="fw-bold text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && fixedValues(ele?.Wt, 3)}</p></div>
-                            {/* <div className={`${style?.w_20JewerryRetailInvoicePrint} `}><p className="fw-bold p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.NetWt, 3)}</p></div> */}
-                            <div className={`${style?.w_20JewerryRetailInvoicePrint} `}><p className="fw-bold p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.MetalDiaWt, 3)}</p></div>
+                            <div className={`col-2 border-end`}><p className="fw-bold p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.ShapeName : ele?.MasterManagement_DiamondStoneTypeName}</p></div>
+                            <div className={`col-2 border-end`}><p className="fw-bold p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.QualityName}</p></div>
+                            <div className={`col-2 border-end`}><p className="fw-bold p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
+                            <div className={`col-2 border-end p-1 flex-column`}><p className="fw-bold text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && fixedValues(ele?.Wt, 3)}</p></div>
+                            <div className={`col-2 border-end`}><p className="fw-bold p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.MetalDiaWt, 3)}</p></div>
+                            <div className={`col-2 `}><p className="fw-bold p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.MetalDiaWt, 3)}</p></div>
                           </div>
                         }) : <div className="d-flex">
-                          <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className="fw-bold p-1 lh-1"></p></div>
-                          <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className="fw-bold p-1 lh-1"></p></div>
-                          <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className="fw-bold p-1 text-end lh-1"></p></div>
-                          <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 flex-column`}><p className="fw-bold text-end lh-1"></p></div>
-                          <div className={`${style?.w_20JewerryRetailInvoicePrint} `}><p className="fw-bold p-1 text-end lh-1"></p></div>
+                          <div className={`col-2 border-end`}><p className="fw-bold p-1 lh-1"></p></div>
+                          <div className={`col-2 border-end`}><p className="fw-bold p-1 lh-1"></p></div>
+                          <div className={`col-2 border-end`}><p className="fw-bold p-1 text-end lh-1"></p></div>
+                          <div className={`col-2 border-end p-1 flex-column`}><p className="fw-bold text-end lh-1"></p></div>
+                          <div className={`col-2 border-end`}><p className="fw-bold p-1 text-end lh-1"></p></div>
+                          <div className={`col-2 border-end`}><p className="fw-bold p-1 text-end lh-1"></p></div>
                         </div>}
                       </div>
                     </div>
-                    <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end flex-column`}>
+                    <div className={`${style1?.MakingRetailInvoicePrint4} border-end flex-column`}>
                       <p className="fw-bold text-end p-1">{NumberWithCommas(e?.metalMaking, 2)}</p>
                     </div>
-                    <div className={`${style?.othersJewerryRetailInvoicePrint} border-end`}><p className="fw-bold text-end p-1">{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
+                    <div className={`${style1?.othersRetailinvoicePrint4} border-end`}><p className="fw-bold text-end p-1">{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
                     <div className={`${style?.totalJewerryRetailInvoicePrint}`}><p className="fw-bold text-end p-1">{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                   </div>
                 })}
                 {/* total */}
                 <div className={`${style?.minHeight20RetailinvoicePrint3} border-start border-end border-bottom d-flex no_break`}>
                   <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1`}><p className="fw-bold"></p></div>
-                  <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 fw-bold`}>
+                  <div className={`${style1?.productRetailInvoicePrint4} border-end p-1 fw-bold`}>
                     <p className="fw-bold">TOTAL</p>
                   </div>
                   <div className={`${style?.materialJewerryRetailInvoicePrint} border-end d-flex`}>
-                    <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}><p className="fw-bold p-1 lh-1"></p></div>
-                    <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}></div>
-                    <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end`}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(total?.gwt, 3)} gm</p> </div>
-                    <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 flex-column`}>
-                      <p className="fw-bold pb-1 text-end lh-1">{fixedValues(total?.diaColorWt, 3)} Ctw</p>
-                      <p className="fw-bold text-end lh-1">{fixedValues(total?.stoneWt, 3)} gm</p></div>
-                    <div className={`${style?.w_20JewerryRetailInvoicePrint} `}><p className="fw-bold p-1 text-end lh-1">{fixedValues(total?.nwt, 3)} gm</p></div>
+                    <div className={`col-2 border-end`}><p className="fw-bold p-1 lh-1"></p></div>
+                    <div className={`col-2 border-end`}></div>
+                    <div className={`col-2 border-end`}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(total?.gwt, 3)} gm</p> </div>
+                    <div className={`col-2 border-end p-1 flex-column`}> <p className="fw-bold pb-1 text-end lh-1">{fixedValues(total?.diaColorWt, 3)} Ctw</p> <p className="fw-bold text-end lh-1">{fixedValues(total?.stoneWt, 3)} gm</p></div>
+                    <div className={`col-2 border-end`}><p className="fw-bold p-1 text-end lh-1">{fixedValues(total?.nwt, 3)} gm</p></div>
+                    <div className={`col-2 `}><p className="fw-bold p-1 text-end lh-1">{fixedValues(total?.nwt, 3)} gm</p></div>
                   </div>
-                  <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end flex-column`}>
+                  <div className={`${style1?.MakingRetailInvoicePrint4} border-end flex-column`}>
                     <p className="fw-bold text-end p-1"></p>
                   </div>
-                  <div className={`${style?.othersJewerryRetailInvoicePrint} border-end`}><p className="fw-bold text-end p-1">{NumberWithCommas(total?.others, 2)}</p></div>
+                  <div className={`${style?.othersRetailinvoicePrint4} border-end`}><p className="fw-bold text-end p-1">{NumberWithCommas(total?.others, 2)}</p></div>
                   <div className={`${style?.totalJewerryRetailInvoicePrint}`}><p className="fw-bold text-end p-1">{NumberWithCommas(total?.total, 2)}</p></div>
                 </div>
                 {/* tax */}
@@ -474,4 +476,4 @@ const JewelleryRetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }
   );
 };
 
-export default JewelleryRetailInvoicePrint3;
+export default RetailInvoicePrint4;

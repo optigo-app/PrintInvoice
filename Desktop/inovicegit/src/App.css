@@ -96,6 +96,9 @@ ol {
   display: none;
 }
 
+.pad_60_allPrint{
+  padding-bottom: 60px;
+}
 
 .d_flex {
   display: flex;
@@ -106,6 +109,10 @@ ol {
 @media print {
   .no_break {
     page-break-inside: avoid;
+  }
+  
+  .pad_60_allPrint{
+    padding-bottom: 0;
   }
 }
 

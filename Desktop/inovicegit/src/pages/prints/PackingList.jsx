@@ -392,7 +392,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className="btnpcl">
                 <Button />
               </div>
-              <div className="pclprint">
+              <div className="pclprint pad_60_allPrint">
                 <div className="pclheader">
                   <div className="orailpcl">
                     <img

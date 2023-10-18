@@ -28,13 +28,13 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
     return (loader ? <Loader /> : <div className={`${style?.containerExportPrint}`}>
         {/* print button */}
-        <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4 mt-5 w-100" >
+        <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4 mt-5 w-100 " >
             <div className="form-check ps-3">
                 <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
             </div>
         </div>
         {/* data */}
-        <div className={`${style?.img_container} pt-2`}>
+        <div className={`${style?.img_container} pt-2 pad_60_allPrint`}>
             {data && data.map((e, i) => {
                 return <div className="border rounded " key={i}>
                     <img src={e?.DesignImage} alt="" className='w-100 pt-2' onError={handleImageError}/>

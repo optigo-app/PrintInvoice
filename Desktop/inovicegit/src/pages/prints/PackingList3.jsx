@@ -510,7 +510,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
         <>
           {msg === "" ? (
             <>
-              <div>
+              <div className="pad_60_allPrint">
                 <div className="printpcl3">
                   <div className="chboxlabelpcl3">
                     <input

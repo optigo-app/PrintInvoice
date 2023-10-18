@@ -163,7 +163,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
 
     return (
         <>{
-            loader ? <Loader /> : msg === "" ? <div className='container-fluid taxinvoice1 pt-5 mt-5 taxInvoicePirnt1'>
+            loader ? <Loader /> : msg === "" ? <div className='container-fluid taxinvoice1 pt-5 mt-5 taxInvoicePirnt1 pad_60_allPrint'>
                 <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4">
                     <div className="form-check pe-3 mb-0 pt-2">
                         <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => handleChange(e)} />

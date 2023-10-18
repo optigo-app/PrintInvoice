@@ -70,7 +70,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn }) => {
   }, []);
 
   return (
-    <div className={`container pt-5  ${style.tax_invoice_container}`}>
+    <div className={`container pt-5  ${style.tax_invoice_container} pad_60_allPrint`}>
       <div className="d-flex justify-content-end mb-4 align-items-center print_sec_sum4">
         <div className="form-check pe-3">
           <input

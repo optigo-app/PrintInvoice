@@ -138,7 +138,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
 
   return (
     loader ? <Loader /> : msg === "" ? <>
-      <div className='container containerDetailP11 mt-5'>
+      <div className='container containerDetailP11 mt-5 pad_60_allPrint'>
         {/* buttons */}
         <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4">
           <div className="form-check pe-3 pt-2">

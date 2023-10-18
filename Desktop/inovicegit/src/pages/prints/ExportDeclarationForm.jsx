@@ -4,7 +4,7 @@ import { handlePrint } from '../../GlobalFunctions';
 
 const ExportDeclarationForm = () => {
     return (
-        <div className='portrait_container pt-5 exportDeclarationForm'>
+        <div className='portrait_container pt-5 exportDeclarationForm pad_60_allPrint'>
             {/* buttons */}
             <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4">
                 <div className="form-check">

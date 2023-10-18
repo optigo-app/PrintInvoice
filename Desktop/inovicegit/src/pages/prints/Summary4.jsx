@@ -349,7 +349,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
         }
     }
 
-    return (<>{loader ? <Loader /> : msg === "" ? <div className='zoom1_5_summary12 summary12Container portrait_container pt-4'>
+    return (<>{loader ? <Loader /> : msg === "" ? <div className='zoom1_5_summary12 summary12Container portrait_container pt-4 pad_60_allPrint'>
         <div className="d-flex justify-content-end align-items-center print_sec_sum4">
             <div className="form-check pe-3">
                 <input className="form-check-input border-dark" type="checkbox" checked={header} onChange={e => handleChange(e, "header")} />
