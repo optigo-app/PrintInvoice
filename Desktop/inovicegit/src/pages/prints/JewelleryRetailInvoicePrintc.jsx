@@ -410,7 +410,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
                       </div>
                     </div>
                     <div className={`${style?.RemarkJewelleryInvoicePrintC} p-2`}>
-                      <div>Old Gold Purchase Description: <div dangerouslySetInnerHTML={{ __html: headerData?.Remark }} className="fw-bold"></div></div>
+                      <div>Description: <div dangerouslySetInnerHTML={{ __html: headerData?.Remark }} className="fw-bold"></div></div>
                     </div>
                   </div>
                   <div className={`${style?.discountJewerryRetailInvoicePrint} d-flex`}>
