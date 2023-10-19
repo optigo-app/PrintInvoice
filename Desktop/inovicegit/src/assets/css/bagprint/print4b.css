@@ -6,6 +6,8 @@
 #img4B{
     height: 150px !important;
     width: 110px !important;
+    display: block;
+    margin-left: auto;
 }
 
 .part_2_4B {

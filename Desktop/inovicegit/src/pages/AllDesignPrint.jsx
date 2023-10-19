@@ -27,7 +27,6 @@ import Summary13 from './prints/Summary13';
 import HallmarkItemWisePrint from './prints/HallmarkItemWisePrint';
 import JewelleryRetailInvoicePrintc from './prints/JewelleryRetailInvoicePrintc';
 import RetailInvoicePrint4 from './prints/RetailInvoicePrint4';
-import HallmarkItemWisePrint1 from './prints/HallmarkItemWisePrint1';
 
 
 const AllDesignPrint = () => {
@@ -40,7 +39,7 @@ const AllDesignPrint = () => {
   const invoiceno = queryParams.get('invn');
   const printname = queryParams.get('pnm');
   const evn = queryParams.get('evn');
-
+  console.log(evn);
   // console.log(invoiceno, atob(invoiceno));
   // console.log(invoiceno, atob(invoiceno));
   return (
@@ -62,7 +61,6 @@ const AllDesignPrint = () => {
         && <ItemWisePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />
       }
       {atob(printname).toLowerCase() === "jewellery item wise" && <HallmarkItemWisePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {atob(printname).toLowerCase() === "jewellery item wise1" && <HallmarkItemWisePrint1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {
         (atob(printname).toLowerCase() === "jewellary invoice print"
           || atob(printname).toLowerCase() === "labour print")

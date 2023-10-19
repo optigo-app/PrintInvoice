@@ -38,7 +38,7 @@
 }
 
 .part_1_4A {
-    width: 169.7pt;
+    width: 168.7pt;
     /* border-right: 1px solid #000; */
 }
 
@@ -74,7 +74,7 @@
 }
 
 .height_23_4A {
-    height: 17.25pt;
+    height: 13pt;
     overflow: hidden;
 }
 
@@ -109,6 +109,12 @@
     margin-bottom: -3px;
     width: 50pt;
     font-size: 9pt;
+}
+
+.code_4A_change{
+    min-width: 46.5pt;
+    width: 46.5pt;
+    line-height: 145%;
 }
 
 .size4AS {
@@ -148,7 +154,7 @@
 }
 
 .record_line_4A {
-    height: 12.1pt;
+    height: 12.4pt;
     display: flex;
     overflow: hidden;
 }
@@ -194,7 +200,7 @@
 
 .barcode_sticker_4A {
     display: flex;
-    height: 152pt;
+    height: 148pt;
 }
 
 .BARCODE_TEXT_4A {
