@@ -20,7 +20,7 @@
     height: 367px;
     border: 1px solid black;
     border-radius: 8px;
-    margin-left: 1.3rem;
+    margin-left: 1.7rem;
     font-size: 15px;
     /* margin-top: 10px; */
 }
@@ -366,7 +366,7 @@
   }
 
   .mainbag1A:nth-child(1),.mainbag1A:nth-child(2),.mainbag1A:nth-child(3), .mainbag1A:nth-child(4),.mainbag1A:nth-child(5),.mainbag1A:nth-child(6), .mainbag1A:nth-child(n+7){
-    margin-top: 15px;
+    margin-top: 25px;
   }
 
 @media print {
@@ -380,7 +380,7 @@
         page-break-after: always;
       }
       .mainbag1A:nth-child(1),.mainbag1A:nth-child(2),.mainbag1A:nth-child(3){
-        margin-top: -10px;
+        margin-top: 0px;
       }
       .mainbag1A:nth-child(4),.mainbag1A:nth-child(5),.mainbag1A:nth-child(6){
         margin-top: 15px;
