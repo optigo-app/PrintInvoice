@@ -5,7 +5,7 @@ import { apiCall, handlePrint, taxGenrator, isObjectEmpty, handleImageError, Num
 import { usePDF } from "react-to-pdf";
 import { ToWords } from 'to-words';
 import Loader from "../../components/Loader";
-
+import style from "../../assets/css/prints/hallmarkItemwisePrint1.module.css"
 
 const HallmarkItemWisePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
@@ -33,7 +33,8 @@ const HallmarkItemWisePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
         cPcs: 0,
         cWt: 0,
         cAmt: 0,
-        pkgWt: 0
+        pkgWt: 0, 
+        TotalAmount: 0
     });
     const [taxes, setTaxes] = useState([]); 
     const loadData = (data) => {
@@ -109,6 +110,7 @@ const HallmarkItemWisePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 })
             });
             totals.pkgWt += e?.PackageWt;
+            totals.TotalAmount += e?.TotalAmount;
             resultArr.push(obj);
         });
         resultArr.sort((a, b) => {
@@ -179,21 +181,21 @@ const HallmarkItemWisePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     }, []);
 
     return (<>
-        {loader ? <Loader /> : msg === "" ? <div className="itemWisePrintfontHallmark mt-2 pad_60_allPrint">
+        {loader ? <Loader /> : msg === "" ? <div className={`container ${style?.hallmarkContainer} mt-2 pad_60_allPrint`}>
             {/* Print Button */}
-            <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4 portrait_container itemWisePrintContainer hallmarkItemWisePrintContainer">
+            <div className="d-flex justify-content-end align-items-center print_sec_sum4 pt-4 pb-4">
                 <div className="form-check">
                     <input
                         type="button"
-                        className="btn_white blue"
+                        className="btn_white blue me-0"
                         value="Print"
                         onClick={(e) => handlePrint(e)}
                     />
                 </div>
             </div>
-            <div ref={targetRef} className="portrait_container itemWisePrintContainer hallmarkItemWisePrintContainer">
+            <div>
                   {/* Heading */}
-                  <div className="bgLightPink p-2 border">
+                  <div className={`bgLightPink p-2 border mb-2 ${style?.min_height_30}`}>
                     <p className="fw-bold">{json0Data?.PrintHeadLabel}</p>
                 </div>
                 {/* company with logo detail  */}
@@ -205,7 +207,6 @@ const HallmarkItemWisePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <p>{json0Data?.CompanyCity} {json0Data?.CompanyPinCode} {json0Data?.CompanyState} {json0Data?.CompanyCountry}</p>
                         <p>{json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}</p>
                         <p>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}</p>
-
                     </div>
                     <div className='px-1 py-2'>
                         <img src={json0Data?.PrintLogo} alt="" className='w-25 h-auto ms-auto d-block' onError={handleImageError} />
@@ -252,37 +253,37 @@ const HallmarkItemWisePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {/* Address */}
                 {/* Table Heading */}
                 <div className="bgLightPink d-flex border-start border-end border-bottom main_pad_item_wise_print">
-                    <div className={`metaltypeItemWisePrintHallmark border-end`}>
+                    <div className={`${style?.metaltypeItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold p-1">METAL TYPE</p>
                     </div>
-                    <div className={`categoryItemWisePrintHallmark border-end`}>
+                    <div className={`${style?.categoryItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold p-1">SUB CATEGORY</p>
                     </div>
-                    <div className={`pkgItemWisePrintHallmark border-end`}>
+                    <div className={`${style?.pkgItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold p-1">PKG WT</p>
                     </div>
-                    <div className={`countItemWisePrintHallmark border-end`}>
+                    <div className={`${style?.countItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold p-1">COUNT</p>
                     </div>
-                    <div className="dpcsItemWisePrintHallmark border-end">
+                    <div className={`${style?.dpcsItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold p-1">DPCS</p>
                     </div>
-                    <div className="dpcsItemWisePrintHallmark border-end">
+                    <div className={`${style?.dpcsItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold p-1">DWT</p>
                     </div>
-                    <div className="dpcsItemWisePrintHallmark border-end">
+                    <div className={`${style?.dpcsItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold p-1">CPCS</p>
                     </div>
-                    <div className="dpcsItemWisePrintHallmark border-end">
+                    <div className={`${style?.dpcsItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold p-1">CWT</p>
                     </div>
-                    <div className={`gwtItemWisePrintHallmark border-end`}>
+                    <div className={`${style?.gwtItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold p-1">GWT</p>
                     </div>
-                    <div className={`gwtItemWisePrintHallmark border-end`}>
+                    <div className={`${style?.gwtItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold p-1">NWT</p>
                     </div>
-                    <div className={`amountItemWisePrintHallmark border-end`}>
+                    <div className={`${style?.amountItemWisePrintHallmark}`}>
                         <p className="fw-bold p-1">Amount</p>
                     </div>
                 </div>
@@ -291,232 +292,99 @@ const HallmarkItemWisePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                     data.map((e, i) => {
                         return (
                             <div className={`d-flex border-start border-end border-bottom main_pad_item_wise_print_row`} key={i}>
-                                <div className={`metaltypeItemWisePrintHallmark border-end`}>
+                                <div className={`${style?.metaltypeItemWisePrintHallmark} border-end`}>
                                     <p className="p-1">
                                         {e?.MetalType} {e?.MetalPurity}
                                     </p>
                                 </div>
-                                <div className={`categoryItemWisePrintHallmark border-end`}>
+                                <div className={`${style?.categoryItemWisePrintHallmark} border-end`}>
                                     <p className="p-1">
                                         {e?.SubCategoryname}
                                     </p>
                                 </div>
-                                <div className={`pkgItemWisePrintHallmark border-end`}>
+                                <div className={`${style?.pkgItemWisePrintHallmark} border-end`}>
                                     <p className="text-end p-1">{e?.PackageWt !== 0 && fixedValues(e?.PackageWt, 3)}</p>
                                 </div>
-                                <div className={`countItemWisePrintHallmark border-end`}>
+                                <div className={`${style?.countItemWisePrintHallmark} border-end`}>
                                     <p className="text-end p-1">{e?.count !== 0 && NumberWithCommas(e?.count, 0)}</p>
                                 </div>
-                                <div className="dpcsItemWisePrintHallmark border-end">
+                                <div className={`${style?.dpcsItemWisePrintHallmark} border-end`}>
                                     <p className="text-end p-1">
                                         {e?.diamondPcs !== 0 && NumberWithCommas(e?.diamondPcs, 0)}
                                     </p>
                                 </div>
-                                <div className="dpcsItemWisePrintHallmark border-end">
+                                <div className={`${style?.dpcsItemWisePrintHallmark} border-end`}>
                                     <p className="text-end p-1">
                                         {e?.diamondWt !== 0 && fixedValues(e?.diamondWt, 3)}
                                     </p>
                                 </div>
-                                {/* <div className="dpcsItemWisePrintHallmark border-end">
-                                    <p className="text-end">
-                                        {e?.diamondWt !== 0 &&
-                                            e?.diamondAmt / e?.diamondWt &&
-                                            (e?.diamondAmt / e?.diamondWt).toFixed(2)}
-                                    </p>
-                                </div>
-                                <div className="dpcsItemWisePrintHallmark border-end">
-                                    <p className="text-end">
-                                        {e?.diamondAmt !== 0 && (e?.diamondAmt).toFixed(3)}
-                                    </p>
-                                </div> */}
-                                <div className="dpcsItemWisePrintHallmark border-end">
+                                <div className={`${style?.dpcsItemWisePrintHallmark} border-end`}>
                                     <p className="text-end p-1">
                                         {e?.colorStonePcs !== 0 && NumberWithCommas(e?.colorStonePcs, 0)}
                                     </p>
                                 </div>
-                                <div className="dpcsItemWisePrintHallmark border-end">
+                                <div className={`${style?.dpcsItemWisePrintHallmark} border-end`}>
                                     <p className="text-end p-1">
                                         {e?.colorStoneWt !== 0 && fixedValues(e?.colorStoneWt, 3)}
                                     </p>
                                 </div>
-                                {/* <div className="dpcsItemWisePrintHallmark border-end">
-                                    <p className="text-end">
-                                        {e?.colorStoneWt !== 0 &&
-                                            e?.colorStoneAmt / e?.colorStoneWt &&
-                                            (e?.colorStoneAmt / e?.colorStoneWt).toFixed(3)}
-                                    </p>
-                                </div>
-                                <div className="dpcsItemWisePrintHallmark border-end">
-                                    <p className="text-end">
-                                        {e?.colorStoneAmt !== 0 &&
-                                            (e?.colorStoneAmt).toFixed(3)}
-                                    </p>
-                                </div> */}
-                                <div className={`gwtItemWisePrintHallmark border-end`}>
+                                <div className={`${style?.gwtItemWisePrintHallmark} border-end`}>
                                     <p className="text-end p-1">
                                         {e?.grosswt !== 0 && fixedValues(e?.grosswt, 3)}
                                     </p>
                                 </div>
-                                <div className={`gwtItemWisePrintHallmark border-end`}>
+                                <div className={`${style?.gwtItemWisePrintHallmark} border-end`}>
                                     <p className="text-end p-1">
                                         {e?.NetWt !== 0 && fixedValues(e?.NetWt, 3)}
                                     </p>
                                 </div>
-
-                                {/* <div className={`rateItemWisePrint border-end`}>
-                                    <p className="text-end">
-                                        {e?.metalWt !== 0 &&
-                                            e?.MetalAmount / e?.metalWt !== 0 &&
-                                            (e?.MetalAmount / e?.metalWt).toFixed(2)}
+                                <div className={`${style?.amountItemWisePrintHallmark} border-end`}>
+                                    <p className="text-end p-1">
+                                        {e?.NetWt !== 0 && NumberWithCommas(e?.TotalAmount, 2)}
                                     </p>
                                 </div>
-
-                                <div className={`mAmtItemWisePrint border-end`}>
-                                    <p className="text-end">
-                                        {e?.MetalAmount !== 0 && (e?.MetalAmount).toFixed(2)}
-                                    </p>
-                                </div>
-
-                                <div className={`otherAmtItemWisePrint border-end`}>
-                                    <p className="text-end">
-                                        {e?.OtherCharges !== 0 && (e?.OtherCharges).toFixed(2)}
-                                    </p>
-                                </div>
-
-                                <div className={`percentageItemWiseprint border-end`}>
-                                    <p className="text-end">
-                                        {e?.MetalPriceRatio !== 0 && <>{atob(printName).toLowerCase() === "item wise print2" ? (e?.MetalPriceRatio + e?.Wastage).toFixed(3) : e?.MetalPriceRatio.toFixed(3)}</>}
-                                    </p>
-                                </div>
-
-                                <div className="wastageItemWisePrint border-end">
-                                    <p className="text-end">
-                                        {e?.Wastage !== 0 && atob(printName).toLowerCase() === "item wise print2" ? "" : e?.Wastage.toFixed(3)}
-                                    </p>
-                                </div>
-
-                                <div className="makingItemWisePrint border-end">
-                                    <p className="text-end"></p>
-                                </div>
-
-                                <div className={`labourItemWisePrint border-end`}>
-                                    <p className="text-end">
-                                        {(e?.MakingAmount).toFixed(2)}
-                                    </p>
-                                </div>
-
-                                <div className={`fineAmt border-end`}>
-                                    <p className="text-end">
-                                        {e?.FineWt !== 0 && e?.FineWt}
-                                    </p>
-                                </div>
-
-                                <div className={`totalAmt`}>
-                                    <p className="text-end">
-                                        {e?.TotalAmount !== 0 && (e?.TotalAmount).toFixed(2)}
-                                    </p>
-                                </div> */}
-
                             </div>
                         );
                     })}
                 {/* Tax */}
-                {/* <div className={`bgLightPink d-flex border-start border-end border-bottom main_pad_item_wise_print_row`}>
-                    <div className={`cgstTotalItemWiseRowHallmark  border-end`}>
-                        {taxes.length > 0 && taxes.map((e, i) => {
-                            return <p className="text-end pb-1 pe-1" key={i}>{e?.name} @ {e?.per}</p>
-                        })}
-                        <p className="text-end pb-1 pe-1">LESS @ {json0Data?.AddLess}%</p>
-                    </div>
-                    <div className={`cgstAmountItemWiseRowHallmark`}>
-                        {taxes.length > 0 && taxes.map((e, i) => {
-                            return <p className="text-end pb-1 pb-1" key={i}>{e?.amount}</p>
-                        })}
-                        <p className="text-end pb-1 pb-1">{(total?.less)?.toFixed(2)}</p>
-                    </div>
-                </div> */}
                 {/* Total */}
                 <div className={`d-flex border-start border-end border-bottom main_pad_item_wise_print_row bgLightPink `}>
-                    <div className={`metaltypeItemWisePrintHallmark border-end d-flex justify-content-center align-items-center`}>
+                    <div className={`${style?.metaltypeItemWisePrintHallmark} border-end d-flex justify-content-center align-items-center`}>
                         <p className="fw-bold p-1">Total</p>
                     </div>
-                    <div className={`categoryItemWisePrintHallmark border-end`}>
+                    <div className={`${style?.categoryItemWisePrintHallmark} border-end`}>
                         <p className="p-1"></p>
                     </div>
-                    <div className={`pkgItemWisePrintHallmark border-end`}>
+                    <div className={`${style?.pkgItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold text-end p-1">{total?.pkgWt !== 0 && fixedValues(total?.pkgWt, 3)}</p>
                     </div>
-                    <div className={`countItemWisePrintHallmark border-end`}>
+                    <div className={`${style?.countItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold text-end p-1">{total.count !== 0 && NumberWithCommas(total.count, 0)}</p>
                     </div>
-                    <div className="dpcsItemWisePrintHallmark border-end">
+                    <div className={`${style?.dpcsItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold text-end p-1">{total?.dPcs !== 0 && NumberWithCommas(total?.dPcs, 0)}</p>
                     </div>
-                    <div className="dpcsItemWisePrintHallmark border-end">
+                    <div className={`${style?.dpcsItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold text-end p-1">{total?.dWt !== 0 && fixedValues(total?.dWt, 3)}</p>
                     </div>
-                    {/* <div className="dpcsItemWisePrintHallmark border-end">
-                        <p className="fw-bold text-end"></p>
-                    </div> */}
-                    {/* <div className="dpcsItemWisePrintHallmark border-end">
-                        <p className="fw-bold text-end">{(total?.dAmt)?.toFixed(3)}</p>
-                    </div> */}
-                    <div className="dpcsItemWisePrintHallmark border-end">
+                    <div className={`${style?.dpcsItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold text-end p-1">{total?.cPcs !== 0 && NumberWithCommas(total?.cPcs, 0)}</p>
                     </div>
-                    <div className="dpcsItemWisePrintHallmark border-end">
+                    <div className={`${style?.dpcsItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold text-end p-1">{total?.cWt !== 0 && fixedValues(total?.cWt, 3)}</p>
                     </div>
-                    {/* <div className="dpcsItemWisePrintHallmark border-end">
-                        <p className="fw-bold text-end"></p>
-                    </div>
-                    <div className="dpcsItemWisePrintHallmark border-end">
-                        <p className="fw-bold text-end">{(total?.cAmt)?.toFixed(3)}</p>
-                    </div> */}
-                    <div className={`gwtItemWisePrintHallmark border-end`}>
+                    <div className={`${style?.gwtItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold text-end p-1">{total?.gwt !== 0 && fixedValues(total?.gwt, 3)}</p>
                     </div>
-                    <div className={`gwtItemWisePrintHallmark border-end`}>
+                    <div className={`${style?.gwtItemWisePrintHallmark} border-end`}>
                         <p className="fw-bold text-end p-1">{total?.nwt !== 0 && fixedValues(total?.nwt, 3)}</p>
                     </div>
-{/* 
-                    <div className={`rateItemWisePrint border-end`}>
-                        <p className="fw-bold text-end"></p>
+                    <div className={`${style?.amountItemWisePrintHallmark} border-end`}>
+                        <p className="fw-bold text-end p-1">{total?.nwt !== 0 && NumberWithCommas(total?.TotalAmount, 2)}</p>
                     </div>
-
-                    <div className={`mAmtItemWisePrint border-end`}>
-                        <p className="fw-bold text-end">{(total?.mamt).toFixed(2)}</p>
-                    </div>
-
-                    <div className={`otherAmtItemWisePrint border-end`}>
-                        <p className="fw- text-end"></p>
-                    </div>
-
-                    <div className={`percentageItemWiseprint border-end`}>
-                        <p className="fw-bold text-end"></p>
-                    </div>
-
-                    <div className={`wastageItemWisePrint border-end`}>
-                        <p className="fw-bold text-end"></p>
-                    </div>
-                    <div className={`makingItemWisePrint border-end`}>
-                        <p className="fw-bold text-end"></p>
-                    </div>
-                    <div className={`labourItemWisePrint border-end`}>
-                        <p className="fw-bold text-end">{(total?.labourAmt).toFixed(2)}</p>
-                    </div>
-
-                    <div className={`fineAmt border-end`}>
-                        <p className="fw-bold text-end">{(total?.fineAmt).toFixed(3)}</p>
-                    </div>
-                    <div className={`totalAmt`}>
-                        <p className="fw-bold text-end">{total?.totalAmt}</p>
-                    </div> */}
                 </div>
                 {/* Notes */}
                 <div className="d-flex border-start border-end border-bottom p-2">
-                    {/* <p>Amount in Words : </p>
-                    <p className="fw-bold">{total?.numberToWords}</p> */}
                     <p className="pb-2"><span className="fw-bold">NOTE :</span> Jewellery mentioned above is sent for Hallmark purpose and not for Sale.</p>
                 </div>
                 {/* signs */}

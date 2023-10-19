@@ -22,9 +22,7 @@ const BagPrint4A = ({ queries, headers }) => {
   }
 
   const [print, setPrint] = useState(jobs);
-  // const handleImageError = (e) => {
-  //     e.target.src = require('../../assets/img/default.jpg');
-  // };
+
   useEffect(() => {
     if (Object.keys(queryParams).length !== 0) {
       atob(queryParams.imagepath);
@@ -297,7 +295,9 @@ const BagPrint4A = ({ queries, headers }) => {
                                       className="jobDiaGoldText4A border_right4A"
                                       style={{ paddingRight: "2px" }}
                                     >
+                                      {/* {e?.data?.MetalType} */}
                                       {e?.data?.MetalType}
+                                      {e?.data?.MetalColorCo}
                                     </div>
                                   </div>
                                   <div className="height_border_31_4A border_bottom4A">
@@ -371,7 +371,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                       className="code4A border_right4A code4A_text"
                                       style={{ width: "94pt" }}
                                     >
-                                      {e?.data?.MetalType}{" "}
+                                      {e?.data?.MetalType}
                                       {e?.data?.MetalColorCo}
                                     </div>
                                     {/* <div className="size4AS border_right4A code4A_text">
@@ -397,7 +397,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                               lineHeight: "8px",
                                             }}
                                           >
-                                            {elem?.Shapename} {elem?.Quality}{" "}
+                                            {elem?.Shapename} {elem?.Quality}
                                             {elem?.ColorName}
                                           </div>
                                           {/* <div className="size4AS border_right4A code4A_text">
@@ -484,7 +484,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                         </div>
                                         <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
                                           {e?.additional?.clr?.ActualPcs}/
-                                          {fixedValues(e?.additional?.clr?.ActualWeight, 3)}
+                                          {fixedValues(e?.additional?.clr?.ActualWeight, 2)}
                                         </div>
                                         <div className="diamond_custom_4A border_bottom4A"></div>
                                       </div>
@@ -508,15 +508,15 @@ const BagPrint4A = ({ queries, headers }) => {
                                 </div>
                                 <div className="part_3_4A">
                                   <div className="cast_ins">
-                                    CAST INS.:{" "}
+                                    CAST INS.:
                                     <span className="red_4A">
-                                      {/* {" "}
+                                      {/* 
                                       {e?.data?.instructionData?.length > 0
                                         ? e?.data?.instructionData ==
                                           (null || "null")
                                           ? ""
                                           : e?.data?.instructionData
-                                        : ""}{" "} */}
+                                        : ""} */}
                                       {checkInstruction(e?.data?.officeuse)}
                                       {checkInstruction(e?.data?.ProductInstruction)}
                                       {checkInstruction(e?.data?.custInstruction)}
@@ -536,8 +536,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                       {e?.data?.Designcode}
                                     </div>
                                     <div className="jobDiaGoldText4A border_right4A">
-                                      {e?.data?.MetalType}{" "}
-                                      {e?.data?.MetalColorCo} Gold1
+                                      {e?.data?.MetalType}
+                                      {e?.data?.MetalColorCo}
                                     </div>
                                   </div>
                                   <div className="priority4A border_bottom4A">
@@ -807,7 +807,9 @@ const BagPrint4A = ({ queries, headers }) => {
                                 {e?.data?.Designcode}
                               </div>
                               <div className="jobDiaGoldText4A border_right4A">
+                                {/* {e?.data?.MetalType} */}
                                 {e?.data?.MetalType}
+                                {e?.data?.MetalColorCo}
                               </div>
                             </div>
                             <div className="height_border_31_4A border_bottom4A">
@@ -958,14 +960,14 @@ const BagPrint4A = ({ queries, headers }) => {
                           </div>
                           <div className="part_3_4A">
                             <div className="cast_ins">
-                              CAST INS.:{" "}
+                              CAST INS.:
                               <span className="red_4A">
-                                {/* {" "}
+                                {/* 
                                 {e?.data?.instructionData?.length > 0
                                   ? e?.data?.instructionData == (null || "null")
                                     ? ""
                                     : e?.data?.instructionData
-                                  : ""}{" "} */}
+                                  : ""} */}
                                 {checkInstruction(e?.data?.officeuse)}
                                 {checkInstruction(e?.data?.ProductInstruction)}
                                 {checkInstruction(e?.data?.custInstruction)}

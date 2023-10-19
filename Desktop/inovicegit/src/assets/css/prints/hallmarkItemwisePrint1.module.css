@@ -1,0 +1,50 @@
+
+.hallmarkContainer{
+    max-width: 1200px !important;
+}
+
+.hallmarkContainer *{
+    font-size: 12px;
+}
+
+.metaltypeItemWisePrintHallmark{
+    width: 10%;
+}
+
+
+.categoryItemWisePrintHallmark{
+    width: 12%;
+}
+
+.pkgItemWisePrintHallmark{
+    width: 10%;
+    min-width: 10%;    
+}
+
+.min_height{
+    min-height: 25.8px;
+}
+
+.countItemWisePrintHallmark{
+    width: 10%;
+    min-width: 10%;    
+}
+
+.dpcsItemWisePrintHallmark{
+    width: 7%;
+    min-width: 7%;    
+}
+
+.gwtItemWisePrintHallmark{
+    width: 10%;
+    min-width: 10%;    
+}
+
+.amountItemWisePrintHallmark{
+    width: 10%;
+    min-width: 10%;    
+}
+
+.min_height_30{
+    min-height: 30px;
+}
