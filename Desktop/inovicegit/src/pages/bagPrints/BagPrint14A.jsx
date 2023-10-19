@@ -362,7 +362,8 @@ function BagPrint14A({ queries, headers }) {
             }, 5000);
         }
 
-    }, [data]);
+    console.log(data);
+}, [data]);
 
 
     return (

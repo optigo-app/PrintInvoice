@@ -851,7 +851,8 @@ const BagPrint15A = ({ queries, headers }) => {
                 window.print();
             }, 5000);
         }
-    }, [data]);
+    console.log(data);
+}, [data]);
 
 
 

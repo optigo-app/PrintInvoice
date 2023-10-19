@@ -366,6 +366,7 @@ const BagPrint5A = ({ queries, headers }) => {
         window.print();
       }, 5000);
     }
+    console.log(data);
   }, [data]);
 
   return (
@@ -395,13 +396,14 @@ const BagPrint5A = ({ queries, headers }) => {
                 )
             )}
             {data?.length > 0 &&
-              data.map((e, i) => {
+              data?.map((e, i) => {
+                console.log(data)
                 return (
                   <React.Fragment key={i}>
                     {e?.additional?.pages?.length > 0 ? (
-                      e?.additional?.pages.map((ele, index) => {
+                      e?.additional?.pages?.map((ele, index) => {
                         return (
-                          <div className="print5A" key={index}>
+                          // <div className="print5A" key={index}>
                             <div className="container5A">
                               <div className="bag5A">
                                 <div className="flex5A">
@@ -694,12 +696,12 @@ const BagPrint5A = ({ queries, headers }) => {
                                   </div>
                                 </div>
                               </div>
-                            </div>
+                            {/* </div> */}
                           </div>
                         );
                       })
                     ) : (
-                      <div className="print5A">
+                      // <div className="print5A">
                         <div className="container5A">
                           <div className="bag5A">
                             <div className="flex5A">
@@ -904,7 +906,7 @@ const BagPrint5A = ({ queries, headers }) => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      // </div>
                     )}
                     <div className="container5A">
                       <div className="header5AD">

@@ -237,6 +237,7 @@ const Bg18 = ({ queries, headers }) => {
         window.print();
       }, 10000);
     }
+    console.log(data);
   }, [data]);
 
   return (

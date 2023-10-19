@@ -403,6 +403,7 @@ const BagPrint7A = ({ queries, headers }) => {
         window.print();
       }, 5000);
     }
+    console.log(data);
   }, [data]);
   return (
     <>
@@ -1103,7 +1104,7 @@ const BagPrint7A = ({ queries, headers }) => {
                               <div>
                                 Dg No. : <b>{e?.data?.rd?.Designcode}</b>
                               </div>
-                              <div class Name="barcode7A">
+                              <div class Name="anotherBarcode7A">
                                 {e?.data?.rd?.length !== 0 &&
                                   e?.data?.rd !== undefined && (
                                     <>

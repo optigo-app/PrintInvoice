@@ -194,7 +194,8 @@ const PrintDesign17 = ({ queries, headers }) => {
                 window.print();
             }, 5000);
         }
-    }, [data]);
+    console.log(data);
+}, [data]);
 
     const handlePrint = (e) => {
         e.preventDefault();
@@ -361,7 +362,8 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                 </div>
                                             </div>
                                             <div className="print_photo border_bottom" style={{ borderTop: "1px solid black", borderLeft: "1px solid" }}>
-                                                <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} id="img17OldDup" loading="eager" />
+                                                <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} id="img17OldDup" loading="eager"
+                                                style={{    height:" 85px !important", width: "81px !important"}} />
                                             </div>
                                         </div>
                                         <div className="print_sec d_flex border_bottom">
