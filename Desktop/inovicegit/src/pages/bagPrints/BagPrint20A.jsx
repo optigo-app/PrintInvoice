@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import "../../assets/css/bagprint/print7Acopy.css";
+import "../../assets/css/bagprint/print20A.css";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/LoaderBag";
 import { GetData } from "../../GlobalFunctions/GetData";
@@ -9,7 +9,7 @@ import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 
-const BagPrint7Acopy = ({ queries, headers }) => {
+const BagPrint20A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
@@ -1031,4 +1031,4 @@ const BagPrint7Acopy = ({ queries, headers }) => {
   );
 };
 
-export default BagPrint7Acopy;
+export default BagPrint20A;

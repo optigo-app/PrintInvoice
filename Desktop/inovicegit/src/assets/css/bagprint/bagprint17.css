@@ -734,7 +734,8 @@ table {
 .print_section_17 .container_margin_left {
   margin-left: 19px !important;
   margin-right: 0 !important;
-  width: 28.6rem !important;
+  /* width: 28.6rem !important; */
+  width: 21.6rem !important;
 }
 
 @media print {
@@ -762,10 +763,10 @@ table {
   margin-left: 8mm;
 }
 
-.blue {
+/* .blue {
   border-left: 4px solid #5994BB !important;
-}
-
+} */
+/* 
 .btn_white {
   font-family: Calibri;
   font-size: 14px;
@@ -803,7 +804,7 @@ table {
   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #FFF), color-stop(1, #FFF));
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#97B65D, endColorstr=#CAE387);
   cursor: pointer;
-}
+} */
 
 
 
@@ -1999,7 +2000,7 @@ table {
   .separatedfs17old{
     font-size: 10.5px;
   }
-@media print {
+/* @media print {
 
 
   .container.ml_2.mb_2.mt_2.pt_2.container_margin_left:nth-child(6n) {
@@ -2015,4 +2016,4 @@ table {
   body {
     flex-direction: row;
   }
-}
+} */
