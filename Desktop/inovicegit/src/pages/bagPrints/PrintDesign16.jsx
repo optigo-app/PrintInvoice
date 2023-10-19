@@ -15,6 +15,7 @@ const PrintDesign16 = ({ queries, headers }) => {
   const location = useLocation();
   const queryParams = queryString?.parse(location?.search);
   let jobs = queryParams?.str_srjobno;
+  console.log(jobs);
   const parts = jobs?.split(",");
   const resultString = parts?.map((part) => `'${part}'`).join(",");
   if (Object.keys(queryParams)?.length !== 0) {
@@ -326,6 +327,7 @@ const PrintDesign16 = ({ queries, headers }) => {
         window.print();
       }, 5000);
     }
+    console.log(data);
   }, [data]);
 
   const handlePrint = (e) => {
@@ -383,7 +385,8 @@ const PrintDesign16 = ({ queries, headers }) => {
                                 <div
                                   className="thikborder"
                                   style={{
-                                    background: ``,
+                                    background: "rgb(138, 255, 20)",
+                                    // background: ``,
                                     borderRight: "1px solid black",
                                   }}
                                 >
@@ -393,7 +396,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       <span
                                         style={{
                                           fontWeight: "900",
-                                          paddingRight: "1.3229166667mm",
+                                          lineHeight:"6px",
                                           fontSize: "14px",
                                         }}
                                       >
@@ -402,13 +405,13 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     </div>
                                     <div className="text_start pt_2px pl_3">
                                       ORD:{" "}
-                                      <span style={{ fontWeight: "700" }}>
+                                      <span style={{ fontWeight: "700", lineHeight:"6px", }}>
                                         {e?.data?.rd?.OrderDate}
                                       </span>
                                     </div>
                                     <div
                                       className="text_start pt_2px"
-                                      style={{ color: "red" }}
+                                      style={{ color: "red", lineHeight:"6px", }}
                                     >
                                       DUE:
                                       {e?.data?.rd?.promisedate ===
@@ -455,7 +458,13 @@ const PrintDesign16 = ({ queries, headers }) => {
                                           fontSize: "2.8mm",
                                         }}
                                       >
+                                        
                                         {e?.data?.rd?.Quantity === 0
+                                            ? `${
+                                                e?.data?.rd?.Designcode1
+                                              }(${1}PCS)`
+                                            : `${e?.data?.rd?.Designcode1}(${e?.data?.rd?.Quantity} PCS)`}
+                                        {/* {e?.data?.rd?.Quantity === 0
                                           ? `${
                                               e?.data?.rd?.Designcode1?.length >
                                               0
@@ -471,7 +480,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                               e?.data?.rd?.Quantity?.length > 0
                                                 ? e?.data?.rd?.Quantity
                                                 : "0 "
-                                            }PCS)`}
+                                            }PCS)`} */}
                                       </span>
                                       <span
                                         style={{ fontWeight: "normal" }}
@@ -498,7 +507,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       </span>
                                     </div>
                                     <div className="text_start">
-                                      OrT:{" "}
+                                      PO:{" "}
                                       <span style={{ fontWeight: "700" }}>
                                         {e?.data?.rd?.OrderTypeName}
                                       </span>
@@ -1208,7 +1217,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         </span>
                                       </div>
                                       <div className="text_start">
-                                        OrT:{" "}
+                                        PO:{" "}
                                         <span style={{ fontWeight: "700" }}>
                                           {e?.data?.rd?.OrderTypeName}
                                         </span>

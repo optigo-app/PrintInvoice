@@ -347,7 +347,7 @@ const BagPrint3A = ({ queries, headers }) => {
         window.print();
       }, 5000);
     }
-
+    console.log(data);
   }, [data]);
 
   return (

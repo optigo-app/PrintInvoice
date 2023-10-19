@@ -16,8 +16,9 @@ const BagPrint20A = ({ queries, headers }) => {
   let jobs = queryParams.str_srjobno;
   const parts = jobs.split(",");
   const resultString = parts.map((part) => `'${part}'`).join(",");
-  const chunkSize7 = 6;
-
+  const chunkSize7 = 10;
+  // const chunkSize = 4;
+  // const sizeofChunk = 4;
   useEffect(() => {
     if (Object.keys(queryParams).length !== 0) {
       atob(queryParams.imagepath);
@@ -39,11 +40,13 @@ const BagPrint20A = ({ queries, headers }) => {
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
         datas?.map((a) => {
+          // let diamond = [];
+          // let colorstone = [];
           let chunkData = [];
           let length = 0;
           let clr = {
             Shapename: "TOTAL",
-            Sizename: "",
+            Sizename: "C TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 4,
@@ -51,7 +54,7 @@ const BagPrint20A = ({ queries, headers }) => {
           };
           let dia = {
             Shapename: "TOTAL",
-            Sizename: "",
+            Sizename: "D TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 3,
@@ -126,9 +129,13 @@ const BagPrint20A = ({ queries, headers }) => {
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
           ArrofSevenSize.push(dia);
+        
           ArrofFiveSize.push(clr);
           ArrofFSize.push(f);
           ArrofMISize.push(misc);
+
+
+
 
           ArrofSevenSize?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
@@ -158,23 +165,76 @@ const BagPrint20A = ({ queries, headers }) => {
               e.heading = "FINDING DETAIL";
             }
           });
+
+            let newDia = {   
+          Shapename: "",
+          Sizename: "Diamond Detail",
+          ActualPcs: '',
+          ActualWeight: '',
+          MasterManagement_DiamondStoneTypeid: 3, 
+        }
+        let newCS = {   
+          Shapename: "",
+          Sizename: "Colorstone Detail",
+          ActualPcs: '',
+          ActualWeight: '',
+          MasterManagement_DiamondStoneTypeid: 4, 
+        }
+          ArrofSevenSize.unshift(newDia);
+          ArrofFiveSize.unshift(newCS);
+
           let arr = [];
           let mainArr = arr?.concat(
             ArrofSevenSize,
             ArrofFiveSize,
-            ArrofMISize,
-            ArrofFSize
+            // ArrofMISize,
+            // ArrofFSize
           );
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
-
+            
           let img = imagePath + a?.rd?.ThumbImagePath;
-
+            console.log(mainArr);
           for (let i = 0; i < mainArr?.length; i += chunkSize7) {
             const chunks = mainArr?.slice(i, i + chunkSize7);
-            let len = 6 - mainArr?.slice(i, i + chunkSize7)?.length;
+            let len = 10 - mainArr?.slice(i, i + chunkSize7)?.length;
             chunkData.push({ data: chunks, length: len });
           }
+          // for (let i = 0; i < ArrofSevenSize?.length; i += chunkSize) {
+          //   const dia = ArrofSevenSize?.slice(i, i + chunkSize);
+          //   let len = 7 - ArrofSevenSize?.slice(i, i + chunkSize)?.length;
+          //   diamond?.push({ dia: dia, length: len });
+          // }
+          // for (let i = 0; i < ArrofFiveSize?.length; i += sizeofChunk) {
+          //   const clr = ArrofFiveSize?.slice(i, i + sizeofChunk);
+          //   let len = 5 - ArrofFiveSize?.slice(i, i + sizeofChunk)?.length;
+          //   colorstone?.push({ clr: clr, length: len });
+          // }
+          //new arr for creating how many templates are use, storing objects
+          // let arr1 = [];
+          // if (diamond?.length >= colorstone?.length) {
+          //   diamond?.map((e, i) => {
+          //     let obj = {};
+          //     obj.diachunk = e;
+          //     if (colorstone[i] !== undefined) {
+          //       obj.clrchunk = colorstone[i];
+          //     } else {
+          //       obj.clrchunk = { clr: [], length: 5 };
+          //     }
+          //     arr1?.push(obj);
+          //   });
+          // } else {
+          //   colorstone?.map((e, i) => {
+          //     let obj = {};
+          //     obj.clrchunk = e;
+          //     if (diamond[i] !== undefined) {
+          //       obj.diachunk = diamond[i];
+          //     } else {
+          //       obj.diachunk = { dia: [], length: 7 };
+          //     }
+          //     arr1?.push(obj);
+          //   });
+          // }
           responseData.push({
             data: a,
             additional: {
@@ -202,6 +262,7 @@ const BagPrint20A = ({ queries, headers }) => {
         window.print();
       }, 5000);
     }
+    console.log(data);
   }, [data]);
 
   return (
@@ -245,7 +306,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                     <div className="jobno7Acopy">
                                       <div className="h-100 d-flex justify-content-center align-items-center">
                                         <span className="fs20A fw-bold pe-1">
-                                          Ord Dt:
+                                          Odr Dt:
                                         </span>
                                         <span className="lh20A fs20A">
                                           {e?.data?.rd?.orderDatef}
@@ -269,15 +330,15 @@ const BagPrint20A = ({ queries, headers }) => {
                                       </div>
                                     </div>
                                     <div className="barcodebag7Acopy">
-                                      <div>
+                                      <div style={{width:"45%"}}>
                                         <div className="h7Acopy fs7Acopy d-flex justify-content-between align-items-center">
-                                          <span className="fs20A fw-bold h-100 d-flex justify-content-center align-items-center">
+                                          <span className="fs20A fw-bold h-100 d-flex justify-content-center align-items-center" style={{fontSize:"11px"}}>
                                             Bag No :
                                           </span>
-                                          <span className="fs20A lh20A h-100 d-flex justify-content-center align-items-center">
+                                          <span className="lh20A h-100 d-flex justify-content-center align-items-center fs-6 fw-bold">
                                             {e?.data?.rd?.serialjobno}
                                           </span>
-                                        </div>  
+                                        </div>
                                         <div className="fs20A fs7Acopy d-flex justify-content-between align-items-center">
                                           <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center">
                                             Dgn No :
@@ -287,7 +348,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                           </span>
                                         </div>
                                       </div>
-                                      <div className="barcodeGenerator7Acopy">
+                                      <div className="barcodeGenerator7Acopy" style={{width:"55%"}}>
                                         <BarcodeGenerator
                                           data={e?.data?.rd?.serialjobno}
                                         />
@@ -311,15 +372,15 @@ const BagPrint20A = ({ queries, headers }) => {
                                       </div>
                                       <div className="matinfo7Acopy">
                                         <div className="h327Acopy d-flex flex-column justify-content-between ">
-                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-100 fw-bold">
+                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-100 fw-bold" style={{fontSize:"8.5px"}}>
                                             KT/CLR:
                                           </span>
-                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-100 lh20A ">
+                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-100 lh20A " style={{fontSize:"8.5px"}}>
                                             {e?.data?.rd?.MetalType}
                                           </span>
                                         </div>
                                         <div className="h327Acopy d-flex justify-content-between ">
-                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 fw-bold">
+                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 fw-bold" style={{fontSize:"8.5px"}}>
                                             Size:
                                           </span>
                                           <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 lh20A">
@@ -330,7 +391,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                           className="h327Acopy d-flex justify-content-between"
                                           style={{ borderBottom: "0px" }}
                                         >
-                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 fw-bold">
+                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 fw-bold" style={{fontSize:"8.5px"}}>
                                             Est Wt:
                                           </span>
                                           <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 lh20A">
@@ -550,23 +611,70 @@ const BagPrint20A = ({ queries, headers }) => {
                                   </div>
                                 </div>
                                 <div className="diacsentry7Acopy">
-                                  <div className="fw-bold pt-1 ps-1">
-                                    <div className="pb-1">Diamond Detail:</div>
-                                    <div className="mb-2 lh20A fw-normal">
-                                      {e?.additional?.dia?.ActualPcs}/
-                                      {e?.additional?.dia?.ActualWeight?.toFixed(
-                                        3
-                                      )}
+                                  <div className="fw-bold ps-1">
+                                    {
+                                      console.log(el)
+                                    }
+                                    {
+                                      el?.data?.length > 0 && el?.data?.map((s, i) => {
+                                        return(
+                                         <div> { (s?.Sizename === "Diamond Detail" || s?.Sizename === "Colorstone Detail") ? <div className="fs20A" style={{paddingTop:"1px", paddingBottom:"1px"}}>{s?.Sizename + " : "}</div> : <div className="fw-normal fs20A" style={{fontSize:"9px"}}>{s?.Sizename + " "} / {s?.ActualPcs + " "}</div>}</div>
+                                        )
+                                      })
+                                    }
+                                    {/* <div className=" fs20A">
+                                      Diamond Detail: (Size/ Pcs)
                                     </div>
-                                    <div className="pb-1">
-                                      Color Stone Detail:
-                                    </div>
-                                    <div className="lh20A fw-normal">
-                                      {e?.additional?.clr?.ActualPcs}/
-                                      {e?.additional?.clr?.ActualWeight?.toFixed(
-                                        3
-                                      )}
-                                    </div>
+                                    <div className=" lh20A fw-normal">
+                                      {
+                                        //logic of put data in chunks for diamond
+                                        el?.diachunk?.dia?.map((s, is) => {
+                                          return (
+                                            <div
+                                              style={{ display: "flex" }}
+                                              key={is}
+                                            >
+                                              {
+                                                s?.Sizename === 'TOTAL' ? <div className="fs20A fw-bold">
+                                                {s?.Sizename ?? ""} /
+                                                {s?.ActualPcs ?? ""}
+                                              </div> : <div className="fs20A">
+                                                {s?.Sizename ?? ""} /
+                                                {s?.ActualPcs ?? ""}
+                                              </div>
+                                              }
+                                              
+                                            </div>
+                                          );
+                                        })
+                                      }
+                                    </div> */}
+                                    
+                                    {/* <div className="fw-bold fs20A">ColorStone Detail: (Size/ Pcs)</div> */}
+                                    {/* <div className=" lh20A fw-normal">
+                                    {
+                                        //logic of put data in chunks for diamond
+                                        el?.clrchunk?.clr?.map((s, is) => {
+                                          return (
+                                            <div
+                                              style={{ display: "flex" }}
+                                              key={is}
+                                            >
+                                              {
+                                                s?.Sizename === 'TOTAL' ? <div className="fs20A fw-bold">
+                                                {s?.Sizename ?? ""} /{" "}
+                                                {s?.ActualPcs ?? ""}{" "}
+                                              </div> : <div className="fs20A">
+                                                {s?.Sizename ?? ""} /{" "}
+                                                {s?.ActualPcs ?? ""}{" "}
+                                              </div>
+                                              }
+                                              
+                                            </div>
+                                          );
+                                        })
+                                      }
+                                    </div> */}
                                   </div>
                                 </div>
                                 <div className="emptybox7Acopy"></div>
@@ -643,7 +751,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                     }}
                                   ></div>
                                 </div>
-                                <div className="footer7Acopy brbnone7Acopy brl7Acopy2">
+                                <div className="footer7Acopy brbnone7Acopy brl7Acopy2" style={{borderTop:"1px dashed #989898"}}>
                                   {" "}
                                   <div
                                     className="footerCol7Acopyall"
@@ -686,7 +794,7 @@ const BagPrint20A = ({ queries, headers }) => {
                               <div className="jobno7Acopy">
                                 <div>
                                   <span className="fs7Acopy fw-bold pe-1">
-                                    Ord Dt:
+                                    Odr Dt:
                                   </span>
                                   <span className="lh20A fs20A">
                                     {e?.data?.rd?.orderDatef}
@@ -709,7 +817,7 @@ const BagPrint20A = ({ queries, headers }) => {
                               </div>
                               <div className="barcodebag7Acopy">
                                 <div>
-                                  <div className="h7Acopy fs7Acopy">
+                                  <div className="h7Acopy fs7Acopy d-flex">
                                     <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center">
                                       Bag No:
                                     </span>
@@ -717,7 +825,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                       {e?.data?.rd?.serialjobno}
                                     </span>
                                   </div>
-                                  <div className="h7Acopy fs7Acopy">
+                                  <div className="h7Acopy fs7Acopy d-flex">
                                     <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center">
                                       Dgn No:
                                     </span>
