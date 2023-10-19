@@ -302,8 +302,16 @@
 }
 
 #img3A {
-    width:6rem !important;
-    height: 6rem !important;
+    width: 8rem !important;
+    height: 8rem !important;
+    /* width:6rem !important;
+    height: 6rem !important; */
+}
+#img3AD {
+    width: 8rem !important;
+    height: 9.9rem !important;
+    /* width:6rem !important;
+    height: 6rem !important; */
 }
 
 /* .bag3A{
@@ -316,7 +324,7 @@
     justify-content: flex-start;
     align-items: center;
     margin-left: 1rem;
-    
+
 }
 
 .job3Aflex {
