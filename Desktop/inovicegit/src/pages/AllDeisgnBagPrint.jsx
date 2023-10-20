@@ -28,7 +28,6 @@ import BagPrint20A from './bagPrints/BagPrint20A';
 const AllDesignBagPrint = () => {
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
-  console.log(queryParams);
   const printName = queryParams.printname;
   let queries = {
     YearCode: queryParams.YearCode,
@@ -42,7 +41,6 @@ const AllDesignBagPrint = () => {
     url: queryParams.report_api_url,
     pageStart: +(queryParams.start_page)
   };
-  console.log(queries);
   const headers = {
     'Content-Type': 'application/json',
     'Authorization': '',

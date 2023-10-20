@@ -11,8 +11,8 @@
     border-radius: 4px;
     /* margin-top: 2.6rem;
     margin-left: 2.1rem; */
-    margin-top: 2rem;
-    margin-left: 1.6rem;
+    margin-top: 2.6rem;
+    margin-left: 2.1rem;
     /* margin-top: 2.5rem;
     margin-left: 2rem; */
 }
@@ -244,7 +244,7 @@
     transform: rotate(90deg) !important;
     position: absolute;
     top: 100px !important;
-    left: 13.25rem !important;
+    left: 17.55rem !important;
     /* width: 200px;
     height: 30px;
     object-fit: cover;
@@ -261,7 +261,7 @@
     transform: rotate(90deg) !important;
     position: absolute;
     top: 100px !important;
-    left: 13.35rem !important;
+    left: 17.55rem !important;
     /* width: 200px;
     height: 30px;
     object-fit: cover;

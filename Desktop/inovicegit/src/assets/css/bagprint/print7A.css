@@ -10,8 +10,10 @@
     width: 356px;
     border: 2px solid black;
     border-radius: 8px;
-    margin-left: 2rem;
-    margin-top: 2rem;
+    margin-left: 2.3rem;
+    margin-top: 1.7rem;
+    /* margin-left: 2rem;
+    margin-top: 2rem; */
     font-size: 12px;
 }
 
@@ -290,10 +292,10 @@
 @media print {
 
 
-    .container7A {
-        margin-top: 20px;
-        margin-left: 1.7rem;
-    }
+    /* .container7A {
+        margin-top: 1.7rem;
+        margin-left: 2.3rem;
+    } */
 
     .container7A:nth-child(4n+1) {
         page-break-before: always;

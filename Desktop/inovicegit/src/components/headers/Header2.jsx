@@ -2,6 +2,7 @@ import React from "react";
 import header2 from "../../assets/css/headers/header2.module.css";
 
 const Header2 = ({ data }) => {
+  
   return (
     <div>
       <div className={header2.headline}>{data?.PrintHeadLabel}</div>
@@ -33,7 +34,7 @@ const Header2 = ({ data }) => {
         </div>
       </div>
 
-      <div className={header2.custBlock}>
+      {/* <div className={header2.custBlock}>
         <div className={header2.custDetails}>
           <span className={header2.lines}>Bill To,</span>
           <span className={header2.lines} header2={{ fontWeight: "bold" }}>
@@ -104,7 +105,7 @@ const Header2 = ({ data }) => {
           <span className={header2.lines}></span>
           <span className={header2.lines}></span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -3,6 +3,8 @@ import img from "./assets/img/default.jpg";
 import Footer1 from "./components/footers/Footer1";
 import Header1 from "./components/headers/Header1";
 import Header2 from "./components/headers/Header2";
+import Subhead1 from "./components/subheaders/subhead1/Subhead1";
+import Subhead2 from "./components/subheaders/subhead2/Subhead2";
 
 //print button function for print pop up
 export const handlePrint = (e) => {
@@ -122,8 +124,8 @@ export const HeaderComponent = (headNo, headerData) => {
   switch (headNo) {
     case "1":
       headerComponent = <Header1 data={headerData} />;
-
       break;
+
     case "2":
       headerComponent = <Header2 data={headerData} />;
       break;
@@ -157,43 +159,63 @@ export const FooterComponent = (footerNo, footerData) => {
   return footerComponent;
 };
 
+export const SubheaderComponent = (subheadNo, SubheadData) => {
+  let subheaderComponent;
+
+  switch (subheadNo) {
+    case "1":
+      subheaderComponent = <Subhead1 data={SubheadData} />;
+
+      break;
+    case "2":
+      subheaderComponent = <Subhead2 data={SubheadData} />;
+      break;
+
+    default:
+      subheaderComponent = <Subhead1 data={SubheadData} />;
+      break;
+  }
+
+  return subheaderComponent;
+};
+
 export const ReceiveInBank = (BankPayDet) => {
-  if(BankPayDet?.length > 0){
-    let arr = BankPayDet.split('@-@');
+  if (BankPayDet?.length > 0) {
+    let arr = BankPayDet.split("@-@");
     let blankArr = [];
-    arr.forEach(e=> {
+    arr.forEach((e) => {
       let obj = {};
-      let val = e.split('#-#');
+      let val = e.split("#-#");
       obj.BankName = val[0];
       obj.label = val[1];
       obj.amount = +val[2];
       blankArr.push(obj);
     });
     return blankArr;
-  }else{
+  } else {
     return [];
   }
-}
+};
 
 export const checkInstruction = (ins) => {
-  if(ins !== "" && ins !== undefined && ins !== null && ins !== "null")  {
-   return ins;
+  if (ins !== "" && ins !== undefined && ins !== null && ins !== "null") {
+    return ins;
   }
-}
+};
 
 export const GovernMentDocuments = (documents) => {
-  if(documents?.length > 0){
-    let arr = documents.split('#@#');
+  if (documents?.length > 0) {
+    let arr = documents.split("#@#");
     let blankArr = [];
-    arr.forEach(e=> {
+    arr.forEach((e) => {
       let obj = {};
-      let val = e.split('#-#');
+      let val = e.split("#-#");
       obj.label = val[0];
       obj.value = val[1];
       blankArr.push(obj);
     });
     return blankArr;
-  }else{
+  } else {
     return [];
   }
-}
+};

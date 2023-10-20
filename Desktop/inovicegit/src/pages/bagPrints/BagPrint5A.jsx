@@ -34,7 +34,6 @@ const BagPrint5A = ({ queries, headers }) => {
       try {
         const responseData = [];
 
-        
         const objs = {
           jobno: resultString,
           custid: queries.custid,
@@ -146,7 +145,7 @@ const BagPrint5A = ({ queries, headers }) => {
             }
           });
 
-                 let arr = [];
+          let arr = [];
           let mainArr = arr.concat(
             ArrofSevenSize,
             ArrofFiveSize,
@@ -175,7 +174,7 @@ const BagPrint5A = ({ queries, headers }) => {
               pages: arrofchunk,
             },
           });
-        })
+        });
 
         // for (let url in print) {
         //   let chunkData = [];
@@ -188,7 +187,7 @@ const BagPrint5A = ({ queries, headers }) => {
         //     headers: headers,
         //   };
         //   let datas = await GetData(objs);
-          
+
         //   const orderDatef = formatDate(datas?.rd[0]?.OrderDate);
         //   const promiseDatef = formatDate(datas?.rd[0]?.promisedate);
 
@@ -359,7 +358,6 @@ const BagPrint5A = ({ queries, headers }) => {
   //     e.target.src = require('../../assets/img/default.jpg');
   // };
 
-
   useEffect(() => {
     if (data.length !== 0) {
       setTimeout(() => {
@@ -374,7 +372,7 @@ const BagPrint5A = ({ queries, headers }) => {
       {data.length === 0 ? (
         <Loader />
       ) : (
-        <>
+        <React.Fragment>
           <div className="print_btn ">
             <button
               className="btn_white blue print_btn"
@@ -396,859 +394,665 @@ const BagPrint5A = ({ queries, headers }) => {
                 )
             )}
             {data?.length > 0 &&
-              data?.map((e, i) => {
-                console.log(data)
+              data?.map((e) => {
                 return (
-                  <React.Fragment key={i}>
-                    {e?.additional?.pages?.length > 0 ? (
-                      e?.additional?.pages?.map((ele, index) => {
+                  <React.Fragment>
+                    {
+                    e?.additional?.pages?.length > 0 &&
+                      e?.additional?.pages?.map((ele) => {
                         return (
-                          // <div className="print5A" key={index}>
-                            <div className="container5A">
-                              <div className="bag5A">
-                                <div className="flex5A">
-                                  <div className="header5A">
-                                    <div className="head5A">
-                                      <div className="head5Ajob">
-                                        <div className="lh5A8">{e?.data?.rd?.serialjobno}</div>
-                                        <div className="lh5A8">{e?.data?.rd?.Designcode}</div>
-                                        <div className="pr5A lh5A8">
-                                          {e?.data?.rd?.MetalType}{" "}
-                                          {e?.data?.rd?.MetalColorCo}
-                                        </div>
-                                        {/* <div>{e?.data?.rd?.MetalColorCo}</div> */}
+                          <div className="container5A">
+                            <div className="bag5A">
+                              <div className="flex5A">
+                                <div className="header5A">
+                                  <div className="head5A">
+                                    <div className="head5Ajob">
+                                      <div className="lh5A8">
+                                        {e?.data?.rd?.serialjobno}
                                       </div>
-                                      <div className="head5Ainfo">
-                                        <div className="info5Amid">
-                                          <p className="f5A diffColor">CUST.</p>
-                                          <p className="f5A">
-                                            {e?.data?.rd?.CustomerCode}
-                                          </p>
-                                        </div>
-                                        <div className="info5Amid">
-                                          <p className="f5A diffColor">
-                                            ORD. DT.
-                                          </p>
-                                          <p className="f5A">
-                                            {e?.data?.rd?.orderDatef ?? ""}
-                                          </p>
-                                        </div>
-                                        {/* <div className='info5Aend'><p className='f5A diffColor'>DEL. DT.</p><p className='f5A'>{e?.data?.rd?.promiseDatef ?? ''}</p></div> */}
-                                        <div className="info5Aend">
-                                          <p className="f5A diffColor">
-                                            DEL. DT.
-                                          </p>
-                                          <p className="f5A"></p>
-                                        </div>
-                                        <div className="info5Alast">
-                                          <p
-                                            className="f5A diffColor"
-                                            style={{ borderRight: "0px" }}
-                                          >
-                                            SIZE
-                                          </p>
-                                          <p
-                                            className="f5A"
-                                            style={{ borderRight: "0px" }}
-                                          >
-                                            {e?.data?.rd?.Size}
-                                          </p>
-                                        </div>
+                                      <div className="lh5A8">
+                                        {e?.data?.rd?.Designcode}
                                       </div>
+                                      <div className="pr5A lh5A8">
+                                        {e?.data?.rd?.MetalType}{" "}
+                                        {e?.data?.rd?.MetalColorCo}
+                                      </div>
+                                      {/* <div>{e?.data?.rd?.MetalColorCo}</div> */}
                                     </div>
-                                  </div>
-                                  <div className="section5A">
-                                    <div className="seaction5AheadA">
-                                      <div className="seaction5AheadCode">
-                                        CODE
+                                    <div className="head5Ainfo">
+                                      <div className="info5Amid">
+                                        <p className="f5A diffColor">CUST.</p>
+                                        <p className="f5A">
+                                          {e?.data?.rd?.CustomerCode}
+                                        </p>
                                       </div>
-                                      <div className="seaction5AheadSize">
-                                        SIZE
+                                      <div className="info5Amid">
+                                        <p className="f5A diffColor">
+                                          ORD. DT.
+                                        </p>
+                                        <p className="f5A">
+                                          {e?.data?.rd?.orderDatef ?? ""}
+                                        </p>
                                       </div>
-                                      <div className="seaction5AheadPcs">
-                                        PCS
+                                      {/* <div className='info5Aend'><p className='f5A diffColor'>DEL. DT.</p><p className='f5A'>{e?.data?.rd?.promiseDatef ?? ''}</p></div> */}
+                                      <div className="info5Aend">
+                                        <p className="f5A diffColor">
+                                          DEL. DT.
+                                        </p>
+                                        <p className="f5A"></p>
                                       </div>
-                                      <div className="seaction5AheadWT">WT</div>
-                                      <div className="seaction5AheadPcs">
-                                        PCS
-                                      </div>
-                                      <div className="seaction5AheadWT">WT</div>
-                                    </div>
-                                    {ele?.data?.map((a, i) => {
-                                      return (
-                                        <React.Fragment key={i}>
-                                          {a.MasterManagement_DiamondStoneTypeid ===
-                                          5 ? (
-                                            <div
-                                              className="seaction5Amid"
-                                              key={i}
-                                            >
-                                              <div
-                                                className="seaction5Ahead"
-                                                style={{ fontWeight: "normal" }}
-                                              >
-                                                {/* <div className='seaction5AheadCode' style={{ width: "138px" }}>{a?.Shapename}</div> */}
-                                                {/* <div className='seaction5AheadCode' style={{ width: "138px" }}>{a?.Shapename + " "+ a?.ColorName}</div> */}
-                                                <div
-                                                  className="seaction5AheadCode"
-                                                  style={{ width: "138px" }}
-                                                >
-                                                  {
-                                                    a?.LimitedShapeQualityColorCode
-                                                  }{" "}
-                                                  {a?.Quality} {a?.ColorName}
-                                                </div>
-                                                <div className="seaction5AheadPcs">
-                                                  {a?.ActualPcs}
-                                                </div>
-                                                <div className="seaction5AheadWT">
-                                                  {a?.ActualWeight?.toFixed(3)}
-                                                </div>
-                                                <div className="seaction5AheadPcs"></div>
-                                                <div className="seaction5AheadWT"></div>
-                                              </div>
-                                            </div>
-                                          ) : (
-                                            <div
-                                              className="seaction5Amid"
-                                              key={i}
-                                            >
-                                              <div
-                                                className="seaction5Ahead"
-                                                style={{ fontWeight: "normal" }}
-                                              >
-                                                {/* { a?.Shapename === "TOTAL" ? <div className='seaction5AheadCode'>{a?.Shapename}</div> : <div className='seaction5AheadCode'>{a?.LimitedShapeQualityColorCode}</div>}   */}
-                                                <div className="seaction5AheadCode">
-                                                  {
-                                                    a?.LimitedShapeQualityColorCode
-                                                  }
-                                                </div>
-                                                <div className="seaction5AheadSize">
-                                                  {a?.Sizename}
-                                                </div>
-                                                <div className="seaction5AheadPcs">
-                                                  {a?.ActualPcs}
-                                                </div>
-                                                <div className="seaction5AheadWT">
-                                                  {a?.ActualWeight?.toFixed(3)}
-                                                </div>
-                                                <div className="seaction5AheadPcs"></div>
-                                                <div className="seaction5AheadWT"></div>
-                                              </div>
-                                            </div>
-                                          )}
-                                        </React.Fragment>
-                                      );
-                                    })}
-
-                                    {Array.from(
-                                      { length: ele?.length },
-                                      (_, index) => (
-                                        <div
-                                          className="seaction5Amid"
-                                          key={index}
+                                      <div className="info5Alast">
+                                        <p
+                                          className="f5A diffColor"
+                                          style={{ borderRight: "0px" }}
                                         >
-                                          <div
-                                            className="seaction5Ahead"
-                                            style={{ fontWeight: "normal" }}
-                                          >
-                                            <div className="seaction5AheadCode"></div>
-                                            <div className="seaction5AheadSize"></div>
-                                            <div className="seaction5AheadPcs"></div>
-                                            <div className="seaction5AheadWT"></div>
-                                            <div className="seaction5AheadPcs"></div>
-                                            <div className="seaction5AheadWT"></div>
-                                          </div>
-                                        </div>
-                                      )
-                                    )}
-                                  </div>
-                                  <div className="footer5A imp5A">
-                                    <p className="footer5AIns">
-                                      {" "}
-                                      <span
-                                        className="footer5AIns"
-                                        style={{
-                                          color: "red",
-                                          paddingLeft: "2px",
-                                          lineHeight: "11px",
-                                        }}
-                                      >
-                                        CAST INS.
-                                        {(
-                                          e?.data?.rd?.officeuse +
-                                          e?.data?.rd?.custInstruction +
-                                          e?.data?.rd?.ProductInstruction
-                                        ).length > 0
-                                          ? (e?.data?.rd?.officeuse +
-                                              e?.data?.rd?.custInstruction +
-                                              e?.data?.rd
-                                                ?.ProductInstruction ==
-                                            (null || "null")
-                                              ? ""
-                                              : e?.data?.rd?.officeuse +
-                                                " " +
-                                                e?.data?.rd
-                                                  ?.custInstruction +
-                                                " " +
-                                                e?.data?.rd
-                                                  ?.ProductInstruction
-                                            )?.slice(0, 179)
-                                          : ""}
-                                      </span>
-                                    </p>
+                                          SIZE
+                                        </p>
+                                        <p
+                                          className="f5A"
+                                          style={{ borderRight: "0px" }}
+                                        >
+                                          {e?.data?.rd?.Size}
+                                        </p>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                                <div className="aside5A">
-                                  <div className="imgPart5A">
-                                    <div className="img5A">
-                                      <img
-                                        src={
-                                          e?.additional?.img !== ""
-                                            ? e?.additional?.img
-                                            : require("../../assets/img/default.jpg")
-                                        }
-                                        id="img5A"
-                                        alt=""
-                                        onError={(e) => handleImageError(e)}
-                                        loading="eager"
-                                      
-                                      />
+                                <div className="section5A">
+                                  <div className="seaction5AheadA">
+                                    <div className="seaction5AheadCode">
+                                      CODE
                                     </div>
-                                    <div className="barcodeInfo5A">
+                                    <div className="seaction5AheadSize">
+                                      SIZE
+                                    </div>
+                                    <div className="seaction5AheadPcs">PCS</div>
+                                    <div className="seaction5AheadWT">WT</div>
+                                    <div className="seaction5AheadPcs">PCS</div>
+                                    <div className="seaction5AheadWT">WT</div>
+                                  </div>
+                                  {ele?.data?.map((a, i) => {
+                                    return (
+                                      <React.Fragment key={i}>
+                                        {a.MasterManagement_DiamondStoneTypeid ===
+                                        5 ? (
+                                          <div
+                                            className="seaction5Amid"
+                                            key={i}
+                                          >
+                                            <div
+                                              className="seaction5Ahead"
+                                              style={{ fontWeight: "normal" }}
+                                            >
+                                              {/* <div className='seaction5AheadCode' style={{ width: "138px" }}>{a?.Shapename}</div> */}
+                                              {/* <div className='seaction5AheadCode' style={{ width: "138px" }}>{a?.Shapename + " "+ a?.ColorName}</div> */}
+                                              <div
+                                                className="seaction5AheadCode"
+                                                style={{ width: "138px" }}
+                                              >
+                                                {
+                                                  a?.LimitedShapeQualityColorCode
+                                                }{" "}
+                                                {a?.Quality} {a?.ColorName}
+                                              </div>
+                                              <div className="seaction5AheadPcs">
+                                                {a?.ActualPcs}
+                                              </div>
+                                              <div className="seaction5AheadWT">
+                                                {a?.ActualWeight?.toFixed(3)}
+                                              </div>
+                                              <div className="seaction5AheadPcs"></div>
+                                              <div className="seaction5AheadWT"></div>
+                                            </div>
+                                          </div>
+                                        ) : (
+                                          <div
+                                            className="seaction5Amid"
+                                            key={i}
+                                          >
+                                            <div
+                                              className="seaction5Ahead"
+                                              style={{ fontWeight: "normal" }}
+                                            >
+                                              {/* { a?.Shapename === "TOTAL" ? <div className='seaction5AheadCode'>{a?.Shapename}</div> : <div className='seaction5AheadCode'>{a?.LimitedShapeQualityColorCode}</div>}   */}
+                                              <div className="seaction5AheadCode">
+                                                {
+                                                  a?.LimitedShapeQualityColorCode
+                                                }
+                                              </div>
+                                              <div className="seaction5AheadSize">
+                                                {a?.Sizename}
+                                              </div>
+                                              <div className="seaction5AheadPcs">
+                                                {a?.ActualPcs}
+                                              </div>
+                                              <div className="seaction5AheadWT">
+                                                {a?.ActualWeight?.toFixed(3)}
+                                              </div>
+                                              <div className="seaction5AheadPcs"></div>
+                                              <div className="seaction5AheadWT"></div>
+                                            </div>
+                                          </div>
+                                        )}
+                                      </React.Fragment>
+                                    );
+                                  })}
+
+                                  {Array.from(
+                                    { length: ele?.length },
+                                    (_, index) => (
+                                      <div
+                                        className="seaction5Amid"
+                                        key={index}
+                                      >
+                                        <div
+                                          className="seaction5Ahead"
+                                          style={{ fontWeight: "normal" }}
+                                        >
+                                          <div className="seaction5AheadCode"></div>
+                                          <div className="seaction5AheadSize"></div>
+                                          <div className="seaction5AheadPcs"></div>
+                                          <div className="seaction5AheadWT"></div>
+                                          <div className="seaction5AheadPcs"></div>
+                                          <div className="seaction5AheadWT"></div>
+                                        </div>
+                                      </div>
+                                    )
+                                  )}
+                                </div>
+                                <div className="footer5A imp5A">
+                                  <p className="footer5AIns">
+                                    {" "}
+                                    <span
+                                      className="footer5AIns"
+                                      style={{
+                                        color: "red",
+                                        paddingLeft: "2px",
+                                        lineHeight: "11px",
+                                      }}
+                                    >
+                                      CAST INS.
+                                      {(
+                                        e?.data?.rd?.officeuse +
+                                        e?.data?.rd?.custInstruction +
+                                        e?.data?.rd?.ProductInstruction
+                                      ).length > 0
+                                        ? (e?.data?.rd?.officeuse +
+                                            e?.data?.rd?.custInstruction +
+                                            e?.data?.rd?.ProductInstruction ==
+                                          (null || "null")
+                                            ? ""
+                                            : e?.data?.rd?.officeuse +
+                                              " " +
+                                              e?.data?.rd?.custInstruction +
+                                              " " +
+                                              e?.data?.rd?.ProductInstruction
+                                          )?.slice(0, 179)
+                                        : ""}
+                                    </span>
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="aside5A">
+                                <div className="imgPart5A">
+                                  <div className="img5A">
+                                    <img
+                                      src={
+                                        e?.additional?.img !== ""
+                                          ? e?.additional?.img
+                                          : require("../../assets/img/default.jpg")
+                                      }
+                                      id="img5A"
+                                      alt=""
+                                      onError={(e) => handleImageError(e)}
+                                      loading="eager"
+                                    />
+                                  </div>
+                                  <div className="barcodeInfo5A">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      <div className="diaInfo5A">
+                                        <div className="diaflex5A">
+                                          <p className="f5Aval">DIAMOND</p>
+                                          <p className="diaVal5A">
+                                            {e?.additional?.dia?.ActualPcs}/
+                                            {e?.additional?.dia?.ActualWeight?.toFixed(
+                                              3
+                                            )}
+                                          </p>{" "}
+                                        </div>
+                                      </div>
+                                      <div className="diaInfo5A">
+                                        <div className="diaflex5A">
+                                          <p
+                                            className="f5Aval"
+                                            style={{ height: "33px" }}
+                                          ></p>{" "}
+                                        </div>
+                                      </div>
+                                      <div className="diaInfo5A">
+                                        <div className="diaflex5A">
+                                          <p className="f5Aval">CS</p>
+                                          <p className="diaVal5A">
+                                            {e?.additional?.clr?.ActualPcs}/
+                                            {e?.additional?.clr?.ActualWeight?.toFixed(
+                                              2
+                                            )}
+                                          </p>{" "}
+                                        </div>
+                                      </div>
+                                      <div className="diaInfo5A">
+                                        <div className="diaflex5A">
+                                          <p
+                                            className="f5Aval"
+                                            style={{ height: "33px" }}
+                                          ></p>{" "}
+                                        </div>
+                                      </div>
+                                      <div className="diaInfo5A">
+                                        <div className="diaflex5A">
+                                          <p className="f5Aval">METAL</p>
+                                          <p className="diaVal5A">
+                                            {e?.data?.rd?.netwt?.toFixed(3)}
+                                          </p>{" "}
+                                        </div>
+                                      </div>
                                       <div
                                         style={{
-                                          display: "flex",
-                                          flexDirection: "column",
+                                          borderRight: "1px solid #989898",
+                                          height: "39px",
                                         }}
-                                      >
-                                        <div className="diaInfo5A">
-                                          <div className="diaflex5A">
-                                            <p className="f5Aval">DIAMOND</p>
-                                            <p className="diaVal5A">
-                                              {e?.additional?.dia?.ActualPcs}/
-                                              {e?.additional?.dia?.ActualWeight?.toFixed(
-                                                3
-                                              )}
-                                            </p>{" "}
-                                          </div>
-                                        </div>
-                                        <div className="diaInfo5A">
-                                          <div className="diaflex5A">
-                                            <p
-                                              className="f5Aval"
-                                              style={{ height: "33px" }}
-                                            ></p>{" "}
-                                          </div>
-                                        </div>
-                                        <div className="diaInfo5A">
-                                          <div className="diaflex5A">
-                                            <p className="f5Aval">CS</p>
-                                            <p className="diaVal5A">
-                                              {e?.additional?.clr?.ActualPcs}/
-                                              {e?.additional?.clr?.ActualWeight?.toFixed(
-                                                2
-                                              )}
-                                            </p>{" "}
-                                          </div>
-                                        </div>
-                                        <div className="diaInfo5A">
-                                          <div className="diaflex5A">
-                                            <p
-                                              className="f5Aval"
-                                              style={{ height: "33px" }}
-                                            ></p>{" "}
-                                          </div>
-                                        </div>
-                                        <div className="diaInfo5A">
-                                          <div className="diaflex5A">
-                                            <p className="f5Aval">METAL</p>
-                                            <p className="diaVal5A">
-                                              {e?.data?.rd?.netwt?.toFixed(
-                                                3
-                                              )}
-                                            </p>{" "}
-                                          </div>
-                                        </div>
-                                        <div
-                                          style={{
-                                            borderRight: "1px solid #989898",
-                                            height: "39px",
-                                          }}
-                                        ></div>
-                                      </div>
-                                      <div className="barcode5A">
-                                        {e?.data?.rd?.length !== 0 &&
-                                          e?.data?.rd !== undefined && (
-                                            <>
-                                              {e?.data?.rd?.serialjobno !==
-                                                undefined && (
-                                                <BarcodeGenerator
-                                                  data={
-                                                    e?.data?.rd?.serialjobno
-                                                  }
-                                                />
-                                              )}
-                                            </>
-                                          )}
-                                      </div>
+                                      ></div>
+                                    </div>
+                                    <div className="barcode5A">
+                                      {e?.data?.rd?.length !== 0 &&
+                                        e?.data?.rd !== undefined && (
+                                          <>
+                                            {e?.data?.rd?.serialjobno !==
+                                              undefined && (
+                                              <BarcodeGenerator
+                                                data={e?.data?.rd?.serialjobno}
+                                              />
+                                            )}
+                                          </>
+                                        )}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            {/* </div> */}
+                            </div>
                           </div>
                         );
-                      })
-                    ) : (
-                      // <div className="print5A">
-                        <div className="container5A">
-                          <div className="bag5A">
-                            <div className="flex5A">
-                              <div className="header5A">
-                                <div className="head5A">
-                                  <div className="head5Ajob">
-                                    <div>{e?.data?.rd?.serialjobno}</div>
-                                    <div>{e?.data?.rd?.Designcode}</div>
-                                    <div className="pr5A">
-                                      {e?.data?.rd?.MetalType}{" "}
-                                      {e?.data?.rd?.MetalColorCo}
-                                    </div>
-                                    {/* <div>{e?.data?.rd?.MetalColorCo}</div> */}
-                                  </div>
-                                  <div className="head5Ainfo">
-                                    <div className="info5Amid">
-                                      <p className="f5A diffColor">CUST.</p>
-                                      <p className="f5A">
-                                        {e?.data?.rd?.CustomerCode}
-                                      </p>
-                                    </div>
-                                    <div className="info5Amid">
-                                      <p className="f5A diffColor">ORD. DT.</p>
-                                      <p className="f5A">
-                                        {e?.data?.rd?.orderDatef ?? ""}
-                                      </p>
-                                    </div>
-                                    <div className="info5Aend">
-                                      <p className="f5A diffColor">DEL. DT.</p>
-                                      <p className="f5A">
-                                        {e?.data?.rd?.promiseDatef ?? ""}
-                                      </p>
-                                    </div>
-                                    <div className="info5Alast">
-                                      <p
-                                        className="f5A diffColor"
-                                        style={{ borderRight: "0px" }}
-                                      >
-                                        SIZE
-                                      </p>
-                                      <p
-                                        className="f5A"
-                                        style={{ borderRight: "0px" }}
-                                      >
-                                        {e?.data?.rd?.Size}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
+                      })  
+                      }
+                    <div className="container5A">
+                      <div className="bag5AD">
+                        <div className="header5AD">
+                          <div className="sectionHead5A">
+                            <div className="head5AjobD">
+                              <div className="lh5A8">
+                                {e?.data?.rd?.serialjobno}
                               </div>
-                              <div className="section5A">
-                                <div className="seaction5AheadA">
-                                  <div className="seaction5AheadCode">CODE</div>
-                                  <div className="seaction5AheadSize">SIZE</div>
-                                  <div className="seaction5AheadPcs">PCS</div>
-                                  <div className="seaction5AheadWT">WT</div>
-                                  <div className="seaction5AheadPcs">PCS</div>
-                                  <div className="seaction5AheadWT">WT</div>
-                                </div>
-
-                                {Array.from({ length: 17 }, (_, index) => (
-                                  <div className="seaction5Amid" key={index}>
-                                    <div
-                                      className="seaction5Ahead"
-                                      style={{ fontWeight: "normal" }}
-                                    >
-                                      <div className="seaction5AheadCode"></div>
-                                      <div className="seaction5AheadSize"></div>
-                                      <div className="seaction5AheadPcs"></div>
-                                      <div className="seaction5AheadWT"></div>
-                                      <div className="seaction5AheadPcs"></div>
-                                      <div className="seaction5AheadWT"></div>
-                                    </div>
-                                  </div>
-                                ))}
+                              <div className="lh5A8">
+                                {e?.data?.rd?.Designcode}
                               </div>
-                              <div className="footer5A imp5A">
-                                <p className="footer5AIns">
-                                  {" "}
-                                  <span
-                                    className="footer5AIns"
-                                    style={{
-                                      color: "red",
-                                      paddingLeft: "2px",
-                                      lineHeight: "11px",
-                                    }}
-                                  >
-                                    CAST INS.
-                                    {(
-                                      e?.data?.rd?.officeuse +
-                                      e?.data?.rd?.custInstruction +
-                                      e?.data?.rd?.ProductInstruction
-                                    ).length > 0
-                                      ? (e?.data?.rd?.officeuse +
-                                          e?.data?.rd?.custInstruction +
-                                          e?.data?.rd?.ProductInstruction ==
-                                        (null || "null")
-                                          ? ""
-                                          : e?.data?.rd?.officeuse +
-                                            e?.data?.rd?.custInstruction +
-                                            e?.data?.rd?.ProductInstruction
-                                        )?.slice(0, 179)
-                                      : ""}
-                                  </span>
+                              <div className="pr5A lh5A8">
+                                {e?.data?.rd?.MetalType}{" "}
+                                {e?.data?.rd?.MetalColorCo}
+                              </div>
+                              {/* <div>{e?.data?.rd?.MetalColorCo}</div> */}
+                            </div>
+                            <div className="mat5AD">
+                              <div
+                                className="border5A"
+                                style={{
+                                  color: "#c7c7c7",
+                                  textAlign: "center",
+                                }}
+                              >
+                                PRIORITY
+                              </div>
+                              <div
+                                className="border5A"
+                                style={{
+                                  color: "#c7c7c7",
+                                  textAlign: "center",
+                                }}
+                              >
+                                LOC.
+                              </div>
+                              <div
+                                className="border5A"
+                                style={{
+                                  borderRight: "0px",
+                                  color: "#c7c7c7",
+                                  textAlign: "center",
+                                }}
+                              >
+                                Q.C.
+                              </div>
+                            </div>
+                            <div className="mat5ADE">
+                              <div className="border5A hw5A">
+                                <p className="f5ADuplicate">SALES REP.</p>{" "}
+                                <p className="f5ADuplicate">
+                                  {e?.data?.rd?.SalesrepCode}
+                                </p>
+                              </div>
+                              <div className="border5A hw5A">
+                                <p className="f5ADuplicate">FROSTING</p>{" "}
+                                <p className="f5ADuplicate">
+                                  {e?.data?.rd?.MetalFrosting}
+                                </p>
+                              </div>
+                              <div
+                                className="border5A hw5A"
+                                style={{ borderRight: "0px" }}
+                              >
+                                <p className="f5ADuplicate">ENAMELING</p>
+                                <p className="f5ADuplicate">
+                                  {e?.data?.rd?.Enamelling}
                                 </p>
                               </div>
                             </div>
-                            <div className="aside5A">
-                              <div className="imgPart5A">
-                                <div className="img5A">
-                                  <img
-                                    src={
-                                      e?.additional?.img !== ""
-                                        ? e?.additional?.img
-                                        : require("../../assets/img/default.jpg")
-                                    }
-                                    id="img5A"
-                                    alt=""
-                                    onError={(e) => handleImageError(e)}
-                                    loading="eager"
-                                 
-                                  />
-                                </div>
-                                <div className="barcodeInfo5A">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                    }}
-                                  >
-                                    <div className="diaInfo5A">
-                                      <div className="diaflex5A">
-                                        <p className="f5Aval">DIAMOND</p>
-                                        <p className="diaVal5A">
-                                          {e.additional.dia.ActualPcs}/
-                                          {e.additional.dia.ActualWeight.toFixed(
-                                            2
-                                          )}
-                                        </p>{" "}
-                                      </div>
-                                    </div>
-                                    <div className="diaInfo5A">
-                                      <div className="diaflex5A">
-                                        <p
-                                          className="f5Aval"
-                                          style={{ height: "33px" }}
-                                        ></p>{" "}
-                                      </div>
-                                    </div>
-                                    <div className="diaInfo5A">
-                                      <div className="diaflex5A">
-                                        <p className="f5Aval">CS</p>
-                                        <p className="diaVal5A">
-                                          {e.additional.clr.ActualPcs}/
-                                          {e.additional.clr.ActualWeight.toFixed(
-                                            2
-                                          )}
-                                        </p>{" "}
-                                      </div>
-                                    </div>
-                                    <div className="diaInfo5A">
-                                      <div className="diaflex5A">
-                                        <p
-                                          className="f5Aval"
-                                          style={{ height: "33px" }}
-                                        ></p>{" "}
-                                      </div>
-                                    </div>
-                                    <div className="diaInfo5A">
-                                      <div className="diaflex5A">
-                                        <p className="f5Aval">METAL</p>
-                                        <p className="diaVal5A">
-                                          {e.additional.misc.ActualPcs}/
-                                          {e.additional.misc.ActualWeight.toFixed(
-                                            2
-                                          )}
-                                        </p>{" "}
-                                      </div>
-                                    </div>
-                                    <div
-                                      style={{
-                                        borderRight: "1px solid #989898",
-                                        height: "39px",
-                                      }}
-                                    ></div>
-                                  </div>
-                                  <div className="barcode5A">
-                                    {e?.data?.rd?.length !== 0 &&
-                                      e?.data?.rd !== undefined && (
-                                        <>
-                                          {e?.data?.rd?.serialjobno !==
-                                            undefined && (
-                                            <BarcodeGenerator
-                                              data={e?.data?.rd?.serialjobno}
-                                            />
-                                          )}
-                                        </>
-                                      )}
-                                  </div>
-                                </div>
+                            <div className="mat5ADE">
+                              <div className="border5A hw5A">
+                                <p className="f5ADuplicate">LAB</p>{" "}
+                                <p className="f5ADuplicate">
+                                  {e?.data?.rd?.MasterManagement_labname}
+                                </p>
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                      // </div>
-                    )}
-                    <div className="container5A">
-                      <div className="header5AD">
-                        <div className="sectionHead5A">
-                          <div className="head5AjobD">
-                            <div className="lh5A8">{e?.data?.rd?.serialjobno}</div>
-                            <div className="lh5A8">{e?.data?.rd?.Designcode}</div>
-                            <div className="pr5A lh5A8">
-                              {e?.data?.rd?.MetalType}{" "}
-                              {e?.data?.rd?.MetalColorCo}
-                            </div>
-                            {/* <div>{e?.data?.rd?.MetalColorCo}</div> */}
-                          </div>
-                          <div className="mat5AD">
-                            <div
-                              className="border5A"
-                              style={{ color: "#c7c7c7", textAlign: "center" }}
-                            >
-                              PRIORITY
-                            </div>
-                            <div
-                              className="border5A"
-                              style={{ color: "#c7c7c7", textAlign: "center" }}
-                            >
-                              LOC.
-                            </div>
-                            <div
-                              className="border5A"
-                              style={{
-                                borderRight: "0px",
-                                color: "#c7c7c7",
-                                textAlign: "center",
-                              }}
-                            >
-                              Q.C.
-                            </div>
-                          </div>
-                          <div className="mat5ADE">
-                            <div className="border5A hw5A">
-                              <p className="f5ADuplicate">SALES REP.</p>{" "}
-                              <p className="f5ADuplicate">
-                                {e?.data?.rd?.SalesrepCode}
-                              </p>
-                            </div>
-                            <div className="border5A hw5A">
-                              <p className="f5ADuplicate">FROSTING</p>{" "}
-                              <p className="f5ADuplicate">
-                                {e?.data?.rd?.MetalFrosting}
-                              </p>
-                            </div>
-                            <div
-                              className="border5A hw5A"
-                              style={{ borderRight: "0px" }}
-                            >
-                              <p className="f5ADuplicate">ENAMELING</p>
-                              <p className="f5ADuplicate">
-                                {e?.data?.rd?.Enamelling}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="mat5ADE">
-                            <div className="border5A hw5A">
-                              <p className="f5ADuplicate">LAB</p>{" "}
-                              <p className="f5ADuplicate">
-                                {e?.data?.rd?.MasterManagement_labname}
-                              </p>
-                            </div>
-                            <div className="border5A hw5A">
-                              <p className="f5ADuplicate">SNAP</p>{" "}
-                              <p className="f5ADuplicate">
-                                {
-                                  e?.data?.rd
-                                    ?.MasterManagement_ProductImageType
-                                }
-                              </p>
-                            </div>
-                            <div
-                              className="border5A hw5A"
-                              style={{ borderRight: "0px" }}
-                            >
-                              <p className="f5ADuplicate">MAKETYPE</p>
-                              <p className="f5ADuplicate">
-                                {e?.data?.rd?.mastermanagement_maketypename}
-                              </p>{" "}
-                            </div>
-                          </div>
-                          <div className="mat5AD">
-                            <div
-                              className="border5A"
-                              style={{ color: "#c7c7c7", textAlign: "center" }}
-                            >
-                              TR NO.
-                            </div>
-                            <div
-                              className="border5A"
-                              style={{ color: "#c7c7c7", textAlign: "center" }}
-                            >
-                              TR NO.
-                            </div>
-                            <div
-                              className="border5A"
-                              style={{
-                                borderRight: "0px",
-                                color: "#c7c7c7",
-                                textAlign: "center",
-                              }}
-                            >
-                              TR NO.
-                            </div>
-                          </div>
-                          <div
-                            className="mat5AD"
-                            style={{ borderBottom: "0px" }}
-                          >
-                            <div
-                              className="border5A"
-                              style={{ color: "#c7c7c7", textAlign: "center" }}
-                            >
-                              TR WT.
-                            </div>
-                            <div
-                              className="border5A"
-                              style={{ color: "#c7c7c7", textAlign: "center" }}
-                            >
-                              TR WT.
-                            </div>
-                            <div
-                              className="border5A"
-                              style={{
-                                borderRight: "0px",
-                                color: "#c7c7c7",
-                                textAlign: "center",
-                              }}
-                            >
-                              TR WT.
-                            </div>
-                          </div>
-                        </div>
-                        <div className="img5AD">
-                          <img
-                            src={
-                              e?.additional?.img !== ""
-                                ? e?.additional?.img
-                                : require("../../assets/img/default.jpg")
-                            }
-                            id="img5A"
-                            alt=""
-                            onError={(e) => handleImageError(e)}
-                            loading="eager"
-                           
-                          />
-                        </div>
-                      </div>
-                      <div className="enteryBarcode5AD">
-                        <div className="enteryBarcode3ADyn">
-                          <div
-                            className="entry3AHead"
-                            style={{ fontWeight: "normal", width: "290px" }}
-                          >
-                            <div
-                              className="rmcode3a"
-                              style={{
-                                width: "43px",
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              DEPT{" "}
-                            </div>
-                            <div
-                              className="rmcode3a"
-                              style={{
-                                width: "52px",
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              ISSUE
-                            </div>
-                            <div
-                              className="rmcode3a"
-                              style={{
-                                width: "52px",
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              RECEIVE
-                            </div>
-                            <div
-                              className="rmcode3a"
-                              style={{
-                                width: "52px",
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              SCRAP
-                            </div>
-                            <div
-                              className="rmcode3a"
-                              style={{
-                                width: "37px",
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              PCS
-                            </div>
-                            <div
-                              className="rmcode3a"
-                              style={{
-                                borderRight: "0px",
-                                width: "56px",
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              WORKER
-                            </div>
-                          </div>
-                          <div className="entryheader3A">
-                            <div
-                              className="entry3AHeadD"
-                              style={{ fontWeight: "normal" }}
-                            >
+                              <div className="border5A hw5A">
+                                <p className="f5ADuplicate">SNAP</p>{" "}
+                                <p className="f5ADuplicate">
+                                  {
+                                    e?.data?.rd
+                                      ?.MasterManagement_ProductImageType
+                                  }
+                                </p>
+                              </div>
                               <div
-                                className="rmcode3aD"
-                                style={{ width: "46px" }}
+                                className="border5A hw5A"
+                                style={{ borderRight: "0px" }}
                               >
-                                GRD{" "}
+                                <p className="f5ADuplicate">MAKETYPE</p>
+                                <p className="f5ADuplicate">
+                                  {e?.data?.rd?.mastermanagement_maketypename}
+                                </p>{" "}
                               </div>
+                            </div>
+                            <div className="mat5AD">
                               <div
-                                className="rmcode3aD"
-                                style={{ width: "46px" }}
-                              >
-                                FIL
-                              </div>
-                              <div
-                                className="rmcode3aD"
-                                style={{ width: "46px" }}
-                              >
-                                PPL
-                              </div>
-                              <div
-                                className="rmcode3aD"
-                                style={{ width: "46px" }}
-                              >
-                                SET.{" "}
-                              </div>
-                              <div
-                                className="rmcode3aD"
-                                style={{ width: "46px" }}
-                              >
-                                ASM
-                              </div>
-                              <div
-                                className="rmcode3aD"
-                                style={{ width: "46px" }}
-                              >
-                                FPL
-                              </div>
-                              <div
-                                className="rmcode3aD"
-                                style={{ width: "46px" }}
-                              >
-                                PLT
-                              </div>
-                              <div
-                                className="rmcode3aD"
-                                style={{ width: "46px" }}
-                              ></div>
-                              <div
-                                className="rmcode3aD"
+                                className="border5A"
                                 style={{
-                                  borderBottom: "1px solid #989898",
-                                  width: "46px",
+                                  color: "#c7c7c7",
+                                  textAlign: "center",
                                 }}
-                              ></div>
-                            </div>
-                            {
-                              <div>
-                                {Array.from({ length: 9 }, (_, index) => (
-                                  <div
-                                    className="entry3AHeadEntry"
-                                    key={index}
-                                    style={{ fontWeight: "normal" }}
-                                  >
-                                    <div
-                                      className="rmcode3aDE"
-                                      style={{ width: "52px" }}
-                                    ></div>
-                                    <div
-                                      className="rmcode3aDE"
-                                      style={{ width: "51px" }}
-                                    ></div>
-                                    <div
-                                      className="rmcode3aDE"
-                                      style={{ width: "51px" }}
-                                    ></div>
-                                    <div
-                                      className="rmcode3aDE"
-                                      style={{ width: "37px" }}
-                                    ></div>
-                                    <div
-                                      className="rmcode3aDE"
-                                      style={{
-                                        width: "56px",
-                                        borderRight: "0px",
-                                      }}
-                                    ></div>
-                                  </div>
-                                ))}
+                              >
+                                TR NO.
                               </div>
-                            }
-                          </div>
-                          <div>
-                            <div className="ins5Afooter">
-                              <p style={{ fontSize: "12px" }}>SLS. INS.{}</p>
-                            </div>
-                            <div className="ins5Afooter">
-                              <p style={{ fontSize: "12px" }}>PRD. INS.{}</p>
+                              <div
+                                className="border5A"
+                                style={{
+                                  color: "#c7c7c7",
+                                  textAlign: "center",
+                                }}
+                              >
+                                TR NO.
+                              </div>
+                              <div
+                                className="border5A"
+                                style={{
+                                  borderRight: "0px",
+                                  color: "#c7c7c7",
+                                  textAlign: "center",
+                                }}
+                              >
+                                TR NO.
+                              </div>
                             </div>
                             <div
-                              className="ins5Afooter"
+                              className="mat5AD"
                               style={{ borderBottom: "0px" }}
                             >
-                              <p style={{ fontSize: "12px" }}>QC. INS.{}</p>
+                              <div
+                                className="border5A"
+                                style={{
+                                  color: "#c7c7c7",
+                                  textAlign: "center",
+                                }}
+                              >
+                                TR WT.
+                              </div>
+                              <div
+                                className="border5A"
+                                style={{
+                                  color: "#c7c7c7",
+                                  textAlign: "center",
+                                }}
+                              >
+                                TR WT.
+                              </div>
+                              <div
+                                className="border5A"
+                                style={{
+                                  borderRight: "0px",
+                                  color: "#c7c7c7",
+                                  textAlign: "center",
+                                }}
+                              >
+                                TR WT.
+                              </div>
                             </div>
                           </div>
+                          <div className="img5AD">
+                            <img
+                              src={
+                                e?.additional?.img !== ""
+                                  ? e?.additional?.img
+                                  : require("../../assets/img/default.jpg")
+                              }
+                              id="img5A"
+                              alt=""
+                              onError={(e) => handleImageError(e)}
+                              loading="eager"
+                            />
+                          </div>
                         </div>
-                        <div className="barcode5AD">
-                          {e?.data?.rd?.length !== 0 &&
-                            e?.data?.rd !== undefined && (
-                              <>
-                                {e?.data?.rd?.serialjobno !== undefined && (
-                                  <BarcodeGenerator
-                                    data={e?.data?.rd?.serialjobno}
-                                  />
-                                )}
-                              </>
-                            )}
+                        <div className="enteryBarcode5AD">
+                          <div className="enteryBarcode3ADyn">
+                            <div
+                              className="entry3AHead"
+                              style={{ fontWeight: "normal", width: "290px" }}
+                            >
+                              <div
+                                className="rmcode3a"
+                                style={{
+                                  width: "43px",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                DEPT{" "}
+                              </div>
+                              <div
+                                className="rmcode3a"
+                                style={{
+                                  width: "52px",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                ISSUE
+                              </div>
+                              <div
+                                className="rmcode3a"
+                                style={{
+                                  width: "52px",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                RECEIVE
+                              </div>
+                              <div
+                                className="rmcode3a"
+                                style={{
+                                  width: "52px",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                SCRAP
+                              </div>
+                              <div
+                                className="rmcode3a"
+                                style={{
+                                  width: "37px",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                PCS
+                              </div>
+                              <div
+                                className="rmcode3a"
+                                style={{
+                                  borderRight: "0px",
+                                  width: "56px",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                WORKER
+                              </div>
+                            </div>
+                            <div className="entryheader3A">
+                              <div
+                                className="entry3AHeadD"
+                                style={{ fontWeight: "normal" }}
+                              >
+                                <div
+                                  className="rmcode3aD"
+                                  style={{ width: "46px" }}
+                                >
+                                  GRD{" "}
+                                </div>
+                                <div
+                                  className="rmcode3aD"
+                                  style={{ width: "46px" }}
+                                >
+                                  FIL
+                                </div>
+                                <div
+                                  className="rmcode3aD"
+                                  style={{ width: "46px" }}
+                                >
+                                  PPL
+                                </div>
+                                <div
+                                  className="rmcode3aD"
+                                  style={{ width: "46px" }}
+                                >
+                                  SET.{" "}
+                                </div>
+                                <div
+                                  className="rmcode3aD"
+                                  style={{ width: "46px" }}
+                                >
+                                  ASM
+                                </div>
+                                <div
+                                  className="rmcode3aD"
+                                  style={{ width: "46px" }}
+                                >
+                                  FPL
+                                </div>
+                                <div
+                                  className="rmcode3aD"
+                                  style={{ width: "46px" }}
+                                >
+                                  PLT
+                                </div>
+                                <div
+                                  className="rmcode3aD"
+                                  style={{ width: "46px" }}
+                                ></div>
+                                <div
+                                  className="rmcode3aD"
+                                  style={{
+                                    borderBottom: "1px solid #989898",
+                                    width: "46px",
+                                  }}
+                                ></div>
+                              </div>
+                              {
+                                <div>
+                                  {Array.from({ length: 9 }, (_, index) => (
+                                    <div
+                                      className="entry3AHeadEntry"
+                                      key={index}
+                                      style={{ fontWeight: "normal" }}
+                                    >
+                                      <div
+                                        className="rmcode3aDE"
+                                        style={{ width: "52px" }}
+                                      ></div>
+                                      <div
+                                        className="rmcode3aDE"
+                                        style={{ width: "51px" }}
+                                      ></div>
+                                      <div
+                                        className="rmcode3aDE"
+                                        style={{ width: "51px" }}
+                                      ></div>
+                                      <div
+                                        className="rmcode3aDE"
+                                        style={{ width: "37px" }}
+                                      ></div>
+                                      <div
+                                        className="rmcode3aDE"
+                                        style={{
+                                          width: "56px",
+                                          borderRight: "0px",
+                                        }}
+                                      ></div>
+                                    </div>
+                                  ))}
+                                </div>
+                              }
+                            </div>
+                            <div>
+                              <div className="ins5Afooter">
+                                <p style={{ fontSize: "12px" }}>SLS. INS.{}</p>
+                              </div>
+                              <div className="ins5Afooter">
+                                <p style={{ fontSize: "12px" }}>PRD. INS.{}</p>
+                              </div>
+                              <div
+                                className="ins5Afooter"
+                                style={{ borderBottom: "0px" }}
+                              >
+                                <p style={{ fontSize: "12px" }}>QC. INS.{}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="barcode5AD">
+                            {e?.data?.rd?.length !== 0 &&
+                              e?.data?.rd !== undefined && (
+                                <>
+                                  {e?.data?.rd?.serialjobno !== undefined && (
+                                    <BarcodeGenerator
+                                      data={e?.data?.rd?.serialjobno}
+                                    />
+                                  )}
+                                </>
+                              )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1256,7 +1060,7 @@ const BagPrint5A = ({ queries, headers }) => {
                 );
               })}
           </div>
-        </>
+        </React.Fragment>
       )}
     </>
   );

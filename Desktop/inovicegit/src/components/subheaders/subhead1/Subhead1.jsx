@@ -1,31 +1,8 @@
 import React from "react";
-import style from "../../assets/css/headers/header1.module.css";
-const Header1 = ( { data } ) => {
-  return (
-    <>
-    
-      <div className={style.headline}>{data?.PrintHeadLabel}</div>
-      <div className={style.companyDetails}>
-        <div className={style.companyhead}>
-          <span className={style.lines} style={{ fontWeight: "bold" }}>
-            {data?.CompanyFullName}
-          </span>
-          <span className={style.lines}>{data?.CompanyAddress}</span>
-          <span className={style.lines}>{data?.CompanyAddress2}</span>
-          <span className={style.lines}>{data?.CompanyCity}-{data?.CompanyPinCode},{data?.CompanyState}({data?.CompanyCountry})</span>
-          <span className={style.lines}>Tell No: {data?.CompanyTellNo}</span>
-          <span className={style.lines}>
-            {data?.CompanyEmail} | {data?.CompanyWebsite}
-          </span>
-          <span className={style.lines}>
-            {data?.Company_VAT_GST_No} | {data?.Company_CST_STATE}-GSTIN-25GJERDR202314
-          </span>
-        </div>
-        <div style={{width:"30%"}} className="d-flex justify-content-center align-item-center h-100"><img src={data?.PrintLogo} alt="" className={style.headerImg} /></div>
-      </div>
-
-
-      {/* <div className={style.custBlock}>
+import style from "../subhead1/subhead1.module.css";
+const Subhead1 = ({ data }) => {
+  return <div>
+     <div className={style.custBlock}>
         <div className={style.custDetails}>
           <span className={style.lines}>Bill To,</span>
           <span className={style.lines} style={{ fontWeight: "bold" }}>
@@ -75,7 +52,7 @@ const Header1 = ( { data } ) => {
           <span className={style.lines}></span>
           <span className={style.lines}></span>
         </div>
-        <div className={style.custDetails}>
+        {/* <div className={style.custDetails}>
           <span className={style.lines}>E Way Bill</span>
           <span className={style.lines} style={{ fontWeight: "bold" }}>
             
@@ -88,10 +65,9 @@ const Header1 = ( { data } ) => {
           <span className={style.lines}></span>
           <span className={style.lines}></span>
           <span className={style.lines}></span>
-        </div>
-      </div> */}
-    </>
-  );
+        </div> */}
+      </div>
+  </div>;
 };
 
-export default Header1;
+export default Subhead1;

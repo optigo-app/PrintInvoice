@@ -7,6 +7,7 @@ import {
   HeaderComponent,
   isObjectEmpty,
   NumberWithCommas,
+  SubheaderComponent,
   taxGenrator,
 } from "../../GlobalFunctions";
 import convertor from "number-to-words";
@@ -16,6 +17,7 @@ import Footer2 from "../../components/footers/Footer2";
 
 const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
+  const [subHeaderData, setSubHeaderData] = useState({});
   const [dynamicList1, setDynamicList1] = useState([]);
   const [dynamicList2, setDynamicList2] = useState([]);
   const [mainTotal, setMainTotal] = useState({});
@@ -218,8 +220,11 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
       obj.OtherChargeAmountSum = sumofOth;
       resultArr.push(obj);
 
-      let abc = HeaderComponent(headerDatas?.HeaderNo, headerDatas);
-      setHeaderComp(abc);
+      let head = HeaderComponent(headerDatas?.HeaderNo, headerDatas);
+      setHeaderComp(head);
+
+      let subhead = SubheaderComponent(headerDatas?.HeaderNo, headerDatas);
+      setSubHeaderData(subhead);
     });
 
     let allTax = taxGenrator(headerDatas, totAmount);
@@ -379,6 +384,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className="summary1PrintSum1 pad_60_allPrint">
                 <div style={{ width: "1000px" }}>
                   {headerComp}
+                  {subHeaderData}
                 </div>
                 {/* <div className="mainheadersum1">
                   <div className="head1sum1">{headerData?.PrintHeadLabel}</div>
