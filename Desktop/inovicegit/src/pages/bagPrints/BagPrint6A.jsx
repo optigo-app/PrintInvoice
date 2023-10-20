@@ -9,7 +9,7 @@ import { GetData } from "../../GlobalFunctions/GetData";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import QRCodeGenerator from "../../components/QRCodeGenerator";
-import Loader from "../../components/LoaderBag";
+import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 const BagPrint6A = ({ queries, headers }) => {
   const [data, setData] = useState([]);

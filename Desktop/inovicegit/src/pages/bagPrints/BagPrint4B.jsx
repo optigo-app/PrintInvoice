@@ -3,7 +3,7 @@ import "../../assets/css/bagprint/print4A.css";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
-import Loader from "../../components/LoaderBag";
+import Loader from "../../components/Loader";
 import { GetData } from "../../GlobalFunctions/GetData";
 import { formatDate } from "../../GlobalFunctions/DateFormat";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
@@ -411,7 +411,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                         : ""} */}
                                         {checkInstruction(e?.data?.officeuse)}
                                         {checkInstruction(e?.data?.ProductInstruction)}
-                                        {checkInstruction(e?.data?.custInstruction)}
+                                        {/* {checkInstruction(e?.data?.custInstruction)} */}
                                     </span>
                                   </div>
                                 </div>
@@ -885,7 +885,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                   : ""} */}
                                    {checkInstruction(e?.data?.officeuse)}
                                 {checkInstruction(e?.data?.ProductInstruction)}
-                                {checkInstruction(e?.data?.custInstruction)}
+                                {/* {checkInstruction(e?.data?.custInstruction)} */}
                               </span>
                             </div>
                           </div>
@@ -895,7 +895,7 @@ const BagPrint4B = ({ queries, headers }) => {
                         <div className="print4Apart_1">
                           <div className="part_1_container_4A container_print4Apart_1">
                             <div className="title4A jobDiaGold4A border_bottom4A">
-                              <div className="jobDiaGoldText4A ps-1">{console.log(e)}
+                              <div className="jobDiaGoldText4A ps-1">
                                 {e?.data?.serialjobno}
                               </div>
                               <div className="jobDiaGoldText4A">

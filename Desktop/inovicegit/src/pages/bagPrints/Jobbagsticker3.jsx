@@ -3,7 +3,7 @@ import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import "../../assets/css/bagprint/jobbagsticker3.css";
-import Loader from '../../components/LoaderBag';
+import Loader from '../../components/Loader';
 import BarcodeStickerGen from './BarcodeStickerGen';
 import { GetData } from './../../GlobalFunctions/GetData';
 import { organizeData } from './../../GlobalFunctions/OrganizeBagPrintData';

@@ -9,7 +9,7 @@ import { GetSeparateData } from "../../GlobalFunctions/GetSeparateData";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
-import Loader from "../../components/LoaderBag";
+import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 function BagPrint1A({ queries, headers }) {
   const [data, setData] = useState([]);

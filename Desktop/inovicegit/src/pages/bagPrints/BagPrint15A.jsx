@@ -571,7 +571,7 @@ import queryString from 'query-string';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BarcodeGenerator from '../../components/BarcodeGenerator';
-import Loader from '../../components/LoaderBag';
+import Loader from '../../components/Loader';
 import "../../assets/css/bagprint/print15.css";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";

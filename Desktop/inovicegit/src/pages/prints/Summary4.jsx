@@ -549,7 +549,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                             </div>
                             <div className="d-flex justify-content-between">
                                 <p className='ps-2'>Gold in 24K :</p>
-                                <p className='pe-2 fw-bold'>{fixedValues(total?.gold24Kt, 3)}</p>
+                                <p className='pe-2 fw-bold'>{fixedValues(totalSummary?.gold24Kt, 3)}</p>
                             </div>
                         </div>
                     </div>

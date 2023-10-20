@@ -6,7 +6,7 @@ import Button from "../../GlobalFunctions/Button";
 import { formatDate } from "../../GlobalFunctions/DateFormat";
 import { GetChunkData } from "../../GlobalFunctions/GetChunkData";
 import { GetData } from "../../GlobalFunctions/GetData";
-import Loader from "../../components/LoaderBag";
+import Loader from "../../components/Loader";
 const Bg18 = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
