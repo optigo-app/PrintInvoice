@@ -373,7 +373,6 @@ const BagPrint10A = ({ queries, headers }) => {
         window.print();
       }, 5000);
     }
-    console.log(data);
   }, [data]);
 
 

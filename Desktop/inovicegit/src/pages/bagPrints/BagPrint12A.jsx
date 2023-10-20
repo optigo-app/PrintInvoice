@@ -234,7 +234,6 @@ const BagPrint12A = ({ queries, headers }) => {
             }, 5000);
         }
 
-    console.log(data);
 }, [data]);
     return (
         <>

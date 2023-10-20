@@ -58,7 +58,7 @@ const AllDesignBagPrint = () => {
       {printName === "BagPrint5A" && <BagPrint5A queries={queries} headers={headers} />}
       {printName === "BagPrint6A" && <BagPrint6A queries={queries} headers={headers} />}
       {printName === "BagPrint7A" && <BagPrint7A queries={queries} headers={headers} />}
-      {printName === "BagPrint20A" && <BagPrint20A queries={queries} headers={headers} />}
+      {printName === "BagPrint20" && <BagPrint20A queries={queries} headers={headers} />}
       {printName === "BagPrint10A" && <BagPrint10A queries={queries} headers={headers} />}
       {printName === "BagPrint11A" && <BagPrint11A queries={queries} headers={headers} />}
       {printName === "BagPrint12A" && <BagPrint12A queries={queries} headers={headers} />}

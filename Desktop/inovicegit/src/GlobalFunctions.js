@@ -3,6 +3,7 @@ import img from "./assets/img/default.jpg";
 import Footer1 from "./components/footers/Footer1";
 import Header1 from "./components/headers/Header1";
 import Header2 from "./components/headers/Header2";
+import Header3 from "./components/headers/Header3";
 import Subhead1 from "./components/subheaders/subhead1/Subhead1";
 import Subhead2 from "./components/subheaders/subhead2/Subhead2";
 
@@ -121,13 +122,17 @@ export const fixedValues = (value, zeroes) =>
 export const HeaderComponent = (headNo, headerData) => {
   let headerComponent;
 
-  switch (headNo) {
+  switch ('3') {
     case "1":
       headerComponent = <Header1 data={headerData} />;
       break;
 
     case "2":
       headerComponent = <Header2 data={headerData} />;
+      break;
+
+    case "3":
+      headerComponent = <Header3 data={headerData} />;
       break;
 
     default:

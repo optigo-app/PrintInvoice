@@ -15,6 +15,7 @@ const BagPrint20A = ({ queries, headers }) => {
   const queryParams = queryString.parse(location.search);
   let jobs = queryParams.str_srjobno;
   const parts = jobs.split(",");
+  console.log(parts);
   const resultString = parts.map((part) => `'${part}'`).join(",");
   const chunkSize7 = 10;
   // const chunkSize = 4;
@@ -38,7 +39,6 @@ const BagPrint20A = ({ queries, headers }) => {
 
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-
         datas?.map((a) => {
           // let diamond = [];
           // let colorstone = [];
@@ -61,8 +61,8 @@ const BagPrint20A = ({ queries, headers }) => {
             // heading: "DIAMOND DETAIL"
           };
           let misc = {
-            Shapename: "TOTAL",
-            Sizename: "",
+            Shapename: "MISC TOTAL",
+            Sizename: "MISC TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 7,
@@ -129,13 +129,10 @@ const BagPrint20A = ({ queries, headers }) => {
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
           ArrofSevenSize.push(dia);
-        
+
           ArrofFiveSize.push(clr);
           ArrofFSize.push(f);
           ArrofMISize.push(misc);
-
-
-
 
           ArrofSevenSize?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
@@ -166,35 +163,42 @@ const BagPrint20A = ({ queries, headers }) => {
             }
           });
 
-            let newDia = {   
-          Shapename: "",
-          Sizename: "Diamond Detail",
-          ActualPcs: '',
-          ActualWeight: '',
-          MasterManagement_DiamondStoneTypeid: 3, 
-        }
-        let newCS = {   
-          Shapename: "",
-          Sizename: "Colorstone Detail",
-          ActualPcs: '',
-          ActualWeight: '',
-          MasterManagement_DiamondStoneTypeid: 4, 
-        }
-          ArrofSevenSize.unshift(newDia);
-          ArrofFiveSize.unshift(newCS);
+          let newDia = {
+            Shapename: "",
+            Sizename: "Diamond Detail",
+            ActualPcs: "",
+            ActualWeight: "",
+            MasterManagement_DiamondStoneTypeid: 3,
+          };
+          let newCS = {
+            Shapename: "",
+            Sizename: "Colorstone Detail",
+            ActualPcs: "",
+            ActualWeight: "",
+            MasterManagement_DiamondStoneTypeid: 4,
+          };
+          let newMisc = {
+            Shapename: "",
+            Sizename: "Misc Detail",
+            ActualPcs: "",
+            ActualWeight: "",
+            MasterManagement_DiamondStoneTypeid: 7,
+          };
+          ArrofSevenSize?.length > 0 && ArrofSevenSize.unshift(newDia);
+          ArrofFiveSize?.length > 0 && ArrofFiveSize.unshift(newCS);
+          ArrofMISize?.length > 0 && ArrofMISize.unshift(newMisc);
 
           let arr = [];
           let mainArr = arr?.concat(
             ArrofSevenSize,
             ArrofFiveSize,
-            // ArrofMISize,
+            ArrofMISize
             // ArrofFSize
           );
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
-            
+
           let img = imagePath + a?.rd?.ThumbImagePath;
-            console.log(mainArr);
           for (let i = 0; i < mainArr?.length; i += chunkSize7) {
             const chunks = mainArr?.slice(i, i + chunkSize7);
             let len = 10 - mainArr?.slice(i, i + chunkSize7)?.length;
@@ -262,9 +266,8 @@ const BagPrint20A = ({ queries, headers }) => {
         window.print();
       }, 5000);
     }
-    console.log(data);
   }, [data]);
-
+  console.log(data);
   return (
     <>
       {data?.length === 0 ? (
@@ -330,9 +333,12 @@ const BagPrint20A = ({ queries, headers }) => {
                                       </div>
                                     </div>
                                     <div className="barcodebag7Acopy">
-                                      <div style={{width:"45%"}}>
+                                      <div style={{ width: "45%" }}>
                                         <div className="h7Acopy fs7Acopy d-flex justify-content-between align-items-center">
-                                          <span className="fs20A fw-bold h-100 d-flex justify-content-center align-items-center" style={{fontSize:"11px"}}>
+                                          <span
+                                            className="fs20A fw-bold h-100 d-flex justify-content-center align-items-center"
+                                            style={{ fontSize: "11px" }}
+                                          >
                                             Bag No :
                                           </span>
                                           <span className="lh20A h-100 d-flex justify-content-center align-items-center fs-6 fw-bold">
@@ -340,15 +346,18 @@ const BagPrint20A = ({ queries, headers }) => {
                                           </span>
                                         </div>
                                         <div className="fs20A fs7Acopy d-flex justify-content-between align-items-center">
-                                          <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center">
+                                          <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center" style={{fontSize:"8.5px"}}>
                                             Dgn No :
                                           </span>
-                                          <span className="fs20A lh20A h-100 d-flex justify-content-center align-items-center ps-1">
+                                          <span className="fs20A lh20A h-100 d-flex justify-content-center align-items-center ps-1" style={{fontSize:"8.5px"}}>
                                             {e?.data?.rd?.Designcode}
                                           </span>
                                         </div>
                                       </div>
-                                      <div className="barcodeGenerator7Acopy" style={{width:"55%"}}>
+                                      <div
+                                        className="barcodeGenerator7Acopy"
+                                        style={{ width: "55%" }}
+                                      >
                                         <BarcodeGenerator
                                           data={e?.data?.rd?.serialjobno}
                                         />
@@ -372,29 +381,41 @@ const BagPrint20A = ({ queries, headers }) => {
                                       </div>
                                       <div className="matinfo7Acopy">
                                         <div className="h327Acopy d-flex flex-column justify-content-between ">
-                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-100 fw-bold" style={{fontSize:"8.5px"}}>
+                                          <span
+                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100 fw-bold"
+                                            style={{ fontSize: "8.5px" }}
+                                          >
                                             KT/CLR:
                                           </span>
-                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-100 lh20A " style={{fontSize:"8.5px"}}>
+                                          <span
+                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A "
+                                            style={{ fontSize: "8.5px" }}
+                                          >
                                             {e?.data?.rd?.MetalType}
                                           </span>
                                         </div>
-                                        <div className="h327Acopy d-flex justify-content-between ">
-                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 fw-bold" style={{fontSize:"8.5px"}}>
+                                        <div className="h327Acopy d-flex flex-column justify-content-between ">
+                                          <span
+                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100 fw-bold"
+                                            style={{ fontSize: "8.5px" }}
+                                          >
                                             Size:
                                           </span>
-                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 lh20A">
+                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-100 lh20A">
                                             {e?.data?.rd?.Size}
                                           </span>
                                         </div>
                                         <div
-                                          className="h327Acopy d-flex justify-content-between"
+                                          className="h327Acopy d-flex flex-column justify-content-between"
                                           style={{ borderBottom: "0px" }}
                                         >
-                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 fw-bold" style={{fontSize:"8.5px"}}>
+                                          <span
+                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100 fw-bold"
+                                            style={{ fontSize: "8.5px" }}
+                                          >
                                             Est Wt:
                                           </span>
-                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-50 lh20A">
+                                          <span className="fs20A h-100 d-flex justify-content-start align-items-center w-100 lh20A">
                                             {e?.data?.rd?.ActualGrossweight?.toFixed(
                                               3
                                             )}
@@ -612,16 +633,36 @@ const BagPrint20A = ({ queries, headers }) => {
                                 </div>
                                 <div className="diacsentry7Acopy">
                                   <div className="fw-bold ps-1">
-                                    {
-                                      console.log(el)
-                                    }
-                                    {
-                                      el?.data?.length > 0 && el?.data?.map((s, i) => {
-                                        return(
-                                         <div> { (s?.Sizename === "Diamond Detail" || s?.Sizename === "Colorstone Detail") ? <div className="fs20A" style={{paddingTop:"1px", paddingBottom:"1px"}}>{s?.Sizename + " : "}</div> : <div className="fw-normal fs20A" style={{fontSize:"9px"}}>{s?.Sizename + " "} / {s?.ActualPcs + " "}</div>}</div>
-                                        )
-                                      })
-                                    }
+                                    {el?.data?.length > 0 &&
+                                      el?.data?.map((s, si) => {
+                                        return (
+                                          <div key={si}>
+                                            {" "}
+                                            {s?.Sizename === "Diamond Detail" ||
+                                            s?.Sizename ===
+                                              "Colorstone Detail" ||
+                                            s?.Sizename === "Misc Detail" ? (
+                                              <div
+                                                className="fs20A"
+                                                style={{
+                                                  paddingTop: "1px",
+                                                  paddingBottom: "1px",
+                                                }}
+                                              >
+                                                {s?.Sizename + " : "}
+                                              </div>
+                                            ) : (
+                                              <div
+                                                className="fw-normal fs20A"
+                                                style={{ fontSize: "9px" }}
+                                              >
+                                                {s?.Sizename + " "} /{" "}
+                                                {s?.ActualPcs + " "}
+                                              </div>
+                                            )}
+                                          </div>
+                                        );
+                                      })}
                                     {/* <div className=" fs20A">
                                       Diamond Detail: (Size/ Pcs)
                                     </div>
@@ -649,7 +690,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                         })
                                       }
                                     </div> */}
-                                    
+
                                     {/* <div className="fw-bold fs20A">ColorStone Detail: (Size/ Pcs)</div> */}
                                     {/* <div className=" lh20A fw-normal">
                                     {
@@ -751,7 +792,10 @@ const BagPrint20A = ({ queries, headers }) => {
                                     }}
                                   ></div>
                                 </div>
-                                <div className="footer7Acopy brbnone7Acopy brl7Acopy2" style={{borderTop:"1px dashed #989898"}}>
+                                <div
+                                  className="footer7Acopy brbnone7Acopy brl7Acopy2"
+                                  style={{ borderTop: "1px dashed #989898" }}
+                                >
                                   {" "}
                                   <div
                                     className="footerCol7Acopyall"

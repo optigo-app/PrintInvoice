@@ -15,7 +15,6 @@ const PrintDesign16 = ({ queries, headers }) => {
   const location = useLocation();
   const queryParams = queryString?.parse(location?.search);
   let jobs = queryParams?.str_srjobno;
-  console.log(jobs);
   const parts = jobs?.split(",");
   const resultString = parts?.map((part) => `'${part}'`).join(",");
   if (Object.keys(queryParams)?.length !== 0) {
@@ -327,7 +326,6 @@ const PrintDesign16 = ({ queries, headers }) => {
         window.print();
       }, 5000);
     }
-    console.log(data);
   }, [data]);
 
   const handlePrint = (e) => {

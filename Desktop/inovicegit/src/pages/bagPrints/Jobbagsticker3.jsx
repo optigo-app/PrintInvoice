@@ -178,7 +178,6 @@ function Jobbagsticker3({ queries, headers }) {
                 window.print();
             }, 4000);
         }
-    console.log(data);
 }, [data]);
     const handlePrint = (e) => {
         e.preventDefault();

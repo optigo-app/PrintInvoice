@@ -1,0 +1,72 @@
+* {
+    word-break: break-all;
+    box-sizing: border-box;
+}
+
+.headline {
+    height: 40px;
+    width: 100%;
+    background-color: rgb(131 126 126);
+    font-weight: bold;
+    color: white;
+    font-size: 30px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.companyDetails {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 12rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.lines {
+    line-height: 100%;
+    padding: 2px;
+    height: 16px;
+    font-size: 14px;
+}
+.headerImg {
+    /* height: 50%; */
+    width: 25%;
+}
+.einvoiceDetails{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: 3px;
+    border-top: 1px solid #e8e8e8;
+    min-height: 50px;
+    height: 100%;
+    
+}
+.fshead3comp{
+    font-size: 16px;
+    padding: 3px;
+}
+.einvdetails{
+    height: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 3px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+}
+
+.trlinesh3{
+    font-size: 16px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 50%;
+    height: 16px;
+    
+}

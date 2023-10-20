@@ -403,7 +403,6 @@ const BagPrint7A = ({ queries, headers }) => {
         window.print();
       }, 5000);
     }
-    console.log(data);
   }, [data]);
   return (
     <>

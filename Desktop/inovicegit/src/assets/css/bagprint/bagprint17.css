@@ -322,7 +322,7 @@ p.w_33.bold,
 }
 
 .w_9 {
-  width: 9mm;
+  width: 9mm ;
 }
 
 .h_5 {
@@ -1223,7 +1223,7 @@ p.w_33.bold,
 
 .w_10 {
   box-sizing: border-box;
-  width: 10mm;
+  width: 12mm !important;
 }
 
 .w_13 {
@@ -1233,7 +1233,7 @@ p.w_33.bold,
 
 .w_9 {
   box-sizing: border-box;
-  width: 9mm;
+  width: 12mm !important;
 }
 
 .h_5 {
