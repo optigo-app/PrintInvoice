@@ -1,10 +1,6 @@
 import axios from "axios";
 
 export const GetData = async (job) => {
-<<<<<<< HEAD
-    console.log(job);
-=======
->>>>>>> e93a1ed2cf84bfbb8ec335172c1f3d33acb961c6
     // console.log(job);
     try {
         let p_tag = { "SerialJobno": `${job?.jobno}`, "customerid": `${job.custid}`, "BagPrintName": `${job.printname}` };
