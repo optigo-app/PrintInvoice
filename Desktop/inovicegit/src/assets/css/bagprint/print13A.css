@@ -5,16 +5,20 @@
     padding: 0px;
 
 }
-.lineH13A{
+
+.lineH13A {
     line-height: 6px;
 }
+
 .container13A {
     width: 350px;
     height: 367px;
     border: 2px solid black;
     border-radius: 8px;
-    margin-top: 1.2rem;
-    margin-left: 1.2rem;
+    margin-top: 1.65rem;
+    margin-left: 1.55rem;
+    /* margin-top: 1.2rem;
+    margin-left: 1.2rem; */
     /* margin-top: 1.55rem;
     margin-left: 1.55rem; */
     /* margin-top: 1.3rem;
@@ -259,7 +263,7 @@
     height: 217px;
     border-bottom: 1px solid #989898;
     word-break: break-all;
-    position: relative; 
+    position: relative;
 }
 
 .diaInfo13A {
@@ -393,13 +397,20 @@
 }
 
 .barcode13AD>.barcode_sticker {
-    height: 20px;
+    height: 20px !important;
+    width: 152px !important;
+    object-fit: cover;
+    transform: rotate(90deg) !important;
+    position: absolute;
+    top: 9rem !important;
+    left: 17rem !important;
+    /* height: 20px;
     width: 152px;
     object-fit: cover;
     transform: rotate(90deg);
     position: absolute;
     top: 6rem;
-    left: 13rem !important;
+    left: 13rem !important; */
 
 }
 

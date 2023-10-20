@@ -194,7 +194,6 @@ const PrintDesign17 = ({ queries, headers }) => {
                 window.print();
             }, 5000);
         }
-    console.log(data);
 }, [data]);
 
     const handlePrint = (e) => {
@@ -362,7 +361,8 @@ const PrintDesign17 = ({ queries, headers }) => {
                                                 </div>
                                             </div>
                                             <div className="print_photo border_bottom" style={{ borderTop: "1px solid black", borderLeft: "1px solid" }}>
-                                                <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} id="img17OldDup" loading="eager"
+                                                {/* id="img17OldDup" */}
+                                                <img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)}  loading="eager"
                                                 style={{    height:" 85px !important", width: "81px !important"}} />
                                             </div>
                                         </div>
@@ -394,13 +394,13 @@ const PrintDesign17 = ({ queries, headers }) => {
                                             </div>
                                         </div>
                                         <div className="print-sec d_flex footer">
-                                            <div className="w17Imp border_right" ><div className="upper border_bottom text_center center_item" ><p className="semibold">DIAM.</p></div><div className="lower17 center_item bold " style={{ borderBottom: "1px solid black" }}>{+(e?.additional?.dia?.diaPcs)?.toFixed(2) + "/" + (e?.additional?.dia?.diaWt)?.toFixed(2)}</div></div>
+                                            <div className="w17Imp border_right" ><div className="upper border_bottom text_center center_item" ><p className="semibold">DIAM.</p></div><div className="lower17 center_item bold " style={{ borderBottom: "1px solid black" }}>{+(e?.additional?.dia?.diaPcs) + "/" + (e?.additional?.dia?.diaWt)?.toFixed(3)}</div></div>
                                             <div className="w_12mm border_right"><div className="upper"></div><div className="lower17"></div></div>
-                                            <div className="w17cs border_right"><div className="upper border_bottom text_center center_item"><p className="semibold">CS</p></div><div className="lower17 center_item bold" style={{ borderBottom: "1px solid black" }}>{+(e?.additional?.clr?.clrPcs)?.toFixed(2) + "/" + +(e?.additional?.clr?.clrWt)?.toFixed(2)}</div></div>
+                                            <div className="w17cs border_right"><div className="upper border_bottom text_center center_item"><p className="semibold">CS</p></div><div className="lower17 center_item bold" style={{ borderBottom: "1px solid black" }}>{+(e?.additional?.clr?.clrPcs) + "/" + +(e?.additional?.clr?.clrWt)?.toFixed(3)}</div></div>
                                             <div className="w_12mm border_right"><div className="upper"></div><div className="lower17"></div></div>
-                                            <div className="w_10 border_right"><div className="upper border_bottom text_center center_item"><p className="semibold">METAL</p></div><div className="lower17 center_item bold" style={{ borderBottom: "1px solid black" }}>{(e?.data?.rd?.["QuotGrossWeight"])?.toFixed(2)}</div></div>
+                                            <div className="w_10 border_right"><div className="upper border_bottom text_center center_item"><p className="semibold">METAL</p></div><div className="lower17 center_item bold" style={{ borderBottom: "1px solid black" }}>{(e?.data?.rd?.["QuotGrossWeight"])?.toFixed(3)}</div></div>
                                             <div className="w_13 border_right"><div className="upper"></div><div className="lower17"></div></div>
-                                            <div className="w_9 border_right"><div className="upper border_bottom text_center center_item"><p className="semibold">MISC</p></div><div className="lower17 center_item bold" style={{ borderBottom: "1px solid black !important" }}>{+(e?.additional?.misc?.miscWt)?.toFixed(2)}</div></div>
+                                            <div className="w_9 border_right"><div className="upper border_bottom text_center center_item"><p className="semibold">MISC</p></div><div className="lower17 center_item bold" style={{ borderBottom: "1px solid black !important" }}>{+(e?.additional?.misc?.miscWt)?.toFixed(3)}</div></div>
                                             <div className="w_12_5mm"><div className="upper"></div><div className="lower17"></div></div>
                                         </div>
                                     </div>
