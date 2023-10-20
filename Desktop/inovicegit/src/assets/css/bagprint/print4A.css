@@ -25,10 +25,12 @@
 }
 
 .print4Apart_1 {
-    width: 259pt;
-    height: 272pt;
+    min-width: 262pt;
+    min-height: 275pt;
+    width: 262pt;
+    height: 275pt;
     padding: 0pt;
-    margin: 15pt 5pt 2pt 13pt;
+    margin: 15pt 0 2pt 14pt;
     border-radius: 8pt;
     border: 2pt solid #3D3D3D;
     border-collapse: collapse;
@@ -37,8 +39,10 @@
     overflow: hidden;
 }
 
+
+
 .part_1_4A {
-    width: 168.7pt;
+    width: 169.7pt;
     /* border-right: 1px solid #000; */
 }
 
@@ -105,6 +109,10 @@
     width: 25pt;
 }
 
+.size4AA {
+    width: 26pt;
+}
+
 .code4A {
     margin-bottom: -3px;
     width: 50pt;
@@ -154,19 +162,19 @@
 }
 
 .record_line_4A {
-    height: 12.4pt;
+    height: 12.5pt;
     display: flex;
     overflow: hidden;
 }
 
 .part_2_4A {
-    width: 85pt;
-    height: 233pt;
+    width: 89pt;
+    height: 236pt;
     overflow: hidden;
 }
 
 .part_2_container_4A {
-    width: 85pt;
+    width: 89pt;
     height: 233pt;
 }
 
@@ -306,7 +314,7 @@
 
 .part_3_container_4A {
     display: flex;
-    height: 152pt;
+    height: 156pt;
 }
 
 .part_3_container_4A_sec {
@@ -391,7 +399,10 @@
 }
 
 @media print {
-    .print4A .container4A:nth-child(7n) {
-        page-break-before: always;
+    .print4A .container4A:nth-child(6n+6) {
+        page-break-after: always;
     }
+    /* .print4A .container4A:nth-child(6n+4){
+        margin-left: 10px;
+    } */
 }

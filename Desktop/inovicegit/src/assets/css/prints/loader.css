@@ -17,7 +17,7 @@
     height: 50px;
     border-radius: 50%;
     border: 3px solid;
-    border-color: #182e4d #182e4d transparent;
+    border-color: #d9d9d9 #d9d9d9 transparent;
     box-sizing: border-box;
     animation: loader2Rotation 2s linear infinite;
   }
@@ -27,7 +27,7 @@
     position: absolute;
     inset: 0;
     border: 3px solid;
-    border-color: transparent #ef763f #ef763f;
+    border-color: transparent #fffc01 #fffc01;
     width: calc(50px / 2);
     height: calc(50px / 2);
     border-radius: 50%;

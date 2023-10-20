@@ -197,3 +197,11 @@ export const GovernMentDocuments = (documents) => {
     return [];
   }
 }
+
+export const notZero = (val) => {
+  if(val !== "" && val !== undefined && val !== null && val !== "null" && val !== 0)  {
+    return val;
+   }else{
+    return ""
+   }
+}

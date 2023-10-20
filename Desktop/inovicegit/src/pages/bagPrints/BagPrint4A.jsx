@@ -8,7 +8,7 @@ import { GetData } from "../../GlobalFunctions/GetData";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
-import { checkInstruction, fixedValues } from "../../GlobalFunctions";
+import { NumberWithCommas, checkInstruction, fixedValues, notZero } from "../../GlobalFunctions";
 
 const BagPrint4A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
@@ -336,7 +336,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                         {e?.data?.promiseDatef ?? ""}
                                       </div>
                                     </div>
-                                    <div className="size4A border_right4A">
+                                    <div className="size4A border_right4A size4AA">
                                       <div
                                         className="custText4A"
                                         style={{ paddingTop: "3px" }}
@@ -349,22 +349,22 @@ const BagPrint4A = ({ queries, headers }) => {
                                     </div>
                                   </div>
                                   <div className="title4A border_bottom4A d_flex4A">
-                                    <div className="code4A border_right4A code4A_text">
+                                    <div className="code4A border_right4A code4A_text d-flex align-items-center">
                                       CODE
                                     </div>
-                                    <div className="size4AS border_right4A code4A_text">
+                                    <div className="size4AS border_right4A code4A_text d-flex align-items-center">
                                       SIZE
                                     </div>
-                                    <div className="pcs4A border_right4A code4A_text">
+                                    <div className="pcs4A border_right4A code4A_text d-flex align-items-center">
                                       PCS
                                     </div>
-                                    <div className="wt4A border_right4A code4A_text">
+                                    <div className="wt4A border_right4A code4A_text d-flex align-items-center">
                                       WT
                                     </div>
-                                    <div className="pcs4A border_right4A code4A_text">
+                                    <div className="pcs4A border_right4A code4A_text d-flex align-items-center">
                                       PCS
                                     </div>
-                                    <div className="wt4A border_right4A code4A_text">
+                                    <div className="wt4A border_right4A code4A_text d-flex align-items-center">
                                       WT
                                     </div>
                                   </div>
@@ -408,12 +408,14 @@ const BagPrint4A = ({ queries, headers }) => {
                                           {/* <div className="size4AS border_right4A code4A_text">
                                                                                         {elem?.Sizename}
                                                                                     </div> */}
-                                          <div className="pcs4A border_right4A code4A_text">
+                                          {/* <div className="pcs4A border_right4A code4A_text">
                                             {elem?.ActualPcs}
                                           </div>
                                           <div className="wt4A border_right4A code4A_text">
                                             {elem?.ActualWeight}
-                                          </div>
+                                          </div> */}
+                                          <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)} </div>
+                                          <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
                                           <div className="pcs4A border_right4A code4A_text"></div>
                                           <div className="wt4A border_right4A code4A_text"></div>
                                         </div>
@@ -436,8 +438,10 @@ const BagPrint4A = ({ queries, headers }) => {
                                           <div className="wt4A border_right4A code4A_text">
                                             {fixedValues(elem?.ActualWeight, 3)}
                                           </div>
-                                          <div className="pcs4A border_right4A code4A_text"></div>
-                                          <div className="wt4A border_right4A code4A_text"></div>
+                                          {/* <div className="pcs4A border_right4A code4A_text">{NumberWithCommas(elem?.ActualPcs, 0)}</div>
+                                          <div className="wt4A border_right4A code4A_text">{fixedValues(elem?.ActualWeight, 3)}</div> */}
+                                          <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)} </div>
+                                          <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
                                         </div>
                                       );
                                     })}
@@ -461,7 +465,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                   </div>
                                 </div>
                                 <div className="part_2_4A">
-                                  <div className="img_sec_4A border-bottom border-black ">
+                                  <div className="img_sec_4A">
                                     <img
                                       src={e?.additional?.img}
                                       alt=""
@@ -601,6 +605,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 </div>
                                 <div className="sales_Rep_letter_4A">
                                   {/* {e?.data?.MasterManagement_labname} */}
+                                  {console.log(e?.data?.PO, e?.data?.MasterManagement_labname)}
                                   {(e?.data?.PO !== "" && e?.data?.PO !== "-") && `PO ${e?.data?.PO}`}
                                 </div>
                               </div>
@@ -869,7 +874,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                   {e?.data?.promiseDatef ?? ""}
                                 </div>
                               </div>
-                              <div className="size4A border_right4A">
+                              <div className="size4A border_right4A size4AA">
                                 <div
                                   className="custText4A"
                                   style={{ paddingTop: "3px" }}
@@ -882,22 +887,22 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                             </div>
                             <div className="title4A border_bottom4A d_flex4A">
-                              <div className="code4A border_right4A code4A_text">
+                              <div className="code4A border_right4A code4A_text d-flex align-items-center">
                                 CODE
                               </div>
-                              <div className="size4AS border_right4A code4A_text">
+                              <div className="size4AS border_right4A code4A_text d-flex align-items-center">
                                 SIZE
                               </div>
-                              <div className="pcs4A border_right4A code4A_text">
+                              <div className="pcs4A border_right4A code4A_text d-flex align-items-center">
                                 PCS
                               </div>
-                              <div className="wt4A border_right4A code4A_text">
+                              <div className="wt4A border_right4A code4A_text d-flex align-items-center">
                                 WT
                               </div>
-                              <div className="pcs4A border_right4A code4A_text">
+                              <div className="pcs4A border_right4A code4A_text d-flex align-items-center">
                                 PCS
                               </div>
-                              <div className="wt4A border_right4A code4A_text">
+                              <div className="wt4A border_right4A code4A_text d-flex align-items-center">
                                 WT
                               </div>
                             </div>
@@ -935,7 +940,7 @@ const BagPrint4A = ({ queries, headers }) => {
                             </div>
                           </div>
                           <div className="part_2_4A">
-                            <div className="img_sec_4A border-bottom border-black ">
+                            <div className="img_sec_4A">
                               <img
                                 src={e?.additional?.img}
                                 alt=""

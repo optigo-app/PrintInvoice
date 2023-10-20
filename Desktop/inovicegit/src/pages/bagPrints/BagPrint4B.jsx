@@ -10,7 +10,7 @@ import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import "../../assets/css/bagprint/print4b.css";
-import { checkInstruction, fixedValues } from "../../GlobalFunctions";
+import { NumberWithCommas, checkInstruction, fixedValues, notZero } from "../../GlobalFunctions";
 const BagPrint4B = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -42,7 +42,6 @@ const BagPrint4B = ({ queries, headers }) => {
 
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-        console.log(datas);
         datas?.map((a) => {
           let chunkData = [];
           let chunkSize = 14;
@@ -96,12 +95,6 @@ const BagPrint4B = ({ queries, headers }) => {
 
           let obj = { ...a };
           if (obj?.rd?.length > 0) {
-            // let designMaster = datas?.rd[0]?.officeuse ?? '';
-            // let custUse = datas?.rd[0]?.custInstruction ?? '';
-            // let updateIns = datas?.rd[0]?.ProductInstruction ?? '';
-            // let showIns = designMaster + custUse + updateIns;
-
-            // obj.rd[0].instructionData = obj?.rd[0]?.instructionData + (showIns?.length !== 0) ? (showIns)?.substring(0, 113) : '';
             obj.rd.instructionData = (
               a?.rd["officeuse"] +
               a?.rd?.custInstruction +
@@ -130,106 +123,6 @@ const BagPrint4B = ({ queries, headers }) => {
             },
           });
         });
-
-        // for (let url in print) {
-
-        //     const objs = {
-        //         jobno: print[url],
-        //         custid: queries.custid,
-        //         printname: queries.printname,
-        //         appuserid: queries.appuserid,
-        //         url: queries.url,
-        //         headers: headers,
-        //     };
-        //     let datas = await GetData(objs);
-        //     // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-        //     // let jsonString = JSON.stringify(p_tag);
-        //     // let base64String = btoa(jsonString);
-        //     // let Body = {
-        //     //     "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-        //     //     "p": `${base64String}`,
-        //     //     "f": `${queries.appuserid} ${queries.printname}`
-        //     // };
-        //     // let urls = atob(queries.url);
-        //     // const response = await axios.post(urls, Body, { headers: headers });
-        //     // let datas = JSON.parse(response.data.d);
-
-        //     const orderDatef = formatDate(datas?.rd[0]?.OrderDate);
-        //     const promiseDatef = formatDate(datas?.rd[0]?.promisedate);
-
-        //     datas?.rd?.map((e) => {
-        //         e.orderDatef = orderDatef;
-        //         e.promiseDatef = promiseDatef;
-        //         //
-        //     });
-
-        //     let length = 0;
-        //     let clr = {
-        //         Shapename: "TOTAL",
-        //         Sizename: "",
-        //         ActualPcs: 0,
-        //         ActualWeight: 0,
-        //     };
-        //     let dia = {
-        //         Shapename: "TOTAL",
-        //         Sizename: "",
-        //         ActualPcs: 0,
-        //         ActualWeight: 0,
-        //     };
-        //     let misc = {
-        //         Shapename: "TOTAL",
-        //         Sizename: "",
-        //         ActualPcs: 0,
-        //         ActualWeight: 0,
-        //     };
-        //     let f = {
-        //         Shapename: "TOTAL",
-        //         Sizename: "",
-        //         ActualPcs: 0,
-        //         ActualWeight: 0,
-        //     };
-
-        //     datas?.rd1?.map((e, i) => {
-        //         if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
-        //             length++;
-        //         }
-        //         if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-        //             dia.ActualPcs = dia.ActualPcs + e.ActualPcs;
-        //             dia.ActualWeight = dia.ActualWeight + e.ActualWeight;
-        //         } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-        //             clr.ActualPcs = clr.ActualPcs + e.ActualPcs;
-        //             clr.ActualWeight = clr.ActualWeight + e.ActualWeight;
-        //         } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-        //             f.ActualPcs = f.ActualPcs + e.ActualPcs;
-        //             f.ActualWeight = f.ActualWeight + e.ActualWeight;
-        //         } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-        //             misc.ActualPcs = misc.ActualPcs + e.ActualPcs;
-        //             misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
-        //         }
-        //     });
-
-        //     let obj = { ...datas };
-        //     if (obj?.rd?.length > 0) {
-
-        //         // let designMaster = datas?.rd[0]?.officeuse ?? '';
-        //         // let custUse = datas?.rd[0]?.custInstruction ?? '';
-        //         // let updateIns = datas?.rd[0]?.ProductInstruction ?? '';
-        //         // let showIns = designMaster + custUse + updateIns;
-
-        //         // obj.rd[0].instructionData = obj?.rd[0]?.instructionData + (showIns?.length !== 0) ? (showIns)?.substring(0, 113) : '';
-        //         obj.rd[0].instructionData = (datas?.rd[0]?.["officeuse"] + datas?.rd[0]?.custInstruction + datas?.rd[0]?.["ProductInstruction"])?.substring(0, 113);
-        //     }
-
-        //     let imagePath = queryParams.imagepath;
-        //     imagePath = atob(queryParams.imagepath);
-        //     let img = imagePath + datas?.rd[0]?.ThumbImagePath;
-        //     for (let i = 0; i < (datas?.rd1).length; i += chunkSize) {
-        //         const chunks = (datas?.rd1).slice(i, i + chunkSize);
-        //         let len = 14 - ((datas?.rd1).slice(i, i + chunkSize)).length;
-        //         chunkData.push({ data: chunks, length: len });
-        //     }
-        //     responseData.push({ data: obj.rd[0], additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, pages: chunkData } });
-        // }
         setData(responseData);
       } catch (error) {
         console.log(error);
@@ -401,12 +294,15 @@ const BagPrint4B = ({ queries, headers }) => {
                                           {/* <div className="size4AS border_right4A code4A_text">
                                                                                         {elem?.Sizename}
                                                                                     </div> */}
-                                          <div className="pcs4A border_right4A code4A_text">
+                                          {/* <div className="pcs4A border_right4A code4A_text">
                                             {elem?.ActualPcs}
                                           </div>
                                           <div className="wt4A border_right4A code4A_text">
                                             {elem?.ActualWeight}
-                                          </div>
+                                          </div> */}
+                                          <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)} </div>
+                                          <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
+
                                           <div className="pcs4A border_right4A code4A_text"></div>
                                           <div className="wt4A border_right4A code4A_text"></div>
                                         </div>
@@ -428,8 +324,8 @@ const BagPrint4B = ({ queries, headers }) => {
                                           <div className="wt4A border_right4A code4A_text">
                                             {fixedValues(elem?.ActualWeight, 3)}
                                           </div>
-                                          <div className="pcs4A border_right4A code4A_text"></div>
-                                          <div className="wt4A border_right4A code4A_text"></div>
+                                          <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)} </div>
+                                          <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
                                         </div>
                                       );
                                     })}
@@ -860,7 +756,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                   {e?.data?.promiseDatef ?? ""}
                                 </div>
                               </div>
-                              <div className="size4A border_right4A">
+                              <div className="size4A border_right4A size4AA">
                                 <div
                                   className="custText4A"
                                   style={{ paddingTop: "3px" }}
@@ -999,7 +895,7 @@ const BagPrint4B = ({ queries, headers }) => {
                         <div className="print4Apart_1">
                           <div className="part_1_container_4A container_print4Apart_1">
                             <div className="title4A jobDiaGold4A border_bottom4A">
-                              <div className="jobDiaGoldText4A ps-1">
+                              <div className="jobDiaGoldText4A ps-1">{console.log(e)}
                                 {e?.data?.serialjobno}
                               </div>
                               <div className="jobDiaGoldText4A">
