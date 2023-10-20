@@ -9,7 +9,7 @@ import queryString from 'query-string';
 import "../../assets/css/bagprint/bagprint17.css";
 import { GetData } from '../../GlobalFunctions/GetData';
 import { organizeData } from '../../GlobalFunctions/OrganizeBagPrintData';
-import Loader from '../../components/LoaderBag';
+import Loader from '../../components/Loader';
 import BarcodeGenerator from '../../components/BarcodeGenerator';
 
 const PrintDesign17 = ({ queries, headers }) => {

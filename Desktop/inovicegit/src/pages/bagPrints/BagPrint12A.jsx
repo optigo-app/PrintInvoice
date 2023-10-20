@@ -3,7 +3,7 @@ import "../../assets/css/bagprint/print12A.css";
 import BarcodeGenerator from '../../components/BarcodeGenerator';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
-import Loader from '../../components/LoaderBag';
+import Loader from '../../components/Loader';
 import { GetData } from '../../GlobalFunctions/GetData';
 import { handlePrint } from '../../GlobalFunctions/HandlePrint';
 import { handleImageError } from '../../GlobalFunctions/HandleImageError';

@@ -9,7 +9,7 @@ import { GetData } from "../../GlobalFunctions/GetData";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
-import Loader from "../../components/LoaderBag";
+import Loader from "../../components/Loader";
 import { organizeData } from './../../GlobalFunctions/OrganizeBagPrintData';
 
 const BagPrint17A = ({ queries, headers }) => {

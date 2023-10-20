@@ -5,7 +5,7 @@ import printData from "../../assets/json/print_2.json";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import "../../assets/css/bagprint/print16.css";
-import Loader from "../../components/LoaderBag";
+import Loader from "../../components/Loader";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
 import { GetData } from "./../../GlobalFunctions/GetData";
 import { organizeData } from "./../../GlobalFunctions/OrganizeBagPrintData";

@@ -3,7 +3,7 @@ import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
 import "../../assets/css/bagprint/print3A.css";
 import BarcodeGenerator from '../../components/BarcodeGenerator';
-import Loader from '../../components/LoaderBag';
+import Loader from '../../components/Loader';
 import { GetData } from '../../GlobalFunctions/GetData';
 import { GetChunkData } from '../../GlobalFunctions/GetChunkData';
 import { formatDate } from '../../GlobalFunctions/DateFormat';

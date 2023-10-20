@@ -8,7 +8,7 @@ import { GetData } from "../../GlobalFunctions/GetData";
 import { GetSeparateData } from "../../GlobalFunctions/GetSeparateData";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
-import Loader from "../../components/LoaderBag";
+import Loader from "../../components/Loader";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 function BagPrint2A({ queries, headers }) {

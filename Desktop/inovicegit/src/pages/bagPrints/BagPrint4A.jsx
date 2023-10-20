@@ -3,7 +3,7 @@ import "../../assets/css/bagprint/print4A.css";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
-import Loader from "../../components/LoaderBag";
+import Loader from "../../components/Loader";
 import { GetData } from "../../GlobalFunctions/GetData";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
@@ -528,7 +528,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                         : ""} */}
                                       {checkInstruction(e?.data?.officeuse)}
                                       {checkInstruction(e?.data?.ProductInstruction)}
-                                      {checkInstruction(e?.data?.custInstruction)}
+                                      {/* {checkInstruction(e?.data?.custInstruction)} */}
                                     </span>
                                   </div>
                                 </div>
@@ -1000,7 +1000,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                   : ""} */}
                                 {checkInstruction(e?.data?.officeuse)}
                                 {checkInstruction(e?.data?.ProductInstruction)}
-                                {checkInstruction(e?.data?.custInstruction)}
+                                {/* {checkInstruction(e?.data?.custInstruction)} */}
                               </span>
                             </div>
                           </div>
