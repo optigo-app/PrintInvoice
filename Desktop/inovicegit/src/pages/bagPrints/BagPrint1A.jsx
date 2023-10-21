@@ -11,19 +11,12 @@ import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
+import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 function BagPrint1A({ queries, headers }) {
   const [data, setData] = useState([]);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
-  let jobs = queryParams.str_srjobno;
-  const parts = jobs.split(",");
-
-  const resultString = parts.map((part) => `'${part}'`).join(",");
-  if (Object.keys(queryParams).length !== 0) {
-    jobs = jobs.split(",");
-  }
-
-  const [print, setPrint] = useState(jobs);
+  const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize11 = 15;
   const imgUrls = [];
   useEffect(() => {
@@ -514,8 +507,9 @@ function BagPrint1A({ queries, headers }) {
         // }
         const endTime = performance.now();
         const elapsedTime = (endTime - startTime) / 1000;
-
+        // console.log(`Time taken: ${elapsedTime} seconds`);
         // console.log(`Time taken: ${elapsedTime/60} minutes`);
+
         // setData(responseData);
       } catch (error) {
         console.log(error);

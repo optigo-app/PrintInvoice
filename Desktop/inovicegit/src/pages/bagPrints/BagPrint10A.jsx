@@ -9,19 +9,13 @@ import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from './../../GlobalFunctions/OrganizeBagPrintData';
+import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 const BagPrint10A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const [loader, setLoader] = useState(true);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
-  let jobs = queryParams.str_srjobno;
-  const parts = jobs.split(",");
-  const resultString = parts.map((part) => `'${part}'`).join(",");
-  if (Object.keys(queryParams).length !== 0) {
-    jobs = jobs.split(",");
-  }
-
-  const [print, setPrint] = useState(jobs);
+  const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize17 = 17;
 
   useEffect(() => {
@@ -357,15 +351,6 @@ const BagPrint10A = ({ queries, headers }) => {
     };
     fetchData();
   }, []);
-
-  // function handlePrint(e) {
-  //     e.preventDefault();
-  //     window.print();
-  // }
-
-  // const handleImageError = (e) => {
-  //     e.target.src = require('../../assets/img/default.jpg');
-  // };
 
   useEffect(() => {
     if (data.length !== 0) {

@@ -716,7 +716,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                               style={{ width: "27%" }}
                               key={i}
                             >
-                              <div className="w-50 d-flex justify-content-end fs-6">
+                              <div className="w-50 d-flex justify-content-end fs-6" style={{borderLeft:"1px solid #e8e8e8"}}>
                                 {e?.name} {e?.per}
                               </div>
                               <div className="w-50 d-flex justify-content-end fs-6">

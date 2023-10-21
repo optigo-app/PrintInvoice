@@ -461,7 +461,15 @@
 .d_none {
     display: none !important;
 }
-
+.code18Ad{
+    box-sizing: border-box !important;
+    width: 29.1mm !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    line-height: 140% !important;
+}
 @media print {
     .btn17 {
         display: none;

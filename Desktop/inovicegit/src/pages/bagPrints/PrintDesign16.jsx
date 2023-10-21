@@ -9,18 +9,13 @@ import Loader from "../../components/Loader";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
 import { GetData } from "./../../GlobalFunctions/GetData";
 import { organizeData } from "./../../GlobalFunctions/OrganizeBagPrintData";
+import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 
 const PrintDesign16 = ({ queries, headers }) => {
   // console.log(printData);
   const location = useLocation();
   const queryParams = queryString?.parse(location?.search);
-  let jobs = queryParams?.str_srjobno;
-  const parts = jobs?.split(",");
-  const resultString = parts?.map((part) => `'${part}'`).join(",");
-  if (Object.keys(queryParams)?.length !== 0) {
-    jobs = jobs.split(",");
-  }
-  const [print, setprint] = useState(jobs);
+  const resultString = GetUniquejob(queryParams?.str_srjobno);
   const [data, setData] = useState([]);
   const chunkSize = 15;
   useEffect(() => {

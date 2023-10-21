@@ -8,23 +8,14 @@ import { GetData } from '../../GlobalFunctions/GetData';
 import { handlePrint } from '../../GlobalFunctions/HandlePrint';
 import { handleImageError } from '../../GlobalFunctions/HandleImageError';
 import { organizeData } from '../../GlobalFunctions/OrganizeBagPrintData';
+import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
 
 const BagPrint12A = ({ queries, headers }) => {
 
     const [data, setData] = useState([]);
     const location = useLocation();
-    const queryParams = queryString.parse(location.search);
-    let jobs = queryParams.str_srjobno;
-    const parts = jobs.split(",");
-    const resultString = parts.map((part) => `'${part}'`).join(",");
-    if (Object.keys(queryParams).length !== 0) {
-        jobs = jobs.split(",");
-    }
-
-    const [print, setPrint] = useState(jobs);
-    // const handleImageError = (e) => {
-    //     e.target.src = require('../../assets/img/default.jpg');
-    // };
+    const queryParams = queryString?.parse(location?.search);
+    const resultString = GetUniquejob(queryParams?.str_srjobno);
     useEffect(() => {
         if (Object.keys(queryParams).length !== 0) {
             atob(queryParams.imagepath);
