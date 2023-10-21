@@ -16,7 +16,7 @@ const BagPrint20A = ({ queries, headers }) => {
   const queryParams = queryString.parse(location.search);
   let jobs = queryParams.str_srjobno;
   const parts = jobs.split(",");
-  let a =  GetUniquejob(parts)
+  let a = GetUniquejob(parts);
   // console.log(a);
   const resultString = parts.map((part) => `'${part}'`).join(",");
   const chunkSize7 = 10;
@@ -338,20 +338,44 @@ const BagPrint20A = ({ queries, headers }) => {
                                         <div className="h7Acopy fs7Acopy d-flex justify-content-between align-items-center w-100">
                                           <span
                                             className="fs20A fw-bold h-100 d-flex justify-content-center align-items-center "
-                                            style={{ fontSize: "11px", width:"38.5px" }}
+                                            style={{
+                                              fontSize: "11px",
+                                              width: "38.5px",
+                                            }}
                                           >
                                             Bag No :
                                           </span>
-                                          <span className="lh20A h-100 d-flex justify-content-center align-items-center fs-6 fw-bold " style={{width:"64px"}}>
-                                            {(e?.data?.rd?.serialjobno)?.slice(0,9)}
+                                          <span
+                                            className="lh20A h-100 d-flex justify-content-center align-items-center fs-6 fw-bold "
+                                            style={{ width: "64px" }}
+                                          >
+                                            {e?.data?.rd?.serialjobno?.slice(
+                                              0,
+                                              9
+                                            )}
                                           </span>
                                         </div>
                                         <div className="fs20A fs7Acopy d-flex justify-content-between align-items-center w-100">
-                                          <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center" style={{fontSize:"8.5px", width:"38.5px"}}>
+                                          <span
+                                            className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center"
+                                            style={{
+                                              fontSize: "8.5px",
+                                              width: "38.5px",
+                                            }}
+                                          >
                                             Dgn No :
                                           </span>
-                                          <span className="fs20A lh20A h-100 d-flex justify-content-center align-items-center ps-1" style={{fontSize:"8.5px", width:"65px"}}>
-                                            {(e?.data?.rd?.Designcode)?.slice(0,31)}
+                                          <span
+                                            className="fs20A lh20A h-100 d-flex justify-content-center align-items-center ps-1"
+                                            style={{
+                                              fontSize: "8.5px",
+                                              width: "65px",
+                                            }}
+                                          >
+                                            {e?.data?.rd?.Designcode?.slice(
+                                              0,
+                                              31
+                                            )}
                                           </span>
                                         </div>
                                       </div>
@@ -390,7 +414,10 @@ const BagPrint20A = ({ queries, headers }) => {
                                           </span>
                                           <span
                                             className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A "
-                                            style={{ fontSize: "10.5px", paddingRight:"2px" }}
+                                            style={{
+                                              fontSize: "10.5px",
+                                              paddingRight: "2px",
+                                            }}
                                           >
                                             {e?.data?.rd?.MetalType}
                                           </span>
@@ -402,7 +429,13 @@ const BagPrint20A = ({ queries, headers }) => {
                                           >
                                             Size:
                                           </span>
-                                          <span className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A" style={{fontSize:"10.5px", paddingRight:"2px"}}>
+                                          <span
+                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A"
+                                            style={{
+                                              fontSize: "10.5px",
+                                              paddingRight: "2px",
+                                            }}
+                                          >
                                             {e?.data?.rd?.Size}
                                           </span>
                                         </div>
@@ -416,7 +449,13 @@ const BagPrint20A = ({ queries, headers }) => {
                                           >
                                             Est Wt:
                                           </span>
-                                          <span className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A" style={{fontSize:"10.5px", paddingRight:"2px"}}>
+                                          <span
+                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A"
+                                            style={{
+                                              fontSize: "10.5px",
+                                              paddingRight: "2px",
+                                            }}
+                                          >
                                             {e?.data?.rd?.ActualGrossweight?.toFixed(
                                               3
                                             )}
@@ -653,13 +692,27 @@ const BagPrint20A = ({ queries, headers }) => {
                                                 {s?.Sizename + " : "}
                                               </div>
                                             ) : (
-                                              <div
-                                                className="fw-normal fs20A"
-                                                style={{ fontSize: "9px" }}
-                                              >
-                                                {s?.Sizename + " "} /{" "}
-                                                {s?.ActualPcs + " "}
-                                              </div>
+                                              <React.Fragment>
+                                                {s?.Sizename === "C TOTAL" ||
+                                                s?.Sizename === "D TOTAL" ||
+                                                s?.Sizename === "MISC TOTAL" ? (
+                                                  <div
+                                                    className="fw-normal fs20A fw-bold"
+                                                    style={{ fontSize: "9px" }}
+                                                  >
+                                                    {s?.Sizename + " "}  : {" "}
+                                                    {s?.ActualPcs + " "}
+                                                  </div>
+                                                ) : (
+                                                  <div
+                                                    className="fw-normal fs20A"
+                                                    style={{ fontSize: "9px" }}
+                                                  >
+                                                    {s?.Sizename + " "} /{" "}
+                                                    {s?.ActualPcs + " "}
+                                                  </div>
+                                                )}
+                                              </React.Fragment>
                                             )}
                                           </div>
                                         );
