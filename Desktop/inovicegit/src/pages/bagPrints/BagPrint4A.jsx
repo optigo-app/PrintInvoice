@@ -373,7 +373,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                       className="code4A border_right4A code4A_text"
                                       style={{ width: "94pt" }}
                                     >
-                                      <div className="code_4A_change border-end border-black height_23_4A">
+                                      <div className="code_4A_change border-end border-black height_23_4A height_11_Print4a code4A_text">
                                       {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                       </div>
                                     </div>
@@ -400,7 +400,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                               lineHeight: "8px",
                                             }}
                                           >
-                                            <div className="code_4A_change border-end border-black height_23_4A">
+                                            <div className="finding border-end border-black height_23_4A">
                                             {elem?.Shapename} {elem?.Quality}
                                             {elem?.ColorName}
                                             </div>

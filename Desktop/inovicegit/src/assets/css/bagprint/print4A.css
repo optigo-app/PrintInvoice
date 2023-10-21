@@ -283,7 +283,7 @@
 }
 
 .sales_Rep_text_4A {
-    font-size: 6pt;
+    font-size: 7pt;
 }
 
 .sales_Rep_letter_4A {
@@ -396,6 +396,16 @@
 #img4A {
     height: 150px;
     width: 110px;
+}
+
+.height_11_Print4a{
+    height: 11pt;
+    line-height: 175%;
+}
+
+.finding{
+    line-height: 150%;
+    font-size: 7pt;
 }
 
 @media print {

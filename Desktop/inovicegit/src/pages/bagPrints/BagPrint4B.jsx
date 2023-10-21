@@ -169,7 +169,7 @@ const BagPrint4B = ({ queries, headers }) => {
               data?.map((e, i) => {
                 return (
                   <>
-                    {e?.additional?.pages?.length > 0 ?<> {(
+                    {e?.additional?.pages?.length > 0 ? <> {(
                       e?.additional?.pages?.map((ele, ind) => {
                         return (
                           <>
@@ -259,8 +259,8 @@ const BagPrint4B = ({ queries, headers }) => {
                                       className="code4A border_right4A code4A_text"
                                       style={{ width: "94pt" }}
                                     >
-                                      <div className="code_4A_change border-end border-black height_23_4A">
-                                      {e?.data?.MetalType} {e?.data?.MetalColorCo}
+                                      <div className="code_4A_change border-end border-black height_23_4A code4A_text height_11_Print4a">
+                                        {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                       </div>
                                     </div>
                                     {/* <div className="size4AS border_right4A code4A_text">
@@ -275,34 +275,15 @@ const BagPrint4B = ({ queries, headers }) => {
                                     {ele?.data.map((elem, index) => {
                                       return elem?.MasterManagement_DiamondStoneTypeid ===
                                         5 ? (
-                                        <div
-                                          className="record_line_4A border_bottom4A"
-                                          key={index}
-                                        >
-                                          <div
-                                            className="code4A border_right4A code4A_text"
-                                            style={{
-                                              width: "94pt",
-                                              lineHeight: "8px",
-                                            }}
-                                          >
-                                            <div className="code_4A_change border-end border-black height_23_4A">
-                                            {elem?.Shapename} {elem?.Quality}
-                                            {elem?.ColorName}
-                                            </div>
+                                        <div className="record_line_4A border_bottom4A" key={index} >
+                                          <div className="code4A border_right4A code4A_text" style={{ width: "94pt", lineHeight: "8px", }} >
+                                            <div className="finding border-end border-black height_23_4A"> {elem?.Shapename} {elem?.Quality} {elem?.ColorName} </div>
                                           </div>
-                                          {/* <div className="size4AS border_right4A code4A_text">
-                                                                                        {elem?.Sizename}
-                                                                                    </div> */}
-                                          {/* <div className="pcs4A border_right4A code4A_text">
-                                            {elem?.ActualPcs}
-                                          </div>
-                                          <div className="wt4A border_right4A code4A_text">
-                                            {elem?.ActualWeight}
-                                          </div> */}
+                                          {/* <div className="size4AS border_right4A code4A_text"> {elem?.Sizename} </div> */}
+                                          {/* <div className="pcs4A border_right4A code4A_text"> {elem?.ActualPcs} </div>
+                                          <div className="wt4A border_right4A code4A_text"> {elem?.ActualWeight} </div> */}
                                           <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)} </div>
                                           <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
-
                                           <div className="pcs4A border_right4A code4A_text"></div>
                                           <div className="wt4A border_right4A code4A_text"></div>
                                         </div>
@@ -313,7 +294,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                         >
                                           <div className="code4A border_right4A code4A_text">
                                             {/* { elem?.ConcatedFullShapeQualityColorName } */}
-                                            { elem?.LimitedShapeQualityColorCode }
+                                            {elem?.LimitedShapeQualityColorCode}
                                           </div>
                                           <div className="size4AS border_right4A code4A_text">
                                             {elem?.Sizename}
@@ -366,7 +347,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                         </div>
                                         <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
                                           {e?.additional?.dia?.ActualPcs}/
-                                          {e?.additional?.dia?.ActualWeight?.toFixed( 3 )}
+                                          {e?.additional?.dia?.ActualWeight?.toFixed(3)}
                                         </div>
                                         <div className="diamond_custom_4B border_bottom4A"></div>
                                       </div>
@@ -409,9 +390,9 @@ const BagPrint4B = ({ queries, headers }) => {
                                           ? ""
                                           : e?.data?.instructionData
                                         : ""} */}
-                                        {checkInstruction(e?.data?.officeuse)}
-                                        {checkInstruction(e?.data?.ProductInstruction)}
-                                        {/* {checkInstruction(e?.data?.custInstruction)} */}
+                                      {checkInstruction(e?.data?.officeuse)}
+                                      {checkInstruction(e?.data?.ProductInstruction)}
+                                      {/* {checkInstruction(e?.data?.custInstruction)} */}
                                     </span>
                                   </div>
                                 </div>
@@ -422,290 +403,290 @@ const BagPrint4B = ({ queries, headers }) => {
                       })
                     )}
                       <div className="container4A" key={i + "a"}>
-                              <div className="print4Apart_1">
-                                <div className="part_1_container_4A container_print4Apart_1">
-                                  <div className="title4A jobDiaGold4A border_bottom4A">
-                                    <div className="jobDiaGoldText4A ps-1">
-                                      {e?.data?.serialjobno}
-                                    </div>
-                                    <div className="jobDiaGoldText4A">
-                                      {e?.data?.Designcode}
-                                    </div>
-                                    <div className="jobDiaGoldText4A border_right4A pe-1">
-                                      {e?.data?.MetalType} {e?.data?.MetalColorCo}
-                                    </div>
-                                  </div>
-                                  <div className="priority4A border_bottom4A">
-                                    <div className="border_right4A priority_text_4A priority_sec_4A ">
-                                      PRIORITY
-                                    </div>
-                                    <div className="border_right4A priority_text_4A loc4A ">
-                                      LOC
-                                    </div>
-                                    <div className="border_right4A priority_text_4A qc4A ">
-                                      Q.C.
-                                    </div>
-                                  </div>
-                                  <div className="sales_rep_4A border_bottom4A">
-                                    <div className="priority_sec_4A border_right4A">
-                                      <div
-                                        className="sales_Rep_text_4A"
-                                        style={{ paddingTop: "3px" }}
-                                      >
-                                        SALES REP.
-                                      </div>
-                                      <div className="sales_Rep_letter_4A">
-                                        {e?.data?.SalesrepCode}
-                                      </div>
-                                    </div>
-                                    <div className=" border_right4A  loc4A ">
-                                      <div
-                                        className="sales_Rep_text_4A"
-                                        style={{ paddingTop: "3px" }}
-                                      >
-                                        FROSTING
-                                      </div>
-                                      <div className="sales_Rep_letter_4A">
-                                        {e?.data?.MetalFrosting}
-                                      </div>
-                                    </div>
-                                    <div className=" border_right4A  qc4A ">
-                                      <div
-                                        className="sales_Rep_text_4A"
-                                        style={{ paddingTop: "3px" }}
-                                      >
-                                        ENAMELING
-                                      </div>
-                                      <div className="sales_Rep_letter_4A">
-                                        {e?.data?.Enamelling}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="lab_self_4A border_bottom4A">
-                                    <div className="priority_sec_4A border_right4A d_flex_4a">
-                                      <div className="sales_Rep_text_4A">
-                                        LAB {e?.data?.MasterManagement_labname}
-                                      </div>
-                                      <div className="sales_Rep_letter_4A">
-                                        {/* {e?.data?.MasterManagement_labname} */}
-                                        PO {e?.data?.PO}
-                                      </div>
-                                    </div>
-                                    <div className=" border_right4A  loc4A d_flex_4a ">
-                                      <div className="sales_Rep_text_4A">
-                                        SNAP
-                                      </div>
-                                      <div className="sales_Rep_letter_4A">
-                                        {
-                                          e?.data
-                                            ?.MasterManagement_ProductImageType
-                                        }
-                                      </div>
-                                    </div>
-                                    <div className=" border_right4A  qc4A d_flex_4a ">
-                                      <div className="sales_Rep_text_4A">
-                                        MAKETYPE
-                                      </div>
-                                      <div className="sales_Rep_letter_4A">
-                                        {e?.data?.mastermanagement_maketypename}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="priority4A border_bottom4A">
-                                    <div className="border_right4A priority_text_4A priority_sec_4A ">
-                                      TR NO.
-                                    </div>
-                                    <div className="border_right4A priority_text_4A loc4A ">
-                                      TR NO.
-                                    </div>
-                                    <div className="border_right4A priority_text_4A qc4A ">
-                                      TR NO.
-                                    </div>
-                                  </div>
-                                  <div className="priority4A border_bottom4A">
-                                    <div className="border_right4A priority_text_4A priority_sec_4A ">
-                                      TR WT
-                                    </div>
-                                    <div className="border_right4A priority_text_4A loc4A ">
-                                      TR WT
-                                    </div>
-                                    <div className="border_right4A priority_text_4A qc4A ">
-                                      TR WT
-                                    </div>
-                                  </div>
+                        <div className="print4Apart_1">
+                          <div className="part_1_container_4A container_print4Apart_1">
+                            <div className="title4A jobDiaGold4A border_bottom4A">
+                              <div className="jobDiaGoldText4A ps-1">
+                                {e?.data?.serialjobno}
+                              </div>
+                              <div className="jobDiaGoldText4A">
+                                {e?.data?.Designcode}
+                              </div>
+                              <div className="jobDiaGoldText4A border_right4A pe-1">
+                                {e?.data?.MetalType} {e?.data?.MetalColorCo}
+                              </div>
+                            </div>
+                            <div className="priority4A border_bottom4A">
+                              <div className="border_right4A priority_text_4A priority_sec_4A ">
+                                PRIORITY
+                              </div>
+                              <div className="border_right4A priority_text_4A loc4A ">
+                                LOC
+                              </div>
+                              <div className="border_right4A priority_text_4A qc4A ">
+                                Q.C.
+                              </div>
+                            </div>
+                            <div className="sales_rep_4A border_bottom4A">
+                              <div className="priority_sec_4A border_right4A">
+                                <div
+                                  className="sales_Rep_text_4A"
+                                  style={{ paddingTop: "3px" }}
+                                >
+                                  SALES REP.
                                 </div>
-                                <div className="part_2_container_4A container_print4Apart_1">
-                                  <div className="img_sec_container_4A border-bottom border-black">
-                                    <img
-                                      src={e?.additional?.img}
-                                      alt=""
-                                      onError={(e) => handleImageError(e)}
-                                      loading="eager"
-                                      id="img4A"
-                                    />
-                                  </div>
+                                <div className="sales_Rep_letter_4A">
+                                  {e?.data?.SalesrepCode}
                                 </div>
-                                <div className="part_3_container_4A">
-                                  <div className="part_3_container_4A_sec">
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className="dept_4A border_right4A d-flex align-items-center justify-content-center">
-                                        DEPT
-                                      </div>
-                                      <div className="issue_4A border_right4A d-flex align-items-center justify-content-center">
-                                        ISSUE
-                                      </div>
-                                      <div className="receive_4A border_right4A d-flex align-items-center justify-content-center">
-                                        RECEIVE
-                                      </div>
-                                      <div className="scrap_4A border_right4A d-flex align-items-center justify-content-center">
-                                        QC.Sign
-                                      </div>
-                                      <div className="pcs_4A border_right4A d-flex align-items-center justify-content-center">
-                                        PCS
-                                      </div>
-                                      <div className="worker_4A border_right_4A d-flex align-items-center justify-content-center">
-                                        WORKER
-                                      </div>
-                                    </div>
-
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className="dept_4A border_right4A d-flex align-items-center px-1">
-                                        FIL.
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className="dept_4A border_right4A d-flex align-items-center px-1">
-                                        PPL.
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                        SET.
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                        CUT.
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                        Fin.W
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                        F.PoI.
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                        Fit.
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                        FP.
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className=" dept_4A border_right4A d-flex align-items-center">
-
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className=" dept_4A border_right4A d-flex align-items-center">
-
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className=" dept_4A border_right4A d-flex align-items-center">
-
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-                                    <div className="part_3_container_4A_record ">
-                                      <div className=" dept_4A border_right4A d-flex align-items-center">
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-                                    <div className="part_3_container_4A_record border_bottom4A">
-                                      <div className=" dept_4A border_right4A d-flex align-items-center">
-                                      </div>
-                                      <div className="issue_4A border_right4A"></div>
-                                      <div className="receive_4A border_right4A"></div>
-                                      <div className="scrap_4A border_right4A"></div>
-                                      <div className="pcs_4A border_right4A"></div>
-                                      <div className="worker_4A border_right_4A"></div>
-                                    </div>
-
-                                  </div>
-                                  <div className="barcode_img_container_4A">
-                                    <BarcodeGenerator
-                                      data={e?.data?.serialjobno}
-                                    />
-                                  </div>
+                              </div>
+                              <div className=" border_right4A  loc4A ">
+                                <div
+                                  className="sales_Rep_text_4A"
+                                  style={{ paddingTop: "3px" }}
+                                >
+                                  FROSTING
+                                </div>
+                                <div className="sales_Rep_letter_4A">
+                                  {e?.data?.MetalFrosting}
+                                </div>
+                              </div>
+                              <div className=" border_right4A  qc4A ">
+                                <div
+                                  className="sales_Rep_text_4A"
+                                  style={{ paddingTop: "3px" }}
+                                >
+                                  ENAMELING
+                                </div>
+                                <div className="sales_Rep_letter_4A">
+                                  {e?.data?.Enamelling}
                                 </div>
                               </div>
                             </div>
+                            <div className="lab_self_4A border_bottom4A">
+                              <div className="priority_sec_4A border_right4A d_flex_4a">
+                                <div className="sales_Rep_text_4A">
+                                  LAB {e?.data?.MasterManagement_labname}
+                                </div>
+                                <div className="sales_Rep_letter_4A">
+                                  {/* {e?.data?.MasterManagement_labname} */}
+                                  PO {e?.data?.PO}
+                                </div>
+                              </div>
+                              <div className=" border_right4A  loc4A d_flex_4a ">
+                                <div className="sales_Rep_text_4A">
+                                  SNAP
+                                </div>
+                                <div className="sales_Rep_letter_4A">
+                                  {
+                                    e?.data
+                                      ?.MasterManagement_ProductImageType
+                                  }
+                                </div>
+                              </div>
+                              <div className=" border_right4A  qc4A d_flex_4a ">
+                                <div className="sales_Rep_text_4A">
+                                  MAKETYPE
+                                </div>
+                                <div className="sales_Rep_letter_4A">
+                                  {e?.data?.mastermanagement_maketypename}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="priority4A border_bottom4A">
+                              <div className="border_right4A priority_text_4A priority_sec_4A ">
+                                TR NO.
+                              </div>
+                              <div className="border_right4A priority_text_4A loc4A ">
+                                TR NO.
+                              </div>
+                              <div className="border_right4A priority_text_4A qc4A ">
+                                TR NO.
+                              </div>
+                            </div>
+                            <div className="priority4A border_bottom4A">
+                              <div className="border_right4A priority_text_4A priority_sec_4A ">
+                                TR WT
+                              </div>
+                              <div className="border_right4A priority_text_4A loc4A ">
+                                TR WT
+                              </div>
+                              <div className="border_right4A priority_text_4A qc4A ">
+                                TR WT
+                              </div>
+                            </div>
+                          </div>
+                          <div className="part_2_container_4A container_print4Apart_1">
+                            <div className="img_sec_container_4A border-bottom border-black">
+                              <img
+                                src={e?.additional?.img}
+                                alt=""
+                                onError={(e) => handleImageError(e)}
+                                loading="eager"
+                                id="img4A"
+                              />
+                            </div>
+                          </div>
+                          <div className="part_3_container_4A">
+                            <div className="part_3_container_4A_sec">
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className="dept_4A border_right4A d-flex align-items-center justify-content-center">
+                                  DEPT
+                                </div>
+                                <div className="issue_4A border_right4A d-flex align-items-center justify-content-center">
+                                  ISSUE
+                                </div>
+                                <div className="receive_4A border_right4A d-flex align-items-center justify-content-center">
+                                  RECEIVE
+                                </div>
+                                <div className="scrap_4A border_right4A d-flex align-items-center justify-content-center">
+                                  QC.Sign
+                                </div>
+                                <div className="pcs_4A border_right4A d-flex align-items-center justify-content-center">
+                                  PCS
+                                </div>
+                                <div className="worker_4A border_right_4A d-flex align-items-center justify-content-center">
+                                  WORKER
+                                </div>
+                              </div>
+
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className="dept_4A border_right4A d-flex align-items-center px-1">
+                                  FIL.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className="dept_4A border_right4A d-flex align-items-center px-1">
+                                  PPL.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
+                                  SET.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
+                                  CUT.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
+                                  Fin.W
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
+                                  F.PoI.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
+                                  Fit.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
+                                  FP.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center">
+
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center">
+
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center">
+
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record ">
+                                <div className=" dept_4A border_right4A d-flex align-items-center">
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center">
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+
+                            </div>
+                            <div className="barcode_img_container_4A">
+                              <BarcodeGenerator
+                                data={e?.data?.serialjobno}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </> : (<>
                       <div className="container4A" key={i}>
                         <div className="print4Apart_1">
@@ -794,7 +775,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 style={{ width: "94pt" }}
                               >
                                 <div className="code_4A_change border-end border-black height_23_4A code_4A_change_2">
-                                {e?.data?.MetalType} {e?.data?.MetalColorCo}
+                                  {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                 </div>
                               </div>
                               {/* <div className="size4AS border_right4A code4A_text">
@@ -883,7 +864,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                     ? ""
                                     : e?.data?.instructionData
                                   : ""} */}
-                                   {checkInstruction(e?.data?.officeuse)}
+                                {checkInstruction(e?.data?.officeuse)}
                                 {checkInstruction(e?.data?.ProductInstruction)}
                                 {/* {checkInstruction(e?.data?.custInstruction)} */}
                               </span>
@@ -902,7 +883,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 {e?.data?.Designcode}
                               </div>
                               <div className="jobDiaGoldText4A border_right4A pe-1">
-                                {e?.data?.MetalType} {e?.data?.MetalColorCo} 
+                                {e?.data?.MetalType} {e?.data?.MetalColorCo}
                               </div>
                             </div>
                             <div className="priority4A border_bottom4A">
@@ -1181,8 +1162,8 @@ const BagPrint4B = ({ queries, headers }) => {
                   </>
                 );
               })
-              }
-              
+            }
+
           </section>
         </>
       )}
