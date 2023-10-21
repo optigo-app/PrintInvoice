@@ -277,15 +277,15 @@ const BagPrint4B = ({ queries, headers }) => {
                                         5 ? (
                                         <div className="record_line_4A border_bottom4A" key={index} >
                                           <div className="code4A border_right4A code4A_text" style={{ width: "94pt", lineHeight: "8px", }} >
-                                            <div className="finding border-end border-black height_23_4A"> {elem?.Shapename} {elem?.Quality} {elem?.ColorName} </div>
+                                            <div className="finding height_23_4A"> {elem?.Shapename} {elem?.Quality} {elem?.ColorName} </div>
                                           </div>
                                           {/* <div className="size4AS border_right4A code4A_text"> {elem?.Sizename} </div> */}
                                           {/* <div className="pcs4A border_right4A code4A_text"> {elem?.ActualPcs} </div>
                                           <div className="wt4A border_right4A code4A_text"> {elem?.ActualWeight} </div> */}
-                                          <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)} </div>
+                                          <div className="pcs4A border_right4A code4A_text">{NumberWithCommas(elem?.ActualPcs, 0)}</div>
+                                          <div className="wt4A border_right4A code4A_text">{fixedValues(elem?.ActualWeight, 3)}</div>
+                                          <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)}</div>
                                           <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
-                                          <div className="pcs4A border_right4A code4A_text"></div>
-                                          <div className="wt4A border_right4A code4A_text"></div>
                                         </div>
                                       ) : (
                                         <div
@@ -299,12 +299,8 @@ const BagPrint4B = ({ queries, headers }) => {
                                           <div className="size4AS border_right4A code4A_text">
                                             {elem?.Sizename}
                                           </div>
-                                          <div className="pcs4A border_right4A code4A_text">
-                                            {elem?.ActualPcs}
-                                          </div>
-                                          <div className="wt4A border_right4A code4A_text">
-                                            {fixedValues(elem?.ActualWeight, 3)}
-                                          </div>
+                                          <div className="pcs4A border_right4A code4A_text"> {NumberWithCommas(elem?.ActualPcs, 0)} </div>
+                                          <div className="wt4A border_right4A code4A_text"> {fixedValues(elem?.ActualWeight, 3)} </div>
                                           <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)} </div>
                                           <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
                                         </div>
