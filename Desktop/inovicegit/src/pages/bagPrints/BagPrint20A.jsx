@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../../assets/css/bagprint/print20A.css";
 import BarcodeGenerator from "../../components/BarcodeGenerator";
-import Loader from "../../components/LoaderBag";
+import Loader from "../../components/Loader";
 import { GetData } from "../../GlobalFunctions/GetData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
@@ -14,14 +14,9 @@ const BagPrint20A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
-  let jobs = queryParams.str_srjobno;
-  const parts = jobs.split(",");
-  let a = GetUniquejob(parts);
-  // console.log(a);
-  const resultString = parts.map((part) => `'${part}'`).join(",");
+  const resultString = GetUniquejob(queryParams?.str_srjobno);
+  console.log(resultString);
   const chunkSize7 = 10;
-  // const chunkSize = 4;
-  // const sizeofChunk = 4;
   useEffect(() => {
     if (Object.keys(queryParams).length !== 0) {
       atob(queryParams.imagepath);
@@ -269,6 +264,7 @@ const BagPrint20A = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
+  console.log(data);
   return (
     <>
       {data?.length === 0 ? (
@@ -329,7 +325,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                           Party:
                                         </span>
                                         <span className="lh20A fs20A">
-                                          {e?.data?.rd?.CustomerCode}
+                                          {e?.data?.rd?.CustomerCode?.slice(0, 12)}
                                         </span>
                                       </div>
                                     </div>
@@ -419,7 +415,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                               paddingRight: "2px",
                                             }}
                                           >
-                                            {e?.data?.rd?.MetalType}
+                                            {e?.data?.rd?.MetalType} {e?.data?.rd?.MetalColorCo}
                                           </span>
                                         </div>
                                         <div className="h327Acopy d-flex flex-column justify-content-between ">
@@ -909,26 +905,26 @@ const BagPrint20A = ({ queries, headers }) => {
                                 <div className="fs7Acopy">
                                   <span className="fw-bold pe-1">Party:</span>
                                   <span className="lh20A fs20A">
-                                    {e?.data?.rd?.CustomerCode}
+                                    {e?.data?.rd?.CustomerCode?.slice(0, 12)}
                                   </span>
                                 </div>
                               </div>
                               <div className="barcodebag7Acopy">
-                                <div>
+                                <div style={{ width: "45%" }}>
                                   <div className="h7Acopy fs7Acopy d-flex">
-                                    <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center">
+                                    <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center" style={{width:"38.5px"}}>
                                       Bag No:
                                     </span>
-                                    <span className="fs7Acopy h-100 d-flex justify-content-center align-items-center">
-                                      {e?.data?.rd?.serialjobno}
+                                    <span className="fs7Acopy h-100 d-flex justify-content-center align-items-center fw-bold" style={{width:"64px"}}>
+                                      {(e?.data?.rd?.serialjobno)?.slice(0, 9)}
                                     </span>
                                   </div>
                                   <div className="h7Acopy fs7Acopy d-flex">
-                                    <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center">
+                                    <span className=" fw-bold h-100 d-flex justify-content-center align-items-center" style={{width:"38.5px", fontSize:"8.5px"}}>
                                       Dgn No:
                                     </span>
-                                    <span className="fs7Acopy h-100 d-flex justify-content-center align-items-center ps-1">
-                                      {e?.data?.rd?.Designcode}
+                                    <span className=" h-100 d-flex justify-content-center align-items-center ps-1" style={{width:"64px", fontSize:"8.5px"}}>
+                                      {(e?.data?.rd?.Designcode)?.slice(0,31)}
                                     </span>
                                   </div>
                                 </div>
@@ -951,7 +947,8 @@ const BagPrint20A = ({ queries, headers }) => {
                                 </div>
                                 <div className="matinfo7Acopy">
                                   <div className="h327Acopy fw-bold">
-                                    KT/CLR:
+                                  <span className="fw-bold">KT/CLR:</span>
+                                    <span>{e?.data?.rd?.MetalType} {e?.data?.rd?.MetalColorCo}</span>
                                   </div>
                                   <div className="h327Acopy">
                                     <span className="fw-bold">Size:</span>

@@ -8,7 +8,6 @@ const BarcodeStickerGen = ({ data }) => {
     if (barcodeRef.current) {
       JsBarcode(barcodeRef.current, data);
     }
-    console.log(data);
   }, [data]);
 
   const canvasRef = useRef(null);

@@ -1161,12 +1161,13 @@ p.w_33.bold,
 }
 
 .code {
-  box-sizing: border-box;
-  width: 34mm;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  box-sizing: border-box !important;
+  width: 34mm !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  line-height: 130% !important;
 }
 
 .size {

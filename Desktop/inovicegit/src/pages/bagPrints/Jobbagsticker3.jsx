@@ -7,18 +7,14 @@ import Loader from '../../components/Loader';
 import BarcodeStickerGen from './BarcodeStickerGen';
 import { GetData } from './../../GlobalFunctions/GetData';
 import { organizeData } from './../../GlobalFunctions/OrganizeBagPrintData';
+import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
+import { handleImageError } from '../../GlobalFunctions/HandleImageError';
+import { handlePrint } from '../../GlobalFunctions/HandlePrint';
 
 function Jobbagsticker3({ queries, headers }) {
     const location = useLocation();
     const queryParams = queryString.parse(location.search);
-    let jobs = queryParams.str_srjobno;
-    const parts = jobs.split(",");
-  const resultString = parts.map((part) => `'${part}'`).join(",");
-
-    if (Object.keys(queryParams).length !== 0) {
-        jobs = jobs.split(",");
-    }
-    const [print, setPrint] = useState(jobs);
+    const resultString = GetUniquejob(queryParams?.str_srjobno);
     const [data, setData] = useState([]);
     useEffect(() => {
         if (Object.keys(queryParams).length !== 0) {
@@ -165,24 +161,15 @@ function Jobbagsticker3({ queries, headers }) {
         };
         fetchData();
     }, []);
-    const handleImageError = (e) => {
-        try {
-            e.target.src = require("../bags/default.jpg");
-        } catch (error) {
-            console.log(error);
-        }
-    };
+
     useEffect(() => {
-        if (data.length !== 0) {
+        if (data?.length !== 0) {
             setTimeout(() => {
                 window.print();
             }, 4000);
         }
 }, [data]);
-    const handlePrint = (e) => {
-        e.preventDefault();
-        window.print();
-    };
+
 
     // Check if the 'str' variable is not null before accessing its 'length' property
     return (
@@ -201,7 +188,7 @@ function Jobbagsticker3({ queries, headers }) {
                         data.length > 0 ? 
                             <div className='container_job_bag_sticker_3'>
                                 {
-                                    data.map((e, i) => {
+                                    data?.map((e, i) => {
                                         return (
                                             <div className='bag_space' key={i}>
                                                 <div className="heading_job_3">
@@ -230,7 +217,7 @@ function Jobbagsticker3({ queries, headers }) {
                                     })
                                 }
                             </div>
-                         : ''
+                         : 'Data Not Found!'
                     }
                     </div>
                 </>
