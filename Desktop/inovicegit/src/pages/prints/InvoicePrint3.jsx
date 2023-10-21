@@ -441,10 +441,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                   <div className="headerinvp3">
                     <div className="head1invp3">
                       <p className="fw-bold fsinvp3 w-50">BILL NO</p>
-                      <p
-                        className="fsinvp3 w-50 "
-                        dangerouslySetInnerHTML={{ __html: headerData?.Remark }}
-                      ></p>
+                      <p className="fsinvp3 w-50 text-end">{headerData?.InvoiceNo}</p>
                     </div>
                     <div className="head1invp3">
                       <p className="fw-bold fsinvp3">DATE</p>
