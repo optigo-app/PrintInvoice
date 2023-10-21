@@ -15,7 +15,7 @@
 }
 
 .head7Acopy {
-    height: 29.76mm;
+    height: 116px;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -60,6 +60,7 @@
     display: flex;
     justify-content: space-between;
     margin-left: 3px;
+    
     border: 1px solid #989898;
     border-radius: 8px;
 }
@@ -75,6 +76,7 @@
 
 .headW7Acopy {
     width: 62mm;
+    height: 116px;
 }
 
 .fs7Acopy {
@@ -294,6 +296,13 @@
 }
 .lh20A{
     line-height: 7px;
+}
+.textHide20A{
+    font-size: 8.5px;
+    max-height: 7px;
+    overflow: hidden;
+    position: relative;
+    top: 2px;
 }
 @media print{
     .container7Acopy:nth-child(4n){
