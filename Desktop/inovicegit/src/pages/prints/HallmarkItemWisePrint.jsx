@@ -786,7 +786,6 @@ const HallmarkItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         };
         sendData();
         let obj = { ...styles };
-        console.log(atob(evn).toLowerCase());
         if (atob(evn).toLowerCase() === "memo") {
             obj.metaltype = style?.metaltypeItemWisePrintHallmark1;
             obj.category = style?.categoryItemWisePrintHallmark1;
@@ -837,8 +836,8 @@ const HallmarkItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
                         <p>{json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}</p>
                         <p>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}</p>
                     </div>
-                    <div className='px-1 py-2'>
-                        <img src={json0Data?.PrintLogo} alt="" className='w-25 h-auto ms-auto d-block' onError={handleImageError} />
+                    <div className='px-1 py-2 position-relative'>
+                        <img src={json0Data?.PrintLogo} alt="" className={`w-25 h-auto ms-auto d-block ${style?.logoImage}`} onError={handleImageError} />
                     </div>
                 </div>
                 {/* address */}
@@ -866,7 +865,7 @@ const HallmarkItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     <div className="col-4 p-1">
                         <div className="d-flex">
-                            <p className='fw-bold col-3 me-2'>BILL NO </p>
+                            <p className='fw-bold col-3 me-2'>{atob(evn).toLowerCase() === "memo" ? "VOUCHER NO" : "BILL NO"}</p>
                             <p className='col-9'>{json0Data?.InvoiceNo}</p>
                         </div>
                         <div className="d-flex">

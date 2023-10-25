@@ -80,3 +80,14 @@
     width: 10%;
     min-width: 10%;    
 }
+
+.logoImage{
+    min-width: 120px !important;
+    min-height: 100px !important;
+    width: 120px !important;
+    height: 100px !important;
+    object-fit: contain;
+    position: absolute;
+    right: 0;
+    top: -40px;
+}

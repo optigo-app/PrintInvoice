@@ -88,6 +88,10 @@ ol {
   padding: 0 15px;
 }
 
+.max_width_container{
+  max-width: 1200px !important;
+}
+
 .bgLightPink {
   background: #F5F4F4;
 }

@@ -1,0 +1,9 @@
+.invoicePrint4CloneContainer *{
+    font-size: 14px;
+}
+
+.imageLogoInovicePrint4{
+    max-width: 188px;
+    max-height: 123px;
+    object-fit: contain;
+}

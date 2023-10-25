@@ -76,14 +76,14 @@ p.w_33.bold,
   justify-content: space-between;
 }
 
-.bold {
+/* .bold {
   font-weight: 900;
 }
 
 .border {
   border: 1px solid #000;
   border-radius: 5px;
-}
+} */
 
 .border_2 {
   border: 2px solid #000;
@@ -919,7 +919,7 @@ p.w_33.bold,
   box-sizing: border-box;
 }
 
-.bold {
+/* .bold {
   font-weight: 900;
   box-sizing: border-box;
 }
@@ -928,7 +928,7 @@ p.w_33.bold,
   border: 0.2645833333mm solid #000;
   border-radius: 1.3229166667mm;
   box-sizing: border-box;
-}
+} */
 
 .border_2 {
   box-sizing: border-box;

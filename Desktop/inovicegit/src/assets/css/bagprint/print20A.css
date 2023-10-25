@@ -68,6 +68,7 @@
 .h327Acopy {
     height: 22px;
     width: 18.47mm;
+    width: 21.47mm;
     border-bottom: 1px solid #989898;
     border-left: 1px solid #989898;
     padding-left: 1.8px;
@@ -198,6 +199,17 @@
     padding-top: 2px;
     border-bottom: 1px solid #989898;
     font-weight: bold;
+    position: relative;
+}
+
+.entryCol7Acopy::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 15px;
+    border-right: 1px dotted #000;
+    height: 100%;
+    width: 1px;
 }
 
 .diacsentry7Acopy{
