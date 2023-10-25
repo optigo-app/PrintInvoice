@@ -388,6 +388,8 @@
     align-items: center;
 }
 
+
+
 @media print {
     .trowJL {
         page-break-inside: avoid;

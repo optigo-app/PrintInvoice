@@ -6,6 +6,7 @@ import Header2 from "./components/headers/Header2";
 import Header3 from "./components/headers/Header3";
 import Subhead1 from "./components/subheaders/subhead1/Subhead1";
 import Subhead2 from "./components/subheaders/subhead2/Subhead2";
+import { exportToExcel } from "react-json-to-excel";
 
 //print button function for print pop up
 export const handlePrint = (e) => {
@@ -233,3 +234,48 @@ export const notZero = (val) => {
    }
 }
 
+export const ExportToExcel = (data) => {
+  // let headerData = data?.BillPrint_Json[0];
+  // let obj = {
+  //   "Excel Column": "JSON",
+  //   "Stock Code/Prefix":  "",
+  //   "Design No.": "",
+  //   "Supplier Ref": headerData?.CompanyFullName,
+  //   "Qty": 1,
+  //   "Category": "",
+  //   "Sub Category": "",
+  //   "Clarity": "",
+  //   "Dia Color": "",
+  //   "Dia Size": "",
+  //   "Shape": "",
+  //   "No. Of Dia": "",
+  //   "Dia Carat": "",
+  //   "Dia Amt prt ct": "",
+  //   "Dia value": "",
+  //   "total dia amount": "",
+  //   "Stone Shape": "",
+  //   "Shape": "",
+  //   "No. Of St.": "",
+  //   "Stone Ct": "",
+  //   "St Amt per Ct": "",
+  //   "Stone Value": "",
+  //   "Metal Division": "",
+  //   "GROSS WT": "",
+  //   "NET WT/GOLD WT": "",
+  //   "gold loss wt": "",
+  //   "Karat": "",
+  //   "Gold Colour": "",
+  //   "Rate Type": "",
+  //   "Rate": "",
+  //   "Gold Value": "",
+  //   "Gold Loss Value": "",
+  //   "Total Gold Value": "",
+  //   "MAKING": "",
+  //   "Cost": "",
+  //   "CERTIFICATION": "",
+  //   "CERTIFIED BY": "",
+  //   "CERTIFICATE NUMBER": "",
+  // }
+  // exportFromJSON({ data, fileName,  exportType: exportFromJSON.types.xls   })
+  exportToExcel(data, 'data', true);
+}  

@@ -83,9 +83,9 @@ const BagPrint20A = ({ queries, headers }) => {
           // Check if productInstruction is not undefined, null, 'null', or an empty string
           const displayValue =
             ProductInstruction !== undefined &&
-            ProductInstruction != null &&
-            ProductInstruction !== "null" &&
-            ProductInstruction.trim() !== ""
+              ProductInstruction != null &&
+              ProductInstruction !== "null" &&
+              ProductInstruction.trim() !== ""
               ? ProductInstruction
               : " ";
 
@@ -387,13 +387,14 @@ const BagPrint20A = ({ queries, headers }) => {
                                     <div className="remark7Acopy">
                                       <div
                                         style={{
-                                          width: "41.45mm",
+                                          width: "38.45mm",
                                           paddingLeft: "2px",
                                           paddingTop: "1px",
+                                          maxHeight: "60px",
+                                          overflow: "hidden"
                                         }}
                                       >
                                         <span className="fs20A fw-bold">
-                                          {" "}
                                           Remark:
                                         </span>
                                         <span className="text-danger lh20A p-1">
@@ -403,13 +404,13 @@ const BagPrint20A = ({ queries, headers }) => {
                                       <div className="matinfo7Acopy">
                                         <div className="h327Acopy d-flex flex-column justify-content-between ">
                                           <span
-                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100 fw-bold"
-                                            style={{ fontSize: "8.5px" }}
+                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100"
+                                            style={{ fontSize: "7.5px" }}
                                           >
                                             KT/CLR:
                                           </span>
                                           <span
-                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A "
+                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
                                             style={{
                                               fontSize: "10.5px",
                                               paddingRight: "2px",
@@ -420,13 +421,13 @@ const BagPrint20A = ({ queries, headers }) => {
                                         </div>
                                         <div className="h327Acopy d-flex flex-column justify-content-between ">
                                           <span
-                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100 fw-bold"
-                                            style={{ fontSize: "8.5px" }}
+                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100"
+                                            style={{ fontSize: "7.5px" }}
                                           >
                                             Size:
                                           </span>
                                           <span
-                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A"
+                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
                                             style={{
                                               fontSize: "10.5px",
                                               paddingRight: "2px",
@@ -440,13 +441,13 @@ const BagPrint20A = ({ queries, headers }) => {
                                           style={{ borderBottom: "0px" }}
                                         >
                                           <span
-                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100 fw-bold"
-                                            style={{ fontSize: "8.5px" }}
+                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100"
+                                            style={{ fontSize: "7.5px" }}
                                           >
                                             Est Wt:
                                           </span>
                                           <span
-                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A"
+                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
                                             style={{
                                               fontSize: "10.5px",
                                               paddingRight: "2px",
@@ -675,9 +676,9 @@ const BagPrint20A = ({ queries, headers }) => {
                                           <div key={si}>
                                             {" "}
                                             {s?.Sizename === "Diamond Detail" ||
-                                            s?.Sizename ===
+                                              s?.Sizename ===
                                               "Colorstone Detail" ||
-                                            s?.Sizename === "Misc Detail" ? (
+                                              s?.Sizename === "Misc Detail" ? (
                                               <div
                                                 className="fs20A"
                                                 style={{
@@ -690,8 +691,8 @@ const BagPrint20A = ({ queries, headers }) => {
                                             ) : (
                                               <React.Fragment>
                                                 {s?.Sizename === "C TOTAL" ||
-                                                s?.Sizename === "D TOTAL" ||
-                                                s?.Sizename === "MISC TOTAL" ? (
+                                                  s?.Sizename === "D TOTAL" ||
+                                                  s?.Sizename === "MISC TOTAL" ? (
                                                   <div
                                                     className="fw-normal fs20A fw-bold"
                                                     style={{ fontSize: "9px" }}
@@ -912,19 +913,19 @@ const BagPrint20A = ({ queries, headers }) => {
                               <div className="barcodebag7Acopy">
                                 <div style={{ width: "45%" }}>
                                   <div className="h7Acopy fs7Acopy d-flex">
-                                    <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center" style={{width:"38.5px"}}>
+                                    <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center" style={{ width: "38.5px" }}>
                                       Bag No:
                                     </span>
-                                    <span className="fs7Acopy h-100 d-flex justify-content-center align-items-center fw-bold" style={{width:"64px"}}>
+                                    <span className="fs7Acopy h-100 d-flex justify-content-center align-items-center fw-bold" style={{ width: "64px" }}>
                                       {(e?.data?.rd?.serialjobno)?.slice(0, 9)}
                                     </span>
                                   </div>
                                   <div className="h7Acopy fs7Acopy d-flex">
-                                    <span className=" fw-bold h-100 d-flex justify-content-center align-items-center" style={{width:"38.5px", fontSize:"8.5px"}}>
+                                    <span className=" fw-bold h-100 d-flex justify-content-center align-items-center" style={{ width: "38.5px", fontSize: "8.5px" }}>
                                       Dgn No:
                                     </span>
-                                    <span className=" h-100 d-flex justify-content-center align-items-center ps-1" style={{width:"64px", fontSize:"8.5px"}}>
-                                      {(e?.data?.rd?.Designcode)?.slice(0,31)}
+                                    <span className=" h-100 d-flex justify-content-center align-items-center ps-1" style={{ width: "64px", fontSize: "8.5px" }}>
+                                      {(e?.data?.rd?.Designcode)?.slice(0, 31)}
                                     </span>
                                   </div>
                                 </div>
@@ -947,7 +948,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                 </div>
                                 <div className="matinfo7Acopy">
                                   <div className="h327Acopy fw-bold">
-                                  <span className="fw-bold">KT/CLR:</span>
+                                    <span className="fw-bold">KT/CLR:</span>
                                     <span>{e?.data?.rd?.MetalType} {e?.data?.rd?.MetalColorCo}</span>
                                   </div>
                                   <div className="h327Acopy">
