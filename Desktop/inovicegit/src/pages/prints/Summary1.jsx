@@ -3,6 +3,7 @@ import "../../assets/css/prints/summary1.css";
 import {
   apiCall,
   CapitalizeWords,
+  FooterComponent,
   handleImageError,
   HeaderComponent,
   isObjectEmpty,
@@ -18,6 +19,7 @@ import Footer2 from "../../components/footers/Footer2";
 const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
   const [subHeaderData, setSubHeaderData] = useState({});
+  const [footerComponent, setFooterComponent] = useState(null);
   const [dynamicList1, setDynamicList1] = useState([]);
   const [dynamicList2, setDynamicList2] = useState([]);
   const [mainTotal, setMainTotal] = useState({});
@@ -225,6 +227,10 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
 
       let subhead = SubheaderComponent(headerDatas?.HeaderNo, headerDatas);
       setSubHeaderData(subhead);
+
+      let footerComp = FooterComponent(headerDatas?.HeaderNo, headerDatas);
+      setFooterComponent(footerComp);
+
     });
 
     let allTax = taxGenrator(headerDatas, totAmount);
@@ -894,7 +900,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div> */}
                 </div>
                 <div style={{width:"1000px"}}>
-                  <Footer2 />
+                  {footerComponent}
+                  {/* <Footer2 /> */}
                 </div>
               </div>
             </>

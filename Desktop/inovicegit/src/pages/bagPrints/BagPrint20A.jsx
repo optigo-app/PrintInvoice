@@ -264,7 +264,6 @@ const BagPrint20A = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
-  console.log(data);
   return (
     <>
       {data?.length === 0 ? (

@@ -45,7 +45,7 @@ const Header3 = ({ data }) => {
         <div className={style.einvoiceDetails}>
             <div className="d-flex">
                 <div className={`fw-bold ${style.fshead3comp}`}>IRN : </div>
-                <div className={style.fshead3comp}>kjnfkjnskfjbnkjbgkj005yu9u090909uj90u77gt7guhn987nkjbnfkjnfkjnfkjnfkjnf</div>
+                <div className={style.fshead3comp}>long number</div>
             </div>
             <div className="d-flex">
                 <div className={`fw-bold ${style.fshead3comp}`}>Ack No.</div>

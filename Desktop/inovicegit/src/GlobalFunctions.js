@@ -7,6 +7,7 @@ import Header3 from "./components/headers/Header3";
 import Subhead1 from "./components/subheaders/subhead1/Subhead1";
 import Subhead2 from "./components/subheaders/subhead2/Subhead2";
 import { exportToExcel } from "react-json-to-excel";
+import Footer2 from "./components/footers/Footer2";
 
 //print button function for print pop up
 export const handlePrint = (e) => {
@@ -42,7 +43,7 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
 
   try {
     const response = await axios.post(urls, body);
-    console.log(response?.data?.Data);
+    
     return response?.data;
   } catch (error) {
     console.error(error);
@@ -119,6 +120,8 @@ export const NumberWithCommas = (value, val) => {
 export const fixedValues = (value, zeroes) =>
   typeof value === "number" ? value.toFixed(zeroes) : (+value)?.toFixed(zeroes);
 
+
+
 //call of header
 export const HeaderComponent = (headNo, headerData) => {
   let headerComponent;
@@ -147,14 +150,15 @@ export const HeaderComponent = (headNo, headerData) => {
 //call of footer
 export const FooterComponent = (footerNo, footerData) => {
   let footerComponent;
+  
 
-  switch (footerNo) {
+  switch ('2') {
     case "1":
       footerComponent = <Footer1 data={footerData} />;
 
       break;
     case "2":
-      footerComponent = <Footer1 data={footerData} />;
+      footerComponent = <Footer2 data={footerData} />;
       break;
 
     default:
@@ -184,6 +188,8 @@ export const SubheaderComponent = (subheadNo, SubheadData) => {
 
   return subheaderComponent;
 };
+
+
 
 export const ReceiveInBank = (BankPayDet) => {
   if (BankPayDet?.length > 0) {
