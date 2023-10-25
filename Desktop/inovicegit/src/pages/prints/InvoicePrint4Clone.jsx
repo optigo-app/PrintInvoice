@@ -12,6 +12,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
     const [discription, setDiscription] = useState("");
     const [another, setAnother] = useState({
         labour: 0,
+        labourRate: 0,
         other: 0,
     })
 
@@ -67,11 +68,13 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
             return {
                 MetalAmount: accumulator.MetalAmount + currentValue.MetalAmount,
                 OtherCharges: accumulator.OtherCharges + currentValue.OtherCharges,
+                labourRate: accumulator.MaKingCharge_Unit + currentValue.MaKingCharge_Unit
             };
-        }, { MetalAmount: 0, OtherCharges: 0 });
+        }, { MetalAmount: 0, OtherCharges: 0, labourRate: 0 });
         let obj = {
             labour: result?.MetalAmount,
-            other: result?.OtherCharges
+            other: result?.OtherCharges,
+            labourRate: result?.labourRate
         }
         setAnother(obj);
     }
@@ -186,7 +189,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <div className="d-flex pb-1">
                                     <div className="col-3 px-2">LABOUR</div>
                                     <div className="col-3 px-2 text-center"></div>
-                                    <div className="col-3 px-2 text-center"></div>
+                                    <div className="col-3 px-2 text-center">{NumberWithCommas(another?.labourRate, 2)}</div>
                                     <div className="col-3 px-2 text-end">{NumberWithCommas(another?.labour, 2)}</div>
                                 </div>
                                 <div className="d-flex pb-1">
@@ -198,6 +201,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                             </div>
                         </div>
                     </div>
+                    {/* Total */}
                     <div className="d-flex border-start border-end border-bottom">
                         <div className="col-4 p-2 border-end">
                             <p className="fs-5 text-center"> </p>
