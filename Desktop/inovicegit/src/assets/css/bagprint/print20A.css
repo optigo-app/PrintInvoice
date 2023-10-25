@@ -206,8 +206,8 @@
     content: "";
     position: absolute;
     top: 0;
-    right: 15px;
-    border-right: 1px dotted #000;
+    right: 33px;
+    border-right: 1px dotted #989898;
     height: 100%;
     width: 1px;
 }
