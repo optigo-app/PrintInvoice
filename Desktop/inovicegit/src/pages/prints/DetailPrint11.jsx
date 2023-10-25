@@ -254,7 +254,6 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               <p className='text-center pb-1'>Size {e?.Size}</p>
             </div>
             <div className="diamondStoneDetailPrint11 d-grid pad_bt_20semiTotalDetailPrint11 position-relative">
-              {console.log(e.materials)}
               {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
                 return <div className='d-flex border-bottom' key={ind}>
                   <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{ele?.ShapeName}</p></div>

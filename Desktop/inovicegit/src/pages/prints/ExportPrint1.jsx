@@ -125,7 +125,6 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
             {/* data */}
             {data && data.map((e, i) => {
-                console.log(e);
                 return <div className={`d-flex border-bottom border-start border-end ${style.rowExport1}`} key={i}>
                     <div className={`${style.srNoExport1} border-end`}><p className='text-center '>{e?.SrNo}</p></div>
                     <div className={`${style.discriptionExport1} border-end`}><p className='text-center '>{e?.Categoryname} ({e?.MetalPurity})</p></div>

@@ -2,7 +2,6 @@
 import React from "react";
 import style from "../../assets/css/footers/footer2.module.css";
 const Footer2 = ({data}) => {
-  console.log(data);
   return (
     <div className={style.container}>
       <div

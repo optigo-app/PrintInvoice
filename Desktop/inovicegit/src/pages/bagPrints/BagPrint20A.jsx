@@ -15,7 +15,6 @@ const BagPrint20A = ({ queries, headers }) => {
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
-  console.log(resultString);
   const chunkSize7 = 10;
   useEffect(() => {
     if (Object.keys(queryParams).length !== 0) {
@@ -83,9 +82,9 @@ const BagPrint20A = ({ queries, headers }) => {
           // Check if productInstruction is not undefined, null, 'null', or an empty string
           const displayValue =
             ProductInstruction !== undefined &&
-              ProductInstruction != null &&
-              ProductInstruction !== "null" &&
-              ProductInstruction.trim() !== ""
+            ProductInstruction != null &&
+            ProductInstruction !== "null" &&
+            ProductInstruction.trim() !== ""
               ? ProductInstruction
               : " ";
 
@@ -324,7 +323,10 @@ const BagPrint20A = ({ queries, headers }) => {
                                           Party:
                                         </span>
                                         <span className="lh20A fs20A">
-                                          {e?.data?.rd?.CustomerCode?.slice(0, 12)}
+                                          {e?.data?.rd?.CustomerCode?.slice(
+                                            0,
+                                            12
+                                          )}
                                         </span>
                                       </div>
                                     </div>
@@ -390,7 +392,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                           paddingLeft: "2px",
                                           paddingTop: "1px",
                                           maxHeight: "60px",
-                                          overflow: "hidden"
+                                          overflow: "hidden",
                                         }}
                                       >
                                         <span className="fs20A fw-bold">
@@ -415,7 +417,8 @@ const BagPrint20A = ({ queries, headers }) => {
                                               paddingRight: "2px",
                                             }}
                                           >
-                                            {e?.data?.rd?.MetalType} {e?.data?.rd?.MetalColorCo}
+                                            {e?.data?.rd?.MetalType}{" "}
+                                            {e?.data?.rd?.MetalColorCo}
                                           </span>
                                         </div>
                                         <div className="h327Acopy d-flex flex-column justify-content-between ">
@@ -449,7 +452,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                             className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
                                             style={{
                                               fontSize: "10.5px",
-                                              paddingRight: "2px",
+                                              paddingRight: "5px",
                                             }}
                                           >
                                             {e?.data?.rd?.ActualGrossweight?.toFixed(
@@ -675,9 +678,9 @@ const BagPrint20A = ({ queries, headers }) => {
                                           <div key={si}>
                                             {" "}
                                             {s?.Sizename === "Diamond Detail" ||
-                                              s?.Sizename ===
+                                            s?.Sizename ===
                                               "Colorstone Detail" ||
-                                              s?.Sizename === "Misc Detail" ? (
+                                            s?.Sizename === "Misc Detail" ? (
                                               <div
                                                 className="fs20A"
                                                 style={{
@@ -690,13 +693,13 @@ const BagPrint20A = ({ queries, headers }) => {
                                             ) : (
                                               <React.Fragment>
                                                 {s?.Sizename === "C TOTAL" ||
-                                                  s?.Sizename === "D TOTAL" ||
-                                                  s?.Sizename === "MISC TOTAL" ? (
+                                                s?.Sizename === "D TOTAL" ||
+                                                s?.Sizename === "MISC TOTAL" ? (
                                                   <div
                                                     className="fw-normal fs20A fw-bold"
                                                     style={{ fontSize: "9px" }}
                                                   >
-                                                    {s?.Sizename + " "}  : {" "}
+                                                    {s?.Sizename + " "} :{" "}
                                                     {s?.ActualPcs + " "}
                                                   </div>
                                                 ) : (
@@ -912,19 +915,37 @@ const BagPrint20A = ({ queries, headers }) => {
                               <div className="barcodebag7Acopy">
                                 <div style={{ width: "45%" }}>
                                   <div className="h7Acopy fs7Acopy d-flex">
-                                    <span className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center" style={{ width: "38.5px" }}>
+                                    <span
+                                      className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center"
+                                      style={{ width: "38.5px" }}
+                                    >
                                       Bag No:
                                     </span>
-                                    <span className="fs7Acopy h-100 d-flex justify-content-center align-items-center fw-bold" style={{ width: "64px" }}>
-                                      {(e?.data?.rd?.serialjobno)?.slice(0, 9)}
+                                    <span
+                                      className="fs7Acopy h-100 d-flex justify-content-center align-items-center fw-bold"
+                                      style={{ width: "64px" }}
+                                    >
+                                      {e?.data?.rd?.serialjobno?.slice(0, 9)}
                                     </span>
                                   </div>
                                   <div className="h7Acopy fs7Acopy d-flex">
-                                    <span className=" fw-bold h-100 d-flex justify-content-center align-items-center" style={{ width: "38.5px", fontSize: "8.5px" }}>
+                                    <span
+                                      className=" fw-bold h-100 d-flex justify-content-center align-items-center"
+                                      style={{
+                                        width: "38.5px",
+                                        fontSize: "8.5px",
+                                      }}
+                                    >
                                       Dgn No:
                                     </span>
-                                    <span className=" h-100 d-flex justify-content-center align-items-center ps-1" style={{ width: "64px", fontSize: "8.5px" }}>
-                                      {(e?.data?.rd?.Designcode)?.slice(0, 31)}
+                                    <span
+                                      className=" h-100 d-flex justify-content-center align-items-center ps-1"
+                                      style={{
+                                        width: "64px",
+                                        fontSize: "8.5px",
+                                      }}
+                                    >
+                                      {e?.data?.rd?.Designcode?.slice(0, 31)}
                                     </span>
                                   </div>
                                 </div>
@@ -937,30 +958,73 @@ const BagPrint20A = ({ queries, headers }) => {
                               <div className="remark7Acopy">
                                 <div
                                   style={{
-                                    width: "41.45mm",
+                                    width: "38.45mm",
                                     paddingLeft: "2px",
                                     paddingTop: "1px",
                                   }}
                                 >
-                                  <span className="fw-bold"> Remark:</span>{" "}
+                                  <span className="fw-bold fs20A"> Remark:</span>{" "}
                                   <span>{e?.data?.rd?.remark}</span>
                                 </div>
                                 <div className="matinfo7Acopy">
-                                  <div className="h327Acopy fw-bold">
-                                    <span className="fw-bold">KT/CLR:</span>
-                                    <span>{e?.data?.rd?.MetalType} {e?.data?.rd?.MetalColorCo}</span>
-                                  </div>
-                                  <div className="h327Acopy">
-                                    <span className="fw-bold">Size:</span>
-                                    <span>{e?.data?.rd?.Size}</span>
-                                  </div>
-                                  <div
-                                    className="h327Acopy fw-bold"
-                                    style={{ borderBottom: "0px" }}
-                                  >
-                                    Est Wt:
-                                  </div>
-                                </div>
+                                        <div className="h327Acopy d-flex flex-column justify-content-between ">
+                                          <span
+                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100"
+                                            style={{ fontSize: "7.5px" }}
+                                          >
+                                            KT/CLR:
+                                          </span>
+                                          <span
+                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
+                                            style={{
+                                              fontSize: "10.5px",
+                                              paddingRight: "2px",
+                                            }}
+                                          >
+                                            {e?.data?.rd?.MetalType}{" "}
+                                            {e?.data?.rd?.MetalColorCo}
+                                          </span>
+                                        </div>
+                                        <div className="h327Acopy d-flex flex-column justify-content-between ">
+                                          <span
+                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100"
+                                            style={{ fontSize: "7.5px" }}
+                                          >
+                                            Size:
+                                          </span>
+                                          <span
+                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
+                                            style={{
+                                              fontSize: "10.5px",
+                                              paddingRight: "2px",
+                                            }}
+                                          >
+                                            {e?.data?.rd?.Size}
+                                          </span>
+                                        </div>
+                                        <div
+                                          className="h327Acopy d-flex flex-column justify-content-between"
+                                          style={{ borderBottom: "0px" }}
+                                        >
+                                          <span
+                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100"
+                                            style={{ fontSize: "7.5px" }}
+                                          >
+                                            Est Wt:
+                                          </span>
+                                          <span
+                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
+                                            style={{
+                                              fontSize: "10.5px",
+                                              paddingRight: "5px",
+                                            }}
+                                          >
+                                            {e?.data?.rd?.ActualGrossweight?.toFixed(
+                                              3
+                                            )}
+                                          </span>
+                                        </div>
+                                      </div>
                               </div>
                             </div>
                           </div>
@@ -1177,7 +1241,7 @@ const BagPrint20A = ({ queries, headers }) => {
                           </div>
                           <div className="emptybox7Acopy"></div>
                         </div>
-                        <div className="footercss7Acopy">
+                        {/* <div className="footercss7Acopy">
                           <div className="footer7Acopy">
                             <div
                               className="footerCol7Acopyall"
@@ -1219,9 +1283,123 @@ const BagPrint20A = ({ queries, headers }) => {
                               Net Wt.
                             </div>
                           </div>
-                          <div className="footer7Acopy brbnone7Acopy brl7Acopy1"></div>
-                          <div className="footer7Acopy brbnone7Acopy brl7Acopy2"></div>
-                        </div>
+                          <div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                          </div>
+
+                          
+                        </div> */}
+                        <div className="footercss7Acopy">
+                                <div className="footer7Acopy">
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "16.10mm" }}
+                                  >
+                                    Gross Wt.
+                                  </div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "18.00mm" }}
+                                  >
+                                    Diamond
+                                  </div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "18.00mm" }}
+                                  >
+                                    Color Stone
+                                  </div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "12.00mm" }}
+                                  >
+                                    Misc
+                                  </div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "12.00mm" }}
+                                  >
+                                    Mina
+                                  </div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{
+                                      width: "16.10mm",
+                                      borderRight: "0px",
+                                    }}
+                                  >
+                                    Net Wt.
+                                  </div>
+                                </div>
+
+                                <div className="footer7Acopy brbnone7Acopy brl7Acopy1">
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "16.10mm" }}
+                                  ></div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "18.00mm" }}
+                                  ></div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "18.00mm" }}
+                                  ></div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "12.00mm" }}
+                                  ></div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "12.00mm" }}
+                                  ></div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{
+                                      width: "16.10mm",
+                                      borderRight: "0px",
+                                    }}
+                                  ></div>
+                                </div>
+                                <div
+                                  className="footer7Acopy brbnone7Acopy brl7Acopy2"
+                                  style={{ borderTop: "1px dashed #989898" }}
+                                >
+                                  {" "}
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "16.10mm" }}
+                                  ></div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "18.00mm" }}
+                                  ></div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "18.00mm" }}
+                                  ></div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "12.00mm" }}
+                                  ></div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{ width: "12.00mm" }}
+                                  ></div>
+                                  <div
+                                    className="footerCol7Acopyall"
+                                    style={{
+                                      width: "16.10mm",
+                                      borderRight: "0px",
+                                    }}
+                                  ></div>
+                                </div>
+                              </div>
                       </div>
                     )}
                   </React.Fragment>

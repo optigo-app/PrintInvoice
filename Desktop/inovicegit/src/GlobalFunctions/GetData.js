@@ -12,10 +12,11 @@ export const GetData = async (job) => {
             "p": `${base64String}`,
             "f": `${job.appuserid} ${job.printname}`
         };
-        console.log(Body,job.headers,atob(job.url));
         let urls = atob(job.url);
         const response = await axios.post(urls, Body, { headers: job.headers });
         let datas = JSON.parse(response.data.d);
+        console.log(datas);
+        
         return datas;
     } catch (error) {
         console.log(error);

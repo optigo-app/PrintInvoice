@@ -47,7 +47,6 @@ const AllDesignBagPrint = () => {
     'YearCode': queries.YearCode,
     'version': queries.version
   };
-  console.log(queries.version);
 
   return (
     <div>

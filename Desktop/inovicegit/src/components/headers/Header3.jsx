@@ -4,7 +4,6 @@ import QRCodeGenerator from "../QRCodeGenerator";
 import { HeaderComponent } from "./../../GlobalFunctions";
 
 const Header3 = ({ data }) => {
-  console.log(data);
   return (
     <div className="w-100">
       <div className={style.headline}>

@@ -13,7 +13,6 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn }) => {
   };
 
   const loadData = (data) => {
-    console.log(data);
     setJson0Data(data?.BillPrint_Json[0])
   }
 
@@ -54,7 +53,6 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn }) => {
 }
 `
     const prefixedCSS = addPrefixToCSS(data, '${style.');
-    console.log(prefixedCSS);
 
 
 
