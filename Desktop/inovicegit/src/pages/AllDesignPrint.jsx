@@ -41,50 +41,53 @@ const AllDesignPrint = () => {
   const invoiceno = queryParams.get('invn');
   const printname = queryParams.get('pnm');
   const evn = queryParams.get('evn');
-  const etp = queryParams.get('etp');
-  // console.log(invoiceno, atob(invoiceno));
-  // console.log(invoiceno, atob(invoiceno));
+  let etp = queryParams.get('etp');
+  if(etp === null) {
+    etp = "cHJpbnQ="
+  }
+  let printName = atob(printname).toLowerCase();
+  let etpType = atob(etp).toLowerCase();
   return (
     <>
-      {(atob(printname).toLowerCase() === "summary 4" && atob(etp).toLowerCase() === "print") && <Summary4 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "summary 12" && atob(etp).toLowerCase() === "print") && <Summary12 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "tax invoice 1" && atob(etp).toLowerCase() === "print") && <TaxInvoice1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "packing list 3" && atob(etp).toLowerCase() === "print") && <PackingList3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "misc print 1" && atob(etp).toLowerCase() === "print") && <MiscPrint1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "estimate print" && atob(etp).toLowerCase() === "print") && <EstimatePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "retail" && atob(etp).toLowerCase() === "print") && <RetailPrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "detail print 11" && atob(etp).toLowerCase() === "print") && <DetailPrint11 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {((atob(printname).toLowerCase() === "detail print1 (l)" || atob(printname).toLowerCase() === "detail print1 (p)") && atob(etp).toLowerCase() === "print") && <DetailPrint1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "invoice print" && atob(etp).toLowerCase() === "print") && <InvoicePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "summary 4" && etpType === "print") && <Summary4 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "summary 12" && etpType === "print") && <Summary12 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "tax invoice 1" && etpType === "print") && <TaxInvoice1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "packing list 3" && etpType === "print") && <PackingList3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "misc print 1" && etpType === "print") && <MiscPrint1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "estimate print" && etpType === "print") && <EstimatePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "retail" && etpType === "print") && <RetailPrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "detail print 11" && etpType === "print") && <DetailPrint11 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {((printName === "detail print1 (l)" || printName === "detail print1 (p)") && etpType === "print") && <DetailPrint1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "invoice print" && etpType === "print") && <InvoicePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {
-        ((atob(printname).toLowerCase() === "item wise print"
-          || atob(printname).toLowerCase() === "item wise print1"
-          || atob(printname).toLowerCase() === "item wise print2") && atob(etp).toLowerCase() === "print")
+        ((printName === "item wise print"
+          || printName === "item wise print1"
+          || printName === "item wise print2") && etpType === "print")
         && <ItemWisePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />
       }
-      {(atob(printname).toLowerCase() === "jewellery item wise" && atob(etp).toLowerCase() === "print") && <HallmarkItemWisePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "jewellery item wise" && etpType === "print") && <HallmarkItemWisePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {
-        ((atob(printname).toLowerCase() === "jewellary invoice print"
-          || atob(printname).toLowerCase() === "labour print") && atob(etp).toLowerCase() === "print")
+        ((printName === "jewellary invoice print"
+          || printName === "labour print") && etpType === "print")
         && <JewelleryInvoicePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "detail print 12" && atob(etp).toLowerCase() === "print") && <DetailPrint12 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "export declaration form" && atob(etp).toLowerCase() === "print") && <ExportDeclarationForm billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "packing list" && atob(etp).toLowerCase() === "print") && <PackingList billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "summary 1" && atob(etp).toLowerCase() === "print") && <Summary1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "jewellery invoice" && atob(etp).toLowerCase() === "print") && <JewelleryInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "invoice print 2" && atob(etp).toLowerCase() === "print") && <InvoicePrint2 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "invoice print3" && atob(etp).toLowerCase() === "print") && <InvoicePrint3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "tax invoice" && atob(etp).toLowerCase() === "print") && <TaxInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "rough estimate" && atob(etp).toLowerCase() === "print") && <RoughEstimate billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "export" && atob(etp).toLowerCase() === "print") && <Export billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "export print" && atob(etp).toLowerCase() === "print") && <ExportPrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "export print 1" && atob(etp).toLowerCase() === "print") && <ExportPrint1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "summary 13" && atob(etp).toLowerCase() === "print") && <Summary13 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "jewellery retail invoice c" && atob(etp).toLowerCase() === "print") && <JewelleryRetailInvoicePrintc billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "retail invoice print 4" && atob(etp).toLowerCase() === "print") && <RetailInvoicePrint4 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(atob(printname).toLowerCase() === "invoice print 4 clone" && atob(etp).toLowerCase() === "print") && <InvoicePrint4Clone billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "detail print 12" && etpType === "print") && <DetailPrint12 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "export declaration form" && etpType === "print") && <ExportDeclarationForm billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "packing list" && etpType === "print") && <PackingList billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "summary 1" && etpType === "print") && <Summary1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "jewellery invoice" && etpType === "print") && <JewelleryInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "invoice print 2" && etpType === "print") && <InvoicePrint2 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "invoice print3" && etpType === "print") && <InvoicePrint3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "tax invoice" && etpType === "print") && <TaxInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "rough estimate" && etpType === "print") && <RoughEstimate billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "export" && etpType === "print") && <Export billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "export print" && etpType === "print") && <ExportPrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "export print 1" && etpType === "print") && <ExportPrint1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "summary 13" && etpType === "print") && <Summary13 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "jewellery retail invoice c" && etpType === "print") && <JewelleryRetailInvoicePrintc billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "retail invoice print 4" && etpType === "print") && <RetailInvoicePrint4 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "invoice print r" && etpType === "print") && <InvoicePrint4Clone billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
      
-      {atob(etp).toLowerCase() === "excel" && <ExcelToJsonDownload billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {etpType === "excel" && <ExcelToJsonDownload billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
     </>
   );
 };

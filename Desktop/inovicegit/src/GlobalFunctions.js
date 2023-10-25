@@ -283,5 +283,5 @@ export const ExportToExcel = (data) => {
   //   "CERTIFICATE NUMBER": "",
   // }
   // exportFromJSON({ data, fileName,  exportType: exportFromJSON.types.xls   })
-  exportToExcel(data, 'data', true);
+  exportToExcel(data, 'data');
 }  
