@@ -94,7 +94,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     }
                     let srJobno = ind === 0 ? e?.SrJobno : "";
                     let designno = ind === 0 ? e?.designno : "";
-                    let companyFullName = ind === 0 ? e?.CompanyFullName : "";
+                    let companyFullName = ind === 0 ? json0Data?.CompanyFullName : "";
                     let categoryname = ind === 0 ? e?.Categoryname : "";
                     let otherAmtDetail = ind === 0 ? e?.OtherAmtDetail : "";
                     let certification = ind === 0 ? e?.OtherCharges : "";
@@ -123,7 +123,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                 });
             }
         });
-        ExportToExcel(blankArr)
+        ExportToExcel(blankArr, data?.BillPrint_Json[0]?.InvoiceNo)
     }
 
     const createObj = (srJobno, designno, CompanyFullName, Div, Qty, Type, Categoryname, SubCategory, Brand, Country, DiaDiv, diamondQualityname,

@@ -187,9 +187,9 @@ p.w_33.bold,
   color: red;
 }
 
-.w-100 {
+/* .w-100 {
   width: 100%;
-}
+} */
 
 .w_98 {
   width: 98%;
@@ -1055,10 +1055,10 @@ p.w_33.bold,
   color: red;
 }
 
-.w-100 {
+/* .w-100 {
   box-sizing: border-box;
   width: 100%;
-}
+} */
 
 .w_98 {
   box-sizing: border-box;

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/invoiceprint4clone.module.css";
+import { ToWords } from 'to-words';
 
 const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
 
@@ -9,12 +10,20 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
     const [msg, setMsg] = useState("");
     const [headerData, setHeaderData] = useState({});
     const [datas, setDatas] = useState([]);
-    const [discription, setDiscription] = useState("");
+    const [discription, setDiscription] = useState("Diamond studded Jewellery");
     const [another, setAnother] = useState({
         labour: 0,
         labourRate: 0,
         other: 0,
-    })
+    });
+    const [total, setTotal] = useState({
+        totalAmount: 0,
+        grandTotal: 0,
+        qtyWeight: 0
+    });
+    
+    const [taxes, setTaxes] = useState([]);
+    const toWords = new ToWords();
 
     const resultAray = (arr, record) => {
         let findIndex = arr.findIndex(ele => ele?.Rate === record?.Rate);
@@ -35,9 +44,11 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
     const loadData = (data) => {
         setHeaderData(data?.BillPrint_Json[0]);
         let arr = [];
+        let totals = { ...total };
         data?.BillPrint_Json2.forEach((e, i) => {
             if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-                let findIndex = arr.findIndex(ele => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Rate === e?.Rate);
+                totals.qtyWeight += e?.Wt;
+                let findIndex = arr.findIndex(ele => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Rate === e?.Rate && ele?.MasterManagement_DiamondStoneTypeid === e?.MasterManagement_DiamondStoneTypeid);
                 if (findIndex === -1) {
                     arr.push(e);
                 } else {
@@ -48,6 +59,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                     }
                 }
             } else if (e?.MasterManagement_DiamondStoneTypeid === 2 || e?.MasterManagement_DiamondStoneTypeid === 1) {
+                totals.qtyWeight += e?.Wt;
                 let resultArr = resultAray(arr, e);
                 arr = [...resultArr];
             }
@@ -66,16 +78,28 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
         setDatas(arr);
         const result = data?.BillPrint_Json1.reduce((accumulator, currentValue) => {
             return {
-                MetalAmount: accumulator.MetalAmount + currentValue.MetalAmount,
+                MakingAmount: accumulator.MakingAmount + currentValue.MakingAmount,
                 OtherCharges: accumulator.OtherCharges + currentValue.OtherCharges,
-                labourRate: accumulator.MaKingCharge_Unit + currentValue.MaKingCharge_Unit
+                labourRate: accumulator.labourRate + currentValue.MaKingCharge_Unit,
+                TotalAmount: accumulator.TotalAmount + currentValue.TotalAmount
             };
-        }, { MetalAmount: 0, OtherCharges: 0, labourRate: 0 });
+        }, { MakingAmount: 0, OtherCharges: 0, labourRate: 0, TotalAmount: 0 });
+
         let obj = {
-            labour: result?.MetalAmount,
+            labour: result?.MakingAmount,
             other: result?.OtherCharges,
             labourRate: result?.labourRate
         }
+
+        let taxValue = taxGenrator(data?.BillPrint_Json[0], result.TotalAmount);
+        const sum = taxValue.reduce((total, item) => total + +(item.amount), 0);
+        let grandTotal = result.TotalAmount + sum + data?.BillPrint_Json[0]?.AddLess;
+        totals.totalAmount = result.TotalAmount;
+        totals.grandTotal = grandTotal;
+        setTotal(totals);
+
+        // console.log(taxValue);
+        setTaxes(taxValue);
         setAnother(obj);
     }
 
@@ -110,7 +134,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
     return (
         loader ? <Loader /> : msg === "" ? <>
             {/* print button  */}
-            <div className={`d-flex justify-content-end mb-4 align-items-center pt-4 container-fluid max_width_container pad_60_allPrint print_sec_sum4`}>
+            <div className={`d-flex justify-content-end mb-0 align-items-center pt-4 container-fluid max_width_container  print_sec_sum4`}>
                 <div className="form-check ps-3 mt-2">
                     <input
                         type="button"
@@ -120,38 +144,38 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                     />
                 </div>
             </div>
-            <div className={`container-fluid max_width_container ${style?.invoicePrint4CloneContainer}`}>
+            <div className={`container-fluid max_width_container ${style?.invoicePrint4CloneContainer} pad_60_allPrint`}>
                 {/* Print Label */}
                 <p className="fs-2 fw-bold text-center mb-4">{headerData?.PrintHeadLabel}</p>
                 {/* Company Address */}
                 <div className="d-flex">
                     <div className="col-9 p-2">
                         <p className="fs-4 fw-bold pb-1">{headerData?.CompanyFullName}</p>
-                        <p className="pb-1">{headerData?.CompanyAddress} {headerData?.CompanyAddress2} {headerData?.CompanyPinCode} {headerData?.CompanyCountry}</p>
-                        <p className="pb-1">{headerData?.CompanyCity}</p>
+                        <p className="pb-1">{headerData?.CompanyAddress}, {headerData?.CompanyAddress2} {headerData?.CompanyPinCode} {headerData?.CompanyCountry}</p>
+                        {/* <p className="pb-1">{headerData?.CompanyCity}</p> */}
                         <p className="pb-1">Phone - {headerData?.CompanyTellNo}</p>
                         <p className="pb-1">{headerData?.CompanyEmail}</p>
                         <p className="pb-1">{headerData?.Company_VAT_GST_No}</p>
-                        <p className="pb-1">{headerData?.Company_VAT_GST_No}asdasd</p>
+                        <p className="pb-1">CIN: {headerData?.Company_VAT_GST_No}</p>
                     </div>
-                    <div className="col-3 p-2">
+                    <div className="col-3 p-2 text-end">
                         <img src={headerData?.PrintLogo} alt="" onError={handleImageError} className={`w-100 ${style?.imageLogoInovicePrint4} d-block ms-auto`} />
                     </div>
                 </div>
                 {/* Customer Address */}
                 <div className="border d-flex">
                     <div className="col-6 p-2">
-                        <p className="pb-1">{headerData?.lblBillTo}</p>
+                        <p className="">{headerData?.lblBillTo}</p>
                         <p className="fs-4 fw-bold pb-1">{headerData?.customerfirmname}</p>
-                        <p className="pb-1">{headerData?.customerAddress1}</p>
-                        <p className="pb-1">{headerData?.customerAddress2}</p>
-                        <p className="pb-1">{headerData?.customercity} - {headerData?.customerpincode}</p>
-                        <p className="pb-1">Phone - {headerData?.customermobileno}</p>
-                        <p className="pb-1">PAN No - {headerData?.Pannumber}</p>
+                        <p className="">{headerData?.customerAddress1}</p>
+                        {/* <p className="">{headerData?.customerAddress2}</p> */}
+                        <p className="">{headerData?.customercity} {headerData?.customerpincode}</p>
+                        <p className="">Phone - {headerData?.customermobileno}</p>
+                        <p className="">PAN No - {headerData?.Pannumber}</p>
                     </div>
                     <div className="col-6 p-2 text-end">
                         <p className="pb-1">INVOICE NO - {headerData?.InvoiceNo}</p>
-                        <p className="pb-1">DATE - {headerData?.InvoiceNo}</p>
+                        <p className="pb-1">DATE - {headerData?.EntryDate}</p>
                     </div>
                 </div>
                 {/* Table */}
@@ -171,8 +195,9 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                     {/* Table Data */}
                     <div className="d-flex border">
                         {/* <div className="col-4 p-2 border-end"> */}
-                        <div className="col-4 p-2 border-end d-flex justify-content-center align-items-center">
+                        <div className="col-4 p-2 border-end d-flex justify-content-center align-items-center flex-column">
                             <input type="text" value={discription} onChange={handleChangeDiscription} />
+                            <p className='pt-2'>HSN CODE {headerData?.HSN_No}</p>
                             {/* <p className="fs-5 text-center"> GOLD ORNAMENTS </p>
                             <p className="fs-5 text-center"> HSN CODE 7113 </p> */}
                         </div>
@@ -181,7 +206,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                                 {datas?.map((e, i) => {
                                     return <div className="d-flex pb-1" key={i}>
                                         <div className="col-3 px-2">{e?.MasterManagement_DiamondStoneTypeid === 4 ? `${e?.ShapeName} ${e?.QualityName}` : e?.MasterManagement_DiamondStoneTypeName}</div>
-                                        <div className="col-3 px-2 text-center">{fixedValues(e?.Wt, 3)}  gm</div>
+                                        <div className="col-3 px-2 text-center">{fixedValues(e?.Wt, 3)}  {e?.MasterManagement_DiamondStoneTypeid === 4 ? 'gm' : 'ctw'}</div>
                                         <div className="col-3 px-2 text-center">{NumberWithCommas(e?.Rate, 2)}</div>
                                         <div className="col-3 px-2 text-end">{NumberWithCommas(e?.Amount, 2)}</div>
                                     </div>
@@ -209,9 +234,9 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="col-8">
                             <div className="d-flex pb-1">
                                 <div className="col-3 p-2 fw-bold">TOTAL</div>
-                                <div className="col-3 p-2 text-center">23.372  gm</div>
+                                <div className="col-3 p-2 text-center">{fixedValues(total?.qtyWeight, 3)}  gm</div>
                                 <div className="col-3 p-2 text-center"></div>
-                                <div className="col-3 p-2 text-end fw-bold">128000</div>
+                                <div className="col-3 p-2 text-end fw-bold">{NumberWithCommas(total?.totalAmount, 2)}</div>
                             </div>
                         </div>
                     </div>
@@ -221,24 +246,26 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                             <div dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></div>
                         </div>
                         <div className="col-4">
+                            {taxes.length > 0 && taxes.map((e, i) => {
+                                return <div className="d-flex" key={i}>
+                                    <div className="col-6 p-1 border-end text-end">{e?.name} @ {e?.per}</div>
+                                    <div className="col-6 p-1 text-end">{e?.amount}</div>
+                                </div>
+                            })}
                             <div className="d-flex">
-                                <div className="col-6 p-2 border-end text-center">CGST @ 0.00%</div>
-                                <div className="col-6 p-2 text-end">0.00</div>
-                            </div>
-                            <div className="d-flex">
-                                <div className="col-6 p-2 border-end text-center">SGST @ 0.00%</div>
-                                <div className="col-6 p-2 text-end">0.00</div>
+                                <div className="col-6 p-1 border-end text-end">{headerData?.AddLess < 0 ? "Less" : "Add"}</div>
+                                <div className="col-6 p-1 text-end">{headerData?.AddLess}</div>
                             </div>
                             <div className="d-flex border-top">
-                                <div className="col-6 p-2 border-end text-center fw-bold">GRAND TOTAL</div>
-                                <div className="col-6 p-2 text-end fw-bold">128000</div>
+                                <div className="col-6 p-1 border-end text-end fw-bold border-bottom">GRAND TOTAL</div>
+                                <div className="col-6 p-1 text-end fw-bold border-bottom">{NumberWithCommas(total?.grandTotal, 2)}</div>
                             </div>
                         </div>
                     </div>
                     {/* numbers to words */}
                     <div className="border-start border-end border-bottom p-2">
                         <p className='pb-1'>Amount Chargeable In Words</p>
-                        <p className="fw-bold">Rs One Lakh Twenty-Eight Thousand Only</p>
+                        <p className="fw-bold">Rs {toWords.convert(total?.grandTotal)}</p>
                     </div>
                     {/* Bank Detail */}
                     <div className="d-flex border-start border-end border-bottom">
@@ -252,7 +279,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                         <div className="col-4 p-2 border-end d-flex justify-content-between flex-column">
                             <p>Signature</p>
-                            <p className='fw-bold'>{headerData?.customerfirmname}</p>
+                            <p className='fw-bold'>{headerData?.CustName}</p>
                         </div>
                         <div className="col-4 p-2 d-flex justify-content-between flex-column">
                             <p className="fw-bold">For</p>

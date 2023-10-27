@@ -73,6 +73,21 @@
     min-width: 14%;
 }
 
+.materialRetailPrint1,
+.wtRetailPrint1,
+.rateRetailPrint1{
+    width: 22%;
+    min-width: 22%;
+}
+
+.qtyRetailPrint1,
+.pcsRetailPrint1
+ {
+    width: 17%;
+    min-width: 17%;
+}
+
+
 .makingRetailPrint, .totalRetailPrint, .othersRetailPrint {
     width: 10%;
     min-width: 10%;
