@@ -43,8 +43,6 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
 
   try {
     const response = await axios.post(urls, body);
-    console.log(response?.data?.Data);
-    
     return response?.data;
   } catch (error) {
     console.error(error);
@@ -121,8 +119,6 @@ export const NumberWithCommas = (value, val) => {
 export const fixedValues = (value, zeroes) =>
   typeof value === "number" ? value.toFixed(zeroes) : (+value)?.toFixed(zeroes);
 
-
-
 //call of header
 export const HeaderComponent = (headNo, headerData) => {
   let headerComponent;
@@ -153,7 +149,7 @@ export const FooterComponent = (footerNo, footerData) => {
   let footerComponent;
   
 
-  switch ('2') {
+  switch (footerNo) {
     case "1":
       footerComponent = <Footer1 data={footerData} />;
 
@@ -241,48 +237,5 @@ export const notZero = (val) => {
    }
 }
 
-export const ExportToExcel = (data) => {
-  // let headerData = data?.BillPrint_Json[0];
-  // let obj = {
-  //   "Excel Column": "JSON",
-  //   "Stock Code/Prefix":  "",
-  //   "Design No.": "",
-  //   "Supplier Ref": headerData?.CompanyFullName,
-  //   "Qty": 1,
-  //   "Category": "",
-  //   "Sub Category": "",
-  //   "Clarity": "",
-  //   "Dia Color": "",
-  //   "Dia Size": "",
-  //   "Shape": "",
-  //   "No. Of Dia": "",
-  //   "Dia Carat": "",
-  //   "Dia Amt prt ct": "",
-  //   "Dia value": "",
-  //   "total dia amount": "",
-  //   "Stone Shape": "",
-  //   "Shape": "",
-  //   "No. Of St.": "",
-  //   "Stone Ct": "",
-  //   "St Amt per Ct": "",
-  //   "Stone Value": "",
-  //   "Metal Division": "",
-  //   "GROSS WT": "",
-  //   "NET WT/GOLD WT": "",
-  //   "gold loss wt": "",
-  //   "Karat": "",
-  //   "Gold Colour": "",
-  //   "Rate Type": "",
-  //   "Rate": "",
-  //   "Gold Value": "",
-  //   "Gold Loss Value": "",
-  //   "Total Gold Value": "",
-  //   "MAKING": "",
-  //   "Cost": "",
-  //   "CERTIFICATION": "",
-  //   "CERTIFIED BY": "",
-  //   "CERTIFICATE NUMBER": "",
-  // }
-  // exportFromJSON({ data, fileName,  exportType: exportFromJSON.types.xls   })
-  exportToExcel(data, 'data');
-}  
+export const ExportToExcel = (data, InvoiceNo) => {
+  exportToExcel(data, `Sale_Format_B_${InvoiceNo}_${Date.now()}`); }  

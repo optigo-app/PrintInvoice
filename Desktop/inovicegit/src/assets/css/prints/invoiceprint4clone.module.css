@@ -2,8 +2,12 @@
     font-size: 14px;
 }
 
+.invoicePrint4CloneContainer input{
+    min-width: 163px;
+}
+
 .imageLogoInovicePrint4{
-    max-width: 188px;
-    max-height: 123px;
+    max-width: 160px;
+    max-height: 103px;
     object-fit: contain;
 }

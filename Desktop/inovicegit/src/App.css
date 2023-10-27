@@ -96,12 +96,20 @@ ol {
   background: #F5F4F4;
 }
 
+.borderColorGrey{
+  border-color: #939292;
+}
+
 .d_none{
   display: none;
 }
 
 .pad_60_allPrint{
   padding-bottom: 60px;
+}
+
+.pad_20_allPrint{
+  padding-bottom: 20px;
 }
 
 .d_flex {

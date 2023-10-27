@@ -265,35 +265,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
     setMainObj(newObj);
   };
 
-  // async function loadData() {
-  //   try {
-  //     const body = {
-  //       token: token,
-  //       invoiceno: invoiceNo,
-  //       printname: printName,
-  //       Eventname: evn
-  //     };
-
-  //     const data = await axios.post(urls, body);
-  //     if (data?.data?.Status == 200) {
-  //       let datas = data?.data?.Data;
-  //       setResponsejson(datas);
-  //       setHeaderData(datas?.BillPrint_Json[0]);
-  //       setDynamicList1(datas?.BillPrint_Json1);
-  //       setDynamicList2(datas?.BillPrint_Json2);
-  //       organizeData(
-  //         datas?.BillPrint_Json1,
-  //         datas?.BillPrint_Json2,
-  //         datas?.BillPrint_Json[0]
-  //       );
-  //       countCategorySubCategory(datas?.BillPrint_Json1);
-  //     } else {
-  //       console.log(data?.data?.Status, data?.data?.Message);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
   async function loadData(data) {
     try {
       setHeaderData(data?.BillPrint_Json[0]);

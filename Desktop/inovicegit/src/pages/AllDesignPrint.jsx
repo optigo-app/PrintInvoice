@@ -29,6 +29,9 @@ import JewelleryRetailInvoicePrintc from './prints/JewelleryRetailInvoicePrintc'
 import RetailInvoicePrint4 from './prints/RetailInvoicePrint4';
 import InvoicePrint4Clone from './prints/InvoicePrint4Clone';
 import ExcelToJsonDownload from './prints/ExcelToJsonDownload';
+import ManufactureMgt from './prints/ManufactureMgt';
+import RetailTaxInvoice from './prints/RetailTaxInvoice';
+import ExcelToJsonDownloads from './prints/ExcelToJsonDownloads';
 
 
 const AllDesignPrint = () => {
@@ -55,21 +58,13 @@ const AllDesignPrint = () => {
       {(printName === "packing list 3" && etpType === "print") && <PackingList3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "misc print 1" && etpType === "print") && <MiscPrint1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "estimate print" && etpType === "print") && <EstimatePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(printName === "retail" && etpType === "print") && <RetailPrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {((printName === "retail" || printName === "retail1 print" || printName === "retail print 1") && etpType === "print") && <RetailPrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "detail print 11" && etpType === "print") && <DetailPrint11 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {((printName === "detail print1 (l)" || printName === "detail print1 (p)") && etpType === "print") && <DetailPrint1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "invoice print" && etpType === "print") && <InvoicePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {
-        ((printName === "item wise print"
-          || printName === "item wise print1"
-          || printName === "item wise print2") && etpType === "print")
-        && <ItemWisePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />
-      }
+      {((printName === "item wise print" || printName === "item wise print1" || printName === "item wise print2") && etpType === "print") && <ItemWisePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} /> }
       {(printName === "jewellery item wise" && etpType === "print") && <HallmarkItemWisePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {
-        ((printName === "jewellary invoice print"
-          || printName === "labour print") && etpType === "print")
-        && <JewelleryInvoicePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {((printName === "jewellary invoice print" || printName === "labour print") && etpType === "print") && <JewelleryInvoicePrint billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "detail print 12" && etpType === "print") && <DetailPrint12 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "export declaration form" && etpType === "print") && <ExportDeclarationForm billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "packing list" && etpType === "print") && <PackingList billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
@@ -86,8 +81,13 @@ const AllDesignPrint = () => {
       {(printName === "jewellery retail invoice c" && etpType === "print") && <JewelleryRetailInvoicePrintc billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "retail invoice print 4" && etpType === "print") && <RetailInvoicePrint4 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "invoice print r" && etpType === "print") && <InvoicePrint4Clone billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-     
-      {etpType === "excel" && <ExcelToJsonDownload billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      
+      {(printName === "sale format b" && etpType === "excel") && <ExcelToJsonDownload billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "sale format s" && etpType === "excel") && <ExcelToJsonDownloads billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+
+      {(printName === "manufacture mgt" && etpType === "print") && <ManufactureMgt billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "retail tax invoice" && etpType === "print") && <RetailTaxInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      
     </>
   );
 };
