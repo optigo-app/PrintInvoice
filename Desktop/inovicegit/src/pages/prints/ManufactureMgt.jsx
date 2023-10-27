@@ -10,7 +10,6 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
     const [headerData, setHeaderData] = useState({});
 
     const loadData = (data) => {
-        console.log(data);
         setHeaderData(data?.BillPrint_Json[0]);
         let headerDatas = data?.BillPrint_Json[0];
         let head = HeaderComponent(2, headerDatas);

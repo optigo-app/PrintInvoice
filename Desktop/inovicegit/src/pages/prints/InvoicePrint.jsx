@@ -37,7 +37,6 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   }
 
   const loadData = (data) => {
-    console.log(data);
     setJson0(data?.BillPrint_Json[0]);
     let result = [];
     data?.BillPrint_Json2.map((e, i) => {
@@ -175,8 +174,8 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
             </div>
             <div className="minHieght150InvoicePrint">
-              {data.length > 0 && data.map((e, i) => {
-                return <div className="d-flex px-1" key={i}>{console.log(e)}
+              {data?.length > 0 && data?.map((e, i) => {
+                return <div className="d-flex px-1" key={i}>
                   <div className="col-6">
                     <p className="fw-bold">{e?.MasterManagement_DiamondStoneTypeid === 4 ? (e?.ShapeName + " " + e?.QualityName) : e?.MasterManagement_DiamondStoneTypeName}</p>
                   </div>

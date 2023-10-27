@@ -593,7 +593,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                 </div>
                                 <div className="sales_Rep_letter_4A">
                                   {/* {e?.data?.MasterManagement_labname} */}
-                                  {console.log(e?.data?.PO, e?.data?.MasterManagement_labname)}
                                   {(e?.data?.PO !== "" && e?.data?.PO !== "-") && `PO ${e?.data?.PO}`}
                                 </div>
                               </div>

@@ -15,7 +15,6 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [totalItems, setTotalItems] = useState([]);
 
     const loadData = (datas) => {
-        console.log(datas);
         setPrimary(datas?.BillPrint_Json[0]);
         let resultData = [];
         let total = {

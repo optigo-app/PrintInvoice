@@ -15,7 +15,6 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const toWords = new ToWords();
     let pName = atob(printName).toLowerCase();
     const loadData = (data) => {
-        console.log(data);
         setJsonData1(data?.BillPrint_Json[0]);
         let resultArr = [];
         let totalObj = {

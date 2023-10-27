@@ -116,7 +116,6 @@ const PackingList = ({ urls, token, invoiceNo, printName }) => {
         totalObj.totnetwt = totalObj.totnetwt + e?.NetWt;
         totalObj.totOthAmt = totalObj.totOthAmt + e?.OtherCharges + e?.MiscAmount;
     });
-    console.log("headerData", headerData);
     // console.log("headerData", dynamicList1);
 
     // console.log("dynamicList2", totalObj.totOthAmt);
@@ -460,7 +459,6 @@ const PackingList = ({ urls, token, invoiceNo, printName }) => {
                             <p>Less	</p><p>{headerData?.AddLess?.toFixed(2)}</p>
                         </div>
                         <div className='totdispcl'>
-                            {console.log(totalObj.totalAmt, totalObj.totDiscount, headerData.TotalCGSTAmount, headerData.TotalSGSTAmount)}
                             <p>Grand Total</p><p>{((totalObj.totalAmt) + (headerData?.TotalCGSTAmount) + (headerData?.TotalSGSTAmount) + (headerData?.AddLess))?.toFixed(2)} </p>
                         </div>
                     </div>

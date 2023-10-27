@@ -1,7 +1,6 @@
 // import React from 'react'
 
 // const Header = ({data}) => {
-//     console.log(data);
 //   return (
 //     <div className='w-100 d-flex py-2'>
 //         <div className="col-8">

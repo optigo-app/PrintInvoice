@@ -248,7 +248,6 @@ const Summary13 = ({ urls, token, invoiceNo, printName, evn }) => {
     }
 
     const loadData = (datas) => {
-        console.log(datas);
         setBillprintJson(datas?.BillPrint_Json[0]);
         let json1Arr = [];
         datas?.BillPrint_Json1?.forEach((e, i) => {
