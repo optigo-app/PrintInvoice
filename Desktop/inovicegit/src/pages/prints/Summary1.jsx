@@ -86,7 +86,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
       },
     };
     let resultArr = [];
-    arr1.map((e, i) => {
+    arr1?.map((e, i) => {
       let diamonds = [];
       let colorstone = [];
       let metal = [];
@@ -149,7 +149,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
 
       totAmount += e?.TotalAmount;
 
-      arr2.map((ele, ind) => {
+      arr2?.map((ele, ind) => {
         if (e.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamonds.push(ele);
@@ -220,7 +220,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
       obj.LabourAmountSum = sumoflbr;
       let sumofOth = e?.OtherCharges + e?.MiscAmount;
       obj.OtherChargeAmountSum = sumofOth;
-      resultArr.push(obj);
+      resultArr?.push(obj);
 
       let head = HeaderComponent(headerDatas?.HeaderNo, headerDatas);
       setHeaderComp(head);
@@ -244,7 +244,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
     setFinalAmount(totAmount);
     setTaxTotal(allTax);
 
-    let words = CapitalizeWords(convertor.toWords(Math.round(totAmount)));
+    let words = CapitalizeWords(convertor?.toWords(Math?.round(totAmount)));
     setInWords(words);
     setTotalAmount(totAmount);
     setAesultArray(resultArr);
@@ -254,8 +254,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
     setTotalLabourAmount(totallbrAmt);
     setTotalOtherAmount(totalOtherAmt);
 
-    const array1 = resultArr.slice(0, 12);
-    const array2 = resultArr.slice(12);
+    const array1 = resultArr?.slice(0, 12);
+    const array2 = resultArr?.slice(12);
     let newObj = {
       first: array1,
       second: array2,
@@ -338,7 +338,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
 
   const findKeyValuePair = (array, firstName, secondName) => {
     const counts = {};
-    array.forEach((item) => {
+    array?.forEach((item) => {
       const key = `${item[firstName]} | ${item[secondName]}`;
       counts[key] = (counts[key] || 0) + 1;
     });
@@ -347,15 +347,15 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
 
   const countCategorySubCategory = (data) => {
     let countArr = findKeyValuePair(data, "Categoryname", "SubCategoryname");
-    Object.keys(countArr).forEach((key) => {
+    Object?.keys(countArr)?.forEach((key) => {
       const [category, subcategory] = key.split("|");
       if (!subcategory) {
         delete countArr[category];
       }
     });
 
-    const countsArray = Object.entries(countArr)
-      .filter(([key, value]) => key.includes("|")) // Filter out single category entries
+    const countsArray = Object?.entries(countArr)
+      .filter(([key, value]) => key?.includes("|")) // Filter out single category entries
       .map(([key, value]) => ({ name: key, value }));
 
     setSummaryDetail(countsArray);

@@ -127,7 +127,7 @@ export const fixedValues = (value, zeroes) =>
 export const HeaderComponent = (headNo, headerData) => {
   let headerComponent;
 
-  switch ('3') {
+  switch (headNo) {
     case "1":
       headerComponent = <Header1 data={headerData} />;
       break;
