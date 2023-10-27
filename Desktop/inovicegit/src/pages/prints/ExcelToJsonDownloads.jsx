@@ -71,12 +71,13 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                 diaColorPcs: "",
                 diaColorCts: "",
                 diaColorRate: "",
-                diamondColorStoneQuality: "",
-                diaColorMiscAmount: "",
+                diamondColorStoneQuality: "Total",
+                diaColorMiscAmount: 0,
                 labourrate: "",
                 labourValue: "",
                 totalLabour: "",
-                totalAmount: ""
+                totalAmount: "",
+                totalObjTital: true,
             }
             Array.from({ length: largestLength }).forEach((ele, ind) => {
                 let resultObj = {
@@ -105,7 +106,8 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                     labourrate: "",
                     labourValue: "",
                     totalLabour: "",
-                    totalAmount: ""
+                    totalAmount: "",
+                    totalObjTital: false,
                 }
                 if (ind === 0) {
                     resultObj.srNo = i + 1;
@@ -118,7 +120,7 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                     resultObj.category = e?.Categoryname;
                     resultObj.size = e?.Size;
                     resultObj.MetalColor = e?.MetalColor;
-                    resultObj.MetalPurity = e?.MetalCoMetalPuritylor;
+                    resultObj.MetalPurity = e?.MetalPurity;
                     resultObj.grossWt = e?.grosswt;
                     resultObj.NetWt = netWt;
                     resultObj.metalWtt = metalWtt;
@@ -152,19 +154,21 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                         shapeName = "M"
                     }
                     resultObj.diamondColorStoneQuality = shapeName + " / " +
+                        diamondsColorStonesMiscs[ind]?.ShapeName + " / " +
                         diamondsColorStonesMiscs[ind]?.QualityName + " / " +
                         diamondsColorStonesMiscs[ind]?.Colorname + " / " +
                         diamondsColorStonesMiscs[ind]?.SizeName;
                     if (diamondsColorStonesMiscs[ind]?.Amount !== 0) {
                         resultObj.diaColorMiscAmount = diamondsColorStonesMiscs[ind]?.Amount;
+                        totalObj.diaColorMiscAmount += diamondsColorStonesMiscs[ind]?.Amount;
                     }
                     resultObj.seiveGroup = seiveGroup;
                 }
                 blankArr.push(resultObj);
             });
-           
-            
-            
+
+            blankArr.push(totalObj);
+
         });
 
         setData(blankArr);
@@ -308,11 +312,11 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <td width={100} style={{ textAlign: "center" }}>{e?.ktRate}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.goldAmount}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.seiveGroup}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>{e?.diaColorPcs}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>{e?.diaColorCts}</td>
+                                    <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diaColorPcs}</td>
+                                    <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diaColorCts}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.diaColorRate}</td>
-                                    <td width={300} style={{ textAlign: "center" }}>{e?.diamondColorStoneQuality}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>{e?.diaColorMiscAmount}</td>
+                                    <td width={300} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diamondColorStoneQuality}</td>
+                                    <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diaColorMiscAmount}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.labourrate}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.labourValue}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.totalLabour}</td>
