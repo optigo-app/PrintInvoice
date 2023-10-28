@@ -92,11 +92,11 @@ const BagPrint4B = ({ queries, headers }) => {
           if (obj?.rd?.length > 0) {
             obj.rd.instructionData = (
               a?.rd["officeuse"] +
-              a?.rd?.custInstruction +
+              a?.rd["custInstruction"]+
               a?.rd["ProductInstruction"]
             )?.substring(0, 113);
           }
-
+          
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
@@ -133,7 +133,7 @@ const BagPrint4B = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
-
+  console.log(data);
   return (
     <>
       {data.length === 0 ? (
