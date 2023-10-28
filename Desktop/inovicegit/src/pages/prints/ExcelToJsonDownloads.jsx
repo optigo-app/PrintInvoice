@@ -10,9 +10,39 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
     const [msg, setMsg] = useState("");
     const [data, setData] = useState([]);
     const [header, setHeader] = useState({});
+    const [total, setTotal] = useState({});
     const loadData = (data) => {
         let blankArr = [];
         setHeader(data?.BillPrint_Json[0]);
+        let totalsObj = {
+            srNo: "",
+            srJobNo: "",
+            orderPoNumber: "",
+            designNo: "",
+            sencoDesignNo: "",
+            image: "",
+            category: "",
+            size: "",
+            MetalColor: "",
+            MetalPurity: "",
+            pcs: "",
+            grossWt: "",
+            NetWt: "",
+            metalWtt: "",
+            ktRate: "",
+            goldAmount: "",
+            seiveGroup: "",
+            diaColorPcs: 0,
+            diaColorCts: 0,
+            diaColorRate: "",
+            diamondColorStoneQuality: "Total",
+            diaColorMiscAmount: 0,
+            labourrate: "",
+            labourValue: "",
+            totalLabour: "",
+            totalAmount: "",
+            totalObjTital: true,
+        }
         data?.BillPrint_Json1.forEach((e, i) => {
             let diamondsColorStonesMiscs = [];
             let metals = [];
@@ -141,6 +171,7 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                     resultObj.labourValue = NumberWithCommas(e?.MakingAmount, 2);
                     resultObj.totalLabour = NumberWithCommas(e?.MakingAmount, 2);
                     resultObj.totalAmount = NumberWithCommas(e?.TotalAmount, 2);
+                    totalsObj.totalAmount += e?.TotalAmount;
                 }
                 if (diamondsColorStonesMiscs[ind]) {
                     resultObj.diaColorPcs = diamondsColorStonesMiscs[ind]?.Pcs;
@@ -160,19 +191,26 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                     } else if (diamondsColorStonesMiscs[ind]?.MasterManagement_DiamondStoneTypeid === 3) {
                         shapeName = "M"
                     }
+                    let diaColorMiscShapes = ""; 
                     resultObj.diamondColorStoneQuality = shapeName + " / " +
                         diamondsColorStonesMiscs[ind]?.ShapeName + " / " +
                         diamondsColorStonesMiscs[ind]?.QualityName + " / " +
                         diamondsColorStonesMiscs[ind]?.Colorname + " / " +
                         diamondsColorStonesMiscs[ind]?.SizeName;
-                    if (diamondsColorStonesMiscs[ind]?.Amount !== 0) {
+                    if (diamondsColorStonesMiscs[ind]?.Amount !== 0 && diamondsColorStonesMiscs[ind]?.Amount !== "") {
                         resultObj.diaColorMiscAmount = NumberWithCommas(diamondsColorStonesMiscs[ind]?.Amount, 2);
                         totalObj.diaColorMiscAmount += diamondsColorStonesMiscs[ind]?.Amount;
                     }
                     resultObj.seiveGroup = seiveGroup;
+                   
                 }
                 blankArr.push(resultObj);
             });
+            totalsObj.diaColorPcs += totalObj.diaColorPcs; 
+            totalsObj.diaColorCts += totalObj.diaColorCts; 
+            totalsObj.diaColorMiscAmount += totalObj?.diaColorMiscAmount; 
+
+          
             if(totalObj.diaColorPcs === 0){
                 totalObj.diaColorPcs = ""
             }
@@ -216,7 +254,7 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                 })
             }
         });
-
+        setTotal(totalsObj);
         setData(blankArr);
         setTimeout(() => {
             const button = document.getElementById('test-table-xls-button');
@@ -364,13 +402,41 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diaColorCts !== "" && fixedValues(+e?.diaColorCts, 3)}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.diaColorRate !== "" && NumberWithCommas(+e?.diaColorRate, 2)}</td>
                                     <td width={300} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diamondColorStoneQuality}</td>
-                                    <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diaColorMiscAmount !== "" && NumberWithCommas(+e?.diaColorMiscAmount, 2)}</td>
+                                    <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diaColorMiscAmount}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.labourrate}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.labourValue}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.totalLabour}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>{e?.totalAmount}</td>
+                                    <td width={100} style={{ textAlign: "center", fontWeight: "bold" }}>{e?.totalAmount}</td>
                                 </tr>
                             })}
+                            <tr>
+                            <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={200} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={160} style={{ textAlign: "center" }}> </td>
+                                    <td width={150} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center", fontWeight: total?.totalObjTital ? "bold" : "normal" }}>{total?.diaColorPcs}</td>
+                                    <td width={100} style={{ textAlign: "center", fontWeight: total?.totalObjTital ? "bold" : "normal" }}>{total?.diaColorCts !== "" && fixedValues(+total?.diaColorCts, 3)}</td>
+                                    <td width={100} style={{ textAlign: "center" }}>{total?.diaColorRate !== "" && NumberWithCommas(+total?.diaColorRate, 2)}</td>
+                                    <td width={300} style={{ textAlign: "center", fontWeight: total?.totalObjTital ? "bold" : "normal" }}>{total?.diamondColorStoneQuality}</td>
+                                    <td width={100} style={{ textAlign: "center", fontWeight: total?.totalObjTital ? "bold" : "normal" }}>{total?.diaColorMiscAmount}</td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center" }}></td>
+                                    <td width={100} style={{ textAlign: "center", fontWeight: "bold" }}>{total?.totalAmount}</td>
+                            </tr>
                         </tbody>
                     </table></> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}
         </>

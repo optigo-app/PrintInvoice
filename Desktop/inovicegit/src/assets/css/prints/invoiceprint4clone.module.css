@@ -11,3 +11,9 @@
     max-height: 103px;
     object-fit: contain;
 }
+
+@media print{
+    .invoicePrint4Input{
+        border: none;
+    }
+}

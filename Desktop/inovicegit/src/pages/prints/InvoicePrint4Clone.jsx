@@ -42,11 +42,12 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
     }
 
     const loadData = (data) => {
+        console.log(data);
         setHeaderData(data?.BillPrint_Json[0]);
         let arr = [];
         let totals = { ...total };
         let metalWeight = 0;
-
+        let diamondJewellery = false;
         data?.BillPrint_Json2.forEach((e, i) => {
             if (e?.MasterManagement_DiamondStoneTypeid === 4) {
                 metalWeight += e?.Wt;
@@ -62,12 +63,13 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                     }
                 }
             } else if (e?.MasterManagement_DiamondStoneTypeid === 2 || e?.MasterManagement_DiamondStoneTypeid === 1) {
+                diamondJewellery = true;
                 totals.qtyWeight += e?.Wt;
                 let resultArr = resultAray(arr, e);
                 arr = [...resultArr];
             }
         });
-
+        !diamondJewellery && setDiscription("Gold Jewellery");
         arr.sort((a, b) => {
             if (a.MasterManagement_DiamondStoneTypeName < b.MasterManagement_DiamondStoneTypeName) {
                 return 1; // a should come before b
@@ -165,7 +167,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <p className="pb-1">Phone - {headerData?.CompanyTellNo}</p>
                         <p className="pb-1">{headerData?.CompanyEmail}</p>
                         <p className="pb-1">{headerData?.Company_VAT_GST_No}</p>
-                        <p className="pb-1">CIN: {headerData?.Company_VAT_GST_No}</p>
+                        <p className="pb-1">CIN: </p>
                     </div>
                     <div className="col-3 p-2 text-end">
                         <img src={headerData?.PrintLogo} alt="" onError={handleImageError} className={`w-100 ${style?.imageLogoInovicePrint4} d-block ms-auto`} />
@@ -183,8 +185,8 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <p className="">PAN No - {headerData?.Pannumber}</p>
                     </div>
                     <div className="col-6 p-2 text-end">
-                        <p className="pb-1"><span className='fw-bold'>INVOICE NO -</span> {headerData?.InvoiceNo}</p>
-                        <p className="pb-1"><span className='fw-bold'>DATE -</span> {headerData?.EntryDate}</p>
+                        <p className="pb-1"><span className='fw-bold'>INVOICE NO </span> {headerData?.InvoiceNo}</p>
+                        <p className="pb-1"><span className='fw-bold'>DATE </span> {headerData?.EntryDate}</p>
                     </div>
                 </div>
                 {/* Table */}
@@ -205,7 +207,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className="d-flex border">
                         {/* <div className="col-4 p-2 border-end"> */}
                         <div className="col-4 p-2 border-end d-flex justify-content-center align-items-center flex-column">
-                            <input type="text" value={discription} onChange={handleChangeDiscription} />
+                            <input type="text" value={discription} onChange={handleChangeDiscription} className={`${style?.invoicePrint4Input} text-center`}/>
                             <p className='pt-2'>HSN CODE {headerData?.HSN_No}</p>
                             {/* <p className="fs-5 text-center"> GOLD ORNAMENTS </p>
                             <p className="fs-5 text-center"> HSN CODE 7113 </p> */}
@@ -261,10 +263,10 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                                     <div className="col-6 p-1 text-end">{e?.amount}</div>
                                 </div>
                             })}
-                            <div className="d-flex">
+                         { headerData?.AddLess !== 0 && <div className="d-flex">
                                 <div className="col-6 p-1 border-end text-end">{headerData?.AddLess < 0 ? "Less" : "Add"}</div>
                                 <div className="col-6 p-1 text-end">{headerData?.AddLess}</div>
-                            </div>
+                            </div>}
                             <div className="d-flex border-top">
                                 <div className="col-6 p-1 border-end text-end fw-bold border-bottom">GRAND TOTAL</div>
                                 <div className="col-6 p-1 text-end fw-bold border-bottom">{NumberWithCommas(total?.grandTotal, 2)}</div>
