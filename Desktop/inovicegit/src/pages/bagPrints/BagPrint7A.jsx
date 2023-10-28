@@ -435,7 +435,7 @@ const BagPrint7A = ({ queries, headers }) => {
                           <div className="container7A" key={ind}>
                             <div className="head7A">
                               <div className="head7AjobInfo">
-                                <div className="head7AjobInfoJobNO">
+                                <div className="head7AjobInfoJobNO" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
                                   <div>
                                     Ord. : {e?.data?.rd?.orderDatef ?? ""}
                                   </div>
@@ -446,7 +446,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                     <b>{e?.data?.rd?.serialjobno}</b>
                                   </div>
                                 </div>
-                                <div className="party7A">
+                                <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
                                   <div>
                                     Party: <b>{e?.data?.rd?.CustomerCode}</b>
                                   </div>
@@ -454,7 +454,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                     Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
                                   </div>
                                 </div>
-                                <div className="party7A">
+                                <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
                                   <div>
                                     Dg No. : <b>{e?.data?.rd?.Designcode}</b>
                                   </div>
@@ -472,7 +472,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                       )}
                                   </div>
                                 </div>
-                                <div className="party7A">
+                                <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
                                   <div>Size: {e?.data?.rd?.Size}</div>
                                   <div>({e?.data?.rd?.Quantity})Pcs</div>
                                   <div>{e?.data?.rd?.prioritycode}</div>
@@ -1074,7 +1074,7 @@ const BagPrint7A = ({ queries, headers }) => {
                       <div className="container7A">
                         <div className="head7A">
                           <div className="head7AjobInfo">
-                            <div className="head7AjobInfoJobNO">
+                            <div className="head7AjobInfoJobNO" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
                               <div>
                                 Ord. : {e?.data?.rd?.orderDatef ?? ""}
                               </div>
@@ -1085,7 +1085,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 <b>{e?.data?.rd?.serialjobno}</b>
                               </div>
                             </div>
-                            <div className="party7A">
+                            <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
                               <div>
                                 Party: <b>{e?.data?.rd?.CustomerCode}</b>
                               </div>
@@ -1093,7 +1093,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
                               </div>
                             </div>
-                            <div className="party7A">
+                            <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
                               <div>
                                 Dg No. : <b>{e?.data?.rd?.Designcode}</b>
                               </div>
@@ -1111,7 +1111,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   )}
                               </div>
                             </div>
-                            <div className="party7A">
+                            <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
                               <div>Size: {e?.data?.rd?.Size}</div>
                               <div>(1)Pcs</div>
                             </div>
