@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import "../../assets/css/prints/detailPrint1.css";
 import { useState } from 'react';
-import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, otherAmountDetail, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
 const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
@@ -62,8 +62,11 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     let totals = { ...total };
     let summaries = { ...summary };
     let diamondDetails = [];
+
     json1.forEach((e, i) => {
+      let OtherAmountDetail = otherAmountDetail(e?.OtherAmtDetail);
       let obj = { ...e };
+      obj.OtherAmountDetail = OtherAmountDetail;
       obj.SettingAmount = 0;
       let diamondArr = [];
       let metalArr = [];
@@ -226,7 +229,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             </label>
           </div>
           <div className="form-check">
-            <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
+            <input type="button" className="btn_white blue mt-0" value="Print" onClick={(e) => handlePrint(e)} />
           </div>
         </div>
         {/* header line*/}
@@ -340,8 +343,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
           </div>
           <div className="otherAmountDetailPrint1 border-end  border-bottom d-flex align-items-center justify-content-center flex-column">
-            <p className='fw-bold text-center d-flex align-items-center justify-content-center'>Other </p>
-            <p className='fw-bold text-center d-flex align-items-center justify-content-center'>Amount </p>
+            <p className='fw-bold text-center d-flex align-items-center justify-content-center'>Other Amount</p>
           </div>
           <div className="labourAmountDetailPrint1 border-end  border-bottom">
             <div className="d-grid h-100">
@@ -359,7 +361,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
         {/* data */}
         {json1Data.length > 0 && json1Data.map((e, i) => {
-          return <div key={i} className='recordDetailPrint1'>
+          console.log(e);
+          return <div key={i} className='recordDetailPrint1 pt-1'>
             <div className="d-flex w-100">
               <div className="srNoDetailprint11 border-end border-start  border-bottom">
                 <p className='p-1'>{e?.SrNo}</p>
@@ -369,7 +372,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <div className='col'>
                     <p>{e?.designno}</p>
                   </div>
-                  <div className='col'>
+                  <div className='col d-flex flex-wrap'>
                     <p>{e?.SrJobno}</p>
                     <p>{e?.MetalColor}</p>
                   </div>
@@ -452,7 +455,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               <div className="otherAmountDetailPrint1 border-end  position-relative">
                 <div className="paddingBottomTotalDetailPrint1">
                   <div>
-                    <p className=' text-end'>{NumberWithCommas(e?.OtherCharges, 2)}</p>
+                    {e?.OtherAmountDetail.length > 0 && e?.OtherAmountDetail.map((ele, ind) => {
+                      return <p key={ind} className={`${e?.OtherAmountDetail.length-1 !== ind && 'border-bottom'}`}>{ele?.label}: {ele?.value}</p>
+                    })}
+                    {/* <p className=' text-end'>{NumberWithCommas(e?.OtherCharges, 2)}</p>s */}
                   </div>
                 </div>
                 <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1">

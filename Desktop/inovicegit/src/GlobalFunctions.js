@@ -147,7 +147,7 @@ export const HeaderComponent = (headNo, headerData) => {
 //call of footer
 export const FooterComponent = (footerNo, footerData) => {
   let footerComponent;
-  
+
 
   switch (footerNo) {
     case "1":
@@ -230,12 +230,30 @@ export const GovernMentDocuments = (documents) => {
 }
 
 export const notZero = (val) => {
-  if(val !== "" && val !== undefined && val !== null && val !== "null" && val !== 0)  {
+  if (val !== "" && val !== undefined && val !== null && val !== "null" && val !== 0) {
     return val;
-   }else{
+  } else {
     return ""
-   }
+  }
 }
 
 export const ExportToExcel = (data, InvoiceNo) => {
-  exportToExcel(data, `Sale_Format_B_${InvoiceNo}_${Date.now()}`); }  
+  exportToExcel(data, `Sale_Format_B_${InvoiceNo}_${Date.now()}`);
+}
+
+export const otherAmountDetail = (otherAmtDetail) => {
+  if (otherAmtDetail.length > 0) {
+    let blankArr = otherAmtDetail.split("#@#");
+    let resultArr = [];
+    blankArr.forEach((e, i) => {
+      let obj = {};
+      let arr = e.split("#-#");
+      obj.label = arr[0];
+      obj.value = arr[1];
+      resultArr.push(obj);
+    });
+    return resultArr;
+  } else {
+    return []
+  }
+}

@@ -18,32 +18,55 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
             let obj = { ...e };
             let materials = [];
             data?.BillPrint_Json2.forEach((ele, ind) => {
-                if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-                    let findIndex = materials.findIndex((elem, index) => elem?.Rate === ele?.Rate && elem?.GroupName === ele?.GroupName);
-                    if (findIndex === -1) {
-                        materials.push(ele);
+                if (ele?.StockBarcode === e?.SrJobno) {
+                    if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+                        let findIndex = materials.findIndex((elem, index) => elem?.Rate === ele?.Rate && elem?.GroupName === ele?.GroupName);
+                        if (findIndex === -1) {
+                            materials.push(ele);
+                        } else {
+                            materials[findIndex].Wt += ele?.Wt;
+                            materials[findIndex].Amount += ele?.Amount;
+                            materials[findIndex].Pcs += ele?.Pcs;
+                        }
                     } else {
-                        materials[findIndex].Wt += ele?.Wt;
-                        materials[findIndex].Amount += ele?.Amount;
-                        materials[findIndex].Pcs += ele?.Pcs;
-                    }
-                } else {
-                    let findIndex = materials.findIndex((elem, index) => elem?.Rate === ele?.Rate && elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
-                    if (findIndex === -1) {
-                        materials.push(ele);
-                    } else {
-                        materials[findIndex].Wt += ele?.Wt;
-                        materials[findIndex].Amount += ele?.Amount;
-                        materials[findIndex].Pcs += ele?.Pcs;
+                        let findIndex = materials.findIndex((elem, index) => elem?.Rate === ele?.Rate && elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
+                        if (findIndex === -1) {
+                            materials.push(ele);
+                        } else {
+                            materials[findIndex].Wt += ele?.Wt;
+                            materials[findIndex].Amount += ele?.Amount;
+                            materials[findIndex].Pcs += ele?.Pcs;
+                        }
                     }
                 }
-
             });
             let diamonds = materials.filter(ele => ele?.MasterManagement_DiamondStoneTypeid === 1);
             let colorStones = materials.filter(ele => ele?.MasterManagement_DiamondStoneTypeid === 2);
             let metals = materials.filter(ele => ele?.MasterManagement_DiamondStoneTypeid === 4);
+            let blankDiamonds = [];
+            let blankColorStones = [];
+            diamonds.forEach((ele, ind) => {
+                let findIndex = blankDiamonds.findIndex((elem, index) =>elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname && elem?.Rate === ele?.Rate );
+                if(findIndex === -1){
+                    blankDiamonds.push(ele);
+                }else{
+                    blankDiamonds[findIndex].SizeName = ele?.GroupName;
+                    blankDiamonds[findIndex].Wt += ele?.Wt;
+                    blankDiamonds[findIndex].Amount += ele?.Amount;
+                }
+            });
+            colorStones.forEach((ele, ind) => {
+                let findIndex = blankColorStones.findIndex((elem, index) =>elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname && elem?.Rate === ele?.Rate );
+                if(findIndex === -1){
+                    blankColorStones.push(ele);
+                }else{
+                    blankColorStones[findIndex].SizeName = ele?.GroupName;
+                    blankColorStones[findIndex].Wt += ele?.Wt;
+                    blankColorStones[findIndex].Amount += ele?.Amount;
+                }
+            });
 
-            let arr = [diamonds, colorStones, metals];
+            let arr = [blankDiamonds, blankColorStones, metals];
             let largestLength = -1;
 
             arr.forEach((ele, i) => {
@@ -51,7 +74,6 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     largestLength = ele.length;
                 }
             });
-
             if (materials.length > 0) {
                 Array.from({ length: largestLength }).forEach((ele, ind) => {
                     let diamondQualityname = "";
@@ -77,9 +99,8 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     let stoneWt = "";
                     let stoneRate = "";
                     let stoneAmount = "";
-
                     let metalRate = "";
-                    let goldValue = e?.MetalAmount - e?.LossAmt;
+                 
                     if (colorStones[ind]) {
                         stoneShape = colorStones[ind]?.ShapeName;
                         stonePcs = colorStones[ind]?.Pcs;
@@ -91,6 +112,10 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                         // metalPurity = metals[i]?.MetalPurity;
                         // metalColor = metals[i]?.MetalColor;
                         metalRate = metals[ind]?.Rate;
+                    }
+                    let goldValue =  ind === 0 ? e?.MetalAmount - e?.LossAmt : "";
+                    if(goldValue === 0){
+                        goldValue = ""
                     }
                     let srJobno = ind === 0 ? e?.SrJobno : "";
                     let designno = ind === 0 ? e?.designno : "";
@@ -114,7 +139,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     let grosswt = ind === 0 ? e?.grosswt : "";
                     let NetWt = ind === 0 ? e?.NetWt : "";
 
-                    let makeObj = createObj(srJobno, designno, companyFullName, "", qty, "", categoryname, subCategory, "", "", "",
+                    let makeObj = createObj(srJobno, "", designno, companyFullName, "", qty, "", categoryname, subCategory, "", "", "",
                         diamondQualityname, diamondColorName, diamondGroupname, "", diamondShapename, diamondPcs, diamondWt, diamondRate,
                         diamondAmount, diamondTotalAmount, stoneShape, stonePcs, stoneWt, stoneRate, stoneAmount, "", grosswt, NetWt,
                         LossWt, metalPurity, metalColor, rateType, metalRate, goldValue, lossAmt, metalAmount, makingAmount, totalAmount,
@@ -126,13 +151,14 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
         ExportToExcel(blankArr, data?.BillPrint_Json[0]?.InvoiceNo)
     }
 
-    const createObj = (srJobno, designno, CompanyFullName, Div, Qty, Type, Categoryname, SubCategory, Brand, Country, DiaDiv, diamondQualityname,
+    const createObj = (srJobno, discription, designno, CompanyFullName, Div, Qty, Type, Categoryname, SubCategory, Brand, Country, DiaDiv, diamondQualityname,
         diamondColorName, diamondGroupname, Sieve, diamondShapename, diamondPcs, diamondWt, diamondRate, diamond_Amount, diamondAmount, stoneShape,
         stonePcs, stoneWt, stoneRate, stoneAmount, MetalDivision, grosswt, NetWt, LossWt, metalPurity, metalColor, rateType, metalRate, goldValue,
-        LossAmt, MetalAmount,MakingAmount, TotalAmount, TagPrice1, TagPrice2, tagline1, tagline2, tagline3, tagline4, tagline5, costCode, certification, certifiedby,
+        LossAmt, MetalAmount, MakingAmount, TotalAmount, TagPrice1, TagPrice2, tagline1, tagline2, tagline3, tagline4, tagline5, costCode, certification, certifiedby,
         CertificateNo) => {
         let obj = {
             "Stock Code/Prefix": srJobno,
+            "Description": discription,
             "Design No.": designno,
             "Supplier Ref": CompanyFullName,
             "Div": Div,
@@ -150,7 +176,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
             "Shape": diamondShapename,
             "No. Of Dia": diamondPcs,
             "Dia Carat": diamondWt,
-            "Dia Amt prt ct": diamondRate,
+            "Dia Amt per ct": diamondRate,
             "Dia value": diamond_Amount,
             "total dia amount": diamondAmount,
             "Stone Shape": stoneShape,

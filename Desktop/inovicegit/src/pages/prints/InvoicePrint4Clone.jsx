@@ -45,8 +45,11 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
         setHeaderData(data?.BillPrint_Json[0]);
         let arr = [];
         let totals = { ...total };
+        let metalWeight = 0;
+
         data?.BillPrint_Json2.forEach((e, i) => {
             if (e?.MasterManagement_DiamondStoneTypeid === 4) {
+                metalWeight += e?.Wt;
                 totals.qtyWeight += e?.Wt;
                 let findIndex = arr.findIndex(ele => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Rate === e?.Rate && ele?.MasterManagement_DiamondStoneTypeid === e?.MasterManagement_DiamondStoneTypeid);
                 if (findIndex === -1) {
@@ -80,15 +83,21 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
             return {
                 MakingAmount: accumulator.MakingAmount + currentValue.MakingAmount,
                 OtherCharges: accumulator.OtherCharges + currentValue.OtherCharges,
-                labourRate: accumulator.labourRate + currentValue.MaKingCharge_Unit,
                 TotalAmount: accumulator.TotalAmount + currentValue.TotalAmount
             };
-        }, { MakingAmount: 0, OtherCharges: 0, labourRate: 0, TotalAmount: 0 });
+        // }, { MakingAmount: 0, OtherCharges: 0, labourRate: 0, TotalAmount: 0 });
+    }, { MakingAmount: 0, OtherCharges: 0,  TotalAmount: 0 });
 
-        let obj = {
+        // let obj = {
+        //     labour: result?.MakingAmount,
+        //     other: result?.OtherCharges,
+        //     labourRate: result?.labourRate
+        // }
+
+              let obj = {
             labour: result?.MakingAmount,
             other: result?.OtherCharges,
-            labourRate: result?.labourRate
+            labourRate: result?.MakingAmount/metalWeight
         }
 
         let taxValue = taxGenrator(data?.BillPrint_Json[0], result.TotalAmount);
@@ -166,7 +175,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="border d-flex">
                     <div className="col-6 p-2">
                         <p className="">{headerData?.lblBillTo}</p>
-                        <p className="fs-4 fw-bold pb-1">{headerData?.customerfirmname}</p>
+                        <p className="fs-4 fw-bold pb-1">{headerData?.CustName}</p>
                         <p className="">{headerData?.customerAddress1}</p>
                         {/* <p className="">{headerData?.customerAddress2}</p> */}
                         <p className="">{headerData?.customercity} {headerData?.customerpincode}</p>
@@ -174,8 +183,8 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <p className="">PAN No - {headerData?.Pannumber}</p>
                     </div>
                     <div className="col-6 p-2 text-end">
-                        <p className="pb-1">INVOICE NO - {headerData?.InvoiceNo}</p>
-                        <p className="pb-1">DATE - {headerData?.EntryDate}</p>
+                        <p className="pb-1"><span className='fw-bold'>INVOICE NO -</span> {headerData?.InvoiceNo}</p>
+                        <p className="pb-1"><span className='fw-bold'>DATE -</span> {headerData?.EntryDate}</p>
                     </div>
                 </div>
                 {/* Table */}
@@ -187,7 +196,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                         <div className="col-8 d-flex">
                             <div className="col-3 p-2 fw-bold">DETAIL</div>
-                            <div className="col-3 p-2 fw-bold text-center">QTYWEIGHT</div>
+                            <div className="col-3 p-2 fw-bold text-center">QTY/WEIGHT</div>
                             <div className="col-3 p-2 fw-bold text-center">RATE</div>
                             <div className="col-3 p-2 fw-bold text-end">AMOUNT</div>
                         </div>

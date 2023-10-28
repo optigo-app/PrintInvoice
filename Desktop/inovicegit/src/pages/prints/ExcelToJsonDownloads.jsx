@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { apiCall, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, fixedValues, handleImageError, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
 const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
@@ -18,12 +18,14 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
             let metals = [];
             let goldAmount = 0;
             data?.BillPrint_Json2.forEach((ele, ind) => {
-                if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
-                    metals.push(ele);
-                    goldAmount += ele?.Amount;
-                }
-                if (ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 3) {
-                    diamondsColorStonesMiscs.push(ele);
+                if(ele?.StockBarcode === e?.SrJobno){
+                    if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+                        metals.push(ele);
+                        goldAmount += ele?.Amount;
+                    }
+                    if (ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 3) {
+                        diamondsColorStonesMiscs.push(ele);
+                    }
                 }
 
             });
@@ -42,13 +44,13 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                 }
             });
             let ktrates = ktRate.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-            let netWt = ""
-            let metalWtt = ""
+            let netWt = "";
+            let metalWtt = "";
             if (metals.length > 1) {
-                netWt = metals[0]?.Wt;
+                netWt = metals[0]?.Wt+e?.LossWt;
                 metalWtt = metals[1]?.Wt;
             } else if (metals.length === 1) {
-                netWt = e?.NetWt;
+                netWt = e?.NetWt+e?.LossWt;
             }
             let totalObj = {
                 srNo: "",
@@ -68,8 +70,8 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                 ktRate: "",
                 goldAmount: "",
                 seiveGroup: "",
-                diaColorPcs: "",
-                diaColorCts: "",
+                diaColorPcs: 0,
+                diaColorCts: 0,
                 diaColorRate: "",
                 diamondColorStoneQuality: "Total",
                 diaColorMiscAmount: 0,
@@ -79,6 +81,8 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                 totalAmount: "",
                 totalObjTital: true,
             }
+            let totalCount = largestLength+1;
+            let designimage=  false;
             Array.from({ length: largestLength }).forEach((ele, ind) => {
                 let resultObj = {
                     srNo: "",
@@ -121,28 +125,31 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                     resultObj.size = e?.Size;
                     resultObj.MetalColor = e?.MetalColor;
                     resultObj.MetalPurity = e?.MetalPurity;
-                    resultObj.grossWt = e?.grosswt;
-                    resultObj.NetWt = netWt;
-                    resultObj.metalWtt = metalWtt;
+                    resultObj.grossWt = NumberWithCommas(e?.grosswt, 3);
+                    resultObj.NetWt = NumberWithCommas(netWt, 3);
+                    resultObj.metalWtt = NumberWithCommas(metalWtt, 3);
                     if (goldAmount !== 0) {
                         resultObj.goldAmount = goldAmount;
                     }
                     if (ktrates !== 0) {
                         resultObj.ktRate = ktrates;
                     }
-                    resultObj.labourrate = e?.MaKingCharge_Unit;
-                    resultObj.labourValue = e?.MakingAmount;
-                    resultObj.totalLabour = e?.MakingAmount;
-                    resultObj.totalAmount = e?.TotalAmount;
+                    if(e?.DesignImage === "") {
+                        designimage = true;
+                    }
+                    resultObj.labourrate =  NumberWithCommas(e?.MaKingCharge_Unit, 2);
+                    resultObj.labourValue = NumberWithCommas(e?.MakingAmount, 2);
+                    resultObj.totalLabour = NumberWithCommas(e?.MakingAmount, 2);
+                    resultObj.totalAmount = NumberWithCommas(e?.TotalAmount, 2);
                 }
                 if (diamondsColorStonesMiscs[ind]) {
                     resultObj.diaColorPcs = diamondsColorStonesMiscs[ind]?.Pcs;
 
-                    totalObj.diaColorPcs = diamondsColorStonesMiscs[ind]?.Pcs;
-                    totalObj.diaColorCts = diamondsColorStonesMiscs[ind]?.Wt;
+                    totalObj.diaColorPcs += diamondsColorStonesMiscs[ind]?.Pcs;
+                    totalObj.diaColorCts += diamondsColorStonesMiscs[ind]?.Wt;
 
-                    resultObj.diaColorCts = diamondsColorStonesMiscs[ind]?.Wt;
-                    resultObj.diaColorRate = diamondsColorStonesMiscs[ind]?.Rate;
+                    resultObj.diaColorCts = NumberWithCommas(diamondsColorStonesMiscs[ind]?.Wt, 3);
+                    resultObj.diaColorRate = NumberWithCommas(diamondsColorStonesMiscs[ind]?.Rate, 2);
                     let shapeName = "";
                     let seiveGroup = "";
                     if (diamondsColorStonesMiscs[ind]?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -159,16 +166,55 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                         diamondsColorStonesMiscs[ind]?.Colorname + " / " +
                         diamondsColorStonesMiscs[ind]?.SizeName;
                     if (diamondsColorStonesMiscs[ind]?.Amount !== 0) {
-                        resultObj.diaColorMiscAmount = diamondsColorStonesMiscs[ind]?.Amount;
+                        resultObj.diaColorMiscAmount = NumberWithCommas(diamondsColorStonesMiscs[ind]?.Amount, 2);
                         totalObj.diaColorMiscAmount += diamondsColorStonesMiscs[ind]?.Amount;
                     }
                     resultObj.seiveGroup = seiveGroup;
                 }
                 blankArr.push(resultObj);
             });
-
+            if(totalObj.diaColorPcs === 0){
+                totalObj.diaColorPcs = ""
+            }
+            if(totalObj.diaColorCts === 0){
+                totalObj.diaColorCts = ""
+            }
+           
             blankArr.push(totalObj);
-
+            if(totalCount < 5 && !designimage){
+                Array.from({length: 5-totalCount}).forEach((e, i)=> {
+                    let blankLine = {
+                        srNo: "",
+                        srJobNo: "",
+                        orderPoNumber: "",
+                        designNo: "",
+                        sencoDesignNo: "",
+                        image: "",
+                        category: "",
+                        size: "",
+                        MetalColor: "",
+                        MetalPurity: "",
+                        pcs: "",
+                        grossWt: "",
+                        NetWt: "",
+                        metalWtt: "",
+                        ktRate: "",
+                        goldAmount: "",
+                        seiveGroup: "",
+                        diaColorPcs: "",
+                        diaColorCts: "",
+                        diaColorRate: "",
+                        diamondColorStoneQuality: "",
+                        diaColorMiscAmount: "",
+                        labourrate: "",
+                        labourValue: "",
+                        totalLabour: "",
+                        totalAmount: "",
+                        totalObjTital: false,
+                    }
+                    blankArr.push(blankLine);
+                })
+            }
         });
 
         setData(blankArr);
@@ -300,23 +346,25 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <td width={200} style={{ textAlign: "center" }}>{e?.orderPoNumber}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.designNo}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.sencoDesignNo}</td>
-                                    <td width={160} style={{ textAlign: "center" }}></td>
+                                    <td width={160} style={{ textAlign: "center" }}>
+                                            <img src={e?.image} alt="" onError={handleImageError} width={150} height={100} style={{paddingLeft: "10px"}}/>
+                                    </td>
                                     <td width={150} style={{ textAlign: "center" }}>{e?.category}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.size}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.MetalColor}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.MetalPurity}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>{e?.pcs}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>{e?.grossWt}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>{e?.NetWt}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>{e?.metalWtt}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>{e?.ktRate}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>{e?.goldAmount}</td>
+                                    <td width={100} style={{ textAlign: "center" }}>{e?.pcs !== "" && NumberWithCommas(+e?.pcs, 0)}</td>
+                                    <td width={100} style={{ textAlign: "center" }}>{e?.grossWt !== "" && fixedValues(+e?.grossWt, 3)}</td>
+                                    <td width={100} style={{ textAlign: "center" }}>{e?.NetWt !== "" && fixedValues(+e?.NetWt, 3)}</td>
+                                    <td width={100} style={{ textAlign: "center" }}>{e?.metalWtt !== "" && fixedValues(+e?.metalWtt, 3)}</td>
+                                    <td width={100} style={{ textAlign: "center" }}>{e?.ktRate && NumberWithCommas(+e?.ktRate, 2)}</td>
+                                    <td width={100} style={{ textAlign: "center" }}>{e?.goldAmount && NumberWithCommas(+e?.goldAmount, 2)}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.seiveGroup}</td>
                                     <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diaColorPcs}</td>
-                                    <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diaColorCts}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>{e?.diaColorRate}</td>
+                                    <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diaColorCts !== "" && fixedValues(+e?.diaColorCts, 3)}</td>
+                                    <td width={100} style={{ textAlign: "center" }}>{e?.diaColorRate !== "" && NumberWithCommas(+e?.diaColorRate, 2)}</td>
                                     <td width={300} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diamondColorStoneQuality}</td>
-                                    <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diaColorMiscAmount}</td>
+                                    <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>{e?.diaColorMiscAmount !== "" && NumberWithCommas(+e?.diaColorMiscAmount, 2)}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.labourrate}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.labourValue}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.totalLabour}</td>
