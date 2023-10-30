@@ -38,6 +38,7 @@ const BagPrint4B = ({ queries, headers }) => {
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
         datas?.map((a) => {
+          console.log(a);
           let chunkData = [];
           let chunkSize = 14;
           let length = 0;
@@ -133,7 +134,6 @@ const BagPrint4B = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
-  console.log(data);
   return (
     <>
       {data.length === 0 ? (
@@ -382,6 +382,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                           : e?.data?.instructionData
                                         : ""} */}
                                       {checkInstruction(e?.data?.officeuse)}
+                                      {checkInstruction(e?.data?.custInstruction)}
                                       {checkInstruction(e?.data?.ProductInstruction)}
                                       {/* {checkInstruction(e?.data?.custInstruction)} */}
                                     </span>
@@ -855,6 +856,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                     : e?.data?.instructionData
                                   : ""} */}
                                 {checkInstruction(e?.data?.officeuse)}
+                                {checkInstruction(e?.data?.custInstruction)}
                                 {checkInstruction(e?.data?.ProductInstruction)}
                                 {/* {checkInstruction(e?.data?.custInstruction)} */}
                               </span>

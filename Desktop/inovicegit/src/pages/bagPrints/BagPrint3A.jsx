@@ -10,6 +10,7 @@ import { formatDate } from '../../GlobalFunctions/DateFormat';
 import { handleImageError } from '../../GlobalFunctions/HandleImageError';
 import { organizeData } from '../../GlobalFunctions/OrganizeBagPrintData';
 import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
+import { InstructionGenerate } from '../../GlobalFunctions/InstructionGenerate';
 const BagPrint3A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -152,6 +153,8 @@ const BagPrint3A = ({ queries, headers }) => {
 
           let img = imagePath + a?.rd?.ThumbImagePath;
           let arrofchunk = GetChunkData(chunkSize13, mainArr);
+          let ins = InstructionGenerate(a?.rd);
+          a.rd.ShowInstruction = ins;
           // for (let i = 0; i < mainArr.length; i += chunkSize13) {
           //   const chunks = mainArr.slice(i, i + chunkSize13);
           //   let len = 13 - (mainArr.slice(i, i + chunkSize13)).length;
@@ -402,7 +405,8 @@ const BagPrint3A = ({ queries, headers }) => {
                                   </div>
                                   <div className='imgBox3A'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img3A" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                 </div>
-                                <div className='Ins3A' style={{ display: "flex" }}><p style={{ fontSize: "12px", color: "red", }}>Instruction :{((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction)?.length > 0 ? ((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction) == (null || 'null') ? '' : (e?.data?.rd?.officeuse + " " + e?.data?.rd?.custInstruction + " " + e?.data?.rd?.ProductInstruction))?.slice(0, 115) : '')}</p></div>
+                                <div className='Ins3A' ><span style={{color:"red"}}>INSTRUCTION : </span><span style={{color:"red"}}>{e?.data?.rd?.ShowInstruction ?? ''}</span></div>
+                                {/* <div className='Ins3A' style={{ display: "flex" }}><p style={{ fontSize: "12px", color: "red", }}>Instruction :{((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction)?.length > 0 ? ((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction) == (null || 'null') ? '' : (e?.data?.rd?.officeuse + " " + e?.data?.rd?.custInstruction + " " + e?.data?.rd?.ProductInstruction))?.slice(0, 115) : '')}</p></div> */}
                                 <div className='enteryBarcode3A'>
                                   <div className='enteryBarcode3ADyn'>
                                     <div className='entry3AHead'>
@@ -488,7 +492,8 @@ const BagPrint3A = ({ queries, headers }) => {
                             </div>
                             <div className='imgBox3A'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img3A" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                           </div>
-                          <div className='Ins3A' style={{ color: "red", display: "flex" }}><p style={{ fontSize: "12px" }}>Instruction :{((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction)?.length > 0 ? ((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction) == (null || 'null') ? '' : (e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction))?.slice(0, 131) : '')}</p></div>
+                          <div className='Ins3A' ><span style={{color:"red"}}>INSTRUCTION : </span><span style={{color:"red"}}>{e?.data?.rd?.ShowInstruction ?? ''}</span></div>
+                          {/* <div className='Ins3A' style={{ color: "red", display: "flex" }}><p style={{ fontSize: "12px" }}>Instruction :{((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction)?.length > 0 ? ((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction) == (null || 'null') ? '' : (e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction))?.slice(0, 131) : '')}</p></div> */}
                           <div className='enteryBarcode3A'>
                             <div className='enteryBarcode3ADyn'>
                               <div className='entry3AHead'>

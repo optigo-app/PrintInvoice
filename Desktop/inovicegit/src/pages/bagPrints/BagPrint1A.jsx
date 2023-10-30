@@ -12,6 +12,7 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
+import { InstructionGenerate } from "../../GlobalFunctions/InstructionGenerate";
 function BagPrint1A({ queries, headers }) {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -65,14 +66,14 @@ function BagPrint1A({ queries, headers }) {
 
           let separateData = GetSeparateData(a?.rd1);
 
-          separateData?.diamondArr.unshift({
+          separateData?.diamondArr?.unshift({
             heading: "DIAMOND DETAIL",
             MasterManagement_DiamondStoneTypeid: 3,
           });
 
           // ArrofFiveSize.push(clr);
           // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
-          separateData?.colorStoneArr.unshift({
+          separateData?.colorStoneArr?.unshift({
             heading: "COLOR STONE DETAIL",
             MasterManagement_DiamondStoneTypeid: 4,
           });
@@ -81,7 +82,7 @@ function BagPrint1A({ queries, headers }) {
           // ArrofFSize.push(f);
           // ArrofFSize[0].heading = "FINDING DETAIL";
           // ArrofFSize.unshift({ heading: "FINDING DETAIL", MasterManagement_DiamondStoneTypeid: 5 });
-          separateData?.findingArr.unshift({
+          separateData?.findingArr?.unshift({
             heading: "FINDING DETAIL",
             MasterManagement_DiamondStoneTypeid: 5,
           });
@@ -89,7 +90,7 @@ function BagPrint1A({ queries, headers }) {
           // ArrofMISize.push(misc);
           // ArrofMISize[0].heading = "MISC DETAIL";
           // ArrofMISize.unshift({ heading: "MISC DETAIL", MasterManagement_DiamondStoneTypeid: 7 });
-          separateData?.miscArr.unshift({
+          separateData?.miscArr?.unshift({
             heading: "MISC DETAIL",
             MasterManagement_DiamondStoneTypeid: 7,
           });
@@ -101,22 +102,22 @@ function BagPrint1A({ queries, headers }) {
             }
           });
 
-          separateData?.colorStoneArr.map((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+          separateData?.colorStoneArr?.map((e) => {
+            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               // ArrofFiveSize = [];
               separateData.colorStoneArr = [];
             }
           });
 
-          separateData?.miscArr.map((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+          separateData?.miscArr?.map((e) => {
+            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               // ArrofMISize = [];
               separateData.miscArr = [];
             }
           });
 
-          separateData?.findingArr.map((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+          separateData?.findingArr?.map((e) => {
+            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               // ArrofFSize = [];
               separateData.findingArr = [];
             }
@@ -124,7 +125,7 @@ function BagPrint1A({ queries, headers }) {
 
           let arr = [];
           // let mainArr = arr.concat(ArrofSevenSize, ArrofFiveSize, ArrofMISize, ArrofFSize);
-          let mainArr = arr.concat(
+          let mainArr = arr?.concat(
             separateData?.diamondArr,
             separateData?.colorStoneArr,
             separateData?.miscArr,
@@ -137,6 +138,11 @@ function BagPrint1A({ queries, headers }) {
           let img = imagePath + a?.rd?.ThumbImagePath;
 
           let arrofCHunk = GetChunkData(chunkSize11, mainArr);
+          let ins = InstructionGenerate(a?.rd);
+          a.rd.ShowInstruction = ins;
+          // let objmt = { ...a?.rd };
+          // objmt.ShowInstruction = ins;
+          // console.log(objmt);
           responseData.push({
             data: a,
             additional: {
@@ -149,8 +155,7 @@ function BagPrint1A({ queries, headers }) {
               pages: arrofCHunk,
             },
           });
-        setData(responseData);
-
+          setData(responseData);
         });
 
         // for (let url in print) {
@@ -484,8 +489,6 @@ function BagPrint1A({ queries, headers }) {
 
         //   let arrofCHunk = GetChunkData(chunkSize11, mainArr);
 
-        
-
         //   // for (let i = 0; i < mainArr.length; i += chunkSize11) {
         //   //     const chunks = mainArr.slice(i, i + chunkSize11);
         //   //     let len = 15 - (mainArr.slice(i, i + chunkSize11)).length;
@@ -525,7 +528,6 @@ function BagPrint1A({ queries, headers }) {
       }, 5000);
     }
   }, [data]);
-
   return (
     <>
       {data.length === 0 ? (
@@ -615,9 +617,7 @@ function BagPrint1A({ queries, headers }) {
                                         {e?.data?.rd?.Size?.toUpperCase()}
                                       </div>
                                       <div className="custCode1A lh1Ady">
-                                        {e?.data?.rd?.MetalWeight?.toFixed(
-                                          3
-                                        )}
+                                        {e?.data?.rd?.MetalWeight?.toFixed(3)}
                                       </div>
                                       <div className="cst1A lh1Ady">
                                         {e?.additional?.dia?.ActualPcs}/
@@ -1159,27 +1159,7 @@ function BagPrint1A({ queries, headers }) {
                                 >
                                   <b>INSTRUCTION:</b>
                                   <span style={{ color: "red" }}>
-                                    {(
-                                      e.data.rd.officeuse +
-                                      e?.data?.rd?.custInstruction +
-                                      e.data.rd.ProductInstruction
-                                    ).length > 0
-                                      ? (
-                                          e.data.rd.officeuse +
-                                          e?.data?.rd?.custInstruction +
-                                          e.data.rd.ProductInstruction
-                                        )?.slice(0, 96) == (null || "null")
-                                        ? ""
-                                        : (
-                                            e?.data?.rd?.officeuse +
-                                            " " +
-                                            e?.data?.rd?.custInstruction +
-                                            " " +
-                                            e?.data?.rd?.ProductInstruction
-                                          )
-                                            ?.toUpperCase()
-                                            ?.slice(0, 88)
-                                      : ""}
+                                    {e?.data?.rd?.ShowInstruction ?? ''}
                                   </span>
                                 </div>
                               </div>
@@ -1431,26 +1411,7 @@ function BagPrint1A({ queries, headers }) {
                               }}
                             >
                               <b>INSTRUCTION:</b>
-                              <span style={{ color: "red" }}>
-                                {(
-                                  e?.data?.rd?.officeuse +
-                                  e?.data?.rd?.custInstruction +
-                                  e?.data?.rd?.ProductInstruction
-                                )?.length > 0
-                                  ? (
-                                      e?.data?.rd?.officeuse +
-                                      e?.data?.rd?.custInstruction +
-                                      e?.data?.rd?.ProductInstruction
-                                    )?.slice(0, 95) == (null || "null")
-                                    ? ""
-                                    : (
-                                        e?.data?.rd?.officeuse +
-                                        e?.data?.rd?.e?.data?.rd
-                                          ?.custInstruction +
-                                        e?.data?.rd?.ProductInstruction
-                                      )?.slice(0, 95)
-                                  : ""}
-                              </span>
+                              <span style={{color:"red"}}>{e?.data?.rd?.ShowInstruction ?? ''}</span>
                             </div>
                           </div>
                           <div className="barcodeSetPrint1A">
@@ -1458,8 +1419,7 @@ function BagPrint1A({ queries, headers }) {
                               {e?.data?.rd?.length !== 0 &&
                                 e?.data?.rd !== undefined && (
                                   <>
-                                    {e?.data?.rd?.serialjobno !==
-                                      undefined && (
+                                    {e?.data?.rd?.serialjobno !== undefined && (
                                       <BarcodeGenerator
                                         data={e?.data?.rd?.serialjobno}
                                       />
