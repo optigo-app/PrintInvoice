@@ -151,3 +151,7 @@ ol {
   display: block;          /* Remove any extra space around the image */
   margin: 0 auto;          /* Center the image horizontally */
 }
+
+.keep_zeroes_2{
+  mso-number-format:'0.00'
+}

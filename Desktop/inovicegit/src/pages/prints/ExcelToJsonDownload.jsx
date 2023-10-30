@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import Loader from '../../components/Loader';
 import { useEffect } from 'react';
-import { ExportToExcel, apiCall, isObjectEmpty } from '../../GlobalFunctions';
+import { ExportToExcel, NumberWithCommas, apiCall, isObjectEmpty } from '../../GlobalFunctions';
 
 const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
 
@@ -87,12 +87,12 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     if (diamonds[ind]) {
                         diamondQualityname = diamonds[ind]?.QualityName;
                         diamondColorName = diamonds[ind]?.Colorname;
-                        diamondWt = diamonds[ind]?.Wt;
-                        diamondRate = diamonds[ind]?.Rate;
-                        diamondAmount = diamonds[ind]?.Amount;
+                        diamondWt = NumberWithCommas(diamonds[ind]?.Wt, 3);
+                        diamondRate = NumberWithCommas(diamonds[ind]?.Rate, 2);
+                        diamondAmount = NumberWithCommas(diamonds[ind]?.Amount, 2);
                         diamondGroupname = diamonds[ind]?.GroupName;
                         diamondShapename = diamonds[ind]?.ShapeName;
-                        diamondPcs = diamonds[ind]?.Pcs;
+                        diamondPcs = NumberWithCommas(diamonds[ind]?.Pcs, 0);
                     }
                     let stoneShape = "";
                     let stonePcs = "";
@@ -103,17 +103,17 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                  
                     if (colorStones[ind]) {
                         stoneShape = colorStones[ind]?.ShapeName;
-                        stonePcs = colorStones[ind]?.Pcs;
-                        stoneWt = colorStones[ind]?.Wt;
-                        stoneRate = colorStones[ind]?.Rate;
-                        stoneAmount = colorStones[ind]?.Amount;
+                        stonePcs = NumberWithCommas(colorStones[ind]?.Pcs, 0);
+                        stoneWt = NumberWithCommas(colorStones[ind]?.Wt, 3);
+                        stoneRate = NumberWithCommas(colorStones[ind]?.Rate, 2);
+                        stoneAmount = NumberWithCommas(colorStones[ind]?.Amount, 2);
                     }
                     if (metals[ind]) {
                         // metalPurity = metals[i]?.MetalPurity;
                         // metalColor = metals[i]?.MetalColor;
-                        metalRate = metals[ind]?.Rate;
+                        metalRate = NumberWithCommas(metals[ind]?.Rate, 2);
                     }
-                    let goldValue =  ind === 0 ? e?.MetalAmount - e?.LossAmt : "";
+                    let goldValue =  ind === 0 ? NumberWithCommas(e?.MetalAmount, 2) - e?.LossAmt : "";
                     if(goldValue === 0){
                         goldValue = ""
                     }
@@ -122,22 +122,22 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     let companyFullName = ind === 0 ? json0Data?.CompanyFullName : "";
                     let categoryname = ind === 0 ? e?.Categoryname : "";
                     let otherAmtDetail = ind === 0 ? e?.OtherAmtDetail : "";
-                    let certification = ind === 0 ? e?.OtherCharges : "";
+                    let certification = ind === 0 ? `${NumberWithCommas(e?.OtherCharges, 2)}` : "";
                     let certificateNo = ind === 0 ? e?.CertificateNo : "";
-                    let lossAmt = ind === 0 ? e?.LossAmt : "";
-                    let LossWt = ind === 0 ? e?.LossWt : "";
-                    let metalAmount = ind === 0 ? e?.MetalAmount : "";
-                    let makingAmount = ind === 0 ? e?.MakingAmount : "";
-                    let totalAmount = ind === 0 ? e?.TotalAmount : "";
+                    let lossAmt = ind === 0 ? NumberWithCommas(e?.LossAmt, 2) : "";
+                    let LossWt = ind === 0 ? NumberWithCommas(e?.LossWt, 3) : "";
+                    let metalAmount = ind === 0 ? NumberWithCommas(e?.MetalAmount, 2) : "";
+                    let makingAmount = ind === 0 ? NumberWithCommas(e?.MakingAmount, 2) : "";
+                    let totalAmount = ind === 0 ? NumberWithCommas(e?.TotalAmount, 2) : "";
                     let qty = ind === 0 ? 1 : "";
                     let subCategory = ind === 0 ? "OPEN SETTING" : "";
                     let rateType = ind === 0 ? "GMS" : "";
                     let certifiedby = ind === 0 ? "IGI" : "";
-                    let diamondTotalAmount = ind === 0 ? e?.DiamondAmount : "";
+                    let diamondTotalAmount = ind === 0 ? NumberWithCommas(e?.DiamondAmount, 2) : "";
                     let metalPurity = ind === 0 ? e?.MetalPurity : "";
                     let metalColor = ind === 0 ? e?.MetalColor : "";
-                    let grosswt = ind === 0 ? e?.grosswt : "";
-                    let NetWt = ind === 0 ? e?.NetWt : "";
+                    let grosswt = ind === 0 ? NumberWithCommas(e?.grosswt, 3) : "";
+                    let NetWt = ind === 0 ? NumberWithCommas(e?.NetWt, 3) : "";
 
                     let makeObj = createObj(srJobno, "", designno, companyFullName, "", qty, "", categoryname, subCategory, "", "", "",
                         diamondQualityname, diamondColorName, diamondGroupname, "", diamondShapename, diamondPcs, diamondWt, diamondRate,
