@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const GetData = async (job) => {
-    console.log(job);
     try {
         let p_tag = { "SerialJobno": `${job?.jobno}`, "customerid": `${job.custid}`, "BagPrintName": `${job.printname}` };
         let jsonString = JSON.stringify(p_tag);
@@ -13,7 +12,6 @@ export const GetData = async (job) => {
         };
         let urls = atob(job.url);
         const response = await axios.post(urls, Body, { headers: job.headers });
-        console.log(response);
         let datas = JSON.parse(response.data.d);
 
         

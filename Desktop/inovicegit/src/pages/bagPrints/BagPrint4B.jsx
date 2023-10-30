@@ -382,7 +382,6 @@ const BagPrint4B = ({ queries, headers }) => {
                                           : e?.data?.instructionData
                                         : ""} */}
                                       {checkInstruction(e?.data?.officeuse)}
-                                      {checkInstruction(e?.data?.custInstruction)}
                                       {checkInstruction(e?.data?.ProductInstruction)}
                                       {/* {checkInstruction(e?.data?.custInstruction)} */}
                                     </span>
@@ -856,7 +855,6 @@ const BagPrint4B = ({ queries, headers }) => {
                                     : e?.data?.instructionData
                                   : ""} */}
                                 {checkInstruction(e?.data?.officeuse)}
-                                {checkInstruction(e?.data?.custInstruction)}
                                 {checkInstruction(e?.data?.ProductInstruction)}
                                 {/* {checkInstruction(e?.data?.custInstruction)} */}
                               </span>
