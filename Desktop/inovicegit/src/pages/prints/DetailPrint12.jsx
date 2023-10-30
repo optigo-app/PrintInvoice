@@ -244,7 +244,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn }) => {
           <p className='lhDetailPrint1'>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No} | PAN-{json0Data?.Pannumber}</p>
         </div>
         <div className="col-6">
-          <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/companylogo/projectlogo.png" alt="" className='w-25 d-block ms-auto' />
+          <img src={json0Data?.PrintLogo} alt="" className='w-25 d-block ms-auto' />
         </div>
       </div>
       {/* address */}

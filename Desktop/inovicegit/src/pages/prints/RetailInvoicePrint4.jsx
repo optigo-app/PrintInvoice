@@ -231,7 +231,6 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn }) => {
                       src={headerData?.PrintLogo}
                       alt="#"
                       className={`w-100 d-block ms-auto ${style?.imgJewelleryRetailinovicePrint3}`}
-                      onError={(e) => handleImageError(e)}
                     />
                   </div>
                 </div>

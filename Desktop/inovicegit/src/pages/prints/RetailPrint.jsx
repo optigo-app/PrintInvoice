@@ -244,7 +244,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         <p>{jsonData1?.Company_VAT_GST_No} | {jsonData1?.Cust_CST_STATE} - {jsonData1?.Company_CST_STATE_No} | PAN-{jsonData1?.Pannumber}</p>
                     </div>
                     <div className="col-6">
-                        <img src={jsonData1?.PrintLogo} alt="" onError={handleImageError} className='retailPrintLogo d-block ms-auto' />
+                        <img src={jsonData1?.PrintLogo} alt="" className='retailPrintLogo d-block ms-auto' />
                     </div>
                 </div>
                 {/* bill to */}
