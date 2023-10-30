@@ -1523,7 +1523,6 @@ const BagPrint7A = ({ queries, headers }) => {
                               : ""}
                           </b>
                         </div>
-                        {console.log(data)}
                       </div>
                     )}
                   </React.Fragment>
