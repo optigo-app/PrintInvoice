@@ -167,7 +167,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <p className="pb-1">Phone - {headerData?.CompanyTellNo}</p>
                         <p className="pb-1">{headerData?.CompanyEmail}</p>
                         <p className="pb-1">{headerData?.Company_VAT_GST_No}</p>
-                        <p className="pb-1">CIN: </p>
+                        <p className="pb-1">CIN: {headerData?.CINNO}</p>
                     </div>
                     <div className="col-3 p-2 text-end">
                         <img src={headerData?.PrintLogo} alt="" onError={handleImageError} className={`w-100 ${style?.imageLogoInovicePrint4} d-block ms-auto`} />
@@ -276,7 +276,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                     {/* numbers to words */}
                     <div className="border-start border-end border-bottom p-2">
                         <p className='pb-1'>Amount Chargeable In Words</p>
-                        <p className="fw-bold">Rs {toWords.convert(total?.grandTotal)}</p>
+                        <p className="fw-bold">Rs {toWords.convert(+fixedValues(total?.grandTotal, 2))}</p>
                     </div>
                     {/* Bank Detail */}
                     <div className="d-flex border-start border-end border-bottom">

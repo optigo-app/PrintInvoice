@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { ToWords } from 'to-words';
-import { apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
 const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
@@ -45,13 +45,13 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     return (
         <>  {loader ? <Loader /> : msg === "" ? <div className='container containerRetailPrint mt-5 pad_60_allPrint'>
             {/* print button */}
-            {/* <div className="d-flex w-100 justify-content-end align-items-baseline print_sec_sum4 no_break pb-4">
+            <div className="d-flex w-100 justify-content-end align-items-baseline print_sec_sum4 no_break pb-4">
                 <div className="printBtn_sec text-end ">
                     <input type="button" className="btn_white blue me-0" value="Print" onClick={(e) => handlePrint(e)} />
                 </div>
-            </div> */}
+            </div>
             {/* headline retail print */}
-            {/* <div className="containerinvp3 pad_60_allPrint" id="divToPrint">
+             <div className="containerinvp3 pad_60_allPrint" id="divToPrint">
                 <div className="headinvp3">
                   <div className="headerinvp3">
                     <div className="head1invp3">
@@ -141,29 +141,14 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="d-flex justify-content-between px-2">
                       <p className="w-50 text-start fsinvp3">Discount</p>
                       <p className="w-50 text-end fsinvp3">
-                        {NumberWithCommas(totDiscount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between px-2">
                       <p className="fw-bold fsinvp3">Total Amount</p>
                       <p className="w-50 text-end fsinvp3">
-                        {NumberWithCommas(mainTotal?.totAmount?.TotalAmount, 2)}
                       </p>
                     </div>
-                    {taxTotal?.length > 0 &&
-                      taxTotal?.map((e, i) => {
-                        return (
-                          <div
-                            className="d-flex justify-content-between px-2"
-                            key={i}
-                          >
-                            <div className="fsinvp3">
-                              {e?.name} {e?.per}
-                            </div>
-                            <div className="fsinvp3">{NumberWithCommas(e?.amount, 2)}</div>
-                          </div>
-                        );
-                      })}
+                  
 
                     <div className="d-flex justify-content-between px-2">
                       <p className="fsinvp3">
@@ -179,12 +164,12 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     >
                       <p className="fw-bold fsinvp3">Grand Total</p>
                       <p className="fw-bold w-50 text-end fsinvp3">
-                        {NumberWithCommas(grandTotal, 2)}
+                        {}
                       </p>
                     </div>
                   </div>
                   <div className="wordsinvp3 fsinvp3 px-2 fw-bold">
-                    {inWords}
+                    {}
                   </div>
                   <div className="wordsinvp3 fsinvp3">
                     <p className="fw-bold px-2">NOTE:</p>
@@ -196,7 +181,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     ></p>
                   </div>
                 </div>
-              </div> */}
+              </div> 
       
         </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}</>
     )

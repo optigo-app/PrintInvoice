@@ -251,12 +251,12 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/companylogo/projectlogo.png" alt="" className='w-25 d-block ms-auto' />
           </div>
         </div>
-        
+
         {/* address */}
         <div className="d-flex border-start border-end  border-bottom mb-1 recordDetailPrint1">
           <div className="col-4 border-end  p-1">
             <p className='lhDetailPrint1'>{json0Data?.lblBillTo}</p>
-            <p className='lhDetailPrint1 fw-bold'>{json0Data?.lblBillTo}</p>
+            <p className='lhDetailPrint1 fw-bold'>{json0Data?.customerfirmname}</p>
             <p className='lhDetailPrint1'>{json0Data?.customerAddress2}</p>
             <p className='lhDetailPrint1'>{json0Data?.customerAddress1}</p>
             <p className='lhDetailPrint1'>{json0Data?.customerAddress3}</p>
@@ -361,7 +361,6 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
         {/* data */}
         {json1Data.length > 0 && json1Data.map((e, i) => {
-          console.log(e);
           return <div key={i} className='recordDetailPrint1 pt-1'>
             <div className="d-flex w-100">
               <div className="srNoDetailprint11 border-end border-start  border-bottom">
@@ -456,7 +455,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="paddingBottomTotalDetailPrint1">
                   <div>
                     {e?.OtherAmountDetail.length > 0 && e?.OtherAmountDetail.map((ele, ind) => {
-                      return <p key={ind} className={`${e?.OtherAmountDetail.length-1 !== ind && 'border-bottom'}`}>{ele?.label}: {ele?.value}</p>
+                      return <p key={ind} className={`${e?.OtherAmountDetail.length - 1 !== ind && 'border-bottom'}`}>{ele?.label}: {ele?.value}</p>
                     })}
                     {/* <p className=' text-end'>{NumberWithCommas(e?.OtherCharges, 2)}</p>s */}
                   </div>
@@ -529,14 +528,15 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             {taxes.length > 0 && taxes.map((e, i) => {
               return <p key={i}>{e?.name} @ {e?.per}</p>
             })}
-            <p>Less</p>
+            {json0Data?.AddLess !== 0 && <p>{json0Data?.AddLess < 0 ? "Less" : "Add"}</p>}
           </div>
           <div className="cgstTotalDetailPrint1 text-end border-end  ">
             <p>{(total?.discountTotalAmount).toFixed(2)}</p>
             {taxes.length > 0 && taxes.map((e, i) => {
               return <p key={i}>{NumberWithCommas(e?.amount, 2)}</p>
             })}
-            <p>-0.17</p>
+            {console.log(json0Data)}
+            {json0Data?.AddLess !== 0 && <p>{json0Data?.AddLess}</p>}
           </div>
         </div>
         {/* total */}
