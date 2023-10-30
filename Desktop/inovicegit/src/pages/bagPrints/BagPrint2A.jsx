@@ -12,6 +12,7 @@ import Loader from "../../components/Loader";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
+import { InstructionGenerate } from "./../../GlobalFunctions/InstructionGenerate";
 function BagPrint2A({ queries, headers }) {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -137,6 +138,8 @@ function BagPrint2A({ queries, headers }) {
           let img = imagePath + a?.rd?.ThumbImagePath;
 
           let arrofCHunk = GetChunkData(chunkSize11, mainArr);
+          let ins = InstructionGenerate(a?.rd);
+          a.rd.ShowInstruction = ins;
           responseData.push({
             data: a,
             additional: {
@@ -1430,7 +1433,15 @@ function BagPrint2A({ queries, headers }) {
                                       }
                                     )}
                                   </div>
-                                  {(e?.data?.rd?.officeuse !== null &&
+                                  <div>
+                                    <span className="fw-bold">
+                                      INSTRUCTION :
+                                    </span>
+                                    <span style={{ color: "red" }}>
+                                      {e?.data?.rd?.ShowInstruction ?? ""}
+                                    </span>
+                                  </div>
+                                  {/* {(e?.data?.rd?.officeuse !== null &&
                                     e?.data?.rd?.officeuse !== "null" &&
                                     e?.data?.rd?.officeuse !== undefined &&
                                     e?.data?.rd?.officeuse !== "") ||
@@ -1477,7 +1488,7 @@ function BagPrint2A({ queries, headers }) {
                                     </div>
                                   ) : (
                                     <b>INSTRUCTION:</b>
-                                  )}
+                                  )} */}
                                   {/* <div style={{ fontSize: "14px", paddingLeft: "2px", paddingTop: "2px", lineHeight: "14px", height: "34px" }}><b>INSTRUCTION:</b><span style={{ color: "red" }}>{(e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction).length > 0 ? ((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e.data.rd.ProductInstruction)?.toUpperCase()?.slice(0, 166) == (null || 'null') ? '' : (e.data.rd.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction)?.slice(0, 95)) : ''}</span></div> */}
                                 </div>
                                 <div
@@ -1712,33 +1723,8 @@ function BagPrint2A({ queries, headers }) {
                                 );
                               })}
                             </div>
-                            <div
-                              style={{
-                                fontSize: "14px",
-                                paddingLeft: "2px",
-                                paddingRight: "2px",
-                              }}
-                            >
-                              <b>INSTRUCTION:</b>
-                              <span style={{ color: "red" }}>
-                                {(
-                                  e?.data?.rd?.officeuse +
-                                  e?.data?.rd?.custInstruction +
-                                  e?.data?.rd?.ProductInstruction
-                                )?.length > 0
-                                  ? (
-                                      e?.data?.rd?.officeuse +
-                                      e?.data?.rd?.custInstruction +
-                                      e?.data?.rd?.ProductInstruction
-                                    )?.slice(0, 166) == (null || "null")
-                                    ? ""
-                                    : (
-                                        e?.data?.rd?.officeuse +
-                                        e?.data?.rd?.custInstruction +
-                                        e?.data?.rd?.ProductInstruction
-                                      )?.slice(0, 166)
-                                  : ""}
-                              </span>
+                            <div>
+                              <span className="fw-bold">INSTRUCTION :</span><span style={{color:"red"}}>{e?.data?.rd?.ShowInstruction ?? ''}</span>
                             </div>
                           </div>
                           <div className="barcodeSetPrint2A">

@@ -19,7 +19,7 @@
 
 .head7A {
     display: flex;
-    height: 119px;
+    height: 125px;
 }
 
 
@@ -35,17 +35,19 @@
     width: 270px;
     border-right: 1px solid #989898;
     justify-content: space-between;
+    height: 127px;
 }
 
 .head7AjobInfoJobNO {
     display: flex;
     justify-content: space-between;
-    padding: 3px;
+    padding: 4px;
 }
 
 .party7A {
     display: flex;
     justify-content: space-between;
+    height: 15px;
 }
 
 .mat7AInfo {
@@ -186,7 +188,8 @@
     justify-content: flex-start;
     align-items: center;
     /* font-weight: bold; */
-    font-size: 9.5px;;
+    font-size: 9.5px;
+    ;
     line-height: 7.5px;
     padding-left: 2px;
 }
@@ -278,7 +281,13 @@
     object-fit: cover;
 }
 
-.anotherBarcode7A img.barcode_sticker{
+.party7A>.clspr7brcode {
+    position: relative;
+    top: -15px;
+    left: -52px;
+}
+
+.party7A>.clspr7brcode>.barcode_sticker {
     position: relative;
     top: 11px !important;
     right: unset !important;
@@ -289,6 +298,28 @@
     height: 4mm !important;
     object-fit: cover;
 }
+.dup7Aemt{
+    height: 16px;
+    font-weight: bold;
+    border-top: 1px solid #989898;
+    border-bottom: 1px solid #989898;
+}
+.w7AD{
+    width: 74px;
+    border-right: 1px solid #989898;
+    height: 15px;
+    
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    
+    font-size: 9.5px;
+    
+    line-height: 7.5px;
+    padding-left: 2px;
+    border-bottom: 1px solid #989898 !important;
+}
+
 @media print {
 
 

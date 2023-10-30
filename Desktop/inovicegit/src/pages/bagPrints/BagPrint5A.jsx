@@ -11,6 +11,7 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
+import { InstructionGenerate } from "../../GlobalFunctions/InstructionGenerate";
 const BagPrint5A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -149,6 +150,8 @@ const BagPrint5A = ({ queries, headers }) => {
 
           let img = imagePath + a?.rd?.ThumbImagePath;
           let arrofchunk = GetChunkData(chunkSize17, mainArr);
+          let ins = InstructionGenerate(a?.rd);
+          a.rd.ShowInstruction = ins;
           // for (let i = 0; i < mainArr.length; i += chunkSize17) {
           //     const chunks = mainArr.slice(i, i + chunkSize17);
           //     let len = 17 - (mainArr.slice(i, i + chunkSize17)).length;
@@ -389,7 +392,7 @@ const BagPrint5A = ({ queries, headers }) => {
                 return (
                   <React.Fragment>
                     {
-                    e?.additional?.pages?.length > 0 &&
+                    e?.additional?.pages?.length > 0 ?
                       e?.additional?.pages?.map((ele) => {
                         return (
                           <div className="container5A">
@@ -563,7 +566,8 @@ const BagPrint5A = ({ queries, headers }) => {
                                       }}
                                     >
                                       CAST INS.
-                                      {(
+                                      {e?.data?.rd?.ShowInstruction ?? ''}
+                                      {/* {(
                                         e?.data?.rd?.officeuse +
                                         e?.data?.rd?.custInstruction +
                                         e?.data?.rd?.ProductInstruction
@@ -579,7 +583,7 @@ const BagPrint5A = ({ queries, headers }) => {
                                               " " +
                                               e?.data?.rd?.ProductInstruction
                                           )?.slice(0, 179)
-                                        : ""}
+                                        : ""} */}
                                     </span>
                                   </p>
                                 </div>
@@ -678,7 +682,305 @@ const BagPrint5A = ({ queries, headers }) => {
                             </div>
                           </div>
                         );
-                      })  
+                      })  :  <div className="container5A">
+                      <div className="bag5A">
+                        <div className="flex5A">
+                          <div className="header5A">
+                            <div className="head5A">
+                              <div className="head5Ajob">
+                                <div className="lh5A8">
+                                  {e?.data?.rd?.serialjobno}
+                                </div>
+                                <div className="lh5A8">
+                                  {e?.data?.rd?.Designcode}
+                                </div>
+                                <div className="pr5A lh5A8">
+                                  {e?.data?.rd?.MetalType}{" "}
+                                  {e?.data?.rd?.MetalColorCo}
+                                </div>
+                                {/* <div>{e?.data?.rd?.MetalColorCo}</div> */}
+                              </div>
+                              <div className="head5Ainfo">
+                                <div className="info5Amid">
+                                  <p className="f5A diffColor">CUST.</p>
+                                  <p className="f5A">
+                                    {e?.data?.rd?.CustomerCode}
+                                  </p>
+                                </div>
+                                <div className="info5Amid">
+                                  <p className="f5A diffColor">
+                                    ORD. DT.
+                                  </p>
+                                  <p className="f5A">
+                                    {e?.data?.rd?.orderDatef ?? ""}
+                                  </p>
+                                </div>
+                                {/* <div className='info5Aend'><p className='f5A diffColor'>DEL. DT.</p><p className='f5A'>{e?.data?.rd?.promiseDatef ?? ''}</p></div> */}
+                                <div className="info5Aend">
+                                  <p className="f5A diffColor">
+                                    DEL. DT.
+                                  </p>
+                                  <p className="f5A"></p>
+                                </div>
+                                <div className="info5Alast">
+                                  <p
+                                    className="f5A diffColor"
+                                    style={{ borderRight: "0px" }}
+                                  >
+                                    SIZE
+                                  </p>
+                                  <p
+                                    className="f5A"
+                                    style={{ borderRight: "0px" }}
+                                  >
+                                    {e?.data?.rd?.Size}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="section5A">
+                            <div className="seaction5AheadA">
+                              <div className="seaction5AheadCode">
+                                CODE
+                              </div>
+                              <div className="seaction5AheadSize">
+                                SIZE
+                              </div>
+                              <div className="seaction5AheadPcs">PCS</div>
+                              <div className="seaction5AheadWT">WT</div>
+                              <div className="seaction5AheadPcs">PCS</div>
+                              <div className="seaction5AheadWT">WT</div>
+                            </div>
+                            {/* {ele?.data?.map((a, i) => {
+                              return (
+                                <React.Fragment key={i}>
+                                  {a.MasterManagement_DiamondStoneTypeid ===
+                                  5 ? (
+                                    <div
+                                      className="seaction5Amid"
+                                      key={i}
+                                    >
+                                      <div
+                                        className="seaction5Ahead"
+                                        style={{ fontWeight: "normal" }}
+                                      >
+                                        
+                                        <div
+                                          className="seaction5AheadCode"
+                                          style={{ width: "138px" }}
+                                        >
+                                          {
+                                            a?.LimitedShapeQualityColorCode
+                                          }{" "}
+                                          {a?.Quality} {a?.ColorName}
+                                        </div>
+                                        <div className="seaction5AheadPcs">
+                                          {a?.ActualPcs}
+                                        </div>
+                                        <div className="seaction5AheadWT">
+                                          {a?.ActualWeight?.toFixed(3)}
+                                        </div>
+                                        <div className="seaction5AheadPcs"></div>
+                                        <div className="seaction5AheadWT"></div>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className="seaction5Amid"
+                                      key={i}
+                                    >
+                                      <div
+                                        className="seaction5Ahead"
+                                        style={{ fontWeight: "normal" }}
+                                      >
+                                        
+                                        <div className="seaction5AheadCode">
+                                          {
+                                            a?.LimitedShapeQualityColorCode
+                                          }
+                                        </div>
+                                        <div className="seaction5AheadSize">
+                                          {a?.Sizename}
+                                        </div>
+                                        <div className="seaction5AheadPcs">
+                                          {a?.ActualPcs}
+                                        </div>
+                                        <div className="seaction5AheadWT">
+                                          {a?.ActualWeight?.toFixed(3)}
+                                        </div>
+                                        <div className="seaction5AheadPcs"></div>
+                                        <div className="seaction5AheadWT"></div>
+                                      </div>
+                                    </div>
+                                  )}
+                                </React.Fragment>
+                              );
+                            })} */}
+                            <div
+                                  className="seaction5Amid"
+                                >
+                                  <div
+                                    className="seaction5Ahead"
+                                    style={{ fontWeight: "normal" }}
+                                  >
+                                    <div className="seaction5AheadCode">{e?.data?.rd?.MetalType + " " +e?.data?.rd?.MetalColorCo}</div>
+                                    <div className="seaction5AheadSize"></div>
+                                    <div className="seaction5AheadPcs"></div>
+                                    <div className="seaction5AheadWT"></div>
+                                    <div className="seaction5AheadPcs"></div>
+                                    <div className="seaction5AheadWT"></div>
+                                  </div>
+                                </div>
+                            {Array.from(
+                              { length: 16 },
+                              (_, index) => (
+                                <div
+                                  className="seaction5Amid"
+                                  key={index}
+                                >
+                                  <div
+                                    className="seaction5Ahead"
+                                    style={{ fontWeight: "normal" }}
+                                  >
+                                    <div className="seaction5AheadCode"></div>
+                                    <div className="seaction5AheadSize"></div>
+                                    <div className="seaction5AheadPcs"></div>
+                                    <div className="seaction5AheadWT"></div>
+                                    <div className="seaction5AheadPcs"></div>
+                                    <div className="seaction5AheadWT"></div>
+                                  </div>
+                                </div>
+                              )
+                            )}
+                          </div>
+                          <div className="footer5A imp5A">
+                            <p className="footer5AIns">
+                              {" "}
+                              <span
+                                className="footer5AIns"
+                                style={{
+                                  color: "red",
+                                  paddingLeft: "2px",
+                                  lineHeight: "11px",
+                                }}
+                              >
+                                CAST INS.
+                                {e?.data?.rd?.ShowInstruction ?? ''}
+                                {/* {(
+                                  e?.data?.rd?.officeuse +
+                                  e?.data?.rd?.custInstruction +
+                                  e?.data?.rd?.ProductInstruction
+                                ).length > 0
+                                  ? (e?.data?.rd?.officeuse +
+                                      e?.data?.rd?.custInstruction +
+                                      e?.data?.rd?.ProductInstruction ==
+                                    (null || "null")
+                                      ? ""
+                                      : e?.data?.rd?.officeuse +
+                                        " " +
+                                        e?.data?.rd?.custInstruction +
+                                        " " +
+                                        e?.data?.rd?.ProductInstruction
+                                    )?.slice(0, 179)
+                                  : ""} */}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                        <div className="aside5A">
+                          <div className="imgPart5A">
+                            <div className="img5A">
+                              <img
+                                src={
+                                  e?.additional?.img !== ""
+                                    ? e?.additional?.img
+                                    : require("../../assets/img/default.jpg")
+                                }
+                                id="img5A"
+                                alt=""
+                                onError={(e) => handleImageError(e)}
+                                loading="eager"
+                              />
+                            </div>
+                            <div className="barcodeInfo5A">
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                              >
+                                <div className="diaInfo5A">
+                                  <div className="diaflex5A">
+                                    <p className="f5Aval">DIAMOND</p>
+                                    <p className="diaVal5A">
+                                      {e?.additional?.dia?.ActualPcs}/
+                                      {e?.additional?.dia?.ActualWeight?.toFixed(
+                                        3
+                                      )}
+                                    </p>{" "}
+                                  </div>
+                                </div>
+                                <div className="diaInfo5A">
+                                  <div className="diaflex5A">
+                                    <p
+                                      className="f5Aval"
+                                      style={{ height: "33px" }}
+                                    ></p>{" "}
+                                  </div>
+                                </div>
+                                <div className="diaInfo5A">
+                                  <div className="diaflex5A">
+                                    <p className="f5Aval">CS</p>
+                                    <p className="diaVal5A">
+                                      {e?.additional?.clr?.ActualPcs}/
+                                      {e?.additional?.clr?.ActualWeight?.toFixed(
+                                        2
+                                      )}
+                                    </p>{" "}
+                                  </div>
+                                </div>
+                                <div className="diaInfo5A">
+                                  <div className="diaflex5A">
+                                    <p
+                                      className="f5Aval"
+                                      style={{ height: "33px" }}
+                                    ></p>{" "}
+                                  </div>
+                                </div>
+                                <div className="diaInfo5A">
+                                  <div className="diaflex5A">
+                                    <p className="f5Aval">METAL</p>
+                                    <p className="diaVal5A">
+                                      {e?.data?.rd?.netwt?.toFixed(3)}
+                                    </p>{" "}
+                                  </div>
+                                </div>
+                                <div
+                                  style={{
+                                    borderRight: "1px solid #989898",
+                                    height: "39px",
+                                  }}
+                                ></div>
+                              </div>
+                              <div className="barcode5A">
+                                {e?.data?.rd?.length !== 0 &&
+                                  e?.data?.rd !== undefined && (
+                                    <>
+                                      {e?.data?.rd?.serialjobno !==
+                                        undefined && (
+                                        <BarcodeGenerator
+                                          data={e?.data?.rd?.serialjobno}
+                                        />
+                                      )}
+                                    </>
+                                  )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                       }
                     <div className="container5A">
                       <div className="bag5AD">

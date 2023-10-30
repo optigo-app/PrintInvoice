@@ -188,8 +188,7 @@ const BagPrint7A = ({ queries, headers }) => {
               pages: chunkData,
             },
           });
-
-        })
+        });
 
         // const sizeArr = [];
         // for (let url in print) {
@@ -430,12 +429,17 @@ const BagPrint7A = ({ queries, headers }) => {
                 return (
                   <React.Fragment key={ins}>
                     {e?.additional?.pages?.length > 0 ? (
-                      e?.additional?.pages.map((ele, ind) => {
+                      e?.additional?.pages?.map((ele, ind) => {
                         return (
                           <div className="container7A" key={ind}>
                             <div className="head7A">
                               <div className="head7AjobInfo">
-                                <div className="head7AjobInfoJobNO" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
+                                <div
+                                  className="head7AjobInfoJobNO"
+                                  style={{
+                                    backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                                  }}
+                                >
                                   <div>
                                     Ord. : {e?.data?.rd?.orderDatef ?? ""}
                                   </div>
@@ -446,7 +450,12 @@ const BagPrint7A = ({ queries, headers }) => {
                                     <b>{e?.data?.rd?.serialjobno}</b>
                                   </div>
                                 </div>
-                                <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
+                                <div
+                                  className="party7A"
+                                  style={{
+                                    backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                                  }}
+                                >
                                   <div>
                                     Party: <b>{e?.data?.rd?.CustomerCode}</b>
                                   </div>
@@ -454,7 +463,12 @@ const BagPrint7A = ({ queries, headers }) => {
                                     Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
                                   </div>
                                 </div>
-                                <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
+                                <div
+                                  className="party7A"
+                                  style={{
+                                    backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                                  }}
+                                >
                                   <div>
                                     Dg No. : <b>{e?.data?.rd?.Designcode}</b>
                                   </div>
@@ -472,7 +486,12 @@ const BagPrint7A = ({ queries, headers }) => {
                                       )}
                                   </div>
                                 </div>
-                                <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
+                                <div
+                                  className="party7A"
+                                  style={{
+                                    backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                                  }}
+                                >
                                   <div>Size: {e?.data?.rd?.Size}</div>
                                   <div>({e?.data?.rd?.Quantity})Pcs</div>
                                   <div>{e?.data?.rd?.prioritycode}</div>
@@ -557,7 +576,6 @@ const BagPrint7A = ({ queries, headers }) => {
                                   alt=""
                                   onError={(e) => handleImageError(e)}
                                   loading="eager"
-                               
                                 />
                                 <div
                                   className="borderBottom7A"
@@ -1066,6 +1084,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                       )?.slice(0, 200)
                                   : ""}
                               </b>
+                              
                             </div>
                           </div>
                         );
@@ -1073,7 +1092,7 @@ const BagPrint7A = ({ queries, headers }) => {
                     ) : (
                       <div className="container7A">
                         <div className="head7A">
-                          <div className="head7AjobInfo">
+                          {/* <div className="head7AjobInfo">
                             <div className="head7AjobInfoJobNO" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
                               <div>
                                 Ord. : {e?.data?.rd?.orderDatef ?? ""}
@@ -1093,11 +1112,11 @@ const BagPrint7A = ({ queries, headers }) => {
                                 Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
                               </div>
                             </div>
-                            <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
+                            <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`, position:"absolute"}}>
                               <div>
                                 Dg No. : <b>{e?.data?.rd?.Designcode}</b>
                               </div>
-                              <div class Name="anotherBarcode7A">
+                              <div className="clspr7brcode">
                                 {e?.data?.rd?.length !== 0 &&
                                   e?.data?.rd !== undefined && (
                                     <>
@@ -1113,7 +1132,8 @@ const BagPrint7A = ({ queries, headers }) => {
                             </div>
                             <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
                               <div>Size: {e?.data?.rd?.Size}</div>
-                              <div>(1)Pcs</div>
+                              <div>({e?.data?.rd?.Quantity})Pcs</div>
+                              <div>{e?.data?.rd?.prioritycode}</div>
                             </div>
 
                             <div className="mat7AInfo">
@@ -1176,6 +1196,125 @@ const BagPrint7A = ({ queries, headers }) => {
                                 </div>
                               </div>
                             </div>
+                          </div> */}
+                          <div className="head7AjobInfo">
+                            <div
+                              className="head7AjobInfoJobNO"
+                              style={{
+                                backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                              }}
+                            >
+                              <div>Ord. : {e?.data?.rd?.orderDatef ?? ""}</div>
+                              <div>Due : {e?.data?.rd?.promiseDatef ?? ""}</div>
+                              <div>
+                                <b>{e?.data?.rd?.serialjobno}</b>
+                              </div>
+                            </div>
+                            <div
+                              className="party7A"
+                              style={{
+                                backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                              }}
+                            >
+                              <div>
+                                Party: <b>{e?.data?.rd?.CustomerCode}</b>
+                              </div>
+                              <div style={{ paddingBottom: "4px" }}>
+                                Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
+                              </div>
+                            </div>
+                            <div
+                              className="party7A"
+                              style={{
+                                backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                              }}
+                            >
+                              <div>
+                                Dg No. : <b>{e?.data?.rd?.Designcode}</b>
+                              </div>
+                              <div className="barcode7A">
+                                {e?.data?.rd?.length !== 0 &&
+                                  e?.data?.rd !== undefined && (
+                                    <>
+                                      {e?.data?.rd?.serialjobno !==
+                                        undefined && (
+                                        <BarcodeGenerator
+                                          data={e?.data?.rd?.serialjobno}
+                                        />
+                                      )}
+                                    </>
+                                  )}
+                              </div>
+                            </div>
+                            <div
+                              className="party7A"
+                              style={{
+                                backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                              }}
+                            >
+                              <div>Size: {e?.data?.rd?.Size}</div>
+                              <div>({e?.data?.rd?.Quantity})Pcs</div>
+                              <div>{e?.data?.rd?.prioritycode}</div>
+                            </div>
+
+                            <div className="mat7AInfo">
+                              <div className="pcswt7AH">
+                                <div className="net7A">
+                                  <b>Net Wt.</b>
+                                </div>
+                                <div className="net7A justify-content-end pe-1">
+                                  {e?.data?.rd?.netwt}
+                                </div>
+                                <div className="net7A">
+                                  <b>Gr Wt.</b>
+                                </div>
+                                <div className="net7A justify-content-end pe-1">
+                                  {e?.data?.rd?.ActualGrossweight.toFixed(3)}
+                                </div>
+                              </div>
+                              <div className="pcswt7AH">
+                                <div className="net7A">
+                                  <b>Dia Pcs:</b>
+                                </div>
+                                <div className="net7A justify-content-end pe-1">
+                                  {e?.additional?.dia?.ActualPcs}
+                                </div>
+                                <div className="net7A">
+                                  <b>Dia Wt.</b>
+                                </div>
+                                <div className="net7A justify-content-end pe-1">
+                                  {e?.additional?.dia?.ActualWeight.toFixed(3)}
+                                </div>
+                              </div>
+                              <div className="pcswt7AH">
+                                <div className="net7A">
+                                  <b>Clr Pcs:</b>
+                                </div>
+                                <div className="net7A justify-content-end pe-1">
+                                  {e?.additional?.clr?.ActualPcs}
+                                </div>
+                                <div className="net7A">
+                                  <b>Clr Wt.</b>
+                                </div>
+                                <div className="net7A justify-content-end pe-1">
+                                  {e?.additional?.clr?.ActualWeight.toFixed(3)}
+                                </div>
+                              </div>
+                              <div className="pcswt7AH">
+                                <div className="net7A">
+                                  <b>Misc Pcs:</b>
+                                </div>
+                                <div className="net7A justify-content-end pe-1">
+                                  {e?.additional?.misc?.ActualPcs}
+                                </div>
+                                <div className="net7A">
+                                  <b>Misc Wt.</b>
+                                </div>
+                                <div className="net7A justify-content-end pe-1">
+                                  {e?.additional?.misc?.ActualWeight.toFixed(3)}
+                                </div>
+                              </div>
+                            </div>
                           </div>
                           <div className="imgSize7A">
                             {" "}
@@ -1189,7 +1328,6 @@ const BagPrint7A = ({ queries, headers }) => {
                               alt=""
                               onError={(e) => handleImageError(e)}
                               loading="eager"
-                          
                             />
                             <div
                               className="borderBottom7A"
@@ -1208,12 +1346,30 @@ const BagPrint7A = ({ queries, headers }) => {
                         </div>
                         <div className="main7A">
                           <div className="main7AEntry">
-                            <div style={{ height: "13px" }}></div>
+                            {/* <div style={{ height: "13px" }}></div> */}
+                            <div className="d-flex justify-content-between align-items-center dup7Aemt">
+                              <div className="w7A">Type</div>
+                              <div className="w7A">Purity</div>
+                              <div className="w7A">Color</div>
+                              <div className="w7A">Size</div>
+                              <div className="w7A">Pcs</div>
+                              <div className="w7A">Wt</div>
+                            </div>
+                            {Array.from({ length: 5 }, (_, index) => (
+                              <div className="d-flex" key={index}>
+                                <div className="w7AD "></div>
+                                <div className="w7AD "></div>
+                                <div className="w7AD "></div>
+                                <div className="w7AD "></div>
+                                <div className="w7AD "></div>
+                                <div className="w7AD "></div>
+                              </div>
+                            ))}
                             <div
                               className="tableHead7A"
                               style={{ borderBottom: "1px solid #989898" }}
                             >
-                              <div className="type7A">
+                              {/* <div className="type7A">
                                 <p className="w7A">Type</p>
                                 <p className="w7A">Purity</p>
                                 <p className="w7A">Color</p>
@@ -1227,7 +1383,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 >
                                   Wt.
                                 </p>
-                              </div>
+                              </div> */}
                             </div>
                             <div className="tableHead7B">
                               <div className="dept7A" style={{ width: "63px" }}>
@@ -1346,7 +1502,6 @@ const BagPrint7A = ({ queries, headers }) => {
                             style={{ borderRight: "0px" }}
                           ></div>
                         </div>
-
                         <div className="footer7A">
                           <b>
                             Remark:{" "}
@@ -1368,6 +1523,7 @@ const BagPrint7A = ({ queries, headers }) => {
                               : ""}
                           </b>
                         </div>
+                        {console.log(data)}
                       </div>
                     )}
                   </React.Fragment>
