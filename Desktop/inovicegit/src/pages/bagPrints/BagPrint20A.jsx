@@ -17,8 +17,8 @@ const BagPrint20A = ({ queries, headers }) => {
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize7 = 10;
   useEffect(() => {
-    if (Object.keys(queryParams).length !== 0) {
-      atob(queryParams.imagepath);
+    if (Object.keys(queryParams)?.length !== 0) {
+      atob(queryParams?.imagepath);
     }
 
     const fetchData = async () => {
@@ -26,10 +26,10 @@ const BagPrint20A = ({ queries, headers }) => {
         const responseData = [];
         const objs = {
           jobno: resultString,
-          custid: queries.custid,
-          printname: queries.printname,
-          appuserid: queries.appuserid,
-          url: queries.url,
+          custid: queries?.custid,
+          printname: queries?.printname,
+          appuserid: queries?.appuserid,
+          url: queries?.url,
           headers: headers,
         };
 
@@ -124,11 +124,11 @@ const BagPrint20A = ({ queries, headers }) => {
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
-          ArrofSevenSize.push(dia);
+          ArrofSevenSize?.push(dia);
 
-          ArrofFiveSize.push(clr);
-          ArrofFSize.push(f);
-          ArrofMISize.push(misc);
+          ArrofFiveSize?.push(clr);
+          ArrofFSize?.push(f);
+          ArrofMISize?.push(misc);
 
           ArrofSevenSize?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
@@ -180,9 +180,9 @@ const BagPrint20A = ({ queries, headers }) => {
             ActualWeight: "",
             MasterManagement_DiamondStoneTypeid: 7,
           };
-          ArrofSevenSize?.length > 0 && ArrofSevenSize.unshift(newDia);
-          ArrofFiveSize?.length > 0 && ArrofFiveSize.unshift(newCS);
-          ArrofMISize?.length > 0 && ArrofMISize.unshift(newMisc);
+          ArrofSevenSize?.length > 0 && ArrofSevenSize?.unshift(newDia);
+          ArrofFiveSize?.length > 0 && ArrofFiveSize?.unshift(newCS);
+          ArrofMISize?.length > 0 && ArrofMISize?.unshift(newMisc);
 
           let arr = [];
           let mainArr = arr?.concat(
