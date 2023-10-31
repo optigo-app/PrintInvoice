@@ -1111,34 +1111,34 @@ const BagPrint20A = ({ queries, headers }) => {
                           </div>
                           <div className="d-flex">
                             <div>
-                              <div className="wheadsep7Acopy border-start border_color">
+                              <div className="wheadsep7Acopy border-start border_color fw-bold">
                                 Grind
                               </div>
-                              <div className="wheadsep7Acopy border-start border_color">
+                              <div className="wheadsep7Acopy border-start border_color fw-bold">
                                 Filli
                               </div>
-                              <div className="wheadsep7Acopy border-start border_color">
+                              <div className="wheadsep7Acopy border-start border_color fw-bold">
                                 Buff.
                               </div>
-                              <div className="wheadsep7Acopy border-start border_color">
+                              <div className="wheadsep7Acopy border-start border_color fw-bold">
                                 Filli.
                               </div>
-                              <div className="wheadsep7Acopy border-start border_color">
+                              <div className="wheadsep7Acopy border-start border_color fw-bold">
                                 PPOL
                               </div>
-                              <div className="wheadsep7Acopy border-start border_color">
+                              <div className="wheadsep7Acopy border-start border_color fw-bold">
                                 Sett.
                               </div>
-                              <div className="wheadsep7Acopy border-start border_color">
+                              <div className="wheadsep7Acopy border-start border_color fw-bold">
                                 M FN
                               </div>
-                              <div className="wheadsep7Acopy border-start border_color">
+                              <div className="wheadsep7Acopy border-start border_color fw-bold">
                                 F POL
                               </div>
-                              <div className="wheadsep7Acopy border-start border_color">
+                              <div className="wheadsep7Acopy border-start border_color fw-bold">
                                 Mina
                               </div>
-                              <div className="wheadsep7Acopy border_color border-start border_bottom_left_print7Acopy">
+                              <div className="wheadsep7Acopy border_color border-start border_bottom_left_print7Acopy fw-bold">
                                 Other
                               </div>
                             </div>
