@@ -278,13 +278,13 @@ const BagPrint20A = ({ queries, headers }) => {
             </button>
           </div>
           <div className="d-flex flex-wrap mb-5 pad_60_allPrint">
-            {Array.from(
+          {Array.from(
               { length: queries?.pageStart },
               (_, index) =>
                 index > 0 && (
                   <div
                     key={index}
-                    className="container7A"
+                    className="container7Acopy"
                     style={{ border: "0px" }}
                   ></div>
                 )

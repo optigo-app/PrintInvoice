@@ -246,7 +246,7 @@
 .barcodeInfo10A {
     position: relative;
     display: flex;
-    height: 232px;
+    height: 217px;
     border-bottom: 1px solid #989898;
 }
 
@@ -331,7 +331,7 @@
 
 .enteryBarcode10AD {
     display: flex;
-    height: 243px;
+    height: 238px;
     position: relative;
 }
 

@@ -10,13 +10,14 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from './../../GlobalFunctions/OrganizeBagPrintData';
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
+import { InstructionGenerate } from './../../GlobalFunctions/InstructionGenerate';
 const BagPrint10A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const [loader, setLoader] = useState(true);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
-  const chunkSize17 = 17;
+  const chunkSize17 = 16;
 
   useEffect(() => {
     if (Object.keys(queryParams).length !== 0) {
@@ -142,26 +143,25 @@ const BagPrint10A = ({ queries, headers }) => {
           //     e.heading = "FINDING DETAIL";
           //   }
           // });
-          console.log("diamond",ArrofSevenSize);
-          console.log("color",ArrofFiveSize);
-          console.log("misc",ArrofMISize);
-          console.log("finding",ArrofFSize);
+          
           let arr = [];
-          let aaa = [...ArrofSevenSize, ...ArrofFiveSize, ...ArrofMISize, ...ArrofFSize];
-          console.log(aaa);
+          // let aaa = [...ArrofSevenSize, ...ArrofFiveSize, ...ArrofMISize, ...ArrofFSize];
+          // console.log(aaa);
           let mainArr = arr?.concat(
             ArrofSevenSize,
             ArrofFiveSize,
             ArrofMISize,
             ArrofFSize
           );
-          console.log(mainArr);
+          
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
 
           let img = imagePath + a?.rd?.ThumbImagePath;
-          console.log(mainArr);
+          
           let arrofchunk = GetChunkData(chunkSize17, mainArr);
+          let ins = InstructionGenerate(a?.rd);
+          a.rd.ShowInstruction = ins;
           responseData.push({
             data: a,
             additional: {
@@ -452,7 +452,8 @@ const BagPrint10A = ({ queries, headers }) => {
                                         }}
                                       >
                                         CUST INS.
-                                        {(
+                                        {e?.data?.rd?.ShowInstruction}
+                                        {/* {(
                                           e?.data?.rd?.custInstruction +
                                           e?.data?.rd?.QuoteRemark +
                                           e?.data?.rd?.ProductInstruction
@@ -470,7 +471,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                                 e?.data?.rd
                                                   ?.ProductInstruction
                                               )?.slice(0, 230)
-                                          : ""}
+                                          : ""} */}
                                       </span>
                                     </p>
                                   </div>
@@ -606,7 +607,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     <div className="info10Aend">
                                       <p className="f10A diffColor">DEL. DT.</p>
                                       <p className="f10A">
-                                        {e?.data?.rd?.promiseDatef ?? ""}
+                                        {/* {e?.data?.rd?.promiseDatef ?? ""} */}
                                       </p>
                                     </div>
                                     <div className="info10Alast">
