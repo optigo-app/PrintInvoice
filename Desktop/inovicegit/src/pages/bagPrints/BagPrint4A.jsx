@@ -10,13 +10,11 @@ import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { NumberWithCommas, checkInstruction, fixedValues, notZero } from "../../GlobalFunctions";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-
 const BagPrint4A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
-
   useEffect(() => {
     if (Object.keys(queryParams)?.length !== 0) {
       atob(queryParams?.imagepath);
@@ -24,7 +22,6 @@ const BagPrint4A = ({ queries, headers }) => {
     const fetchData = async () => {
       try {
         const responseData = [];
-
         const objs = {
           jobno: resultString,
           custid: queries.custid,
@@ -33,7 +30,6 @@ const BagPrint4A = ({ queries, headers }) => {
           url: queries.url,
           headers: headers,
         };
-
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
         datas?.map((a) => {
@@ -64,7 +60,6 @@ const BagPrint4A = ({ queries, headers }) => {
             ActualPcs: 0,
             ActualWeight: 0,
           };
-
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
@@ -83,25 +78,16 @@ const BagPrint4A = ({ queries, headers }) => {
               misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
             }
           });
-
           let blankArr = a?.rd1?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid !== 0);
           a.rd1 = blankArr;
-
           let obj = { ...a };
           if (obj?.rd?.length > 0) {
-            // let designMaster = datas?.rd[0]?.officeuse ?? '';
-            // let custUse = datas?.rd[0]?.custInstruction ?? '';
-            // let updateIns = datas?.rd[0]?.ProductInstruction ?? '';
-            // let showIns = designMaster + custUse + updateIns;
-
-            // obj.rd[0].instructionData = obj?.rd[0]?.instructionData + (showIns?.length !== 0) ? (showIns)?.substring(0, 113) : '';
             obj.rd.instructionData = (
               a?.rd["officeuse"] +
               a?.rd?.custInstruction +
               a?.rd["ProductInstruction"]
             )?.substring(0, 113);
           }
-
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
@@ -123,106 +109,6 @@ const BagPrint4A = ({ queries, headers }) => {
             },
           });
         });
-
-        // for (let url in print) {
-
-        //     const objs = {
-        //         jobno: print[url],
-        //         custid: queries.custid,
-        //         printname: queries.printname,
-        //         appuserid: queries.appuserid,
-        //         url: queries.url,
-        //         headers: headers,
-        //     };
-        //     let datas = await GetData(objs);
-        //     // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-        //     // let jsonString = JSON.stringify(p_tag);
-        //     // let base64String = btoa(jsonString);
-        //     // let Body = {
-        //     //     "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-        //     //     "p": `${base64String}`,
-        //     //     "f": `${queries.appuserid} ${queries.printname}`
-        //     // };
-        //     // let urls = atob(queries.url);
-        //     // const response = await axios.post(urls, Body, { headers: headers });
-        //     // let datas = JSON.parse(response.data.d);
-
-        //     const orderDatef = formatDate(datas?.rd[0]?.OrderDate);
-        //     const promiseDatef = formatDate(datas?.rd[0]?.promisedate);
-
-        //     datas?.rd?.map((e) => {
-        //         e.orderDatef = orderDatef;
-        //         e.promiseDatef = promiseDatef;
-        //         //
-        //     });
-
-        //     let length = 0;
-        //     let clr = {
-        //         Shapename: "TOTAL",
-        //         Sizename: "",
-        //         ActualPcs: 0,
-        //         ActualWeight: 0,
-        //     };
-        //     let dia = {
-        //         Shapename: "TOTAL",
-        //         Sizename: "",
-        //         ActualPcs: 0,
-        //         ActualWeight: 0,
-        //     };
-        //     let misc = {
-        //         Shapename: "TOTAL",
-        //         Sizename: "",
-        //         ActualPcs: 0,
-        //         ActualWeight: 0,
-        //     };
-        //     let f = {
-        //         Shapename: "TOTAL",
-        //         Sizename: "",
-        //         ActualPcs: 0,
-        //         ActualWeight: 0,
-        //     };
-
-        //     datas?.rd1?.map((e, i) => {
-        //         if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
-        //             length++;
-        //         }
-        //         if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-        //             dia.ActualPcs = dia.ActualPcs + e.ActualPcs;
-        //             dia.ActualWeight = dia.ActualWeight + e.ActualWeight;
-        //         } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-        //             clr.ActualPcs = clr.ActualPcs + e.ActualPcs;
-        //             clr.ActualWeight = clr.ActualWeight + e.ActualWeight;
-        //         } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-        //             f.ActualPcs = f.ActualPcs + e.ActualPcs;
-        //             f.ActualWeight = f.ActualWeight + e.ActualWeight;
-        //         } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-        //             misc.ActualPcs = misc.ActualPcs + e.ActualPcs;
-        //             misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
-        //         }
-        //     });
-
-        //     let obj = { ...datas };
-        //     if (obj?.rd?.length > 0) {
-
-        //         // let designMaster = datas?.rd[0]?.officeuse ?? '';
-        //         // let custUse = datas?.rd[0]?.custInstruction ?? '';
-        //         // let updateIns = datas?.rd[0]?.ProductInstruction ?? '';
-        //         // let showIns = designMaster + custUse + updateIns;
-
-        //         // obj.rd[0].instructionData = obj?.rd[0]?.instructionData + (showIns?.length !== 0) ? (showIns)?.substring(0, 113) : '';
-        //         obj.rd[0].instructionData = (datas?.rd[0]?.["officeuse"] + datas?.rd[0]?.custInstruction + datas?.rd[0]?.["ProductInstruction"])?.substring(0, 113);
-        //     }
-
-        //     let imagePath = queryParams.imagepath;
-        //     imagePath = atob(queryParams.imagepath);
-        //     let img = imagePath + datas?.rd[0]?.ThumbImagePath;
-        //     for (let i = 0; i < (datas?.rd1).length; i += chunkSize) {
-        //         const chunks = (datas?.rd1).slice(i, i + chunkSize);
-        //         let len = 14 - ((datas?.rd1).slice(i, i + chunkSize)).length;
-        //         chunkData.push({ data: chunks, length: len });
-        //     }
-        //     responseData.push({ data: obj.rd[0], additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, pages: chunkData } });
-        // }
         setData(responseData);
       } catch (error) {
         console.log(error);
@@ -230,12 +116,6 @@ const BagPrint4A = ({ queries, headers }) => {
     };
     fetchData();
   }, []);
-
-  // function handlePrint(e) {
-  //     e.preventDefault();
-  //     window.print();
-  // }
-
   useEffect(() => {
     if (data.length !== 0) {
       setTimeout(() => {
@@ -243,7 +123,6 @@ const BagPrint4A = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
-
   return (
     <>
       {data.length === 0 ? (
@@ -292,7 +171,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                       className="jobDiaGoldText4A border_right4A pe-1"
                                       style={{ paddingRight: "2px" }}
                                     >
-                                      {/* {e?.data?.MetalType} */}
                                       {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                     </div>
                                   </div>
@@ -371,9 +249,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                       {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                       </div>
                                     </div>
-                                    {/* <div className="size4AS border_right4A code4A_text">
-
-                                                                        </div> */}
                                     <div className="pcs4A border_right4A code4A_text"></div>
                                     <div className="wt4A border_right4A code4A_text"></div>
                                     <div className="pcs4A border_right4A code4A_text"></div>
@@ -399,15 +274,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                             {elem?.ColorName}
                                             </div>
                                           </div>
-                                          {/* <div className="size4AS border_right4A code4A_text">
-                                                                                        {elem?.Sizename}
-                                                                                    </div> */}
-                                          {/* <div className="pcs4A border_right4A code4A_text">
-                                            {elem?.ActualPcs}
-                                          </div>
-                                          <div className="wt4A border_right4A code4A_text">
-                                            {elem?.ActualWeight}
-                                          </div> */}
                                     <div className="pcs4A border_right4A code4A_text">{NumberWithCommas(elem?.ActualPcs, 0)}</div>
                                           <div className="wt4A border_right4A code4A_text">{fixedValues(elem?.ActualWeight, 3)}</div>
                                           <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)}</div>
@@ -490,7 +356,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                           METAL
                                         </div>
                                         <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
-                                          {/* {e?.data?.netwt?.toFixed(3)} */}
                                           {fixedValues(e?.data?.ActualGrossweight, 3)}
                                         </div>
                                         <div className="diamond_custom_4A "></div>
@@ -507,17 +372,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                   <div className="cast_ins">
                                     CAST INS.:
                                     <span className="red_4A">
-                                      {/* 
-                                      {e?.data?.instructionData?.length > 0
-                                        ? e?.data?.instructionData ==
-                                          (null || "null")
-                                          ? ""
-                                          : e?.data?.instructionData
-                                        : ""} */}
                                       {checkInstruction(e?.data?.officeuse)}
-                                      {checkInstruction(e?.data?.custInstruction)}
                                       {checkInstruction(e?.data?.ProductInstruction)}
-                                      {/* {checkInstruction(e?.data?.custInstruction)} */}
                                     </span>
                                   </div>
                                 </div>
@@ -593,7 +449,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                   LAB {e?.data?.MasterManagement_labname}
                                 </div>
                                 <div className="sales_Rep_letter_4A">
-                                  {/* {e?.data?.MasterManagement_labname} */}
                                   {(e?.data?.PO !== "" && e?.data?.PO !== "-") && `PO ${e?.data?.PO}`}
                                 </div>
                               </div>
@@ -824,7 +679,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                 {e?.data?.Designcode}
                               </div>
                               <div className="jobDiaGoldText4A border_right4A pe-1">
-                                {/* {e?.data?.MetalType} */}
                                 {e?.data?.MetalType} {e?.data?.MetalColorCo}
                               </div>
                             </div>
@@ -903,9 +757,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                 {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                 </div>
                               </div>
-                              {/* <div className="size4AS border_right4A code4A_text">
-
-                                                        </div> */}
                               <div className="pcs4A border_right4A code4A_text"></div>
                               <div className="wt4A border_right4A code4A_text"></div>
                               <div className="pcs4A border_right4A code4A_text"></div>
@@ -965,7 +816,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                     METAL
                                   </div>
                                   <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
-                                    {/* {e?.data?.netwt?.toFixed(3) ?? "0.000"} */}
                                     {fixedValues(e?.data?.ActualGrossweight, 3)}
                                   </div>
                                   <div className="diamond_custom_4A "></div>
@@ -980,16 +830,8 @@ const BagPrint4A = ({ queries, headers }) => {
                             <div className="cast_ins">
                               CAST INS.:
                               <span className="red_4A">
-                                {/* 
-                                {e?.data?.instructionData?.length > 0
-                                  ? e?.data?.instructionData == (null || "null")
-                                    ? ""
-                                    : e?.data?.instructionData
-                                  : ""} */}
                                 {checkInstruction(e?.data?.officeuse)}
-                                {checkInstruction(e?.data?.custInstruction)}
                                 {checkInstruction(e?.data?.ProductInstruction)}
-                                {/* {checkInstruction(e?.data?.custInstruction)} */}
                               </span>
                             </div>
                           </div>
@@ -1061,7 +903,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                   LAB {e?.data?.MasterManagement_labname}
                                 </div>
                                 <div className="sales_Rep_letter_4A">
-                                  {/* {e?.data?.MasterManagement_labname} */}
                                   {(e?.data?.PO !== "" && e?.data?.PO !== "-") && `PO ${e?.data?.PO}`}
                                 </div>
                               </div>
@@ -1270,7 +1111,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-
                             </div>
                             <div className="barcode_img_container_4A">
                               <BarcodeGenerator
@@ -1280,7 +1120,7 @@ const BagPrint4A = ({ queries, headers }) => {
                           </div>
                         </div>
                       </div>
-</>
+                     </>
                     }
                   </>
                 );
@@ -1291,7 +1131,6 @@ const BagPrint4A = ({ queries, headers }) => {
     </>
   );
 };
-
 export default BagPrint4A;
 
 

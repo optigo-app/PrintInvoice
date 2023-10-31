@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import Loader from "../../components/Loader";
 import { GetData } from "../../GlobalFunctions/GetData";
-import { formatDate } from "../../GlobalFunctions/DateFormat";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
@@ -17,7 +16,6 @@ const BagPrint4B = ({ queries, headers }) => {
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
-
   useEffect(() => {
     if (Object.keys(queryParams)?.length !== 0) {
       atob(queryParams?.imagepath);
@@ -25,7 +23,6 @@ const BagPrint4B = ({ queries, headers }) => {
     const fetchData = async () => {
       try {
         const responseData = [];
-
         const objs = {
           jobno: resultString,
           custid: queries.custid,
@@ -34,7 +31,6 @@ const BagPrint4B = ({ queries, headers }) => {
           url: queries.url,
           headers: headers,
         };
-
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
         datas?.map((a) => {
@@ -65,7 +61,6 @@ const BagPrint4B = ({ queries, headers }) => {
             ActualPcs: 0,
             ActualWeight: 0,
           };
-
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
@@ -84,10 +79,8 @@ const BagPrint4B = ({ queries, headers }) => {
               misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
             }
           });
-
           let blankArr = a?.rd1?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid !== 0);
           a.rd1 = blankArr;
-
           let obj = { ...a };
           if (obj?.rd?.length > 0) {
             obj.rd.instructionData = (
@@ -96,7 +89,6 @@ const BagPrint4B = ({ queries, headers }) => {
               a?.rd["ProductInstruction"]
             )?.substring(0, 113);
           }
-          
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
@@ -125,7 +117,6 @@ const BagPrint4B = ({ queries, headers }) => {
     };
     fetchData();
   }, []);
-
   useEffect(() => {
     if (data.length !== 0) {
       setTimeout(() => {

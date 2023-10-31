@@ -6,7 +6,6 @@ import BarcodeGenerator from '../../components/BarcodeGenerator';
 import Loader from '../../components/Loader';
 import { GetData } from '../../GlobalFunctions/GetData';
 import { GetChunkData } from '../../GlobalFunctions/GetChunkData';
-import { formatDate } from '../../GlobalFunctions/DateFormat';
 import { handleImageError } from '../../GlobalFunctions/HandleImageError';
 import { organizeData } from '../../GlobalFunctions/OrganizeBagPrintData';
 import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
@@ -45,28 +44,24 @@ const BagPrint3A = ({ queries, headers }) => {
             Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "COLOR STONE DETAIL"
           };
           let dia = {
             Shapename: "TOTAL",
             Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "DIAMOND DETAIL"
           };
           let misc = {
             Shapename: "TOTAL",
             Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "MISC DETAIL"
           };
           let f = {
             Shapename: "TOTAL",
             Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "FINDING DETAIL"
           };
           //arr for colorstone
           let ArrofSevenSize = [];
@@ -79,22 +74,18 @@ const BagPrint3A = ({ queries, headers }) => {
             }
             if (e?.MasterManagement_DiamondStoneTypeid === 3) {
               ArrofSevenSize.push(e);
-              // ArrofSevenSize[0].heading = "DIAMOND DETAIL";
               dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
               dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
             } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
               ArrofFiveSize.push(e);
-              // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
               clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
               clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
               ArrofFSize.push(e);
-              // ArrofFSize[0].heading = "FINDING DETAIL";
               f.ActualPcs = f.ActualPcs + e?.ActualPcs;
               f.ActualWeight = f.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
               ArrofMISize.push(e);
-              // ArrofMISize[0].heading = "MISC DETAIL";
               misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
               misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
             }
@@ -107,12 +98,10 @@ const BagPrint3A = ({ queries, headers }) => {
           misc.ActualWeight = +(misc.ActualWeight.toFixed(3));
           f.ActualPcs = +(f.ActualPcs.toFixed(3));
           f.ActualWeight = +(f.ActualWeight.toFixed(3));
-
           ArrofSevenSize.push(dia);
           ArrofFiveSize.push(clr);
           ArrofFSize.push(f);
           ArrofMISize.push(misc);
-
           ArrofSevenSize.map((e) => {
             if (e.ActualPcs === 0 && e.ActualWeight === 0) {
               ArrofSevenSize = [];
@@ -145,184 +134,15 @@ const BagPrint3A = ({ queries, headers }) => {
             }
           })
           let arr = [];
-          // let mainArr = arr.concat(ArrofSevenSize, ArrofFiveSize, ArrofMISize, ArrofFSize);
           let mainArr = arr.concat(ArrofSevenSize, ArrofFiveSize, ArrofMISize);
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
-
-
           let img = imagePath + a?.rd?.ThumbImagePath;
           let arrofchunk = GetChunkData(chunkSize13, mainArr);
           let ins = InstructionGenerate(a?.rd);
           a.rd.ShowInstruction = ins;
-          // for (let i = 0; i < mainArr.length; i += chunkSize13) {
-          //   const chunks = mainArr.slice(i, i + chunkSize13);
-          //   let len = 13 - (mainArr.slice(i, i + chunkSize13)).length;
-          //   chunkData.push({ data: chunks, length: len });
-          // }
           responseData.push({ data: a, additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, pages: arrofchunk } });
-
         })
-
-
-
-        // for (let url in print) {
-        //   let chunkData = [];
-        //   const obj = {
-        //     jobno: print[url],
-        //     custid: queries.custid,
-        //     printname: queries.printname,
-        //     appuserid: queries.appuserid,
-        //     url: queries.url,
-        //     headers: headers,
-        //   };
-
-        //   let datas = await GetData(obj);
-        //   const orderDatef = formatDate(datas?.rd?.OrderDate);
-        //   const promiseDatef = formatDate(datas?.rd[0]?.promisedate);
-
-        //   datas?.rd?.map((e) => {
-        //     e.orderDatef = orderDatef;
-        //     e.promiseDatef = promiseDatef;
-        //     // 
-        //   });
-        //   // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-        //   // let jsonString = JSON.stringify(p_tag);
-        //   // let base64String = btoa(jsonString);
-        //   // let Body = {
-        //   //   "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-        //   //   "p": `${base64String}`,
-        //   //   "f": `${queries.appuserid} ${queries.printname}`
-        //   // };
-        //   // let urls = atob(queries.url);
-        //   // const response = await axios.post(urls, Body, { headers: headers });
-        //   // let datas = JSON.parse(response.data.d);
-
-
-        //   let length = 0;
-        //   let clr = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "COLOR STONE DETAIL"
-        //   };
-        //   let dia = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "DIAMOND DETAIL"
-        //   };
-        //   let misc = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "MISC DETAIL"
-        //   };
-        //   let f = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "FINDING DETAIL"
-        //   };
-        //   //arr for colorstone
-        //   let ArrofSevenSize = [];
-        //   let ArrofFiveSize = [];
-        //   let ArrofMISize = [];
-        //   let ArrofFSize = [];
-
-        //   datas.rd1.map((e, i) => {
-        //     if (e.ConcatedFullShapeQualityColorCode !== "- - - ") {
-        //       length++;
-        //     }
-        //     if (e.MasterManagement_DiamondStoneTypeid === 3) {
-        //       ArrofSevenSize.push(e);
-        //       // ArrofSevenSize[0].heading = "DIAMOND DETAIL";
-        //       dia.ActualPcs = dia.ActualPcs + e.ActualPcs;
-        //       dia.ActualWeight = dia.ActualWeight + e.ActualWeight;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
-        //       ArrofFiveSize.push(e);
-        //       // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
-        //       clr.ActualPcs = clr.ActualPcs + e.ActualPcs;
-        //       clr.ActualWeight = clr.ActualWeight + e.ActualWeight;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 5) {
-        //       ArrofFSize.push(e);
-        //       // ArrofFSize[0].heading = "FINDING DETAIL";
-        //       f.ActualPcs = f.ActualPcs + e.ActualPcs;
-        //       f.ActualWeight = f.ActualWeight + e.ActualWeight;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 7) {
-        //       ArrofMISize.push(e);
-        //       // ArrofMISize[0].heading = "MISC DETAIL";
-        //       misc.ActualPcs = misc.ActualPcs + e.ActualPcs;
-        //       misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
-        //     }
-        //   });
-        //   dia.ActualPcs = +(dia.ActualPcs.toFixed(3));
-        //   dia.ActualWeight = +(dia.ActualWeight.toFixed(3));
-        //   clr.ActualPcs = +(clr.ActualPcs.toFixed(3));
-        //   clr.ActualWeight = +(clr.ActualWeight.toFixed(3));
-        //   misc.ActualPcs = +(misc.ActualPcs.toFixed(3));
-        //   misc.ActualWeight = +(misc.ActualWeight.toFixed(3));
-        //   f.ActualPcs = +(f.ActualPcs.toFixed(3));
-        //   f.ActualWeight = +(f.ActualWeight.toFixed(3));
-
-        //   ArrofSevenSize.push(dia);
-        //   ArrofFiveSize.push(clr);
-        //   ArrofFSize.push(f);
-        //   ArrofMISize.push(misc);
-
-        //   ArrofSevenSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofSevenSize = [];
-        //     } else {
-        //       e.heading = "DIAMOND DETAIL";
-        //     }
-        //   }
-        //   );
-        //   ArrofFiveSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofFiveSize = [];
-        //     } else {
-        //       e.heading = "COLOR STONE DETAIL";
-        //     }
-        //   }
-        //   );
-        //   ArrofMISize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofMISize = [];
-        //     } else {
-        //       e.heading = "MISC DETAIL";
-        //     }
-        //   }
-        //   );
-        //   ArrofFSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofFSize = [];
-        //     } else {
-        //       e.heading = "FINDING DETAIL";
-        //     }
-        //   }
-        //   );
-        //   let arr = [];
-        //   // let mainArr = arr.concat(ArrofSevenSize, ArrofFiveSize, ArrofMISize, ArrofFSize);
-        //   let mainArr = arr.concat(ArrofSevenSize, ArrofFiveSize, ArrofMISize);
-        //   let imagePath = queryParams?.imagepath;
-        //   imagePath = atob(queryParams.imagepath);
-
-
-        //   let img = imagePath + datas?.rd[0]?.ThumbImagePath;
-        //   let arrofchunk = GetChunkData(chunkSize13, mainArr);
-        //   // for (let i = 0; i < mainArr.length; i += chunkSize13) {
-        //   //   const chunks = mainArr.slice(i, i + chunkSize13);
-        //   //   let len = 13 - (mainArr.slice(i, i + chunkSize13)).length;
-        //   //   chunkData.push({ data: chunks, length: len });
-        //   // }
-        //   responseData.push({ data: datas, additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, pages: arrofchunk } });
-
-        // }
         setData(responseData);
       } catch (error) {
         console.log(error);
@@ -334,7 +154,6 @@ const BagPrint3A = ({ queries, headers }) => {
     e.preventDefault();
     window.print();
   }
-
   useEffect(() => {
     if (data.length !== 0) {
       setTimeout(() => {
@@ -349,7 +168,6 @@ const BagPrint3A = ({ queries, headers }) => {
         data.length === 0 ? <Loader /> : <React.Fragment><div className="print_btn "><button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)}>
           Print
         </button></div>
-
           <div className='job3Aflex pad_60_allPrint'>
             <div className='print3A'>
               {Array.from({ length: queries.pageStart }, (_, index) => (
@@ -381,7 +199,6 @@ const BagPrint3A = ({ queries, headers }) => {
                                     </div>
                                     <div className='info3A'>
                                       <p className='info3Acust hw3AD' >Order</p>
-                                      {/* <p className='info3Acust hw3AD' ><b style={{ fontSize: "9.5px" }}>{e?.data?.rd?.OrderDate?.replace(/\s+/g, "")?.slice(0, 12)}</b></p> */}
                                       <p className='info3Acust hw3AD' ><b style={{ fontSize: "9.5px" }}>{e?.data?.rd?.orderDatef?.replace(/\s+/g, "")?.slice(0, 12)}</b></p>
                                       <p className='info3Acust hw3Asr' style={{ width: "50px" }}><b>Metal</b></p>
                                       <p className='info3Acust hw3Asr dia3Acss'><b className='dia3Acss'>Dia.</b></p>
@@ -389,7 +206,6 @@ const BagPrint3A = ({ queries, headers }) => {
                                     </div>
                                     <div className='info3A'>
                                       <p className='info3Acust hw3AD' >Promise</p>
-                                      {/* <p className='info3Acust hw3AD' style={{ fontSize: "8.5px" }}>{(e?.data?.rd?.promisedate)?.replace(/\s+/g, "")?.slice(0, 12)}</p> */}
                                       <p className='info3Acust hw3AD' style={{ fontSize: "10px" }}>{(e?.data?.rd?.promiseDatef)?.replace(/\s+/g, "")?.slice(0, 12)}</p>
                                       <p className='info3Acust hw3Asr' style={{ width: "50px", fontSize:"10px" }}>{e?.data?.rd?.MetalWeight?.toFixed(3)}</p>
                                       <p className='info3Acust hw3Asr dia3Acss' style={{fontSize:"10px"}}>{e?.additional?.dia?.ActualPcs}/{e?.additional?.dia?.ActualWeight.toFixed(2)}</p>
@@ -406,7 +222,6 @@ const BagPrint3A = ({ queries, headers }) => {
                                   <div className='imgBox3A'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img3A" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                                 </div>
                                 <div className='Ins3A' ><span style={{color:"red"}}>INSTRUCTION : </span><span style={{color:"red"}}>{e?.data?.rd?.ShowInstruction ?? ''}</span></div>
-                                {/* <div className='Ins3A' style={{ display: "flex" }}><p style={{ fontSize: "12px", color: "red", }}>Instruction :{((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction)?.length > 0 ? ((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction) == (null || 'null') ? '' : (e?.data?.rd?.officeuse + " " + e?.data?.rd?.custInstruction + " " + e?.data?.rd?.ProductInstruction))?.slice(0, 115) : '')}</p></div> */}
                                 <div className='enteryBarcode3A'>
                                   <div className='enteryBarcode3ADyn'>
                                     <div className='entry3AHead'>
@@ -421,7 +236,6 @@ const BagPrint3A = ({ queries, headers }) => {
                                         return (
                                           
                                             <div className='entry3AHead' style={{ fontWeight: "normal", lineHeight: "8px" }} key={i}>
-                                              {/* {a.Shapename === "TOTAL" ? <div className='rmcode3a' style={{ width: '109px' }}><b>{a.Shapename}</b></div> : <div className='rmcode3a' style={{ width: '109px' }}>{a.Shapename}</div>} */}
                                               {a.Shapename === "TOTAL" ? <div className='rmcode3a' style={{ width: '109px', justifyContent:"flex-start" }}><b>{a.Shapename}</b></div> : <div className='rmcode3a code3Acss' style={{ width: '109px' }}>{a?.LimitedShapeQualityColorCode}</div>}
                                               <div className='rmcode3a' style={{ width: '78px', justifyContent: "flex-start", paddingLeft: "2px", lineHeight: "8px" }}>{a.Sizename}</div>
                                               {a.Shapename === "TOTAL" ? <div className='rmcode3a' style={{ width: '35px' }}><b>{a.ActualPcs}</b></div> : <div className='rmcode3a' style={{ width: '35px' }}>{a.ActualPcs}</div>}
@@ -449,8 +263,6 @@ const BagPrint3A = ({ queries, headers }) => {
                                   <div className='barcode3A'>{(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno} />}</>}</div>
                                 </div>
                               </div>
-
-                            
                           );
                         }) : <div className='container_3A'>
                           <div className='header3A'>
@@ -493,7 +305,6 @@ const BagPrint3A = ({ queries, headers }) => {
                             <div className='imgBox3A'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img3A" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                           </div>
                           <div className='Ins3A' ><span style={{color:"red"}}>INSTRUCTION : </span><span style={{color:"red"}}>{e?.data?.rd?.ShowInstruction ?? ''}</span></div>
-                          {/* <div className='Ins3A' style={{ color: "red", display: "flex" }}><p style={{ fontSize: "12px" }}>Instruction :{((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction)?.length > 0 ? ((e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction) == (null || 'null') ? '' : (e?.data?.rd?.officeuse + e?.data?.rd?.custInstruction + e?.data?.rd?.ProductInstruction))?.slice(0, 131) : '')}</p></div> */}
                           <div className='enteryBarcode3A'>
                             <div className='enteryBarcode3ADyn'>
                               <div className='entry3AHead'>
@@ -502,7 +313,6 @@ const BagPrint3A = ({ queries, headers }) => {
                                 <div className='rmcode3a' style={{ width: "26%" }}>ACTUAL</div>
                                 <div className='rmcode3a' style={{ borderRight: "0px", width: "14%" }}>ISSUE</div>
                               </div>
-
                               {
                                 Array.from({ length: 13 }, (_, index) => (
                                   <div className='entry3AHead' style={{ fontWeight: "normal", lineHeight: "8px" }} key={index}>
@@ -583,7 +393,6 @@ const BagPrint3A = ({ queries, headers }) => {
                             </div>
                             <div style={{ color: "red" }}>
                               Order Instruction:
-                              {/* Order Instruction: {(e?.data?.rd?.officeuse?.slice(0, 100)) + " " +(e?.data?.rd?.ProductInstruction?.slice(0, 100))} */}
                             </div>
                           </div>
                           <div className='barcode3AD'>{(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno} />}</>}</div>

@@ -1,9 +1,7 @@
-import axios from "axios";
 import queryString from "query-string";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "../../assets/css/bagprint/print7A.css";
-import { formatDate } from "../../GlobalFunctions/DateFormat";
 import { GetData } from "../../GlobalFunctions/GetData";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
@@ -11,14 +9,12 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-
 const BagPrint7A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize7 = 6;
-
   useEffect(() => {
     if (Object.keys(queryParams).length !== 0) {
       atob(queryParams.imagepath);
@@ -26,7 +22,6 @@ const BagPrint7A = ({ queries, headers }) => {
     const fetchData = async () => {
       try {
         const responseData = [];
-
         const objs = {
           jobno: resultString,
           custid: queries.custid,
@@ -35,7 +30,6 @@ const BagPrint7A = ({ queries, headers }) => {
           url: queries.url,
           headers: headers,
         };
-
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
@@ -48,7 +42,6 @@ const BagPrint7A = ({ queries, headers }) => {
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 4,
-            // heading: "COLOR STONE DETAIL"
           };
           let dia = {
             Shapename: "TOTAL",
@@ -56,7 +49,6 @@ const BagPrint7A = ({ queries, headers }) => {
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 3,
-            // heading: "DIAMOND DETAIL"
           };
           let misc = {
             Shapename: "TOTAL",
@@ -64,7 +56,6 @@ const BagPrint7A = ({ queries, headers }) => {
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 7,
-            // heading: "MISC DETAIL"
           };
           let f = {
             Shapename: "TOTAL",
@@ -72,35 +63,29 @@ const BagPrint7A = ({ queries, headers }) => {
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 5,
-            // heading: "FINDING DETAIL"
           };
           let ArrofSevenSize = [];
           let ArrofFiveSize = [];
           let ArrofMISize = [];
           let ArrofFSize = [];
-
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
             }
             if (e?.MasterManagement_DiamondStoneTypeid === 3) {
               ArrofSevenSize.push(e);
-              // ArrofSevenSize[0].heading = "DIAMOND DETAIL";
               dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
               dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
               ArrofFiveSize.push(e);
-              // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
               clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
               clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
               ArrofFSize.push(e);
-              // ArrofFSize[0].heading = "FINDING DETAIL";
               f.ActualPcs = f.ActualPcs + e?.ActualPcs;
               f.ActualWeight = f.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
               ArrofMISize.push(e);
-              // ArrofMISize[0].heading = "MISC DETAIL";
               misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
               misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
             }
@@ -113,12 +98,10 @@ const BagPrint7A = ({ queries, headers }) => {
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
-
           ArrofSevenSize.push(dia);
           ArrofFiveSize.push(clr);
           ArrofFSize.push(f);
           ArrofMISize.push(misc);
-
           ArrofSevenSize?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               ArrofSevenSize = [];
@@ -147,9 +130,7 @@ const BagPrint7A = ({ queries, headers }) => {
               e.heading = "FINDING DETAIL";
             }
           });
-
           let arr = [];
-          // let sizeArr = [];
           let mainArr = arr?.concat(
             ArrofSevenSize,
             ArrofFiveSize,
@@ -158,24 +139,12 @@ const BagPrint7A = ({ queries, headers }) => {
           );
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
-
-          // let obj = {};
-          // datas?.rd1?.forEach((e) => {
-          //   if (e?.MasterManagement_DiamondStoneTypeid !== 0) {
-          //     sizeArr.push(e);
-          //   }
-          //   obj= {...obj, sizeArr}
-          //   // chunkData.push(obj)
-          // });
-
           let img = imagePath + a?.rd?.ThumbImagePath;
-
           for (let i = 0; i < mainArr?.length; i += chunkSize7) {
             const chunks = mainArr?.slice(i, i + chunkSize7);
             let len = 6 - mainArr?.slice(i, i + chunkSize7)?.length;
             chunkData.push({ data: chunks, length: len });
           }
-
           responseData.push({
             data: a,
             additional: {
@@ -190,189 +159,6 @@ const BagPrint7A = ({ queries, headers }) => {
           });
         });
 
-        // const sizeArr = [];
-        // for (let url in print) {
-        //   let chunkData = [];
-        //   const objs = {
-        //     jobno: print[url],
-        //     custid: queries.custid,
-        //     printname: queries.printname,
-        //     appuserid: queries.appuserid,
-        //     url: queries.url,
-        //     headers: headers,
-        //   };
-        //   let datas = await GetData(objs);
-        //   const orderDatef = formatDate(datas?.rd?.OrderDate);
-        //   const promiseDatef = formatDate(datas?.rd?.promisedate);
-
-        //   datas?.rd?.map((e) => {
-        //     e.orderDatef = orderDatef;
-        //     e.promiseDatef = promiseDatef;
-        //     //
-        //   });
-        //   // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-        //   // let jsonString = JSON.stringify(p_tag);
-        //   // let base64String = btoa(jsonString);
-        //   // let Body = {
-        //   //   "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-        //   //   "p": `${base64String}`,
-        //   //   "f": `${queries.appuserid} ${queries.printname}`
-        //   // };
-        //   // let urls = atob(queries.url);
-        //   // const response = await axios.post(urls, Body, { headers: headers });
-        //   // let datas = JSON.parse(response.data.d);
-
-        //   let length = 0;
-        //   let clr = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     MasterManagement_DiamondStoneTypeid: 4,
-        //     // heading: "COLOR STONE DETAIL"
-        //   };
-        //   let dia = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     MasterManagement_DiamondStoneTypeid: 3,
-        //     // heading: "DIAMOND DETAIL"
-        //   };
-        //   let misc = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     MasterManagement_DiamondStoneTypeid: 7,
-        //     // heading: "MISC DETAIL"
-        //   };
-        //   let f = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     MasterManagement_DiamondStoneTypeid: 5,
-        //     // heading: "FINDING DETAIL"
-        //   };
-        //   let ArrofSevenSize = [];
-        //   //arr for colorstone
-        //   let ArrofFiveSize = [];
-        //   let ArrofMISize = [];
-        //   let ArrofFSize = [];
-
-        //   datas.rd1.map((e, i) => {
-        //     if (e.ConcatedFullShapeQualityColorCode !== "- - - ") {
-        //       length++;
-        //     }
-        //     if (e.MasterManagement_DiamondStoneTypeid === 3) {
-        //       ArrofSevenSize.push(e);
-        //       // ArrofSevenSize[0].heading = "DIAMOND DETAIL";
-        //       dia.ActualPcs = dia.ActualPcs + e.ActualPcs;
-        //       dia.ActualWeight = dia.ActualWeight + e.ActualWeight;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
-        //       ArrofFiveSize.push(e);
-        //       // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
-        //       clr.ActualPcs = clr.ActualPcs + e.ActualPcs;
-        //       clr.ActualWeight = clr.ActualWeight + e.ActualWeight;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 5) {
-        //       ArrofFSize.push(e);
-        //       // ArrofFSize[0].heading = "FINDING DETAIL";
-        //       f.ActualPcs = f.ActualPcs + e.ActualPcs;
-        //       f.ActualWeight = f.ActualWeight + e.ActualWeight;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 7) {
-        //       ArrofMISize.push(e);
-        //       // ArrofMISize[0].heading = "MISC DETAIL";
-        //       misc.ActualPcs = misc.ActualPcs + e.ActualPcs;
-        //       misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
-        //     }
-        //   });
-        //   dia.ActualPcs = +dia.ActualPcs.toFixed(3);
-        //   dia.ActualWeight = +dia.ActualWeight.toFixed(3);
-        //   clr.ActualPcs = +clr.ActualPcs.toFixed(3);
-        //   clr.ActualWeight = +clr.ActualWeight.toFixed(3);
-        //   misc.ActualPcs = +misc.ActualPcs.toFixed(3);
-        //   misc.ActualWeight = +misc.ActualWeight.toFixed(3);
-        //   f.ActualPcs = +f.ActualPcs.toFixed(3);
-        //   f.ActualWeight = +f.ActualWeight.toFixed(3);
-
-        //   ArrofSevenSize.push(dia);
-        //   ArrofFiveSize.push(clr);
-        //   ArrofFSize.push(f);
-        //   ArrofMISize.push(misc);
-
-        //   ArrofSevenSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofSevenSize = [];
-        //     } else {
-        //       e.heading = "DIAMOND DETAIL";
-        //     }
-        //   });
-        //   ArrofFiveSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofFiveSize = [];
-        //     } else {
-        //       e.heading = "COLOR STONE DETAIL";
-        //     }
-        //   });
-        //   ArrofMISize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofMISize = [];
-        //     } else {
-        //       e.heading = "MISC DETAIL";
-        //     }
-        //   });
-        //   ArrofFSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofFSize = [];
-        //     } else {
-        //       e.heading = "FINDING DETAIL";
-        //     }
-        //   });
-        //   let arr = [];
-        //   // let sizeArr = [];
-        //   let mainArr = arr.concat(
-        //     ArrofSevenSize,
-        //     ArrofFiveSize,
-        //     ArrofMISize,
-        //     ArrofFSize
-        //   );
-        //   let imagePath = queryParams.imagepath;
-        //   imagePath = atob(queryParams.imagepath);
-
-        //   // let obj = {};
-        //   // datas?.rd1?.forEach((e) => {
-        //   //   if (e?.MasterManagement_DiamondStoneTypeid !== 0) {
-        //   //     sizeArr.push(e);
-        //   //   }
-        //   //   obj= {...obj, sizeArr}
-        //   //   // chunkData.push(obj)
-        //   // });
-
-        //   let img = imagePath + datas?.rd?.ThumbImagePath;
-
-        //   for (let i = 0; i < mainArr.length; i += chunkSize7) {
-        //     const chunks = mainArr.slice(i, i + chunkSize7);
-        //     let len = 6 - mainArr.slice(i, i + chunkSize7).length;
-
-        //     // let sizeArr = [];
-
-        //     chunkData.push({ data: chunks, length: len });
-        //   }
-
-        //   responseData.push({
-        //     data: datas,
-        //     additional: {
-        //       length: length,
-        //       clr: clr,
-        //       dia: dia,
-        //       f: f,
-        //       img: img,
-        //       misc: misc,
-        //       pages: chunkData,
-        //     },
-        //   });
-        // }
         setData(responseData);
       } catch (error) {
         console.log(error);
@@ -380,16 +166,6 @@ const BagPrint7A = ({ queries, headers }) => {
     };
     fetchData();
   }, []);
-
-  // function handlePrint(e) {
-  //   e.preventDefault();
-  //   window.print();
-  // }
-
-  // const handleImageError = (e) => {
-  //   e.target.src = require('../../assets/img/default.jpg');
-  // };
-
   useEffect(() => {
     if (data?.length !== 0) {
       setTimeout(() => {
@@ -509,7 +285,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                       <b>Gr Wt.</b>
                                     </div>
                                     <div className="net7A justify-content-end pe-1">
-                                      {e?.data?.rd?.ActualGrossweight.toFixed(
+                                      {e?.data?.rd?.ActualGrossweight?.toFixed(
                                         3
                                       )}
                                     </div>
@@ -525,7 +301,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                       <b>Dia Wt.</b>
                                     </div>
                                     <div className="net7A justify-content-end pe-1">
-                                      {e?.additional?.dia?.ActualWeight.toFixed(
+                                      {e?.additional?.dia?.ActualWeight?.toFixed(
                                         3
                                       )}
                                     </div>
@@ -541,7 +317,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                       <b>Clr Wt.</b>
                                     </div>
                                     <div className="net7A justify-content-end pe-1">
-                                      {e?.additional?.clr?.ActualWeight.toFixed(
+                                      {e?.additional?.clr?.ActualWeight?.toFixed(
                                         3
                                       )}
                                     </div>
@@ -557,7 +333,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                       <b>Misc Wt.</b>
                                     </div>
                                     <div className="net7A justify-content-end pe-1">
-                                      {e?.additional?.misc?.ActualWeight.toFixed(
+                                      {e?.additional?.misc?.ActualWeight?.toFixed(
                                         3
                                       )}
                                     </div>
