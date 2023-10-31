@@ -54,7 +54,6 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                         goldAmount += ele?.Amount;
                     }
                     if (ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 3) {
-                        console.log(ele?.Amount);
                         diamondsColorStonesMiscs.push(ele);
                     }
                 }
@@ -388,7 +387,7 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <td width={100} style={{ textAlign: "center" }}>{e?.designNo}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.sencoDesignNo}</td>
                                     <td width={160} style={{ textAlign: "center" }}>
-                                            <img src={e?.image} alt="" onError={handleImageError} width={150} height={100} style={{paddingLeft: "10px"}}/>
+                                    {(!e?.totalObjTital && e?.image !== "") && <img src={e?.image} alt="" onError={handleImageError} width={150} height={100} style={{paddingLeft: "10px"}}/>}
                                     </td>
                                     <td width={150} style={{ textAlign: "center" }}>{e?.category}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.size}</td>

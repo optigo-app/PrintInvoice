@@ -8,8 +8,8 @@
 }
 
 .summary12Container .remark_sum4 {
-    min-width: 80px;
-    width: 80px;
+    min-width: 70px;
+    width: 70px;
 }
 
 .summary12Container .sum4_table div , .summary12Container .sum4_table div > p{
@@ -18,13 +18,17 @@
 
 .summary12Container .dia_wt_ctw_sum4,
 .summary12Container .dia_rate_sum4,
-.summary12Container .dia_amt_sum4,
 .summary12Container .cs_wt_sum4,
 .summary12Container .cs_rate_sum4,
 .summary12Container .cs_amt_sum4,
 .summary12Container .gold_fine_sum4 {
     min-width: 43.3px;
     width: 43.3px;
+}
+
+.summary12Container .dia_amt_sum4 {
+    min-width: 53.3px;
+    width: 53.3px;
 }
 
 .summary12Container .other_sum4,

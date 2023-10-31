@@ -9,6 +9,7 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [data, setData] = useState([]);
 
     const loadData = (data) => {
+        console.log(data);
         setData(data?.BillPrint_Json1);
     }
 
@@ -16,7 +17,7 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn }) => {
         const sendData = async () => {
             try {
                 const data = await apiCall(token, invoiceNo, printName, urls, evn);
-                loadData(data);
+                loadData(data?.Data);
                 setLoader(false);
             } catch (error) {
                 console.error(error);

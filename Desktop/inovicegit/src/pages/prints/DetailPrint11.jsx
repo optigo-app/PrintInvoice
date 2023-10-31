@@ -235,7 +235,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           </div>
         </div>
         {/* table heading */}
-        <div className="d-flex w-100 border-top border-bottom mt-1 border-start border-end border-2">
+        <div className="d-flex w-100 border-top border-bottom mt-1 border-start border-end border-2 ">
           <div className="srNoDetailPrint11 border-end p-1 d-flex align-items-center justify-content-center flex-column"><p className='fw-bold'>Sr.</p><p className='fw-bold'>No.</p></div>
           <div className="designDetailPrint11 border-end d-flex align-items-center justify-content-center"><p className='p-1 fw-bold'>Design Detail</p></div>
           <div className="diamondStoneDetailPrint11 d-grid">
@@ -483,11 +483,11 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             <p className='p-1'>RTGS/NEFT IFSC: {json0Data?.rtgs_neft_ifsc}</p>
           </div>
           <div className="col-3 border-end d-flex flex-column justify-content-between">
-            <p className='p-1'>"Kayara Creation"</p>
+            <p className='p-1'>{json0Data?.CompanyFullName}</p>
             <p className='p-1 fw-bold'>Signature</p>
           </div>
           <div className="col-3 d-flex flex-column justify-content-between">
-            <p className='p-1'>Tanisq</p>
+            <p className='p-1'>{json0Data?.customerfirmname}</p>
             <p className='p-1 fw-bold'>Signature</p>
           </div>
         </div>

@@ -244,6 +244,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
     }
 
     const loadData = (datas) => {
+        console.log(datas);
         setBillprintJson(datas?.BillPrint_Json[0]);
         let json1Arr = [];
         datas?.BillPrint_Json1?.forEach((e, i) => {
@@ -296,7 +297,6 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                 result[foundIndex].pureWt = key8Value;
             }
         });
-
         let findGold24K = result.reduce((sum, item) => sum + item?.fineWt, 0)
         let totMAMT = result.reduce((sum, item) => sum + item?.totalMetalAmount, 0)
         let obj = { ...totalSummary };
@@ -753,7 +753,8 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                 </div>
                                                 <div className="pureWtSum4 border-end d-flex justify-content-end pe-2">
                                                     {/* {(+(e?.pureWt))?.toFixed(3)} */}
-                                                    {fixedValues(e?.fineWt, 3)}
+                                                    {/* {fixedValues(e?.fineWt, 3)} */}
+                                                    {fixedValues(e?.pureWt, 3)}
                                                 </div>
                                                 <div className="goldPriceSum4 border-end d-flex justify-content-end pe-2">
                                                     {NumberWithCommas(billPrintJson?.MetalRate24K, 2)}
@@ -776,7 +777,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             <div className="tunchSum4 border-end d-flex align-items-center justify-content-end pe-2 fw-bold">
                                             </div>
                                             <div className="pureWtSum4 border-end d-flex align-items-center justify-content-end pe-2 fw-bold">
-                                                {fixedValues(metaltypeSum?.fineWt, 3)}
+                                                {fixedValues(metaltypeSum?.pureWt, 3)}
                                             </div>
                                             <div className="goldPriceSum4 border-end d-flex align-items-center justify-content-end pe-2 fw-bold">
                                             </div>

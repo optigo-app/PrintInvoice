@@ -419,16 +419,16 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className='p-1 border-end align-middle text-center design_sum4'>DESIGN</div>
                         <div className='p-1 border-end align-middle text-center remark_sum4'>Remark</div>
                         <div className='p-1 border-end align-middle text-center dia_wt_ctw_sum4'>DIA WT (ctw)</div>
-                        <div className='p-1 border-end align-middle text-center dia_rate_sum4'>DIA RATE</div>
-                        <div className='p-1 border-end align-middle text-center dia_amt_sum4'>DIA AMT</div>
-                        <div className='p-1 border-end align-middle text-center g_wt_sum4'>G WT (gm)</div>
-                        <div className='p-1 border-end align-middle text-center nwt_sum4'>NWT (gm)</div>
-                        <div className='p-1 border-end align-middle text-center other_amt_sum4'>Other AMT</div>
-                        <div className='p-1 border-end align-middle text-center cs_wt_sum4'>CS WT (ctw)</div>
-                        <div className='p-1 border-end align-middle text-center cs_rate_sum4'>CS RATE</div>
-                        <div className='p-1 border-end align-middle text-center cs_amt_sum4'>CS AMT</div>
-                        <div className='p-1 border-end align-middle text-center gold_fine_sum4'>GOLD FINE (gm)</div>
-                        <div className='p-1 border-end align-middle text-center gold_amt_sum4'>GOLD AMT</div>
+                        <div className='p-1 border-end text-center dia_rate_sum4 flex-column d-flex align-items-center justify-content-center'><div>DIA </div><div>RATE</div></div>
+                        <div className='p-1 border-end text-center dia_amt_sum4 flex-column d-flex align-items-center justify-content-center'><div>DIA </div><div>AMT</div></div>
+                        <div className='p-1 border-end text-center g_wt_sum4 flex-column d-flex align-items-center justify-content-center'><div>G WT </div><div>(gm)</div></div>
+                        <div className='p-1 border-end text-center nwt_sum4 flex-column d-flex align-items-center justify-content-center'><div>NWT </div><div>(gm)</div></div>
+                        <div className='p-1 border-end text-center other_amt_sum4 flex-column d-flex align-items-center justify-content-center'><div>Other </div><div>AMT</div></div>
+                        <div className='p-1 border-end text-center cs_wt_sum4 flex-column d-flex align-items-center justify-content-center'><div>CS WT </div><div>(ctw)</div></div>
+                        <div className='p-1 border-end text-center cs_rate_sum4 flex-column d-flex align-items-center justify-content-center'><div>CS </div><div>RATE</div></div>
+                        <div className='p-1 border-end text-center cs_amt_sum4 flex-column d-flex align-items-center justify-content-center'><div>CS </div><div>AMT</div></div>
+                        <div className='p-1 border-end text-center gold_fine_sum4 flex-column d-flex align-items-center justify-content-center'><div>GOLD  </div><div>FINE</div><div>(gm)</div></div>
+                        <div className='p-1 border-end text-center gold_amt_sum4 flex-column d-flex align-items-center justify-content-center'><div>GOLD </div><div>AMT</div></div>
                         <div className='p-1 pe-2 border-end align-middle text-center amount_sum_4'>AMOUNT</div>
                     </div>
                     {BillPrintJson1.length > 0 && BillPrintJson1.map((e, i) => {
@@ -439,7 +439,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {image && <img src={e?.DesignImage} alt="" onError={e => handleImageError(e)} />}
                                 <p className='fw-bold'>{e?.MetalTypePurity}</p> </div>
                             <div className="p-1 remark_sum4 border-end text-end remark_sum4">
-                                {e?.HUID !== "" && <p className='fw-bold'> HUID No. : ${e?.HUID}</p>}
+                                {e?.HUID !== "" && <p className='fw-bold'> HUID No. : {e?.HUID}</p>}
                                 <p>{e?.CertRemark} </p>
                             </div>
                             <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
