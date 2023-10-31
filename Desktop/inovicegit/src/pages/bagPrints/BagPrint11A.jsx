@@ -482,75 +482,75 @@ const BagPrint11A = ({ queries, headers }) => {
                               className="tHead11A"
                               style={{ borderBottom: "1px solid #989898" }}
                             >
-                              <div className="sideHead11A">DEPT</div>
-                              <div className="sideHead11B">ISSUE</div>
+                              <div className="sideHead11A" style={{ width:"45px"}}>DEPT</div>
+                              <div className="sideHead11B" style={{width:"50px"}}>ISSUE</div>
                               <div className="sideHead11B">RECEIVE</div>
                               <div className="sideHead11B">SCRAP</div>
-                              <div className="sideHead11C">PCS</div>
+                              <div className="sideHead11C" style={{width:"45px"}}>PCS</div>
                               <div className="sideHead11B">WORKER</div>
                             </div>
                             <div className="tHead11A ">
-                              <div className="sideHead11A">MLT.</div>
+                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>MLT.</div>
+                              <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11C"></div>
-                              <div className="sideHead11B"></div>
-                            </div>
-                            <div className="tHead11A">
-                              <div className="sideHead11A">TP.</div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11C"></div>
+                              <div className="sideHead11C" style={{width:"45px"}}></div>
                               <div className="sideHead11B"></div>
                             </div>
                             <div className="tHead11A">
-                              <div className="sideHead11A">FLG.</div>
+                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>TP.</div>
+                              <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11C"></div>
-                              <div className="sideHead11B"></div>
-                            </div>
-                            <div className="tHead11A">
-                              <div className="sideHead11A">CNC.</div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11C"></div>
+                              <div className="sideHead11C" style={{width:"45px"}}></div>
                               <div className="sideHead11B"></div>
                             </div>
                             <div className="tHead11A">
-                              <div className="sideHead11A">FIL.</div>
+                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>FLG.</div>
+                              <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11C"></div>
-                              <div className="sideHead11B"></div>
-                            </div>
-                            <div className="tHead11A">
-                              <div className="sideHead11A">HM.</div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11C"></div>
+                              <div className="sideHead11C" style={{width:"45px"}}></div>
                               <div className="sideHead11B"></div>
                             </div>
                             <div className="tHead11A">
-                              <div className="sideHead11A">TNG.</div>
+                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>CNC.</div>
+                              <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
-                              <div className="sideHead11B"></div>
-                              <div className="sideHead11C"></div>
+                              <div className="sideHead11C" style={{width:"45px"}}></div>
                               <div className="sideHead11B"></div>
                             </div>
                             <div className="tHead11A">
-                              <div className="sideHead11A ">PLH.</div>
+                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>FIL.</div>
+                              <div className="sideHead11B" style={{width:"50px"}}></div>
                               <div className="sideHead11B"></div>
                               <div className="sideHead11B"></div>
+                              <div className="sideHead11C" style={{width:"45px"}}></div>
                               <div className="sideHead11B"></div>
-                              <div className="sideHead11C"></div>
+                            </div>
+                            <div className="tHead11A">
+                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>HM.</div>
+                              <div className="sideHead11B" style={{width:"50px"}}></div>
+                              <div className="sideHead11B"></div>
+                              <div className="sideHead11B"></div>
+                              <div className="sideHead11C" style={{width:"45px"}}></div>
+                              <div className="sideHead11B"></div>
+                            </div>
+                            <div className="tHead11A">
+                              <div className="sideHead11A" style={{width:"45px", justifyContent:"flex-start"}}>TNG.</div>
+                              <div className="sideHead11B" style={{width:"50px"}}></div>
+                              <div className="sideHead11B"></div>
+                              <div className="sideHead11B"></div>
+                              <div className="sideHead11C" style={{width:"45px"}}></div>
+                              <div className="sideHead11B"></div>
+                            </div>
+                            <div className="tHead11A">
+                              <div className="sideHead11A " style={{width:"45px", justifyContent:"flex-start"}}>PLH.</div>
+                              <div className="sideHead11B" style={{width:"50px"}}></div>
+                              <div className="sideHead11B"></div>
+                              <div className="sideHead11B"></div>
+                              <div className="sideHead11C" style={{width:"45px"}}></div>
                               <div className="sideHead11B"></div>
                             </div>
                           </div>
