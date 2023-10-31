@@ -39,6 +39,7 @@ const BagPrint10A = ({ queries, headers }) => {
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
         datas?.map((a) => {
+          console.log(a);
           let length = 0;
           let clr = {
             Shapename: "TOTAL",
@@ -103,63 +104,64 @@ const BagPrint10A = ({ queries, headers }) => {
           dia.ActualPcs = +dia.ActualPcs?.toFixed(3);
           dia.ActualWeight = +dia.ActualWeight?.toFixed(3);
           clr.ActualPcs = +clr.ActualPcs?.toFixed(3);
-          clr.ActualWeight = +clr.ActualWeight?.toFixed(3);
+          clr.ActualWeight = +clr.ActualWeight?.toFixed(2);
           misc.ActualPcs = +misc.ActualPcs?.toFixed(3);
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
-
           // ArrofSevenSize.push(dia);
           // ArrofFiveSize.push(clr);
           // ArrofFSize.push(f);
           // ArrofMISize.push(misc);
 
-          ArrofSevenSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofSevenSize = [];
-            } else {
-              e.heading = "DIAMOND DETAIL";
-            }
-          });
-          ArrofFiveSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofFiveSize = [];
-            } else {
-              e.heading = "COLOR STONE DETAIL";
-            }
-          });
-          ArrofMISize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofMISize = [];
-            } else {
-              e.heading = "MISC DETAIL";
-            }
-          });
-          ArrofFSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofFSize = [];
-            } else {
-              e.heading = "FINDING DETAIL";
-            }
-          });
-
+          // ArrofSevenSize?.map((e) => {
+          //   if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
+          //     ArrofSevenSize = [];
+          //   } else {
+          //     e.heading = "DIAMOND DETAIL";
+          //   }
+          // });
+          // ArrofFiveSize?.map((e) => {
+          //   if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
+          //     ArrofFiveSize = [];
+          //   } else {
+          //     e.heading = "COLOR STONE DETAIL";
+          //   }
+          // });
+          // ArrofMISize?.map((e) => {
+          //   if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
+          //     ArrofMISize = [];
+          //   } else {
+          //     e.heading = "MISC DETAIL";
+          //   }
+          // });
+          // ArrofFSize?.map((e) => {
+          //   if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
+          //     ArrofFSize = [];
+          //   } else {
+          //     e.heading = "FINDING DETAIL";
+          //   }
+          // });
+          console.log("diamond",ArrofSevenSize);
+          console.log("color",ArrofFiveSize);
+          console.log("misc",ArrofMISize);
+          console.log("finding",ArrofFSize);
           let arr = [];
+          let aaa = [...ArrofSevenSize, ...ArrofFiveSize, ...ArrofMISize, ...ArrofFSize];
+          console.log(aaa);
           let mainArr = arr?.concat(
             ArrofSevenSize,
             ArrofFiveSize,
             ArrofMISize,
             ArrofFSize
           );
+          console.log(mainArr);
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
 
           let img = imagePath + a?.rd?.ThumbImagePath;
+          console.log(mainArr);
           let arrofchunk = GetChunkData(chunkSize17, mainArr);
-          // for (let i = 0; i < mainArr.length; i += chunkSize17) {
-          //     const chunks = mainArr.slice(i, i + chunkSize17);
-          //     let len = 17 - (mainArr.slice(i, i + chunkSize17)).length;
-          //     chunkData.push({ data: chunks, length: len });
-          // }
           responseData.push({
             data: a,
             additional: {
@@ -177,172 +179,6 @@ const BagPrint10A = ({ queries, headers }) => {
 
         })
 
-
-        // for (let url in print) {
-        //   let chunkData = [];
-
-        //   const objs = {
-        //     jobno: print[url],
-        //     custid: queries.custid,
-        //     printname: queries.printname,
-        //     appuserid: queries.appuserid,
-        //     url: queries.url,
-        //     headers: headers,
-        //   };
-        //   let datas = await GetData(objs);
-        //   const orderDatef = formatDate(datas?.rd[0]?.OrderDate);
-        //   const promiseDatef = formatDate(datas?.rd[0]?.promisedate);
-
-        //   datas?.rd?.map((e) => {
-        //     e.orderDatef = orderDatef;
-        //     e.promiseDatef = promiseDatef;
-        //     //
-        //   });
-        //   // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-        //   // let jsonString = JSON.stringify(p_tag);
-        //   // let base64String = btoa(jsonString);
-        //   // let Body = {
-        //   //     "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-        //   //     "p": `${base64String}`,
-        //   //     "f": `${queries.appuserid} ${queries.printname}`
-        //   // };
-        //   // let urls = atob(queries.url);
-        //   // const response = await axios.post(urls, Body, { headers: headers });
-        //   // let datas = JSON.parse(response.data.d);
-
-        //   let length = 0;
-        //   let clr = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "COLOR STONE DETAIL"
-        //   };
-        //   let dia = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "DIAMOND DETAIL"
-        //   };
-        //   let misc = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "MISC DETAIL"
-        //   };
-        //   let f = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "FINDING DETAIL"
-        //   };
-        //   let ArrofSevenSize = [];
-        //   //arr for colorstone
-        //   let ArrofFiveSize = [];
-        //   let ArrofMISize = [];
-        //   let ArrofFSize = [];
-
-        //   datas.rd1.map((e, i) => {
-        //     if (e.ConcatedFullShapeQualityColorCode !== "- - - ") {
-        //       length++;
-        //     }
-        //     if (e.MasterManagement_DiamondStoneTypeid === 3) {
-        //       ArrofSevenSize.push(e);
-        //       // ArrofSevenSize[0].heading = "DIAMOND DETAIL";
-        //       dia.ActualPcs = dia.ActualPcs + e.ActualPcs;
-        //       dia.ActualWeight = dia.ActualWeight + e.ActualWeight;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
-        //       ArrofFiveSize.push(e);
-        //       // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
-        //       clr.ActualPcs = clr.ActualPcs + e.ActualPcs;
-        //       clr.ActualWeight = clr.ActualWeight + e.ActualWeight;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 5) {
-        //       ArrofFSize.push(e);
-        //       // ArrofFSize[0].heading = "FINDING DETAIL";
-        //       f.ActualPcs = f.ActualPcs + e.ActualPcs;
-        //       f.ActualWeight = f.ActualWeight + e.ActualWeight;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 7) {
-        //       ArrofMISize.push(e);
-        //       // ArrofMISize[0].heading = "MISC DETAIL";
-        //       misc.ActualPcs = misc.ActualPcs + e.ActualPcs;
-        //       misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
-        //     }
-        //   });
-        //   dia.ActualPcs = +dia.ActualPcs.toFixed(3);
-        //   dia.ActualWeight = +dia.ActualWeight.toFixed(3);
-        //   clr.ActualPcs = +clr.ActualPcs.toFixed(3);
-        //   clr.ActualWeight = +clr.ActualWeight.toFixed(3);
-        //   misc.ActualPcs = +misc.ActualPcs.toFixed(3);
-        //   misc.ActualWeight = +misc.ActualWeight.toFixed(3);
-        //   f.ActualPcs = +f.ActualPcs.toFixed(3);
-        //   f.ActualWeight = +f.ActualWeight.toFixed(3);
-
-        //   // ArrofSevenSize.push(dia);
-        //   // ArrofFiveSize.push(clr);
-        //   // ArrofFSize.push(f);
-        //   // ArrofMISize.push(misc);
-
-        //   ArrofSevenSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofSevenSize = [];
-        //     } else {
-        //       e.heading = "DIAMOND DETAIL";
-        //     }
-        //   });
-        //   ArrofFiveSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofFiveSize = [];
-        //     } else {
-        //       e.heading = "COLOR STONE DETAIL";
-        //     }
-        //   });
-        //   ArrofMISize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofMISize = [];
-        //     } else {
-        //       e.heading = "MISC DETAIL";
-        //     }
-        //   });
-        //   ArrofFSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofFSize = [];
-        //     } else {
-        //       e.heading = "FINDING DETAIL";
-        //     }
-        //   });
-        //   let arr = [];
-        //   let mainArr = arr.concat(
-        //     ArrofSevenSize,
-        //     ArrofFiveSize,
-        //     ArrofMISize,
-        //     ArrofFSize
-        //   );
-        //   let imagePath = queryParams?.imagepath;
-        //   imagePath = atob(queryParams?.imagepath);
-
-        //   let img = imagePath + datas?.rd[0]?.ThumbImagePath;
-        //   let arrofchunk = GetChunkData(chunkSize17, mainArr);
-        //   // for (let i = 0; i < mainArr.length; i += chunkSize17) {
-        //   //     const chunks = mainArr.slice(i, i + chunkSize17);
-        //   //     let len = 17 - (mainArr.slice(i, i + chunkSize17)).length;
-        //   //     chunkData.push({ data: chunks, length: len });
-        //   // }
-        //   responseData.push({
-        //     data: datas,
-        //     additional: {
-        //       length: length,
-        //       clr: clr,
-        //       dia: dia,
-        //       f: f,
-        //       img: img,
-        //       misc: misc,
-        //       pages: arrofchunk,
-        //     },
-        //   });
-        // }
         setData(responseData);
         setLoader(false);
       } catch (error) {
@@ -437,7 +273,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                             DEL. DT.
                                           </p>
                                           <p className="f10A">
-                                            {e?.data?.rd?.promiseDatef ?? ""}
+                                            {/* {e?.data?.rd?.promiseDatef ?? ""} */}
                                           </p>
                                         </div>
                                         <div className="info10Alast">
@@ -554,7 +390,8 @@ const BagPrint10A = ({ queries, headers }) => {
                                                 ) : (
                                                   <div className="seaction10AheadCode">
                                                     {
-                                                      a?.LimitedShapeQualityColorCode
+                                                      a?.LimitedShapeQualityColorCode?.slice(0, 13)
+                                                      // (a?.Shapename + " " +a?.Quality + " " + a?.MetalColor)
                                                     }
                                                   </div>
                                                 )}
@@ -568,7 +405,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                                   className="seaction10AheadWT"
                                                   style={{ width: "40px" }}
                                                 >
-                                                  {a?.ActualWeight?.toFixed(3)}
+                                                  { a?.MasterManagement_DiamondStoneTypeid === 3 ? a?.ActualWeight?.toFixed(3) : a?.ActualWeight?.toFixed(2)} 
                                                 </div>
                                                 <div className="seaction10AheadPcs"></div>
                                                 <div className="seaction10AheadWT"></div>
@@ -686,7 +523,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                             <p className="diaVal10A">
                                               {e.additional.clr.ActualPcs}/
                                               {e.additional.clr.ActualWeight.toFixed(
-                                                3
+                                                2
                                               )}
                                             </p>{" "}
                                           </div>
@@ -1140,37 +977,37 @@ const BagPrint10A = ({ queries, headers }) => {
                               style={{ fontWeight: "normal", width: "290px" }}
                             >
                               <div
-                                className="rmcode3a"
+                                className="rmcode10a"
                                 style={{ width: "43px" }}
                               >
                                 DEPT{" "}
                               </div>
                               <div
-                                className="rmcode3a"
+                                className="rmcode10a"
                                 style={{ width: "52px" }}
                               >
                                 ISSUE
                               </div>
                               <div
-                                className="rmcode3a"
+                                className="rmcode10a"
                                 style={{ width: "52px" }}
                               >
                                 RECEIVE
                               </div>
                               <div
-                                className="rmcode3a"
+                                className="rmcode10a"
                                 style={{ width: "52px" }}
                               >
                                 SCRAP
                               </div>
                               <div
-                                className="rmcode3a"
+                                className="rmcode10a"
                                 style={{ width: "37px" }}
                               >
                                 PCS
                               </div>
                               <div
-                                className="rmcode3a"
+                                className="rmcode10a"
                                 style={{ borderRight: "0px", width: "56px" }}
                               >
                                 WORKER

@@ -82,8 +82,8 @@
     justify-content: space-around;
     align-items: flex-start;
     border-right: 1px solid #989898;
-    width: 70px;
-    padding-left: 2px;
+    width: 79.88px;
+    padding-left: 1px;
 }
 
 .border11A {
@@ -92,7 +92,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70px;
+    width: 79.88px;
 }
 
 .tHead11A {
@@ -198,9 +198,10 @@
     /* border-bottom: 1px solid #989898; */
     border-right: 1px solid #989898;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 50px;
+    padding-left: 1px;
 }
 
 .tableBody11AB {
