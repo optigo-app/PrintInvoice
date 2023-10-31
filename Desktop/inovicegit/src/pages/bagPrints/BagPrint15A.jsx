@@ -359,7 +359,6 @@ const BagPrint15A = ({ queries, headers }) => {
                                             <div>
                                                 <div>
                                                     {
-                                                        // logic of empty chunks
                                                         Array.from({ length: (7) }, (is) => {
                                                             return (
                                                                 <div style={{ display: "flex" }} key={is}>
@@ -379,10 +378,8 @@ const BagPrint15A = ({ queries, headers }) => {
                                                 <div className="sub-aside"> <b>Total : {e?.additional?.dia?.diaPcs} Pcs</b></div>
                                                 <div className="sub-aside"> <b>Type: Colorstone sieve size</b></div>
                                                 <div>
-
                                                     <div>
                                                         {
-                                                            // logic of empty chunks
                                                             Array.from({ length: (5) }, (i5) => {
                                                                 return (
                                                                     <div style={{ display: "flex" }} key={i5}>
@@ -401,7 +398,6 @@ const BagPrint15A = ({ queries, headers }) => {
                                                 <div className="sub-aside" style={{ "borderBottom": "none", fontWeight: "bold" }}>
                                                     <div><p style={{ fontSize: "10px", lineHeight: "9px", padding: "1px" }}>Ins.
                                                         {
-
                                                             e?.data?.rd?.length > 0 ? <React.Fragment>
                                                                 {
                                                                     (((e?.data?.rd?.officeuse !== null) && (e?.data?.rd?.officeuse !== "null") && (e?.data?.rd?.officeuse !== "") && (e?.data?.rd?.officeuse !== undefined)) &&
@@ -416,8 +412,6 @@ const BagPrint15A = ({ queries, headers }) => {
                                         </div>
                                     </div>
                                 }
-
-                        
                             </React.Fragment>
                             );
                         })
