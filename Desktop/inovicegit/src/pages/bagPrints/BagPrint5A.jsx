@@ -2,7 +2,6 @@ import queryString from "query-string";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "../../assets/css/bagprint/print5A.css";
-import { formatDate } from "../../GlobalFunctions/DateFormat";
 import { GetChunkData } from "../../GlobalFunctions/GetChunkData";
 import { GetData } from "../../GlobalFunctions/GetData";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
@@ -26,7 +25,6 @@ const BagPrint5A = ({ queries, headers }) => {
     const fetchData = async () => {
       try {
         const responseData = [];
-
         const objs = {
           jobno: resultString,
           custid: queries.custid,
@@ -35,11 +33,9 @@ const BagPrint5A = ({ queries, headers }) => {
           url: queries.url,
           headers: headers,
         };
-
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-
-        datas?.map((a) => {
+        datas?.forEach((a) => {
           let length = 0;
           let clr = {
             // Shapename: "TOTAL",
@@ -170,172 +166,6 @@ const BagPrint5A = ({ queries, headers }) => {
             },
           });
         });
-
-        // for (let url in print) {
-        //   let chunkData = [];
-        //   const objs = {
-        //     jobno: print[url],
-        //     custid: queries.custid,
-        //     printname: queries.printname,
-        //     appuserid: queries.appuserid,
-        //     url: queries.url,
-        //     headers: headers,
-        //   };
-        //   let datas = await GetData(objs);
-
-        //   const orderDatef = formatDate(datas?.rd[0]?.OrderDate);
-        //   const promiseDatef = formatDate(datas?.rd[0]?.promisedate);
-
-        //   datas?.rd?.map((e) => {
-        //     e.orderDatef = orderDatef;
-        //     e.promiseDatef = promiseDatef;
-        //   });
-
-        //   // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-        //   // let jsonString = JSON.stringify(p_tag);
-        //   // let base64String = btoa(jsonString);
-        //   // let Body = {
-        //   //     "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-        //   //     "p": `${base64String}`,
-        //   //     "f": `${queries.appuserid} ${queries.printname}`
-        //   // };
-        //   // let urls = atob(queries.url);
-        //   // const response = await axios.post(urls, Body, { headers: headers });
-        //   // let datas = JSON.parse(response.data.d);
-
-        //   let length = 0;
-        //   let clr = {
-        //     // Shapename: "TOTAL",
-        //     // Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "COLOR STONE DETAIL"
-        //   };
-        //   let dia = {
-        //     // Shapename: "TOTAL",
-        //     // Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "DIAMOND DETAIL"
-        //   };
-        //   let misc = {
-        //     // Shapename: "TOTAL",
-        //     // Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "MISC DETAIL"
-        //   };
-        //   let f = {
-        //     // Shapename: "TOTAL",
-        //     // Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "FINDING DETAIL"
-        //   };
-        //   let ArrofSevenSize = [];
-        //   //arr for colorstone
-        //   let ArrofFiveSize = [];
-        //   let ArrofMISize = [];
-        //   let ArrofFSize = [];
-
-        //   datas.rd1.map((e, i) => {
-        //     if (e.ConcatedFullShapeQualityColorCode !== "- - - ") {
-        //       length++;
-        //     }
-        //     if (e.MasterManagement_DiamondStoneTypeid === 3) {
-        //       ArrofSevenSize.push(e);
-        //       // ArrofSevenSize[0].heading = "DIAMOND DETAIL";
-        //       dia.ActualPcs = dia.ActualPcs + e.ActualPcs;
-        //       dia.ActualWeight = dia.ActualWeight + e.ActualWeight;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
-        //       ArrofFiveSize.push(e);
-        //       // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
-        //       clr.ActualPcs = clr.ActualPcs + e.ActualPcs;
-        //       clr.ActualWeight = clr.ActualWeight + e.ActualWeight;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 5) {
-        //       ArrofFSize.push(e);
-        //       // ArrofFSize[0].heading = "FINDING DETAIL";
-        //       f.ActualPcs = f.ActualPcs + e.ActualPcs;
-        //       f.ActualWeight = f.ActualWeight + e.ActualWeight;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 7) {
-        //       ArrofMISize.push(e);
-        //       // ArrofMISize[0].heading = "MISC DETAIL";
-        //       misc.ActualPcs = misc.ActualPcs + e.ActualPcs;
-        //       misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
-        //     }
-        //   });
-        //   dia.ActualPcs = +dia.ActualPcs.toFixed(3);
-        //   dia.ActualWeight = +dia.ActualWeight.toFixed(3);
-        //   clr.ActualPcs = +clr.ActualPcs.toFixed(3);
-        //   clr.ActualWeight = +clr.ActualWeight.toFixed(3);
-        //   misc.ActualPcs = +misc.ActualPcs.toFixed(3);
-        //   misc.ActualWeight = +misc.ActualWeight.toFixed(3);
-        //   f.ActualPcs = +f.ActualPcs.toFixed(3);
-        //   f.ActualWeight = +f.ActualWeight.toFixed(3);
-
-        //   // ArrofSevenSize.push(dia);
-        //   // ArrofFiveSize.push(clr);
-        //   // ArrofFSize.push(f);
-        //   // ArrofMISize.push(misc);
-
-        //   ArrofSevenSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofSevenSize = [];
-        //     } else {
-        //       e.heading = "DIAMOND DETAIL";
-        //     }
-        //   });
-        //   ArrofFiveSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofFiveSize = [];
-        //     } else {
-        //       e.heading = "COLOR STONE DETAIL";
-        //     }
-        //   });
-        //   ArrofMISize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofMISize = [];
-        //     } else {
-        //       e.heading = "MISC DETAIL";
-        //     }
-        //   });
-        //   ArrofFSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofFSize = [];
-        //     } else {
-        //       e.heading = "FINDING DETAIL";
-        //     }
-        //   });
-        //   let arr = [];
-        //   let mainArr = arr.concat(
-        //     ArrofSevenSize,
-        //     ArrofFiveSize,
-        //     ArrofMISize,
-        //     ArrofFSize
-        //   );
-        //   let imagePath = queryParams.imagepath;
-        //   imagePath = atob(queryParams.imagepath);
-
-        //   let img = imagePath + datas?.rd[0]?.ThumbImagePath;
-        //   let arrofchunk = GetChunkData(chunkSize17, mainArr);
-        //   // for (let i = 0; i < mainArr.length; i += chunkSize17) {
-        //   //     const chunks = mainArr.slice(i, i + chunkSize17);
-        //   //     let len = 17 - (mainArr.slice(i, i + chunkSize17)).length;
-        //   //     chunkData.push({ data: chunks, length: len });
-        //   // }
-        //   responseData.push({
-        //     data: datas,
-        //     additional: {
-        //       length: length,
-        //       clr: clr,
-        //       dia: dia,
-        //       f: f,
-        //       img: img,
-        //       misc: misc,
-        //       pages: arrofchunk,
-        //     },
-        //   });
-        // }
         setData(responseData);
       } catch (error) {
         console.log(error);
@@ -343,16 +173,6 @@ const BagPrint5A = ({ queries, headers }) => {
     };
     fetchData();
   }, []);
-
-  // function handlePrint(e) {
-  //     e.preventDefault();
-  //     window.print();
-  // }
-
-  // const handleImageError = (e) => {
-  //     e.target.src = require('../../assets/img/default.jpg');
-  // };
-
   useEffect(() => {
     if (data.length !== 0) {
       setTimeout(() => {
@@ -360,7 +180,6 @@ const BagPrint5A = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
-
   return (
     <>
       {data.length === 0 ? (
@@ -411,7 +230,6 @@ const BagPrint5A = ({ queries, headers }) => {
                                         {e?.data?.rd?.MetalType}{" "}
                                         {e?.data?.rd?.MetalColorCo}
                                       </div>
-                                      {/* <div>{e?.data?.rd?.MetalColorCo}</div> */}
                                     </div>
                                     <div className="head5Ainfo">
                                       <div className="info5Amid">
@@ -428,7 +246,6 @@ const BagPrint5A = ({ queries, headers }) => {
                                           {e?.data?.rd?.orderDatef ?? ""}
                                         </p>
                                       </div>
-                                      {/* <div className='info5Aend'><p className='f5A diffColor'>DEL. DT.</p><p className='f5A'>{e?.data?.rd?.promiseDatef ?? ''}</p></div> */}
                                       <div className="info5Aend">
                                         <p className="f5A diffColor">
                                           DEL. DT.
@@ -478,8 +295,6 @@ const BagPrint5A = ({ queries, headers }) => {
                                               className="seaction5Ahead"
                                               style={{ fontWeight: "normal" }}
                                             >
-                                              {/* <div className='seaction5AheadCode' style={{ width: "138px" }}>{a?.Shapename}</div> */}
-                                              {/* <div className='seaction5AheadCode' style={{ width: "138px" }}>{a?.Shapename + " "+ a?.ColorName}</div> */}
                                               <div
                                                 className="seaction5AheadCode"
                                                 style={{ width: "138px" }}
@@ -508,7 +323,6 @@ const BagPrint5A = ({ queries, headers }) => {
                                               className="seaction5Ahead"
                                               style={{ fontWeight: "normal" }}
                                             >
-                                              {/* { a?.Shapename === "TOTAL" ? <div className='seaction5AheadCode'>{a?.Shapename}</div> : <div className='seaction5AheadCode'>{a?.LimitedShapeQualityColorCode}</div>}   */}
                                               <div className="seaction5AheadCode">
                                                 {
                                                   a?.LimitedShapeQualityColorCode
@@ -567,23 +381,6 @@ const BagPrint5A = ({ queries, headers }) => {
                                     >
                                       CAST INS.
                                       {e?.data?.rd?.ShowInstruction ?? ''}
-                                      {/* {(
-                                        e?.data?.rd?.officeuse +
-                                        e?.data?.rd?.custInstruction +
-                                        e?.data?.rd?.ProductInstruction
-                                      ).length > 0
-                                        ? (e?.data?.rd?.officeuse +
-                                            e?.data?.rd?.custInstruction +
-                                            e?.data?.rd?.ProductInstruction ==
-                                          (null || "null")
-                                            ? ""
-                                            : e?.data?.rd?.officeuse +
-                                              " " +
-                                              e?.data?.rd?.custInstruction +
-                                              " " +
-                                              e?.data?.rd?.ProductInstruction
-                                          )?.slice(0, 179)
-                                        : ""} */}
                                     </span>
                                   </p>
                                 </div>
@@ -698,7 +495,6 @@ const BagPrint5A = ({ queries, headers }) => {
                                   {e?.data?.rd?.MetalType}{" "}
                                   {e?.data?.rd?.MetalColorCo}
                                 </div>
-                                {/* <div>{e?.data?.rd?.MetalColorCo}</div> */}
                               </div>
                               <div className="head5Ainfo">
                                 <div className="info5Amid">
@@ -715,7 +511,6 @@ const BagPrint5A = ({ queries, headers }) => {
                                     {e?.data?.rd?.orderDatef ?? ""}
                                   </p>
                                 </div>
-                                {/* <div className='info5Aend'><p className='f5A diffColor'>DEL. DT.</p><p className='f5A'>{e?.data?.rd?.promiseDatef ?? ''}</p></div> */}
                                 <div className="info5Aend">
                                   <p className="f5A diffColor">
                                     DEL. DT.
@@ -752,71 +547,6 @@ const BagPrint5A = ({ queries, headers }) => {
                               <div className="seaction5AheadPcs">PCS</div>
                               <div className="seaction5AheadWT">WT</div>
                             </div>
-                            {/* {ele?.data?.map((a, i) => {
-                              return (
-                                <React.Fragment key={i}>
-                                  {a.MasterManagement_DiamondStoneTypeid ===
-                                  5 ? (
-                                    <div
-                                      className="seaction5Amid"
-                                      key={i}
-                                    >
-                                      <div
-                                        className="seaction5Ahead"
-                                        style={{ fontWeight: "normal" }}
-                                      >
-                                        
-                                        <div
-                                          className="seaction5AheadCode"
-                                          style={{ width: "138px" }}
-                                        >
-                                          {
-                                            a?.LimitedShapeQualityColorCode
-                                          }{" "}
-                                          {a?.Quality} {a?.ColorName}
-                                        </div>
-                                        <div className="seaction5AheadPcs">
-                                          {a?.ActualPcs}
-                                        </div>
-                                        <div className="seaction5AheadWT">
-                                          {a?.ActualWeight?.toFixed(3)}
-                                        </div>
-                                        <div className="seaction5AheadPcs"></div>
-                                        <div className="seaction5AheadWT"></div>
-                                      </div>
-                                    </div>
-                                  ) : (
-                                    <div
-                                      className="seaction5Amid"
-                                      key={i}
-                                    >
-                                      <div
-                                        className="seaction5Ahead"
-                                        style={{ fontWeight: "normal" }}
-                                      >
-                                        
-                                        <div className="seaction5AheadCode">
-                                          {
-                                            a?.LimitedShapeQualityColorCode
-                                          }
-                                        </div>
-                                        <div className="seaction5AheadSize">
-                                          {a?.Sizename}
-                                        </div>
-                                        <div className="seaction5AheadPcs">
-                                          {a?.ActualPcs}
-                                        </div>
-                                        <div className="seaction5AheadWT">
-                                          {a?.ActualWeight?.toFixed(3)}
-                                        </div>
-                                        <div className="seaction5AheadPcs"></div>
-                                        <div className="seaction5AheadWT"></div>
-                                      </div>
-                                    </div>
-                                  )}
-                                </React.Fragment>
-                              );
-                            })} */}
                             <div
                                   className="seaction5Amid"
                                 >
@@ -867,23 +597,6 @@ const BagPrint5A = ({ queries, headers }) => {
                               >
                                 CAST INS.
                                 {e?.data?.rd?.ShowInstruction ?? ''}
-                                {/* {(
-                                  e?.data?.rd?.officeuse +
-                                  e?.data?.rd?.custInstruction +
-                                  e?.data?.rd?.ProductInstruction
-                                ).length > 0
-                                  ? (e?.data?.rd?.officeuse +
-                                      e?.data?.rd?.custInstruction +
-                                      e?.data?.rd?.ProductInstruction ==
-                                    (null || "null")
-                                      ? ""
-                                      : e?.data?.rd?.officeuse +
-                                        " " +
-                                        e?.data?.rd?.custInstruction +
-                                        " " +
-                                        e?.data?.rd?.ProductInstruction
-                                    )?.slice(0, 179)
-                                  : ""} */}
                               </span>
                             </p>
                           </div>
@@ -997,7 +710,6 @@ const BagPrint5A = ({ queries, headers }) => {
                                 {e?.data?.rd?.MetalType}{" "}
                                 {e?.data?.rd?.MetalColorCo}
                               </div>
-                              {/* <div>{e?.data?.rd?.MetalColorCo}</div> */}
                             </div>
                             <div className="mat5AD">
                               <div

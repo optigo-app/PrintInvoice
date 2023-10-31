@@ -2,7 +2,6 @@ import queryString from "query-string";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "../../assets/css/bagprint/print13A.css";
-import { formatDate } from "../../GlobalFunctions/DateFormat";
 import { GetChunkData } from "../../GlobalFunctions/GetChunkData";
 import { GetData } from "../../GlobalFunctions/GetData";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
@@ -11,14 +10,13 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-
+import { InstructionGenerate } from './../../GlobalFunctions/InstructionGenerate';
 const BagPrint13A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize17 = 16;
-
   useEffect(() => {
     if (Object.keys(queryParams).length !== 0) {
       atob(queryParams.imagepath);
@@ -26,7 +24,6 @@ const BagPrint13A = ({ queries, headers }) => {
     const fetchData = async () => {
       try {
         const responseData = [];
-
         const objs = {
           jobno: resultString,
           custid: queries.custid,
@@ -35,10 +32,8 @@ const BagPrint13A = ({ queries, headers }) => {
           url: queries.url,
           headers: headers,
         };
-
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-
         datas?.map((a) => {
           let length = 0;
           let clr = {
@@ -46,35 +41,29 @@ const BagPrint13A = ({ queries, headers }) => {
             Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "COLOR STONE DETAIL"
           };
           let dia = {
             Shapename: "TOTAL",
             Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "DIAMOND DETAIL"
           };
           let misc = {
             Shapename: "TOTAL",
             Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "MISC DETAIL"
           };
           let f = {
             Shapename: "TOTAL",
             Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "FINDING DETAIL"
           };
           let ArrofSevenSize = [];
-          //arr for colorstone
           let ArrofFiveSize = [];
           let ArrofMISize = [];
           let ArrofFSize = [];
-
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
@@ -105,40 +94,6 @@ const BagPrint13A = ({ queries, headers }) => {
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
-
-          // ArrofSevenSize.push(dia);
-          // ArrofFiveSize.push(clr);
-          // ArrofFSize.push(f);
-          // ArrofMISize.push(misc);
-
-          ArrofSevenSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofSevenSize = [];
-            } else {
-              e.heading = "DIAMOND DETAIL";
-            }
-          });
-          ArrofFiveSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofFiveSize = [];
-            } else {
-              e.heading = "COLOR STONE DETAIL";
-            }
-          });
-          ArrofMISize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofMISize = [];
-            } else {
-              e.heading = "MISC DETAIL";
-            }
-          });
-          ArrofFSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofFSize = [];
-            } else {
-              e.heading = "FINDING DETAIL";
-            }
-          });
           let arr = [];
           let mainArr = arr?.concat(
             ArrofSevenSize,
@@ -151,11 +106,8 @@ const BagPrint13A = ({ queries, headers }) => {
 
           let img = imagePath + a?.rd?.ThumbImagePath;
           let arrofchunk = GetChunkData(chunkSize17, mainArr);
-          // for (let i = 0; i < mainArr.length; i += chunkSize17) {
-          //     const chunks = mainArr.slice(i, i + chunkSize17);
-          //     let len = 16 - (mainArr.slice(i, i + chunkSize17)).length;
-          //     chunkData.push({ data: chunks, length: len });
-          // }
+          let ins = InstructionGenerate(a?.rd);
+          a.rd.ShowInstruction = ins;
           responseData.push({
             data: a,
             additional: {
@@ -169,168 +121,6 @@ const BagPrint13A = ({ queries, headers }) => {
             },
           });
         })
-
-
-        // for (let url in print) {
-        //   let chunkData = [];
-        //   const objs = {
-        //     jobno: print[url],
-        //     custid: queries.custid,
-        //     printname: queries.printname,
-        //     appuserid: queries.appuserid,
-        //     url: queries.url,
-        //     headers: headers,
-        //   };
-        //   let datas = await GetData(objs);
-        //   const orderDatef = formatDate(datas?.rd[0]?.OrderDate);
-        //   const promiseDatef = formatDate(datas?.rd[0]?.promisedate);
-
-        //   datas?.rd?.map((e) => {
-        //     e.orderDatef = orderDatef;
-        //     e.promiseDatef = promiseDatef;
-        //     //
-        //   });
-        //   // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-        //   // let jsonString = JSON.stringify(p_tag);
-        //   // let base64String = btoa(jsonString);
-        //   // let Body = {
-        //   //     "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-        //   //     "p": `${base64String}`,
-        //   //     "f": `${queries.appuserid} ${queries.printname}`
-        //   // };
-        //   // let urls = atob(queries.url);
-        //   // const response = await axios.post(urls, Body, { headers: headers });
-        //   // let datas = JSON.parse(response.data.d);
-
-        //   let length = 0;
-        //   let clr = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "COLOR STONE DETAIL"
-        //   };
-        //   let dia = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "DIAMOND DETAIL"
-        //   };
-        //   let misc = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "MISC DETAIL"
-        //   };
-        //   let f = {
-        //     Shapename: "TOTAL",
-        //     Sizename: "",
-        //     ActualPcs: 0,
-        //     ActualWeight: 0,
-        //     // heading: "FINDING DETAIL"
-        //   };
-        //   let ArrofSevenSize = [];
-        //   //arr for colorstone
-        //   let ArrofFiveSize = [];
-        //   let ArrofMISize = [];
-        //   let ArrofFSize = [];
-
-        //   datas?.rd1?.map((e, i) => {
-        //     if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
-        //       length++;
-        //     }
-        //     if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-        //       ArrofSevenSize.push(e);
-        //       dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
-        //       dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
-        //     } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-        //       ArrofFiveSize.push(e);
-        //       clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
-        //       clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
-        //     } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-        //       ArrofFSize.push(e);
-        //       f.ActualPcs = f.ActualPcs + e?.ActualPcs;
-        //       f.ActualWeight = f.ActualWeight + e?.ActualWeight;
-        //     } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-        //       ArrofMISize.push(e);
-        //       misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
-        //       misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
-        //     }
-        //   });
-        //   dia.ActualPcs = +dia.ActualPcs.toFixed(3);
-        //   dia.ActualWeight = +dia.ActualWeight.toFixed(3);
-        //   clr.ActualPcs = +clr.ActualPcs.toFixed(3);
-        //   clr.ActualWeight = +clr.ActualWeight.toFixed(3);
-        //   misc.ActualPcs = +misc.ActualPcs.toFixed(3);
-        //   misc.ActualWeight = +misc.ActualWeight.toFixed(3);
-        //   f.ActualPcs = +f.ActualPcs.toFixed(3);
-        //   f.ActualWeight = +f.ActualWeight.toFixed(3);
-
-        //   // ArrofSevenSize.push(dia);
-        //   // ArrofFiveSize.push(clr);
-        //   // ArrofFSize.push(f);
-        //   // ArrofMISize.push(misc);
-
-        //   ArrofSevenSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofSevenSize = [];
-        //     } else {
-        //       e.heading = "DIAMOND DETAIL";
-        //     }
-        //   });
-        //   ArrofFiveSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofFiveSize = [];
-        //     } else {
-        //       e.heading = "COLOR STONE DETAIL";
-        //     }
-        //   });
-        //   ArrofMISize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofMISize = [];
-        //     } else {
-        //       e.heading = "MISC DETAIL";
-        //     }
-        //   });
-        //   ArrofFSize.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       ArrofFSize = [];
-        //     } else {
-        //       e.heading = "FINDING DETAIL";
-        //     }
-        //   });
-        //   let arr = [];
-        //   let mainArr = arr.concat(
-        //     ArrofSevenSize,
-        //     ArrofFiveSize,
-        //     ArrofMISize,
-        //     ArrofFSize
-        //   );
-        //   let imagePath = queryParams?.imagepath;
-        //   imagePath = atob(queryParams?.imagepath);
-
-        //   let img = imagePath + datas?.rd[0]?.ThumbImagePath;
-        //   let arrofchunk = GetChunkData(chunkSize17, mainArr);
-        //   // for (let i = 0; i < mainArr.length; i += chunkSize17) {
-        //   //     const chunks = mainArr.slice(i, i + chunkSize17);
-        //   //     let len = 16 - (mainArr.slice(i, i + chunkSize17)).length;
-        //   //     chunkData.push({ data: chunks, length: len });
-        //   // }
-        //   responseData.push({
-        //     data: datas,
-        //     additional: {
-        //       length: length,
-        //       clr: clr,
-        //       dia: dia,
-        //       f: f,
-        //       img: img,
-        //       misc: misc,
-        //       pages: arrofchunk,
-        //     },
-        //   });
-        // }
         setData(responseData);
       } catch (error) {
         console.log(error);
@@ -381,8 +171,6 @@ const BagPrint13A = ({ queries, headers }) => {
                       e?.additional?.pages.map((ele, index) => {
                         return (
                           <div className="container13A" key={index}>
-                            {/* <div className=''> */}
-                            {/* <div className='container13A'> */}
                             <div className="bag13A">
                               <div className="flex13A">
                                 <div className="header13A">
@@ -398,7 +186,6 @@ const BagPrint13A = ({ queries, headers }) => {
                                         {e?.data?.rd?.MetalType}{" "}
                                         {e?.data?.rd?.MetalColorCo}
                                       </div>
-                                      {/* <div>{e?.data?.rd?.MetalColorCo}</div> */}
                                     </div>
                                     <div className="head13Ainfo">
                                       <div className="info13Amid">
@@ -511,7 +298,6 @@ const BagPrint13A = ({ queries, headers }) => {
                                               className="seaction13Ahead"
                                               style={{ fontWeight: "normal" }}
                                             >
-                                              {/* { a?.Shapename === "TOTAL" ? <div className='seaction13AheadCode'>{a?.Shapename}</div> : <div className='seaction13AheadCode'>{a?.ConcatedFullShapeQualityColorCode}</div> } */}
                                               {a?.Shapename === "TOTAL" ? (
                                                 <div className="seaction13AheadCode">
                                                   {a?.Shapename}
@@ -574,23 +360,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                       }}
                                     >
                                       CAST INS.
-                                      {(
-                                        e?.data?.rd?.officeuse +
-                                        e?.data?.rd?.custInstruction +
-                                        e?.data?.rd?.ProductInstruction
-                                      )?.length > 0
-                                        ? e?.data?.rd?.officeuse +
-                                            e?.data?.rd?.custInstruction +
-                                            e?.data?.rd
-                                              ?.ProductInstruction ==
-                                          (null || "null")
-                                          ? ""
-                                          : (
-                                              e?.data?.rd?.officeuse +
-                                              e?.data?.rd?.custInstruction +
-                                              e?.data?.rd?.ProductInstruction
-                                            )?.slice(0, 230)
-                                        : ""}
+                                      {(e?.data?.rd?.ShowInstruction)?.slice(0, 230)}
                                     </span>
                                   </p>
                                 </div>
@@ -607,7 +377,6 @@ const BagPrint13A = ({ queries, headers }) => {
                                       id="img13A"
                                       alt=""
                                       onError={(e) => handleImageError(e)}
-                                      
                                       loading="eager"
                                     />
                                   </div>
@@ -690,7 +459,6 @@ const BagPrint13A = ({ queries, headers }) => {
                                 </div>
                               </div>
                             </div>
-                            {/* </div> */}
                           </div>
                         );
                       })
@@ -751,7 +519,6 @@ const BagPrint13A = ({ queries, headers }) => {
                                 <div className="seaction13AheadPcs">PCS</div>
                                 <div className="seaction13AheadWT">WT</div>
                               </div>
-
                               {Array.from({ length: 17 }, (_, index) => (
                                 <div className="seaction13Amid" key={index}>
                                   <div
@@ -780,22 +547,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                   }}
                                 >
                                   CUST INS.
-                                  {(
-                                    e?.data?.rd?.officeuse +
-                                    e?.data?.rd?.custInstruction +
-                                    e?.data?.rd?.ProductInstruction
-                                  )?.length > 0
-                                    ? e?.data?.rd?.officeuse +
-                                        e?.data?.rd?.custInstruction +
-                                        e?.data?.rd?.ProductInstruction ==
-                                      (null || "null")
-                                      ? ""
-                                      : (
-                                          e?.data?.rd?.officeuse +
-                                          e?.data?.rd?.custInstruction +
-                                          e?.data?.rd?.ProductInstruction
-                                        )?.slice(0, 230)
-                                    : ""}
+                                  { (e?.data?.rd?.ShowInstruction)?.slice(0, 230)}
                                 </span>
                               </p>
                             </div>
@@ -909,7 +661,6 @@ const BagPrint13A = ({ queries, headers }) => {
                               {e?.data?.rd?.MetalType}{" "}
                               {e?.data?.rd?.MetalColorCo}
                             </div>
-                            {/* <div>{e?.data?.rd?.MetalColorCo}</div> */}
                           </div>
                           <div className="mat13AD">
                             <div
@@ -1088,7 +839,6 @@ const BagPrint13A = ({ queries, headers }) => {
                             alt=""
                             onError={(e) => handleImageError(e)}
                             loading="eager"
-                           
                           />
                         </div>
                       </div>

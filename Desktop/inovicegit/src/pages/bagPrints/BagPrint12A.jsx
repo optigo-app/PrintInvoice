@@ -11,14 +11,13 @@ import { organizeData } from '../../GlobalFunctions/OrganizeBagPrintData';
 import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
 
 const BagPrint12A = ({ queries, headers }) => {
-
     const [data, setData] = useState([]);
     const location = useLocation();
     const queryParams = queryString?.parse(location?.search);
     const resultString = GetUniquejob(queryParams?.str_srjobno);
     useEffect(() => {
-        if (Object.keys(queryParams).length !== 0) {
-            atob(queryParams.imagepath);
+        if (Object.keys(queryParams)?.length !== 0) {
+            atob(queryParams?.imagepath);
         }
         const fetchData = async () => {
             try {
@@ -31,10 +30,8 @@ const BagPrint12A = ({ queries, headers }) => {
                     url: queries.url,
                     headers: headers,
                   };
-          
                   const allDatas = await GetData(objs);
                   let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-
                 datas?.map((a) => {
                     let chunkData = [];
                     let chunkSize = 8;
@@ -83,10 +80,8 @@ const BagPrint12A = ({ queries, headers }) => {
                     });
                     let obj = { ...a };
                     if (obj?.rd !== {}) {
-                        // obj.rd.instructionData = (obj?.rd?.officeuse + obj?.rd?.custInstruction + obj?.rd?.ProductInstruction)?.substring(0, 113);
                         obj.rd.instructionData = (obj?.rd?.officeuse + " " + obj?.rd?.ProductInstruction)?.substring(0, 113);
                     }
-                    
                     let imagePath = queryParams?.imagepath;
                     imagePath = atob(queryParams?.imagepath);
                     let img = imagePath + a?.rd?.ThumbImagePath;
@@ -99,7 +94,6 @@ const BagPrint12A = ({ queries, headers }) => {
                     let arrData1 = arrData?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid === 3); 
                     let arrData2 = arrData?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid === 4); 
                     let arrData3 = [...arrData1, ...arrData2];
-                    console.log(arrData3);
                     let blankData = [];
                     for (let i = 0; i < (arrData3).length; i += chunkSize) {
                         const chunks = (arrData3).slice(i, i + chunkSize);
@@ -126,7 +120,7 @@ const BagPrint12A = ({ queries, headers }) => {
     }, []);
     
     useEffect(() => {
-        if (data.length !== 0) {
+        if (data?.length !== 0) {
             setTimeout(() => {
                 window.print();
             }, 5000);

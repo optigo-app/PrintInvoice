@@ -182,7 +182,6 @@ const BagPrint6A = ({ queries, headers }) => {
             },
           });
         });
-
         setData(responseData);
       } catch (error) {
         console.log(error);
@@ -190,7 +189,6 @@ const BagPrint6A = ({ queries, headers }) => {
     };
     fetchData();
   }, []);
-
   useEffect(() => {
     if (data.length !== 0) {
       setTimeout(() => {
@@ -198,7 +196,6 @@ const BagPrint6A = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
-
   return (
     <>
       {data.length === 0 ? (
@@ -350,12 +347,9 @@ const BagPrint6A = ({ queries, headers }) => {
                                   <div className="right6Ac"></div>
                                   <div className="right6Ad"></div>
                                 </div>
-                                {ele?.data.map((a, i) => {
+                                {ele?.data?.map((a, i) => {
                                   return (
                                     <div className="main6Ahead" key={i}>
-                                      {/* {
-                                                                                         a?.Shapename === "TOTAL" ? <div className='right6Aa'>{a?.Shapename}</div> : 
-                                                                                        <div className='right6Aa'>{a?.ConcatedFullShapeQualityColorCode}</div>}  */}
                                       <div className="right6Aa">
                                         {a?.ConcatedFullShapeQualityColorCode}
                                       </div>
@@ -396,7 +390,6 @@ const BagPrint6A = ({ queries, headers }) => {
                                     >
                                       Issue Material
                                     </p>
-                                    {/* <p className='pflex6A' style={{ height: "20px" }}>Material</p> */}
                                   </div>
                                 </div>
                                 <div
@@ -464,7 +457,6 @@ const BagPrint6A = ({ queries, headers }) => {
                                         null &&
                                       e?.data?.rd?.ProductInstruction !== "null"
                                         ? e?.data?.rd?.officeuse
-                                            //   e?.data?.rd?.ProductInstruction
                                             ?.slice(0, 135)
                                         : ""}
                                     </span>
@@ -569,7 +561,6 @@ const BagPrint6A = ({ queries, headers }) => {
                               alt=""
                               onError={(e) => handleImageError(e)}
                               loading="eager"
-                           
                             />
                           </div>
                         </div>
