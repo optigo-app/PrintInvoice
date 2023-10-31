@@ -21,7 +21,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
         grandTotal: 0,
         qtyWeight: 0
     });
-    
+
     const [taxes, setTaxes] = useState([]);
     const toWords = new ToWords();
 
@@ -80,6 +80,13 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
             return 0; // a and b are equivalent with respect to sorting
         });
 
+        // arr.sort((a, b) => a.MasterManagement_DiamondStoneTypeName - b.MasterManagement_DiamondStoneTypeName);
+        arr.forEach((e, i) => {
+            if(e?.MasterManagement_DiamondStoneTypeid !==4){
+                e.Amount = e.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate
+            }
+        })
+
         setDatas(arr);
         const result = data?.BillPrint_Json1.reduce((accumulator, currentValue) => {
             return {
@@ -87,19 +94,12 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                 OtherCharges: accumulator.OtherCharges + currentValue.OtherCharges,
                 TotalAmount: accumulator.TotalAmount + currentValue.TotalAmount
             };
-        // }, { MakingAmount: 0, OtherCharges: 0, labourRate: 0, TotalAmount: 0 });
-    }, { MakingAmount: 0, OtherCharges: 0,  TotalAmount: 0 });
+        }, { MakingAmount: 0, OtherCharges: 0, TotalAmount: 0 });
 
-        // let obj = {
-        //     labour: result?.MakingAmount,
-        //     other: result?.OtherCharges,
-        //     labourRate: result?.labourRate
-        // }
-
-              let obj = {
+        let obj = {
             labour: result?.MakingAmount,
             other: result?.OtherCharges,
-            labourRate: result?.MakingAmount/metalWeight
+            labourRate: (result?.MakingAmount/data?.BillPrint_Json[0]?.CurrencyExchRate) / metalWeight
         }
 
         let taxValue = taxGenrator(data?.BillPrint_Json[0], result.TotalAmount);
@@ -207,7 +207,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className="d-flex border">
                         {/* <div className="col-4 p-2 border-end"> */}
                         <div className="col-4 p-2 border-end d-flex justify-content-center align-items-center flex-column">
-                            <input type="text" value={discription} onChange={handleChangeDiscription} className={`${style?.invoicePrint4Input} text-center`}/>
+                            <input type="text" value={discription} onChange={handleChangeDiscription} className={`${style?.invoicePrint4Input} text-center`} />
                             <p className='pt-2'>HSN CODE {headerData?.HSN_No}</p>
                             {/* <p className="fs-5 text-center"> GOLD ORNAMENTS </p>
                             <p className="fs-5 text-center"> HSN CODE 7113 </p> */}
@@ -263,7 +263,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                                     <div className="col-6 p-1 text-end">{e?.amount}</div>
                                 </div>
                             })}
-                         { headerData?.AddLess !== 0 && <div className="d-flex">
+                            {headerData?.AddLess !== 0 && <div className="d-flex">
                                 <div className="col-6 p-1 border-end text-end">{headerData?.AddLess < 0 ? "Less" : "Add"}</div>
                                 <div className="col-6 p-1 text-end">{headerData?.AddLess}</div>
                             </div>}

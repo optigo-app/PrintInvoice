@@ -16,6 +16,10 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [setting, setSetting] = useState(true);
   const [tunch, setTunch] = useState(true);
   const [msg, setMsg] = useState("");
+  const [gold, setGold] = useState({
+    gold14k: false,
+    gold18k: false,
+  })
   const [total, setTotal] = useState({
     pcs: 0,
     diaWt: 0,
@@ -35,6 +39,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   });
 
   const loadData = (data) => {
+    let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
     let totals = { ...total };
@@ -58,15 +63,18 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           obj.puregoldWeightWithLoss += ele?.FineWt;
           if (ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2) {
             totalCol.pcs += ele?.Pcs;
-            elementsArr.push(ele);
+            let obj = { ...ele };
+            obj.Amount = ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate;
+            obj.SettingAmount = ele?.SettingAmount / data?.BillPrint_Json[0]?.CurrencyExchRate;
+            elementsArr.push(obj);
             totals.pcs += ele?.Pcs;
             totals.diaWt += ele?.Wt;
             totals.diaAmount += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
             totals.totalAmount += (ele?.SettingAmount / data.BillPrint_Json[0]?.CurrencyExchRate);
+            totalCol.diaWt += ele?.Wt;
+            totalCol.diaAmount += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
             if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
               summaries.diamondWt += ele?.Wt;
-              totalCol.diaWt += ele?.Wt;
-              totalCol.diaAmount += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
             } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
               summaries.stoneWt += ele?.Wt;
             }
@@ -77,6 +85,11 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             totals.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+            if (ele?.QualityName === "18K") {
+              golds.gold18k = true;
+            } else if (ele?.QualityName === "14K") {
+              golds.gold14k = true;
+            }
             obj.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
             totals.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
             if (ele?.QualityName === "14K") {
@@ -108,6 +121,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
     setTotal(totals);
     setJson1Data(resultAr);
     setLoader(false);
+    setGold(golds);
   }
   useEffect(() => {
     const sendData = async () => {
@@ -355,7 +369,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>{fixedValues(total?.diaWt, 3)}</p></div>
               <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='fw-bold text-start'>Diamond </p><p className="fw-bold text-start">total</p>
               </div>
-              <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(total?.diaWt)}</p></div>
+              <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(total?.diaAmount, 2)}</p></div>
               <div className='settingTypeTotalDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>Setting Total</p></div>
               <div className='settingTotalPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(total?.totalAmount, 2)}</p></div>
             </div>
@@ -363,7 +377,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           <div className="goldDetailPrint11 border-end d-grid detailgoldDertailprint11">
             <div className='d-flex'>
               <div className='col-7 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>Total Gold</p></div>
-              <div className='col-5 d-flex align-items-center justify-content-center'><p className='fw-bold'>{fixedValues(total?.totalGold, 3)} G</p></div>
+              <div className='col-5 d-flex align-items-center justify-content-center'><p className='fw-bold'>{fixedValues(total?.totalGold, 3)}</p></div>
             </div>
           </div>
           <div className="labourDetailPrint11 border-end d-flex">
@@ -384,14 +398,14 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           <div className="blankSpaceDetailPrint11 border-end">
           </div>
           <div className="goldDetailsPrints11 border-end">
-            <div className="d-flex w-100 justify-content-between p-1">
+            {gold.gold14k && <div className="d-flex w-100 justify-content-between p-1">
               <div><p>GOLD 14K :</p></div>
               <div><p>{fixedValues(summary?.gold14k, 3)} gm</p></div>
-            </div>
-            <div className="d-flex w-100 justify-content-between p-1">
+            </div>}
+            {gold.gold18k && <div className="d-flex w-100 justify-content-between p-1">
               <div><p>GOLD 18K: </p></div>
               <div><p>{fixedValues(summary?.gold18k, 3)} gm</p></div>
-            </div>
+            </div>}
             <div className="d-flex w-100 justify-content-between p-1">
               <div><p>Diamond Wt:</p></div>
               <div><p>{fixedValues(summary?.diamondWt, 3)} cts</p></div>
@@ -414,16 +428,16 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <p>{e?.name} per {e?.per}</p>
               </div>
             })}
-            <div className="d-flex justify-content-between w-100 p-1">
-              <p>Less</p>
-            </div>
+            {json0Data?.AddLess !== 0 && <div className="d-flex justify-content-between w-100 p-1">
+              <p>{json0Data?.AddLess > 0 ? "Add" : "Less"}</p>
+            </div>}
           </div>
           <div className="totaljewAmountDetailPrint11 py-1">
             <p className='text-end py-1 fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(total?.totalJewelleryAmount, 2)}</p>
             {taxes.length > 0 && taxes.map((e, i) => {
-              return <p className='text-end py-1 fw-bold' key={i}><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{e?.amount}</p>
+              return <p className='text-end py-1 fw-bold' key={i}><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(+e?.amount / json0Data?.CurrencyExchRate, 2)}</p>
             })}
-            <p className='text-end py-1 fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{json0Data?.AddLess}</p>
+            {json0Data?.AddLess !== 0 && <p className='text-end py-1 fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{json0Data?.AddLess}</p>}
           </div>
         </div>
         {/* Grand total*/}

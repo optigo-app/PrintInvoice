@@ -1,13 +1,14 @@
 .containerDetailPrint1 {
     /* max-width: 297mm !important; */
     max-width: 790.74px !important;
-    /* padding: 0 15px !important; */
+    padding: 0 5px !important;
     zoom: 1.5;
 }
 
 .containerDetailPrint1 p {
     word-break: break-all;
-    font-size: 8px;
+    /* font-size: 8px; */
+    font-size: 7px;
     line-height: 100%;
 }
 
@@ -34,13 +35,15 @@
 }
 
 .diamondDetailPrint1 {
-    width: 167.9px;
-    min-width: 167.9px;
+    /* width: 167.9px;
+    min-width: 167.9px; */
+    width: 181.9px;
+    min-width: 181.9px;
 }
 
-.stoneDetailsPrint1{
-    width: 170.3px;
-    min-width: 170.3px;
+.stoneDetailsPrint1 {
+    width: 174.3px;
+    min-width: 174.3px;
 }
 
 .metalDetailPrint1 {
@@ -54,13 +57,15 @@
 }
 
 .otherAmountDetailPrint1 {
-    width: 95px;
-    min-width: 95px;
+    /* width: 95px;
+    min-width: 95px; */
+    width: 81px;
+    min-width: 81px;
 }
 
 .labourAmountDetailPrint1 {
-    width: 60px;
-    min-width: 60px;
+    width: 64px;
+    min-width: 64px;
 }
 
 .totalAmountDetailPrint1 {
@@ -93,8 +98,8 @@
 }
 
 .cgstDetailPrint1 {
-    min-width: 732px;
-    width: 732px;
+    min-width: 740px;
+    width: 740px;
 }
 
 .cgstTotalDetailPrint1 {
@@ -123,7 +128,7 @@
 }
 
 @media print {
-    .containerDetailPrint1{
+    .containerDetailPrint1 {
         zoom: unset;
         margin: 0;
     }
