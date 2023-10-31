@@ -166,7 +166,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <p className="pb-1">Phone - {headerData?.CompanyTellNo}</p>
                         <p className="pb-1">{headerData?.CompanyEmail}</p>
                         <p className="pb-1">{headerData?.Company_VAT_GST_No}</p>
-                        <p className="pb-1">CIN: {headerData?.CINNO}</p>
+                        {headerData?.CINNO.length !== 0 && <p className="pb-1">CIN: {headerData?.CINNO}</p>}
                     </div>
                     <div className="col-3 p-2 text-end">
                         <img src={headerData?.PrintLogo} alt="" className={`w-100 ${style?.imageLogoInovicePrint4} d-block ms-auto`} />

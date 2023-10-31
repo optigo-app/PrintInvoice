@@ -261,7 +261,7 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
         setTimeout(() => {
             const button = document.getElementById('test-table-xls-button');
             button.click();
-        }, 0);
+        }, 2000);
     }
 
     useEffect(() => {
