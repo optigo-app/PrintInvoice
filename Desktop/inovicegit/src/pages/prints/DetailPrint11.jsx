@@ -39,6 +39,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   });
 
   const loadData = (data) => {
+    console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
@@ -66,7 +67,22 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             let obj = { ...ele };
             obj.Amount = ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate;
             obj.SettingAmount = ele?.SettingAmount / data?.BillPrint_Json[0]?.CurrencyExchRate;
-            elementsArr.push(obj);
+            let findIndex = elementsArr.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname && elem?.SizeName === ele?.SizeName);
+            if (findIndex === -1) {
+              elementsArr.push(obj);
+            } else {
+              elementsArr[findIndex].Rate = ((elementsArr[findIndex].Amount / elementsArr[findIndex].Wt) + (ele.Amount / ele.Wt)) / 2
+              elementsArr[findIndex].Wt += ele?.Wt;
+              elementsArr[findIndex].Amount += ele?.Amount;
+              elementsArr[findIndex].SettingAmount += ele?.SettingAmount;
+              elementsArr[findIndex].Pcs += ele?.Pcs;
+              if (elementsArr[findIndex].GroupName !== "") {
+                elementsArr[findIndex].SizeName = elementsArr[findIndex].GroupName;
+              }
+              if (ele.GroupName !== "") {
+                elementsArr[findIndex].SizeName = ele.GroupName;
+              }
+            }
             totals.pcs += ele?.Pcs;
             totals.diaWt += ele?.Wt;
             totals.diaAmount += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
@@ -226,14 +242,14 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             <div className='border-bottom border-end d-flex justify-content-center align-items-center'> <p className='p-1 text-center fw-bold fw-bold'>Diamond & Stone Detail</p> </div>
             <div className='d-flex'>
               <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1 fw-bold'>Shape</p></div>
-              <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center p-1 flwx-column'><p className='fw-bold'>Size</p><p className="fw-bold">(mm)</p></div>
+              <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center p-1 flex-column'><p className='fw-bold'>Size</p><p className="fw-bold">(mm)</p></div>
               <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='p-1 fw-bold'>Pcs</p></div>
               <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='p-1 fw-bold'>DIA</p><p className="p-1 fw-bold"> WT.</p></div>
               <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='p-1 fw-bold'>Price  </p><p className='fw-bold'>/ cts</p></div>
               <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center p-1 flex-column'><p className='text-center fw-bold'>Dia</p><p className="text-center fw-bold"> Amount</p></div>
               <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>Setting </p><p>Type</p></div>
               <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>Setting </p><p className="text-center fw-bold">Price</p></div>
-              <div className='totalAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>Total</p><p className="text-center fw-bold"> Amount</p></div>
+              <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>Total</p><p className="text-center fw-bold"> Amount</p></div>
             </div>
           </div>
           <div className="goldDetailPrint11 border-end d-grid">
@@ -255,7 +271,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
         </div>
         {/* data */}
         {json1Data.length > 0 && json1Data.map((e, i) => {
-          return <div className="d-flex w-100 border-bottom border-start border-end border-2 no_break" key={i}>
+          return <div className="d-flex w-100 border-bottom border-start border-end border-2 no_break overflow-hidden" key={i}>
             <div className="srNoDetailPrint11 border-end p-1 d-flex align-items-center justify-content-center"><p>{e?.SrNo}</p></div>
             <div className="designDetailPrint11 border-end">
               <div className="d-flex justify-content-between p-1">
@@ -278,7 +294,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
                   <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                   <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{setting && ele?.SettingName}</p></div>
                   <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{setting && NumberWithCommas(ele?.SettingRate, 2)}</p></div>
-                  <div className='totalAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{NumberWithCommas(ele?.SettingAmount, 2)}</p></div>
+                  <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{NumberWithCommas(ele?.SettingAmount, 2)}</p></div>
                 </div>
               }) : <div className='d-flex border-bottom'>
                 <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''></p></div>
@@ -289,7 +305,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
                 <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
                 <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
-                <div className='totalAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
+                <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
               </div>
               }
               <div className='d-flex position-absolute w-100 bottom-0 totalHeightDetailPrint11 semiTotalDetailPrint11'>
@@ -299,8 +315,8 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>{fixedValues(e?.totalCol?.diaWt, 3)}</p></div>
                 <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='fw-bold'>Diamond </p><p className="fw-bold">Total</p></div>
                 <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(e?.totalCol?.diaAmount, 2)}</p></div>
-                <div className='settingTypeTotalDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>Setting Total</p></div>
-                <div className='totalAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(e?.totalCol?.settingAmount, 2)}</p></div>
+                <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>Setting</p><p>Total</p></div>
+                <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(e?.totalCol?.settingAmount, 2)}</p></div>
               </div>
             </div>
             <div className="goldDetailPrint11 border-end d-grid">
@@ -328,7 +344,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className='col-7 border-end d-flex align-items-center justify-content-center fw-bold'><p className=''>Gold Price</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p>{NumberWithCommas(e?.metalRateGold, 2)}</p></div>
               </div>
-              <div className='d-flex border-bottom'>
+              <div className='d-flex border-bottom broder-start'>
                 <div className='col-7 border-end d-flex align-items-center justify-content-center fw-bold'><p className='p-1'>Alloy</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p>{NumberWithCommas(e?.alloy, 2)}</p></div>
               </div>
@@ -351,9 +367,9 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
               </div>
             </div>
-            <div className="d-grid pad_bt_20DetailPrint11 position-relative">
-              <div className="totalAmountDetailPrint11 d-flex align-items-center justify-content-end p-1 totalAmountDetailPrint11Jewellery border-bottom"><p>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
-              <div className="totalAmountDetailPrint11 d-flex align-items-center justify-content-end p-1 totalAmountDetailPrint11Jewellery position-absolute bottom-0 w-100 min_height_20DetailPrint11"><p className='fw-bold'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+            <div className="d-grid pad_bt_20DetailPrint11 position-relative totalAmountJewelleryDetailPrint11 ">
+              <div className="d-flex align-items-center justify-content-end p-1 totalAmountDetailPrint11Jewellery border-bottom pe-2"><p>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+              <div className=" d-flex align-items-center justify-content-end p-1 totalAmountDetailPrint11Jewellery position-absolute bottom-0 w-100 min_height_20DetailPrint11 pe-2"><p className='fw-bold'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
             </div>
           </div>
         })}
@@ -362,19 +378,20 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           <div className="totalDesignDetailPrint11 border-end d-flex align-items-center justify-content-center">
             <p className='text-center fw-bold'>Total</p>
           </div>
-          <div className="diamondStoneDetailPrint11 d-grid diamondStoneDetailPrint11Total">
+          <div className="diamondStoneDetailPrint11 d-grid diamondStoneDetailPrint11">
             <div className='d-flex'>
-              <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center shapeDetailPrint11Total'><p className='fw-bold'>No of Pieces</p></div>
+              <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center sizeDetailPrint11 flex-column'><p className='fw-bold'></p></div>
+              <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center sizeDetailPrint11 flex-column'><p className='fw-bold'>No of </p><p className="fw-bold">Pieces</p></div>
               <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>{NumberWithCommas(total?.pcs, 0)}</p></div>
               <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>{fixedValues(total?.diaWt, 3)}</p></div>
               <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='fw-bold text-start'>Diamond </p><p className="fw-bold text-start">total</p>
               </div>
               <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(total?.diaAmount, 2)}</p></div>
-              <div className='settingTypeTotalDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>Setting Total</p></div>
-              <div className='settingTotalPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(total?.totalAmount, 2)}</p></div>
+              <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>Setting </p><p className="text-center fw-bold">Total</p></div>
+              <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(total?.totalAmount, 2)}</p></div>
             </div>
           </div>
-          <div className="goldDetailPrint11 border-end d-grid detailgoldDertailprint11">
+          <div className="goldDetailPrint11 border-end d-grid ">
             <div className='d-flex'>
               <div className='col-7 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>Total Gold</p></div>
               <div className='col-5 d-flex align-items-center justify-content-center'><p className='fw-bold'>{fixedValues(total?.totalGold, 3)}</p></div>
@@ -386,18 +403,23 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               <p className='fw-bold'>{NumberWithCommas(total?.totalLabour, 2)}</p>
             </div>
           </div>
-          <div className="totalAmountDetailPrint11 d-flex align-items-center justify-content-end totalAmountDetailPrint11Jewellery fw-bold px-1"><p>
+          <div className=" d-flex align-items-center justify-content-end totalAmountJewelleryDetailPrint11  fw-bold ps-1 pe-2"><p>
             <span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(total?.totalJewelleryAmount, 2)}</p></div>
         </div>
         {/* remark */}
         <div className="d-flex w-100 border-bottom border-start border-end border-2 no_break">
-          <div className="remarkDetailPrint11 border-end">
+          {/* remarkDetailPrint11 
+         blankSpaceDetailPrint11 
+         goldDetailsPrints11 
+         totalLessDetailPrint11 
+         totaljewAmountDetailPrint11 */}
+          <div className="col-5 border-end">
             <p className='p-1 fw-bold fs-6'>Remark :</p>
             <div dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }} className='p-1'></div>
           </div>
-          <div className="blankSpaceDetailPrint11 border-end">
+          <div className="col-2 border-end">
           </div>
-          <div className="goldDetailsPrints11 border-end">
+          <div className="col-2 border-end">
             {gold.gold14k && <div className="d-flex w-100 justify-content-between p-1">
               <div><p>GOLD 14K :</p></div>
               <div><p>{fixedValues(summary?.gold14k, 3)} gm</p></div>
@@ -419,7 +441,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div><p>{fixedValues(summary?.grossWt, 3)} gm</p></div>
             </div>
           </div>
-          <div className="totalLessDetailPrint11 border-end">
+          <div className="col-2 border-end">
             <div className="d-flex justify-content-between w-100 p-1">
               <p>Total</p>
             </div>
@@ -432,21 +454,22 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               <p>{json0Data?.AddLess > 0 ? "Add" : "Less"}</p>
             </div>}
           </div>
-          <div className="totaljewAmountDetailPrint11 py-1">
-            <p className='text-end py-1 fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(total?.totalJewelleryAmount, 2)}</p>
+          <div className="col-1 py-1">
+            <p className='text-end py-1 fw-bold pe-2'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(total?.totalJewelleryAmount, 2)}</p>
             {taxes.length > 0 && taxes.map((e, i) => {
-              return <p className='text-end py-1 fw-bold' key={i}><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(+e?.amount / json0Data?.CurrencyExchRate, 2)}</p>
+              return <p className='text-end py-1 fw-bold pe-2' key={i}><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(+e?.amount / json0Data?.CurrencyExchRate, 2)}</p>
             })}
-            {json0Data?.AddLess !== 0 && <p className='text-end py-1 fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{json0Data?.AddLess}</p>}
+            {json0Data?.AddLess !== 0 && <p className='text-end py-1 fw-bold pe-2'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{json0Data?.AddLess}</p>}
           </div>
         </div>
         {/* Grand total*/}
         <div className="d-flex border-bottom border-start border-end border-2 no_break">
-          <div className="grandTotalDetailprint11 border-end border-end p-1">
-            <p className='fw-bold text-end'>Grand Total </p>
-          </div>
-          <div className="grandTotalNumberDetailPrint11 py-1">
-            <p className="fw-bold text-end"><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(total?.grandTotal, 2)}</p>
+          <div className="col-5"></div>
+          <div className="col-2"></div>
+          <div className="col-2"></div>
+          <div className="col-2 border-end p-1"> <p className='fw-bold text-end'>Grand Total </p></div>
+          <div className="col-1 py-1">
+            <p className="fw-bold text-end pe-2"><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(total?.grandTotal, 2)}</p>
           </div>
         </div>
         {/* Bank Detail */}

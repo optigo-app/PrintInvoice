@@ -38,7 +38,6 @@ const BagPrint4B = ({ queries, headers }) => {
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
         datas?.map((a) => {
-          console.log(a);
           let chunkData = [];
           let chunkSize = 14;
           let length = 0;
@@ -179,7 +178,6 @@ const BagPrint4B = ({ queries, headers }) => {
                                       {e?.data?.Designcode}
                                     </div>
                                     <div className="jobDiaGoldText4A border_right4A pe-1" style={{ paddingRight: "2px" }}>
-                                      {/* {e?.data?.MetalType} */}
                                       {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                     </div>
                                   </div>
@@ -258,9 +256,6 @@ const BagPrint4B = ({ queries, headers }) => {
                                         {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                       </div>
                                     </div>
-                                    {/* <div className="size4AS border_right4A code4A_text">
-
-                                                                        </div> */}
                                     <div className="pcs4A border_right4A code4A_text"></div>
                                     <div className="wt4A border_right4A code4A_text"></div>
                                     <div className="pcs4A border_right4A code4A_text"></div>
@@ -274,9 +269,6 @@ const BagPrint4B = ({ queries, headers }) => {
                                           <div className="code4A border_right4A code4A_text" style={{ width: "94pt", lineHeight: "8px", }} >
                                             <div className="finding height_23_4A"> {elem?.Shapename} {elem?.Quality} {elem?.ColorName} </div>
                                           </div>
-                                          {/* <div className="size4AS border_right4A code4A_text"> {elem?.Sizename} </div> */}
-                                          {/* <div className="pcs4A border_right4A code4A_text"> {elem?.ActualPcs} </div>
-                                          <div className="wt4A border_right4A code4A_text"> {elem?.ActualWeight} </div> */}
                                           <div className="pcs4A border_right4A code4A_text">{NumberWithCommas(elem?.ActualPcs, 0)}</div>
                                           <div className="wt4A border_right4A code4A_text">{fixedValues(elem?.ActualWeight, 3)}</div>
                                           <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)}</div>
@@ -288,7 +280,6 @@ const BagPrint4B = ({ queries, headers }) => {
                                           key={index}
                                         >
                                           <div className="code4A border_right4A code4A_text">
-                                            {/* { elem?.ConcatedFullShapeQualityColorName } */}
                                             {elem?.LimitedShapeQualityColorCode}
                                           </div>
                                           <div className="size4AS border_right4A code4A_text">
@@ -357,7 +348,6 @@ const BagPrint4B = ({ queries, headers }) => {
                                           METAL
                                         </div>
                                         <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
-                                          {/* {e?.data?.netwt?.toFixed(3)} */}
                                           {fixedValues(e?.data?.ActualGrossweight, 3)}
                                         </div>
                                         <div className="diamond_custom_4B "></div>
@@ -374,16 +364,8 @@ const BagPrint4B = ({ queries, headers }) => {
                                   <div className="cast_ins">
                                     CAST INS.:
                                     <span className="red_4A line_height_123">
-
-                                      {/* {e?.data?.instructionData?.length > 0
-                                        ? e?.data?.instructionData ==
-                                          (null || "null")
-                                          ? ""
-                                          : e?.data?.instructionData
-                                        : ""} */}
                                       {checkInstruction(e?.data?.officeuse)}
                                       {checkInstruction(e?.data?.ProductInstruction)}
-                                      {/* {checkInstruction(e?.data?.custInstruction)} */}
                                     </span>
                                   </div>
                                 </div>
@@ -459,7 +441,6 @@ const BagPrint4B = ({ queries, headers }) => {
                                   LAB {e?.data?.MasterManagement_labname}
                                 </div>
                                 <div className="sales_Rep_letter_4A">
-                                  {/* {e?.data?.MasterManagement_labname} */}
                                   PO {e?.data?.PO}
                                 </div>
                               </div>
@@ -678,7 +659,7 @@ const BagPrint4B = ({ queries, headers }) => {
                         </div>
                       </div>
                     </> : (<>
-                      <div className="container4A" key={i}>
+                      {/* <div className="container4A" key={i}>
                         <div className="print4Apart_1">
                           <div className="part_1_4A">
                             <div className="title4A jobDiaGold4A border_bottom4A">
@@ -689,7 +670,6 @@ const BagPrint4B = ({ queries, headers }) => {
                                 {e?.data?.Designcode}
                               </div>
                               <div className="jobDiaGoldText4A border_right4A pe-1">
-                                {/* {e?.data?.MetalType} */}
                                 {e?.data?.MetalType} {e?.data?.MetalColorCo}
                               </div>
                             </div>
@@ -768,9 +748,6 @@ const BagPrint4B = ({ queries, headers }) => {
                                   {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                 </div>
                               </div>
-                              {/* <div className="size4AS border_right4A code4A_text">
-
-                                                        </div> */}
                               <div className="pcs4A border_right4A code4A_text"></div>
                               <div className="wt4A border_right4A code4A_text"></div>
                               <div className="pcs4A border_right4A code4A_text"></div>
@@ -833,7 +810,6 @@ const BagPrint4B = ({ queries, headers }) => {
                                     METAL
                                   </div>
                                   <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
-                                    {/* {e?.data?.netwt?.toFixed(3) ?? "0.000"} */}
                                     {fixedValues(e?.data?.ActualGrossweight, 3)}
                                   </div>
                                   <div className="diamond_custom_4B "></div>
@@ -848,15 +824,8 @@ const BagPrint4B = ({ queries, headers }) => {
                             <div className="cast_ins">
                               CAST INS.:
                               <span className="red_4A line_height_123">
-
-                                {/* {e?.data?.instructionData?.length > 0
-                                  ? e?.data?.instructionData == (null || "null")
-                                    ? ""
-                                    : e?.data?.instructionData
-                                  : ""} */}
                                 {checkInstruction(e?.data?.officeuse)}
                                 {checkInstruction(e?.data?.ProductInstruction)}
-                                {/* {checkInstruction(e?.data?.custInstruction)} */}
                               </span>
                             </div>
                           </div>
@@ -928,7 +897,6 @@ const BagPrint4B = ({ queries, headers }) => {
                                   LAB {e?.data?.MasterManagement_labname}
                                 </div>
                                 <div className="sales_Rep_letter_4A">
-                                  {/* {e?.data?.MasterManagement_labname} */}
                                   {(e?.data?.PO !== "" && e?.data?.PO !== "-") && `PO ${e?.data?.PO}`}
                                 </div>
                               </div>
@@ -1146,7 +1114,7 @@ const BagPrint4B = ({ queries, headers }) => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </>
                     )}
                   </>

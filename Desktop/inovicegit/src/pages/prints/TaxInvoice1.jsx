@@ -23,7 +23,6 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
     }
 
     const findMaterials = (json2, json1, json0) => {
-
         const groupedObjects = {};
         json2.forEach(item => {
             if (json1.some(srItem => srItem.SrJobno === item.StockBarcode)) {
@@ -167,7 +166,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4">
                     <div className="form-check pe-3 mb-0 pt-2">
                         <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => handleChange(e)} />
-                        <label className="form-check-label h6 mb-0">
+                        <label className="form-check-label h6 mb-0 pt-1">
                             With Image
                         </label>
                     </div>
@@ -368,11 +367,11 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div className=' border-end d-flex justify-content-between flex-column p-1 col-4'>
                         <p>Signature</p>
-                        <p className='fw-bold'>Kamlesh Patil</p>
+                        <p className='fw-bold'>{BillPrint_Json?.CustName}</p>
                     </div>
                     <div className=' d-flex justify-content-between flex-column p-1 col-4'>
                         <p>Signature</p>
-                        <p className='fw-bold'>ORAIL SERVICE</p>
+                        <p className='fw-bold'>{BillPrint_Json?.CompanyFullName}</p>
                     </div>
                 </div>
             </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>

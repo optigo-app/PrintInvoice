@@ -12,7 +12,7 @@
     width: 80px;
 }
 
-.summary12Container .sum4_table div {
+.summary12Container .sum4_table div , .summary12Container .sum4_table div > p{
     font-size: 10px;
 }
 
@@ -34,8 +34,8 @@
 }
 
 .summary12Container .amount_sum_4 {
-    min-width: 60px;
-    width: 60px;
+    min-width: 59px;
+    width: 59px;
 }
 
 .summary12Container .g_wt_sum4,

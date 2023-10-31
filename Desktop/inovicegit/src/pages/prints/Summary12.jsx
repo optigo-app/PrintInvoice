@@ -545,14 +545,14 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             </div>
                                         })}
 
-                                        <div className="d-flex justify-content-between px-2">
+                                        {billPrintJson?.AddLess !== 0 && <div className="d-flex justify-content-between px-2">
                                             <div className="sgst_text_sum4 fw-bold">
                                                 {billPrintJson?.AddLess > 0 ? 'ADD' : 'LESS'}
                                             </div>
                                             <div className="sgst_text_sum4 fw-bold">
                                                 {NumberWithCommas(billPrintJson?.AddLess, 2)}
                                             </div>
-                                        </div>
+                                        </div>}
                                     </div>
                                 </div>
                                 <div className="total_sgst_sum4 mt-1 w-100 border bg_total_sum4 mb-1 no_break d-flex">
