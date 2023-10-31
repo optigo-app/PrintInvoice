@@ -83,7 +83,8 @@ const BagPrint12A = ({ queries, headers }) => {
                     });
                     let obj = { ...a };
                     if (obj?.rd !== {}) {
-                        obj.rd.instructionData = (obj?.rd?.officeuse + obj?.rd?.custInstruction + obj?.rd?.ProductInstruction)?.substring(0, 113);
+                        // obj.rd.instructionData = (obj?.rd?.officeuse + obj?.rd?.custInstruction + obj?.rd?.ProductInstruction)?.substring(0, 113);
+                        obj.rd.instructionData = (obj?.rd?.officeuse + " " + obj?.rd?.ProductInstruction)?.substring(0, 113);
                     }
                     
                     let imagePath = queryParams?.imagepath;
@@ -95,9 +96,13 @@ const BagPrint12A = ({ queries, headers }) => {
                         chunkData.push({ data: chunks, length: len });
                     }
                     let arrData = a?.rd1?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid !== 0);
+                    let arrData1 = arrData?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid === 3); 
+                    let arrData2 = arrData?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid === 4); 
+                    let arrData3 = [...arrData1, ...arrData2];
+                    console.log(arrData3);
                     let blankData = [];
-                    for (let i = 0; i < (arrData).length; i += chunkSize) {
-                        const chunks = (arrData).slice(i, i + chunkSize);
+                    for (let i = 0; i < (arrData3).length; i += chunkSize) {
+                        const chunks = (arrData3).slice(i, i + chunkSize);
                         let blankArr = [];
                         for (let j = 0; j < chunks.length; j += 4) {
                             const sliceChunks = chunks.slice(j, j + 4);
@@ -112,104 +117,6 @@ const BagPrint12A = ({ queries, headers }) => {
                     responseData.push({ data: obj.rd, additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, page: chunkData, pages: blankData } });
                 })
 
-
-                // for (let url in print) {
-                //     let chunkData = [];
-                //     let chunkSize = 8;
-                //     const objs = {
-                //         jobno: print[url],
-                //         custid: queries.custid,
-                //         printname: queries.printname,
-                //         appuserid: queries.appuserid,
-                //         url: queries.url,
-                //         headers: headers,
-                //     };
-                //     let datas = await GetData(objs);
-                    
-                //     // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-                //     // let jsonString = JSON.stringify(p_tag);
-                //     // let base64String = btoa(jsonString);
-                //     // let Body = {
-                //     //     "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-                //     //     "p": `${base64String}`,
-                //     //     "f": `${queries.appuserid} ${queries.printname}`
-                //     // };
-                //     // let urls = atob(queries.url);
-                //     // const response = await axios.post(urls, Body, { headers: headers });
-                //     // let datas = JSON.parse(response.data.d);
-
-                //     let length = 0;
-                //     let clr = {
-                //         Shapename: "TOTAL",
-                //         Sizename: "",
-                //         ActualPcs: 0,
-                //         ActualWeight: 0,
-                //     };
-                //     let dia = {
-                //         Shapename: "TOTAL",
-                //         Sizename: "",
-                //         ActualPcs: 0,
-                //         ActualWeight: 0,
-                //     };
-                //     let misc = {
-                //         Shapename: "TOTAL",
-                //         Sizename: "",
-                //         ActualPcs: 0,
-                //         ActualWeight: 0,
-                //     };
-                //     let f = {
-                //         Shapename: "TOTAL",
-                //         Sizename: "",
-                //         ActualPcs: 0,
-                //         ActualWeight: 0,
-                //     };
-                //     datas?.rd1?.map((e, i) => {
-                //         if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
-                //             length++;
-                //         }
-                //         if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-                //             dia.ActualPcs = dia.ActualPcs + e.ActualPcs;
-                //             dia.ActualWeight = dia.ActualWeight + e.ActualWeight;
-                //         } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-                //             clr.ActualPcs = clr.ActualPcs + e.ActualPcs;
-                //             clr.ActualWeight = clr.ActualWeight + e.ActualWeight;
-                //         } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-                //             f.ActualPcs = f.ActualPcs + e.ActualPcs;
-                //             f.ActualWeight = f.ActualWeight + e.ActualWeight;
-                //         } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-                //             misc.ActualPcs = misc.ActualPcs + e.ActualPcs;
-                //             misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
-                //         }
-                //     });
-                //     let obj = { ...datas };
-                //     if (obj?.rd?.length > 0) {
-                //         obj.rd[0].instructionData = (datas?.rd[0]?.["officeuse"] + datas?.rd[0]?.["custInstruction"] + datas?.rd[0]?.["ProductInstruction"])?.substring(0, 113);
-                //     }
-                //     let imagePath = queryParams?.imagepath;
-                //     imagePath = atob(queryParams?.imagepath);
-                //     let img = imagePath + datas?.rd[0]?.ThumbImagePath;
-                //     for (let i = 0; i < (datas?.rd1).length; i += chunkSize) {
-                //         const chunks = (datas?.rd1).slice(i, i + chunkSize);
-                //         let len = 8 - ((datas?.rd1).slice(i, i + chunkSize)).length;
-                //         chunkData.push({ data: chunks, length: len });
-                //     }
-                //     let arrData = datas?.rd1.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid !== 0);
-                //     let blankData = [];
-                //     for (let i = 0; i < (arrData).length; i += chunkSize) {
-                //         const chunks = (arrData).slice(i, i + chunkSize);
-                //         let blankArr = [];
-                //         for (let j = 0; j < chunks.length; j += 4) {
-                //             const sliceChunks = chunks.slice(j, j + 4);
-                //             let len = 4 - (sliceChunks).length;
-                //             blankArr.push({ data: sliceChunks, length: len });
-                //         }
-                //         if (blankArr.length === 1) {
-                //             blankArr.push({ data: [], length: 4 });
-                //         }
-                //         blankData.push(blankArr);
-                //     }
-                //     responseData.push({ data: obj.rd[0], additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, page: chunkData, pages: blankData } });
-                // }
                 setData(responseData);
             } catch (error) {
                 console.log(error);
@@ -296,7 +203,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                                     CLIENT CODE
                                                                                 </div>
                                                                                 <div className="testing_text_12A border_right_2_12A">
-                                                                                    {/* {e?.data?.CustomerCode} */}
+                                                                                    {e?.data?.CustomerCode}
                                                                                 </div>
                                                                                 <div className="metal_col_12A border_right_2_12A">
                                                                                     NET WT
@@ -362,7 +269,8 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                                                     <div className="Item_sec_12A border_right_1_12A hide12A">{indexx === 0 && element?.Shapecode}</div>
                                                                                                     <div className="Size_sec_12A border_right_1_12A hide12A">{indexx === 0 &&element?.Sizename}</div>
                                                                                                     <div className="Pcs_sec_12A border_right_1_12A hide12A">{indexx === 0 &&element?.ActualPcs}</div>
-                                                                                                    <div className={`Wt_sec_12A ${indexx === 0 && "border_right_1_12A"} hide12A`}>{indexx === 0 && element?.ActualWeight}</div>
+                                                                                                    {/* <div className={`Wt_sec_12A ${indexx === 0 && "border_right_1_12A"} hide12A`}>{indexx === 0 && element?.ActualWeight}</div> */}
+                                                                                                    <div className={`Wt_sec_12A ${indexx === 0 && "border_right_1_12A"} hide12A`}></div>
                                                                                                 </div>
                                                                                             );
                                                                                         })}
@@ -486,7 +394,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                         GROSS WT
                                                                     </div>
                                                                     <div className="gold_18k_12A border_right_2_12A">
-                                                                        {e?.data?.ActualGrossweight}
+                                                                        {/* {e?.data?.ActualGrossweight} */}
                                                                     </div>
                                                                 </div>
                                                                 <div className="order_no_12A border_bottom_2_12A">
@@ -500,7 +408,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                         NET WT
                                                                     </div>
                                                                     <div className="gold_18k_12A border_right_2_12A">
-                                                                        {e?.data?.netwt}
+                                                                        {/* {e?.data?.netwt} */}
                                                                     </div>
                                                                 </div>
                                                                 <div className="order_no_12A border_bottom_2_12A">
@@ -540,9 +448,19 @@ const BagPrint12A = ({ queries, headers }) => {
                                                             Master detail
                                                         </div>
                                                         <div className="table_12A t12A">
+                                                        <div className="w4A">
+                                                                        <div className='item12A bg12fs'>Item</div>
+                                                                        <div className='size12A bg12fs'>Size</div>
+                                                                        <div className="pcs12A bg12fs">Pcs</div>
+                                                                        <div className='wt12A bg12fs'>Wt</div>
+                                                                        <div className='item12A bg12fs'>Item</div>
+                                                                        <div className='size12A bg12fs'>Size</div>
+                                                                        <div className="pcs12A bg12fs">Pcs</div>
+                                                                        <div className='wt12A bg12fs' style={{borderRight:"0px"}}>Wt</div>
+                                                                    </div>
                                                             {
-                                                                Array.from({length: 5}, (_,index) => (
-                                                                    <div className="w4A">
+                                                                Array.from({length: 4}, (_,index) => (
+                                                                    <div className="w4A" key={index}>
                                                                         <div className='item12A'></div>
                                                                         <div className='size12A'></div>
                                                                         <div className="pcs12A"></div>

@@ -1121,6 +1121,7 @@ const BagPrint4B = ({ queries, headers }) => {
                 );
               })
             }
+           
 
           </section>
         </>

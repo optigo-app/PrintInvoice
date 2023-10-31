@@ -161,147 +161,7 @@ const PrintDesign16 = ({ queries, headers }) => {
             },
           });
         });
-        // for (const url of print) {
-        //   let p_tag = {
-        //     SerialJobno: `${url}`,
-        //     customerid: `${queries.custid}`,
-        //     BagPrintName: `${queries.printname}`,
-        //   };
-        //   let jsonString = JSON.stringify(p_tag);
-        //   let base64String = btoa(jsonString);
-        //   let Body = {
-        //     con: `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-        //     p: `${base64String}`,
-        //     f: `${queries.appuserid} ${queries.printname}`,
-        //   };
-        //   let urls = atob(queries.url);
-        //   const response = await axios.post(urls, Body, { headers: headers });
-
-        //   let datas = JSON.parse(response.data.d);
-        //   let length = 0;
-        //   let clr = {
-        //     clrPcs: 0,
-        //     clrWt: 0,
-        //   };
-        //   let dia = {
-        //     diaPcs: 0,
-        //     diaWt: 0,
-        //   };
-        //   let diamondData = [];
-        //   let clrData = [];
-        //   let diamondWeight = 0;
-        //   let diamondPcs = 0;
-        //   let clrWeight = 0;
-        //   let clrpcs = 0;
-        //   datas.rd1.map((e, i) => {
-        //     if (
-        //       e.MasterManagement_DiamondStoneTypeid === 3 ||
-        //       e.MasterManagement_DiamondStoneTypeid === 4
-        //     ) {
-        //       length++;
-        //     }
-        //     if (e.MasterManagement_DiamondStoneTypeid === 3) {
-        //       dia.diaPcs = dia.diaPcs + e.ActualPcs;
-        //       dia.diaWt = dia.diaWt + e.ActualWeight;
-        //       diamondData.push(e);
-        //       diamondWeight = diamondWeight + e.ActualWeight;
-        //       diamondPcs = diamondPcs + e.ActualPcs;
-        //     } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
-        //       clr.clrPcs = clr.clrPcs + e.ActualPcs;
-        //       clr.clrWt = clr.clrWt + e.ActualWeight;
-        //       clrData.push(e);
-        //       clrWeight = clrWeight + e.ActualWeight;
-        //       clrpcs = clrpcs + e.ActualPcs;
-        //     }
-        //   });
-
-        //   if (diamondData.length > 0) {
-        //     let diamondDataObject = {
-        //       ActualPcs: diamondPcs,
-        //       ActualWeight: diamondWeight,
-        //       ColorCode: "",
-        //       ColorName: "",
-        //       ConcatedFullShapeQualityColorCode: "",
-        //       ConcatedFullShapeQualityColorName: "",
-        //       ConcatedShapeQualityColorName: "",
-        //       IssuePcs: "",
-        //       IssueWeight: "",
-        //       LimitedShapeQualityColorCode: "",
-        //       MasterManagement_DiamondStoneTypeid: "",
-        //       MetalColor: "",
-        //       Quality: "",
-        //       QualityCode: "",
-        //       Quality_DisplayOrder: "",
-        //       SerialJobno: "",
-        //       Shapecode: "",
-        //       Shapename: "Total",
-        //       Size_DisplayOrder: "",
-        //       Sizename: "",
-        //       TruncateShapename: "",
-        //       totalFontWeight: "900",
-        //     };
-        //     diamondData.push(diamondDataObject);
-        //   }
-        //   if (clrData.length > 0) {
-        //     let clrDataObject = {
-        //       ActualPcs: clrpcs,
-        //       ActualWeight: clrWeight,
-        //       ColorCode: "",
-        //       ColorName: "",
-        //       ConcatedFullShapeQualityColorCode: "",
-        //       ConcatedFullShapeQualityColorName: "",
-        //       ConcatedShapeQualityColorName: "",
-        //       IssuePcs: "",
-        //       IssueWeight: "",
-        //       LimitedShapeQualityColorCode: "",
-        //       MasterManagement_DiamondStoneTypeid: "",
-        //       MetalColor: "",
-        //       Quality: "",
-        //       QualityCode: "",
-        //       Quality_DisplayOrder: "",
-        //       SerialJobno: "",
-        //       Shapecode: "",
-        //       Shapename: "Total",
-        //       Size_DisplayOrder: "",
-        //       Sizename: "",
-        //       TruncateShapename: "",
-        //       totalFontWeight: "900",
-        //     };
-        //     clrData.push(clrDataObject);
-        //   }
-        //   let originlData = [...diamondData, ...clrData];
-        //   let chData = [];
-        //   let count = 0;
-        //   for (let i = 0; i < originlData.length; i += chunkSize) {
-        //     let len = 15 - originlData.slice(i, i + chunkSize).length;
-        //     count++;
-
-        //     if (count % 5 === 0) {
-        //     }
-        //     chData.push({
-        //       data: originlData.slice(i, i + chunkSize),
-        //       length: len,
-        //     });
-        //   }
-        //   if (chData.length === 0) {
-        //     length = 15;
-        //   } else {
-        //     length = 13 - length;
-        //   }
-        //   let imagePath = queryParams.imagepath;
-        //   imagePath = atob(queryParams.imagepath);
-        //   let img = imagePath + datas?.rd[0]?.ThumbImagePath;
-        //   responseData.push({
-        //     data: datas,
-        //     additional: {
-        //       length: length,
-        //       clr: clr,
-        //       dia: dia,
-        //       img: img,
-        //       chdata: chData,
-        //     },
-        //   });
-        // }
+     
         setData(responseData);
       } catch (error) {
         console.log(error);
@@ -327,7 +187,7 @@ const PrintDesign16 = ({ queries, headers }) => {
     e.preventDefault();
     window.print();
   };
-
+console.log(data);
   return (
     <div>
       {data?.length === 0 ? (
@@ -344,7 +204,7 @@ const PrintDesign16 = ({ queries, headers }) => {
               </button>
             </div>
             <div className="d_flex flex_wrap  print_section bag_design_2">
-              {Array.from(
+              {Array?.from(
                 { length: queries?.pageStart },
                 (_, index) =>
                   index > 0 && (
