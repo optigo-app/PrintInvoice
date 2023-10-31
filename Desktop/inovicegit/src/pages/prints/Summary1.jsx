@@ -494,7 +494,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   src={headerData?.PrintLogo}
                                   id="sum1Img"
                                   alt="#summary1"
-                                  onError={handleImageError}
                                 />
                               </div>
                             </div>

@@ -181,7 +181,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
 
           </div>
           <div className='px-1 py-2'>
-            <img src={json0Data?.PrintLogo} alt="" className='w-25 h-auto ms-auto d-block' onError={handleImageError} />
+            <img src={json0Data?.PrintLogo} alt="" className='w-25 h-auto ms-auto d-block' />
           </div>
         </div>
         {/* address */}

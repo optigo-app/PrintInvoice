@@ -154,7 +154,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
             <p>{json0Data?.vat_cst_pan} | {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No} | PAN-EDJHF236D</p>
           </div>
           <div className="col-3 pt-2 pb-2">
-            <img src={json0Data?.PrintLogo} alt="logo" onError={handleImageError} className="w-75 d-block ms-auto " />
+            <img src={json0Data?.PrintLogo} alt="logo" className="w-75 d-block ms-auto " />
           </div>
         </div>
         <div className="d-flex border mb-2">

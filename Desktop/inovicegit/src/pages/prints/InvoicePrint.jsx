@@ -104,7 +104,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
           <p>{json0?.CompanyEmail} | {json0?.CompanyWebsite}</p>
         </div>
         <div className='col-2'>
-          <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS//companylogo/projectlogo.png" alt="" className='w-100' />
+          <img src={json0?.PrintLogo} alt="" className='w-100' />
         </div>
       </div>
       {/* bill no */}

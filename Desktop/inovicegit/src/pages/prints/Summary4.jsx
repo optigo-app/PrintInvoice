@@ -385,7 +385,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <p className='address_para_sum4 lh-1 pb-1'>{billPrintJson?.Company_VAT_GST_No} | {billPrintJson?.Cust_CST_STATE}-{billPrintJson?.Company_CST_STATE_No} | PAN-EDJHF236D </p>
                 </div>
                 <div className="logo_sec_sum4">
-                    <img src={billPrintJson?.PrintLogo} alt="Logo" onError={handleImageError} />
+                    <img src={billPrintJson?.PrintLogo} alt="Logo" />
                 </div>
             </div>}
             <div className="">

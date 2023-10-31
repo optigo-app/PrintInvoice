@@ -431,7 +431,6 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         src={headerData?.PrintLogo}
                         alt="#"
                         id="JLImg"
-                        onError={(e) => handleImageError(e)}
                       />
                     </div>
                   </div>

@@ -113,7 +113,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                         // metalColor = metals[i]?.MetalColor;
                         metalRate = NumberWithCommas(metals[ind]?.Rate, 2);
                     }
-                    let goldValue =  ind === 0 ? NumberWithCommas(e?.MetalAmount, 2) - e?.LossAmt : "";
+                    let goldValue =  ind === 0 ? NumberWithCommas(e?.MetalAmount - e?.LossAmt, 2) : "";
                     if(goldValue === 0){
                         goldValue = ""
                     }

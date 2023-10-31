@@ -573,7 +573,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                         src={headerData?.PrintLogo}
                         alt="#"
                         id="pcl3Img"
-                        onError={(e) => handleImageError(e)}
                       />
                     </div>
                   </div>
