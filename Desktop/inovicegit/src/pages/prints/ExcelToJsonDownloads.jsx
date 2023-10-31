@@ -387,7 +387,7 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <td width={100} style={{ textAlign: "center" }}>{e?.designNo}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.sencoDesignNo}</td>
                                     <td width={160} style={{ textAlign: "center" }}>
-                                    {(!e?.totalObjTital && e?.image !== "") && <img src={e?.image} alt="" onError={handleImageError} width={150} height={100} style={{paddingLeft: "10px"}}/>}
+                                    {(!e?.totalObjTital && e?.image !== "") && <img src={e?.image} alt="" onError={handleImageError} width={150} height={80} style={{paddingLeft: "10px", objectFit: "contain"}}/>}
                                     </td>
                                     <td width={150} style={{ textAlign: "center" }}>{e?.category}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.size}</td>

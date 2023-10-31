@@ -14,7 +14,6 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     const toWords = new ToWords();
 
     const loadData = (data) => {
-        console.log(data);
         setHeaderData(data?.BillPrint_Json[0])
     }
 

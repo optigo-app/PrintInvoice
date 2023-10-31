@@ -187,7 +187,6 @@ const PrintDesign16 = ({ queries, headers }) => {
     e.preventDefault();
     window.print();
   };
-console.log(data);
   return (
     <div>
       {data?.length === 0 ? (

@@ -42,7 +42,6 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
     }
 
     const loadData = (data) => {
-        console.log(data);
         setHeaderData(data?.BillPrint_Json[0]);
         let arr = [];
         let totals = { ...total };

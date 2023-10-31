@@ -9,7 +9,6 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [data, setData] = useState([]);
 
     const loadData = (data) => {
-        console.log(data);
         setData(data?.BillPrint_Json1);
     }
 
