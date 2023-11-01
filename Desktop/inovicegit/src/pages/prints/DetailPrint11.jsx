@@ -323,36 +323,36 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
             <div className="goldDetailPrint11 border-end d-grid">
               <div className='d-flex border-bottom'>
-                <div className='col-7 border-end d-flex align-items-center justify-content-center fw-bold'><p className=''>Quality</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className=''>Quality</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{e?.MetalPurity} {e?.MetalColor}</p></div>
               </div>
               <div className='d-flex border-bottom'>
-                <div className='col-7 border-end d-flex align-items-center justify-content-center fw-bold'><p className=''>Gross Weight(Gms)</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className=''>Gross Weight(Gms)</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{fixedValues(e?.grosswt, 3)} G</p></div>
               </div>
               <div className='d-flex border-bottom'>
-                <div className='col-7 border-end d-flex align-items-center justify-content-center fw-bold'><p className=''>Net Weight</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className=''>Net Weight</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{fixedValues(e?.NetWt, 3)} G</p></div>
               </div>
               <div className='d-flex border-bottom'>
-                <div className='col-7 border-end d-flex align-items-center justify-content-center fw-bold'><p className=''>Gold Loss</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className=''>Gold Loss</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p>{fixedValues(e?.LossPer, 0)}%</p></div>
               </div>
               <div className='d-flex border-bottom'>
-                <div className='col-7 border-end d-flex align-items-center justify-content-center fw-bold flex-column'><p>Pure Gold weight</p><p> with Loss</p></div>
+                <div className='col-7 border-end d-flex align-items-start justify-content-center fw-bold flex-column px-1'><p>Pure Gold weight</p><p> with Loss</p></div>
                 {/* <div className='col-5 d-flex align-items-center justify-content-center'><p>{fixedValues(e?.puregoldWeightWithLoss, 3)} G</p></div> */}
                 <div className='col-5 d-flex align-items-center justify-content-center'><p>{e?.MetalAmount !== 0 ? NumberWithCommas(e?.MetalAmount, 2) :  fixedValues(e?.fineWt, 3)} G</p></div>
               </div>
               <div className='d-flex border-bottom'>
-                <div className='col-7 border-end d-flex align-items-center justify-content-center fw-bold'><p className=''>Gold Price</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className=''>Gold Price</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p>{NumberWithCommas(e?.metalRateGold, 2)}</p></div>
               </div>
               <div className='d-flex border-bottom broder-start'>
-                <div className='col-7 border-end d-flex align-items-center justify-content-center fw-bold'><p className='p-1'>Alloy</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className='p-1'>Alloy</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p>{NumberWithCommas(e?.alloy, 2)}</p></div>
               </div>
               <div className='d-flex'>
-                <div className='col-7 border-end d-flex align-items-center justify-content-center fw-bold'><p className='p-1'>Total Gold</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className='p-1'>Total Gold</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p className='fw-bold'>{NumberWithCommas(e?.totalGold, 2)}</p></div>
               </div>
             </div>

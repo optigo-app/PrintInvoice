@@ -47,6 +47,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
         let totals = { ...total };
         let metalWeight = 0;
         let diamondJewellery = false;
+        let miscAmount = 0;
         data?.BillPrint_Json2.forEach((e, i) => {
             if (e?.MasterManagement_DiamondStoneTypeid === 4) {
                 metalWeight += e?.Wt;
@@ -66,6 +67,9 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                 totals.qtyWeight += e?.Wt;
                 let resultArr = resultAray(arr, e);
                 arr = [...resultArr];
+            }
+            if (e?.MasterManagement_DiamondStoneTypeid === 3) {
+                miscAmount += e?.Amount;
             }
         });
         !diamondJewellery && setDiscription("Gold Jewellery");
@@ -96,7 +100,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
         }, { MakingAmount: 0, OtherCharges: 0, TotalAmount: 0 });
 
         let obj = {
-            labour: result?.MakingAmount,
+            labour: result?.MakingAmount+miscAmount,
             other: result?.OtherCharges,
             labourRate: (result?.MakingAmount/data?.BillPrint_Json[0]?.CurrencyExchRate) / metalWeight
         }
@@ -108,7 +112,6 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
         totals.grandTotal = grandTotal;
         setTotal(totals);
 
-        // console.log(taxValue);
         setTaxes(taxValue);
         setAnother(obj);
     }
