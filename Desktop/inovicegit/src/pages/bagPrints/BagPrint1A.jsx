@@ -43,98 +43,61 @@ function BagPrint1A({ queries, headers }) {
         // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           imgUrls?.push(a?.rd?.ThumbImagePath);
-          // let diamondData = [];
-          // let clrData = [];
-          // let diamondWeight = 0;
-          // let diamondPcs = 0;
-          // let clrWeight = 0;
-          // let clrpcs = 0;
-          // let chData = [];
-
-          // let imagePath = queryParams?.imagepath;
-          // imagePath = atob(queryParams?.imagepath);
-          // let img = imagePath + a?.rd?.ThumbImagePath;
-
           let separateData = GetSeparateData(a?.rd1);
-
           separateData?.diamondArr?.unshift({
             heading: "DIAMOND DETAIL",
             MasterManagement_DiamondStoneTypeid: 3,
           });
-
-          // ArrofFiveSize.push(clr);
-          // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
           separateData?.colorStoneArr?.unshift({
             heading: "COLOR STONE DETAIL",
             MasterManagement_DiamondStoneTypeid: 4,
           });
-          // ArrofFiveSize.unshift({ heading: "COLOR STONE DETAIL", MasterManagement_DiamondStoneTypeid: 4 });
-
-          // ArrofFSize.push(f);
-          // ArrofFSize[0].heading = "FINDING DETAIL";
-          // ArrofFSize.unshift({ heading: "FINDING DETAIL", MasterManagement_DiamondStoneTypeid: 5 });
           separateData?.findingArr?.unshift({
             heading: "FINDING DETAIL",
             MasterManagement_DiamondStoneTypeid: 5,
           });
-
-          // ArrofMISize.push(misc);
-          // ArrofMISize[0].heading = "MISC DETAIL";
-          // ArrofMISize.unshift({ heading: "MISC DETAIL", MasterManagement_DiamondStoneTypeid: 7 });
           separateData?.miscArr?.unshift({
             heading: "MISC DETAIL",
             MasterManagement_DiamondStoneTypeid: 7,
           });
-
           // eslint-disable-next-line array-callback-return
           separateData?.diamondArr?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              // ArrofSevenSize = [];
               separateData.diamondArr = [];
             }
           });
           // eslint-disable-next-line array-callback-return
           separateData?.colorStoneArr?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              // ArrofFiveSize = [];
               separateData.colorStoneArr = [];
             }
           });
           // eslint-disable-next-line array-callback-return
           separateData?.miscArr?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              // ArrofMISize = [];
               separateData.miscArr = [];
             }
           });
           // eslint-disable-next-line array-callback-return
           separateData?.findingArr?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              // ArrofFSize = [];
               separateData.findingArr = [];
             }
           });
 
           let arr = [];
-          // let mainArr = arr.concat(ArrofSevenSize, ArrofFiveSize, ArrofMISize, ArrofFSize);
           let mainArr = arr?.concat(
             separateData?.diamondArr,
             separateData?.colorStoneArr,
             separateData?.miscArr,
             separateData?.findingArr
           );
-
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
-
           let img = imagePath + a?.rd?.ThumbImagePath;
-
           let arrofCHunk = GetChunkData(chunkSize11, mainArr);
           let ins = InstructionGenerate(a?.rd);
           a.rd.ShowInstruction = ins;
-          // let objmt = { ...a?.rd };
-          // objmt.ShowInstruction = ins;
-          // console.log(objmt);
           responseData.push({
             data: a,
             additional: {
@@ -149,365 +112,9 @@ function BagPrint1A({ queries, headers }) {
           });
           setData(responseData);
         });
-
-        // for (let url in print) {
-        //   let chunkData = [];
-        //   const obj = {
-        //     jobno: print[url],
-        //     custid: queries.custid,
-        //     printname: queries.printname,
-        //     appuserid: queries.appuserid,
-        //     url: queries.url,
-        //     headers: headers,
-        //   };
-
-        //   let datas = await GetData(obj);
-        //   const orderDatef = formatDate(datas?.rd[0]?.OrderDate);
-        //   const promiseDatef = formatDate(datas?.rd[0]?.promisedate);
-
-        //   datas?.rd?.map((e) => {
-        //     e.orderDatef = orderDatef;
-        //     e.promiseDatef = promiseDatef;
-        //     //
-        //   });
-        //   let separateData = GetSeparateData(datas?.rd1);
-
-        //   // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-        //   // let jsonString = JSON.stringify(p_tag);
-        //   // let base64String = btoa(jsonString);
-        //   // let Body = {
-        //   //     "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-        //   //     "p": `${base64String}`,
-        //   //     "f": `${queries.appuserid} ${queries.printname}`
-        //   // };
-        //   // let urls = atob(queries.url);
-        //   // const response = await axios.post(urls, Body, { headers: headers });
-        //   // let datas = JSON.parse(response.data.d);
-        //   // let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-        //   // let jsonString = JSON.stringify(p_tag);
-        //   // let base64String = btoa(jsonString);
-        //   // let Body = {
-        //   //     "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-        //   //     "p": `${base64String}`,
-        //   //     "f": `${queries.appuserid} ${queries.printname}`
-        //   // };
-        //   // let urls = atob(queries.url);
-        //   // const response = await axios.post(urls, Body, { headers: headers });
-        //   // let datas = JSON.parse(response.data.d);
-
-        //   // let diamondArr = [];
-        //   // let colorStoneArr = [];
-        //   // let miscArr = [];
-        //   // let findingDetailArr = [];
-
-        //   // let resultArr = [];
-
-        //   // // diamondArr.length > 0 && diamondArr.push({ title: "total", name: "diamond" });
-        //   // // colorStoneArr.length > 0 && colorStoneArr.push({ title: "total", name: "colorStone" });
-        //   // // miscArr.length > 0 && miscArr.push({ title: "total", name: "misc" });
-        //   // // findingDetailArr.length > 0 && findingDetailArr.push({ title: "total", name: "findingDetail" });
-
-        //   // // diamondArr.length > 0 && diamondArr.unshift({ tital: "diamond", title: "diamond" });
-        //   // // colorStoneArr.length > 0 && colorStoneArr.unshift({ tital: "colorStone", title: "colorStone" });
-        //   // // miscArr.length > 0 && miscArr.unshift({ tital: "misc", title: "misc" });
-        //   // // findingDetailArr.length > 0 && findingDetailArr.unshift({ tital: "findingDetail", title: "findingDetail" });
-        //   // // let newArr = [];
-
-        //   // // if (diamondArr.length > 0) { newArr = resultArr.concat(diamondArr); }
-        //   // // if (colorStoneArr.length > 0) { newArr = resultArr.concat(colorStoneArr); };
-        //   // // if (miscArr.length > 0) { newArr = resultArr.concat(miscArr); }
-        //   // // if (findingDetailArr.length > 0) { newArr = resultArr.concat(findingDetailArr); }
-
-        //   // function chunkArrayWithHeadingsAndRemoveDuplicates(arr, chunkSize) {
-        //   //     const chunks = [];
-        //   //     let currentHeading = "";
-        //   //     let typeIdFromSecondChunk = null;
-
-        //   //     for (let i = 0; i < arr.length; i += chunkSize) {
-        //   //         const chunk = arr.slice(i, i + chunkSize);
-        //   //         let typeId = null; // Initialize typeId
-
-        //   //         // Remove "tital" object when "heading" is the same within the chunk
-        //   //         const uniqueChunk = [];
-        //   //         for (const obj of chunk) {
-        //   //             if (obj.heading !== currentHeading) {
-        //   //                 uniqueChunk.push(obj);
-        //   //                 if (!typeId && obj.MasterManagement_DiamondStoneTypeid) {
-        //   //                     typeId = obj.MasterManagement_DiamondStoneTypeid;
-        //   //                 }
-        //   //             }
-        //   //         }
-
-        //   //         // Define headings based on typeId
-        //   //         let heading = "";
-        //   //         switch (typeId) {
-        //   //             case 3:
-        //   //                 heading = "diamond";
-        //   //                 break;
-        //   //             case 4:
-        //   //                 heading = "colorstone";
-        //   //                 break;
-        //   //             case 5:
-        //   //                 heading = "finding detail";
-        //   //                 break;
-        //   //             case 7:
-        //   //                 heading = "misc";
-        //   //                 break;
-        //   //             default:
-        //   //                 heading = currentHeading;
-        //   //                 // If typeId is not available in the first chunk, use typeId from the second chunk
-        //   //                 if (!typeIdFromSecondChunk) {
-        //   //                     const secondChunk = arr.slice(chunkSize, chunkSize + chunkSize);
-        //   //                     if (secondChunk.length > 0) {
-        //   //                         typeIdFromSecondChunk = secondChunk[0].MasterManagement_DiamondStoneTypeid;
-        //   //                     }
-        //   //                 }
-        //   //                 typeId = typeIdFromSecondChunk;
-        //   //         }
-
-        //   //         // Add the heading object to the beginning of the chunk
-        //   //         uniqueChunk.unshift({ heading });
-
-        //   //         // Update the current heading for the next chunk
-        //   //         currentHeading = heading;
-
-        //   //         // Split the uniqueChunk into smaller chunks of 10 objects each
-        //   //         for (let j = 0; j < uniqueChunk.length; j += 10) {
-        //   //             const subChunk = uniqueChunk.slice(j, j + 10);
-        //   //             chunks.push(subChunk);
-        //   //         }
-        //   //     }
-
-        //   //     return chunks;
-        //   // }
-
-        //   // const chunkSize = 10;
-
-        //   // const chunksWithHeadings = chunkArrayWithHeadingsAndRemoveDuplicates(newArr, chunkSize);
-
-        //   // // Split the main array into subarrays
-        //   // const subarrays = [];
-        //   // for (let i = 0; i < chunksWithHeadings.length; i += chunkSize) {
-        //   //     subarrays.push(chunksWithHeadings.slice(i, i + chunkSize));
-        //   // }
-
-        //   // let length = 0;
-        //   // let clr = {
-        //   //     Shapename: "TOTAL",
-        //   //     Sizename: "",
-        //   //     ActualPcs: 0,
-        //   //     ActualWeight: 0,
-        //   //     MasterManagement_DiamondStoneTypeid: 4
-        //   //     // heading: "COLOR STONE DETAIL"
-        //   // };
-        //   // let dia = {
-        //   //     Shapename: "TOTAL",
-        //   //     Sizename: "",
-        //   //     ActualPcs: 0,
-        //   //     ActualWeight: 0,
-        //   //     MasterManagement_DiamondStoneTypeid: 3
-        //   //     // heading: "DIAMOND DETAIL"
-        //   // };
-        //   // let misc = {
-        //   //     Shapename: "TOTAL",
-        //   //     Sizename: "",
-        //   //     ActualPcs: 0,
-        //   //     ActualWeight: 0,
-        //   //     MasterManagement_DiamondStoneTypeid: 7
-        //   //     // heading: "MISC DETAIL"
-        //   // };
-        //   // let f = {
-        //   //     Shapename: "TOTAL",
-        //   //     Sizename: "",
-        //   //     ActualPcs: 0,
-        //   //     ActualWeight: 0,
-        //   //     MasterManagement_DiamondStoneTypeid: 5
-        //   //     // heading: "FINDING DETAIL"
-        //   // };
-        //   // let ArrofSevenSize = [];
-        //   // //arr for colorstone
-        //   // let ArrofFiveSize = [];
-        //   // let ArrofMISize = [];
-        //   // let ArrofFSize = [];
-
-        //   // datas?.rd1?.map((e, i) => {
-
-        //   //     if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
-        //   //         length++;
-        //   //     }
-        //   //     if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-        //   //         diamondArr.push(e);
-        //   //         ArrofSevenSize.push(e);
-        //   //         dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
-        //   //         dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
-
-        //   //     } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-        //   //         colorStoneArr.push(e);
-        //   //         ArrofFiveSize.push(e);
-        //   //         clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
-        //   //         clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
-        //   //     } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-        //   //         findingDetailArr.push(e);
-        //   //         ArrofFSize.push(e);
-        //   //         f.ActualPcs = f.ActualPcs + e?.ActualPcs;
-        //   //         f.ActualWeight = f.ActualWeight + e?.ActualWeight;
-        //   //     } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-        //   //         miscArr.push(e);
-        //   //         ArrofMISize.push(e);
-        //   //         misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
-        //   //         misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
-        //   //     }
-        //   // });
-
-        //   // dia.ActualPcs = +(dia.ActualPcs.toFixed(3));
-        //   // dia.ActualWeight = +(dia.ActualWeight.toFixed(3));
-        //   // clr.ActualPcs = +(clr.ActualPcs.toFixed(3));
-        //   // clr.ActualWeight = +(clr.ActualWeight.toFixed(3));
-        //   // misc.ActualPcs = +(misc.ActualPcs.toFixed(3));
-        //   // misc.ActualWeight = +(misc.ActualWeight.toFixed(3));
-        //   // f.ActualPcs = +(f.ActualPcs.toFixed(3));
-        //   // f.ActualWeight = +(f.ActualWeight.toFixed(3));
-
-        //   // ArrofSevenSize.push(dia);
-        //   // ArrofSevenSize.push(dia);
-        //   // ArrofSevenSize[0].heading = "DIAMOND DETAIL";
-        //   // ArrofSevenSize.unshift({ heading: "DIAMOND DETAIL", MasterManagement_DiamondStoneTypeid: 3 });
-        //   separateData?.diamondArr.unshift({
-        //     heading: "DIAMOND DETAIL",
-        //     MasterManagement_DiamondStoneTypeid: 3,
-        //   });
-
-        //   // ArrofFiveSize.push(clr);
-        //   // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
-        //   separateData?.colorStoneArr.unshift({
-        //     heading: "COLOR STONE DETAIL",
-        //     MasterManagement_DiamondStoneTypeid: 4,
-        //   });
-        //   // ArrofFiveSize.unshift({ heading: "COLOR STONE DETAIL", MasterManagement_DiamondStoneTypeid: 4 });
-
-        //   // ArrofFSize.push(f);
-        //   // ArrofFSize[0].heading = "FINDING DETAIL";
-        //   // ArrofFSize.unshift({ heading: "FINDING DETAIL", MasterManagement_DiamondStoneTypeid: 5 });
-        //   separateData?.findingArr.unshift({
-        //     heading: "FINDING DETAIL",
-        //     MasterManagement_DiamondStoneTypeid: 5,
-        //   });
-
-        //   // ArrofMISize.push(misc);
-        //   // ArrofMISize[0].heading = "MISC DETAIL";
-        //   // ArrofMISize.unshift({ heading: "MISC DETAIL", MasterManagement_DiamondStoneTypeid: 7 });
-        //   separateData?.miscArr.unshift({
-        //     heading: "MISC DETAIL",
-        //     MasterManagement_DiamondStoneTypeid: 7,
-        //   });
-
-        //   separateData?.diamondArr?.map((e) => {
-        //     if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-        //       // ArrofSevenSize = [];
-        //       separateData.diamondArr = [];
-        //     }
-        //   });
-
-        //   separateData?.colorStoneArr.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       // ArrofFiveSize = [];
-        //       separateData.colorStoneArr = [];
-        //     }
-        //   });
-
-        //   separateData?.miscArr.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       // ArrofMISize = [];
-        //       separateData.miscArr = [];
-        //     }
-        //   });
-
-        //   separateData?.findingArr.map((e) => {
-        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-        //       // ArrofFSize = [];
-        //       separateData.findingArr = [];
-        //     }
-        //   });
-
-        //   let arr = [];
-        //   // let mainArr = arr.concat(ArrofSevenSize, ArrofFiveSize, ArrofMISize, ArrofFSize);
-        //   let mainArr = arr.concat(
-        //     separateData?.diamondArr,
-        //     separateData?.colorStoneArr,
-        //     separateData?.miscArr,
-        //     separateData?.findingArr
-        //   );
-        //   // let createdMainArr = [];
-        //   // for (let i = 0; i < mainArr.length; i += chunkSize11) {
-        //   //     const chunks = mainArr.slice(i, i + chunkSize11);
-        //   //     let mainHeading = "";
-        //   //     let emptyHeading = "";
-        //   //     let createdChunks = [];
-        //   //     chunks.map((ele, ind) => {
-        //   //         if (ele.MasterManagement_DiamondStoneTypeid && mainHeading === "") {
-        //   //             mainHeading = ele.heading;
-        //   //             let head = "";
-        //   //             if (ele.MasterManagement_DiamondStoneTypeid === 3) {
-        //   //                 head = "DIAMOND DETAIL";
-        //   //             } else if (ele.MasterManagement_DiamondStoneTypeid === 4) {
-        //   //                 head = "COLOR STONE DETAIL";
-        //   //             } else if (ele.MasterManagement_DiamondStoneTypeid === 5) {
-        //   //                 head = "FINDING DETAIL";
-        //   //             } else if (ele.MasterManagement_DiamondStoneTypeid === 7) {
-        //   //                 head = "MISC DETAIL";
-        //   //             }
-        //   //             let obj = {
-        //   //                 mainHeading: head
-        //   //             };
-        //   //             createdChunks.unshift(obj);
-        //   //             createdChunks.push(ele);
-        //   //         } else if (ele.heading) {
-        //   //             if (mainHeading === ele.heading) {
-        //   //                 emptyHeading = "full";
-        //   //             } else {
-        //   //                 createdChunks.push(ele);
-        //   //             }
-        //   //         } else {
-        //   //             createdChunks.push(ele);
-        //   //         }
-        //   //     });
-        //   //     createdMainArr.push(createdChunks);
-        //   // }
-
-        //   let imagePath = queryParams?.imagepath;
-        //   imagePath = atob(queryParams?.imagepath);
-
-        //   let img = imagePath + datas?.rd[0]?.ThumbImagePath;
-
-        //   let arrofCHunk = GetChunkData(chunkSize11, mainArr);
-
-        //   // for (let i = 0; i < mainArr.length; i += chunkSize11) {
-        //   //     const chunks = mainArr.slice(i, i + chunkSize11);
-        //   //     let len = 15 - (mainArr.slice(i, i + chunkSize11)).length;
-        //   //     chunkData.push({ data: chunks, length: len });
-        //   // }
-        //   responseData.push({
-        //     data: datas,
-        //     additional: {
-        //       length: separateData?.length,
-        //       clr: separateData?.clr,
-        //       dia: separateData?.dia,
-        //       f: separateData?.f,
-        //       img: img,
-        //       misc: separateData?.misc,
-        //       pages: arrofCHunk,
-        //     },
-        //   });
-        //   // responseData.push({ data: datas, additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, pages: chunkData } });
-        // }
         const endTime = performance?.now();
-        
         // eslint-disable-next-line no-unused-vars
         const elapsedTime = (endTime - startTime) / 1000;
-        // console.log(`Time taken: ${elapsedTime} seconds`);
-        // console.log(`Time taken: ${elapsedTime/60} minutes`);
-
-        // setData(responseData);
       } catch (error) {
         console.log(error);
       }
@@ -655,39 +262,6 @@ function BagPrint1A({ queries, headers }) {
                                         {e?.data?.rd?.orderDatef?.toUpperCase()}
                                       </div>
                                     </div>
-                                    {/* {
-                                                                                ele.data.map((el, ins) => {
-
-                                                                                    if (el.MasterManagement_DiamondStoneTypeid === 3 && ins === 0) {
-                                                                                        return (
-                                                                                            <>
-                                                                                                <div className='print1Adia'><b>DIAMOND DETAIL</b></div>
-                                                                                            </>
-                                                                                        );
-                                                                                    }
-                                                                                    else if (el.MasterManagement_DiamondStoneTypeid === 4 && ins === 0) {
-                                                                                        return (
-                                                                                            <>
-                                                                                                <div className='print1Adia'><b>COLOR STONE DETAIL</b></div>
-                                                                                            </>
-                                                                                        );
-                                                                                    }
-                                                                                    else if (el.MasterManagement_DiamondStoneTypeid === 5 && ins === 0) {
-                                                                                        return (
-                                                                                            <>
-                                                                                                <div className='print1Adia'><b>FINDING DETAIL</b></div>
-                                                                                            </>
-                                                                                        );
-                                                                                    }
-                                                                                    else if (el.MasterManagement_DiamondStoneTypeid === 7 && ins === 0) {
-                                                                                        return (
-                                                                                            <>
-                                                                                                <div className='print1Adia'><b>MISC DETAIL</b></div>
-                                                                                            </>
-                                                                                        );
-                                                                                    }
-                                                                                })
-                                                                            } */}
                                   </div>
                                 </div>
                                 <div className="print1A_header_bagImgPart2">

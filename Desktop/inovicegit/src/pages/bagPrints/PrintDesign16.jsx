@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import printData from "../json/print_2.json";
-// import printData from "../../assets/json/";
 import printData from "../../assets/json/print_2.json";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
@@ -12,15 +10,14 @@ import { organizeData } from "./../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 
 const PrintDesign16 = ({ queries, headers }) => {
-  // console.log(printData);
   const location = useLocation();
   const queryParams = queryString?.parse(location?.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const [data, setData] = useState([]);
   const chunkSize = 15;
   useEffect(() => {
-    if (Object.keys(queryParams).length !== 0) {
-      atob(queryParams.imagepath);
+    if (Object.keys(queryParams)?.length !== 0) {
+      atob(queryParams?.imagepath);
     }
     const fetchData = async () => {
       try {
@@ -36,6 +33,7 @@ const PrintDesign16 = ({ queries, headers }) => {
         let allDatas = await GetData(objs);
 
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           let length = 0;
           let clr = {
@@ -52,6 +50,7 @@ const PrintDesign16 = ({ queries, headers }) => {
           let diamondPcs = 0;
           let clrWeight = 0;
           let clrpcs = 0;
+          // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (
               e?.MasterManagement_DiamondStoneTypeid === 3 ||
@@ -171,7 +170,6 @@ const PrintDesign16 = ({ queries, headers }) => {
   }, []);
 
   const handleImageError = (e) => {
-    // e.target.src = require("../assets/images/default.jpg");
     e.target.src = require("../../assets/img/default.jpg");
   };
 
@@ -217,10 +215,10 @@ const PrintDesign16 = ({ queries, headers }) => {
               {data?.map((e, i) => {
                 if (e?.additional?.chdata?.length === 0) {
                   return (
-                    <>
+                    <React.Fragment key={`bagprint16${i}`}>
                       <div
                         className="container_2 ml_8mm mb_2 mt_2 pt_2 bag_2"
-                        key={`bagprint16${i}`}
+                        
                       >
                         <div className="print_2 ">
                           <div className="border_collapse print_design_2">
@@ -238,11 +236,9 @@ const PrintDesign16 = ({ queries, headers }) => {
                                   className="thikborder"
                                   style={{
                                     background: "rgb(138, 255, 20)",
-                                    // background: ``,
                                     borderRight: "1px solid black",
                                   }}
                                 >
-                                  {/* <div className='thikborder' style={{ background: `${e?.data?.rd[0].prioritycolorcode}`, borderRight: "1px solid black" }}> */}
                                   <div className="d_flex print_2_head px_2">
                                     <div className="text_end pt_2px pr_2">
                                       <span
@@ -316,23 +312,6 @@ const PrintDesign16 = ({ queries, headers }) => {
                                                 e?.data?.rd?.Designcode1
                                               }(${1}PCS)`
                                             : `${e?.data?.rd?.Designcode1}(${e?.data?.rd?.Quantity} PCS)`}
-                                        {/* {e?.data?.rd?.Quantity === 0
-                                          ? `${
-                                              e?.data?.rd?.Designcode1?.length >
-                                              0
-                                                ? e?.data?.rd?.Designcode1
-                                                : ""
-                                            }(${1}PCS)`
-                                          : `${
-                                              e?.data?.rd?.Designcode1?.length >
-                                              0
-                                                ? e?.data?.rd?.Designcode1
-                                                : ""
-                                            }(${
-                                              e?.data?.rd?.Quantity?.length > 0
-                                                ? e?.data?.rd?.Quantity
-                                                : "0 "
-                                            }PCS)`} */}
                                       </span>
                                       <span
                                         style={{ fontWeight: "normal" }}
@@ -400,7 +379,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     <div className="jobInfo16">
                                       <div className="net16A">
                                         <b>
-                                          {(e?.data?.rd?.netwt ?? 0).toFixed(3)}
+                                          {(e?.data?.rd?.netwt ?? 0)?.toFixed(3)}
                                         </b>
                                       </div>
                                       <div className="net16A">
@@ -775,7 +754,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     RHD-QC
                                   </div>
                                 </div>
-                                {printData[2]?.map((e, i) => {
+                                {
+                                  
+                                // eslint-disable-next-line array-callback-return
+                                printData[2]?.map((e, i) => {
                                   if (
                                     e["0"] !== "DGN INS:" &&
                                     e["0"] !== "PRD INS:" &&
@@ -939,15 +921,15 @@ const PrintDesign16 = ({ queries, headers }) => {
                           </div>
                         </div>
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 } else {
                   return e?.additional?.chdata?.map((chunk, index) => {
                     return (
-                      <>
+                      <React.Fragment key={index}>
                         <div
                           className="container_2 ml_8mm mb_2 mt_2 pt_2 bag_2"
-                          key={index}
+                          
                         >
                           <div className="print_2 ">
                             <div className="border_collapse print_design_2">
@@ -1261,7 +1243,6 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       paddingLeft: "2px",
                                       fontWeight: "900",
                                       width: "46px",
-                                      fontSize: "11px",
                                     }}
                                   >
                                     QUALITY
@@ -1429,19 +1410,6 @@ const PrintDesign16 = ({ queries, headers }) => {
                                             ? "line_height_fontSmall"
                                             : ""
                                         } wtnewclasscol16`}
-                                        // style={{
-                                        //   width: "7.3792291667mm",
-                                        //   fontWeight:
-                                        //     e.totalFontWeight === "900"
-                                        //       ? "900"
-                                        //       : "bold",
-                                        //   fontSize: "9px",
-                                        //   height: "3.7041666667mm",
-                                        //   textAlign: "end",
-                                        //   paddingRight: "0.2645833333mm",
-                                        //   paddingLeft: "1.3229166667mm",
-                                        //   lineHeight: "7px",
-                                        // }}
                                       >
                                         {e?.Shapename === "Total" ? (
                                           <b
@@ -1465,19 +1433,6 @@ const PrintDesign16 = ({ queries, headers }) => {
                                             ? "line_height_fontSmall"
                                             : ""
                                         } newclasscol16`}
-                                        // style={{
-                                        //   width: "8.9667291667mm",
-                                        //   fontWeight:
-                                        //     e.totalFontWeight === "900"
-                                        //       ? "900"
-                                        //       : "bold",
-                                        //   fontSize: "9px",
-                                        //   height: "3.7041666667mm",
-                                        //   textAlign: "end",
-                                        //   paddingRight: "1.3229166667mm",
-                                        //   paddingLeft: "1.3229166667mm",
-                                        //   lineHeight: "7px",
-                                        // }}
                                       >
                                         {e?.Shapename === "Total" ? (
                                           <b
@@ -1674,7 +1629,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       RHD-QC
                                     </div>
                                   </div>
-                                  {printData[2]?.map((e, i) => {
+                                  {
+
+                                  // eslint-disable-next-line array-callback-return
+                                  printData[2]?.map((e, i) => {
                                     if (
                                       e["0"] !== "DGN INS:" &&
                                       e["0"] !== "PRD INS:" &&
@@ -1843,7 +1801,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   });
                 }

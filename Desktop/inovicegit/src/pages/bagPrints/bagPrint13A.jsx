@@ -18,8 +18,8 @@ const BagPrint13A = ({ queries, headers }) => {
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize17 = 16;
   useEffect(() => {
-    if (Object.keys(queryParams).length !== 0) {
-      atob(queryParams.imagepath);
+    if (Object.keys(queryParams)?.length !== 0) {
+      atob(queryParams?.imagepath);
     }
     const fetchData = async () => {
       try {
@@ -34,6 +34,7 @@ const BagPrint13A = ({ queries, headers }) => {
         };
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           let length = 0;
           let clr = {
@@ -64,6 +65,7 @@ const BagPrint13A = ({ queries, headers }) => {
           let ArrofFiveSize = [];
           let ArrofMISize = [];
           let ArrofFSize = [];
+          // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
@@ -130,7 +132,7 @@ const BagPrint13A = ({ queries, headers }) => {
   }, []);
 
   useEffect(() => {
-    if (data.length !== 0) {
+    if (data?.length !== 0) {
       setTimeout(() => {
         window.print();
       }, 5000);
@@ -138,7 +140,7 @@ const BagPrint13A = ({ queries, headers }) => {
   }, [data]);
   return (
     <>
-      {data.length === 0 ? (
+      {data?.length === 0 ? (
         <Loader />
       ) : (
         <>
@@ -164,7 +166,7 @@ const BagPrint13A = ({ queries, headers }) => {
                 )
             )}
             {data?.length > 0 &&
-              data.map((e, i) => {
+              data?.map((e, i) => {
                 return (
                   <React.Fragment key={i}>
                     {e?.additional?.pages?.length > 0 ? (

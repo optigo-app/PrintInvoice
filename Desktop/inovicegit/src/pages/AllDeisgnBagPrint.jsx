@@ -21,7 +21,6 @@ import BagPrint12A from './bagPrints/BagPrint12A';
 import BagPrint18A from './bagPrints/BagPrint18A';
 import BagPrint4B from './bagPrints/BagPrint4B';
 // import BagPrint17A from './bagPrints/BagPrint17A';
-
 // import Bg18 from './bagPrints/Bg18';
 import BagPrint20A from './bagPrints/BagPrint20A';
 

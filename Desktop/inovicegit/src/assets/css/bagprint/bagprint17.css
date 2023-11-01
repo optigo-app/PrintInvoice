@@ -2001,6 +2001,10 @@ table {
   .separatedfs17old{
     font-size: 10.5px;
   }
+  .fs17125{
+    font-size: 12.5px !important;
+    font-weight: bold;
+  }
 /* @media print {
 
 

@@ -60,39 +60,26 @@ const BagPrint18A = ({ queries, headers }) => {
 
           let length = 0;
           let clr = {
-            // Shapename: "TOTAL",
-            // Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 4,
-            // heading: "COLOR STONE DETAIL"
           };
           let dia = {
-            // Shapename: "TOTAL",
-            // Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 3,
-            // heading: "DIAMOND DETAIL"
           };
           let misc = {
-            // Shapename: "TOTAL",
-            // Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 7,
-            // heading: "MISC DETAIL"
           };
           let f = {
-            // Shapename: "TOTAL",
-            // Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 5,
-            // heading: "FINDING DETAIL"
           };
           let ArrofSevenSize = [];
-          //arr for colorstone
           let ArrofFiveSize = [];
           let ArrofMISize = [];
           let ArrofFSize = [];

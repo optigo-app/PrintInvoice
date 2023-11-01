@@ -31,6 +31,7 @@ const Bg18 = ({ queries, headers }) => {
         };
         let allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           let diamondArr = [];
           let colorStoneArr = [];
@@ -75,6 +76,7 @@ const Bg18 = ({ queries, headers }) => {
           let ArrofFiveSize = [];
           let ArrofMISize = [];
           let ArrofFSize = [];
+          // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
@@ -170,11 +172,11 @@ const Bg18 = ({ queries, headers }) => {
             {data?.length > 0 &&
               data?.map((e, i) => {
                 return (
-                  <>
+                  <React.Fragment key={i}>
                     {e?.additional?.pages?.length > 0 &&
-                      e?.additional?.pages?.map((e, i) => {
+                      e?.additional?.pages?.map((e, ins) => {
                         return (
-                          <>
+                          <React.Fragment key={ins}>
                             <div className="containerBg18">
                               <div className="headBg18">
                                 <div className="h2Bg18">
@@ -257,7 +259,7 @@ const Bg18 = ({ queries, headers }) => {
                                 </div>
                                 <div className="tbodyBg18">
                                   {Array.from({ length: 11 }, (_, index) => (
-                                    <div className="tbodyrBg18">
+                                    <div className="tbodyrBg18" key={index}>
                                       <div
                                         className="d-flex justify-content-center align-items-center h-100 brBg18"
                                         style={{ width: "113px" }}
@@ -283,10 +285,10 @@ const Bg18 = ({ queries, headers }) => {
                                 </div>
                               </div>
                             </div>
-                          </>
+                          </React.Fragment>
                         );
                       })}
-                  </>
+                  </React.Fragment>
                 );
               })}
           </div>

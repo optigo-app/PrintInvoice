@@ -1,9 +1,7 @@
-import axios from "axios";
 import queryString from "query-string";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "../../assets/css/bagprint/print6A.css";
-import { formatDate } from "../../GlobalFunctions/DateFormat";
 import { GetChunkData } from "../../GlobalFunctions/GetChunkData";
 import { GetData } from "../../GlobalFunctions/GetData";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
@@ -19,10 +17,9 @@ const BagPrint6A = ({ queries, headers }) => {
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize7 = 11;
-
   useEffect(() => {
-    if (Object.keys(queryParams).length !== 0) {
-      atob(queryParams.imagepath);
+    if (Object.keys(queryParams)?.length !== 0) {
+      atob(queryParams?.imagepath);
     }
     const fetchData = async () => {
       try {
@@ -40,9 +37,9 @@ const BagPrint6A = ({ queries, headers }) => {
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           
-          let PType = "";
           if (a?.rd?.ProductType !== (null || undefined || "")) {
             if (
               a?.rd?.ProductType?.length > 0 &&
@@ -57,61 +54,48 @@ const BagPrint6A = ({ queries, headers }) => {
 
           let length = 0;
           let clr = {
-            // Shapename: "TOTAL",
             Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "COLOR STONE DETAIL"
           };
           let dia = {
-            // Shapename: "TOTAL",
             Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "DIAMOND DETAIL"
           };
           let misc = {
-            // Shapename: "TOTAL",
             Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "MISC DETAIL"
           };
           let f = {
-            // Shapename: "TOTAL",
             Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "FINDING DETAIL"
           };
           let ArrofSevenSize = [];
-          //arr for colorstone
           let ArrofFiveSize = [];
           let ArrofMISize = [];
           let ArrofFSize = [];
 
-          a?.rd1?.map((e, i) => {
+          a?.rd1?.forEach((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
             }
             if (e?.MasterManagement_DiamondStoneTypeid === 3) {
               ArrofSevenSize.push(e);
-              // ArrofSevenSize[0].heading = "DIAMOND DETAIL";
               dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
               dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
               ArrofFiveSize.push(e);
-              // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
               clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
               clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
               ArrofFSize.push(e);
-              // ArrofFSize[0].heading = "FINDING DETAIL";
               f.ActualPcs = f.ActualPcs + e?.ActualPcs;
               f.ActualWeight = f.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
               ArrofMISize.push(e);
-              // ArrofMISize[0].heading = "MISC DETAIL";
               misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
               misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
             }
@@ -125,36 +109,6 @@ const BagPrint6A = ({ queries, headers }) => {
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
-
-          ArrofSevenSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofSevenSize = [];
-            } else {
-              e.heading = "DIAMOND DETAIL";
-            }
-          });
-          ArrofFiveSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofFiveSize = [];
-            } else {
-              e.heading = "COLOR STONE DETAIL";
-            }
-          });
-          ArrofMISize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofMISize = [];
-            } else {
-              e.heading = "MISC DETAIL";
-            }
-          });
-          ArrofFSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofFSize = [];
-            } else {
-              e.heading = "FINDING DETAIL";
-            }
-          });
-
           let arr = [];
           let mainArr = arr.concat(
             ArrofSevenSize,
@@ -223,12 +177,12 @@ const BagPrint6A = ({ queries, headers }) => {
                   ></div>
                 )
             )}
-            {data.length > 0 &&
-              data.map((e, inx) => {
+            {data?.length > 0 &&
+              data?.map((e, inx) => {
                 return (
                   <React.Fragment key={inx}>
                     {e?.additional?.pages?.length > 0 ? (
-                      e?.additional?.pages.map((ele, i) => {
+                      e?.additional?.pages?.map((ele, i) => {
                         return (
                           <div className="container6A" key={i}>
                             <div className="jobInfo6A">
@@ -343,7 +297,6 @@ const BagPrint6A = ({ queries, headers }) => {
                                       " " +
                                       e?.data?.rd?.MetalColor}
                                   </div>
-                                  {/* <div className="right6Ab"></div> */}
                                   <div className="right6Ac"></div>
                                   <div className="right6Ad"></div>
                                 </div>

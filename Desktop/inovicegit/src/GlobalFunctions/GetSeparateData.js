@@ -38,6 +38,7 @@ export const GetSeparateData = (data) => {
         MasterManagement_DiamondStoneTypeid: 5
         // heading: "FINDING DETAIL"
     };
+    // eslint-disable-next-line array-callback-return
     data?.map((e) => {
         if (e?.MasterManagement_DiamondStoneTypeid === 0) {
             length++;
@@ -64,21 +65,20 @@ export const GetSeparateData = (data) => {
             miscArr.push(e);
         }
     });
-    dia.ActualPcs = +(dia.ActualPcs.toFixed(3));
-    dia.ActualWeight = +(dia.ActualWeight.toFixed(3));
-    clr.ActualPcs = +(clr.ActualPcs.toFixed(3));
-    clr.ActualWeight = +(clr.ActualWeight.toFixed(3));
-    misc.ActualPcs = +(misc.ActualPcs.toFixed(3));
-    misc.ActualWeight = +(misc.ActualWeight.toFixed(3));
-    f.ActualPcs = +(f.ActualPcs.toFixed(3));
-    f.ActualWeight = +(f.ActualWeight.toFixed(3));
+    dia.ActualPcs = +(dia.ActualPcs?.toFixed(3));
+    dia.ActualWeight = +(dia.ActualWeight?.toFixed(3));
+    clr.ActualPcs = +(clr.ActualPcs?.toFixed(3));
+    clr.ActualWeight = +(clr.ActualWeight?.toFixed(3));
+    misc.ActualPcs = +(misc.ActualPcs?.toFixed(3));
+    misc.ActualWeight = +(misc.ActualWeight?.toFixed(3));
+    f.ActualPcs = +(f.ActualPcs?.toFixed(3));
+    f.ActualWeight = +(f.ActualWeight?.toFixed(3));
 
     diamondArr.push(dia);
     colorStoneArr.push(clr);
     findingArr.push(f);
     miscArr.push(misc);
 
-    // console.log(diamondArr, colorStoneArr, findingArr, miscArr, EmptyArr);
     obj = {
         diamondArr,
         colorStoneArr,

@@ -10,6 +10,7 @@ import { handleImageError } from '../../GlobalFunctions/HandleImageError';
 import { organizeData } from '../../GlobalFunctions/OrganizeBagPrintData';
 import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
 import { InstructionGenerate } from '../../GlobalFunctions/InstructionGenerate';
+import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 const BagPrint3A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -36,6 +37,7 @@ const BagPrint3A = ({ queries, headers }) => {
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
 
           let length = 0;
@@ -68,6 +70,7 @@ const BagPrint3A = ({ queries, headers }) => {
           let ArrofFiveSize = [];
           let ArrofMISize = [];
           let ArrofFSize = [];
+          // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
@@ -102,7 +105,7 @@ const BagPrint3A = ({ queries, headers }) => {
           ArrofFiveSize.push(clr);
           ArrofFSize.push(f);
           ArrofMISize.push(misc);
-          ArrofSevenSize.map((e) => {
+          ArrofSevenSize.forEach((e) => {
             if (e.ActualPcs === 0 && e.ActualWeight === 0) {
               ArrofSevenSize = [];
             } else {
@@ -110,7 +113,7 @@ const BagPrint3A = ({ queries, headers }) => {
             }
           }
           );
-          ArrofFiveSize.map((e) => {
+          ArrofFiveSize.forEach((e) => {
             if (e.ActualPcs === 0 && e.ActualWeight === 0) {
               ArrofFiveSize = [];
             } else {
@@ -118,7 +121,7 @@ const BagPrint3A = ({ queries, headers }) => {
             }
           }
           );
-          ArrofMISize.map((e) => {
+          ArrofMISize.forEach((e) => {
             if (e.ActualPcs === 0 && e.ActualWeight === 0) {
               ArrofMISize = [];
             } else {
@@ -126,7 +129,7 @@ const BagPrint3A = ({ queries, headers }) => {
             }
           }
           );
-          ArrofFSize.map((e) => {
+          ArrofFSize.forEach((e) => {
             if (e.ActualPcs === 0 && e.ActualWeight === 0) {
               ArrofFSize = [];
             } else {
@@ -150,12 +153,9 @@ const BagPrint3A = ({ queries, headers }) => {
     };
     fetchData();
   }, []);
-  function handlePrint(e) {
-    e.preventDefault();
-    window.print();
-  }
+  
   useEffect(() => {
-    if (data.length !== 0) {
+    if (data?.length !== 0) {
       setTimeout(() => {
         window.print();
       }, 5000);

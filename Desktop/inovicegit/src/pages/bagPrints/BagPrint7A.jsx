@@ -16,8 +16,8 @@ const BagPrint7A = ({ queries, headers }) => {
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize7 = 6;
   useEffect(() => {
-    if (Object.keys(queryParams).length !== 0) {
-      atob(queryParams.imagepath);
+    if (Object.keys(queryParams)?.length !== 0) {
+      atob(queryParams?.imagepath);
     }
     const fetchData = async () => {
       try {
@@ -33,6 +33,7 @@ const BagPrint7A = ({ queries, headers }) => {
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           let chunkData = [];
           let length = 0;
@@ -68,6 +69,7 @@ const BagPrint7A = ({ queries, headers }) => {
           let ArrofFiveSize = [];
           let ArrofMISize = [];
           let ArrofFSize = [];
+          // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
@@ -102,6 +104,7 @@ const BagPrint7A = ({ queries, headers }) => {
           ArrofFiveSize.push(clr);
           ArrofFSize.push(f);
           ArrofMISize.push(misc);
+          // eslint-disable-next-line array-callback-return
           ArrofSevenSize?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               ArrofSevenSize = [];
@@ -109,6 +112,7 @@ const BagPrint7A = ({ queries, headers }) => {
               e.heading = "DIAMOND DETAIL";
             }
           });
+          // eslint-disable-next-line array-callback-return
           ArrofFiveSize?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               ArrofFiveSize = [];
@@ -116,6 +120,7 @@ const BagPrint7A = ({ queries, headers }) => {
               e.heading = "COLOR STONE DETAIL";
             }
           });
+          // eslint-disable-next-line array-callback-return
           ArrofMISize?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               ArrofMISize = [];
@@ -123,6 +128,7 @@ const BagPrint7A = ({ queries, headers }) => {
               e.heading = "MISC DETAIL";
             }
           });
+          // eslint-disable-next-line array-callback-return
           ArrofFSize?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               ArrofFSize = [];
@@ -140,10 +146,13 @@ const BagPrint7A = ({ queries, headers }) => {
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
+
+                
+
           for (let i = 0; i < mainArr?.length; i += chunkSize7) {
             const chunks = mainArr?.slice(i, i + chunkSize7);
             let len = 6 - mainArr?.slice(i, i + chunkSize7)?.length;
-            chunkData.push({ data: chunks, length: len });
+            chunkData?.push({ data: chunks, length: len });
           }
           responseData.push({
             data: a,
@@ -417,13 +426,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                       </p>
                                     </div>
                                   </div>
-                                  {/* <div className='tableHead7A'>
-                                      <div className='type7B'>
-                                        <p className='size7A' style={{ width: "74px" }}>Size</p>
-                                        <p className='size7A'>Pcs</p>
-                                        <p className='size7A' style={{ borderRight: "0px" }}>Wt.</p>
-                                        </div>
-                                    </div> */}
+                      
                                 </div>
                                 <div className="divide7A">
                                   <div>
@@ -572,13 +575,10 @@ const BagPrint7A = ({ queries, headers }) => {
                                       );
                                     })}
                                     {
-                                      // ele?.data?.map((a) => {
                                       Array.from(
                                         { length: ele?.length },
                                         (_, index) => (
-                                          // a.Shapename === "TOTAL" ? <div className='tableHead7A' style={{ display: "none" }}>
-                                          //   <div className='type7A' ><p className='w7A'>{a.Shapename}</p><p className='w7A'>{a.QualityCode}</p><p className='w7A'>{a.ColorCode}</p></div>
-                                          // </div> :
+                                       
                                           <div
                                             className="tableHead7A"
                                             key={index}
@@ -619,71 +619,11 @@ const BagPrint7A = ({ queries, headers }) => {
                                           </div>
                                         )
                                       )
-                                      // return (
-                                      //   <>
-                                      //     {
-                                      //       a.Shapename === "TOTAL" ? <div className='tableHead7A' style={{ display: "none" }}>
-                                      //         <div className='type7A' ><p className='w7A'>{a.Shapename}</p><p className='w7A'>{a.QualityCode}</p><p className='w7A'>{a.ColorCode}</p></div>
-                                      //       </div> : <div className='tableHead7A'>
-                                      //         <div className='type7A' style={{ height: "15px" }} ><p className='w7A'>{a.Shapename}</p><p className='w7A'>{a.QualityCode}</p><p className='w7A'>{a.ColorCode}</p></div>
-                                      //       </div>
-                                      //     }
-
-                                      //   </>
-                                      // );
+                
                                     }
                                   </div>
                                   <div className="size7AHeight">
-                                    {/* {
-                                        ele?.data?.map((a) => {
-                                          return (
-                                            <>
-                                              {
-                                                a.Shapename === "TOTAL" ?
-                                                  <div className=''>
-                                                    {
-                                                      a?.MasterManagement_DiamondStoneTypeid === 3 && <div className='type7B' style={{ height: "16px" }}>
-                                                        <p className='size7A' style={{ width: "74px" }}><b style={{ fontSize: "10px" }}>D TOTAL</b></p>
-                                                        <p className='size7A'><b style={{ fontSize: "9px" }}>{a.ActualPcs}</b></p>
-                                                        <p className='size7A'><b style={{ borderRight: "0px", fontSize: "9px" }}></b></p>
-                                                      </div>
-                                                    }
-                                                    {
-                                                      a?.MasterManagement_DiamondStoneTypeid === 4 && <div className='type7B' style={{ height: "16px" }}>
-                                                        <p className='size7A' style={{ width: "74px" }}><b style={{ fontSize: "10px" }}>C TOTAL</b></p>
-                                                        <p className='size7A' ><b style={{ fontSize: "9px" }}>{a.ActualPcs}</b></p>
-                                                        <p className='size7A' ><b style={{ borderRight: "0px", fontSize: "9px" }}></b></p>
-                                                      </div>
-                                                    }
-                                                    {
-                                                      a?.MasterManagement_DiamondStoneTypeid === 5 && <div className='type7B' style={{ height: "16px" }}>
-                                                        <p className='size7A' style={{ width: "74px" }}><b style={{ fontSize: "10px" }}>F TOTAL</b></p>
-                                                        <p className='size7A'><b style={{ fontSize: "9px" }}>{a.ActualPcs}</b></p>
-                                                        <p className='size7A' ><b style={{ borderRight: "0px", fontSize: "9px" }}></b></p>
-                                                      </div>
-                                                    }
-                                                    {
-                                                      a?.MasterManagement_DiamondStoneTypeid === 7 && <div className='type7B' style={{ height: "16px" }}>
-                                                        <p className='size7A' style={{ width: "74px" }}><b style={{ fontSize: "10px" }}>M TOTAL</b></p>
-                                                        <p className='size7A'><b style={{ fontSize: "9px" }}>{a.ActualPcs}</b></p>
-                                                        <p className='size7A' ><b style={{ borderRight: "0px solid", fontSize: "9px" }}></b></p>
-                                                      </div>
-                                                    }
-
-                                                  </div> :
-                                                  <div className=''>
-                                                    <div className='type7B' style={{ height: "16px" }}>
-                                                      <p className='size7A' style={{ width: "74px", display: "flex", justifyContent: "flex-start", paddingLeft: "2px", lineHeight:"8px" }}>{a.Sizename}</p>
-                                                      <p className='size7A'>{a?.ActualPcs}</p>
-                                                      <p className='size7A' style={{ borderRight: "0px" }}>{ }</p></div>
-                                                  </div>
-                                              }
-
-                                            </>
-                                          );
-                                        })
-
-                                      } */}
+                                   
                                   </div>
                                 </div>
                                 <div className="d-flex">
@@ -782,12 +722,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                       ></div>
                                     </div>
                                   </div>
-                                  {/* <div className="anotherBarcode7A">
-                                    hello
-                                    <BarcodeGenerator
-                                      data={e?.data?.rd?.serialjobno}
-                                    />
-                                  </div> */}
+
                                 </div>
                               </div>
                             </div>
@@ -848,10 +783,11 @@ const BagPrint7A = ({ queries, headers }) => {
                                   e?.data?.rd?.QuoteRemark +
                                   e?.data?.rd?.ProductInstruction
                                 )?.length > 0
-                                  ? e?.data?.rd?.custInstruction +
+                                  ? (e?.data?.rd?.custInstruction +
                                       e?.data?.rd?.QuoteRemark +
-                                      e?.data?.rd?.ProductInstruction ==
-                                    (null || "null")
+                                      e?.data?.rd?.ProductInstruction) === null &&  (e?.data?.rd?.custInstruction +
+                                      e?.data?.rd?.QuoteRemark +
+                                      e?.data?.rd?.ProductInstruction === "null")
                                     ? ""
                                     : (
                                         e?.data?.rd?.custInstruction +
@@ -868,111 +804,7 @@ const BagPrint7A = ({ queries, headers }) => {
                     ) : (
                       <div className="container7A">
                         <div className="head7A">
-                          {/* <div className="head7AjobInfo">
-                            <div className="head7AjobInfoJobNO" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
-                              <div>
-                                Ord. : {e?.data?.rd?.orderDatef ?? ""}
-                              </div>
-                              <div>
-                                Due : {e?.data?.rd?.promiseDatef ?? ""}
-                              </div>
-                              <div>
-                                <b>{e?.data?.rd?.serialjobno}</b>
-                              </div>
-                            </div>
-                            <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
-                              <div>
-                                Party: <b>{e?.data?.rd?.CustomerCode}</b>
-                              </div>
-                              <div>
-                                Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
-                              </div>
-                            </div>
-                            <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`, position:"absolute"}}>
-                              <div>
-                                Dg No. : <b>{e?.data?.rd?.Designcode}</b>
-                              </div>
-                              <div className="clspr7brcode">
-                                {e?.data?.rd?.length !== 0 &&
-                                  e?.data?.rd !== undefined && (
-                                    <>
-                                      {e?.data?.rd?.serialjobno !==
-                                        undefined && (
-                                        <BarcodeGenerator
-                                          data={e?.data?.rd?.serialjobno}
-                                        />
-                                      )}
-                                    </>
-                                  )}
-                              </div>
-                            </div>
-                            <div className="party7A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
-                              <div>Size: {e?.data?.rd?.Size}</div>
-                              <div>({e?.data?.rd?.Quantity})Pcs</div>
-                              <div>{e?.data?.rd?.prioritycode}</div>
-                            </div>
-
-                            <div className="mat7AInfo">
-                              <div className="pcswt7A">
-                                <div className="net7A">
-                                  <b>Net Wt.</b>
-                                </div>
-                                <div className="net7A">
-                                  {e?.data?.rd?.netwt}
-                                </div>
-                                <div className="net7A">
-                                  <b>Gr Wt.</b>
-                                </div>
-                                <div className="net7A">
-                                  {e?.data?.rd?.ActualGrossweight}
-                                </div>
-                              </div>
-                              <div className="pcswt7A">
-                                <div className="net7A">
-                                  <b>Dia Pcs:</b>
-                                </div>
-                                <div className="net7A">
-                                  {e?.additional?.dia?.ActualPcs}
-                                </div>
-                                <div className="net7A">
-                                  <b>Dia Wt.</b>
-                                </div>
-                                <div className="net7A">
-                                  {e?.additional?.dia?.ActualWeight?.toFixed(3)}
-                                </div>
-                              </div>
-                              <div className="pcswt7A">
-                                <div className="net7A">
-                                  <b>Clr Pcs:</b>
-                                </div>
-                                <div className="net7A">
-                                  {e?.additional?.clr?.ActualPcs}
-                                </div>
-                                <div className="net7A">
-                                  <b>Clr Wt.</b>
-                                </div>
-                                <div className="net7A">
-                                  {e?.additional?.clr?.ActualWeight?.toFixed(3)}
-                                </div>
-                              </div>
-                              <div className="pcswt7A">
-                                <div className="net7A">
-                                  <b>Misc Pcs:</b>
-                                </div>
-                                <div className="net7A">
-                                  {e?.additional?.misc?.ActualPcs}
-                                </div>
-                                <div className="net7A">
-                                  <b>Misc Wt.</b>
-                                </div>
-                                <div className="net7A">
-                                  {e?.additional?.misc?.ActualWeight?.toFixed(
-                                    3
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
+                      
                           <div className="head7AjobInfo">
                             <div
                               className="head7AjobInfoJobNO"
@@ -1118,11 +950,9 @@ const BagPrint7A = ({ queries, headers }) => {
                               {e?.data?.rd?.MetalColorCo}
                             </div>
                           </div>
-                          {/* <div className='imgSize7A'><div className='img7A'>img</div><div className='borderBottom7A'>GOLD 18K YL</div></div> */}
                         </div>
                         <div className="main7A">
                           <div className="main7AEntry">
-                            {/* <div style={{ height: "13px" }}></div> */}
                             <div className="d-flex justify-content-between align-items-center dup7Aemt">
                               <div className="w7A">Type</div>
                               <div className="w7A">Purity</div>
@@ -1145,21 +975,7 @@ const BagPrint7A = ({ queries, headers }) => {
                               className="tableHead7A"
                               style={{ borderBottom: "1px solid #989898" }}
                             >
-                              {/* <div className="type7A">
-                                <p className="w7A">Type</p>
-                                <p className="w7A">Purity</p>
-                                <p className="w7A">Color</p>
-                              </div>
-                              <div className="type7B">
-                                <p className="size7A">Size</p>
-                                <p className="size7A">Pcs</p>
-                                <p
-                                  className="size7A"
-                                  style={{ borderRight: "0px" }}
-                                >
-                                  Wt.
-                                </p>
-                              </div> */}
+                   
                             </div>
                             <div className="tableHead7B">
                               <div className="dept7A" style={{ width: "63px" }}>
@@ -1286,10 +1102,11 @@ const BagPrint7A = ({ queries, headers }) => {
                               e?.data?.rd?.QuoteRemark +
                               e?.data?.rd?.ProductInstruction
                             )?.length > 0
-                              ? e?.data?.rd?.custInstruction +
+                              ? (e?.data?.rd?.custInstruction +
                                   e?.data?.rd?.QuoteRemark +
-                                  e?.data?.rd?.ProductInstruction ==
-                                (null || "null")
+                                  e?.data?.rd?.ProductInstruction) === null && (e?.data?.rd?.custInstruction +
+                                  e?.data?.rd?.QuoteRemark +
+                                  e?.data?.rd?.ProductInstruction) === 'null'
                                 ? ""
                                 : (
                                     e?.data?.rd?.custInstruction +

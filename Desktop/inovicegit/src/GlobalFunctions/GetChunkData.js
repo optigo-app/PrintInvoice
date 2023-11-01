@@ -5,6 +5,5 @@ export const GetChunkData = (chunkSize, arr) => {
         let len = chunkSize - (arr?.slice(i, i + chunkSize))?.length;
         chunkData?.push({ data: chunks, length: len });
     }
-    console.log(chunkData);
     return chunkData;
 }

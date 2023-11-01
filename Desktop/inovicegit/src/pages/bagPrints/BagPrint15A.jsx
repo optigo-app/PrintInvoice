@@ -54,6 +54,7 @@ const BagPrint15A = ({ queries, headers }) => {
                     let diaQuaCol = [];
                     let ArrofSevenSize = [];
                     let ArrofFiveSize = [];
+                    // eslint-disable-next-line array-callback-return
                     a?.rd1?.map((e, i) => {
                         if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
                             length++;

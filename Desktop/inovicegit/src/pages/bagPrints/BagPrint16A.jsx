@@ -20,8 +20,8 @@ const BagPrint16A = ({ queries, headers }) => {
   const imgUrls = [];
 
   useEffect(() => {
-    if (Object.keys(queryParams).length !== 0) {
-      atob(queryParams.imagepath);
+    if (Object.keys(queryParams)?.length !== 0) {
+      atob(queryParams?.imagepath);
     }
     const fetchData = async () => {
       try {
@@ -64,28 +64,26 @@ const BagPrint16A = ({ queries, headers }) => {
           a?.rd1?.map((e, i) => {
             
             if (
-              e.MasterManagement_DiamondStoneTypeid === 3 ||
-              e.MasterManagement_DiamondStoneTypeid === 4
-            ) {
+              e?.MasterManagement_DiamondStoneTypeid === 3 || e?.MasterManagement_DiamondStoneTypeid === 4 ) {
               length++;
             }
-            if (e.MasterManagement_DiamondStoneTypeid === 3) {
-              dia.diaPcs = dia.diaPcs + e.ActualPcs;
-              dia.diaWt = dia.diaWt + e.ActualWeight;
+            if (e?.MasterManagement_DiamondStoneTypeid === 3) {
+              dia.diaPcs = dia.diaPcs + e?.ActualPcs;
+              dia.diaWt = dia.diaWt + e?.ActualWeight;
               diamondData.push(e);
-              diamondWeight = diamondWeight + e.ActualWeight;
-              diamondPcs = diamondPcs + e.ActualPcs;
-            } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
-              clr.clrPcs = clr.clrPcs + e.ActualPcs;
-              clr.clrWt = clr.clrWt + e.ActualWeight;
+              diamondWeight = diamondWeight + e?.ActualWeight;
+              diamondPcs = diamondPcs + e?.ActualPcs;
+            } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
+              clr.clrPcs = clr.clrPcs + e?.ActualPcs;
+              clr.clrWt = clr.clrWt + e?.ActualWeight;
               clrData.push(e);
-              clrWeight = clrWeight + e.ActualWeight;
-              clrpcs = clrpcs + e.ActualPcs;
+              clrWeight = clrWeight + e?.ActualWeight;
+              clrpcs = clrpcs + e?.ActualPcs;
             }
 
 
           });
-          if (diamondData.length > 0) {
+          if (diamondData?.length > 0) {
             let diamondDataObject = {
               ActualPcs: diamondPcs,
               ActualWeight: diamondWeight,
@@ -112,7 +110,7 @@ const BagPrint16A = ({ queries, headers }) => {
             };
             diamondData.push(diamondDataObject);
           }
-          if (clrData.length > 0) {
+          if (clrData?.length > 0) {
             let clrDataObject = {
               ActualPcs: clrpcs,
               ActualWeight: clrWeight,
@@ -141,18 +139,18 @@ const BagPrint16A = ({ queries, headers }) => {
           }
             let originaldata = [...diamondData, ...clrData];
             let count = 0;
-            for (let i = 0; i < originaldata.length; i += chunkSize) {
-              let len = 14 - originaldata.slice(i, i + chunkSize).length;
+            for (let i = 0; i < originaldata?.length; i += chunkSize) {
+              let len = 14 - originaldata?.slice(i, i + chunkSize)?.length;
               count++;
 
               if (count % 5 === 0) {
               }
-              chData.push({
-                data: originaldata.slice(i, i + chunkSize),
+              chData?.push({
+                data: originaldata?.slice(i, i + chunkSize),
                 length: len,
               });
             }
-            if (chData.length === 0) {
+            if (chData?.length === 0) {
               length = 14;
             } else {
               length = 12 - length;
@@ -232,7 +230,7 @@ const BagPrint16A = ({ queries, headers }) => {
                               <div className="job16A">
                                 <div>
                                   <b style={{ fontSize: "15px" }}>
-                                    {/* {e?.data?.rd?.serialjobno} */}
+                                    
                                     {e?.data?.serialjobno}
                                   </b>
                                 </div>
@@ -378,8 +376,8 @@ const BagPrint16A = ({ queries, headers }) => {
                           <div className="img16A">
                             <img
                               src={
-                                e.additional.img !== ""
-                                  ? e.additional.img
+                                e?.additional?.img !== ""
+                                  ? e?.additional?.img
                                   : require("../../assets/img/default.jpg")
                               }
                               alt=""
