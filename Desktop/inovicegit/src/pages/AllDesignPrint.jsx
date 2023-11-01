@@ -33,6 +33,7 @@ import ManufactureMgt from './prints/ManufactureMgt';
 import RetailTaxInvoice from './prints/RetailTaxInvoice';
 import ExcelToJsonDownloads from './prints/ExcelToJsonDownloads';
 import RetailInvoice2_3 from './prints/RetailInvoice2_3';
+import ExcelToJsonDownloadA from './prints/ExcelToJsonDownloadA';
 
 
 const AllDesignPrint = () => {
@@ -82,8 +83,10 @@ const AllDesignPrint = () => {
       {(printName === "jewellery retail invoice c" && etpType === "print") && <JewelleryRetailInvoicePrintc billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "retail invoice print 4" && etpType === "print") && <RetailInvoicePrint4 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "invoice print r" && etpType === "print") && <InvoicePrint4Clone billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(printName === "sale format b" && etpType === "excel") && <ExcelToJsonDownload billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "sale format b" && etpType === "excel") && <ExcelToJsonDownload bill
+      Number={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "sale format s" && etpType === "excel") && <ExcelToJsonDownloads billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "sale format a" && etpType === "excel") && <ExcelToJsonDownloadA billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "manufacture mgt" && etpType === "print") && <ManufactureMgt billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "retail tax invoice" && etpType === "print") && <RetailTaxInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {((printName === "retail invoice 2" || printName === "retail invoice 3") && etpType === "print") && <RetailInvoice2_3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}

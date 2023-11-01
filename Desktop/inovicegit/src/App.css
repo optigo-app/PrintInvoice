@@ -156,3 +156,6 @@ ol {
   mso-number-format:'0.00'
 }
 
+.excel-cell {
+  border: 2px solid #000; /* 2px solid border with a black color */
+}
