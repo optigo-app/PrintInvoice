@@ -192,7 +192,7 @@
 }
 
 .pad_bt_20semiTotalDetailPrint11 {
-    padding-bottom: 24px;
+    padding-bottom: 40px;
 }
 
 /* .semiTotalDetailPrint11 * {
@@ -202,7 +202,7 @@
 
 
 .totalHeightDetailPrint11 {
-    height: 24px;
+    height: 40px;
 }
 
 @media print {

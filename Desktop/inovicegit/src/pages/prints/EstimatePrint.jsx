@@ -10,6 +10,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [json2Data, setJson2Data] = useState([]);
     const [imageLoading, setImageLoading] = useState(true);
     const [msg, setMsg] = useState("");
+    // const [changePrint, setChangeprint] = useState(atob(printName).toLowerCase() === "estimate print change" ? true : false);
     const [total, setTotal] = useState({
         totalamount: 0,
         cgstAmount: 0,
@@ -55,9 +56,15 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [taxes, setTaxes] = useState([]);
     const [diamondDetail, setDiamondDetail] = useState([]);
     const [loader, setLoader] = useState(true);
+    const [brokrage, setBrokrage] = useState(false);
 
     const handleChange = (e) => {
-        image ? setImage(false) : setImage(true);
+        const { name } = e?.target;
+        if (name === "image") {
+            image ? setImage(false) : setImage(true);
+        } else if (name === "brokrage") {
+            brokrage ? setBrokrage(false) : setBrokrage(true);
+        }
     }
 
     const caiculateMaterial = (data) => {
@@ -66,6 +73,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
         let diamondDetailList = [];
         let diamondDetailList2 = [{ shapeQualityColor: "others", pcs: 0, wt: 0 }];
         data?.BillPrint_Json1.forEach((e, i) => {
+            let settingAmount = 0;
+            let settingRate = 0;
             let obj = { ...e };
             let diamonds = [];
             let metals = [];
@@ -129,6 +138,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         totals.miscPcs += ele?.Pcs;
                         totals.miscAmount += ele?.Amount;
                     }
+                    settingAmount += ele?.SettingAmount
+                    settingRate += ele?.SettingRate
                 }
             });
             if (diamonds.length > 0) {
@@ -178,6 +189,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
             obj.diamondTotal = diamondTotal;
             obj.metalsTotal = metalsTotal;
             obj.colorStonesTotal = colorStonesTotal;
+            obj.settingAmount = settingAmount;
+            obj.settingRate = settingRate;
             totals.totalamount += e?.TotalAmount;
             totals.grosswt += e?.grosswt;
             totals.otherAmount += e?.OtherCharges;
@@ -230,6 +243,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     }
 
     const loadData = (data) => {
+        console.log(data);
         setJson1Data(data?.BillPrint_Json[0]);
         caiculateMaterial(data);
     }
@@ -268,13 +282,19 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
             {/* print button */}
             <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4 mt-5 w-100" >
                 <div className="form-check pe-3 mb-0">
-                    <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => handleChange(e)} />
+                    <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => handleChange(e)} name='image' />
                     <label className="form-check-label h6 mb-0 pt-1">
                         With Image
                     </label>
                 </div>
+                <div className="form-check pe-3 mb-0">
+                    <input className="form-check-input border-dark" type="checkbox" checked={brokrage} onChange={e => handleChange(e)} name='brokrage' />
+                    <label className="form-check-label h6 mb-0 pt-1">
+                        With Brokrage
+                    </label>
+                </div>
                 <div className="form-check ps-3">
-                    <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
+                    <input type="button" className="btn_white blue mt-0" value="Print" onClick={(e) => handlePrint(e)} />
                 </div>
             </div>
             {/* print name */}
@@ -329,7 +349,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className='width_40_estimatePrint p-1 border-end'><p className='text-center'>*Wt</p></div>
                             <div className='width_40_estimatePrint p-1 border-end'><p className='text-center'>Net Wt</p></div>
                             <div className='width_40_estimatePrint p-1 border-end'><p className='text-center'>Rate</p></div>
-                            <div className='width_45_estimatePrint p-1'><p className='text-center'>Amount</p></div>
+                            <div className='width_40_estimatePrint p-1'><p className='text-center'>Amount</p></div>
                         </div>
                     </div>
                     <div className="stoneEstimatePrint border-end">
@@ -362,10 +382,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 {/* data */}
                 {json2Data.length > 0 && json2Data.map((e, i) => {
                     return <div className="d-flex border-bottom border-2 recordEstimatePrint overflow-hidden border-end border-start" key={i}>
-                        <div className="srNoEstimatePrint border-end p-1">
+                        <div className="srNoEstimatePrint border-end p_1Estimate">
                             <p>{e?.SrNo}</p>
                         </div>
-                        <div className="designEstimatePrint border-end p-1">
+                        <div className="designEstimatePrint border-end p_1Estimate">
                             <div className="d-flex justify-content-between">
                                 <div>{e?.designno}</div>
                                 <div className='text-end'>
@@ -374,7 +394,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                             </div>
                             <div className='pb-2'>
-                                {image && <>{imageLoading && <Loader2 />}{<img src={e?.DesignImage} alt="" className='w-100' onError={handleImageError} onLoad={handleImageLoad} style={{ display: imageLoading ? 'none' : 'block' }} />}</>}
+                                {image && <>{imageLoading && <Loader2 />}{<img src={e?.DesignImage} alt="" className='w-100 estimate_img' onError={handleImageError} onLoad={handleImageLoad} style={{ display: imageLoading ? 'none' : 'block' }} />}</>}
                             </div>
                             <div>
                                 <p className='fw-bold'>PO:- </p>
@@ -389,105 +409,107 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className='h-100 d-grid pad_bot_29_estimatePrint'>
                                 {e?.diamonds.length > 0 && e?.diamonds.map((ele, ind) => {
                                     return <div className='d-flex border-bottom' key={ind}>
-                                        <div className='width20EstimatePrint p-1 border-end'><p className=''>{ele?.ShapeName} {ele?.QualityName}</p></div>
-                                        <div className='width20EstimatePrint p-1 border-end'><p className=''>{ele?.SizeName}</p></div>
-                                        <div className='width20EstimatePrint p-1 border-end'><p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
-                                        <div className='width20EstimatePrint p-1 border-end'><p className='text-end'>{fixedValues(ele?.Wt, 3)}</p></div>
-                                        <div className='width20EstimatePrint p-1 border-end'><p className='text-end'>{NumberWithCommas(ele?.Rate, 2)}</p></div>
-                                        <div className='width20EstimatePrint p-1'><p className='text-end'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
+                                        <div className='width20EstimatePrint p_1Estimate border-end'><p className=''>{ele?.ShapeName} {ele?.QualityName}</p></div>
+                                        <div className='width20EstimatePrint p_1Estimate border-end'><p className=''>{ele?.SizeName}</p></div>
+                                        <div className='width20EstimatePrint p_1Estimate border-end'><p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
+                                        <div className='width20EstimatePrint p_1Estimate border-end'><p className='text-end'>{fixedValues(ele?.Wt, 3)}</p></div>
+                                        <div className='width20EstimatePrint p_1Estimate border-end'><p className='text-end'>{NumberWithCommas(ele?.Rate, 2)}</p></div>
+                                        <div className='width20EstimatePrint p_1Estimate'><p className='text-end'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                                     </div>
                                 })}
                             </div>
                             <div className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 ${e?.diamonds.length === 0 && "border-top height_29_5_estimatePrint"}`}>
-                                <div className='width20EstimatePrint p-1'><p></p></div>
-                                <div className='width20EstimatePrint p-1'><p></p></div>
-                                <div className='width20EstimatePrint p-1 d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.diamondTotal?.pcs, 0)}</p></div>
-                                <div className='width20EstimatePrint p-1 d-flex align-items-center justify-content-end'><p className='text-end'>{fixedValues(e?.diamondTotal?.weight, 3)}</p></div>
-                                <div className='width20EstimatePrint p-1 d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.diamondTotal?.rate, 2)}</p></div>
-                                <div className='width20EstimatePrint p-1 d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.diamondTotal?.amount, 2)}</p></div>
+                                <div className='width20EstimatePrint p_1Estimate'><p></p></div>
+                                <div className='width20EstimatePrint p_1Estimate'><p></p></div>
+                                <div className='width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.diamondTotal?.pcs, 0)}</p></div>
+                                <div className='width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end'>{fixedValues(e?.diamondTotal?.weight, 3)}</p></div>
+                                <div className='width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.diamondTotal?.rate, 2)}</p></div>
+                                <div className='width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.diamondTotal?.amount, 2)}</p></div>
                             </div>
                         </div>
                         <div className="metalEstimatePrint border-end position-relative">
                             <div className='h-100 d-grid pad_bot_29_estimatePrint'>
                                 {e?.metals.length > 0 && e?.metals.map((ele, ind) => {
                                     return <div className='d-flex border-bottom' key={ind}>
-                                        <div className='width_40_estimatePrint p-1 border-end'><p>{ele?.ShapeName} {ele?.QualityName}</p></div>
-                                        <div className='width_40_estimatePrint p-1 border-end'><p className='text-end'>{fixedValues(ele?.Wt, 3)}</p></div>
-                                        <div className='width_40_estimatePrint p-1 border-end'><p className='text-end'></p></div>
-                                        <div className='width_40_estimatePrint p-1 border-end'><p className='text-end'>{NumberWithCommas(ele?.Rate, 2)}</p></div>
-                                        <div className='width_45_estimatePrint p-1'><p className='text-end'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
+                                        <div className='width_40_estimatePrint p_1Estimate border-end'><p>{ele?.ShapeName} {ele?.QualityName}</p></div>
+                                        <div className='width_40_estimatePrint p_1Estimate border-end'><p className='text-end'>{fixedValues(ele?.Wt, 3)}</p></div>
+                                        <div className='width_40_estimatePrint p_1Estimate border-end'><p className='text-end'></p></div>
+                                        <div className='width_40_estimatePrint p_1Estimate border-end'><p className='text-end'>{NumberWithCommas(ele?.Rate, 2)}</p></div>
+                                        <div className='width_40_estimatePrint p_1Estimate'><p className='text-end'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                                     </div>
                                 })}
                             </div>
                             <div className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 ${e?.metals.length === 0 && "border-top height_29_5_estimatePrint"}`}>
-                                <div className='width200EstimatePrint p-1'><p></p></div>
-                                <div className='width200EstimatePrint p-1 d-flex align-items-center justify-content-end'><p className='text-end'>{fixedValues(e?.metalsTotal?.weight, 3)}</p></div>
-                                <div className='width200EstimatePrint p-1 d-flex align-items-center justify-content-end'><p className='text-end'>{ }</p></div>
-                                <div className='width200EstimatePrint p-1 d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.metalsTotal?.rate, 2)}</p></div>
-                                <div className='width200EstimatePrint p-1 d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.metalsTotal?.amount, 2)}</p></div>
+                                <div className='width200EstimatePrint p_1Estimate'><p></p></div>
+                                <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end'>{fixedValues(e?.metalsTotal?.weight, 3)}</p></div>
+                                <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end'>{ }</p></div>
+                                <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.metalsTotal?.rate, 2)}</p></div>
+                                <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.metalsTotal?.amount, 2)}</p></div>
                             </div>
                         </div>
                         <div className="stoneEstimatePrint border-end position-relative">
                             <div className='h-100 d-grid pad_bot_29_estimatePrint'>
                                 {e?.colorStones.length > 0 && e?.colorStones.map((ele, ind) => {
                                     return <div className='d-flex border-bottom' key={ind}>
-                                        <div className='width20EstimatePrint p-1 border-end'><p>{ele?.ShapeName} {ele?.QualityName}</p></div>
-                                        <div className='width20EstimatePrint p-1 border-end'><p className=''>{ele?.SizeName}</p></div>
-                                        <div className='width20EstimatePrint p-1 border-end'><p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
-                                        <div className='width20EstimatePrint p-1 border-end'><p className='text-end'>{fixedValues(ele?.Wt, 3)}</p></div>
-                                        <div className='width20EstimatePrint p-1 border-end'><p className='text-end'>{NumberWithCommas(ele?.Rate, 2)}</p></div>
-                                        <div className='width20EstimatePrint p-1'><p className='text-end'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
+                                        <div className='width20EstimatePrint p_1Estimate border-end'><p>{ele?.ShapeName} {ele?.QualityName}</p></div>
+                                        <div className='width20EstimatePrint p_1Estimate border-end'><p className=''>{ele?.SizeName}</p></div>
+                                        <div className='width20EstimatePrint p_1Estimate border-end'><p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
+                                        <div className='width20EstimatePrint p_1Estimate border-end'><p className='text-end'>{fixedValues(ele?.Wt, 3)}</p></div>
+                                        <div className='width20EstimatePrint p_1Estimate border-end'><p className='text-end'>{NumberWithCommas(ele?.Rate, 2)}</p></div>
+                                        <div className='width20EstimatePrint p_1Estimate'><p className='text-end'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                                     </div>
                                 })}
                             </div>
                             <div className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 ${e?.colorStones.length === 0 && "border-top height_29_5_estimatePrint"}`}>
-                                <div className='width20EstimatePrint p-1'><p></p></div>
-                                <div className='width20EstimatePrint p-1'><p></p></div>
-                                <div className='width20EstimatePrint p-1 d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.colorStonesTotal?.pcs, 0)}</p></div>
-                                <div className='width20EstimatePrint p-1 d-flex align-items-center justify-content-end'><p className='text-end'>{fixedValues(e?.colorStonesTotal?.weight, 3)}</p></div>
-                                <div className='width20EstimatePrint p-1 d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.colorStonesTotal?.rate, 2)}</p></div>
-                                <div className='width20EstimatePrint p-1 d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.colorStonesTotal?.amount, 2)}</p></div>
+                                <div className='width20EstimatePrint p_1Estimate'><p></p></div>
+                                <div className='width20EstimatePrint p_1Estimate'><p></p></div>
+                                <div className='width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.colorStonesTotal?.pcs, 0)}</p></div>
+                                <div className='width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end'>{fixedValues(e?.colorStonesTotal?.weight, 3)}</p></div>
+                                <div className='width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.colorStonesTotal?.rate, 2)}</p></div>
+                                <div className='width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end'>{NumberWithCommas(e?.colorStonesTotal?.amount, 2)}</p></div>
                             </div>
                         </div>
                         <div className="OtherAmountEstimatePrint border-end position-relative">
                             <div className='h-100 d-grid pad_bot_29_estimatePrint'>
-                                <div className="border-bottom p-1">
+                                <div className="border-bottom p_1Estimate">
                                     {/* <p className='text-center'>Certification Charge 5,227.00 </p> */}
-                                    <p className='text-end'>{NumberWithCommas(e?.OtherCharges, 2)}</p>
+                                    <p className='text-end p_1Estimate'>{NumberWithCommas(e?.OtherCharges, 2)}</p>
                                 </div>
                             </div>
                             <div className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end">
-                                <div className=' p-1 text-end'><p>{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
+                                <div className='text-end p_1Estimate'><p>{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
                             </div>
                         </div>
                         <div className="labourEstimatePrint border-end position-relative">
                             <div className="h-100 d-grid pad_bot_29_estimatePrint">
                                 <div className='d-flex border-bottom'>
-                                    <div className='w-50 p-1 text-end'><p>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p></div>
-                                    <div className='w-50 p-1 text-end'><p>{NumberWithCommas(e?.MakingAmount, 2)}</p></div>
+                                    {/* <div className='w-50 text-end p_1Estimate'><p>{changePrint ? NumberWithCommas(e?.settingRate, 2) : NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p></div> */}
+                                    <div className='w-50 text-end p_1Estimate'><p>{NumberWithCommas(e?.settingRate, 2)}</p></div>
+                                    <div className='w-50 text-end p_1Estimate'><p>{NumberWithCommas(e?.settingAmount, 2) }</p></div>
+                                    {/* <div className='w-50 text-end p_1Estimate'><p>{changePrint ? NumberWithCommas(e?.settingAmount, 2) : NumberWithCommas(e?.MakingAmount, 2)}</p></div> */}
                                 </div>
                             </div>
                             <div className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end">
-                                <div className='p-1'><p className='text-end'>{NumberWithCommas(e?.MaKingCharge_Unit + e?.MakingAmount, 2)}</p></div>
+                                <div className=''><p className='text-end p_1Estimate'>{NumberWithCommas(e?.settingAmount, 2)}</p></div>
                             </div>
                         </div>
                         <div className="totalAmountEstimatePrint position-relative">
                             <div className="h-100 d-grid pad_bot_29_estimatePrint">
-                                <div className='border-bottom p-1'>
-                                    <p className='text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                                <div className='border-bottom'>
+                                    <p className='text-end p_1Estimate'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
                                 </div>
                             </div>
                             <div className="totalBgEstimatePrint position-absolute bottom-0 border-top height_29_5_estimatePrint w-100 d-flex align-items-center justify-content-end">
-                                <div className='p-1 text-end'><p><span dangerouslySetInnerHTML={{ __html: json1Data?.Currencysymbol }}></span>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+                                <div className='text-end p_1Estimate'><p><span dangerouslySetInnerHTML={{ __html: json1Data?.Currencysymbol }}></span>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                             </div>
                         </div>
                     </div>
                 })}
                 {/* cgst */}
                 <div className="d-flex border-bottom border-2 recordEstimatePrint overflow-hidden border-end border-start" >
-                    <div className="srNoEstimatePrint p-1">
+                    <div className="srNoEstimatePrint p_1Estimate">
                     </div>
-                    <div className="designEstimatePrint p-1">
+                    <div className="designEstimatePrint p_1Estimate">
 
                     </div>
                     <div className="diamondEstimatePrint position-relative">
@@ -503,7 +525,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
                     </div>
                     <div className="labourEstimatePrint border-end">
-                        <div className='p-1 text-end'>
+                        <div className='text-end'>
                             {taxes.length > 0 && taxes.map((e, i) => {
                                 return <p key={i}>{e?.name} @ {e?.per}</p>
                             })}
@@ -511,7 +533,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                     <div className="totalAmountEstimatePrint">
-                        <div className='p-1 text-end'>
+                        <div className='text-end'>
                             {taxes.length > 0 && taxes.map((e, i) => {
                                 return <p key={i}>{NumberWithCommas(e?.amount, 2)}</p>
                             })}
@@ -523,62 +545,62 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 {/* total */}
                 <div className="d-flex border-bottom border-2 recordEstimatePrint overflow-hidden border-end border-start" >
-                    <div className="totalEstimatePrint p-1 border-end totalBgEstimatePrint" >
+                    <div className="totalEstimatePrint border-end totalBgEstimatePrint" >
                         <p className='text-center fw-bold h-100'>Total</p>
                     </div>
                     <div className="diamondEstimatePrint border-end" >
                         <div className="d-flex totalBgEstimatePrint w-100">
-                            <div className='width20EstimatePrint p-1 h-100'><p></p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p></p></div>
+                            <div className='width20EstimatePrint p_1Estimate h-100'><p></p></div>
+                            <div className='width20EstimatePrint p_1Estimate h-100'><p></p></div>
                             {/* finalDiamondTotal :
                             amount : 33191.81999999999
                             pcs : 1360
                             rate : 9120
                             weight : 47.778 */}
-                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{NumberWithCommas(total?.finalDiamondTotal?.pcs, 0)}</p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{NumberWithCommas(total?.finalDiamondTotal?.weight, 3)}</p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{NumberWithCommas(total?.finalDiamondTotal?.rate, 2)}</p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{NumberWithCommas(total?.finalDiamondTotal?.amount, 2)}</p></div>
+                            <div className='width20EstimatePrint p_1Estimate h-100'><p className='text-end'>{NumberWithCommas(total?.finalDiamondTotal?.pcs, 0)}</p></div>
+                            <div className='width20EstimatePrint p_1Estimate h-100'><p className='text-end'>{NumberWithCommas(total?.finalDiamondTotal?.weight, 3)}</p></div>
+                            <div className='width20EstimatePrint p_1Estimate h-100'><p className='text-end'>{NumberWithCommas(total?.finalDiamondTotal?.rate, 2)}</p></div>
+                            <div className='width20EstimatePrint p_1Estimate h-100'><p className='text-end'>{NumberWithCommas(total?.finalDiamondTotal?.amount, 2)}</p></div>
                         </div>
                     </div>
                     <div className="metalEstimatePrint border-end" >
                         <div className="d-flex totalBgEstimatePrint bottom-0 w-100">
-                            <div className='width200EstimatePrint p-1 h-100'><p></p></div>
-                            <div className='width200EstimatePrint p-1 h-100'><p>{fixedValues(total?.finalMetalsTotal?.weight, 3)}</p></div>
-                            <div className='width200EstimatePrint p-1 h-100'><p></p></div>
-                            <div className='width200EstimatePrint p-1 h-100'><p>{NumberWithCommas(total?.finalMetalsTotal?.rate, 2)}</p></div>
-                            <div className='width200EstimatePrint p-1 h-100'><p>{NumberWithCommas(total?.finalMetalsTotal?.amount, 2)}</p></div>
+                            <div className='width200EstimatePrint p_1Estimate h-100'><p></p></div>
+                            <div className='width200EstimatePrint p_1Estimate h-100'><p>{fixedValues(total?.finalMetalsTotal?.weight, 3)}</p></div>
+                            <div className='width200EstimatePrint p_1Estimate h-100'><p></p></div>
+                            <div className='width200EstimatePrint p_1Estimate h-100'><p>{NumberWithCommas(total?.finalMetalsTotal?.rate, 2)}</p></div>
+                            <div className='width200EstimatePrint p_1Estimate h-100'><p>{NumberWithCommas(total?.finalMetalsTotal?.amount, 2)}</p></div>
                         </div>
                     </div>
                     <div className="stoneEstimatePrint border-end" >
                         <div className="d-flex totalBgEstimatePrint bottom-0 w-100">
-                            <div className='width20EstimatePrint p-1 h-100'><p></p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p></p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{NumberWithCommas(total?.finalColorStonesTotal?.pcs, 0)}</p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{fixedValues(total?.finalColorStonesTotal?.weight, 3)}</p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{NumberWithCommas(total?.finalColorStonesTotal?.rate, 2)}</p></div>
-                            <div className='width20EstimatePrint p-1 h-100'><p className='text-end'>{NumberWithCommas(total?.finalColorStonesTotal?.amount, 2)}</p></div>
+                            <div className='width20EstimatePrint p_1Estimate h-100'><p></p></div>
+                            <div className='width20EstimatePrint p_1Estimate h-100'><p></p></div>
+                            <div className='width20EstimatePrint p_1Estimate h-100'><p className='text-end'>{NumberWithCommas(total?.finalColorStonesTotal?.pcs, 0)}</p></div>
+                            <div className='width20EstimatePrint p_1Estimate h-100'><p className='text-end'>{fixedValues(total?.finalColorStonesTotal?.weight, 3)}</p></div>
+                            <div className='width20EstimatePrint p_1Estimate h-100'><p className='text-end'>{NumberWithCommas(total?.finalColorStonesTotal?.rate, 2)}</p></div>
+                            <div className='width20EstimatePrint p_1Estimate h-100'><p className='text-end'>{NumberWithCommas(total?.finalColorStonesTotal?.amount, 2)}</p></div>
                         </div>
                     </div>
                     <div className="OtherAmountEstimatePrint border-end" >
                         <div className="totalBgEstimatePrint bottom-0 w-100 h-100">
-                            <div className='h-100 p-1 text-end'><p>{NumberWithCommas(total?.otherAmount, 2)}</p></div>
+                            <div className='h-100 text-end p_1Estimate'><p>{NumberWithCommas(total?.otherAmount, 2)}</p></div>
                         </div>
                     </div>
                     <div className="labourEstimatePrint border-end" >
                         <div className="d-flex totalBgEstimatePrint w-100 h-100">
-                            <div className='p-1'><p></p></div>
+                            <div className='p_1Estimate'><p></p></div>
                         </div>
                     </div>
                     <div className="totalAmountEstimatePrint d-flex" >
                         <div className="totalBgEstimatePrint w-100 h-100">
-                            <div className='text-end p-1'><p><span dangerouslySetInnerHTML={{ __html: json1Data?.Currencysymbol }}></span>{NumberWithCommas(total?.finalAmount, 2)}</p></div>
+                            <div className='text-end p_1Estimate'><p><span dangerouslySetInnerHTML={{ __html: json1Data?.Currencysymbol }}></span>{NumberWithCommas(total?.finalAmount, 2)}</p></div>
                         </div>
                     </div>
                 </div>
                 <div className="d-flex recordEstimatePrint overflow-hidden border-2 border-bottom">
                     {/* summary */}
-                    <div className="min_height_100EstimatePrint summaryEstimateprint border-end border-start position-relative">
+                    <div className="min_height_100EstimatePrint  border-end border-start position-relative col-3">
                         <div className='totalBgEstimatePrint text-center border-bottom border-start'>
                             <p className='fw-bold p-1'>SUMMARY</p>
                         </div>
@@ -589,7 +611,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                         <p>GOLD IN 24KT</p>
                                         <p>{fixedValues(total?.gold24Kt, 3)} gm</p>
                                     </div>
-                                    <div className="d-flex justify-content-between">
+                                    <div className="d-flex justify-content-between p-1">
                                         <p>GROSS WT</p>
                                         <p>{fixedValues(total?.grosswt, 3)} gm</p>
                                     </div>
@@ -656,7 +678,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                     {/* diamond details */}
-                    <div className="min_height_100EstimatePrint diamondDetailEstimateprint border-end position-relative">
+                    <div className="min_height_100EstimatePrint  border-end position-relative col-2">
                         <div className="totalBgEstimatePrint text-center border-bottom">
                             <p className="fw-bold p-1">
                                 Diamond Detail
@@ -680,7 +702,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                     {/* other details */}
-                    <div className="min_height_100EstimatePrint otherDetailEstimateprint border-end position-relative">
+                    <div className="min_height_100EstimatePrint  border-end position-relative col-2">
                         <div className="totalBgEstimatePrint text-center"><p className="fw-bold p-1">OTHER DETAILS</p></div>
                         <div className="d-flex w-100 justify-content-between p-1">
                             <p>RATE IN 24KT	</p>
@@ -688,14 +710,14 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                     {/* remark details  */}
-                    <div className="min_height_100EstimatePrint blankDetailEstimatePrint">
+                    <div className="min_height_100EstimatePrint  col-2">
                         <div className="totalBgEstimatePrint text-center border-bottom"><p className="fw-bold p-1">REMARK</p></div>
                         <div className="p-1">
                             <p dangerouslySetInnerHTML={{ __html: json1Data?.PrintRemark }} className='fs-6'></p>
                         </div>
                     </div>
                     {/* created by */}
-                    <div className="min_height_100EstimatePrint createdByEstimatePrint d-flex border-start border-end">
+                    <div className="min_height_100EstimatePrint  d-flex border-start border-end col-3">
                         <div className="d-flex h-100 w-100">
                             <div className="position-relative border-end w-50"><p className='position-absolute bottom-0 w-100 text-center'>Created By</p></div>
                             <div className="position-relative w-50 border-end"><p className='position-absolute bottom-0 w-100  text-center'>Checked By</p></div>

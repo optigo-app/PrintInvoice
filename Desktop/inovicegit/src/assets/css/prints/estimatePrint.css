@@ -7,41 +7,51 @@
 }
 
 .srNoEstimatePrint {
-    width: 25px;
-    min-width: 25px;
+    /* width: 25px;
+    min-width: 25px; */
+    width: 3%;
+    min-width: 3%;
 }
 
 .designEstimatePrint {
-    width: 110px;
-    min-width: 110px;
+    /* width: 110px;
+    min-width: 110px; */
+    width: 9%;
+    min-width: 9%;
 }
 
 .diamondEstimatePrint,
 .stoneEstimatePrint {
-    width: 269.5px;
-    min-width: 269.5px;
+    /* width: 269.5px;
+    min-width: 269.5px; */
+    width: 24%;
+    min-width: 24%;
 }
 
 .metalEstimatePrint {
-    width: 205px;
-    min-width: 205px;
+    /* width: 205px;
+    min-width: 205px; */
+    width: 19%;
+    min-width: 19%;
 }
 
 .OtherAmountEstimatePrint,
 .totalAmountEstimatePrint {
-    width: 60px;
-    min-width: 60px;
+    /* width: 60px;
+    min-width: 60px; */
+    width: 6%;
+    min-width: 6%;
 }
 
 .labourEstimatePrint {
-    /* width: 115px;
-    min-width: 115px; */
-    width: 90px;
-    min-width: 90px;
+    /* width: 90px;
+    min-width: 90px; */
+    width: 9%;
+    min-width: 9%;
 }
 
 .recordEstimatePrint * {
-    font-size: 11px;
+    font-size: 9px;
     word-break: break-all;
 }
 
@@ -71,13 +81,15 @@
     width: 38px;
 }
 .totalEstimatePrint {
-    width: 135px;
-    min-width: 135px;
+    /* width: 135px;
+    min-width: 135px; */
+    width: 12%;
+    min-width: 12%;
 }
 
 .summaryEstimateprint {
-    width: 320px;
-    min-width: 320px;
+    width: 332px;
+    min-width: 332px;
 }
 
 .diamondDetailEstimateprint {
@@ -148,8 +160,8 @@
 }
 
 .width_40_estimatePrint{
-    min-width: 40px;
-    width: 40px;
+    min-width: 20%;
+    width: 20%;
 }
 
 .width_45_estimatePrint{
@@ -159,6 +171,17 @@
 
 .pad_bot_40_estimatePrint{
     padding-bottom: 40px ;
+}
+
+.p_1Estimate{
+    padding: 1px;
+}
+
+.estimate_img{
+    max-height: 50px;
+    object-fit: contain;
+    object-position: left;
+    margin-left: 5px;
 }
 
 @media print {

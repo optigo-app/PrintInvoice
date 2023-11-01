@@ -250,8 +250,8 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='p-1 fw-bold'>Price  </p><p className='fw-bold'>/ cts</p></div>
               <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center p-1 flex-column'><p className='text-center fw-bold'>Dia</p><p className="text-center fw-bold"> Amount</p></div>
               <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>Setting </p><p>Type</p></div>
-              <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>Setting </p><p className="text-center fw-bold">Price</p></div>
-              <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>Total</p><p className="text-center fw-bold"> Amount</p></div>
+              <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>Setting </p><p className="text-center fw-bold">Price</p><p className="text-center fw-bold">(Currency)</p></div>
+              <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column p-1'><p className='text-center fw-bold'>Total</p><p className="text-center fw-bold"> Amount</p><p className="text-center fw-bold">(Currency)</p></div>
             </div>
           </div>
           <div className="goldDetailPrint11 border-end d-grid">
@@ -283,7 +283,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               {image && <img src={e?.DesignImage} alt="" className='w-100 p-1' onError={handleImageError} />}
               {tunch && <p className='text-center fw-bold'>Tunch: {NumberWithCommas(e?.Tunch, 3)}</p>}
               <p className='text-center fw-bold'>{fixedValues(e?.grosswt, 3)}gm Gross</p>
-              <p className='text-center pb-1'>Size {e?.Size}</p>
+              {e?.Size.length > 0 &&<p className='text-center pb-1'>Size {e?.Size}</p>}
             </div>
             <div className="diamondStoneDetailPrint11 d-grid pad_bt_20semiTotalDetailPrint11 position-relative">
               {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
@@ -317,42 +317,42 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>{fixedValues(e?.totalCol?.diaWt, 3)}</p></div>
                 <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='fw-bold'>Diamond </p><p className="fw-bold">Total</p></div>
                 <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(e?.totalCol?.diaAmount, 2)}</p></div>
-                <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>Setting</p><p>Total</p></div>
-                <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(e?.totalCol?.settingAmount, 2)}</p></div>
+                <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'></p></div>
+                <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>Setting</p><p>Total</p><p>(Currency)</p></div>
+                <div className='totalMaterialAmountDetailPrint11 d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(e?.totalCol?.settingAmount, 2)}</p></div>
               </div>
             </div>
             <div className="goldDetailPrint11 border-end d-grid">
               <div className='d-flex border-bottom'>
-                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className=''>Quality</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Quality</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{e?.MetalPurity} {e?.MetalColor}</p></div>
               </div>
               <div className='d-flex border-bottom'>
-                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className=''>Gross Weight(Gms)</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Gross Weight(Gms)</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{fixedValues(e?.grosswt, 3)} G</p></div>
               </div>
               <div className='d-flex border-bottom'>
-                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className=''>Net Weight</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Net Weight</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{fixedValues(e?.NetWt, 3)} G</p></div>
               </div>
               <div className='d-flex border-bottom'>
-                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className=''>Gold Loss</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Gold Loss</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p>{fixedValues(e?.LossPer, 0)}%</p></div>
               </div>
               <div className='d-flex border-bottom'>
-                <div className='col-7 border-end d-flex align-items-start justify-content-center fw-bold flex-column px-1'><p>Pure Gold weight</p><p> with Loss</p></div>
-                {/* <div className='col-5 d-flex align-items-center justify-content-center'><p>{fixedValues(e?.puregoldWeightWithLoss, 3)} G</p></div> */}
+                <div className='col-7 border-end d-flex align-items-start justify-content-center fw-bold flex-column'><p>Pure Gold weight</p><p> with Loss</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p>{e?.MetalAmount !== 0 ? NumberWithCommas(e?.MetalAmount, 2) :  fixedValues(e?.fineWt, 3)} G</p></div>
               </div>
               <div className='d-flex border-bottom'>
-                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className=''>Gold Price</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Gold Price</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p>{NumberWithCommas(e?.metalRateGold, 2)}</p></div>
               </div>
               <div className='d-flex border-bottom broder-start'>
-                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className='p-1'>Alloy</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold'><p className='p-1'>Alloy</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p>{NumberWithCommas(e?.alloy, 2)}</p></div>
               </div>
               <div className='d-flex'>
-                <div className='col-7 border-end d-flex align-items-center fw-bold px-1'><p className='p-1'>Total Gold</p></div>
+                <div className='col-7 border-end d-flex align-items-center fw-bold'><p className='p-1'>Total Gold</p></div>
                 <div className='col-5 d-flex align-items-center justify-content-center'><p className='fw-bold'>{NumberWithCommas(e?.totalGold, 2)}</p></div>
               </div>
             </div>
@@ -390,8 +390,9 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='fw-bold text-start'>Diamond </p><p className="fw-bold text-start">total</p>
               </div>
               <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(total?.diaAmount, 2)}</p></div>
-              <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>Setting </p><p className="text-center fw-bold">Total</p></div>
-              <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(total?.totalAmount, 2)}</p></div>
+              <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'></p></div>
+              <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>Setting </p><p className="text-center fw-bold">Total</p><p className="text-center fw-bold">(Currency)</p></div>
+                <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(total?.totalAmount, 2)}</p></div>
             </div>
           </div>
           <div className="goldDetailPrint11 border-end d-grid ">
