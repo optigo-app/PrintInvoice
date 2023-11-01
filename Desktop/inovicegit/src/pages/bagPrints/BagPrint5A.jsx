@@ -70,6 +70,7 @@ const BagPrint5A = ({ queries, headers }) => {
           let ArrofFiveSize = [];
           let ArrofMISize = [];
           let ArrofFSize = [];
+          // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
@@ -105,34 +106,7 @@ const BagPrint5A = ({ queries, headers }) => {
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
 
-          ArrofSevenSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofSevenSize = [];
-            } else {
-              e.heading = "DIAMOND DETAIL";
-            }
-          });
-          ArrofFiveSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofFiveSize = [];
-            } else {
-              e.heading = "COLOR STONE DETAIL";
-            }
-          });
-          ArrofMISize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofMISize = [];
-            } else {
-              e.heading = "MISC DETAIL";
-            }
-          });
-          ArrofFSize.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofFSize = [];
-            } else {
-              e.heading = "FINDING DETAIL";
-            }
-          });
+     
 
           let arr = [];
           let mainArr = arr.concat(
@@ -148,11 +122,6 @@ const BagPrint5A = ({ queries, headers }) => {
           let arrofchunk = GetChunkData(chunkSize17, mainArr);
           let ins = InstructionGenerate(a?.rd);
           a.rd.ShowInstruction = ins;
-          // for (let i = 0; i < mainArr.length; i += chunkSize17) {
-          //     const chunks = mainArr.slice(i, i + chunkSize17);
-          //     let len = 17 - (mainArr.slice(i, i + chunkSize17)).length;
-          //     chunkData.push({ data: chunks, length: len });
-          // }
           responseData.push({
             data: a,
             additional: {
@@ -207,14 +176,14 @@ const BagPrint5A = ({ queries, headers }) => {
                 )
             )}
             {data?.length > 0 &&
-              data?.map((e) => {
+              data?.map((e, i) => {
                 return (
-                  <React.Fragment>
+                  <React.Fragment key={i}>
                     {
                     e?.additional?.pages?.length > 0 ?
-                      e?.additional?.pages?.map((ele) => {
+                      e?.additional?.pages?.map((ele, ina) => {
                         return (
-                          <div className="container5A">
+                          <div className="container5A" key={ina}>
                             <div className="bag5A">
                               <div className="flex5A">
                                 <div className="header5A">

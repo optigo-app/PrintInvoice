@@ -38,6 +38,7 @@ const BagPrint16A = ({ queries, headers }) => {
 
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           imgUrls?.push(a?.rd?.ThumbImagePath);
           let length = 0;
@@ -59,6 +60,7 @@ const BagPrint16A = ({ queries, headers }) => {
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
+          // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             
             if (

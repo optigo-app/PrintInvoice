@@ -2,7 +2,6 @@ import queryString from "query-string";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "../../assets/css/bagprint/print2A.css";
-import { formatDate } from "../../GlobalFunctions/DateFormat";
 import { GetChunkData } from "../../GlobalFunctions/GetChunkData";
 import { GetData } from "../../GlobalFunctions/GetData";
 import { GetSeparateData } from "../../GlobalFunctions/GetSeparateData";
@@ -27,6 +26,7 @@ function BagPrint2A({ queries, headers }) {
     const fetchData = async () => {
       try {
         const responseData = [];
+        // eslint-disable-next-line no-unused-vars
         const startTime = performance.now();
 
         const objs = {
@@ -41,6 +41,7 @@ function BagPrint2A({ queries, headers }) {
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           imgUrls?.push(a?.rd?.ThumbImagePath);
           // let length = 0;
@@ -95,27 +96,28 @@ function BagPrint2A({ queries, headers }) {
             MasterManagement_DiamondStoneTypeid: 7,
           });
 
+          // eslint-disable-next-line array-callback-return
           separateData?.diamondArr?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               // ArrofSevenSize = [];
               separateData.diamondArr = [];
             }
           });
-
+          // eslint-disable-next-line array-callback-return
           separateData?.colorStoneArr.map((e) => {
             if (e.ActualPcs === 0 && e.ActualWeight === 0) {
               // ArrofFiveSize = [];
               separateData.colorStoneArr = [];
             }
           });
-
+          // eslint-disable-next-line array-callback-return
           separateData?.miscArr.map((e) => {
             if (e.ActualPcs === 0 && e.ActualWeight === 0) {
               // ArrofMISize = [];
               separateData.miscArr = [];
             }
           });
-
+          // eslint-disable-next-line array-callback-return
           separateData?.findingArr.map((e) => {
             if (e.ActualPcs === 0 && e.ActualWeight === 0) {
               // ArrofFSize = [];
@@ -1335,7 +1337,7 @@ function BagPrint2A({ queries, headers }) {
                                     })}
                                     {Array.from(
                                       { length: ele?.length },
-                                      (iabcd) => {
+                                      (_,iabcd) => {
                                         return (
                                           <React.Fragment key={iabcd}>
                                             {iabcd !== 0 ? (
@@ -1678,7 +1680,7 @@ function BagPrint2A({ queries, headers }) {
                                                                 <div className='actual1Aflex' style={{ borderRight: "0px" }}><div className='whA1A'>ISSUE</div><div className='child1A'><p className='pcswtSet1A'>PCS</p><p style={{ fontSize: "12px", paddingTop: "3px", }}>WT</p></div></div>
                                                             </div> */}
 
-                              {Array.from({ length: 15 }, (iad) => {
+                              {Array.from({ length: 15 }, (_,iad) => {
                                 return (
                                   <div className="print2AMidBody" key={iad}>
                                     <div className="print2ARM RMW2A">
@@ -1724,7 +1726,10 @@ function BagPrint2A({ queries, headers }) {
                               })}
                             </div>
                             <div>
-                              <span className="fw-bold">INSTRUCTION :</span><span style={{color:"red"}}>{e?.data?.rd?.ShowInstruction ?? ''}</span>
+                              <span className="fw-bold">INSTRUCTION :</span>
+                              <span style={{ color: "red" }}>
+                                {e?.data?.rd?.ShowInstruction ?? ""}
+                              </span>
                             </div>
                           </div>
                           <div className="barcodeSetPrint2A">

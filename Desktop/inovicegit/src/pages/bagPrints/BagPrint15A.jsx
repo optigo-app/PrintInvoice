@@ -18,7 +18,7 @@ const BagPrint15A = ({ queries, headers }) => {
         if (Object.keys(queryParams)?.length !== 0) {
             atob(queryParams?.imagepath);
         }
-    }, []);
+    }, [queryParams]);
     const chunkSize = 7;
     const sizeofChunk = 5;
     useEffect(() => {
@@ -35,6 +35,7 @@ const BagPrint15A = ({ queries, headers }) => {
                   };
                   const allDatas = await GetData(objs);
                   let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+                  // eslint-disable-next-line array-callback-return
                   datas?.map((a) => {
                     let diamond = [];
                     let colorstone = [];
@@ -92,6 +93,7 @@ const BagPrint15A = ({ queries, headers }) => {
                     }
                     let arr1 = [];
                     if (diamond?.length >= colorstone?.length) {
+                        // eslint-disable-next-line array-callback-return
                         diamond?.map((e, i) => {
                             let obj = {};
                             obj.diachunk = e;
@@ -105,6 +107,7 @@ const BagPrint15A = ({ queries, headers }) => {
                         });
                     }
                     else {
+                        // eslint-disable-next-line array-callback-return
                         colorstone?.map((e, i) => {
                             let obj = {};
                             obj.clrchunk = e;
@@ -128,12 +131,12 @@ const BagPrint15A = ({ queries, headers }) => {
         fetchData();
     }, []);
     useEffect(() => {
-        if (data.length !== 0) {
+        if (data?.length !== 0) {
             setTimeout(() => {
                 window.print();
             }, 5000);
         }
-}, [data]);
+}, [data?.length]);
     return (
         <>
             {
@@ -235,7 +238,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                             <div>
                                                                 {
                                                                     // logic of empty chunks
-                                                                    Array.from({ length: (a?.diachunk?.length) }, (il) => {
+                                                                    Array.from({ length: (a?.diachunk?.length) }, (_,il) => {
                                                                         return (
                                                                             <div style={{ display: "flex" }} key={il}>
                                                                                 <div className="subFirstCell"></div>
@@ -279,9 +282,9 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                 </div>
                                                                 <div>
                                                                     {
-                                                                        Array.from({ length: (a?.clrchunk?.length) }, (i) => {
+                                                                        Array.from({ length: (a?.clrchunk?.length) }, (_,iii) => {
                                                                             return (
-                                                                                <div style={{ display: "flex" }} key={i}>
+                                                                                <div style={{ display: "flex" }} key={iii}>
                                                                                     <div className="subFirstCell"></div>
                                                                                     <div className="subSecondCell"></div>
                                                                                     <div className="subThirdCell"></div>
@@ -295,7 +298,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                 <div > <b>Total : {e?.additional?.clr?.clrPcs} pcs</b></div>
                                                             </div>
                                                             <div className="sub-aside" style={{ "borderBottom": "none" }}>
-                                                                <p style={{ fontSize: "10px", lineHeight: "9px" }}>Ins. {((e?.data?.rd?.officeuse + e?.data?.rd?.ProductInstruction) == "null" ? '' : (e?.data?.rd?.officeuse + e?.data?.rd?.ProductInstruction)?.slice(0, 89))}</p>
+                                                                <p style={{ fontSize: "10px", lineHeight: "9px" }}>Ins. {((e?.data?.rd?.officeuse + e?.data?.rd?.ProductInstruction) === null ? '' : (e?.data?.rd?.officeuse + e?.data?.rd?.ProductInstruction)?.slice(0, 89))}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -359,7 +362,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                             <div>
                                                 <div>
                                                     {
-                                                        Array.from({ length: (7) }, (is) => {
+                                                        Array.from({ length: (7) }, (_,is) => {
                                                             return (
                                                                 <div style={{ display: "flex" }} key={is}>
                                                                     <div className="subFirstCell"></div>
@@ -380,7 +383,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                 <div>
                                                     <div>
                                                         {
-                                                            Array.from({ length: (5) }, (i5) => {
+                                                            Array.from({ length: (5) }, (_,i5) => {
                                                                 return (
                                                                     <div style={{ display: "flex" }} key={i5}>
                                                                         <div className="subFirstCell"></div>
