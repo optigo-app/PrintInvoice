@@ -32,6 +32,7 @@ const BagPrint12A = ({ queries, headers }) => {
                   };
                   const allDatas = await GetData(objs);
                   let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+                // eslint-disable-next-line array-callback-return
                 datas?.map((a) => {
                     let chunkData = [];
                     let chunkSize = 8;
@@ -60,6 +61,7 @@ const BagPrint12A = ({ queries, headers }) => {
                         ActualPcs: 0,
                         ActualWeight: 0,
                     };
+                    // eslint-disable-next-line array-callback-return
                     a?.rd1?.map((e, i) => {
                         if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
                             length++;
@@ -86,21 +88,21 @@ const BagPrint12A = ({ queries, headers }) => {
                     imagePath = atob(queryParams?.imagepath);
                     let img = imagePath + a?.rd?.ThumbImagePath;
                     for (let i = 0; i < (a?.rd1)?.length; i += chunkSize) {
-                        const chunks = (a?.rd1).slice(i, i + chunkSize);
-                        let len = 8 - ((a?.rd1).slice(i, i + chunkSize))?.length;
+                        const chunks = (a?.rd1)?.slice(i, i + chunkSize);
+                        let len = 8 - ((a?.rd1)?.slice(i, i + chunkSize))?.length;
                         chunkData.push({ data: chunks, length: len });
                     }
-                    let arrData = a?.rd1?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid !== 0);
-                    let arrData1 = arrData?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid === 3); 
-                    let arrData2 = arrData?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid === 4); 
+                    let arrData = a?.rd1?.filter((e) => e?.MasterManagement_DiamondStoneTypeid !== 0);
+                    let arrData1 = arrData?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 3); 
+                    let arrData2 = arrData?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 4); 
                     let arrData3 = [...arrData1, ...arrData2];
                     let blankData = [];
-                    for (let i = 0; i < (arrData3).length; i += chunkSize) {
-                        const chunks = (arrData3).slice(i, i + chunkSize);
+                    for (let i = 0; i < (arrData3)?.length; i += chunkSize) {
+                        const chunks = (arrData3)?.slice(i, i + chunkSize);
                         let blankArr = [];
-                        for (let j = 0; j < chunks.length; j += 4) {
-                            const sliceChunks = chunks.slice(j, j + 4);
-                            let len = 4 - (sliceChunks).length;
+                        for (let j = 0; j < chunks?.length; j += 4) {
+                            const sliceChunks = chunks?.slice(j, j + 4);
+                            let len = 4 - (sliceChunks)?.length;
                             blankArr.push({ data: sliceChunks, length: len });
                         }
                         if (blankArr?.length === 1) {
@@ -144,12 +146,12 @@ const BagPrint12A = ({ queries, headers }) => {
                             {
                                 data?.length > 0 && data?.map((e, i) => {
                                     return (
-                                        <>
+                                        <React.Fragment key={i}>
                                             {
                                                 e?.additional?.pages?.length > 0 ? e?.additional?.pages?.map((ele, ind) => {
                                                     return (
-                                                        <>
-                                                            <div className="section_12A" key={ind}>
+                                                        <React.Fragment  key={ind}>
+                                                            <div className="section_12A">
                                                                 <div className="container_12A">
                                                                     <div className="job_no_12A">
                                                                         <div className="design_no_12A bg12fs">
@@ -248,18 +250,18 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                     </div>
                                                                     <div className="table_12A">
                                                                         <div className="master_sec_12A d_flex ">
-                                                                            {ele.map((eelem, indexx) => {
+                                                                            {ele?.map((eelem, indexx) => {
                                                                                 return (
-                                                                                    <div className=''>
+                                                                                    <div className='' key={indexx}>
                                                                                         <div className="d_flex border_bottom_1_12A">
                                                                                             <div className="Item_sec_12A border_right_1_12A">Item</div>
                                                                                             <div className="Size_sec_12A border_right_1_12A">Size</div>
                                                                                             <div className="Pcs_sec_12A border_right_1_12A">Pcs</div>
                                                                                             <div className={`Wt_sec_12A ${indexx === 0 && "border_right_1_12A"}`}>Wt</div>
                                                                                         </div>
-                                                                                        {eelem.data.length > 0 && eelem.data.map((element, indexes) => {
+                                                                                        {eelem?.data?.length > 0 && eelem?.data?.map((element, indexes) => {
                                                                                             return (
-                                                                                                <div className="d_flex border_bottom_1_12A">
+                                                                                                <div className="d_flex border_bottom_1_12A" key={indexes}>
                                                                                                     <div className="Item_sec_12A border_right_1_12A hide12A">{indexx === 0 && element?.Shapecode}</div>
                                                                                                     <div className="Size_sec_12A border_right_1_12A hide12A">{indexx === 0 &&element?.Sizename}</div>
                                                                                                     <div className="Pcs_sec_12A border_right_1_12A hide12A">{indexx === 0 &&element?.ActualPcs}</div>
@@ -268,7 +270,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                                                 </div>
                                                                                             );
                                                                                         })}
-                                                                                        {eelem.length > 0 && Array.from({ length: eelem.length }, (_, index) => (
+                                                                                        {eelem?.length > 0 && Array.from({ length: eelem?.length }, (_, index) => (
                                                                                             <div className=" d_flex border_bottom_1_12A" key={index}>
                                                                                                 <div className="Item_sec_12A border_right_1_12A"></div>
                                                                                                 <div className="Size_sec_12A border_right_1_12A"></div>
@@ -341,14 +343,14 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                     <div className="instruction_12A">
                                                                         
                                                                         <p>
-                                                                            INST: {(e?.data?.instructionData == (null || 'null') ? '' : e?.data?.instructionData)}
+                                                                            INST: {(e?.data?.instructionData === (null || 'null') ? '' : e?.data?.instructionData)}
                                                                         </p>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </>
+                                                        </React.Fragment>
                                                     );
-                                                }) : <div className="section_12A"   >
+                                                }) : <div className="section_12A">
                                                     <div className="container_12A">
                                                         <div className="job_no_12A">
                                                             <div className="design_no_12A">
@@ -465,41 +467,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                         <div className='wt12A' style={{borderRight:"0px"}}></div>
                                                                     </div>
                                                                 ))
-                                                            }
-                                                            {/* <div className="master_sec_12A d_flex "> */}
-                                                                
-                                                            
-                                                                    {/* // return (
-                                                                    //     <div className=''>
-                                                                    //         <div className="d_flex border_bottom_1_12A">
-                                                                    //             <div className="Item_sec_12A border_right_1_12A">Item</div>
-                                                                    //             <div className="Size_sec_12A border_right_1_12A">Size</div>
-                                                                    //             <div className="Pcs_sec_12A border_right_1_12A">Pcs</div>
-                                                                    //             <div className={`Wt_sec_12A ${indexx === 0 && "border_right_1_12A"}`}>Wt</div>
-                                                                    //         </div>
-                                                                    //         {eelem.data.length > 0 && eelem.data.map((element, indexes) => {
-                                                                    //             return (
-                                                                    //                 <div className="d_flex border_bottom_1_12A">
-                                                                    //                     <div className="Item_sec_12A border_right_1_12A">{element?.Shapecode}</div>
-                                                                    //                     <div className="Size_sec_12A border_right_1_12A">{element?.Sizename}</div>
-                                                                    //                     <div className="Pcs_sec_12A border_right_1_12A">{element?.ActualPcs}</div>
-                                                                    //                     <div className={`Wt_sec_12A ${indexx === 0 && "border_right_1_12A"}`}>{element?.ActualWeight}</div>
-                                                                    //                 </div>
-                                                                    //             );
-                                                                    //         })}
-                                                                    //         {eelem.length > 0 && Array.from({ length: eelem.length }, (_, index) => (
-                                                                    //             <div className=" d_flex border_bottom_1_12A" key={index}>
-                                                                    //                 <div className="Item_sec_12A border_right_1_12A"></div>
-                                                                    //                 <div className="Size_sec_12A border_right_1_12A"></div>
-                                                                    //                 <div className="Pcs_sec_12A border_right_1_12A"></div>
-                                                                    //                 <div className={`Wt_sec_12A ${indexx === 0 && "border_right_1_12A"}`}></div>
-                                                                    //             </div>
-                                                                    //         ))
-                                                                    //         }
-                                                                    //     </div>
-                                                                    // ); */}
-                                                            {/* </div> */}
-
+                                                            }                                                            
                                                         </div>
                                                         <div className="d_flex">
                                                             <div className="dept_12A">
@@ -553,13 +521,13 @@ const BagPrint12A = ({ queries, headers }) => {
                                                         </div>
                                                         <div className="instruction_12A">
                                                             <p>
-                                                                INST: {(e?.data?.instructionData == (null || 'null') ? '' : e?.data?.instructionData)}
+                                                                INST: {(e?.data?.instructionData === (null || 'null') ? '' : e?.data?.instructionData)}
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             }
-                                        </>
+                                        </React.Fragment>
                                     );
                                 })
                             }

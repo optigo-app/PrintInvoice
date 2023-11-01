@@ -8,27 +8,25 @@ import Subhead1 from "./components/subheaders/subhead1/Subhead1";
 import Subhead2 from "./components/subheaders/subhead2/Subhead2";
 import { exportToExcel } from "react-json-to-excel";
 import Footer2 from "./components/footers/Footer2";
-
 //print button function for print pop up
 export const handlePrint = (e) => {
   window.print();
 };
-
 //handle image if api image not coming
 export const handleImageError = (e) => {
   e.target.src = img;
 };
-
 //sentence words first char capital function
 export const CapitalizeWords = (text) => {
   const capitalizeFirstLetter = (word) => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
+    return word?.charAt(0)?.toUpperCase() + word?.slice(1);
   };
   const wordsArray = text.split(" ");
   const capitalizedWordsArray = wordsArray.map((word) => {
-    return word.split("-").map(capitalizeFirstLetter).join("-");
+    return word?.split("-")?.map(capitalizeFirstLetter)?.join("-");
   });
   const capitalizedText = capitalizedWordsArray.join(" ");
+  // eslint-disable-next-line no-useless-concat
   return capitalizedText + " " + "Only";
 };
 
@@ -52,7 +50,7 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
 //api response object checking is obj is empty or not
 export function isObjectEmpty(obj) {
   for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    if (obj?.hasOwnProperty(key)) {
       return false; // If any property is found, the object is not empty
     }
   }
@@ -65,20 +63,20 @@ export const taxGenrator = (headerData, totalAmount) => {
 
   if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 0) {
     let taxTypes = ["tax1", "tax2", "tax3", "tax4", "tax5"];
-    taxTypes.forEach((e, i) => {
+    taxTypes?.forEach((e, i) => {
       if (headerData[`${e}_taxname`] !== "") {
         if (headerData[`${e}_IsOnDiscount`] === 1) {
           let obj = {
             name: headerData[[`${e}_taxname`]],
-            per: `${headerData[`${e}_value`].toFixed(2)}%`,
-            amount: ((totalAmount * headerData[`${e}_value`]) / 100).toFixed(2),
+            per: `${headerData[`${e}_value`]?.toFixed(2)}%`,
+            amount: ((totalAmount * headerData[`${e}_value`]) / 100)?.toFixed(2),
           };
           blankArr.push(obj);
         } else {
           let obj = {
             name: headerData[`${e}_taxname`],
-            per: headerData[`${e}_value`].toFixed(2),
-            amount: headerData[`${e}_value`].toFixed(2),
+            per: headerData[`${e}_value`]?.toFixed(2),
+            amount: headerData[`${e}_value`]?.toFixed(2),
           };
           blankArr.push(obj);
         }
@@ -86,19 +84,19 @@ export const taxGenrator = (headerData, totalAmount) => {
     });
   } else if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 1) {
     let arr = ["CGST", "SGST"];
-    arr.forEach((e, i) => {
+    arr?.forEach((e, i) => {
       let obj = {
         name: e,
-        per: `${headerData[e].toFixed(2)}%`,
-        amount: ((totalAmount * headerData[e]) / 100).toFixed(2),
+        per: `${headerData[e]?.toFixed(2)}%`,
+        amount: ((totalAmount * headerData[e]) / 100)?.toFixed(2),
       };
       blankArr.push(obj);
     });
   } else if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 2) {
     let obj = {
       name: headerData?.TaxProfilename,
-      per: `${(headerData?.IGST).toFixed(2)}%`,
-      amount: (headerData?.TotalIGSTAmount).toFixed(2),
+      per: `${(headerData?.IGST)?.toFixed(2)}%`,
+      amount: (headerData?.TotalIGSTAmount)?.toFixed(2),
     };
     blankArr.push(obj);
   }
@@ -117,7 +115,7 @@ export const NumberWithCommas = (value, val) => {
 
 //fixedValues
 export const fixedValues = (value, zeroes) =>
-  typeof value === "number" ? value.toFixed(zeroes) : (+value)?.toFixed(zeroes);
+  typeof value === "number" ? value?.toFixed(zeroes) : (+value)?.toFixed(zeroes);
 
 //call of header
 export const HeaderComponent = (headNo, headerData) => {
@@ -214,11 +212,11 @@ export const checkInstruction = (ins) => {
 
 export const GovernMentDocuments = (documents) => {
   if (documents?.length > 0) {
-    let arr = documents.split("#@#");
+    let arr = documents?.split("#@#");
     let blankArr = [];
-    arr.forEach((e) => {
+    arr?.forEach((e) => {
       let obj = {};
-      let val = e.split("#-#");
+      let val = e?.split("#-#");
       obj.label = val[0];
       obj.value = val[1];
       blankArr.push(obj);
@@ -242,12 +240,12 @@ export const ExportToExcel = (data, InvoiceNo) => {
 }
 
 export const otherAmountDetail = (otherAmtDetail) => {
-  if (otherAmtDetail.length > 0) {
-    let blankArr = otherAmtDetail.split("#@#");
+  if (otherAmtDetail?.length > 0) {
+    let blankArr = otherAmtDetail?.split("#@#");
     let resultArr = [];
     blankArr.forEach((e, i) => {
       let obj = {};
-      let arr = e.split("#-#");
+      let arr = e?.split("#-#");
       obj.label = arr[0];
       obj.value = arr[1];
       resultArr.push(obj);

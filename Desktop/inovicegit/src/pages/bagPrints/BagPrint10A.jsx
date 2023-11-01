@@ -13,7 +13,6 @@ import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 import { InstructionGenerate } from './../../GlobalFunctions/InstructionGenerate';
 const BagPrint10A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
-  const [loader, setLoader] = useState(true);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
@@ -37,8 +36,8 @@ const BagPrint10A = ({ queries, headers }) => {
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
-          console.log(a);
           let length = 0;
           let clr = {
             Shapename: "TOTAL",
@@ -69,7 +68,7 @@ const BagPrint10A = ({ queries, headers }) => {
           let ArrofMISize = [];
           let ArrofFSize = [];
 
-          a?.rd1?.map((e, i) => {
+          a?.rd1?.forEach((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
             }
@@ -126,7 +125,6 @@ const BagPrint10A = ({ queries, headers }) => {
           });
         })
         setData(responseData);
-        setLoader(false);
       } catch (error) {
         console.log(error);
       }
@@ -134,7 +132,7 @@ const BagPrint10A = ({ queries, headers }) => {
     fetchData();
   }, []);
   useEffect(() => {
-    if (data.length !== 0) {
+    if (data?.length !== 0) {
       setTimeout(() => {
         window.print();
       }, 5000);
@@ -156,7 +154,7 @@ const BagPrint10A = ({ queries, headers }) => {
           </div>
           <div className="bag10Afinal pad_60_allPrint">
             {Array.from(
-              { length: queries.pageStart },
+              { length: queries?.pageStart },
               (_, index) =>
                 index > 0 && (
                   <div
@@ -167,11 +165,11 @@ const BagPrint10A = ({ queries, headers }) => {
                 )
             )}
             {data?.length > 0 &&
-              data.map((e, i) => {
+              data?.map((e, i) => {
                 return (
                   <React.Fragment key={i}>
                     {e?.additional?.pages?.length > 0 ? (
-                      e?.additional?.pages.map((ele, index) => {
+                      e?.additional?.pages?.map((ele, index) => {
                         return (
                           <div className="print10A" key={index}>
                             <div className="container10A">
@@ -273,10 +271,10 @@ const BagPrint10A = ({ queries, headers }) => {
                                       <div className="seaction10AheadPcs"></div>
                                       <div className="seaction10AheadWT"></div>
                                     </div>
-                                    {ele?.data.map((a, i) => {
+                                    {ele?.data?.map((a, i) => {
                                       return (
                                         <React.Fragment key={i}>
-                                          {a.MasterManagement_DiamondStoneTypeid ===
+                                          {a?.MasterManagement_DiamondStoneTypeid ===
                                           5 ? (
                                             <div
                                               className="seaction10Amid"
@@ -380,7 +378,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                   </div>
                                   <div className="footer10A imp10A">
                                     <p className="footer10AIns">
-                                      {" "}
+                                      
                                       <span
                                         className="footer10AIns"
                                         style={{
@@ -421,8 +419,8 @@ const BagPrint10A = ({ queries, headers }) => {
                                           <div className="diaflex10A">
                                             <p className="f10Aval">DIAMOND</p>
                                             <p className="diaVal10A">
-                                              {e.additional.dia.ActualPcs}/
-                                              {e.additional.dia.ActualWeight.toFixed(
+                                              {e?.additional?.dia?.ActualPcs}/
+                                              {e?.additional?.dia?.ActualWeight?.toFixed(
                                                 3
                                               )}
                                             </p>{" "}
@@ -440,8 +438,8 @@ const BagPrint10A = ({ queries, headers }) => {
                                           <div className="diaflex10A">
                                             <p className="f10Aval">CS</p>
                                             <p className="diaVal10A">
-                                              {e.additional.clr.ActualPcs}/
-                                              {e.additional.clr.ActualWeight.toFixed(
+                                              {e?.additional?.clr?.ActualPcs}/
+                                              {e?.additional?.clr?.ActualWeight?.toFixed(
                                                 2
                                               )}
                                             </p>{" "}
@@ -459,7 +457,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                           <div className="diaflex10A">
                                             <p className="f10Aval">METAL</p>
                                             <p className="diaVal10A">
-                                              {e?.data?.rd?.netwt.toFixed(3)}
+                                              {e?.data?.rd?.netwt?.toFixed(3)}
                                             </p>{" "}
                                           </div>
                                         </div>
@@ -574,7 +572,7 @@ const BagPrint10A = ({ queries, headers }) => {
                               </div>
                               <div className="footer10A imp10A">
                                 <p className="footer10AIns">
-                                  {" "}
+                                  
                                   <span
                                     className="footer10AIns"
                                     style={{
@@ -630,8 +628,8 @@ const BagPrint10A = ({ queries, headers }) => {
                                       <div className="diaflex10A">
                                         <p className="f10Aval">DIAMOND</p>
                                         <p className="diaVal10A">
-                                          {e.additional.dia.ActualPcs}/
-                                          {e.additional.dia.ActualWeight.toFixed(
+                                          {e?.additional?.dia?.ActualPcs}/
+                                          {e?.additional?.dia?.ActualWeight?.toFixed(
                                             2
                                           )}
                                         </p>{" "}
@@ -649,8 +647,8 @@ const BagPrint10A = ({ queries, headers }) => {
                                       <div className="diaflex10A">
                                         <p className="f10Aval">CS</p>
                                         <p className="diaVal10A">
-                                          {e.additional.clr.ActualPcs}/
-                                          {e.additional.clr.ActualWeight.toFixed(
+                                          {e?.additional?.clr?.ActualPcs}/
+                                          {e?.additional?.clr?.ActualWeight?.toFixed(
                                             2
                                           )}
                                         </p>{" "}
@@ -668,11 +666,11 @@ const BagPrint10A = ({ queries, headers }) => {
                                       <div className="diaflex10A">
                                         <p className="f10Aval">METAL</p>
                                         <p className="diaVal10A">
-                                          {e.additional.misc.ActualPcs}/
-                                          {e.additional.misc.ActualWeight.toFixed(
+                                          {e?.additional?.misc?.ActualPcs}/
+                                          {e?.additional?.misc?.ActualWeight?.toFixed(
                                             2
                                           )}
-                                        </p>{" "}
+                                        </p>
                                       </div>
                                     </div>
                                     <div

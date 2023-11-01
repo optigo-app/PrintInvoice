@@ -38,35 +38,22 @@ const BagPrint5A = ({ queries, headers }) => {
         datas?.forEach((a) => {
           let length = 0;
           let clr = {
-            // Shapename: "TOTAL",
-            // Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "COLOR STONE DETAIL"
           };
           let dia = {
-            // Shapename: "TOTAL",
-            // Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "DIAMOND DETAIL"
           };
           let misc = {
-            // Shapename: "TOTAL",
-            // Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "MISC DETAIL"
           };
           let f = {
-            // Shapename: "TOTAL",
-            // Sizename: "",
             ActualPcs: 0,
             ActualWeight: 0,
-            // heading: "FINDING DETAIL"
           };
           let ArrofSevenSize = [];
-          //arr for colorstone
           let ArrofFiveSize = [];
           let ArrofMISize = [];
           let ArrofFSize = [];

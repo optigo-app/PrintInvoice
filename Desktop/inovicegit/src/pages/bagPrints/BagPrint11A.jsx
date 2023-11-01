@@ -33,6 +33,7 @@ const BagPrint11A = ({ queries, headers }) => {
         };
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
             let length = 0;
           let clr = {
@@ -63,6 +64,7 @@ const BagPrint11A = ({ queries, headers }) => {
           let ArrofFiveSize = [];
           let ArrofMISize = [];
           let ArrofFSize = [];
+          // eslint-disable-next-line array-callback-return
           datas?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;

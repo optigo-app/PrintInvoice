@@ -1,4 +1,3 @@
-import axios from 'axios';
 import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -17,15 +16,14 @@ function Jobbagsticker3({ queries, headers }) {
     const resultString = GetUniquejob(queryParams?.str_srjobno);
     const [data, setData] = useState([]);
     useEffect(() => {
-        if (Object.keys(queryParams).length !== 0) {
-            atob(queryParams.imagepath);
+        if (Object.keys(queryParams)?.length !== 0) {
+            atob(queryParams?.imagepath);
         }
-    }, []);
+    }, [queryParams]);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const responseData = [];
-
                 const objs = {
                     jobno: resultString,
                     custid: queries.custid,
@@ -38,6 +36,7 @@ function Jobbagsticker3({ queries, headers }) {
           
                   let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
+                  // eslint-disable-next-line array-callback-return
                   datas?.map((a) => {
 
                     let length = 0;
@@ -53,8 +52,8 @@ function Jobbagsticker3({ queries, headers }) {
                         miscWt: 0
                     };
                     let ArrofSevenSize = [];
-                    //arr for colorstone
                     let ArrofFiveSize = [];
+                    // eslint-disable-next-line array-callback-return
                     a?.rd1?.map((e, i) => {
                         if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
                             length++;
@@ -90,70 +89,6 @@ function Jobbagsticker3({ queries, headers }) {
 
 
                   })
-
-
-
-                // for (const url in print) {
-
-                //     let p_tag = { "SerialJobno": `${print[url]}`, "customerid": `${queries.custid}`, "BagPrintName": `${queries.printname}` };
-                //     let jsonString = JSON.stringify(p_tag);
-                //     let base64String = btoa(jsonString);
-                //     let Body = {
-                //         "con": `{\"id\":\"\",\"mode\":\"${queries.printname}\",\"appuserid\":\"${queries.appuserid}\"}`,
-                //         "p": `${base64String}`,
-                //         "f": `${queries.appuserid} ${queries.printname}`
-                //     };
-                //     const urls = atob(queries.url);
-                //     const response = await axios.post(urls, Body, { headers: headers });
-                //     let datas = JSON.parse(response.data.d);
-                //     let length = 0;
-                //     let clr = {
-                //         clrPcs: 0,
-                //         clrWt: 0
-                //     };
-                //     let dia = {
-                //         diaPcs: 0,
-                //         diaWt: 0
-                //     };
-                //     let misc = {
-                //         miscWt: 0
-                //     };
-                //     let ArrofSevenSize = [];
-                //     //arr for colorstone
-                //     let ArrofFiveSize = [];
-                //     datas.rd1.map((e, i) => {
-                //         if (e.ConcatedFullShapeQualityColorCode !== "- - - ") {
-                //             length++;
-                //         }
-                //         if (e.MasterManagement_DiamondStoneTypeid === 3) {
-                //             dia.diaPcs = dia.diaPcs + e.ActualPcs;
-                //             dia.diaWt = dia.diaWt + e.ActualWeight;
-                //         } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
-                //             clr.clrPcs = clr.clrPcs + e.ActualPcs;
-                //             clr.clrWt = clr.clrWt + e.ActualWeight;
-                //         } else if (e.MasterManagement_DiamondStoneTypeid === 7) {
-                //             misc.miscWt = misc.miscWt + e.ActualWeight;
-                //         }
-                //         if (e.MasterManagement_DiamondStoneTypeid === 3) {
-                //             ArrofSevenSize.push(e);
-                //         } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
-                //             ArrofFiveSize.push(e);
-                //         } else {
-                //             return '';
-                //         }
-                //     });
-                //     let imagePath = queryParams.imagepath;
-                //     imagePath = atob(queryParams.imagepath);
-                //     try {
-                //         let cutProductIns = datas?.rd[0]?.ProductInstruction ?? '';
-                //         let cutProductionInstruction = cutProductIns.slice(0, 61);
-                //         datas.rd[0].ProductInstruction = cutProductionInstruction;
-                //     } catch (error) {
-                //         console.log(error);
-                //     }
-                //     let img = imagePath + datas.rd[0].ThumbImagePath;
-                //     responseData.push({ data: datas, additional: { length: length, clr: clr, dia: dia, img: img, misc: misc } });
-                // }
                 setData(responseData);
             } catch (error) {
                 console.log(error);
@@ -170,8 +105,6 @@ function Jobbagsticker3({ queries, headers }) {
         }
 }, [data]);
 
-
-    // Check if the 'str' variable is not null before accessing its 'length' property
     return (
         <>
             {
@@ -181,11 +114,11 @@ function Jobbagsticker3({ queries, headers }) {
                 <div className='pad_60_allPrint'>
 
                 
-                    {Array.from({ length: queries.pageStart }, (_, index) => (
+                    {Array.from({ length: queries?.pageStart }, (_, index) => (
                         index > 0 && <div key={index} className="container  ml_5 mb_10"></div>
                     ))}
                     {
-                        data.length > 0 ? 
+                        data?.length > 0 ? 
                             <div className='container_job_bag_sticker_3'>
                                 {
                                     data?.map((e, i) => {

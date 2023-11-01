@@ -32,6 +32,7 @@ const BagPrint4A = ({ queries, headers }) => {
         };
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           let chunkData = [];
           let chunkSize = 14;
@@ -125,7 +126,7 @@ const BagPrint4A = ({ queries, headers }) => {
   }, [data]);
   return (
     <>
-      {data.length === 0 ? (
+      {data?.length === 0 ? (
         <Loader />
       ) : (
         <>
@@ -152,12 +153,12 @@ const BagPrint4A = ({ queries, headers }) => {
             {data?.length > 0 &&
               data?.map((e, i) => {
                 return (
-                  <>
+                  <React.Fragment key={i}>
                     {e?.additional?.pages?.length > 0 ? <> {(
                       e?.additional?.pages?.map((ele, ind) => {
                         return (
-                          <>
-                            <div className="container4A" key={ind}>
+                          <React.Fragment key={ind}>
+                            <div className="container4A">
                               <div className="print4Apart_1">
                                 <div className="part_1_4A">
                                   <div className="title4A jobDiaGold4A border_bottom4A">
@@ -255,7 +256,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                     <div className="wt4A border_right4A code4A_text"></div>
                                   </div>
                                   <div className="record_line_1">
-                                    {ele?.data.map((elem, index) => {
+                                    {ele?.data?.map((elem, index) => {
                                       return elem?.MasterManagement_DiamondStoneTypeid ===
                                         5 ? (
                                         <div
@@ -379,7 +380,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 </div>
                               </div>
                             </div>
-                          </>
+                          </React.Fragment>
                         );
                       })
                     )} 
@@ -1122,7 +1123,7 @@ const BagPrint4A = ({ queries, headers }) => {
                       </div>
                      </>
                     }
-                  </>
+                  </React.Fragment>
                 );
               })}
           </section>
