@@ -36,6 +36,7 @@ function BagPrint14A({ queries, headers }) {
                   };
                   const allDatas = await GetData(objs);
                   let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+                  // eslint-disable-next-line array-callback-return
                   datas?.map((a) => {
                     let length = 0;
                     let total = {
@@ -71,6 +72,7 @@ function BagPrint14A({ queries, headers }) {
                     let ArrofMISize = [];
                     let ArrofFSize = [];
 
+                    // eslint-disable-next-line array-callback-return
                     a?.rd1?.map((e, i) => {
 
                         if (e?.MasterManagement_DiamondStoneTypeid !== 0) {
@@ -107,38 +109,7 @@ function BagPrint14A({ queries, headers }) {
                     misc.ActualWeight = +(misc.ActualWeight?.toFixed(3));
                     f.ActualPcs = +(f.ActualPcs?.toFixed(3));
                     f.ActualWeight = +(f.ActualWeight?.toFixed(3));
-                    ArrofSevenSize?.map((e) => {
-                        if (e?.ActualPcs === 0 && e?.ActualWeight == 0) {
-                            ArrofSevenSize = [];
-                        } else {
-                            e.heading = "DIAMOND DETAIL";
-                        }
-                    }
-                    );
-                    ArrofFiveSize?.map((e) => {
-                        if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-                            ArrofFiveSize = [];
-                        } else {
-                            e.heading = "COLOR STONE DETAIL";
-                        }
-                    }
-                    );
-                    ArrofMISize?.map((e) => {
-                        if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-                            ArrofMISize = [];
-                        } else {
-                            e.heading = "MISC DETAIL";
-                        }
-                    }
-                    );
-                    ArrofFSize?.map((e) => {
-                        if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-                            ArrofFSize = [];
-                        } else {
-                            e.heading = "FINDING DETAIL";
-                        }
-                    }
-                    );
+              
                     let arr = [];
                     let mainArr = arr?.concat(ArrofSevenSize, ArrofFiveSize, ArrofMISize, ArrofFSize);
                     let imagePath = queryParams?.imagepath;
@@ -155,12 +126,12 @@ function BagPrint14A({ queries, headers }) {
         fetchData();
     }, []);
     useEffect(() => {
-        if (data.length !== 0) {
+        if (data?.length !== 0) {
             setTimeout(() => {
                 window.print();
             }, 5000);
         }
-}, [data]);
+}, [data?.length]);
     return (
         <>
             {
@@ -245,7 +216,7 @@ function BagPrint14A({ queries, headers }) {
                                                                                 <div>
                                                                                     {
                                                                                         // logic of empty chunks
-                                                                                        Array.from({ length: (a?.length) }, (i) => {
+                                                                                        Array.from({ length: (a?.length) }, (_,i) => {
                                                                                             return (
                                                                                                 <div style={{ display: "flex" }} key={i}>
                                                                                                     <div className='firstpart_one_1'>

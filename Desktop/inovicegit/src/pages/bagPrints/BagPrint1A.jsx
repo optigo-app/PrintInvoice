@@ -2,7 +2,6 @@ import queryString from "query-string";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "../../assets/css/bagprint/print1A.css";
-import { formatDate } from "../../GlobalFunctions/DateFormat";
 import { GetChunkData } from "../../GlobalFunctions/GetChunkData";
 import { GetData } from "../../GlobalFunctions/GetData";
 import { GetSeparateData } from "../../GlobalFunctions/GetSeparateData";
@@ -21,13 +20,13 @@ function BagPrint1A({ queries, headers }) {
   const chunkSize11 = 15;
   const imgUrls = [];
   useEffect(() => {
-    if (Object.keys(queryParams).length !== 0) {
-      atob(queryParams.imagepath);
+    if (Object.keys(queryParams)?.length !== 0) {
+      atob(queryParams?.imagepath);
     }
     const fetchData = async () => {
       try {
         const responseData = [];
-        const startTime = performance.now();
+        const startTime = performance?.now();
 
         const objs = {
           jobno: resultString,
@@ -41,17 +40,9 @@ function BagPrint1A({ queries, headers }) {
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           imgUrls?.push(a?.rd?.ThumbImagePath);
-          let length = 0;
-          let clr = {
-            clrPcs: 0,
-            clrWt: 0,
-          };
-          let dia = {
-            diaPcs: 0,
-            diaWt: 0,
-          };
           // let diamondData = [];
           // let clrData = [];
           // let diamondWeight = 0;
@@ -95,27 +86,28 @@ function BagPrint1A({ queries, headers }) {
             MasterManagement_DiamondStoneTypeid: 7,
           });
 
+          // eslint-disable-next-line array-callback-return
           separateData?.diamondArr?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               // ArrofSevenSize = [];
               separateData.diamondArr = [];
             }
           });
-
+          // eslint-disable-next-line array-callback-return
           separateData?.colorStoneArr?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               // ArrofFiveSize = [];
               separateData.colorStoneArr = [];
             }
           });
-
+          // eslint-disable-next-line array-callback-return
           separateData?.miscArr?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               // ArrofMISize = [];
               separateData.miscArr = [];
             }
           });
-
+          // eslint-disable-next-line array-callback-return
           separateData?.findingArr?.map((e) => {
             if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
               // ArrofFSize = [];
@@ -508,7 +500,9 @@ function BagPrint1A({ queries, headers }) {
         //   });
         //   // responseData.push({ data: datas, additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, pages: chunkData } });
         // }
-        const endTime = performance.now();
+        const endTime = performance?.now();
+        
+        // eslint-disable-next-line no-unused-vars
         const elapsedTime = (endTime - startTime) / 1000;
         // console.log(`Time taken: ${elapsedTime} seconds`);
         // console.log(`Time taken: ${elapsedTime/60} minutes`);
@@ -1054,7 +1048,7 @@ function BagPrint1A({ queries, headers }) {
                                   })}
                                   {Array.from(
                                     { length: ele?.length },
-                                    (ains) => {
+                                    (_,ains) => {
                                       return (
                                         <React.Fragment key={ains}>
                                           {ains !== 0 ? (
@@ -1150,16 +1144,16 @@ function BagPrint1A({ queries, headers }) {
                                 </div>
                                 <div
                                   style={{
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     paddingLeft: "2px",
                                     paddingTop: "2px",
                                     lineHeight: "14px",
-                                    fontSize: "12px",
+                                    
                                   }}
                                 >
                                   <b>INSTRUCTION:</b>
                                   <span style={{ color: "red" }}>
-                                    {e?.data?.rd?.ShowInstruction ?? ''}
+                                    {e?.data?.rd?.ShowInstruction ?? ""}
                                   </span>
                                 </div>
                               </div>
@@ -1358,7 +1352,7 @@ function BagPrint1A({ queries, headers }) {
                                 </div>
                               </div>
 
-                              {Array.from({ length: 15 }, (ai) => {
+                              {Array.from({ length: 15 }, (_,ai) => {
                                 return (
                                   <div className="print1AMidBody" key={ai}>
                                     <div className="print1ARM RMW">
@@ -1411,7 +1405,9 @@ function BagPrint1A({ queries, headers }) {
                               }}
                             >
                               <b>INSTRUCTION:</b>
-                              <span style={{color:"red"}}>{e?.data?.rd?.ShowInstruction ?? ''}</span>
+                              <span style={{ color: "red" }}>
+                                {e?.data?.rd?.ShowInstruction ?? ""}
+                              </span>
                             </div>
                           </div>
                           <div className="barcodeSetPrint1A">
