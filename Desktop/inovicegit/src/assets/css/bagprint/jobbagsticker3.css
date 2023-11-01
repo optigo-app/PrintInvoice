@@ -6,8 +6,8 @@
 
 #jobsticker3 {
     padding: 1em;
-    height: 300px !important;
-    width: 300px !important;
+    height: 270px !important;
+    width: 250px !important;
 }
 
 .container_job_bag_sticker_3 {
@@ -21,9 +21,9 @@
 .bag_space {
     box-sizing: border-box;
     width: 145.6mm !important;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     margin-top: 3rem;
-    /* margin-left: 7rem; */
+    margin-left: 8rem;
     page-break-after: always;
 }
 
@@ -42,7 +42,7 @@
 
 .img_aside_3 {
     height: 300px;
-    width: 26rem;
+    width: 23rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -51,7 +51,7 @@
 .ins_3 {
     margin-top: -1rem;
     padding: 1em;
-    width: 170px;
+    width: 245px;
     height: 150px;
     word-break: break-all;
 }

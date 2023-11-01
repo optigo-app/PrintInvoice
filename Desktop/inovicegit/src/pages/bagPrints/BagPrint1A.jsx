@@ -957,7 +957,7 @@ function BagPrint1A({ queries, headers }) {
                                           className="bordered-div"
                                           style={{
                                             width: "33px",
-                                            height: "17px",
+                                            height: "15px",
 
                                             borderRight: "1px solid",
                                             borderBottom: "0px solid",
@@ -976,6 +976,7 @@ function BagPrint1A({ queries, headers }) {
                                 fontSize: "14px",
                                 borderRight: "1px solid black",
                                 height: "34px",
+                                width: "25.4rem"
                               }}
                             >
                               <b>INSTRUCTION:</b>
