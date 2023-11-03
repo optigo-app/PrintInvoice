@@ -9,7 +9,6 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
   const [json1Data, setJson1Data] = useState([]);
-  console.log(atob(printName));
   const [detailtPrintR, setdetailtPrintR] = useState(atob(printName).toLowerCase() === "detail print r" ? true : false);
   const [msg, setMsg] = useState("");
   const [total, setTotal] = useState({

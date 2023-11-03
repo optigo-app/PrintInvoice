@@ -25,25 +25,31 @@
 }
 
 .srNoDetailprint11 {
-    width: 21px;
-    min-width: 21px;
+    /* width: 21px;
+    min-width: 21px; */
+    width: 3%;
+    min-width: 3%;
 }
 
 .designDetalPrint1 {
-    width: 65px;
-    min-width: 65px;
+    /* width: 65px;
+    min-width: 65px; */
+    width: 9%;
+    min-width: 9%;
 }
 
 .diamondDetailPrint1 {
-    /* width: 167.9px;
-    min-width: 167.9px; */
-    width: 181.9px;
-    min-width: 181.9px;
+    /* width: 181.9px;
+    min-width: 181.9px; */
+    width: 23%;
+    min-width: 23%;
 }
 
 .stoneDetailsPrint1 {
-    width: 174.3px;
-    min-width: 174.3px;
+    /* width: 174.3px;
+    min-width: 174.3px; */
+    width: 19%;
+    min-width: 19%;
 }
 
 .metalDetailPrint1 {

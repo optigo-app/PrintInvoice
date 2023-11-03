@@ -57,6 +57,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [diamondDetail, setDiamondDetail] = useState([]);
     const [loader, setLoader] = useState(true);
     const [brokrage, setBrokrage] = useState(false);
+    const [brokarage, setBrokarage] = useState([]);
 
     const handleChange = (e) => {
         const { name } = e?.target;
@@ -245,7 +246,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
         setTotal(totals);
         setJson2Data(resultArr);
         let brokarage = ReceiveInBank(data?.BillPrint_Json[0]?.Brokerage);
-        console.log(brokarage);
+        setBrokarage(brokarage);
     }
 
     const loadData = (data) => {
@@ -710,6 +711,12 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     {/* other details */}
                     <div className="min_height_100EstimatePrint  border-end position-relative col-2">
                         <div className="totalBgEstimatePrint text-center"><p className="fw-bold p-1">OTHER DETAILS</p></div>
+                        {brokrage && (brokarage.length > 0 && brokarage.map((e, i) => {
+                            return <div className="d-flex w-100 justify-content-between p-1" key={i}>
+                            <p>{e?.BankName}</p>
+                            <p>{NumberWithCommas(+e?.label, 2)}</p>
+                        </div>
+                        }))}
                         <div className="d-flex w-100 justify-content-between p-1">
                             <p>RATE IN 24KT	</p>
                             <p>{fixedValues(json1Data?.MetalRate24K, 3)} gm</p>
