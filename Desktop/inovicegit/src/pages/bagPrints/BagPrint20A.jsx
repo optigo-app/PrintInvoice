@@ -324,7 +324,8 @@ const BagPrint20A = ({ queries, headers }) => {
                                         <span className="fs20A fw-bold">
                                           Remark:
                                         </span>
-                                        <span className="text-danger lh20A p-1">
+                                        <span className="text-danger lh20A p-1" style={{fontSize:"8.6px"}}>
+                                          
                                           {" " +
                                             checkInstruction(
                                               e?.data?.rd?.ProductInstruction
@@ -842,7 +843,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                     paddingTop: "1px",
                                   }}
                                 >
-                                  <span className="fw-bold fs20A">
+                                  <span className="fw-bold fs20A" style={{fontSize:"8.6px"}}>
                                     {" "}
                                     Remark:{" "}
                                     {" " +
@@ -1093,8 +1094,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                 className="wheadsep7Acopy enbrb7Acopy border-end border_color"
                                 style={{ minWidth: "9.5mm !important" }}
                               ></div>
-                              import {checkInstruction} from
-                              './../../GlobalFunctions';
+                              
                               <div className="wheadsep7Acopy enbrb7Acopy border-end border_color"></div>
                               <div className="wheadsep7Acopy enbrb7Acopy border-end border_color"></div>
                               <div className="wheadsep7Acopy enbrb7Acopy border-end border_color"></div>
