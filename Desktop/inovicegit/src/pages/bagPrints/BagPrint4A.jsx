@@ -8,8 +8,9 @@ import { GetData } from "../../GlobalFunctions/GetData";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
-import { NumberWithCommas, checkInstruction, fixedValues, notZero } from "../../GlobalFunctions";
+import { NumberWithCommas, checkArr, checkInstruction, fixedValues, notZero } from "../../GlobalFunctions";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
+import { GetChunkData } from './../../GlobalFunctions/GetChunkData';
 const BagPrint4A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -39,28 +40,37 @@ const BagPrint4A = ({ queries, headers }) => {
           let length = 0;
           let clr = {
             Shapename: "TOTAL",
-            Sizename: "",
+            Sizename: "C TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
+            MasterManagement_DiamondStoneTypeid: 4,
           };
           let dia = {
             Shapename: "TOTAL",
-            Sizename: "",
+            Sizename: "D TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
+            MasterManagement_DiamondStoneTypeid: 3,
           };
           let misc = {
-            Shapename: "TOTAL",
-            Sizename: "",
+            Shapename: "MISC TOTAL",
+            Sizename: "MISC TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
+            MasterManagement_DiamondStoneTypeid: 7,
           };
           let f = {
             Shapename: "TOTAL",
-            Sizename: "",
+            Sizename: "F TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
-          };
+            MasterManagement_DiamondStoneTypeid: 5,
+          }
+
+          let diaArr = [];
+          let clsArr= [];
+          let miscArr = [];
+          let fArr = [];
           // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
@@ -69,18 +79,80 @@ const BagPrint4A = ({ queries, headers }) => {
             if (e?.MasterManagement_DiamondStoneTypeid === 3) {
               dia.ActualPcs = dia.ActualPcs + e.ActualPcs;
               dia.ActualWeight = dia.ActualWeight + e.ActualWeight;
+              diaArr?.push(e)
             } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
               clr.ActualPcs = clr.ActualPcs + e.ActualPcs;
               clr.ActualWeight = clr.ActualWeight + e.ActualWeight;
+              clsArr?.push(e)
             } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
               f.ActualPcs = f.ActualPcs + e.ActualPcs;
               f.ActualWeight = f.ActualWeight + e.ActualWeight;
+              fArr?.push(e)
             } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
               misc.ActualPcs = misc.ActualPcs + e.ActualPcs;
               misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
+              miscArr?.push(e)
             }
           });
+
+          dia.ActualPcs = +dia.ActualPcs?.toFixed(3);
+          dia.ActualWeight = +dia.ActualWeight?.toFixed(3);
+          clr.ActualPcs = +clr.ActualPcs?.toFixed(3);
+          clr.ActualWeight = +clr.ActualWeight?.toFixed(3);
+          misc.ActualPcs = +misc.ActualPcs?.toFixed(3);
+          misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
+          f.ActualPcs = +f.ActualPcs?.toFixed(3);
+          f.ActualWeight = +f.ActualWeight?.toFixed(3);
+          diaArr?.push(dia);
+          clsArr?.push(clr);
+          miscArr?.push(misc);
+          fArr?.push(f);
+
           let blankArr = a?.rd1?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid !== 0);
+
+          let newDia = {
+            Shapename: "DIAMOND DETAIL",
+            Sizename: "",
+            ActualPcs: "",
+            ActualWeight: "",
+            MasterManagement_DiamondStoneTypeid: 3,
+          };
+          let newCS = {
+            Shapename: "COLORSTONE DETAIL",
+            Sizename: "",
+            ActualPcs: "",
+            ActualWeight: "",
+            MasterManagement_DiamondStoneTypeid: 4,
+          };
+          let newMisc = {
+            Shapename: "MISC DETAIL",
+            Sizename: "",
+            ActualPcs: "",
+            ActualWeight: "",
+            MasterManagement_DiamondStoneTypeid: 7,
+          };
+          let newfind = {
+            Shapename: "FINDING DETAIL",
+            Sizename: "",
+            ActualPcs: "",
+            ActualWeight: "",
+            MasterManagement_DiamondStoneTypeid: 5,
+          };
+
+          diaArr?.unshift(newDia);
+          clsArr?.unshift(newCS);
+          miscArr?.unshift(newMisc);
+          fArr?.unshift(newfind);
+
+
+          // console.log(blankArr);
+          // console.log(diaArr, clsArr, miscArr,fArr);
+
+          let blankArr1 = checkArr(diaArr, clsArr, miscArr,fArr);
+          console.log(blankArr1);
+
+          // GetChunkData(blankArr1); 
+
           a.rd1 = blankArr;
           let obj = { ...a };
           if (obj?.rd?.length > 0) {
@@ -93,11 +165,16 @@ const BagPrint4A = ({ queries, headers }) => {
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
-          for (let i = 0; i < a?.rd1?.length; i += chunkSize) {
-            const chunks = a?.rd1?.slice(i, i + chunkSize);
-            let len = 14 - a?.rd1?.slice(i, i + chunkSize)?.length;
+          for (let i = 0; i < blankArr1?.length; i += chunkSize) {
+            const chunks = blankArr1?.slice(i, i + chunkSize);
+            let len = 14 - blankArr1?.slice(i, i + chunkSize)?.length;
             chunkData.push({ data: chunks, length: len });
           }
+          // for (let i = 0; i < a?.rd1?.length; i += chunkSize) {
+          //   const chunks = a?.rd1?.slice(i, i + chunkSize);
+          //   let len = 14 - a?.rd1?.slice(i, i + chunkSize)?.length;
+          //   chunkData.push({ data: chunks, length: len });
+          // }
           responseData.push({
             data: obj.rd,
             additional: {
@@ -246,60 +323,137 @@ const BagPrint4A = ({ queries, headers }) => {
                                   <div className="height_23_4A border_bottom4A d_flex4A">
                                     <div
                                       className="code4A border_right4A code4A_text"
-                                      style={{ width: "94pt" }}
+                                      style={{ width: "170pt", borderRight:"0px" }}
                                     >
-                                      <div className="code_4A_change border-end border-black height_23_4A height_11_Print4a code4A_text">
+                                      <div className="code_4A_change border-end border-black height_23_4A height_11_Print4a code4A_text w-100" style={{height:"13pt"}}>
                                       {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                       </div>
                                     </div>
-                                    <div className="pcs4A border_right4A code4A_text"></div>
-                                    <div className="wt4A border_right4A code4A_text"></div>
-                                    <div className="pcs4A border_right4A code4A_text"></div>
-                                    <div className="wt4A border_right4A code4A_text"></div>
                                   </div>
                                   <div className="record_line_1">
                                     {ele?.data?.map((elem, index) => {
                                       return elem?.MasterManagement_DiamondStoneTypeid ===
                                         5 ? (
-                                        <div
-                                          className="record_line_4A border_bottom4A"
-                                          key={index}
-                                        >
-                                          <div
-                                            className="code4A border_right4A code4A_text"
-                                            style={{
-                                              width: "94pt",
-                                              lineHeight: "8px",
-                                            }}
-                                          >
-                                            <div className="finding height_23_4A">
-                                            {elem?.Shapename} {elem?.Quality}
-                                            {elem?.ColorName}
-                                            </div>
-                                          </div>
-                                    <div className="pcs4A border_right4A code4A_text">{NumberWithCommas(elem?.ActualPcs, 0)}</div>
-                                          <div className="wt4A border_right4A code4A_text">{fixedValues(elem?.ActualWeight, 3)}</div>
-                                          <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)}</div>
-                                          <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
-                                        </div>
+                                            <React.Fragment>
+                                              {
+                                                console.log(elem)
+                                              }
+                                              {
+                                                   elem?.Shapename === "FINDING DETAIL" 
+                                                   ? 
+                                                   <>
+                                                    <div
+                                                        className="record_line_4A border_bottom4A"
+                                                        key={index}
+                                                    >
+                                                      <div className="code4A border_right4A code4A_text w-100 fw-bold d-flex justify-content-center align-items-center" style={{height:"15px"}}>
+                                                        {elem?.Shapename}
+                                                      </div>
+                                                  </div>
+                                                   </> 
+                                                   : 
+                                                   <>
+                                                      {
+                                                        console.log(elem?.Sizename)
+                                                      }
+                                                      {
+                                                        elem?.Sizename === "F TOTAL" ? 
+                                                        <div
+                                                        className="record_line_4A border_bottom4A"
+                                                        key={index}
+                                                  >
+                                                  <div
+                                                      className="code4A border_right4A code4A_text"
+                                                      style={{
+                                                      width: "94pt",
+                                                      lineHeight: "8px",
+                                                      }}  
+                                                  >
+                                                  <div className="finding height_23_4A fw-bold">
+                                                      {elem?.Sizename}
+                                                  </div>
+                                                </div>
+                                                <div className="pcs4A border_right4A code4A_text fw-bold">{elem?.ActualPcs}</div>
+                                                <div className="wt4A border_right4A code4A_text fw-bold">{elem?.ActualWeight?.toFixed(3)}</div>
+                                                <div className="pcs4A border_right4A code4A_text"></div>
+                                                <div className="wt4A border_right4A code4A_text"></div>
+                                                  </div> : <div
+                                                        className="record_line_4A border_bottom4A"
+                                                        key={index}
+                                                  >
+                                                  <div
+                                                      className="code4A border_right4A code4A_text"
+                                                      style={{
+                                                      width: "94pt",
+                                                      lineHeight: "8px",
+                                                      }}  
+                                                  >
+                                                  <div className="finding height_23_4A">
+                                                      {elem?.Shapename} {elem?.Quality}
+                                                      {elem?.ColorName}
+                                                  </div>
+                                                </div>
+                                                <div className="pcs4A border_right4A code4A_text">{elem?.ActualPcs}</div>
+                                                <div className="wt4A border_right4A code4A_text">{elem?.ActualWeight?.toFixed(3)}</div>
+                                                <div className="pcs4A border_right4A code4A_text"></div>
+                                                    <div className="wt4A border_right4A code4A_text"></div>
+                                                    </div>
+                                                      }
+                                                   </>
+                                              }
+                                        </React.Fragment>
                                       ) : (
-                                        <div
+                                        <React.Fragment>
+                                          
+                                          {
+                                            (elem?.Shapename === "DIAMOND DETAIL" || elem?.Shapename === "COLORSTONE DETAIL" || elem?.Shapename === "MISC DETAIL" || elem?.Shapename === "FINDING DETAIL")
+                                            ?
+                                             <React.Fragment>
+                                          <div
                                           className="record_line_4A border_bottom4A"
                                           key={index}
                                         >
-                                          <div className="code4A border_right4A code4A_text">
-                                            {
-                                              elem?.ConcatedFullShapeQualityColorName
-                                            }
+                                          <div className="code4A border_right4A code4A_text w-100 fw-bold d-flex justify-content-center align-items-center" style={{height:"15px"}}>
+                                            {elem?.Shapename}
                                           </div>
-                                          <div className="size4AS border_right4A code4A_text">
-                                            {elem?.Sizename}
-                                          </div>
-                                          <div className="pcs4A border_right4A code4A_text">{NumberWithCommas(elem?.ActualPcs, 0)}</div>
-                                          <div className="wt4A border_right4A code4A_text">{fixedValues(elem?.ActualWeight, 3)}</div>
-                                          <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)}</div>
-                                          <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
                                         </div>
+                                             </React.Fragment> 
+                                             :
+                                              <React.Fragment>
+                                                {
+                                                  (elem?.Sizename === "D TOTAL" || elem?.Sizename === "C TOTAL" || elem?.Sizename === "MISC TOTAL" || elem?.Sizename === "F TOTAL")
+                                                  ? <div
+                                                  className="record_line_4A border_bottom4A"
+                                                  key={index}
+                                                  >
+                                                  <div className="size4AS border_right4A code4A_text fw-bold" style={{width:"124.7px"}}>
+                                                    {elem?.Sizename}
+                                                  </div>
+                                                  <div className="pcs4A border_right4A code4A_text fw-bold">{elem?.ActualPcs}</div>
+                                                  <div className="wt4A border_right4A code4A_text fw-bold">{elem?.ActualWeight?.toFixed(3)}</div>
+                                                  <div className="pcs4A border_right4A code4A_text"></div>
+                                                  <div className="wt4A border_right4A code4A_text"></div>
+                                                </div> : <div
+                                                  className="record_line_4A border_bottom4A"
+                                                  key={index}
+                                                  >
+                                                  <div className="code4A border_right4A code4A_text">
+                                                    {
+                                                      elem?.ConcatedFullShapeQualityColorName
+                                                    }
+                                                  </div>
+                                                  <div className="size4AS border_right4A code4A_text">
+                                                    {elem?.Sizename}
+                                                  </div>
+                                                  <div className="pcs4A border_right4A code4A_text">{elem?.ActualPcs}</div>
+                                                  <div className="wt4A border_right4A code4A_text">{elem?.ActualWeight?.toFixed(3)}</div>
+                                                  <div className="pcs4A border_right4A code4A_text"></div>
+                                                  <div className="wt4A border_right4A code4A_text"></div>
+                                                </div>
+                                                }
+                                              </React.Fragment>
+                                          }
+                                        </React.Fragment>
                                       );
                                     })}
                                     {ele?.length !== 0 &&
