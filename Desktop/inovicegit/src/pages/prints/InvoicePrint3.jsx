@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import "../../assets/css/prints/invoiceprint3.css";
-import { apiCall, CapitalizeWords, isObjectEmpty, NumberWithCommas } from "../../GlobalFunctions";
+import { apiCall, CapitalizeWords, isObjectEmpty, numberToWord, NumberWithCommas } from "../../GlobalFunctions";
 import convertor from "number-to-words";
 import { taxGenrator } from "./../../GlobalFunctions";
 import Loader from "../../components/Loader";
@@ -342,7 +342,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
     allTax?.forEach((e) => {
       aa += +e?.amount;
     });
-    let words = CapitalizeWords(convertor.toWords(Math.round(aa)));
+    // let words = CapitalizeWords(convertor.toWords(Math.round(aa)));
+    let words = numberToWord(aa) + " Only";
     setInWords(words);
     setGrandTotal(aa);
     setTotDiscount(totdis);
@@ -424,7 +425,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
   // useEffect(() => {
   //   loadData();
   // }, []);
-  
+
   return (
     <>
       {loader ? (
@@ -543,7 +544,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                               <p className="wp3tbinvp3 fsinvp3">
                                 {e?.Wt?.toFixed(3)}
                               </p>
-                              <p className="wp3tbinvp3 fsinvp3">{NumberWithCommas(e?.Rate, 2) }</p>
+                              <p className="wp3tbinvp3 fsinvp3">{NumberWithCommas(e?.Rate, 2)}</p>
                               <p className="wp3tbinvp3 fsinvp3">
                                 {/* {e?.Amount?.toFixed(2)} */}
                                 {NumberWithCommas(e?.Amount, 2)}

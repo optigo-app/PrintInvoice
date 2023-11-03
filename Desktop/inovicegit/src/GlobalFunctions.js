@@ -8,6 +8,8 @@ import Subhead1 from "./components/subheaders/subhead1/Subhead1";
 import Subhead2 from "./components/subheaders/subhead2/Subhead2";
 import { exportToExcel } from "react-json-to-excel";
 import Footer2 from "./components/footers/Footer2";
+import { ToWords } from 'to-words';
+
 //print button function for print pop up
 export const handlePrint = (e) => {
   window.print();
@@ -287,3 +289,15 @@ export const checkArr = (diaArr, clsArr, miscArr, fArr) => {
 
   return mainArr;
 };
+
+
+export const numberToWord = (num) => { 
+  const toWords = new ToWords();
+  if(typeof(num) === "string"){
+    return toWords.convert(+fixedValues(num, 2))
+  }else if(typeof(num) === "number"){
+    return toWords.convert(fixedValues(num, 2))
+  }else{
+    return ""
+  }
+}

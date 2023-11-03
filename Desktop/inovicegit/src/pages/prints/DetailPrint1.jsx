@@ -9,6 +9,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
   const [json1Data, setJson1Data] = useState([]);
+  console.log(atob(printName));
+  const [detailtPrintR, setdetailtPrintR] = useState(atob(printName).toLowerCase() === "detail print r" ? true : false);
   const [msg, setMsg] = useState("");
   const [total, setTotal] = useState({
     diamondPcs: 0,
@@ -62,8 +64,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     let totals = { ...total };
     let summaries = { ...summary };
     let diamondDetails = [];
-
     json1.forEach((e, i) => {
+      if(detailtPrintR){
+        summaries.gold24Kt += e?.PureNetWt;
+      }
       let OtherAmountDetail = otherAmountDetail(e?.OtherAmtDetail);
       let obj = { ...e };
       obj.OtherAmountDetail = OtherAmountDetail;
@@ -129,7 +133,9 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             metalTotal.Pcs += ele?.Pcs;
             metalTotal.Wt += ele?.Wt;
             metalTotal.Amount += ele?.Amount;
-            summaries.gold24Kt += ele?.FineWt;
+            if(!detailtPrintR){
+              summaries.gold24Kt += ele?.FineWt;
+            }
             totals.metalWt += ele?.Wt;
             totals.metalAmount += ele?.Amount;
             summaries.metalAmount += ele?.Amount;
@@ -454,10 +460,9 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               <div className="otherAmountDetailPrint1 border-end  position-relative pt-1">
                 <div className="paddingBottomTotalDetailPrint1">
                   <div>
-                    {e?.OtherAmountDetail.length > 0 && e?.OtherAmountDetail.map((ele, ind) => {
+                    {detailtPrintR ? <p className='text-end'>{NumberWithCommas(e?.OtherCharges, 2)}</p> : e?.OtherAmountDetail.length > 0 && e?.OtherAmountDetail.map((ele, ind) => {
                       return <p key={ind} className={`${e?.OtherAmountDetail.length - 1 !== ind && 'border-bottom'}`}>{ele?.label}: {ele?.value}</p>
                     })}
-                    {/* <p className=' text-end'>{NumberWithCommas(e?.OtherCharges, 2)}</p>s */}
                   </div>
                 </div>
                 <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1">

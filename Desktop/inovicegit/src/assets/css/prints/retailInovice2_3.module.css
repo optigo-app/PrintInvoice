@@ -29,3 +29,7 @@
     object-fit: contain;
     object-position: right;
 }
+
+.pad_end_retail_invoice_2_3{
+    padding-right: 29%;
+}

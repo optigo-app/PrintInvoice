@@ -7,6 +7,7 @@ import {
   CapitalizeWords,
   handleImageError,
   isObjectEmpty,
+  numberToWord,
   NumberWithCommas,
 } from "../../GlobalFunctions";
 import convertor from "number-to-words";
@@ -243,7 +244,8 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
       grandTot += +e?.amount;
     });
 
-    let words = CapitalizeWords(convertor?.toWords(Math.round(grandTot)));
+    // let words = CapitalizeWords(convertor?.toWords(Math.round(grandTot)));
+    let words = numberToWord(grandTot)+" Only";
 
     setInWords(words);
     setGrandTotal(grandTot);

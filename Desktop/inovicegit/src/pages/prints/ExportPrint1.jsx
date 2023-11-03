@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import style from "../../assets/css/prints/exportPrint1.module.css";
-import { apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, handlePrint, isObjectEmpty, numberToWord } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
-import { ToWords } from 'to-words';
 
 const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
     const [data, setData] = useState([]);
     const [json0Data, setJson0Data] = useState({});
     const [msg, setMsg] = useState("");
-    const toWords = new ToWords();
 
     const loadData = (data) => {
         let arr = [];
@@ -179,7 +177,7 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* FOB */}
-            <p className='border-bottom border-start border-end p-2'>FOB IN Word:  {toWords.convert(23094820.45)}</p>
+            <p className='border-bottom border-start border-end p-2'>FOB IN Word:  {numberToWord(23094820.45)}</p>
             {/* I/we hereby certify */}
             <div dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }} className='border-bottom border-start border-end ps-2 pe-2 pb-2 pt-4'></div>
             <div className="d-flex border-start border-end border-bottom">

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { apiCall, handlePrint, isObjectEmpty, HeaderComponent } from '../../GlobalFunctions';
+import { apiCall, handlePrint, isObjectEmpty, HeaderComponent, NumberWithCommas, taxGenrator, numberToWord, ReceiveInBank } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import style from '../../assets/css/prints/retailInovice2_3.module.css';
 import Footer2 from '../../components/footers/Footer2';
+import { handleImageError } from '../../GlobalFunctions/HandleImageError';
+
 
 const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
 
@@ -11,9 +13,30 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
     const [headerComp, setHeaderComp] = useState(null);
     const [json0Data, setJson0Data] = useState({});
     const [data, setData] = useState([]);
+    const [total, setTotal] = useState({
+        Qty: 0,
+        grosswt: 0,
+        diaWt: 0,
+        csWt: 0,
+        miscWt: 0,
+        NetWt: 0,
+        UnitCost: 0,
+        DiscountAmt: 0,
+        TotalAmount: 0,
+    });
+    const [tax, setTax] = useState([]);
+    const [amount, setAmount] = useState({
+        valueAfterDiscount: 0,
+        netInvoiceValue: 0,
+        totalAmountPaid: 0,
+        balanceAmount: 0
+    });
+
+    const [debitCard, setDebitCard] = useState([]);
 
     const loadData = (data) => {
         console.log(data);
+        let totals = { ...total };
         let headerData = data?.BillPrint_Json[0];
         setJson0Data(headerData);
         let head = HeaderComponent(headerData?.HeaderNo, headerData);
@@ -26,6 +49,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
             let metalRate = 0;
             let metalQuality = "";
             let Qty = 1;
+
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (e?.SrJobno === ele?.StockBarcode) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
@@ -42,6 +66,16 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                     }
                 }
             });
+            totals.Qty += Qty;
+            totals.diaWt += diaWt;
+            totals.csWt += csWt;
+            totals.miscWt += miscWt;
+            totals.NetWt += e?.NetWt;
+            totals.grosswt += e?.grosswt;
+            totals.UnitCost += e?.UnitCost;
+            totals.DiscountAmt += e?.DiscountAmt;
+            totals.TotalAmount += e?.TotalAmount;
+
             let obj = { ...e };
             obj.diaWt = diaWt;
             obj.csWt = csWt;
@@ -83,8 +117,31 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                 }
             }
         });
-        console.log(resultArr);
         setData(resultArr);
+        setTotal(totals);
+        let taxValue = taxGenrator(headerData, totals?.TotalAmount);
+        setTax(taxValue);
+        let amounts = taxValue.reduce((acc, current) => {
+            acc.tax += +(current.amount);
+            return acc;
+        }, { tax: 0 });
+        let summaryAmounts = { ...amount };
+        let valueAfterDiscounts = totals?.TotalAmount + headerData?.AddLess;
+        let netInvoiceValue = valueAfterDiscounts + amounts?.tax;
+        let debitCardinfo = ReceiveInBank(headerData?.BankPayDet);
+        let debitInfo = debitCardinfo.reduce((acc, current) => {
+            acc += +(current.amount);
+            return acc;
+        }, 0);
+        summaryAmounts.valueAfterDiscount = valueAfterDiscounts;
+        summaryAmounts.netInvoiceValue = netInvoiceValue;
+        summaryAmounts.totalAmountPaid = debitInfo;
+        summaryAmounts.balanceAmount = netInvoiceValue - debitInfo;
+        setAmount(summaryAmounts);
+       
+
+        setDebitCard(debitCardinfo);
+        console.log(debitCardinfo);
     }
 
     useEffect(() => {
@@ -123,7 +180,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                     {headerComp}
                 </div>
                 {/* Invoice Details */}
-                <div className="d-flex justify-content-between pt-4">
+                <div className="d-flex justify-content-between pt-2">
                     <div className="col-3 border-2 border-black border p-2 d-flex">
                         <div className="col-6">
                             <p className="fw-bold mb-0">BILL NO: </p>
@@ -190,61 +247,42 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     {/* table data */}
                     {data.length > 0 && data.map((e, i) => {
-                        return <div className="border-2 border-black border-start border-end p-2 w-100 d-flex" key={i}>
+                        return <div className={`border-2 border-black border-start border-end p-2 w-100 d-flex`} key={i}>
                             <div className={`${style?.discription_retailInvoice_2_3}`}><p>{e?.designno} {e?.SrJobno}</p><p>{e?.MetalPurity} {e?.Categoryname}</p></div>
                             <div className={`${style?.kt_retailInvoice_2_3}`}><p className=''>{e?.metalQuality}</p></div>
-                            <div className={`${style?.kt_retailInvoice_2_3}`}><p className='text-end'>{e?.Qty}</p></div>
-                            <div className={`${style?.gwt_retailInvoice_2_3}`}><p className='text-end'>{e?.grosswt}</p></div>
-                            <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>{e?.diaWt}</p></div>
-                            <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>{e?.csWt}</p></div>
-                            <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>{e?.miscWt}</p></div>
-                            <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>{e?.metalRate}</p></div>
-                            <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>{e?.NetWt}</p></div>
-                            <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>{e?.UnitCost}</p></div>
-                            <div className={`${style?.image_retailInvoice_2_3}`}><img src={"https://shaadiwish.com/blog/wp-content/uploads/2021/12/heavy-bridal-jewellery-1.jpg"} alt="" className={`${style?.img_retailInvoice_2_3} w-100 px-2`} /></div>
-                            <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>54.00</p></div>
-                            <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>54.00</p></div>
-                            <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>54.00</p></div>
+                            <div className={`${style?.kt_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(e?.Qty, 0)}</p></div>
+                            <div className={`${style?.gwt_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(e?.grosswt, 3)}</p></div>
+                            <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(e?.diaWt, 3)}</p></div>
+                            <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(e?.csWt, 3)}</p></div>
+                            <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(e?.miscWt, 3)}</p></div>
+                            <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(e?.metalRate, 2)}</p></div>
+                            <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(e?.NetWt, 3)}</p></div>
+                            <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(e?.UnitCost, 2)}</p></div>
+                            <div className={`${style?.image_retailInvoice_2_3}`}><img src={e?.DesignImage} alt="" className={`${style?.img_retailInvoice_2_3} w-100 px-2`} onError={handleImageError} /></div>
+                            <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(e?.Discount, 2)}%</p></div>
+                            <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(e?.DiscountAmt, 2)}</p></div>
+                            <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                         </div>
                     })}
-                    {/* <div className="border-2 border-black border-start border-end p-2 w-100 d-flex">
-                        <div className={`${style?.discription_retailInvoice_2_3}`}><p>1694 1/14847</p><p>18K Ring</p></div>
-                        <div className={`${style?.kt_retailInvoice_2_3}`}><p className=''>18K</p></div>
-                        <div className={`${style?.kt_retailInvoice_2_3}`}><p className='text-end'>1</p></div>
-                        <div className={`${style?.gwt_retailInvoice_2_3}`}><p className='text-end'>12.289</p></div>
-                        <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>2.068</p></div>
-                        <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>4.000</p></div>
-                        <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>3.318</p></div>
-                        <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>380.00</p></div>
-                        <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>10.325</p></div>
-                        <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>7588.00</p></div>
-                        <div className={`${style?.image_retailInvoice_2_3}`}><img src="https://shaadiwish.com/blog/wp-content/uploads/2021/12/heavy-bridal-jewellery-1.jpg" alt="" className={`${style?.img_retailInvoice_2_3} w-100 px-2`} /></div>
-                        <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>54.00</p></div>
-                        <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>54.00</p></div>
-                        <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>54.00</p></div>
+                    <div className={`border-2 border-black border-start border-end p-2 w-100 d-flex border-bottom`}>
+                        <div className={`${style?.discription_retailInvoice_2_3} fw-bold`}><p>Total</p></div>
+                        <div className={`${style?.kt_retailInvoice_2_3}`}><p className=''></p></div>
+                        <div className={`${style?.kt_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(total?.Qty, 0)}</p></div>
+                        <div className={`${style?.gwt_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(total?.grosswt, 3)}</p></div>
+                        <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(total?.diaWt, 3)}</p></div>
+                        <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(total?.csWt, 3)}</p></div>
+                        <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(total?.miscWt, 3)}</p></div>
+                        <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'></p></div>
+                        <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(total?.NetWt, 3)}</p></div>
+                        <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(total?.UnitCost, 2)}</p></div>
+                        <div className={`${style?.image_retailInvoice_2_3}`}></div>
+                        <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'></p></div>
+                        <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(total?.DiscountAmt, 2)}</p></div>
+                        <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(total?.TotalAmount, 2)}</p></div>
                     </div>
-                    <div className="border-2 border-black border-start border-end border-bottom p-2 w-100 d-flex">
-                        <div className={`${style?.discription_retailInvoice_2_3}`}><p>1694 1/14847</p><p>18K Ring</p></div>
-                        <div className={`${style?.kt_retailInvoice_2_3}`}><p className=''>18K</p></div>
-                        <div className={`${style?.kt_retailInvoice_2_3}`}><p className='text-end'>1</p></div>
-                        <div className={`${style?.gwt_retailInvoice_2_3}`}><p className='text-end'>12.289</p></div>
-                        <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>2.068</p></div>
-                        <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>4.000</p></div>
-                        <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-end'>3.318</p></div>
-                        <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>380.00</p></div>
-                        <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>10.325</p></div>
-                        <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>7588.00</p></div>
-                        <div className={`${style?.image_retailInvoice_2_3}`}><img src="https://shaadiwish.com/blog/wp-content/uploads/2021/12/heavy-bridal-jewellery-1.jpg" alt="" className={`${style?.img_retailInvoice_2_3} w-100 px-2`} /></div>
-                        <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>54.00</p></div>
-                        <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>54.00</p></div>
-                        <div className={`${style?.scheme_retailInvoice_2_3}`}><p className='text-end'>54.00</p></div>
-                    </div> */}
-
                     <div className="border-2 border-black border-start border-end border-bottom p-2 w-100 d-flex justify-content-end">
-                        <div className="col-4 d-flex">
-                            <div className="col-6"><p>Product Total Value</p></div>
-                            <div className="col-6"><p>11280.11</p></div>
-                        </div>
+                        <div className={`${style?.pad_end_retail_invoice_2_3}`}><p>Product Total Value</p></div>
+                        <div><p>{NumberWithCommas(total?.TotalAmount, 2)}</p></div>
                     </div>
                     <div className="border-2 border-black border-start border-end border-bottom w-100 d-flex">
                         <div className="col-6 border-2 border-black border-end">
@@ -257,62 +295,60 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                             </div>
                             <div className="d-flex p-2 border-2 border-black border-bottom justify-content-between">
                                 <div className="col-4"><p>Cash</p></div>
-                                <div className="col-2"><p>2310</p></div>
-                                <div className="col-4"><p></p></div>
-                                <div className="col-2 text-end"><p>4000.00</p></div>
-                            </div>
-                            <div className="d-flex p-2 border-2 border-black border-bottom justify-content-between">
-                                <div className="col-4"><p>Cash</p></div>
                                 <div className="col-2"><p></p></div>
                                 <div className="col-4"><p></p></div>
-                                <div className="col-2 text-end"><p>4000.00</p></div>
+                                <div className="col-2 text-end"><p>{NumberWithCommas(json0Data?.CashReceived, 2)}</p></div>
                             </div>
-                            <div className="d-flex p-2 border-2 border-black border-bottom justify-content-between">
-                                <div className="col-4"><p>Cheque</p></div>
-                                <div className="col-2"><p>2310</p></div>
+                            {debitCard.length > 0 && debitCard.map((e, i) => {
+                                return  <div className="d-flex p-2 border-2 border-black border-bottom justify-content-between" key={i}>
+                                <div className="col-4"><p>{e?.label}</p></div>
+                                <div className="col-2"><p></p></div>
                                 <div className="col-4"><p></p></div>
-                                <div className="col-2 text-end"><p className='fw-bold'>3859.00</p></div>
+                                <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(e?.amount, 2)}</p></div>
                             </div>
+                            })}
                             <div className="d-flex p-2 border-2 border-black border-bottom justify-content-between">
                                 <div className="col-4"><p className='fw-bold'>Total Amount Paid</p></div>
                                 <div className="col-2"><p className='fw-bold'></p></div>
                                 <div className="col-4"><p className='fw-bold'></p></div>
-                                <div className="col-2 text-end"><p className='fw-bold'>7859.31</p></div>
+                                <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(amount?.totalAmountPaid, 2)}</p></div>
                             </div>
                             <div className="d-flex p-2 justify-content-between">
                                 <div className="col-4"><p className='fw-bold'>Balance Amount</p></div>
                                 <div className="col-2"><p className='fw-bold'></p></div>
                                 <div className="col-4"><p className='fw-bold'></p></div>
-                                <div className="col-2 text-end"><p className='fw-bold'>3449.31</p></div>
+                                <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(amount?.balanceAmount, 2)}</p></div>
                             </div>
                         </div>
                         <div className="col-6">
                             <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
                                 <p>Total Value</p>
-                                <p>11280.23</p>
+                                <p>{NumberWithCommas(total?.TotalAmount, 2)}</p>
                             </div>
-                            <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
-                                <p>CGST @ 0.13%</p>
-                                <p>11280.13</p>
-                            </div>
-                            <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
-                                <p>Less:- Other Discount</p>
-                                <p>0.12</p>
-                            </div>
+                            {tax.length > 0 && tax.map((e, i) => {
+                                return <div className="d-flex border-2 border-black border-bottom justify-content-between p-2" key={i}>
+                                    <p>{e?.name} @ {e?.per}</p>
+                                    <p>{e?.amount}</p>
+                                </div>
+                            })}
+                            {json0Data?.AddLess !== 0 && <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
+                                <p>{json0Data?.AddLess > 0 ? `Add` : `Less`} :- Other Discount</p>
+                                <p>{NumberWithCommas(json0Data?.AddLess, 2)}</p>
+                            </div>}
                             <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
                                 <p>Value after Disocunt</p>
-                                <p>11280.11</p>
+                                <p>{NumberWithCommas(amount?.valueAfterDiscount, 2)}</p>
                             </div>
                             <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
                                 <p>Net Invoice Value</p>
-                                <p>11308.11</p>
+                                <p>{NumberWithCommas(amount?.netInvoiceValue, 2)}</p>
                             </div>
                             <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
                                 <p>Total Amount to be Paid</p>
-                                <p>11308.11</p>
+                                <p>{NumberWithCommas(amount?.netInvoiceValue, 2)}</p>
                             </div>
-                            <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
-                                <p>Value In Words :- Rupees Eleven thousand Three Hundred and Eight Point thirty-One Only</p>
+                            <div className="d-flex justify-content-between p-2">
+                                <p>Value In Words :- Rupees {numberToWord(amount?.netInvoiceValue)} Only</p>
                             </div>
                         </div>
                     </div>

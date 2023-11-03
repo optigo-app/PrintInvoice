@@ -39,6 +39,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   });
 
   const loadData = (data) => {
+    console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
@@ -341,7 +342,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
               <div className='d-flex border-bottom'>
                 <div className='col-7 border-end d-flex align-items-start justify-content-center fw-bold flex-column'><p>Pure Gold weight</p><p> with Loss</p></div>
-                <div className='col-5 d-flex align-items-center justify-content-center'><p>{e?.MetalAmount !== 0 ? NumberWithCommas(e?.MetalAmount, 2) :  fixedValues(e?.fineWt, 3)} G</p></div>
+                <div className='col-5 d-flex align-items-center justify-content-center'><p>{fixedValues(e?.PureNetWt, 3)} G </p></div>
               </div>
               <div className='d-flex border-bottom'>
                 <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Gold Price</p></div>

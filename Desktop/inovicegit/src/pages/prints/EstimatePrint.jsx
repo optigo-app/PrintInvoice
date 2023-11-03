@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/estimatePrint.css";
-import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
+import { NumberWithCommas, ReceiveInBank, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader2 from '../../components/Loader2';
 import Loader from '../../components/Loader';
 
@@ -244,9 +244,12 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
         setDiamondDetail(diamondDetailList2);
         setTotal(totals);
         setJson2Data(resultArr);
+        let brokarage = ReceiveInBank(data?.BillPrint_Json[0]?.Brokerage);
+        console.log(brokarage);
     }
 
     const loadData = (data) => {
+        console.log(data);
         setJson1Data(data?.BillPrint_Json[0]);
         caiculateMaterial(data);
     }
