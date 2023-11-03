@@ -1,0 +1,16 @@
+.excelToJsonDownloadATable {
+    border-collapse: collapse;
+}
+
+.excelToJsonDownloadATable td p,
+.excelToJsonDownloadATable th {
+    border: 2px solid #000;
+}
+
+.paraColor{
+    background-color: red;
+}
+
+.red_text {
+    color: red;
+  }
