@@ -8,9 +8,9 @@ import { GetData } from "../../GlobalFunctions/GetData";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
-import { NumberWithCommas, checkArr, checkInstruction, fixedValues, notZero } from "../../GlobalFunctions";
+import { checkArr, checkInstruction, fixedValues } from "../../GlobalFunctions";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-import { GetChunkData } from './../../GlobalFunctions/GetChunkData';
+
 const BagPrint4A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -144,14 +144,7 @@ const BagPrint4A = ({ queries, headers }) => {
           miscArr?.unshift(newMisc);
           fArr?.unshift(newfind);
 
-
-          // console.log(blankArr);
-          // console.log(diaArr, clsArr, miscArr,fArr);
-
           let blankArr1 = checkArr(diaArr, clsArr, miscArr,fArr);
-          console.log(blankArr1);
-
-          // GetChunkData(blankArr1); 
 
           a.rd1 = blankArr;
           let obj = { ...a };
@@ -170,11 +163,6 @@ const BagPrint4A = ({ queries, headers }) => {
             let len = 14 - blankArr1?.slice(i, i + chunkSize)?.length;
             chunkData.push({ data: chunks, length: len });
           }
-          // for (let i = 0; i < a?.rd1?.length; i += chunkSize) {
-          //   const chunks = a?.rd1?.slice(i, i + chunkSize);
-          //   let len = 14 - a?.rd1?.slice(i, i + chunkSize)?.length;
-          //   chunkData.push({ data: chunks, length: len });
-          // }
           responseData.push({
             data: obj.rd,
             additional: {
@@ -332,19 +320,20 @@ const BagPrint4A = ({ queries, headers }) => {
                                   </div>
                                   <div className="record_line_1">
                                     {ele?.data?.map((elem, index) => {
-                                      return elem?.MasterManagement_DiamondStoneTypeid ===
+                                      return (
+                                        <React.Fragment key={index}>
+                                          {
+
+                                          
+                                       elem?.MasterManagement_DiamondStoneTypeid ===
                                         5 ? (
                                             <React.Fragment>
-                                              {
-                                                console.log(elem)
-                                              }
                                               {
                                                    elem?.Shapename === "FINDING DETAIL" 
                                                    ? 
                                                    <>
                                                     <div
                                                         className="record_line_4A border_bottom4A"
-                                                        key={index}
                                                     >
                                                       <div className="code4A border_right4A code4A_text w-100 fw-bold d-flex justify-content-center align-items-center" style={{height:"15px"}}>
                                                         {elem?.Shapename}
@@ -353,14 +342,11 @@ const BagPrint4A = ({ queries, headers }) => {
                                                    </> 
                                                    : 
                                                    <>
-                                                      {
-                                                        console.log(elem?.Sizename)
-                                                      }
+                                                      
                                                       {
                                                         elem?.Sizename === "F TOTAL" ? 
                                                         <div
                                                         className="record_line_4A border_bottom4A"
-                                                        key={index}
                                                   >
                                                   <div
                                                       className="code4A border_right4A code4A_text"
@@ -379,7 +365,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                                 <div className="wt4A border_right4A code4A_text"></div>
                                                   </div> : <div
                                                         className="record_line_4A border_bottom4A"
-                                                        key={index}
                                                   >
                                                   <div
                                                       className="code4A border_right4A code4A_text"
@@ -411,7 +396,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                              <React.Fragment>
                                           <div
                                           className="record_line_4A border_bottom4A"
-                                          key={index}
                                         >
                                           <div className="code4A border_right4A code4A_text w-100 fw-bold d-flex justify-content-center align-items-center" style={{height:"15px"}}>
                                             {elem?.Shapename}
@@ -424,7 +408,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                                   (elem?.Sizename === "D TOTAL" || elem?.Sizename === "C TOTAL" || elem?.Sizename === "MISC TOTAL" || elem?.Sizename === "F TOTAL")
                                                   ? <div
                                                   className="record_line_4A border_bottom4A"
-                                                  key={index}
                                                   >
                                                   <div className="size4AS border_right4A code4A_text fw-bold" style={{width:"124.7px"}}>
                                                     {elem?.Sizename}
@@ -435,7 +418,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                                   <div className="wt4A border_right4A code4A_text"></div>
                                                 </div> : <div
                                                   className="record_line_4A border_bottom4A"
-                                                  key={index}
                                                   >
                                                   <div className="code4A border_right4A code4A_text">
                                                     {
@@ -454,8 +436,9 @@ const BagPrint4A = ({ queries, headers }) => {
                                               </React.Fragment>
                                           }
                                         </React.Fragment>
-                                      );
-                                    })}
+                                      )}
+                                      </React.Fragment>
+                                )})}
                                     {ele?.length !== 0 &&
                                       Array.from(
                                         { length: ele?.length },
