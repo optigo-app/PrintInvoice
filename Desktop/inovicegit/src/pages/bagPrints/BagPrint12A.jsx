@@ -9,6 +9,7 @@ import { handlePrint } from '../../GlobalFunctions/HandlePrint';
 import { handleImageError } from '../../GlobalFunctions/HandleImageError';
 import { organizeData } from '../../GlobalFunctions/OrganizeBagPrintData';
 import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
+import { checkInstruction } from './../../GlobalFunctions';
 
 const BagPrint12A = ({ queries, headers }) => {
     const [data, setData] = useState([]);
@@ -81,9 +82,9 @@ const BagPrint12A = ({ queries, headers }) => {
                         }
                     });
                     let obj = { ...a };
-                    if (obj?.rd !== {}) {
-                        obj.rd.instructionData = (obj?.rd?.officeuse + " " + obj?.rd?.ProductInstruction)?.substring(0, 113);
-                    }
+                    // if (obj?.rd !== {}) {
+                    //     obj.rd.instructionData = (obj?.rd?.officeuse + " " + obj?.rd?.ProductInstruction)?.substring(0, 113);
+                    // }
                     let imagePath = queryParams?.imagepath;
                     imagePath = atob(queryParams?.imagepath);
                     let img = imagePath + a?.rd?.ThumbImagePath;
@@ -119,6 +120,7 @@ const BagPrint12A = ({ queries, headers }) => {
             }
         };
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     
     useEffect(() => {
@@ -343,7 +345,8 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                     <div className="instruction_12A">
                                                                         
                                                                         <p>
-                                                                            INST: {(e?.data?.instructionData === (null || 'null') ? '' : e?.data?.instructionData)}
+                                                                            INST: 
+                                                                            {(" " + checkInstruction(e?.data?.officeuse) + " " + checkInstruction(e?.data?.ProductInstruction))?.slice(0, 113)}
                                                                         </p>
                                                                     </div>
                                                                 </div>
@@ -521,7 +524,8 @@ const BagPrint12A = ({ queries, headers }) => {
                                                         </div>
                                                         <div className="instruction_12A">
                                                             <p>
-                                                                INST: {(e?.data?.instructionData === (null || 'null') ? '' : e?.data?.instructionData)}
+                                                                INST: 
+                                                                {(" " + checkInstruction(e?.data?.officeuse) + " " + checkInstruction(e?.data?.ProductInstruction))?.slice(0, 113)}
                                                             </p>
                                                         </div>
                                                     </div>

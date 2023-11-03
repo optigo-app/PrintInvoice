@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import BackSide from "../../assets/json/Back side.json";
 import { useLocation } from "react-router-dom";
@@ -102,6 +103,7 @@ const PrintDesign17 = ({ queries, headers }) => {
             (officeuse?.length > 0 ? officeuse : "") +
             (ProductInstruction?.length > 0 ? ProductInstruction : "");
           obj?.rd?.instructionData?.slice(0, 113);
+          console.log(obj?.rd);
           responseData.push({
             data: obj,
             additional: {
@@ -120,6 +122,7 @@ const PrintDesign17 = ({ queries, headers }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleImageError = (e) => {

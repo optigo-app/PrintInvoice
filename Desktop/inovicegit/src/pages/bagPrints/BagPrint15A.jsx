@@ -9,6 +9,7 @@ import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { organizeData } from './../../GlobalFunctions/OrganizeBagPrintData';
 import { GetData } from './../../GlobalFunctions/GetData';
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
+import { checkInstruction } from "../../GlobalFunctions";
 const BagPrint15A = ({ queries, headers }) => {
     const location = useLocation();
     const queryParams = queryString.parse(location?.search);
@@ -130,6 +131,7 @@ const BagPrint15A = ({ queries, headers }) => {
             }
         };
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
         if (data?.length !== 0) {
@@ -299,7 +301,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                 <div > <b>Total : {e?.additional?.clr?.clrPcs} pcs</b></div>
                                                             </div>
                                                             <div className="sub-aside" style={{ "borderBottom": "none" }}>
-                                                                <p style={{ fontSize: "10px", lineHeight: "9px" }}>Ins. {((e?.data?.rd?.officeuse + e?.data?.rd?.ProductInstruction) === null ? '' : (e?.data?.rd?.officeuse + e?.data?.rd?.ProductInstruction)?.slice(0, 89))}</p>
+                                                                <p style={{ fontSize: "10px", lineHeight: "9px" }}>Ins. {( " " + checkInstruction(e?.data?.rd?.ProductInstruction)?.slice(0, 89))}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -401,15 +403,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                 </div>
                                                 <div className="sub-aside" style={{ "borderBottom": "none", fontWeight: "bold" }}>
                                                     <div><p style={{ fontSize: "10px", lineHeight: "9px", padding: "1px" }}>Ins.
-                                                        {
-                                                            e?.data?.rd?.length > 0 ? <React.Fragment>
-                                                                {
-                                                                    (((e?.data?.rd?.officeuse !== null) && (e?.data?.rd?.officeuse !== "null") && (e?.data?.rd?.officeuse !== "") && (e?.data?.rd?.officeuse !== undefined)) &&
-                                                                        ((e?.data?.rd?.ProductInstruction !== null) && (e?.data?.rd?.ProductInstruction !== "null") && (e?.data?.rd?.ProductInstruction !== "") && (e?.data?.rd?.ProductInstruction !== undefined)))
-                                                                        ? ((e?.data?.rd?.officeuse) + (e?.data?.rd?.ProductInstruction))?.slice(0, 89) : ''
-                                                                }
-                                                            </React.Fragment> : ''
-                                                        }
+                                                                {(" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 89)}
                                                     </p></div>
                                                 </div>
                                             </div>

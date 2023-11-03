@@ -8,6 +8,7 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import { GetData } from "./../../GlobalFunctions/GetData";
 import { organizeData } from "./../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
+import { checkInstruction } from "../../GlobalFunctions";
 
 const PrintDesign16 = ({ queries, headers }) => {
   const location = useLocation();
@@ -167,6 +168,7 @@ const PrintDesign16 = ({ queries, headers }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleImageError = (e) => {
@@ -1771,6 +1773,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       }}
                                     >
                                       PRD INS:{" "}
+                                      {/* {" " + checkInstruction(e?.data?.rd?.ProductInstruction)} */}
                                       {e?.data?.rd?.ProductInstruction?.length >
                                       0
                                         ? e?.data?.rd?.ProductInstruction

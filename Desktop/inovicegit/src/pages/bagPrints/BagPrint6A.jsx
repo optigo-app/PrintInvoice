@@ -10,7 +10,8 @@ import QRCodeGenerator from "../../components/QRCodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-import { InstructionGenerate } from "../../GlobalFunctions/InstructionGenerate";
+import { checkInstruction } from "../../GlobalFunctions";
+
 const BagPrint6A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -121,8 +122,7 @@ const BagPrint6A = ({ queries, headers }) => {
 
           let img = imagePath + a?.rd?.ThumbImagePath;
           let arrofchunk = GetChunkData(chunkSize7, mainArr);
-          let ins = InstructionGenerate(a?.rd);
-          a.rd.ShowInstruction = ins;
+          
           responseData.push({
             data: a,
             additional: {
@@ -142,6 +142,7 @@ const BagPrint6A = ({ queries, headers }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (data.length !== 0) {
@@ -383,17 +384,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   <p className="f6A">
                                     CUST. INS.
                                     <span className="f6A ">
-                                      {e?.data?.rd?.ProductInstruction !==
-                                        null &&
-                                      e?.data?.rd?.ProductInstruction !==
-                                        "null" &&
-                                      e?.data?.rd?.ProductInstruction !==
-                                        undefined
-                                        ? e?.data?.rd?.ProductInstruction?.slice(
-                                            0,
-                                            120
-                                          )
-                                        : ""}
+                                    {" " + checkInstruction(e?.data?.rd?.officeuse)}
                                     </span>
                                   </p>
                                 </div>
@@ -401,17 +392,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   <p className="f6A">
                                     PRD. INS.
                                     <span className="f6A ">
-                                      {e?.data?.rd?.officeuse !== null &&
-                                      e?.data?.rd?.officeuse !== "null" &&
-                                      e?.data?.rd?.officeuse !== undefined &&
-                                      e?.data?.rd?.ProductInstruction !==
-                                        undefined &&
-                                      e?.data?.rd?.ProductInstruction !==
-                                        null &&
-                                      e?.data?.rd?.ProductInstruction !== "null"
-                                        ? e?.data?.rd?.officeuse
-                                            ?.slice(0, 135)
-                                        : ""}
+                                    {" " + checkInstruction(e?.data?.rd?.ProductInstruction)}
                                     </span>
                                   </p>
                                 </div>
@@ -422,7 +403,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   <p className="f6A">
                                     STM. INS.
                                     <span className="f6A ">
-                                      {e?.data?.rd?.stamping}
+                                      {" " + checkInstruction(e?.data?.rd?.stamping)}
                                     </span>
                                   </p>
                                 </div>
@@ -571,12 +552,16 @@ const BagPrint6A = ({ queries, headers }) => {
                           >
                             <div className="cust6A">
                               <p className="f6A">
-                                CUST. INS.<span className="f6A f6Ared"></span>
+                                CUST. INS.<span className="f6A f6Ared">
+                                {" " + checkInstruction(e?.data?.rd?.officeuse)}
+                                </span>
                               </p>
                             </div>
                             <div className="cust6A">
                               <p className="f6A">
-                                PRD. INS.<span className="f6A f6Ared"></span>
+                                PRD. INS.<span className="f6A f6Ared">
+                                { " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                                </span>
                               </p>
                             </div>
                             <div
@@ -584,7 +569,9 @@ const BagPrint6A = ({ queries, headers }) => {
                               style={{ borderBottom: "0px" }}
                             >
                               <p className="f6A">
-                                STM. INS.<span className="f6A f6Ared"></span>
+                                STM. INS.<span className="f6A f6Ared">
+                                {" " + checkInstruction(e?.data?.rd?.stamping)}
+                                </span>
                               </p>
                             </div>
                           </div>

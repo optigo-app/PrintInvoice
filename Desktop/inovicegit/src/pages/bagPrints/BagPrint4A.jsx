@@ -61,6 +61,7 @@ const BagPrint4A = ({ queries, headers }) => {
             ActualPcs: 0,
             ActualWeight: 0,
           };
+          // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
@@ -116,6 +117,7 @@ const BagPrint4A = ({ queries, headers }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (data.length !== 0) {

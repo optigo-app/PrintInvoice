@@ -1,3 +1,4 @@
+
 export const formatDate = (inputDate) => {
     const date = new Date(inputDate);
     const day = String(date?.getDate())?.padStart(2, '0'); // Ensure two digits for the day

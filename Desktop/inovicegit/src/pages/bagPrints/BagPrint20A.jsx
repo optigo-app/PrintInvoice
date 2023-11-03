@@ -9,6 +9,7 @@ import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
+import { checkArr, checkInstruction } from "../../GlobalFunctions";
 
 const BagPrint20A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
@@ -62,7 +63,7 @@ const BagPrint20A = ({ queries, headers }) => {
           };
           let f = {
             Shapename: "TOTAL",
-            Sizename: "",
+            Sizename: "F TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 5,
@@ -72,18 +73,6 @@ const BagPrint20A = ({ queries, headers }) => {
           let ArrofMISize = [];
           let ArrofFSize = [];
 
-          const ProductInstruction = a?.rd?.ProductInstruction;
-
-          // Check if productInstruction is not undefined, null, 'null', or an empty string
-          const displayValue =
-            ProductInstruction !== undefined &&
-            ProductInstruction != null &&
-            ProductInstruction !== "null" &&
-            ProductInstruction?.trim() !== ""
-              ? ProductInstruction
-              : " ";
-
-          a.rd.updateIns = displayValue;
           // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
@@ -117,8 +106,9 @@ const BagPrint20A = ({ queries, headers }) => {
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
           ArrofSevenSize?.push(dia);
           ArrofFiveSize?.push(clr);
-          ArrofFSize?.push(f);
           ArrofMISize?.push(misc);
+          ArrofFSize?.push(f);
+          
           let newDia = {
             Shapename: "",
             Sizename: "Diamond Detail",
@@ -140,17 +130,27 @@ const BagPrint20A = ({ queries, headers }) => {
             ActualWeight: "",
             MasterManagement_DiamondStoneTypeid: 7,
           };
-          ArrofSevenSize?.length > 0 && ArrofSevenSize?.unshift(newDia);
-          ArrofFiveSize?.length > 0 && ArrofFiveSize?.unshift(newCS);
-          ArrofMISize?.length > 0 && ArrofMISize?.unshift(newMisc);
+          let newfind = {
+            Shapename: "",
+            Sizename: "Finding Detail",
+            ActualPcs: "",
+            ActualWeight: "",
+            MasterManagement_DiamondStoneTypeid: 5,
+          };
 
-          let arr = [];
-          let mainArr = arr?.concat(
+          ArrofSevenSize?.unshift(newDia);
+          ArrofFiveSize?.unshift(newCS);
+          ArrofMISize?.unshift(newMisc);
+          ArrofFSize?.unshift(newfind);
+          
+          let mainArr = checkArr(
             ArrofSevenSize,
             ArrofFiveSize,
-            ArrofMISize
+            ArrofMISize,
+            []
             // ArrofFSize
           );
+
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
 
@@ -179,8 +179,9 @@ const BagPrint20A = ({ queries, headers }) => {
       }
     };
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   useEffect(() => {
     if (data?.length !== 0) {
       setTimeout(() => {
@@ -203,7 +204,7 @@ const BagPrint20A = ({ queries, headers }) => {
             </button>
           </div>
           <div className="d-flex flex-wrap mb-5 pad_60_allPrint">
-          {Array.from(
+            {Array.from(
               { length: queries?.pageStart },
               (_, index) =>
                 index > 0 && (
@@ -324,7 +325,10 @@ const BagPrint20A = ({ queries, headers }) => {
                                           Remark:
                                         </span>
                                         <span className="text-danger lh20A p-1">
-                                          {e?.data?.rd?.updateIns}
+                                          {" " +
+                                            checkInstruction(
+                                              e?.data?.rd?.ProductInstruction
+                                            )}
                                         </span>
                                       </div>
                                       <div className="matinfo7Acopy">
@@ -795,7 +799,10 @@ const BagPrint20A = ({ queries, headers }) => {
                                     </span>
                                     <span
                                       className="fs7Acopy h-100 d-flex justify-content-center align-items-center fw-bold"
-                                      style={{ width: "64px", fontSize:"12px" }}
+                                      style={{
+                                        width: "64px",
+                                        fontSize: "12px",
+                                      }}
                                     >
                                       {e?.data?.rd?.serialjobno?.slice(0, 9)}
                                     </span>
@@ -835,68 +842,75 @@ const BagPrint20A = ({ queries, headers }) => {
                                     paddingTop: "1px",
                                   }}
                                 >
-                                  <span className="fw-bold fs20A"> Remark:</span>{" "}
+                                  <span className="fw-bold fs20A">
+                                    {" "}
+                                    Remark:{" "}
+                                    {" " +
+                                      checkInstruction(
+                                        e?.data?.rd?.ProductInstruction
+                                      )}
+                                  </span>{" "}
                                   <span>{e?.data?.rd?.remark}</span>
                                 </div>
                                 <div className="matinfo7Acopy">
-                                        <div className="h327Acopy d-flex flex-column justify-content-between ">
-                                          <span
-                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100"
-                                            style={{ fontSize: "7.5px" }}
-                                          >
-                                            KT/CLR:
-                                          </span>
-                                          <span
-                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
-                                            style={{
-                                              fontSize: "10.5px",
-                                              paddingRight: "2px",
-                                            }}
-                                          >
-                                            {e?.data?.rd?.MetalType}{" "}
-                                            {e?.data?.rd?.MetalColorCo}
-                                          </span>
-                                        </div>
-                                        <div className="h327Acopy d-flex flex-column justify-content-between ">
-                                          <span
-                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100"
-                                            style={{ fontSize: "7.5px" }}
-                                          >
-                                            Size:
-                                          </span>
-                                          <span
-                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
-                                            style={{
-                                              fontSize: "10.5px",
-                                              paddingRight: "2px",
-                                            }}
-                                          >
-                                            {e?.data?.rd?.Size}
-                                          </span>
-                                        </div>
-                                        <div
-                                          className="h327Acopy d-flex flex-column justify-content-between"
-                                          style={{ borderBottom: "0px" }}
-                                        >
-                                          <span
-                                            className="fs20A h-100 d-flex justify-content-start align-items-center w-100"
-                                            style={{ fontSize: "7.5px" }}
-                                          >
-                                            Est Wt:
-                                          </span>
-                                          <span
-                                            className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
-                                            style={{
-                                              fontSize: "10.5px",
-                                              paddingRight: "5px",
-                                            }}
-                                          >
-                                            {e?.data?.rd?.ActualGrossweight?.toFixed(
-                                              3
-                                            )}
-                                          </span>
-                                        </div>
-                                      </div>
+                                  <div className="h327Acopy d-flex flex-column justify-content-between ">
+                                    <span
+                                      className="fs20A h-100 d-flex justify-content-start align-items-center w-100"
+                                      style={{ fontSize: "7.5px" }}
+                                    >
+                                      KT/CLR:
+                                    </span>
+                                    <span
+                                      className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
+                                      style={{
+                                        fontSize: "10.5px",
+                                        paddingRight: "2px",
+                                      }}
+                                    >
+                                      {e?.data?.rd?.MetalType}{" "}
+                                      {e?.data?.rd?.MetalColorCo}
+                                    </span>
+                                  </div>
+                                  <div className="h327Acopy d-flex flex-column justify-content-between ">
+                                    <span
+                                      className="fs20A h-100 d-flex justify-content-start align-items-center w-100"
+                                      style={{ fontSize: "7.5px" }}
+                                    >
+                                      Size:
+                                    </span>
+                                    <span
+                                      className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
+                                      style={{
+                                        fontSize: "10.5px",
+                                        paddingRight: "2px",
+                                      }}
+                                    >
+                                      {e?.data?.rd?.Size}
+                                    </span>
+                                  </div>
+                                  <div
+                                    className="h327Acopy d-flex flex-column justify-content-between"
+                                    style={{ borderBottom: "0px" }}
+                                  >
+                                    <span
+                                      className="fs20A h-100 d-flex justify-content-start align-items-center w-100"
+                                      style={{ fontSize: "7.5px" }}
+                                    >
+                                      Est Wt:
+                                    </span>
+                                    <span
+                                      className="fs20A h-100 d-flex justify-content-end align-items-center w-100 lh20A fw-bold"
+                                      style={{
+                                        fontSize: "10.5px",
+                                        paddingRight: "5px",
+                                      }}
+                                    >
+                                      {e?.data?.rd?.ActualGrossweight?.toFixed(
+                                        3
+                                      )}
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -1079,7 +1093,8 @@ const BagPrint20A = ({ queries, headers }) => {
                                 className="wheadsep7Acopy enbrb7Acopy border-end border_color"
                                 style={{ minWidth: "9.5mm !important" }}
                               ></div>
-
+                              import {checkInstruction} from
+                              './../../GlobalFunctions';
                               <div className="wheadsep7Acopy enbrb7Acopy border-end border_color"></div>
                               <div className="wheadsep7Acopy enbrb7Acopy border-end border_color"></div>
                               <div className="wheadsep7Acopy enbrb7Acopy border-end border_color"></div>
@@ -1113,113 +1128,113 @@ const BagPrint20A = ({ queries, headers }) => {
                           </div>
                           <div className="emptybox7Acopy"></div>
                         </div>
-                        
-                        <div className="footercss7Acopy">
-                                <div className="footer7Acopy">
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "16.10mm" }}
-                                  >
-                                    Gross Wt.
-                                  </div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "18.00mm" }}
-                                  >
-                                    Diamond
-                                  </div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "18.00mm" }}
-                                  >
-                                    Color Stone
-                                  </div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "12.00mm" }}
-                                  >
-                                    Misc
-                                  </div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "12.00mm" }}
-                                  >
-                                    Mina
-                                  </div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{
-                                      width: "16.10mm",
-                                      borderRight: "0px",
-                                    }}
-                                  >
-                                    Net Wt.
-                                  </div>
-                                </div>
 
-                                <div className="footer7Acopy brbnone7Acopy brl7Acopy1">
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "16.10mm" }}
-                                  ></div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "18.00mm" }}
-                                  ></div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "18.00mm" }}
-                                  ></div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "12.00mm" }}
-                                  ></div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "12.00mm" }}
-                                  ></div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{
-                                      width: "16.10mm",
-                                      borderRight: "0px",
-                                    }}
-                                  ></div>
-                                </div>
-                                <div
-                                  className="footer7Acopy brbnone7Acopy brl7Acopy2"
-                                  style={{ borderTop: "1px dashed #989898" }}
-                                >
-                                  {" "}
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "16.10mm" }}
-                                  ></div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "18.00mm" }}
-                                  ></div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "18.00mm" }}
-                                  ></div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "12.00mm" }}
-                                  ></div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{ width: "12.00mm" }}
-                                  ></div>
-                                  <div
-                                    className="footerCol7Acopyall"
-                                    style={{
-                                      width: "16.10mm",
-                                      borderRight: "0px",
-                                    }}
-                                  ></div>
-                                </div>
-                              </div>
+                        <div className="footercss7Acopy">
+                          <div className="footer7Acopy">
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "16.10mm" }}
+                            >
+                              Gross Wt.
+                            </div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "18.00mm" }}
+                            >
+                              Diamond
+                            </div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "18.00mm" }}
+                            >
+                              Color Stone
+                            </div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "12.00mm" }}
+                            >
+                              Misc
+                            </div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "12.00mm" }}
+                            >
+                              Mina
+                            </div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{
+                                width: "16.10mm",
+                                borderRight: "0px",
+                              }}
+                            >
+                              Net Wt.
+                            </div>
+                          </div>
+
+                          <div className="footer7Acopy brbnone7Acopy brl7Acopy1">
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "16.10mm" }}
+                            ></div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "18.00mm" }}
+                            ></div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "18.00mm" }}
+                            ></div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "12.00mm" }}
+                            ></div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "12.00mm" }}
+                            ></div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{
+                                width: "16.10mm",
+                                borderRight: "0px",
+                              }}
+                            ></div>
+                          </div>
+                          <div
+                            className="footer7Acopy brbnone7Acopy brl7Acopy2"
+                            style={{ borderTop: "1px dashed #989898" }}
+                          >
+                            {" "}
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "16.10mm" }}
+                            ></div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "18.00mm" }}
+                            ></div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "18.00mm" }}
+                            ></div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "12.00mm" }}
+                            ></div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{ width: "12.00mm" }}
+                            ></div>
+                            <div
+                              className="footerCol7Acopyall"
+                              style={{
+                                width: "16.10mm",
+                                borderRight: "0px",
+                              }}
+                            ></div>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </React.Fragment>

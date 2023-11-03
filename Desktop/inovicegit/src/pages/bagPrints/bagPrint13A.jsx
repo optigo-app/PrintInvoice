@@ -10,7 +10,8 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-import { InstructionGenerate } from './../../GlobalFunctions/InstructionGenerate';
+import { checkInstruction } from './../../GlobalFunctions';
+
 const BagPrint13A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -108,8 +109,7 @@ const BagPrint13A = ({ queries, headers }) => {
 
           let img = imagePath + a?.rd?.ThumbImagePath;
           let arrofchunk = GetChunkData(chunkSize17, mainArr);
-          let ins = InstructionGenerate(a?.rd);
-          a.rd.ShowInstruction = ins;
+          
           responseData.push({
             data: a,
             additional: {
@@ -129,6 +129,7 @@ const BagPrint13A = ({ queries, headers }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -362,7 +363,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                       }}
                                     >
                                       CAST INS.
-                                      {(e?.data?.rd?.ShowInstruction)?.slice(0, 230)}
+                                      {(" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 230)}
                                     </span>
                                   </p>
                                 </div>
@@ -549,7 +550,7 @@ const BagPrint13A = ({ queries, headers }) => {
                                   }}
                                 >
                                   CUST INS.
-                                  { (e?.data?.rd?.ShowInstruction)?.slice(0, 230)}
+                                  {(" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 230)}
                                 </span>
                               </p>
                             </div>

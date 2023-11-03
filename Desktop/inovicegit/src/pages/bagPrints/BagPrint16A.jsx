@@ -9,6 +9,7 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
+import { checkInstruction } from './../../GlobalFunctions';
 
 const BagPrint16A = ({ queries, headers }) => {
   const location = useLocation();
@@ -175,6 +176,7 @@ const BagPrint16A = ({ queries, headers }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -1165,24 +1167,21 @@ const BagPrint16A = ({ queries, headers }) => {
                                 style={{ height: "27px" }}
                               >
                                 DGN INS:{" "}
-                                {e?.data?.rd?.officeuse?.slice(0, 100)}
+                              {(checkInstruction(e?.data?.rd?.officeuse))?.slice(0, 100)}
                               </div>
                               <div
                                 className="ins16A b16A"
                                 style={{ height: "27px" }}
                               >
                                 PRD INS:{" "}
-                                {e?.data?.rd?.ProductInstruction?.slice(
-                                  0,
-                                  100
-                                )}
+                                {(checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 100)}
                               </div>
                               <div
                                 className="ins16A b16A"
                                 style={{ borderBottom: "0px", height: "25px" }}
                               >
                                 CUST INS:{" "}
-                                {e?.data?.rd?.custInstruction?.slice(0, 100)}
+                                {(checkInstruction(e?.data?.rd?.custInstruction))?.slice(0, 100)}
                               </div>
                             </div>
                           </div>

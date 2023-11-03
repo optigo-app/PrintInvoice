@@ -129,6 +129,7 @@ const BagPrint11A = ({ queries, headers }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (data?.length !== 0) {

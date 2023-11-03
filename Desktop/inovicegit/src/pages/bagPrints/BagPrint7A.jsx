@@ -9,6 +9,7 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
+import { checkInstruction } from "../../GlobalFunctions";
 const BagPrint7A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -174,6 +175,7 @@ const BagPrint7A = ({ queries, headers }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (data?.length !== 0) {
@@ -778,23 +780,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 }}
                               >
                                 Remark:{" "}
-                                {(
-                                  e?.data?.rd?.custInstruction +
-                                  e?.data?.rd?.QuoteRemark +
-                                  e?.data?.rd?.ProductInstruction
-                                )?.length > 0
-                                  ? (e?.data?.rd?.custInstruction +
-                                      e?.data?.rd?.QuoteRemark +
-                                      e?.data?.rd?.ProductInstruction) === null &&  (e?.data?.rd?.custInstruction +
-                                      e?.data?.rd?.QuoteRemark +
-                                      e?.data?.rd?.ProductInstruction === "null")
-                                    ? ""
-                                    : (
-                                        e?.data?.rd?.custInstruction +
-                                        e?.data?.rd?.QuoteRemark +
-                                        e?.data?.rd?.ProductInstruction
-                                      )?.slice(0, 200)
-                                  : ""}
+                                {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
                               </b>
                               
                             </div>
@@ -1097,23 +1083,7 @@ const BagPrint7A = ({ queries, headers }) => {
                         <div className="footer7A">
                           <b>
                             Remark:{" "}
-                            {(
-                              e?.data?.rd?.custInstruction +
-                              e?.data?.rd?.QuoteRemark +
-                              e?.data?.rd?.ProductInstruction
-                            )?.length > 0
-                              ? (e?.data?.rd?.custInstruction +
-                                  e?.data?.rd?.QuoteRemark +
-                                  e?.data?.rd?.ProductInstruction) === null && (e?.data?.rd?.custInstruction +
-                                  e?.data?.rd?.QuoteRemark +
-                                  e?.data?.rd?.ProductInstruction) === 'null'
-                                ? ""
-                                : (
-                                    e?.data?.rd?.custInstruction +
-                                    e?.data?.rd?.QuoteRemark +
-                                    e?.data?.rd?.ProductInstruction
-                                  )?.slice(0, 131)
-                              : ""}
+                            {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
                           </b>
                         </div>
                       </div>

@@ -10,7 +10,8 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from './../../GlobalFunctions/OrganizeBagPrintData';
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-import { InstructionGenerate } from './../../GlobalFunctions/InstructionGenerate';
+import { checkInstruction } from "../../GlobalFunctions";
+
 const BagPrint10A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -109,8 +110,7 @@ const BagPrint10A = ({ queries, headers }) => {
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
           let arrofchunk = GetChunkData(chunkSize17, mainArr);
-          let ins = InstructionGenerate(a?.rd);
-          a.rd.ShowInstruction = ins;
+          
           responseData.push({
             data: a,
             additional: {
@@ -130,6 +130,7 @@ const BagPrint10A = ({ queries, headers }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (data?.length !== 0) {
@@ -388,7 +389,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                         }}
                                       >
                                         CUST INS.
-                                        {e?.data?.rd?.ShowInstruction}
+                                        {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
                                       </span>
                                     </p>
                                   </div>
@@ -582,22 +583,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     }}
                                   >
                                     CUST INS.
-                                    {(
-                                      e?.data?.rd?.custInstruction +
-                                      e?.data?.rd?.QuoteRemark +
-                                      e?.data?.rd?.ProductInstruction
-                                    ).length > 0
-                                      ? e?.data?.rd?.custInstruction +
-                                          e?.data?.rd?.QuoteRemark +
-                                          e?.data?.rd?.ProductInstruction ==
-                                        (null || "null")
-                                        ? ""
-                                        : (
-                                            e?.data?.rd?.custInstruction +
-                                            e?.data?.rd?.QuoteRemark +
-                                            e?.data?.rd?.ProductInstruction
-                                          )?.slice(0, 230)
-                                      : ""}
+                                    {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
                                   </span>
                                 </p>
                               </div>
