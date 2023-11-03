@@ -93,8 +93,10 @@ const PrintDesign17 = ({ queries, headers }) => {
           if (a?.rd["officeuse"] != null) {
           }
           let officeuse =
+            // eslint-disable-next-line eqeqeq
             a?.rd["officeuse"] == (null || "null") ? "" : a?.rd["officeuse"];
           let ProductInstruction =
+            // eslint-disable-next-line eqeqeq
             a?.rd["ProductInstruction"] == (null || "null")
               ? ""
               : a?.rd["ProductInstruction"];
@@ -103,7 +105,6 @@ const PrintDesign17 = ({ queries, headers }) => {
             (officeuse?.length > 0 ? officeuse : "") +
             (ProductInstruction?.length > 0 ? ProductInstruction : "");
           obj?.rd?.instructionData?.slice(0, 113);
-          console.log(obj?.rd);
           responseData.push({
             data: obj,
             additional: {
