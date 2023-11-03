@@ -10,7 +10,7 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from './../../GlobalFunctions/OrganizeBagPrintData';
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-
+import { checkInstruction } from "./../../GlobalFunctions"
 const BagPrint17A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -148,6 +148,7 @@ const BagPrint17A = ({ queries, headers }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (data?.length !== 0) {
@@ -236,19 +237,7 @@ const BagPrint17A = ({ queries, headers }) => {
                                   style={{ color: "red" }}
                                 >
                                   INS: &nbsp;
-                                  {(
-                                    e?.data?.rd?.officeuse +
-                                    e?.data?.rd?.ProductInstruction
-                                  )?.length > 0 &&
-                                  e?.data?.rd?.officeuse +
-                                    e?.data?.rd?.ProductInstruction !==
-                                    (null || "null" || undefined)
-                                    ? (
-                                        e?.data?.rd?.officeuse +
-                                        "\u00a0\u00a0" +
-                                        e?.data?.rd?.ProductInstruction
-                                      )?.slice(0, 140)
-                                    : ""}
+                                  { (" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 140) }
                                 </div>
                               </div>
                               <div className="imgn17A">
@@ -414,19 +403,7 @@ const BagPrint17A = ({ queries, headers }) => {
                             </div>
                             <div className="insn17A">
                               INS :
-                              {(
-                                e?.data?.rd?.officeuse +
-                                e?.data?.rd?.ProductInstruction
-                              )?.length > 0 &&
-                              e?.data?.rd?.officeuse +
-                                e?.data?.rd?.ProductInstruction !==
-                                ("null" || null || undefined)
-                                ? (
-                                    e?.data?.rd?.officeuse +
-                                    "   " +
-                                    e?.data?.rd?.ProductInstruction
-                                  )?.slice(0, 140)
-                                : ""}
+                              { (" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 140) }
                             </div>
                           </div>
                           <div className="imgn17A">

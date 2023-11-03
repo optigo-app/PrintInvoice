@@ -9,8 +9,9 @@ import { GetChunkData } from '../../GlobalFunctions/GetChunkData';
 import { handleImageError } from '../../GlobalFunctions/HandleImageError';
 import { organizeData } from '../../GlobalFunctions/OrganizeBagPrintData';
 import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
-import { InstructionGenerate } from '../../GlobalFunctions/InstructionGenerate';
+
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
+import { checkInstruction } from './../../GlobalFunctions';
 const BagPrint3A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -142,8 +143,7 @@ const BagPrint3A = ({ queries, headers }) => {
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
           let arrofchunk = GetChunkData(chunkSize13, mainArr);
-          let ins = InstructionGenerate(a?.rd);
-          a.rd.ShowInstruction = ins;
+          
           responseData.push({ data: a, additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, pages: arrofchunk } });
         })
         setData(responseData);
@@ -152,6 +152,7 @@ const BagPrint3A = ({ queries, headers }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   useEffect(() => {
@@ -304,7 +305,9 @@ const BagPrint3A = ({ queries, headers }) => {
                             </div>
                             <div className='imgBox3A'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} id="img3A" alt="" onError={e => handleImageError(e)} loading="eager"  /></div>
                           </div>
-                          <div className='Ins3A' ><span style={{color:"red"}}>INSTRUCTION : </span><span style={{color:"red"}}>{e?.data?.rd?.ShowInstruction ?? ''}</span></div>
+                          <div className='Ins3A' >
+                            <span style={{color:"red"}}>INSTRUCTION : </span>
+                            <span style={{color:"red"}}>{ " " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}</span></div>
                           <div className='enteryBarcode3A'>
                             <div className='enteryBarcode3ADyn'>
                               <div className='entry3AHead'>
@@ -392,7 +395,7 @@ const BagPrint3A = ({ queries, headers }) => {
                               }
                             </div>
                             <div style={{ color: "red" }}>
-                              Order Instruction:
+                              Order Instruction: <span>{" " + checkInstruction(e?.data?.rd?.custInstruction) }</span>
                             </div>
                           </div>
                           <div className='barcode3AD'>{(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno} />}</>}</div>

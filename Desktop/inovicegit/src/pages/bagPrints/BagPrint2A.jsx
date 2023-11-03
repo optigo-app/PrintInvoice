@@ -11,7 +11,8 @@ import Loader from "../../components/Loader";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-import { InstructionGenerate } from "./../../GlobalFunctions/InstructionGenerate";
+import { checkInstruction } from './../../GlobalFunctions';
+
 function BagPrint2A({ queries, headers }) {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -98,8 +99,7 @@ function BagPrint2A({ queries, headers }) {
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
           let arrofCHunk = GetChunkData(chunkSize11, mainArr);
-          let ins = InstructionGenerate(a?.rd);
-          a.rd.ShowInstruction = ins;
+          
           responseData.push({
             data: a,
             additional: {
@@ -119,6 +119,7 @@ function BagPrint2A({ queries, headers }) {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -695,7 +696,7 @@ function BagPrint2A({ queries, headers }) {
                                       INSTRUCTION :
                                     </span>
                                     <span style={{ color: "red" }}>
-                                      {e?.data?.rd?.ShowInstruction ?? ""}
+                                    {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
                                     </span>
                                   </div>
                                 </div>
@@ -925,7 +926,7 @@ function BagPrint2A({ queries, headers }) {
                             <div>
                               <span className="fw-bold">INSTRUCTION :</span>
                               <span style={{ color: "red" }}>
-                                {e?.data?.rd?.ShowInstruction ?? ""}
+                              {checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
                               </span>
                             </div>
                           </div>

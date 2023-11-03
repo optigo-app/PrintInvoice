@@ -69,7 +69,9 @@ export const taxGenrator = (headerData, totalAmount) => {
           let obj = {
             name: headerData[[`${e}_taxname`]],
             per: `${headerData[`${e}_value`]?.toFixed(2)}%`,
-            amount: ((totalAmount * headerData[`${e}_value`]) / 100)?.toFixed(2),
+            amount: ((totalAmount * headerData[`${e}_value`]) / 100)?.toFixed(
+              2
+            ),
           };
           blankArr.push(obj);
         } else {
@@ -95,8 +97,8 @@ export const taxGenrator = (headerData, totalAmount) => {
   } else if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 2) {
     let obj = {
       name: headerData?.TaxProfilename,
-      per: `${(headerData?.IGST)?.toFixed(2)}%`,
-      amount: (headerData?.TotalIGSTAmount)?.toFixed(2),
+      per: `${headerData?.IGST?.toFixed(2)}%`,
+      amount: headerData?.TotalIGSTAmount?.toFixed(2),
     };
     blankArr.push(obj);
   }
@@ -115,7 +117,9 @@ export const NumberWithCommas = (value, val) => {
 
 //fixedValues
 export const fixedValues = (value, zeroes) =>
-  typeof value === "number" ? value?.toFixed(zeroes) : (+value)?.toFixed(zeroes);
+  typeof value === "number"
+    ? value?.toFixed(zeroes)
+    : (+value)?.toFixed(zeroes);
 
 //call of header
 export const HeaderComponent = (headNo, headerData) => {
@@ -145,7 +149,6 @@ export const HeaderComponent = (headNo, headerData) => {
 //call of footer
 export const FooterComponent = (footerNo, footerData) => {
   let footerComponent;
-
 
   switch (footerNo) {
     case "1":
@@ -184,8 +187,6 @@ export const SubheaderComponent = (subheadNo, SubheadData) => {
   return subheaderComponent;
 };
 
-
-
 export const ReceiveInBank = (BankPayDet) => {
   if (BankPayDet?.length > 0) {
     let arr = BankPayDet.split("@-@");
@@ -205,7 +206,12 @@ export const ReceiveInBank = (BankPayDet) => {
 };
 
 export const checkInstruction = (ins) => {
-  if (ins !== "" && ins !== undefined && ins !== null && ins !== "null") {
+  if (
+    ins !== "undefined" &&
+    ins !== undefined &&
+    ins !== null &&
+    ins !== "null"
+  ) {
     return ins;
   }
 };
@@ -225,19 +231,25 @@ export const GovernMentDocuments = (documents) => {
   } else {
     return [];
   }
-}
+};
 
 export const notZero = (val) => {
-  if (val !== "" && val !== undefined && val !== null && val !== "null" && val !== 0) {
+  if (
+    val !== "" &&
+    val !== undefined &&
+    val !== null &&
+    val !== "null" &&
+    val !== 0
+  ) {
     return val;
   } else {
-    return ""
+    return "";
   }
-}
+};
 
 export const ExportToExcel = (data, InvoiceNo) => {
   exportToExcel(data, `Sale_Format_B_${InvoiceNo}_${Date.now()}`);
-}
+};
 
 export const otherAmountDetail = (otherAmtDetail) => {
   if (otherAmtDetail?.length > 0) {
@@ -252,6 +264,26 @@ export const otherAmountDetail = (otherAmtDetail) => {
     });
     return resultArr;
   } else {
-    return []
+    return [];
   }
-}
+};
+
+export const checkArr = (diaArr, clsArr, miscArr, fArr) => {
+
+  let mainArr = [];
+
+  if (diaArr?.length > 2) {
+    mainArr =  mainArr?.concat(diaArr);
+  }
+  if (clsArr?.length > 2) {
+    mainArr =   mainArr?.concat(clsArr);
+  }
+  if (miscArr?.length > 2) {
+    mainArr =  mainArr?.concat(miscArr);
+  }
+  if (fArr?.length > 2) {
+    mainArr = mainArr?.concat(fArr);
+  }
+
+  return mainArr;
+};

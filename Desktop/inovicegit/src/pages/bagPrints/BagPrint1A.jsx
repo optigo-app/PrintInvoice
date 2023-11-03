@@ -11,7 +11,7 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-import { InstructionGenerate } from "../../GlobalFunctions/InstructionGenerate";
+import { checkInstruction } from "../../GlobalFunctions";
 function BagPrint1A({ queries, headers }) {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -96,8 +96,6 @@ function BagPrint1A({ queries, headers }) {
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
           let arrofCHunk = GetChunkData(chunkSize11, mainArr);
-          let ins = InstructionGenerate(a?.rd);
-          a.rd.ShowInstruction = ins;
           responseData.push({
             data: a,
             additional: {
@@ -622,7 +620,7 @@ function BagPrint1A({ queries, headers }) {
                                   })}
                                   {Array.from(
                                     { length: ele?.length },
-                                    (_,ains) => {
+                                    (_, ains) => {
                                       return (
                                         <React.Fragment key={ains}>
                                           {ains !== 0 ? (
@@ -722,12 +720,15 @@ function BagPrint1A({ queries, headers }) {
                                     paddingLeft: "2px",
                                     paddingTop: "2px",
                                     lineHeight: "14px",
-                                    
                                   }}
                                 >
                                   <b>INSTRUCTION:</b>
                                   <span style={{ color: "red" }}>
-                                    {e?.data?.rd?.ShowInstruction ?? ""}
+                                    {" " + checkInstruction(e?.data?.rd?.officeuse) +
+                                      " " +
+                                      checkInstruction(
+                                        e?.data?.rd?.ProductInstruction
+                                      )}
                                   </span>
                                 </div>
                               </div>
@@ -926,7 +927,7 @@ function BagPrint1A({ queries, headers }) {
                                 </div>
                               </div>
 
-                              {Array.from({ length: 15 }, (_,ai) => {
+                              {Array.from({ length: 15 }, (_, ai) => {
                                 return (
                                   <div className="print1AMidBody" key={ai}>
                                     <div className="print1ARM RMW">
@@ -976,12 +977,16 @@ function BagPrint1A({ queries, headers }) {
                                 fontSize: "14px",
                                 borderRight: "1px solid black",
                                 height: "34px",
-                                width: "25.4rem"
+                                width: "25.4rem",
                               }}
                             >
                               <b>INSTRUCTION:</b>
                               <span style={{ color: "red" }}>
-                                {e?.data?.rd?.ShowInstruction ?? ""}
+                                {" " + checkInstruction(e?.data?.rd?.officeuse) +
+                                  " " +
+                                  checkInstruction(
+                                    e?.data?.rd?.ProductInstruction
+                                  )}
                               </span>
                             </div>
                           </div>

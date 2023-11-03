@@ -138,6 +138,7 @@ const Bg18 = ({ queries, headers }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
