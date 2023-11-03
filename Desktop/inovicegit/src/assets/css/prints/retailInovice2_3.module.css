@@ -15,6 +15,9 @@
     width: 4%;
 }
 
+.kt_retailInvoice_2_3_3{
+    width: 5%;
+}
 
 .gwt_retailInvoice_2_3, .metalRate_retailInvoice_2_3, .scheme_retailInvoice_2_3{
     width: 8%;
@@ -22,6 +25,10 @@
 
 .dwt_retailInvoice_2_3{
     width: 6%;
+}
+
+.dwt_retailInvoice_2_3_3{
+    width: 8%;
 }
 
 .image_retailInvoice_2_3{

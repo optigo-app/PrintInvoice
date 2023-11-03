@@ -67,7 +67,9 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       if(detailtPrintR){
         summaries.gold24Kt += e?.PureNetWt;
       }
+      let totalAmounts = e?.DiscountAmt+e?.TotalAmount;
       let OtherAmountDetail = otherAmountDetail(e?.OtherAmtDetail);
+      console.log(OtherAmountDetail);
       let obj = { ...e };
       obj.OtherAmountDetail = OtherAmountDetail;
       obj.SettingAmount = 0;
@@ -155,7 +157,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
           summaries.makingAmount += ele?.SettingAmount;
         }
       });
-      discountTotalAmount = e?.TotalAmount - e?.DiscountAmt;
+      // discountTotalAmount = e?.TotalAmount - e?.DiscountAmt;
+      discountTotalAmount = e?.TotalAmount ;
       summaries.grossWt += e?.grosswt;
       summaries.gDWt += e?.MetalDiaWt;
       summaries.netWt += e?.NetWt;
@@ -168,6 +171,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       obj.metalTotal = metalTotal;
       obj.colorStonesTotal = colorStonesTotal;
       obj.discountTotalAmount = discountTotalAmount;
+      obj.totalAmounts = totalAmounts;
       totals.totalAmount += e?.TotalAmount;
       totals.discountTotalAmount += obj?.DiscountAmt;
       totals.withoutDiscountTotalAmount += e?.TotalAmount;
@@ -185,13 +189,14 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     taxValue?.length > 0 && taxValue.forEach((e, i) => {
       totals.withDiscountTaxAmount += +(e?.amount);
     });
-    totals.withDiscountTaxAmount += json0?.AddLess - totals?.discountTotalAmount + totals?.totalAmount;
+    totals.withDiscountTaxAmount += json0?.AddLess + totals?.totalAmount;
     setSummary(summaries);
     setTotal(totals);
     return resultArr;
   }
 
   const loadData = (data) => {
+    console.log(data);
     let findMaterilasList = findMaterials(data?.BillPrint_Json1, data?.BillPrint_Json2, data?.BillPrint_Json[0]);
     // let findDiamondDetail =  findDiamonds(data?.BillPrint_Json1, data?.BillPrint_Json2);
     setJson0Data(data?.BillPrint_Json[0]);
@@ -483,11 +488,11 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               <div className="totalAmountDetailPrint1 border-end  position-relative pt-1">
                 <div className="d-grid h-100 paddingBottomTotalDetailPrint1">
                   <div>
-                    <p className='text-end'>{NumberWithCommas(e?.discountTotalAmount, 2)}</p>
+                    <p className='text-end'>{NumberWithCommas(e?.totalAmounts, 2)}</p>
                   </div>
                 </div>
                 <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1">
-                  <p className='text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                  <p className='text-end'>{NumberWithCommas(e?.totalAmounts, 2)}</p>
                 </div>
               </div>
             </div>

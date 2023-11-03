@@ -166,10 +166,11 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
         }
         sendData();
         let print3 = atob(printName).toLowerCase() === "retail invoice 3";
-        console.log(print3);
+        // console.log(print3);
         let styless = {...styles};
         styless.discription = print3 ? style?.discription_retailInvoice_2_3_3 : style?.discription_retailInvoice_2_3;
-        // styless.srNo = print3 ? style?.discription_retailInvoice_2_3_3 : style?.discription_retailInvoice_2_3;
+        styless.kt = print3 ? style?.kt_retailInvoice_2_3_3 : style?.kt_retailInvoice_2_3;
+        styless.dwt = print3 ? style?.dwt_retailInvoice_2_3_3 : style?.dwt_retailInvoice_2_3;
         // styless.srNo = print3 ? style?.discription_retailInvoice_2_3_3 : style?.discription_retailInvoice_2_3;
         setStyles(styless);
     }, []);
@@ -237,12 +238,12 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                     {/* table header */}
                     <div className="border-2 border-black border p-2 w-100 d-flex">
                         <div className={`${styles?.discription}`}><p>Product Description</p></div>
-                        <div className={`${style?.kt_retailInvoice_2_3}`}><p className='text-center'>KT</p></div>
-                        <div className={`${style?.kt_retailInvoice_2_3}`}><p className='text-center'>Qty</p></div>
+                        <div className={`${styles?.kt}`}><p className='text-center'>KT</p></div>
+                        <div className={`${styles?.kt}`}><p className='text-center'>Qty</p></div>
                         <div className={`${style?.gwt_retailInvoice_2_3}`}><p className='text-center'>Gross Wt(gms)</p></div>
-                        <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-center'>Dia Wt</p><p className='text-center'>(gms/carat)</p></div>
-                        <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-center'>Stone Wt</p><p className='text-center'>(carat)</p></div>
-                        <div className={`${style?.dwt_retailInvoice_2_3}`}><p className='text-center'>Misc Wt</p><p className='text-center'>(gms)</p></div>
+                        <div className={`${styles?.dwt}`}><p className='text-center'>Dia Wt</p><p className='text-center'>(gms/carat)</p></div>
+                        <div className={`${styles?.dwt}`}><p className='text-center'>Stone Wt</p><p className='text-center'>(carat)</p></div>
+                        <div className={`${styles?.dwt}`}><p className='text-center'>Misc Wt</p><p className='text-center'>(gms)</p></div>
                         {!retailInvoice3 && <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-center'>Metal Rate</p></div>}
                         <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-center'>Net Wt(gms)</p></div>
                         <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-center'>Price(Rs)</p></div>
