@@ -42,6 +42,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
     }
 
     const loadData = (data) => {
+        // console.log(data);
         setHeaderData(data?.BillPrint_Json[0]);
         let arr = [];
         let totals = { ...total };
@@ -83,13 +84,15 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
             return 0; // a and b are equivalent with respect to sorting
         });
 
+
+
         // arr.sort((a, b) => a.MasterManagement_DiamondStoneTypeName - b.MasterManagement_DiamondStoneTypeName);
         arr.forEach((e, i) => {
             if(e?.MasterManagement_DiamondStoneTypeid !==4){
                 e.Amount = e.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate
             }
         })
-
+    
         setDatas(arr);
         const result = data?.BillPrint_Json1.reduce((accumulator, currentValue) => {
             return {
@@ -98,9 +101,11 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                 TotalAmount: accumulator.TotalAmount + currentValue.TotalAmount
             };
         }, { MakingAmount: 0, OtherCharges: 0, TotalAmount: 0 });
-
+        const diamondHandling = data?.BillPrint_Json1.reduce((total, element) => {
+            return total + element?.TotalDiamondHandling;
+          }, 0);
         let obj = {
-            labour: result?.MakingAmount+miscAmount,
+            labour: result?.MakingAmount+miscAmount+diamondHandling,
             other: result?.OtherCharges,
             labourRate: (result?.MakingAmount/data?.BillPrint_Json[0]?.CurrencyExchRate) / metalWeight
         }
@@ -164,9 +169,10 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="d-flex">
                     <div className="col-9 p-2">
                         <p className="fs-4 fw-bold pb-1">{headerData?.CompanyFullName}</p>
-                        <p className="pb-1">{headerData?.CompanyAddress}, {headerData?.CompanyAddress2} {headerData?.CompanyPinCode} {headerData?.CompanyCountry}</p>
+                        <p className="pb-1">{headerData?.CompanyAddress} </p>
+                        <p className="pb-1">{headerData?.CompanyAddress2} </p>
+                        <p className="pb-1">{headerData?.CompanyPinCode} {headerData?.CompanyCountry}, Phone - {headerData?.CompanyTellNo}</p>
                         {/* <p className="pb-1">{headerData?.CompanyCity}</p> */}
-                        <p className="pb-1">Phone - {headerData?.CompanyTellNo}</p>
                         <p className="pb-1">{headerData?.CompanyEmail}</p>
                         <p className="pb-1">{headerData?.Company_VAT_GST_No}</p>
                         {headerData?.CINNO.length !== 0 && <p className="pb-1">CIN: {headerData?.CINNO}</p>}
@@ -186,9 +192,12 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <p className="">Phone - {headerData?.customermobileno}</p>
                         <p className="">PAN No - {headerData?.Pannumber}</p>
                     </div>
-                    <div className="col-6 p-2 text-end">
-                        <p className="pb-1"><span className='fw-bold'>INVOICE NO </span> {headerData?.InvoiceNo}</p>
-                        <p className="pb-1"><span className='fw-bold'>DATE </span> {headerData?.EntryDate}</p>
+                    <div className="col-6 p-2">
+                        <div className="col-4 ms-auto">
+                            <div className="d-flex"><div className="col-6 fw-bold">INVOICE NO </div><div className="col-6">{headerData?.InvoiceNo}</div></div>
+                            <div className="d-flex"><div className="col-6 fw-bold">DATE </div><div className="col-6">{headerData?.EntryDate}</div></div>
+                        </div>
+                       
                     </div>
                 </div>
                 {/* Table */}

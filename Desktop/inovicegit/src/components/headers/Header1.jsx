@@ -21,7 +21,7 @@ const Header1 = ( { data } ) => {
             {data?.Company_VAT_GST_No} | {data?.Company_CST_STATE}-GSTIN-25GJERDR202314
           </span>
         </div>
-        <div style={{width:"30%"}} className="d-flex justify-content-center align-item-center h-100"><img src={data?.PrintLogo} alt="" className={style.headerImg} /></div>
+        <div style={{width:"30%"}} className="d-flex justify-content-end align-item-center h-100"><img src={data?.PrintLogo} alt="" className={style.headerImg} /></div>
       </div>
 
 

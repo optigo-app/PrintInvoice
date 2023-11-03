@@ -535,7 +535,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             {taxes.length > 0 && taxes.map((e, i) => {
               return <p key={i}>{NumberWithCommas(e?.amount, 2)}</p>
             })}
-            {console.log(json0Data)}
+            {/* {console.log(json0Data)} */}
             {json0Data?.AddLess !== 0 && <p>{json0Data?.AddLess}</p>}
           </div>
         </div>

@@ -4,6 +4,7 @@ import Loader from '../../components/Loader';
 import { useEffect } from 'react';
 import { ExportToExcel, NumberWithCommas, apiCall, isObjectEmpty } from '../../GlobalFunctions';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import style from "../../assets/css/prints/exporttojsondownloadA.module.css";
 
 const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn }) => {
 
@@ -31,11 +32,11 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn }) => {
             }, { diaPcs: 0, diaWt: 0, csPcs: 0, csWt: 0 });
             let diamonds = '';
             let colorStones = '';
-            if(diaInfo?.diaWt !== 0){
-                diamonds =  `With Diamond ${e?.MetalPurity} weight ${e?.NetWt} grams No of Diamond ${diaInfo?.diaPcs} Piece Diamond Weight ${diaInfo?.diaWt} cts`;
+            if (diaInfo?.diaWt !== 0) {
+                diamonds = `With Diamond ${e?.MetalPurity} weight ${e?.NetWt} grams No of Diamond ${diaInfo?.diaPcs} Piece Diamond Weight ${diaInfo?.diaWt} cts`;
             }
-            if(diaInfo?.csWt !== 0){
-                colorStones =  `With ColorStone ${e?.MetalPurity} weight ${e?.NetWt} grams No of ColorStone ${diaInfo?.csPcs} Piece ColorStone Weight ${diaInfo?.csWt} cts`;
+            if (diaInfo?.csWt !== 0) {
+                colorStones = `With ColorStone ${e?.MetalPurity} weight ${e?.NetWt} grams No of ColorStone ${diaInfo?.csPcs} Piece ColorStone Weight ${diaInfo?.csWt} cts`;
             }
             let obj = {
                 srNo: i,
@@ -97,40 +98,55 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn }) => {
                     filename={`Sale_Format_A_${header?.InvoiceNo}_${Date.now()}`}
                     sheet="tablexls"
                     buttonText="Download as XLS" />
-                <table id='table-to-xls'>
+                <table id='table-to-xls' className={`${style?.excelToJsonDownloadATable}`}>
                     <thead>
                         <tr>
-                            <th width="100">Sr. No.</th>
-                            <th width="100">Barcode</th>
-                            <th width="100">Design No</th>
+                            <th width="100"></th>
+                            <th width="100"></th>
+                            <th width="100"></th>
                             <th width="100"></th>
                             <th width="100"></th>
                             <th width="500"></th>
                             <th width="100"></th>
                             <th width="100"></th>
-                            <th width="100">HKD</th>
-                            <th width="100">Gross weight</th>
                             <th width="100"></th>
                             <th width="100"></th>
-                            <th width="100">Barcode</th>
+                            <th width="100"></th>
+                            <th width="100"></th>
+                            <th width="100"></th>
+                        </tr>
+                        <tr>
+                            <th width="100" style={{ border: '1px solid black', padding: '1px' }}>Sr. No.</th>
+                            <th width="100" style={{ border: '1px solid black', padding: '1px' }}>Barcode</th>
+                            <th width="100" style={{ border: '1px solid black', padding: '1px' }}>Design No</th>
+                            <th width="100" style={{ border: '1px solid black', padding: '1px' }}></th>
+                            <th width="100" style={{ border: '1px solid black', padding: '1px' }}></th>
+                            <th width="500" style={{ border: '1px solid black', padding: '1px' }}></th>
+                            <th width="100" style={{ border: '1px solid black', padding: '1px' }}></th>
+                            <th width="100" style={{ border: '1px solid black', padding: '1px' }}></th>
+                            <th width="100" style={{ border: '1px solid black', padding: '1px' }}>HKD</th>
+                            <th width="100" style={{ border: '1px solid black', padding: '1px' }}>Gross weight</th>
+                            <th width="100" style={{ border: '1px solid black', padding: '1px' }}></th>
+                            <th width="100" style={{ border: '1px solid black', padding: '1px' }}></th>
+                            <th width="100" style={{ border: '1px solid black', padding: '1px' }}>Barcode</th>
                         </tr>
                     </thead>
                     <tbody>
                         {data.length > 0 && data.map((e, i) => {
                             return <tr key={i}>
-                                <td width="100">&nbsp;{NumberWithCommas(i+1, 0)}</td>
-                                <td width="100">{e?.barcode}</td>
-                                <td width="100">{e?.designNo}</td>
-                                <td width="100">{e?.jewellery}</td>
-                                <td width="100">{e?.goldJewellery}</td>
-                                <td width="500">{e?.description}</td>
-                                <td width="100">&nbsp;{NumberWithCommas(e?.pcs, 0)}</td>
-                                <td width="100">{e?.piece}</td>
-                                <td width="100">&nbsp;{NumberWithCommas(e?.hkd, 2)}</td>
-                                <td width="100">&nbsp;{NumberWithCommas(e?.grossWt, 3)}</td>
-                                <td width="100">{e?.gramSymbol}</td>
-                                <td width="100">{e?.cn}</td>
-                                <td width="100">{e?.barcode}</td>
+                                <td width="100"  style={{ border: '1px solid black', padding: '1px' }} className='text-danger'>  &nbsp;{NumberWithCommas(i + 1, 0)}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.barcode}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.designNo}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.jewellery}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.goldJewellery}</td>
+                                <td width="500" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.description}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>&nbsp;{NumberWithCommas(e?.pcs, 0)}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.piece}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>&nbsp;{NumberWithCommas(e?.hkd, 2)}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>&nbsp;{NumberWithCommas(e?.grossWt, 3)}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.gramSymbol}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.cn}</td>
+                                <td width="100" style={{ border: '1px solid black', padding: '1px'}} className='text-danger'>{e?.barcode}</td>
                             </tr>
                         })}
 

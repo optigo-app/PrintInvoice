@@ -74,6 +74,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
         let diamondDetailList2 = [{ shapeQualityColor: "others", pcs: 0, wt: 0 }];
         data?.BillPrint_Json1.forEach((e, i) => {
             let settingAmount = 0;
+            let totalSetttingAmount = 0;
+            totalSetttingAmount += e?.MakingAmount;
             let settingRate = 0;
             let obj = { ...e };
             let diamonds = [];
@@ -138,7 +140,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         totals.miscPcs += ele?.Pcs;
                         totals.miscAmount += ele?.Amount;
                     }
-                    settingAmount += ele?.SettingAmount
+                    settingAmount += ele?.SettingAmount;
+                    totalSetttingAmount += ele?.SettingAmount;
                     settingRate += ele?.SettingRate
                 }
             });
@@ -184,6 +187,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 }, colorStonesTotal);
             }
             obj.diamonds = diamonds;
+            obj.totalSetttingAmount = totalSetttingAmount;
             obj.metals = metals;
             obj.colorStones = colorStones;
             obj.diamondTotal = diamondTotal;
@@ -243,7 +247,6 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     }
 
     const loadData = (data) => {
-        console.log(data);
         setJson1Data(data?.BillPrint_Json[0]);
         caiculateMaterial(data);
     }
@@ -483,14 +486,14 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="labourEstimatePrint border-end position-relative">
                             <div className="h-100 d-grid pad_bot_29_estimatePrint">
                                 <div className='d-flex border-bottom'>
-                                    {/* <div className='w-50 text-end p_1Estimate'><p>{changePrint ? NumberWithCommas(e?.settingRate, 2) : NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p></div> */}
-                                    <div className='w-50 text-end p_1Estimate'><p>{NumberWithCommas(e?.settingRate, 2)}</p></div>
-                                    <div className='w-50 text-end p_1Estimate'><p>{NumberWithCommas(e?.settingAmount, 2) }</p></div>
-                                    {/* <div className='w-50 text-end p_1Estimate'><p>{changePrint ? NumberWithCommas(e?.settingAmount, 2) : NumberWithCommas(e?.MakingAmount, 2)}</p></div> */}
+                                    <div className='w-50 text-end p_1Estimate'><p>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p><p>{NumberWithCommas(e?.settingRate, 2)}</p></div>
+                                    {/* <div className='w-50 text-end p_1Estimate'></div>
+                                    <div className='w-50 text-end p_1Estimate'></div> */}
+                                    <div className='w-50 text-end p_1Estimate'><p>{NumberWithCommas(e?.MakingAmount, 2)}</p><p>{NumberWithCommas(e?.settingAmount, 2) }</p></div>
                                 </div>
                             </div>
                             <div className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end">
-                                <div className=''><p className='text-end p_1Estimate'>{NumberWithCommas(e?.settingAmount, 2)}</p></div>
+                                <div className=''><p className='text-end p_1Estimate'>{NumberWithCommas(e?.totalSetttingAmount, 2)}</p></div>
                             </div>
                         </div>
                         <div className="totalAmountEstimatePrint position-relative">

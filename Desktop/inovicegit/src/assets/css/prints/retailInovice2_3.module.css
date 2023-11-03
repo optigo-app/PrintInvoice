@@ -2,3 +2,30 @@
     max-width: 1200px;
     margin: 0 auto;
 }
+
+.discription_retailInvoice_2_3{
+    width: 10%;
+}
+
+.kt_retailInvoice_2_3{
+    width: 4%;
+}
+
+.gwt_retailInvoice_2_3, .metalRate_retailInvoice_2_3, .scheme_retailInvoice_2_3{
+    width: 8%;
+}
+
+.dwt_retailInvoice_2_3{
+    width: 6%;
+}
+
+.image_retailInvoice_2_3{
+    width: 10%;
+}
+
+.img_retailInvoice_2_3{
+    /* max-width: 100px; */
+    max-height: 80px;
+    object-fit: contain;
+    object-position: right;
+}
