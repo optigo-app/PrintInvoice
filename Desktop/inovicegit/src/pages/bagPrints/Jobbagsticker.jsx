@@ -114,7 +114,6 @@ const Jobbagsticker = ({ queries, headers }) => {
                       data?.length > 0 && data?.map((e, index) => {
                         return(
                           
-                            
                                 <div className='containerjbsbg'>
                                 { e?.data?.rd?.serialjobno?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.serialjobno}</div>} 
                                 { e?.data?.rd?.Designcode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.Designcode}</div>} 

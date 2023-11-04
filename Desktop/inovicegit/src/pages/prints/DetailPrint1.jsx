@@ -118,8 +118,9 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       json2.forEach((ele, ind) => {
         if (e?.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-            console.log(ele?.Pcs);
+            
             diamondArr.push(ele);
+            
             diamondsTotal.Pcs += ele?.Pcs;
             diamondsTotal.Wt += ele?.Wt;
             diamondsTotal.Amount += ele?.Amount;
@@ -254,6 +255,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       }
     }
     sendData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>{loader ? <Loader /> : msg === "" ?
