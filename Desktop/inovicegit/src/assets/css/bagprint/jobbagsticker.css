@@ -1,0 +1,36 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    word-break: break-all;
+    line-height: 8px;
+}
+.containerjbsbg{
+    height: 22rem;
+    width: 15rem;
+    margin: 0 auto;
+    padding: 0.5rem;   
+    page-break-after: always;
+}
+
+.fsjbsbg{
+    font-size: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    line-height: 8px;
+    height: 25px;
+}
+.mainjobbagsticker{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    padding-bottom: 60px;
+}
+@media print {
+    .containerjbsbg{
+        page-break-after: always;
+        page-break-before: always;
+    }
+    
+}

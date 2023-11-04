@@ -21,6 +21,7 @@ function QRCodeGenerator({ text }) {
         document.body.removeChild(downloadLink);
     };
 
+
     return (
         <>
             {
@@ -29,9 +30,10 @@ function QRCodeGenerator({ text }) {
                     <QRcode 
                         id="myqr"
                         value={text} 
-                        size={90}
+                        // size={90}
                         includeMargin={true}
-                        style={{ height: "85px", width: "105px" }}
+                        className='qrcodegen'
+                        // style={{ height: "85px", width: "105px" }}
                     /> :
                     <p>No QR code preview</p>
             }
