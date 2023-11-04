@@ -1077,6 +1077,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                       data={e?.data?.rd?.serialjobno}
                                     />
                                   )}
+                                   
                                 </>
                               )}
                           </div>

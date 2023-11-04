@@ -8,7 +8,7 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import { GetData } from "./../../GlobalFunctions/GetData";
 import { organizeData } from "./../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-import { checkInstruction } from "../../GlobalFunctions";
+// import { checkInstruction } from "../../GlobalFunctions";
 
 const PrintDesign16 = ({ queries, headers }) => {
   const location = useLocation();
@@ -241,41 +241,20 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     borderRight: "1px solid black",
                                   }}
                                 >
-                                  <div className="d_flex print_2_head px_2">
-                                    <div className="text_end pt_2px pr_2">
-                                      <span
-                                        style={{
-                                          fontWeight: "900",
-                                          lineHeight:"6px",
-                                          fontSize: "14px",
-                                        }}
-                                      >
+                                  
+                                    <div className="bg16oldjob">
+                                      <div className="bg16oldlh7">
                                         {e?.data?.rd?.serialjobno}
-                                      </span>
+                                      </div>
+                                      <div className="bg16oldlh7">
+                                        <span className="bg16oldlh7">ORD:</span>
+                                        <span className="bg16oldlh7">{e?.data?.rd?.orderDatef}</span>
+                                      </div>
+                                      <div style={{color:"red"}}>
+                                        <span className="bg16oldlh7">DUE:</span>
+                                        <span className="bg16oldlh7">{e?.data?.rd?.promiseDatef}</span>
+                                      </div>
                                     </div>
-                                    <div className="text_start pt_2px pl_3">
-                                      ORD:{" "}
-                                      <span style={{ fontWeight: "700", lineHeight:"6px", }}>
-                                        {e?.data?.rd?.OrderDate}
-                                      </span>
-                                    </div>
-                                    <div
-                                      className="text_start pt_2px"
-                                      style={{ color: "red", lineHeight:"6px", }}
-                                    >
-                                      DUE:
-                                      {e?.data?.rd?.promisedate ===
-                                      "01 Jan 1900 " ? (
-                                        <span
-                                          style={{ fontWeight: "700" }}
-                                        ></span>
-                                      ) : (
-                                        <span style={{ fontWeight: "700" }}>
-                                          {e?.data?.rd?.promisedate}
-                                        </span>
-                                      )}
-                                    </div>
-                                  </div>
                                   <div className="d_flex print_2_head">
                                     <div className="text_start  pl_3">
                                       PARTY:{" "}
@@ -306,6 +285,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         style={{
                                           fontWeight: "700",
                                           fontSize: "2.8mm",
+                                          lineHeight:"8px"
                                         }}
                                       >
                                         
@@ -327,7 +307,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       }}
                                     >
                                       ORD NO:-{" "}
-                                      <span style={{ fontWeight: "700" }}>
+                                      <span style={{ fontWeight: "700", lineHeight:"7px" }}>
                                         {e?.data?.rd?.OrderNo}
                                       </span>
                                     </div>
@@ -951,42 +931,18 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       background: `${e?.data?.rd?.prioritycolorcode}`,
                                     }}
                                   >
-                                    <div className="d_flex print_2_head px_2">
-                                      <div className="text_end pt_2px pr_2">
-                                        <span
-                                          style={{
-                                            fontWeight: "900",
-                                            paddingRight: "1.3229166667mm",
-                                            fontSize: "13px",
-                                          }}
-                                        >
-                                          {e?.data?.rd?.serialjobno}
-                                        </span>
+                                    
+                                    <div className="bg16oldjob">
+                                      <div className="bg16oldlh7">
+                                        {e?.data?.rd?.serialjobno}
                                       </div>
-                                      <div className="text_start pt_2px pl_3">
-                                        ORD:{" "}
-                                        <span style={{ fontWeight: "700" }}>
-                                          {e?.data?.rd?.OrderDate?.slice(0, 12)}
-                                        </span>
+                                      <div className="bg16oldlh7">
+                                        <span className="bg16oldlh7">ORD:</span>
+                                        <span className="bg16oldlh7">{e?.data?.rd?.orderDatef}</span>
                                       </div>
-                                      <div
-                                        className="text_start pt_0.5291666667mm"
-                                        style={{ color: "red" }}
-                                      >
-                                        DUE:
-                                        {e?.data?.rd?.promisedate ===
-                                        "01 Jan 1900 " ? (
-                                          <span
-                                            style={{ fontWeight: "700" }}
-                                          ></span>
-                                        ) : (
-                                          <span style={{ fontWeight: "700" }}>
-                                            {e?.data?.rd?.promisedate?.slice(
-                                              0,
-                                              12
-                                            )}
-                                          </span>
-                                        )}
+                                      <div style={{color:"red"}}>
+                                        <span className="bg16oldlh7">DUE:</span>
+                                        <span className="bg16oldlh7">{e?.data?.rd?.promiseDatef}</span>
                                       </div>
                                     </div>
                                     <div className="d_flex print_2_head">
@@ -1040,7 +996,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         }}
                                       >
                                         ORD NO:-{" "}
-                                        <span style={{ fontWeight: "normal" }}>
+                                        <span style={{ fontWeight: "normal", lineHeight:"8px" }}>
                                           {e?.data?.rd?.OrderNo}
                                         </span>
                                       </div>
@@ -1198,6 +1154,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                               ? ""
                                               : e?.data?.rd?.createby}
                                           </b>
+                                          
                                         </div>
                                       </div>
                                     </div>
