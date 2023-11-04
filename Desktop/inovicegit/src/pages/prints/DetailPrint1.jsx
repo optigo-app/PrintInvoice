@@ -118,7 +118,6 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       json2.forEach((ele, ind) => {
         if (e?.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-            console.log(ele?.Pcs);
             diamondArr.push(ele);
             diamondsTotal.Pcs += ele?.Pcs;
             diamondsTotal.Wt += ele?.Wt;
@@ -224,7 +223,6 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   }
 
   const loadData = (data) => {
-    console.log(data);
     let findMaterilasList = findMaterials(data?.BillPrint_Json1, data?.BillPrint_Json2, data?.BillPrint_Json[0]);
     // let findDiamondDetail =  findDiamonds(data?.BillPrint_Json1, data?.BillPrint_Json2);
     setJson0Data(data?.BillPrint_Json[0]);

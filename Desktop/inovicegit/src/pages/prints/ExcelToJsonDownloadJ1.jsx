@@ -290,27 +290,97 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
                                 COLOUR
                             </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                CUT
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                CARAT
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                NO:STONE
+                            </th>
 
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                CARAT
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                NO:STONE
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                VALUE
+                            </th>
 
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                STONE
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                SHAPE
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                CLARITY
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                COLOR
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                CARAT WT
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                NO:STONE
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                VALUE
+                            </th>
 
-                            <th width="240" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={3}>
-                                Diamond Detail Total
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                CARAT WT
                             </th>
-                            <th width="560" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={7}>
-                                Color Stone Detail 1
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                NO:STONE
                             </th>
-                            <th width="240" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={3}>
-                                Colorstone  Detail Total
+                             <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                VALUE
                             </th>
-                            <th width="320" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={4}>
-                                All Other Charges
+
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                CERTIFICATION CHARGE
                             </th>
-                            <th width="560" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={7}>
-                                Misc Details 1
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                HALLMARK CHARGE
                             </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                Dancing Collet Charge
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                Megnet Charges
+                            </th>
+
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                SHAPE
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                CLARITY
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                COLOR
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                WT
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                NO:STONE
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                RATE
+                            </th>
+                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                VALUE
+                            </th>
+
                             <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
                                 Size
                             </th>
+
                         </tr>
                     </thead>
                     <tbody>
