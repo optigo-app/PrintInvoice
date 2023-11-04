@@ -408,7 +408,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   </p>
                                 </div>
                               </div>
-                              <div>
+                              <div className="qrcodebg6A">
                                 <QRCodeGenerator
                                   text={e?.data?.rd.serialjobno}
                                 />
@@ -575,7 +575,7 @@ const BagPrint6A = ({ queries, headers }) => {
                               </p>
                             </div>
                           </div>
-                          <div>
+                          <div className="qrcodebg6A">
                             <QRCodeGenerator text={e?.data?.rd?.serialjobno} />
                           </div>
                         </div>

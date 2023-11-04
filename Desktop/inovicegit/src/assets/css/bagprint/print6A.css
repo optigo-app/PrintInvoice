@@ -225,6 +225,10 @@
     align-items: center;
     height: 16px;
 }
+.qrcodebg6A > .qrcodegen{
+    height: 85px !important;
+    width: 112px !important;
+}
 @media print {
 
     /* .print1A:nth-child(6n+1) {

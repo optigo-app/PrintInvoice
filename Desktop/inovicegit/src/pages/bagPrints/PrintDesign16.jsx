@@ -255,29 +255,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         <span className="bg16oldlh7">{e?.data?.rd?.promiseDatef}</span>
                                       </div>
                                     </div>
-                                  <div className="d_flex print_2_head">
-                                    <div className="text_start  pl_3">
-                                      PARTY:{" "}
-                                      <span
-                                        style={{ fontWeight: "700" }}
-                                        className="text_start"
-                                      >
-                                        {e?.data?.rd?.CustomerCode}
-                                      </span>
-                                      <span
-                                        style={{ fontWeight: "normal" }}
-                                      ></span>
+                                    <div className="partybg16">
+                                      <div className="d-flex"><div className="lh16bg">PARTY: </div><div className="lh16bg">{e?.data?.rd?.CustomerCode}</div></div>
+                                      <div>{e?.data?.rd?.MetalType + " " + e?.data?.rd?.MetalColor}</div>
                                     </div>
-                                    <div
-                                      style={{
-                                        paddingRight: "1.3229166667mm",
-                                        textAlign: "right",
-                                      }}
-                                    >
-                                      {e?.data?.rd?.MetalType}{" "}
-                                      {e?.data?.rd?.MetalColor}
-                                    </div>
-                                  </div>
                                   <div className="d_flex print_2_head">
                                     <div className="text_start  pl_3">
                                       DGN:
@@ -322,7 +303,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     <div className="text_start">
                                       PO:{" "}
                                       <span style={{ fontWeight: "700" }}>
-                                        {e?.data?.rd?.OrderTypeName}
+                                        {e?.data?.rd?.PO}
                                       </span>
                                     </div>
                                     <div
@@ -360,8 +341,10 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     </div>
                                     <div className="jobInfo16">
                                       <div className="net16A">
+                                        
                                         <b>
-                                          {(e?.data?.rd?.netwt ?? 0)?.toFixed(3)}
+                                          {(+e?.data?.rd?.netwt)?.toFixed(3)}
+                                          {/* {(+e?.data?.rd?.MetalWeight)?.toFixed(3)?.slice(0, 8)} */}
                                         </b>
                                       </div>
                                       <div className="net16A">
@@ -945,29 +928,9 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         <span className="bg16oldlh7">{e?.data?.rd?.promiseDatef}</span>
                                       </div>
                                     </div>
-                                    <div className="d_flex print_2_head">
-                                      <div className="text_start  pl_3">
-                                        PARTY:{" "}
-                                        <span
-                                          style={{ fontWeight: "700" }}
-                                          className="text_start"
-                                        >
-                                          {e?.data?.rd?.CustomerCode}
-                                        </span>
-                                        <span
-                                          style={{ fontWeight: "normal" }}
-                                        ></span>
-                                      </div>
-                                      <div
-                                        style={{
-                                          paddingRight: "1.3229166667mm",
-                                          textAlign: "right",
-                                          fontSize: "11px",
-                                        }}
-                                      >
-                                        {e?.data?.rd?.MetalType}{" "}
-                                        {e?.data?.rd?.MetalColor}
-                                      </div>
+                                    <div className="partybg16">
+                                      <div className="lh16bg">PARTY: {e?.data?.rd?.CustomerCode}</div>
+                                      <div>{e?.data?.rd?.MetalType + " " + e?.data?.rd?.MetalColor}</div>
                                     </div>
                                     <div className="d_flex print_2_head">
                                       <div className="text_start  pl_3">
@@ -1011,7 +974,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       <div className="text_start">
                                         PO:{" "}
                                         <span style={{ fontWeight: "700" }}>
-                                          {e?.data?.rd?.OrderTypeName}
+                                          {e?.data?.rd?.PO}
                                         </span>
                                       </div>
                                       <div
@@ -1052,7 +1015,8 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       <div className="jobInfo16">
                                         <div className="net16A">
                                           <b>
-                                            {(e?.data?.rd?.netwt ?? 0)
+                                            {(+e?.data?.rd?.netwt)
+                                            // {(+e?.data?.rd?.MetalWeight)
                                               ?.toFixed(3)
                                               ?.slice(0, 8)}
                                           </b>

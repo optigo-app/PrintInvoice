@@ -23,6 +23,7 @@ import BagPrint4B from './bagPrints/BagPrint4B';
 // import BagPrint17A from './bagPrints/BagPrint17A';
 // import Bg18 from './bagPrints/Bg18';
 import BagPrint20A from './bagPrints/BagPrint20A';
+import Jobbagsticker from './bagPrints/Jobbagsticker';
 
 const AllDesignBagPrint = () => {
   const location = useLocation();
@@ -72,6 +73,7 @@ const AllDesignBagPrint = () => {
       {/* {printName === "BagPrint16" && <BagPrint16A queries={queries} headers={headers} />} */}
       {/* {printName === "BagPrint16" && <BagPrint16A queries={queries} headers={headers} />} */}
       {printName === "Jobbagsticker3" && <Jobbagsticker3 queries={queries} headers={headers} />}
+      {/* {printName === "Jobbagsticker3" && <Jobbagsticker queries={queries} headers={headers} />} */}
       {/* {printName === "BagPrint18" && <Bg18 queries={queries} headers={headers} />} */}
     </div>
   );

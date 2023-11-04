@@ -125,7 +125,10 @@ ol {
 .line_height_123{
   line-height: 123%;
 }
-
+.qrcodegen{
+  height: 60px !important;
+  width: 60px !important;
+}
 @media print {
   .no_break {
     page-break-inside: avoid;

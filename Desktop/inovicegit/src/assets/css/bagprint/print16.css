@@ -1966,9 +1966,23 @@ table {
     align-items: center;
     padding: 1px;
     font-weight: bold;
+    width: 228px !important;
   }
   .bg16oldlh7{
     line-height: 7px !important;
+  }
+
+  .partybg16{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px;
+    height: 20px;
+    font-weight: bold;
+    word-break: break-all;
+  }
+  .lh16bg{
+    line-height: 8px;
   }
 @media print {
   .container_2.ml_8mm.mb_2.mt_2.pt_2.bag_2:nth-child(4n+1) {

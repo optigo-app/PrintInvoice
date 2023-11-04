@@ -100,6 +100,7 @@ function Jobbagsticker3({ queries, headers }) {
             }, 4000);
         }
 }, [data]);
+    console.log(data);
 
     return (
         <>
