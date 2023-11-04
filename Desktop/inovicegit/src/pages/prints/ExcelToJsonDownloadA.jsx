@@ -23,7 +23,7 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn }) => {
                         total.diaPcs += element.Pcs;
                         total.diaWt += element.Wt;
                     }
-                    if (element.MasterManagement_DiamondStoneTypeid === 1) {
+                    if (element.MasterManagement_DiamondStoneTypeid === 2) {
                         total.csPcs += element.Pcs;
                         total.csWt += element.Wt;
                     }
@@ -33,10 +33,10 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn }) => {
             let diamonds = '';
             let colorStones = '';
             if (diaInfo?.diaWt !== 0) {
-                diamonds = `With Diamond ${e?.MetalPurity} weight ${e?.NetWt} grams No of Diamond ${diaInfo?.diaPcs} Piece Diamond Weight ${diaInfo?.diaWt} cts`;
+                diamonds = `With Diamond ${e?.MetalPurity} weight ${NumberWithCommas(e?.NetWt, 3)} grams No of Diamond ${NumberWithCommas(diaInfo?.diaPcs, 0)} Piece Diamond Weight ${NumberWithCommas(diaInfo?.diaWt, 3)} cts`;
             }
             if (diaInfo?.csWt !== 0) {
-                colorStones = `With ColorStone ${e?.MetalPurity} weight ${e?.NetWt} grams No of ColorStone ${diaInfo?.csPcs} Piece ColorStone Weight ${diaInfo?.csWt} cts`;
+                colorStones = `With ColorStone ${e?.MetalPurity} weight ${NumberWithCommas(e?.NetWt, 3)} grams No of ColorStone ${NumberWithCommas(diaInfo?.csPcs, 0)} Piece ColorStone Weight ${NumberWithCommas(diaInfo?.csWt, 3)} cts`;
             }
             let obj = {
                 srNo: i,
@@ -48,7 +48,7 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn }) => {
                 pcs: 1,
                 piece: `${e?.Categoryname.includes("ear") ? "Pair" : "Piece"}`,
                 hkd: e?.TotalAmount,
-                grossWt: e?.grosswt,
+                grossWt: NumberWithCommas(e?.grosswt, 3),
                 gramSymbol: "G",
                 cn: "CN",
             };

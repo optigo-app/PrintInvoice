@@ -4,7 +4,7 @@
     padding: 0 5px !important;
 }
 
-.containerDetailPrint1 p {
+.containerDetailPrint1 p, .containerDetailPrint1 p span {
     word-break: break-all;
     /* font-size: 8px; */
     font-size: 12px;
