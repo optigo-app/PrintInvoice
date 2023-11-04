@@ -244,6 +244,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                   
                                     <div className="bg16oldjob">
                                       <div className="bg16oldlh7">
+                                        
                                         {e?.data?.rd?.serialjobno}
                                       </div>
                                       <div className="bg16oldlh7">

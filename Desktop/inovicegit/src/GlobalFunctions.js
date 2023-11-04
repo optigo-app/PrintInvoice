@@ -34,6 +34,7 @@ export const CapitalizeWords = (text) => {
 
 //global function of api calling
 export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
+  
   const body = {
     token: token,
     invoiceno: invoiceNo,
@@ -43,6 +44,7 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
 
   try {
     const response = await axios.post(urls, body);
+    console.log(response?.data);
     return response?.data;
   } catch (error) {
     console.error(error);

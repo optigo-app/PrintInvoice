@@ -32,5 +32,9 @@
         page-break-after: always;
         page-break-before: always;
     }
+    .mainjobbagsticker{
+        display: block;
+        flex-wrap: unset;
+    }
     
 }
