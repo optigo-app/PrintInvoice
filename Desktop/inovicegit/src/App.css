@@ -100,6 +100,10 @@ ol {
   border-color: #939292;
 }
 
+.lightGrey{
+  background-color: #f5f5f5;
+}
+
 .d_none{
   display: none;
 }

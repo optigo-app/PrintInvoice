@@ -3,12 +3,17 @@
     margin: 0 auto;
 }
 
+.containerretailInvoice2_font *, .containerretailInvoice2_font p{
+    font-size: 10px;
+    line-height: 120%;
+}
+
 .discription_retailInvoice_2_3{
     width: 10%;
 }
 
 .discription_retailInvoice_2_3_3{
-    width: 12%;
+    width: 13%;
 }
 
 .kt_retailInvoice_2_3{
@@ -16,23 +21,36 @@
 }
 
 .kt_retailInvoice_2_3_3{
-    width: 5%;
+    width: 6%;
+
+}
+.diaWt_retailInvoice_2_3{
+    width: 7%;
 }
 
-.gwt_retailInvoice_2_3, .metalRate_retailInvoice_2_3, .scheme_retailInvoice_2_3{
+.gwt_retailInvoice_2_3{
+    width: 9%;
+}
+
+ .metalRate_retailInvoice_2_3, .scheme_retailInvoice_2_3{
     width: 8%;
+}
+
+.scheme_retailInvoice_2_3_3{
+    width: 10%;
 }
 
 .dwt_retailInvoice_2_3{
     width: 6%;
 }
 
-.dwt_retailInvoice_2_3_3{
-    width: 8%;
+.dwt_retailInvoice_2_3_3, .gwt_retailInvoice_2_3_3, .diaWt_retailInvoice_2_3_3{
+    width: 10%;
+
 }
 
 .image_retailInvoice_2_3{
-    width: 10%;
+    width: 8%;
 }
 
 .img_retailInvoice_2_3{
