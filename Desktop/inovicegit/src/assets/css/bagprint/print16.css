@@ -1957,6 +1957,19 @@ table {
     line-height: 7px;
     padding-right: 2px !important;
    }
+
+
+  .bg16oldjob{
+    height: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1px;
+    font-weight: bold;
+  }
+  .bg16oldlh7{
+    line-height: 7px !important;
+  }
 @media print {
   .container_2.ml_8mm.mb_2.mt_2.pt_2.bag_2:nth-child(4n+1) {
       page-break-before: always;

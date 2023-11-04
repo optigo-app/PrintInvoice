@@ -337,6 +337,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                                 ))
                                                                             }
                                                                         </div>
+                                                                       
                                                                         <div className="barcode_12A border_bottom_1_12A">
                                                                             
                                                                             <BarcodeGenerator data={e?.data?.serialjobno} />
