@@ -272,7 +272,7 @@ export const otherAmountDetail = (otherAmtDetail) => {
 };
 
 export const checkArr = (diaArr, clsArr, miscArr, fArr) => {
-
+  
   let mainArr = [];
 
   if (diaArr?.length > 2) {

@@ -41,7 +41,7 @@ const BagPrint6A = ({ queries, headers }) => {
         // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           
-          if (a?.rd?.ProductType !== (null || undefined || "")) {
+          if (a?.rd?.ProductType !== null && a?.rd?.ProductType !== undefined && a?.rd?.ProductType !== "") {
             if (
               a?.rd?.ProductType?.length > 0 &&
               a?.rd?.ProductType?.length < 12
