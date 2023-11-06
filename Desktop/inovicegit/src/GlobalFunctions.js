@@ -34,7 +34,6 @@ export const CapitalizeWords = (text) => {
 
 //global function of api calling
 export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
-  
   const body = {
     token: token,
     invoiceno: invoiceNo,
@@ -44,10 +43,36 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
 
   try {
     const response = await axios.post(urls, body);
+    let a = (response?.data)
     return response?.data;
   } catch (error) {
     console.error(error);
   }
+}
+
+// new api print
+export const newApiPrint =  (token, invoiceNo, printName, url, evn) => {
+  let data = `{\r\n  "token" : "${token}"\r\n  ,"invoiceno":"${invoiceNo}"\r\n  ,"printname":"${printName}"\r\n  ,"Eventname":"${evn}"\r\n}`;
+
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: url,
+    headers: { 
+      'Content-Type': 'text/plain', 
+      'Cookie': 'ASP.NET_SessionId=eosdeooiexxjky0svpuomnc0'
+    },
+    data : data
+  };
+  
+  axios.request(config)
+  .then((response) => {
+    return response.data
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+  
 };
 
 //api response object checking is obj is empty or not
@@ -270,16 +295,16 @@ export const otherAmountDetail = (otherAmtDetail) => {
 };
 
 export const checkArr = (diaArr, clsArr, miscArr, fArr) => {
-  
+
   let mainArr = [];
   if (diaArr?.length > 2) {
-    mainArr =  mainArr?.concat(diaArr);
+    mainArr = mainArr?.concat(diaArr);
   }
   if (clsArr?.length > 2) {
-    mainArr =   mainArr?.concat(clsArr);
+    mainArr = mainArr?.concat(clsArr);
   }
   if (miscArr?.length > 2) {
-    mainArr =  mainArr?.concat(miscArr);
+    mainArr = mainArr?.concat(miscArr);
   }
   if (fArr?.length > 2) {
     mainArr = mainArr?.concat(fArr);
@@ -287,13 +312,13 @@ export const checkArr = (diaArr, clsArr, miscArr, fArr) => {
   return mainArr;
 };
 
-export const numberToWord = (num) => { 
+export const numberToWord = (num) => {
   const toWords = new ToWords();
-  if(typeof(num) === "string"){
+  if (typeof (num) === "string") {
     return toWords.convert(+fixedValues(num, 2))
-  }else if(typeof(num) === "number"){
+  } else if (typeof (num) === "number") {
     return toWords.convert(fixedValues(num, 2))
-  }else{
+  } else {
     return ""
   }
 }

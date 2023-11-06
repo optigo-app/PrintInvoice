@@ -376,20 +376,20 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                 msg === "" ? <div className='zoom1_5_summary12 pad_60_allPrint'><div>
                     <div className="d-flex justify-content-end align-items-center print_sec_sum4 container summary12Container pt-4">
                         <div className="form-check pe-3">
-                            <input className="form-check-input border-dark" type="checkbox" checked={header} onChange={e => handleChange(e, "header")} />
-                            <label className="form-check-label pt-1">
+                            <input className="form-check-input border-dark" type="checkbox" id='chbox' checked={header} onChange={e => handleChange(e, "header")} />
+                            <label className="form-check-label pt-1" htmlFor='chbox'>
                                 With Header
                             </label>
                         </div>
                         <div className="form-check pe-3">
-                            <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => handleChange(e, "image")} />
-                            <label className="form-check-label pt-1">
+                            <input className="form-check-input border-dark" type="checkbox" id='chbox1' checked={image} onChange={e => handleChange(e, "image")} />
+                            <label className="form-check-label pt-1" htmlFor='chbox1'>
                                 With Image
                             </label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input border-dark" type="checkbox" checked={summary} onChange={e => handleChange(e, "summary")} />
-                            <label className="form-check-label pt-1">
+                            <input className="form-check-input border-dark" type="checkbox" id='chbox2' checked={summary} onChange={e => handleChange(e, "summary")} />
+                            <label className="form-check-label pt-1" htmlFor='chbox2'>
                                 With Summary
                             </label>
                         </div>
