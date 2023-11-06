@@ -5,7 +5,6 @@ import PrintDesign17 from './bagPrints/PrintDesign17';
 import PrintDesign16 from './bagPrints/PrintDesign16';
 import BagPrint15A from "./bagPrints/BagPrint15A";
 import BagPrint14A from './bagPrints/BagPrint14A';
-import Jobbagsticker3 from './bagPrints/Jobbagsticker3';
 import BagPrint1A from './bagPrints/BagPrint1A';
 import BagPrint2A from './bagPrints/BagPrint2A';
 import BagPrint3A from './bagPrints/BagPrint3A';
@@ -24,6 +23,7 @@ import BagPrint4B from './bagPrints/BagPrint4B';
 // import Bg18 from './bagPrints/Bg18';
 import BagPrint20A from './bagPrints/BagPrint20A';
 import Jobbagsticker from './bagPrints/Jobbagsticker';
+import Jobbagsticker3 from './bagPrints/Jobbagsticker3';
 
 const AllDesignBagPrint = () => {
   const location = useLocation();
@@ -72,8 +72,8 @@ const AllDesignBagPrint = () => {
       {printName === "BagPrint18" && <BagPrint18A queries={queries} headers={headers} />}
       {/* {printName === "BagPrint16" && <BagPrint16A queries={queries} headers={headers} />} */}
       {/* {printName === "BagPrint16" && <BagPrint16A queries={queries} headers={headers} />} */}
+      {printName === "JobbagstickerA" && <Jobbagsticker queries={queries} headers={headers} />}
       {printName === "Jobbagsticker3" && <Jobbagsticker3 queries={queries} headers={headers} />}
-      {/* {printName === "Jobbagsticker3" && <Jobbagsticker queries={queries} headers={headers} />} */}
       {/* {printName === "BagPrint18" && <Bg18 queries={queries} headers={headers} />} */}
     </div>
   );
