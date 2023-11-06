@@ -62,29 +62,29 @@ const BagPrint13A = ({ queries, headers }) => {
             ActualPcs: 0,
             ActualWeight: 0,
           };
-          let ArrofSevenSize = [];
-          let ArrofFiveSize = [];
-          let ArrofMISize = [];
-          let ArrofFSize = [];
+          let DiamondList = [];
+          let ColorStoneList = [];
+          let MiscList = [];
+          let FindingList = [];
           // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
             }
             if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-              ArrofSevenSize.push(e);
+              DiamondList.push(e);
               dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
               dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-              ArrofFiveSize.push(e);
+              ColorStoneList.push(e);
               clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
               clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-              ArrofFSize.push(e);
+              FindingList.push(e);
               f.ActualPcs = f.ActualPcs + e?.ActualPcs;
               f.ActualWeight = f.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-              ArrofMISize.push(e);
+              MiscList.push(e);
               misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
               misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
             }
@@ -99,10 +99,10 @@ const BagPrint13A = ({ queries, headers }) => {
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
           let arr = [];
           let mainArr = arr?.concat(
-            ArrofSevenSize,
-            ArrofFiveSize,
-            ArrofMISize,
-            ArrofFSize
+            DiamondList,
+            ColorStoneList,
+            MiscList,
+            FindingList
           );
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);

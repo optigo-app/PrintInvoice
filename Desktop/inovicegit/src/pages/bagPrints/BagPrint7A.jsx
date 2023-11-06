@@ -10,6 +10,7 @@ import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 import { checkInstruction } from "../../GlobalFunctions";
+import { GetChunkData } from "../../GlobalFunctions/GetChunkData";
 const BagPrint7A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -36,7 +37,7 @@ const BagPrint7A = ({ queries, headers }) => {
 
         // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
-          let chunkData = [];
+  
           let length = 0;
           let clr = {
             Shapename: "TOTAL",
@@ -66,29 +67,29 @@ const BagPrint7A = ({ queries, headers }) => {
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 5,
           };
-          let ArrofSevenSize = [];
-          let ArrofFiveSize = [];
-          let ArrofMISize = [];
-          let ArrofFSize = [];
+          let DiamondList = [];
+          let ColorStoneList = [];
+          let MiscList = [];
+          let FindingList = [];
           // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
             }
             if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-              ArrofSevenSize.push(e);
+              DiamondList.push(e);
               dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
               dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-              ArrofFiveSize.push(e);
+              ColorStoneList.push(e);
               clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
               clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-              ArrofFSize.push(e);
+              FindingList.push(e);
               f.ActualPcs = f.ActualPcs + e?.ActualPcs;
               f.ActualWeight = f.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-              ArrofMISize.push(e);
+              MiscList.push(e);
               misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
               misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
             }
@@ -101,60 +102,30 @@ const BagPrint7A = ({ queries, headers }) => {
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
-          ArrofSevenSize.push(dia);
-          ArrofFiveSize.push(clr);
-          ArrofFSize.push(f);
-          ArrofMISize.push(misc);
-          // eslint-disable-next-line array-callback-return
-          ArrofSevenSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofSevenSize = [];
-            } else {
-              e.heading = "DIAMOND DETAIL";
-            }
-          });
-          // eslint-disable-next-line array-callback-return
-          ArrofFiveSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofFiveSize = [];
-            } else {
-              e.heading = "COLOR STONE DETAIL";
-            }
-          });
-          // eslint-disable-next-line array-callback-return
-          ArrofMISize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofMISize = [];
-            } else {
-              e.heading = "MISC DETAIL";
-            }
-          });
-          // eslint-disable-next-line array-callback-return
-          ArrofFSize?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              ArrofFSize = [];
-            } else {
-              e.heading = "FINDING DETAIL";
-            }
-          });
+          if(dia.ActualPcs !== 0 && dia.ActualWeight !== 0){
+            DiamondList.push(dia);
+          }
+          if(clr.ActualPcs !== 0 && clr.ActualWeight !== 0){
+            ColorStoneList.push(clr);
+          }
+          if(f.ActualPcs !== 0 && f.ActualWeight !== 0){
+            FindingList.push(f);
+          }
+          if(misc.ActualPcs !== 0 && misc.ActualWeight !== 0){
+            MiscList.push(misc);
+          }  
+
           let arr = [];
           let mainArr = arr?.concat(
-            ArrofSevenSize,
-            ArrofFiveSize,
-            ArrofMISize,
-            ArrofFSize
+            DiamondList,
+            ColorStoneList,
+            MiscList,
+            FindingList
           );
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
-
-                
-
-          for (let i = 0; i < mainArr?.length; i += chunkSize7) {
-            const chunks = mainArr?.slice(i, i + chunkSize7);
-            let len = 6 - mainArr?.slice(i, i + chunkSize7)?.length;
-            chunkData?.push({ data: chunks, length: len });
-          }
+            let chunkData =  GetChunkData(chunkSize7, mainArr)
           responseData.push({
             data: a,
             additional: {

@@ -67,29 +67,29 @@ const BagPrint3A = ({ queries, headers }) => {
             ActualWeight: 0,
           };
           //arr for colorstone
-          let ArrofSevenSize = [];
-          let ArrofFiveSize = [];
-          let ArrofMISize = [];
-          let ArrofFSize = [];
+          let DiamondList = [];
+          let ColorStoneList = [];
+          let MiscList = [];
+          let FindingList = [];
           // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
             }
             if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-              ArrofSevenSize.push(e);
               dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
               dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
+              DiamondList.push(e);
             } else if (e.MasterManagement_DiamondStoneTypeid === 4) {
-              ArrofFiveSize.push(e);
+              ColorStoneList.push(e);
               clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
               clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-              ArrofFSize.push(e);
+              FindingList.push(e);
               f.ActualPcs = f.ActualPcs + e?.ActualPcs;
               f.ActualWeight = f.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-              ArrofMISize.push(e);
+              MiscList.push(e);
               misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
               misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
             }
@@ -102,43 +102,20 @@ const BagPrint3A = ({ queries, headers }) => {
           misc.ActualWeight = +(misc.ActualWeight.toFixed(3));
           f.ActualPcs = +(f.ActualPcs.toFixed(3));
           f.ActualWeight = +(f.ActualWeight.toFixed(3));
-          ArrofSevenSize.push(dia);
-          ArrofFiveSize.push(clr);
-          ArrofFSize.push(f);
-          ArrofMISize.push(misc);
-          ArrofSevenSize.forEach((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-              ArrofSevenSize = [];
-            } else {
-              e.heading = "DIAMOND DETAIL";
-            }
+          if(dia.ActualPcs !== 0 && dia.ActualWeight !== 0){
+            DiamondList.push(dia);
           }
-          );
-          ArrofFiveSize.forEach((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-              ArrofFiveSize = [];
-            } else {
-              e.heading = "COLOR STONE DETAIL";
-            }
+          if(clr.ActualPcs !== 0 && clr.ActualWeight !== 0){
+            ColorStoneList.push(clr);
           }
-          );
-          ArrofMISize.forEach((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-              ArrofMISize = [];
-            } else {
-              e.heading = "MISC DETAIL";
-            }
+          if(f.ActualPcs !== 0 && f.ActualWeight !== 0){
+            FindingList.push(f);
           }
-          );
-          ArrofFSize.forEach((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-              ArrofFSize = [];
-            } else {
-              e.heading = "FINDING DETAIL";
-            }
-          })
+          if(misc.ActualPcs !== 0 && misc.ActualWeight !== 0){
+            MiscList.push(misc);
+          }    
           let arr = [];
-          let mainArr = arr.concat(ArrofSevenSize, ArrofFiveSize, ArrofMISize);
+          let mainArr = arr.concat(DiamondList, ColorStoneList, MiscList);
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
@@ -271,7 +248,7 @@ const BagPrint3A = ({ queries, headers }) => {
                               <div className='jobno3A'><p className='job3Ahead'>{e?.data?.rd?.serialjobno}</p><p className='job3Ahead'>{e?.data?.rd?.Designcode}</p><p className='job3Ahead'>{e?.data?.rd?.MetalType}</p><p className='job3Ahead'>{e?.data?.rd?.MetalColorCo}</p></div>
                               <div className='info3A'>
                                 <p className='info3Acust hw3A'>Cust.</p>
-                                <p className='info3Acust hw3A' ><b>{e?.data?.rd?.CustomerCode}</b></p>
+                                <p className='info3Acust hw3A' style={{width:"48px"}}><b>{e?.data?.rd?.CustomerCode}</b></p>
                                 <p className='info3Acust hw3Asr'>Sales Rep.</p>
                                 <p className='info3Acust hw3Asr' style={{ borderRight: "0px" }}>{e?.data?.rd?.SalesrepCode}</p>
                               </div>
@@ -283,17 +260,17 @@ const BagPrint3A = ({ queries, headers }) => {
                               </div>
                               <div className='info3A'>
                                 <p className='info3Acust hw3AD' >Order</p>
-                                <p className='info3Acust hw3AD' ><b>{e?.data?.rd?.OrderDate?.slice(0, 12)}</b></p>
+                                <p className='info3Acust hw3AD' ><b>{e?.data?.rd?.orderDatef?.slice(0, 12)}</b></p>
                                 <p className='info3Acust hw3Asr' style={{ width: "50px" }}><b>Metal</b></p>
                                 <p className='info3Acust hw3Asr'><b>Dia.</b></p>
                                 <p className='info3Acust hw3Asr' style={{ borderRight: "0px" }}><b>CST</b></p>
                               </div>
                               <div className='info3A'>
                                 <p className='info3Acust hw3AD' >Promise</p>
-                                <p className='info3Acust hw3AD' style={{ fontSize: "8.5px" }}>{(e?.data?.rd?.promisedate)?.replace(/\s+/g, "")}</p>
+                                <p className='info3Acust hw3AD'>{e?.data?.rd?.promiseDatef}</p>
                                 <p className='info3Acust hw3Asr' style={{ width: "50px" }}>{e?.data?.rd?.MetalWeight}</p>
-                                <p className='info3Acust hw3Asr'>{e.additional.dia.ActualPcs}/{e.additional.dia.ActualWeight.toFixed(2)}</p>
-                                <p className='info3Acust hw3Asr' style={{ borderRight: "0px" }}>{e.additional.clr.ActualPcs}/{e.additional.clr.ActualWeight.toFixed(2)}</p>
+                                <p className='info3Acust hw3Asr'>{e.additional.dia.ActualPcs}/{e?.additional?.dia?.ActualWeight?.toFixed(2)}</p>
+                                <p className='info3Acust hw3Asr' style={{ borderRight: "0px" }}>{e?.additional?.clr?.ActualPcs}/{e?.additional?.clr?.ActualWeight?.toFixed(2)}</p>
                               </div>
                               <div className='info3A' style={{ borderBottom: "0px" }}>
                                 <p className='info3Acust hw3AD' >FG By</p>

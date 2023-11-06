@@ -9,6 +9,7 @@ import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
+import { GetChunkData } from "../../GlobalFunctions/GetChunkData";
 import { checkArr, checkInstruction } from "../../GlobalFunctions";
 
 const BagPrint20A = ({ queries, headers }) => {
@@ -16,7 +17,7 @@ const BagPrint20A = ({ queries, headers }) => {
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
-  const chunkSize7 = 10;
+  const chunkSize10 = 10;
   useEffect(() => {
     if (Object.keys(queryParams)?.length !== 0) {
       atob(queryParams?.imagepath);
@@ -38,7 +39,7 @@ const BagPrint20A = ({ queries, headers }) => {
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
         // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
-          let chunkData = [];
+          
           let length = 0;
           let clr = {
             Shapename: "TOTAL",
@@ -68,10 +69,10 @@ const BagPrint20A = ({ queries, headers }) => {
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 5,
           };
-          let ArrofSevenSize = [];
-          let ArrofFiveSize = [];
-          let ArrofMISize = [];
-          let ArrofFSize = [];
+          let DiamondList = [];
+          let ColorStoneList = [];
+          let MiscList = [];
+          let FindingList = [];
 
           // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
@@ -79,19 +80,19 @@ const BagPrint20A = ({ queries, headers }) => {
               length++;
             }
             if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-              ArrofSevenSize.push(e);
+              DiamondList.push(e);
               dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
               dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-              ArrofFiveSize.push(e);
+              ColorStoneList.push(e);
               clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
               clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-              ArrofFSize.push(e);
+              FindingList.push(e);
               f.ActualPcs = f.ActualPcs + e?.ActualPcs;
               f.ActualWeight = f.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-              ArrofMISize.push(e);
+              MiscList.push(e);
               misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
               misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
             }
@@ -104,10 +105,10 @@ const BagPrint20A = ({ queries, headers }) => {
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
-          ArrofSevenSize?.push(dia);
-          ArrofFiveSize?.push(clr);
-          ArrofMISize?.push(misc);
-          ArrofFSize?.push(f);
+          DiamondList?.push(dia);
+          ColorStoneList?.push(clr);
+          MiscList?.push(misc);
+          FindingList?.push(f);
           
           let newDia = {
             Shapename: "",
@@ -138,15 +139,15 @@ const BagPrint20A = ({ queries, headers }) => {
             MasterManagement_DiamondStoneTypeid: 5,
           };
 
-          ArrofSevenSize?.unshift(newDia);
-          ArrofFiveSize?.unshift(newCS);
-          ArrofMISize?.unshift(newMisc);
-          ArrofFSize?.unshift(newfind);
+          DiamondList?.unshift(newDia);
+          ColorStoneList?.unshift(newCS);
+          MiscList?.unshift(newMisc);
+          FindingList?.unshift(newfind);
           
           let mainArr = checkArr(
-            ArrofSevenSize,
-            ArrofFiveSize,
-            ArrofMISize,
+            DiamondList,
+            ColorStoneList,
+            MiscList,
             []
             // ArrofFSize
           );
@@ -155,11 +156,9 @@ const BagPrint20A = ({ queries, headers }) => {
           imagePath = atob(queryParams?.imagepath);
 
           let img = imagePath + a?.rd?.ThumbImagePath;
-          for (let i = 0; i < mainArr?.length; i += chunkSize7) {
-            const chunks = mainArr?.slice(i, i + chunkSize7);
-            let len = 10 - mainArr?.slice(i, i + chunkSize7)?.length;
-            chunkData.push({ data: chunks, length: len });
-          }
+
+          const arr =  GetChunkData(chunkSize10, mainArr);
+            
           responseData.push({
             data: a,
             additional: {
@@ -169,7 +168,7 @@ const BagPrint20A = ({ queries, headers }) => {
               f: f,
               img: img,
               misc: misc,
-              pages: chunkData,
+              pages: arr,
             },
           });
         });
@@ -1093,7 +1092,8 @@ const BagPrint20A = ({ queries, headers }) => {
                               <div
                                 className="wheadsep7Acopy enbrb7Acopy border-end border_color"
                                 style={{ minWidth: "9.5mm !important" }}
-                              ></div>
+                              ></div>import { GetChunkData } from './../../GlobalFunctions/GetChunkData';
+
                               
                               <div className="wheadsep7Acopy enbrb7Acopy border-end border_color"></div>
                               <div className="wheadsep7Acopy enbrb7Acopy border-end border_color"></div>

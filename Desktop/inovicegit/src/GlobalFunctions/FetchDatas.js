@@ -31,8 +31,8 @@ export const FetchDatas = async (queryParams,resultString, queries, headers) => 
                 let misc = {
                     miscWt: 0
                 };
-                let ArrofSevenSize = [];
-                let ArrofFiveSize = [];
+                let DiamondList = [];
+                let ColorStoneList = [];
                 // eslint-disable-next-line array-callback-return
                 a?.rd1?.map((e, i) => {
                     if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
@@ -48,9 +48,9 @@ export const FetchDatas = async (queryParams,resultString, queries, headers) => 
                         misc.miscWt = misc.miscWt + e?.ActualWeight;
                     }
                     if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-                        ArrofSevenSize.push(e);
+                        DiamondList.push(e);
                     } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-                        ArrofFiveSize.push(e);
+                        ColorStoneList.push(e);
                     } else {
                         return '';
                     }

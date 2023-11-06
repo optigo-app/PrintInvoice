@@ -54,33 +54,33 @@ const BagPrint5A = ({ queries, headers }) => {
             ActualPcs: 0,
             ActualWeight: 0,
           };
-          let ArrofSevenSize = [];
-          let ArrofFiveSize = [];
-          let ArrofMISize = [];
-          let ArrofFSize = [];
+          let DiamondList = [];
+          let ColorStoneList = [];
+          let MiscList = [];
+          let FindingList = [];
           // eslint-disable-next-line array-callback-return
           a?.rd1?.map((e, i) => {
             if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
               length++;
             }
             if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-              ArrofSevenSize.push(e);
-              // ArrofSevenSize[0].heading = "DIAMOND DETAIL";
+              DiamondList.push(e);
+              // DiamondList[0].heading = "DIAMOND DETAIL";
               dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
               dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-              ArrofFiveSize.push(e);
-              // ArrofFiveSize[0].heading = "COLOR STONE DETAIL";
+              ColorStoneList.push(e);
+              // ColorStoneList[0].heading = "COLOR STONE DETAIL";
               clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
               clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-              ArrofFSize.push(e);
-              // ArrofFSize[0].heading = "FINDING DETAIL";
+              FindingList.push(e);
+              // FindingList[0].heading = "FINDING DETAIL";
               f.ActualPcs = f.ActualPcs + e?.ActualPcs;
               f.ActualWeight = f.ActualWeight + e?.ActualWeight;
             } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-              ArrofMISize.push(e);
-              // ArrofMISize[0].heading = "MISC DETAIL";
+              MiscList.push(e);
+              // MiscList[0].heading = "MISC DETAIL";
               misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
               misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
             }
@@ -94,14 +94,12 @@ const BagPrint5A = ({ queries, headers }) => {
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
 
-     
-
           let arr = [];
           let mainArr = arr.concat(
-            ArrofSevenSize,
-            ArrofFiveSize,
-            ArrofMISize,
-            ArrofFSize
+            DiamondList,
+            ColorStoneList,
+            MiscList,
+            FindingList
           );
           let imagePath = queryParams.imagepath;
           imagePath = atob(queryParams.imagepath);
