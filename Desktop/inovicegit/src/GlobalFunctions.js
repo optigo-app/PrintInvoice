@@ -63,7 +63,6 @@ export function isObjectEmpty(obj) {
 //tax value calculating function taxGenerator
 export const taxGenrator = (headerData, totalAmount) => {
   let blankArr = [];
-
   if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 0) {
     let taxTypes = ["tax1", "tax2", "tax3", "tax4", "tax5"];
     taxTypes?.forEach((e, i) => {
@@ -114,7 +113,6 @@ export const NumberWithCommas = (value, val) => {
     minimumFractionDigits: val,
     maximumFractionDigits: val,
   });
-
   return formattedNumber;
 };
 
@@ -274,7 +272,6 @@ export const otherAmountDetail = (otherAmtDetail) => {
 export const checkArr = (diaArr, clsArr, miscArr, fArr) => {
   
   let mainArr = [];
-
   if (diaArr?.length > 2) {
     mainArr =  mainArr?.concat(diaArr);
   }
@@ -287,10 +284,8 @@ export const checkArr = (diaArr, clsArr, miscArr, fArr) => {
   if (fArr?.length > 2) {
     mainArr = mainArr?.concat(fArr);
   }
-
   return mainArr;
 };
-
 
 export const numberToWord = (num) => { 
   const toWords = new ToWords();

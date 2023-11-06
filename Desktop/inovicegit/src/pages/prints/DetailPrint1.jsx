@@ -258,7 +258,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   }, []);
   return (
     <>{loader ? <Loader /> : msg === "" ?
-      <div className="container containerDetailPrint1 pt-4 pad_60_allPrint">
+      <div className="container containerDetailPrint1 pt-4 ">
+        <div className="pad_60_allPrint">
         {/* buttons */}
         <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4">
           <div className="form-check d-flex align-items-center">
@@ -740,7 +741,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
           </div>
         </div>
-      </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}
+      </div> </div>: <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}
     </>
   )
 }

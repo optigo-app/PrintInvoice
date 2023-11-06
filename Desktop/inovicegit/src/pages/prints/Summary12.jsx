@@ -244,6 +244,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
     }
 
     const loadData = (datas) => {
+        console.log(datas);
         // console.log(datas);
         setBillprintJson(datas?.BillPrint_Json[0]);
         let json1Arr = [];
@@ -407,7 +408,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <p className='address_para_sum4 lh-1'>{billPrintJson?.CompanyCity} {billPrintJson?.CompanyPinCode} {billPrintJson?.CompanyState} {billPrintJson?.CompanyCountry} </p>
                                 <p className='address_para_sum4 lh-1'>T {billPrintJson?.CompanyTellNo} | TOLL FREE {billPrintJson?.CompanyTollFreeNo} </p>
                                 <p className='address_para_sum4 lh-1'>{billPrintJson?.CompanyEmail} | {billPrintJson?.CompanyWebsite} </p>
-                                <p className='address_para_sum4 lh-1'>{billPrintJson?.Company_VAT_GST_No} | {billPrintJson?.Cust_CST_STATE}-{billPrintJson?.Company_CST_STATE_No} | PAN-EDJHF236D </p>
+                                <p className='address_para_sum4 lh-1'>{billPrintJson?.Company_VAT_GST_No} | {billPrintJson?.Cust_CST_STATE}-{billPrintJson?.Company_CST_STATE_No} | PAN-{billPrintJson?.Pannumber} </p>
                             </div>
                             <div className="logo_sec_sum4">
                                 <img src={billPrintJson?.PrintLogo} alt="Logo" />
