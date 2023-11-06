@@ -252,8 +252,8 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         <span className="bg16oldlh7">{e?.data?.rd?.orderDatef}</span>
                                       </div>
                                       <div style={{color:"red"}}>
-                                        <span className="bg16oldlh7">DUE:</span>
-                                        <span className="bg16oldlh7">{e?.data?.rd?.promiseDatef}</span>
+                                        <span className="bg16oldlh7"></span>
+                                        <span className="bg16oldlh7">{(e?.data?.rd?.promiseDatef !== "01Jan00" &&e?.data?.rd?.promiseDatef !== "01Jan1900") && `DUE: ${e?.data?.rd?.promiseDatef}`}</span>
                                       </div>
                                     </div>
                                     <div className="partybg16">
@@ -925,8 +925,8 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         <span className="bg16oldlh7">{e?.data?.rd?.orderDatef}</span>
                                       </div>
                                       <div style={{color:"red"}}>
-                                        <span className="bg16oldlh7">DUE:</span>
-                                        <span className="bg16oldlh7">{e?.data?.rd?.promiseDatef}</span>
+                                        <span className="bg16oldlh7"></span>
+                                        <span className="bg16oldlh7">{(e?.data?.rd?.promiseDatef !== "01Jan00" && e?.data?.rd?.promiseDatef !== "01Jan1900") && `DUE: ${e?.data?.rd?.promiseDatef}`}</span>
                                       </div>
                                     </div>
                                     <div className="partybg16">
