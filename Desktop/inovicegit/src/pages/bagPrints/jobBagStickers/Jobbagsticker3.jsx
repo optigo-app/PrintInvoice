@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import "../../assets/css/bagprint/jobbagsticker3.css";
+import "../../../assets/css/bagprint/jobbagsticker3.css"
 import queryString from 'query-string';
-import Loader from '../../components/Loader';
-import BarcodeStickerGen from './BarcodeStickerGen';
+import Loader from '../../../components/Loader';
+import BarcodeStickerGen from '../BarcodeStickerGen';
 import { useLocation } from 'react-router-dom';
-import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
-import { handleImageError } from '../../GlobalFunctions/HandleImageError';
-import { handlePrint } from '../../GlobalFunctions/HandlePrint';
-import { checkInstruction } from '../../GlobalFunctions';
-import { FetchDatas } from '../../GlobalFunctions/FetchDatas';
+import { GetUniquejob } from '../../../GlobalFunctions/GetUniqueJob';
+import { handleImageError } from '../../../GlobalFunctions/HandleImageError';
+import { handlePrint } from '../../../GlobalFunctions/HandlePrint';
+import { checkInstruction } from '../../../GlobalFunctions';
+import { FetchDatas } from '../../../GlobalFunctions/FetchDatas';
 
 function Jobbagsticker3({ queries, headers }) {
     const location = useLocation();
@@ -65,7 +65,7 @@ function Jobbagsticker3({ queries, headers }) {
                                             <div className='bag_space' key={i}>
                                                 <div className="heading_job_3">
                                                     <div className='img_aside_3'>
-                                                        <div className='img_job3'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} loading="eager" id='jobsticker3' /></div>
+                                                        <div className='img_job3'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} loading="eager" id='jobsticker3' /></div>
                                                         <div className='ins_3' >
                                                             <h1 className='h1_3' style={{ lineHeight: "28px" }}>{(" " + checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 62) }</h1>
                                                         </div>

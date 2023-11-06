@@ -2,12 +2,12 @@ import React from 'react'
 import queryString from 'query-string';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import "../../assets/css/bagprint/jobbagsticker.css"
-import Loader from '../../components/Loader';
-import QRCodeGenerator from '../../components/QRCodeGenerator';
-import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
-import { handlePrint } from '../../GlobalFunctions/HandlePrint';
-import { FetchDatas } from '../../GlobalFunctions/FetchDatas';
+import "../../../assets/css/bagprint/jobbagsticker.css"
+import Loader from '../../../components/Loader';
+import QRCodeGenerator from '../../../components/QRCodeGenerator';
+import { GetUniquejob } from '../../../GlobalFunctions/GetUniqueJob';
+import { handlePrint } from '../../../GlobalFunctions/HandlePrint';
+import { FetchDatas } from '../../../GlobalFunctions/FetchDatas';
 const Jobbagsticker = ({ queries, headers }) => {
   const location = useLocation();
   const queryParams = queryString.parse(location.search);

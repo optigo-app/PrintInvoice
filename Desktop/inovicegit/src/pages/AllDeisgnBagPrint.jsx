@@ -22,8 +22,10 @@ import BagPrint4B from './bagPrints/BagPrint4B';
 // import BagPrint17A from './bagPrints/BagPrint17A';
 // import Bg18 from './bagPrints/Bg18';
 import BagPrint20A from './bagPrints/BagPrint20A';
-import Jobbagsticker from './bagPrints/Jobbagsticker';
-import Jobbagsticker3 from './bagPrints/Jobbagsticker3';
+import Jobbagsticker from './bagPrints/jobBagStickers/Jobbagsticker';
+import Jobbagsticker3 from './bagPrints/jobBagStickers/Jobbagsticker3';
+import EngageMat from './bagPrints/jobBagStickers/EngageMat';
+
 
 const AllDesignBagPrint = () => {
   const location = useLocation();
@@ -37,7 +39,6 @@ const AllDesignBagPrint = () => {
     pid: queryParams.pid,
     printname: queryParams.printname,
     version: queryParams.version,
-    // version: "V4",
     url: queryParams.report_api_url,
     pageStart: +(queryParams.start_page)
   };
@@ -73,6 +74,7 @@ const AllDesignBagPrint = () => {
       {/* {printName === "BagPrint16" && <BagPrint16A queries={queries} headers={headers} />} */}
       {/* {printName === "BagPrint16" && <BagPrint16A queries={queries} headers={headers} />} */}
       {printName === "JobbagstickerA" && <Jobbagsticker queries={queries} headers={headers} />}
+      {/* {printName === "JobbagstickerA" && <EngageMat queries={queries} headers={headers} />} */}
       {printName === "Jobbagsticker3" && <Jobbagsticker3 queries={queries} headers={headers} />}
       {/* {printName === "BagPrint18" && <Bg18 queries={queries} headers={headers} />} */}
     </div>
