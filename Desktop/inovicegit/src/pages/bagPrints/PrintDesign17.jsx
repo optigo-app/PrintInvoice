@@ -734,7 +734,7 @@ const PrintDesign17 = ({ queries, headers }) => {
 
                           <div className="border_bottom h_5 d_flex align_center pl_3 border_right">
                             <p className="bold separatedfs17old">
-                              {e?.data?.rd?.["PO"]}
+                               {e?.data?.rd?.OrderNo} {e?.data?.rd?.["PO"]}
                             </p>
                           </div>
                           <div
