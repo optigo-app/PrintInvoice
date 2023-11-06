@@ -6,8 +6,8 @@
     line-height: 8px;
 }
 .containerjbsbg{
-    height: 22rem;
-    width: 15rem;
+    height: 25rem;
+    width: 16rem;
     margin: 0 auto;
     padding: 0.5rem;   
     page-break-after: always;
@@ -15,11 +15,13 @@
 
 .fsjbsbg{
     font-size: 20px;
+    font-weight: 500;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     line-height: 8px;
     height: 25px;
+    padding-left: 1rem;
 }
 .mainjobbagsticker{
     display: flex;
@@ -31,6 +33,7 @@
     .containerjbsbg{
         page-break-after: always;
         page-break-before: always;
+        margin-top: 1rem;
     }
     .mainjobbagsticker{
         display: block;

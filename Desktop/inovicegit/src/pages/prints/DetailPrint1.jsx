@@ -118,6 +118,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       json2.forEach((ele, ind) => {
         if (e?.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+            
             diamondArr.push(ele);
             
             diamondsTotal.Pcs += ele?.Pcs;
