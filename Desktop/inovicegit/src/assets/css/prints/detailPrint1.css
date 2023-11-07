@@ -135,7 +135,7 @@
         page-break-inside: avoid;
     }
 
-    .containerDetailPrint1 p {
+    .containerDetailPrint1 p, .containerDetailPrint1 p span {
         font-size: 7px;
     }
     

@@ -19,12 +19,14 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
     })
 
     const loadData = (data) => {
+        console.log(data);
         let json0Data = data?.BillPrint_Json[0];
         let diaLength = 0;
         let csLength = 0;
         let miscLength = 0;
         let blankArr = [];
         data?.BillPrint_Json1.forEach((e, i) => {
+            let CHAINNETWT75GOLDRATE = 0;
             let diamonds = [];
             let colorStones = [];
             let miscs = [];
@@ -39,7 +41,7 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 "NO:STONE": 0,
                 "VALUE": 0
             }
-
+            let chainMakingCharge = 0;
             let certificationCharge = "";
             let HALLMARKCHARGE = "";
             let DancingColletCharge = "";
@@ -48,13 +50,17 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
             let otherCharges = otherAmountDetail(e?.OtherAmtDetail);
 
             otherCharges.forEach((ele, i) => {
-                if (ele.label === "Hall Mark") {
-                    HALLMARKCHARGE = ele?.value;
-                } else if (ele.label === "CERTIFICATION CHARGE") {
-                    certificationCharge = ele?.value;
-                } else if (ele.label === "Dancing Collet Charge") {
+                // if ((ele.label).toLowerCase() === "hall mark") {
+                //     console.log(ele);
+                //     HALLMARKCHARGE = ele?.value;
+                // }  
+                // if ((ele.label).toLowerCase() === "certification charge") {
+                //     certificationCharge = ele?.value;
+                // } 
+                 if ((ele.label).toLowerCase() === "dancing collet") {
                     DancingColletCharge = ele?.value;
-                } else if (ele.label === "Megnet Charges") {
+                } 
+                 if ((ele.label).toLowerCase() === "magnet charges") {
                     MegnetCharges = ele?.value;
                 }
             })
@@ -75,18 +81,33 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         diaTotal["CARAT"] += ele?.Wt;
                         diaTotal["NO:STONE"] += ele?.Pcs;
                         diaTotal["VALUE"] += ele?.Amount;
+                     
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                         colorStones.push(materialobj);
                         csTotal["CARAT"] += ele?.Wt;
                         csTotal["NO:STONE"] += ele?.Pcs;
                         csTotal["VALUE"] += ele?.Amount;
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
-                        miscs.push(materialobj);
+                        if(ele?.IsHSCOE === 0){
+                            miscs.push(materialobj);
+                        }else{
+                            if(ele?.ShapeName === "Certification_IGI"){
+                                certificationCharge += (ele?.Rate*ele?.Pcs);
+                            }
+                            if(ele?.ShapeName === "Hallmark"){
+                                HALLMARKCHARGE += (ele?.Rate*ele?.Pcs);
+                            }
+                           
+                        }
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
                         findingWt += ele?.Wt;
+                        chainMakingCharge += ele?.Wt * ele?.SettingRate;
+                    }else if(ele?.MasterManagement_DiamondStoneTypeid === 4){
+                        CHAINNETWT75GOLDRATE += ele?.Rate;
                     }
                 }
             });
+            CHAINNETWT75GOLDRATE = CHAINNETWT75GOLDRATE * findingWt;
             if (diaLength < diamonds.length) {
                 diaLength = diamonds.length;
             }
@@ -110,9 +131,9 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 "NET WT 2": e?.NetWt,
                 "NET WEIGHT * 75% RATE": e?.MetalAmount,
                 "CHAIN NET WT (Finding weight)": findingWt,
-                "CHAIN NET WT *75 GOLD RATE (Finding amount)": "",
+                "CHAIN NET WT *75 GOLD RATE (Finding amount)": CHAINNETWT75GOLDRATE,
                 "ORNAMENT MAKING CHARGE": e?.MakingAmount,
-                "CHAIN MAKING CHARGE (Finding labour)": "",
+                "CHAIN MAKING CHARGE (Finding labour)": chainMakingCharge,
                 "HUID NUMBER": e?.HUID,
                 "Certificate No.": e?.CertificateNo,
                 "diamonds": diamonds,
@@ -662,13 +683,13 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 })}
 
                                 <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["diaTotal"]?.["CARAT"] ?? ""}
+                                    {e?.["csTotal"]?.["CARAT"] ?? ""}
                                 </td>
                                 <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["diaTotal"]?.["NO:STONE"] ?? ""}
+                                    {e?.["csTotal"]?.["NO:STONE"] ?? ""}
                                 </td>
                                 <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["diaTotal"]?.["VALUE"] ?? ""}
+                                    {e?.["csTotal"]?.["VALUE"] ?? ""}
                                 </td>
 
                                 <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>

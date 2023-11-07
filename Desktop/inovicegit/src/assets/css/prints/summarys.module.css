@@ -1,0 +1,18 @@
+.summarysContaoiner *{
+    font-size: 14px
+}
+
+.sr_no{
+    width: 5%;
+    min-width: 5%;
+}
+
+.design{
+    width: 10%;
+    min-width: 10%;
+}
+
+.amtDetail{
+    width: 7.74%;
+    min-width: 7.74%;
+}

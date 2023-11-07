@@ -416,7 +416,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="diamondEstimatePrint border-end position-relative">
                                 <div className='h-100 d-grid pad_bot_29_estimatePrint'>
                                     {e?.diamonds.length > 0 && e?.diamonds.map((ele, ind) => {
-                                        return <div className='d-flex border-bottom' key={ind}>
+                                        return <div className='d-flex ' key={ind}>
                                             <div className='width20EstimatePrint p_1Estimate'><p className=''>{ele?.ShapeName} {ele?.QualityName}</p></div>
                                             <div className='width20EstimatePrint p_1Estimate'><p className=''>{ele?.SizeName}</p></div>
                                             <div className='width20EstimatePrint p_1Estimate'><p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
@@ -438,7 +438,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="metalEstimatePrint border-end position-relative">
                                 <div className='h-100 d-grid pad_bot_29_estimatePrint'>
                                     {e?.metals.length > 0 && e?.metals.map((ele, ind) => {
-                                        return <div className='d-flex border-bottom' key={ind}>
+                                        return <div className='d-flex' key={ind}>
                                             <div className='width_40_estimatePrint p_1Estimate'><p className=''>{ele?.ShapeName} {ele?.QualityName}</p></div>
                                             <div className='width_40_estimatePrint p_1Estimate'><p className='text-end '>{fixedValues(ele?.Wt, 3)}</p></div>
                                             <div className='width_40_estimatePrint p_1Estimate'><p className='text-end '></p></div>
@@ -458,7 +458,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="stoneEstimatePrint border-end position-relative">
                                 <div className='h-100 d-grid pad_bot_29_estimatePrint'>
                                     {e?.colorStones.length > 0 && e?.colorStones.map((ele, ind) => {
-                                        return <div className='d-flex border-bottom' key={ind}>
+                                        return <div className='d-flex ' key={ind}>
                                             <div className='width20EstimatePrint p_1Estimate'><p>{ele?.ShapeName} {ele?.QualityName}</p></div>
                                             <div className='width20EstimatePrint p_1Estimate'><p className=''>{ele?.SizeName}</p></div>
                                             <div className='width20EstimatePrint p_1Estimate'><p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p></div>

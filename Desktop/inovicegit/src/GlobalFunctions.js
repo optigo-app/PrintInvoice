@@ -51,28 +51,18 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
 }
 
 // new api print
-export const newApiPrint =  (token, invoiceNo, printName, url, evn) => {
+export const newApiPrint =  async(token, invoiceNo, printName, url, evn) => {
   let data = `{\r\n  "token" : "${token}"\r\n  ,"invoiceno":"${invoiceNo}"\r\n  ,"printname":"${printName}"\r\n  ,"Eventname":"${evn}"\r\n}`;
-
-  let config = {
-    method: 'post',
-    maxBodyLength: Infinity,
-    url: url,
-    headers: { 
-      'Content-Type': 'text/plain', 
-      'Cookie': 'ASP.NET_SessionId=eosdeooiexxjky0svpuomnc0'
-    },
-    data : data
-  };
-  
-  axios.request(config)
-  .then((response) => {
-    return response.data
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-  
+  let headers = {
+    'Content-Type': 'text/plain',
+    'Cookie': 'ASP.NET_SessionId=eosdeooiexxjky0svpuomnc0'
+  }
+  try {
+ axios.post(url, data, { headers }).then(res=>console.log(res)).catch(err=>console.log(err));
+  } catch (error) {
+    console.error('API call failed:', error);
+    return null; // Handle the error as needed
+  }
 };
 
 //api response object checking is obj is empty or not
