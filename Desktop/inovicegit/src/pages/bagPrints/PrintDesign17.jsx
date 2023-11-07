@@ -733,9 +733,10 @@ const PrintDesign17 = ({ queries, headers }) => {
                           </div>
 
                           <div className="border_bottom h_5 d_flex align_center pl_3 border_right">
-                            <p className="bold separatedfs17old">
-                               {e?.data?.rd?.OrderNo} {e?.data?.rd?.["PO"]}
-                            </p>
+                            <div className="bold separatedfs17old d-flex w-100 justify-content-between align-items-center">
+                              <p className="ps-2">{e?.data?.rd?.OrderNo}</p>
+                              <p className="pe-2">{e?.data?.rd?.["PO"]}</p>  
+                            </div>
                           </div>
                           <div
                             className="d_flex border_bottom border_right"
