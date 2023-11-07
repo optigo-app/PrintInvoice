@@ -9,6 +9,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
   const [json1Data, setJson1Data] = useState([]);
+  const [json1Data2, setJson1Data2] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [detailtPrintR, setdetailtPrintR] = useState(atob(printName).toLowerCase() === "detail print r" ? true : false);
   const [msg, setMsg] = useState("");
   const [total, setTotal] = useState({
@@ -49,19 +51,60 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
 
   });
   const [taxes, setTaxes] = useState([]);
-  const [diamondDetails, setDiamondDetails] = useState([]);
+  // const [diamondDetails, setDiamondDetails] = useState([]);
 
   const handleChange = (e) => {
     image ? setImage(false) : setImage(true);
   }
 
+  // eslint-disable-next-line no-unused-vars
   const findDiamond = (obj, diamondArr) => {
     let recordIndex = diamondArr.findIndex((e, i) => e?.ShapeName === obj?.ShapeName && e?.QualityName === obj?.QualityName && e?.Colorname === obj?.Colorname);
     return recordIndex;
   }
 
-  const findMaterials = (json1, json2, json0) => {
-    let resultArr = [];
+  const loadData = (data) => {
+    setJson0Data(data?.BillPrint_Json[0]);
+    setJson1Data2(data?.BillPrint_Json2)
+    setLoader(false);
+  }
+
+  
+  useEffect(() => {
+    const sendData = async () => {
+      try {
+        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        if (data?.Status === "200") {
+          let isEmpty = isObjectEmpty(data?.Data);
+          if (!isEmpty) {
+            loadData(data?.Data);
+
+           let arr =   organizeDataSample(
+              data?.Data?.BillPrint_Json[0],
+              data?.Data?.BillPrint_Json1,
+              data?.Data?.BillPrint_Json2
+            );
+            setJson1Data(arr)
+            setLoader(false);
+          } else {
+            setLoader(false);
+            setMsg("Data Not Found");
+          }
+        } else {
+          setLoader(false);
+          setMsg(data?.Message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    sendData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const organizeDataSample = (hr, ar1, ar2) => {
+    
+      let resultArr = [];
     let totals = {
       diamondPcs: 0,
     diamondWt: 0,
@@ -80,26 +123,45 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     withDiscountTaxAmount: 0,
     labourAmount: 0,
     netWt: 0
-    }
-    // let totals = { ...total };
-    let summaries = { ...summary };
-    let diamondDetails = [];
-    json1.forEach((e, i) => {
-      if (detailtPrintR) {
-        summaries.gold24Kt += e?.PureNetWt;
+    };
+
+    let summary = {
+      gold24Kt: 0,
+    grossWt: 0,
+    gDWt: 0,
+    netWt: 0,
+    diamondWt: 0,
+    diamondpcs: 0,
+    stoneWt: 0,
+    stonePcs: 0,
+    metalAmount: 0,
+    diamondAmount: 0,
+    colorStoneAmount: 0,
+    makingAmount: 0,
+    otherCharges: 0,
+    addLess: 0,
+    total: 0,
+    };
+    
+
+    // eslint-disable-next-line array-callback-return
+    ar1?.map((e) => {
+      
+      if(detailtPrintR){
+        summary.gold24Kt = summary.gold24Kt + e?.PureNetWt;
       }
       let totalAmounts = e?.DiscountAmt + e?.TotalAmount;
       let OtherAmountDetail = otherAmountDetail(e?.OtherAmtDetail);
       let totalOther = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
       totals.labourAmount += e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost;
       let obj = { ...e };
-      obj.OtherAmountDetail = OtherAmountDetail;
-      obj.totalOther = totalOther;
-      obj.SettingAmount = 0;
-      let diamondArr = [];
-      let metalArr = [];
-      let colorStoneArr = [];
-      let diamondsTotal = {
+        obj.OtherAmountDetail = OtherAmountDetail;
+        obj.totalOther = totalOther;
+        obj.SettingAmount = 0;
+        let diamondArr = [];
+        let metalArr = [];
+        let colorStoneArr = [];
+        let diamondsTotal = {
         Pcs: 0,
         Wt: 0,
         Amount: 0
@@ -115,84 +177,63 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
         Amount: 0
       }
       let discountTotalAmount = 0;
-      json2.forEach((ele, ind) => {
-        if (e?.SrJobno === ele?.StockBarcode) {
-          if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-            
-            diamondArr.push(ele);
-            
-            diamondsTotal.Pcs += ele?.Pcs;
-            diamondsTotal.Wt += ele?.Wt;
-            diamondsTotal.Amount += ele?.Amount;
-            totals.diamondPcs += ele?.Pcs;
-            totals.diamondWt += ele?.Wt;
-            totals.diamondAmount += ele?.Amount;
-            summaries.diamondWt += ele?.Wt;
-            summaries.diamondpcs += ele?.Pcs;
-            summaries.diamondAmount += ele?.Amount;
-          
-            if (diamondDetails.length === 0) {
-              diamondDetails.push(ele);
-            } else {
-              let recordIndex = findDiamond(ele, diamondDetails);
-              if (recordIndex !== -1) {
-                diamondDetails[recordIndex].Pcs += ele?.Pcs;
-                diamondDetails[recordIndex].Wt += ele?.Wt;
-              } else {
-                if (diamondDetails.length === 6 || diamondDetails.length === 7) {
-                  let findIndex = diamondDetails.findIndex((e, i) => e.name === "Others");
-                  if (findIndex !== -1) {
-                    let obj = { ...ele };
-                    obj.name = "Others";
-                    diamondDetails.push(obj);
-                  } else {
-                    diamondDetails[findIndex].Pcs += ele?.Pcs;
-                    diamondDetails[findIndex].Wt += ele?.Wt;
-                  }
-                } else {
-                  diamondDetails.push(ele);
-                }
-              }
-            }
+
+      // eslint-disable-next-line array-callback-return
+      ar2?.map((el) => {
+      
+
+        if(e?.SrJobno === el?.StockBarcode){
+          if(el?.MasterManagement_DiamondStoneTypeid === 1){
+            diamondArr.push(el);
+            diamondsTotal.Pcs += el?.Pcs;
+            diamondsTotal.Wt += el?.Wt;
+            diamondsTotal.Amount += el?.Amount;
+            totals.diamondPcs += el?.Pcs;
+            totals.diamondWt += el?.Wt;
+            totals.diamondAmount += el?.Amount;
+            summary.diamondWt += el?.Wt;
+            summary.diamondpcs += el?.Pcs;
+            summary.diamondAmount += el?.Amount;
           }
-          if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
-            metalArr.push(ele);
-            metalTotal.Pcs += ele?.Pcs;
-            metalTotal.Wt += ele?.Wt;
-            metalTotal.Amount += ele?.Amount;
+          if (el?.MasterManagement_DiamondStoneTypeid === 4) {
+            metalArr.push(el);
+            metalTotal.Pcs += el?.Pcs;
+            metalTotal.Wt += el?.Wt;
+            metalTotal.Amount += el?.Amount;
             if (!detailtPrintR) {
-              summaries.gold24Kt += ele?.FineWt;
-            }
-            totals.metalWt += ele?.Wt;
-            totals.metalAmount += ele?.Amount;
-            summaries.metalAmount += ele?.Amount;
+                  summary.gold24Kt += el?.FineWt;
+              }
+            totals.metalWt += el?.Wt;
+            totals.metalAmount += el?.Amount;
+            summary.metalAmount += el?.Amount;
           }
-          if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
-            colorStoneArr.push(ele);
-            colorStonesTotal.Pcs += ele?.Pcs;
-            colorStonesTotal.Wt += ele?.Wt;
-            colorStonesTotal.Amount += ele?.Amount;
-            totals.colorStonePcs += ele?.Pcs;
-            totals.colorStoneWt += ele?.Wt;
-            totals.colorStoneAmount += ele?.Amount;
-            summaries.stoneWt += ele?.Wt;
-            summaries.stonePcs += ele?.Pcs;
-            summaries.colorStoneAmount += ele?.Amount;
+          if (el?.MasterManagement_DiamondStoneTypeid === 2) {
+            colorStoneArr.push(el);
+            colorStonesTotal.Pcs += el?.Pcs;
+            colorStonesTotal.Wt += el?.Wt;
+            colorStonesTotal.Amount += el?.Amount;
+            totals.colorStonePcs += el?.Pcs;
+            totals.colorStoneWt += el?.Wt;
+            totals.colorStoneAmount += el?.Amount;
+            summary.stoneWt += el?.Wt;
+            summary.stonePcs += el?.Pcs;
+            summary.colorStoneAmount += el?.Amount;
           }
-          obj.SettingAmount += ele?.SettingAmount;
-          summaries.makingAmount += ele?.SettingAmount;
+          obj.SettingAmount += el?.SettingAmount;
+          summary.makingAmount += el?.SettingAmount;
         }
-      });
+      })
+
       metalTotal.Wt += e?.DiamondCTWwithLoss / 5;
       totals.metalWt += e?.DiamondCTWwithLoss / 5;
       // discountTotalAmount = e?.TotalAmount - e?.DiscountAmt;
       discountTotalAmount = e?.TotalAmount;
-      summaries.grossWt += e?.grosswt;
-      summaries.gDWt += e?.MetalDiaWt + (e?.DiamondCTWwithLoss / 5);
-      summaries.netWt += e?.NetWt;
-      summaries.makingAmount += e?.MakingAmount;
-      // summaries.otherCharges += e?.OtherCharges;
-      summaries.otherCharges += totalOther;
+      summary.grossWt += e?.grosswt;
+      summary.gDWt += e?.MetalDiaWt + (e?.DiamondCTWwithLoss / 5);
+      summary.netWt += e?.NetWt;
+      summary.makingAmount += e?.MakingAmount;
+      // summary.otherCharges += e?.OtherCharges;
+      summary.otherCharges += totalOther;
       obj.diamonds = diamondArr;
       obj.metals = metalArr;
       obj.colorStones = colorStoneArr;
@@ -206,56 +247,99 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       totals.withoutDiscountTotalAmount += e?.TotalAmount;
       totals.netWt += e?.NetWt;
       resultArr.push(obj);
-    });
-    setDiamondDetails(diamondDetails);
-    summaries.addLess = json0?.AddLess;
-    summaries.total = summaries?.metalAmount + summaries?.diamondAmount + summaries?.colorStoneAmount + summaries?.makingAmount + summaries?.otherCharges + summaries?.addLess;
-    totals.cgstAmount = (totals?.withoutDiscountTotalAmount * json0?.CGST) / 100;
-    totals.sgstAmount = (totals?.withoutDiscountTotalAmount * json0?.SGST) / 100;
-    // totals.withDiscountTaxAmount = totals?.totalAmount + totals?.cgstAmount + totals?.sgstAmount - totals?.discountTotalAmount + json0?.AddLess;
-    let taxValue = taxGenrator(json0, totals?.totalAmount);
-    setTaxes(taxValue);
-    taxValue?.length > 0 && taxValue.forEach((e, i) => {
-      totals.withDiscountTaxAmount += +(e?.amount);
-    });
-    totals.withDiscountTaxAmount += json0?.AddLess + totals?.totalAmount;
-    setSummary(summaries);
-    setTotal(totals);
-    return resultArr;
+        // setDiamondDetails(diamondDetails);
+      summary.addLess = hr?.AddLess;
+      summary.total = summary?.metalAmount + summary?.diamondAmount + summary?.colorStoneAmount + summary?.makingAmount + summary?.otherCharges + summary?.addLess;
+      totals.cgstAmount = (totals?.withoutDiscountTotalAmount * hr?.CGST) / 100;
+      totals.sgstAmount = (totals?.withoutDiscountTotalAmount * hr?.SGST) / 100;
+      // totals.withDiscountTaxAmount = totals?.totalAmount + totals?.cgstAmount + totals?.sgstAmount - totals?.discountTotalAmount + hr?.AddLess;
+      let taxValue = taxGenrator(hr, totals?.totalAmount);
+      setTaxes(taxValue);
+      taxValue?.length > 0 && taxValue.forEach((e, i) => {
+        totals.withDiscountTaxAmount += +(e?.amount);
+      });
+      totals.withDiscountTaxAmount += hr?.AddLess + totals?.totalAmount;
+      setSummary(summary);
+      setTotal(totals);
+    
+  })
+  return resultArr;
+
   }
 
-  const loadData = (data) => {
-    let findMaterilasList = findMaterials(data?.BillPrint_Json1, data?.BillPrint_Json2, data?.BillPrint_Json[0]);
-    // let findDiamondDetail =  findDiamonds(data?.BillPrint_Json1, data?.BillPrint_Json2);
-    setJson0Data(data?.BillPrint_Json[0]);
-    setJson1Data(findMaterilasList);
-    setLoader(false);
-  }
+  const d = json1Data2?.reduce((grouped, ee) => {
+    if (ee?.MasterManagement_DiamondStoneTypeid === 1 && ee?.ShapeName === "Round") {
+      const key = `${ee?.ShapeName} ${ee?.QualityName} ${ee?.Colorname}`;
 
-  useEffect(() => {
-    const sendData = async () => {
-      try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
-        if (data?.Status === '200') {
-          let isEmpty = isObjectEmpty(data?.Data);
-          if (!isEmpty) {
-            loadData(data?.Data);
-            setLoader(false);
-          } else {
-            setLoader(false);
-            setMsg("Data Not Found");
-          }
-        } else {
-          setLoader(false);
-          setMsg(data?.Message);
-        }
-      } catch (error) {
-        console.error(error);
+      if (!grouped[key]) {
+        grouped[key] = [];
       }
+
+      grouped[key].push(ee);
     }
-    sendData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    return grouped;
+  }, {});
+
+  const er = json1Data2?.reduce((grouped, ei) => {
+    if (ei?.MasterManagement_DiamondStoneTypeid === 1 && ei?.ShapeName !== "Round") {
+      const key = `${ei?.ShapeName} ${ei?.QualityName} ${ei?.Colorname}`;
+
+      if (!grouped[key]) {
+        grouped[key] = [];
+      }
+
+      grouped[key].push(ei);
+    }
+    return grouped;
+  }, {});
+
+  const calculatedData = [];
+  const calData = [];
+
+  for (const key in d) {
+    if (d.hasOwnProperty(key)) {
+      const group = d[key];
+
+      const totalPcs = group?.reduce((sum, item) => sum + item.Pcs, 0);
+      const totalWt = group?.reduce((sum, item) => sum + item.Wt, 0);
+
+      calculatedData.push({
+        ShapeName: key,
+        totalPcs,
+        totalWt,
+      });
+    }
+  }
+  for (const key in er) {
+    if (er.hasOwnProperty(key)) {
+      const group = er[key];
+
+      const totalPcs = group.reduce((sum, item) => sum + item.Pcs, 0);
+      const totalWt = group.reduce((sum, item) => sum + item.Wt, 0);
+
+      calData.push({
+        ShapeName: key,
+        totalPcs,
+        totalWt,
+      });
+    }
+  }
+  let totalPcs1 = 0;
+  let totalWt1 = 0;
+
+  for (const obj of calData) {
+    totalPcs1 += obj.totalPcs;
+    totalWt1 += obj.totalWt;
+  }
+  let other = {
+    ShapeName: "OTHER",
+    totalPcs: totalPcs1,
+    totalWt: totalWt1,
+  };
+
+  calculatedData.push(other);
+
+
   return (
     <>{loader ? <Loader /> : msg === "" ?
       <div className="container containerDetailPrint1 pt-4 ">
@@ -400,7 +484,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
           </div>
         </div>
         {/* data */}
-        {json1Data.length > 0 && json1Data.map((e, i) => {
+        {json1Data?.length > 0 && json1Data?.map((e, i) => {
           return <div key={i} className='recordDetailPrint1'>
             <div className="d-flex w-100">
               <div className="srNoDetailprint11 border-end border-start border-bottom pt-1">
@@ -496,10 +580,11 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="paddingBottomTotalDetailPrint1">
                   <div>
                     {detailtPrintR ? <p className='text-end'>{e?.OtherCharges !== 0 && NumberWithCommas(e?.OtherCharges, 2)}</p> : <>
-                      {/* {e?.OtherAmountDetail.length > 0 && e?.OtherAmountDetail.map((ele, ind) => {
-                      return <p key={ind} className={``}>{ele?.label}: {ele?.value}</p>
-                    })} */}
-                      <p className={`text-end`}>{NumberWithCommas(e?.totalOther, 2)}</p>
+                      {e?.OtherAmountDetail?.length > 0 && e?.OtherAmountDetail?.map((ele, ind) => {
+                        return(
+                          <div className='d-flex justify-content-between' style={{fontSize:"10.5px"}} key={ind}><div style={{fontSize:"10.5px"}}>{ele?.label}</div><div style={{fontSize:"10.5px"}}>{ele?.value}</div></div>
+                        )
+                    })}
                     </>}
 
                   </div>
@@ -704,14 +789,21 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
           <div className="col-2  summaryPadBotDetailPrint1 pe-1">
             <div className='border-end  border-start border-top'>
               <p className='fw-bold text-center border-bottom  w-100 lightGrey'>Diamond Detail</p>
-              {diamondDetails.length > 0 && diamondDetails.map((e, i) => {
-                return e?.name ? <div className="d-flex" key={i}>
-                  <div className="col-6"> <p className='p-1'>{e?.name}</p> </div>
-                  <div className="col-6 text-end"> <p className='p-1'>{NumberWithCommas(e?.Pcs, 0)} / {fixedValues(e?.Wt, 3)} cts</p> </div>
-                </div> : <div className="d-flex" key={i}>
-                  <div className="col-6"> <p className='p-1'>{e?.ShapeName} {e?.QualityName} {e?.Colorname}</p> </div>
-                  <div className="col-6 text-end"> <p className='p-1'>{NumberWithCommas(e?.Pcs, 0)} / {fixedValues(e?.Wt, 3)} cts</p> </div>
-                </div>
+              {calculatedData?.length > 0 && calculatedData?.map((e, i) => {
+                return(
+                  <React.Fragment key={i}>
+                  {
+                    (e?.ShapeName === "OTHER" && e?.totalPcs === 0 && e?.totalWt === 0) ? '' 
+                    :
+                     <div className='d-flex justify-content-between ps-1 pe-1 align-items-center'>
+                    <div className='fw-bold'>{e?.ShapeName}</div>
+                    <div className='fw-bold'>{e?.totalPcs}/{e?.totalWt?.toFixed(3)}</div>
+                  </div>
+                  }
+                  
+                  </React.Fragment>
+                )
+                 
               })}
               <div className="d-flex justify-content-between border-top  w-100 border-bottom totalLineDetailPrint1 lightGrey">
                 <p className='fw-bold p-1'></p>

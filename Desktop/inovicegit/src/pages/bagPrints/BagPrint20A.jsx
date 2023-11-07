@@ -1092,7 +1092,7 @@ const BagPrint20A = ({ queries, headers }) => {
                               <div
                                 className="wheadsep7Acopy enbrb7Acopy border-end border_color"
                                 style={{ minWidth: "9.5mm !important" }}
-                              ></div>import { GetChunkData } from './../../GlobalFunctions/GetChunkData';
+                              ></div>
 
                               
                               <div className="wheadsep7Acopy enbrb7Acopy border-end border_color"></div>

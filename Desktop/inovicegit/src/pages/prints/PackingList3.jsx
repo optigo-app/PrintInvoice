@@ -67,6 +67,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       setHeaderData(data?.BillPrint_Json[0]);
       setDynamicList1(data?.BillPrint_Json1);
       setDynamicList2(data?.BillPrint_Json2);
+      
       organizeData(
         data?.BillPrint_Json[0],
         data?.BillPrint_Json1,
@@ -103,6 +104,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     };
     sendData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // const handleImageError = (e) => {
   //     e.target.src = "";
