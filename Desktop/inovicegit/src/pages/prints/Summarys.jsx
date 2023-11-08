@@ -271,14 +271,16 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.grosswt, 3)}</p></div>
                     {checkBox.netwt && <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.NetWt, 3)}</p></div>}
-                    <div className={`${style?.amtDetail} border-end`}> <p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.MakingAmount, 3)} </p> </div>
+                    {/* <div className={`${style?.amtDetail} border-end`}> <p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.MakingAmount, 3)} </p> </div> */}
+                    <div className={`${style?.amtDetail} border-end`}> <p className='fw-bold p-2 text-end'> </p> </div>
                     <div className={`${style?.stone} d-flex border-end`}>
                         <div className={`border-end col-6`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.csWt, 3)}</p></div>
-                        <div className={`col-6`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.csRate, 2)}</p></div>
+                        {/* <div className={`col-6`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.csRate, 2)}</p></div> */}
+                        <div className={`col-6`}><p className='fw-bold p-2 text-end'></p></div>
                     </div>
                     <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.convertednetwt, 3)}</p></div>
-                    <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.metalRates, 3)}</p></div>
-                    <div className={`${style?.amtDetail} `}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.UnitCost, 3)}</p></div>
+                    <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.metalRates, 2)}</p></div>
+                    <div className={`${style?.amtDetail} `}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.UnitCost, 2)}</p></div>
                 </div>
                 {/* tax */}
                 <div className="d-flex justify-content-end">
