@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -9,14 +8,18 @@ import { apiCall, isObjectEmpty, NumberWithCommas, taxGenrator } from "./../../G
 
 const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
   const [json, setJson] = useState({});
+  // eslint-disable-next-line no-unused-vars
   const [json1, setJson1] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [json2, setJson2] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [resultArray, setResultArray] = useState([]);
   const [mainTotal, setMainTotal] = useState({});
   const [groupedArr, setGroupedArr] = useState([]);
   const [groupedLen, setGroupedLen] = useState(0);
   const [NetWt, setNetWt] = useState(0);
   const [GrossWt, setGrossWt] = useState(0);
+  // eslint-disable-next-line no-unused-vars
   const [TotalCost, setTotalCost] = useState(0);
   const [TotalMAMT, setTotalMAMT] = useState(0);
   const [TotalFWT, setTotalFWT] = useState(0);
@@ -30,7 +33,9 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
   const organizeData = (arr, arr1, arr2) => {
     let FineArr = [];
 
+    // eslint-disable-next-line array-callback-return
     arr1?.map((e, i) => {
+      // eslint-disable-next-line array-callback-return
       arr2?.map((el, i) => {
         if (e?.SrJobno === el?.StockBarcode) {
           if (e?.MetalPurity === el?.QualityName) {
@@ -45,6 +50,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
       let obj = { ...e };
       obj.FineWt = 0;
       obj.MRate = 0;
+      // eslint-disable-next-line array-callback-return
       FineArr?.map((el) => {
         if (e?.SrJobno === el?.StockBarcode) {
           obj.FineWt += el?.FineWt;
@@ -98,6 +104,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
 
     let resultArr = [];
 
+    // eslint-disable-next-line array-callback-return
     arr1.map((e, i) => {
       let totamt = 0;
       let diamonds = [];
@@ -141,6 +148,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
       };
       totals.OtherAmount += +e?.OtherCharges + e?.MiscAmount;
       totals.labourAmount += e?.MakingAmount;
+      // eslint-disable-next-line no-unused-vars
       totamt += e?.TotalAmount;
       mainTotal.totalgrosswt.grosswt += e?.grosswt;
       mainTotal.totalnetwt.netwt += +e?.NetWt + +e?.LossWt;
@@ -148,6 +156,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
         mainTotal.totalOtherAmount + e?.OtherCharges + e?.MiscAmount;
       mainTotal.totallabourAmount =
         mainTotal.totallabourAmount + e?.MakingAmount + e?.TotalDiaSetcost;
+      // eslint-disable-next-line array-callback-return
       arr2.map((ele, ind) => {
         if (e.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -338,6 +347,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     };
     sendData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const separatedOthAmt = (obj) => {
@@ -474,22 +484,18 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                             </p>
                           ) : (
                             <p className="c1RE endRE fs-3 fw-bold">
-                              {/* {e?.MetalAmt?.toFixed(2)} */}
                               {NumberWithCommas(e?.MetalAmt, 2)}
                             </p>
                           )}
                         </div>
                         <div className="d-flex r1RE">
                           <p className="c1RE brbRE endRE fs-3">
-                            {/* {e?.labourAmount?.toFixed(2)} */}
                             {NumberWithCommas(e?.labourAmount, 2)}
                           </p>
                           <p className="c1RE brbRE endRE fs-3">
-                            {/* {e?.OtherAmount?.toFixed(2)} */}
                             {NumberWithCommas(e?.OtherAmount, 2)}
                           </p>{" "}
                           <p className="c1RE fw-bold endRE fs-3">
-                            {/* {e?.TotalAmount?.toFixed(2)} */}
                             {NumberWithCommas(e?.TotalAmount, 2)}
                           </p>
                         </div>
@@ -529,7 +535,6 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="c1RE brbRE endRE fs-3">
                         {NetWt?.toFixed(3)}
                       </div>
-                      {/* <p className="c1RE endRE fs-3 fw-bold flex-column"> */}
                       {TotalFWT === 0 ? (
                         ""
                       ) : (
@@ -539,22 +544,18 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                       )}
 
                       <div className="c1RE brbRE endRE fs-3 fw-bold">
-                        {/* {TotalMAMT?.toFixed(2)} */}
                         {NumberWithCommas(TotalMAMT, 2)}
                       </div>
                       {/* </p> */}
                     </div>
                     <div className="d-flex r1RE">
                       <p className="c1RE brbRE endRE fs-3">
-                        {/* {mainTotal.totallabourAmount?.toFixed(2)} */}
                         {NumberWithCommas(mainTotal.totallabourAmount, 2)}
                       </p>
                       <p className="c1RE brbRE endRE fs-3">
-                        {/* {mainTotal.totalOtherAmount?.toFixed(2)} */}
                         {NumberWithCommas(mainTotal.totalOtherAmount, 2)}
                       </p>
                       <p className="c1RE fw-bold endRE fs-3">
-                        {/* {totalUnitCost} */}
                         {NumberWithCommas(totalUnitCost, 2)}
                       </p>
                     </div>
@@ -574,7 +575,6 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {e?.name} {e?.per}
                               </div>
                               <div className="d-flex justify-content-end w-50 fs-3">
-                                {/* {e?.amount} */}
                                 {NumberWithCommas(e?.amount, 2)}
                               </div>
                             </div>
@@ -599,7 +599,6 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                         TOTAL
                       </div>
                       <div className="fs-3 d-flex justify-content-end w-50 text-black">
-                        {/* {finalAmount} */}
                         {NumberWithCommas(finalAmount, 2)}
                       </div>
                     </div>
@@ -610,12 +609,12 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 <div className="d-flex flex-column align-items-end fs-3">
                   <div className="wREord">
-                    <span>Order Due Days :</span>{" "}
-                    <span className="fw-bold">{json?.DueDays}</span>
+                    <p className="fs-2">Order Due Days :</p>{" "}
+                    <p className="fw-bold fs-2">{json?.DueDays}</p>
                   </div>
                   <div className="wREord">
-                    <span>Order Due Date :</span>{" "}
-                    <span className="fw-bold">{json?.DueDate}</span>
+                    <p className="fs-2">Order Due Date :</p>{" "}
+                    <p className="fw-bold fs-2">{json?.DueDate}</p>
                   </div>
                 </div>
               </div>
