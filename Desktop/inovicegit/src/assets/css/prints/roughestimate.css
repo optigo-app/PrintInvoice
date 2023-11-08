@@ -1,6 +1,9 @@
 .container_pcl {
-    width: 760px;
+    /* width: 760px; */
+    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
+    padding: 10px;
 }
 
 .header1RE {
@@ -121,11 +124,11 @@
 }
 
 .wgtRE {
-    width: 65%;
+    width: 50%;
 }
 
 .wREord {
-    width: 55%;
+    width: 40%;
     display: flex;
     justify-content: space-between;
     padding: 5px 0px;

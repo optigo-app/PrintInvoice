@@ -109,7 +109,7 @@ ol {
 }
 
 .pad_60_allPrint{
-  padding-bottom: 60px;
+  padding-bottom: 60px !important;
 }
 
 .pad_20_allPrint{
