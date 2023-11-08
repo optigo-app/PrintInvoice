@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/jewellery_invoice.css";
 import html2pdf from 'html2pdf.js';
-import { apiCall, handleImageError, handlePrint, CapitalizeWords, taxGenrator, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, handleImageError, handlePrint, CapitalizeWords, taxGenrator, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import numberToWords from 'number-to-words';
 import { ToWords } from 'to-words';
@@ -52,8 +52,11 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
       let colorStone = [];
       let misc = [];
       let diamond = [];
+      obj.otherAmt = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
+      obj.setting_making = e?.MakingAmount;
       data?.BillPrint_Json2.map((ele, ind) => {
         if (e?.SrJobno === ele?.StockBarcode) {
+          obj.setting_making += ele?.SettingAmount;
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamond.push(ele);
             totals.diamondPcs += ele?.Pcs;
@@ -80,8 +83,8 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
       obj.diamond = diamond;
       totals.grossWt += e?.grosswt;
       totals.netWt += e?.NetWt;
-      totals.others += e?.MiscAmount;
-      totals.labour += e?.MakingAmount;
+      totals.others += obj.otherAmt;
+      totals.labour += obj.setting_making;
       totals.total += e?.UnitCost;
       resultArr.push(obj);
     });
@@ -128,7 +131,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
   }, []);
 
   return (
-    loader ? <Loader /> :msg === "" ? <>
+    loader ? <Loader /> : msg === "" ? <>
       {/* Print Button */}
       <div className="d-flex justify-content-end align-items-center print_sec_sum4  portrait_container pt-4 pb-2">
         <div className="form-check ps-3">
@@ -151,7 +154,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
             <p>{json0Data?.CompanyCity}-{json0Data?.CompanyPinCode}, {json0Data?.CompanyState}({json0Data?.CompanyCountry})</p>
             <p>T {json0Data?.CompanyTellNo}</p>
             <p>{json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}</p>
-            <p>{json0Data?.vat_cst_pan} | {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No} | PAN-EDJHF236D</p>
+            <p>{json0Data?.vat_cst_pan} | {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</p>
           </div>
           <div className="col-3 pt-2 pb-2">
             <img src={json0Data?.PrintLogo} alt="logo" className="w-75 d-block ms-auto " />
@@ -165,8 +168,8 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
             <p>{json0Data?.customerAddress3}</p>
             <p>{json0Data?.customercity}{json0Data?.customerpincode}</p>
             <p>{json0Data?.customeremail1}</p>
-            <p>{json0Data?.vat_cst_pan} | PAN-{json0Data?.Pannumber}</p>
-            <p>STATE CODE-GS</p>
+            <p>{json0Data?.vat_cst_pan}</p>
+            <p>{json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</p>
           </div>
           <div className="col-4 p-1 border-end">
             <p>Ship To,</p>
@@ -216,7 +219,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
           </div>
           <div className="designJewelleryInvoice border-top border-end border-bottom p-1 d-flex justify-content-center align-items-center">
             <p className="fw-bold">
-              Discription
+              Description
             </p>
           </div>
           <div className='goldJewellryInvoice'>
@@ -355,10 +358,10 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
             </div>
             <div className='othersJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom '>
-              <p>{(e?.MiscAmount).toFixed(2)}	</p>
+              <p>{(e?.otherAmt).toFixed(2)}	</p>
             </div>
             <div className='othersJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom'>
-              <p>{(e?.MakingAmount).toFixed(2)}	</p>
+              <p>{(e?.setting_making).toFixed(2)}	</p>
             </div>
             <div className='othersJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom'>
               <p>{(e?.UnitCost).toFixed(2)} </p>
@@ -410,13 +413,13 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
           </div>
           <div className='othersJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom '>
-            <p className='fw-bold'>{total?.others}</p>
+            <p className='fw-bold'>{NumberWithCommas(total?.others, 2)}</p>
           </div>
           <div className='othersJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom'>
-            <p className='fw-bold'>53.33</p>
+            <p className='fw-bold'>{NumberWithCommas(total?.labour, 2)}</p>
           </div>
           <div className='othersJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom'>
-            <p className='fw-bold'>{(total?.total)}</p>
+            <p className='fw-bold'>{NumberWithCommas(total?.total, 2)}</p>
           </div>
         </div>
         {/* gst */}
@@ -454,7 +457,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
         </div>
         {/* Remark */}
         <div className="border-bottom border-start border-end p-1">
-          <div dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }}></div>
+          <div dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }} className='pb-2'></div>
         </div>
         {/* Bank Address */}
         <div className="d-flex border-bottom border-start border-end mb-2">

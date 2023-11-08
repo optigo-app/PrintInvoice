@@ -60,6 +60,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         obj.metalAmt = 0;
         obj.metalRate = 0;
         obj.count = count;
+        obj.otherAmt = e?.TotalDiamondHandling+e?.OtherCharges+e?.MiscAmount;
         let srJobArr = [];
         srJobArr.push(e?.SrJobno);
         obj.srJobArr = srJobArr;
@@ -74,6 +75,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         arr[findIndex].OtherCharges += e?.OtherCharges;
         arr[findIndex].TotalAmount += e?.TotalAmount;
         arr[findIndex].MetalAmount += e?.MetalAmount;
+        arr[findIndex].otherAmt += e?.TotalDiamondHandling+e?.OtherCharges+e?.MiscAmount;
         arr[findIndex].srJobArr.push(e?.SrJobno);
       }
     });
@@ -423,7 +425,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
 
                   <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'otherAmtItemWisePrint' : 'otherAmtItemWisePrint1'} border-end`}>
                     <p className="fw-bold text-end">
-                      {e?.OtherCharges !== 0 && (e?.OtherCharges).toFixed(2)}
+                      {e?.otherAmt !== 0 && (e?.otherAmt).toFixed(2)}
                     </p>
                   </div>
 

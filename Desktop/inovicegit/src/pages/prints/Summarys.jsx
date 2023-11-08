@@ -25,6 +25,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
         MakingAmount: 0,
         diaWt: 0,
         csWt: 0,
+        csRate: 0,
         csAmt: 0,
         convertednetwt: 0,
         metalRates: 0,
@@ -53,7 +54,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
             let metalRates = 0;
             totals.grosswt += e?.grosswt;
             totals.NetWt += e?.NetWt;
-            totals.MakingAmount += e?.MakingAmount;
+            totals.MakingAmount += e?.MaKingCharge_Unit;
             totals.convertednetwt += e?.convertednetwt;
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (ele?.StockBarcode === e?.SrJobno) {
@@ -67,6 +68,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                         cs.Wt += ele?.Wt;
                         totals.csWt += ele?.Wt;
                         totals.csAmt += ele?.Amount;
+                        
                     }
                     else if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
                         metalRates = ele?.Rate;
@@ -75,6 +77,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
             });
             if (cs.len !== 0) {
                 cs.Rate = cs.Rate / cs.len;
+                totals.csRate += cs.Rate;
             }
             obj.metalRates = metalRates;
             totals.metalRates += metalRates;
@@ -84,7 +87,6 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
             resultArr.push(obj)
         });
         let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.UnitCost);
-        console.log(taxValue);
         let amount = taxValue.reduce((accumulator, currentValue) => accumulator + +currentValue.amount, 0);
         let totalAmounts = {...totalAmount};
         totalAmounts.amountAftertax = amount+totals.UnitCost;
@@ -223,6 +225,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <p className="fw-bold px-2 pb-1">{checkBox?.brand && e?.Collectionname} </p>
                                 <p className="fw-bold px-2 pb-1">{e?.SrJobno}</p>
                                 {checkBox?.image && <img src={e?.DesignImage} alt="" onError={handleImageError} className='designImagePrintAll d-block mx-auto' />}
+                                {e?.HUID !== "" && <p className="fw-bold px-2 pb-1">{e?.HUID}</p>}
                             </div>
                         </div>
                         <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-2'>{e?.MetalPurity}</p></div>
@@ -271,7 +274,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className={`${style?.amtDetail} border-end`}> <p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.MakingAmount, 3)} </p> </div>
                     <div className={`${style?.stone} d-flex border-end`}>
                         <div className={`border-end col-6`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.csWt, 3)}</p></div>
-                        <div className={`col-6`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.csAmt, 3)}</p></div>
+                        <div className={`col-6`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.csRate, 2)}</p></div>
                     </div>
                     <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.convertednetwt, 3)}</p></div>
                     <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-2 text-end'>{NumberWithCommas(total?.metalRates, 3)}</p></div>
@@ -295,7 +298,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <p className="fw-bold">TOTAL IN rup: {NumberWithCommas(totalAmount?.amountAftertax, 2)}</p>
                 </div>
                 {/* Rupees in Words */}
-                <div className="lightGrey border p-2">{console.log(totalAmount?.amountAftertax)}
+                <div className="lightGrey border p-2">
                     <p className="fw-bold">{numberToWord(+(fixedValues(totalAmount?.amountAftertax, 2)))}</p>
                 </div>
                 {/* Signs */}

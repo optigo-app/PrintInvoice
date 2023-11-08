@@ -66,8 +66,9 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
             let fineWeight = 0;
             let lessWeight = 0;
             let amount = 0;
+            let netWtWithLossWt = e?.LossWt + e?.NetWt;
             total.grsWt += e?.grosswt;
-            total.netWt += e?.NetWt;
+            total.netWt += e?.NetWt + e?.LossWt;
             total.MetalPriceRatio += e?.MetalPriceRatio;
             total.Wastage += e?.Wastage;
             total.amount += e?.TotalAmount;
@@ -106,6 +107,7 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
             obj.amount = amount;
             obj.lessWeight = lessWeight;
             obj.materialMiscs = materialMiscs;
+            obj.netWtWithLossWt = netWtWithLossWt;
             resultData.push(obj);
         });
         let totals = [];
@@ -203,8 +205,8 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="regNoMiscPrint1 p-1 border-end text-end">{e?.SrJobno}</div>
                             <div className="discriptionMisc1 border-end p-1 height53Misc1"><p className=''>{e?.SubCategoryname}</p></div>
                             <div className="grsWtMisc1 border-end p-1 text-end height53Misc1">
-                                <p className=''>{fixedValues(e?.grosswt, 2)}</p>
-                                <p className=''>{fixedValues(e?.NetWt, 2)}</p>
+                                <p className=''>{fixedValues(e?.grosswt, 3)}</p>
+                                <p className=''>{fixedValues(e?.netWtWithLossWt, 3)}</p>
                             </div>
                             <div>
                                 <div className="d-flex height53Misc1">
@@ -242,8 +244,8 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="regNoMiscPrint1 p-1 border-end text-end">{NumberWithCommas(jsonData?.length, 0)}</div>
                         <div className="discriptionMisc1 border-end p-1 fw-bold height53Misc1">TOTAL</div>
                         <div className="grsWtMisc1 border-end p-1 text-end height53Misc1">
-                            <p className='fw-bold '>{fixedValues(total?.grsWt, 2)}</p>
-                            <p className='fw-bold '>{fixedValues(total?.netWt, 2)}</p>
+                            <p className='fw-bold '>{fixedValues(total?.grsWt, 3)}</p>
+                            <p className='fw-bold '>{fixedValues(total?.netWt, 3)}</p>
                         </div>
                         <div>
                             <div className="d-flex height53Misc1">

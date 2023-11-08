@@ -72,7 +72,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                 }
             } else if (e?.MasterManagement_DiamondStoneTypeid === 2 || e?.MasterManagement_DiamondStoneTypeid === 1) {
                 diamondJewellery = true;
-                totals.qtyWeight += e?.Wt;
+                totals.qtyWeight += e?.Wt/5;
                 let resultArr = resultAray(arr, e);
                 arr = [...resultArr];
             }
