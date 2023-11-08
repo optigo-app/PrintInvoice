@@ -1,62 +1,34 @@
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,  useState } from "react";
 import "../../assets/css/prints/invoiceprint3.css";
-import { apiCall, CapitalizeWords, isObjectEmpty, numberToWord, NumberWithCommas } from "../../GlobalFunctions";
-import convertor from "number-to-words";
+import { apiCall,  isObjectEmpty, numberToWord, NumberWithCommas } from "../../GlobalFunctions";
 import { taxGenrator } from "./../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import Button from "../../GlobalFunctions/Button";
 
 const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState();
+  // eslint-disable-next-line no-unused-vars
   const [json1, setJson1] = useState();
+  // eslint-disable-next-line no-unused-vars
   const [json2, setJson2] = useState();
+  // eslint-disable-next-line no-unused-vars
   const [resultArray, setResultArray] = useState();
   const [grandTotal, setGrandTotal] = useState(0);
   const [totDiscount, setTotDiscount] = useState(0);
   const [inWords, setInWords] = useState("");
   const [mainTotal, setMainTotal] = useState({});
   const [groupedArr, setGroupedArr] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [groupedArrAmountTotal, setGroupedArrAmountTotal] = useState(0);
   const [LOM, setLOM] = useState([]);
   const [descArr, setDescArr] = useState("");
   const [taxTotal, setTaxTotal] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-  // async function loadData() {
-  //   try {
-  //     const body = {
-  //       token: token,
-  //       invoiceno: invoiceNo,
-  //       printname: printName,
-  //       Eventname: evn,
-  //     };
-
-  //     const data = await axios.post(urls, body);
-  //     if (data?.data?.Status == 200) {
-  //       let datas = data?.data?.Data;
-  //       // setResponsejson(datas);
-  //       setHeaderData(datas?.BillPrint_Json[0]);
-  //       setJson1(datas?.BillPrint_Json1);
-  //       setJson2(datas?.BillPrint_Json2);
-  //       organizeData(
-  //         datas?.BillPrint_Json[0],
-  //         datas?.BillPrint_Json1,
-  //         datas?.BillPrint_Json2
-  //       );
-  //       // countCategorySubCategory(datas?.BillPrint_Json1);
-  //       // countCategories(datas?.BillPrint_Json1);
-  //     } else {
-  //       console.log(data?.data?.Status, data?.data?.Message);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 
   const organizeData = (json, json1, json2) => {
     let resultArr = [];
-    let grandTotal = 0;
+    // eslint-disable-next-line no-unused-vars
     let totAmt = 0;
     let totdis = 0;
     let groupedAmtTotal = 0;
@@ -175,6 +147,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
       totOthAmt += e?.OtherCharges;
       totmiscAmt += e?.MiscAmount;
 
+      // eslint-disable-next-line array-callback-return
       json2.map((ele) => {
         if (ele?.StockBarcode === e?.SrJobno) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -249,9 +222,10 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
     });
     let arr = [];
 
+    // eslint-disable-next-line array-callback-return
     json2.map((ele) => {
       if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
-        if (arr.length === 0) {
+        if (arr?.length === 0) {
           arr.push(ele);
         } else {
           let findIndex = arr.findIndex(
@@ -306,6 +280,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     });
     let aa = 0;
+    // eslint-disable-next-line array-callback-return
     json1?.map((e) => {
       aa += e?.TotalAmount;
     });
@@ -334,7 +309,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
     setMainTotal(mainTotal);
 
-    let grandTot = totAmt + json?.AddLess;
 
     let allTax = taxGenrator(json, aa);
     setTaxTotal(allTax);
@@ -342,8 +316,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
     allTax?.forEach((e) => {
       aa += +e?.amount;
     });
-    // let words = CapitalizeWords(convertor.toWords(Math.round(aa)));
-    let words = numberToWord(aa) + " Only";
+    let ab = (+aa?.toFixed(2));
+    let words = numberToWord(ab) + " Only";
     setInWords(words);
     setGrandTotal(aa);
     setTotDiscount(totdis);
@@ -379,7 +353,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
     }, {});
 
     const groupNamesArray = Object.keys(groupedData);
-    const sentence = groupNamesArray.join(", ");
+    const sentence = groupNamesArray?.join(", ");
     setDescArr(sentence);
   };
   async function loadData(data) {
@@ -392,7 +366,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-      // countCategorySubCategory(data?.BillPrint_Json1);
 
       setLoader(false);
     } catch (error) {
@@ -421,10 +394,9 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     };
     sendData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // useEffect(() => {
-  //   loadData();
-  // }, []);
+
 
   return (
     <>
@@ -473,8 +445,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       <p className="fw-bold fsinvp3">
                         {headerData?.vat_cst_pan?.split("|")?.[0]}
                       </p>
-                      {/* <p className='fw-bold'>{headerData?.vat_cst_pan?.split("|")?.[1]}</p> */}
-                      {/* <p className='w-50 fw-bold fsinvp3'>GSTIN :</p><p className='w-50 fsinvp3'>{headerData?.vat_cst_pan?.split("-")[1]}</p> */}
                     </div>
                     <p className="fw-bold fsinvp3">
                       {headerData?.vat_cst_pan?.split("|")?.[1]}
@@ -503,20 +473,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div className="empdivinvp3"></div>
                   </div>
-                  {/* <div className="d-flex flex-column justify-content-between w-50 h-100">
-                    <div className="descinvp3">
-                      <div className="discHeadinvp3">DESCRIPTION</div>
-                      <div className="discBodyinvp3">
-                        <div className="d-flex flex-column justify-content-between h-100">
-                          <p>{descArr}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="totspaceinvp3"></div>
-                  </div> */}
                   <div className="tableinvp3">
                     <div className="theadinvp3">
-                      {/* <p className='wp1invp3 fsinvp3' style={{ borderRight: "2px solid #d8d7d7" }}>DESCRIPTION</p> */}
                       <p
                         className="wp1invp3 fsinvp3"
                         style={{
@@ -532,7 +490,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div className="tablebodyinvp3">
                       {
-                        // json1?.map((e, i) => {
                         groupedArr?.map((e, i) => {
                           return (
                             <div className="tbodyinvp3" key={i}>
@@ -546,7 +503,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                               </p>
                               <p className="wp3tbinvp3 fsinvp3">{NumberWithCommas(e?.Rate, 2)}</p>
                               <p className="wp3tbinvp3 fsinvp3">
-                                {/* {e?.Amount?.toFixed(2)} */}
                                 {NumberWithCommas(e?.Amount, 2)}
                               </p>
                             </div>
@@ -556,7 +512,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       {LOM.map((e, i) => {
                         return (
                           <div className="tbodyinvp3" key={i}>
-                            {/* <p className='wp1tbinvp3 brrightinvp3 fsinvp3'></p> */}
                             {e?.ShapeName === "MISC" && e?.Amount === 0 ? (
                               ""
                             ) : (
@@ -579,12 +534,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                         );
                       })}
                       <div className="tbodyinvp3 brtopinvp3">
-                        {/* <p className='wp1tbinvp3 brrightinvp3'></p> */}
-                        <p className="wp1tbinvp3 fw-bold fsinvp3 px-2">TOTAL</p>
-                        <p className="wp3tbinvp3"></p>
-                        <p className="wp3tbinvp3"></p>
-                        <p className="wp3tbinvp3 fw-bold fsinvp3">
-                          {/* {mainTotal?.totAmount?.TotalAmount?.toFixed(2)} */}
+                        <p className="wp1tbinvp3 fw-bold fsinvp3 px-2" style={{width:"20%"}}>TOTAL</p>
+                        <p className="wp3tbinvp3 fw-bold fsinvp3" style={{width:"20%"}}>
                           {NumberWithCommas(mainTotal?.totAmount?.TotalAmount, 2)}
                         </p>
                       </div>
@@ -596,14 +547,12 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="d-flex justify-content-between px-2">
                       <p className="w-50 text-start fsinvp3">Discount</p>
                       <p className="w-50 text-end fsinvp3">
-                        {/* {totDiscount?.toFixed(2)} */}
                         {NumberWithCommas(totDiscount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between px-2">
                       <p className="fw-bold fsinvp3">Total Amount</p>
                       <p className="w-50 text-end fsinvp3">
-                        {/* {mainTotal?.totAmount?.TotalAmount?.toFixed(2)} */}
                         {NumberWithCommas(mainTotal?.totAmount?.TotalAmount, 2)}
                       </p>
                     </div>

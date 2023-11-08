@@ -5,15 +5,9 @@
 }
 
 .mainheaderivp2 {
-    width: 745px;
+    width: 100%;
     margin: 0 auto;
 }
-
-
-
-
-
-
 
 .head3ivp2 {
     width: 100%;
@@ -27,7 +21,7 @@
 
 .invoicehead3ivp2 {
     font-size: 18px;
-    width: 20%;
+    width: 30%;
     display: flex;
     justify-content: space-between;
 }
@@ -61,14 +55,9 @@
     height: 15px;
     font-size: 15px;
 }
-/* 
-.lhhead1sum1 {
-    line-height: 18px;
-    font-size: 15px;
-} */
 
 .tableSectionivp2 {
-    width:  745px;;
+    width:  100%;
     border: 1px solid #e8e8e8;
     border-right: 0px;
     margin-top: 7px;
@@ -90,18 +79,8 @@
     border-bottom: 0px;
 }
 
-/* .wthsum1 {
-    width: 90.9px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    border-right: 1px solid #e8e8e8;
-    height: 100%;
-} */
-
 .wthivp2 {
-    width: 90.9px;
+    width: 9.090%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -111,23 +90,21 @@
 }
 
 .wtbinvp2 {
-    width: 90.9px;
+    width: 9.090%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 14px;
     border-right: 1px solid #e8e8e8;
-    /* height: 100%; */
 }
 
 .wtbivp2 {
-    width: 90.9px;
+    width: 9.09%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 14px;
     border-right: 1px solid #e8e8e8;
-    /* height: 100%; */
 }
 
 
@@ -136,11 +113,11 @@
 }
 
 .srwivp2 {
-    width: 45.5px !important;
+    width: 4.545% !important;
 }
 
 .designwivp2 {
-    width: 136.3px;
+    width: 13.63%;
 }
 
 .tbodyivp2 {
@@ -150,15 +127,10 @@
     justify-content: space-between;
     height: 100%;
     border: 1px solid #e8e8e8;
-    /* border-left: 1px solid #e8e8e8; */
-    /* border-right: 1px solid #e8e8e8; */
-    /* border-bottom: 1px solid #e8e8e8; */
-    /* border-top: 1px solid #e8e8e8; */
 }
 
 .tbodyinvp2second {
     width: 100%;
-    /* min-height: 70px; */
     display: flex;
     justify-content: space-between;
     height: 100%;
@@ -182,7 +154,7 @@
 
 
 .secondheadinvp2 {
-    width:  745px;;
+    width:  100%;
     margin-top: 7px;
     margin: 0 auto;
 }
@@ -195,7 +167,7 @@
 }
 
 .wtotalinvp2 {
-    width: 272.7px;
+    width: 27.235%;
 }
 
 .htotalrowinvp2 {
@@ -238,11 +210,6 @@
     border-left: 1px solid #e8e8e8;
 }
 
-/* .gsttotsum1 {
-    display: flex;
-    justify-content: flex-end;
-    width: 50%;
-} */
 
 .grandtotalinvp2 {
     width: 100%;
@@ -264,7 +231,7 @@
 }
 
 .summaryinvp2 {
-    width:  745px;
+    width:  100%;
     height: 100px;
     border: 1px solid #e8e8e8;
     margin-top: 7px;
@@ -328,13 +295,6 @@
     padding: 3px;
 }
 
-/* .addSum1 {
-    font-size: 15px;
-    font-weight: bold;
-    margin-top: 2rem;
-    padding: 3px;
-} */
-
 .remarkinvp2 {
     height: 30px;
     font-size: 15px;
@@ -391,23 +351,20 @@
 .summary1Printinvp2 {
     width: 100%;
     height: 100%;
-    /* margin-top: 4rem;
-    margin-bottom: 2rem; */
-    /* margin: 4rem auto 2rem auto; */
-    max-width: 745px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
 #sum1Img {
-    height: 90px;
-    width: 100px;
+    height: 80%;
+    width: 80%;
     padding-right: 1rem;
 }
 
 
 #imgDyInvp2 {
-    height: 45px;
-    width: 35px;
+    height: 80%;
+    width: 80%;
     
 }
 

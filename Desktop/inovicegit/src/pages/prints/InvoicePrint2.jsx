@@ -1,16 +1,13 @@
-import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import {
   apiCall,
-  CapitalizeWords,
   handleImageError,
   isObjectEmpty,
   numberToWord,
   NumberWithCommas,
 } from "../../GlobalFunctions";
-import convertor from "number-to-words";
 import "../../assets/css/prints/invoiceprint2.css";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
@@ -18,7 +15,9 @@ import { taxGenrator } from "./../../GlobalFunctions";
 
 const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState();
+  // eslint-disable-next-line no-unused-vars
   const [json1, setJson1] = useState();
+  // eslint-disable-next-line no-unused-vars
   const [json2, setJson2] = useState();
   const [resultArray, setResultArray] = useState();
   const [grandTotal, setGrandTotal] = useState(0);
@@ -30,7 +29,6 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [msg, setMsg] = useState("");
 
   async function loadData(data) {
-    // console.log(data);
     try {
       setHeaderData(data?.BillPrint_Json[0]);
       setJson1(data?.BillPrint_Json1);
@@ -49,7 +47,6 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
 
   const organizeData = (json, json1, json2) => {
     let resultArr = [];
-    let grandTotal = 0;
     let totAmt = 0;
 
     let mainTotal = {
@@ -159,6 +156,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
       mainTotal.totalnetwt.netwt += e?.NetWt;
       totAmt += e?.TotalAmount;
 
+      // eslint-disable-next-line array-callback-return
       json2?.map((ele) => {
         if (ele?.StockBarcode === e?.SrJobno) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -233,7 +231,6 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
     });
 
     setMainTotal(mainTotal);
-    // let grandTot = totAmt + json?.AddLess + json?.TotalCGSTAmount + json?.TotalSGSTAmount;
     let grandTot = totAmt + json?.AddLess;
 
     let AllTax = taxGenrator(json, grandTot);
@@ -244,7 +241,6 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
       grandTot += +e?.amount;
     });
 
-    // let words = CapitalizeWords(convertor?.toWords(Math.round(grandTot)));
     let words = numberToWord(grandTot)+" Only";
 
     setInWords(words);
@@ -254,7 +250,6 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
     const sendData = async () => {
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
-        // console.log(data);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -273,28 +268,8 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     };
     sendData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // useEffect(() => {
-  //   // loadData();
-  //   const sendData = async () => {
-  //     try {
-  //       const data = await apiCall(token, invoiceNo, printName, urls, evn);
-  //       loadData(data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   sendData();
-  // }, []);
-
-  const findKeyValuePair = (array, firstName, secondName) => {
-    const counts = {};
-    array.forEach((item) => {
-      const key = `${item[firstName]} | ${item[secondName]}`;
-      counts[key] = (counts[key] || 0) + 1;
-    });
-    return counts;
-  };
 
   const countCategorySubCategory = (data) => {
     const groupedData = data.reduce((result, item) => {
@@ -345,9 +320,8 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className="summary1Printinvp2 pad_60_allPrint">
                 <div className="mainheaderivp2">
                   <div className="head3ivp2">
-                    <div className="d-flex" style={{ width: "80%" }}>
+                    <div className="d-flex" style={{ width: "70%" }}>
                       <div className="fw-bold fs-4 px-2">INVOICE #: </div>
-                      {/* <div className="fs-5 p-1">{headerData?.PrintRemark}</div> */}
                       <div className="fs-5 p-1" dangerouslySetInnerHTML={{__html:headerData?.Remark}}></div>
                     </div>
                     <div className="invoicehead3ivp2 d-flex flex-column">
@@ -403,7 +377,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="tbodyivp2" key={i}>
                         <div className="wtbivp2 srwivp2">{e?.SrNo}</div>
                         <div className="wtbivp2 designwivp2 d-flex justify-content-around p-1">
-                          <div>
+                          <div className="w-50">
                             <img
                               src={e?.DesignImage}
                               alt="#invp2"
@@ -411,7 +385,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                               onError={(e) => handleImageError(e)}
                             />
                           </div>
-                          <div className="designContentinvp2">
+                          <div className="designContentinvp2 w-50">
                             <p
                               className="brbdesigninvp2"
                               style={{
@@ -451,7 +425,6 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                           {e?.JobWiseTotal?.colorstone?.Wt?.toFixed(3)}
                         </div>
                         <div className="wtbivp2 alignrightinvp2">
-                          {/* {e?.OtherCharges?.toFixed(2)} */}
                           {NumberWithCommas(e?.OtherCharges, 2)}
                         </div>
                         <div className="wtbivp2 brightivp2 alignrightinvp2">
@@ -462,8 +435,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                   })}
                 </div>
                 <div className="secondheadinvp2">
-                  {/* <div className='secondtbodyinvp2'>
-                            </div> */}
+
                   <div>
                     <div className="tbodyinvp2second">
                       <div className="wtbinvp2 wtotalinvp2 htotalrowinvp2">
@@ -501,7 +473,6 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                       </div>
                       <div className="wtbinvp2 htotalrowinvp2 alignrightinvp2">
                         <b className="totrowfsinvp2">
-                          {/* {mainTotal?.totOthAmt?.Amount?.toFixed(2)} */}
                           {NumberWithCommas(mainTotal?.totOthAmt?.Amount, 2)}
                         </b>
                       </div>
@@ -512,14 +483,12 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                               __html: headerData?.Currencysymbol,
                             }}
                           ></p>{" "}
-                          {/* {mainTotal?.totAmount?.TotalAmount?.toFixed(2)} */}
                           {NumberWithCommas(mainTotal?.totAmount?.TotalAmount, 2)}
                         </b>
                       </div>
                     </div>
                     <div className="totaldesigninvp2">
-                      {/* <div className='d-flex justify-content-between wtotinvp2'><p className='totgstinvp2 gsttotsum1'>CGST @ {headerData?.CGST}% </p>	<p className='totgstinvp2'>{headerData?.TotalCGSTAmount?.toFixed(2)}</p></div>
-                                    <div className='d-flex justify-content-between wtotinvp2'><p className='totgstinvp2 gsttotsum1'>SGST @ {headerData?.SGST}%</p>	<p className='totgstinvp2'>{headerData?.TotalSGSTAmount?.toFixed(2)}</p></div> */}
+                      
                       {taxTotal?.length > 0 &&
                         taxTotal?.map((e, i) => {
                           return (
@@ -555,7 +524,6 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                               __html: headerData?.Currencysymbol,
                             }}
                           ></p>{" "}
-                          {/* {grandTotal?.toFixed(2)} /-{" "} */}
                           {NumberWithCommas(grandTotal, 2)} /-{" "}
                         </div>
                       </div>

@@ -3,9 +3,11 @@
     word-break: break-all;
 
 }
-
-.mainheadersum1 {
-    width: 1000px;
+.summary1allf{
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 10px;
 }
 
 .head1sum1 {
@@ -92,8 +94,7 @@
 }
 
 .tableSectionSum1 {
-    width: 1000px;
-    /* border: 1px solid #e8e8e8; */
+    width: 100%;
     margin-top: 7px;
 }
 
@@ -105,29 +106,25 @@
     align-items: center;
     border: 1px solid #e8e8e8;
     font-weight: bold;
-    /* border-top: 0px;
-    border-right: 0px;
-    border-left: 0px; */
 }
 
 .wthsum1 {
-    width: 90.9px;
+    width: 9.090%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 14px;
+    font-size: 12px;
     border-right: 1px solid #e8e8e8;
     height: 100%;
 }
 
 .wtbsum1 {
-    width: 90.9px;
+    width: 9.090%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 14px;
     border-right: 1px solid #e8e8e8;
-    /* height: 100%; */
 }
 
 .brightsum1 {
@@ -135,11 +132,11 @@
 }
 
 .srwsum1 {
-    width: 45.5px !important;
+    width: 4.545% !important;
 }
 
 .designwsum1 {
-    width: 136.3px;
+    width: 13.63%;
 }
 
 .tbodysum1 {
@@ -156,7 +153,6 @@
 
 .tbodysum1second {
     width: 100%;
-    /* min-height: 70px; */
     display: flex;
     justify-content: space-between;
     height: 100%;
@@ -177,7 +173,7 @@
 }
 
 .secondheadsum1 {
-    width: 1000px;
+    width: 100%;
 }
 
 .secondtbodysum1 {
@@ -188,7 +184,7 @@
 }
 
 .wtotalsum1 {
-    width: 272.7px;
+    width: 27.235%;
 }
 
 .htotalrowsum1 {
@@ -204,6 +200,7 @@
     justify-content: flex-start;
     align-items: center;
     padding-left: 2px;
+    font-size: 11px;
 }
 
 .alignrightsum1 {
@@ -211,6 +208,7 @@
     justify-content: flex-end;
     align-items: center;
     padding-right: 2px;
+    font-size: 11px;
 }
 
 .totaldesignsum1 {
@@ -256,7 +254,7 @@
 }
 
 .summarysum1 {
-    width: 1000px;
+    width: 100%;
     height: 100px;
     border: 1px solid #e8e8e8;
     margin-top: 7px;
@@ -380,15 +378,6 @@
     width: 50%;
 }
 
-.summary1PrintSum1 {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    margin-top: 3rem;
-}
 
 #sum1Img {
     height: 90px;
@@ -405,14 +394,10 @@
     font-size: 13px;
 }
 
-/* .pcltbr1c2.fspcl, .pcltbr1c1.fspcl, .dcolsthpcl.fspcl, .dcolsthpcl.fspcl, .shpthcolspcl.fspcl, .lopclcol.rightpcl.fspcl, .pcltbr1c7.rightpcl.fwboldpcl.fspcl {
-    padding-top: 7px;
-} */
-
 @media print {
-    .page_break_after {
+    /* .page_break_after {
         page-break-after: always;
-    }
+    } */
     .summary1PrintSum1{
         page-break-inside: avoid;
     }

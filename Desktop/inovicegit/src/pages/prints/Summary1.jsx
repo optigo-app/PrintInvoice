@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/summary1.css";
 import {
@@ -14,13 +15,14 @@ import {
 import convertor from "number-to-words";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
-import Footer2 from "../../components/footers/Footer2";
 
 const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
   const [subHeaderData, setSubHeaderData] = useState({});
   const [footerComponent, setFooterComponent] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [dynamicList1, setDynamicList1] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [dynamicList2, setDynamicList2] = useState([]);
   const [mainTotal, setMainTotal] = useState({});
   const [resultArray, setAesultArray] = useState([]);
@@ -28,9 +30,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [totalnetlosswt, setTotalnetlosswt] = useState(0);
   const [totalLabourAmount, setTotalLabourAmount] = useState(0);
   const [totalOtherAmount, setTotalOtherAmount] = useState(0);
-  const [responsejson, setResponsejson] = useState("");
-  const [jwtotlbrAmt, setJwtotlbrAmt] = useState(0);
-  const [jwtotothAmt, setJwtotothAmt] = useState(0);
   const [TotalAmount, setTotalAmount] = useState(0);
   const [inWords, setInWords] = useState("");
   const [summaryDetail, setSummaryDetail] = useState({});
@@ -86,6 +85,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
       },
     };
     let resultArr = [];
+    // eslint-disable-next-line array-callback-return
     arr1?.map((e, i) => {
       let diamonds = [];
       let colorstone = [];
@@ -149,6 +149,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
 
       totAmount += e?.TotalAmount;
 
+      // eslint-disable-next-line array-callback-return
       arr2?.map((ele, ind) => {
         if (e.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -305,6 +306,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     };
     sendData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const findKeyValuePair = (array, firstName, secondName) => {
@@ -343,9 +345,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
     };
     setSummaryDetail(obj);
   };
-  // useEffect(() => {
-  //   loadData();
-  // }, []);
 
   return (
     <>
@@ -359,90 +358,11 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <Button />
               </div>
               <div className="summary1PrintSum1 pad_60_allPrint">
-                <div style={{ width: "1000px" }}>
+                <div className="summary1allf">
+                <div>
                   {headerComp}
                   {subHeaderData}
                 </div>
-                {/* <div className="mainheadersum1">
-                  <div className="head1sum1">{headerData?.PrintHeadLabel}</div>
-                  <div className="head2sum1">
-                    <div className="subhead2sum1">
-                      <div className="headingsum1">
-                        {headerData?.CompanyFullName}
-                      </div>
-                      <div className="lhhead1sum1">
-                        {headerData?.CompanyAddress}
-                      </div>
-                      <div className="lhhead1 ">
-                        {headerData?.CompanyAddress2}-
-                        {headerData?.CompanyPinCode}, {headerData?.CompanyState}
-                        ({headerData?.CompanyCountry})
-                      </div>
-                      <div className="lhhead1sum1">
-                        T {headerData?.CompanyTellNo}
-                        {headerData?.CompanyTollFreeNo}
-                      </div>
-                      <div className="lhhead1sum1">
-                        {headerData?.CompanyEmail} {headerData?.CompanyWebsite}
-                      </div>
-                    </div>
-                    <div>
-                      <img
-                        src={headerData?.PrintLogo}
-                        id="sum1Img"
-                        alt="#summary1"
-                        style={{ paddingTop: "1rem" }}
-                        onError={(e) => handleImageError(e)}
-                      />
-                    </div>
-                  </div>
-                  <div className="head3sum1">
-                    <div className="invoicehead3sum1">
-                      <b className="binvsum1">INVOICE# :</b>
-                      {headerData?.InvoiceNo}
-                    </div>
-                    <div className="invoicehead3sum1 d-flex flex-column">
-                      <div className="d-flex justify-content-end w-100 align-items-center datehead3sum1">
-                        <div className="binvsum1 w-50 d-flex justify-content-end fw-bold">
-                          DATE :
-                        </div>
-                        <div className="w-50 d-flex justify-content-end">
-                          {headerData?.EntryDate}
-                        </div>
-                      </div>
-                      <div className="d-flex justify-content-end w-100 align-items-center datehead3sum1">
-                        <div className="binvsum1 w-50 d-flex justify-content-end fw-bold">
-                          HSN :
-                        </div>
-                        <div className="w-50 d-flex justify-content-end">
-                          {headerData?.HSN_No}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="head4sum1">
-                    <div className="samplehead4sum1">
-                      {headerData?.customerfirmname}
-                    </div>
-                    <div className="lhhead4sum1">
-                      {headerData?.customerstreet}
-                    </div>
-                    <div className="lhhead4sum1">
-                      Area {headerData?.customerAddress2}
-                    </div>
-                    <div className="lhhead4sum1">
-                      {headerData?.customercity}
-                    </div>
-                    <div className="lhhead4sum1">
-                      {headerData?.customermobileno}
-                    </div>
-                    <div className="lhhead4sum1">
-                      {headerData?.vat_cst_pan} |
-                      {headerData?.Company_CST_STATE}-
-                      {headerData?.Company_CST_STATE_No}
-                    </div>
-                  </div>
-                </div> */}
                 <div className="tableSectionSum1">
                   <div className="theadsum1">
                     <div className="wthsum1 srwsum1">SR#</div>
@@ -545,11 +465,9 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {e?.totals?.colorstone?.Wt?.toFixed(3)}
                               </div>
                               <div className="wtbsum1 alignrightsum1">
-                                {/* {e?.OtherCharges?.toFixed(2)} */}
                                 {NumberWithCommas(e?.OtherCharges, 2)}
                               </div>
                               <div className="wtbsum1 brightsum1 alignrightsum1">
-                                {/* {e?.TotalAmount?.toFixed(2)} */}
                                 <p
                                   dangerouslySetInnerHTML={{
                                     __html: headerData?.Currencysymbol,
@@ -561,7 +479,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                           </div>
                         ) : (
                           <div className="tbodysum1">
-                            <div className="wtbsum1 srwsum1">{e?.SrNo}</div>
+                            <div className="wtbsum1 srwsum1" style={{fontSize:"11px"}}>{e?.SrNo}</div>
                             <div className="wtbsum1 designwsum1 d-flex justify-content-around p-1">
                               <div>
                                 <img
@@ -579,11 +497,12 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     textAlign: "center",
                                     paddingBottom: "4px",
                                     lineHeight: "8px",
+                                    fontSize:"11px"
                                   }}
                                 >
                                   {e?.designno}
                                 </p>
-                                <p className="brbdesignsum1 brbs1">
+                                <p className="brbdesignsum1 brbs1" style={{fontSize:"11px"}}>
                                   {e?.SrJobno}
                                 </p>
                               </div>
@@ -610,7 +529,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                               {e?.totals?.colorstone?.Wt?.toFixed(3)}
                             </div>
                             <div className="wtbsum1 alignrightsum1">
-                              {/* {e?.OtherCharges?.toFixed(2)} */}
                               {NumberWithCommas(e?.OtherCharges, 2)}
                             </div>
                             <div className="wtbsum1 brightsum1 alignrightsum1">
@@ -619,7 +537,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   __html: headerData?.Currencysymbol,
                                 }}
                               ></p>
-                              {/* {e?.TotalAmount?.toFixed(2)} */}
                               {NumberWithCommas(e?.TotalAmount, 2)}
                             </div>
                           </div>
@@ -667,18 +584,16 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                       </div>
                       <div className="wtbsum1 htotalrowsum1 alignrightsum1">
                         <b className="totrowfssum1">
-                          {/* {totalOtherAmount?.toFixed(2)} */}
                           {NumberWithCommas(totalOtherAmount, 2)}
                         </b>
                       </div>
                       <div className="wtbsum1 brightsum1 htotalrowsum1 alignrightsum1">
-                        <b className="totrowfssum1 d-flex">
+                        <b className="totrowfssum1 d-flex align-items-center">
                           <p
                             dangerouslySetInnerHTML={{
                               __html: headerData?.Currencysymbol,
                             }}
                           ></p>
-                          {/* {TotalAmount?.toFixed(2)} */}
                           {NumberWithCommas(TotalAmount, 2)}
                         </b>
                       </div>
@@ -696,7 +611,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {e?.name} {e?.per}
                               </div>
                               <div className="w-50 d-flex justify-content-end fs-6">
-                                {/* {e?.amount} */}
                                 {NumberWithCommas(e?.amount, 2)}
                               </div>
                             </div>
@@ -719,13 +633,11 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                           Grand Total :
                         </div>
                         <div className="d-flex justify-content-end w-50 fs-6">
-                          {/* { headerData?.Currencysymbol} ₹ {finalAmount?.toFixed(2)} */}
                           <p
                             dangerouslySetInnerHTML={{
                               __html: headerData?.Currencysymbol,
                             }}
                           ></p>
-                          {/* {finalAmount?.toFixed(2)} */}
                           {NumberWithCommas(finalAmount, 2)}
                         </div>
                       </div>
@@ -858,20 +770,10 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                       }}
                     ></p>
                   </div>
-                  {/* <div className="footerSum1">
-                    <div className="footer1Sum1">
-                      <p className="footerSignValSum1">
-                        RECEIVER's NAME & SIGNATURE
-                      </p>
-                    </div>
-                    <div className="footer1Sum1">
-                      <p className="footer2SignValSum1">for,ORAIL SERVICE</p>
-                    </div>
-                  </div> */}
                 </div>
-                <div style={{width:"1000px"}}>
+                <div className="w-100">
                   {footerComponent}
-                  {/* <Footer2 /> */}
+                </div>
                 </div>
               </div>
             </>

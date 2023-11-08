@@ -68,7 +68,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
   async function loadData(data) {
     try {
-      // let address = data?.BillPrint_Json[0]?.Printlable?.replace(/\r\n/g, '<br/>')
       let address = data?.BillPrint_Json[0]?.Printlable.split("\r\n");
       data.BillPrint_Json[0].address = address;
       setHeaderData(data?.BillPrint_Json[0]);
@@ -79,7 +78,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-      // countCategorySubCategory(data?.BillPrint_Json1);
       setLoader(false);
     } catch (error) {
       console.log(error);
@@ -88,7 +86,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
   useEffect(() => {
     const sendData = async () => {
-      // console.log(atob(token), atob(invoiceNo), atob(printName), atob(urls), atob(evn));
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
         if (data?.Status === "200") {
@@ -273,11 +270,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
   };
 
   const organizeData = (arr, arr1, arr2) => {
-    let address = arr?.Printlable.split("\r\n");
-    // let add = arr?.Printlable?.replace(/\r\n/g, '<br/>')
-    // console.log(add);
-    // console.log(address);
-
     let totgrosswt = 0;
     let totnetlosswt = 0;
     let totallbrAmt = 0;
@@ -578,7 +570,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                         {headerData?.CompanyEmail} |{" "}
                         {headerData?.CompanyWebsite}
                       </div>
-                      {/* <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-EDJHF236D</div> */}
                       <div className="fslhpcl3">
                         {headerData?.Company_VAT_GST_No} |{" "}
                         {headerData?.Cust_CST_STATE}-{headerData?.vat_cst_pan}
@@ -635,31 +626,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           <b className="pcl313">{headerData?.customerfirmname}</b>
                         </div> : ''
                       }
-                      {/* {
-                        headerData?.CustName?.length > 0 ? <div className="fslhpcl3">{headerData?.CustName}</div> : ''
-                      } */}
-                      {/* {
-                        headerData?.customerstreet?.length > 0 ? <div className="fslhpcl3">
-                        {headerData?.customerstreet}
-                      </div> : ''
-                      } */}
-                      {/* {
-                        (headerData?.customercity?.length > 0  || headerData?.State?.length > 0) ? <div className="fslhpcl3">
-                        {headerData?.customercity}, {headerData?.State}
-                      </div> : ''
-                      } */}
-                      
-                      {
-                        // headerData?.Printlable?.length > 0 ? <div dangerouslySetInnerHTML={{__html:headerData?.Printlable}}></div> : ''
-                      }
-                      {/* <div className="fslhpcl3">
-                        India-{headerData?.PinCode}
-                      </div>
-                      {
-                          headerData?.customermobileno?.length > 0 ? <div className="fslhpcl3">
-                          Mobile No : {headerData?.customermobileno}
-                        </div> : ''
-                      } */}
                       <div>
                         {
                           headerData?.address?.length > 0 && 
@@ -925,7 +891,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                               {ele?.Wt}
                                             </div>
                                             <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {/* {ele?.Rate} */}
                                               {NumberWithCommas(ele?.Rate, 2)}
                                             </div>
                                             <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
@@ -966,13 +931,11 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                       {e?.totals?.diamonds?.Wt?.toFixed(3)}
                                     </b>
                                   </div>
-                                  {/* <div className='th3Wpcl3 brRightDpcl3'><b className='fsdpcl3'>{diarate}</b></div> */}
                                   <div className="th3Wpcl3 brRightDpcl3">
                                     <b className="fsdpcl3"></b>
                                   </div>
                                   <div className="th3Wpcl3 brRightDpcl3">
                                     <b className="fsdpcl3 ">
-                                      {/* {e?.totals?.diamonds?.Amount?.toFixed(2)} */}
                                       {NumberWithCommas(
                                         e?.totals?.diamonds?.Amount,
                                         2
@@ -1004,12 +967,10 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                               {e?.NetWt?.toFixed(3)}
                                             </div>
                                             <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {/* {ele?.Rate?.toFixed(2)} */}
                                               {NumberWithCommas(ele?.Rate, 2)}
                                             </div>
                                             <div className="th4Wpcl3 brRightDpcl3">
                                               <b style={{ fontSize: "9px" }}>
-                                                {/* {ele?.Amount?.toFixed(2)} */}
                                                 {NumberWithCommas(
                                                   ele?.Amount,
                                                   2
@@ -1037,7 +998,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                       <div className="th4Wpcl3 brRightDpcl3 fsdpcl3"></div>
                                       <div className="th4Wpcl3 brRightDpcl3">
                                         <b style={{ fontSize: "10px" }}>
-                                          {/* {e?.LossAmt?.toFixed(2)} */}
                                           {NumberWithCommas(e?.LossAmt, 2)}
                                         </b>
                                       </div>
@@ -1068,10 +1028,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     </b>
                                   </div>
                                   <div className="th4Wpcl3 brRightDpcl3"></div>
-                                  {/* <div className='th4Wpcl3 brRightDpcl3'></div> */}
                                   <div className="th4Wpcl3 brRightDpcl3">
                                     <b style={{ fontSize: "9px" }}>
-                                      {/* {e?.totals?.metal?.Amount?.toFixed(2)} */}
                                       {NumberWithCommas(
                                         e?.totals?.metal?.Amount,
                                         2
@@ -1111,7 +1069,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                   {ele?.Wt?.toFixed(3)}
                                                 </div>
                                                 <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                  {/* {ele?.Rate?.toFixed(2)} */}
                                                   {NumberWithCommas(
                                                     ele?.Rate,
                                                     2
@@ -1121,7 +1078,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                   <b
                                                     style={{ fontSize: "10px" }}
                                                   >
-                                                    {/* {ele?.Amount?.toFixed(2)} */}
                                                     {NumberWithCommas(
                                                       ele?.Amount,
                                                       2
@@ -1196,75 +1152,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     )
                                   })
                                 }
-                                {/* {e?.MaKingCharge_Unit === 0 &&
-                                e?.MakingAmount === 0 ? (
-                                  ""
-                                ) : (
-                                  <div className="th6flex2pcl3">
-                                    <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
-                                      Labour
-                                    </div>
-                                    <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
-                                      
-                                      {NumberWithCommas(
-                                        e?.MaKingCharge_Unit,
-                                        2
-                                      )}
-                                    </div>
-                                    <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
-                                      
-                                      {NumberWithCommas(e?.MakingAmount, 2)}
-                                    </div>
-                                  </div>
-                                )} */}
-
-                                {/* {e?.OtherAmountInfo?.map((e, i) => {
-                                  return (
-                                    <div key={i}>
-                                      {e?.value === 0 ? (
-                                        ""
-                                      ) : (
-                                        <div className="th6flex2pcl3">
-                                          <div
-                                            className="th6Wpcl3 brRightDpcl3 fsdpcl3"
-                                            style={{
-                                              
-                                              justifyContent: "flex-start",
-                                              paddingLeft: "2px",
-                                            }}
-                                          >
-                                            {e?.name}
-                                          </div>
-                                          <div
-                                            className="th6Wpcl3 brRightDpcl3 fsdpcl3"
-                                            style={{ width: "0%" }}
-                                          ></div>
-                                          <div className="th6Wpcl3 brRightDpcl3 fsdpcl3">
-                                            
-                                            {NumberWithCommas(e?.value, 2)}
-                                          </div>
-                                        </div>
-                                      )}
-                                    </div>
-                                  );
-                                })} */}
-                                {/* <div>
-                                  {e?.OtherCharges?.length > 0 ? (
-                                    <div className="th6flex2pcl3">
-                                      <div className="th6Wpcl3 brRightDpcl3">
-                                        Other Charges
-                                      </div>
-                                      <div className="th6Wpcl3 brRightDpcl3"></div>
-                                      <div className="th6Wpcl3 brRightDpcl3">
-                                        {NumberWithCommas(e?.OtherCharges, 2)}
-                                      </div>
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </div> */}
-
-
                                 {
                                   e?.totmakAmt === 0 ? '' : <div
                                   className="th6flex2pcl3 positionpcl3D"
@@ -1297,7 +1184,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <div className="totalAndDiscountpcl3" >
                                   <div className="th7pcl3ss">
                                     <b style={{ fontSize: "10px" }}>
-                                      {/* {e?.UnitCost?.toFixed(2)} */}
                                       {NumberWithCommas(e?.UnitCost, 2)}
                                     </b>
                                   </div>
@@ -1316,7 +1202,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     }}
                                   >
                                     <b className="fsdpcl3">
-                                      {/* {e?.UnitCost?.toFixed(2)} */}
                                       {NumberWithCommas(e?.UnitCost, 2)}
                                     </b>
                                   </div>
@@ -1342,7 +1227,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             borderBottom: "0px",
                             borderRight: "0px",
                             height: "22px",
-                            // width:"12%"
                           }}
                         >
                           <div className="th2Dpcl3 w-100" >
@@ -1359,7 +1243,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             style={{
                               backgroundColor: "#eeeded",
                               border: "1px solid #989898",
-                              // width: "22%",
                               height: "21px",
                               borderBottom: "0px",
                               borderTop: "0px",
@@ -1379,7 +1262,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="th3Wpcl3 brRightDpcl3"></div>
                             <div className="th3Wpcl3 brRightDpcl3">
                               <b className="fsdpcl3">
-                                {/* {totalObj.totdiaamt.toFixed(2)} */}
                                 {NumberWithCommas(totalObj.totdiaamt, 2)}
                               </b>
                             </div>
@@ -1393,7 +1275,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             className="MetalPcl3 positionpcl3D w-100"
                             style={{
                               backgroundColor: "#e8e8e8",
-                              // width: "22%",
                               height: "21px",
                               lineHeight: "10px",
                               border: "1px solid #989898",
@@ -1415,10 +1296,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                               </b>
                             </div>
                             <div className="th4Wpcl3 brRightDpcl3"></div>
-                            {/* <div className='th4Wpcl3 brRightDpcl3'></div> */}
                             <div className="th4Wpcl3 brRightDpcl3">
                               <b style={{ fontSize: "9px" }}>
-                                {/* {totalObj.totmtamt.toFixed(2)} */}
                                 {NumberWithCommas(totalObj.totmtamt, 2)}
                               </b>
                             </div>
@@ -1432,7 +1311,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             className="diamondValuepcl3 positionpcl3D w-100"
                             style={{
                               backgroundColor: "#e8e8e8",
-                              // width: "258px",
                             }}
                           >
                             <div className="th3Wpcl3 brRightDpcl3"></div>
@@ -1448,7 +1326,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="th3Wpcl3 brRightDpcl3"></div>
                             <div className="th3Wpcl3 brRightDpcl3">
                               <b className="fsdpcl3">
-                                {/* {totalObj.totstamt.toFixed(2)} */}
                                 {NumberWithCommas(totalObj.totstamt, 2)}
                               </b>
                             </div>
@@ -1462,7 +1339,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             className="th6flex2pcl3 w-100 "
                             style={{
                               backgroundColor: "#e8e8e8",
-                              // width: "149px",
                               height: "22px",
                             }}
                           >
@@ -1470,7 +1346,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="th6Wpcl3 brRightDpcl3"></div>
                             <div className="th6Wpcl3 brRightDpcl3">
                               <b className="fsdpcl3">
-                                {/* {totalLbhOthAmt?.toFixed(2)} */}
                                 {NumberWithCommas(totalLbhOthAmt, 2)}
                               </b>
                             </div>
@@ -1484,13 +1359,11 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                               className="th7Dpcl3 w-100"
                               style={{
                                 backgroundColor: "#e8e8e8",
-                                // width: "70px",
                                 fontSize: "12px",
                                 height: "22px",
                               }}
                             >
                               <b className="fsdpcl3 w-100 d-flex justify-content-end align-items-center pe-1">
-                                {/* {totalUniCostAmt?.toFixed(2)} */}
                                 {NumberWithCommas(totalUniCostAmt, 2)}
                               </b>
                             </div>
@@ -1499,13 +1372,12 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       </div>
                     </div>
                     <div className="sumarypcl3 no_break">
-                      <div className="amountSummarySectionpcl3 no_break">
+                      <div className="amountSummarySectionpcl3 ">
                         <div className="fapcl3">
                           <div className="d-flex justify-content-end w-50 fsdpcl3">
                             Total Discount
                           </div>
                           <div className="mrpWpcl3 fsdpcl3 w-50">
-                            {/* {totalObj?.totDiscount?.toFixed(2)} */}
                             {NumberWithCommas(totalObj?.totDiscount, 2)}
                           </div>{" "}
                         </div>
@@ -1531,15 +1403,11 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   {e?.name} {e?.per}
                                 </div>
                                 <div className="w-50 d-flex justify-content-end fsdpcl3">
-                                  {/* {e?.amount} */}
                                   {NumberWithCommas(e?.amount, 2)}
                                 </div>
                               </div>
                             );
                           })}
-
-                        {/* <div className='fapcl3'><div className='mrpWpcl3 fsdpcl3'>CGST @ {headerData?.CGST}%</div><div className='mrpWpcl3 fsdpcl3'>{headerData?.TotalCGSTAmount?.toFixed(2)} </div> </div>
-                                        <div className='fapcl3'><div className='mrpWpcl3 fsdpcl3'>SGST @ {headerData?.SGST}%</div><div className='mrpWpcl3 fsdpcl3'>{headerData?.TotalSGSTAmount?.toFixed(2)}</div> </div> */}
                         <div className="fapcl3">
                           <div className="d-flex justify-content-end w-50 fsdpcl3">
                             Less{" "}
@@ -1554,15 +1422,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           </div>
                           <div className="mrpWpcl3">
                             <b className="fsdpcl3 w-100">
-                              {/* {finalAmount?.toFixed(2)} */}
                               {NumberWithCommas(finalAmount, 2)}
-                              {/* {(
-                            totalUniCostAmt -
-                            totalObj?.totDiscount +
-                            headerData?.TotalCGSTAmount +
-                            headerData?.TotalSGSTAmount +
-                            headerData?.AddLess
-                          )?.toFixed(2)} */}
+                            
                             </b>{" "}
                           </div>{" "}
                         </div>
@@ -1646,7 +1507,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <b className="fsdpcl3">GOLD</b>
                               </div>
                               <div className="mrpWpcl3D fsdpcl3 justify-content-end pe-1 w-50">
-                                {/* {totalObj.totmtamt.toFixed(3)} */}
                                 {NumberWithCommas(totalObj.totmtamt, 2)}
                               </div>{" "}
                             </div>
@@ -1679,7 +1539,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <b className="fsdpcl3">MAKING</b>
                               </div>
                               <div className="mrpWpcl3D fsdpcl3 justify-content-end pe-1 w-50">
-                                {/* {totalObj.totmakingAmt?.toFixed(3)}{" "} */}
                                 {NumberWithCommas(totalObj.totmakingAmt, 2)}
                               </div>{" "}
                             </div>
@@ -1688,7 +1547,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <b className="fsdpcl3">OTHER</b>
                               </div>
                               <div className="mrpWpcl3D fsdpcl3 justify-content-end pe-1 w-50">
-                                {/* {totalObj.totOthAmt?.toFixed(3)} */}
                                 {NumberWithCommas(totalObj.totOthAmt, 2)}
                               </div>{" "}
                             </div>
@@ -1749,7 +1607,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                               <b className="fsdpcl3">RATE IN 24KT</b>
                             </div>
                             <div className="mrpWpcl3D fsdpcl3 d-flex justify-content-end pe-1 align-items-center" style={{width:"50%"}}>
-                              {/* {headerData?.MetalRate24K?.toFixed(2)} */}
                               {NumberWithCommas(headerData?.MetalRate24K, 2)}
                             </div>{" "}
                           </div>
@@ -1764,10 +1621,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 __html: headerData?.Remark,
                               }}
                             ></div>
-                            {/* <div
-                              className="mrpWpcl3D"
-                              style={{ width: "168px" }}
-                            >{`${headerData?.Remark ?? ""}`}</div> */}
                           </div>
                         </div>
                       </div>

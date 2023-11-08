@@ -3,37 +3,10 @@
     box-sizing: border-box;
 }
 
-/* .headline {
-    height: 40px;
-    width: 100%;
-    background-color: rgb(131 126 126);
-    font-weight: bold;
-    color: white;
-    font-size: 22px;
-    padding: 1rem;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.companyDetails {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 12rem;
-}
-
-.companyhead {
-    display: flex;
-    flex-direction: column;
-    padding-top: 0.4rem;
-    width: 85%;
-} */
-
 .lines {
     line-height: 100%;
     padding: 2px;
-    height: 20px;
+    height: 15px;
     font-size: 14px;
 }
 
@@ -41,7 +14,7 @@
 .custBlock {
     display: flex;
     justify-content: space-between;
-    min-height: 12rem;
+    min-height: 7rem;
     border-top: 1px solid #dcd3d3;
     border-left: 1px solid #dcd3d3;
 }
