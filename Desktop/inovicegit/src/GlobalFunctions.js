@@ -43,7 +43,7 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
 
   try {
     const response = await axios.post(urls, body);
-    let a = (response?.data)
+    console.log(response?.data?.Data);
     return response?.data;
   } catch (error) {
     console.error(error);
@@ -307,7 +307,7 @@ export const numberToWord = (num) => {
   if (typeof (num) === "string") {
     return toWords.convert(+fixedValues(num, 2))
   } else if (typeof (num) === "number") {
-    return toWords.convert(fixedValues(num, 2))
+    return toWords.convert(num)
   } else {
     return ""
   }

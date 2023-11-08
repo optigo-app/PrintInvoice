@@ -39,7 +39,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   });
 
   const loadData = (data) => {
-    console.log(data);
+    // console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
@@ -285,6 +285,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               {tunch && <p className='text-center fw-bold'>Tunch: {NumberWithCommas(e?.Tunch, 3)}</p>}
               <p className='text-center fw-bold'>{fixedValues(e?.grosswt, 3)}gm Gross</p>
               {e?.Size.length > 0 &&<p className='text-center pb-1'>Size {e?.Size}</p>}
+              {e?.HUID !== "" && <p className='text-center pb-1'>HUID: {e?.HUID}</p>}
             </div>
             <div className="diamondStoneDetailPrint11 d-grid pad_bt_20semiTotalDetailPrint11 position-relative">
               {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {

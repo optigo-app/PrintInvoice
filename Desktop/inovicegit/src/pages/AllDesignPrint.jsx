@@ -91,7 +91,7 @@ const AllDesignPrint = () => {
       {(printName === "retail tax invoice" && etpType === "print") && <RetailTaxInvoice billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {((printName === "retail invoice 2" || printName === "retail invoice 3") && etpType === "print") && <RetailInvoice2_3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "sale format j1" && etpType === "excel") && <ExcelToJsonDownloadJ1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
-      {(printName === "summary s" && etpType === "print") && <Summarys billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
+      {(printName === "summary print s" && etpType === "print") && <Summarys billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
     </>
   );
 };

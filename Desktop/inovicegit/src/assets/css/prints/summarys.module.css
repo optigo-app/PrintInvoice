@@ -12,7 +12,32 @@
     min-width: 10%;
 }
 
+.design1 {
+    width: 17.1%;
+    min-width: 17.1%;
+}
+
 .amtDetail{
-    width: 7.74%;
-    min-width: 7.74%;
+    width: 7.1%;
+    min-width: 7.1%;
+}
+
+.diamond{
+    width: 21.3%;
+    min-width: 21.3%;
+}
+
+.stone{
+    width: 14.2%;
+    min-width: 14.2%;
+}
+
+.total{
+    width: 15%;
+    min-width: 15%;
+}
+
+.total1{
+    width: 22.1%;
+    min-width: 22.1%;
 }

@@ -19,7 +19,7 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
     })
 
     const loadData = (data) => {
-        console.log(data);
+        // console.log(data);
         let json0Data = data?.BillPrint_Json[0];
         let diaLength = 0;
         let csLength = 0;

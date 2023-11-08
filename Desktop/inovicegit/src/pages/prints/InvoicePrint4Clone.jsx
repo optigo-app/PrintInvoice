@@ -26,18 +26,23 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
     const toWords = new ToWords();
 
     const resultAray = (arr, record) => {
-        let findIndex = arr.findIndex(ele => ele?.Rate === record?.Rate);
+        let findIndex = arr.findIndex(ele => ele?.QualityName === record?.QualityName &&ele?.MasterManagement_DiamondStoneTypeid === record?.MasterManagement_DiamondStoneTypeid);
         if (findIndex === -1) {
+            record.Rates = record?.Rate;
             arr.push(record);
         } else {
             if (record.amount !== 0) {
                 arr[findIndex].Wt += record?.Wt;
                 arr[findIndex].Amount += record?.Amount;
-                if (arr[findIndex].Amount !== 0) {
-                    arr[findIndex].Rates = arr[findIndex].Wt / arr[findIndex].Amount;
+                if (arr[findIndex].Amount !== 0 && arr[findIndex].Wt !== 0) {
+                    arr[findIndex].Rates = arr[findIndex].Amount / arr[findIndex].Wt;
+                }
+                else{
+                    arr[findIndex].Rates = 0;
                 }
             }
         }
+        console.log(arr);
         return arr;
     }
 
@@ -55,12 +60,14 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                 totals.qtyWeight += e?.Wt;
                 let findIndex = arr.findIndex(ele => ele?.ShapeName === e?.ShapeName && ele?.QualityName === e?.QualityName && ele?.Rate === e?.Rate && ele?.MasterManagement_DiamondStoneTypeid === e?.MasterManagement_DiamondStoneTypeid);
                 if (findIndex === -1) {
-                    arr.push(e);
+                    let obj = {...e};
+                    obj.Rates = obj?.Rate;
+                    arr.push(obj);
                 } else {
                     arr[findIndex].Wt += e?.Wt;
                     arr[findIndex].Amount += e?.Amount;
-                    if (arr[findIndex].Amount !== 0) {
-                        arr[findIndex].Rates = arr[findIndex].Wt / arr[findIndex].Amount;
+                    if (arr[findIndex].Amount !== 0 && arr[findIndex].Wt !== 0) {
+                        arr[findIndex].Rates = arr[findIndex].Amount / arr[findIndex].Wt;
                     }
                 }
             } else if (e?.MasterManagement_DiamondStoneTypeid === 2 || e?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -83,8 +90,6 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
             }
             return 0; // a and b are equivalent with respect to sorting
         });
-
-
 
         // arr.sort((a, b) => a.MasterManagement_DiamondStoneTypeName - b.MasterManagement_DiamondStoneTypeName);
         arr.forEach((e, i) => {
@@ -168,10 +173,9 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                 {/* Company Address */}
                 <div className="d-flex">
                     <div className="col-9 p-2">
-                        <p className="fs-4 fw-bold pb-1">{headerData?.CompanyFullName}</p>
-                        <p className="pb-1">{headerData?.CompanyAddress} </p>
-                        <p className="pb-1">{headerData?.CompanyAddress2} </p>
-                        <p className="pb-1">{headerData?.CompanyPinCode} {headerData?.CompanyCountry}, Phone - {headerData?.CompanyTellNo}</p>
+                        <p className=" pb-1"><span className='fs-4 fw-bold'>{headerData?.CompanyFullName}</span> </p>
+                        <p className='pb-1'>{headerData?.CompanyAddress}, {headerData?.CompanyAddress2} {headerData?.CompanyCity} {headerData?.CompanyPinCode} {headerData?.CompanyCountry}</p>
+                        <p className="pb-1"> Phone - {headerData?.CompanyTellNo}</p>
                         {/* <p className="pb-1">{headerData?.CompanyCity}</p> */}
                         <p className="pb-1">{headerData?.CompanyEmail}</p>
                         <p className="pb-1">{headerData?.Company_VAT_GST_No}</p>
@@ -189,13 +193,13 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <p className="">{headerData?.customerAddress1}</p>
                         {/* <p className="">{headerData?.customerAddress2}</p> */}
                         <p className="">{headerData?.customercity} {headerData?.customerpincode}</p>
-                        <p className="">Phone - {headerData?.customermobileno}</p>
+                        <p className="">Phone - {headerData?.customermobileno.replaceAll("-", '')}</p>
                         <p className="">PAN No - {headerData?.Pannumber}</p>
                     </div>
                     <div className="col-6 p-2">
-                        <div className="col-4 ms-auto">
-                            <div className="d-flex"><div className="col-6 fw-bold">INVOICE NO </div><div className="col-6">{headerData?.InvoiceNo}</div></div>
-                            <div className="d-flex"><div className="col-6 fw-bold">DATE </div><div className="col-6">{headerData?.EntryDate}</div></div>
+                        <div className="col-12 ms-auto">
+                            <div className="d-flex justify-content-end"><div className="fw-bold">INVOICE NO </div><div className="ps-4">{headerData?.InvoiceNo}</div></div>
+                            <div className="d-flex justify-content-end"><div className="fw-bold">DATE </div><div className="ps-4">{headerData?.EntryDate}</div></div>
                         </div>
                        
                     </div>
@@ -226,10 +230,10 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="col-8">
                             <div className="d-gird h-100 pt-2">
                                 {datas?.map((e, i) => {
-                                    return <div className="d-flex pb-1" key={i}>
+                                    return <div className="d-flex pb-1" key={i}>{console.log(e?.Rates)}
                                         <div className="col-3 px-2">{e?.MasterManagement_DiamondStoneTypeid === 4 ? `${e?.ShapeName} ${e?.QualityName}` : e?.MasterManagement_DiamondStoneTypeName}</div>
                                         <div className="col-3 px-2 text-center">{fixedValues(e?.Wt, 3)}  {e?.MasterManagement_DiamondStoneTypeid === 4 ? 'gm' : 'ctw'}</div>
-                                        <div className="col-3 px-2 text-center">{NumberWithCommas(e?.Rate, 2)}</div>
+                                        <div className="col-3 px-2 text-center">{NumberWithCommas(e?.Rates, 2)}</div>
                                         <div className="col-3 px-2 text-end">{NumberWithCommas(e?.Amount, 2)}</div>
                                     </div>
                                 })}
