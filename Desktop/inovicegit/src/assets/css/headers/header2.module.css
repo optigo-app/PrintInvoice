@@ -1,5 +1,5 @@
 .headline {
-    height: 40px;
+    height: 35px;
     width: 100%;
     background-color: rgb(131 126 126);
     font-weight: bold;
@@ -15,7 +15,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    min-height: 18rem;
+    min-height: 15rem;
 }
 .custBlock {
     display: flex;
@@ -28,7 +28,7 @@
 .lines {
     line-height: 100%;
     padding: 2px;
-    height: 20px;
+    height: 15px;
 }
 .headerImg {
     height: 50%;

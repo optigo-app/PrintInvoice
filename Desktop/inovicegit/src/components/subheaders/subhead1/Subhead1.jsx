@@ -1,6 +1,8 @@
 import React from "react";
 import style from "../subhead1/subhead1.module.css";
 const Subhead1 = ({ data }) => {
+  let address = data?.Printlable?.split("\r\n");
+  data.address = address;
   return <div>
      <div className={style.custBlock}>
         <div className={style.custDetails}>
@@ -22,14 +24,14 @@ const Subhead1 = ({ data }) => {
           <span className={style.lines} style={{ fontWeight: "bold" }}>
             {data?.customerfirmname}
           </span>
-          <span className={style.lines}>{data?.CustName}</span>
-          <span className={style.lines}>{data?.customerstreet}</span>
-          <span className={style.lines}>{data?.customercity}, {data?.State}</span>
-          <span className={style.lines}>India-{data?.customerpincode}</span>
-          <span className={style.lines}>Mobile No : {data?.customermobileno}</span>
-          <span className={style.lines}></span>
-          <span className={style.lines}></span>
-          <span className={style.lines}></span>
+          {
+            data?.address?.length > 0 &&
+            data?.address?.map((e, i) => {
+              return(
+                  <span key={i} className={style.lines}>{e}</span>
+              )
+            })
+          }
         </div>
         <div className={style.custDetails}>
           <span className={style.invoice}>
@@ -52,20 +54,7 @@ const Subhead1 = ({ data }) => {
           <span className={style.lines}></span>
           <span className={style.lines}></span>
         </div>
-        {/* <div className={style.custDetails}>
-          <span className={style.lines}>E Way Bill</span>
-          <span className={style.lines} style={{ fontWeight: "bold" }}>
-            
-          </span>
-          <span className={style.lines}></span>
-          <span className={style.lines}></span>
-          <span className={style.lines}></span>
-          <span className={style.lines}></span>
-          <span className={style.lines}></span>
-          <span className={style.lines}></span>
-          <span className={style.lines}></span>
-          <span className={style.lines}></span>
-        </div> */}
+
       </div>
   </div>;
 };
