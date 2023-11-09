@@ -296,13 +296,15 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
       QualityName: "",
       Amount: totLbrAmt,
     };
+    // eslint-disable-next-line no-unused-vars
     let obj3 = {
       ShapeName: "MISC",
       QualityName: "",
       Amount: totmiscAmt,
     };
     let LOM = [];
-    LOM.push(obj3, obj2, obj1);
+    // LOM.push(obj3, obj2, obj1);
+    LOM.push( obj2, obj1);
     setLOM(LOM);
     setGroupedArrAmountTotal(groupedAmtTotal);
     setGroupedArr(arr);
@@ -509,7 +511,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           );
                         })
                       }
-                      {LOM.map((e, i) => {
+                      {LOM?.map((e, i) => {
                         return (
                           <div className="tbodyinvp3" key={i}>
                             {e?.ShapeName === "MISC" && e?.Amount === 0 ? (
