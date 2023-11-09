@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import {
   apiCall,
+  fixedValues,
   handleImageError,
   isObjectEmpty,
   numberToWord,
@@ -46,6 +47,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
   }
 
   const organizeData = (json, json1, json2) => {
+    console.log(json, json1, json2);
     let resultArr = [];
     let totAmt = 0;
 
@@ -147,7 +149,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
           OtherAmount: 0,
         },
       };
-
+      let otherMisc = e?.MiscAmount + e?.OtherCharges;
       // eslint-disable-next-line array-callback-return
 
       mainTotal.totAmount.TotalAmount += e?.TotalAmount;
@@ -184,10 +186,10 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
             misclist.push(ele);
-            totals.colorstone.Pcs += ele?.Pcs;
-            totals.colorstone.Wt += ele?.Wt;
-            totals.colorstone.Amount += ele?.Amount;
-            totals.colorstone.Rate += ele?.Rate;
+            // totals.colorstone.Pcs += ele?.Pcs;
+            // totals.colorstone.Wt += ele?.Wt;
+            // totals.colorstone.Amount += ele?.Amount;
+            // totals.colorstone.Rate += ele?.Rate;
             mainTotal.misc.Pcs += ele?.Pcs;
             mainTotal.misc.Wt += ele?.Wt;
             mainTotal.misc.Rate += ele?.Rate;
@@ -226,6 +228,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
       obj.findingDetails = findinglist;
       obj.AllJobsTotal = mainTotal;
       obj.JobWiseTotal = totals;
+      obj.otherMisc = otherMisc;
       resultArr.push(obj);
       setResultArray(resultArr);
     });
@@ -241,7 +244,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
       grandTot += +e?.amount;
     });
 
-    let words = numberToWord(grandTot)+" Only";
+    let words = numberToWord(fixedValues(grandTot, 2))+" Only";
 
     setInWords(words);
     setGrandTotal(grandTot);
@@ -398,7 +401,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                             >
                               {e?.designno}
                             </p>
-                            <p className="brbdesigninvp2 brbinvp2">
+                            <p className="brbdesigninvp2 brbinvp2 pt-2">
                               {e?.SrJobno}
                             </p>
                           </div>
@@ -425,7 +428,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                           {e?.JobWiseTotal?.colorstone?.Wt?.toFixed(3)}
                         </div>
                         <div className="wtbivp2 alignrightinvp2">
-                          {NumberWithCommas(e?.OtherCharges, 2)}
+                          {NumberWithCommas(e?.otherMisc, 2)}
                         </div>
                         <div className="wtbivp2 brightivp2 alignrightinvp2">
                         <p dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></p> {NumberWithCommas(e?.TotalAmount, 2)}

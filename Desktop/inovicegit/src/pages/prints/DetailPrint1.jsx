@@ -78,7 +78,6 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     setBrokarage(brok);
   }
 
-
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -112,7 +111,6 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   }, []);
 
   const organizeDataSample = (hr, ar1, ar2) => {
-
     let resultArr = [];
     let totals = {
       diamondPcs: 0,

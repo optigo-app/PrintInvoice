@@ -295,8 +295,8 @@ const Export = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className={`border-end ${style.netExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}>{(total?.netWt)?.toFixed(3)}</div>
                         <div className={`border-end ${style.wastageExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}></div>
                         <div className={`border-end ${style.totalGoldExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}></div>
-                        <div className={`border-end ${style.goldGmExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}>{(total?.golSilValue)?.toFixed(2)}</div>
-                        <div className={`border-end ${style.goldValueExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}></div>
+                        <div className={`border-end ${style.goldGmExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}></div>
+                        <div className={`border-end ${style.goldValueExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}>{(total?.golSilValue)?.toFixed(2)}</div>
                         <div className={`d-flex`}>
                             <div className={`border-end ${style.diaShapeExport} d-flex align-items-center ${style.rowExport} fw-bold`}></div>
                             <div className={`border-end ${style.diamondColorExport} d-flex align-items-center ${style.rowExport} fw-bold`}></div>

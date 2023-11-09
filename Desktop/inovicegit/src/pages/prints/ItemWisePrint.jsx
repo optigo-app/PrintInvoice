@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import "../../assets/css/prints/itemwiseprint.css";
-import { apiCall, handlePrint, taxGenrator, isObjectEmpty} from "../../GlobalFunctions";
+import { apiCall, handlePrint, taxGenrator, isObjectEmpty, NumberWithCommas} from "../../GlobalFunctions";
 import { usePDF } from "react-to-pdf";
 import { ToWords } from 'to-words';
 import Loader from "../../components/Loader";
@@ -34,6 +34,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
   });
   const [taxes, setTaxes] = useState([]);
   const loadData = (data) => {
+    console.log(data);
     setjson0Data(data?.BillPrint_Json[0]);
     let totals = { ...total };
     let arr = [];
@@ -441,7 +442,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
                     </p>
                   </div>
                   <div className="makingItemWisePrint border-end">
-                    <p className="fw-bold text-end"></p>
+                    <p className="fw-bold text-end">{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p>
                   </div>
                   <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'labourItemWisePrint' : 'labourItemWisePrint1'} border-end`}>
                     <p className="fw-bold text-end">

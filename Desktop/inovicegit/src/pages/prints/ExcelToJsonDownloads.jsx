@@ -47,14 +47,22 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
             let diamondsColorStonesMiscs = [];
             let metals = [];
             let goldAmount = 0;
+            let findingTitaniumWt = 0;
+            // let netWt = 
             data?.BillPrint_Json2.forEach((ele, ind) => {
-                if(ele?.StockBarcode === e?.SrJobno){
+                if (ele?.StockBarcode === e?.SrJobno) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
                         metals.push(ele);
                         goldAmount += ele?.Amount;
                     }
                     if (ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 3) {
                         diamondsColorStonesMiscs.push(ele);
+                    }
+                    if(ele?.MasterManagement_DiamondStoneTypeid === 5){
+                        if(ele?.ShapeName ==="TITANIUM"){
+                            findingTitaniumWt += ele?.Wt
+                        }
+                        // findingTitaniumWt 
                     }
                 }
 
@@ -77,10 +85,10 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
             let netWt = "";
             let metalWtt = "";
             if (metals.length > 1) {
-                netWt = metals[0]?.Wt+e?.LossWt;
+                netWt = metals[0]?.Wt + e?.LossWt;
                 metalWtt = metals[1]?.Wt;
             } else if (metals.length === 1) {
-                netWt = e?.NetWt+e?.LossWt;
+                netWt = e?.NetWt + e?.LossWt;
             }
             let totalObj = {
                 srNo: "",
@@ -111,8 +119,8 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                 totalAmount: "",
                 totalObjTital: true,
             }
-            let totalCount = largestLength+1;
-            let designimage=  false;
+            let totalCount = largestLength + 1;
+            let designimage = false;
             Array.from({ length: largestLength }).forEach((ele, ind) => {
                 let resultObj = {
                     srNo: "",
@@ -156,18 +164,18 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                     resultObj.MetalColor = e?.MetalColor;
                     resultObj.MetalPurity = e?.MetalPurity;
                     resultObj.grossWt = NumberWithCommas(e?.grosswt, 3);
-                    resultObj.NetWt = NumberWithCommas(netWt, 3);
-                    resultObj.metalWtt = NumberWithCommas(metalWtt, 3);
+                    resultObj.NetWt = NumberWithCommas(netWt-findingTitaniumWt, 3);
+                    resultObj.metalWtt = NumberWithCommas(metalWtt+findingTitaniumWt, 3);
                     if (goldAmount !== 0) {
                         resultObj.goldAmount = goldAmount;
                     }
                     if (ktrates !== 0) {
                         resultObj.ktRate = ktrates;
                     }
-                    if(e?.DesignImage === "") {
+                    if (e?.DesignImage === "") {
                         designimage = true;
                     }
-                    resultObj.labourrate =  NumberWithCommas(e?.MaKingCharge_Unit, 2);
+                    resultObj.labourrate = NumberWithCommas(e?.MaKingCharge_Unit, 2);
                     resultObj.labourValue = NumberWithCommas(e?.MakingAmount, 2);
                     resultObj.totalLabour = NumberWithCommas(e?.MakingAmount, 2);
                     resultObj.totalAmount = NumberWithCommas(e?.TotalAmount, 2);
@@ -177,8 +185,14 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                     resultObj.diaColorPcs = diamondsColorStonesMiscs[ind]?.Pcs;
 
                     totalObj.diaColorPcs += diamondsColorStonesMiscs[ind]?.Pcs;
-                    totalObj.diaColorCts += diamondsColorStonesMiscs[ind]?.Wt;
+                    if(diamondsColorStonesMiscs[ind]?.MasterManagement_DiamondStoneTypeid === 3){
+                        let textComapre = (diamondsColorStonesMiscs[ind]?.ShapeName).toLowerCase();
+                        if(textComapre.includes("certification") || textComapre.includes("hallmark") || textComapre.includes("stamping")){
+                            diamondsColorStonesMiscs[ind].Wt = 0;
+                        }
+                    }
 
+                    totalObj.diaColorCts += diamondsColorStonesMiscs[ind]?.Wt;
                     resultObj.diaColorCts = NumberWithCommas(diamondsColorStonesMiscs[ind]?.Wt, 3);
                     resultObj.diaColorRate = NumberWithCommas(diamondsColorStonesMiscs[ind]?.Rate, 2);
                     let shapeName = "";
@@ -202,27 +216,27 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                         totalObj.diaColorMiscAmount += diamondsColorStonesMiscs[ind]?.Amount;
                     }
                     resultObj.seiveGroup = seiveGroup;
-                   
+
                 }
                 blankArr.push(resultObj);
             });
-            totalsObj.diaColorPcs += totalObj.diaColorPcs; 
-            totalsObj.diaColorCts += totalObj.diaColorCts; 
-            totalsObj.diaColorMiscAmount += totalObj?.diaColorMiscAmount; 
-            if(totalObj.diaColorMiscAmount !== 0 && totalObj.diaColorMiscAmount!== ""){
+            totalsObj.diaColorPcs += totalObj.diaColorPcs;
+            totalsObj.diaColorCts += totalObj.diaColorCts;
+            totalsObj.diaColorMiscAmount += totalObj?.diaColorMiscAmount;
+            if (totalObj.diaColorMiscAmount !== 0 && totalObj.diaColorMiscAmount !== "") {
                 totalObj.diaColorMiscAmount = NumberWithCommas(totalObj?.diaColorMiscAmount, 2);
             }
-          
-            if(totalObj.diaColorPcs === 0){
+
+            if (totalObj.diaColorPcs === 0) {
                 totalObj.diaColorPcs = ""
             }
-            if(totalObj.diaColorCts === 0){
+            if (totalObj.diaColorCts === 0) {
                 totalObj.diaColorCts = ""
             }
-           
+
             blankArr.push(totalObj);
-            if(totalCount < 5 && !designimage){
-                Array.from({length: 5-totalCount}).forEach((e, i)=> {
+            if (totalCount < 5 && !designimage) {
+                Array.from({ length: 5 - totalCount }).forEach((e, i) => {
                     let blankLine = {
                         srNo: "",
                         srJobNo: "",
@@ -261,7 +275,7 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
         setTimeout(() => {
             const button = document.getElementById('test-table-xls-button');
             button.click();
-        }, 2000);
+        }, 1000);
     }
 
     useEffect(() => {
@@ -387,7 +401,7 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <td width={100} style={{ textAlign: "center" }}>{e?.designNo}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.sencoDesignNo}</td>
                                     <td width={160} style={{ textAlign: "center" }}>
-                                    {(!e?.totalObjTital && e?.image !== "") && <img src={e?.image} alt="" onError={handleImageError} width={150} height={80} style={{paddingLeft: "10px", objectFit: "contain"}}/>}
+                                        {(!e?.totalObjTital && e?.image !== "") && <img src={e?.image} alt="" onError={handleImageError} width={150} height={80} style={{ paddingLeft: "10px", objectFit: "contain" }} />}
                                     </td>
                                     <td width={150} style={{ textAlign: "center" }}>{e?.category}</td>
                                     <td width={100} style={{ textAlign: "center" }}>{e?.size}</td>
@@ -402,7 +416,7 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <td width={100} style={{ textAlign: "center" }}>{e?.seiveGroup}</td>
                                     <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>&nbsp;{e?.diaColorPcs}</td>
                                     <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>&nbsp;{e?.diaColorCts !== "" && fixedValues(+e?.diaColorCts, 3)}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>&nbsp;{e?.diaColorRate !== "" && NumberWithCommas(+e?.diaColorRate, 2)}</td>
+                                    <td width={100} style={{ textAlign: "center" }}>&nbsp;{e?.diaColorRate !== "" && e?.diaColorRate}</td>
                                     <td width={300} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }}>&nbsp;{e?.diamondColorStoneQuality}</td>
                                     <td width={100} style={{ textAlign: "center", fontWeight: e?.totalObjTital ? "bold" : "normal" }} className='keep_zeroes_2' wch="5"> &nbsp;{(e?.diaColorMiscAmount !== "" && e?.diaColorMiscAmount !== 0) && e?.diaColorMiscAmount}</td>
                                     <td width={100} style={{ textAlign: "center" }}>&nbsp;{e?.labourrate}</td>
@@ -412,32 +426,32 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </tr>
                             })}
                             <tr>
-                            <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={200} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={160} style={{ textAlign: "center" }}> </td>
-                                    <td width={150} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center", fontWeight: total?.totalObjTital ? "bold" : "normal" }}>&nbsp;{total?.diaColorPcs}</td>
-                                    <td width={100} style={{ textAlign: "center", fontWeight: total?.totalObjTital ? "bold" : "normal" }}>&nbsp;{total?.diaColorCts !== "" && fixedValues(+total?.diaColorCts, 3)}</td>
-                                    <td width={100} style={{ textAlign: "center" }}>&nbsp;{total?.diaColorRate !== "" && NumberWithCommas(+total?.diaColorRate, 2)}</td>
-                                    <td width={300} style={{ textAlign: "center", fontWeight: total?.totalObjTital ? "bold" : "normal" }}>&nbsp;{total?.diamondColorStoneQuality}</td>
-                                    <td width={100} style={{ textAlign: "center", fontWeight: total?.totalObjTital ? "bold" : "normal"}}>&nbsp;{(total?.diaColorMiscAmount !== "" && total?.diaColorMiscAmount !== 0)  && NumberWithCommas(total?.diaColorMiscAmount, 2)}</td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center" }}></td>
-                                    <td width={100} style={{ textAlign: "center", fontWeight: "bold" }} className='keep_zeroes_2'>&nbsp;{total?.totalAmount}</td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={200} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={160} style={{ textAlign: "center" }}> </td>
+                                <td width={150} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center", fontWeight: total?.totalObjTital ? "bold" : "normal" }}>&nbsp;{total?.diaColorPcs}</td>
+                                <td width={100} style={{ textAlign: "center", fontWeight: total?.totalObjTital ? "bold" : "normal" }}>&nbsp;{total?.diaColorCts !== "" && fixedValues(+total?.diaColorCts, 3)}</td>
+                                <td width={100} style={{ textAlign: "center" }}>&nbsp;{total?.diaColorRate !== "" && NumberWithCommas(+total?.diaColorRate, 2)}</td>
+                                <td width={300} style={{ textAlign: "center", fontWeight: total?.totalObjTital ? "bold" : "normal" }}>&nbsp;{total?.diamondColorStoneQuality}</td>
+                                <td width={100} style={{ textAlign: "center", fontWeight: total?.totalObjTital ? "bold" : "normal" }}>&nbsp;{(total?.diaColorMiscAmount !== "" && total?.diaColorMiscAmount !== 0) && NumberWithCommas(total?.diaColorMiscAmount, 2)}</td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center" }}></td>
+                                <td width={100} style={{ textAlign: "center", fontWeight: "bold" }} className='keep_zeroes_2'>&nbsp;{total?.totalAmount}</td>
                             </tr>
                         </tbody>
                     </table></> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}

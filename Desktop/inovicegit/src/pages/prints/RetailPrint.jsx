@@ -37,7 +37,6 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 if (ele?.MasterManagement_DiamondStoneTypeid !== 5) {
                     if (ele?.StockBarcode === e?.SrJobno) {
                         materialArray.push(ele);
-                        totalObj.amount += ele?.Amount;
                         if (ele?.MasterManagement_DiamondStoneTypeid !== 4) {
                             totalObj.pcs += ele?.Pcs;
                         }
@@ -368,7 +367,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                         <div className={`makingRetailPrint border-end p-1 d-flex ${pName === "retail print 1" ? `flex-column align-items-end justify-content-center` : `align-items-center justify-content-end `}`}>
                             <p className='text-end'>{NumberWithCommas(e?.MakingAmount, 2)}</p>
-                            {pName === "retail print 1" && <p className='text-end'>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p>}
+                            {pName === "retail print 1" && <p className='text-end'><span className="fw-bold">R: </span>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p>}
 
                         </div>
                         <div className="othersRetailPrint border-end p-1 d-flex align-items-center justify-content-end">

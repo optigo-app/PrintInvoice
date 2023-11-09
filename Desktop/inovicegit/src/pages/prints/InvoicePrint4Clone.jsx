@@ -42,7 +42,6 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                 }
             }
         }
-        console.log(arr);
         return arr;
     }
 
@@ -230,24 +229,24 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="col-8">
                             <div className="d-gird h-100 pt-2">
                                 {datas?.map((e, i) => {
-                                    return <div className="d-flex pb-1" key={i}>{console.log(e?.Rates)}
+                                    return <div className="d-flex pb-1" key={i}>
                                         <div className="col-3 px-2">{e?.MasterManagement_DiamondStoneTypeid === 4 ? `${e?.ShapeName} ${e?.QualityName}` : e?.MasterManagement_DiamondStoneTypeName}</div>
                                         <div className="col-3 px-2 text-center">{fixedValues(e?.Wt, 3)}  {e?.MasterManagement_DiamondStoneTypeid === 4 ? 'gm' : 'ctw'}</div>
-                                        <div className="col-3 px-2 text-center">{NumberWithCommas(e?.Rates, 2)}</div>
-                                        <div className="col-3 px-2 text-end">{NumberWithCommas(e?.Amount, 2)}</div>
+                                        <div className="col-3 px-2 text-center">{e?.Rates !== 0 && NumberWithCommas(e?.Rates, 2)}</div>
+                                        <div className="col-3 px-2 text-end">{e?.Amount !== 0 && NumberWithCommas(e?.Amount, 2)}</div>
                                     </div>
                                 })}
                                 <div className="d-flex pb-1">
                                     <div className="col-3 px-2">LABOUR</div>
                                     <div className="col-3 px-2 text-center"></div>
-                                    <div className="col-3 px-2 text-center">{NumberWithCommas(another?.labourRate, 2)}</div>
-                                    <div className="col-3 px-2 text-end">{NumberWithCommas(another?.labour, 2)}</div>
+                                    <div className="col-3 px-2 text-center">{another?.labourRate !== 0 && NumberWithCommas(another?.labourRate, 2)}</div>
+                                    <div className="col-3 px-2 text-end">{another?.labour !== 0 && NumberWithCommas(another?.labour, 2)}</div>
                                 </div>
                                 <div className="d-flex pb-1">
                                     <div className="col-3 px-2">OTHER</div>
                                     <div className="col-3 px-2 text-center"></div>
                                     <div className="col-3 px-2 text-center"></div>
-                                    <div className="col-3 px-2 text-end">{NumberWithCommas(another?.other, 2)}</div>
+                                    <div className="col-3 px-2 text-end">{another?.other !== 0 && NumberWithCommas(another?.other, 2)}</div>
                                 </div>
                             </div>
                         </div>
@@ -260,9 +259,9 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="col-8">
                             <div className="d-flex pb-1">
                                 <div className="col-3 p-2 fw-bold">TOTAL</div>
-                                <div className="col-3 p-2 text-center">{fixedValues(total?.qtyWeight, 3)}  gm</div>
+                                <div className="col-3 p-2 text-center">{total?.qtyWeight !== 0 && fixedValues(total?.qtyWeight, 3)}  gm</div>
                                 <div className="col-3 p-2 text-center"></div>
-                                <div className="col-3 p-2 text-end fw-bold">{NumberWithCommas(total?.totalAmount, 2)}</div>
+                                <div className="col-3 p-2 text-end fw-bold">{total?.totalAmount !== 0 && NumberWithCommas(total?.totalAmount, 2)}</div>
                             </div>
                         </div>
                     </div>
@@ -275,7 +274,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                             {taxes.length > 0 && taxes.map((e, i) => {
                                 return <div className="d-flex" key={i}>
                                     <div className="col-6 p-1 border-end text-end">{e?.name} @ {e?.per}</div>
-                                    <div className="col-6 p-1 text-end">{e?.amount}</div>
+                                    <div className="col-6 p-1 text-end">{+e?.amount !== 0 && e?.amount}</div>
                                 </div>
                             })}
                             {headerData?.AddLess !== 0 && <div className="d-flex">

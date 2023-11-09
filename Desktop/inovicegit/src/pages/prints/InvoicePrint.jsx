@@ -16,7 +16,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       arr.push(ele);
     } else {
       arr[findIndex].Wt += ele?.Wt;
-      arr[findIndex].Rate += ele?.Rate;
+      // arr[findIndex].Rate += ele?.Rate;
       arr[findIndex].Amount += ele?.Amount;
       arr[findIndex].Pcs += ele?.Pcs;
     }
@@ -104,7 +104,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
           <p>{json0?.CompanyEmail} | {json0?.CompanyWebsite}</p>
         </div>
         <div className='col-2'>
-          <img src={json0?.PrintLogo} alt="" className='w-100' />
+          <img src={json0?.PrintLogo} alt="" className='w-100 invoicePrintLogo' />
         </div>
       </div>
       {/* bill no */}
@@ -156,7 +156,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
           </div>
           <div className="col-9">
             <div className="d-flex border-bottom border-black border-2 p-1">
-              <div className="col-6">
+              <div className="col-5">
                 <p className="fw-bold">DETAIL	</p>
               </div>
               <div className="col-3">
@@ -168,7 +168,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 </p>
               </div>
               <div className="col-2">
-                <p className="fw-bold">
+                <p className="fw-bold text-end">
                   AMOUNT
                 </p>
               </div>
@@ -176,7 +176,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
             <div className="minHieght150InvoicePrint">
               {data?.length > 0 && data?.map((e, i) => {
                 return <div className="d-flex px-1" key={i}>
-                  <div className="col-6">
+                  <div className="col-5">
                     <p className="fw-bold">{e?.MasterManagement_DiamondStoneTypeid === 4 ? (e?.ShapeName + " " + e?.QualityName) : e?.MasterManagement_DiamondStoneTypeName}</p>
                   </div>
                   <div className="col-3">
@@ -184,19 +184,19 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div className="col-2">
                     <p className="fw-bold">
-                      {(e?.Rate).toFixed(3)}
+                      {(e?.Rate).toFixed(2)}
                     </p>
                   </div>
                   <div className="col-2">
-                    <p className="fw-bold">
-                      {(e?.Amount).toFixed(3)}
+                    <p className="fw-bold text-end">
+                      {(e?.Amount).toFixed(2)}
                     </p>
                   </div>
                 </div>
               })}
             </div>
             <div className="minHieght28InvoicePrint d-flex justify-content-between align-items-center p-1 border-top border-black border-2">
-              <p className='fw-bold'>Total</p>
+              <p className='fw-bold text-end'>Total</p>
               <p>0.00</p>
             </div>
           </div>

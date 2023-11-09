@@ -19,7 +19,6 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
     })
 
     const loadData = (data) => {
-        // console.log(data);
         let json0Data = data?.BillPrint_Json[0];
         let diaLength = 0;
         let csLength = 0;
@@ -57,10 +56,10 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 // if ((ele.label).toLowerCase() === "certification charge") {
                 //     certificationCharge = ele?.value;
                 // } 
-                 if ((ele.label).toLowerCase() === "dancing collet") {
+                if ((ele.label).toLowerCase() === "dancing collet") {
                     DancingColletCharge = ele?.value;
-                } 
-                 if ((ele.label).toLowerCase() === "magnet charges") {
+                }
+                if ((ele.label).toLowerCase() === "magnet charges") {
                     MegnetCharges = ele?.value;
                 }
             })
@@ -71,38 +70,38 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         "SHAPE": ele?.ShapeName,
                         "CLARITY": ele?.QualityName,
                         "COLOUR": ele?.Colorname,
-                        "CARAT": ele?.Wt,
-                        "NO:STONE": ele?.Pcs,
-                        "VALUE": ele?.Amount,
-                        "RATE": ele?.Rate
+                        "CARAT": ele?.Wt === 0 ? "" : ele?.Wt,
+                        "NO:STONE": ele?.Pcs === 0 ? "" : ele?.Pcs,
+                        "VALUE": ele?.Amount === 0 ? "" : ele?.Amount,
+                        "RATE": ele?.Rate === 0 ? "" : ele?.Rate
                     }
                     if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
                         diamonds.push(materialobj);
                         diaTotal["CARAT"] += ele?.Wt;
                         diaTotal["NO:STONE"] += ele?.Pcs;
                         diaTotal["VALUE"] += ele?.Amount;
-                     
+
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                         colorStones.push(materialobj);
                         csTotal["CARAT"] += ele?.Wt;
                         csTotal["NO:STONE"] += ele?.Pcs;
                         csTotal["VALUE"] += ele?.Amount;
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
-                        if(ele?.IsHSCOE === 0){
+                        if (ele?.IsHSCOE === 0) {
                             miscs.push(materialobj);
-                        }else{
-                            if(ele?.ShapeName === "Certification_IGI"){
-                                certificationCharge += (ele?.Rate*ele?.Pcs);
+                        } else {
+                            if (ele?.ShapeName === "Certification_IGI") {
+                                certificationCharge += (ele?.Rate * ele?.Pcs);
                             }
-                            if(ele?.ShapeName === "Hallmark"){
-                                HALLMARKCHARGE += (ele?.Rate*ele?.Pcs);
+                            if (ele?.ShapeName === "Hallmark") {
+                                HALLMARKCHARGE += (ele?.Rate * ele?.Pcs);
                             }
-                           
+
                         }
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
                         findingWt += ele?.Wt;
                         chainMakingCharge += ele?.Wt * ele?.SettingRate;
-                    }else if(ele?.MasterManagement_DiamondStoneTypeid === 4){
+                    } else if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
                         CHAINNETWT75GOLDRATE += ele?.Rate;
                     }
                 }
@@ -117,6 +116,26 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
             if (miscLength < miscs.length) {
                 miscLength = miscs.length;
             }
+
+            if (diaTotal["CARAT"] === 0) {
+                diaTotal["CARAT"] = undefined
+            }
+            if (diaTotal["NO:STONE"] === 0) {
+                diaTotal["NO:STONE"] = undefined
+            }
+            if (diaTotal["VALUE"] === 0) {
+                diaTotal["VALUE"] = undefined
+            }
+            if (csTotal["CARAT"] === 0) {
+                csTotal["CARAT"] = undefined
+            }
+            if (csTotal["NO:STONE"] === 0) {
+                csTotal["NO:STONE"] = undefined
+            }
+            if (csTotal["VALUE"] === 0) {
+                csTotal["VALUE"] = undefined
+            }
+
             let obj = {
                 "JOY DESIGINE NO": e?.MFG_DesignNo,
                 "Vendor Design No.": e?.designno,
@@ -130,10 +149,10 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 "Color": e?.MetalColor,
                 "NET WT 2": e?.NetWt,
                 "NET WEIGHT * 75% RATE": e?.MetalAmount,
-                "CHAIN NET WT (Finding weight)": findingWt,
-                "CHAIN NET WT *75 GOLD RATE (Finding amount)": CHAINNETWT75GOLDRATE,
-                "ORNAMENT MAKING CHARGE": e?.MakingAmount,
-                "CHAIN MAKING CHARGE (Finding labour)": chainMakingCharge,
+                "CHAIN NET WT (Finding weight)": findingWt === 0 ? "" : findingWt,
+                "CHAIN NET WT *75 GOLD RATE (Finding amount)": CHAINNETWT75GOLDRATE === 0 ? "" : CHAINNETWT75GOLDRATE,
+                "ORNAMENT MAKING CHARGE": e?.MakingAmount === 0 ? "" : e?.MakingAmount,
+                "CHAIN MAKING CHARGE (Finding labour)": chainMakingCharge === 0 ? "" : chainMakingCharge,
                 "HUID NUMBER": e?.HUID,
                 "Certificate No.": e?.CertificateNo,
                 "diamonds": diamonds,
@@ -144,10 +163,10 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 "TOTAL COLOR STONE CARAT WT": "",
                 "TOTAL COLOR STONE NO:STONE": "",
                 "TOTAL COLOR STONE VALUE": "",
-                "CERTIFICATION CHARGE": certificationCharge,
-                "HALLMARK CHARGE": HALLMARKCHARGE,
-                "Dancing Collet Charge": DancingColletCharge,
-                "Megnet Charges": MegnetCharges,
+                "CERTIFICATION CHARGE": +certificationCharge === 0 ? "" : certificationCharge,
+                "HALLMARK CHARGE": +HALLMARKCHARGE === 0 ? "" : HALLMARKCHARGE,
+                "Dancing Collet Charge": +DancingColletCharge === 0 ? "" : DancingColletCharge,
+                "Megnet Charges": +MegnetCharges === 0 ? "" : MegnetCharges,
                 "miscs": miscs,
                 "SIZE": e?.Size,
                 "diamonds": diamonds,
@@ -202,360 +221,363 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     id="test-table-xls-button"
                     className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
                     table="table-to-xls"
-                    filename={`Sale_Format_A_${header?.InvoiceNo}_${Date.now()}`}
+                    filename={`Sale_Format_J1_${header?.InvoiceNo}_${Date.now()}`}
                     sheet="tablexls"
                     buttonText="Download as XLS" />
                 <table id='table-to-xls' className={`${style?.excelToJsonDownloadATable}`}>
                     <thead>
                         <tr></tr>
                         <tr>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Sr No
                             </th>
-                            <th width="150" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="150" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Vendor design no
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 design No
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 job No
                             </th>
-                            <th width="150" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="150" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Customer job No
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Category
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 No of Pcs
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Gross Wt
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Net Wt
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Basic Value
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Purity
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Color
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Main Pcs Net Wt
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Main Pcs Metal Amount
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Finding Wt
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Finding metal amount
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Main Pcs Labour
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Finding Labour
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 HUID NUMBER
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Certificate No.
                             </th>
                             {length?.diamonds > 0 && Array.from({ length: length?.diamonds }).map((_, ind) => {
-                                return <th width="560" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={7}>
+                                return <th width="640" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={8}>
                                     Diamond Detail {ind + 1}
                                 </th>
                             })}
 
-                            <th width="240" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={3}>
+                            <th width="240" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={3}>
                                 Diamond Detail Total
                             </th>
                             {length?.colorStones > 0 && Array.from({ length: length?.colorStones }).map((_, ind) => {
-                                return <th width="560" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={7}>
+                                return <th width="560" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={7}>
                                     Color Stone Detail  {ind + 1}
                                 </th>
                             })}
-                            <th width="240" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={3}>
+                            <th width="240" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={3}>
                                 Colorstone  Detail Total
                             </th>
-                            <th width="320" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={4}>
+                            <th width="320" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={4}>
                                 All Other Charges
                             </th>
                             {length?.miscs > 0 && Array.from({ length: length?.miscs }).map((_, ind) => {
-                                return <th width="560" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={7}>
+                                return <th width="560" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={7}>
                                     Misc Details {ind + 1}
                                 </th>
                             })}
 
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Size
                             </th>
                         </tr>
                         <tr></tr>
                         <tr>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                             </th>
-                            <th width="150" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="150" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 JADesignCode
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={2}>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={2}>
                                 SUPLIER DESIGN CODE
                             </th>
-                            <th width="150" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="150" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 ITEM
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 NO
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' bgcolor="lightgrey">
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' bgcolor="lightgrey">
                                 WITH OUT BACK CHAIN NET WT
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' bgcolor="lightgrey">
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' bgcolor="lightgrey">
                                 GOLD RATE
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 ONLY BACK CHAIN
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 GOLD RATE
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' bgcolor="lightgrey">
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' bgcolor="lightgrey">
                                 WITHOUT BACKCHAIN MAKING CHARGE
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 ONLY BACKCHAIN MAKING CHARGE
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                             </th>
                             {length?.diamonds > 0 && Array.from({ length: length?.diamonds }).map((_, ind) => {
-                                return <th width="560" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={7}>
+                                return <th width="640" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={8}>
                                     DIAMOND STONE DETAIL {ind + 1} SEIVE SIZE
                                 </th>
                             })}
-                            <th width="240" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={3}>
+                            <th width="240" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={3}>
                                 TOTAL DIAMOND
                             </th>
 
                             {length?.colorStones > 0 && Array.from({ length: length?.colorStones }).map((_, ind) => {
-                                return <th width="560" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={7}>
+                                return <th width="560" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={7}>
                                     COLOR STONE  {ind + 1}
                                 </th>
                             })}
-                            <th width="240" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={3}>
+                            <th width="240" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={3}>
                                 TOTAL COLOR STONE
                             </th>
-                            <th width="320" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={4}>
+                            <th width="320" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={4}>
 
                             </th>
                             {length?.miscs > 0 && Array.from({ length: length?.miscs }).map((_, ind) => {
-                                return <th width="560" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center' colSpan={7}>
+                                return <th width="560" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center' colSpan={7}>
                                     Misc Details   {ind + 1}
                                 </th>
                             })}
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 SIZE
                             </th>
                         </tr>
                         <tr></tr>
                         <tr>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 SR. No.
                             </th>
-                            <th width="150" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="150" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 JOY DESIGINE NO
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Vendor Design No.
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Vendor Job No.
                             </th>
-                            <th width="150" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="150" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 JOBCARD NUMBER
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Item Details
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 PCS
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 GROSS WEIGHT
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 NET WEIGHT
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 TOTAL AMOUNT WITH OUT GST,TCS
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 PURITY
                             </th>
-                            <th width="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Color
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 NET WT
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 NET WEIGHT * 75% RATE
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 CHAIN NET WT
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 CHAIN NET WT *75 GOLD RATE
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 ORNAMENT MAKING CHARGE
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 CHAIN MAKING CHARGE
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 HUID NUMBER
                             </th>
-                            <th width="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Certificate No.
                             </th>
 
                             {length?.diamonds > 0 && Array.from({ length: length?.diamonds }).map((_, ind) => {
                                 return <>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         STONE
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         SHAPE
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         CLARITY
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         COLOUR
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         CUT
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         CARAT
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         NO:STONE
+                                    </th>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                        VALUE
                                     </th>
                                 </>
                             })}
 
 
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 CARAT
                             </th>
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 NO:STONE
                             </th>
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 VALUE
                             </th>
 
 
                             {length?.colorStones > 0 && Array.from({ length: length?.colorStones }).map((_, ind) => {
                                 return <>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         STONE
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         SHAPE
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         CLARITY
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         COLOR
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         CARAT WT
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         NO:STONE
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         VALUE
                                     </th>
                                 </>
                             })}
 
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 CARAT WT
                             </th>
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 NO:STONE
                             </th>
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 VALUE
                             </th>
 
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 CERTIFICATION CHARGE
                             </th>
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 HALLMARK CHARGE
                             </th>
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Dancing Collet Charge
                             </th>
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Megnet Charges
                             </th>
 
 
                             {length?.miscs > 0 && Array.from({ length: length?.miscs }).map((_, ind) => {
                                 return <>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         SHAPE
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         CLARITY
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         COLOR
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         WT
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         NO:STONE
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         RATE
                                     </th>
-                                    <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                    <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         VALUE
                                     </th>
                                 </>
                             })}
 
-                            <th width="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                            <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                 Size
                             </th>
 
@@ -564,174 +586,178 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <tbody>
                         {data?.length > 0 && data.map((e, i) => {
                             return <tr>
-                                <td widtd="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                <td width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                     {NumberWithCommas(i + 1, 0)}
                                 </td>
-                                <td widtd="150" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                <td width="150" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                     {e?.["JOY DESIGINE NO"]}                            </td>
-                                <td widtd="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                <td width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                     {e?.["Vendor Design No."]}
                                 </td>
-                                <td widtd="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                <td width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                     {e?.["Vendor Job No."]}
                                 </td>
-                                <td widtd="150" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                <td width="150" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
 
                                 </td>
-                                <td widtd="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                <td width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                     {e?.["Item Details"]}
                                 </td>
-                                <td widtd="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["PCS"]}
+                                <td width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;{NumberWithCommas(e?.["PCS"], 0)}
                                 </td>
-                                <td widtd="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["GROSS WEIGHT"]}
+                                <td width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;{NumberWithCommas(e?.["GROSS WEIGHT"], 3)}
                                 </td>
-                                <td widtd="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["NET WEIGHT 1"]}
+                                <td width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;{NumberWithCommas(e?.["NET WEIGHT 1"], 3)}
                                 </td>
-                                <td widtd="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["TOTAL AMOUNT WITH OUT GST,TCS"]}
+                                <td width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;{e?.["TOTAL AMOUNT WITH OUT GST,TCS"] && NumberWithCommas(e?.["TOTAL AMOUNT WITH OUT GST,TCS"], 2)}
                                 </td>
-                                <td widtd="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                <td width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                     {e?.["PURITY"]}
                                 </td>
-                                <td widtd="100" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                <td width="100" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                     {e?.["Color"]}
                                 </td>
-                                <td widtd="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["NET WT 2"]}
+                                <td width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;{(e?.["NET WT 2"]) && NumberWithCommas(e?.["NET WT 2"], 3)}
                                 </td>
-                                <td widtd="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["NET WEIGHT * 75% RATE"]}
+                                <td width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;{(e?.["NET WEIGHT * 75% RATE"]) && NumberWithCommas(e?.["NET WEIGHT * 75% RATE"], 2)}
                                 </td>
-                                <td widtd="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["CHAIN NET WT (Finding weight)"]}
+                                <td width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;{e?.["CHAIN NET WT (Finding weight)"] && `${NumberWithCommas(e?.["CHAIN NET WT (Finding weight)"], 2)}`}
                                 </td>
-                                <td widtd="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["CHAIN NET WT *75 GOLD RATE (Finding amount)"]}
+                                <td width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp; {e?.["CHAIN NET WT *75 GOLD RATE (Finding amount)"] && `${NumberWithCommas(e?.["CHAIN NET WT *75 GOLD RATE (Finding amount)"], 2)}`}
                                 </td>
-                                <td widtd="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["ORNAMENT MAKING CHARGE"]}
+                                <td width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;{e?.["ORNAMENT MAKING CHARGE"] && NumberWithCommas(e?.["ORNAMENT MAKING CHARGE"], 2)}
                                 </td>
-                                <td widtd="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["CHAIN MAKING CHARGE (Finding labour)"]}
+                                <td width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp; {e?.["CHAIN MAKING CHARGE (Finding labour)"] && `${NumberWithCommas(e?.["CHAIN MAKING CHARGE (Finding labour)"], 2)}`}
                                 </td>
-                                <td widtd="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                <td width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                     {e?.["HUID NUMBER"]}
                                 </td>
-                                <td widtd="120" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                <td width="120" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                     {e?.["Certificate No."]}
                                 </td>
                                 {length?.diamonds > 0 && Array.from({ length: length?.diamonds }).map((_, ind) => {
                                     return <>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                             {e?.diamonds[ind]?.SHAPE ?? ""}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                             {e?.diamonds[ind]?.CLARITY ?? ""}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                             {e?.diamonds[ind]?.COLOUR ?? ""}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
 
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                            {e?.diamonds[ind]?.CARAT ?? ""}
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                            &nbsp; {e?.diamonds[ind]?.CARAT && NumberWithCommas(e?.diamonds[ind]?.CARAT, 3)}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                            {e?.diamonds[ind]?.["NO:STONE"] ?? ""}
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                            &nbsp; {e?.diamonds[ind]?.["NO:STONE"] && NumberWithCommas(e?.diamonds[ind]?.["NO:STONE"], 0)}
                                         </td>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                            &nbsp; {e?.diamonds[ind]?.["VALUE"] && NumberWithCommas(e?.diamonds[ind]?.["VALUE"], 2)}
+                                        </td>
+                                        {/* VALUE */}
                                     </>
                                 })}
-                                <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["diaTotal"]?.["CARAT"] ?? ""}
+                                <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp; {e?.["diaTotal"]?.["CARAT"] && NumberWithCommas(e?.["diaTotal"]?.["CARAT"], 3)}
                                 </td>
-                                <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["diaTotal"]?.["NO:STONE"] ?? ""}
+                                <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp; {e?.["diaTotal"]?.["NO:STONE"] && NumberWithCommas(e?.["diaTotal"]?.["NO:STONE"], 0)}
                                 </td>
-                                <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["diaTotal"]?.["VALUE"] ?? ""}
+                                <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;  {e?.["diaTotal"]?.["VALUE"] && NumberWithCommas(e?.["diaTotal"]?.["VALUE"], 2)}
                                 </td>
 
                                 {length?.colorStones > 0 && Array.from({ length: length?.colorStones }).map((_, ind) => {
                                     return <>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                             {e?.colorStones[ind]?.SHAPE ?? ""}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                             {e?.colorStones[ind]?.CLARITY ?? ""}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                             {e?.colorStones[ind]?.COLOUR ?? ""}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                            {e?.colorStones[ind]?.["CARAT"] ?? ""}
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                            &nbsp;  {e?.colorStones[ind]?.["CARAT"] && NumberWithCommas(e?.colorStones[ind]?.["CARAT"], 3)}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                            {e?.colorStones[ind]?.["NO:STONE"] ?? ""}
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                            &nbsp;   {e?.colorStones[ind]?.["NO:STONE"] && NumberWithCommas(e?.colorStones[ind]?.["NO:STONE"], 0)}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                            {e?.colorStones[ind]?.["VALUE"] ?? ""}
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                            &nbsp;  {e?.colorStones[ind]?.["VALUE"] && NumberWithCommas(e?.colorStones[ind]?.["VALUE"], 2)}
                                         </td>
                                     </>
                                 })}
 
-                                <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["csTotal"]?.["CARAT"] ?? ""}
+                                <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp; {e?.["csTotal"]?.["CARAT"] && NumberWithCommas(e?.["csTotal"]?.["CARAT"], 3)}
                                 </td>
-                                <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["csTotal"]?.["NO:STONE"] ?? ""}
+                                <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp; {e?.["csTotal"]?.["NO:STONE"] && NumberWithCommas(e?.["csTotal"]?.["NO:STONE"], 0)}
                                 </td>
-                                <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["csTotal"]?.["VALUE"] ?? ""}
+                                <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp; {e?.["csTotal"]?.["VALUE"] && NumberWithCommas(e?.["csTotal"]?.["VALUE"], 2)}
                                 </td>
 
-                                <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["CERTIFICATION CHARGE"] ?? ""}
+                                <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;  {e?.["CERTIFICATION CHARGE"] && e?.["CERTIFICATION CHARGE"]}
                                 </td>
-                                <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["HALLMARK CHARGE"] ?? ""}
+                                <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;  {e?.["HALLMARK CHARGE"] && e?.["HALLMARK CHARGE"]}
                                 </td>
-                                <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["Dancing Collet Charge"] ?? ""}
+                                <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;  {e?.["Dancing Collet Charge"] && e?.["Dancing Collet Charge"]}
                                 </td>
-                                <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                    {e?.["Megnet Charges"] ?? ""}
+                                <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                    &nbsp;  {e?.["Megnet Charges"] && e?.["Megnet Charges"]}
                                 </td>
 
                                 {length?.miscs > 0 && Array.from({ length: length?.miscs }).map((_, ind) => {
                                     return <>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                             {e?.miscs[ind]?.SHAPE ?? ""}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                             {e?.miscs[ind]?.CLARITY ?? ""}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                             {e?.miscs[ind]?.COLOUR ?? ""}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                            {e?.miscs[ind]?.CARAT ?? ""}
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                            &nbsp; {e?.miscs[ind]?.CARAT && NumberWithCommas(e?.miscs[ind]?.CARAT, 3)}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                            {e?.miscs[ind]?.["NO:STONE"] ?? ""}
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                            &nbsp; {e?.miscs[ind]?.["NO:STONE"] && NumberWithCommas(e?.miscs[ind]?.["NO:STONE"], 0)}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                            {e?.miscs[ind]?.RATE ?? ""}
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                            &nbsp;  {e?.miscs[ind]?.RATE && NumberWithCommas(e?.miscs[ind]?.RATE, 2)}
                                         </td>
-                                        <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
-                                            {e?.miscs[ind]?.VALUE ?? ""}
+                                        <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
+                                            &nbsp;   {e?.miscs[ind]?.VALUE && NumberWithCommas(e?.miscs[ind]?.VALUE, 2)}
                                         </td>
                                     </>
                                 })}
 
-                                <td widtd="80" height="70" style={{ border: '1px solid black', padding: '1px' }} className='text-center'>
+                                <td width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                     {e?.["SIZE"]}
                                 </td>
 

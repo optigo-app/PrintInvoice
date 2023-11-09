@@ -58,7 +58,7 @@ const PackingList = ({ urls, token, invoiceNo, printName }) => {
                 setDynamicList1(datas?.BillPrint_Json1);
                 setDynamicList2(datas?.BillPrint_Json2);
             } else {
-                console.log(data?.data?.Status, data?.data?.Message);
+                // console.log(data?.data?.Status, data?.data?.Message);
             }
         } catch (error) {
             console.log(error);

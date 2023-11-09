@@ -17,3 +17,9 @@
 .minHieght138InvoicePrint{
     min-height: 138px;
 }
+
+.invoicePrintLogo{
+    max-height: 70px;
+    object-fit: contain;
+    object-position: right;
+}

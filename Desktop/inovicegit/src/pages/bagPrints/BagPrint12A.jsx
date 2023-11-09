@@ -30,9 +30,9 @@ const BagPrint12A = ({ queries, headers }) => {
                     appuserid: queries.appuserid,
                     url: queries.url,
                     headers: headers,
-                  };
-                  const allDatas = await GetData(objs);
-                  let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+                };
+                const allDatas = await GetData(objs);
+                let datas = organizeData(allDatas?.rd, allDatas?.rd1);
                 // eslint-disable-next-line array-callback-return
                 datas?.map((a) => {
                     let chunkData = [];
@@ -94,8 +94,8 @@ const BagPrint12A = ({ queries, headers }) => {
                         chunkData.push({ data: chunks, length: len });
                     }
                     let arrData = a?.rd1?.filter((e) => e?.MasterManagement_DiamondStoneTypeid !== 0);
-                    let arrData1 = arrData?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 3); 
-                    let arrData2 = arrData?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 4); 
+                    let arrData1 = arrData?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 3);
+                    let arrData2 = arrData?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 4);
                     let arrData3 = [...arrData1, ...arrData2];
                     let blankData = [];
                     for (let i = 0; i < (arrData3)?.length; i += chunkSize) {
@@ -109,20 +109,22 @@ const BagPrint12A = ({ queries, headers }) => {
                         if (blankArr?.length === 1) {
                             blankArr.push({ data: [], length: 4 });
                         }
-                        blankData.push(blankArr);
+                        if (blankData.length !== 1) {
+                            blankData.push(blankArr);
+                        }
+                        // blankData.push(blankArr);
                     }
                     responseData.push({ data: obj.rd, additional: { length: length, clr: clr, dia: dia, f: f, img: img, misc: misc, page: chunkData, pages: blankData } });
                 })
-
                 setData(responseData);
             } catch (error) {
                 console.log(error);
             }
         };
         fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    
+
     useEffect(() => {
         if (data?.length !== 0) {
             setTimeout(() => {
@@ -130,7 +132,7 @@ const BagPrint12A = ({ queries, headers }) => {
             }, 5000);
         }
 
-}, [data]);
+    }, [data]);
     return (
         <>
             {
@@ -152,7 +154,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                             {
                                                 e?.additional?.pages?.length > 0 ? e?.additional?.pages?.map((ele, ind) => {
                                                     return (
-                                                        <React.Fragment  key={ind}>
+                                                        <React.Fragment key={ind}>
                                                             <div className="section_12A">
                                                                 <div className="container_12A">
                                                                     <div className="job_no_12A">
@@ -220,8 +222,8 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                                 <div className="metal_col_12A border_right_2_12A">
                                                                                     DIA PCS/WT
                                                                                 </div>
-                                                                                <div className="gold_18k_12A border_right_2_12A" style={{paddingLeft:"0px"}}>
-                                                                                <div style={{width:"40.5px", borderRight:"1px solid", height:"10px"}}></div>
+                                                                                <div className="gold_18k_12A border_right_2_12A" style={{ paddingLeft: "0px" }}>
+                                                                                    <div style={{ width: "40.5px", borderRight: "1px solid", height: "10px" }}></div>
                                                                                     <div></div>
                                                                                     {/* {e?.additional?.dia?.ActualPcs}/{e?.additional?.dia?.ActualWeight} */}
                                                                                 </div>
@@ -236,8 +238,8 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                                 <div className="metal_col_12A border_right_2_12A">
                                                                                     CS PCS/WT
                                                                                 </div>
-                                                                                <div className="gold_18k_12A border_right_2_12A" style={{paddingLeft:"0px"}}>
-                                                                                    <div style={{width:"40.5px", borderRight:"1px solid", height:"10px"}}></div>
+                                                                                <div className="gold_18k_12A border_right_2_12A" style={{ paddingLeft: "0px" }}>
+                                                                                    <div style={{ width: "40.5px", borderRight: "1px solid", height: "10px" }}></div>
                                                                                     <div></div>
                                                                                     {/* {e?.additional?.clr?.ActualPcs}/{(e?.additional?.clr?.ActualWeight)?.toFixed(3)} */}
                                                                                 </div>
@@ -264,9 +266,9 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                                         {eelem?.data?.length > 0 && eelem?.data?.map((element, indexes) => {
                                                                                             return (
                                                                                                 <div className="d_flex border_bottom_1_12A" key={indexes}>
-                                                                                                    <div className="Item_sec_12A border_right_1_12A hide12A">{indexx === 0 && element?.Shapecode}</div>
-                                                                                                    <div className="Size_sec_12A border_right_1_12A hide12A">{indexx === 0 &&element?.Sizename}</div>
-                                                                                                    <div className="Pcs_sec_12A border_right_1_12A hide12A">{indexx === 0 &&element?.ActualPcs}</div>
+                                                                                                    <div className="Item_sec_12A border_right_1_12A hide12A">{element?.Shapecode}</div>
+                                                                                                    <div className="Size_sec_12A border_right_1_12A hide12A">{element?.Sizename}</div>
+                                                                                                    <div className="Pcs_sec_12A border_right_1_12A hide12A">{element?.ActualPcs}</div>
                                                                                                     {/* <div className={`Wt_sec_12A ${indexx === 0 && "border_right_1_12A"} hide12A`}>{indexx === 0 && element?.ActualWeight}</div> */}
                                                                                                     <div className={`Wt_sec_12A ${indexx === 0 && "border_right_1_12A"} hide12A`}></div>
                                                                                                 </div>
@@ -284,12 +286,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                                     </div>
                                                                                 );
                                                                             })}
-
-
-
-
                                                                         </div>
-
                                                                     </div>
                                                                     <div className="d_flex">
                                                                         <div className="dept_12A">
@@ -337,16 +334,16 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                                 ))
                                                                             }
                                                                         </div>
-                                                                       
+
                                                                         <div className="barcode_12A border_bottom_1_12A">
-                                                                            
+
                                                                             <BarcodeGenerator data={e?.data?.serialjobno} />
                                                                         </div>
                                                                     </div>
                                                                     <div className="instruction_12A">
-                                                                        
+
                                                                         <p>
-                                                                            INST: 
+                                                                            INST:
                                                                             {(" " + checkInstruction(e?.data?.officeuse) + " " + checkInstruction(e?.data?.ProductInstruction))?.slice(0, 113)}
                                                                         </p>
                                                                     </div>
@@ -448,18 +445,18 @@ const BagPrint12A = ({ queries, headers }) => {
                                                             Master detail
                                                         </div>
                                                         <div className="table_12A t12A">
-                                                        <div className="w4A">
-                                                                        <div className='item12A bg12fs'>Item</div>
-                                                                        <div className='size12A bg12fs'>Size</div>
-                                                                        <div className="pcs12A bg12fs">Pcs</div>
-                                                                        <div className='wt12A bg12fs'>Wt</div>
-                                                                        <div className='item12A bg12fs'>Item</div>
-                                                                        <div className='size12A bg12fs'>Size</div>
-                                                                        <div className="pcs12A bg12fs">Pcs</div>
-                                                                        <div className='wt12A bg12fs' style={{borderRight:"0px"}}>Wt</div>
-                                                                    </div>
+                                                            <div className="w4A">
+                                                                <div className='item12A bg12fs'>Item</div>
+                                                                <div className='size12A bg12fs'>Size</div>
+                                                                <div className="pcs12A bg12fs">Pcs</div>
+                                                                <div className='wt12A bg12fs'>Wt</div>
+                                                                <div className='item12A bg12fs'>Item</div>
+                                                                <div className='size12A bg12fs'>Size</div>
+                                                                <div className="pcs12A bg12fs">Pcs</div>
+                                                                <div className='wt12A bg12fs' style={{ borderRight: "0px" }}>Wt</div>
+                                                            </div>
                                                             {
-                                                                Array.from({length: 4}, (_,index) => (
+                                                                Array.from({ length: 4 }, (_, index) => (
                                                                     <div className="w4A" key={index}>
                                                                         <div className='item12A'></div>
                                                                         <div className='size12A'></div>
@@ -468,10 +465,10 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                         <div className='item12A'></div>
                                                                         <div className='size12A'></div>
                                                                         <div className="pcs12A"></div>
-                                                                        <div className='wt12A' style={{borderRight:"0px"}}></div>
+                                                                        <div className='wt12A' style={{ borderRight: "0px" }}></div>
                                                                     </div>
                                                                 ))
-                                                            }                                                            
+                                                            }
                                                         </div>
                                                         <div className="d_flex">
                                                             <div className="dept_12A">
@@ -520,12 +517,12 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                 }
                                                             </div>
                                                             <div className="barcode_12A border_bottom_1_12A">
-                                                            <BarcodeGenerator data={e?.data?.serialjobno} />
+                                                                <BarcodeGenerator data={e?.data?.serialjobno} />
                                                             </div>
                                                         </div>
                                                         <div className="instruction_12A">
                                                             <p>
-                                                                INST: 
+                                                                INST:
                                                                 {(" " + checkInstruction(e?.data?.officeuse) + " " + checkInstruction(e?.data?.ProductInstruction))?.slice(0, 113)}
                                                             </p>
                                                         </div>
