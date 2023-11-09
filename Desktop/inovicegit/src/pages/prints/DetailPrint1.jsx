@@ -16,6 +16,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [json1Data2, setJson1Data2] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [detailtPrintR, setdetailtPrintR] = useState(atob(printName).toLowerCase() === "detail print r" ? true : false);
+  const [detailtPrintL, setdetailtPrintL] = useState(atob(printName).toLowerCase() === "detail print1 (l)" ? true : false);
+
   const [brokarage, setBrokarage] = useState([]);
   const [msg, setMsg] = useState("");
   const [total, setTotal] = useState({
@@ -153,7 +155,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
 
     // eslint-disable-next-line array-callback-return
     ar1?.map((e) => {
-      if (detailtPrintR) {
+      if (detailtPrintR || detailtPrintL) {
         summary.gold24Kt = summary.gold24Kt + e?.PureNetWt;
       }
       let totalAmounts = e?.DiscountAmt + e?.TotalAmount;

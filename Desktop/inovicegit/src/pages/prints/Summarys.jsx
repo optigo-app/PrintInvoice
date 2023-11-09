@@ -223,7 +223,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className={`${Styles?.design} border-end p-2 `}>
                             <div className="pb-1">
                                 <p className='fw-bold px-2 pb-1'>{e?.designno} </p>
-                                <p className="fw-bold px-2 pb-1">{checkBox?.brand && e?.Collectionname} </p>
+                                <p className="fw-bold px-2 pb-1">{checkBox?.brand && e?.BrandName} </p>
                                 <p className="fw-bold px-2 pb-1">{e?.SrJobno}</p>
                                 {checkBox?.image && <img src={e?.DesignImage} alt="" onError={handleImageError} className='designImagePrintAll d-block mx-auto' />}
                                 {e?.HUID !== "" && <p className="fw-bold px-2 pb-1">{e?.HUID}</p>}
