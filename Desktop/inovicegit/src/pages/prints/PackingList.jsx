@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/packinglist.css";
 import Button from "../../GlobalFunctions/Button";
-import axios from "axios";
 import Loader from "../../components/Loader";
 import { apiCall, isObjectEmpty, NumberWithCommas, taxGenrator } from "../../GlobalFunctions";
 
@@ -13,11 +12,11 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
   const [resultArray, setAesultArray] = useState([]);
   const [totalgrosswt, setTotalgrosswt] = useState(0);
   const [totalnetlosswt, setTotalnetlosswt] = useState(0);
+  // eslint-disable-next-line no-unused-vars
   const [totalLabourAmount, setTotalLabourAmount] = useState(0);
   const [totalOtherAmount, setTotalOtherAmount] = useState(0);
+  // eslint-disable-next-line no-unused-vars
   const [responsejson, setResponsejson] = useState("");
-  const [jwtotlbrAmt, setJwtotlbrAmt] = useState(0);
-  const [jwtotothAmt, setJwtotothAmt] = useState(0);
   const [taxtotal, setTaxTotal] = useState([]);
   const [grandtot, setGrandTot] = useState([]);
   const [msg, setMsg] = useState("");
@@ -52,6 +51,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
   let miscList = [];
   let metalList = [];
   let findingList = [];
+  // eslint-disable-next-line no-unused-vars
   let stoneMiscList = [];
 
   const organizeData = (arr, arr1, arr2) => {
@@ -101,6 +101,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
     let resultArr = [];
     let totalAmt = 0;
 
+    // eslint-disable-next-line array-callback-return
     arr1.map((e, i) => {
       let diamonds = [];
       let colorstone = [];
@@ -163,6 +164,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
 
       totalAmt = totalAmt + e?.TotalAmount;
 
+      // eslint-disable-next-line array-callback-return
       arr2.map((ele, ind) => {
         if (e.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -253,38 +255,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
     setTotalOtherAmount(totalOtherAmt);
   };
 
-  // async function loadData() {
-  //   try {
-  //     const body = {
-  //       token: token,
-  //       invoiceno: invoiceNo,
-  //       printname: printName,
-  //       Eventname: evn
-  //     };
-
-  //     const data = await axios.post(urls, body);
-  //     if (data?.data?.Status == 200) {
-  //       let datas = data?.data?.Data;
-  //       setResponsejson(datas);
-  //       setHeaderData(datas?.BillPrint_Json[0]);
-  //       setDynamicList1(datas?.BillPrint_Json1);
-  //       setDynamicList2(datas?.BillPrint_Json2);
-  //       organizeData(
-  //         datas?.BillPrint_Json[0],
-  //         datas?.BillPrint_Json1,
-  //         datas?.BillPrint_Json2
-  //       );
-  //     } else {
-  //       console.log(data?.data?.Status, data?.data?.Message);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   loadData();
-  // }, []);
   async function loadData(data) {
     try {
       setHeaderData(data?.BillPrint_Json[0]);
@@ -295,7 +265,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-      // countCategorySubCategory(data?.BillPrint_Json1);
+
       setLoader(false);
     } catch (error) {
       console.log(error);
@@ -325,9 +295,11 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     };
     sendData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   dynamicList2?.length > 0 &&
+    // eslint-disable-next-line array-callback-return
     dynamicList2.map((e, i) => {
       if (e?.MasterManagement_DiamondStoneTypeid === 1) {
         totalObj.totdiapcs = totalObj.totdiapcs + +e?.Pcs;
@@ -365,10 +337,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
         totalObj.totstamt = totalObj.totstamt + e?.Amount;
       }
     });
-  const handleImageError = (e) => {
-    e.target.src =
-      "https://d12oja0ew7x0i8.cloudfront.net/images/Article_Images/ImageForArticle_19533_16006923254289023.png";
-  };
+
+  // eslint-disable-next-line array-callback-return
   dynamicList1.map((e) => {
     totalObj.totlbramt = totalObj.totlbramt + e?.MaKingCharge_Unit;
     totalObj.totalAmt = totalObj.totalAmt + e?.TotalAmount;
@@ -410,7 +380,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div>
                     <b style={{ fontSize: "12px" }} dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}>
-                      {/* {headerData?.PrintRemark} */}
                     </b>
                   </div>
                 </div>
@@ -421,7 +390,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                       {headerData?.customerfirmname}
                     </div>
                   </div>
-                  <div>
+                  <div className="w-25">
                     <div className="invnopcl">
                       <div className="invnolabelpcl">Invoice No: </div>
                       <b className="pclinvno">{headerData?.InvoiceNo}</b>
@@ -546,7 +515,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                           <div className="tbodyrowpcl">
                             <div className="pcltbr1c1 fspcl">{e?.SrNo}</div>
                             <div className="pcltbr1c2 fspcl">
-                              <div>{e?.SrJobno}</div>
+                              <div className="fspcl">{e?.SrJobno}</div>
                               <div className="designimgpcl fspcl">
                                 <img
                                   src={e?.DesignImage}
@@ -554,8 +523,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   id="designimgpclid"
                                 />
                               </div>
-                              <div>{e?.CertificateNo}</div>
-                              <div>{e?.HUID}</div>
+                              <div className="fspcl">{e?.CertificateNo}</div>
+                              <div className="fspcl">{e?.HUID}</div>
                             </div>
                             {/* diamond */}
                             <div className="pcltbr1c3 fspcl">
@@ -568,18 +537,14 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                         {ele?.ShapeName}
                                       </p>
                                     );
-                                    // if (ele?.StockBarcode === e?.SrJobno) {
-                                    //     return <p>{ele?.ShapeName}</p>;
-                                    // }
+
                                   })
                                 }
                               </div>
                               <div className="dcolsthpcl fspcl">
-                                {" "}
                                 {
                                   // eslint-disable-next-line array-callback-return
                                   e?.diamonds?.map((ele, i) => {
-                                    // if (ele?.StockBarcode === e?.SrJobno) {
                                     return (
                                       <p className="leftpcl fspcl" key={i}>
                                         {ele?.SizeName}
@@ -607,7 +572,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   e?.diamonds?.map((ele, i) => {
                                     return (
                                       <p className="rightpcl fspcl" key={i}>
-                                        {/* {ele?.Rate?.toFixed(2)} */}
                                         {NumberWithCommas(ele?.Rate, 2)}
                                       </p>
                                     );
@@ -623,7 +587,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   e?.diamonds?.map((ele, i) => {
                                     return (
                                       <p className="rightpcl fspcl" key={i}>
-                                        {/* {ele?.Amount?.toFixed(2)} */}
                                         {NumberWithCommas(ele?.Amount, 2)}
                                       </p>
                                     );
@@ -662,7 +625,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   e?.metal?.map((ele, i) => {
                                     return (
                                       <p className="rightpcl fspcl" key={i}>
-                                        {/* {ele?.Rate?.toFixed(2)} */}
                                         {NumberWithCommas(ele?.Rate, 2)}
                                       </p>
                                     );
@@ -678,7 +640,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   e?.metal?.map((ele, i) => {
                                     return (
                                       <p className="rightpcl fspcl" key={i}>
-                                        {/* {ele?.Amount?.toFixed(2)} */}
                                         {NumberWithCommas(ele?.Amount, 2)}
                                       </p>
                                     );
@@ -734,7 +695,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   e?.colorstone?.map((ele, i) => {
                                     return (
                                       <p className="rightpcl fspcl" key={i}>
-                                        {/* {ele?.Amount?.toFixed(2)} */}
                                         {NumberWithCommas(ele?.Amount, 2)}
                                       </p>
                                     );
@@ -745,14 +705,12 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                             {/* labour */}
                             <div className="pcltbr1c6 fspcl">
                               <div className="lopclcol rightpcl fspcl">
-                                {/* {e?.MaKingCharge_Unit.toFixed(2)} */}
                                 {NumberWithCommas(e?.MaKingCharge_Unit, 2)}
                               </div>
                               <div
                                 className="lopclcol rightpcl fspcl"
                                 style={{ borderRight: "0px" }}
                               >
-                                {/* {e?.MakingAmount?.toFixed(2)} */}
                                 {NumberWithCommas(e?.MakingAmount, 2)}
                               </div>
                             </div>
@@ -764,11 +722,9 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                 style={{ borderRight: "0px" }}
                               >
                                 <p className="rightpcl fspcl">
-                                  {/* {e?.OtherCharges?.toFixed(2)} */}
                                   {NumberWithCommas(e?.OtherCharges, 2)}
                                 </p>
                                 <p className="rightpcl fspcl">
-                                  {/* {e?.MiscAmount?.toFixed(2)} */}
                                   {NumberWithCommas(e?.MiscAmount, 2)}
                                 </p>
                               </div>
@@ -778,7 +734,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                               className="pcltbr1c7 rightpcl fwboldpcl fspcl"
                               style={{ borderRight: "0px" }}
                             >
-                              {/* {e?.UnitCost?.toFixed(2)} */}
                               {NumberWithCommas(e?.UnitCost, 2)}
                             </div>
                           </div>
@@ -811,7 +766,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                 className="dcolsthpcl rightpcl fwboldpcl fspcl"
                                 style={{ borderRight: "0px" }}
                               >
-                                {/* {e?.totals?.diamonds?.Amount?.toFixed(2)} */}
                                 {NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}
                               </p>
                             </div>
@@ -830,7 +784,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                 className="dcolsthpcl rightpcl fwboldpcl fspcl"
                                 style={{ borderRight: "0px" }}
                               >
-                                {/* {e?.totals?.metal?.Amount?.toFixed(2)} */}
                                 {NumberWithCommas(e?.totals?.metal?.Amount, 2)}
                               </p>
                             </div>
@@ -844,7 +797,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                 className="shpthcolspcl rightpcl fwboldpcl fspcl"
                                 style={{ borderRight: "0px" }}
                               >
-                                {/* {e?.totals?.colorstone?.Amount?.toFixed(2)} */}
                                 {NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}
                               </p>
                             </div>
@@ -855,7 +807,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                 className="lopclcol rightpcl fwboldpcl fspcl"
                                 style={{ borderRight: "0px" }}
                               >
-                                {/* {e?.LabourAmountSum?.toFixed(2)} */}
                                 {NumberWithCommas(e?.LabourAmountSum, 2)}
                               </p>
                             </div>
@@ -865,7 +816,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                 className="lopclcol rightpcl fwboldpcl fspcl"
                                 style={{ borderRight: "0px" }}
                               >
-                                {/* {e?.OtherChargeAmountSum?.toFixed(2)} */}
                                 {NumberWithCommas(e?.OtherChargeAmountSum, 2)}
                               </p>
                             </div>
@@ -873,7 +823,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                               className="prpcltotrowtb rightpcl fwboldpcl fspcl"
                               style={{ borderRight: "0px" }}
                             >
-                              {/* {e?.UnitCost?.toFixed(2)} */}
                               {NumberWithCommas(e?.UnitCost, 2)}
                             </div>
                           </div>
@@ -912,7 +861,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                 className="disvalpclcs rightpcl fwboldpcl fspcl"
                                 style={{ borderRight: "0px" }}
                               >
-                                {/* {e?.DiscountAmt?.toFixed(2)} */}
                                 {NumberWithCommas(e?.DiscountAmt, 2)}
 
                               </p>
@@ -922,7 +870,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                               className="prpcltotrowtb rightpcl fwboldpcl fspcl"
                               style={{ borderRight: "0px" }}
                             >
-                              {/* {e?.TotalAmount?.toFixed(2)} */}
                               {NumberWithCommas(e?.TotalAmount, 2)}
 
                             </div>
@@ -937,21 +884,19 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                   >
                     <div className="srpcltotrowtb"></div>
                     <div className="jwlpcltotrowtb fspcl">
-                      <b>TOTAL</b>
+                      <b className="fspcl">TOTAL</b>
                     </div>
                     <div className="diapcltotrowtb">
                       <p className="dcolsthpcl"></p>
                       <p className="dcolsthpcl"></p>
                       <p className="dcolsthpcl rightpcl fwboldpcl fspcl">
                         {mainTotal?.diamonds?.Wt?.toFixed(3)}
-                        {/* {e?.totals?.diamonds?.Wt?.toFixed(3)} */}
                       </p>
                       <p className="dcolsthpcl"></p>
                       <p
                         className="dcolsthpcl rightpcl fwboldpcl fspcl"
                         style={{ borderRight: "0px" }}
                       >
-                        {/* {mainTotal?.diamonds?.Amount?.toFixed(2)} */}
                         {NumberWithCommas(mainTotal?.diamonds?.Amount, 2)}
                       </p>
                     </div>
@@ -959,23 +904,15 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                       <p className="dcolsthpcl"></p>
                       <p className="dcolsthpcl rightpcl fwboldpcl fspcl">
                         {totalgrosswt?.toFixed(3)}
-                        {/* {console.log(mainTotal?.colorstone?.Wt?.toFixed(3))} */}
-                        {/* {mainTotal?.colorstone?.Wt?.toFixed(3)} */}
                       </p>
                       <div className="dcolsthpcl rightpcl fwboldpcl fspcl">
                         {totalnetlosswt?.toFixed(3)}`
-                        {/* {`
-                                (
-                                    (+e?.NetWt?.toFixed(3)) + (+e?.LossWt?.toFixed(3))
-                                )?.toFixed(3)
-                            } */}
                       </div>
                       <p className="dcolsthpcl"></p>
                       <p
                         className="dcolsthpcl rightpcl fwboldpcl fspcl"
                         style={{ borderRight: "0px" }}
                       >
-                        {/* {mainTotal.metal?.Amount?.toFixed(2)} */}
                         {NumberWithCommas(mainTotal.metal?.Amount, 2)}
                       </p>
                     </div>
@@ -989,7 +926,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                         className="shpthcolspcl rightpcl fwboldpcl fspcl"
                         style={{ borderRight: "0px" }}
                       >
-                        {/* {mainTotal?.colorstone?.Amount?.toFixed(2)} */}
                         {NumberWithCommas(mainTotal.colorstone?.Amount, 2)}
                       </p>
                     </div>
@@ -999,7 +935,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                         className="lopclcol rightpcl fwboldpcl fspcl"
                         style={{ borderRight: "0px" }}
                       >
-                        {/* {totalObj.totmakingAmt?.toFixed(2)} */}
                         {NumberWithCommas(totalObj?.totmakingAmt, 2)}
                       </p>
                     </div>
@@ -1009,25 +944,20 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                         className="lopclcol rightpcl fwboldpcl fspcl"
                         style={{ borderRight: "0px" }}
                       >
-                        {/* {totalOtherAmount?.toFixed(2)} */}
                         {NumberWithCommas(totalOtherAmount, 2)}
                       </p>
-                      {/* <p className='lopclcol rightpcl fwboldpcl' style={{ borderRight: "0px" }}>{totalObj.totOthAmt?.toFixed(2)}</p> */}
                     </div>
                     <div
                       className="prpcltotrowtb rightpcl fwboldpcl fspcl"
                       style={{ borderRight: "0px" }}
                     >
-                      {/* {e?.UnitCost?.toFixed(2)} */}
-                      {/* {totalObj?.totalAmt?.toFixed(2)} */}
                       {NumberWithCommas(totalObj?.totalAmt, 2)}
                     </div>
                   </div>
                   <div className="tablebodypcl  border-start border-end border-bottom border-black">
                     <div className="totdispcl">
                       <p className="summaryalignpcl fspcl">Total Discount</p>
-                      <p className="fspcl">
-                        {/* {totalObj?.totDiscount?.toFixed(2)} */}
+                      <p className="fspcl w-50 d-flex justify-content-end align-items-center">
                         {NumberWithCommas(totalObj?.totDiscount, 2)}
                       </p>
                     </div>
@@ -1048,14 +978,14 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                       })}
 
                     <div className="totdispcl">
-                      <p className="summaryalignpcl fspcl">
+                      <p className="summaryalignpcl fspcl w-50 d-flex justify-content-end align-items-center">
                         {headerData?.AddLess?.toFixed(2) > 0 ? "ADD" : "Less"}
                       </p>
                       <p className="fspcl">{headerData?.AddLess?.toFixed(2)}</p>
                     </div>
                     <div className="totdispcl">
                       <p className="summaryalignpcl fspcl">Grand Total</p>
-                      <p className="fspcl">{NumberWithCommas(grandtot, 2)}</p>
+                      <p className="fspcl w-50 d-flex justify-content-end align-items-center">{NumberWithCommas(grandtot, 2)}</p>
                     </div>
                   </div>
                 </div>

@@ -5,7 +5,10 @@
 }
 
 .containerJL {
-    /* margin: 0.5rem */
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
 }
 
 .fsJL {
@@ -17,7 +20,7 @@
     justify-content: flex-start;
     align-items: center;
     
-    width: 745px;
+    width: 100%;
     
     height: 35px;
     background-color: #939292;
@@ -31,7 +34,7 @@
     
     height: 118px;
     
-    width: 745px;
+    width: 100%;
     
     display: flex;
     justify-content: space-between;
@@ -41,7 +44,7 @@
 .headJLContent {
     display: flex;
     flex-direction: column;
-    width: 858pt;
+    width: 80%;
     
     font-size: 12px;
     height: 118px;
@@ -49,7 +52,12 @@
     padding-top: 4px;
     padding-left: 4px;
 }
-
+.headJLImg{
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .fslhJL {
     display: flex;
     align-items: center;
@@ -66,13 +74,7 @@
 .dynamicHeadJLmain {
     display: flex;
     justify-content: space-between;
-    /* width: 1226.8pt; */
-    width: 745px;
-    /* border-top: 1px solid #8e8e8e;
-    border-left: 1px solid #8e8e8e; */
-    /* border-top: #8e8e8e; */
-    /* border-bottom: 1px solid #DDDDDD; */
-    /* border-right: 1px solid #8e8e8e; */
+    width: 100%;
     border: 1px solid #8e8e8e;
     min-height: 115px;
 }
@@ -83,11 +85,10 @@
     justify-content: flex-start;
     align-items: flex-start;
     padding-left: 8px;
-    width: 454pt;
-    /* height: 80pt; */
-    /* height: 100%; */
+    width: 33.33%;
     line-height: 18px;
     border-right: 1px solid #DDDDDD;
+    padding-top: 10px; 
 }
 
 .dynamicHeadJL2 {
@@ -96,11 +97,11 @@
     justify-content: flex-start;
     align-items: flex-start;
     padding-left: 8px;
-    width: 467pt;
-    /* height: 80pt; */
-    /* height: 100%; */
+    width: 33.33%;
     line-height: 18px;
     border-right: 1px solid #DDDDDD;
+    padding-top: 10px; 
+
 }
 
 .dynamicHeadJL2D {
@@ -109,11 +110,10 @@
     justify-content: space-between;
     align-items: flex-start;
     padding-left: 8px;
-    width: 467pt;
-    /* height: 110pt; */
-    /* height: 100%; */
+    width: 33.33%;
     line-height: 18px;
     border-right: 1px solid #DDDDDD;
+    padding-top: 10px; 
 }
 
 .dynamicHeadJL2 {
@@ -122,11 +122,11 @@
     justify-content: flex-start;
     align-items: flex-start;
     padding-left: 8px;
-    width: 467pt;
-    /* height: 110pt; */
-    /* height: 100%; */
+    width: 33.33%;
     line-height: 18px;
     border-right: 1px solid #DDDDDD;
+    padding-top: 10px; 
+
 }
 
 .dynamicHeadJL3 {
@@ -136,10 +136,10 @@
     align-items: flex-start;
     padding-left: 8px;
     width: 295pt;
-    /* min-height: 110pt;
-    height: 100%; */
     line-height: 18px;
-    padding-top: 4px;
+    padding-top: 10px; 
+
+    
 }
 
 .dynamicHeadJL3D {
@@ -152,7 +152,8 @@
     min-height: 80pt;
     height: 100%;
     line-height: 18px;
-    padding-top: 4px;
+    padding-top: 10px; 
+
 }
 
 .JL13 {
@@ -183,11 +184,12 @@
 
 .tableJL {
     margin-top: 4px;
+    width: 100%;
 }
 
 .theadJL {
     height: 70px;
-    width: 745px;
+    width: 100%;
     border-top: 1px solid #8e8e8e;
     border-left: 1px solid #8e8e8e;
     border-right: 1px solid #8e8e8e;
@@ -195,17 +197,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* border: 1px 1px 1px 1px solid #e8e8e8; */
 }
 
 .trowJL {
-    width: 745px;
+    width: 100%;
     min-height: 40px;
     border-left: 1px solid #8e8e8e;
     border-right: 1px solid #8e8e8e;
     display: flex;
     justify-content: space-between;
-    /* align-items: center; */
     border-bottom: 1px solid #8e8e8e;
 }
 
@@ -306,7 +306,6 @@
     justify-content: space-between;
     align-items: center;
     height: 50%;
-    /* min-height: 40px; */
 }
 
 .tc5JL1 {
@@ -332,7 +331,7 @@
 
 .totalrowJL {
     height: 40px;
-    width: 745px;
+    width: 100%;
     border-top: 1px solid #8e8e8e;
     border-left: 1px solid #8e8e8e;
     border-right: 1px solid #8e8e8e;
@@ -343,17 +342,19 @@
 }
 
 .footerJL {
-    width: 745px;
+    width: 100%;
     border-left: 1px solid #8e8e8e;
     border-bottom: 1px solid #8e8e8e;
 }
 
 .footerTotJL {
     width: 23%;
+    
 }
 
 .inWordsJL {
     width: 77%;
+    padding: 3px;
 }
 
 .brrJL {
@@ -378,7 +379,8 @@
     border-bottom: 1px solid #8e8e8e;
     border-left: 1px solid #8e8e8e;
     border-right: 1px solid #8e8e8e;
-    width: 745px;
+    width: 100%;
+    padding-bottom: 1rem !important;
 }
 
 .printJL{

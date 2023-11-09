@@ -33,8 +33,8 @@
 }
 
 #orailpcl {
-    height: 90px;
-    width: 90px;
+    height: 100%;
+    width: 100%;
 }
 
 .pclheader {
@@ -42,8 +42,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* width: 1247px; */
-    width: 1130px;
+    width: 100%;
     height: 150px;
     margin: auto;
 }
@@ -72,40 +71,42 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* width: 1230px; */
-    width: 1130px;
+    width: 100%;
     height: 40px;
     margin: auto;
+    padding-bottom: 10px;
 }
 
 .invnopcl {
-    height: 16px;
-    margin: 4px;
-    width: 160px;
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    padding: 5px;
 }
 
 .pclinvno {
     font-size: 13px;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
+    width: 50%;
 }
 
 .invnolabelpcl {
     font-size: 15px;
-    width: 70px;
+    width: 50%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     font-weight: 400;
-    margin-right: 1rem;
 }
 
 .partynamepcl {
     display: flex;
     align-items: center;
     padding: 1rem;
+    width: 30%;
 }
 
 .partypcl {
@@ -118,8 +119,7 @@
 }
 
 .pcltable {
-    /* width: 1230px; */
-    width: 1130px;
+    width: 100%;
     margin: auto;
 }
 
@@ -158,7 +158,6 @@
     font-size: 14px;
     font-weight: bold;
     border-right: 1px solid #989898;
-    /* border-bottom: 1px solid #989898; */
     width: 20px;
 }
 
@@ -183,7 +182,6 @@
     font-size: 14px;
     font-weight: bold;
     width: 100px;
-    /* border-bottom: 1px solid #989898; */
     border-right: 1px solid #989898;
 }
 
@@ -200,26 +198,14 @@
 
 .diapclheaderbody {
     display: flex;
-    /* flex-direction: column; */
     min-height: 128px;
     height: 100%;
     align-items: flex-start;
-    /* justify-content: flex-start; */
     font-size: 14px;
     font-weight: bold;
     width: 284px;
     border-bottom: 1px solid #989898;
     border-right: 1px solid #989898;
-    /* display: flex;
-    flex-direction: column;
-    min-height: 128px;
-    height: 100%;
-    align-items: center;
-    font-size: 14px;
-    font-weight: bold;
-    width: 284px;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898; */
 }
 
 .diaentrypcl {
@@ -228,22 +214,11 @@
     min-height: 128px;
     height: 100%;
     align-items: flex-start;
-    /* justify-content: flex-start; */
     font-size: 14px;
     font-weight: bold;
     width: 284px;
     border-bottom: 1px solid #989898;
     border-right: 1px solid #989898;
-    /* display: flex;
-    flex-direction: column;
-    min-height: 128px;
-    height: 100%;
-    align-items: center;
-    font-size: 14px;
-    font-weight: bold;
-    width: 284px;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898; */
 }
 
 .metalpclheader {
@@ -377,10 +352,10 @@
 }
 
 .pclprint {
-    /* margin: 1rem; */
-    /* display: flex;
-    justify-content: center;
-    flex-direction: column; */
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 1rem;
 }
 
 .diarowmaterialpcl {
@@ -400,7 +375,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* border-bottom: 1px solid #989898; */
     width: 284px;
 }
 
@@ -451,9 +425,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* height: 16px; */
     height: 100%;
-    /* border-bottom: 1px solid #989898; */
     width: 230px;
 }
 
@@ -462,7 +434,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 16px; */
     height: 100%;
     border-right: 1px solid #989898;
 }
@@ -473,7 +444,6 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    /* height: 16px; */
     height: 100%;
     border-right: 1px solid #989898;
 }
@@ -508,7 +478,6 @@
     justify-content: space-between;
     align-items: center;
     height: 16px;
-    /* border-bottom: 1px solid #989898; */
     width: 114px;
 }
 
@@ -517,7 +486,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 16px; */
     height: 100%;
     border-right: 1px solid #989898;
 }
@@ -552,7 +520,6 @@
     justify-content: space-between;
     align-items: center;
     height: 16px;
-    /* border-bottom: 1px solid #989898; */
     width: 116px;
 }
 
@@ -567,11 +534,9 @@
 
 .othpclbody {
     width: 57.5px;
-    ;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 16px; */
     height: 100%;
     border-right: 1px solid #989898;
 }
@@ -595,7 +560,6 @@
     height: 17px;
     font-size: 12px;
     font-weight: bold;
-    /* border-bottom: 1px solid #989898; */
 }
 
 .designnojwpcl {
@@ -604,16 +568,16 @@
 }
 
 .designimgpcl {
-    height: 82px;
-    width: 100px;
+    height: 70%;
+    width: 70%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #designimgpclid {
-    height: 75px;
-    width: 75px;
+    height: 70%;
+    width: 70%;
 }
 
 .diatotbodypcl {
@@ -678,9 +642,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 16px; */
     height: 100%;
-    /* border-right: 1px solid #989898 */
 }
 
 .stonepclemptyrow {
@@ -700,9 +662,7 @@
 .pclsummary {
     display: flex;
     flex-direction: column;
-    /* justify-content: flex-end; */
     align-items: flex-end;
-    /* width: 1230px; */
     width: 1130px;
     padding: 3px;
     margin-left: auto;
@@ -712,8 +672,7 @@
 .totdispcl {
     display: flex;
     justify-content: space-between;
-    /* width: 125px; */
-    width: 200px;
+    width: 20%;
     padding: 2px;
     margin-left: auto;
     line-height: 12px;
@@ -729,8 +688,6 @@
     background-color: #f7f5f5;
     font-weight: bold;
     width: 100%;
-    /* border-left: 1px solid #000;
-    border-right: 1px solid #000; */
 }
 
 .srnorowtotpcl {
@@ -846,7 +803,6 @@
 .srnopclthead {
     height: 30px;
     text-align: center;
-    /* width: 17px; */
     width: 2%;
     border-right: 1px solid #989898;
     font-size: 13px;
@@ -855,7 +811,6 @@
 
 .jewpclthead {
     width: 9%;
-    /* width: 100px; */
     height: 30px;
     text-align: center;
     border-right: 1px solid #989898;
@@ -865,7 +820,6 @@
 }
 
 .diamheadpcl {
-    /* width: 283px; */
     width: 21%;
     display: flex;
     flex-direction: column;
@@ -890,7 +844,6 @@
 
 .shptheadpcl {
     height: 30px;
-    /* width: 230px; */
     width: 21%;
     display: flex;
     flex-direction: column;
@@ -911,8 +864,6 @@
 
 .shpcolpclcol {
     height: 15px;
-    /* width: 230px; */
-    /* width: 20%; */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -920,13 +871,11 @@
 
 .lotheadpcl {
     height: 30px;
-    /* width: 115px; */
     width: 10%;
     border-right: 1px solid #989898;
 }
 
 .pricetheadpcl {
-    /* width: 82px; */
     width: 6%;
     height: 30px;
     display: flex;
@@ -950,22 +899,21 @@
 }
 
 .dcolsthpcl {
-    width: 56.4px;
+    width: 100%;
     line-height: 100%;
     border-right: 1px solid #989898;
     height: 100%;
 }
 
 .shpthcolspcl {
-    width: 57.5px;
+    width: 100%;
     line-height: 100%;
     border-right: 1px solid #989898;
     min-height: 100%;
 }
 
 .lopclcol {
-    width: 57.5px;
-    /* justify-content: center; */
+    width: 100%;
     line-height: 100%;
     border-right: 1px solid #989898;
     min-height: 100%;
@@ -974,8 +922,6 @@
 
 .tbodyrowpcl {
     display: flex;
-    /* border-left: 1px solid black;
-    border-right: 1px solid black; */
 }
 
 .tablebodypcl {
@@ -993,8 +939,6 @@
     justify-content: space-between;
     height: 15px;
     background-color: #ededed;
-    /* border-left: 1px solid black;
-    border-right: 1px solid black; */
 }
 
 .srpcltotrowtb {
@@ -1002,7 +946,6 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    /* width: 17px; */
     width: 2%;
     border-right: 1px solid #989898;
 }
@@ -1012,7 +955,6 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    /* width: 100px; */
     width: 9%;
     border-right: 1px solid #989898;
 }
@@ -1022,7 +964,6 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    /* width: 283px; */
     width: 21%;
     border-right: 1px solid #989898;
 }
@@ -1032,7 +973,6 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    /* width: 230px; */
     width: 21%;
     border-right: 1px solid #989898;
 }
@@ -1042,17 +982,14 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    /* width: 115px; */
     width: 10%;
     border-right: 1px solid #989898;
 }
 
 .prpcltotrowtb {
     display: flex;
-    /* justify-content: center; */
     align-items: center;
     height: 15px;
-    /* width: 83px; */
     width: 6%;
     border-right: 1px solid #989898;
 }
@@ -1077,7 +1014,6 @@
     height: 15px;
     border-right: 1px solid #989898;
     display: flex;
-    /* justify-content: center; */
     align-items: center;
 }
 
@@ -1086,7 +1022,6 @@
     justify-content: center;
     align-items: flex-start;
     min-height: 110px;
-    /* width: 17px; */
     width: 2%;
     border-right: 1px solid #989898;
     padding-top: 5px;
@@ -1098,7 +1033,6 @@
     justify-content: space-around;
     align-items: center;
     min-height: 110px;
-    /* width: 100px; */
     width: 9%;
     border-right: 1px solid #989898;
 }
@@ -1108,7 +1042,6 @@
     justify-content: center;
     align-items: flex-start;
     min-height: 110px;
-    /* width: 284px; */
     width: 21%;
     border-right: 1px solid #989898;
 }
@@ -1118,7 +1051,6 @@
     justify-content: center;
     align-items: flex-start;
     min-height: 110px;
-    /* width: 230px; */
     width: 21%;
     border-right: 1px solid #989898;
 }
@@ -1128,17 +1060,14 @@
     justify-content: center;
     align-items: flex-start;
     min-height: 110px;
-    /* width: 115px; */
     width: 10%;
     border-right: 1px solid #989898;
 }
 
 .pcltbr1c7 {
     display: flex;
-    /* justify-content: center; */
     align-items: flex-start;
     min-height: 110px;
-    /* width: 82px; */
     width: 6%;
     border-right: 1px solid #989898;
 }
@@ -1151,7 +1080,8 @@
 }
 
 .fspcl {
-    font-size: 10px;
+    font-size: 10px !important;
+    line-height: 8.5px;
 }
 
 @media print {
@@ -1167,7 +1097,6 @@
         content: "";
         display: block;
         border-top: 1px solid #989898;
-        /* Customize the border style as needed */
     }
 
 
