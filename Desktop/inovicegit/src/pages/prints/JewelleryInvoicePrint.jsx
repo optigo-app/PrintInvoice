@@ -3,39 +3,34 @@ import "../../assets/css/prints/jewellaryinvoiceprint.css";
 import {
   apiCall,
   CapitalizeWords,
-  handleImageError,
   isObjectEmpty,
   NumberWithCommas,
   taxGenrator,
 } from "../../GlobalFunctions";
-import axios from "axios";
 import convertor from "number-to-words";
 import Button from "./../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 
 const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
-  const [imgShow, setImgShow] = useState(true);
+  // eslint-disable-next-line no-unused-vars
   const [dynamicList1, setDynamicList1] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [dynamicList2, setDynamicList2] = useState([]);
   const [resultArray, setResultArray] = useState([]);
   const [mainTotal, setMainTotal] = useState({});
   const [grandTot, setGrandTot] = useState(0);
   const [taxTotal, setTaxTotal] = useState([]);
-  const [Totals, setTotals] = useState({});
-  const [lossWt, setLossWt] = useState(0);
-  const [otherAmounts, setOtherAmounts] = useState([]);
-  const [totalUniCostAmt, setTotalUnitCostAmt] = useState(0);
-  const [totalLbhOthAmt, setTotalLbhOthAmt] = useState(0);
-  const [totalLossWt, setTotalLossWt] = useState(0);
-  const [totalgrosswt, setTotalgrosswt] = useState(0);
-  const [totalnetlosswt, setTotalnetlosswt] = useState(0);
   const [inWords, setInWords] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [groupedArr, setGroupedArr] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   async function loadData(data) {
     try {
+
+      let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+      data.BillPrint_Json[0].address = address;
       setHeaderData(data?.BillPrint_Json[0]);
       setDynamicList1(data?.BillPrint_Json1);
       setDynamicList2(data?.BillPrint_Json2);
@@ -53,7 +48,9 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     let totamt = 0;
     let FineArr = [];
 
+    // eslint-disable-next-line array-callback-return
     arr1?.map((e, i) => {
+      // eslint-disable-next-line array-callback-return
       arr2?.map((el, i) => {
         if (e?.SrJobno === el?.StockBarcode) {
           if (e?.MetalPurity === el?.QualityName) {
@@ -64,10 +61,12 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     });
     let blankArr = [];
 
+    // eslint-disable-next-line array-callback-return
     arr1.map((e) => {
       let obj = { ...e };
       obj.FineWt = 0;
       obj.MRate = 0;
+      // eslint-disable-next-line array-callback-return
       FineArr?.map((el) => {
         if (e?.SrJobno === el?.StockBarcode) {
           obj.FineWt += el?.FineWt;
@@ -120,6 +119,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
     let resultArr = [];
 
+    // eslint-disable-next-line array-callback-return
     arr1.map((e, i) => {
       let diamonds = [];
       let colorstone = [];
@@ -376,6 +376,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     };
     sendData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -420,7 +421,6 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         {headerData?.CompanyEmail} |{" "}
                         {headerData?.CompanyWebsite}
                       </div>
-                      {/* <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-EDJHF236D</div> */}
                       <div className="fslhJL">
                         {headerData?.Company_VAT_GST_No} |{" "}
                         {headerData?.Cust_CST_STATE}-{headerData?.vat_cst_pan}
@@ -477,20 +477,15 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="fslhJL">
                         <b className="JL13">{headerData?.customerfirmname}</b>
                       </div>
-                      <div className="fslhJL">{headerData?.CustName}</div>
-                      {headerData?.customerstreet?.length > 0 ? (
-                        <div className="fslhJL">
-                          {headerData?.customerstreet}
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                      <div className="fslhJL">
-                        {headerData?.customercity}, {headerData?.State}
-                      </div>
-                      <div className="fslhJL">India-{headerData?.PinCode}</div>
-                      <div className="fslhJL">
-                        Mobile No : {headerData?.customermobileno}
+                      <div>
+                        {
+                          headerData?.address?.length > 0 &&
+                          headerData?.address?.map((e, i) => {
+                            return(
+                              <div className="fslhJL"  key={i}>{e}</div>
+                            )
+                          })
+                        }
                       </div>
                     </div>
                     <div className="dynamicHeadJL3">
@@ -570,11 +565,11 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         Total
                       </div>
                     </div>
-                    <div className="tbodyJL">
+                    <div className="tbodyJL ">
                       {resultArray.length > 0 &&
                         resultArray?.map((e, i) => {
                           return (
-                            <div className="trowJL fsJL" key={i}>
+                            <div className="trowJL no_break fsJL" key={i}>
                               <div className="tc1JL">{e?.SrNo}</div>
                               <div className="tc2JL">
                                 <div>{e?.Categoryname}</div>
@@ -648,18 +643,15 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                 )}
                               </div>
                               <div className="tc6JL">
-                                {/* {e?.OtherCharges?.toFixed(2)} */}
                                 {NumberWithCommas(e?.OtherCharges, 2)}
                               </div>
                               <div className="tc7JL">
-                                {/* {e?.MakingAmount?.toFixed(2)} */}
                                 {NumberWithCommas(e?.MakingAmount, 2)}
                               </div>
                               <div
                                 className="tc8JL"
                                 style={{ borderRight: "0px" }}
                               >
-                                {/* {e?.UnitCost?.toFixed(2)} */}
                                 {NumberWithCommas(e?.UnitCost, 2)}
                               </div>
                             </div>
@@ -667,7 +659,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         })}
                     </div>
                     <div
-                      className="totalrowJL fw-bold fsJL"
+                      className="totalrowJL fw-bold fsJL no_break"
                       style={{ borderTop: "0px" }}
                     >
                       <div className="tc1JL h-100"></div>
@@ -715,7 +707,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         {NumberWithCommas(mainTotal?.totalunitCost, 2)}
                       </div>
                     </div>
-                    <div className="footerJL fsJL d-flex justify-content-between align-items-end ">
+                    <div className="footerJL fsJL d-flex justify-content-between align-items-end no_break ">
                       <div className="inWordsJL">
                         <div className="fw-bold py-1 px-1">
                           In Words Indian Rupees
@@ -762,22 +754,21 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             className="fw-bold w-50 d-flex align-items-center justify-content-end pe-1"
                             style={{ fontSize: "15px" }}
                           >
-                             {/* {grandTot?.toFixed(2)} */}
                              {NumberWithCommas(grandTot, 2)}
                           </div>
                         </div>
                       </div>
                     </div>
                     <div
-                      className="noteJL fw-bold p-1"
+                      className="noteJL fw-bold p-1 no_break"
                       
                       dangerouslySetInnerHTML={{
                         __html: headerData?.Declaration,
                       }}
                     ></div>
                     <div
-                      className="dynamicHeadJLmain"
-                      style={{ borderTop: "0px", marginBottom:"2rem" }}
+                      className="dynamicHeadJLmain no_break"
+                      style={{ marginTop:"2px", marginBottom:"2rem" }}
                     >
                       <div className="dynamicHeadJL1">
                         <div className="fslhJL fw-bold">Bank Detail</div>
