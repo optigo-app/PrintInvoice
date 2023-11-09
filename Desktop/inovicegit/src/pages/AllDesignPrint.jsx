@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Summary4 from './prints/Summary4';
 import TaxInvoice1 from './prints/TaxInvoice1';
 import PackingList3 from './prints/PackingList3';
@@ -39,7 +39,6 @@ import Summarys from './prints/Summarys';
 import Summary11 from './prints/Summary11';
 
 const AllDesignPrint = () => {
-  const [importedComponent, setImportedComponent] = useState(null);
   const queryString = window.location.search;
   const queryParams = new URLSearchParams(queryString);
   // const param = queryParams.get('bill');
@@ -55,20 +54,9 @@ const AllDesignPrint = () => {
   }
   let printName = atob(printname).toLowerCase();
   let etpType = atob(etp).toLowerCase();
-  const importComponent = async (name) => {
-    console.log(name);
-    const module = await import(`./prints/${name}`);
-    const AnotherComponent = module.default;
-    setImportedComponent(<AnotherComponent billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn}/>);
-  };
-
-  useEffect(() => {
-    (printName === "summary 4" && etpType === "print") && importComponent("Summary4");
-    (printName === "summary 12" && etpType === "print") && importComponent("Summary12");
-  }, []);
   return (
-    <>{importedComponent}
-      {/* {(printName === "summary 4" && etpType === "print") && <Summary4 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />} */}
+    <>
+      {(printName === "summary 4" && etpType === "print") && <Summary4 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "summary 12" && etpType === "print") && <Summary12 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "tax invoice 1" && etpType === "print") && <TaxInvoice1 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
       {(printName === "packing list 3" && etpType === "print") && <PackingList3 billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />}
