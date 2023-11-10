@@ -246,7 +246,7 @@ const HallmarkItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="d-flex border-start border-end  border-bottom recordDetailPrint1 border-top">
                     <div className="col-4 border-end  p-1">
                         {/* <p className='lhDetailPrint1 fw-bold'>{json0Data?.lblBillTo}</p> */}
-                        <p className='lhDetailPrint1'>Issue To, </p>
+                        <p className='lhDetailPrint1 '>Issue To, </p>
                         <p className='lhDetailPrint1 fw-bold'>{json0Data?.customerfirmname}</p>
                         <p className='lhDetailPrint1'>{json0Data?.customerAddress2}</p>
                         <p className='lhDetailPrint1'>{json0Data?.customerAddress1}</p>

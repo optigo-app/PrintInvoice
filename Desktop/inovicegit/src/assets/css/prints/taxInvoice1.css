@@ -11,10 +11,12 @@
 }
 
 .taxInvoicePirnt1 *{
+    line-height: 120%;
     font-size: 12px;
 }
 
 .taxinvoice1Head {
+    line-height: 120%;
     font-size: 20px;
     color: #FFF;
     padding: 4px 0px 5px 6px !important;
@@ -80,6 +82,7 @@
 } */
 
 .table_invoice1 {
+    line-height: 120%;
     font-size: 12px;
 }
 
@@ -104,6 +107,7 @@
 } 
 
 .customer_name_invoice1 {
+    line-height: 120%;
     font-size: 14px;
 }
 
@@ -151,6 +155,7 @@
 }
 
 .total_sec_invoice1 {
+    line-height: 120%;
     font-size: 17px;
 }
 
@@ -159,6 +164,7 @@
 }
 
 .newt_invoice1 {
+    line-height: 120%;
     font-size: 12px;
 }
 

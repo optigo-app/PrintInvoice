@@ -1,4 +1,5 @@
 .h1_sum4 {
+    line-height: 120%;
     font-size: 20px;
 }
 
@@ -7,6 +8,7 @@
 }
 
 .address_para_sum4 {
+    line-height: 120%;
     font-size: 13.5px;
 }
 
@@ -20,6 +22,7 @@
 
 .invoice_text_sum4>h2 {
     font-size: 17px;
+    line-height: 120%;
     font-weight: 400;
 }
 
@@ -34,10 +37,12 @@
 
 .address_line_sum4>h3 {
     font-weight: 700;
+    line-height: 120%;
     font-size: 14px;
 }
 
 .address_lines_sum4>p {
+    line-height: 120%;
     font-size: 15px;
 }
 
@@ -46,6 +51,7 @@
 }
 
 .sum4_table div {
+    line-height: 120%;
     font-size: 12px;
 }
 
@@ -117,28 +123,34 @@
 }
 
 .total_sec_sum4>div {
+    line-height: 120%;
     font-size: 14px;
 }
 
 .summary_detail_sum4>div {
+    line-height: 120%;
     font-size: 15px;
 }
 
 .gold_24kt_sum4 div,
 .cgst_sum4 div {
+    line-height: 120%;
     font-size: 15px;
     line-height: 100%;
 }
 
 .font_16_sum4 {
+    line-height: 120%;
     font-size: 16px;
 }
 
 .font_15_sum4 {
+    line-height: 120%;
     font-size: 15px;
 }
 
 .font_13_sum4 {
+    line-height: 120%;
     font-size: 13px;
 }
 
@@ -174,6 +186,7 @@
 }
 
 .sgst_sec_sum4>div:first-child {
+    line-height: 120%;
     font-size: 15px;
 }
 
@@ -200,6 +213,7 @@
 
 .remark_list_sum4>li {
     line-height: 130%;
+    line-height: 120%;
     font-size: 15px;
 }
 
@@ -216,6 +230,7 @@
 }
 
 .total_sgst_sum4 p {
+    line-height: 120%;
     font-size: 14px;
 }
 

@@ -1,8 +1,3 @@
-* {
-    box-sizing: border-box;
-    word-break: break-all;
-}
-
 .orailpcl {
     height: 100px;
     width: 100px;
@@ -55,6 +50,7 @@
     height: 20px;
     font-weight: bold;
     font-size: 12px;
+    line-height: 120%;
 }
 
 .pclheaderplist {
@@ -65,6 +61,7 @@
     height: 20px;
     font-weight: bold;
     font-size: 20px;
+    line-height: 120%;
 }
 
 .pclsubheader {
@@ -90,6 +87,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    line-height: 120%;
     width: 50%;
 }
 
@@ -100,6 +98,7 @@
     justify-content: flex-end;
     align-items: center;
     font-weight: 400;
+    line-height: 120%;
 }
 
 .partynamepcl {
@@ -110,11 +109,13 @@
 }
 
 .partypcl {
+    line-height: 120%;
     font-size: 16px;
     margin-right: 1rem;
 }
 
 .contentpclparty {
+    line-height: 120%;
     font-size: 16px;
 }
 
@@ -143,6 +144,7 @@
     display: flex;
     height: 32px;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     background-color: #f7f5f5;
@@ -155,6 +157,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     border-right: 1px solid #989898;
@@ -166,6 +169,7 @@
     height: 32px;
     justify-content: center;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     width: 127px;
@@ -179,6 +183,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     width: 100px;
@@ -190,6 +195,7 @@
     flex-direction: column;
     height: 32px;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     width: 284px;
@@ -201,6 +207,7 @@
     min-height: 128px;
     height: 100%;
     align-items: flex-start;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     width: 284px;
@@ -214,6 +221,7 @@
     min-height: 128px;
     height: 100%;
     align-items: flex-start;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     width: 284px;
@@ -226,6 +234,7 @@
     flex-direction: column;
     height: 32px;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     width: 284px;
@@ -237,6 +246,7 @@
     flex-direction: column;
     min-height: 128px;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     width: 284px;
@@ -249,6 +259,7 @@
     flex-direction: column;
     height: 32px;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     width: 230px;
@@ -260,6 +271,7 @@
     flex-direction: column;
     min-height: 128px;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     height: 100%;
     font-weight: bold;
@@ -273,6 +285,7 @@
     flex-direction: column;
     height: 32px;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     width: 114px;
@@ -284,6 +297,7 @@
     flex-direction: column;
     min-height: 128px;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     height: 100%;
     font-weight: bold;
@@ -297,6 +311,7 @@
     flex-direction: column;
     height: 32px;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     width: 116px;
@@ -309,6 +324,7 @@
     min-height: 128px;
     align-items: center;
     height: 100%;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     width: 116px;
@@ -321,6 +337,7 @@
     flex-direction: column;
     height: 32px;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     font-weight: bold;
     width: 83px;
@@ -332,6 +349,7 @@
     flex-direction: column;
     min-height: 128px;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     height: 100%;
     font-weight: bold;
@@ -340,6 +358,7 @@
 }
 
 .diarowpcl {
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -359,6 +378,7 @@
 }
 
 .diarowmaterialpcl {
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -370,6 +390,7 @@
 }
 
 .diarowmaterialpclbody {
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -397,6 +418,7 @@
 }
 
 .strowpcl {
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -409,6 +431,7 @@
 }
 
 .strowmaterialpcl {
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -420,6 +443,7 @@
 }
 
 .strowmaterialpclbody {
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -449,6 +473,7 @@
 }
 
 .lbrowpcl {
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -461,6 +486,7 @@
 }
 
 .labourrowmaerialpcl {
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -472,6 +498,7 @@
 }
 
 .labourrowmaerialpclbody {
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -491,6 +518,7 @@
 }
 
 .othrowpcl {
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -503,6 +531,7 @@
 }
 
 .othermaterialpcl {
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -514,6 +543,7 @@
 }
 
 .othermaterialpclbody {
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -547,6 +577,7 @@
     justify-content: center;
     align-items: center;
     height: 32px;
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
     border-bottom: 1px solid #989898;
@@ -558,12 +589,14 @@
     justify-content: center;
     align-items: center;
     height: 17px;
+    line-height: 120%;
     font-size: 12px;
     font-weight: bold;
 }
 
 .designnojwpcl {
     padding: 1px;
+    line-height: 120%;
     font-size: 12px;
 }
 
@@ -612,6 +645,7 @@
 }
 
 .flexpcl {
+    line-height: 120%;
     font-size: 11px;
     display: flex;
     flex-direction: column;
@@ -682,6 +716,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     height: 16px;
     border-bottom: 1px solid #989898;

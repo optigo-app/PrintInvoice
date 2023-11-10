@@ -1,11 +1,8 @@
-* {
-    box-sizing: border-box;
-}
-
 .containerPCL3 {
     max-width: 1000px;
     margin: 0 auto;
     font-size: 10.5px;
+    line-height: 120%;
 }
 
 .headlinepcl3 {
@@ -16,6 +13,7 @@
     height: 35px;
     background-color: #939292;
     color: white;
+    line-height: 120%;
     font-size: 30px !important;
     font-family: calibri;
     padding-left: 10px;
@@ -29,6 +27,7 @@
     width: 100%;
     height: 25px;
     background-color: #cccaca;
+    line-height: 120%;
     font-size: 20px !important;
     font-family: calibri;
     padding-left: 10px;
@@ -46,6 +45,7 @@
     display: flex;
     flex-direction: column;
     width: 70%;
+    line-height: 120%;
     font-size: 12px;
     height: 118px;
     line-height: 15px;
@@ -58,10 +58,12 @@
     align-items: center;
     width: 100%;
     height: 20px !important;
+    line-height: 120%;
     font-size: 13px;
 }
 
 .pcl313 {
+    line-height: 120%;
     font-size: 13px;
 }
 
@@ -159,6 +161,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
 }
 
@@ -169,6 +172,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
 }
 
@@ -212,6 +216,7 @@
 .th7pcl3 {
     width: 6%;
     height: 44px;
+    line-height: 120%;
     font-size: 14px;
     display: flex;
     justify-content: center;
@@ -220,6 +225,7 @@
 
 .th7Dpcl3 {
     height: 20px;
+    line-height: 120%;
     font-size: 15.5px;
     display: flex;
     justify-content: center;
@@ -234,6 +240,7 @@
 
 .th3flex1pcl3 {
     display: flex;
+    line-height: 120%;
     font-size: 14px;
     height: 22px;
     justify-content: center;
@@ -252,6 +259,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    line-height: 120%;
     font-size: 13px;
     line-height: 8px;
 }
@@ -281,6 +289,7 @@
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid #989898;
+    line-height: 120%;
     font-size: 14px;
     height: 22px;
 }
@@ -288,6 +297,7 @@
 .th4flex2pcl3 {
     display: flex;
     justify-content: space-between;
+    line-height: 120%;
     font-size: 14px;
 }
 
@@ -301,6 +311,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     height: 22px;
     border-bottom: 1px solid #989898;
@@ -310,6 +321,7 @@
     display: flex;
     justify-content: space-between;
     height: 15pt;
+    line-height: 120%;
     font-size: 14px;
 }
 
@@ -331,6 +343,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     height: 22px;
     border-bottom: 1px solid #989898;
@@ -344,6 +357,7 @@
     height: 17pt;
     line-height: 11px;
     /* padding: 3px; */
+    line-height: 120%;
     font-size: 14px;
 }
 
@@ -361,6 +375,7 @@
     border-right: 1px solid #989898;
     width: 2%;
 }
+
 .tableBodypcl3_1 {
     display: flex;
     align-items: center;
@@ -405,7 +420,7 @@
     align-items: center;
     border-top: 0px solid #989898;
     height: 20px;
-    
+
 }
 
 .pcl3TableCopy {
@@ -434,6 +449,7 @@
     justify-content: space-between;
     align-items: center;
     line-height: 16px;
+    line-height: 120%;
     font-size: 14px;
     width: 100%;
 }
@@ -542,19 +558,24 @@
     width: 100%;
     padding: 2px;
 }
-.totamtpcl3{
+
+.totamtpcl3 {
     display: flex;
     justify-content: center;
     align-items: center;
     word-break: break-word;
+    line-height: 120%;
     font-size: 13px;
     line-height: 12px;
     text-align: center;
     height: 100%;
 }
-.headbodypcl3{
+
+.headbodypcl3 {
+    line-height: 120%;
     font-size: 10.5px;
 }
+
 .mrpWpcl3 {
     display: flex;
     justify-content: end;
@@ -574,6 +595,7 @@
     justify-content: flex-start;
     align-items: center;
     padding-left: 2px;
+    line-height: 120%;
     font-size: 12px;
 }
 
@@ -637,7 +659,8 @@
     border-bottom: 2px solid #989898;
     padding-bottom: 1rem;
 }
-.brbpcl3all{
+
+.brbpcl3all {
     border: 2px solid #989898;
     border-top: 0px;
     border-left: 0px;
@@ -678,6 +701,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     line-height: 10px;
 
@@ -689,6 +713,7 @@
     align-items: center;
     width: 100%;
     height: 16px;
+    line-height: 120%;
     font-size: 12px;
     padding-right: 2px;
 }
@@ -718,15 +743,21 @@
     right: 0;
     user-select: none;
 }
-.createpcl3{
+
+.createpcl3 {
+    line-height: 120%;
     font-size: 16px;
 }
-.fsdpcl3{
+
+.fsdpcl3 {
+    line-height: 120%;
     font-size: 8.5px !important;
 }
-.pd5pcl3{
+
+.pd5pcl3 {
     padding-top: 5px;
 }
+
 @media print {
     .printpcl3 {
         display: none;
@@ -734,9 +765,11 @@
 
     .pcl3TableCopy {
         page-break-inside: avoid;
+        line-height: 120%;
         font-size: 9.5px !important;
     }
-    body{
+
+    body {
         margin-top: 1rem;
     }
 

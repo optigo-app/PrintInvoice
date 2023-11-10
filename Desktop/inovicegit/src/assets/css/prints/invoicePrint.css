@@ -1,5 +1,6 @@
 .inoviceprintContainer *{
     font-size: 12px;
+    line-height: 120%;
 }
 
 .minHieght150InvoicePrint{

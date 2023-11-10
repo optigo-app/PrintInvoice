@@ -478,7 +478,7 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                         CUT
                                     </th>
                                     <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
-                                        CARAT
+                                    CARAT WT
                                     </th>
                                     <th width="80" height="40" style={{ border: '0.5px solid black', padding: '0.5px' }} className='text-center'>
                                         NO:STONE

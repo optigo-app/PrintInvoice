@@ -35,6 +35,7 @@
 
 .regNoMiscPrint1, .stoneDetailsMisc1, .discriptionMisc1, .adpcMisc1, .kpcsMisc1, .kundMisc1, .motiMisc1, .bmotiMisc1, .mopMisc1, .minaMisc1, .bandaiMisc1, .lessWtMisc1, .mperMisc1, .fineMisc1, .AmountMiscPrint1, .grsWtMisc1, .stoneMisc1, .mperMisc1 > p, .fineMisc1 > p, .grsWtMisc1 > p{
     font-size: 11px;
+    line-height: 120%;
 }
 
 .height53Misc1{

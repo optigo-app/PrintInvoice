@@ -5,6 +5,7 @@
 
 .hallmarkContainer *{
     font-size: 12px;
+    line-height: 120%;
 }
 
 .min_height{

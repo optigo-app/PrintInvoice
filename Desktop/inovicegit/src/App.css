@@ -175,3 +175,13 @@ ol {
   object-fit: contain;
   object-position: center;
 }
+
+.line_height_120{
+  line-height: 120%;
+}
+
+@media print {
+  .hide-on-print {
+    display: none;
+  }
+}

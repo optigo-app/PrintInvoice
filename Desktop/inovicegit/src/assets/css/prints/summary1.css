@@ -14,6 +14,7 @@
     height: 30px;
     font-weight: bold;
     font-size: 20px;
+    line-height: 120%;
     background-color: #8b8787;
     color: white;
     display: flex;
@@ -30,6 +31,7 @@
 }
 
 .headingsum1 {
+    line-height: 120%;
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 2px;
@@ -51,20 +53,24 @@
 
 .invoicehead3sum1 {
     font-size: 18px;
+    line-height: 120%;
     width: 22%;
     display: flex;
     justify-content: space-between;
 }
 
 .binvsum1 {
+    line-height: 120%;
     font-size: 18px;
 }
 
 .datehead3sum1 {
+    line-height: 120%;
     font-size: 18px;
 }
 
 .totgstsum1 {
+    line-height: 120%;
     font-size: 15px;
 }
 
@@ -77,6 +83,7 @@
 }
 
 .samplehead4sum1 {
+    line-height: 120%;
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 8px;
@@ -113,6 +120,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    line-height: 120%;
     font-size: 12px;
     border-right: 1px solid #e8e8e8;
     height: 100%;
@@ -123,6 +131,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    line-height: 120%;
     font-size: 14px;
     border-right: 1px solid #e8e8e8;
 }
@@ -161,10 +170,12 @@
 
 .designContentsum1 {
     font-size: 15px;
+    line-height: 120%;
 }
 
 .brbdesignsum1 {
     border-bottom: 1px solid black;
+    line-height: 120%;
     font-size: 13px;
 }
 
@@ -192,6 +203,7 @@
 }
 
 .totrowfssum1 {
+    line-height: 120%;
     font-size: 15px;
 }
 
@@ -199,6 +211,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    line-height: 120%;
     padding-left: 2px;
     font-size: 11px;
 }
@@ -206,6 +219,7 @@
 .alignrightsum1 {
     display: flex;
     justify-content: flex-end;
+    line-height: 120%;
     align-items: center;
     padding-right: 2px;
     font-size: 11px;
@@ -245,6 +259,7 @@
 }
 
 .amtwordssum1 {
+    line-height: 120%;
     font-size: 15px;
     font-weight: bold;
 }
@@ -266,6 +281,7 @@
     align-items: center;
     padding-left: 3px;
     height: 30px;
+    line-height: 120%;
     font-size: 15px;
     font-weight: bold;
     border-bottom: 1px solid #e8e8e8;
@@ -306,6 +322,7 @@
 
 .noteSum1 {
     font-size: 20px;
+    line-height: 120%;
     font-weight: bold;
     padding: 6px;
     padding-bottom: 10px;
@@ -321,6 +338,7 @@
 .addSum1 {
     font-size: 15px;
     font-weight: bold;
+    line-height: 120%;
     margin-top: 2rem;
     padding: 3px;
 }
@@ -328,6 +346,7 @@
 .remarkSum1 {
     height: 30px;
     font-size: 15px;
+    line-height: 120%;
     font-weight: bold;
     display: flex;
     justify-content: flex-start;
@@ -339,6 +358,7 @@
     justify-self: center;
     align-items: center;
     padding: 3px;
+    line-height: 120%;
     font-size: 15px;
     font-weight: normal;
 }
@@ -359,6 +379,7 @@
     width: 100%;
     border-right: 1px solid #e8e8e8;
     font-weight: bold;
+    line-height: 120%;
     font-size: 14px;
     padding-bottom: 3px;
 }
@@ -369,6 +390,7 @@
     align-items: flex-end;
     width: 100%;
     font-weight: bold;
+    line-height: 120%;
     font-size: 14px;
     padding-bottom: 3px;
 }
@@ -391,6 +413,7 @@
     
 }
 .fs13sum1{
+    line-height: 120%;
     font-size: 13px;
 }
 

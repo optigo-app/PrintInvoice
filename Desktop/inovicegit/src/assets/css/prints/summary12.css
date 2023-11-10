@@ -13,6 +13,7 @@
 }
 
 .summary12Container .sum4_table div , .summary12Container .sum4_table div > p{
+    line-height: 120%;
     font-size: 10px;
 }
 
@@ -64,6 +65,7 @@
 .summary12Container .declaration_summary_12 b>div {
     padding-bottom: 5px;
     font-size: 11px;
+    line-height: 120%;
     padding-left: 2px;
 }
 
@@ -73,6 +75,7 @@
 
 .summary12Container .sum4_table .summary12Remark {
     font-size: 12px;
+    line-height: 120%;
     padding-left: 8px;
 }
 

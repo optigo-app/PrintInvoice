@@ -1,5 +1,6 @@
 .invoicePrint4CloneContainer *{
     font-size: 12px;
+    line-height: 120%;
 }
 
 .invoicePrint4CloneContainer input{

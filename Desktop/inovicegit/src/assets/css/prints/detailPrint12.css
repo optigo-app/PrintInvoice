@@ -21,6 +21,7 @@
 .containerDetailPrint12 p {
     word-break: break-all;
     font-size: 10px;
+    line-height: 120%;
 }
 
 .labourAmountDetailPrint12 {

@@ -21,6 +21,7 @@
 
 .invoicehead3ivp2 {
     font-size: 18px;
+    line-height: 120%;
     width: 30%;
     display: flex;
     justify-content: space-between;
@@ -28,10 +29,12 @@
 
 .binvivp2 {
     font-size: 18px;
+    line-height: 120%;
 }
 
 .totgstinvp2 {
     font-size: 15px;
+    line-height: 120%;
 }
 
 .head4ivp2 {
@@ -47,6 +50,7 @@
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 8px;
+    line-height: 120%;
 }
 
 
@@ -54,6 +58,7 @@
     line-height: 15px !important;
     height: 15px;
     font-size: 15px;
+    line-height: 120%;
 }
 
 .tableSectionivp2 {
@@ -85,6 +90,7 @@
     justify-content: center;
     align-items: center;
     font-size: 14px;
+    line-height: 120%;
     border-right: 1px solid #e8e8e8;
     height: 100%;
 }
@@ -95,6 +101,7 @@
     justify-content: center;
     align-items: center;
     font-size: 14px;
+    line-height: 120%;
     border-right: 1px solid #e8e8e8;
 }
 
@@ -104,6 +111,7 @@
     justify-content: center;
     align-items: center;
     font-size: 14px;
+    line-height: 120%;
     border-right: 1px solid #e8e8e8;
 }
 
@@ -139,12 +147,14 @@
 
 .designContentinvp2 {
     font-size: 15px;
+    line-height: 120%;
 }
 
 
 .brbdesigninvp2 {
     border-bottom: 1px solid black;
     font-size: 13px;
+    line-height: 120%;
 }
 
 
@@ -176,6 +186,7 @@
 
 .totrowfsinvp2 {
     font-size: 12px;
+    line-height: 120%;
 }
 
 
@@ -223,6 +234,7 @@
 
 .amtwordsinvp2 {
     font-size: 15px;
+    line-height: 120%;
     font-weight: bold;
 }
 
@@ -244,6 +256,7 @@
     padding-left: 3px;
     height: 30px;
     font-size: 15px;
+    line-height: 120%;
     font-weight: bold;
     border-bottom: 1px solid #e8e8e8;
     background-color: #e0e0e0;
@@ -283,6 +296,7 @@
 
 .noteinvp2 {
     font-size: 20px;
+    line-height: 120%;
     font-weight: bold;
     padding: 6px;
     padding-bottom: 10px;
@@ -292,12 +306,14 @@
     line-height: 20px;
     font-weight: bold;
     font-size: 15px;
+    line-height: 120%;
     padding: 3px;
 }
 
 .remarkinvp2 {
     height: 30px;
     font-size: 15px;
+    line-height: 120%;
     font-weight: bold;
     display: flex;
     justify-content: flex-start;
@@ -309,6 +325,7 @@
     justify-self: center;
     align-items: center;
     padding: 3px;
+    line-height: 120%;
     font-size: 15px;
     font-weight: normal;
 }
@@ -329,6 +346,7 @@
     width: 100%;
     border-right: 1px solid #e8e8e8;
     font-weight: bold;
+    line-height: 120%;
     font-size: 14px;
     padding-bottom: 3px;
 }
@@ -339,6 +357,7 @@
     align-items: flex-end;
     width: 100%;
     font-weight: bold;
+    line-height: 120%;
     font-size: 14px;
     padding-bottom: 3px;
 }
@@ -369,6 +388,7 @@
 }
 
 .fs13invp2 {
+    line-height: 120%;
     font-size: 13px;
 }
 

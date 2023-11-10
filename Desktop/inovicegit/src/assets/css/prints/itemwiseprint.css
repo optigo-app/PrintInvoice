@@ -5,6 +5,7 @@
 
 .itemWisePrintfont * {
     font-size: 10px;
+    line-height: 120%;
 }
 
 .metaltypeItemWisePrint {
@@ -149,6 +150,7 @@
 
 .main_pad_item_wise_print *, .main_pad_item_wise_print_row *, .main_pad_item_wise_print_row1 * {
     font-size: 8px;
+    line-height: 120%;
 }
 
 .main_pad_item_wise_print_row > div{
