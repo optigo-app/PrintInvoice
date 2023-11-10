@@ -211,6 +211,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
       });
 
       let obj = { ...e };
+      obj.otherMisc = e?.OtherCharges + e?.MiscAmount;
       obj.diamonds = diamonds;
       obj.colorstone = colorstone;
       obj.metal = metal;
@@ -529,7 +530,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
                               {e?.totals?.colorstone?.Wt?.toFixed(3)}
                             </div>
                             <div className="wtbsum1 alignrightsum1">
-                              {NumberWithCommas(e?.OtherCharges, 2)}
+                              {NumberWithCommas(e?.otherMisc, 2)}
                             </div>
                             <div className="wtbsum1 brightsum1 alignrightsum1">
                               <p
