@@ -6,7 +6,7 @@ const Header1 = ( { data } ) => {
     
       <div className={style.headline}>{data?.PrintHeadLabel}</div>
       <div className={style.companyDetails}>
-        <div className={style.companyhead}>
+        <div className={`${style.companyhead} p-2`}>
           <span className={style.lines} style={{ fontWeight: "bold" }}>
             {data?.CompanyFullName}
           </span>
