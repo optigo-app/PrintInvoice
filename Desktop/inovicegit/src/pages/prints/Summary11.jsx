@@ -52,8 +52,12 @@ const Summary11 = ({ urls, token, invoiceNo, printName, evn }) => {
                 {headerComp}
                 <div className="mt-3 border-top "></div>
                 <div className="mt-2 border">
-                    <div className="d-flex justify-content-betwee">
-
+                    <div className="d-flex justify-content-between p-2">
+                        <p className="fs-4">INVOICE# :<span className='fw-bold fs-4'> SK17222022</span></p>
+                        <div>
+                            <p className="fs-4 pb-2"> DATE :<span className='fw-bold fs-4'> 09 Nov 2023</span> </p>
+                            <p className="fs-4">  HSN :<span className='fw-bold fs-4'> 85213 </span></p>
+                        </div>
                     </div>
                 </div>
                 {/* table header */}
