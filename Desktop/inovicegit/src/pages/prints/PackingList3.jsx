@@ -643,7 +643,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       
                     </div>
                     <div className="dynamicHeadpcl33">
-                      <div className="w-100 d-flex justify-content-between align-items-center ps-1 pe-1">
+                      <div className="w-100 d-flex justify-content-between align-items-center p-2">
                         <div className="fw-bold">
                           BILL NO
                         </div>
@@ -651,7 +651,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           {headerData?.InvoiceNo}
                         </div>
                       </div>
-                      <div className="w-100 d-flex justify-content-between align-items-center ps-1 pe-1">
+                      <div className="w-100 d-flex justify-content-between align-items-center p-2">
                         <div className="fw-bold">
                           DATE
                         </div>
@@ -659,7 +659,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           {headerData?.EntryDate}
                         </div>
                       </div>
-                      <div className="w-100 d-flex justify-content-between align-items-center ps-1 pe-1">
+                      <div className="w-100 d-flex justify-content-between align-items-center p-2">
                         <div className="fw-bold">
                           HSN
                         </div>
