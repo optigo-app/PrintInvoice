@@ -9,3 +9,9 @@
     grid-template-columns: repeat(4, 23.5%);
     grid-gap: 2%;
 }
+
+@media print{
+    .print_sec_sum4 {
+        display: none !important;
+      }
+}

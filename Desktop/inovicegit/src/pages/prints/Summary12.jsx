@@ -375,7 +375,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
         <>
             {loader ? <Loader /> :
                 msg === "" ? <div className='zoom1_5_summary12 pad_60_allPrint'><div>
-                    <div className="d-flex justify-content-end align-items-center print_sec_sum4 container summary12Container pt-4">
+                    <div className="d-flex justify-content-end align-items-center print_sec_sum4 container max_width_container pt-4">
                         <div className="form-check pe-3">
                             <input className="form-check-input border-dark" type="checkbox" id='chbox' checked={header} onChange={e => handleChange(e, "header")} />
                             <label className="form-check-label pt-2" htmlFor='chbox'>
@@ -400,7 +400,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <input type="button" className="btn_white blue mt-0" value="Print" onClick={(e) => handlePrint(e)} />
                         </div>
                     </div>
-                    <div className=' pt-2 pb-2 summary12Container portrait_container' ref={targetRef} id="divToPrint">
+                    <div className=' pt-2 pb-2  container max_width_container' ref={targetRef} id="divToPrint">
                         {header && <div className="d-flex header_section_sum4 justify-content-between align-items-center pb-2 no_break">
                             <div className='address_sum4'>
                                 <h1 className='h1_sum4 fw-bold'>{billPrintJson?.CompanyFullName}</h1>

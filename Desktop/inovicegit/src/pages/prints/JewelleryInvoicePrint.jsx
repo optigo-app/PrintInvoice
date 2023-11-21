@@ -388,7 +388,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
           {msg === "" ? (
             <>
               <div className="containerJL pad_60_allPrint">
-                <div className="btnpcl">
+                <div className="btnpcl mb-4">
                   <Button />
                 </div>
                 <div className="printJL">

@@ -138,5 +138,9 @@
     .containerDetailPrint1 p, .containerDetailPrint1 p span {
         font-size: 7px;
     }
+
+    .print_sec_sum4 {
+        display: none !important;
+    }
     
 }

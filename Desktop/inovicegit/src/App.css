@@ -129,20 +129,6 @@ ol {
   height: 60px !important;
   width: 60px !important;
 }
-@media print {
-  .no_break {
-    page-break-inside: avoid;
-  }
-  
-  .pad_60_allPrint{
-    padding-bottom: 0;
-  }
-}
-
-.no_break {
-  page-break-inside: avoid;
-}
-
 
 .image-container {
   display: flex;
@@ -180,6 +166,10 @@ ol {
   line-height: 120%;
 }
 
+.print_btn{
+  padding-bottom: 15px;
+}
+
 @media print {
   .hide-on-print {
     display: none;
@@ -187,4 +177,18 @@ ol {
   .print_btn{
     display: none !important
   }
+  .no_break {
+    page-break-inside: avoid;
+  }
+  
+  .pad_60_allPrint{
+    padding-bottom: 0 !important;
+  }
+  .d_none{
+    display: none !important;
 }
+.print_sec_sum4 {
+  display: none !important;
+}
+}
+

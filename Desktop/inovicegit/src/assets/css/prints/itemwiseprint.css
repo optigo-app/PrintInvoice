@@ -192,4 +192,7 @@
     .printLeftitemWise{
         margin-right: unset;
     }
+    .print_sec_sum4 {
+        display: none !important;
+      }
 }

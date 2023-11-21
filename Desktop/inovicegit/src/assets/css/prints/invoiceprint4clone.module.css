@@ -1,5 +1,5 @@
 .invoicePrint4CloneContainer *{
-    font-size: 12px;
+    font-size: 14px;
     line-height: 120%;
 }
 
@@ -30,5 +30,11 @@
 @media print{
     .invoicePrint4Input{
         border: none;
+    }
+    .print_sec_sum4{
+        display: none !important;
+    }
+    .pad_60_allPrint{
+        padding-bottom: 0 !important;
     }
 }

@@ -52,3 +52,9 @@
     min-width: 59px;
     width: 59px;
 }
+
+@media print{
+    .print_sec_sum4 {
+        display: none !important;
+      }
+}

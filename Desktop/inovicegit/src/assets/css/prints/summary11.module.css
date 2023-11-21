@@ -55,4 +55,9 @@
     .containerSummry11DataFont * {
         font-size: 9px;
     }
+
+        .print_sec_sum4 {
+            display: none !important;
+          }
+    
 }

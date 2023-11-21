@@ -404,4 +404,10 @@
     .printJL{
         page-break-inside: avoid;
     }
+        .print_sec_sum4 {
+            display: none !important;
+          }
+          .btnpcl{
+            display: none !important;
+          }
 }

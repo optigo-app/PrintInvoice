@@ -22,3 +22,9 @@
     width: calc(100% + 4px);
     z-index: 2;
 }
+
+@media print{
+    .print_sec_sum4 {
+        display: none !important;
+      }
+}

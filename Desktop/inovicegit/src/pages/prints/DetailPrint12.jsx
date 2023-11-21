@@ -351,7 +351,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
           </div>
         </div>
-        <div className="totalAmountDetailPrint1 border-end border-2 border-bottom d-flex align-items-center justify-content-center flex-column">
+        <div className="totalAmountDetailPrint1 border-end border-2 border-bottom d-flex align-items-center justify-content-center flex-column totalAmountDetailPrint12">
           <p className='text-center fw-bold '>Total</p>
           <p className='text-center fw-bold '>Amount</p>
         </div>
@@ -471,7 +471,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="col-7"><p className='text-end'>{NumberWithCommas(e?.MakingAmount, 2)}</p></div>
               </div>
             </div>
-            <div className="totalAmountDetailPrint1 border-end border-2 position-relative">
+            <div className="totalAmountDetailPrint1 border-end border-2 position-relative totalAmountDetailPrint12">
               <div className="d-grid h-100 paddingBottomTotalDetailPrint1">
                 <div>
                   <p className='text-end'>{NumberWithCommas(e?.discountTotalAmount, 2)}</p>
@@ -512,7 +512,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
               </div>
             </div>
-            <div className="totalAmountDetailPrint1 border-end border-2 border-bottom ">
+            <div className="totalAmountDetailPrint1 border-end border-2 border-bottom  totalAmountDetailPrint12">
               <p className='text-end'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(e?.discountTotalAmount, 2)}</p>
             </div>
           </div>
@@ -579,7 +579,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
           </div>
         </div>
-        <div className="totalAmountDetailPrint1 border-end border-2 border-bottom ">
+        <div className="totalAmountDetailPrint1 border-end border-2 border-bottom  totalAmountDetailPrint12">
           <p className=' text-end'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(total?.withDiscountTaxAmount, 2)}</p>
         </div>
       </div>

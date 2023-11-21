@@ -2,3 +2,9 @@
     max-width: 808px !important;
     margin: 0 auto !important;
 }
+
+@media print{
+    .print_sec_sum4 {
+        display: none !important;
+      }
+}

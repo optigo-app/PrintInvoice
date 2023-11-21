@@ -204,7 +204,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
         <div
           ref={targetRef}
-          className="portrait_container itemWisePrintContainer"
+          className="portrait_container itemWisePrintContainer mt-2"
         >
           {/* Heading */}
           <div className="bgLightPink p-2 border">

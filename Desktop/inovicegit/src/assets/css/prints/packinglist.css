@@ -1133,6 +1133,8 @@
         display: block;
         border-top: 1px solid #989898;
     }
-
+        .print_sec_sum4 {
+            display: none !important;
+          }
 
 }

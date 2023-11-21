@@ -92,3 +92,9 @@
     right: 0;
     top: -40px;
 }
+
+@media print{
+    .print_sec_sum4 {
+        display: none !important;
+      }
+}

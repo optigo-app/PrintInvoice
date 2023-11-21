@@ -56,3 +56,9 @@
 .minHeight_24_8ExportPrint1{
     min-height: 24.8px;
 }
+
+@media print{
+    .print_sec_sum4 {
+        display: none !important;
+      }
+}

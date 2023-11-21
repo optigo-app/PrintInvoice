@@ -11,22 +11,16 @@
 }
 
 .srNoDetailPrint11 {
-    /* width: 30px;
-    min-width: 30px; */
     width: 5%;
     min-width: 5%;
 }
 
 .designDetailPrint11 {
-    /* width: 80px;
-    min-width: 80px; */
     width: 11%;
     min-width: 11%;
 }
 
 .diamondStoneDetailPrint11 {
-    /* width: 350px;
-    min-width: 350px; */
     width: 45%;
     min-width: 45%;
 }
@@ -37,15 +31,11 @@
 }
 
 .labourDetailPrint11 {
-    /* width: 90px;
-    min-width: 90px; */
     width: 12%;
     min-width: 12%;
 }
 
 .totalAmountJewelleryDetailPrint11 {
-    /* width: 65px;
-    min-width: 65px; */
     width: 9%;
     min-width: 9%;
 }
@@ -59,65 +49,14 @@
 .settingTypeDetailPrint11,
 .settingPriceDetailPrint11,
 .totalMaterialAmountDetailPrint11 {
-    /* width: 35px;
-    min-width: 35px; */
-    width: 11.1%;
-    min-width: 11.1%;
+    width: 11.11%;
+    min-width: 11.11%;
 }
 
-.sizeDetailPrint11 {
-    /* width: 37px;
-    min-width: 37px; */
-}
-
-.pcsDetailPrint11 {
-    /* width: 25px;
-    min-width: 25px; */
-}
-
-.diaDetailPrint11 {
-    /* width: 30px;
-    min-width: 30px; */
-}
-
-.priceDetailPrint11 {
-    /* width: 47px;
-    min-width: 47px; */
-}
-
-.diaAmtDetailPrint11 {
-    /* width: 42px;
-    min-width: 42px; */
-}
-
-.settingTypeDetailPrint11 {
-    /* width: 45px;
-    min-width: 45px; */
-}
-
-.settingPriceDetailPrint11 {
-    /* width: 45px;
-    min-width: 45px; */
-}
 
 .totalAmountDetailPrint11 {
     width: 45px;
     min-width: 45px;
-}
-
-/* .totalMaterialAmountDetailPrint11{
-    width: 10.1%;
-    min-width: 10.1%;
-} */
-
-.totalAmountDetailPrint11Jewellery {
-    /* width: 62px;
-    min-width: 62px; */
-}
-
-.settingTypeTotalDetailPrint11 {
-    /* width: 90px;
-    min-width: 90px; */
 }
 
 .pad_bt_20DetailPrint11 {
@@ -130,8 +69,6 @@
 }
 
 .totalDesignDetailPrint11 {
-    /* width: 110px;
-    min-width: 110px; */
     width: 16%;
     min-width: 16%;
 }
@@ -176,8 +113,6 @@
 }
 
 .goldDetailPrint11 {
-    /* width: 130px;
-    min-width: 130px; */
     width: 18%;
     min-width: 18%;
 }
@@ -196,12 +131,6 @@
     padding-bottom: 40px;
 }
 
-/* .semiTotalDetailPrint11 * {
-    font-size: 8px;
-} */
-
-
-
 .totalHeightDetailPrint11 {
     height: 40px;
 }
@@ -213,5 +142,7 @@
     .containerDetailP11 * {
         font-size: 9px;
     }
-    
+    .print_sec_sum4 {
+        display: none !important;
+      }
 }

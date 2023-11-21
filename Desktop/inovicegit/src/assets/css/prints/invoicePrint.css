@@ -24,3 +24,9 @@
     object-fit: contain;
     object-position: right;
 }
+
+@media print{
+    .print_sec_sum4 {
+        display: none !important;
+      }
+}

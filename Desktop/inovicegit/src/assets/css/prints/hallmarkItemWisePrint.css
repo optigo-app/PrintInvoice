@@ -52,4 +52,8 @@
     .hallmarkItemWisePrintContainer{
         padding-bottom: 0;
     }
+
+        .print_sec_sum4 {
+            display: none !important;
+          }
 }

@@ -158,4 +158,9 @@ margin: 3rem;
     .btnpclRE{
         display: none;
     }
+    
+        .print_sec_sum4 {
+            display: none !important;
+          }
+    
 }

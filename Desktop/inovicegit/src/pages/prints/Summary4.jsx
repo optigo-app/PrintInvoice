@@ -349,7 +349,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
         }
     }
 
-    return (<>{loader ? <Loader /> : msg === "" ? <div className='zoom1_5_summary12 summary12Container portrait_container pt-4 pad_60_allPrint'>
+    return (<>{loader ? <Loader /> : msg === "" ? <div className='zoom1_5_summary12 container max_width_container pt-4 pad_60_allPrint '>
         <div className="d-flex justify-content-end align-items-center print_sec_sum4">
             <div className="form-check pe-3">
                 <input className="form-check-input border-dark" type="checkbox" checked={header} onChange={e => handleChange(e, "header")} />
@@ -487,7 +487,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="p-1 pe-2 amount_sum_4 border-end text-end bg_total_sum4 fw-bold"> <p> {NumberWithCommas(total.amount, 2)} </p> </div>
                     </div>
                     <div className="d-flex mb-1">
-                        <div className="sgst_sec_sum4 border me-1">
+                        <div className="sgst_sec_sum4 border">
                             <div className="bg_total_sum4 fw-bold ps-2 border-bottom mb-2">
                                 Summary Detail
                             </div>
@@ -554,7 +554,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                     <div className="d-flex border-bottom mb-2">
-                        <div className="summary_detail_sum4 border me-1">
+                        <div className="summary_detail_sum4 border">
                             <div className="fw-bold border-bottom ps-2 bg_total_sum4 pt-1">
                                 SUMMARY
                             </div>

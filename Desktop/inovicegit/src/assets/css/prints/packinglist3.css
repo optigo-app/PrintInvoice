@@ -773,4 +773,8 @@
         margin-top: 1rem;
     }
 
+        .print_sec_sum4 {
+            display: none !important;
+          }
+
 }

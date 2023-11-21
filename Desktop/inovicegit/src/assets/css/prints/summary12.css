@@ -90,4 +90,9 @@
     .zoom1_5_summary12 {
         zoom: unset;
     }
+
+        .print_sec_sum4 {
+            display: none !important;
+          }
+
 }

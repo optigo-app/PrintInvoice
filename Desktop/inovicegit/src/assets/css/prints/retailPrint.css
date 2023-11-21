@@ -2,6 +2,10 @@
     max-width: 1120px !important;
 }
 
+.containerRetailPrint{
+    font-size: 14px;
+}
+
 .headlinepRetailPrint {
     background-color: #939292;
     color: white;
@@ -135,4 +139,10 @@
 .printBtnRetailPrint{
     right: -30%;
     margin-top: -25px;
+}
+
+@media print{
+    .print_sec_sum4{
+        display: none !important;
+    }
 }

@@ -403,5 +403,8 @@ br {
     .tbodyivp2 {
         page-break-inside: avoid;
     }
+        .print_sec_sum4 {
+            display: none !important;
+          }
 }
 
