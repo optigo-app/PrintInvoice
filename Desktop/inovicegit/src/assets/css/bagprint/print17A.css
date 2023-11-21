@@ -457,13 +457,13 @@
 }
 
 @media print {
-    .btn17 {
+    /* .btn17 {
         display: none;
-    }
+    } */
 
-    .bgn17A:nth-child(6n) {
+    /* .bgn17A:nth-child(6n) {
         page-break-after: always;
-    }
+    } */
 
     /* .bg18A:last-child{
         page-break-after: avoid;

@@ -133,8 +133,8 @@
 
 @media print {
     .container_job_bag_sticker_3 {
-        flex-direction: column;
-        font-family: Calibri;
+        flex-direction: column !important;
+        font-family: Calibri !important;
     }
 
 }

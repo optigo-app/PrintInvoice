@@ -268,9 +268,9 @@
 }
 
 @media print {
-    .containerprint16A:nth-child(4n) {
+    /* .containerprint16A:nth-child(4n) {
         page-break-after: always;
-    }
+    } */
 
     /* .containerprint16A:nth-child(2n + 1){
         margin-top: 2rem;

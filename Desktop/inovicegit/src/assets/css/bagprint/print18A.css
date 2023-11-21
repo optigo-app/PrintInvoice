@@ -471,16 +471,23 @@
     line-height: 140% !important;
 }
 @media print {
-    .btn17 {
-        display: none;
+
+    .bg18A{
+        margin-top: 0;
     }
 
-    .bg18A:nth-child(6n) {
-        page-break-after: always;
+    .bg18A:nth-child(6n+6) {
+        page-break-after: always !important;
     }
 
-    /* .bg18A:last-child{
-        page-break-after: avoid;
-    } */
+    .bg18A:nth-child(6n+1), .bg18A:nth-child(6n+2), .bg18A:nth-child(6n+3){
+        position: relative;
+        top: 30px;
+      }
+  
+      .bg18A:nth-child(6n+4), .bg18A:nth-child(6n+5), .bg18A:nth-child(6n+6){
+        position: relative;
+        top: 60px;
+      }
 
 }

@@ -199,7 +199,18 @@
         page-break-after: always;
     }
 
-    .pageBreak {
-        display: none;
+    #main_container:nth-child(6n+1), #main_container:nth-child(6n+2), #main_container:nth-child(6n+3){
+      position: relative;
+      top: 30px;
+    }
+
+    #main_container:nth-child(6n+4), #main_container:nth-child(6n+5), #main_container:nth-child(6n+6){
+      position: relative;
+      top: 60px;
+    }
+ 
+
+    .container15Aold{
+        margin-top: 0
     }
 }

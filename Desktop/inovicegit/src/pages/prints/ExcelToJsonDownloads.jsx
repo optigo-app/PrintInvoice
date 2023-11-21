@@ -12,9 +12,9 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
     const [header, setHeader] = useState({});
     const [total, setTotal] = useState({});
     const loadData = (data) => {
-        let blankArr = [];
         setHeader(data?.BillPrint_Json[0]);
-        let totalsObj = {
+        let blankedArr = [];
+        let totalssObj = {
             srNo: "",
             srJobNo: "",
             orderPoNumber: "",
@@ -48,7 +48,6 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
             let metals = [];
             let goldAmount = 0;
             let findingTitaniumWt = 0;
-            // let netWt = 
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (ele?.StockBarcode === e?.SrJobno) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
@@ -58,186 +57,74 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 3) {
                         diamondsColorStonesMiscs.push(ele);
                     }
-                    if(ele?.MasterManagement_DiamondStoneTypeid === 5){
-                        if(ele?.ShapeName ==="TITANIUM"){
+                    if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
+                        if (ele?.ShapeName === "TITANIUM") {
                             findingTitaniumWt += ele?.Wt
                         }
-                        // findingTitaniumWt 
                     }
                 }
-
             });
-            let arr = [diamondsColorStonesMiscs, metals];
-            let largestLength = -1;
-            arr.forEach((ele, i) => {
-                if (ele.length > largestLength) {
-                    largestLength = ele.length;
+            let obj = { ...e };
+            obj.diamondsColorStonesMiscs = diamondsColorStonesMiscs;
+            obj.metals = metals;
+            obj.goldAmount = goldAmount;
+            obj.findingTitaniumWt = findingTitaniumWt;
+            let findRecord = blankedArr.findIndex(element => element?.GroupJob === obj?.GroupJob && obj?.GroupJob !== "");
+            if (findRecord === -1) {
+                if (metals.length > 1) {
+                    obj.metalWtt = metals[1]?.Wt;
+                    obj.netWt = metals[0]?.Wt + e?.LossWt;
+                } else {
+                    obj.metalWtt = 0;
+                    if (metals.length === 1) {
+                        obj.netWt = e?.NetWt + e?.LossWt;
+                    }
                 }
-            });
+                obj.Pcs = 1;
+                blankedArr.push(obj);
+                // console.log(obj);
+            } else {
+                if (blankedArr[findRecord]?.SrJobno !== obj?.GroupJob) {
+                    blankedArr[findRecord].PO = obj?.PO;
+                    blankedArr[findRecord].designno = obj?.designno;
+                    blankedArr[findRecord].designno = obj?.designno;
+                    blankedArr[findRecord].DesignImage = obj?.DesignImage;
+                    blankedArr[findRecord].Categoryname = obj?.Categoryname;
+                    blankedArr[findRecord].MetalColor = obj?.MetalColor;
+                    blankedArr[findRecord].MetalPurity = obj?.MetalPurity;
+                }
+                blankedArr[findRecord].Pcs += 1;
+                blankedArr[findRecord].grosswt += obj?.grosswt;
+                blankedArr[findRecord].NetWt += obj?.NetWt;
+                // blankedArr[findRecord].MaKingCharge_Unit += obj?.MaKingCharge_Unit;
+                blankedArr[findRecord].MaKingCharge_Unit =(blankedArr[findRecord].MaKingCharge_Unit+ obj?.MaKingCharge_Unit)/2;
+                blankedArr[findRecord].MakingAmount += obj?.MakingAmount;
+                blankedArr[findRecord].TotalAmount += obj?.TotalAmount;
+                if (metals.length > 1) {
+                    blankedArr[findRecord].metalWtt += metals[1].Wt;
+                    blankedArr[findRecord].netWt += metals[0]?.Wt + e?.LossWt;
+                }
+                else if (metals.length === 1) {
+                    blankedArr[findRecord].netWt += e?.NetWt + e?.LossWt;
+                }
+                blankedArr[findRecord].metals = blankedArr[findRecord].metals.concat(metals);
+                blankedArr[findRecord].diamondsColorStonesMiscs = blankedArr[findRecord]?.diamondsColorStonesMiscs.concat(diamondsColorStonesMiscs);
+                blankedArr[findRecord].goldAmount += obj?.goldAmount;
+                blankedArr[findRecord].findingTitaniumWt += obj?.findingTitaniumWt;
+            }
+        });
+        let resultArr = [];
+        // console.log(blankedArr);
+        blankedArr.forEach((e, i) => {
             let ktRate = [];
-            metals.forEach((ele, ind) => {
+            e?.metals.forEach((ele, ind) => {
                 let findindex = ktRate.findIndex(elem => elem === ele?.Rate);
                 if (findindex === -1) {
                     ktRate.push(ele?.Rate);
                 }
-            });
-            let ktrates = ktRate.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-            let netWt = "";
-            let metalWtt = "";
-            if (metals.length > 1) {
-                netWt = metals[0]?.Wt + e?.LossWt;
-                metalWtt = metals[1]?.Wt;
-            } else if (metals.length === 1) {
-                netWt = e?.NetWt + e?.LossWt;
-            }
-            let totalObj = {
-                srNo: "",
-                srJobNo: "",
-                orderPoNumber: "",
-                designNo: "",
-                sencoDesignNo: "",
-                image: "",
-                category: "",
-                size: "",
-                MetalColor: "",
-                MetalPurity: "",
-                pcs: "",
-                grossWt: "",
-                NetWt: "",
-                metalWtt: "",
-                ktRate: "",
-                goldAmount: "",
-                seiveGroup: "",
-                diaColorPcs: 0,
-                diaColorCts: 0,
-                diaColorRate: "",
-                diamondColorStoneQuality: "Total",
-                diaColorMiscAmount: 0,
-                labourrate: "",
-                labourValue: "",
-                totalLabour: "",
-                totalAmount: "",
-                totalObjTital: true,
-            }
-            let totalCount = largestLength + 1;
-            let designimage = false;
-            Array.from({ length: largestLength }).forEach((ele, ind) => {
-                let resultObj = {
-                    srNo: "",
-                    srJobNo: "",
-                    orderPoNumber: "",
-                    designNo: "",
-                    sencoDesignNo: "",
-                    image: "",
-                    category: "",
-                    size: "",
-                    MetalColor: "",
-                    MetalPurity: "",
-                    pcs: "",
-                    grossWt: "",
-                    NetWt: "",
-                    metalWtt: "",
-                    ktRate: "",
-                    goldAmount: "",
-                    seiveGroup: "",
-                    diaColorPcs: "",
-                    diaColorCts: "",
-                    diaColorRate: "",
-                    diamondColorStoneQuality: "",
-                    diaColorMiscAmount: "",
-                    labourrate: "",
-                    labourValue: "",
-                    totalLabour: "",
-                    totalAmount: "",
-                    totalObjTital: false,
-                }
-                if (ind === 0) {
-                    resultObj.srNo = i + 1;
-                    resultObj.srJobNo = e?.SrJobno;
-                    resultObj.orderPoNumber = e?.PO;
-                    resultObj.designNo = e?.designno;
-                    resultObj.sencoDesignNo = e?.MFG_DesignNo;
-                    resultObj.pcs = 1;
-                    resultObj.image = e?.DesignImage;
-                    resultObj.category = e?.Categoryname;
-                    resultObj.size = e?.Size;
-                    resultObj.MetalColor = e?.MetalColor;
-                    resultObj.MetalPurity = e?.MetalPurity;
-                    resultObj.grossWt = NumberWithCommas(e?.grosswt, 3);
-                    resultObj.NetWt = NumberWithCommas(netWt-findingTitaniumWt, 3);
-                    resultObj.metalWtt = NumberWithCommas(metalWtt+findingTitaniumWt, 3);
-                    if (goldAmount !== 0) {
-                        resultObj.goldAmount = goldAmount;
-                    }
-                    if (ktrates !== 0) {
-                        resultObj.ktRate = ktrates;
-                    }
-                    if (e?.DesignImage === "") {
-                        designimage = true;
-                    }
-                    resultObj.labourrate = NumberWithCommas(e?.MaKingCharge_Unit, 2);
-                    resultObj.labourValue = NumberWithCommas(e?.MakingAmount, 2);
-                    resultObj.totalLabour = NumberWithCommas(e?.MakingAmount, 2);
-                    resultObj.totalAmount = NumberWithCommas(e?.TotalAmount, 2);
-                    totalsObj.totalAmount += e?.TotalAmount;
-                }
-                if (diamondsColorStonesMiscs[ind]) {
-                    resultObj.diaColorPcs = diamondsColorStonesMiscs[ind]?.Pcs;
-
-                    totalObj.diaColorPcs += diamondsColorStonesMiscs[ind]?.Pcs;
-                    if(diamondsColorStonesMiscs[ind]?.MasterManagement_DiamondStoneTypeid === 3){
-                        let textComapre = (diamondsColorStonesMiscs[ind]?.ShapeName).toLowerCase();
-                        if(textComapre.includes("certification") || textComapre.includes("hallmark") || textComapre.includes("stamping")){
-                            diamondsColorStonesMiscs[ind].Wt = 0;
-                        }
-                    }
-
-                    totalObj.diaColorCts += diamondsColorStonesMiscs[ind]?.Wt;
-                    resultObj.diaColorCts = NumberWithCommas(diamondsColorStonesMiscs[ind]?.Wt, 3);
-                    resultObj.diaColorRate = NumberWithCommas(diamondsColorStonesMiscs[ind]?.Rate, 2);
-                    let shapeName = "";
-                    let seiveGroup = "";
-                    if (diamondsColorStonesMiscs[ind]?.MasterManagement_DiamondStoneTypeid === 1) {
-                        shapeName = "DIA";
-                        seiveGroup = diamondsColorStonesMiscs[ind]?.GroupName;
-                    } else if (diamondsColorStonesMiscs[ind]?.MasterManagement_DiamondStoneTypeid === 2) {
-                        shapeName = "CS";
-                    } else if (diamondsColorStonesMiscs[ind]?.MasterManagement_DiamondStoneTypeid === 3) {
-                        shapeName = "M";
-                    }
-                    // let diaColorMiscShapes = ""; 
-                    resultObj.diamondColorStoneQuality = shapeName + " / " +
-                        diamondsColorStonesMiscs[ind]?.ShapeName + " / " +
-                        diamondsColorStonesMiscs[ind]?.QualityName + " / " +
-                        diamondsColorStonesMiscs[ind]?.Colorname + " / " +
-                        diamondsColorStonesMiscs[ind]?.SizeName;
-                    if (diamondsColorStonesMiscs[ind]?.Amount !== 0 && diamondsColorStonesMiscs[ind]?.Amount !== "") {
-                        resultObj.diaColorMiscAmount = NumberWithCommas(diamondsColorStonesMiscs[ind]?.Amount, 2);
-                        totalObj.diaColorMiscAmount += diamondsColorStonesMiscs[ind]?.Amount;
-                    }
-                    resultObj.seiveGroup = seiveGroup;
-
-                }
-                blankArr.push(resultObj);
-            });
-            totalsObj.diaColorPcs += totalObj.diaColorPcs;
-            totalsObj.diaColorCts += totalObj.diaColorCts;
-            totalsObj.diaColorMiscAmount += totalObj?.diaColorMiscAmount;
-            if (totalObj.diaColorMiscAmount !== 0 && totalObj.diaColorMiscAmount !== "") {
-                totalObj.diaColorMiscAmount = NumberWithCommas(totalObj?.diaColorMiscAmount, 2);
-            }
-
-            if (totalObj.diaColorPcs === 0) {
-                totalObj.diaColorPcs = ""
-            }
-            if (totalObj.diaColorCts === 0) {
-                totalObj.diaColorCts = ""
-            }
-
-            blankArr.push(totalObj);
-            if (totalCount < 5 && !designimage) {
-                Array.from({ length: 5 - totalCount }).forEach((e, i) => {
-                    let blankLine = {
+        })
+                let ktrates = ktRate.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                    let totalObj = {
                         srNo: "",
                         srJobNo: "",
                         orderPoNumber: "",
@@ -255,23 +142,172 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                         ktRate: "",
                         goldAmount: "",
                         seiveGroup: "",
-                        diaColorPcs: "",
-                        diaColorCts: "",
+                        diaColorPcs: 0,
+                        diaColorCts: 0,
                         diaColorRate: "",
-                        diamondColorStoneQuality: "",
-                        diaColorMiscAmount: "",
+                        diamondColorStoneQuality: "Total",
+                        diaColorMiscAmount: 0,
                         labourrate: "",
                         labourValue: "",
                         totalLabour: "",
                         totalAmount: "",
-                        totalObjTital: false,
+                        totalObjTital: true,
                     }
-                    blankArr.push(blankLine);
-                })
-            }
+                    let largestLength = e.metals.length > e.diamondsColorStonesMiscs.length ?
+                    e.metals.length :
+                    e.diamondsColorStonesMiscs.length;
+                    let totalCount = largestLength + 1;
+                    let designimage = false;
+                    Array.from({ length: largestLength }).forEach((ele, ind) => {
+                        let resultObj = {
+                            srNo: "",
+                            srJobNo: "",
+                            orderPoNumber: "",
+                            designNo: "",
+                            sencoDesignNo: "",
+                            image: "",
+                            category: "",
+                            size: "",
+                            MetalColor: "",
+                            MetalPurity: "",
+                            pcs: "",
+                            grossWt: "",
+                            NetWt: "",
+                            metalWtt: "",
+                            ktRate: "",
+                            goldAmount: "",
+                            seiveGroup: "",
+                            diaColorPcs: "",
+                            diaColorCts: "",
+                            diaColorRate: "",
+                            diamondColorStoneQuality: "",
+                            diaColorMiscAmount: "",
+                            labourrate: "",
+                            labourValue: "",
+                            totalLabour: "",
+                            totalAmount: "",
+                            totalObjTital: false,
+                        }
+                        if (ind === 0) {
+                            resultObj.srNo = i + 1;
+                            resultObj.srJobNo = e?.SrJobno;
+                            resultObj.orderPoNumber = e?.PO;
+                            resultObj.designNo = e?.designno;
+                            resultObj.sencoDesignNo = e?.MFG_DesignNo;
+                            resultObj.pcs = e?.Pcs;
+                            resultObj.image = e?.DesignImage;
+                            resultObj.category = e?.Categoryname;
+                            resultObj.size = e?.Size;
+                            resultObj.MetalColor = e?.MetalColor;
+                            resultObj.MetalPurity = e?.MetalPurity;
+                            resultObj.grossWt = NumberWithCommas(e?.grosswt, 3);
+                            resultObj.NetWt = NumberWithCommas(e.netWt - e.findingTitaniumWt, 3);
+                            resultObj.metalWtt = NumberWithCommas(e.metalWtt + e.findingTitaniumWt, 3);
+                            if (e.goldAmount !== 0) {
+                                resultObj.goldAmount = e.goldAmount;
+                            }
+                            if (ktrates !== 0) {
+                                resultObj.ktRate = ktrates;
+                            }
+                            if (e?.DesignImage === "") {
+                                designimage = true;
+                            }
+                            resultObj.labourrate = NumberWithCommas(e?.MaKingCharge_Unit, 2);
+                            resultObj.labourValue = NumberWithCommas(e?.MakingAmount, 2);
+                            resultObj.totalLabour = NumberWithCommas(e?.MakingAmount, 2);
+                            resultObj.totalAmount = NumberWithCommas(e?.TotalAmount, 2);
+                            totalssObj.totalAmount += e?.TotalAmount;
+                        };
+                        if (e?.diamondsColorStonesMiscs[ind]) {
+                            resultObj.diaColorPcs = e?.diamondsColorStonesMiscs[ind]?.Pcs;
+                            totalObj.diaColorPcs += e?.diamondsColorStonesMiscs[ind]?.Pcs;
+                            if (e.diamondsColorStonesMiscs[ind]?.MasterManagement_DiamondStoneTypeid === 3) {
+                                let textComapre = (e?.diamondsColorStonesMiscs[ind]?.ShapeName).toLowerCase();
+                                if (textComapre.includes("certification") || textComapre.includes("hallmark") || textComapre.includes("stamping")) {
+                                    e.diamondsColorStonesMiscs[ind].Wt = 0;
+                                }
+                            }
+        
+                            totalObj.diaColorCts += e.diamondsColorStonesMiscs[ind]?.Wt;
+                            resultObj.diaColorCts = NumberWithCommas(e.diamondsColorStonesMiscs[ind]?.Wt, 3);
+                            resultObj.diaColorRate = NumberWithCommas(e.diamondsColorStonesMiscs[ind]?.Rate, 2);
+                            let shapeName = "";
+                            let seiveGroup = "";
+                            if (e.diamondsColorStonesMiscs[ind]?.MasterManagement_DiamondStoneTypeid === 1) {
+                                shapeName = "DIA";
+                                seiveGroup = e.diamondsColorStonesMiscs[ind]?.GroupName;
+                            } else if (e.diamondsColorStonesMiscs[ind]?.MasterManagement_DiamondStoneTypeid === 2) {
+                                shapeName = "CS";
+                            } else if (e.diamondsColorStonesMiscs[ind]?.MasterManagement_DiamondStoneTypeid === 3) {
+                                shapeName = "M";
+                            }
+                            // let diaColorMiscShapes = "";
+                            resultObj.diamondColorStoneQuality = shapeName + " / " +
+                            e.diamondsColorStonesMiscs[ind]?.ShapeName + " / " +
+                            e.diamondsColorStonesMiscs[ind]?.QualityName + " / " +
+                            e.diamondsColorStonesMiscs[ind]?.Colorname + " / " +
+                            e.diamondsColorStonesMiscs[ind]?.SizeName;
+                            if (e.diamondsColorStonesMiscs[ind]?.Amount !== 0 && e.diamondsColorStonesMiscs[ind]?.Amount !== "") {
+                                resultObj.diaColorMiscAmount = NumberWithCommas(e.diamondsColorStonesMiscs[ind]?.Amount, 2);
+                                totalObj.diaColorMiscAmount += e.diamondsColorStonesMiscs[ind]?.Amount;
+                            }
+                            resultObj.seiveGroup = seiveGroup;
+                        }
+                        resultArr.push(resultObj);
+                    });
+                    totalssObj.diaColorPcs += totalObj.diaColorPcs;
+                    totalssObj.diaColorCts += totalObj.diaColorCts;
+                    totalssObj.diaColorMiscAmount += totalObj?.diaColorMiscAmount;
+                    if (totalObj.diaColorMiscAmount !== 0 && totalObj.diaColorMiscAmount !== "") {
+                        totalObj.diaColorMiscAmount = NumberWithCommas(totalObj?.diaColorMiscAmount, 2);
+                    }
+        
+                    if (totalObj.diaColorPcs === 0) {
+                        totalObj.diaColorPcs = ""
+                    }
+                    if (totalObj.diaColorCts === 0) {
+                        totalObj.diaColorCts = ""
+                    }
+                    resultArr.push(totalObj);
+                    if (totalCount < 5 && !designimage) {
+                        Array.from({ length: 5 - totalCount }).forEach((e, i) => {
+                            let blankLine = {
+                                srNo: "",
+                                srJobNo: "",
+                                orderPoNumber: "",
+                                designNo: "",
+                                sencoDesignNo: "",
+                                image: "",
+                                category: "",
+                                size: "",
+                                MetalColor: "",
+                                MetalPurity: "",
+                                pcs: "",
+                                grossWt: "",
+                                NetWt: "",
+                                metalWtt: "",
+                                ktRate: "",
+                                goldAmount: "",
+                                seiveGroup: "",
+                                diaColorPcs: "",
+                                diaColorCts: "",
+                                diaColorRate: "",
+                                diamondColorStoneQuality: "",
+                                diaColorMiscAmount: "",
+                                labourrate: "",
+                                labourValue: "",
+                                totalLabour: "",
+                                totalAmount: "",
+                                totalObjTital: false,
+                            }
+                            resultArr.push(blankLine);
+                        });
+                    }
+          
         });
-        setTotal(totalsObj);
-        setData(blankArr);
+
+        setTotal(totalssObj);
+        setData(resultArr);
         setTimeout(() => {
             const button = document.getElementById('test-table-xls-button');
             button.click();
@@ -451,7 +487,7 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <td width={100} style={{ textAlign: "center" }}></td>
                                 <td width={100} style={{ textAlign: "center" }}></td>
                                 <td width={100} style={{ textAlign: "center" }}></td>
-                                <td width={100} style={{ textAlign: "center", fontWeight: "bold" }} className='keep_zeroes_2'>&nbsp;{total?.totalAmount}</td>
+                                <td width={100} style={{ textAlign: "center", fontWeight: "bold" }} className='keep_zeroes_2'>&nbsp;{NumberWithCommas(total?.totalAmount, 2)}</td>
                             </tr>
                         </tbody>
                     </table></> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}

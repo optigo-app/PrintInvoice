@@ -443,11 +443,7 @@
     } */
 
     .print10A:nth-child(6n+1) {
-        page-break-before: always;
-    }
-
-    .pageBreak {
-        display: none;
+        page-break-before: always !important;
     }
 
 }

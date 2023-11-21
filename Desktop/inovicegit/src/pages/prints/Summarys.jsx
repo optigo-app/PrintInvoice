@@ -241,12 +241,12 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 </div>
                                 <div className={`border-end col-4`}>
                                     {e?.diamonds.length > 0 && e?.diamonds.map((ele, ind) => {
-                                        return <p className='p-2' key={ind}>{NumberWithCommas(ele?.Wt, 3)}</p>
+                                        return <p className='p-2 text-end' key={ind}>{NumberWithCommas(ele?.Wt, 3)}</p>
                                     })}
                                 </div>
                                 <div className={`col-4`}>
                                     {e?.diamonds.length > 0 && e?.diamonds.map((ele, ind) => {
-                                        return <p className='p-2' key={ind}>{NumberWithCommas(ele?.Rate, 2)}</p>
+                                        return <p className='p-2 text-end' key={ind}>{NumberWithCommas(ele?.Rate, 2)}</p>
                                     })}
                                 </div>
                             </div>

@@ -22,7 +22,7 @@
     border-radius: 8px;
     margin-left: 1.7rem;
     font-size: 15px;
-    /* margin-top: 10px; */
+    margin-bottom: 15px
 }
 .print1AMaterialCG{
     display: flex;
@@ -365,32 +365,27 @@
     z-index: 1;
   }
 
-  .mainbag1A:nth-child(1),.mainbag1A:nth-child(2),.mainbag1A:nth-child(3), .mainbag1A:nth-child(4),.mainbag1A:nth-child(5),.mainbag1A:nth-child(6), .mainbag1A:nth-child(n+7){
-    margin-top: 25px;
-  }
+
 
 @media print {
-      .print_btn{
-        display: none;
-      }
-      .pageBreak{
-          display: none;
-      }
       .mainbag1A:nth-child(6n+6){
         page-break-after: always;
       }
-      .mainbag1A:nth-child(1),.mainbag1A:nth-child(2),.mainbag1A:nth-child(3){
-        margin-top: 0px;
+
+      .mainbag1A:nth-child(6n+1), .mainbag1A:nth-child(6n+2), .mainbag1A:nth-child(6n+3){
+        position: relative;
+        top: 17px;
       }
-      .mainbag1A:nth-child(4),.mainbag1A:nth-child(5),.mainbag1A:nth-child(6){
-        margin-top: 15px;
+
+      .mainbag1A:nth-child(6n+4), .mainbag1A:nth-child(6n+5), .mainbag1A:nth-child(6n+6){
+        position: relative;
+        top: 34px;
       }
-      .mainbag1A:nth-child(n+7){
-        margin-top: 20px;
-      }
- /* .mainbag1A:nth-child(1), .mainbag1A:nth-child(2), .mainbag1A:nth-child(3){
-        margin-top: 0;
-      } */
+   
+      .mainbag1A{
+  
+        margin-bottom: 0;
+    }
     } 
 
     /* {print1A} */

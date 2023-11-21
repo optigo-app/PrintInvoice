@@ -8,6 +8,7 @@ export const printConditions = [
     { printName: "retail", etpType: "print", componentName: "RetailPrint" },
     { printName: "retail1 print", etpType: "print", componentName: "RetailPrint" },
     { printName: "retail print 1", etpType: "print", componentName: "RetailPrint" },
+    { printName: "detail print1 (p)", etpType: "print", componentName: "DetailPrint1" },
     { printName: "detail print 11", etpType: "print", componentName: "DetailPrint11" },
     { printName: "invoice print", etpType: "print", componentName: "InvoicePrint" },
     { printName: "item wise print", etpType: "print", componentName: "ItemWisePrint" },

@@ -256,12 +256,7 @@
 
     .container11A:nth-child(6n) {
 
-        page-break-after: always;
-    }
-
-
-    .pageBreak {
-        display: none;
+        page-break-after: always !important; 
     }
 
 }

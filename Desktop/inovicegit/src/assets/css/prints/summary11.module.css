@@ -37,22 +37,22 @@
 .Amount,
 .gwt {
     width: 6.5%;
-    min-width: 6.5%;    
+    min-width: 6.5%;
 }
 
-.otherCharges{
+.otherCharges {
     width: 7.5%;
     min-width: 7.5%;
 }
 
-.total{
+.total {
     width: 21%;
     min-width: 21%;
 }
 
-@media print{
-    
-.containerSummry11DataFont * {
-    font-size: 9px;
-}
+@media print {
+
+    .containerSummry11DataFont * {
+        font-size: 9px;
+    }
 }

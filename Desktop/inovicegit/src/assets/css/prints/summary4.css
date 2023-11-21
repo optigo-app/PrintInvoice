@@ -281,6 +281,12 @@
 }
 
 @media print {
+    .no_break {
+        page-break-inside: avoid;
+    }
+    .pno_break {
+        page-break-before: always;
+    }
     .print_sec_sum4 {
         display: none !important;
     }
@@ -289,21 +295,5 @@
     .note_sec_sum4,
     .remarks_sum4 {
         page-break-inside: avoid;
-    }
-}
-
-@media print {
-    .no_break {
-        page-break-inside: avoid;
-    }
-}
-
-.no_break {
-    page-break-inside: avoid;
-}
-
-@media print {
-    .pno_break {
-        page-break-before: always;
     }
 }

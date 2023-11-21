@@ -212,9 +212,11 @@ const BagPrint4A = ({ queries, headers }) => {
                 index > 0 && (
                   <div
                     key={index}
-                    className="print4Apart_1"
+                    className="container4A"
                     style={{ border: "0px" }}
-                  ></div>
+                  >
+                    <div className="print4Apart_1"></div>
+                  </div>
                 )
             )}
             {data?.length > 0 &&
@@ -224,8 +226,7 @@ const BagPrint4A = ({ queries, headers }) => {
                     {e?.additional?.pages?.length > 0 ? <> {(
                       e?.additional?.pages?.map((ele, ind) => {
                         return (
-                          <React.Fragment key={ind}>
-                            <div className="container4A">
+                            <div className="container4A container4AA" key={ind}>
                               <div className="print4Apart_1">
                                 <div className="part_1_4A">
                                   <div className="title4A jobDiaGold4A border_bottom4A">
@@ -519,11 +520,10 @@ const BagPrint4A = ({ queries, headers }) => {
                                 </div>
                               </div>
                             </div>
-                          </React.Fragment>
                         );
                       })
                     )} 
-                      <div className="container4A" key={i + "a"}>
+                      <div className="container4A container4AA" key={i + "a"}>
                         <div className="print4Apart_1">
                           <div className="part_1_container_4A container_print4Apart_1">
                             <div className="title4A jobDiaGold4A border_bottom4A">
@@ -808,7 +808,7 @@ const BagPrint4A = ({ queries, headers }) => {
                         </div>
                       </div>
                     </>: <>
-                      <div className="container4A">
+                      <div className="container4A container4AA" key={i + "ab"}>
                         <div className="print4Apart_1">
                           <div className="part_1_4A">
                             <div className="title4A jobDiaGold4A border_bottom4A">
@@ -977,7 +977,7 @@ const BagPrint4A = ({ queries, headers }) => {
                           </div>
                         </div>
                       </div>
-                      <div className="container4A" key={i + "a"}>
+                      <div className="container4A container4AA" key={i + "a"}>
                         <div className="print4Apart_1">
                           <div className="part_1_container_4A container_print4Apart_1">
                             <div className="title4A jobDiaGold4A border_bottom4A">

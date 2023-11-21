@@ -82,7 +82,7 @@
 }
 
 @media print {
-    .containerBg18:nth-child(6n+1) {
+    /* .containerBg18:nth-child(6n+1) {
         page-break-after: always;
-    }
+    } */
 }

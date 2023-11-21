@@ -279,10 +279,11 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
             // const key2Value = obj?.Tunch * obj?.NetWt / 100;
             const key3Value = diaWt;
             const key4Value = obj?.grosswt;
-            const key5Value = obj?.NetWt;
+            const key5Value = obj?.NetWt+obj?.LossWt;
             const key6Value = obj?.MetalAmount;
             const key7Value = obj?.Tunch;
             const key8Value = +((obj?.Tunch * obj?.NetWt / 100).toFixed(3));
+            console.log(key8Value);
             const foundIndex = result.findIndex(item => item.metalType === key1Value);
             nWt += obj?.NetWt;
             makingAmount += obj.MakingAmount;
@@ -377,26 +378,26 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="d-flex justify-content-end align-items-center print_sec_sum4 container summary12Container pt-4">
                         <div className="form-check pe-3">
                             <input className="form-check-input border-dark" type="checkbox" id='chbox' checked={header} onChange={e => handleChange(e, "header")} />
-                            <label className="form-check-label pt-1" htmlFor='chbox'>
+                            <label className="form-check-label pt-2" htmlFor='chbox'>
                                 With Header
                             </label>
                         </div>
                         <div className="form-check pe-3">
                             <input className="form-check-input border-dark" type="checkbox" id='chbox1' checked={image} onChange={e => handleChange(e, "image")} />
-                            <label className="form-check-label pt-1" htmlFor='chbox1'>
+                            <label className="form-check-label pt-2" htmlFor='chbox1'>
                                 With Image
                             </label>
                         </div>
                         <div className="form-check">
                             <input className="form-check-input border-dark" type="checkbox" id='chbox2' checked={summary} onChange={e => handleChange(e, "summary")} />
-                            <label className="form-check-label pt-1" htmlFor='chbox2'>
+                            <label className="form-check-label pt-2" htmlFor='chbox2'>
                                 With Summary
                             </label>
                         </div>
                         <div className="form-check ps-3">
                             {/* <input type="button" className="btn_white blue me-3" value="Pdf" onClick={() => pdfGenerator()} /> */}
                             {/* <input type="button" className="btn_white blue me-3" value="Pdf" onClick={() => handleGeneratePdf()} /> */}
-                            <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
+                            <input type="button" className="btn_white blue mt-0" value="Print" onClick={(e) => handlePrint(e)} />
                         </div>
                     </div>
                     <div className=' pt-2 pb-2 summary12Container portrait_container' ref={targetRef} id="divToPrint">

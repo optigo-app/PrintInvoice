@@ -26,7 +26,6 @@ import Jobbagsticker from './bagPrints/jobBagStickers/Jobbagsticker';
 import Jobbagsticker3 from './bagPrints/jobBagStickers/Jobbagsticker3';
 // import EngageMat from './bagPrints/jobBagStickers/EngageMat';
 
-
 const AllDesignBagPrint = () => {
   const location = useLocation();
   const queryParams = queryString.parse(location.search);

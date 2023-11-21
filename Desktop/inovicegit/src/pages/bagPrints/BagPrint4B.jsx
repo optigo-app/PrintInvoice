@@ -147,10 +147,12 @@ const BagPrint4B = ({ queries, headers }) => {
               (_, index) =>
                 index > 0 && (
                   <div
-                    key={index}
-                    className="print4Apart_1"
-                    style={{ border: "0px" }}
-                  ></div>
+                  key={index}
+                  className="container4A container4B"
+                  style={{ border: "0px" }}
+                >
+                  <div className="print4Apart_1"></div>
+                </div>
                 )
             )}
             {data?.length > 0 &&
@@ -160,8 +162,7 @@ const BagPrint4B = ({ queries, headers }) => {
                     {e?.additional?.pages?.length > 0 ? <> {(
                       e?.additional?.pages?.map((ele, ind) => {
                         return (
-                          <React.Fragment key={ind}>
-                            <div className="container4A">
+                            <div className="container4A container4B" key={ind}>
                               <div className="print4Apart_1">
                                 <div className="part_1_4A">
                                   <div className="title4A jobDiaGold4A border_bottom4A">
@@ -365,11 +366,10 @@ const BagPrint4B = ({ queries, headers }) => {
                                 </div>
                               </div>
                             </div>
-                          </React.Fragment>
                         );
                       })
                     )}
-                      <div className="container4A" key={i + "a"}>
+                      <div className="container4A container4B" key={i + "a"}>
                         <div className="print4Apart_1">
                           <div className="part_1_container_4A container_print4Apart_1">
                             <div className="title4A jobDiaGold4A border_bottom4A">
@@ -657,8 +657,6 @@ const BagPrint4B = ({ queries, headers }) => {
                 );
               })
             }
-           
-
           </section>
         </>
       )}

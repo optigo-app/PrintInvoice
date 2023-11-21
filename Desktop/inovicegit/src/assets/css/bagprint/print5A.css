@@ -411,11 +411,8 @@
     } */
 
     .container5A:nth-child(6n+1) {
-        page-break-before: always;
+        page-break-before: always !important;
     }
 
-    .pageBreak {
-        display: none;
-    }
 
 }

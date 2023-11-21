@@ -17,8 +17,6 @@
     border-radius: 8px;
     margin-top: 1.7rem;
     margin-left: 1.7rem;
-    /* margin-top: 1.7rem;
-    margin-left: 1.7rem; */
     font-size: 15px;
 }
 
@@ -411,19 +409,21 @@
   }
 @media print {
 
-    /* .print1A:nth-child(6n+1) {
+ .mainbag2A{
+    margin-top: 0;
+ }
+    .mainbag2A:nth-child(6n+6) {
         page-break-after: always;
-        margin-top: 1rem;
-      } */
-    .mainbag2A:nth-child(6n+1) {
-        page-break-before: always;
-        /* margin-top: 1rem; */
     }
-    .print_btn{
-        display: none;
-    }
-    .pageBreak {
-        display: none;
-    }
+
+    .mainbag2A:nth-child(6n+1), .mainbag2A:nth-child(6n+2), .mainbag2A:nth-child(6n+3){
+        position: relative;
+        top: 17px;
+      }
+
+      .mainbag2A:nth-child(6n+4), .mainbag2A:nth-child(6n+5), .mainbag2A:nth-child(6n+6){
+        position: relative;
+        top: 34px;
+      }
 
 }

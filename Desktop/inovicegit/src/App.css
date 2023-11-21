@@ -184,4 +184,7 @@ ol {
   .hide-on-print {
     display: none;
   }
+  .print_btn{
+    display: none !important
+  }
 }

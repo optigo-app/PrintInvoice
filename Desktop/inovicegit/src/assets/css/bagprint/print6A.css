@@ -244,8 +244,5 @@
         page-break-before: always;
     }
 
-    .pageBreak {
-        display: none;
-    }
 
 }
