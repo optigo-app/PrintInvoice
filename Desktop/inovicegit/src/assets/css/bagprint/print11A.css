@@ -253,10 +253,26 @@
 
 @media print {
 
-
+/* 
     .container11A:nth-child(6n) {
 
         page-break-after: always !important; 
+    } */
+    .container11A:nth-child(6n+1) {
+        page-break-before: always !important;
     }
+    .container11A{
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+    .container11A:nth-child(6n+1), .container11A:nth-child(6n+2), .container11A:nth-child(6n+3){
+        position: relative;
+        top: 20px;
+      }
+  
+      .container11A:nth-child(6n+4), .container11A:nth-child(6n+5), .container11A:nth-child(6n+6){
+        position: relative;
+        top: 40px;
+      }
 
 }

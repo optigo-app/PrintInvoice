@@ -120,7 +120,7 @@ const BagPrint7A = ({ queries, headers }) => {
             DiamondList,
             ColorStoneList,
             MiscList,
-            FindingList
+            // FindingList
           );
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
@@ -228,7 +228,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   }}
                                 >
                                   <div>
-                                    Dg No. : <b>{e?.data?.rd?.Designcode}</b>
+                                    DgN: <b>{e?.data?.rd?.Designcode}</b>
                                   </div>
                                   <div className="barcode7A">
                                     {e?.data?.rd?.length !== 0 &&
@@ -251,8 +251,8 @@ const BagPrint7A = ({ queries, headers }) => {
                                   }}
                                 >
                                   <div>Size: {e?.data?.rd?.Size}</div>
-                                  <div>({e?.data?.rd?.Quantity})Pcs</div>
-                                  <div>{e?.data?.rd?.prioritycode}</div>
+                                  <div className="pe-1">({e?.data?.rd?.Quantity})Pcs</div>
+                                  {/* <div>{e?.data?.rd?.prioritycode}</div> */}
                                 </div>
 
                                 <div className="mat7AInfo">
@@ -404,6 +404,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 <div className="divide7A">
                                   <div>
                                     {ele?.data?.map((a, i) => {
+                                      console.log(a);
                                       return (
                                         <React.Fragment key={i}>
                                           {a?.Shapename === "TOTAL" ? (
@@ -624,16 +625,16 @@ const BagPrint7A = ({ queries, headers }) => {
                                     </div>
                                     <div className="entryVal7A">
                                       <div className="tableHead7C">
-                                        <div className="dept7AD">WAX</div>
-                                        <div className="dept7AD">CAS</div>
-                                        <div className="dept7AD">In Wt</div>
-                                        <div className="dept7AD">GRNDING</div>
-                                        <div className="dept7AD">BUFFING</div>
-                                        <div className="dept7AD">PRE POLI</div>
-                                        <div className="dept7AD">SETTING</div>
-                                        <div className="dept7AD">MTL FSH</div>
-                                        <div className="dept7AD">F POLISH</div>
-                                        <div className="dept7AD">RHODIUM</div>
+                                        <div className="dept7AD w7A70">WAX</div>
+                                        <div className="dept7AD w7A70">CAS</div>
+                                        <div className="dept7AD w7A70">In Wt</div>
+                                        <div className="dept7AD w7A70">GRNDING</div>
+                                        <div className="dept7AD w7A70">BUFFING</div>
+                                        <div className="dept7AD w7A70">PRE POLI</div>
+                                        <div className="dept7AD w7A70">SETTING</div>
+                                        <div className="dept7AD w7A70">MTL FSH</div>
+                                        <div className="dept7AD w7A70">F POLISH</div>
+                                        <div className="dept7AD w7A70">RHODIUM</div>
                                       </div>
 
                                       <div className="dflexcolumn">
@@ -715,9 +716,9 @@ const BagPrint7A = ({ queries, headers }) => {
                               >
                                 Gr. Wt{" "}
                               </div>
-                              <div className="dept7A fs7A">Chaki Post</div>
-                              <div className="dept7A fs7A">Taar</div>
-                              <div className="dept7A fs7A">Extra Metal</div>
+                              <div className="dept7A fs7A" style={{ width: "63px" }}>Chaki Post</div>
+                              <div className="dept7A fs7A" style={{ width: "63px" }}>Taar</div>
+                              <div className="dept7A fs7A" style={{ width: "63px" }}>Extra Metal</div>
                               <div
                                 className="dept7A fs7A"
                                 style={{ borderRight: "0px" }}
@@ -733,9 +734,9 @@ const BagPrint7A = ({ queries, headers }) => {
                                 className="dept7A"
                                 style={{ width: "63px" }}
                               ></div>
-                              <div className="dept7A"></div>
-                              <div className="dept7A"></div>
-                              <div className="dept7A"></div>
+                              <div className="dept7A" style={{ width: "63px" }}></div>
+                              <div className="dept7A" style={{ width: "63px" }}></div>
+                              <div className="dept7A" style={{ width: "63px" }}></div>
                               <div
                                 className="dept7A"
                                 style={{ borderRight: "0px" }}
@@ -749,9 +750,10 @@ const BagPrint7A = ({ queries, headers }) => {
                                   marginTop: "3px",
                                   padding: "2px",
                                 }}
-                              >
+                                >
+                              
                                 Remark:{" "}
-                                {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                                {" " + checkInstruction(e?.data?.rd?.ProductInstruction)}
                               </b>
                               
                             </div>
@@ -935,7 +937,7 @@ const BagPrint7A = ({ queries, headers }) => {
                    
                             </div>
                             <div className="tableHead7B">
-                              <div className="dept7A" style={{ width: "63px" }}>
+                              <div className="dept7A" style={{ width: "62px" }}>
                                 Dept
                               </div>
                               <div className="dept7A">WrKr</div>
@@ -951,16 +953,16 @@ const BagPrint7A = ({ queries, headers }) => {
                             </div>
                             <div className="entryVal7A">
                               <div className="tableHead7C">
-                                <div className="dept7AD">WAX</div>
-                                <div className="dept7AD">CAS</div>
-                                <div className="dept7AD">In Wt</div>
-                                <div className="dept7AD">GRNDING</div>
-                                <div className="dept7AD">BUFFING</div>
-                                <div className="dept7AD">PRE POLI</div>
-                                <div className="dept7AD">SETTING</div>
-                                <div className="dept7AD">MTL FSH</div>
-                                <div className="dept7AD">F POLISH</div>
-                                <div className="dept7AD">RHODIUM</div>
+                                <div className="dept7AD w7A70">WAX</div>
+                                <div className="dept7AD w7A70">CAS</div>
+                                <div className="dept7AD w7A70">In Wt</div>
+                                <div className="dept7AD w7A70">GRNDING</div>
+                                <div className="dept7AD w7A70">BUFFING</div>
+                                <div className="dept7AD w7A70">PRE POLI</div>
+                                <div className="dept7AD w7A70">SETTING</div>
+                                <div className="dept7AD w7A70">MTL FSH</div>
+                                <div className="dept7AD w7A70">F POLISH</div>
+                                <div className="dept7AD w7A70">RHODIUM</div>
                               </div>
 
                               <div className="dflexcolumn">
@@ -1025,9 +1027,9 @@ const BagPrint7A = ({ queries, headers }) => {
                           >
                             Gr. Wt{" "}
                           </div>
-                          <div className="dept7A fs7A">Chaki Post</div>
-                          <div className="dept7A fs7A">Taar</div>
-                          <div className="dept7A fs7A">Extra Metal</div>
+                          <div className="dept7A fs7A" style={{ width: "63px" }}>Chaki Post</div>
+                          <div className="dept7A fs7A" style={{ width: "63px" }}>Taar</div>
+                          <div className="dept7A fs7A" style={{ width: "63px" }}>Extra Metal</div>
                           <div
                             className="dept7A fs7A"
                             style={{ borderRight: "0px" }}
@@ -1043,9 +1045,9 @@ const BagPrint7A = ({ queries, headers }) => {
                             className="dept7A"
                             style={{ width: "63px" }}
                           ></div>
-                          <div className="dept7A"></div>
-                          <div className="dept7A"></div>
-                          <div className="dept7A"></div>
+                          <div className="dept7A" style={{ width: "63px" }}></div>
+                          <div className="dept7A" style={{ width: "63px" }}></div>
+                          <div className="dept7A" style={{ width: "63px" }}></div>
                           <div
                             className="dept7A"
                             style={{ borderRight: "0px" }}
@@ -1053,8 +1055,9 @@ const BagPrint7A = ({ queries, headers }) => {
                         </div>
                         <div className="footer7A">
                           <b>
+                            {}
                             Remark:{" "}
-                            {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                            {" " +checkInstruction(e?.data?.rd?.ProductInstruction)}
                           </b>
                         </div>
                       </div>

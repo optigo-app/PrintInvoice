@@ -514,16 +514,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                   WORKER
                                 </div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
-                                <div className="dept_4A border_right4A d-flex align-items-center px-1">
-                                  WAX.
-                                </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
-                              </div>
+                              
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className="dept_4A border_right4A d-flex align-items-center px-1">
                                   FIL.
@@ -597,6 +588,16 @@ const BagPrint4B = ({ queries, headers }) => {
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
                                   FP.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center">
+
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>

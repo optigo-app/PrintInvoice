@@ -240,9 +240,25 @@
         margin-top: 4.7rem;
     } */
 
-    .container6A:nth-child(4n+1) {
+    /* .container6A:nth-child(4n+1) {
         page-break-before: always;
+    } */
+    .container6A:nth-child(4n+4){
+        page-break-after: always !important;
     }
+    .container6A {
+        margin-top: 0;
+    }
+
+      .container6A:nth-child(4n+1), .container6A:nth-child(4n+2){
+        position: relative;
+        top: 60px;
+      }
+
+      .container6A:nth-child(4n+4), .container6A:nth-child(4n+3){
+        position: relative;
+        top: 120px;
+      }
 
 
 }

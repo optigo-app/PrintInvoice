@@ -445,7 +445,23 @@
       margin-top: 1rem;
     } */
 
-    .container13A:nth-child(6n) {
+    /* .container13A:nth-child(6n) {
         page-break-after: always !important;
+    } */
+    .container13A:nth-child(6n+1) {
+        page-break-before: always !important;
     }
+    .container13A{
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+    .container13A:nth-child(6n+1), .container13A:nth-child(6n+2), .container13A:nth-child(6n+3){
+        position: relative;
+        top: 20px;
+      }
+  
+      .container13A:nth-child(6n+4), .container13A:nth-child(6n+5), .container13A:nth-child(6n+6){
+        position: relative;
+        top: 40px;
+      }
 }
