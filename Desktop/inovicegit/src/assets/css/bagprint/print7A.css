@@ -42,6 +42,7 @@
     display: flex;
     justify-content: space-between;
     padding: 4px;
+    height: 17px;
 }
 
 .party7A {
@@ -142,7 +143,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 52px;
+    width: 62px;
     border-bottom: 1px solid #989898;
     border-right: 1px solid #989898;
     /* border-top: 1px solid #989898; */
@@ -162,6 +163,8 @@
 
 .entryVal7A {
     display: flex;
+    justify-content: space-between;
+    width: 268px !important;
 }
 
 .type7A {
@@ -213,7 +216,7 @@
     justify-content: center;
     align-items: center;
     border-right: 1px solid #989898;
-    width: 52px;
+    width: 40px;
     height: 16px;
 }
 
@@ -222,18 +225,20 @@
     justify-content: center;
     align-items: center;
     border-right: 1px solid #989898;
-    width: 43px;
+    width: 41px;
     height: 16px;
     border-bottom: 1px solid #989898;
     line-height: 10px;
 }
-
+.w7A70{
+    width: 62px !important;
+}
 .dept7AD {
     display: flex;
     justify-content: center;
     align-items: center;
     border-right: 1px solid #989898;
-    width: 52px;
+    width: 40px;
     height: 16px;
     border-bottom: 1px solid #989898;
 }
@@ -321,18 +326,20 @@
 }
 
 @media print {
-
-
-    /* .container7A {
-        margin-top: 1.7rem;
-        margin-left: 2.3rem;
-    } */
-
-    .container7A:nth-child(4n+1) {
-        page-break-before: always;
+    .container7A:nth-child(4n+4){
+        page-break-after: always !important;
+    }
+    .container7A {
+        margin-top: 0;
     }
 
+      .container7A:nth-child(4n+1), .container7A:nth-child(4n+2){
+        position: relative;
+        top: 25px;
+      }
 
-
-
+      .container7A:nth-child(4n+4), .container7A:nth-child(4n+3){
+        position: relative;
+        top: 40px;
+      }
 }

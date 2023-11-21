@@ -388,8 +388,8 @@ const BagPrint10A = ({ queries, headers }) => {
                                           lineHeight: "9px",
                                         }}
                                       >
-                                        CUST INS.
-                                        {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                                         <span className="text-black">CUST INS.</span>
+                                        <span style={{color:"red"}}>{" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}</span>
                                       </span>
                                     </p>
                                   </div>
@@ -555,7 +555,20 @@ const BagPrint10A = ({ queries, headers }) => {
                                   <div className="seaction10AheadPcs">PCS</div>
                                   <div className="seaction10AheadWT">WT</div>
                                 </div>
-                                {Array.from({ length: 17 }, (_, index) => (
+                                <div className="seaction10Amid">
+                                    <div
+                                      className="seaction10Ahead"
+                                      style={{ fontWeight: "normal" }}
+                                    >
+                                      <div className="seaction10AheadCode">{e?.data?.rd?.MetalType + " " + e?.data?.rd?.MetalColorCo}</div>
+                                      <div className="seaction10AheadSize"></div>
+                                      <div className="seaction10AheadPcs"></div>
+                                      <div className="seaction10AheadWT"></div>
+                                      <div className="seaction10AheadPcs"></div>
+                                      <div className="seaction10AheadWT"></div>
+                                    </div>
+                                  </div>
+                                {Array.from({ length: 16 }, (_, index) => (
                                   <div className="seaction10Amid" key={index}>
                                     <div
                                       className="seaction10Ahead"
@@ -582,8 +595,8 @@ const BagPrint10A = ({ queries, headers }) => {
                                       lineHeight: "11px",
                                     }}
                                   >
-                                    CUST INS.
-                                    {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                                    <span className="text-black">CUST INS.</span>
+                                    <span style={{color:"red"}}>{" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}</span>
                                   </span>
                                 </p>
                               </div>

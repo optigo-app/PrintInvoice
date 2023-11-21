@@ -195,7 +195,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                                     GROSS WT
                                                                                 </div>
                                                                                 <div className="gold_18k_12A border_right_2_12A">
-                                                                                    {/* {e?.data?.ActualGrossweight} */}
+                                                                                    {e?.data?.ActualGrossweight?.toFixed(3)}
                                                                                 </div>
                                                                             </div>
                                                                             <div className="order_no_12A border_bottom_2_12A">
@@ -209,7 +209,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                                     NET WT
                                                                                 </div>
                                                                                 <div className="gold_18k_12A border_right_2_12A">
-                                                                                    {/* {e?.data?.netwt} */}
+                                                                                    {e?.data?.netwt?.toFixed(3)}
                                                                                 </div>
                                                                             </div>
                                                                             <div className="order_no_12A border_bottom_2_12A">
@@ -371,7 +371,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                         ORDER NO.
                                                                     </div>
                                                                     <div className="testing_text_12A border_right_2_12A">
-                                                                        {e?.data?.OrderNo}
+                                                                        {e?.data?.PO}
                                                                     </div>
                                                                     <div className="metal_col_12A border_right_2_12A">
                                                                         METAL COL/KT
@@ -391,7 +391,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                         GROSS WT
                                                                     </div>
                                                                     <div className="gold_18k_12A border_right_2_12A">
-                                                                        {/* {e?.data?.ActualGrossweight} */}
+                                                                        {e?.data?.ActualGrossweight?.toFixed(3)}
                                                                     </div>
                                                                 </div>
                                                                 <div className="order_no_12A border_bottom_2_12A">
@@ -405,7 +405,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                                         NET WT
                                                                     </div>
                                                                     <div className="gold_18k_12A border_right_2_12A">
-                                                                        {/* {e?.data?.netwt} */}
+                                                                        {e?.data?.netwt?.toFixed(3)}
                                                                     </div>
                                                                 </div>
                                                                 <div className="order_no_12A border_bottom_2_12A">
