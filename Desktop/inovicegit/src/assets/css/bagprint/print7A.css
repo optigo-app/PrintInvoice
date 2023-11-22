@@ -49,6 +49,8 @@
     display: flex;
     justify-content: space-between;
     height: 15px;
+    padding-left: 1px;
+    padding-right: 1px;
 }
 
 .mat7AInfo {
@@ -276,7 +278,7 @@
 
 .barcode7A img.barcode_sticker {
     position: relative;
-    top: 11px !important;
+    top: 16px !important;
     right: unset !important;
     left: 51px !important;
     transform: translate(0) rotate(0deg) !important;
