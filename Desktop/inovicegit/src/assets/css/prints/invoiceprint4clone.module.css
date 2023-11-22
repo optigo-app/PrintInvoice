@@ -31,6 +31,10 @@
     display: none;
 }
 
+.min_height{
+    min-height: 340px;
+}
+
 @media print{
     .invoicePrint4Input{
         border: none;

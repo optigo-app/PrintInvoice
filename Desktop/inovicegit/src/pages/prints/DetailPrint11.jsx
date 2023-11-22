@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/detailPrint11.css";
 import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
-import SampleDetailPrint11 from '../SampleDetailPrint11';
-
 
 const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
 

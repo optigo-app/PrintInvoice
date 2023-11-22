@@ -156,7 +156,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
     return (
         loader ? <Loader /> : msg === "" ? <>
             {/* print button  */}
-            <div className={`d-flex justify-content-end mb-0 align-items-center pt-4 container-fluid max_width_container print_sec_sum4 ${style?.print_sec_sum4}`}>
+            <div className={`d-flex justify-content-end mb-4 align-items-center pt-4 container-fluid max_width_container print_sec_sum4 ${style?.print_sec_sum4}`}>
                 <div className="form-check ps-3 mt-2">
                     <input
                         type="button"
@@ -166,12 +166,12 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                     />
                 </div>
             </div>
-            <div className={`container-fluid max_width_container ${style?.invoicePrint4CloneContainer} pad_60_allPrint ${style?.pad_60_allPrint}`}>
+            <div className={`container-fluid max_width_container ${style?.invoicePrint4CloneContainer} pad_60_allPrint ${style?.pad_60_allPrint} pt-2`}>
                 {/* Print Label */}
-                <p className="fs-2 fw-bold text-center mb-4">{headerData?.PrintHeadLabel}</p>
+                <p className="fs-2 fw-bold text-center">{headerData?.PrintHeadLabel}</p>
                 {/* Company Address */}
                 <div className="d-flex">
-                    <div className="col-9 p-2">
+                    <div className="col-9 px-2">
                         <p className=" pb-1"><span className='fs-4 fw-bold'>{headerData?.CompanyFullName}</span> </p>
                         <p className='pb-1'>{headerData?.CompanyAddress}, {headerData?.CompanyAddress2} {headerData?.CompanyCity} {headerData?.CompanyPinCode} {headerData?.CompanyCountry}</p>
                         <p className="pb-1"> Phone +91 {headerData?.CompanyTellNo}</p>
@@ -185,7 +185,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                 </div>
                 {/* Customer Address */}
-                <div className="border d-flex py-4 mt-5">
+                <div className="border d-flex mt-2">
                     <div className="col-6 p-2">
                         <p className="">{headerData?.lblBillTo}</p>
                         <p className="fs-4 pb-1">{headerData?.CustName}</p>
@@ -204,21 +204,20 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                 </div>
                 {/* Table */}
-                <div className="pt-5">
                     {/* Table Header */}
-                    <div className="d-flex border">
+                    <div className="d-flex border mt-2">
                         <div className="col-4 p-2 border-end">
                             <p className="fs-5 fw-bold text-center">DESCRIPTION</p>
                         </div>
                         <div className="col-8 d-flex">
-                            <div className="col-3 p-2 fw-bold">DETAIL</div>
-                            <div className="col-3 p-2 fw-bold text-center">QTY/WEIGHT</div>
-                            <div className="col-3 p-2 fw-bold text-center">RATE</div>
-                            <div className="col-3 p-2 fw-bold text-end">AMOUNT</div>
+                            <div className="col-3 d-flex align-items-center p-2 fw-bold">DETAIL</div>
+                            <div className="col-3 d-flex align-items-center justify-content-center p-2 fw-bold text-center">QTY/WEIGHT</div>
+                            <div className="col-3 d-flex align-items-center justify-content-center p-2 fw-bold text-center">RATE</div>
+                            <div className="col-3 d-flex align-items-center justify-content-end p-2 fw-bold text-end">AMOUNT</div>
                         </div>
                     </div>
                     {/* Table Data */}
-                    <div className="d-flex border">
+                    <div className={`d-flex border ${style?.min_height}`}>
                         {/* <div className="col-4 p-2 border-end"> */}
                         <div className="col-4 p-2 border-end d-flex justify-content-center align-items-center flex-column">
                             <input type="text" value={discription} onChange={handleChangeDiscription} className={`${style?.invoicePrint4Input} text-center ${style?.discriptionInput}`} />
@@ -227,7 +226,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                             {/* <p className="fs-5 text-center"> GOLD ORNAMENTS </p>
                             <p className="fs-5 text-center"> HSN CODE 7113 </p> */}
                         </div>
-                        <div className="col-8 py-5">
+                        <div className="col-8">
                             <div className="d-gird h-100 pt-2">
                                 {datas?.map((e, i) => {
                                     return <div className="d-flex pb-1" key={i}>
@@ -274,8 +273,8 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="col-4">
                             {taxes.length > 0 && taxes.map((e, i) => {
                                 return <div className="d-flex" key={i}>
-                                    <div className="col-6 p-1 border-end text-end py-2">{e?.name} @ {e?.per}</div>
-                                    <div className="col-6 p-1 text-end py-2">{+e?.amount !== 0 && e?.amount}</div>
+                                    <div className="col-6 p-1 border-end text-end">{e?.name} @ {e?.per}</div>
+                                    <div className="col-6 p-1 text-end">{+e?.amount !== 0 && e?.amount}</div>
                                 </div>
                             })}
                             {headerData?.AddLess !== 0 && <div className="d-flex">
@@ -283,20 +282,20 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <div className="col-6 p-1 text-end">{headerData?.AddLess}</div>
                             </div>}
                             <div className="d-flex border-top">
-                                <div className="col-6 p-1 border-end text-end fw-bold border-bottom">GRAND TOTAL</div>
-                                <div className="col-6 p-1 text-end fw-bold border-bottom">{NumberWithCommas(total?.grandTotal, 2)}</div>
+                                <div className="col-6 p-1 border-end text-end fw-bold">GRAND TOTAL</div>
+                                <div className="col-6 p-1 text-end fw-bold">{NumberWithCommas(total?.grandTotal, 2)}</div>
                             </div>
                         </div>
                     </div>
                     {/* numbers to words */}
-                    <div className="border-start border-end border-bottom p-2 py-4">
+                    <div className="border-start border-end border-bottom p-2">
                         <p className='pb-1'>Amount Chargeable In Words</p>
                         <p className="fw-bold">Rs {toWords.convert(+fixedValues(total?.grandTotal, 2))}</p>
                     </div>
                     {/* Bank Detail */}
                     <div className='no_break'>
                         <div className={`d-flex border-start border-end border-bottom w-100`}>
-                            <div className="col-4 p-2 border-end py-4">
+                            <div className="col-4 p-2 border-end">
                                 <p className="fw-bold pb-1">Bank Detail</p>
                                 <p className="pb-1">Account Name: {headerData?.accountname}</p>
                                 <p className="pb-1">Bank Name: {headerData?.bankname}</p>
@@ -304,17 +303,16 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <p className="pb-1">Account No.: {headerData?.accountnumber}</p>
                                 <p>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</p>
                             </div>
-                            <div className="col-4 p-2 border-end d-flex justify-content-between flex-column py-4">
+                            <div className="col-4 p-2 border-end d-flex justify-content-between flex-column">
                                 <p>Signature</p>
                                 <p className='fw-bold'>{headerData?.CustName}</p>
                             </div>
-                            <div className="col-4 p-2 d-flex justify-content-between flex-column py-4">
+                            <div className="col-4 p-2 d-flex justify-content-between flex-column">
                                 <p className="fw-bold">For</p>
                                 <p className="fw-bold">{headerData?.CompanyFullName}</p>
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
 
 
