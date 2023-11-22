@@ -1,8 +1,8 @@
-* {
+/* * {
     word-break: break-all;
     box-sizing: border-box;
     line-height: 100%;
-}
+} */
 
 .container11A {
     width: 347px;
@@ -15,8 +15,8 @@
     margin-left: 1.3rem; */
     /* margin-top: 18px;
     margin-left: 20px; */
-    margin-top: 1.45rem;
-    margin-left: 1.8rem;
+    margin-top: 1.35rem;
+    margin-left: 1.3rem;
 }
 
 .borderBottom11A {
@@ -267,12 +267,12 @@
     }
     .container11A:nth-child(6n+1), .container11A:nth-child(6n+2), .container11A:nth-child(6n+3){
         position: relative;
-        top: 20px;
+        top: 19px;
       }
   
       .container11A:nth-child(6n+4), .container11A:nth-child(6n+5), .container11A:nth-child(6n+6){
         position: relative;
-        top: 40px;
+        top: 38px;
       }
 
 }

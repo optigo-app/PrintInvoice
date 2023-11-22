@@ -1,10 +1,10 @@
-*{
+/* *{
     border-collapse: collapse !important;
     word-break: break-all;
     box-sizing: border-box;
     line-height: 100%;
     line-height: 100%;
-}
+} */
 .lh1Ady{
         line-height: 8px;
 
@@ -20,7 +20,7 @@
     height: 367px;
     border: 1px solid black;
     border-radius: 8px;
-    margin-left: 1.7rem;
+    margin-left: 1.3rem;
     font-size: 15px;
     margin-bottom: 15px
 }

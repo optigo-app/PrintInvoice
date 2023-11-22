@@ -1,10 +1,9 @@
-* {
+/* * {
     box-sizing: border-box;
     word-break: break-all;
     margin: 0px;
     padding: 0px;
-
-}
+} */
 
 .lineH13A {
     line-height: 6px;
@@ -16,7 +15,7 @@
     border: 2px solid black;
     border-radius: 8px;
     margin-top: 1.65rem;
-    margin-left: 1.55rem;
+    margin-left: 1.1rem;
     /* margin-top: 1.2rem;
     margin-left: 1.2rem; */
     /* margin-top: 1.55rem;
@@ -402,8 +401,10 @@
     object-fit: cover;
     transform: rotate(90deg) !important;
     position: absolute;
-    top: 9rem !important;
-    left: 17rem !important;
+    top: 6rem !important;
+    left: 13rem !important;
+    /* top: 9rem !important;
+    left: 17rem !important; */
     /* height: 20px;
     width: 152px;
     object-fit: cover;

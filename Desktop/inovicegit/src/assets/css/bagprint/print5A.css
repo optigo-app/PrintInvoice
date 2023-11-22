@@ -1,11 +1,11 @@
-* {
+/* * {
     box-sizing: border-box;
     word-break: break-all;
     line-height: 100%;
     margin: 0px;
     padding: 0px;
 
-}
+} */
 
 .container5A {
     width: 350px;
@@ -14,7 +14,7 @@
     border: 2px solid black;
     border-radius: 8px;
     margin-top: 1.6rem;
-    margin-left: 1.55rem;
+    margin-left: 1.1rem;
     font-size: 12px;
     /* margin-top: 1.7rem;
     margin-left: 1.5rem; */
@@ -410,9 +410,24 @@
       margin-top: 1rem;
     } */
 
+    /* .container5A:nth-child(6n+1) {
+        page-break-before: always !important;
+    } */
     .container5A:nth-child(6n+1) {
         page-break-before: always !important;
     }
-
+    .container5A{
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+    .container5A:nth-child(6n+1), .container5A:nth-child(6n+2), .container5A:nth-child(6n+3){
+        position: relative;
+        top: 19px;
+      }
+  
+      .container5A:nth-child(6n+4), .container5A:nth-child(6n+5), .container5A:nth-child(6n+6){
+        position: relative;
+        top: 38px;
+      }
 
 }

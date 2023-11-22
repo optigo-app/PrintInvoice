@@ -403,7 +403,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                             ? e?.additional?.img
                                             : require("../../assets/img/default.jpg")
                                         }
-                                        id="img10A"
+                                        style={{height:"6rem", width:"7rem"}}
                                         alt=""
                                         onError={(e) => handleImageError(e)}
                                         loading="eager"
@@ -610,7 +610,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                         ? e?.additional?.img
                                         : require("../../assets/img/default.jpg")
                                     }
-                                    id="img10A"
+                                    style={{height:"6rem", width:"7rem"}}
                                     alt=""
                                     onError={(e) => handleImageError(e)}
                                     loading="eager"
@@ -873,7 +873,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                   ? e?.additional?.img
                                   : require("../../assets/img/default.jpg")
                               }
-                              id="img10A"
+                              style={{height:"7.5rem", width:"7rem"}}
                               alt=""
                               onError={(e) => handleImageError(e)}
                               loading="eager"

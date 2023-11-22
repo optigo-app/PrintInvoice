@@ -978,7 +978,7 @@ function BagPrint1A({ queries, headers }) {
                                 fontSize: "14px",
                                 borderRight: "1px solid black",
                                 height: "34px",
-                                width: "25.4rem",
+                                width: "19rem",
                               }}
                             >
                               <b>INSTRUCTION:</b>
