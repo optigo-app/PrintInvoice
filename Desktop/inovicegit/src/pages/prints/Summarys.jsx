@@ -31,6 +31,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
         convertednetwt: 0,
         metalRates: 0,
         UnitCost: 0,
+        totalAmount: 0
     });
     const [taxes, setTaxes] = useState([]);
     const [totalAmount, setTotalAmount] = useState({
@@ -40,7 +41,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
     const [category, setCategory] = useState([]);
 
     const loadData = (data) => {
-        console.log(data);
+        // console.log(data);
         setHeaderData(data?.BillPrint_Json[0]);
         let head = HeaderComponent(data?.BillPrint_Json[0]?.HeaderNo, data?.BillPrint_Json[0]);
         setHeaderComp(head);
@@ -60,6 +61,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
             totals.NetWt += e?.NetWt;
             totals.MakingAmount += e?.MaKingCharge_Unit;
             totals.convertednetwt += e?.convertednetwt;
+            totals.totalAmount += e?.TotalAmount;
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (ele?.StockBarcode === e?.SrJobno) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -89,17 +91,17 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
             obj.cs = cs;
             obj.diamonds = diamonds;
             resultArr.push(obj);
-            let findRecord = categories.findIndex(ele=>ele?.Categoryname === e?.Categoryname);
-            if(findRecord === -1){
-                categories.push({"Categoryname": e?.Categoryname, count: 1});
-            }else{
+            let findRecord = categories.findIndex(ele => ele?.Categoryname === e?.Categoryname);
+            if (findRecord === -1) {
+                categories.push({ "Categoryname": e?.Categoryname, count: 1 });
+            } else {
                 categories[findRecord].count += 1;
             }
         });
         let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.UnitCost);
         let amount = taxValue.reduce((accumulator, currentValue) => accumulator + +currentValue.amount, 0);
         let totalAmounts = { ...totalAmount };
-        totalAmounts.amountAftertax = amount + totals.UnitCost;
+        totalAmounts.amountAftertax = amount + totals.totalAmount + data?.BillPrint_Json[0]?.AddLess;
         setTotalAmount(totalAmounts);
         setTaxes(taxValue);
         setData(resultArr);
@@ -111,9 +113,9 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
         const { name, checked } = e?.target;
         setCheckBox({ ...checkBox, [name]: checked });
         if (name === "netwt") {
-            checked ? 
-            setstyles({ ...Styles, design: style?.design, total: style?.total, totalAmount: style?.amtTotalDetail}) : 
-            setstyles({ ...Styles, design: style?.design1, total: style?.total1, totalAmount: style?.amtTotalDetail1 });
+            checked ?
+                setstyles({ ...Styles, design: style?.design, total: style?.total, totalAmount: style?.amtTotalDetail }) :
+                setstyles({ ...Styles, design: style?.design1, total: style?.total1, totalAmount: style?.amtTotalDetail1 });
         }
     }
 
@@ -225,9 +227,9 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                     </div>
                     <div className={`${style?.amtDetail} border-end p-2 d-flex flex-column justify-content-center align-items-center`}><p className='fw-bold text-center align-middle'>GOLD</p>
-                    <p className='fw-bold text-center'>FINE</p></div>
+                        <p className='fw-bold text-center'>FINE</p></div>
                     <div className={`${style?.amtDetail} border-end p-2 d-flex flex-column justify-content-center align-items-center`}><p className='fw-bold text-center align-middle'>GOLD</p>
-                    <p className='fw-bold text-center'>Rate</p></div>
+                        <p className='fw-bold text-center'>Rate</p></div>
                     <div className={`${Styles?.totalAmount} p-2 d-table`}><p className='fw-bold align-middle d-table-cell text-center'>AMOUNT</p></div>
                 </div>
                 {/* table data */}
@@ -237,10 +239,10 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className={`${Styles?.design} border-end`}>
                             <div className="pb-1">
                                 <p className='fw-bold px-1 pb-1'>{e?.designno} </p>
-                                <p className="fw-bold px-1 pb-1">{checkBox?.brand && e?.BrandName} </p>
+                                <p className="fw-bold px-1 pb-1">{checkBox?.brand && (`Brand: ${e?.BrandName}`)} </p>
                                 <p className="fw-bold px-1 pb-1">{e?.SrJobno}</p>
                                 {checkBox?.image && <img src={e?.DesignImage} alt="" onError={handleImageError} className={`designImagePrintAll d-block mx-auto ${style?.designImagePrintAll}`} />}
-                                {e?.HUID !== "" && <p className="fw-bold px-2 pb-1">{e?.HUID}</p>}
+                                {e?.HUID !== "" && <p className="fw-bold px-2 pb-1">HUID: {e?.HUID}</p>}
                             </div>
                         </div>
                         <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-1'>{e?.MetalPurity}</p></div>
@@ -273,7 +275,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                         <div className={`${style?.amtDetail} border-end`}><p className='p-1 text-end'>{NumberWithCommas(e?.convertednetwt, 3)}</p></div>
                         <div className={`${style?.amtDetail} border-end`}><p className='p-1 text-end'>{NumberWithCommas(e?.metalRates, 0)}</p></div>
-                        <div className={`${Styles?.totalAmount}`}><p className='p-1 text-end'>{NumberWithCommas(e?.UnitCost, 2)}</p></div>
+                        <div className={`${Styles?.totalAmount}`}><p className='p-1 text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                     </div>
                 })}
                 {/* table total */}
@@ -298,18 +300,21 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-1 text-end'>{NumberWithCommas(total?.convertednetwt, 3)}</p></div>
                     {/* <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-1 text-end'>{NumberWithCommas(total?.metalRates, 0)}</p></div> */}
                     <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-1 text-end'></p></div>
-                    <div className={`${Styles?.totalAmount} `}><p className='fw-bold p-1 text-end'>{NumberWithCommas(total?.UnitCost, 2)}</p></div>
+                    <div className={`${Styles?.totalAmount} `}><p className='fw-bold p-1 text-end'>{NumberWithCommas(total?.totalAmount, 2)}</p></div>
                 </div>
                 {/* tax */}
                 <div className="d-flex justify-content-end no_break">
                     <div className="col-4 border">
                         {taxes.length > 0 && taxes.map((e, i) => {
-                            return <div className="d-flex justify-content-between border-bottom" key={i}>
+                            return <div className="d-flex justify-content-between" key={i}>
                                 <p className='p-2'>{e?.name} @ {e?.per}</p>
                                 <p className='p-2'>{e?.amount}</p>
                             </div>
                         })}
-
+                        <div className="d-flex justify-content-between border-bottom">
+                            <p className='p-2'>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
+                            <p className='p-2'>{headerData?.AddLess}</p>
+                        </div>
                     </div>
                 </div>
                 {/* Gold in 24K */}
@@ -328,15 +333,15 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     <div className="d-flex p-2 flex-wrap">
                         {category.length > 0 && category.map((e, i) => {
-                            return   <div className="col-3 d-flex" key={i}>
-                            <div className="col-6">{e?.Categoryname} :</div>
-                            <div className="col-6">{e?.count}</div>
-                        </div>
+                            return <div className="col-3 d-flex" key={i}>
+                                <div className="col-6">{e?.Categoryname} :</div>
+                                <div className="col-6">{e?.count}</div>
+                            </div>
                         })}
-                </div>
+                    </div>
                 </div>
 
-             
+
                 {/* Signs */}
                 {/* <div className="d-flex mt-2 border">
                     <div className="col-6 border-end">

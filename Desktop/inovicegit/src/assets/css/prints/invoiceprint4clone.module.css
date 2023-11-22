@@ -27,6 +27,10 @@
     margin: 0 12px !important
 }
 
+.discription{
+    display: none;
+}
+
 @media print{
     .invoicePrint4Input{
         border: none;
@@ -36,5 +40,12 @@
     }
     .pad_60_allPrint{
         padding-bottom: 0 !important;
+    }
+    .discriptionInput{
+        display: none;
+    }
+    .discription{
+        display: block;
+        text-align: center;
     }
 }

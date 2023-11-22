@@ -221,7 +221,8 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className="d-flex border">
                         {/* <div className="col-4 p-2 border-end"> */}
                         <div className="col-4 p-2 border-end d-flex justify-content-center align-items-center flex-column">
-                            <input type="text" value={discription} onChange={handleChangeDiscription} className={`${style?.invoicePrint4Input} text-center`} />
+                            <input type="text" value={discription} onChange={handleChangeDiscription} className={`${style?.invoicePrint4Input} text-center ${style?.discriptionInput}`} />
+                            <p className={`pt-2 ${style?.discription}`}>{discription}</p>
                             <p className='pt-2'>HSN CODE {headerData?.HSN_No}</p>
                             {/* <p className="fs-5 text-center"> GOLD ORNAMENTS </p>
                             <p className="fs-5 text-center"> HSN CODE 7113 </p> */}
@@ -293,7 +294,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         <p className="fw-bold">Rs {toWords.convert(+fixedValues(total?.grandTotal, 2))}</p>
                     </div>
                     {/* Bank Detail */}
-                    <div>
+                    <div className='no_break'>
                         <div className={`d-flex border-start border-end border-bottom w-100`}>
                             <div className="col-4 p-2 border-end py-4">
                                 <p className="fw-bold pb-1">Bank Detail</p>

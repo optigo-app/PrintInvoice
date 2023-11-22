@@ -138,9 +138,62 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
     setTaxes(taxValue);
     setSummary(summaries);
     setTotal(totals);
-    setJson1Data(resultAr);
+    // setJson1Data(resultAr);
     setLoader(false);
     setGold(golds);
+
+    let newArr = [];
+    resultAr.forEach((e, i) => {
+      let obj = { ...e };
+      let findRecord = newArr.findIndex((ele, ind) => ele?.GroupJobid === e?.GroupJobid && e?.GroupJobid !== 0);
+      if (findRecord === -1) {
+        newArr.push(obj);
+      } else {
+        if (newArr[findRecord]?.SrJobno !== newArr[findRecord]?.GroupJob) {
+          newArr[findRecord].SrJobno = obj?.SrJobno;
+          newArr[findRecord].designno = obj?.designno;
+          newArr[findRecord].MetalColor = obj?.MetalColor;
+          newArr[findRecord].DesignImage = obj?.DesignImage;
+          newArr[findRecord].MetalPurity = obj?.MetalPurity;
+          newArr[findRecord].MetalColor = obj?.MetalColor;
+        }
+        newArr[findRecord].grosswt += obj?.grosswt;
+        newArr[findRecord].NetWt += obj?.NetWt;
+        newArr[findRecord].LossPer += obj?.LossPer;
+        newArr[findRecord].PureNetWt += obj?.PureNetWt;
+        newArr[findRecord].metalRateGold += obj?.metalRateGold;
+        newArr[findRecord].alloy += obj?.alloy;
+        newArr[findRecord].totalGold += obj?.totalGold;
+        newArr[findRecord].OtherCharges += obj?.OtherCharges;
+        newArr[findRecord].MakingAmount += obj?.MakingAmount;
+        newArr[findRecord].TotalAmount += obj?.TotalAmount;
+
+        let materialArr = [newArr[findRecord].materials, e.materials];
+        let materials = [];
+        materialArr.forEach((element, indexs) => {
+          element.forEach((ele, ind) => {
+            let findRecords = materials.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
+              elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate &&
+              elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
+              newArr[findRecord].totalCol.pcs += ele?.Pcs;
+              newArr[findRecord].totalCol.diaWt += ele?.Wt;
+              newArr[findRecord].totalCol.diaAmount += ele?.Amount;
+              newArr[findRecord].totalCol.settingAmount += ele?.SettingAmount;
+            if (findRecords === -1) {
+              materials.push(ele);
+            } else {
+              materials[findRecords].Pcs = ele?.Pcs;
+              materials[findRecords].Wt = ele?.Wt;
+              materials[findRecords].Amount = ele?.Amount;
+              materials[findRecords].SettingRate = ele?.SettingRate;
+              materials[findRecords].SettingAmount = ele?.SettingAmount;
+            }
+          });
+        });
+        newArr[findRecord].materials = materials;
+      }
+    });
+    setJson1Data(newArr);
   }
   useEffect(() => {
     const sendData = async () => {
@@ -211,7 +264,6 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             <p>{json0Data?.CompanyCity} {json0Data?.CompanyPinCode} {json0Data?.CompanyState} {json0Data?.CompanyCountry}</p>
             <p>{json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}</p>
             <p>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}</p>
-
           </div>
           <div className='px-1 py-2'>
             <img src={json0Data?.PrintLogo} alt="" className='w-25 h-auto ms-auto d-block' />
@@ -232,7 +284,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           </div>
           <div className="w-50 text-end">
             <p>invoice#:{json0Data?.InvoiceNo}</p>
-            <p>{json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}: {json0Data?.Company_CST_STATE_No} </p>
+            <p>{json0Data?.Cust_VAT_GST_No !== "" && (`${json0Data?.Cust_VAT_GST_No} | `)}  {json0Data?.Cust_CST_STATE_No_} </p>
             <p>Terms: {json0Data?.DueDays} Days</p>
             <p>Due Date: {json0Data?.DueDate}</p>
           </div>
@@ -284,13 +336,13 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               {image && <img src={e?.DesignImage} alt="" className='w-100 p-1' onError={handleImageError} />}
               {tunch && <p className='text-center fw-bold'>Tunch: {NumberWithCommas(e?.Tunch, 3)}</p>}
               <p className='text-center fw-bold'>{fixedValues(e?.grosswt, 3)}gm Gross</p>
-              {e?.Size.length > 0 &&<p className='text-center pb-1'>Size {e?.Size}</p>}
+              {e?.Size.length > 0 && <p className='text-center pb-1'>Size {e?.Size}</p>}
               {e?.HUID !== "" && <p className='text-center pb-1'>HUID: {e?.HUID}</p>}
             </div>
             <div className="diamondStoneDetailPrint11 d-grid pad_bt_20semiTotalDetailPrint11 position-relative">
               {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
                 return <div className='d-flex border-bottom' key={ind}>
-                  <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{ele?.ShapeName}</p></div>{console.log("SizeName-",ele?.SizeName, "GroupName",ele?.GroupName)}
+                  <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{ele?.ShapeName}</p></div>
                   <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{diamondSize && (ele?.GroupName === "" ? ele?.SizeName : ele?.GroupName)}</p></div>
                   <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
                   <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{fixedValues(ele?.Wt, 3)}</p></div>
@@ -394,7 +446,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(total?.diaAmount, 2)}</p></div>
               <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'></p></div>
               <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>Setting </p><p className="text-center fw-bold">Total</p><p className="text-center fw-bold">(Currency)</p></div>
-                <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(total?.totalAmount, 2)}</p></div>
+              <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(total?.totalAmount, 2)}</p></div>
             </div>
           </div>
           <div className="goldDetailPrint11 border-end d-grid ">
