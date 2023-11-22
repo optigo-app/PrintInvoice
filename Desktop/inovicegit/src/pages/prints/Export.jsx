@@ -155,7 +155,8 @@ const Export = ({ urls, token, invoiceNo, printName, evn }) => {
     return (
         loader ? <Loader /> : msg === "" ? <>
             {/* print button  */}
-            <div className={`d-flex justify-content-end mb-4 align-items-center print_sec_sum4 pt-4 ${style?.exportPrintContainer} pad_60_allPrint`}>
+            <div className="pad_60_allPrint mt-2">
+            <div className={`d-flex justify-content-end mb-4 align-items-center ${style?.print_sec_sum4} pt-4 ${style?.exportPrintContainer} `}>
                 <div className="form-check ps-3 mt-2">
                     <input
                         type="button"
@@ -318,6 +319,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className={`d-flex align-items-center justify-content-end ${style.totalFobExport} ${style.rowExport} fw-bold`}>{(total?.fobValue)?.toFixed(2)}</div>
                     </div>
                 </div>
+            </div>
             </div>
         </> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
     );

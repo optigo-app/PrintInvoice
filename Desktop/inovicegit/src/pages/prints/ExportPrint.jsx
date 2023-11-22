@@ -28,7 +28,7 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
     return (loader ? <Loader /> : <div className={`${style?.containerExportPrint}`}>
         {/* print button */}
-        <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4 mt-5 w-100 " >
+        <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} pb-4 mt-5 w-100`} >
             <div className="form-check ps-3">
                 <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
             </div>

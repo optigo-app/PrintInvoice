@@ -53,9 +53,9 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     }, []);
 
     return (
-        loader ? <Loader /> : msg === "" ? <div className={`${style.containerExportPrint1} pad_60_allPrint`}>
+        loader ? <Loader /> : msg === "" ? <div className={`${style.containerExportPrint1} pad_60_allPrint mt-2`}>
             {/* print button */}
-            <div className={`d-flex justify-content-end mb-4 align-items-center print_sec_sum4 pt-4 pb-4`}>
+            <div className={`d-flex justify-content-end mb-4 align-items-center ${style?.print_sec_sum4} pt-4 pb-4`}>
                 <div className="form-check ps-3 mt-2">
                     <input
                         type="button"

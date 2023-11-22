@@ -189,7 +189,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn }) => {
         <>
           {msg === "" ? (
             <> <div className={`container-fluid ${style?.jewelelryRetailInvoiceContainer} pad_60_allPrint position-relative`}>
-              <div className={`btnpcl align-items-baseline position-absolute right-0 top-0 m-0 ${style?.right_jewelleryinvoicePrintc}`}>
+              <div className={`btnpcl align-items-baseline position-absolute right-0 top-0 m-0 ${style?.right_jewelleryinvoicePrintc} d-flex`}>
                 <div className="form-check pe-3">
                   <input className="form-check-input" type="checkbox" checked={image} onChange={handleChangeImage} />
                   <label className="form-check-label pt-1" htmlFor="flexCheckDefault">
