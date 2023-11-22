@@ -358,7 +358,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className="btnpcl">
                 <Button />
               </div>
-              <div className="summary1PrintSum1 pad_60_allPrint">
+              <div className="summary1PrintSum1 pad_60_allPrint mt-4">
                 <div className="summary1allf">
                 <div>
                   {headerComp}

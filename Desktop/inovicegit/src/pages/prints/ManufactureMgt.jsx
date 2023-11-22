@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from "../../assets/css/prints/manufacturemgt.module.css";
 import Loader from '../../components/Loader';
-import { FooterComponent, HeaderComponent, apiCall, isObjectEmpty } from '../../GlobalFunctions';
+import { FooterComponent, HeaderComponent, apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 
 const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
     const [loader, setLoader] = useState(true);
@@ -43,6 +43,12 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
     return (
         loader ? <Loader /> : msg === "" ?
             <div className={`container-fluid max_width_container pt-2 ${style?.manufacture_container} pad_60_allPrint`}>
+                {/* buttons */}
+                <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}>
+                    <div className="form-check ps-3">
+                        <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
+                    </div>
+                </div>
                 {headerComp}
                 <div className="pt-2">
                     {/* Table Header */}

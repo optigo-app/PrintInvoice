@@ -3,17 +3,20 @@ import style from "../../assets/css/prints/taxInvoice.module.css";
 import { apiCall, handlePrint } from "../../GlobalFunctions";
 import Header from "../../components/Header";
 import { useEffect } from "react";
-
+import { HeaderComponent } from "./../../GlobalFunctions";
 const TaxInvoice = ({ token, invoiceNo, printName, urls, evn }) => {
   const [image, setimage] = useState(false);
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
+  const [headerComp, setHeaderComp] = useState(null);
   const handleChange = (e) => {
     image ? setimage(false) : setimage(true);
   };
 
   const loadData = (data) => {
-    setJson0Data(data?.BillPrint_Json[0])
+    setJson0Data(data?.BillPrint_Json[0]);
+    let head = HeaderComponent(2, data?.BillPrint_Json[0]);
+    setHeaderComp(head);
   }
 
   useEffect(() => {
@@ -44,18 +47,8 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn }) => {
 
       return modifiedCSS.trim(); // Remove trailing newline
     };
-    let data =
-      `.tax_invoice_container {
-  background-color: blue
-}
-.headerInvoice1{
-  background-color: orange
-}
-`
+    let data = `.tax_invoice_container { background-color: blue } .headerInvoice1{ background-color: orange } `;
     const prefixedCSS = addPrefixToCSS(data, '${style.');
-
-
-
     const styleElement = document.createElement('style');
     styleElement.innerHTML = `.tax_invoice_container {
         background-color: blue
@@ -91,7 +84,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn }) => {
       <div className="bgGrey p-2">
         <p className="fw-bold text-white fs-4"> DELIVERY  CHALLAN </p>
       </div>
-      <Header data={json0Data} />
+      {headerComp}
     </div>
   );
 };
