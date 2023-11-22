@@ -1,8 +1,8 @@
-* {
+/* * {
     word-break: break-all;
     box-sizing: border-box;
     line-height: 100%;
-}
+} */
 
 .print_12A {
     max-width: 1269px;
@@ -27,7 +27,7 @@
 .section_12A {
     width: 255pt;
     height: 260pt;
-    margin: 25pt 0pt 0pt 19pt;
+    margin: 20pt 0pt 0pt 19pt;
 }
 
 .job_no_12A {

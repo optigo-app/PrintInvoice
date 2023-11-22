@@ -1,16 +1,16 @@
-* {
+/* * {
     margin: 0px;
     box-sizing: border-box;
     word-break: break-all;
     line-height: 100%;
-}
+} */
 
 .container7A {
     height: 530px;
     width: 356px;
     border: 2px solid black;
     border-radius: 8px;
-    margin-left: 2.3rem;
+    margin-left: 1.7rem;
     margin-top: 1.7rem;
     /* margin-left: 2rem;
     margin-top: 2rem; */

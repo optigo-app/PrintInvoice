@@ -30,7 +30,7 @@
     width: 262pt;
     height: 275pt;
     padding: 0pt;
-    margin-left: 1.5rem;
+    margin-left: 1.1rem;
     /* margin: 15pt 0 2pt 14pt; */
     border-radius: 8pt;
     border: 2pt solid #3D3D3D;
@@ -422,13 +422,13 @@
       .container4AA:nth-child(6n+1), .container4AA:nth-child(6n+2), .container4AA:nth-child(6n+3), 
       .container4B:nth-child(6n+1), .container4B:nth-child(6n+2), .container4B:nth-child(6n+3){
         position: relative;
-        top: 17px;
+        top: 19px;
       }
 
       .container4AA:nth-child(6n+4), .container4AA:nth-child(6n+5), .container4AA:nth-child(6n+6), 
       .container4B:nth-child(6n+4), .container4B:nth-child(6n+5), .container4B:nth-child(6n+6){
         position: relative;
-        top: 34px;
+        top: 38px;
       }
    
       .print4Apart_1{

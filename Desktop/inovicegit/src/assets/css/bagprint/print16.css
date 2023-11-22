@@ -1967,6 +1967,7 @@ table {
     padding: 1px;
     font-weight: bold;
     width: 228px !important;
+    font-size: 13px !important;
   }
   .bg16oldlh7{
     line-height: 7px !important;
@@ -1980,6 +1981,7 @@ table {
     height: 20px;
     font-weight: bold;
     word-break: break-all;
+    font-size: 13px !important;
   }
   .lh16bg{
     line-height: 8px;

@@ -1,9 +1,9 @@
-*{
+/* *{
     border-collapse: collapse !important;
     word-break: break-all;
     box-sizing: border-box;
     line-height: 100%;
-}
+} */
 .container2A {
     display: flex;
     /* margin-left: 1rem;
@@ -16,7 +16,7 @@
     border: 1px solid black;
     border-radius: 8px;
     margin-top: 1.7rem;
-    margin-left: 1.7rem;
+    margin-left: 1.3rem;
     font-size: 15px;
 }
 
