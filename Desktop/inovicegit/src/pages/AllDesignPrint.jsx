@@ -34,6 +34,7 @@ const AllDesignPrint = () => {
   }
   useEffect(() => {
     takePrint();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>{importedComponent} </>
