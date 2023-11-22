@@ -743,26 +743,26 @@ const PrintDesign17 = ({ queries, headers }) => {
                             style={{ height: "27px" }}
                           >
                             <div className="width_Y border_right p_3 grey bold text_center separatedfs17old">
-                              <p>Y TR NO </p>
+                              <p className="lineheightbg17old">Y TR NO </p>
                             </div>
                             <div className="width_Y border_right p_3 grey bold text_center separatedfs17old">
-                              <p>W TR NO </p>
+                              <p className="lineheightbg17old">W TR NO </p>
                             </div>
                             <div className="width_Y border_right p_3 grey bold text_center separatedfs17old">
-                              <p>P TR NO </p>
+                              <p className="lineheightbg17old">P TR NO </p>
                             </div>
                             <div className="width_Y border_right p_3 grey bold text_center separatedfs17old">
-                              <p>Y CST WT.</p>
+                              <p className="lineheightbg17old">Y CST WT.</p>
                             </div>
                             <div className="width_Y border_right p_3 grey bold text_center separatedfs17old">
-                              <p>W CST WT.</p>
+                              <p className="lineheightbg17old">W CST WT.</p>
                             </div>
                             <div className="width_Y p_3 grey bold text_center separatedfs17old">
-                              <p>P CST WT. </p>
+                              <p className="lineheightbg17old">P CST WT. </p>
                             </div>
                           </div>
                           <div className="d_flex h_88_17 pl_3 border_bottom border_right">
-                            <p className="w_10  grey bold separatedfs17old">
+                            <p className="w_10  grey bold separatedfs17old ">
                               METAL
                             </p>
                             <p className="w_10 center_item">

@@ -404,7 +404,6 @@ const BagPrint7A = ({ queries, headers }) => {
                                 <div className="divide7A">
                                   <div>
                                     {ele?.data?.map((a, i) => {
-                                      console.log(a);
                                       return (
                                         <React.Fragment key={i}>
                                           {a?.Shapename === "TOTAL" ? (
