@@ -71,6 +71,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   }
 
   const loadData = (data) => {
+    // console.log(data);
     setJson0Data(data?.BillPrint_Json[0]);
     setJson1Data2(data?.BillPrint_Json2)
     setLoader(false);
@@ -167,6 +168,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       let diamondArr = [];
       let metalArr = [];
       let colorStoneArr = [];
+      let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
       let diamondsTotal = {
         Pcs: 0,
         Wt: 0,
@@ -246,6 +248,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       obj.colorStonesTotal = colorStonesTotal;
       obj.discountTotalAmount = discountTotalAmount;
       obj.totalAmounts = totalAmounts;
+      obj.otherMisc = otherMisc;
       totals.totalAmount += e?.TotalAmount;
       totals.discountTotalAmount += obj?.DiscountAmt;
       totals.withoutDiscountTotalAmount += e?.TotalAmount;
@@ -585,7 +588,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="otherAmountDetailPrint1 border-end  position-relative pt-1">
                   <div className="paddingBottomTotalDetailPrint1">
                     <div>
-                      {detailtPrintR ? <p className='text-end'>{e?.OtherCharges !== 0 && NumberWithCommas(e?.OtherCharges, 2)}</p> : <>
+                      {detailtPrintR ? <p className='text-end'>{e?.OtherCharges !== 0 && NumberWithCommas(e?.otherMisc, 2)}</p> : <>
                         {e?.OtherAmountDetail?.length > 0 && e?.OtherAmountDetail?.map((ele, ind) => {
                           return (
                             <div className='d-flex justify-content-between' style={{ fontSize: "10.5px" }} key={ind}><p>{ele?.label}</p><p>{ele?.value}</p></div>
