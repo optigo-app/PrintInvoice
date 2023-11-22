@@ -181,7 +181,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
         loader ? <Loader /> : msg === "" ? <>
             <div className={`container ${style?.containerretailInvoice2} pad_60_allPrint`}>
                 {/* Print Button */}
-                <div className="printBtn_sec text-end container pt-4 pb-4 px-0">
+                <div className={`${style?.printBtn_sec} text-end container pt-4 pb-4 px-0`}>
                     <input type="button" className="btn_white blue me-0" value="Print" onClick={(e) => handlePrint(e)} />
                 </div>
                 {/* Header */}

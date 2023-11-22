@@ -65,7 +65,7 @@
 }
 
 @media print{
-    .print_sec_sum4 {
+    .print_sec_sum4, .printBtn_sec {
         display: none !important;
       }
 }
