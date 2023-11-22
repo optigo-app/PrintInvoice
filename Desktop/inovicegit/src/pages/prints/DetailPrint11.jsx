@@ -216,9 +216,6 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
     }
     sendData();
   }, []);
-  // const handleChange = (e, name) => {
-
-  // }
 
   return (
     loader ? <Loader /> : msg === "" ? <>

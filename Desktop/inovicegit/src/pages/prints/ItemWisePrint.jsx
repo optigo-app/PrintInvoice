@@ -562,8 +562,8 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
           </div>
           {/* Amount In Words */}
           <div className="d-flex border-start border-end border-bottom p-2">
-            <p>Amount in Words : </p>
-            <p className="fw-bold">{total?.numberToWords}</p>
+            <p className="min_width_max">Amount in Words : </p>
+            <p className="fw-bold ps-1"> {total?.numberToWords}</p>
           </div>
           <div className="d-flex border-start border-end border-bottom p-2">
             <p className="pe-3">

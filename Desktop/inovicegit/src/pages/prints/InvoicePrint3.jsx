@@ -408,7 +408,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
         <>
           {msg === "" ? (
             <>
-              <div className="btnpcl">
+              <div className="container max_width_container px-2 print_sec_sum4">
                 <Button />
               </div>
               <div className="containerinvp3 pad_60_allPrint" id="divToPrint">
@@ -443,20 +443,17 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </p>
                   </div>
                   <div>
-                    <div className="d-flex justify-content-between winvp3">
-                      <p className="fw-bold fsinvp3">
+                    <div className="winvp3 text-end">
+                      <p className="fw-bold fsinvp3 text-end">
                         {headerData?.vat_cst_pan?.split("|")?.[0]}
                       </p>
                     </div>
-                    <p className="fw-bold fsinvp3">
+                    <p className="fw-bold fsinvp3 text-end">
                       {headerData?.vat_cst_pan?.split("|")?.[1]}
                     </p>
-                    <div className="d-flex justify-content-between winvp3">
-                      <p className="w-50 fw-bold fsinvp3">
-                        {headerData?.Cust_CST_STATE}
-                      </p>
-                      <p className="w-50 fsinvp3">
-                        {headerData?.Cust_CST_STATE_No}
+                    <div className="text-end winvp3">
+                      <p className="fw-bold fsinvp3">
+                        {headerData?.Cust_CST_STATE}   {headerData?.Cust_CST_STATE_No}
                       </p>
                     </div>
                   </div>

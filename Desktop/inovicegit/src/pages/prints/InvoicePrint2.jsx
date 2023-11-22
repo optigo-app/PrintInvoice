@@ -317,7 +317,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
         <>
           {msg === "" ? (
             <>
-              <div className="btnpcl">
+              <div className="summary1Printinvp2 pad_60_allPrint px-2 print_sec_sum4">
                 <Button />
               </div>
               <div className="summary1Printinvp2 pad_60_allPrint px-2">
@@ -327,12 +327,12 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="fw-bold fs-4 px-2">INVOICE #: </div>
                       <div className="fs-5 p-1" dangerouslySetInnerHTML={{__html:headerData?.Remark}}></div>
                     </div>
-                    <div className="invoicehead3ivp2 d-flex flex-column">
-                      <div className="d-flex justify-content-around align-items-center binvivp2">
+                    <div className="">
+                      <div className="d-flex justify-content-end align-items-end binvivp2">
                         <b className="binvivp2">DATE :</b>
                         {headerData?.EntryDate}
                       </div>
-                      <div className="d-flex justify-content-around align-items-center binvivp2">
+                      <div className="d-flex justify-content-end align-items-center binvivp2">
                         <b className="binvivp2">HSN :</b>
                         {headerData?.HSN_No}
                       </div>
