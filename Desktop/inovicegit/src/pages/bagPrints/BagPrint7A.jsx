@@ -114,21 +114,53 @@ const BagPrint7A = ({ queries, headers }) => {
           if(misc.ActualPcs !== 0 && misc.ActualWeight !== 0){
             MiscList.push(misc);
           }  
-          // console.log(DiamondList);
-          const groupedData = data.reduce((acc, obj) => {
-            const key = `${obj.Shapecode}-${obj.qualitycode}-${obj.colorcode}`;
-            
+          const groupedDiaData = DiamondList?.reduce((acc, obj) => {
+            const key = `${obj.Shapecode}-${obj.QualityCode}-${obj.ColorCode}`;
             if (!acc[key]) {
-              acc[key] = { shapecode: obj.shapecode, qualitycode: obj.qualitycode, colorcode: obj.colorcode, items: [] };
+              acc[key] = { Shapecode: obj.Shapecode, QualityCode: obj.QualityCode, ColorCode: obj.ColorCode };
             }
-          
-            acc[key].items.push(obj);
+            // acc[key].items.push(obj);
             return acc;
           }, {});
+          const DIAgrouArr = Object.values(groupedDiaData);
+          DIAgrouArr.pop();
+
+          const groupedCLSData = ColorStoneList?.reduce((acc, obj) => {
+            const key = `${obj.Shapecode}-${obj.QualityCode}-${obj.ColorCode}`;
+            if (!acc[key]) {
+              acc[key] = { Shapecode: obj.Shapecode, QualityCode: obj.QualityCode, ColorCode: obj.ColorCode };
+            }
+            // acc[key].items.push(obj);
+            return acc;
+          }, {});
+          const CLSgrouArr = Object.values(groupedCLSData);
+          CLSgrouArr.pop();
+
+          const groupedMISCData = MiscList?.reduce((acc, obj) => {
+            const key = `${obj.Shapecode}-${obj.QualityCode}-${obj.ColorCode}`;
+            if (!acc[key]) {
+              acc[key] = { Shapecode: obj.Shapecode, QualityCode: obj.QualityCode, ColorCode: obj.ColorCode };
+            }
+            // acc[key].items.push(obj);
+            return acc;
+          }, {});
+          const MISCgrouArr = Object.values(groupedMISCData);
+          MISCgrouArr.pop();
+
+          const groupedFData = MiscList?.reduce((acc, obj) => {
+            const key = `${obj.Shapecode}-${obj.QualityCode}-${obj.ColorCode}`;
+            if (!acc[key]) {
+              acc[key] = { Shapecode: obj.Shapecode, QualityCode: obj.QualityCode, ColorCode: obj.ColorCode };
+            }
+            // acc[key].items.push(obj);
+            return acc;
+          }, {});
+          const FgrouArr = Object.values(groupedFData);
           
-          const resultArray1 = Object.values(groupedData);
+
+          let allMaterials = [...DIAgrouArr, ...CLSgrouArr, ...MISCgrouArr];
+          console.log(allMaterials);
           
-          // console.log(resultArray1);
           let arr = [];
           let mainArr = arr?.concat(
             DiamondList,
@@ -140,7 +172,7 @@ const BagPrint7A = ({ queries, headers }) => {
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
             let chunkData =  GetChunkData(chunkSize7, mainArr)
-            let chunkDatas = mainArr?.slice(0, 10);
+            let chunkDatas = allMaterials?.slice(0, 10);
             responseData.push({
               data: a,
             additional: {
@@ -385,6 +417,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                     {
                                       e?.additional?.material?.length > 0 &&
                                       e?.additional?.material?.map((e, i) => {
+                                        console.log(e);
                                         return(
                                           <React.Fragment key={i}>
                                             {
