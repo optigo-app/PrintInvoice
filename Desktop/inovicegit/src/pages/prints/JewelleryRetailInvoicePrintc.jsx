@@ -315,8 +315,8 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
                     })}
                     <div className="d-flex  position-absolute w-100 pb-2 bottom-0">
                       <div className="d-flex">
-                        <b className="JL13 fs-5 pe-2">24K Gold Rate</b>
-                        <b className="fs-5"> {NumberWithCommas(headerData?.MetalRate24K, 2)}</b>
+                        <b className="JL13 fs-6 pe-2">24K Gold Rate</b>
+                        <b className="fs-6"> {NumberWithCommas(headerData?.MetalRate24K, 2)}</b>
                       </div>
                     </div>
                   </div>
@@ -388,7 +388,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
                 <div className={`${style?.minHeight20RetailinvoicePrint3} border-start border-end border-bottom d-flex no_break`}>
                   <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1`}><p className="fw-bold"></p></div>
                   <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 fw-bold d-flex align-items-center`}>
-                    <p className="fw-bold fs-4">TOTAL</p>
+                    <p className="fw-bold fs-6">TOTAL</p>
                   </div>
                   <div className={`${style?.materialJewerryRetailInvoicePrint} border-end d-flex`}>
                     <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 lh-1"></p></div>

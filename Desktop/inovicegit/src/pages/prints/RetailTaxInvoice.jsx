@@ -50,7 +50,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* headline retail print */}
-             <div className="containerinvp3 pad_60_allPrint" id="divToPrint">
+             {/* <div className="containerinvp3 pad_60_allPrint" id="divToPrint">
                 <div className="headinvp3">
                   <div className="headerinvp3">
                     <div className="head1invp3">
@@ -180,7 +180,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     ></p>
                   </div>
                 </div>
-              </div> 
+              </div>  */}
       
         </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}</>
     )

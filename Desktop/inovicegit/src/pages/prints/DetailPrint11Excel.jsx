@@ -36,7 +36,6 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
   });
 
   const loadData = (data) => {
-    // console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
@@ -191,9 +190,71 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     });
     setJson1Data(newArr);
+
+    let excelArr = [];
+    console.log(newArr);
+    newArr.forEach((e, i) => {
+      let obj = { ...e };
+      let length = obj?.materials?.length > 7 ? obj?.materials?.length : 7;
+      let goldArr = [
+        {
+          label: "Quality",
+          value: `${e?.MetalPurity} ${e?.MetalColor}`,
+        },
+        {
+          label: "QualGross Weight(Gms)",
+          value: `${fixedValues(e?.grosswt, 3)} G`,
+        },
+        {
+          label: "Net Weight",
+          value: `${fixedValues(e?.NetWt, 3)} G`,
+        },
+        {
+          label: "Gold Loss",
+          value: `${fixedValues(e?.LossPer, 0)}%`,
+        },
+        {
+          label: "Pure Gold weight with Loss",
+          value: `${fixedValues(e?.PureNetWt, 3)} G `,
+        },
+        {
+          label: "Gold Price",
+          value: `${NumberWithCommas(e?.metalRateGold, 2)}`,
+        },
+        {
+          label: "Alloy",
+          value: `${NumberWithCommas(e?.alloy, 2)}`,
+        },
+        {
+          label: "Total Gold",
+          value: `${NumberWithCommas(e?.totalGold, 2)}`,
+        },
+      ];
+      Array.from({ length: length }).forEach((ele, ind) => {
+        let object = {
+          srNo: ind === 0 ? i + 1 : "",
+          designNo: ind === 0 ? obj?.designno : "",
+          metalColor: ind === 1 ? obj?.MetalColor : "",
+          img: ind === 2 ? obj?.DesignImage : "",
+          isImg: ind === 2 ? true : false,
+          tunch: ind === 5 ? NumberWithCommas(obj?.Tunch, 3) : "",
+          grossWt: ind === 6 ? fixedValues(obj?.grosswt, 3) : "",
+          size: ind === 7 ? obj?.Size : "",
+          diamondShape: obj?.materials[ind] ? obj?.materials[ind]?.ShapeName : "",
+          diamondSize: obj?.materials[ind] ? obj?.materials[ind]?.SizeName : "",
+          diamondPcs: obj?.materials[ind] ? obj?.materials[ind]?.Pcs : "",
+          diamondWt: obj?.materials[ind] ? obj?.materials[ind]?.Wt : "",
+          diamondRate: obj?.materials[ind] ? obj?.materials[ind]?.Rate : "",
+          diamondAmount: obj?.materials[ind] ? obj?.materials[ind]?.Amount : "",
+          // diamondSettingType: obj?.materials[ind] ? obj?.materials[ind]?.SettingRate : "",
+          diamondSettingType: "",
+          diamondSettingAmount: obj?.materials[ind] ? obj?.materials[ind]?.SettingAmount : "",
+        }
+      });
+    })
     setTimeout(() => {
       const button = document.getElementById('test-table-xls-button');
-      button.click();
+      // button.click();
     }, 0);
   }
   useEffect(() => {
@@ -236,15 +297,16 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
             {/* company address and logo */}
             <tr>
               <td></td>
-              <td width={630} colSpan={6} style={{ borderLeft: '1px solid black', borderTop: '1px solid black', padding: '1px' }}><b>{json0Data?.CompanyFullName}</b></td>
-              <td width={90} style={{ borderTop: '1px solid black', padding: '1px' }}></td>
-              <td width={90} style={{ borderTop: '1px solid black', padding: '1px' }}></td>
-              <td width={90} style={{ borderTop: '1px solid black', padding: '1px' }}></td>
-              <td width={90} style={{ borderTop: '1px solid black', padding: '1px' }}></td>
-              <td width={90} style={{ borderTop: '1px solid black', padding: '1px' }}></td>
-              <td width={180} style={{ borderTop: '1px solid black', padding: '1px' }}></td>
-              <td width={90} style={{ borderTop: '1px solid black', padding: '1px' }}></td>
-              <td width={150} style={{ borderTop: '1px solid black', padding: '1px' }}></td>
+              <td colSpan={6} style={{ borderLeft: '1px solid black', borderTop: '1px solid black', padding: '1px' }}><b>{json0Data?.CompanyFullName}</b></td>
+              <td style={{ borderTop: '1px solid black', padding: '1px' }}></td>
+              <td style={{ borderTop: '1px solid black', padding: '1px' }}></td>
+              <td style={{ borderTop: '1px solid black', padding: '1px' }}></td>
+              <td style={{ borderTop: '1px solid black', padding: '1px' }}></td>
+              <td style={{ borderTop: '1px solid black', padding: '1px' }}></td>
+              <td style={{ borderTop: '1px solid black', padding: '1px' }}></td>
+              <td style={{ borderTop: '1px solid black', padding: '1px' }}></td>
+              <td style={{ borderTop: '1px solid black', padding: '1px' }}></td>
+              <td style={{ borderTop: '1px solid black', padding: '1px' }}></td>
               <td style={{ borderTop: '1px solid black', borderRight: '1px solid black', padding: '1px' }} className='d-block text-end' width={180}>
                 <img src={json0Data?.PrintLogo} alt="" className='w-25 h-auto ms-auto d-block object-fit-contain' height={120} width={150} />
               </td>
@@ -252,6 +314,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
             <tr>
               <td></td>
               <td colSpan={6} style={{ borderLeft: '1px solid black', padding: '1px' }}>{json0Data?.CompanyAddress}</td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -273,11 +336,13 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
               <td style={{ borderRight: '1px solid black', padding: '1px' }}></td>
             </tr>
             <tr>
               <td></td>
               <td colSpan={6} style={{ borderLeft: '1px solid black', padding: '1px' }}>{json0Data?.CompanyCity} {json0Data?.CompanyPinCode} {json0Data?.CompanyState} {json0Data?.CompanyCountry}</td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -299,22 +364,37 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
               <td style={{ borderRight: '1px solid black', padding: '1px' }}></td>
             </tr>
             <tr>
               <td></td>
-              <td colSpan={6} style={{ borderLeft: '1px solid black',borderBottom: "1px solid black", padding: '1px' }}>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}</td>
-              <td style={{borderBottom: "1px solid black", padding: '1px' }}></td>
-              <td style={{borderBottom: "1px solid black", padding: '1px' }}></td>
-              <td style={{borderBottom: "1px solid black", padding: '1px' }}></td>
-              <td style={{borderBottom: "1px solid black", padding: '1px' }}></td>
-              <td style={{borderBottom: "1px solid black", padding: '1px' }}></td>
-              <td style={{borderBottom: "1px solid black", padding: '1px' }}></td>
-              <td style={{borderBottom: "1px solid black", padding: '1px' }}></td>
-              <td style={{borderBottom: "1px solid black", padding: '1px' }}></td>
-              <td style={{ borderRight: '1px solid black',borderBottom: "1px solid black", padding: '1px' }}></td>
+              <td colSpan={6} style={{ borderLeft: '1px solid black', borderBottom: "1px solid black", padding: '1px' }}>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}</td>
+              <td style={{ borderBottom: "1px solid black", padding: '1px' }}></td>
+              <td style={{ borderBottom: "1px solid black", padding: '1px' }}></td>
+              <td style={{ borderBottom: "1px solid black", padding: '1px' }}></td>
+              <td style={{ borderBottom: "1px solid black", padding: '1px' }}></td>
+              <td style={{ borderBottom: "1px solid black", padding: '1px' }}></td>
+              <td style={{ borderBottom: "1px solid black", padding: '1px' }}></td>
+              <td style={{ borderBottom: "1px solid black", padding: '1px' }}></td>
+              <td style={{ borderBottom: "1px solid black", padding: '1px' }}></td>
+              <td style={{ borderBottom: "1px solid black", padding: '1px' }}></td>
+              <td style={{ borderRight: '1px solid black', borderBottom: "1px solid black", padding: '1px' }}></td>
             </tr>
             {/* company address and logo */}
+            <tr>
+              <td></td>
+              <td colSpan={4} style={{ borderLeft: '1px solid black', padding: '1px' }}></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td colSpan={4} style={{ borderRight: '1px solid black', padding: '1px' }} className='d-block' align="right" width={150}></td>
+            </tr>
             <tr>
               <td></td>
               <td colSpan={4} style={{ borderLeft: '1px solid black', padding: '1px' }}>{json0Data?.lblBillTo}</td>
@@ -323,7 +403,10 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
               <td></td>
               <td></td>
               <td></td>
-              <td colSpan={6} style={{ borderRight: '1px solid black', padding: '1px' }} className='d-block'  align="right" width={150}>invoice#:{json0Data?.InvoiceNo} </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td colSpan={4} style={{ borderRight: '1px solid black', padding: '1px' }} className='d-block' align="right" width={150}>invoice#:{json0Data?.InvoiceNo} </td>
             </tr>
             <tr>
               <td></td>
@@ -333,8 +416,255 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
               <td></td>
               <td></td>
               <td></td>
-              <td colSpan={6} style={{ borderRight: '1px solid black', padding: '1px' }} className='d-block'  align="right" width={150}>{json0Data?.Cust_VAT_GST_No !== "" && (`${json0Data?.Cust_VAT_GST_No} | `)}  {json0Data?.Cust_CST_STATE_No_} </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td colSpan={4} style={{ borderRight: '1px solid black', padding: '1px' }} className='d-block' align="right" width={150}>{json0Data?.Cust_VAT_GST_No !== "" && (`${json0Data?.Cust_VAT_GST_No} | `)}  {json0Data?.Cust_CST_STATE_No_} </td>
             </tr>
+            <tr>
+              <td></td>
+              <td colSpan={4} style={{ borderLeft: '1px solid black', padding: '1px' }}>{json0Data?.customerAddress1}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td colSpan={4} style={{ borderRight: '1px solid black', padding: '1px' }} className='d-block' align="right" width={150}>Terms: {json0Data?.DueDays} Days</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colSpan={4} style={{ borderLeft: '1px solid black', padding: '1px' }}>{json0Data?.customerAddress2}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td colSpan={4} style={{ borderRight: '1px solid black', padding: '1px' }} className='d-block' align="right" width={150}>Due Date: {json0Data?.DueDate}</td>
+            </tr>
+            {json0Data?.customerAddress3 !== "" && <tr>
+              <td></td>
+              <td colSpan={4} style={{ borderLeft: '1px solid black', padding: '1px' }}>{json0Data?.customerAddress3}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td colSpan={4} style={{ borderRight: '1px solid black', padding: '1px' }} className='d-block' align="right" width={150}></td>
+            </tr>}
+            <tr>
+              <td></td>
+              <td colSpan={4} style={{ borderLeft: '1px solid black', padding: '1px' }}>{json0Data?.customercity}, {json0Data?.State}-{json0Data?.PinCode}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td colSpan={4} style={{ borderRight: '1px solid black', padding: '1px' }} className='d-block' align="right" width={150}></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colSpan={4} style={{ borderLeft: '1px solid black', padding: '1px' }}>Tel: {json0Data?.customermobileno}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td colSpan={4} style={{ borderRight: '1px solid black', padding: '1px' }} className='d-block' align="right" width={150}></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colSpan={4} style={{ borderLeft: '1px solid black', borderBottom: '1px solid black', padding: '1px' }}>{json0Data?.customeremail1}</td>
+              <td style={{ borderBottom: `1px solid #000` }}></td>
+              <td style={{ borderBottom: `1px solid #000` }}></td>
+              <td style={{ borderBottom: `1px solid #000` }}></td>
+              <td style={{ borderBottom: `1px solid #000` }}></td>
+              <td style={{ borderBottom: `1px solid #000` }}></td>
+              <td style={{ borderBottom: `1px solid #000` }}></td>
+              <td style={{ borderBottom: `1px solid #000` }}></td>
+              <td style={{ borderBottom: `1px solid #000` }}></td>
+              <td colSpan={4} style={{ borderRight: '1px solid black', borderBottom: '1px solid black', padding: '1px' }} className='d-block' align="right" width={150}></td>
+            </tr>
+            {/* table header */}
+            <tr></tr>
+            <tr>
+              <td></td>
+              <td style={{ borderLeft: "1px solid #000", borderRight: "1px solid #000", borderTop: "1px solid #000", padding: "1px" }} align='center' ><b>Sr. No.</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'><b>Design Detail</b></td>
+              <td colSpan={9} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", borderBottom: "1px solid #000", padding: "1px" }} align='center'><b>Diamond & Stone Detail</b></td>
+              <td colSpan={2} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'><b>Gold</b></td>
+              <td colSpan={2} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'><b>Labour</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'><b>Total Jewellery Amount</b></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td style={{ borderLeft: "1px solid #000", borderRight: "1px solid #000", borderTop: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center' ></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center'></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", borderBottom: "1px solid #000", padding: "1px" }} align='center'><b>Shape</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", borderBottom: "1px solid #000", padding: "1px" }} align='center'><b>Size (mm)</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", borderBottom: "1px solid #000", padding: "1px" }} align='center'><b>Pcs</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", borderBottom: "1px solid #000", padding: "1px" }} align='center'><b>DIA WT.</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", borderBottom: "1px solid #000", padding: "1px" }} align='center'><b>Price / cts</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", borderBottom: "1px solid #000", padding: "1px" }} align='center'><b>Dia Amount</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", borderBottom: "1px solid #000", padding: "1px" }} align='center'><b>Setting Type</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", borderBottom: "1px solid #000", padding: "1px" }} align='center'><b>Setting Price (Currency)</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", borderBottom: "1px solid #000", padding: "1px" }} align='center'><b>Total Amount (Currency)</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center'></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center'></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center'><b>Other Charges</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center'><b>Labour Amount</b></td>
+              <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center'><b>Total Jewellery Amount</b></td>
+            </tr>
+            {/* table data */}
+            {/* {json1Data.length > 0 && json1Data.map((e, i) => {
+              return <div className="d-flex w-100 border-bottom border-start border-end border-2 no_break overflow-hidden" key={i}>
+                <div className="srNoDetailPrint11 border-end p-1 d-flex align-items-center justify-content-center"><p>{e?.SrNo}</p></div>
+                <div className="designDetailPrint11 border-end">
+                  <div className="d-flex justify-content-between p-1">
+                    <div><p>{e?.designno}</p></div>
+                    <div> <p>{e?.SrJobno}</p> <p>{e?.MetalColor}</p> </div>
+                  </div>
+                  {image && <img src={e?.DesignImage} alt="" className='w-100 p-1' onError={handleImageError} />}
+                  {tunch && <p className='text-center fw-bold'>Tunch: {NumberWithCommas(e?.Tunch, 3)}</p>}
+                  <p className='text-center fw-bold'>{fixedValues(e?.grosswt, 3)}gm Gross</p>
+                  {e?.Size.length > 0 && <p className='text-center pb-1'>Size {e?.Size}</p>}
+                  {e?.HUID !== "" && <p className='text-center pb-1'>HUID: {e?.HUID}</p>}
+                </div>
+                <div className="diamondStoneDetailPrint11 d-grid pad_bt_20semiTotalDetailPrint11 position-relative">
+                  {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
+                    return <div className='d-flex border-bottom' key={ind}>
+                      <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{ele?.ShapeName}</p></div>
+                      <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{diamondSize && (ele?.GroupName === "" ? ele?.SizeName : ele?.GroupName)}</p></div>
+                      <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
+                      <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{fixedValues(ele?.Wt, 3)}</p></div>
+                      <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className=''>{NumberWithCommas(ele?.Rate, 2)}</p></div>
+                      <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
+                      <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{setting && ele?.SettingName}</p></div>
+                      <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{setting && NumberWithCommas(ele?.SettingRate, 2)}</p></div>
+                      <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{NumberWithCommas(ele?.SettingAmount, 2)}</p></div>
+                    </div>
+                  }) : <div className='d-flex border-bottom'>
+                    <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''></p></div>
+                    <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''></p></div>
+                    <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''></p></div>
+                    <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''></p></div>
+                    <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className=''></p></div>
+                    <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
+                    <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
+                    <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
+                    <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
+                  </div>
+                  }
+                  <div className='d-flex position-absolute w-100 bottom-0 totalHeightDetailPrint11 semiTotalDetailPrint11 border-end'>
+                    <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>Total</p></div>
+                    <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='fw-bold'>No. Of </p><p className="fw-bold">Pieces</p></div>
+                    <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>{NumberWithCommas(e?.totalCol?.pcs, 0)}</p></div>
+                    <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>{fixedValues(e?.totalCol?.diaWt, 3)}</p></div>
+                    <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='fw-bold'>Diamond </p><p className="fw-bold">Total</p></div>
+                    <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(e?.totalCol?.diaAmount, 2)}</p></div>
+                    <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'></p></div>
+                    <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>Setting</p><p>Total</p><p>(Currency)</p></div>
+                    <div className='totalMaterialAmountDetailPrint11 d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(e?.totalCol?.settingAmount, 2)}</p></div>
+                  </div>
+                </div>
+                <div className="goldDetailPrint11 border-end d-grid">
+                  <div className='d-flex border-bottom'>
+                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Quality</p></div>
+                    <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{e?.MetalPurity} {e?.MetalColor}</p></div>
+                  </div>
+                  <div className='d-flex border-bottom'>
+                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Gross Weight(Gms)</p></div>
+                    <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{fixedValues(e?.grosswt, 3)} G</p></div>
+                  </div>
+                  <div className='d-flex border-bottom'>
+                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Net Weight</p></div>
+                    <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{fixedValues(e?.NetWt, 3)} G</p></div>
+                  </div>
+                  <div className='d-flex border-bottom'>
+                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Gold Loss</p></div>
+                    <div className='col-5 d-flex align-items-center justify-content-center'><p>{fixedValues(e?.LossPer, 0)}%</p></div>
+                  </div>
+                  <div className='d-flex border-bottom'>
+                    <div className='col-7 border-end d-flex align-items-start justify-content-center fw-bold flex-column'><p>Pure Gold weight</p><p> with Loss</p></div>
+                    <div className='col-5 d-flex align-items-center justify-content-center'><p>{fixedValues(e?.PureNetWt, 3)} G </p></div>
+                  </div>
+                  <div className='d-flex border-bottom'>
+                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Gold Price</p></div>
+                    <div className='col-5 d-flex align-items-center justify-content-center'><p>{NumberWithCommas(e?.metalRateGold, 2)}</p></div>
+                  </div>
+                  <div className='d-flex border-bottom broder-start'>
+                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className='p-1'>Alloy</p></div>
+                    <div className='col-5 d-flex align-items-center justify-content-center'><p>{NumberWithCommas(e?.alloy, 2)}</p></div>
+                  </div>
+                  <div className='d-flex'>
+                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className='p-1'>Total Gold</p></div>
+                    <div className='col-5 d-flex align-items-center justify-content-center'><p className='fw-bold'>{NumberWithCommas(e?.totalGold, 2)}</p></div>
+                  </div>
+                </div>
+                <div className="labourDetailPrint11 border-end d-grid pad_bt_20DetailPrint11 position-relative">
+                  <div className='d-flex border-bottom'>
+                    <div className='col-6 border-end d-flex align-items-center justify-content-end p-1'><p>{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
+                    <div className='col-6 d-flex align-items-center justify-content-end p-1'>
+                      <p>{NumberWithCommas(e?.MakingAmount, 2)}</p>
+                    </div>
+                  </div>
+                  <div className='d-flex position-absolute bottom-0 w-100 min_height_20DetailPrint11'>
+                    <div className='col-6 border-end d-flex align-items-center justify-content-end p-1'><p className='fw-bold'>{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
+                    <div className='col-6 d-flex align-items-center justify-content-end p-1'>
+                      <p className='fw-bold'>{NumberWithCommas(e?.MakingAmount, 2)}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="d-grid pad_bt_20DetailPrint11 position-relative totalAmountJewelleryDetailPrint11 ">
+                  <div className="d-flex align-items-center justify-content-end p-1 totalAmountDetailPrint11Jewellery border-bottom pe-2"><p>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+                  <div className=" d-flex align-items-center justify-content-end p-1 totalAmountDetailPrint11Jewellery position-absolute bottom-0 w-100 min_height_20DetailPrint11 pe-2"><p className='fw-bold'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+                </div>
+              </div>
+            })} */}
+            {/* {e?.MetalColor}
+                  {image && <img src={e?.DesignImage} alt="" className='w-100 p-1' onError={handleImageError} width={120} height={120} />}
+                  {tunch && (`Tunch: ${NumberWithCommas(e?.Tunch, 3)}`)}
+                  {fixedValues(e?.grosswt, 3)}gm Gross
+                  {e?.Size.length > 0 && <>Size {e?.Size}</>}
+                  {e?.HUID !== "" && <>HUID: {e?.HUID}</>} */}
+            {json1Data.length > 0 && json1Data.map((e, i) => {
+              return <tr key={i}>
+                <td></td>
+                <td width={90} style={{ borderLeft: "1px solid #000", borderRight: "1px solid #000", borderTop: "1px solid #000", padding: "1px" }} align='center' >{i + 1}</td>
+                <td width={200} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }}><span> {e?.designno}</span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <span style={{ marginLeft: "5px", position: "relative", left: "10px" }}>{e?.SrJobno}</span>
+                </td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Shape</td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Size (mm)</td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Pcs</td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>DIA WT.</td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Price / cts</td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Dia Amount</td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Setting Type</td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Setting Price (Currency)</td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Total Amount (Currency)</td>
+                <td width={150} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'></td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'></td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'>Other Charges</td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'>Labour Amount</td>
+                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'>Total Jewellery Amount</td>
+              </tr>
+            })}
           </tbody>
         </table>
       </div>

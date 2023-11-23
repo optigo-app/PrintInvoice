@@ -1213,7 +1213,6 @@ const PrintDesign16 = ({ queries, headers }) => {
                                     style={{
                                       height: "3.7041666667mm",
                                       fontWeight: "900",
-                                      paddingTop: "2px",
                                       paddingLeft: "0.79375mm",
                                       width: "11.5mm",
                                       fontSize: "11px",
@@ -1467,7 +1466,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                 <div className="thikborder">
                                   <div className="bag_footer d_flex ">
                                     <div
-                                      className="border_top2 border_right border_bottom bag_td "
+                                      className="border_top2 border_right border_bottom bag_td d-flex justify-content-center align-items-center"
                                       style={{
                                         paddingLeft: "0.79375mm",
                                         height: "3.7041666667mm",
@@ -1476,7 +1475,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       }}
                                     ></div>
                                     <div
-                                      className="border_top2 border_right border_bottom bag_td "
+                                      className="border_top2 border_right border_bottom bag_td d-flex justify-content-center align-items-center"
                                       style={{
                                         paddingLeft: "0.79375mm",
                                         height: "3.7041666667mm",
@@ -1487,7 +1486,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       GRAND
                                     </div>
                                     <div
-                                      className="border_top2 border_right border_bottom bag_td "
+                                      className="border_top2 border_right border_bottom bag_td d-flex justify-content-center align-items-center"
                                       style={{
                                         paddingLeft: "0.79375mm",
                                         height: "3.7041666667mm",
@@ -1498,7 +1497,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       FILLING
                                     </div>
                                     <div
-                                      className="border_top2 border_right border_bottom bag_td "
+                                      className="border_top2 border_right border_bottom bag_td d-flex justify-content-center align-items-center"
                                       style={{
                                         paddingLeft: "0.79375mm",
                                         height: "3.7041666667mm",
@@ -1509,7 +1508,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       EPD
                                     </div>
                                     <div
-                                      className="border_top2 border_right border_bottom bag_td "
+                                      className="border_top2 border_right border_bottom bag_td d-flex justify-content-center align-items-center"
                                       style={{
                                         paddingLeft: "0.79375mm",
                                         height: "3.7041666667mm",
@@ -1520,7 +1519,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       P.P.
                                     </div>
                                     <div
-                                      className="border_top2 border_right border_bottom bag_td "
+                                      className="border_top2 border_right border_bottom bag_td d-flex justify-content-center align-items-center"
                                       style={{
                                         paddingLeft: "0.79375mm",
                                         height: "3.7041666667mm",
@@ -1531,7 +1530,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       SET.
                                     </div>
                                     <div
-                                      className="border_top2 border_right border_bottom bag_td "
+                                      className="border_top2 border_right border_bottom bag_td d-flex justify-content-center align-items-center"
                                       style={{
                                         paddingLeft: "0.79375mm",
                                         height: "3.7041666667mm",
@@ -1542,7 +1541,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       F.P.
                                     </div>
                                     <div
-                                      className="border_top2 border_bottom bag_td "
+                                      className="border_top2 border_bottom bag_td d-flex justify-content-center align-items-center"
                                       style={{
                                         paddingLeft: "0.79375mm",
                                         fontSize: "10px",

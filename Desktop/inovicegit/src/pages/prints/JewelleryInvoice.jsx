@@ -374,7 +374,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
           <div className="srNoJewelleryinvoice border-start border-end border-bottom p-1 d-flex justify-content-center align-items-center">
           </div>
           <div className="designJewelleryInvoice border-end border-bottom p-1 d-flex justify-content-center align-items-center">
-            <p className='fw-bold fs-6 text-uppercase'>Total</p>
+            <p className='fw-bold text-uppercase'>Total</p>
           </div>
           <div className='goldJewellryInvoice'>
             <div className="d-grid h-100">

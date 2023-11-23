@@ -47,7 +47,6 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
   }
 
   const organizeData = (json, json1, json2) => {
-    console.log(json, json1, json2);
     let resultArr = [];
     let totAmt = 0;
 
@@ -244,7 +243,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
       grandTot += +e?.amount;
     });
 
-    let words = numberToWord(fixedValues(grandTot, 2))+" Only";
+    let words = numberToWord(fixedValues(grandTot, 2)) + " Only";
 
     setInWords(words);
     setGrandTotal(grandTot);
@@ -271,7 +270,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     };
     sendData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const countCategorySubCategory = (data) => {
@@ -324,8 +323,8 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="mainheaderivp2">
                   <div className="head3ivp2">
                     <div className="d-flex" style={{ width: "70%" }}>
-                      <div className="fw-bold fs-4 px-2">INVOICE #: </div>
-                      <div className="fs-5 p-1" dangerouslySetInnerHTML={{__html:headerData?.Remark}}></div>
+                      <div className="fw-bold fs-4 px-2">INVOICE #: {headerData?.InvoiceNo}</div>
+                      <div className="fs-5 p-1" dangerouslySetInnerHTML={{ __html: headerData?.Remark }}></div>
                     </div>
                     <div className="">
                       <div className="d-flex justify-content-end align-items-end binvivp2">
@@ -431,7 +430,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                           {NumberWithCommas(e?.otherMisc, 2)}
                         </div>
                         <div className="wtbivp2 brightivp2 alignrightinvp2">
-                        <p dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></p> {NumberWithCommas(e?.TotalAmount, 2)}
+                          <p dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></p> {NumberWithCommas(e?.TotalAmount, 2)}
                         </div>
                       </div>
                     );
@@ -491,7 +490,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                       </div>
                     </div>
                     <div className="totaldesigninvp2">
-                      
+
                       {taxTotal?.length > 0 &&
                         taxTotal?.map((e, i) => {
                           return (
@@ -508,13 +507,13 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                             </div>
                           );
                         })}
-                      <div className="d-flex justify-content-between wtotinvp2">
-                        <p className="totgstinvp2 gsttotsum1 fw-bold">
-                          {headerData?.AddLess > 0 ? "ADD" : "Less"}
-                        </p>
-                        <p className="totgstinvp2 fw-bold">
-                          {headerData?.AddLess?.toFixed(2)}
-                        </p>
+                      <div
+                        className="d-flex justify-content-between wtotinvp2" >
+                        <div className="w-50 d-flex justify-content-end">
+                          <p className="totgstinvp2 gsttotsum1 fw-bold"> {headerData?.AddLess > 0 ? "ADD" : "Less"} </p>
+                        </div>
+                        <div className="w-50 d-flex justify-content-end"> <p className="totgstinvp2 fw-bold"> {headerData?.AddLess?.toFixed(2)} </p>
+                        </div>
                       </div>
                     </div>
                     <div className="grandtotalinvp2">
@@ -522,12 +521,8 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="amtwordsinvp2 wtotinvp2 d-flex align-items-center justify-content-end  wgtinvp2">
                         <div className="w-50 d-flex justify-content-end"> Grand Total :</div>{" "}
                         <div className="d-flex w-50 justify-content-end ">
-                          <p
-                            dangerouslySetInnerHTML={{
-                              __html: headerData?.Currencysymbol,
-                            }}
-                          ></p>{" "}
-                          {NumberWithCommas(grandTotal, 2)} /-{" "}
+                          <p dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol, }} ></p>
+                          {NumberWithCommas(grandTotal, 2)} /-
                         </div>
                       </div>
                     </div>
@@ -535,7 +530,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                   <div className="summaryinvp2">
                     <div className="summaryinvp2fs">Summary Detail</div>
                     <div className="summaryDetailinvp2">
-                      <div className="wsummaryinvp2">
+                      <div className="wsummaryinvp2 px-2">
                         {summaryDetail?.firstArr?.map((e, i) => {
                           return (
                             <div key={i} className="d-flex arrinvp2">
@@ -649,7 +644,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                   <div className="notesinvp2">
                     <div className="noteinvp2">NOTE :</div>
                     <div
-                      className="noteDemoinvp2"
+                      className="noteDemoinvp2 pb-4"
                       dangerouslySetInnerHTML={{
                         __html: headerData?.Declaration,
                       }}
