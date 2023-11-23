@@ -114,7 +114,21 @@ const BagPrint7A = ({ queries, headers }) => {
           if(misc.ActualPcs !== 0 && misc.ActualWeight !== 0){
             MiscList.push(misc);
           }  
-
+          // console.log(DiamondList);
+          const groupedData = data.reduce((acc, obj) => {
+            const key = `${obj.Shapecode}-${obj.qualitycode}-${obj.colorcode}`;
+            
+            if (!acc[key]) {
+              acc[key] = { shapecode: obj.shapecode, qualitycode: obj.qualitycode, colorcode: obj.colorcode, items: [] };
+            }
+          
+            acc[key].items.push(obj);
+            return acc;
+          }, {});
+          
+          const resultArray1 = Object.values(groupedData);
+          
+          // console.log(resultArray1);
           let arr = [];
           let mainArr = arr?.concat(
             DiamondList,

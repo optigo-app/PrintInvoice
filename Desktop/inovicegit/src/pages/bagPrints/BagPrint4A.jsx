@@ -36,7 +36,7 @@ const BagPrint4A = ({ queries, headers }) => {
         // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           let chunkData = [];
-          let chunkSize = 14;
+          let chunkSize = 15;
           let length = 0;
           let clr = {
             Shapename: "TOTAL",
@@ -65,6 +65,14 @@ const BagPrint4A = ({ queries, headers }) => {
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 5,
+          }
+          let tc = {
+            Shapename : "",
+            ConcatedFullShapeQualityColorName:""
+          }
+          let tch = {
+            Shapename : "METAL DETAIL",
+            ConcatedFullShapeQualityColorName:"METAL DETAIL"
           }
 
           let diaArr = [];
@@ -103,10 +111,10 @@ const BagPrint4A = ({ queries, headers }) => {
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
           f.ActualPcs = +f.ActualPcs?.toFixed(3);
           f.ActualWeight = +f.ActualWeight?.toFixed(3);
-          diaArr?.push(dia);
-          clsArr?.push(clr);
-          miscArr?.push(misc);
-          fArr?.push(f);
+          // diaArr?.push(dia);
+          // clsArr?.push(clr);
+          // miscArr?.push(misc);
+          // fArr?.push(f);
 
           let blankArr = a?.rd1?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid !== 0);
 
@@ -158,9 +166,12 @@ const BagPrint4A = ({ queries, headers }) => {
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
+          tc.ConcatedFullShapeQualityColorName = (a?.rd?.MetalType == null ? 'NA' : a?.rd?.MetalType) + " " + (a?.rd?.MetalColorCo == null ? 'NA' : a?.rd?.MetalColorCo)
+          blankArr1.unshift(tc);
+          blankArr1.unshift(tch);
           for (let i = 0; i < blankArr1?.length; i += chunkSize) {
             const chunks = blankArr1?.slice(i, i + chunkSize);
-            let len = 14 - blankArr1?.slice(i, i + chunkSize)?.length;
+            let len = 15 - blankArr1?.slice(i, i + chunkSize)?.length;
             chunkData.push({ data: chunks, length: len });
           }
           responseData.push({
@@ -191,6 +202,7 @@ const BagPrint4A = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
+  // console.log(data);
   return (
     <>
       {data?.length === 0 ? (
@@ -247,7 +259,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                     <div className="cust4A border_right4A">
                                       <div
                                         className="custText4A"
-                                        style={{ paddingTop: "3px" }}
+                                        
                                       >
                                         CUST
                                       </div>
@@ -258,7 +270,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                     <div className="ordDt4A border_right4A">
                                       <div
                                         className="custText4A"
-                                        style={{ paddingTop: "3px" }}
+                                        
                                       >
                                         ORD.DT.
                                       </div>
@@ -269,7 +281,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                     <div className="delDt4A border_right4A">
                                       <div
                                         className="custText4A"
-                                        style={{ paddingTop: "3px" }}
+                                        
                                       >
                                         DEL.DT.
                                       </div>
@@ -280,7 +292,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                     <div className="size4A border_right4A size4AA">
                                       <div
                                         className="custText4A"
-                                        style={{ paddingTop: "3px" }}
+                                        
                                       >
                                         SIZE
                                       </div>
@@ -309,16 +321,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                       WT
                                     </div>
                                   </div>
-                                  <div className="height_23_4A border_bottom4A d_flex4A">
-                                    <div
-                                      className="code4A border_right4A code4A_text"
-                                      style={{ width: "170pt", borderRight:"0px" }}
-                                    >
-                                      <div className="code_4A_change border-end border-black height_23_4A height_11_Print4a code4A_text w-100" style={{height:"13pt"}}>
-                                      {e?.data?.MetalType} {e?.data?.MetalColorCo}
-                                      </div>
-                                    </div>
-                                  </div>
+                          
                                   <div className="record_line_1">
                                     {ele?.data?.map((elem, index) => {
                                       return (
@@ -336,6 +339,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                                     <div
                                                         className="record_line_4A border_bottom4A"
                                                     >
+                                                      
                                                       <div className="code4A border_right4A code4A_text w-100 fw-bold d-flex justify-content-center align-items-center" style={{height:"15px"}}>
                                                         {elem?.Shapename}
                                                       </div>
@@ -343,8 +347,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                                    </> 
                                                    : 
                                                    <>
-                                                      
                                                       {
+                                                        
                                                         elem?.Sizename === "F TOTAL" ? 
                                                         <div
                                                         className="record_line_4A border_bottom4A"
@@ -392,7 +396,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                         <React.Fragment>
                                           
                                           {
-                                            (elem?.Shapename === "DIAMOND DETAIL" || elem?.Shapename === "COLORSTONE DETAIL" || elem?.Shapename === "MISC DETAIL" || elem?.Shapename === "FINDING DETAIL")
+                                            (elem?.Shapename === "METAL DETAIL" ||  elem?.Shapename === "DIAMOND DETAIL" || elem?.Shapename === "COLORSTONE DETAIL" || elem?.Shapename === "MISC DETAIL" || elem?.Shapename === "FINDING DETAIL")
                                             ?
                                              <React.Fragment>
                                           <div
@@ -888,7 +892,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 WT
                               </div>
                             </div>
-                            <div className="height_23_4A border_bottom4A d_flex4A">
+                            {/* <div className="height_23_4A border_bottom4A d_flex4A">
                               <div
                                 className="code4A border_right4A code4A_text"
                                 style={{ width: "94pt" }}
@@ -901,7 +905,7 @@ const BagPrint4A = ({ queries, headers }) => {
                               <div className="wt4A border_right4A code4A_text"></div>
                               <div className="pcs4A border_right4A code4A_text"></div>
                               <div className="wt4A border_right4A code4A_text"></div>
-                            </div>
+                            </div> */}
                             <div className="record_line_1">
                               {Array.from({ length: 14 }, (_, index) => (
                                 <div

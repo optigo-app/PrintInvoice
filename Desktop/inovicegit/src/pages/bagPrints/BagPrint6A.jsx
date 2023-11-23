@@ -37,10 +37,11 @@ const BagPrint6A = ({ queries, headers }) => {
 
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-
+        
         // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           
+            
           if (a?.rd?.ProductType !== null && a?.rd?.ProductType !== undefined && a?.rd?.ProductType !== "") {
             if (
               a?.rd?.ProductType?.length > 0 &&
@@ -74,6 +75,9 @@ const BagPrint6A = ({ queries, headers }) => {
             ActualPcs: 0,
             ActualWeight: 0,
           };
+          let tc = {
+            ConcatedFullShapeQualityColorCode : '',
+          }
           let ArrofSevenSize = [];
           let ArrofFiveSize = [];
           let ArrofMISize = [];
@@ -101,7 +105,6 @@ const BagPrint6A = ({ queries, headers }) => {
               misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
             }
           });
-
           dia.ActualPcs = +dia.ActualPcs?.toFixed(3);
           dia.ActualWeight = +dia.ActualWeight?.toFixed(3);
           clr.ActualPcs = +clr.ActualPcs?.toFixed(3);
@@ -119,8 +122,11 @@ const BagPrint6A = ({ queries, headers }) => {
           );
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
-
+            
+            
           let img = imagePath + a?.rd?.ThumbImagePath;
+          tc.ConcatedFullShapeQualityColorCode = (a?.rd?.MetalType == null ? 'NA' : a?.rd?.MetalType) + " " + (a?.rd?.MetalColorCo == null ? 'NA' : a?.rd?.MetalColorCo);
+          mainArr.unshift(tc);
           let arrofchunk = GetChunkData(chunkSize7, mainArr);
           
           responseData.push({
@@ -145,7 +151,7 @@ const BagPrint6A = ({ queries, headers }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    if (data.length !== 0) {
+    if (data?.length !== 0) {
       setTimeout(() => {
         window.print();
       }, 5000);
@@ -195,9 +201,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   <div>{e?.data?.rd?.serialjobno}</div>
                                   <div>{e?.data?.rd?.Designcode}</div>
                                   <div className="text-danger">
-                                    {e?.data?.rd?.MetalType +
-                                      " " +
-                                      e?.data?.rd?.MetalColorCo}
+                                    {(e?.data?.rd?.MetalType == null ? 'NA' : e?.data?.rd?.MetalType) + " " + (e?.data?.rd?.MetalColorCo == null ? 'NA' : e?.data?.rd?.MetalColorCo)}
                                   </div>
                                 </div>
                                 <div className="jobName6A">
@@ -232,7 +236,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   <div className="job6Ahww">CS WT/PC</div>
                                   <div className="job6Ahww">DIA WT/PC</div>
                                   <div className="job6Ahww">Nt Wt/Gr Wt</div>
-                                  <div className="job6Ahww borderRight6A">
+                                  <div className="job6Ahww borderRight6A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
                                     {e?.data?.rd?.prioritycode}
                                   </div>
                                 </div>
@@ -257,7 +261,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                     {e?.data?.rd?.ActualGrossweight?.toFixed(3)}
                                   </div>
                                   <div className="job6Ahww borderRight6A">
-                                    {e?.data?.rd?.orderDatef ?? ""}
+                                    {e?.data?.rd?.promiseDatef ?? ""}
                                   </div>
                                 </div>
                               </div>
@@ -279,42 +283,38 @@ const BagPrint6A = ({ queries, headers }) => {
                             </div>
                             <div className="main6A">
                               <div className="required6A">
-                                <div className="lbh6A">Required Material</div>
+                                <div className="lbh6A d-flex justify-content-between align-items-center"><div className="w-75">Required Material</div><div className="w-25">Issue Material</div></div>
                                 <div
                                   className="main6Ahead"
                                   style={{ height: "16px" }}
                                 >
-                                  <div className="right6Aa code6A">CODE</div>
-                                  <div className="right6Ab code6A">SIZE</div>
-                                  <div className="right6Ac code6A">PCS</div>
-                                  <div className="right6Ad code6A">WT</div>
-                                </div>
-                                <div className="main6Ahead">
-                                  <div
-                                    className="right6Aa"
-                                    style={{ width: "188px" }}
-                                  >
-                                    {e?.data?.rd?.MetalType +
-                                      " " +
-                                      e?.data?.rd?.MetalColor}
-                                  </div>
-                                  <div className="right6Ac"></div>
-                                  <div className="right6Ad"></div>
+                                  <div className="right6Aa code6A" style={{width:"120px"}}>CODE</div>
+                                  <div className="right6Ab code6A" style={{width:"90px"}}>SIZE</div>
+                                  <div className="right6Ac code6A" style={{width:"31px"}}>PCS</div>
+                                  <div className="right6Ad code6A" style={{width:"40px"}}>WT</div>
+                                  <div className="right6Ac code6A" style={{width:"33px", borderLeft:"1px solid #989898"}}>PCS</div>
+                                  <div className="right6Ad code6A" style={{width:"32px"}}>WT</div>
                                 </div>
                                 {ele?.data?.map((a, i) => {
                                   return (
                                     <div className="main6Ahead" key={i}>
-                                      <div className="right6Aa">
-                                        {a?.ConcatedFullShapeQualityColorCode}
+                                      <div className="right6Aa" style={{width:"120px", fontSize: (a?.ConcatedFullShapeQualityColorCode?.length > 44 ? '9px' : '10px')  }}>
+                                        {a?.ConcatedFullShapeQualityColorCode == null ? 'NA' : a?.ConcatedFullShapeQualityColorCode}
                                       </div>
-                                      <div className="right6Ab">
+                                      <div className="right6Ab" style={{width:"90px"}}>
                                         {a?.Sizename}
                                       </div>
-                                      <div className="right6Ac">
+                                      <div className="right6Ac" style={{width:"31px"}}>
                                         {a?.ActualPcs}
                                       </div>
-                                      <div className="right6Ad">
+                                      <div className="right6Ad" style={{width:"40px"}}>
                                         {a?.ActualWeight?.toFixed(3)}
+                                      </div>
+                                      <div className="right6Ac" style={{borderLeft:"1px solid #989898", width:"33px"}}>
+                                      
+                                      </div>
+                                      <div className="right6Ad" style={{width:"32px"}}>
+                                      
                                       </div>
                                     </div>
                                   );
@@ -323,57 +323,17 @@ const BagPrint6A = ({ queries, headers }) => {
                                   { length: ele?.length },
                                   (_, index) => (
                                     <div className="main6Ahead" key={index}>
-                                      <div className="right6Aa"></div>
-                                      <div className="right6Ab"></div>
-                                      <div className="right6Ac"></div>
-                                      <div className="right6Ad"></div>
+                                      <div className="right6Aa" style={{width:"120px"}}></div>
+                                      <div className="right6Ab" style={{width:"90px"}}></div>
+                                      <div className="right6Ac" style={{width:"31px"}}></div>
+                                      <div className="right6Ad" style={{width:"40px"}}></div>
+                                      <div className="right6Ac" style={{width:"33px", borderLeft:"1px solid #989898"}}></div>
+                                      <div className="right6Ad" style={{width:"32px"}}></div>
                                     </div>
                                   )
                                 )}
                               </div>
-                              <div className="issue6A">
-                                <div className="lbh6A">
-                                  <div className="dflex6A">
-                                    <p
-                                      className="pflex6A"
-                                      style={{
-                                        borderRight: "0px solid #989898",
-                                        height: "20px",
-                                        width: "75px",
-                                      }}
-                                    >
-                                      Issue Material
-                                    </p>
-                                  </div>
-                                </div>
-                                <div
-                                  className="aside6A"
-                                  style={{ height: "16px" }}
-                                >
-                                  <div
-                                    className="right6Ac"
-                                    style={{ height: "16px" }}
-                                  >
-                                    PCS
-                                  </div>
-                                  <div
-                                    className="right6Ad"
-                                    style={{ height: "16px" }}
-                                  >
-                                    WT
-                                  </div>
-                                </div>
-                                <div className="aside6A">
-                                  <div className="right6Ac"></div>
-                                  <div className="right6Ad"></div>
-                                </div>
-                                {Array.from({ length: 11 }, (_, index) => (
-                                  <div className="aside6A" key={index}>
-                                    <div className="right6Ac"></div>
-                                    <div className="right6Ad"></div>
-                                  </div>
-                                ))}
-                              </div>
+                              
                             </div>
                             <div className="job6Afooter">
                               <div
@@ -384,7 +344,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   <p className="f6A">
                                     CUST. INS.
                                     <span className="f6A ">
-                                    {" " + checkInstruction(e?.data?.rd?.officeuse)}
+                                    {" " + checkInstruction(e?.data?.rd?.ProductInstruction)}
                                     </span>
                                   </p>
                                 </div>
@@ -392,7 +352,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   <p className="f6A">
                                     PRD. INS.
                                     <span className="f6A ">
-                                    {" " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                                    {" " + checkInstruction(e?.data?.rd?.officeuse)}
                                     </span>
                                   </p>
                                 </div>
@@ -427,10 +387,7 @@ const BagPrint6A = ({ queries, headers }) => {
                             >
                               <div>{e?.data?.rd?.serialjobno}</div>
                               <div>{e?.data?.rd?.Designcode}</div>
-                              <div>{e?.data?.rd?.MetalType}</div>
-                              <div className="borderRight6A">
-                                {e?.data?.rd?.MetalColorCo}
-                              </div>
+                              <div className="pe-1" style={{color:"red"}}>{(e?.data?.rd?.MetalType == null ? 'NA' : e?.data?.rd?.MetalType) + " " + (e?.data?.rd?.MetalColorCo == null ? 'NA' : e?.data?.rd?.MetalColorCo)}</div>
                             </div>
                             <div className="jobName6A">
                               <div className="job6Ahww">TR NO.</div>
@@ -458,7 +415,7 @@ const BagPrint6A = ({ queries, headers }) => {
                               <div className="job6Ahww">CS WT/PC</div>
                               <div className="job6Ahww">DIA WT/PC</div>
                               <div className="job6Ahww">Nt Wt/Gr Wt</div>
-                              <div className="job6Ahww borderRight6A">
+                              <div className="job6Ahww borderRight6A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
                                 {e?.data?.rd?.prioritycode}
                               </div>
                             </div>
@@ -467,19 +424,19 @@ const BagPrint6A = ({ queries, headers }) => {
                               style={{ borderBottom: "0px" }}
                             >
                               <div className="job6Ahww">
-                                {e?.additional?.clr?.ActualPcs}/
-                                {e?.additional?.clr?.ActualWeight?.toFixed(2)}
+                                {e?.additional?.clr?.ActualWeight?.toFixed(3)}/
+                                {e?.additional?.clr?.ActualPcs}
                               </div>
                               <div className="job6Ahww">
-                                {e?.additional?.dia?.ActualPcs}/
-                                {e?.additional?.dia?.ActualWeight?.toFixed(2)}
+                                {e?.additional?.dia?.ActualWeight?.toFixed(3)}/
+                                {e?.additional?.dia?.ActualPcs}
                               </div>
                               <div className="job6Ahww">
-                                {e?.data?.rd?.MetalWeight?.toFixed(2)}/
-                                {e?.data?.rd?.ActualGrossweight?.toFixed(2)}
+                                {e?.data?.rd?.ActualGrossweight?.toFixed(3)}/
+                                {e?.data?.rd?.MetalWeight?.toFixed(3)}
                               </div>
                               <div className="job6Ahww borderRight6A">
-                                {e?.data?.rd?.orderDatef ?? ""}
+                                {e?.data?.rd?.promiseDatef ?? ""}
                               </div>
                             </div>
                           </div>
@@ -498,49 +455,49 @@ const BagPrint6A = ({ queries, headers }) => {
                             />
                           </div>
                         </div>
-                        <div className="main6A">
-                          <div className="required6A">
+                        <div className="main6A" style={{width:"345px"}}>
+                          <div className="required6A" style={{width:"275.57px"}}>
                             <div className="lbh6A">Required Material</div>
                             <div className="main6Ahead">
-                              <div className="right6Aa">CODE</div>
-                              <div className="right6Ab">SIZE</div>
-                              <div className="right6Ac">PCS</div>
-                              <div className="right6Ad">WT</div>
+                              <div className="right6Aa" style={{width:"120px"}}>CODE</div>
+                              <div className="right6Ab" style={{width:"90px"}}>SIZE</div>
+                              <div className="right6Ac" style={{width:"31px"}}>PCS</div>
+                              <div className="right6Ad" style={{width:"40px"}}>WT</div>
                             </div>
                             <div className="main6Ahead" style={{height:"18px"}}>
-                                <div className="right6Aa">{e?.data?.rd?.MetalType + " " + e?.data?.rd?.MetalColorCo}</div>
-                                <div className="right6Ab"></div>
-                                <div className="right6Ac"></div>
-                                <div className="right6Ad"></div>
+                                <div className="right6Aa" style={{width:"120px"}}>{(e?.data?.rd?.MetalType == null ? 'NA' : e?.data?.rd?.MetalType) + " " + (e?.data?.rd?.MetalColorCo == null ? 'NA' : e?.data?.rd?.MetalColorCo)}</div>
+                                <div className="right6Ab" style={{width:"90px"}}></div>
+                                <div className="right6Ac" style={{width:"31px"}}></div>
+                                <div className="right6Ad" style={{width:"40px"}}></div>
                               </div>
                             {Array.from({ length: 11 }, (_, ind) => (
                               <div className="main6Ahead" key={ind} style={{height:"20px"}}>
-                                <div className="right6Aa"></div>
-                                <div className="right6Ab"></div>
-                                <div className="right6Ac"></div>
-                                <div className="right6Ad"></div>
+                                <div className="right6Aa"style={{width:"120px"}}></div>
+                                <div className="right6Ab"style={{width:"90px"}}></div>
+                                <div className="right6Ac"style={{width:"31px"}}></div>
+                                <div className="right6Ad"style={{width:"40px"}}></div>
                               </div>
                             ))}
                           </div>
-                          <div className="issue6A">
+                          <div className="issue6A" style={{width:"70px"}}>
                             <div className="lbh6A">
-                              <p style={{ borderRight: "1px solid black" }}>
-                                Issue
+                              <p style={{ borderRight: "0px" }}>
+                                Issue Material
                               </p>
-                              <p>Material</p>
+                              
                             </div>
-                            <div className="aside6A">
-                              <div className="right6Ac">PCS</div>
-                              <div className="right6Ad">WT</div>
+                            <div className="aside6A" style={{width:"70px"}}>
+                              <div className="right6Ac w-50">PCS</div>
+                              <div className="right6Ad w-50">WT</div>
                             </div>
                             <div className="aside6A" style={{height:"18px"}}>
-                                <div className="right6Ac"></div>
-                                <div className="right6Ad"></div>
+                                <div className="right6Ac w-50"></div>
+                                <div className="right6Ad w-50"></div>
                               </div>
                             {Array.from({ length: 11 }, (_, i) => (
-                              <div className="aside6A" key={i} style={{height:"20px"}}>
-                                <div className="right6Ac"></div>
-                                <div className="right6Ad"></div>
+                              <div className="aside6A" key={i} style={{height:"20px", width:"70px"}}>
+                                <div className="right6Ac w-50"></div>
+                                <div className="right6Ad w-50"></div>
                               </div>
                             ))}
                           </div>
@@ -551,16 +508,16 @@ const BagPrint6A = ({ queries, headers }) => {
                             style={{ borderTop: "0px" }}
                           >
                             <div className="cust6A">
-                              <p className="f6A">
-                                CUST. INS.<span className="f6A f6Ared">
-                                {" " + checkInstruction(e?.data?.rd?.officeuse)}
+                              <p className="f6A " style={{fontSize:"11px"}}>
+                                CUST. INS.<span className="f6A pt-1" style={{color:"red"}}>
+                                {" " + checkInstruction(e?.data?.rd?.ProductInstruction)}
                                 </span>
                               </p>
                             </div>
                             <div className="cust6A">
-                              <p className="f6A">
-                                PRD. INS.<span className="f6A f6Ared">
-                                { " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                              <p className="f6A" style={{fontSize:"11px"}}>
+                                PRD. INS.<span className="f6A pt-1" style={{color:"red"}}>
+                                { " " + checkInstruction(e?.data?.rd?.officeuse)}
                                 </span>
                               </p>
                             </div>
@@ -568,8 +525,8 @@ const BagPrint6A = ({ queries, headers }) => {
                               className="cust6A"
                               style={{ borderBottom: "0px" }}
                             >
-                              <p className="f6A">
-                                STM. INS.<span className="f6A f6Ared">
+                              <p className="f6A" style={{fontSize:"11px"}}>
+                                STM. INS.<span className="f6A pt-1" style={{color:"red"}}>
                                 {" " + checkInstruction(e?.data?.rd?.stamping)}
                                 </span>
                               </p>
