@@ -166,6 +166,11 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
         newArr[findRecord].MakingAmount += obj?.MakingAmount;
         newArr[findRecord].TotalAmount += obj?.TotalAmount;
 
+        newArr[findRecord].totalCol.pcs += obj.totalCol.pcs;
+        newArr[findRecord].totalCol.diaWt += obj.totalCol.diaWt;
+        newArr[findRecord].totalCol.diaAmount += obj.totalCol.diaAmount;
+        newArr[findRecord].totalCol.settingAmount += obj.totalCol.settingAmount;
+
         let materialArr = [newArr[findRecord].materials, e.materials];
         let materials = [];
         materialArr.forEach((element, indexs) => {
@@ -173,10 +178,10 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             let findRecords = materials.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
               elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate &&
               elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
-              newArr[findRecord].totalCol.pcs += ele?.Pcs;
-              newArr[findRecord].totalCol.diaWt += ele?.Wt;
-              newArr[findRecord].totalCol.diaAmount += ele?.Amount;
-              newArr[findRecord].totalCol.settingAmount += ele?.SettingAmount;
+              // newArr[findRecord].totalCol.pcs += ele?.Pcs;
+              // newArr[findRecord].totalCol.diaWt += ele?.Wt;
+              // newArr[findRecord].totalCol.diaAmount += ele?.Amount;
+              // newArr[findRecord].totalCol.settingAmount += ele?.SettingAmount;
             if (findRecords === -1) {
               materials.push(ele);
             } else {
