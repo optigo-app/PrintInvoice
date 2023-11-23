@@ -66,7 +66,7 @@ useEffect(() => {
                                 { e?.data?.rd?.OrderNo?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.OrderNo}</div>}
                                 { e?.data?.rd?.promisedate?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.promisedate}</div>}
                                 { e?.data?.rd?.mastermanagement_maketypename?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.mastermanagement_maketypename}</div>}
-                                { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType}</div>}
+                                { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] + " " +e?.data?.rd?.MetalColorCo}</div>}
                                 { e?.data?.rd?.MetalWeight > 0 && <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>}
                                 <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>
                                 { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
@@ -78,6 +78,7 @@ useEffect(() => {
                               </div>
                                 )
                               }) : 
+                              
                               <div className='containerjbsbg'>
                                 { e?.data?.rd?.serialjobno?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.serialjobno}</div>}
                                 { e?.data?.rd?.Designcode?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.Designcode}</div>}
@@ -85,7 +86,7 @@ useEffect(() => {
                                 { e?.data?.rd?.OrderNo?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.OrderNo}</div>}
                                 { e?.data?.rd?.promisedate?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.promisedate}</div>}
                                 { e?.data?.rd?.mastermanagement_maketypename?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.mastermanagement_maketypename}</div>}
-                                { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType}</div>}
+                                { e?.data?.rd?.MetalType?.length > 0 && <div className='fsjbsbg'>{e?.data?.rd?.MetalType?.split(" ")[1] +" " +e?.data?.rd?.MetalColorCo}</div>}
                                 { e?.data?.rd?.MetalWeight > 0 && <div className='fsjbsbg'>{(+e?.data?.rd?.MetalWeight)?.toFixed(3)}gm</div>}
                                 { e?.data?.rd?.Size?.length > 0 && <div className='fsjbsbg'>Size: {e?.data?.rd?.Size}</div>}
                                 <div className='d-flex justify-content-start align-items-center'>
