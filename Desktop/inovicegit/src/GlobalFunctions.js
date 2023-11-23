@@ -1,4 +1,5 @@
 import axios from "axios";
+// import img from "./assets/img/default.jpg";
 import img from "./assets/img/default.jpg";
 import Footer1 from "./components/footers/Footer1";
 import Header1 from "./components/headers/Header1";

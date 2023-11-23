@@ -207,7 +207,6 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
     setJson1Data(newArr);
 
     let excelArr = [];
-    console.log(newArr);
     newArr.forEach((e, i) => {
       let obj = { ...e };
       let length = obj?.materials?.length > 10 ? obj?.materials?.length : 10;
@@ -275,7 +274,6 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
         };
         excelArr.push(object)
       });
-      console.log(obj?.totalCol?.pcs);
       let objectTotal = {
         srNo: "",
         designNo: "",
@@ -366,11 +364,13 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
       value: data.BillPrint_Json[0]?.rtgs_neft_ifsc,
     },];
 
+    setBankDetail(bankArr);
+
     
     setTimeout(() => {
       const button = document.getElementById('test-table-xls-button');
       button.click();
-    }, 0);
+    }, 100);
   }
   useEffect(() => {
     const sendData = async () => {
@@ -397,12 +397,12 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
   }, []);
   return (
     loader ? <Loader /> : msg === "" ? <>
-      <div className="container max_width_container pad_60_allPrint mt-4">
+      <div className="container max_width_container pad_60_allPrint mt-4 d-none">
         <ReactHTMLTableToExcel
           id="test-table-xls-button"
           className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
           table="table-to-xls"
-          filename={`Sale_Format_A_${json0Data?.InvoiceNo}_${Date.now()}`}
+          filename={`DetailPrint11_${json0Data?.InvoiceNo}_${Date.now()}`}
           sheet="tablexls"
           buttonText="Download as XLS" />
         <table id='table-to-xls' >
@@ -700,10 +700,10 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
                   {i === 0 && <><span>Remark :</span><span dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }} className='p-1'></span></>}
                 </td>
                 <td colSpan={4} width={270} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }}><b></b> </td>
-                <td colSpan={2} width={180} style={{ borderBottom: (i === len - 1 && "1px solid #000"), padding: "1px" }}>{goldTotal[i] && goldTotal[i].label}</td>
-                <td colSpan={2} width={180} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }} align='right'>{goldTotal[i] && goldTotal[i].value}</td>
-                <td colSpan={2} width={420} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }}>{totalArr[i].label} </td>
-                <td colSpan={2} width={180} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }}><b>{totalArr[i].value}</b></td>
+                <td colSpan={2} width={180} style={{ borderBottom: (i === len - 1 && "1px solid #000"), padding: "1px" }}>{goldTotal[i] && goldTotal[i]?.label}</td>
+                <td colSpan={2} width={180} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }} align='right'>{goldTotal[i] && goldTotal[i]?.value}</td>
+                <td colSpan={2} width={420} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }}>{totalArr[i] && totalArr[i]?.label} </td>
+                <td colSpan={2} width={180} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }}><b>{totalArr[i] && totalArr[i]?.value}</b></td>
               </tr>
             })}
             <tr>
@@ -711,12 +711,14 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
               <td colSpan={14} style={{ borderLeft: "1px solid", borderRight: "1px solid", borderBottom: "1px solid" }} align='right'><b>Grand Total</b> </td>
               <td colSpan={2} style={{ borderRight: "1px solid", borderBottom: "1px solid" }} align='right'><b>{NumberWithCommas(total?.grandTotal, 2)}</b></td>
             </tr>
-            <tr>
+            {bankDetail.length > 0 && bankDetail.map((e, i) => {
+              return <tr key={i}>
               <td></td>
-              <td colSpan={8} style={{ borderLeft: "1px solid", borderRight: "1px solid", borderBottom: "1px solid" }} align='right'><b>Grand Total</b> </td>
-              <td colSpan={2} style={{ borderRight: "1px solid", borderBottom: "1px solid" }} align='right'><b>{NumberWithCommas(total?.grandTotal, 2)}</b></td>
+              <td colSpan={8} style={{ borderLeft: "1px solid", borderRight: "1px solid", borderBottom: `${i===bankDetail.length-1 && "1px solid"}` }} >{e?.label} {e?.value}</td>
+              <td colSpan={4} style={{ borderRight: "1px solid", borderBottom: `${i===bankDetail.length-1 && "1px solid"}` }}>{i===0 && json0Data?.CompanyFullName} {i===bankDetail.length-1 && "Signature"}</td>
+              <td colSpan={4} style={{ borderRight: "1px solid", borderBottom: `${i===bankDetail.length-1 && "1px solid"}` }}>{i===0 && json0Data?.customerfirmname} {i===bankDetail.length-1 && "Signature"}</td>
             </tr>
-            {console.log(excelData)}
+            })}
           </tbody>
         </table>
       </div>
