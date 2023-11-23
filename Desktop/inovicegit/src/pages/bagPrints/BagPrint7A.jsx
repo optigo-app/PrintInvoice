@@ -16,7 +16,7 @@ const BagPrint7A = ({ queries, headers }) => {
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
-  const chunkSize7 = 6;
+  const chunkSize7 = 35;
   useEffect(() => {
     if (Object.keys(queryParams)?.length !== 0) {
       atob(queryParams?.imagepath);
@@ -41,28 +41,28 @@ const BagPrint7A = ({ queries, headers }) => {
           let length = 0;
           let clr = {
             Shapename: "TOTAL",
-            Sizename: "",
+            Sizename: "C TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 4,
           };
           let dia = {
             Shapename: "TOTAL",
-            Sizename: "",
+            Sizename: "D TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 3,
           };
           let misc = {
             Shapename: "TOTAL",
-            Sizename: "",
+            Sizename: "MISC TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 7,
           };
           let f = {
             Shapename: "TOTAL",
-            Sizename: "",
+            Sizename: "F TOTAL",
             ActualPcs: 0,
             ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 5,
@@ -126,8 +126,9 @@ const BagPrint7A = ({ queries, headers }) => {
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
             let chunkData =  GetChunkData(chunkSize7, mainArr)
-          responseData.push({
-            data: a,
+            let chunkDatas = mainArr?.slice(0, 10);
+            responseData.push({
+              data: a,
             additional: {
               length: length,
               clr: clr,
@@ -136,6 +137,8 @@ const BagPrint7A = ({ queries, headers }) => {
               img: img,
               misc: misc,
               pages: chunkData,
+              page: mainArr,
+              material:chunkDatas
             },
           });
         });
@@ -155,6 +158,7 @@ const BagPrint7A = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
+  
   return (
     <>
       {data?.length === 0 ? (
@@ -192,12 +196,10 @@ const BagPrint7A = ({ queries, headers }) => {
                           <div className="container7A" key={ind}>
                             <div className="head7A">
                               <div className="head7AjobInfo">
-                                <div
-                                  className="head7AjobInfoJobNO"
-                                  style={{
+                                <div  style={{
                                     backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
-                                  }}
-                                >
+                                  }}>
+                                <div className="head7AjobInfoJobNO">
                                   <div>
                                     Ord. : {e?.data?.rd?.orderDatef ?? ""}
                                   </div>
@@ -208,12 +210,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                     <b>{e?.data?.rd?.serialjobno}</b>
                                   </div>
                                 </div>
-                                <div
-                                  className="party7A"
-                                  style={{
-                                    backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
-                                  }}
-                                >
+                                <div className="party7A">
                                   <div>
                                     Party: <b>{e?.data?.rd?.CustomerCode}</b>
                                   </div>
@@ -221,12 +218,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                     Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
                                   </div>
                                 </div>
-                                <div
-                                  className="party7A"
-                                  style={{
-                                    backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
-                                  }}
-                                >
+                                <div className="party7A">
                                   <div>
                                     DgN: <b>{e?.data?.rd?.Designcode}</b>
                                   </div>
@@ -244,17 +236,11 @@ const BagPrint7A = ({ queries, headers }) => {
                                       )}
                                   </div>
                                 </div>
-                                <div
-                                  className="party7A"
-                                  style={{
-                                    backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
-                                  }}
-                                >
+                                <div className="party7A">
                                   <div>Size: {e?.data?.rd?.Size}</div>
                                   <div className="pe-1">({e?.data?.rd?.Quantity})Pcs</div>
-                                  {/* <div>{e?.data?.rd?.prioritycode}</div> */}
                                 </div>
-
+                                </div>
                                 <div className="mat7AInfo">
                                   <div className="pcswt7AH">
                                     <div className="net7A">
@@ -341,7 +327,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                     fontSize: "11px",
                                     lineHeight: "9px",
                                     padding: "2px",
-                                    height: "21px",
+                                    height: "22px",
                                   }}
                                 >
                                   {e?.data?.rd?.MetalType}{" "}
@@ -351,260 +337,61 @@ const BagPrint7A = ({ queries, headers }) => {
                             </div>
                             <div className="main7A">
                               <div className="main7AEntry">
-                                <div style={{ height: "13px" }}></div>
                                 <div className="divide7A">
                                   <div className="tableHead7A">
                                     <div
                                       className="type7A"
-                                      style={{
-                                        borderBottom: "1px solid #989898",
-                                        borderTop: "1px solid #989898",
-                                      }}
+                                      style={{height:"11px"}}
                                     >
                                       <p
                                         className="w7A"
-                                        style={{ width: "74px" }}
-                                      >
+                                        style={{ width: "82px" }}
+                                      > 
                                         <b>Type</b>
                                       </p>
                                       <p
                                         className="w7A"
-                                        style={{ width: "61px" }}
+                                        style={{ width: "82px" }}
                                       >
                                         <b>Purity</b>
                                       </p>
                                       <p
                                         className="w7A"
-                                        style={{ width: "61px" }}
+                                        style={{ width: "80px" }}
                                       >
                                         <b>Color</b>
                                       </p>
-                                      <p
-                                        className="w7A"
-                                        style={{ width: "74px" }}
-                                      >
-                                        <b>Size</b>
-                                      </p>
-                                      <p
-                                        className="w7A"
-                                        style={{ width: "41px" }}
-                                      >
-                                        <b>Pcs</b>
-                                      </p>
-                                      <p
-                                        className="w7A"
-                                        style={{ width: "41px" }}
-                                      >
-                                        <b>Wt</b>
-                                      </p>
+                         
                                     </div>
                                   </div>
                       
                                 </div>
                                 <div className="divide7A">
                                   <div>
-                                    {ele?.data?.map((a, i) => {
-                                      console.log(a);
-                                      return (
-                                        <React.Fragment key={i}>
-                                          {a?.Shapename === "TOTAL" ? (
-                                            <div className="tableHead7A">
-                                              <div
-                                                className="type7A"
-                                                style={{
-                                                  borderBottom:
-                                                    "1px solid #989898",
-                                                }}
-                                              >
-                                                <p
-                                                  className="w7A"
-                                                  style={{ width: "74px" }}
-                                                >
-                                                  {a?.Sizename}
-                                                </p>
-                                                <p
-                                                  className="w7A"
-                                                  style={{ width: "61px" }}
-                                                >
-                                                  {a?.QualityCode}
-                                                </p>
-                                                <p
-                                                  className="w7A"
-                                                  style={{ width: "61px" }}
-                                                >
-                                                  {a?.ColorCode}
-                                                </p>
-                                                {a?.MasterManagement_DiamondStoneTypeid ===
-                                                  3 && (
-                                                  <p
-                                                    className="w7A fw-bold"
-                                                    style={{ width: "74px" }}
-                                                  >
-                                                    D {a?.Shapename}
-                                                  </p>
-                                                )}
-                                                {a?.MasterManagement_DiamondStoneTypeid ===
-                                                  4 && (
-                                                  <p
-                                                    className="w7A fw-bold"
-                                                    style={{ width: "74px" }}
-                                                  >
-                                                    C {a?.Shapename}
-                                                  </p>
-                                                )}
-                                                {a?.MasterManagement_DiamondStoneTypeid ===
-                                                  5 && (
-                                                  <p
-                                                    className="w7A fw-bold"
-                                                    style={{ width: "74px" }}
-                                                  >
-                                                    F {a?.Shapename}
-                                                  </p>
-                                                )}
-                                                {a?.MasterManagement_DiamondStoneTypeid ===
-                                                  7 && (
-                                                  <p
-                                                    className="w7A fw-bold"
-                                                    style={{ width: "74px" }}
-                                                  >
-                                                    M {a?.Shapename}
-                                                  </p>
-                                                )}
-                                                <p
-                                                  className="w7A fw-bold justify-content-end"
-                                                  style={{
-                                                    width: "41px",
-                                                    paddingRight: "2px",
-                                                  }}
-                                                >
-                                                  {a?.ActualPcs}
-                                                </p>
-                                                <p
-                                                  className="w7A fw-bold justify-content-end"
-                                                  style={{
-                                                    width: "41px",
-                                                    paddingRight: "2px",
-                                                  }}
-                                                >
-                                                  {a?.ActualWeight?.toFixed(3)}
-                                                </p>
-                                              </div>
-                                            </div>
-                                          ) : (
-                                            <div className="tableHead7A">
-                                              <div
-                                                className="type7A"
-                                                style={{
-                                                  height: "15px",
-                                                  borderBottom:
-                                                    "1px solid #989898",
-                                                }}
-                                              >
-                                                <p
-                                                  className="w7A"
-                                                  style={{ width: "74px" }}
-                                                >
-                                                  {a?.Shapename}
-                                                </p>
-                                                <p
-                                                  className="w7A"
-                                                  style={{ width: "61px" }}
-                                                >
-                                                  {a?.Quality}
-                                                </p>
-                                                <p
-                                                  className="w7A"
-                                                  style={{ width: "61px" }}
-                                                >
-                                                  {a?.ColorCode}
-                                                </p>
-                                                <p
-                                                  className="w7A"
-                                                  style={{ width: "74px" }}
-                                                >
-                                                  {a?.Sizename}
-                                                </p>
-                                                <p
-                                                  className="w7A justify-content-end"
-                                                  style={{
-                                                    width: "41px",
-                                                    paddingRight: "2px",
-                                                  }}
-                                                >
-                                                  {a?.ActualPcs}
-                                                </p>
-                                                <p
-                                                  className="w7A justify-content-end"
-                                                  style={{
-                                                    width: "41px",
-                                                    paddingRight: "2px",
-                                                  }}
-                                                >
-                                                  {a?.ActualWeight?.toFixed(3)}
-                                                </p>
-                                              </div>
-                                            </div>
-                                          )}
-                                        </React.Fragment>
-                                      );
-                                    })}
                                     {
-                                      Array.from(
-                                        { length: ele?.length },
-                                        (_, index) => (
-                                       
-                                          <div
-                                            className="tableHead7A"
-                                            key={index}
-                                          >
-                                            <div
-                                              className="type7A"
-                                              style={{
-                                                height: "15px",
-                                                borderBottom:
-                                                  "1px solid #989898",
-                                              }}
-                                            >
-                                              <p
-                                                className="w7A"
-                                                style={{ width: "74px" }}
-                                              ></p>
-                                              <p
-                                                className="w7A"
-                                                style={{ width: "61px" }}
-                                              ></p>
-                                              <p
-                                                className="w7A"
-                                                style={{ width: "61px" }}
-                                              ></p>
-                                              <p
-                                                className="w7A"
-                                                style={{ width: "74px" }}
-                                              ></p>
-                                              <p
-                                                className="w7A"
-                                                style={{ width: "41px" }}
-                                              ></p>
-                                              <p
-                                                className="w7A"
-                                                style={{ width: "41px" }}
-                                              ></p>
+                                      e?.additional?.material?.length > 0 &&
+                                      e?.additional?.material?.map((e, i) => {
+                                        return(
+                                          <React.Fragment key={i}>
+                                            {
+                                              e?.Shapename === "TOTAL" ? '' : <div className="tableHead7A">
+                                              <div className="w7A d-flex justify-content-start align-items-center" style={{width:"82px", paddingLeft:"1px"}}>{e?.Shapename}</div>
+                                              <div className="w7A d-flex justify-content-start align-items-center" style={{width:"82px", paddingLeft:"1px"}}>{e?.Quality}</div>
+                                              <div className="w7A d-flex justify-content-start align-items-center" style={{width:"80px",paddingLeft:"1px"}}>{e?.ColorCode}</div>
                                             </div>
-                                          </div>
+                                            }
+                                          </React.Fragment>
                                         )
-                                      )
-                
+                                      })
                                     }
                                   </div>
-                                  <div className="size7AHeight">
-                                   
-                                  </div>
+                                  
                                 </div>
                                 <div className="d-flex">
                                   <div>
                                     <div
                                       className="tableHead7B"
-                                      style={{ borderTop: "1px solid #989898" }}
+                                      
                                     >
                                       <div
                                         className="dept7A"
@@ -634,7 +421,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                         <div className="dept7AD w7A70">SETTING</div>
                                         <div className="dept7AD w7A70">MTL FSH</div>
                                         <div className="dept7AD w7A70">F POLISH</div>
-                                        <div className="dept7AD w7A70">RHODIUM</div>
+                                        <div className="dept7AD w7A70"  style={{borderBottom:"0px"}}>RHODIUM</div>
                                       </div>
 
                                       <div className="dflexcolumn">
@@ -695,19 +482,10 @@ const BagPrint7A = ({ queries, headers }) => {
                                         style={{ borderRight: "0px" }}
                                       ></div>
                                     </div>
-                                  </div>
-
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              style={{ height: "4px", width: "269px" }}
-                            ></div>
-                            <div
+                                    <div
                               className="tableHead7B"
                               style={{
                                 fontWeight: "bold",
-                                borderTop: "1px solid #989898",
                               }}
                             >
                               <div
@@ -757,32 +535,49 @@ const BagPrint7A = ({ queries, headers }) => {
                               </b>
                               
                             </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                              <div className="main7AEntry2">
+                                        <div className="w-100 d-flex justify-content-between align-items-center sizehead7A fw-bold">
+                                          <div className="spw7A" style={{width: "54px"}}>Size</div>
+                                          <div className="spw7A" style={{width: "30px"}}>Pcs</div>
+                                          <div className="spw7A" style={{width: "24px", borderRight:"0px"}}>Wt</div>
+                                        </div>
+                                        <div>
+                                          {
+                                            ele?.data?.map((e, i) => {
+                                              return(
+                                                <div className="w-100 d-flex justify-content-between align-items-center sizehead7A" key={i}>
+                                                 { e?.Sizename.includes("TOTAL") ? <div className="spw7AD d-flex justify-content-start align-items-center fw-bold" style={{width: "54px", paddingLeft:"1px"}}>{e?.Sizename}</div> : <div className="spw7AD d-flex justify-content-start align-items-center" style={{width: "54px", paddingLeft:"1px"}}>{e?.Sizename}</div> } 
+                                                 { e?.Sizename.includes("TOTAL") ? <div className="spw7AD d-flex justify-content-end align-items-center fw-bold" style={{width: "30px", paddingRight:"1px"}}>{e?.ActualPcs}</div> : <div className="spw7AD d-flex justify-content-end align-items-center" style={{width: "30px", paddingRight:"1px"}}>{e?.ActualPcs}</div> } 
+                                                  <div className="spw7AD" style={{width: "24px", borderRight:"0px"}}></div>
+                                                </div>
+                                              )
+                                            })
+                                          }
+                                        </div>
+                              </div>
+                            </div>
                           </div>
                         );
                       })
                     ) : (
                       <div className="container7A">
                         <div className="head7A">
-                      
                           <div className="head7AjobInfo">
-                            <div
-                              className="head7AjobInfoJobNO"
-                              style={{
+                            <div   style={{
                                 backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
-                              }}
-                            >
+                              }}>
+                            <div className="head7AjobInfoJobNO">
                               <div>Ord. : {e?.data?.rd?.orderDatef ?? ""}</div>
                               <div>Due : {e?.data?.rd?.promiseDatef ?? ""}</div>
                               <div>
                                 <b>{e?.data?.rd?.serialjobno}</b>
                               </div>
                             </div>
-                            <div
-                              className="party7A"
-                              style={{
-                                backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
-                              }}
-                            >
+                            <div className="party7A">
                               <div>
                                 Party: <b>{e?.data?.rd?.CustomerCode}</b>
                               </div>
@@ -790,12 +585,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
                               </div>
                             </div>
-                            <div
-                              className="party7A"
-                              style={{
-                                backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
-                              }}
-                            >
+                            <div className="party7A">
                               <div>
                                 Dg No. : <b>{e?.data?.rd?.Designcode}</b>
                               </div>
@@ -813,15 +603,10 @@ const BagPrint7A = ({ queries, headers }) => {
                                   )}
                               </div>
                             </div>
-                            <div
-                              className="party7A"
-                              style={{
-                                backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
-                              }}
-                            >
+                            <div className="party7A" >
                               <div>Size: {e?.data?.rd?.Size}</div>
-                              <div>({e?.data?.rd?.Quantity})Pcs</div>
-                              <div>{e?.data?.rd?.prioritycode}</div>
+                              <div className="pe-1">({e?.data?.rd?.Quantity})Pcs</div>
+                            </div>
                             </div>
 
                             <div className="mat7AInfo">
@@ -830,7 +615,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   <b>Net Wt.</b>
                                 </div>
                                 <div className="net7A justify-content-end pe-1">
-                                  {e?.data?.rd?.netwt}
+                                  {e?.data?.rd?.netwt?.toFixed(3)}
                                 </div>
                                 <div className="net7A">
                                   <b>Gr Wt.</b>
@@ -913,28 +698,9 @@ const BagPrint7A = ({ queries, headers }) => {
                         <div className="main7A">
                           <div className="main7AEntry">
                             <div className="d-flex justify-content-between align-items-center dup7Aemt">
-                              <div className="w7A">Type</div>
-                              <div className="w7A">Purity</div>
-                              <div className="w7A">Color</div>
-                              <div className="w7A">Size</div>
-                              <div className="w7A">Pcs</div>
-                              <div className="w7A">Wt</div>
-                            </div>
-                            {Array.from({ length: 5 }, (_, index) => (
-                              <div className="d-flex" key={index}>
-                                <div className="w7AD "></div>
-                                <div className="w7AD "></div>
-                                <div className="w7AD "></div>
-                                <div className="w7AD "></div>
-                                <div className="w7AD "></div>
-                                <div className="w7AD "></div>
-                              </div>
-                            ))}
-                            <div
-                              className="tableHead7A"
-                              style={{ borderBottom: "1px solid #989898" }}
-                            >
-                   
+                              <div className="w7A" style={{width:"82px"}}>Type</div>
+                              <div className="w7A" style={{width:"82px"}}>Purity</div>
+                              <div className="w7A" style={{width:"80px"}}>Color</div>
                             </div>
                             <div className="tableHead7B">
                               <div className="dept7A" style={{ width: "62px" }}>
@@ -962,7 +728,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 <div className="dept7AD w7A70">SETTING</div>
                                 <div className="dept7AD w7A70">MTL FSH</div>
                                 <div className="dept7AD w7A70">F POLISH</div>
-                                <div className="dept7AD w7A70">RHODIUM</div>
+                                <div className="dept7AD w7A70" style={{borderBottom:"0px"}}>RHODIUM</div>
                               </div>
 
                               <div className="dflexcolumn">
@@ -1011,14 +777,10 @@ const BagPrint7A = ({ queries, headers }) => {
                                 style={{ borderRight: "0px" }}
                               ></div>
                             </div>
-                          </div>
-                        </div>
-                        <div style={{ height: "13px", width: "269px" }}></div>
-                        <div
+                            <div
                           className="tableHead7B"
                           style={{
                             fontWeight: "bold",
-                            borderTop: "1px solid #989898",
                           }}
                         >
                           <div
@@ -1039,7 +801,7 @@ const BagPrint7A = ({ queries, headers }) => {
                         </div>
                         <div
                           className="tableHead7B"
-                          style={{ fontWeight: "bold", height: "20px" }}
+                          style={{ fontWeight: "bold", height: "16px" }}
                         >
                           <div
                             className="dept7A"
@@ -1060,6 +822,19 @@ const BagPrint7A = ({ queries, headers }) => {
                             {" " +checkInstruction(e?.data?.rd?.ProductInstruction)}
                           </b>
                         </div>
+                          </div>
+                          <div className="main7AEntry2">
+                            <div className="d-flex justify-content-between align-items-center fw-bold" style={{height:"11px",width:"110px", borderBottom:"1px solid #989898"}}>
+                              <div  className="w7A"
+                                        style={{ width: "54px" }}>Size</div>
+                              <div  className="w7A"
+                                        style={{ width: "30px" }}>Pcs</div>
+                              <div  className="w7A"
+                                        style={{ width: "25px" }}>Wt</div>
+                            </div>
+                          </div>
+                        </div>
+                       
                       </div>
                     )}
                   </React.Fragment>
