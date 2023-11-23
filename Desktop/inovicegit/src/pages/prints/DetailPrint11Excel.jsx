@@ -8,10 +8,10 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
   const [json0Data, setJson0Data] = useState({});
   const [json1Data, setJson1Data] = useState([]);
   const [taxes, setTaxes] = useState([]);
-  const [diamondSize, setDiamondSize] = useState(true);
-  const [image, setImage] = useState(true);
-  const [setting, setSetting] = useState(true);
-  const [tunch, setTunch] = useState(true);
+  // const [diamondSize, setDiamondSize] = useState(true);
+  // const [image, setImage] = useState(true);
+  // const [setting, setSetting] = useState(true);
+  // const [tunch, setTunch] = useState(true);
   const [msg, setMsg] = useState("");
   const [gold, setGold] = useState({
     gold14k: false,
@@ -34,8 +34,18 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
     stoneWt: 0,
     grossWt: 0,
   });
+  const [len, totalLen] = useState(0);
+
+  const [goldTotal, setGoldTotal] = useState([]);
+
+  const [totalArr, setTotalArr] = useState([]);
+
+  const [excelData, setExcelData] = useState([]);
+
+  const [bankDetail, setBankDetail] = useState([]);
 
   const loadData = (data) => {
+    // console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
@@ -164,6 +174,11 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
         newArr[findRecord].MakingAmount += obj?.MakingAmount;
         newArr[findRecord].TotalAmount += obj?.TotalAmount;
 
+        newArr[findRecord].totalCol.pcs += obj.totalCol.pcs;
+        newArr[findRecord].totalCol.diaWt += obj.totalCol.diaWt;
+        newArr[findRecord].totalCol.diaAmount += obj.totalCol.diaAmount;
+        newArr[findRecord].totalCol.settingAmount += obj.totalCol.settingAmount;
+
         let materialArr = [newArr[findRecord].materials, e.materials];
         let materials = [];
         materialArr.forEach((element, indexs) => {
@@ -171,18 +186,18 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
             let findRecords = materials.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
               elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate &&
               elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
-            newArr[findRecord].totalCol.pcs += ele?.Pcs;
-            newArr[findRecord].totalCol.diaWt += ele?.Wt;
-            newArr[findRecord].totalCol.diaAmount += ele?.Amount;
-            newArr[findRecord].totalCol.settingAmount += ele?.SettingAmount;
+            // newArr[findRecord].totalCol.pcs += ele?.Pcs;
+            // newArr[findRecord].totalCol.diaWt += ele?.Wt;
+            // newArr[findRecord].totalCol.diaAmount += ele?.Amount;
+            // newArr[findRecord].totalCol.settingAmount += ele?.SettingAmount;
             if (findRecords === -1) {
               materials.push(ele);
             } else {
-              materials[findRecords].Pcs = ele?.Pcs;
-              materials[findRecords].Wt = ele?.Wt;
-              materials[findRecords].Amount = ele?.Amount;
+              materials[findRecords].Pcs += ele?.Pcs;
+              materials[findRecords].Wt += ele?.Wt;
+              materials[findRecords].Amount += ele?.Amount;
               materials[findRecords].SettingRate = ele?.SettingRate;
-              materials[findRecords].SettingAmount = ele?.SettingAmount;
+              materials[findRecords].SettingAmount += ele?.SettingAmount;
             }
           });
         });
@@ -195,7 +210,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
     console.log(newArr);
     newArr.forEach((e, i) => {
       let obj = { ...e };
-      let length = obj?.materials?.length > 7 ? obj?.materials?.length : 7;
+      let length = obj?.materials?.length > 10 ? obj?.materials?.length : 10;
       let goldArr = [
         {
           label: "Quality",
@@ -234,27 +249,127 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
         let object = {
           srNo: ind === 0 ? i + 1 : "",
           designNo: ind === 0 ? obj?.designno : "",
+          SrJobno: ind === 0 ? obj?.SrJobno : "",
           metalColor: ind === 1 ? obj?.MetalColor : "",
           img: ind === 2 ? obj?.DesignImage : "",
           isImg: ind === 2 ? true : false,
-          tunch: ind === 5 ? NumberWithCommas(obj?.Tunch, 3) : "",
-          grossWt: ind === 6 ? fixedValues(obj?.grosswt, 3) : "",
-          size: ind === 7 ? obj?.Size : "",
+          tunch: ind === 6 ? NumberWithCommas(obj?.Tunch, 3) : "",
+          grossWt: ind === 7 ? fixedValues(obj?.grosswt, 3) : "",
+          size: ind === 8 ? obj?.Size : "",
+          huid: ind === 9 ? obj?.HUID : "",
           diamondShape: obj?.materials[ind] ? obj?.materials[ind]?.ShapeName : "",
           diamondSize: obj?.materials[ind] ? obj?.materials[ind]?.SizeName : "",
           diamondPcs: obj?.materials[ind] ? obj?.materials[ind]?.Pcs : "",
           diamondWt: obj?.materials[ind] ? obj?.materials[ind]?.Wt : "",
           diamondRate: obj?.materials[ind] ? obj?.materials[ind]?.Rate : "",
           diamondAmount: obj?.materials[ind] ? obj?.materials[ind]?.Amount : "",
-          // diamondSettingType: obj?.materials[ind] ? obj?.materials[ind]?.SettingRate : "",
           diamondSettingType: "",
+          diamondSettingRate: obj?.materials[ind] ? obj?.materials[ind]?.SettingRate : "",
           diamondSettingAmount: obj?.materials[ind] ? obj?.materials[ind]?.SettingAmount : "",
-        }
+          goldLabel: (goldArr[ind] && ind < 7) ? goldArr[ind]?.label : "",
+          goldValue: (goldArr[ind] && ind < 7) ? goldArr[ind]?.value : "",
+          otherChanges: ind === 0 ? NumberWithCommas(e?.OtherCharges, 2) : "",
+          labourAmount: ind === 0 ? NumberWithCommas(e?.MakingAmount, 2) : "",
+          totalAmount: ind === 0 ? NumberWithCommas(e?.TotalAmount, 2) : "",
+          totalLine: false,
+        };
+        excelArr.push(object)
       });
-    })
+      console.log(obj?.totalCol?.pcs);
+      let objectTotal = {
+        srNo: "",
+        designNo: "",
+        SrJobno: "",
+        metalColor: "",
+        img: "",
+        isImg: false,
+        tunch: "",
+        grossWt: "",
+        size: "",
+        huid: "",
+        diamondShape: "Total",
+        diamondSize: "No of Pieces",
+        diamondPcs: NumberWithCommas(obj?.totalCol?.pcs, 0),
+        diamondWt: fixedValues(e?.totalCol?.diaWt, 3),
+        diamondRate: "Diamond total",
+        diamondAmount: NumberWithCommas(e?.totalCol?.diaAmount, 2),
+        diamondSettingType: "",
+        diamondSettingRate: "Setting Total (Currency)",
+        diamondSettingAmount: NumberWithCommas(e?.totalCol?.settingAmount, 2),
+        // goldLabel: goldArr[7].label,
+        goldLabel: goldArr[7]?.label,
+        goldValue: goldArr[7]?.value,
+        // goldValue: goldArr[7].value,
+        otherChanges: NumberWithCommas(e?.OtherCharges, 2),
+        labourAmount: NumberWithCommas(e?.MakingAmount, 2),
+        totalAmount: NumberWithCommas(e?.TotalAmount, 2),
+        totalLine: true,
+      };
+      excelArr.push(objectTotal);
+    });
+    setExcelData(excelArr);
+    let goldArr = [
+      {
+        label: "GOLD 18K: ",
+        value: `${fixedValues(summaries?.gold18k, 3)} gm`,
+      },
+      {
+        label: "Diamond Wt: ",
+        value: `${fixedValues(summaries?.gold18k, 3)} gm`,
+      },
+      {
+        label: "Stone Wt:",
+        value: `${fixedValues(summaries?.stoneWt, 3)} cts`,
+      },
+      {
+        label: "Gross Wt:",
+        value: `${fixedValues(summaries?.grossWt, 3)} gm`,
+      },
+    ];
+    golds?.gold14k && goldArr.unshift({ label: "GOLD 14K: ", value: `${fixedValues(summary?.gold14k, 3)} gm` });
+
+    let totalArr = [];
+    totalArr.push({ label: "Total", value: NumberWithCommas(totals?.totalJewelleryAmount, 2) });
+    taxValue.forEach((e, i) => {
+      let obj = { ...e };
+      totalArr.push({ label: `${e?.name} per ${e?.per}`, value: e?.amount });
+    });
+    totalArr.push({ label: `${data.BillPrint_Json[0]?.AddLess > 0 ? "Add" : "Less"}`, value: data.BillPrint_Json[0]?.AddLess });
+
+    let lens = totalArr.length > goldArr.length ? totalArr.length : goldArr.length;
+    totalLen(lens);
+
+    setGoldTotal(goldArr);
+    setTotalArr(totalArr);
+
+    let bankArr = [{      
+      label: "Bank Detail",
+      value: "",
+    },{      
+      label: "Bank Name: ",
+      value: data.BillPrint_Json[0]?.bankname,
+    },
+    {      
+      label: "Branch: ",
+      value: data.BillPrint_Json[0]?.bankaddress,
+    },
+    {      
+      label: "Account Name:",
+      value: data.BillPrint_Json[0]?.accountname,
+    },
+    {      
+      label: "Account No.:",
+      value: data.BillPrint_Json[0]?.accountnumber,
+    },
+    {      
+      label: "RTGS/NEFT IFSC: ",
+      value: data.BillPrint_Json[0]?.rtgs_neft_ifsc,
+    },];
+
+    
     setTimeout(() => {
       const button = document.getElementById('test-table-xls-button');
-      // button.click();
+      button.click();
     }, 0);
   }
   useEffect(() => {
@@ -530,141 +645,78 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
               <td style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px", borderBottom: "1px solid #000" }} align='center'><b>Total Jewellery Amount</b></td>
             </tr>
             {/* table data */}
-            {/* {json1Data.length > 0 && json1Data.map((e, i) => {
-              return <div className="d-flex w-100 border-bottom border-start border-end border-2 no_break overflow-hidden" key={i}>
-                <div className="srNoDetailPrint11 border-end p-1 d-flex align-items-center justify-content-center"><p>{e?.SrNo}</p></div>
-                <div className="designDetailPrint11 border-end">
-                  <div className="d-flex justify-content-between p-1">
-                    <div><p>{e?.designno}</p></div>
-                    <div> <p>{e?.SrJobno}</p> <p>{e?.MetalColor}</p> </div>
-                  </div>
-                  {image && <img src={e?.DesignImage} alt="" className='w-100 p-1' onError={handleImageError} />}
-                  {tunch && <p className='text-center fw-bold'>Tunch: {NumberWithCommas(e?.Tunch, 3)}</p>}
-                  <p className='text-center fw-bold'>{fixedValues(e?.grosswt, 3)}gm Gross</p>
-                  {e?.Size.length > 0 && <p className='text-center pb-1'>Size {e?.Size}</p>}
-                  {e?.HUID !== "" && <p className='text-center pb-1'>HUID: {e?.HUID}</p>}
-                </div>
-                <div className="diamondStoneDetailPrint11 d-grid pad_bt_20semiTotalDetailPrint11 position-relative">
-                  {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
-                    return <div className='d-flex border-bottom' key={ind}>
-                      <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{ele?.ShapeName}</p></div>
-                      <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{diamondSize && (ele?.GroupName === "" ? ele?.SizeName : ele?.GroupName)}</p></div>
-                      <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
-                      <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{fixedValues(ele?.Wt, 3)}</p></div>
-                      <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className=''>{NumberWithCommas(ele?.Rate, 2)}</p></div>
-                      <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
-                      <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{setting && ele?.SettingName}</p></div>
-                      <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{setting && NumberWithCommas(ele?.SettingRate, 2)}</p></div>
-                      <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'>{NumberWithCommas(ele?.SettingAmount, 2)}</p></div>
-                    </div>
-                  }) : <div className='d-flex border-bottom'>
-                    <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''></p></div>
-                    <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''></p></div>
-                    <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''></p></div>
-                    <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''></p></div>
-                    <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className=''></p></div>
-                    <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
-                    <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
-                    <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
-                    <div className='totalMaterialAmountDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center'></p></div>
-                  </div>
-                  }
-                  <div className='d-flex position-absolute w-100 bottom-0 totalHeightDetailPrint11 semiTotalDetailPrint11 border-end'>
-                    <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>Total</p></div>
-                    <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='fw-bold'>No. Of </p><p className="fw-bold">Pieces</p></div>
-                    <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>{NumberWithCommas(e?.totalCol?.pcs, 0)}</p></div>
-                    <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>{fixedValues(e?.totalCol?.diaWt, 3)}</p></div>
-                    <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='fw-bold'>Diamond </p><p className="fw-bold">Total</p></div>
-                    <div className='diaAmtDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(e?.totalCol?.diaAmount, 2)}</p></div>
-                    <div className='settingTypeDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'></p></div>
-                    <div className='settingPriceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>Setting</p><p>Total</p><p>(Currency)</p></div>
-                    <div className='totalMaterialAmountDetailPrint11 d-flex align-items-center justify-content-center flex-column'><p className='text-center fw-bold'>{NumberWithCommas(e?.totalCol?.settingAmount, 2)}</p></div>
-                  </div>
-                </div>
-                <div className="goldDetailPrint11 border-end d-grid">
-                  <div className='d-flex border-bottom'>
-                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Quality</p></div>
-                    <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{e?.MetalPurity} {e?.MetalColor}</p></div>
-                  </div>
-                  <div className='d-flex border-bottom'>
-                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Gross Weight(Gms)</p></div>
-                    <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{fixedValues(e?.grosswt, 3)} G</p></div>
-                  </div>
-                  <div className='d-flex border-bottom'>
-                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Net Weight</p></div>
-                    <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{fixedValues(e?.NetWt, 3)} G</p></div>
-                  </div>
-                  <div className='d-flex border-bottom'>
-                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Gold Loss</p></div>
-                    <div className='col-5 d-flex align-items-center justify-content-center'><p>{fixedValues(e?.LossPer, 0)}%</p></div>
-                  </div>
-                  <div className='d-flex border-bottom'>
-                    <div className='col-7 border-end d-flex align-items-start justify-content-center fw-bold flex-column'><p>Pure Gold weight</p><p> with Loss</p></div>
-                    <div className='col-5 d-flex align-items-center justify-content-center'><p>{fixedValues(e?.PureNetWt, 3)} G </p></div>
-                  </div>
-                  <div className='d-flex border-bottom'>
-                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Gold Price</p></div>
-                    <div className='col-5 d-flex align-items-center justify-content-center'><p>{NumberWithCommas(e?.metalRateGold, 2)}</p></div>
-                  </div>
-                  <div className='d-flex border-bottom broder-start'>
-                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className='p-1'>Alloy</p></div>
-                    <div className='col-5 d-flex align-items-center justify-content-center'><p>{NumberWithCommas(e?.alloy, 2)}</p></div>
-                  </div>
-                  <div className='d-flex'>
-                    <div className='col-7 border-end d-flex align-items-center fw-bold'><p className='p-1'>Total Gold</p></div>
-                    <div className='col-5 d-flex align-items-center justify-content-center'><p className='fw-bold'>{NumberWithCommas(e?.totalGold, 2)}</p></div>
-                  </div>
-                </div>
-                <div className="labourDetailPrint11 border-end d-grid pad_bt_20DetailPrint11 position-relative">
-                  <div className='d-flex border-bottom'>
-                    <div className='col-6 border-end d-flex align-items-center justify-content-end p-1'><p>{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
-                    <div className='col-6 d-flex align-items-center justify-content-end p-1'>
-                      <p>{NumberWithCommas(e?.MakingAmount, 2)}</p>
-                    </div>
-                  </div>
-                  <div className='d-flex position-absolute bottom-0 w-100 min_height_20DetailPrint11'>
-                    <div className='col-6 border-end d-flex align-items-center justify-content-end p-1'><p className='fw-bold'>{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
-                    <div className='col-6 d-flex align-items-center justify-content-end p-1'>
-                      <p className='fw-bold'>{NumberWithCommas(e?.MakingAmount, 2)}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="d-grid pad_bt_20DetailPrint11 position-relative totalAmountJewelleryDetailPrint11 ">
-                  <div className="d-flex align-items-center justify-content-end p-1 totalAmountDetailPrint11Jewellery border-bottom pe-2"><p>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
-                  <div className=" d-flex align-items-center justify-content-end p-1 totalAmountDetailPrint11Jewellery position-absolute bottom-0 w-100 min_height_20DetailPrint11 pe-2"><p className='fw-bold'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
-                </div>
-              </div>
-            })} */}
-            {/* {e?.MetalColor}
-                  {image && <img src={e?.DesignImage} alt="" className='w-100 p-1' onError={handleImageError} width={120} height={120} />}
-                  {tunch && (`Tunch: ${NumberWithCommas(e?.Tunch, 3)}`)}
-                  {fixedValues(e?.grosswt, 3)}gm Gross
-                  {e?.Size.length > 0 && <>Size {e?.Size}</>}
-                  {e?.HUID !== "" && <>HUID: {e?.HUID}</>} */}
-            {json1Data.length > 0 && json1Data.map((e, i) => {
+            {excelData.length > 0 && excelData.map((e, i) => {
               return <tr key={i}>
                 <td></td>
-                <td width={90} style={{ borderLeft: "1px solid #000", borderRight: "1px solid #000", borderTop: "1px solid #000", padding: "1px" }} align='center' >{i + 1}</td>
-                <td width={200} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }}><span> {e?.designno}</span>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <span style={{ marginLeft: "5px", position: "relative", left: "10px" }}>{e?.SrJobno}</span>
+                <td width={90} style={{ borderLeft: "1px solid #000", borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center' >{e?.srNo}</td>
+                <td width={200} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }}>
+                  {e?.SrJobno !== "" && <><span> {e?.designNo}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span style={{ marginLeft: "5px", position: "relative", left: "10px" }}>{e?.SrJobno}</span></>}
+                  {e?.isImg && <img src={e?.img} alt="" onError={handleImageError} width={150} height={80} style={{ paddingLeft: "10px", objectFit: "contain" }} />}
+                  {e?.metalColor !== "" && e?.metalColor} {e?.tunch !== "" && (`Tunch: ${NumberWithCommas(e?.tunch, 3)}`)}
+                  {e?.grossWt !== "" && `${fixedValues(e?.grossWt, 3)} gm Gross`}
+                  {e?.size !== "" && <>Size {e?.size}</>}
+                  {e?.huid !== "" && <>HUID: {e?.huid}</>}
                 </td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Shape</td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Size (mm)</td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Pcs</td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>DIA WT.</td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Price / cts</td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Dia Amount</td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Setting Type</td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Setting Price (Currency)</td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000" }} align='center'>Total Amount (Currency)</td>
-                <td width={150} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'></td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'></td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'>Other Charges</td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'>Labour Amount</td>
-                <td width={90} style={{ borderTop: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} align='center'>Total Jewellery Amount</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.diamondShape}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.diamondSize}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.diamondPcs}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.diamondWt}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.diamondRate}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.diamondAmount}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.diamondSettingType}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.diamondSettingRate}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.diamondSettingAmount}</td>
+                <td width={150} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.goldLabel}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.goldValue}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.OtherCharges}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.labourAmount}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}` }} align='center'>{e?.totalAmount}</td>
               </tr>
             })}
+            {/* table total */}
+            <tr>
+              <td></td>
+              <td colSpan={2} width={290} style={{ border: "1px solid #000", padding: "1px" }} align='center'><b>Total</b> </td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'></td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'>No of Pieces</td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'>{NumberWithCommas(total?.pcs, 0)}</td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'>{fixedValues(total?.diaWt, 3)}</td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'>Diamond total</td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'>{NumberWithCommas(total?.diaAmount, 2)}</td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'></td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'>Setting Total (Currency)</td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'>{NumberWithCommas(total?.totalAmount, 2)}</td>
+              <td width={150} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'>Total Gold</td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'>{fixedValues(total?.totalGold, 3)}</td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'>Total Labour</td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'>{NumberWithCommas(total?.totalLabour, 2)}</td>
+              <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `1px solid`, borderTop: `1px solid` }} align='center'>{NumberWithCommas(total?.totalJewelleryAmount, 2)}</td>
+            </tr>
+            {len > 0 && Array.from({ length: len }).map((e, i) => {
+              return <tr key={i}>
+                <td></td>
+                <td colSpan={4} width={560} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderLeft: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }}>
+                  {i === 0 && <><span>Remark :</span><span dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }} className='p-1'></span></>}
+                </td>
+                <td colSpan={4} width={270} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }}><b></b> </td>
+                <td colSpan={2} width={180} style={{ borderBottom: (i === len - 1 && "1px solid #000"), padding: "1px" }}>{goldTotal[i] && goldTotal[i].label}</td>
+                <td colSpan={2} width={180} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }} align='right'>{goldTotal[i] && goldTotal[i].value}</td>
+                <td colSpan={2} width={420} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }}>{totalArr[i].label} </td>
+                <td colSpan={2} width={180} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }}><b>{totalArr[i].value}</b></td>
+              </tr>
+            })}
+            <tr>
+              <td></td>
+              <td colSpan={14} style={{ borderLeft: "1px solid", borderRight: "1px solid", borderBottom: "1px solid" }} align='right'><b>Grand Total</b> </td>
+              <td colSpan={2} style={{ borderRight: "1px solid", borderBottom: "1px solid" }} align='right'><b>{NumberWithCommas(total?.grandTotal, 2)}</b></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colSpan={8} style={{ borderLeft: "1px solid", borderRight: "1px solid", borderBottom: "1px solid" }} align='right'><b>Grand Total</b> </td>
+              <td colSpan={2} style={{ borderRight: "1px solid", borderBottom: "1px solid" }} align='right'><b>{NumberWithCommas(total?.grandTotal, 2)}</b></td>
+            </tr>
+            {console.log(excelData)}
           </tbody>
         </table>
       </div>
