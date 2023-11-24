@@ -18,142 +18,7 @@ const BagPrint18A = ({ queries, headers }) => {
   const queryParams = queryString.parse(location?.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize13 = 13;
-  // useEffect(() => {
-  //   if (Object.keys(queryParams)?.length !== 0) {
-  //     atob(queryParams?.imagepath);
-  //   }
-  //   const fetchData = async () => {
-  //     try {
-  //       const responseData = [];
-  //       const objs = {
-  //         jobno: resultString,
-  //         custid: queries.custid,
-  //         printname: queries.printname,
-  //         appuserid: queries.appuserid,
-  //         url: queries.url,
-  //         headers: headers,
-  //       };
-  //       let allDatas = await GetData(objs);
-
-  //       let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-
-  //       // eslint-disable-next-line array-callback-return
-  //       datas?.map((a) => {
-  //         let diamondArr = [];
-  //         let colorStoneArr = [];
-  //         let miscArr = [];
-  //         let findingDetailArr = [];
-
-  //         a?.rd1?.forEach((e, i) => {
-  //           if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-  //             diamondArr.push(e);
-  //           }
-  //           if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-  //             colorStoneArr.push(e);
-  //           }
-  //           if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-  //             findingDetailArr.push(e);
-  //           }
-  //           if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-  //             miscArr.push(e);
-  //           }
-  //         });
-
-  //         let length = 0;
-  //         let clr = {
-  //           ActualPcs: 0,
-  //           ActualWeight: 0,
-  //           MasterManagement_DiamondStoneTypeid: 4,
-  //         };
-  //         let dia = {
-  //           ActualPcs: 0,
-  //           ActualWeight: 0,
-  //           MasterManagement_DiamondStoneTypeid: 3,
-  //         };
-  //         let misc = {
-  //           ActualPcs: 0,
-  //           ActualWeight: 0,
-  //           MasterManagement_DiamondStoneTypeid: 7,
-  //         };
-  //         let f = {
-  //           ActualPcs: 0,
-  //           ActualWeight: 0,
-  //           MasterManagement_DiamondStoneTypeid: 5,
-  //         };
-  //         let ArrofSevenSize = [];
-  //         let ArrofFiveSize = [];
-  //         let ArrofMISize = [];
-  //         let ArrofFSize = [];
-
-  //         // eslint-disable-next-line array-callback-return
-  //         a?.rd1?.map((e, i) => {
-  //           if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
-  //             length++;
-  //           }
-  //           if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-  //             ArrofSevenSize.push(e);
-  //             dia.ActualPcs = dia?.ActualPcs + e?.ActualPcs;
-  //             dia.ActualWeight = dia?.ActualWeight + e?.ActualWeight;
-  //           } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-  //             ArrofFiveSize.push(e);
-  //             clr.ActualPcs = clr?.ActualPcs + e?.ActualPcs;
-  //             clr.ActualWeight = clr?.ActualWeight + e?.ActualWeight;
-  //           } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-  //             ArrofFSize.push(e);
-  //             f.ActualPcs = f?.ActualPcs + e?.ActualPcs;
-  //             f.ActualWeight = f?.ActualWeight + e?.ActualWeight;
-  //           } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-  //             ArrofMISize.push(e);
-  //             misc.ActualPcs = misc?.ActualPcs + e?.ActualPcs;
-  //             misc.ActualWeight = misc?.ActualWeight + e?.ActualWeight;
-  //           }
-  //         });
-  //         dia.ActualPcs = +dia.ActualPcs?.toFixed(3);
-  //         dia.ActualWeight = +dia.ActualWeight?.toFixed(3);
-  //         clr.ActualPcs = +clr.ActualPcs?.toFixed(3);
-  //         clr.ActualWeight = +clr.ActualWeight?.toFixed(3);
-  //         misc.ActualPcs = +misc.ActualPcs?.toFixed(3);
-  //         misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
-  //         f.ActualPcs = +f.ActualPcs?.toFixed(3);
-  //         f.ActualWeight = +f.ActualWeight?.toFixed(3);
-
-
-  //         let arr = [];
-  //         let mainArr = arr?.concat(
-  //           ArrofSevenSize,
-  //           ArrofFiveSize,
-  //           ArrofMISize,
-  //           ArrofFSize
-  //         );
-
-  //         let imagePath = queryParams?.imagepath;
-  //         imagePath = atob(queryParams?.imagepath);
-
-  //         let img = imagePath + a?.rd?.ThumbImagePath;
-  //         let arrofchunk = GetChunkData(chunkSize11, mainArr);
-  //         responseData.push({
-  //           data: a,
-  //           additional: {
-  //             length: length,
-  //             clr: clr,
-  //             dia: dia,
-  //             f: f,
-  //             img: img,
-  //             misc: misc,
-  //             pages: arrofchunk,
-  //           },
-  //         });
-
-  //       })
-  //       setData(responseData);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchData();
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-  useEffect(() => {
+   useEffect(() => {
     if (Object.keys(queryParams)?.length !== 0) {
       atob(queryParams?.imagepath);
     }
@@ -369,7 +234,7 @@ const BagPrint18A = ({ queries, headers }) => {
                                   style={{ color: "red" }}
                                 >
                                   INS :{" "}
-                                  {(" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.stamping) + " " + checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 140)}
+                                  {(" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.stamping) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 140)}
                                 </div>
                               </div>
                               <div className="img18A">
@@ -532,7 +397,7 @@ const BagPrint18A = ({ queries, headers }) => {
                             </div>
                             <div className="ins18A" style={{ color: "red" }}>
                               INS :
-                              { (" " + checkInstruction(e?.data?.rd?.officeuse) + " "+ checkInstruction(e?.data?.rd?.stamping) + " " + checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 140) }
+                              { (" " + checkInstruction(e?.data?.rd?.officeuse) + " "+ checkInstruction(e?.data?.rd?.stamping) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 140) }
                             </div>
                           </div>
                           <div className="img18A">

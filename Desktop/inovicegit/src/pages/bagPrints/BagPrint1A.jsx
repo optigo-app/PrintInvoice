@@ -694,9 +694,7 @@ function BagPrint1A({ queries, headers }) {
                                   <span style={{ color: "red" }}>
                                     {" " + checkInstruction(e?.data?.rd?.officeuse) +
                                       " " +
-                                      checkInstruction(
-                                        e?.data?.rd?.ProductInstruction
-                                      )}
+                                      (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
                                   </span>
                                 </div>
                               </div>
@@ -937,9 +935,7 @@ function BagPrint1A({ queries, headers }) {
                               <span style={{ color: "red" }}>
                                 {" " + checkInstruction(e?.data?.rd?.officeuse) +
                                   " " +
-                                  checkInstruction(
-                                    e?.data?.rd?.ProductInstruction
-                                  )}
+                                  (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
                               </span>
                             </div>
                           </div>

@@ -360,7 +360,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                     CAST INS.:
                                     <span className="red_4A line_height_123">
                                       {checkInstruction(e?.data?.officeuse)}
-                                      {checkInstruction(e?.data?.ProductInstruction)}
+                                      {(e?.data?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.ProductInstruction) : checkInstruction(e?.data?.QuoteRemark))}
                                     </span>
                                   </div>
                                 </div>

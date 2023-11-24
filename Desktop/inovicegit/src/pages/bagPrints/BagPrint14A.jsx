@@ -12,6 +12,7 @@ import Loader from '../../components/Loader';
 import { organizeData } from '../../GlobalFunctions/OrganizeBagPrintData';
 import { GetChunkData } from './../../GlobalFunctions/GetChunkData';
 import { GetUniquejob } from '../../GlobalFunctions/GetUniqueJob';
+import { checkInstruction } from '../../GlobalFunctions';
 
 function BagPrint14A({ queries, headers }) {
     const [data, setData] = useState([]);
@@ -289,7 +290,7 @@ function BagPrint14A({ queries, headers }) {
                                                                             <div className='barcodediv'><div className='barcode14'>
                                                                                 {(e?.data?.rd?.length !== 0 && e?.data?.rd !== undefined) && <>{e?.data?.rd?.serialjobno !== undefined && <BarcodeGenerator data={e?.data?.rd?.serialjobno} />}</>}
                                                                             </div></div>
-                                                                            <div className='firstpart_one_1'><div className='semi _color'>SPE REM.	:</div><div className='semi_border workbreak flexSPE'>{e?.data?.rd?.ProductInstruction}</div></div>
+                                                                            <div className='firstpart_one_1'><div className='semi _color'>SPE REM.	:</div><div className='semi_border workbreak flexSPE'>{(e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}</div></div>
                                                                             <div className='info workbreak flex_data' style={{ fontSize: "12px" }}>
                                                                                 <div>{e?.data?.rd?.productinfo}</div>
                                                                             </div>

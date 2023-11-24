@@ -150,13 +150,13 @@ const BagPrint6A = ({ queries, headers }) => {
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // useEffect(() => {
-  //   if (data?.length !== 0) {
-  //     setTimeout(() => {
-  //       window.print();
-  //     }, 5000);
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data?.length !== 0) {
+      setTimeout(() => {
+        window.print();
+      }, 5000);
+    }
+  }, [data]);
   return (
     <>
       {data.length === 0 ? (
@@ -344,7 +344,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   <p className="f6A">
                                     CUST. INS.
                                     <span className="f6A ">
-                                    {" " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                                    {" " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
                                     </span>
                                   </p>
                                 </div>
@@ -510,7 +510,7 @@ const BagPrint6A = ({ queries, headers }) => {
                             <div className="cust6A">
                               <p className="f6A " style={{fontSize:"11px"}}>
                                 CUST. INS.<span className="f6A pt-1" style={{color:"red"}}>
-                                {" " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                                {" " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
                                 </span>
                               </p>
                             </div>

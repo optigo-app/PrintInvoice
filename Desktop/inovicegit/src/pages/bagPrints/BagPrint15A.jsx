@@ -301,7 +301,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                                 <div > <b>Total : {e?.additional?.clr?.clrPcs} pcs</b></div>
                                                             </div>
                                                             <div className="sub-aside" style={{ "borderBottom": "none" }}>
-                                                                <p style={{ fontSize: "10px", lineHeight: "9px" }}>Ins. {( " " + checkInstruction(e?.data?.rd?.ProductInstruction)?.slice(0, 89))}</p>
+                                                                <p style={{ fontSize: "10px", lineHeight: "9px" }}>Ins. {( " " + ((e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 89))}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -403,7 +403,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                 </div>
                                                 <div className="sub-aside" style={{ "borderBottom": "none", fontWeight: "bold" }}>
                                                     <div><p style={{ fontSize: "10px", lineHeight: "9px", padding: "1px" }}>Ins.
-                                                                {(" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 89)}
+                                                                {(" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 89)}
                                                     </p></div>
                                                 </div>
                                             </div>

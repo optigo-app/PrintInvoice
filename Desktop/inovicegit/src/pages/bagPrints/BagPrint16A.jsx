@@ -611,7 +611,7 @@ const BagPrint16A = ({ queries, headers }) => {
                         </div>
                         <div className="ins16A b16A" style={{ height: "27px" }}>
                           PRD INS:{" "}
-                          {e?.data?.rd?.ProductInstruction?.slice(0, 100)}
+                          {(e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))?.slice(0, 100)}
                         </div>
                         <div
                           className="ins16A b16A"
@@ -1174,7 +1174,7 @@ const BagPrint16A = ({ queries, headers }) => {
                                 style={{ height: "27px" }}
                               >
                                 PRD INS:{" "}
-                                {(checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 100)}
+                                {((e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 100)}
                               </div>
                               <div
                                 className="ins16A b16A"

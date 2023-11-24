@@ -199,14 +199,13 @@ const BagPrint4A = ({ queries, headers }) => {
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // useEffect(() => {
-  //   if (data.length !== 0) {
-  //     setTimeout(() => {
-  //       window.print();
-  //     }, 5000);
-  //   }
-  // }, [data]);
-  // console.log(data);
+  useEffect(() => {
+    if (data.length !== 0) {
+      setTimeout(() => {
+        window.print();
+      }, 5000);
+    }
+  }, [data]);
   return (
     <>
       {data?.length === 0 ? (
@@ -228,10 +227,10 @@ const BagPrint4A = ({ queries, headers }) => {
                 index > 0 && (
                   <div
                     key={index}
-                    className="container4AD"
+                    className="container4A container4AA"
                     style={{ border: "0px", }}
                   >
-                    <div className="container4AD"></div>
+                    <div className="print4Apart_1" style={{border:"0px"}}></div>
                   </div>
                 )
             )}
@@ -516,7 +515,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                       <BarcodeGenerator
                                         data={e?.data?.serialjobno}
                                       />
-                                      {console.log(e?.data)}
                                     </div>
                                   </div>
                                 </div>
@@ -589,7 +587,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 >
                                   ENAMELING
                                 </div>
-                                <div className="sales_Rep_letter_4A">
+                                <div className="sales_Rep_letter_4A" style={{lineHeight:"7px"}}>
                                   {e?.data?.Enamelling}
                                 </div>
                               </div>
@@ -1038,7 +1036,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 >
                                   ENAMELING
                                 </div>
-                                <div className="sales_Rep_letter_4A">
+                                <div className="sales_Rep_letter_4A" style={{lineHeight:"7px"}}>
                                   {e?.data?.Enamelling}
                                 </div>
                               </div>

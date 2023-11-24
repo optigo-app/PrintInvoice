@@ -67,7 +67,7 @@ function Jobbagsticker3({ queries, headers }) {
                                                     <div className='img_aside_3'>
                                                         <div className='img_job3'><img src={e?.additional?.img !== "" ? e?.additional?.img : require("../../../assets/img/default.jpg")} alt="" onError={e => handleImageError(e)} loading="eager" id='jobsticker3' /></div>
                                                         <div className='ins_3' >
-                                                            <h1 className='h1_3' style={{ lineHeight: "28px" }}>{(" " + checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 62) }</h1>
+                                                            <h1 className='h1_3' style={{ lineHeight: "28px" }}>{(" " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 62) }</h1>
                                                         </div>
                                                     </div>
                                                     <div className='databarcode_3' style={{position:"relative"}}>
