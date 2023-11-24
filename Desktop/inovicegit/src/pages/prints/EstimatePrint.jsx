@@ -10,6 +10,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [json2Data, setJson2Data] = useState([]);
     const [imageLoading, setImageLoading] = useState(true);
     const [msg, setMsg] = useState("");
+    const [diamondDetailss, setDiamondDetailss] = useState({});
     // const [changePrint, setChangeprint] = useState(atob(printName).toLowerCase() === "estimate print change" ? true : false);
     const [total, setTotal] = useState({
         totalamount: 0,
@@ -80,6 +81,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
         let totals = { ...total };
         let diamondDetailList = [];
         let diamondDetailList2 = [{ shapeQualityColor: "others", pcs: 0, wt: 0 }];
+        let diamondDetails = {
+            pcs: 0,
+            wt: 0
+        };
         data?.BillPrint_Json1.forEach((e, i) => {
             let settingAmount = 0;
             let totalSetttingAmount = 0;
@@ -142,6 +147,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         totals.colorStoneAmount += ele?.Amount;
                     }
                     if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+                        diamondDetails.pcs += ele?.Pcs;
+                        diamondDetails.wt += ele?.Wt;
                         diamonds.push(ele);
                         totals.diaWt += ele?.Wt;
                         totals.diaPcs += ele?.Pcs;
@@ -248,6 +255,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
             resultArr.push(obj);
         });
+        setDiamondDetailss(diamondDetails);
         totals.cgstAmount = data?.BillPrint_Json[0]?.CGST * totals.totalamount / 100;
         totals.sgstAmount = data?.BillPrint_Json[0]?.SGST * totals.totalamount / 100;
         // totals.finalAmount = totals.totalamount + totals.cgstAmount + totals.sgstAmount + data?.BillPrint_Json[0]?.AddLess;
@@ -750,17 +758,23 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             </p>
                         </div>
                         <div className="h-100 pad_bot_25_estimatePrint">
-                            {diamondDetail.length > 0 && diamondDetail.map((e, i) => {
+                            {/* {diamondDetail.length > 0 && diamondDetail.map((e, i) => {
                                 return <div className="d-flex w-100 justify-content-between p-1" key={i}>
                                     <p className='fw-bold'>{e?.shapeQualityColor}</p>
                                     <p>{NumberWithCommas(e?.pcs, 0)} / {fixedValues(e?.wt, 3)} cts</p>
                                 </div>
-                            })}
+                            })} */}
+                            <div className="d-flex w-100 justify-content-between p-1">
+                                    <p className='fw-bold'>Others</p>
+                                    <p>{NumberWithCommas(diamondDetailss.pcs, 0)} / {fixedValues(diamondDetailss.wt, 3)} cts</p>
+                                </div>
                             <div className="d-flex w-100 justify-content-between p-1">
                                 <p></p>
                                 <p></p>
                             </div>
                         </div>
+
+                     
                         <div className="d-flex totalBgEstimatePrint position-absolute bottom-0 w-100 border-top">
                             <div className='p-1 min_height_24_estimatePrint w-50'><p> </p></div>
                             <div className='p-1 min_height_24_estimatePrint w-50'><p> </p></div>
@@ -784,7 +798,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="min_height_100EstimatePrint col-2">
                         <div className="totalBgEstimatePrint text-center border-bottom"><p className="fw-bold p-1">REMARK</p></div>
                         <div className="p-1">
-                            <p dangerouslySetInnerHTML={{ __html: json1Data?.PrintRemark }} className='fs-6'></p>
+                            <div dangerouslySetInnerHTML={{ __html: json1Data?.PrintRemark }}></div>
                         </div>
                     </div>
                     {/* created by */}

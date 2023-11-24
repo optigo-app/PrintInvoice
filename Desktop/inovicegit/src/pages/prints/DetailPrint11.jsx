@@ -37,7 +37,6 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   });
 
   const loadData = (data) => {
-    console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
@@ -346,7 +345,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             <div className="diamondStoneDetailPrint11 d-grid pad_bt_20semiTotalDetailPrint11 position-relative">
               {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
                 return <div className='d-flex border-bottom' key={ind}>
-                  <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{ele?.ShapeName}</p></div>{console.log(ele)}
+                  <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{ele?.ShapeName}</p></div>
                   <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{diamondSize && (ele?.GroupName === "" ? ele?.SizeName : (ele?.MasterManagement_DiamondStoneTypeid !== 2 ? ele?.GroupName : ele?.SizeName))}</p></div>
                   <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
                   <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{fixedValues(ele?.Wt, 3)}</p></div>
