@@ -42,17 +42,17 @@ const BagPrint6A = ({ queries, headers }) => {
         datas?.map((a) => {
           
             
-          if (a?.rd?.ProductType !== null && a?.rd?.ProductType !== undefined && a?.rd?.ProductType !== "") {
-            if (
-              a?.rd?.ProductType?.length > 0 &&
-              a?.rd?.ProductType?.length < 12
-            ) {
-              a.rd.PType = a?.rd?.ProductType;
-            } else {
-              let splited = a?.rd?.ProductType?.split(" ");
-              a.rd.PType = splited[0];
-            }
-          }
+          // if (a?.rd?.ProductType !== null && a?.rd?.ProductType !== undefined && a?.rd?.ProductType !== "") {
+          //   if (
+          //     a?.rd?.ProductType?.length > 0 &&
+          //     a?.rd?.ProductType?.length < 18
+          //   ) {
+          //     a.rd.PType = a?.rd?.ProductType;
+          //   } else {
+          //     let splited = a?.rd?.ProductType?.split(" ");
+          //     a.rd.PType = splited[0];
+          //   }
+          // }
 
           let length = 0;
           let clr = {
@@ -150,13 +150,13 @@ const BagPrint6A = ({ queries, headers }) => {
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => {
-    if (data?.length !== 0) {
-      setTimeout(() => {
-        window.print();
-      }, 5000);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.length !== 0) {
+  //     setTimeout(() => {
+  //       window.print();
+  //     }, 5000);
+  //   }
+  // }, [data]);
   return (
     <>
       {data.length === 0 ? (
@@ -219,8 +219,8 @@ const BagPrint6A = ({ queries, headers }) => {
                                   </div>
                                 </div>
                                 <div className="jobName6A">
-                                  <div className="job6Ahww">
-                                    {e?.data?.rd?.PType}
+                                  <div className="job6Ahww" style={{fontSize:`${e?.data?.rd?.ProductType?.length > 18 ? '8.5px' : '9.5px'}`}}>
+                                    {e?.data?.rd?.ProductType}
                                   </div>
                                   <div className="job6Ahww">
                                     {e?.data?.rd?.Size}
@@ -283,7 +283,7 @@ const BagPrint6A = ({ queries, headers }) => {
                             </div>
                             <div className="main6A">
                               <div className="required6A">
-                                <div className="lbh6A d-flex justify-content-between align-items-center"><div className="w-75">Required Material</div><div className="w-25">Issue Material</div></div>
+                                <div className="lbh6A d-flex justify-content-between align-items-center"><div style={{width:"282px", borderRight:"1px solid #989898"}} className="d-flex justify-content-center align-items-center">Required Material</div><div style={{width:"64px", lineHeight:"9px", fontSize:"11px"}} className="d-flex justify-content-center align-items-center">Issue Material</div></div>
                                 <div
                                   className="main6Ahead"
                                   style={{ height: "16px" }}
@@ -398,8 +398,8 @@ const BagPrint6A = ({ queries, headers }) => {
                               </div>
                             </div>
                             <div className="jobName6A">
-                              <div className="job6Ahww">
-                                {e?.data?.rd?.PType}
+                              <div className="job6Ahww" style={{fontSize:`${e?.data?.rd?.ProductType?.length > 18 ? '8.5px' : '9.5px'}`}}>
+                                {e?.data?.rd?.ProductType}
                               </div>
                               <div className="job6Ahww">
                                 {e?.data?.rd?.Size}

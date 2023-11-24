@@ -189,7 +189,7 @@
     display: flex;
     border-bottom: 1px solid;
     justify-content: space-between;
-    width: 301px;
+    width: 303px;
     height: 28px;
     font-size: 14px;
     padding-top: 2px;
@@ -365,7 +365,10 @@
     z-index: 1;
   }
 
-
+.fonts1A{
+    font-size: 12px;
+    font-weight: bold;
+}
 
 @media print {
       .mainbag1A:nth-child(6n+6){

@@ -159,7 +159,6 @@ const BagPrint7A = ({ queries, headers }) => {
           
 
           let allMaterials = [...DIAgrouArr, ...CLSgrouArr, ...MISCgrouArr];
-          console.log(allMaterials);
           
           let arr = [];
           let mainArr = arr?.concat(
@@ -172,7 +171,7 @@ const BagPrint7A = ({ queries, headers }) => {
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
             let chunkData =  GetChunkData(chunkSize7, mainArr)
-            let chunkDatas = allMaterials?.slice(0, 10);
+            let chunkDatas = allMaterials?.slice(0, 7);
             responseData.push({
               data: a,
             additional: {
@@ -417,13 +416,12 @@ const BagPrint7A = ({ queries, headers }) => {
                                     {
                                       e?.additional?.material?.length > 0 &&
                                       e?.additional?.material?.map((e, i) => {
-                                        console.log(e);
                                         return(
                                           <React.Fragment key={i}>
                                             {
                                               e?.Shapename === "TOTAL" ? '' : <div className="tableHead7A">
-                                              <div className="w7A d-flex justify-content-start align-items-center" style={{width:"82px", paddingLeft:"1px"}}>{e?.Shapename}</div>
-                                              <div className="w7A d-flex justify-content-start align-items-center" style={{width:"82px", paddingLeft:"1px"}}>{e?.Quality}</div>
+                                              <div className="w7A d-flex justify-content-start align-items-center" style={{width:"82px", paddingLeft:"1px"}}>{e?.Shapecode}</div>
+                                              <div className="w7A d-flex justify-content-start align-items-center" style={{width:"82px", paddingLeft:"1px"}}>{e?.QualityCode}</div>
                                               <div className="w7A d-flex justify-content-start align-items-center" style={{width:"80px",paddingLeft:"1px"}}>{e?.ColorCode}</div>
                                             </div>
                                             }
@@ -744,10 +742,10 @@ const BagPrint7A = ({ queries, headers }) => {
                         </div>
                         <div className="main7A">
                           <div className="main7AEntry">
-                            <div className="d-flex justify-content-between align-items-center dup7Aemt">
-                              <div className="w7A" style={{width:"82px"}}>Type</div>
-                              <div className="w7A" style={{width:"82px"}}>Purity</div>
-                              <div className="w7A" style={{width:"80px"}}>Color</div>
+                            <div className="d-flex justify-content-between align-items-center dup7Aemt" style={{paddingTop:"1px"}}>
+                              <div className="w7A" style={{width:"82px", fontSize:"9px"}}>Type</div>
+                              <div className="w7A" style={{width:"82px", fontSize:"9px"}}>Purity</div>
+                              <div className="w7A" style={{width:"80px", fontSize:"9px"}}>Color</div>
                             </div>
                             <div className="tableHead7B">
                               <div className="dept7A" style={{ width: "62px" }}>
@@ -871,13 +869,13 @@ const BagPrint7A = ({ queries, headers }) => {
                         </div>
                           </div>
                           <div className="main7AEntry2">
-                            <div className="d-flex justify-content-between align-items-center fw-bold" style={{height:"11px",width:"110px", borderBottom:"1px solid #989898"}}>
+                            <div className="d-flex justify-content-between align-items-center fw-bold" style={{height:"11px",width:"110px", paddingTop:"3px",borderBottom:"1px solid #989898"}}>
                               <div  className="w7A"
-                                        style={{ width: "54px" }}>Size</div>
+                                        style={{ width: "54px", fontSize:"9px" }}>Size</div>
                               <div  className="w7A"
-                                        style={{ width: "30px" }}>Pcs</div>
+                                        style={{ width: "30px", fontSize:"9px" }}>Pcs</div>
                               <div  className="w7A"
-                                        style={{ width: "25px" }}>Wt</div>
+                                        style={{ width: "25px", fontSize:"9px" }}>Wt</div>
                             </div>
                           </div>
                         </div>
