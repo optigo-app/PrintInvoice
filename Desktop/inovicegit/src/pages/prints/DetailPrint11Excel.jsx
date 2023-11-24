@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, checkImageExists, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-
+import defaultImg from "../../assets/img/default.jpg";
 const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
@@ -370,7 +370,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
     setTimeout(() => {
       const button = document.getElementById('test-table-xls-button');
       button.click();
-    }, 100);
+    }, 1500);
   }
   useEffect(() => {
     const sendData = async () => {
@@ -696,9 +696,9 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
             {len > 0 && Array.from({ length: len }).map((e, i) => {
               return <tr key={i}>
                 <td></td>
-                <td colSpan={4} width={560} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderLeft: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }}>
+               {i===0 && <td colSpan={4} rowSpan={4} width={560} style={{ borderBottom: "1px solid #000", borderLeft: "1px solid #000", borderRight: "1px solid #000", padding: "1px" }} VALIGN="TOP">
                   {i === 0 && <><span>Remark :</span><span dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }} className='p-1'></span></>}
-                </td>
+                </td>}
                 <td colSpan={4} width={270} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }}><b></b> </td>
                 <td colSpan={2} width={180} style={{ borderBottom: (i === len - 1 && "1px solid #000"), padding: "1px" }}>{goldTotal[i] && goldTotal[i]?.label}</td>
                 <td colSpan={2} width={180} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px" }} align='right'>{goldTotal[i] && goldTotal[i]?.value}</td>

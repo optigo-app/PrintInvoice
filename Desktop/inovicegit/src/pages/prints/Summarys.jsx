@@ -18,7 +18,8 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
     const [Styles, setstyles] = useState({
         design: checkBox?.netwt ? style?.design : style?.design1,
         total: checkBox?.netwt ? style?.total : style?.total1,
-        totalAmount: checkBox?.netwt ? style?.amtTotalDetail : style?.amtTotalDetail1
+        totalAmount: checkBox?.netwt ? style?.amtTotalDetail : style?.amtTotalDetail1,
+        amtDetailPurity: checkBox?.netwt ? style?.amtDetailPurity : style?.amtDetailPurity
     });
     const [total, setTotal] = useState({
         grosswt: 0,
@@ -41,7 +42,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
     const [category, setCategory] = useState([]);
 
     const loadData = (data) => {
-        // console.log(data);
+        console.log(data);
         setHeaderData(data?.BillPrint_Json[0]);
         let head = HeaderComponent(data?.BillPrint_Json[0]?.HeaderNo, data?.BillPrint_Json[0]);
         setHeaderComp(head);
@@ -114,8 +115,8 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
         setCheckBox({ ...checkBox, [name]: checked });
         if (name === "netwt") {
             checked ?
-                setstyles({ ...Styles, design: style?.design, total: style?.total, totalAmount: style?.amtTotalDetail }) :
-                setstyles({ ...Styles, design: style?.design1, total: style?.total1, totalAmount: style?.amtTotalDetail1 });
+                setstyles({ ...Styles, design: style?.design, total: style?.total, totalAmount: style?.amtTotalDetail, amtDetailPurity: style?.amtDetailPurity }) :
+                setstyles({ ...Styles, design: style?.design1, total: style?.total1, totalAmount: style?.amtTotalDetail1, amtDetailPurity: style?.amtDetailPurity1 });
         }
     }
 
@@ -199,7 +200,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="border-start border-end border-bottom d-flex">
                     <div className={`${style?.sr_no} border-end p-2 d-table`}><p className='fw-bold d-table-cell align-middle text-center'>SR#</p></div>
                     <div className={`${Styles?.design} border-end p-2 d-table`}><p className='fw-bold d-table-cell align-middle text-center'>DESIGN</p></div>
-                    <div className={`${style?.amtDetail} border-end p-2 d-table`}><p className='fw-bold text-center d-table-cell align-middle'>PURITY</p></div>
+                    <div className={`${style?.amtDetailPurity} border-end p-2 d-table`}><p className='fw-bold text-center d-table-cell align-middle'>PURITY</p></div>
                     <div className={`${style?.amtDetail} border-end p-2 d-table`}><p className='fw-bold text-center align-middle d-table-cell'>G WT</p></div>
                     {checkBox.netwt && <div className={`${style?.amtDetail} border-end p-2 d-table`}><p className='fw-bold text-center align-middle d-table-cell'>NWT</p></div>}
                     <div className={`${style?.diamond} border-end`}>
@@ -239,13 +240,13 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className={`${Styles?.design} border-end`}>
                             <div className="pb-1">
                                 <p className='fw-bold px-1 pb-1'>{e?.designno} </p>
-                                <p className="fw-bold px-1 pb-1">{checkBox?.brand && (`Brand: ${e?.BrandName}`)} </p>
+                                <p className="fw-bold px-1 pb-1">{checkBox?.brand && e?.BrandName} </p>
                                 <p className="fw-bold px-1 pb-1">{e?.SrJobno}</p>
                                 {checkBox?.image && <img src={e?.DesignImage} alt="" onError={handleImageError} className={`designImagePrintAll d-block mx-auto ${style?.designImagePrintAll}`} />}
                                 {e?.HUID !== "" && <p className="fw-bold px-2 pb-1">HUID: {e?.HUID}</p>}
                             </div>
                         </div>
-                        <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-1'>{e?.MetalPurity}</p></div>
+                        <div className={`${style?.amtDetailPurity} border-end`}><p className='fw-bold p-1'>{e?.MetalPurity}</p></div>
                         <div className={`${style?.amtDetail} border-end`}><p className='p-1 text-end'>{NumberWithCommas(e?.grosswt, 3)}</p></div>
                         {checkBox.netwt && <div className={`${style?.amtDetail} border-end`}><p className='p-1 text-end'>{NumberWithCommas(e?.NetWt, 3)}</p></div>}
                         <div className={`${style?.diamond} border-end`}>
@@ -281,7 +282,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {/* table total */}
                 <div className="border-start border-end border-bottom d-flex lightGrey no_break">
                     <div className={`${Styles?.total} border-end`}><p className='fw-bold p-1 text-center'>TOTAL</p></div>
-                    <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-1'></p></div>
+                    <div className={`${style?.amtDetailPurity} border-end`}><p className='fw-bold p-1'></p></div>
                     <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-1 text-end'>{NumberWithCommas(total?.grosswt, 3)}</p></div>
                     {checkBox.netwt && <div className={`${style?.amtDetail} border-end`}><p className='fw-bold p-1 text-end'>{NumberWithCommas(total?.NetWt, 3)}</p></div>}
                     <div className={`${style?.diamond} d-flex border-end `}>
@@ -319,8 +320,11 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
                 {/* Gold in 24K */}
                 <div className="d-flex lightGrey justify-content-between p-2 border my-2 no_break">
-                    <p className="fw-bold">GOLD in 24K: {NumberWithCommas(total?.convertednetwt, 3)}</p>
-                    <p className="fw-bold">TOTAL IN rup: {NumberWithCommas(totalAmount?.amountAftertax, 2)}</p>
+                    <p className="fw-bold col-3">GOLD in 24K: {NumberWithCommas(total?.convertednetwt, 3)}</p>
+                    <div className="col-6 d-flex">
+                        <div className="fw-bold pe-2 width_max_content">REMARK: </div> <div dangerouslySetInnerHTML={{__html: headerData?.PrintRemark}}></div>
+                    </div>
+                    <p className="fw-bold col-3 text-end">TOTAL IN rup: {NumberWithCommas(totalAmount?.amountAftertax, 2)}</p>
                 </div>
                 {/* Rupees in Words */}
                 <div className="lightGrey border p-2 no_break">

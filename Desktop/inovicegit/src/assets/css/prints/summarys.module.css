@@ -9,13 +9,13 @@
 }
 
 .design{
-    width: 10%;
-    min-width: 10%;
+    width: 9%;
+    min-width: 9%;
 }
 
 .design1 {
-    width: 15.1%;
-    min-width: 15.1%;
+    width: 14.1%;
+    min-width: 14.1%;
 }
 
 .designImagePrintAll {
@@ -27,14 +27,24 @@
     min-width: 7.1%;
 }
 
+.amtDetailPurity{
+    width: 6.1%;
+    min-width: 6.1%;
+}
+
+.amtDetailPurity1{
+    width: 8.1%;
+    min-width: 8.1%;
+}
+
 .amtTotalDetail1{
-    width: 9.1%;
-    min-width: 9.1%;
+    width: 11.1%;
+    min-width: 11.1%;
 }
 
 .amtTotalDetail{
-    width: 7.1%;
-    min-width: 7.1%;
+    width: 9.1%;
+    min-width: 9.1%;
 }
 
 .diamond{
@@ -48,13 +58,13 @@
 }
 
 .total{
-    width: 15%;
-    min-width: 15%;
+    width: 14%;
+    min-width: 14%;
 }
 
 .total1{
-    width: 20.1%;
-    min-width: 20.1%;
+    width: 19.1%;
+    min-width: 19.1%;
 }
 
 @media print{

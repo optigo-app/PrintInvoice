@@ -52,14 +52,14 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
 }
 
 // new api print
-export const newApiPrint =  async(token, invoiceNo, printName, url, evn) => {
+export const newApiPrint = async (token, invoiceNo, printName, url, evn) => {
   let data = `{\r\n  "token" : "${token}"\r\n  ,"invoiceno":"${invoiceNo}"\r\n  ,"printname":"${printName}"\r\n  ,"Eventname":"${evn}"\r\n}`;
   let headers = {
     'Content-Type': 'text/plain',
     'Cookie': 'ASP.NET_SessionId=eosdeooiexxjky0svpuomnc0'
   }
   try {
- axios.post(url, data, { headers }).then(res=>console.log(res)).catch(err=>console.log(err));
+    axios.post(url, data, { headers }).then(res => console.log(res)).catch(err => console.log(err));
   } catch (error) {
     console.error('API call failed:', error);
     return null; // Handle the error as needed
@@ -313,3 +313,26 @@ export const numberToWord = (num) => {
     return ""
   }
 }
+
+export const checkImageExists = (url) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
+};
+
+// checkImageExists(obj?.DesignImage)
+//   .then((exists) => {
+//     if (exists) {
+//       return obj?.DesignImage;
+//     } else {
+//       return defaultImg;
+//     }
+//   })
+//   .catch((error) => {
+//     // obj?.DesignImage = defaultImg;
+//     return defaultImg;
+//     console.error('Error checking image existence:', error);
+//   });

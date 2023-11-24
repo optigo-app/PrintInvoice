@@ -178,6 +178,10 @@ blockquote div{
   line-height: 100%;
 }
 
+.width_max_content{
+min-width: max-content;
+}
+
 @media print {
   .hide-on-print {
     display: none;
