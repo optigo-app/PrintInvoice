@@ -335,7 +335,7 @@ const BagPrint5A = ({ queries, headers }) => {
                                       }}
                                     >
                                       CAST INS.
-                                      {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                                      {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
                                     </span>
                                   </p>
                                 </div>
@@ -551,7 +551,7 @@ const BagPrint5A = ({ queries, headers }) => {
                                 }}
                               >
                                 CAST INS.
-                                {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                                {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
                               </span>
                             </p>
                           </div>

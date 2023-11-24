@@ -659,7 +659,7 @@ function BagPrint2A({ queries, headers }) {
                                       INSTRUCTION :
                                     </span>
                                     <span style={{ color: "red" }}>
-                                    {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                                    {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
                                     </span>
                                   </div>
                                 </div>
@@ -873,7 +873,7 @@ function BagPrint2A({ queries, headers }) {
                             <div>
                               <span className="fw-bold">INSTRUCTION :</span>
                               <span style={{ color: "red" }}>
-                              {checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                              {checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
                               </span>
                             </div>
                           </div>

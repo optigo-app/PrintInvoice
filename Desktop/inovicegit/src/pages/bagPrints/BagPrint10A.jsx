@@ -389,7 +389,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                         }}
                                       >
                                          <span className="text-black">CUST INS.</span>
-                                        <span style={{color:"red"}}>{" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}</span>
+                                        <span style={{color:"red"}}>{" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}</span>
                                       </span>
                                     </p>
                                   </div>
@@ -596,7 +596,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     }}
                                   >
                                     <span className="text-black">CUST INS.</span>
-                                    <span style={{color:"red"}}>{" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction)}</span>
+                                    <span style={{color:"red"}}>{" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}</span>
                                   </span>
                                 </p>
                               </div>

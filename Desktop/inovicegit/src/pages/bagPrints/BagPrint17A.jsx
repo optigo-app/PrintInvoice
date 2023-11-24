@@ -237,7 +237,7 @@ const BagPrint17A = ({ queries, headers }) => {
                                   style={{ color: "red" }}
                                 >
                                   INS: &nbsp;
-                                  { (" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 140) }
+                                  { (" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 140) }
                                 </div>
                               </div>
                               <div className="imgn17A">
@@ -403,7 +403,7 @@ const BagPrint17A = ({ queries, headers }) => {
                             </div>
                             <div className="insn17A">
                               INS :
-                              { (" " + checkInstruction(e?.data?.rd?.officeuse) + " " + checkInstruction(e?.data?.rd?.ProductInstruction))?.slice(0, 140) }
+                              { (" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 140) }
                             </div>
                           </div>
                           <div className="imgn17A">

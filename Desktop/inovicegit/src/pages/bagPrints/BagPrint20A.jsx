@@ -326,9 +326,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                         <span className="text-danger lh20A p-1" style={{fontSize:"8.6px"}}>
                                           
                                           {" " +
-                                            checkInstruction(
-                                              e?.data?.rd?.ProductInstruction
-                                            )}
+                                            (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
                                         </span>
                                       </div>
                                       <div className="matinfo7Acopy">
@@ -846,9 +844,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                     {" "}
                                     Remark:{" "}
                                     {" " +
-                                      checkInstruction(
-                                        e?.data?.rd?.ProductInstruction
-                                      )}
+                                      (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
                                   </span>{" "}
                                   <span>{e?.data?.rd?.remark}</span>
                                 </div>

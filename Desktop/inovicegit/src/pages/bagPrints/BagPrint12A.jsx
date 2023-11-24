@@ -344,7 +344,7 @@ const BagPrint12A = ({ queries, headers }) => {
 
                                                                         <p>
                                                                             INST:
-                                                                            {(" " + checkInstruction(e?.data?.officeuse) + " " + checkInstruction(e?.data?.ProductInstruction))?.slice(0, 113)}
+                                                                            {(" " + checkInstruction(e?.data?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 113)}
                                                                         </p>
                                                                     </div>
                                                                 </div>
@@ -523,7 +523,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                                         <div className="instruction_12A">
                                                             <p>
                                                                 INST:
-                                                                {(" " + checkInstruction(e?.data?.officeuse) + " " + checkInstruction(e?.data?.ProductInstruction))?.slice(0, 113)}
+                                                                {(" " + checkInstruction(e?.data?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark)))?.slice(0, 113)}
                                                             </p>
                                                         </div>
                                                     </div>

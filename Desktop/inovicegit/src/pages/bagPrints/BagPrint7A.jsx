@@ -114,47 +114,51 @@ const BagPrint7A = ({ queries, headers }) => {
           if(misc.ActualPcs !== 0 && misc.ActualWeight !== 0){
             MiscList.push(misc);
           }  
-          const groupedDiaData = DiamondList?.reduce((acc, obj) => {
+          let DLIST = [...DiamondList];
+          let CLIST = [...ColorStoneList];
+          let MLIST = [...MiscList];
+          let FLIST = [...FindingList];
+          let Dlist2 = DLIST?.filter((e) => e?.Shapename !== 'TOTAL');
+          let Clist2 = CLIST?.filter((e) => e?.Shapename !== 'TOTAL');
+          let Mlist2 = MLIST?.filter((e) => e?.Shapename !== 'TOTAL');
+          let Flist2 = FLIST?.filter((e) => e?.Shapename !== 'TOTAL');
+          
+          const groupedDiaData = Dlist2?.reduce((acc, obj) => {
             const key = `${obj.Shapecode}-${obj.QualityCode}-${obj.ColorCode}`;
+            
             if (!acc[key]) {
               acc[key] = { Shapecode: obj.Shapecode, QualityCode: obj.QualityCode, ColorCode: obj.ColorCode };
             }
-            // acc[key].items.push(obj);
             return acc;
           }, {});
+          
           const DIAgrouArr = Object.values(groupedDiaData);
-          DIAgrouArr.pop();
-
-          const groupedCLSData = ColorStoneList?.reduce((acc, obj) => {
+          const groupedCLSData = Clist2?.reduce((acc, obj) => {
             const key = `${obj.Shapecode}-${obj.QualityCode}-${obj.ColorCode}`;
             if (!acc[key]) {
               acc[key] = { Shapecode: obj.Shapecode, QualityCode: obj.QualityCode, ColorCode: obj.ColorCode };
             }
-            // acc[key].items.push(obj);
             return acc;
           }, {});
           const CLSgrouArr = Object.values(groupedCLSData);
-          CLSgrouArr.pop();
 
-          const groupedMISCData = MiscList?.reduce((acc, obj) => {
+          const groupedMISCData = Mlist2?.reduce((acc, obj) => {
             const key = `${obj.Shapecode}-${obj.QualityCode}-${obj.ColorCode}`;
             if (!acc[key]) {
               acc[key] = { Shapecode: obj.Shapecode, QualityCode: obj.QualityCode, ColorCode: obj.ColorCode };
             }
-            // acc[key].items.push(obj);
             return acc;
           }, {});
           const MISCgrouArr = Object.values(groupedMISCData);
-          MISCgrouArr.pop();
 
-          const groupedFData = MiscList?.reduce((acc, obj) => {
+          const groupedFData = Flist2?.reduce((acc, obj) => {
             const key = `${obj.Shapecode}-${obj.QualityCode}-${obj.ColorCode}`;
             if (!acc[key]) {
               acc[key] = { Shapecode: obj.Shapecode, QualityCode: obj.QualityCode, ColorCode: obj.ColorCode };
             }
-            // acc[key].items.push(obj);
             return acc;
           }, {});
+          // eslint-disable-next-line no-unused-vars
           const FgrouArr = Object.values(groupedFData);
           
 
@@ -576,7 +580,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 >
                               
                                 Remark:{" "}
-                                {" " + checkInstruction(e?.data?.rd?.ProductInstruction)}
+                                {" " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
                               </b>
                               
                             </div>
@@ -864,7 +868,7 @@ const BagPrint7A = ({ queries, headers }) => {
                           <b>
                             {}
                             Remark:{" "}
-                            {" " +checkInstruction(e?.data?.rd?.ProductInstruction)}
+                            {" " +(e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
                           </b>
                         </div>
                           </div>
