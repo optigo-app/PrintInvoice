@@ -428,5 +428,11 @@
         .print_sec_sum4, .btnpcl {
             display: none !important;
           }
+
+          #sum1Img {
+            height: 80px;
+            width: 80px;
+            padding-right: 1rem;
+        }
           
 }

@@ -17,7 +17,7 @@ const BagPrint6A = ({ queries, headers }) => {
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
-  const chunkSize7 = 11;
+  const chunkSize7 = 12;
   useEffect(() => {
     if (Object.keys(queryParams)?.length !== 0) {
       atob(queryParams?.imagepath);
