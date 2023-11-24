@@ -57,6 +57,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     total: 0,
   });
   const [taxes, setTaxes] = useState([]);
+  const [detailPrintK, setDetailPrintK] = useState(atob(printName).toLowerCase() === "detail print k" ? true : false);
   // const [diamondDetails, setDiamondDetails] = useState([]);
 
   const handleChange = (e) => {
@@ -71,9 +72,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   }
 
   const loadData = (data) => {
-    // console.log(data);
     setJson0Data(data?.BillPrint_Json[0]);
-    setJson1Data2(data?.BillPrint_Json2)
+    setJson1Data2(data?.BillPrint_Json2);
     setLoader(false);
     let brok = otherAmountDetail(data?.BillPrint_Json[0]?.Brokerage);
     setBrokarage(brok);
@@ -154,7 +154,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
 
     // eslint-disable-next-line array-callback-return
     ar1?.map((e) => {
-      if (detailtPrintR || detailtPrintL) {
+      if (detailtPrintR || detailtPrintL || detailPrintK) {
         summary.gold24Kt = summary.gold24Kt + e?.PureNetWt;
       }
       let totalAmounts = e?.DiscountAmt + e?.TotalAmount;
@@ -516,7 +516,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                     {e?.lineid !== "" && <p className='text-center'>Lineid - {e?.lineid}</p>}
                     {e?.HUID !== "" && <p className='text-center'>HUID - {e?.HUID}</p>}
                     {(e?.PO !== "" && e?.PO !== "-") && <p className='text-center'>PO: {e?.PO}</p>}
-                    <p className='text-center'>Tunch : <span className="fw-bold">{NumberWithCommas(e?.Tunch, 3)}</span></p>
+                   {!detailPrintK && <p className='text-center'>Tunch : <span className="fw-bold">{NumberWithCommas(e?.Tunch, 3)}</span></p>}
                     <p className='text-center'>Gross Wt: <span className="fw-bold">{fixedValues(e?.grosswt, 3)}</span></p>
                     {e?.Size !== "" && e?.Size !== "-" && <p className='text-center'>Size: {e?.Size}</p>}
                   </div>

@@ -37,7 +37,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   });
 
   const loadData = (data) => {
-    // console.log(data);
+    console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
@@ -48,6 +48,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
       let elementsArr = [];
       let obj = { ...e };
       obj.metalRateGold = 0;
+      obj.metalNetWeightWithLossWt = e?.NetWt+e?.LossWt;
       obj.alloy = 0;
       obj.totalGold = 0;
       let totalCol = {
@@ -157,6 +158,9 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
         }
         newArr[findRecord].grosswt += obj?.grosswt;
         newArr[findRecord].NetWt += obj?.NetWt;
+
+        newArr[findRecord].metalNetWeightWithLossWt += obj?.metalNetWeightWithLossWt;
+
         newArr[findRecord].LossPer += obj?.LossPer;
         newArr[findRecord].PureNetWt += obj?.PureNetWt;
         newArr[findRecord].metalRateGold += obj?.metalRateGold;
@@ -284,7 +288,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           </div>
           <div className="w-50 text-end">
             <p>invoice#:{json0Data?.InvoiceNo}</p>
-            <p>{json0Data?.Cust_VAT_GST_No !== "" && (`${json0Data?.Cust_VAT_GST_No} | `)}  {json0Data?.Cust_CST_STATE_No_} </p>
+            <p>GSTIN: {json0Data?.Cust_VAT_GST_No !== "" && (`${json0Data?.Cust_VAT_GST_No} | `)}  {json0Data?.Cust_CST_STATE_No_} </p>
             <p>Terms: {json0Data?.DueDays} Days</p>
             <p>Due Date: {json0Data?.DueDate}</p>
           </div>
@@ -342,8 +346,8 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             <div className="diamondStoneDetailPrint11 d-grid pad_bt_20semiTotalDetailPrint11 position-relative">
               {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
                 return <div className='d-flex border-bottom' key={ind}>
-                  <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{ele?.ShapeName}</p></div>
-                  <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{diamondSize && (ele?.GroupName === "" ? ele?.SizeName : ele?.GroupName)}</p></div>
+                  <div className='shapeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{ele?.ShapeName}</p></div>{console.log(ele)}
+                  <div className='sizeDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{diamondSize && (ele?.GroupName === "" ? ele?.SizeName : (ele?.MasterManagement_DiamondStoneTypeid !== 2 ? ele?.GroupName : ele?.SizeName))}</p></div>
                   <div className='pcsDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
                   <div className='diaDetailPrint11 border-end d-flex align-items-center justify-content-center'><p className=''>{fixedValues(ele?.Wt, 3)}</p></div>
                   <div className='priceDetailPrint11 border-end d-flex align-items-center justify-content-center flex-column'><p className=''>{NumberWithCommas(ele?.Rate, 2)}</p></div>
@@ -387,7 +391,9 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
               <div className='d-flex border-bottom'>
                 <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Net Weight</p></div>
-                <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{fixedValues(e?.NetWt, 3)} G</p></div>
+                
+                {/* <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{fixedValues(e?.NetWt, 3)} G</p></div> */}
+                <div className='col-5 d-flex align-items-center justify-content-center'><p className=''>{fixedValues(e?.metalNetWeightWithLossWt, 3)} G</p></div>
               </div>
               <div className='d-flex border-bottom'>
                 <div className='col-7 border-end d-flex align-items-center fw-bold'><p className=''>Gold Loss</p></div>
@@ -452,7 +458,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           <div className="goldDetailPrint11 border-end d-grid ">
             <div className='d-flex'>
               <div className='col-7 border-end d-flex align-items-center justify-content-center'><p className='fw-bold'>Total Gold</p></div>
-              <div className='col-5 d-flex align-items-center justify-content-center'><p className='fw-bold'>{fixedValues(total?.totalGold, 3)}</p></div>
+              <div className='col-5 d-flex align-items-center justify-content-center'><p className='fw-bold'>{fixedValues(total?.totalGold, 2)}</p></div>
             </div>
           </div>
           <div className="labourDetailPrint11 border-end d-flex">

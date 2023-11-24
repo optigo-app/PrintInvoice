@@ -216,7 +216,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
           value: `${e?.MetalPurity} ${e?.MetalColor}`,
         },
         {
-          label: "QualGross Weight(Gms)",
+          label: "Gross Weight(Gms)",
           value: `${fixedValues(e?.grosswt, 3)} G`,
         },
         {
@@ -257,12 +257,16 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
           size: ind === 8 ? obj?.Size : "",
           huid: ind === 9 ? obj?.HUID : "",
           diamondShape: obj?.materials[ind] ? obj?.materials[ind]?.ShapeName : "",
-          diamondSize: obj?.materials[ind] ? obj?.materials[ind]?.SizeName : "",
+          diamondSize: obj?.materials[ind] ? 
+          (obj?.materials[ind]?.GroupName === "" ? 
+          obj?.materials[ind]?.SizeName : 
+          obj?.materials[ind]?.MasterManagement_DiamondStoneTypeid === 2 ? obj?.materials[ind]?.SizeName : obj?.materials[ind]?.GroupName) : 
+          "",
           diamondPcs: obj?.materials[ind] ? obj?.materials[ind]?.Pcs : "",
           diamondWt: obj?.materials[ind] ? obj?.materials[ind]?.Wt : "",
           diamondRate: obj?.materials[ind] ? obj?.materials[ind]?.Rate : "",
           diamondAmount: obj?.materials[ind] ? obj?.materials[ind]?.Amount : "",
-          diamondSettingType: "",
+          diamondSettingType: obj?.materials[ind] ? obj?.materials[ind]?.SettingName : "",
           diamondSettingRate: obj?.materials[ind] ? obj?.materials[ind]?.SettingRate : "",
           diamondSettingAmount: obj?.materials[ind] ? obj?.materials[ind]?.SettingAmount : "",
           goldLabel: (goldArr[ind] && ind < 7) ? goldArr[ind]?.label : "",
@@ -534,7 +538,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
               <td></td>
               <td></td>
               <td></td>
-              <td colSpan={4} style={{ borderRight: '1px solid black', padding: '1px' }} className='d-block' align="right" width={150}>{json0Data?.Cust_VAT_GST_No !== "" && (`${json0Data?.Cust_VAT_GST_No} | `)}  {json0Data?.Cust_CST_STATE_No_} </td>
+              <td colSpan={4} style={{ borderRight: '1px solid black', padding: '1px' }} className='d-block' align="right" width={150}>GSTIN: {json0Data?.Cust_VAT_GST_No !== "" && (`${json0Data?.Cust_VAT_GST_No} | `)}  {json0Data?.Cust_CST_STATE_No_} </td>
             </tr>
             <tr>
               <td></td>
