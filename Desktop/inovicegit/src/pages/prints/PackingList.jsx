@@ -378,8 +378,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                   <div className="pclheaderplist">
                     {headerData?.PrintHeadLabel}
                   </div>
-                  <div>
-                    <b style={{ fontSize: "12px" }} dangerouslySetInnerHTML={{__html:headerData?.PrintRemark}}>
+                  <div className="d-flex">
+                    <b className="d-flex" style={{ fontSize: "12px" }} dangerouslySetInnerHTML={{__html: headerData?.PrintRemark?.replace(/<br\s*\/?>/gi, ' ')}}>
                     </b>
                   </div>
                 </div>
@@ -586,7 +586,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   // eslint-disable-next-line array-callback-return
                                   e?.diamonds?.map((ele, i) => {
                                     return (
-                                      <p className="rightpcl fspcl" key={i}>
+                                      <p className="rightpcl fspcl " key={i}>
                                         {NumberWithCommas(ele?.Amount, 2)}
                                       </p>
                                     );
@@ -758,44 +758,44 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="diapcltotrowtb fspcl">
                               <p className="dcolsthpcl"></p>
                               <p className="dcolsthpcl"></p>
-                              <p className="dcolsthpcl rightpcl fwboldpcl fspcl">
+                              <p className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{paddingRight:"2px"}}>
                                 {e?.totals?.diamonds?.Wt?.toFixed(3)}
                               </p>
                               <p className="dcolsthpcl"></p>
                               <p
-                                className="dcolsthpcl rightpcl fwboldpcl fspcl"
-                                style={{ borderRight: "0px" }}
+                                className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                                style={{ borderRight: "0px", paddingRight:"2px" }}
                               >
                                 {NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}
                               </p>
                             </div>
                             <div className="diapcltotrowtb">
                               <p className="dcolsthpcl"></p>
-                              <p className="dcolsthpcl rightpcl fwboldpcl fspcl">
+                              <p className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{paddingRight:"2px"}}>
                                 {e?.grosswt?.toFixed(3)}
                               </p>
-                              <p className="dcolsthpcl rightpcl fwboldpcl fspcl">
+                              <p className="dcolsthpcl rightpcl fwboldpcl fspcld-flex justify-content-end align-items-center" style={{paddingRight:"2px"}}>
                                 {(
                                   +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3)
                                 )?.toFixed(3)}
                               </p>
                               <p className="dcolsthpcl"></p>
                               <p
-                                className="dcolsthpcl rightpcl fwboldpcl fspcl"
-                                style={{ borderRight: "0px" }}
+                                className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                                style={{ borderRight: "0px", paddingRight:"2px" }}
                               >
                                 {NumberWithCommas(e?.totals?.metal?.Amount, 2)}
                               </p>
                             </div>
                             <div className="stnpcltotrowtb">
                               <p className="shpthcolspcl"></p>
-                              <p className="shpthcolspcl rightpcl fwboldpcl fspcl">
+                              <p className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{paddingRight:"2px"}}>
                                 {e?.totals?.colorstone?.Wt?.toFixed(3)}
                               </p>
                               <p className="shpthcolspcl"></p>
                               <p
-                                className="shpthcolspcl rightpcl fwboldpcl fspcl"
-                                style={{ borderRight: "0px" }}
+                                className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                                style={{ borderRight: "0px", paddingRight:"2px" }}
                               >
                                 {NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}
                               </p>
@@ -804,8 +804,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                               <p className="lopclcol"></p>
 
                               <p
-                                className="lopclcol rightpcl fwboldpcl fspcl"
-                                style={{ borderRight: "0px" }}
+                                className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                                style={{ borderRight: "0px", paddingRight:"2px" }}
                               >
                                 {NumberWithCommas(e?.LabourAmountSum, 2)}
                               </p>
@@ -813,15 +813,15 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="lopcltotrowtb">
                               <p className="lopclcol"></p>
                               <p
-                                className="lopclcol rightpcl fwboldpcl fspcl"
-                                style={{ borderRight: "0px" }}
+                                className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                                style={{ borderRight: "0px", paddingRight:"2px" }}
                               >
                                 {NumberWithCommas(e?.OtherChargeAmountSum, 2)}
                               </p>
                             </div>
                             <div
-                              className="prpcltotrowtb rightpcl fwboldpcl fspcl"
-                              style={{ borderRight: "0px" }}
+                              className="prpcltotrowtb rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                              style={{ borderRight: "0px", paddingRight:"2px" }}
                             >
                               {NumberWithCommas(e?.UnitCost, 2)}
                             </div>
@@ -889,42 +889,42 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="diapcltotrowtb">
                       <p className="dcolsthpcl"></p>
                       <p className="dcolsthpcl"></p>
-                      <p className="dcolsthpcl rightpcl fwboldpcl fspcl">
+                      <p className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{paddingRight:"2px"}}>
                         {mainTotal?.diamonds?.Wt?.toFixed(3)}
                       </p>
                       <p className="dcolsthpcl"></p>
                       <p
-                        className="dcolsthpcl rightpcl fwboldpcl fspcl"
-                        style={{ borderRight: "0px" }}
+                        className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                        style={{ borderRight: "0px", paddingRight:"2px" }}
                       >
                         {NumberWithCommas(mainTotal?.diamonds?.Amount, 2)}
                       </p>
                     </div>
                     <div className="diapcltotrowtb">
                       <p className="dcolsthpcl"></p>
-                      <p className="dcolsthpcl rightpcl fwboldpcl fspcl">
+                      <p className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{paddingRight:"2px"}}>
                         {totalgrosswt?.toFixed(3)}
                       </p>
-                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl">
-                        {totalnetlosswt?.toFixed(3)}`
+                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{paddingRight:"2px"}}>
+                        {totalnetlosswt?.toFixed(3)}
                       </div>
                       <p className="dcolsthpcl"></p>
                       <p
-                        className="dcolsthpcl rightpcl fwboldpcl fspcl"
-                        style={{ borderRight: "0px" }}
+                        className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                        style={{ borderRight: "0px", paddingRight:"2px" }}
                       >
                         {NumberWithCommas(mainTotal.metal?.Amount, 2)}
                       </p>
                     </div>
                     <div className="stnpcltotrowtb">
                       <p className="shpthcolspcl"></p>
-                      <p className="shpthcolspcl rightpcl fwboldpcl fspcl">
+                      <p className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{paddingRight:"2px"}}>
                         {mainTotal?.colorstone?.Wt?.toFixed(3)}
                       </p>
                       <p className="shpthcolspcl"></p>
                       <p
-                        className="shpthcolspcl rightpcl fwboldpcl fspcl"
-                        style={{ borderRight: "0px" }}
+                        className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                        style={{ borderRight: "0px", paddingRight:"2px" }}
                       >
                         {NumberWithCommas(mainTotal.colorstone?.Amount, 2)}
                       </p>
@@ -932,8 +932,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="lopcltotrowtb">
                       <p className="lopclcol"></p>
                       <p
-                        className="lopclcol rightpcl fwboldpcl fspcl"
-                        style={{ borderRight: "0px" }}
+                        className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                        style={{ borderRight: "0px", paddingRight:"2px" }}
                       >
                         {NumberWithCommas(totalObj?.totmakingAmt, 2)}
                       </p>
@@ -941,15 +941,15 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="lopcltotrowtb">
                       <p className="lopclcol"></p>
                       <p
-                        className="lopclcol rightpcl fwboldpcl fspcl"
-                        style={{ borderRight: "0px" }}
+                        className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                        style={{ borderRight: "0px", paddingRight:"2px" }}
                       >
                         {NumberWithCommas(totalOtherAmount, 2)}
                       </p>
                     </div>
                     <div
-                      className="prpcltotrowtb rightpcl fwboldpcl fspcl"
-                      style={{ borderRight: "0px" }}
+                      className="prpcltotrowtb rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                      style={{ borderRight: "0px", paddingRight:"2px" }}
                     >
                       {NumberWithCommas(totalObj?.totalAmt, 2)}
                     </div>

@@ -45,7 +45,7 @@
 }
 
 .theadRE {
-    height: 82px;
+    height: 90px;
     display: flex;
     border-bottom: 1px solid black;
 
@@ -58,6 +58,7 @@
     min-height: 90px;
     display: flex;
     border-bottom: 1px solid black;
+    padding-top: 10px;
     
 }
 
@@ -134,7 +135,7 @@
 }
 
 .wREord {
-    width: 40%;
+    width: 50%;
     display: flex;
     justify-content: space-between;
     padding: 5px 0px;

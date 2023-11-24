@@ -643,7 +643,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       
                     </div>
                     <div className="dynamicHeadpcl33">
-                      <div className="w-100 d-flex justify-content-between align-items-center p-2">
+                      <div className="w-100 d-flex justify-content-between align-items-center pe-2">
                         <div className="fw-bold">
                           BILL NO
                         </div>
@@ -651,7 +651,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           {headerData?.InvoiceNo}
                         </div>
                       </div>
-                      <div className="w-100 d-flex justify-content-between align-items-center p-2">
+                      <div className="w-100 d-flex justify-content-between align-items-center pe-2">
                         <div className="fw-bold">
                           DATE
                         </div>
@@ -659,7 +659,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           {headerData?.EntryDate}
                         </div>
                       </div>
-                      <div className="w-100 d-flex justify-content-between align-items-center p-2">
+                      <div className="w-100 d-flex justify-content-between align-items-center pe-2">
                         <div className="fw-bold">
                           HSN
                         </div>
@@ -970,7 +970,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                               {NumberWithCommas(ele?.Rate, 2)}
                                             </div>
                                             <div className="th4Wpcl3 brRightDpcl3">
-                                              <b style={{ fontSize: "9px" }}>
+                                              <b style={{ fontSize: "8.5px" }}>
                                                 {NumberWithCommas(
                                                   ele?.Amount,
                                                   2
@@ -997,7 +997,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                       </div>
                                       <div className="th4Wpcl3 brRightDpcl3 fsdpcl3"></div>
                                       <div className="th4Wpcl3 brRightDpcl3">
-                                        <b style={{ fontSize: "10px" }}>
+                                        <b style={{ fontSize: "8.5px" }}>
                                           {NumberWithCommas(e?.LossAmt, 2)}
                                         </b>
                                       </div>
@@ -1029,7 +1029,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   </div>
                                   <div className="th4Wpcl3 brRightDpcl3"></div>
                                   <div className="th4Wpcl3 brRightDpcl3">
-                                    <b style={{ fontSize: "9px" }}>
+                                    <b style={{ fontSize: "8.5px" }}>
                                       {NumberWithCommas(
                                         e?.totals?.metal?.Amount,
                                         2
@@ -1076,7 +1076,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                 </div>
                                                 <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
                                                   <b
-                                                    style={{ fontSize: "10px" }}
+                                                    style={{ fontSize: "8.5px" }}
                                                   >
                                                     {NumberWithCommas(
                                                       ele?.Amount,
@@ -1129,14 +1129,15 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   </div>
                                 </div>
                               </div>
-                              <div className=" positionpcl3" style={{width:"13%", borderRight:"1px solid #989898"}}>
+                              <div className=" labourandotherAMTpcl3" style={{width:"13%", borderRight:"1px solid #989898"}}>
+                                <div className="w-100 pt-2">
                                 {
                                   (e?.MakingAmount === 0 && e?.MaKingCharge_Unit === 0) ? <div className="w-100 d-flex justify-content-between align-items-center fsdpcl3">
                                   <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{width:"33.33%"}}></div>
                                   <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{width:"33.33%"}}></div>
                                   <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{width:"33.33%"}}></div>
                               </div>  : 
-                                        <div className="w-100 d-flex justify-content-between align-items-center fsdpcl3">
+                                        <div className="w-100 d-flex justify-content-between align-items-center fsdpcl3" style={{height:"18px"}}>
                                             <div className="d-flex justify-content-start align-items-center fsdpcl3" style={{width:"33.33%", paddingLeft:"2px"}}>Labour</div>
                                             <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{width:"33.33%"}}>{e?.MaKingCharge_Unit}</div>
                                             <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{width:"33.33%"}}>{e?.MakingAmount}</div>
@@ -1145,13 +1146,17 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {
                                   e?.OtherAmountDetail?.map((e, i) => {
                                     return(
-                                      <div className="d-flex justify-content-between align-items-center w-100" key={i} style={{paddingLeft:"2px"}}>
+                                      <div className="d-flex justify-content-between align-items-center w-100" key={i} style={{paddingLeft:"2px", height:"18px"}}>
                                         <div className="d-flex justify-content-start align-items-center fsdpcl3 w-75" >{e?.label}</div>
                                         <div className="d-flex justify-content-start align-items-center fsdpcl3 w-25" >{e?.value}</div>
                                       </div>
                                     )
                                   })
                                 }
+                              </div>
+                              <div className="w-100">
+                                  
+                                
                                 {
                                   e?.totmakAmt === 0 ? '' : <div
                                   className="th6flex2pcl3 positionpcl3D"
@@ -1178,6 +1183,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   </div>
                                 </div>
                                 }
+                              </div>
                                 
                               </div>
                               <div className="pd5pcl3" style={{width:"7%"}}>
@@ -1297,7 +1303,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             </div>
                             <div className="th4Wpcl3 brRightDpcl3"></div>
                             <div className="th4Wpcl3 brRightDpcl3">
-                              <b style={{ fontSize: "9px" }}>
+                              <b style={{ fontSize: "8.5px" }}>
                                 {NumberWithCommas(totalObj.totmtamt, 2)}
                               </b>
                             </div>
@@ -1580,10 +1586,10 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             calculatedData?.map((e, i) => {
                               return (
                                 <div className="fapcl3DE" key={i}>
-                                  <div className="mrpWpcl3D w-50">
-                                    <b className="fsdpcl3">{e?.ShapeName}</b>
+                                  <div className="mrpWpcl3D " style={{width:"60%"}}>
+                                    <b className="fsdpcl3" style={{lineHeight:"6px"}}>{e?.ShapeName}</b>
                                   </div>
-                                  <div className="mrpWpcl3D fsdpcl3 w-50">
+                                  <div className="mrpWpcl3D fsdpcl3 "style={{width:"40%", lineHeight:"5px"}}>
                                     {e?.totalPcs}/
                                     {e?.totalWt?.toFixed(3)} cts
                                   </div>{" "}

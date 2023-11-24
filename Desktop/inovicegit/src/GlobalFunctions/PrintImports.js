@@ -19,7 +19,7 @@ export const printConditions = [
     { printName: "item wise print2", etpType: "print", componentName: "ItemWisePrint" },
     { printName: "jewellery item wise", etpType: "print", componentName: "HallmarkItemWisePrint" },
     { printName: "jewellary invoice print", etpType: "print", componentName: "JewelleryInvoicePrint" },
-    { printName: "labour print", etpType: "print", componentName: "JewelleryInvoicePrint" },
+    { printName: "Labour Bill", etpType: "print", componentName: "JewelleryInvoicePrint" },
     { printName: "labour bill", etpType: "print", componentName: "JewelleryInvoicePrint" },
     { printName: "detail print 12", etpType: "print", componentName: "DetailPrint12" },
     { printName: "export declaration form", etpType: "print", componentName: "ExportDeclarationForm" },

@@ -3,6 +3,7 @@
     margin: 0 auto;
     font-size: 10.5px;
     line-height: 120%;
+    padding: 10px;
 }
 
 .headlinepcl3 {
@@ -680,7 +681,12 @@
     justify-content: space-between;
     align-items: center;
 }
-
+.labourandotherAMTpcl3{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
 
 #Imgpcl3 {
     height: 85%;
@@ -762,11 +768,14 @@
     .printpcl3 {
         display: none;
     }
-
+    .fsdpcl3{
+        font-size: 8px !important;
+        line-height: 120%;
+    }
     .pcl3TableCopy {
         page-break-inside: avoid;
         line-height: 120%;
-        font-size: 9.5px !important;
+        font-size: 9.5px;
     }
 
     body {

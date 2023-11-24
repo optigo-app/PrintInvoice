@@ -326,14 +326,14 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="fw-bold fs-4 px-2">INVOICE #: {headerData?.InvoiceNo}</div>
                       <div className="fs-5 p-1" dangerouslySetInnerHTML={{ __html: headerData?.Remark }}></div>
                     </div>
-                    <div className="">
+                    <div className="p-1" style={{width:"30%"}}>
                       <div className="d-flex justify-content-end align-items-end binvivp2">
-                        <b className="binvivp2">DATE :</b>
-                        {headerData?.EntryDate}
+                        <b className="binvivp2 w-50">DATE :</b>
+                        <span className="w-50">{headerData?.EntryDate}</span>
                       </div>
                       <div className="d-flex justify-content-end align-items-center binvivp2">
-                        <b className="binvivp2">HSN :</b>
-                        {headerData?.HSN_No}
+                        <b className="binvivp2 w-50">HSN :</b>
+                        <span className="w-50">{headerData?.HSN_No}</span>
                       </div>
                     </div>
                   </div>
