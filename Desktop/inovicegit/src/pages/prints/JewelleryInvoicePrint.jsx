@@ -793,11 +793,11 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                       </div>
                       <div className="dynamicHeadJL2D">
                         <div className="mt-1">Signature</div>
-                        <div className="fw-bold mb-2">Sample Pvt Ltd</div>
+                        <div className="fw-bold mb-2">{headerData?.customerfirmname}</div>
                       </div>
                       <div className="dynamicHeadJL3D ">
                         <div>Signature</div>
-                        <div className="fw-bold">ORAIL SERVICE</div>
+                        <div className="fw-bold">{headerData?.CompanyFullName}</div>
                       </div>
                     </div>
                   </div>

@@ -125,13 +125,11 @@ const BagPrint7A = ({ queries, headers }) => {
           
           const groupedDiaData = Dlist2?.reduce((acc, obj) => {
             const key = `${obj.Shapecode}-${obj.QualityCode}-${obj.ColorCode}`;
-            
             if (!acc[key]) {
               acc[key] = { Shapecode: obj.Shapecode, QualityCode: obj.QualityCode, ColorCode: obj.ColorCode };
             }
             return acc;
           }, {});
-          
           const DIAgrouArr = Object.values(groupedDiaData);
           const groupedCLSData = Clist2?.reduce((acc, obj) => {
             const key = `${obj.Shapecode}-${obj.QualityCode}-${obj.ColorCode}`;
@@ -141,7 +139,6 @@ const BagPrint7A = ({ queries, headers }) => {
             return acc;
           }, {});
           const CLSgrouArr = Object.values(groupedCLSData);
-
           const groupedMISCData = Mlist2?.reduce((acc, obj) => {
             const key = `${obj.Shapecode}-${obj.QualityCode}-${obj.ColorCode}`;
             if (!acc[key]) {
@@ -150,7 +147,6 @@ const BagPrint7A = ({ queries, headers }) => {
             return acc;
           }, {});
           const MISCgrouArr = Object.values(groupedMISCData);
-
           const groupedFData = Flist2?.reduce((acc, obj) => {
             const key = `${obj.Shapecode}-${obj.QualityCode}-${obj.ColorCode}`;
             if (!acc[key]) {
