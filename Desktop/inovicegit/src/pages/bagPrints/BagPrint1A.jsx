@@ -302,51 +302,18 @@ function BagPrint1A({ queries, headers }) {
                                     >
                                       <b>RM SIZE</b>
                                     </div>
-                                    <div
-                                      className="actual1Aflex"
-                                      style={{ width: "70px" }}
-                                    >
-                                      <div
-                                        className="whA1A"
-                                        style={{ width: "70px" }}
-                                      >
-                                        <b>ACTUAL</b>
+                                    <div className="d-flex justify-content-between align-items-center" style={{width:"127px"}}>
+                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"33px", paddingTop:"2px"}}>
+                                        <div style={{height:"14.5px", borderBottom:"1px solid black", borderRight:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ACTUAL</div>
+                                        <div className="w-100 d-flex fonts1A" style={{height:"16.5px"}}><div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
+                                        <div className="w-50 d-flex justify-content-center align-items-center" style={{borderRight:"1px solid black", height:"13px"}}>WT</div></div>
                                       </div>
-                                      <div
-                                        className="child1A"
-                                        style={{ width: "70px" }}
-                                      >
-                                        <p className="pcswtSet1A">
-                                          <b>PCS</b>
-                                        </p>
-                                        <p style={{ fontSize: "12px" }}>
-                                          <b>WT</b>
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div
-                                      className="actual1Aflex"
-                                      style={{
-                                        borderRight: "0px",
-                                        width: "55px",
-                                      }}
-                                    >
-                                      <div
-                                        className="whA1A"
-                                        style={{ width: "57px" }}
-                                      >
-                                        <b>ISSUE</b>
-                                      </div>
-                                      <div
-                                        className="child1A"
-                                        style={{ width: "57px" }}
-                                      >
-                                        <p className="pcswtSet1A">
-                                          <b>PCS</b>
-                                        </p>
-                                        <p style={{ fontSize: "12px" }}>
-                                          <b>WT</b>
-                                        </p>
+                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"33px"}}>
+                                        <div style={{height:"16.5px", borderBottom:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ISSUE</div>
+                                        <div className="w-100 d-flex fonts1A" style={{height:"16.5px"}}>
+                                          <div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
+                                          <div className="w-50 d-flex justify-content-center align-items-center" style={{height:"13px"}}>WT</div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -897,35 +864,20 @@ function BagPrint1A({ queries, headers }) {
                                 >
                                   <b>RM SIZE</b>
                                 </div>
-                                <div className="actual1Aflex">
-                                  <div className="whA1A">
-                                    <b>ACTUAL</b>
-                                  </div>
-                                  <div className="child1A">
-                                    <p className="pcswtSet1A">
-                                      <b>PCS</b>
-                                    </p>
-                                    <p style={{ fontSize: "12px" }}>
-                                      <b>WT</b>
-                                    </p>
-                                  </div>
-                                </div>
-                                <div
-                                  className="actual1Aflex"
-                                  style={{ borderRight: "0px" }}
-                                >
-                                  <div className="whA1A">
-                                    <b>ISSUE</b>
-                                  </div>
-                                  <div className="child1A">
-                                    <p className="pcswtSet1A">
-                                      <b>PCS</b>
-                                    </p>
-                                    <p style={{ fontSize: "12px" }}>
-                                      <b>WT</b>
-                                    </p>
-                                  </div>
-                                </div>
+                                <div className="d-flex justify-content-between align-items-center" style={{width:"127px"}}>
+                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"33px", paddingTop:"2px"}}>
+                                        <div style={{height:"14.5px", borderBottom:"1px solid black", borderRight:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ACTUAL</div>
+                                        <div className="w-100 d-flex fonts1A" style={{height:"16.5px"}}><div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
+                                        <div className="w-50 d-flex justify-content-center align-items-center" style={{borderRight:"1px solid black", height:"13px"}}>WT</div></div>
+                                      </div>
+                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"33px"}}>
+                                        <div style={{height:"16.5px", borderBottom:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ISSUE</div>
+                                        <div className="w-100 d-flex fonts1A" style={{height:"16.5px"}}>
+                                          <div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
+                                          <div className="w-50 d-flex justify-content-center align-items-center" style={{height:"13px"}}>WT</div>
+                                        </div>
+                                      </div>
+                                    </div>
                               </div>
 
                               {Array.from({ length: 15 }, (_, ai) => {

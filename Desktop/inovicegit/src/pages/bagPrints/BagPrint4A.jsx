@@ -169,11 +169,15 @@ const BagPrint4A = ({ queries, headers }) => {
           tc.ConcatedFullShapeQualityColorName = (a?.rd?.MetalType == null ? 'NA' : a?.rd?.MetalType) + " " + (a?.rd?.MetalColorCo == null ? 'NA' : a?.rd?.MetalColorCo)
           blankArr1.unshift(tc);
           blankArr1.unshift(tch);
+
+
+
           for (let i = 0; i < blankArr1?.length; i += chunkSize) {
             const chunks = blankArr1?.slice(i, i + chunkSize);
             let len = 15 - blankArr1?.slice(i, i + chunkSize)?.length;
             chunkData.push({ data: chunks, length: len });
           }
+
           responseData.push({
             data: obj.rd,
             additional: {
@@ -195,13 +199,13 @@ const BagPrint4A = ({ queries, headers }) => {
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => {
-    if (data.length !== 0) {
-      setTimeout(() => {
-        window.print();
-      }, 5000);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data.length !== 0) {
+  //     setTimeout(() => {
+  //       window.print();
+  //     }, 5000);
+  //   }
+  // }, [data]);
   // console.log(data);
   return (
     <>
@@ -224,10 +228,10 @@ const BagPrint4A = ({ queries, headers }) => {
                 index > 0 && (
                   <div
                     key={index}
-                    className="container4A"
-                    style={{ border: "0px" }}
+                    className="container4AD"
+                    style={{ border: "0px", }}
                   >
-                    <div className="print4Apart_1"></div>
+                    <div className="container4AD"></div>
                   </div>
                 )
             )}
@@ -464,12 +468,14 @@ const BagPrint4A = ({ queries, headers }) => {
                                   </div>
                                 </div>
                                 <div className="part_2_4A">
-                                  <div className="img_sec_4A">
+                                  <div className="img_sec_4A" style={{height:"118px", width:"117px"}}>
                                     <img
                                       src={e?.additional?.img}
                                       alt=""
                                       onError={(e) => handleImageError(e)}
                                       loading="eager"
+                                      height="118px"
+                                      width="117px"
                                     />
                                   </div>
                                   <div className="barcode_sticker_4A border-black border-top">
@@ -510,6 +516,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                       <BarcodeGenerator
                                         data={e?.data?.serialjobno}
                                       />
+                                      {console.log(e?.data)}
                                     </div>
                                   </div>
                                 </div>
@@ -518,7 +525,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                     CAST INS.:
                                     <span className="red_4A">
                                       {checkInstruction(e?.data?.officeuse)}
-                                      {checkInstruction(e?.data?.ProductInstruction)}
+                                      {e?.data?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.ProductInstruction) : checkInstruction(e?.data?.QuoteRemark)}
                                     </span>
                                   </div>
                                 </div>
@@ -647,6 +654,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                 onError={(e) => handleImageError(e)}
                                 loading="eager"
                                 id="img4A"
+                                height="118px"
+                                      width="117px"
                               />
                             </div>
                           </div>
@@ -673,6 +682,16 @@ const BagPrint4A = ({ queries, headers }) => {
                                 </div>
                               </div>
 
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
+                                  GRD.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
                                   FIL.
@@ -705,7 +724,7 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  CUT.
+                                  ASM.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -715,7 +734,7 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  Fin.W
+                                  FPL.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -725,7 +744,7 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  F.PoI.
+                                  ENM.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -735,7 +754,7 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  Fit.
+                                  F.G.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -744,8 +763,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
-                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  FP.
+                                <div className="lh4A dept_4A border_right4A d-flex align-items-center">
+                                  SLS. INS.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -754,8 +773,18 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
-                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-
+                                <div className="lh4A dept_4A border_right4A d-flex align-items-center">
+                                PRD. INS.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center">
+                                  QC. INS.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -773,34 +802,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
-                                <div className=" dept_4A border_right4A d-flex align-items-center">
-
-                                </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
-                              </div>
-                              <div className="part_3_container_4A_record ">
-                                <div className=" dept_4A border_right4A d-flex align-items-center">
-                                </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
-                              </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
-                                <div className=" dept_4A border_right4A d-flex align-items-center">
-                                </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
-                              </div>
+                              
 
                             </div>
                             <div className="barcode_img_container_4A">
@@ -923,7 +925,7 @@ const BagPrint4A = ({ queries, headers }) => {
                             </div>
                           </div>
                           <div className="part_2_4A">
-                            <div className="img_sec_4A">
+                            <div className="img_sec_4A" style={{height:"118px", width:"117px"}}>
                               <img
                                 src={e?.additional?.img}
                                 alt=""
@@ -975,7 +977,7 @@ const BagPrint4A = ({ queries, headers }) => {
                               CAST INS.:
                               <span className="red_4A">
                                 {checkInstruction(e?.data?.officeuse)}
-                                {checkInstruction(e?.data?.ProductInstruction)}
+                                {e?.data?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.ProductInstruction) : checkInstruction(e?.data?.QuoteRemark)}
                               </span>
                             </div>
                           </div>
@@ -1101,6 +1103,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                 onError={(e) => handleImageError(e)}
                                 loading="eager"
                                 id="img4A"
+                                height="118px"
+                                      width="117px"
                               />
                             </div>
                           </div>
@@ -1127,6 +1131,16 @@ const BagPrint4A = ({ queries, headers }) => {
                                 </div>
                               </div>
 
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
+                                  GRD.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
                                   FIL.
@@ -1159,7 +1173,7 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  CUT.
+                                  ASM.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -1169,7 +1183,7 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  Fin.W
+                                  FPL.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -1179,7 +1193,7 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  F.PoI.
+                                  ENM.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -1189,7 +1203,7 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  Fit.
+                                  FG.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -1198,8 +1212,28 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
-                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
-                                  FP.
+                                <div className="lh4A dept_4A border_right4A d-flex align-items-center">
+                                  SLS. INS.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className="lh4A dept_4A border_right4A d-flex align-items-center">
+                                PRD. INS.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className="lh4A dept_4A border_right4A d-flex align-items-center">
+                                QC. INS.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -1217,44 +1251,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
-                                <div className=" dept_4A border_right4A d-flex align-items-center">
-
-                                </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
-                              </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
-                                <div className=" dept_4A border_right4A d-flex align-items-center">
-
-                                </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
-                              </div>
-                              <div className="part_3_container_4A_record ">
-                                <div className=" dept_4A border_right4A d-flex align-items-center">
-                                </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
-                              </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
-                                <div className=" dept_4A border_right4A d-flex align-items-center">
-                                </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
-                              </div>
+                              
                             </div>
                             <div className="barcode_img_container_4A">
                               <BarcodeGenerator

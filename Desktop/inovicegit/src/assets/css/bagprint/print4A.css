@@ -23,7 +23,10 @@
     /* display: flex;
     flex-wrap: wrap; */
 }
-
+.container4AD{
+    height: 382px;
+    width: 367px;
+}
 .print4Apart_1 {
     min-width: 262pt;
     min-height: 275pt;
@@ -234,7 +237,6 @@
 
 .barcodeText4A {
     width: 60pt;
-    height: 240px;
     border-right: 1px solid black;
 }
 
@@ -412,6 +414,9 @@
 .finding {
     line-height: 150%;
     font-size: 7pt;
+}
+.lh4A{
+    line-height: 7px;
 }
 
 @media print {

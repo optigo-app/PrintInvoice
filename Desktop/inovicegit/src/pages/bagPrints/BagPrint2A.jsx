@@ -299,57 +299,20 @@ function BagPrint2A({ queries, headers }) {
                                       >
                                         <b>RM SIZE</b>
                                       </div>
-                                      <div
-                                        className="actual2Aflex"
-                                        style={{
-                                          borderRight: "1px solid black",
-                                          width: "70px",
-                                        }}
-                                      >
-                                        <div
-                                          className="whA2A"
-                                          style={{ width: "70px" }}
-                                        >
-                                          <b>ACTUAL</b>
-                                        </div>
-                                        <div
-                                          className="child2A"
-                                          style={{ width: "70px" }}
-                                        >
-                                          <p className="pcswtSet2A">
-                                            <b>PCS</b>
-                                          </p>
-                                          <p
-                                            style={{
-                                              fontSize: "12px",
-                                              paddingTop: "0px",
-                                            }}
-                                          >
-                                            <b>WT</b>
-                                          </p>
+                                    <div className="d-flex justify-content-between align-items-center" style={{width:"127px"}}>
+                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"33px", paddingTop:"3px"}}>
+                                        <div style={{height:"14.5px", borderBottom:"1px solid black", borderRight:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ACTUAL</div>
+                                        <div className="w-100 d-flex fonts2A" style={{height:"16.5px"}}><div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
+                                        <div className="w-50 d-flex justify-content-center align-items-center" style={{borderRight:"1px solid black", height:"13px"}}>WT</div></div>
+                                      </div>
+                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"33px", paddingTop:"1px"}}>
+                                        <div style={{height:"16.5px", borderBottom:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ISSUE</div>
+                                        <div className="w-100 d-flex fonts2A" style={{height:"16.5px"}}>
+                                          <div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
+                                          <div className="w-50 d-flex justify-content-center align-items-center" style={{height:"13px"}}>WT</div>
                                         </div>
                                       </div>
-                                      <div
-                                        className="actual2Aflex"
-                                        style={{ borderRight: "0px" }}
-                                      >
-                                        <div className="whA2A">
-                                          <b>ISSUE</b>
-                                        </div>
-                                        <div className="child2A">
-                                          <p className="pcswtSet2A">
-                                            <b>PCS</b>
-                                          </p>
-                                          <p
-                                            style={{
-                                              fontSize: "12px",
-                                              paddingTop: "0px",
-                                            }}
-                                          >
-                                            <b>WT</b>
-                                          </p>
-                                        </div>
-                                      </div>
+                                    </div>
                                     </div>
 
                                     {ele?.data?.map((e, ai) => {
@@ -744,32 +707,32 @@ function BagPrint2A({ queries, headers }) {
 
                               <div className="print2AMaterial">
                                 <div className="print2AMaterialCG">
-                                  <div className="g2A">CUST.</div>
-                                  <div className="custHead2A">
+                                  <div className="g2A"  style={{width:"36px"}}>CUST.</div>
+                                  <div className="custHead2A" style={{width:"53px"}}>
                                     {e?.data?.rd?.CustomerCode}
                                   </div>
-                                  <div className="custCode2A">
+                                  <div className="custCode2A" style={{width:"53px"}}>
                                     <b>GOLD</b>
                                   </div>
-                                  <div className="cst2A">
+                                  <div className="cst2A" style={{width:"63px"}}>
                                     <b>DIA</b>
                                   </div>
                                   <div
                                     className="cst2A"
-                                    style={{ borderRight: "0px" }}
+                                    style={{ borderRight: "0px", width:"63px" }}
                                   >
                                     <b>CST</b>
                                   </div>
                                 </div>
                                 <div className="print2AMaterialCG">
-                                  <div className="g2A">SIZE</div>
-                                  <div className="custHead2A">
+                                  <div className="g2A" style={{width:"36px"}}>SIZE</div>
+                                  <div className="custHead2A" style={{width:"53px"}}>
                                     {e?.data?.rd?.Size}
                                   </div>
-                                  <div className="custCode2A">
+                                  <div className="custCode2A" style={{width:"53px"}}>
                                     {e?.data?.rd?.MetalWeight?.toFixed(3)}
                                   </div>
-                                  <div className="cst2A">
+                                  <div className="cst2A" style={{width:"63px"}}>
                                     {e?.additional?.dia?.ActualPcs}/
                                     {e?.additional?.dia?.ActualWeight?.toFixed(
                                       3
@@ -777,7 +740,7 @@ function BagPrint2A({ queries, headers }) {
                                   </div>
                                   <div
                                     className="cst2A"
-                                    style={{ borderRight: "0px" }}
+                                    style={{ borderRight: "0px", width:"63px" }}
                                   >
                                     {e?.additional?.clr?.ActualPcs}/
                                     {e?.additional?.clr?.ActualWeight?.toFixed(
@@ -847,37 +810,21 @@ function BagPrint2A({ queries, headers }) {
                                 >
                                   <b>RM SIZE</b>
                                 </div>
-                                <div className="actual2Aflex">
-                                  <div className="whA2A">ACTUAL</div>
-                                  <div className="child2A">
-                                    <p className="pcswtSet2A">PCS</p>
-                                    <p
-                                      style={{
-                                        fontSize: "12px",
-                                        paddingTop: "0px",
-                                      }}
-                                    >
-                                      WT
-                                    </p>
-                                  </div>
-                                </div>
-                                <div
-                                  className="actual2Aflex"
-                                  style={{ borderRight: "0px" }}
-                                >
-                                  <div className="whA2A">ISSUE</div>
-                                  <div className="child2A">
-                                    <p className="pcswtSet2A">PCS</p>
-                                    <p
-                                      style={{
-                                        fontSize: "12px",
-                                        paddingTop: "0px",
-                                      }}
-                                    >
-                                      WT
-                                    </p>
-                                  </div>
-                                </div>
+                                <div className="d-flex justify-content-between align-items-center" style={{width:"127px"}}>
+                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"33px", paddingTop:"3px"}}>
+                                        <div style={{height:"14.5px", borderBottom:"1px solid black", borderRight:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ACTUAL</div>
+                                        <div className="w-100 d-flex fonts2A" style={{height:"16.5px"}}><div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
+                                        <div className="w-50 d-flex justify-content-center align-items-center" style={{borderRight:"1px solid black", height:"13px"}}>WT</div></div>
+                                      </div>
+                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"33px", paddingTop:"1px"}}>
+                                        <div style={{height:"16.5px", borderBottom:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ISSUE</div>
+                                        <div className="w-100 d-flex fonts2A" style={{height:"16.5px"}}>
+                                          <div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
+                                          <div className="w-50 d-flex justify-content-center align-items-center" style={{height:"13px"}}>WT</div>
+                                        </div>
+                                      </div>
+                                    </div>
+
                               </div>
                               {Array.from({ length: 15 }, (_,iad) => {
                                 return (
