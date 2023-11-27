@@ -229,7 +229,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   <div className="job6Ahww text-secondary">
                                     TR NO.
                                   </div>
-                                  <div className="job6Ahww borderRight6A">
+                                  <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
                                     {e?.data?.rd?.OrderNo}
                                   </div>
                                 </div>
@@ -243,7 +243,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   <div className="job6Ahww">
                                     {e?.data?.rd?.CustomerCode}
                                   </div>
-                                  <div className="job6Ahww borderRight6A">
+                                  <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
                                     {e?.data.rd?.PO}
                                   </div>
                                 </div>
@@ -251,7 +251,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                   <div className="job6Ahww">CS WT/PC</div>
                                   <div className="job6Ahww">DIA WT/PC</div>
                                   <div className="job6Ahww">Nt Wt/Gr Wt</div>
-                                  <div className="job6Ahww borderRight6A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
+                                  <div className="job6Ahww borderRight6A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`, width:"50.5px"}} >
                                     {e?.data?.rd?.prioritycode}
                                   </div>
                                 </div>
@@ -275,7 +275,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                     {e?.data?.rd?.MetalWeight?.toFixed(3)}/
                                     {e?.data?.rd?.ActualGrossweight?.toFixed(3)}
                                   </div>
-                                  <div className="job6Ahww borderRight6A">
+                                  <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
                                     {e?.data?.rd?.promiseDatef ?? ""}
                                   </div>
                                 </div>
@@ -354,7 +354,7 @@ const BagPrint6A = ({ queries, headers }) => {
                             <div className="job6Afooter">
                               <div
                                 className="job6AfooterDesc"
-                                style={{ borderTop: "0px" }}
+                                style={{ borderTop: "0px", height:"81px" }}
                               >
                                 <div className="cust6A">
                                   <p className="f6A">
@@ -412,7 +412,7 @@ const BagPrint6A = ({ queries, headers }) => {
                               <div className="job6Ahww">TR NO.</div>
                               <div className="job6Ahww">TR NO.</div>
                               <div className="job6Ahww">TR NO.</div>
-                              <div className="job6Ahww borderRight6A">
+                              <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
                                 {e?.data?.rd?.OrderNo}
                               </div>
                             </div>
@@ -426,7 +426,7 @@ const BagPrint6A = ({ queries, headers }) => {
                               <div className="job6Ahww">
                                 {e?.data?.rd?.CustomerCode}
                               </div>
-                              <div className="job6Ahww borderRight6A">
+                              <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
                                 {e?.data.rd?.PO}
                               </div>
                             </div>
@@ -434,7 +434,7 @@ const BagPrint6A = ({ queries, headers }) => {
                               <div className="job6Ahww">CS WT/PC</div>
                               <div className="job6Ahww">DIA WT/PC</div>
                               <div className="job6Ahww">Nt Wt/Gr Wt</div>
-                              <div className="job6Ahww borderRight6A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`}}>
+                              <div className="job6Ahww borderRight6A" style={{backgroundColor:`${e?.data?.rd?.prioritycolorcode}`, width:"50.5px"}}>
                                 {e?.data?.rd?.prioritycode}
                               </div>
                             </div>
@@ -454,7 +454,7 @@ const BagPrint6A = ({ queries, headers }) => {
                                 {e?.data?.rd?.ActualGrossweight?.toFixed(3)}/
                                 {e?.data?.rd?.MetalWeight?.toFixed(3)}
                               </div>
-                              <div className="job6Ahww borderRight6A">
+                              <div className="job6Ahww borderRight6A" style={{width:"50.5px"}}>
                                 {e?.data?.rd?.promiseDatef ?? ""}
                               </div>
                             </div>
@@ -524,7 +524,7 @@ const BagPrint6A = ({ queries, headers }) => {
                         <div className="job6Afooter">
                           <div
                             className="job6AfooterDesc"
-                            style={{ borderTop: "0px" }}
+                            style={{ borderTop: "0px", height:"81px" }}
                           >
                             <div className="cust6A">
                               <p className="f6A " style={{fontSize:"11px"}}>
