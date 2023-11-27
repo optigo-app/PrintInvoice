@@ -6,8 +6,8 @@
 } */
 
 .container7A {
-    height: 530px;
-    width: 356px;
+    height: 525px;
+    width: 351px;
     border: 2px solid black;
     border-radius: 8px;
     margin-left: 1.7rem;
@@ -19,7 +19,7 @@
 
 .head7A {
     display: flex;
-    height: 127px;
+    height: 140px;
 }
 
 
@@ -32,23 +32,23 @@
 .head7AjobInfo {
     display: flex;
     flex-direction: column;
-    width: 270px;
+    width: 249px;
     border-right: 1px solid #989898;
     justify-content: space-between;
-    height: 127px;
+    height: 140px;
 }
 
 .head7AjobInfoJobNO {
     display: flex;
     justify-content: space-between;
     padding: 4px;
-    height: 17px;
+    height: 20px;
 }
 
 .party7A {
     display: flex;
     justify-content: space-between;
-    height: 15px;
+    height: 18.2px;
     padding-left: 1px;
     padding-right: 1px;
 }
@@ -78,7 +78,7 @@
 .net7A {
     border-right: 1px solid #989898;
     border-bottom: 1px solid #989898;
-    width: 67.5px;
+    width:  62.5px;
     height: 16px;
     display: flex;
     /* padding-left: 4px; */
@@ -93,10 +93,11 @@
 }
 
 #img7A {
-    height: 105px !important;
+    height: 120px;
     object-fit: cover;
-    width: 80px !important;
+    width: 96px;
     border-bottom: 1px solid #989898;
+
 }
 
 .borderBottom7A {
@@ -104,13 +105,13 @@
 }
 
 .imgSize7A {
-    width: 82px;
+    width: 96px;
 }
 
 .main7A {
     display: flex;
     max-height: 400px;
-    width: 352px;
+    width: 347px;
     margin-top: 0px;
     /* height: 320px;
     width: 352px;
@@ -120,10 +121,10 @@
 .main7AEntry {
     display: flex;
     flex-direction: column;
-    width: 243px;
+    width: 244px;
 }
 .main7AEntry2{
-    width: 110px;
+    width: 104px;
     height: 100%;
     border-left: 1px solid #989898;
 }
@@ -263,7 +264,7 @@
     align-items: center;
     border-right: 1px solid #989898;
     width: 37px;
-    height: 16px;
+    height: 17px;
     border-bottom: 1px solid #989898;
     line-height: 10px;
 }
