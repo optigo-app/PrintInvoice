@@ -61,7 +61,9 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
     data?.BillPrint_Json1.forEach((e, i) => {
       let elementsArr = [];
       let obj = { ...e };
-      obj.metalRateGold = e?.MetalAmount;
+      // obj.metalRateGold = e?.MetalAmount;
+      obj.metalRateGold = 0;
+      obj.metalRateAmount = 0;
       obj.alloy = 0;
       obj.totalGold = 0;
       obj.metalNetWeightWithLossWt = e?.NetWt + e?.LossWt;
@@ -132,6 +134,8 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
             obj.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
             totals.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
             // obj.metalRateGold += (ele?.Rate / data.BillPrint_Json[0]?.CurrencyExchRate);
+            obj.metalRateGold += ele?.Rate;
+            obj.metalRateAmount += ele?.Amount;
             fineWt = ele?.FineWt
           }
         }
@@ -178,8 +182,12 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
         newArr[findRecord].NetWt += obj?.NetWt;
         newArr[findRecord].LossPer += obj?.LossPer;
         newArr[findRecord].PureNetWt += obj?.PureNetWt;
+        if(newArr[findRecord].metalRateGold !== obj?.metalRateGold){
+          let amountValue = (newArr[findRecord].metalRateAmount + obj?.metalRateAmount)/data.BillPrint_Json[0]?.CurrencyExchRate;
+          newArr[findRecord].metalRateGold = amountValue/newArr[findRecord].NetWt;
+        }
         // newArr[findRecord].metalRateGold += obj?.metalRateGold;
-        newArr[findRecord].metalRateGold = (newArr[findRecord].metalRateGold+obj?.metalRateGold)/(newArr[findRecord].NetWt*data.BillPrint_Json[0]?.CurrencyExchRate);
+        // newArr[findRecord].metalRateGold = (newArr[findRecord].metalRateGold+obj?.metalRateGold)/(newArr[findRecord].NetWt*data.BillPrint_Json[0]?.CurrencyExchRate);
         newArr[findRecord].alloy += obj?.alloy;
         newArr[findRecord].totalGold += obj?.totalGold;
         newArr[findRecord].OtherCharges += obj?.OtherCharges;

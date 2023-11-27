@@ -39,7 +39,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [metalList, setMetalList] = useState([]);
 
   const loadData = (data) => {
-    console.log(data);
+    // console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
@@ -51,7 +51,8 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
       let elementsArr = [];
       let obj = { ...e };
       obj.metalRateGold = 0;
-      obj.metalRateGold = (e?.MetalAmount);
+      obj.metalRateAmount = 0;
+      // obj.metalRateGold = (e?.MetalAmount);
       // obj.metalRateGold += (ele?.Rate / data.BillPrint_Json[0]?.CurrencyExchRate);
       obj.metalNetWeightWithLossWt = e?.NetWt+e?.LossWt;
       obj.alloy = 0;
@@ -124,6 +125,8 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             obj.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
             totals.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
             // obj.metalRateGold += (ele?.Rate / data.BillPrint_Json[0]?.CurrencyExchRate);
+            obj.metalRateGold += ele?.Rate;
+            obj.metalRateAmount += ele?.Amount;
             fineWt = ele?.FineWt
           }
         }
@@ -171,7 +174,14 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
         newArr[findRecord].metalNetWeightWithLossWt += obj?.metalNetWeightWithLossWt;
         newArr[findRecord].LossPer += obj?.LossPer;
         newArr[findRecord].PureNetWt += obj?.PureNetWt;
-        newArr[findRecord].metalRateGold = (newArr[findRecord].metalRateGold+obj?.metalRateGold)/(newArr[findRecord].NetWt*data.BillPrint_Json[0]?.CurrencyExchRate);
+        if(newArr[findRecord].metalRateGold !== obj?.metalRateGold){
+          let amountValue = (newArr[findRecord].metalRateAmount + obj?.metalRateAmount)/data.BillPrint_Json[0]?.CurrencyExchRate;
+          newArr[findRecord].metalRateGold = amountValue/newArr[findRecord].NetWt;
+        }
+        // newArr[findRecord].metalRateGold = (newArr[findRecord].metalRateGold+obj?.metalRateGold)/(obj.NetWt*data.BillPrint_Json[0]?.CurrencyExchRate);
+
+        // (obj.NetWt*data.BillPrint_Json[0]?.CurrencyExchRate)
+        // newArr[findRecord].metalRateGold = (newArr[findRecord].metalRateGold+obj?.metalRateGold)/2;
         newArr[findRecord].alloy += obj?.alloy;
         newArr[findRecord].totalGold += obj?.totalGold;
         newArr[findRecord].OtherCharges += obj?.OtherCharges;
