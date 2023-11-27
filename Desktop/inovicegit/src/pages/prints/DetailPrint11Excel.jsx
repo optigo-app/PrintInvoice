@@ -50,7 +50,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
   const [bankDetail, setBankDetail] = useState([]);
 
   const loadData = (data) => {
-    console.log(data);
+    // console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
@@ -273,7 +273,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
           diamondSize: obj?.materials[ind] ? (obj?.materials[ind]?.GroupName === "" ? obj?.materials[ind]?.SizeName : obj?.materials[ind]?.MasterManagement_DiamondStoneTypeid === 2 ? obj?.materials[ind]?.SizeName : obj?.materials[ind]?.GroupName) : "",
           diamondPcs: obj?.materials[ind] ? obj?.materials[ind]?.Pcs : "",
           diamondWt: obj?.materials[ind] ? obj?.materials[ind]?.Wt : "",
-          diamondRate: obj?.materials[ind] ? obj?.materials[ind]?.Rate : "",
+          diamondRate: obj?.materials[ind] ? NumberWithCommas(obj?.materials[ind]?.Rate, 2) : "",
           diamondAmount: obj?.materials[ind] ? obj?.materials[ind]?.Amount : "",
           diamondSettingType: obj?.materials[ind] ? obj?.materials[ind]?.SettingName : "",
           diamondSettingRate: obj?.materials[ind] ? NumberWithCommas(obj?.materials[ind]?.SettingRate, 2) : "",
@@ -344,11 +344,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
     metalsArr.forEach((e, i)=>{
       goldArr.unshift({label: e?.label, value: `${fixedValues(e?.value, 3)} gm`})
     })
-    console.log(metalsArr);
-    console.log(goldArr);
     // golds?.gold14k && goldArr.unshift({ label: "GOLD 14K: ", value: `${fixedValues(summaries?.gold14k, 3)} gm` });
-
-
     let totalArr = [];
     totalArr.push({ label: "Total", value: NumberWithCommas(totals?.totalJewelleryAmount, 2) });
     taxValue.forEach((e, i) => {

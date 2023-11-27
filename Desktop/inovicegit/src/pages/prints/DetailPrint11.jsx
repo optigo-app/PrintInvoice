@@ -39,7 +39,6 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [metalList, setMetalList] = useState([]);
 
   const loadData = (data) => {
-    console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
@@ -67,12 +66,14 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           obj.puregoldWeightWithLoss += ele?.FineWt;
           if (ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2) {
             totalCol.pcs += ele?.Pcs;
-            let obj = { ...ele };
-            obj.Amount = ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate;
-            obj.SettingAmount = ele?.SettingAmount / data?.BillPrint_Json[0]?.CurrencyExchRate;
-            let findIndex = elementsArr.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname && elem?.SizeName === ele?.SizeName);
+            let objects = { ...ele };
+            objects.Amount = ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate;
+            objects.SettingAmount = ele?.SettingAmount / data?.BillPrint_Json[0]?.CurrencyExchRate;
+            let findIndex = elementsArr.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && 
+            elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname && 
+            elem?.SizeName === ele?.SizeName && elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
             if (findIndex === -1) {
-              elementsArr.push(obj);
+              elementsArr.push(objects);
             } else {
               elementsArr[findIndex].Rate = ((elementsArr[findIndex].Amount / elementsArr[findIndex].Wt) + (ele.Amount / ele.Wt)) / 2
               elementsArr[findIndex].Wt += ele?.Wt;
@@ -164,9 +165,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
         }
         newArr[findRecord].grosswt += obj?.grosswt;
         newArr[findRecord].NetWt += obj?.NetWt;
-
         newArr[findRecord].metalNetWeightWithLossWt += obj?.metalNetWeightWithLossWt;
-
         newArr[findRecord].LossPer += obj?.LossPer;
         newArr[findRecord].PureNetWt += obj?.PureNetWt;
         newArr[findRecord].metalRateGold += obj?.metalRateGold;
@@ -175,12 +174,10 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
         newArr[findRecord].OtherCharges += obj?.OtherCharges;
         newArr[findRecord].MakingAmount += obj?.MakingAmount;
         newArr[findRecord].TotalAmount += obj?.TotalAmount;
-
         newArr[findRecord].totalCol.pcs += obj.totalCol.pcs;
         newArr[findRecord].totalCol.diaWt += obj.totalCol.diaWt;
         newArr[findRecord].totalCol.diaAmount += obj.totalCol.diaAmount;
         newArr[findRecord].totalCol.settingAmount += obj.totalCol.settingAmount;
-
         let materialArr = [newArr[findRecord].materials, e.materials];
         let materials = [];
         materialArr.forEach((element, indexs) => {
@@ -188,23 +185,18 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             let findRecords = materials.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
               elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate &&
               elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
-              // newArr[findRecord].totalCol.pcs += ele?.Pcs;
-              // newArr[findRecord].totalCol.diaWt += ele?.Wt;
-              // newArr[findRecord].totalCol.diaAmount += ele?.Amount;
-              // newArr[findRecord].totalCol.settingAmount += ele?.SettingAmount;
+
             if (findRecords === -1) {
               materials.push(ele);
             } else {
-              console.log(ele?.Pcs, ele?.Wt, ele?.Amount, ele?.SettingRate, ele?.SettingAmount);
-              materials[findRecords].Pcs = ele?.Pcs;
-              materials[findRecords].Wt = ele?.Wt;
-              materials[findRecords].Amount = ele?.Amount;
+              materials[findRecords].Pcs += ele?.Pcs;
+              materials[findRecords].Wt += ele?.Wt;
+              materials[findRecords].Amount += ele?.Amount;
               materials[findRecords].SettingRate = ele?.SettingRate;
-              materials[findRecords].SettingAmount = ele?.SettingAmount;
+              materials[findRecords].SettingAmount += ele?.SettingAmount;
             }
           });
         });
-        console.log(materials);
         newArr[findRecord].materials = materials;
       }
     });
@@ -338,7 +330,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
         {/* data */}
         {json1Data.length > 0 && json1Data.map((e, i) => {
           return <div className="d-flex w-100 border-bottom border-start border-end border-2 no_break overflow-hidden" key={i}>
-            <div className="srNoDetailPrint11 border-end p-1 d-flex align-items-center justify-content-center"><p>{e?.SrNo}</p></div>
+            <div className="srNoDetailPrint11 border-end p-1 d-flex align-items-center justify-content-center"><p>{i+1}</p></div>
             <div className="designDetailPrint11 border-end">
               <div className="d-flex justify-content-between p-1">
                 <div><p>{e?.designno}</p></div>
@@ -492,7 +484,6 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           </div>
           <div className="col-2 border-end">
           {metalList.length > 0 && metalList.map((e, i) => {
-            console.log(e);
             return <div className="d-flex w-100 justify-content-between p-1" key={i}>
             <div><p>{e?.label}</p></div>
             <div><p>{fixedValues(e?.value, 3)} gm</p></div>
