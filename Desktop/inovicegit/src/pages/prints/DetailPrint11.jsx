@@ -39,6 +39,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [metalList, setMetalList] = useState([]);
 
   const loadData = (data) => {
+    console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
