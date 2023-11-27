@@ -369,8 +369,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                                 </div>
                                                 <div className="pcs4A border_right4A code4A_text fw-bold">{elem?.ActualPcs}</div>
                                                 <div className="wt4A border_right4A code4A_text fw-bold">{elem?.ActualWeight?.toFixed(3)}</div>
-                                                <div className="pcs4A border_right4A code4A_text"></div>
-                                                <div className="wt4A border_right4A code4A_text"></div>
+                                                <div className="pcs4A border_right4A code4A_text">{elem?.IssuePcs === 0 ? '' : elem?.IssuePcs}</div>
+                                                <div className="wt4A border_right4A code4A_text">{elem?.IssueWeight === 0 ? '' : elem?.IssueWeight?.toFixed(3)}</div>
                                                   </div> : <div
                                                         className="record_line_4A border_bottom4A"
                                                   >
@@ -388,8 +388,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                                 </div>
                                                 <div className="pcs4A border_right4A code4A_text">{elem?.ActualPcs}</div>
                                                 <div className="wt4A border_right4A code4A_text">{elem?.ActualWeight?.toFixed(3)}</div>
-                                                <div className="pcs4A border_right4A code4A_text"></div>
-                                                    <div className="wt4A border_right4A code4A_text"></div>
+                                                <div className="pcs4A border_right4A code4A_text">{elem?.IssuePcs === 0 ? '' : elem?.IssuePcs}</div>
+                                                    <div className="wt4A border_right4A code4A_text">{elem?.IssueWeight === 0 ? '' : elem?.IssueWeight?.toFixed(3)}</div>
                                                     </div>
                                                       }
                                                    </>
@@ -422,8 +422,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                                   </div>
                                                   <div className="pcs4A border_right4A code4A_text fw-bold">{elem?.ActualPcs}</div>
                                                   <div className="wt4A border_right4A code4A_text fw-bold">{elem?.ActualWeight?.toFixed(3)}</div>
-                                                  <div className="pcs4A border_right4A code4A_text"></div>
-                                                  <div className="wt4A border_right4A code4A_text"></div>
+                                                  <div className="pcs4A border_right4A code4A_text">{elem?.IssuePcs === 0 ? '' : elem?.IssuePcs}</div>
+                                                  <div className="wt4A border_right4A code4A_text">{elem?.IssueWeight === 0 ? '' : elem?.IssueWeight?.toFixed(3)}</div>
                                                 </div> : <div
                                                   className="record_line_4A border_bottom4A"
                                                   >
@@ -437,8 +437,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                                   </div>
                                                   <div className="pcs4A border_right4A code4A_text">{elem?.ActualPcs}</div>
                                                   <div className="wt4A border_right4A code4A_text">{elem?.ActualWeight?.toFixed(3)}</div>
-                                                  <div className="pcs4A border_right4A code4A_text"></div>
-                                                  <div className="wt4A border_right4A code4A_text"></div>
+                                                  <div className="pcs4A border_right4A code4A_text">{elem?.IssuePcs === 0 ? '' : elem?.IssuePcs}</div>
+                                                  <div className="wt4A border_right4A code4A_text">{elem?.IssueWeight === 0 ? '' : elem?.IssueWeight?.toFixed(3)}</div>
                                                 </div>
                                                 }
                                               </React.Fragment>
