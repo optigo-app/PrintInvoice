@@ -182,6 +182,10 @@ blockquote div{
 min-width: max-content;
 }
 
+.min_height_label{
+  min-height: 30px
+}
+
 @media print {
   .hide-on-print {
     display: none;

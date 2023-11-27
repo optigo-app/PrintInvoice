@@ -19,6 +19,10 @@
     line-height: 110%;
 }
 
+.min_height_44_retail_print_1{
+    min-height: 44px;
+}
+
 /* .srNoRetailPrint {
     width: 40px;
     min-width: 40px;

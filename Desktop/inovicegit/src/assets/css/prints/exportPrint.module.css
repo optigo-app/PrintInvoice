@@ -10,6 +10,11 @@
     grid-gap: 2%;
 }
 
+.div_img_cont{
+    width: 172px;
+    min-width: 192px;
+}
+
 @media print{
     .print_sec_sum4 {
         display: none !important;

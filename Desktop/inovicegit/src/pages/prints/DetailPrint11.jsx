@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/detailPrint11.css";
-import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint,  isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
 const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
@@ -36,13 +36,17 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
     grossWt: 0,
   });
 
+  const [metalList, setMetalList] = useState([]);
+
   const loadData = (data) => {
+    console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
     let resultAr = [];
     let totals = { ...total };
     let summaries = { ...summary };
     let fineWt = 0;
+    let goldsArr = [];
     data?.BillPrint_Json1.forEach((e, i) => {
       let elementsArr = [];
       let obj = { ...e };
@@ -101,17 +105,20 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
             if (ele?.QualityName === "18K") {
-              golds.gold18k = true;
+              golds.gold18k = true
+              summaries.gold18k += ele?.Wt;
             } else if (ele?.QualityName === "14K") {
-              golds.gold14k = true;
+              golds.gold14k = true
+              summaries.gold14k += ele?.Wt;
+            }
+            let findRecord = goldsArr.findIndex((elem, index)=>elem?.label === ele?.ShapeName+" "+ele?.QualityName);
+            if(findRecord === -1){
+              goldsArr.push({label: ele?.ShapeName+" "+ele?.QualityName, value: ele?.Wt});
+            }else{
+              goldsArr[findRecord].value += ele?.Wt;
             }
             obj.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
             totals.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
-            if (ele?.QualityName === "14K") {
-              summaries.gold14k += ele?.Wt;
-            } else if (ele?.QualityName === "18K") {
-              summaries.gold18k += ele?.Wt;
-            }
             obj.metalRateGold += (ele?.Rate / data.BillPrint_Json[0]?.CurrencyExchRate);
             fineWt = ele?.FineWt
           }
@@ -139,7 +146,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
     // setJson1Data(resultAr);
     setLoader(false);
     setGold(golds);
-
+    setMetalList(goldsArr);
     let newArr = [];
     resultAr.forEach((e, i) => {
       let obj = { ...e };
@@ -188,6 +195,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             if (findRecords === -1) {
               materials.push(ele);
             } else {
+              console.log(ele?.Pcs, ele?.Wt, ele?.Amount, ele?.SettingRate, ele?.SettingAmount);
               materials[findRecords].Pcs = ele?.Pcs;
               materials[findRecords].Wt = ele?.Wt;
               materials[findRecords].Amount = ele?.Amount;
@@ -196,6 +204,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             }
           });
         });
+        console.log(materials);
         newArr[findRecord].materials = materials;
       }
     });
@@ -269,7 +278,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             <p>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}</p>
           </div>
           <div className='px-1 py-2'>
-            <img src={json0Data?.PrintLogo} alt="" className='w-25 h-auto ms-auto d-block' />
+            <img src={json0Data?.PrintLogo} alt="" className='w-25 h-auto ms-auto d-block'/>
           </div>
         </div>
         {/* address */}
@@ -283,11 +292,10 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             <p> {json0Data?.customercity}, {json0Data?.State}-{json0Data?.PinCode}</p>
             <p> Tel: {json0Data?.customermobileno}</p>
             <p> {json0Data?.customeremail1}</p>
-
           </div>
           <div className="w-50 text-end">
             <p>invoice#:{json0Data?.InvoiceNo}</p>
-            <p>GSTIN: {json0Data?.Cust_VAT_GST_No !== "" && (`${json0Data?.Cust_VAT_GST_No} | `)}  {json0Data?.Cust_CST_STATE_No_} </p>
+            <p>GSTIN: {json0Data?.Cust_VAT_GST_No !== "" && (`${json0Data?.Cust_VAT_GST_No} | `)}  {json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No} </p>
             <p>Terms: {json0Data?.DueDays} Days</p>
             <p>Due Date: {json0Data?.DueDate}</p>
           </div>
@@ -483,14 +491,21 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           <div className="col-2 border-end">
           </div>
           <div className="col-2 border-end">
-            {gold.gold14k && <div className="d-flex w-100 justify-content-between p-1">
+          {metalList.length > 0 && metalList.map((e, i) => {
+            console.log(e);
+            return <div className="d-flex w-100 justify-content-between p-1" key={i}>
+            <div><p>{e?.label}</p></div>
+            <div><p>{fixedValues(e?.value, 3)} gm</p></div>
+          </div>
+          })}
+            {/* {gold.gold14k && <div className="d-flex w-100 justify-content-between p-1">
               <div><p>GOLD 14K :</p></div>
               <div><p>{fixedValues(summary?.gold14k, 3)} gm</p></div>
             </div>}
             {gold.gold18k && <div className="d-flex w-100 justify-content-between p-1">
               <div><p>GOLD 18K: </p></div>
               <div><p>{fixedValues(summary?.gold18k, 3)} gm</p></div>
-            </div>}
+            </div>} */}
             <div className="d-flex w-100 justify-content-between p-1">
               <div><p>Diamond Wt:</p></div>
               <div><p>{fixedValues(summary?.diamondWt, 3)} cts</p></div>

@@ -1,6 +1,6 @@
-import React, { useEffect,  useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/invoiceprint3.css";
-import { apiCall,  isObjectEmpty, numberToWord, NumberWithCommas } from "../../GlobalFunctions";
+import { apiCall, isObjectEmpty, numberToWord, NumberWithCommas } from "../../GlobalFunctions";
 import { taxGenrator } from "./../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import Button from "../../GlobalFunctions/Button";
@@ -304,9 +304,36 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
     };
     let LOM = [];
     // LOM.push(obj3, obj2, obj1);
-    LOM.push( obj2, obj1);
+    LOM.push(obj2, obj1);
     setLOM(LOM);
     setGroupedArrAmountTotal(groupedAmtTotal);
+
+    console.log(arr);
+
+    // arr.sort((a, b) => {
+    //   if (a.MasterManagement_DiamondStoneTypeid !== b.MasterManagement_DiamondStoneTypeid) {
+    //     return b.MasterManagement_DiamondStoneTypeid - a.MasterManagement_DiamondStoneTypeid;
+    //   } else {
+    //     return a.QualityName.localeCompare(b.QualityName);  // If names are the same, sort by age
+    //   }
+    // });
+
+    arr.sort((a, b) => {
+      if (a.MasterManagement_DiamondStoneTypeid === 4 && b.MasterManagement_DiamondStoneTypeid !== 4) {
+        return -1; // a comes before b if a is 'Gold' and b is not
+      } else if (b.MasterManagement_DiamondStoneTypeid === 4 && a.MasterManagement_DiamondStoneTypeid !== 4) {
+        return 1; // b comes before a if b is 'Gold' and a is not
+      }else {
+        if(a.MasterManagement_DiamondStoneTypeid === 1 && b.MasterManagement_DiamondStoneTypeid !== 1){
+          return -1;
+        }else if(b.MasterManagement_DiamondStoneTypeid === 1 && a.MasterManagement_DiamondStoneTypeid !== 1){
+          return 1;
+        }else{
+          return a.MasterManagement_DiamondStoneTypeName.localeCompare(b.MasterManagement_DiamondStoneTypeName); // Sort by name if metalType is not 'Gold'
+        }
+      }
+    });
+
     setGroupedArr(arr);
 
     setMainTotal(mainTotal);
@@ -396,7 +423,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     };
     sendData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
@@ -444,16 +471,16 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div>
                     <div className="winvp3 text-end">
-                      <p className="fw-bold fsinvp3 text-end">
-                        {headerData?.vat_cst_pan?.split("|")?.[0]}
+                      <p className=" fsinvp3 text-end">
+                        <span className="fw-bold">GStTIN:</span> {headerData?.vat_cst_pan?.split("|")?.[0]}
                       </p>
                     </div>
-                    <p className="fw-bold fsinvp3 text-end">
-                      {headerData?.vat_cst_pan?.split("|")?.[1]}
+                    <p className="fsinvp3 text-end">
+                    <span className="fw-bold">PAN:</span> {headerData?.vat_cst_pan?.split("|")?.[1]}
                     </p>
                     <div className="text-end winvp3">
-                      <p className="fw-bold fsinvp3">
-                        {headerData?.Cust_CST_STATE}   {headerData?.Cust_CST_STATE_No}
+                      <p className="fsinvp3">
+                      <span className="fw-bold">{headerData?.Cust_CST_STATE}</span> {headerData?.Cust_CST_STATE_No}
                       </p>
                     </div>
                   </div>
@@ -466,9 +493,9 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                   }}
                 >
                   <div className="w-50 d-flex flex-column justify-content-between position-relative d-flex">
-                    <div className="w-100">
+                    <div className="w-100 h-100 position-relative">
                       <div className="discHeadinvp3">DESCRIPTION</div>
-                      <div className="w-100">{descArr}</div>
+                      <div className="w-100 descriptioninovicePrint3">{descArr}</div>
                     </div>
                     <div className="empdivinvp3"></div>
                   </div>
@@ -483,25 +510,25 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       >
                         DETAIL
                       </p>
-                      <p className="wp3invp3 fsinvp3">WEIGHT</p>
-                      <p className="wp3invp3 fsinvp3">RATE</p>
-                      <p className="wp3invp3 fsinvp3">AMOUNT</p>
+                      <p className="wp3invp3 fsinvp3 text-end">WEIGHT</p>
+                      <p className="wp3invp3 fsinvp3 text-end">RATE</p>
+                      <p className="wp3invp3 fsinvp3 text-end">AMOUNT</p>
                     </div>
                     <div className="tablebodyinvp3">
                       {
                         groupedArr?.map((e, i) => {
                           return (
-                            <div className="tbodyinvp3" key={i}>
+                            <div className={`tbodyinvp3 pb-2 ${i === 0 && `pt-2`}`} key={i}>
                               <p className="wp1tbinvp3 fsinvp3">
                                 {e?.MasterManagement_DiamondStoneTypeid === 4
                                   ? e?.ShapeName + " " + e?.QualityName
                                   : e?.MasterManagement_DiamondStoneTypeName}
                               </p>
-                              <p className="wp3tbinvp3 fsinvp3">
+                              <p className="wp3tbinvp3 fsinvp3 text-end">
                                 {e?.Wt?.toFixed(3)}
                               </p>
-                              <p className="wp3tbinvp3 fsinvp3">{NumberWithCommas(e?.Rate, 2)}</p>
-                              <p className="wp3tbinvp3 fsinvp3">
+                              <p className="wp3tbinvp3 fsinvp3 text-end">{NumberWithCommas(e?.Rate, 2)}</p>
+                              <p className="wp3tbinvp3 fsinvp3 text-end">
                                 {NumberWithCommas(e?.Amount, 2)}
                               </p>
                             </div>
@@ -510,7 +537,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       }
                       {LOM?.map((e, i) => {
                         return (
-                          <div className="tbodyinvp3" key={i}>
+                          <div className="tbodyinvp3 pb-2" key={i}>
                             {e?.ShapeName === "MISC" && e?.Amount === 0 ? (
                               ""
                             ) : (
@@ -518,14 +545,14 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {e?.ShapeName}
                               </p>
                             )}
-                            <p className="wp3tbinvp3 fsinvp3">
+                            <p className="wp3tbinvp3 fsinvp3 text-end">
                               {e?.Wt?.toFixed(3)}
                             </p>
-                            <p className="wp3tbinvp3 fsinvp3">{e?.Rate}</p>
+                            <p className="wp3tbinvp3 fsinvp3 text-end">{e?.Rate}</p>
                             {e?.ShapeName === "MISC" && e?.Amount === 0 ? (
                               ""
                             ) : (
-                              <p className="wp3tbinvp3 fsinvp3">
+                              <p className="wp3tbinvp3 fsinvp3 text-end">
                                 {e?.Amount?.toFixed(2)}
                               </p>
                             )}
@@ -533,8 +560,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                         );
                       })}
                       <div className="tbodyinvp3 brtopinvp3">
-                        <p className="wp1tbinvp3 fw-bold fsinvp3 px-2" style={{width:"20%"}}>TOTAL</p>
-                        <p className="wp3tbinvp3 fw-bold fsinvp3" style={{width:"20%"}}>
+                        <p className="wp1tbinvp3 fw-bold fsinvp3 " style={{ width: "20%" }}>TOTAL</p>
+                        <p className="wp3tbinvp3 fw-bold fsinvp3 text-end" style={{ width: "20%" }}>
                           {NumberWithCommas(mainTotal?.totAmount?.TotalAmount, 2)}
                         </p>
                       </div>
@@ -543,14 +570,14 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 <div className="summaryinvp3">
                   <div className="totalinvp3">
-                    <div className="d-flex justify-content-between px-2">
+                    <div className="d-flex justify-content-between px-1">
                       <p className="w-50 text-start fsinvp3">Discount</p>
                       <p className="w-50 text-end fsinvp3">
                         {NumberWithCommas(totDiscount, 2)}
                       </p>
                     </div>
-                    <div className="d-flex justify-content-between px-2">
-                      <p className="fw-bold fsinvp3">Total Amount</p>
+                    <div className="d-flex justify-content-between px-1">
+                      <p className="fsinvp3">Total Amount</p>
                       <p className="w-50 text-end fsinvp3">
                         {NumberWithCommas(mainTotal?.totAmount?.TotalAmount, 2)}
                       </p>
@@ -559,7 +586,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       taxTotal?.map((e, i) => {
                         return (
                           <div
-                            className="d-flex justify-content-between px-2"
+                            className="d-flex justify-content-between px-1"
                             key={i}
                           >
                             <div className="fsinvp3">
@@ -570,7 +597,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                         );
                       })}
 
-                    <div className="d-flex justify-content-between px-2">
+                    <div className="d-flex justify-content-between px-1">
                       <p className="fsinvp3">
                         {headerData?.AddLess > 0 ? "Add" : "Less"}
                       </p>
@@ -579,8 +606,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       </p>
                     </div>
                     <div
-                      className="d-flex justify-content-between px-2 mt-1"
-                      style={{ borderTop: "5px solid #e8e8e8" }}
+                      className="d-flex justify-content-between px-1 mt-1"
+                      style={{ borderTop: "2.5px solid #e8e8e8" }}
                     >
                       <p className="fw-bold fsinvp3">Grand Total</p>
                       <p className="fw-bold w-50 text-end fsinvp3">
@@ -588,8 +615,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       </p>
                     </div>
                   </div>
-                  <div className="wordsinvp3 fsinvp3 px-2 fw-bold">
-                    {inWords}
+                  <div className="wordsinvp3 fsinvp3 px-1 fw-bold">
+                    Rs. {inWords}
                   </div>
                   <div className="wordsinvp3 fsinvp3">
                     <p className="fw-bold px-2">NOTE:</p>

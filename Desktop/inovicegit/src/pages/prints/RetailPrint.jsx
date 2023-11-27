@@ -29,7 +29,8 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
             cgstAmount: 0,
             addLess: 0,
             grandTotal: 0,
-            textInNumbers: ""
+            textInNumbers: "",
+            goldWeight: 0
         }
         data?.BillPrint_Json1.forEach((e, i) => {
             let materialArray = [];
@@ -39,14 +40,19 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         materialArray.push(ele);
                         if (ele?.MasterManagement_DiamondStoneTypeid !== 4) {
                             totalObj.pcs += ele?.Pcs;
-                        }
+                       if(ele?.MasterManagement_DiamondStoneTypeid === 1){
                         totalObj.materialWeight += ele?.Wt;
+                        console.log(ele?.Wt);
+                       }
+                        }else{
+                            totalObj.goldWeight += ele?.Wt;
+                        }
+              
                         totalObj.rate += ele?.Rate;
                         totalObj.amount += ele?.Amount;
                     }
                 }
             });
-            totalObj.materialWeight = +((totalObj.materialWeight).toFixed(2));
             totalObj.addLess = data.BillPrint_Json[0].AddLess;
             totalObj.amount = +((totalObj.amount).toFixed(2));
             totalObj.totalAmount += (e?.TotalAmount);
@@ -256,6 +262,8 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         <p className='line_height_110'>{jsonData1?.customercity}{jsonData1?.customerpincode}</p>
                         <p className='line_height_110'>{jsonData1?.customeremail1}</p>
                         <p className='line_height_110'>{jsonData1?.vat_cst_pan}</p>
+                        {console.log(jsonData1)}
+                        <p className='line_height_110'>{jsonData1?.Cust_CST_STATE} {jsonData1?.Cust_CST_STATE_No}</p>
                     </div>
                     <div className="col-4 p-1 border-end">
                         <p className='line_height_110'>Ship To, </p>
@@ -366,8 +374,8 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             </div>
                         </div>
                         <div className={`makingRetailPrint border-end p-1 d-flex ${pName === "retail print 1" ? `flex-column align-items-end justify-content-center` : `align-items-center justify-content-end `}`}>
-                            <p className='text-end'>{NumberWithCommas(e?.MakingAmount, 2)}</p>
                             {pName === "retail print 1" && <p className='text-end'><span className="fw-bold">R: </span>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p>}
+                            <p className='text-end'>{NumberWithCommas(e?.MakingAmount, 2)}</p>
 
                         </div>
                         <div className="othersRetailPrint border-end p-1 d-flex align-items-center justify-content-end">
@@ -383,28 +391,32 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="srNoRetailPrint border-end p-1 d-flex justify-content-center align-items-center">
                     </div>
                     <div className="poductDiscriptionRetailPrint border-end p-1 d-flex align-items-center">
-                        <p className="fw-bold fs-4">TOTAL</p>
+                        <p className="fw-bold">TOTAL</p>
                     </div>
                     <div className="materialDescriptionRetailPrint border-end">
                         <div className="d-flex">
-                            <div className={`${pName === 'retail1 print' ? `materialRetailPrint1` : `materialRetailPrint`} border-end p-1`}>
+                            <div className={`${pName === 'retail1 print' ? `materialRetailPrint1` : `materialRetailPrint`} border-end p-1 min_height_44_retail_print_1`}>
                                 <p className='fw-bold'></p>
                             </div>
-                            <div className={`${pName === 'retail1 print' ? `qtyRetailPrint1` : `qtyRetailPrint`} border-end p-1`}>
+                            <div className={`${pName === 'retail1 print' ? `qtyRetailPrint1` : `qtyRetailPrint`} border-end p-1 min_height_44_retail_print_1`}>
                                 <p className='fw-bold'></p>
                             </div>
-                            <div className={`${pName === 'retail1 print' ? `pcsRetailPrint1` : `pcsRetailPrint`} border-end p-1 text-end d-flex align-items-center justify-content-end`}>
+                            <div className={`${pName === 'retail1 print' ? `pcsRetailPrint1` : `pcsRetailPrint`} border-end p-1 text-end d-flex align-items-center justify-content-end min_height_44_retail_print_1`}>
                                 <p className='fw-bold text-end'>{NumberWithCommas(total?.pcs, 0)}</p>
                             </div>
-                            <div className={`${pName === 'retail1 print' ? `wtRetailPrint1` : `wtRetailPrint`} border-end p-1 d-flex align-items-end justify-content-center flex-column`}>
+                            <div className={`${pName === 'retail1 print' ? `wtRetailPrint1` : `wtRetailPrint`} border-end p-1 d-flex align-items-end justify-content-center flex-column min_height_44_retail_print_1`}>
                                 <p className='fw-bold lh-1 text-end'>{fixedValues(total?.materialWeight, 3)} Ctw</p>
-                                <p className='fw-bold lh-1 text-end'>{fixedValues(total?.materialWeight / 5, 3)} gm</p>
+                                <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight, 3)} gm</p>
                             </div>
-                            <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
-                                <p className='fw-bold text-end'>{rate && NumberWithCommas(total?.rate, 2)}</p>
+                            <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end min_height_44_retail_print_1`}>
+                                <p className='fw-bold text-end'>
+                                    {/* {rate && NumberWithCommas(total?.rate, 2)} */}
+                                    </p>
                             </div>
-                            {pName !== 'retail1 print' && <div className="amountRetailPrint p-1 d-flex align-items-center justify-content-end">
-                                <p className='fw-bold text-end'>{NumberWithCommas(total?.amount, 2)}</p>
+                            {pName !== 'retail1 print' && <div className="amountRetailPrint p-1 d-flex align-items-center justify-content-end min_height_44_retail_print_1">
+                                <p className='fw-bold text-end'>
+                                    {/* {NumberWithCommas(total?.amount, 2)} */}
+                                    </p>
                             </div>}
                         </div>
                     </div>
@@ -431,7 +443,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             return <p key={i} className='pb-1'>{e?.name} @ {e?.per}</p>
                         })}
                         <p>Add</p>
-                        <p className='fw-bold py-2 border-top fs-5'>GRAND TOTAL</p>
+                        <p className='fw-bold py-2 border-top'>GRAND TOTAL</p>
                     </div>
                     {/* <div className="totalRetailPrint p-1 text-end p-1"> */}
                     <div className="col-2  p-1 text-end p-1">
@@ -439,7 +451,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             return <p key={i} className='pb-1'>{NumberWithCommas(+e?.amount, 2)}</p>
                         })}
                         <p>{total?.addLess}</p>
-                        <p className='fw-bold py-2 border-top fs-5'>₹{NumberWithCommas(total?.grandTotal, 2)}</p>
+                        <p className='fw-bold py-2 border-top '>₹{NumberWithCommas(total?.grandTotal, 2)}</p>
                     </div>
                 </div>
                 {/* note */}
