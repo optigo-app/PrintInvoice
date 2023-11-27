@@ -16,7 +16,7 @@ const BagPrint7A = ({ queries, headers }) => {
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
-  const chunkSize7 = 35;
+  const chunkSize7 = 33;
   useEffect(() => {
     if (Object.keys(queryParams)?.length !== 0) {
       atob(queryParams?.imagepath);
@@ -455,7 +455,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                     fontSize: "11px",
                                     lineHeight: "9px",
                                     padding: "2px",
-                                    height: "22px",
+                                    height: "20px",
                                   }}
                                 >
                                   {e?.data?.rd?.MetalType}{" "}
@@ -485,7 +485,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                       </p>
                                       <p
                                         className="w7A"
-                                        style={{ width: "80px" }}
+                                        style={{ width: "80px", borderRight:"0px" }}
                                       >
                                         <b>Color</b>
                                       </p>

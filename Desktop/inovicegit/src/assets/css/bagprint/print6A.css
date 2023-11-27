@@ -8,6 +8,9 @@
 .containerWD6A{
     margin: 0px;
     height: 31.2rem;
+    width: 350px;
+    /* margin-top: 1rem; */
+    margin-left: 0.6rem;
 }
 .container6A {
     width: 350px;
@@ -253,6 +256,7 @@
     }
     .containerWD6A {
         margin-top: 0;
+        margin-left: 10px;
     }
 
       .containerWD6A:nth-child(4n+1), .containerWD6A:nth-child(4n+2){

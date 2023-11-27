@@ -191,11 +191,10 @@ const BagPrint6A = ({ queries, headers }) => {
               { length: queries?.pageStart },
               (_, index) =>
                 index > 0 && (
-                  <div
-                    key={index}
-                    className="container6A"
-                    style={{ border: "0px" }}
-                  ></div>
+     
+                  <div className="containerWD6A" key={index} style={{border:"0px"}}>
+                    <div className="container6A" style={{border:"0px"}}></div>
+                  </div>
                 )
             )}
             {data?.length > 0 &&
