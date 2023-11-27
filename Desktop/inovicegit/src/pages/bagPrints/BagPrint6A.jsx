@@ -326,10 +326,11 @@ const BagPrint6A = ({ queries, headers }) => {
                                         {a?.ActualWeight?.toFixed(3)}
                                       </div>
                                       <div className="right6Ac" style={{borderLeft:"1px solid #989898", width:"33px"}}>
-                                      
+                                      {a?.IssuePcs === 0 ? '' : a?.IssuePcs}
+                                      {/* {a?.IssuePcs} */}
                                       </div>
                                       <div className="right6Ad" style={{width:"32px"}}>
-                                      
+                                      {a?.IssueWeight === 0 ? '' : a?.IssueWeight?.toFixed(3)}
                                       </div>
                                     </div>
                                   );
@@ -390,7 +391,7 @@ const BagPrint6A = ({ queries, headers }) => {
                               </div>
                             </div>
                           </div>
-                          <div className="d-flex justify-content-start ps-5" style={{fontSize:"9px"}}>{e?.data?.rd?.showingDateTimeByJob}</div>
+                          <div className="d-flex justify-content-start ps-5" style={{fontSize:"9px"}}>{e?.data?.rd?.showingDateTimeByJob + " " +e?.data?.rd?.Certifiacte}</div>
                           </div>
                         );
                       })
