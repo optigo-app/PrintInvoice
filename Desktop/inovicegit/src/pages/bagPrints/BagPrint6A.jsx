@@ -129,6 +129,20 @@ const BagPrint6A = ({ queries, headers }) => {
           mainArr.unshift(tc);
           let arrofchunk = GetChunkData(chunkSize7, mainArr);
           
+          const date = new Date(); // Current date and time
+
+          const options = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            hour12: true // To use AM/PM format
+          };
+
+        const formattedDate = date.toLocaleString('en-US', options);
+        a.rd.showingDateTimeByJob = formattedDate;
           responseData.push({
             data: a,
             additional: {
@@ -191,7 +205,8 @@ const BagPrint6A = ({ queries, headers }) => {
                     {e?.additional?.pages?.length > 0 ? (
                       e?.additional?.pages?.map((ele, i) => {
                         return (
-                          <div className="container6A" key={i}>
+                          <div className="containerWD6A" key={i}>
+                          <div className="container6A">
                             <div className="jobInfo6A">
                               <div className="jobInfo6Aheader">
                                 <div
@@ -375,9 +390,12 @@ const BagPrint6A = ({ queries, headers }) => {
                               </div>
                             </div>
                           </div>
+                          <div className="d-flex justify-content-start ps-5" style={{fontSize:"9px"}}>{e?.data?.rd?.showingDateTimeByJob}</div>
+                          </div>
                         );
                       })
                     ) : (
+                      <div className="containerWD6A">
                       <div className="container6A" key={inx}>
                         <div className="jobInfo6A">
                           <div className="jobInfo6Aheader">
@@ -537,7 +555,10 @@ const BagPrint6A = ({ queries, headers }) => {
                           </div>
                         </div>
                       </div>
+                      <div  className="d-flex justify-content-start ps-5" style={{fontSize:"9px"}}>{e?.data?.rd?.showingDateTimeByJob}</div>
+                      </div>
                     )}
+                    
                   </React.Fragment>
                 );
               })}

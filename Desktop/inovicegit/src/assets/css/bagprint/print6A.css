@@ -5,13 +5,16 @@
     word-break: break-all;
     line-height: 100%;
 } */
-
+.containerWD6A{
+    margin: 0px;
+    height: 31.2rem;
+}
 .container6A {
     width: 350px;
     height: 469px;
     border: 2px solid black;
     border-radius: 12px;
-    margin-top: 5rem;
+    margin-top: 1rem;
     margin-left: 2rem;
     /* margin-top: 5rem;
     margin-left: 2rem; */
@@ -247,21 +250,21 @@
     /* .container6A:nth-child(4n+1) {
         page-break-before: always;
     } */
-    .container6A:nth-child(4n+4){
+    .containerWD6A:nth-child(4n+4){
         page-break-after: always !important;
     }
-    .container6A {
+    .containerWD6A {
         margin-top: 0;
     }
 
-      .container6A:nth-child(4n+1), .container6A:nth-child(4n+2){
+      .containerWD6A:nth-child(4n+1), .containerWD6A:nth-child(4n+2){
         position: relative;
-        top: 60px;
+        top: 40px;
       }
 
-      .container6A:nth-child(4n+4), .container6A:nth-child(4n+3){
+      .containerWD6A:nth-child(4n+4), .containerWD6A:nth-child(4n+3){
         position: relative;
-        top: 120px;
+        top: 80px;
       }
 
 
