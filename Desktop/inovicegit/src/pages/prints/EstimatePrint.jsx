@@ -355,7 +355,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* print name */}
-            <div className="border p-1 mt-5 border-2" >
+            <div className="border p-1 mt-5 border-2 min_height_label" >
                 <p className='text-uppercase fw-bold'>{json1Data?.PrintHeadLabel}</p>
             </div>
             {/* customer detail */}

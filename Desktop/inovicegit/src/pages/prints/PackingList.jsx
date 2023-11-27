@@ -349,8 +349,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
     totalObj.totOthAmt = totalObj.totOthAmt + e?.OtherCharges + e?.MiscAmount;
   });
 
-
-
   return (
     <>
       { loader ? (

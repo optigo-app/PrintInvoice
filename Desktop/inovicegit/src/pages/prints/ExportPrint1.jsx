@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import style from "../../assets/css/prints/exportPrint1.module.css";
-import { apiCall, handlePrint, isObjectEmpty, numberToWord } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty, numberToWord } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
 const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
@@ -8,11 +8,20 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [data, setData] = useState([]);
     const [json0Data, setJson0Data] = useState({});
     const [msg, setMsg] = useState("");
+    const [metalArr, setMetalArr] = useState([]);
+    const [grossWt, setGrossWt] = useState(0);
+    const [totalAmount, setTotalAmount] = useState(0);
 
     const loadData = (data) => {
+        console.log(data);
         let arr = [];
+        let metalArrs = [];
+        let gross = 0;
+        let totalAmt = 0;
         data?.BillPrint_Json1.forEach((e, i) => {
             let findIndex = arr.findIndex((ele, ind) => ele?.designno === e?.designno);
+            gross += e?.grosswt;
+            totalAmt += e?.TotalAmount
             if (findIndex === -1) {
                 let obj = { ...e };
                 obj.quantityPcs = 1;
@@ -22,9 +31,26 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 arr[findIndex].TotalAmount += e?.TotalAmount;
                 arr[findIndex].quantityPcs += 1;
             }
-        })
+            let findRecord = metalArrs.findIndex(ele => ele?.MetalType === e?.MetalType && ele?.MetalPurity === e?.MetalPurity && ele?.LossWt === e?.LossWt);
+            if(findRecord === -1){
+                let obj = {...e};
+                metalArrs.push(obj);
+                obj.pureWt =  e?.NetWt*e?.Tunch/100;
+                obj.metalTotalWt = obj?.pureWt + e?.LossWt;
+            }else{
+                let pureWt = e?.NetWt*e?.Tunch/100;
+                metalArrs[findRecord].NetWt += e?.NetWt;
+                metalArrs[findRecord].LossWt += e?.LossWt;
+                metalArrs[findRecord].metalTotalWt += pureWt + e?.LossWt;
+                metalArrs[findRecord].pureWt += (e?.NetWt*e?.Tunch/100);
+                metalArrs[findRecord].PureNetWt += e?.PureNetWt;
+            }
+        });
         setData(arr);
-        setJson0Data(data?.BillPrint_Json[0])
+        setJson0Data(data?.BillPrint_Json[0]);
+        setMetalArr(metalArrs);
+        setGrossWt(gross);
+        setTotalAmount(totalAmt);
     }
 
     useEffect(() => {
@@ -53,7 +79,7 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     }, []);
 
     return (
-        loader ? <Loader /> : msg === "" ? <div className={`${style.containerExportPrint1} pad_60_allPrint mt-2`}>
+        loader ? <Loader /> : msg === "" ? <div className={`container max_width_container pad_60_allPrint mt-2`}>
             {/* print button */}
             <div className={`d-flex justify-content-end mb-4 align-items-center ${style?.print_sec_sum4} pt-4 pb-4`}>
                 <div className="form-check ps-3 mt-2">
@@ -66,20 +92,20 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* company address */}
-            <div className="d-flex border">
-                <div className="col-6 border-end p-2">
+            <div className="d-flex border border-black">
+                <div className="col-6  border-black border-end p-2">
                     <p className='fs-6'>{json0Data?.CompanyFullName}</p>
                     <p className='fs-6'>{json0Data?.CompanyAddress}</p>
                     <p className='fs-6'>{json0Data?.CompanyAddress2},{json0Data?.CompanyCity}-{json0Data?.CompanyPinCode}</p>
                     <p className='fs-6'>T {json0Data?.CompanyTellNo}</p>
                 </div>
                 <div className="col-6">
-                    <div className="border-bottom p-2">
+                    <div className=" border-black border-bottom p-2">
                         <p>Invoice No :- {json0Data?.InvoiceNo}</p>
                         <p>Date :- {json0Data?.EntryDate}</p>
                     </div>
                     <div className="d-flex">
-                        <div className="col-6 p-2 border-end">
+                        <div className="col-6 p-2  border-black border-end">
                             <p>Country of origin of goods (Company's Country)</p>
                         </div>
                         <div className="col-6 p-2">
@@ -89,8 +115,8 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* customer address */}
-            <div className="d-flex border-start border-end border-bottom">
-                <div className="col-6 p-2 border-end">
+            <div className="d-flex  border-black border-start border-end border-bottom">
+                <div className="col-6 p-2  border-black border-end">
                     <p>To,</p>
                     <p className='fs-6'>{json0Data?.customerfirmname}</p>
                     <p>{json0Data?.customerAddress1}</p>
@@ -107,82 +133,84 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* title */}
-            <div className="border-start border-end border-bottom p-2">
+            <div className=" border-black border-start border-end border-bottom p-2">
                 <p className="fw-bold text-center fs-6">{json0Data?.PrintHeadLabel} </p>
             </div>
             {/* table heading */}
-            <div className={`d-flex border-bottom border-start border-end ${style.rowExport1}`}>
-                <div className={`${style.srNoExport1} border-end`}><p className='text-center '>Sr#</p></div>
-                <div className={`${style.discriptionExport1} border-end`}><p className='text-center '>Description</p></div>
-                <div className={`${style.designExport1} border-end`}><p className='text-center '>Design#</p></div>
-                <div className={`${style.QuantityPcsExport1} border-end`}><p className='text-center '>Quantity Pcs</p></div>
-                <div className={`${style.HSNCODEExport1} border-end`}><p className='text-center '>HSN CODE</p></div>
-                <div className={`${style.GrossWtExport1} border-end`}><p className='text-center '>Gross Wt</p></div>
-                <div className={`${style.RateExport1} border-end`}><p className='text-center '>Rate</p></div>
-                <div className={`${style.AmountExport1} `}><p className='text-center'>Amount</p></div>
+            <div className={`d-flex  border-black border-bottom border-start border-end ${style.rowExport1}`}>
+                <div className={`${style.srNoExport1}  border-black border-end`}><p className='text-center fw-bold'>Sr#</p></div>
+                <div className={`${style.discriptionExport1}  border-black border-end`}><p className='text-center fw-bold'>Description</p></div>
+                <div className={`${style.designExport1}  border-black border-end`}><p className='text-center fw-bold'>Design#</p></div>
+                <div className={`${style.QuantityPcsExport1}  border-black border-end`}><p className='text-center fw-bold'>Quantity Pcs</p></div>
+                <div className={`${style.HSNCODEExport1}  border-black border-end`}><p className='text-center fw-bold'>HSN CODE</p></div>
+                <div className={`${style.GrossWtExport1}  border-black border-end`}><p className='text-center fw-bold'>Gross Wt</p></div>
+                <div className={`${style.RateExport1}  border-black border-end`}><p className='text-center fw-bold'>Rate</p></div>
+                <div className={`${style.AmountExport1} `}><p className='text-center fw-bold'>Amount</p></div>
             </div>
             {/* data */}
             {data && data.map((e, i) => {
-                return <div className={`d-flex border-bottom border-start border-end ${style.rowExport1}`} key={i}>
-                    <div className={`${style.srNoExport1} border-end`}><p className='text-center '>{e?.SrNo}</p></div>
-                    <div className={`${style.discriptionExport1} border-end`}><p className='text-center '>{e?.Categoryname} ({e?.MetalPurity})</p></div>
-                    <div className={`${style.designExport1} border-end`}><p className='text-center '>{e?.designno}</p></div>
-                    <div className={`${style.QuantityPcsExport1} border-end`}><p className='text-center '>{e?.quantityPcs}</p></div>
-                    <div className={`${style.HSNCODEExport1} border-end`}><p className='text-center '>{json0Data?.HSN_No}</p></div>
-                    <div className={`${style.GrossWtExport1} border-end`}><p className='text-center '>{e?.grosswt}</p></div>
-                    <div className={`${style.RateExport1} border-end`}><p className='text-center '>{e?.TotalAmount}</p></div>
-                    <div className={`${style.AmountExport1} `}><p className='text-center'>{(e?.TotalAmount).toFixed(2)}</p></div>
+                return <div className={`d-flex no_break border-black border-bottom border-start border-end ${style.rowExport1}`} key={i}>
+                    <div className={`${style.srNoExport1}  border-black border-end`}><p className='text-center '>{e?.SrNo}</p></div>
+                    <div className={`${style.discriptionExport1}  border-black border-end`}><p className=''>{e?.Categoryname} ({e?.MetalPurity})</p></div>
+                    <div className={`${style.designExport1}  border-black border-end`}><p className=''>{e?.designno}</p></div>
+                    <div className={`${style.QuantityPcsExport1}  border-black border-end`}><p className=''>{e?.quantityPcs} Pcs</p></div>
+                    <div className={`${style.HSNCODEExport1}  border-black border-end`}><p className=''>{json0Data?.HSN_No}</p></div>
+                    <div className={`${style.GrossWtExport1}  border-black border-end`}><p className='text-end '>{e?.grosswt}</p></div>
+                    <div className={`${style.RateExport1}  border-black border-end`}><p className='text-end '>{e?.TotalAmount}</p></div>
+                    <div className={`${style.AmountExport1} `}><p className='text-end'>{(e?.TotalAmount).toFixed(2)}</p></div>
                 </div>
             })}
             {/* RMk */}
-            <div className="d-flex justify-content-between pb-2 pt-2 border-start border-end px-2">
+            <div className="d-flex justify-content-between pb-2 pt-2  border-black border-start border-end px-2 no_break">
                 <div className="col-6">
-                    <div className="border d-flex">
-                        <div className="col-2 p-1 border-end">RM K</div>
-                        <div className="col-2 p-1 border-end">NetWt</div>
-                        <div className="col-2 p-1 border-end">PureWt</div>
-                        <div className="col-2 p-1 border-end">Loss%</div>
-                        <div className="col-2 p-1 border-end">LossWt</div>
-                        <div className="col-2 p-1">Total</div>
+                    <div className=" border-black border d-flex">
+                        <div className="col-2 p-1 text-center border-black border-end fw-bold">RM K</div>
+                        <div className="col-2 p-1 text-center border-black border-end fw-bold">NetWt</div>
+                        <div className="col-2 p-1 text-center border-black border-end fw-bold">PureWt</div>
+                        <div className="col-2 p-1 text-center border-black border-end fw-bold">Loss%</div>
+                        <div className="col-2 p-1 text-center border-black border-end fw-bold">LossWt</div>
+                        <div className="col-2 p-1 fw-bold">Total</div>
                     </div>
-                    <div className="border-start border-end border-bottom d-flex">
-                        <div className="col-2 p-1 border-end">18K	</div>
-                        <div className="col-2 p-1 border-end">30.800</div>
-                        <div className="col-2 p-1 border-end">23.100</div>
-                        <div className="col-2 p-1 border-end">1.000 %</div>
-                        <div className="col-2 p-1 border-end">0.308	</div>
-                        <div className="col-2 p-1">23.408</div>
+                    {metalArr.length > 0 && metalArr.map((e, i) => {
+                        return <div className=" border-black border-start border-end border-bottom d-flex" key={i}>
+                        <div className="col-2 p-1 border-black border-end">{e?.MetalPurity}</div>
+                        <div className="col-2 p-1 text-end border-black border-end">{NumberWithCommas(e?.NetWt, 3)}</div>
+                        <div className="col-2 p-1 text-end border-black border-end">{NumberWithCommas(e?.pureWt, 3)}</div>
+                        <div className="col-2 p-1 text-end border-black border-end">{NumberWithCommas(e?.LossPer, 2)}%</div>
+                        <div className="col-2 p-1 text-end border-black border-end">{NumberWithCommas(e?.LossWt, 3)}	</div>
+                        <div className="col-2 p-1 text-end">{NumberWithCommas(e?.metalTotalWt, 3)}</div>
                     </div>
+                    })}
                 </div>
                 <div className="col-5">
-                    <div className="border d-flex">
-                        <div className="col-4 d-flex align-items-center justify-content-center p-1 border-end">
-                            <p>35.000</p>
+                    <div className=" border-black border d-flex">
+                        <div className="col-4 d-flex align-items-center justify-content-center p-1  border-black border-end">
+                            <p>{NumberWithCommas(grossWt)}</p>
                         </div>
                         <div className="col-8">
-                            <div className={`d-flex border-bottom ${style?.minHeight_24_8ExportPrint1}`}>
-                                <div className="col-6 p-1 border-end"><p>FOB</p></div>
-                                <div className="col-6 p-1 text-end"><p>1,00,335</p></div>
+                            <div className={`d-flex  border-black border-bottom ${style?.minHeight_24_8ExportPrint1}`}>
+                                <div className="col-6 p-1  border-black border-end fw-bold"><p>FOB</p></div>
+                                <div className="col-6 p-1 text-end"><p className='fw-bold'>{NumberWithCommas(totalAmount, 2)}</p></div>
                             </div>
-                            <div className={`d-flex border-bottom ${style?.minHeight_24_8ExportPrint1}`}>
-                                <div className="col-6 p-1 border-end"><p></p></div>
+                            <div className={`d-flex  border-black border-bottom ${style?.minHeight_24_8ExportPrint1}`}>
+                                <div className="col-6 p-1  border-black border-end"><p></p></div>
                                 <div className="col-6 p-1 text-end"><p></p></div>
                             </div>
                             <div className={`d-flex ${style?.minHeight_24_8ExportPrint1}`}>
-                                <div className="col-6 p-1 border-end"><p>CFR</p></div>
-                                <div className="col-6 p-1 text-end"><p>1,00,335</p></div>
+                                <div className="col-6 p-1  border-black border-end fw-bold"><p>CFR</p></div>
+                                <div className="col-6 p-1 text-end fw-bold"><p>{NumberWithCommas(totalAmount, 2)}</p></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             {/* FOB */}
-            <p className='border-bottom border-start border-end p-2'>FOB IN Word:  {numberToWord(23094820.45)}</p>
+            <p className=' border-black border-bottom border-start border-end p-2 no_break'>FOB IN Word:  {numberToWord(fixedValues(totalAmount, 2))}</p>
             {/* I/we hereby certify */}
-            <div dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }} className='border-bottom border-start border-end ps-2 pe-2 pb-2 pt-4'></div>
-            <div className="d-flex border-start border-end border-bottom">
+            <div dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }} className=' border-black border-bottom border-start border-end ps-2 pe-2 pb-2 pt-4 no_break'></div>
+            <div className="d-flex  border-black border-start border-end border-bottom no_break">
                 {/* Bank Detail */}
-                <div className="col-9 p-2 border-end">
+                <div className="col-9 p-2  border-black border-end">
                     <p>Bank Detail</p>
                     <p>Bank Name: {json0Data?.bankname}</p>
                     <p>Branch: {json0Data?.bankaddress}</p>

@@ -49,7 +49,7 @@
 }
 
 .wp1invp3 {
-    width: 30%;
+    width: 25%;
     height: 100%;
     display: flex;
     align-items: center;
@@ -62,11 +62,11 @@
 }
 
 .wp3invp3 {
-    width: 13.33%;
+    width: 25%;
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
 }
 
 .tableinvp3 {
@@ -82,7 +82,7 @@
 }
 
 .wp1tbinvp3 {
-    width: 29.5%;
+    width: 25%;
     height: 100%;
     display: flex;
     justify-content: flex-start;
@@ -91,11 +91,12 @@
 }
 
 .wp3tbinvp3 {
-    width: 13.33%;
+    width: 25%;
     height: 100%;
-    display: flex;
+    padding: 0 4px;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
 }
 
 .tablebodyinvp3 {
@@ -150,6 +151,12 @@
     width: 30%;
     border-left: 2px solid #d4d4d4;
 
+}
+
+.descriptioninovicePrint3{
+    position: absolute;
+    top: 50%;
+    text-align: center;
 }
 
 .discHeadinvp3 {
