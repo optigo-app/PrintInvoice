@@ -25,6 +25,7 @@ export const printConditions = [
     { printName: "export declaration form", etpType: "print", componentName: "ExportDeclarationForm" },
     { printName: "packing list", etpType: "print", componentName: "PackingList" },
     { printName: "summary 1", etpType: "print", componentName: "Summary1" },
+    { printName: "jewellery tax invoice", etpType: "print", componentName: "JewelleryTaxInvoice" },
     { printName: "jewellery invoice", etpType: "print", componentName: "JewelleryInvoice" },
     { printName: "invoice print 2", etpType: "print", componentName: "InvoicePrint2" },
     { printName: "invoice print3", etpType: "print", componentName: "InvoicePrint3" },
@@ -51,5 +52,4 @@ export const printConditions = [
     { printName: "sale format a", etpType: "excel", componentName: "ExcelToJsonDownloadA" },
     { printName: "sale format j1", etpType: "excel", componentName: "ExcelToJsonDownloadJ1" },
     { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel" },
-    // Add more excel conditions here
   ];
