@@ -472,19 +472,19 @@ const BagPrint7A = ({ queries, headers }) => {
                                       style={{ height: "11px" }}
                                     >
                                       <p
-                                        className="w7A"
+                                        className="w7A d-flex justify-content-start align-items-center pe-1"
                                         style={{ width: "82px" }}
                                       >
                                         <b>Type</b>
                                       </p>
                                       <p
-                                        className="w7A"
+                                        className="w7A d-flex justify-content-start align-items-center pe-1"
                                         style={{ width: "82px" }}
                                       >
                                         <b>Purity</b>
                                       </p>
                                       <p
-                                        className="w7A"
+                                        className="w7A d-flex justify-content-start align-items-center pe-1"
                                         style={{ width: "80px", borderRight:"0px" }}
                                       >
                                         <b>Color</b>
@@ -739,19 +739,19 @@ const BagPrint7A = ({ queries, headers }) => {
                               <div className="main7AEntry2">
                                 <div className="w-100 d-flex justify-content-between align-items-center sizehead7A fw-bold">
                                   <div
-                                    className="spw7A"
+                                    className="spw7A d-flex justify-content-start align-items-center pe-1"
                                     style={{ width: "54px" }}
                                   >
                                     Size
                                   </div>
                                   <div
-                                    className="spw7A"
+                                    className="spw7A d-flex justify-content-start align-items-center pe-1"
                                     style={{ width: "30px" }}
                                   >
                                     Pcs
                                   </div>
                                   <div
-                                    className="spw7A"
+                                    className="spw7A d-flex justify-content-start align-items-center pe-1"
                                     style={{
                                       width: "24px",
                                       borderRight: "0px",
@@ -957,7 +957,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 fontSize: "11px",
                                 lineHeight: "8px",
                                 padding: "2px",
-                                height: "22px",
+                                height: "20px",
                               }}
                             >
                               {e?.data?.rd?.MetalType}
@@ -972,19 +972,19 @@ const BagPrint7A = ({ queries, headers }) => {
                               style={{ paddingTop: "1px" }}
                             >
                               <div
-                                className="w7A"
+                                className="w7A d-flex justify-content-start align-items-center pe-1"
                                 style={{ width: "82px", fontSize: "9px" }}
                               >
                                 Type
                               </div>
                               <div
-                                className="w7A"
+                                className="w7A d-flex justify-content-start align-items-center pe-1"
                                 style={{ width: "82px", fontSize: "9px" }}
                               >
                                 Purity
                               </div>
                               <div
-                                className="w7A"
+                                className="w7A d-flex justify-content-start align-items-center pe-1"
                                 style={{ width: "80px", fontSize: "9px" }}
                               >
                                 Color
@@ -1152,25 +1152,24 @@ const BagPrint7A = ({ queries, headers }) => {
                               className="d-flex justify-content-between align-items-center fw-bold"
                               style={{
                                 height: "11px",
-                                width: "110px",
-                                paddingTop: "3px",
+                                width: "105px;",
                                 borderBottom: "1px solid #989898",
                               }}
                             >
                               <div
-                                className="w7A"
+                                className="w7A d-flex justify-content-start align-items-center pe-1"
                                 style={{ width: "54px", fontSize: "9px" }}
                               >
                                 Size
                               </div>
                               <div
-                                className="w7A"
+                                className="w7A d-flex justify-content-start align-items-center pe-1"
                                 style={{ width: "30px", fontSize: "9px" }}
                               >
                                 Pcs
                               </div>
                               <div
-                                className="w7A"
+                                className="w7A d-flex justify-content-start align-items-center pe-1"
                                 style={{ width: "25px", fontSize: "9px" }}
                               >
                                 Wt
