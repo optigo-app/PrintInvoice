@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { HeaderComponent, SubheaderComponent, apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { HeaderComponent, NumberWithCommas, SubheaderComponent, apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/jewelleryTaxInvoice.module.css";
 
@@ -10,12 +10,20 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     const [customerDetail, setCustomerDetail] = useState({
         pan: "",
         gst: ""
-    })
+    });
+    const [data, setData] = useState([]);
     const [msg, setMsg] = useState("");
+    const [totalAmount, settotalAmount] = useState({
+        before: 0,
+        after: 0,
+        grand: 0
+    });
+    const [tax, settax] = useState([]);
+    const [summary, setSummary] = useState([]);
 
     const loadData = (data) => {
         console.log(data);
-        let json0Data = data.BillPrint_Json[0];
+        let json0Datas = data.BillPrint_Json[0];
         let custDetail = { ...customerDetail };
         let custpanGstArr = data.BillPrint_Json[0]?.vat_cst_pan.split("|");
         let custpans = custpanGstArr[1].split("-");
@@ -23,33 +31,80 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
         custDetail.pan = custpans[1];
         custDetail.gst = custGst[1];
         setCustomerDetail(custDetail);
-        setJson0Data(json0Data);
-        let head = HeaderComponent(1, json0Data);
+        setJson0Data(json0Datas);
+        let head = HeaderComponent(1, json0Datas);
         setHeaderComp(head);
-
         let resultArr = [];
+        let totalAmountBefore = 0;
+        let metalArr = [];
+        let diamondWt = 0;
+        let colorStoneWt = 0;
+        let miscWt = 0;
+        let grossWt = 0;
         data?.BillPrint_Json1.forEach((e, i) => {
+            let findRecord = metalArr.findIndex(elem => elem?.label === e?.MetalTypePurity);
+            if (findRecord === -1) {
+                metalArr.push({ label: e?.MetalTypePurity, value:e?.NetWt, gm: true })
+            }else{
+                metalArr[findRecord].value += e?.NetWt
+            }
+            grossWt += e?.grosswt;
+            let diamondWts = 0;
+            let colorStoneWts = 0;
+            let miscWts = 0;
             let obj = { ...e };
             let materials = [];
+            totalAmountBefore += e?.TotalAmount;
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (obj?.SrJobno === ele?.StockBarcode) {
-                    if (ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2) {
+                    if ((ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 3) && ele?.IsHSCOE === 0) {
                         let findRecord = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid &&
                             elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
-                            if(findRecord === -1){
-                                materials.push(ele);
-                            }else{
-                                materials[findRecord].Pcs += ele?.Pcs;
-                                materials[findRecord].Wt += ele?.Wt;
-                                materials[findRecord].Amount += ele?.Amount;
-                            }
-                    }if(ele?.MasterManagement_DiamondStoneTypeid === 3){
-                        console.log(ele);
+                        if (findRecord === -1) {
+                            let object = { ...ele };
+                            materials.push(ele);
+                        } else {
+                            materials[findRecord].Pcs += ele?.Pcs;
+                            materials[findRecord].Wt += ele?.Wt;
+                            materials[findRecord].Amount += ele?.Amount;
+                        }
+                        if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+                            diamondWt += ele?.Wt;
+                            diamondWts += ele?.Wt;
+                        } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+                            colorStoneWt += ele?.Wt;
+                            colorStoneWts += ele?.Wt;
+                        } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+                            miscWt += ele?.Wt;
+                            miscWts += ele?.Wt;
+                        }
                     }
                 }
-            })
+            });
+            obj.diamondWts = diamondWts;
+            obj.colorStoneWts = colorStoneWts;
+            obj.miscWts = miscWts;
+            obj.materials = materials;
+            resultArr.push(obj);
         });
-
+        metalArr.push({label: "Diamond Wt", value: diamondWt, gm: false});
+        metalArr.push({label: "Stone Wt", value: diamondWt, gm: false});
+        metalArr.push({label: "Misc Wt", value: diamondWt, gm: false});
+        metalArr.push({label: "Gross Wt", value: grossWt, gm: true});
+        setSummary(metalArr);
+        let taxValue = taxGenrator(json0Datas, totalAmountBefore);
+        let afterTotal = taxValue.reduce((accumulator, currentValue) => {
+            return accumulator + +(currentValue.amount);
+        }, 0) + totalAmountBefore;
+        let grandTotal = afterTotal + json0Datas.AddLess;
+        let totalAmounts = {
+            before: totalAmountBefore,
+            after: afterTotal,
+            grand: grandTotal
+        }
+        settotalAmount(totalAmounts);
+        settax(taxValue);
+        setData(resultArr);
     }
     useEffect(() => {
         const sendData = async () => {
@@ -78,7 +133,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
         loader ? <Loader /> : msg === "" ? <>
             <div className={`container max_width_container pad_60_allPrint ${style?.containerJewellery}`}>
                 {/* buttons */}
-                <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4">
+                <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}>
                     <div className="form-check ps-3">
                         <input type="button" className="btn_white blue py-1" value="Print" onClick={(e) => handlePrint(e)} />
                     </div>
@@ -90,37 +145,113 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="border d-flex justify-content-between">
                         <div className="col-6 p-2">
                             <p className='lh-1 pb-1'>To, </p>
-                            <p className='fw-semibold lh-1 pb-1'>{json0Data?.CustName}</p>
+                            <p className='fw-bold lh-1 pb-1'>{json0Data?.CustName}</p>
                             <p className='lh-1 pb-1'>{json0Data?.State},  {json0Data?.PinCode}</p>
                             <p className='lh-1 pb-1'>Tel : {json0Data?.customermobileno}</p>
                             <p className='lh-1 pb-1'>{json0Data?.customeremail1}</p>
                         </div>
                         <div className="col-5 px-2 py-3">
-                            <p className='lh-1 pb-1'>Invoice<span className='fw-semibold'>#: {json0Data?.InvoiceNo}</span> </p>
-                            <p className='lh-1 pb-1'>PAN<span className='fw-semibold'>#: {customerDetail?.pan}</span> </p>
-                            <p className='lh-1 pb-1'>GSTIN <span className='fw-semibold'>{customerDetail?.gst} {(json0Data?.Cust_CST_STATE !== "" && json0Data?.Cust_CST_STATE_No !== "") && <>| {json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}</>} </span></p>
-                            <p className='lh-1 pb-1'>Due Date: <span className='fw-semibold'>{json0Data?.DueDate}</span></p>
+                            <p className='lh-1 pb-1'>Invoice<span className='fw-bold'>#: {json0Data?.InvoiceNo}</span> </p>
+                            <p className='lh-1 pb-1'>PAN<span className='fw-bold'>#: {customerDetail?.pan}</span> </p>
+                            <p className='lh-1 pb-1'>GSTIN <span className='fw-bold'>{customerDetail?.gst} {(json0Data?.Cust_CST_STATE !== "" && json0Data?.Cust_CST_STATE_No !== "") && <>| {json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}</>} </span></p>
+                            <p className='lh-1 pb-1'>Due Date: <span className='fw-bold'>{json0Data?.DueDate}</span></p>
                         </div>
                     </div>
                 </div>
                 {/* table header */}
                 <div className="d-flex border lightGrey no_break">
-                    <div className="col-1 p-1 border-end"><p className='fw-semibold text-center'>SR NO</p></div>
-                    <div className="col-2 p-1 border-end"><p className='fw-semibold text-center'>ITEM CODE</p></div>
-                    <div className="col-5 p-1 border-end"><p className='fw-semibold text-center'>DESCRIPTION</p></div>
-                    <div className="col-2 p-1 border-end"><p className='fw-semibold text-center'>IMAGE</p></div>
-                    <div className="col-2 p-1"><p className='fw-semibold text-center'>AMOUNT (INR)</p></div>
+                    <div className="col-1 p-1 border-end"><p className='fw-bold text-center'>SR NO</p></div>
+                    <div className="col-2 p-1 border-end"><p className='fw-bold text-center'>ITEM CODE</p></div>
+                    <div className="col-5 p-1 border-end"><p className='fw-bold text-center'>DESCRIPTION</p></div>
+                    <div className="col-2 p-1 border-end"><p className='fw-bold text-center'>IMAGE</p></div>
+                    <div className="col-2 p-1"><p className='fw-bold text-center'>AMOUNT (INR)</p></div>
                 </div>
                 {/* table data */}
+                {data.length > 0 && data.map((e, i) => {
+                    return <div className="d-flex border-start border-end border-bottom no_break" key={i}>
+                        <div className="col-1 p-1 border-end"><p className='text-center'>{i + 1}</p></div>
+                        <div className="col-2 p-1 border-end">
+                            <p>Job: {e?.SrJobno} </p>
+                            <p>Design: <span className="fw-bold">{e?.designno}</span> </p>
+                            <p>{e?.Size}</p>
+                        </div>
+                        <div className="col-5 p-1 border-end"><p>{e?.MetalTypePurity} {e?.MetalColor} | {NumberWithCommas(e?.grosswt, 3)} gms GW | {NumberWithCommas(e?.NetWt, 3)} gms NW
+                        {e?.diamondWts !==  0 && <> | {NumberWithCommas(e?.diamondWts, 3)} Cts</> }
+                        {e?.colorStoneWts !==  0 && <> | {NumberWithCommas(e?.colorStoneWts, 3)} Cts</> }
+                        {e?.miscWts !==  0 && <> | {NumberWithCommas(e?.miscWts, 3)} Cts</> }
+                             </p>
+                            {e.materials.length > 0 && e.materials.map((ele, ind) => {
+                                return <p key={ind}>{ele?.MasterManagement_DiamondStoneTypeName}: {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} Cts | {ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}
+                                </p>
+                            })}
+                        </div>
+                        <div className="col-2 p-1 border-end d-flex justify-content-center align-items-center"><img src={e?.DesignImage} alt="" className={`d-block mx-auto ${style?.image} w-100`} onError={handleImageError} /></div>
+                        <div className="col-2 p-1"><p className='text-end'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(e?.TotalAmount, 2)} </p></div>
+                    </div>
+                })}
+                {/* total */}
+                <div className="d-flex border-start border-end border-bottom no_break lightGrey">
+                    <div className="col-1 p-1 border-end"><p className='text-center'></p></div>
+                    <div className="col-9 p-1 border-end"><p className='fw-bold'>TOTAL</p> </div>
+                    <div className="col-2 p-1"><p className='text-end fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(totalAmount.before, 2)} </p></div>
+                </div>
+                {/* Remakrs */}
                 <div className="d-flex border-start border-end border-bottom no_break">
-                    <div className="col-1 p-1 border-end"><p className='text-center'>1</p></div>
-                    <div className="col-2 p-1 border-end"> <p>Job: 1/3238 </p> <p>Design: <span className="fw-semibold">343</span> </p> </div>
-                    <div className="col-5 p-1 border-end"><p className='lh-1 pb-1'>GOLD 24k YL | 50.000 gms GW | 50.000 gms NW </p></div>
-                    <div className="col-2 p-1 border-end"><img src="" alt="" className='d-block mx-auto' /></div>
-                    <div className="col-2 p-1"><p className='text-end'>₹ 38,500.00 </p></div>
+                    <div className="col-4 p-1 border-end"><p className='fw-bold text-decoration-underline'> REMARKS</p>
+                        <div dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }}></div></div>
+                    <div className="col-4 p-1 border-end">
+                        {summary.map((e, i) => {
+                            return <div className='d-flex justify-content-between'><p key={i}>{console.log(e)}{e?.label}:  </p><p>{NumberWithCommas(e?.value, 3)} {e?.gm ? "gm" : "cts"}</p></div>
+                        })}
+                    </div>
+                    <div className="col-2 p-1 border-end">
+                        {tax.map((e, i) => {
+                            return <p key={i}>{e?.label} @ {e?.per}</p>
+                        })}
+                        <p>TOTAL</p>
+                        {json0Data?.AddLess > 0 ? <p>Add</p> : <p>Less</p>}
+                    </div>
+                    <div className="col-2 p-1">
+                        {tax.map((e, i) => {
+                            return <p className='text-end fw-bold' key={i}><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(+e?.amount, 2)} </p>
+                        })}
+                        <p className='text-end fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(totalAmount.after, 2)} </p>
+                        <p className='text-end fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(json0Data?.AddLess, 2)} </p>
+                    </div>
+                </div>
+                {/* gran total */}
+                <div className="d-flex border-start border-end border-bottom no_break lightGrey">
+                    <div className="col-8 p-1"></div>
+                    <div className="col-2 p-1"><p className='fw-bold'>GRAND TOTAL</p> </div>
+                    <div className="col-2 p-1"><p className='text-end fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(totalAmount.grand, 2)} </p></div>
+                </div>
+                {/* computer generated */}
+                <p className={`py-2 ${style.generated} no_break`}>**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS </p>
+                {/* remark */}
+                <div className="border px-2 no_break">
+                    <div dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }}></div>
+                </div>
+                {/* bank detail */}
+                <div className="border-start border-end border-bottom d-flex no_break">
+                    <div className="col-6 border-end p-2">
+                        <p className="fw-bold">Bank Detail</p>
+                        <p>Bank Name: {json0Data?.bankname}</p>
+                        <p>Branch: {json0Data?.bankaddress}</p>
+                        <p>Account Name: {json0Data?.accountname}</p>
+                        <p>Account No. : {json0Data?.accountnumber}</p>
+                        <p>RTGS/NEFT IFSC: {json0Data?.rtgs_neft_ifsc}</p>
+                    </div>
+                    <div className="col-3 border-end d-flex flex-column justify-content-between p-2">
+                        <p>Signature</p>
+                        <p className='fw-bold'>{json0Data?.CustName}</p>
+                    </div>
+                    <div className="col-3 d-flex flex-column justify-content-between p-2">
+                        <p>Signature</p>
+                        <p className='fw-bold'>{json0Data?.CompanyFullName}</p>
+                    </div>
                 </div>
             </div>
-        </> : <p className='text-danger fs-2 fw-semibold mt-5 text-center w-50 mx-auto'>{msg}</p>
+        </> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
     )
 }
 

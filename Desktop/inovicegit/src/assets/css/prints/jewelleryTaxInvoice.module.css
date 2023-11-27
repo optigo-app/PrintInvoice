@@ -9,3 +9,18 @@
 .discription{
     width: 40%;
 } */
+
+.image{
+    max-height: 100px;
+    object-fit: contain;
+}
+
+.generated{
+    font-size: 9px;
+}
+
+@media print{
+    .print_sec_sum4{
+        display: none !important;
+    }
+}

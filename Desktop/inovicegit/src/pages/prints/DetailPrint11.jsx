@@ -50,6 +50,8 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
       let elementsArr = [];
       let obj = { ...e };
       obj.metalRateGold = 0;
+      obj.metalRateGold = (e?.MetalAmount);
+      // obj.metalRateGold += (ele?.Rate / data.BillPrint_Json[0]?.CurrencyExchRate);
       obj.metalNetWeightWithLossWt = e?.NetWt+e?.LossWt;
       obj.alloy = 0;
       obj.totalGold = 0;
@@ -120,7 +122,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             }
             obj.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
             totals.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
-            obj.metalRateGold += (ele?.Rate / data.BillPrint_Json[0]?.CurrencyExchRate);
+            // obj.metalRateGold += (ele?.Rate / data.BillPrint_Json[0]?.CurrencyExchRate);
             fineWt = ele?.FineWt
           }
         }
@@ -168,7 +170,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
         newArr[findRecord].metalNetWeightWithLossWt += obj?.metalNetWeightWithLossWt;
         newArr[findRecord].LossPer += obj?.LossPer;
         newArr[findRecord].PureNetWt += obj?.PureNetWt;
-        newArr[findRecord].metalRateGold += obj?.metalRateGold;
+        newArr[findRecord].metalRateGold = (newArr[findRecord].metalRateGold+obj?.metalRateGold)/(newArr[findRecord].NetWt*data.BillPrint_Json[0]?.CurrencyExchRate);
         newArr[findRecord].alloy += obj?.alloy;
         newArr[findRecord].totalGold += obj?.totalGold;
         newArr[findRecord].OtherCharges += obj?.OtherCharges;
@@ -200,6 +202,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
         newArr[findRecord].materials = materials;
       }
     });
+
     setJson1Data(newArr);
   }
   useEffect(() => {
@@ -484,7 +487,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
           </div>
           <div className="col-2 border-end">
           {metalList.length > 0 && metalList.map((e, i) => {
-            return <div className="d-flex w-100 justify-content-between p-1" key={i}>
+           return   e?.value !== 0 && <div className="d-flex w-100 justify-content-between p-1" key={i}>
             <div><p>{e?.label}</p></div>
             <div><p>{fixedValues(e?.value, 3)} gm</p></div>
           </div>
