@@ -19,7 +19,7 @@
 
 .head7A {
     display: flex;
-    height: 140px;
+    height: 147px;
 }
 
 
@@ -35,7 +35,7 @@
     width: 249px;
     border-right: 1px solid #989898;
     justify-content: space-between;
-    height: 140px;
+    height: 145px;
 }
 
 .head7AjobInfoJobNO {
@@ -48,7 +48,7 @@
 .party7A {
     display: flex;
     justify-content: space-between;
-    height: 18.2px;
+    height: 20px;
     padding-left: 1px;
     padding-right: 1px;
 }
@@ -93,7 +93,7 @@
 }
 
 #img7A {
-    height: 120px;
+    height: 125px;
     object-fit: cover;
     width: 96px;
     border-bottom: 1px solid #989898;
