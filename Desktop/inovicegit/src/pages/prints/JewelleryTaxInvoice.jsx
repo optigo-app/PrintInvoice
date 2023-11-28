@@ -90,8 +90,8 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
             resultArr.push(obj);
         });
         metalArr.push({label: "Diamond Wt", value: diamondWt, gm: false});
-        metalArr.push({label: "Stone Wt", value: diamondWt, gm: false});
-        metalArr.push({label: "Misc Wt", value: diamondWt, gm: false});
+        metalArr.push({label: "Stone Wt", value: colorStoneWt, gm: false});
+        // metalArr.push({label: "Misc Wt", value: diamondWt, gm: false});
         metalArr.push({label: "Gross Wt", value: grossWt, gm: true});
         setSummary(metalArr);
         let taxValue = taxGenrator(json0Datas, totalAmountBefore);
@@ -153,8 +153,8 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                             <p className='lh-1 pb-1'>{json0Data?.customeremail1}</p>
                         </div>
                         <div className="col-5 px-2 py-3">
-                            <p className='lh-1 pb-1'>Invoice<span className='fw-bold'>#: {json0Data?.InvoiceNo}</span> </p>
-                            <p className='lh-1 pb-1'>PAN<span className='fw-bold'>#: {customerDetail?.pan}</span> </p>
+                            <p className='lh-1 pb-1'>Invoice<span className='fw-bold'>#: {json0Data?.InvoiceNo}</span>  Dated <span className="fw-bold">{json0Data?.EntryDate}</span></p>
+                            {customerDetail?.pan !== "" && <p className='lh-1 pb-1'>PAN<span className='fw-bold'>#: {customerDetail?.pan}</span> </p>}
                             <p className='lh-1 pb-1'>GSTIN <span className='fw-bold'>{customerDetail?.gst} {(json0Data?.Cust_CST_STATE !== "" && json0Data?.Cust_CST_STATE_No !== "") && <>| {json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}</>} </span></p>
                             <p className='lh-1 pb-1'>Due Date: <span className='fw-bold'>{json0Data?.DueDate}</span></p>
                         </div>
@@ -228,7 +228,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="col-2 p-1"><p className='text-end fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(totalAmount.grand, 2)} </p></div>
                 </div>
                 {/* computer generated */}
-                <p className={`py-2 ${style.generated} no_break`}>**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS </p>
+                <p className={`py-2 ${style.generated} no_break text-secondary`}>** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS </p>
                 {/* remark */}
                 <div className="border px-2 no_break">
                     <div dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }}></div>
