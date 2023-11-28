@@ -773,6 +773,8 @@ const BagPrint7A = ({ queries, headers }) => {
                                             style={{
                                               width: "54px",
                                               paddingLeft: "1px",
+                                              height:"10px",
+                                              lineHeight:"5px"
                                             }}
                                           >
                                             {e?.Sizename}
@@ -783,6 +785,8 @@ const BagPrint7A = ({ queries, headers }) => {
                                             style={{
                                               width: "54px",
                                               paddingLeft: "1px",
+                                              height:"10px",
+                                              lineHeight:"5px"
                                             }}
                                           >
                                             {e?.Sizename}
@@ -794,6 +798,8 @@ const BagPrint7A = ({ queries, headers }) => {
                                             style={{
                                               width: "30px",
                                               paddingRight: "1px",
+                                              height:"10px",
+                                              lineHeight:"5px"
                                             }}
                                           >
                                             {e?.ActualPcs}
@@ -804,6 +810,8 @@ const BagPrint7A = ({ queries, headers }) => {
                                             style={{
                                               width: "30px",
                                               paddingRight: "1px",
+                                              height:"10px",
+                                              lineHeight:"5px"
                                             }}
                                           >
                                             {e?.ActualPcs}
@@ -814,6 +822,8 @@ const BagPrint7A = ({ queries, headers }) => {
                                           style={{
                                             width: "24px",
                                             borderRight: "0px",
+                                            height:"10px",
+                                            lineHeight:"5px"
                                           }}
                                         ></div>
                                       </div>
@@ -1158,19 +1168,22 @@ const BagPrint7A = ({ queries, headers }) => {
                             >
                               <div
                                 className="w7A d-flex justify-content-start align-items-center pe-1"
-                                style={{ width: "54px", fontSize: "9px" }}
+                                style={{ width: "54px", fontSize: "9px",  height:"10px",
+                                lineHeight:"5px" }}
                               >
                                 Size
                               </div>
                               <div
                                 className="w7A d-flex justify-content-start align-items-center pe-1"
-                                style={{ width: "30px", fontSize: "9px" }}
+                                style={{ width: "30px", fontSize: "9px",   height:"10px",
+                                lineHeight:"5px" }}
                               >
                                 Pcs
                               </div>
                               <div
                                 className="w7A d-flex justify-content-start align-items-center pe-1"
-                                style={{ width: "25px", fontSize: "9px" }}
+                                style={{ width: "25px", fontSize: "9px",   height:"10px",
+                                lineHeight:"5px" }}
                               >
                                 Wt
                               </div>

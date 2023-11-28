@@ -11,6 +11,7 @@ export const organizeData = (rd, rd1) => {
       obj.rd1 = arrs;
       newArr?.push(obj);
     });
+    console.log(newArr);
     return newArr;
   };
 
