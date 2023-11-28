@@ -22,15 +22,17 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     const [summary, setSummary] = useState([]);
 
     const loadData = (data) => {
-        console.log(data);
+        // console.log(data);
         let json0Datas = data.BillPrint_Json[0];
         let custDetail = { ...customerDetail };
-        let custpanGstArr = data.BillPrint_Json[0]?.vat_cst_pan.split("|");
-        let custpans = custpanGstArr[1].split("-");
-        let custGst = custpanGstArr[0].split("-");
-        custDetail.pan = custpans[1];
-        custDetail.gst = custGst[1];
-        setCustomerDetail(custDetail);
+        if(data.BillPrint_Json[0]?.vat_cst_pan !== ""){
+            let custpanGstArr = data.BillPrint_Json[0]?.vat_cst_pan.split("|");
+            let custpans = custpanGstArr[1] ? custpanGstArr[1].split("-") : "";
+            let custGst =  custpanGstArr[0] ? custpanGstArr[0].split("-") : "";
+            custDetail.pan =custpans[1] ?  custpans[1] : "";
+            custDetail.gst = custGst[1] ? custGst[1] : "";
+            setCustomerDetail(custDetail);
+        }
         setJson0Data(json0Datas);
         let head = HeaderComponent(1, json0Datas);
         setHeaderComp(head);
@@ -201,7 +203,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }}></div></div>
                     <div className="col-4 p-1 border-end">
                         {summary.map((e, i) => {
-                            return <div className='d-flex justify-content-between'><p key={i}>{console.log(e)}{e?.label}:  </p><p>{NumberWithCommas(e?.value, 3)} {e?.gm ? "gm" : "cts"}</p></div>
+                            return <div className='d-flex justify-content-between' key={i}><p key={i}>{e?.label}:  </p><p>{NumberWithCommas(e?.value, 3)} {e?.gm ? "gm" : "cts"}</p></div>
                         })}
                     </div>
                     <div className="col-2 p-1 border-end">
