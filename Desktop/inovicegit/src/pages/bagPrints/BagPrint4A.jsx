@@ -68,11 +68,15 @@ const BagPrint4A = ({ queries, headers }) => {
           }
           let tc = {
             Shapename : "",
-            ConcatedFullShapeQualityColorName:""
+            Shapecode:"",
+            ConcatedFullShapeQualityColorName:"",
+            ConcatedFullShapeQualityColorCode:""
           }
           let tch = {
             Shapename : "METAL DETAIL",
-            ConcatedFullShapeQualityColorName:"METAL DETAIL"
+            Shapecode:"METAL DETAIL",
+            ConcatedFullShapeQualityColorName:"METAL DETAIL",
+            ConcatedFullShapeQualityColorCode:"METAL DETAIL"
           }
 
           let diaArr = [];
@@ -151,9 +155,9 @@ const BagPrint4A = ({ queries, headers }) => {
           clsArr?.unshift(newCS);
           miscArr?.unshift(newMisc);
           fArr?.unshift(newfind);
-
-          let blankArr1 = checkArr(diaArr, clsArr, miscArr,fArr);
-
+          let blankArr1 = [];
+          blankArr1 = blankArr1.concat(diaArr, clsArr, miscArr,fArr);
+          // let blankArr1 = blankArr12.concat(fArr);
           a.rd1 = blankArr;
           let obj = { ...a };
           if (obj?.rd?.length > 0) {
@@ -167,6 +171,7 @@ const BagPrint4A = ({ queries, headers }) => {
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
           tc.ConcatedFullShapeQualityColorName = (a?.rd?.MetalType == null ? 'NA' : a?.rd?.MetalType) + " " + (a?.rd?.MetalColorCo == null ? 'NA' : a?.rd?.MetalColorCo)
+          tc.ConcatedFullShapeQualityColorCode = (a?.rd?.MetalType == null ? 'NA' : a?.rd?.MetalType) + " " + (a?.rd?.MetalColorCo == null ? 'NA' : a?.rd?.MetalColorCo)
           blankArr1.unshift(tc);
           blankArr1.unshift(tch);
 
@@ -206,6 +211,7 @@ const BagPrint4A = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
+  
   return (
     <>
       {data?.length === 0 ? (
@@ -382,8 +388,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                                       }}  
                                                   >
                                                   <div className="finding height_23_4A">
-                                                      {elem?.Shapename} {elem?.Quality}
-                                                      {elem?.ColorName}
+                                                      {elem?.Shapecode} {elem?.QualityCode}
+                                                      {elem?.ColorCode}
                                                   </div>
                                                 </div>
                                                 <div className="pcs4A border_right4A code4A_text">{elem?.ActualPcs}</div>
@@ -429,7 +435,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                                   >
                                                   <div className="code4A border_right4A code4A_text">
                                                     {
-                                                      elem?.ConcatedFullShapeQualityColorName
+                                                      elem?.ConcatedFullShapeQualityColorCode
                                                     }
                                                   </div>
                                                   <div className="size4AS border_right4A code4A_text">
@@ -522,7 +528,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                   <div className="cast_ins">
                                     CAST INS.:
                                     <span className="red_4A">
-                                      {checkInstruction(e?.data?.officeuse)}
+                                      {e?.data?.officeuse?.length > 0 ? checkInstruction(e?.data?.officeuse) : checkInstruction(e?.data?.productinfo)}{" "}
                                       {e?.data?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.ProductInstruction) : checkInstruction(e?.data?.QuoteRemark)}
                                     </span>
                                   </div>
@@ -670,7 +676,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                   RECEIVE
                                 </div>
                                 <div className="scrap_4A border_right4A d-flex align-items-center justify-content-center px-1">
-                                  QC.Sign
+                                  SCRAP
                                 </div>
                                 <div className="pcs_4A border_right4A d-flex align-items-center justify-content-center px-1">
                                   PCS
@@ -742,6 +748,16 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
+                                  PLT.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
                                   ENM.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
@@ -764,44 +780,17 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <div className="lh4A dept_4A border_right4A d-flex align-items-center">
                                   SLS. INS.
                                 </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className="lh4A dept_4A border_right4A d-flex align-items-center">
                                 PRD. INS.
                                 </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center">
                                   QC. INS.
                                 </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
-                                <div className=" dept_4A border_right4A d-flex align-items-center">
-
-                                </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
-                              </div>
-                              
-
                             </div>
                             <div className="barcode_img_container_4A">
                               <BarcodeGenerator
@@ -892,20 +881,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                 WT
                               </div>
                             </div>
-                            {/* <div className="height_23_4A border_bottom4A d_flex4A">
-                              <div
-                                className="code4A border_right4A code4A_text"
-                                style={{ width: "94pt" }}
-                              >
-                                <div className="code_4A_change border-end border-black height_23_4A">
-                                {e?.data?.MetalType} {e?.data?.MetalColorCo}
-                                </div>
-                              </div>
-                              <div className="pcs4A border_right4A code4A_text"></div>
-                              <div className="wt4A border_right4A code4A_text"></div>
-                              <div className="pcs4A border_right4A code4A_text"></div>
-                              <div className="wt4A border_right4A code4A_text"></div>
-                            </div> */}
                             <div className="record_line_1">
                               {Array.from({ length: 14 }, (_, index) => (
                                 <div
@@ -972,9 +947,9 @@ const BagPrint4A = ({ queries, headers }) => {
                           </div>
                           <div className="part_3_4A">
                             <div className="cast_ins">
-                              CAST INS.:
+                              CAST INS :
                               <span className="red_4A">
-                                {checkInstruction(e?.data?.officeuse)}
+                                {e?.data?.officeuse?.length > 0 ? checkInstruction(e?.data?.officeuse) : checkInstruction(e?.data?.productinfo)}{" "}
                                 {e?.data?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.ProductInstruction) : checkInstruction(e?.data?.QuoteRemark)}
                               </span>
                             </div>
@@ -1110,7 +1085,7 @@ const BagPrint4A = ({ queries, headers }) => {
                             <div className="part_3_container_4A_sec">
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center justify-content-center px-1">
-                                  DEPT
+                                  DEPT DEPT
                                 </div>
                                 <div className="issue_4A border_right4A d-flex align-items-center justify-content-center px-1">
                                   ISSUE
@@ -1119,7 +1094,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                   RECEIVE
                                 </div>
                                 <div className="scrap_4A border_right4A d-flex align-items-center justify-content-center px-1">
-                                  QC.Sign
+                                  SCRAP
                                 </div>
                                 <div className="pcs_4A border_right4A d-flex align-items-center justify-content-center px-1">
                                   PCS
@@ -1191,6 +1166,16 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                               <div className="part_3_container_4A_record border_bottom4A">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
+                                  PLT.
+                                </div>
+                                <div className="issue_4A border_right4A"></div>
+                                <div className="receive_4A border_right4A"></div>
+                                <div className="scrap_4A border_right4A"></div>
+                                <div className="pcs_4A border_right4A"></div>
+                                <div className="worker_4A border_right_4A"></div>
+                              </div>
+                              <div className="part_3_container_4A_record border_bottom4A">
+                                <div className=" dept_4A border_right4A d-flex align-items-center px-1">
                                   ENM.
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
@@ -1238,18 +1223,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <div className="scrap_4A border_right4A"></div>
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
-                              </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
-                                <div className=" dept_4A border_right4A d-flex align-items-center">
-
-                                </div>
-                                <div className="issue_4A border_right4A"></div>
-                                <div className="receive_4A border_right4A"></div>
-                                <div className="scrap_4A border_right4A"></div>
-                                <div className="pcs_4A border_right4A"></div>
-                                <div className="worker_4A border_right_4A"></div>
-                              </div>
-                              
+                              </div>                              
                             </div>
                             <div className="barcode_img_container_4A">
                               <BarcodeGenerator

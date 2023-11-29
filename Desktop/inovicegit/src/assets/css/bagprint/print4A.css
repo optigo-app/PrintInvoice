@@ -142,7 +142,7 @@
 }
 
 .code4A_text {
-    font-size: 7pt;
+    font-size: 6pt;
     line-height: 115%;
 }
 
@@ -355,6 +355,7 @@
 .part_3_container_4A_record>div {
     font-size: 7pt;
     text-align: center;
+    padding-left: 1px;
 }
 
 .container_print4Apart_1 {
@@ -392,7 +393,7 @@
 }
 
 .record_line_4A>div {
-    line-height: 150%;
+    line-height: 170%;
 }
 
 .dflex4Ak {
