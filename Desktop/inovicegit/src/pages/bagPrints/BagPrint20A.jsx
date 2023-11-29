@@ -261,7 +261,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                           <span
                                             className="fs20A fw-bold h-100 d-flex justify-content-center align-items-center "
                                             style={{
-                                              fontSize: "11px",
+                                              fontSize: "10px",
                                               width: "38.5px",
                                             }}
                                           >
@@ -281,7 +281,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                           <span
                                             className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center fw-bold"
                                             style={{
-                                              fontSize: "9.5px",
+                                              fontSize: "10px",
                                               width: "38.5px",
                                             }}
                                           >
@@ -292,6 +292,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                             style={{
                                               fontSize: "11px",
                                               width: "65px",
+                                              lineHeight:"8.5px"
                                             }}
                                           >
                                             {e?.data?.rd?.Designcode?.slice(
@@ -790,8 +791,8 @@ const BagPrint20A = ({ queries, headers }) => {
                                 <div style={{ width: "45%" }}>
                                   <div className="h7Acopy fs7Acopy d-flex">
                                     <span
-                                      className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center"
-                                      style={{ width: "38.5px" }}
+                                      className=" fw-bold h-100 d-flex justify-content-center align-items-center"
+                                      style={{ width: "38.5px", fontSize:"10px" }}
                                     >
                                       Bag No:
                                     </span>
@@ -810,7 +811,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                       className=" fw-bold h-100 d-flex justify-content-center align-items-center fw-bold"
                                       style={{
                                         width: "38.5px",
-                                        fontSize: "9.5px",
+                                        fontSize: "10px",
                                       }}
                                     >
                                       Dgn No:
@@ -820,6 +821,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                       style={{
                                         width: "64px",
                                         fontSize: "11px",
+                                        lineHeight:"8.5px"
                                       }}
                                     >
                                       {e?.data?.rd?.Designcode?.slice(0, 21)}

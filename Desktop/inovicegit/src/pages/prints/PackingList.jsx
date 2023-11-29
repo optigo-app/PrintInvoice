@@ -281,7 +281,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
 
 
 
-    let aaaa =  setFinalArr(resultArr);
+    let aaaa =  setFinalArr(resultArr, arr,arr1,arr2);
 
 
 
