@@ -19,22 +19,19 @@
     border-right: 1pt solid #000;
 }
 
-.container4A {
-    /* display: flex;
-    flex-wrap: wrap; */
-}
-.container4AD{
+
+/* .container4AD{
     height: 382px;
     width: 367px;
-}
+} */
 .print4Apart_1 {
-    min-width: 262pt;
-    min-height: 275pt;
-    width: 262pt;
-    height: 275pt;
+    min-width: 350px; 
+    min-height: 368px;
+    width: 350px;
+    height: 368px;
     padding: 0pt;
     margin-left: 1.1rem;
-    /* margin: 15pt 0 2pt 14pt; */
+    margin: 15pt 0 2pt 14pt;
     border-radius: 8pt;
     border: 2pt solid #3D3D3D;
     border-collapse: collapse;
@@ -42,7 +39,6 @@
     flex-wrap: wrap;
     overflow: hidden;
     margin-bottom: 15px;
-    /* margin-left: 16pt; */
 }
 
 
@@ -142,7 +138,7 @@
 }
 
 .code4A_text {
-    font-size: 6pt;
+    font-size: 6.5pt;
     line-height: 115%;
 }
 
@@ -168,14 +164,14 @@
 }
 
 .record_line_4A {
-    height: 12.5pt;
+    height: 13pt;
     display: flex;
     overflow: hidden;
 }
 
 .part_2_4A {
     width: 88pt;
-    height: 236pt;
+    height: 243pt;
     overflow: hidden;
     border-left: 1px solid black;
 }
@@ -188,7 +184,7 @@
 .part_3_4A {
     border-top: 1px solid #000;
     width: 100%;
-    height: 35pt;
+    height: 30pt;
 }
 
 .cast_ins {
@@ -215,7 +211,7 @@
 
 .barcode_sticker_4A {
     display: flex;
-    height: 148pt;
+    height: 170pt;
 }
 
 .BARCODE_TEXT_4A {
@@ -231,7 +227,7 @@
 }
 
 .diamond_custom_4A {
-    height: 24.8pt;
+    height: 25.8pt;
     overflow: hidden;
 }
 
@@ -241,7 +237,7 @@
 }
 
 .barcode_img_4A {
-    width: 25pt;
+    width: 28pt;
     position: relative;
 }
 
@@ -331,7 +327,7 @@
 
 .part_3_container_4A_record {
     display: flex;
-    height: 11.8pt;
+    height: 12.1pt;
 }
 
 .dept_4A {
@@ -403,8 +399,8 @@
 }
 
 #img4A {
-    height: 150px;
-    width: 110px;
+    height: 142px;
+    width: 118px;
 }
 
 .height_11_Print4a {
@@ -419,7 +415,13 @@
 .lh4A{
     line-height: 7px;
 }
+.print4apart_1{
+    margin: 1pt 0 20px 14pt;
+}
 
+.print4bpart_1{
+    margin: 1pt 0 20px 14pt;
+}
 @media print {
     /* .print4Apart_1:nth-child(6n+6) {
         page-break-after: always !important;
@@ -439,8 +441,16 @@
         position: relative;
         top: 38px;
       }
-   
+      .print4apart_1{
+        margin: 1pt 0 0 14pt;
+    }
+
+    .print4bpart_1{
+        margin: 1pt 0 20px 14pt;
+    }
       .print4Apart_1{
         margin-bottom: 0;
     }
+
+  
 }
