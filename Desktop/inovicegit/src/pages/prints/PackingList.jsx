@@ -8,6 +8,7 @@ import {
   NumberWithCommas,
   taxGenrator,
 } from "../../GlobalFunctions";
+import { setFinalArr } from "../../GlobalFunctions/setFinalArr";
 
 const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
@@ -175,7 +176,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
       totgrosswt += e?.grosswt;
 
       totnetlosswt = totnetlosswt + +e?.NetWt + +e?.LossWt;
-      console.log(e);
       totals.labour.labourAmount = totals.labour.labourAmount + e?.MakingAmount;
       totals.OtherCh.OtherAmount =
         totals.OtherCh.OtherAmount + e?.OtherCharges + e?.MiscAmount;
@@ -274,11 +274,14 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     });
 
+    
+
+    
 
 
 
 
-
+    let aaaa =  setFinalArr(resultArr);
 
 
 
@@ -293,7 +296,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
         let findRecord = semiFInalArr?.findIndex((ele) => obj.GroupJob === ele?.GroupJob) 
         if(findRecord === -1){
           semiFInalArr.push(obj)
-        }else{
+        }
+        else{
           if(obj.GroupJob !== obj.SrJobno){
             obj.SrJobno = semiFInalArr[findRecord].SrJobno;
             obj.DesignImage = semiFInalArr[findRecord].DesignImage;
@@ -341,7 +345,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
       }
         
     })
-    console.log(semiFInalArr);
 
 
 
@@ -546,7 +549,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 <div className="pcltable">
                   <div className="pcltablecontent">
-                    <div className="pcltablehead border-start border-end border-bottom border-black">
+                    <div className="pcltablehead border-start border-end border-bottom border-black mb-1">
                       <div className="srnopclthead centerpcl fwboldpcl srfslhpcl">
                         Sr No
                       </div>

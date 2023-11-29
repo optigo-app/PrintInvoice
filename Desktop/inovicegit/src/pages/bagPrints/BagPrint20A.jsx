@@ -268,8 +268,8 @@ const BagPrint20A = ({ queries, headers }) => {
                                             Bag No :
                                           </span>
                                           <span
-                                            className="lh20A h-100 d-flex justify-content-center align-items-center fs-6 fw-bold "
-                                            style={{ width: "64px" }}
+                                            className="lh20A h-100 d-flex justify-content-center align-items-center fw-bold "
+                                            style={{ width: "64px", fontSize:"11px" }}
                                           >
                                             {e?.data?.rd?.serialjobno?.slice(
                                               0,
@@ -279,24 +279,24 @@ const BagPrint20A = ({ queries, headers }) => {
                                         </div>
                                         <div className="fs20A fs7Acopy d-flex justify-content-between align-items-center w-100">
                                           <span
-                                            className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center"
+                                            className="fs7Acopy fw-bold h-100 d-flex justify-content-center align-items-center fw-bold"
                                             style={{
-                                              fontSize: "8.5px",
+                                              fontSize: "9.5px",
                                               width: "38.5px",
                                             }}
                                           >
                                             Dgn No :
                                           </span>
                                           <span
-                                            className="fs20A lh20A h-100 d-flex justify-content-center align-items-center ps-1"
+                                            className="fs20A lh20A h-100 d-flex justify-content-center align-items-center ps-1 fw-bold"
                                             style={{
-                                              fontSize: "8.5px",
+                                              fontSize: "11px",
                                               width: "65px",
                                             }}
                                           >
                                             {e?.data?.rd?.Designcode?.slice(
                                               0,
-                                              31
+                                              20
                                             )}
                                           </span>
                                         </div>
@@ -799,7 +799,7 @@ const BagPrint20A = ({ queries, headers }) => {
                                       className="fs7Acopy h-100 d-flex justify-content-center align-items-center fw-bold"
                                       style={{
                                         width: "64px",
-                                        fontSize: "12px",
+                                        fontSize: "11px",
                                       }}
                                     >
                                       {e?.data?.rd?.serialjobno?.slice(0, 9)}
@@ -807,22 +807,22 @@ const BagPrint20A = ({ queries, headers }) => {
                                   </div>
                                   <div className="h7Acopy fs7Acopy d-flex">
                                     <span
-                                      className=" fw-bold h-100 d-flex justify-content-center align-items-center"
+                                      className=" fw-bold h-100 d-flex justify-content-center align-items-center fw-bold"
                                       style={{
                                         width: "38.5px",
-                                        fontSize: "8.5px",
+                                        fontSize: "9.5px",
                                       }}
                                     >
                                       Dgn No:
                                     </span>
                                     <span
-                                      className=" h-100 d-flex justify-content-center align-items-center ps-1"
+                                      className=" h-100 d-flex justify-content-center align-items-center ps-1 fw-bold"
                                       style={{
                                         width: "64px",
-                                        fontSize: "8.5px",
+                                        fontSize: "11px",
                                       }}
                                     >
-                                      {e?.data?.rd?.Designcode?.slice(0, 31)}
+                                      {e?.data?.rd?.Designcode?.slice(0, 21)}
                                     </span>
                                   </div>
                                 </div>
