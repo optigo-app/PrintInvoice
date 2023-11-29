@@ -48,9 +48,15 @@
 .diaAmtDetailPrint11,
 .settingTypeDetailPrint11,
 .settingPriceDetailPrint11,
+.diamondDetail1,
 .totalMaterialAmountDetailPrint11 {
     width: 11.11%;
     min-width: 11.11%;
+}
+
+.diamondDetail{
+    width: 14.30%;
+    min-width: 14.30%;
 }
 
 

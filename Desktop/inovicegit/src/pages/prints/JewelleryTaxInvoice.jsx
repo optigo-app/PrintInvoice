@@ -22,7 +22,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     const [summary, setSummary] = useState([]);
 
     const loadData = (data) => {
-        // console.log(data);
+        console.log(data);
         let json0Datas = data.BillPrint_Json[0];
         let custDetail = { ...customerDetail };
         if(data.BillPrint_Json[0]?.vat_cst_pan !== ""){
@@ -183,7 +183,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                         {e?.miscWts !==  0 && <> | {NumberWithCommas(e?.miscWts, 3)} Cts</> }
                              </p>
                             {e.materials.length > 0 && e.materials.map((ele, ind) => {
-                                return <p key={ind}>{ele?.MasterManagement_DiamondStoneTypeName}: {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} Cts | {ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}
+                                return <p key={ind}>{ele?.IsCenterStone === 1 ? "CENTER STONE" : ele?.MasterManagement_DiamondStoneTypeName}: {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} Cts | {ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}
                                 </p>
                             })}
                         </div>

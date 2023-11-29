@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/miscPrint1.css";
-import { apiCall, fixedValues, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, fixedValues, handlePrint, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { usePDF } from 'react-to-pdf';
-import { NumberWithCommas } from '../../GlobalFunctions';
 const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
     const [primary, setPrimary] = useState({});
@@ -160,8 +159,8 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     return (
         <>
             {loader ? <Loader /> : msg === "" ? <>
-                <div className="container max_width_container container_Misc_1">
-                    <div className="printBtn_sec text-end  pt-4 pad_60_allPrint">
+                <div className="container max_width_container container_Misc_1 pad_60_allPrint">
+                    <div className="printBtn_sec text-end pt-4 ">
                         {/* <input type="button" className="btn_white blue me-2" value="Pdf" onClick={() => toPDF()} /> */}
                         <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
                     </div>

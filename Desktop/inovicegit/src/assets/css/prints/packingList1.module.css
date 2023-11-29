@@ -1,0 +1,44 @@
+.container * {
+    font-size: 8px;
+    line-height: 120%;
+}
+
+.img{
+    width: 11.55px;
+    height: 75px;
+    min-width: 115.55px;
+    min-height: 75px;
+    object-fit: contain;
+    object-position: center;
+}
+
+.srNo{
+    width: 5%;    
+    min-width: 5%;
+}
+.diamond, .metal, .stone{
+    width: 20%;    
+    min-width: 20%;
+}
+.labour, .other{
+    width: 10%;    
+    min-width: 10%;
+}
+.design{
+    width: 8%;    
+    min-width: 8%;
+}
+.price{
+    width: 7%;    
+    min-width: 7%;
+}
+
+.pad_1{
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.wid_20{
+    width: 20%;
+    min-width: 20%;
+}

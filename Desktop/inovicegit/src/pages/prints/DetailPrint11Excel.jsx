@@ -50,6 +50,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
   const [bankDetail, setBankDetail] = useState([]);
 
   const loadData = (data) => {
+    let goldRateFind = [];
     // console.log(data);
     let golds = { ...gold };
     setJson0Data(data.BillPrint_Json[0]);
@@ -59,6 +60,12 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
     let fineWt = 0;
     let metalsArr = [];
     data?.BillPrint_Json1.forEach((e, i) => {
+      let objects = {
+        GroupJob: e?.GroupJob,
+        netWt: e?.NetWt,
+        rate: 0,
+        amount: 0
+      }
       let elementsArr = [];
       let obj = { ...e };
       // obj.metalRateGold = e?.MetalAmount;
@@ -117,6 +124,8 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
             totals.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+            objects.rate += ele?.Rate;
+            objects.amount += ele?.Amount;
             if (ele?.QualityName === "18K") {
               summaries.gold18k += ele?.Wt;
               golds.gold18k = true;
@@ -150,6 +159,16 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
       obj.totalCol = totalCol;
       obj.fineWt = fineWt;
       resultAr.push(obj);
+      if (e?.GroupJob !== "") {
+        let findGroup = goldRateFind.findIndex(elem => elem.GroupJob === e?.GroupJob);
+        if (findGroup === -1) {
+          goldRateFind.push(objects);
+        } else {
+         goldRateFind[findGroup].netWt += objects?.netWt;
+         goldRateFind[findGroup].rate +=  objects.rate;
+         goldRateFind[findGroup].amount += objects.amount;
+        }
+      }
     });
     let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.totalJewelleryAmount);
     taxValue.length > 0 && taxValue.forEach((e, i) => {
@@ -228,8 +247,24 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
     });
     setJson1Data(newArr);
 
-    let excelArr = [];
+    let finalArr = [];
+
     newArr.forEach((e, i) => {
+      let findRecord = goldRateFind.findIndex(elem => elem?.GroupJob === e?.GroupJob);
+      let obj = {...e};
+      if(findRecord === -1){
+          obj.goldPrice = obj?.metalRateGold;
+          finalArr.push(obj);
+      }else{
+        let goldPrice = goldRateFind[findRecord].amount/ (data.BillPrint_Json[0]?.CurrencyExchRate * goldRateFind[findRecord].netWt);
+        obj.goldPrice = goldPrice;
+        finalArr.push(obj);
+      }
+    })
+
+
+    let excelArr = [];
+    finalArr.forEach((e, i) => {
       let obj = { ...e };
       let length = obj?.materials?.length > 10 ? obj?.materials?.length : 10;
       let goldArr = [
@@ -255,7 +290,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
         },
         {
           label: "Gold Price",
-          value: `${NumberWithCommas(e?.metalRateGold, 2)}`,
+          value: `${NumberWithCommas(e?.goldPrice, 2)}`,
         },
         {
           label: "Alloy",
@@ -697,7 +732,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
                 <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}`, verticalAlign: 'middle' }} align='right'>&nbsp;{e?.diamondSettingAmount !== "" && (e?.diamondShape === "Total" ? <b>{NumberWithCommas(e?.diamondSettingAmount, 2)}</b> : NumberWithCommas(e?.diamondSettingAmount, 2))}</td>
                 <td width={150} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}`, verticalAlign: 'middle' }} align={`${e?.goldLabel === "Total Gold" && `center`}`}>&nbsp;<b>{e?.goldLabel} </b></td>
                 <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}`, verticalAlign: 'middle' }} align={`${e?.diamondShape === "Total" ? "right" : "center"}`}>&nbsp;{e?.diamondShape === "Total" ? <b>{e?.goldValue}</b> : e?.goldValue}</td>
-                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}`, verticalAlign: 'middle' }} align={`${e?.otherChanges === "Total Labour" ? "center" : "right"}`}>&nbsp;{e?.otherChanges !== "" && (e?.diamondShape === "Total" ? <b>{NumberWithCommas(e?.otherChanges, 2)}</b> : NumberWithCommas(e?.otherChanges, 2))}</td>
+                <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}`, verticalAlign: 'middle' }} align={`${e?.otherChanges === "Total Labour" ? "center" : "right"}`}>&nbsp;{e?.otherChanges !== "" && (e?.diamondShape === "Total" ? <b>{e?.otherChanges}</b> : <>{e?.otherChanges}</>)}</td>
                 <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}`, verticalAlign: 'middle' }} align='right'>&nbsp;{e?.diamondShape === "Total" ? <b>{e?.labourAmount} </b> : e?.labourAmount}</td>
                 <td width={90} style={{ borderRight: "1px solid #000", padding: "1px", borderBottom: `${e?.totalLine && `1px solid`}`, borderTop: `${e?.totalLine && `1px solid`}`, verticalAlign: 'middle' }} align='right'>&nbsp;{e?.diamondShape === "Total" ? <b>{e?.totalAmount}</b> : e?.totalAmount}</td>
               </tr>

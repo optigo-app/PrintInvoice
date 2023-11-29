@@ -323,12 +323,12 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
         return -1; // a comes before b if a is 'Gold' and b is not
       } else if (b.MasterManagement_DiamondStoneTypeid === 4 && a.MasterManagement_DiamondStoneTypeid !== 4) {
         return 1; // b comes before a if b is 'Gold' and a is not
-      }else {
-        if(a.MasterManagement_DiamondStoneTypeid === 1 && b.MasterManagement_DiamondStoneTypeid !== 1){
+      } else {
+        if (a.MasterManagement_DiamondStoneTypeid === 1 && b.MasterManagement_DiamondStoneTypeid !== 1) {
           return -1;
-        }else if(b.MasterManagement_DiamondStoneTypeid === 1 && a.MasterManagement_DiamondStoneTypeid !== 1){
+        } else if (b.MasterManagement_DiamondStoneTypeid === 1 && a.MasterManagement_DiamondStoneTypeid !== 1) {
           return 1;
-        }else{
+        } else {
           return a.MasterManagement_DiamondStoneTypeName.localeCompare(b.MasterManagement_DiamondStoneTypeName); // Sort by name if metalType is not 'Gold'
         }
       }
@@ -355,19 +355,19 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
       switch (item.MasterManagement_DiamondStoneTypeid) {
         case 1:
-          groupName = "Diamond";
+          groupName = "DIAMOND";
           break;
         case 2:
-          groupName = "ColorStone";
+          groupName = "COLORSTONE";
           break;
         case 3:
-          groupName = "CZ";
+          groupName = "CZ STUDDED JEWELLERY";
           break;
         case 4:
-          groupName = "Gold";
+          groupName = "GOLD";
           break;
         default:
-          groupName = "Other";
+          groupName = "OTHER";
       }
 
       // Initialize the group if it doesn't exist
@@ -475,12 +475,12 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <span className="fw-bold">GStTIN:</span> {headerData?.vat_cst_pan?.split("|")?.[0]}
                       </p>
                     </div>
-                    <p className="fsinvp3 text-end">
+                    {/* <p className="fsinvp3 text-end">
                     <span className="fw-bold">PAN:</span> {headerData?.vat_cst_pan?.split("|")?.[1]}
-                    </p>
+                    </p> */}
                     <div className="text-end winvp3">
                       <p className="fsinvp3">
-                      <span className="fw-bold">{headerData?.Cust_CST_STATE}</span> {headerData?.Cust_CST_STATE_No}
+                        <span className="fw-bold">{headerData?.Cust_CST_STATE}</span> {headerData?.Cust_CST_STATE_No}
                       </p>
                     </div>
                   </div>
@@ -495,7 +495,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                   <div className="w-50 d-flex flex-column justify-content-between position-relative d-flex">
                     <div className="w-100 h-100 position-relative">
                       <div className="discHeadinvp3">DESCRIPTION</div>
-                      <div className="w-100 descriptioninovicePrint3">{descArr}</div>
+                      <div className="w-100 descriptioninovicePrint3 px-2">{descArr}</div>
                     </div>
                     <div className="empdivinvp3"></div>
                   </div>
@@ -553,7 +553,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                               ""
                             ) : (
                               <p className="wp3tbinvp3 fsinvp3 text-end">
-                                {e?.Amount?.toFixed(2)}
+                                {NumberWithCommas(e?.Amount, 2)}
                               </p>
                             )}
                           </div>
@@ -570,12 +570,12 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 <div className="summaryinvp3">
                   <div className="totalinvp3">
-                    <div className="d-flex justify-content-between px-1">
+                    {totDiscount !== 0 && <div className="d-flex justify-content-between px-1">
                       <p className="w-50 text-start fsinvp3">Discount</p>
                       <p className="w-50 text-end fsinvp3">
                         {NumberWithCommas(totDiscount, 2)}
                       </p>
-                    </div>
+                    </div>}
                     <div className="d-flex justify-content-between px-1">
                       <p className="fsinvp3">Total Amount</p>
                       <p className="w-50 text-end fsinvp3">
@@ -597,14 +597,14 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
                         );
                       })}
 
-                    <div className="d-flex justify-content-between px-1">
+                    {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between px-1">
                       <p className="fsinvp3">
                         {headerData?.AddLess > 0 ? "Add" : "Less"}
                       </p>
                       <p className="w-50 text-end fsinvp3">
                         {headerData?.AddLess}
                       </p>
-                    </div>
+                    </div>}
                     <div
                       className="d-flex justify-content-between px-1 mt-1"
                       style={{ borderTop: "2.5px solid #e8e8e8" }}
