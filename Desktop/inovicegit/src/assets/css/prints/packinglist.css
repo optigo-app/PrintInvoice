@@ -107,6 +107,7 @@
     align-items: center;
     padding: 1rem;
     width: 30%;
+    padding-left: 0rem;
 }
 
 .partypcl {
@@ -140,7 +141,10 @@
     display: flex;
     border-bottom: 1px solid #989898;
 }
-
+.srfslhpcl{
+    font-size: 14px !important;
+    line-height: 12px !important;
+}
 .srnopcl {
     display: flex;
     height: 32px;
