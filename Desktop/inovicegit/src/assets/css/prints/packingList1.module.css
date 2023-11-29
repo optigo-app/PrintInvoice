@@ -4,9 +4,9 @@
 }
 
 .img{
-    width: 11.55px;
+    width: 75px;
     height: 75px;
-    min-width: 115.55px;
+    min-width: 75px;
     min-height: 75px;
     object-fit: contain;
     object-position: center;
@@ -41,4 +41,19 @@
 .wid_20{
     width: 20%;
     min-width: 20%;
+}
+
+.min_height{
+    min-height: 10px;
+    height: 10px;
+}
+
+.total{
+    width: 13%;
+    min-width: 13%;
+}
+
+.discount{
+    width: 93%;
+    min-width: 93%;
 }
