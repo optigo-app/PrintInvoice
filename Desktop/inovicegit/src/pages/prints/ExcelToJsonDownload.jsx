@@ -26,6 +26,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                         } else {
                             materials[findIndex].Wt += ele?.Wt;
                             materials[findIndex].Amount += ele?.Amount;
+                            console.log(materials[findIndex].Pcs, ele?.Pcs); 
                             materials[findIndex].Pcs += ele?.Pcs;
                         }
                     } else {
@@ -53,6 +54,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     blankDiamonds[findIndex].SizeName = ele?.GroupName;
                     blankDiamonds[findIndex].Wt += ele?.Wt;
                     blankDiamonds[findIndex].Amount += ele?.Amount;
+                    blankDiamonds[findIndex].Pcs += ele?.Pcs;
                 }
             });
             colorStones.forEach((ele, ind) => {
@@ -63,6 +65,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     blankColorStones[findIndex].SizeName = ele?.GroupName;
                     blankColorStones[findIndex].Wt += ele?.Wt;
                     blankColorStones[findIndex].Amount += ele?.Amount;
+                    blankColorStones[findIndex].Pcs += ele?.Pcs;
                 }
             });
 
