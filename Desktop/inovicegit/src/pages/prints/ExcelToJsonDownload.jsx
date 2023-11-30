@@ -10,6 +10,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
     const [msg, setMsg] = useState("");
 
     const loadData = (data) => {
+        console.log(data);
         let json0Data = data?.BillPrint_Json[0];
         let json1Data = data?.BillPrint_Json1;
         let json2Data = data?.BillPrint_Json2;
@@ -121,8 +122,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                         stoneAmount = NumberWithCommas(colorStones[ind]?.Amount / json0Data?.CurrencyExchRate, 2);
                     }
                     if (metals[ind]) {
-                        // metalPurity = metals[i]?.MetalPurity;
-                        // metalColor = metals[i]?.MetalColor;
+    
                         metalRate = NumberWithCommas(metals[ind]?.Rate, 2);
                     }
                     let goldValue = ind === 0 ? NumberWithCommas((e?.MetalAmount - e?.LossAmt) / json0Data?.CurrencyExchRate, 2) : "";

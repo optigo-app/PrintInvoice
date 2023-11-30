@@ -62,7 +62,8 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
             diaWt: 0,
             gwt: 0,
             discountAmt: 0,
-            weightInGram: 0
+            weightInGram: 0,
+            UnitCost: 0
         };
         json1.forEach((e, i) => {
             arrResult.forEach((ele, ind) => {
@@ -91,6 +92,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 }
             });
             totalobj.TotalAmount += e?.TotalAmount;
+            totalobj.UnitCost += e?.UnitCost;
             totalobj.totalOtherAmount += e?.OtherCharges;
             totalobj.netWeight += e?.NetWt;
             totalobj.gwt += e?.grosswt;
@@ -130,6 +132,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
     }
 
     const loadData = (datas) => {
+        console.log(datas);
         setBillPrint_Json(datas?.BillPrint_Json[0]);
         setBillPrint_Json1(datas?.BillPrint_Json1);
         setBillPrint_Json2(datas?.BillPrint_Json2);
@@ -275,7 +278,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 })}
                             </div>
                         </div>
-                        <div className='d-flex align-items-center justify-content-end total_invoice1 total_invoicePrint1 min_padding_invoice1 border-end border-2 border-black'>{NumberWithCommas(+e?.mainData?.TotalAmount, 2)}</div>
+                        <div className='d-flex align-items-center justify-content-end total_invoice1 total_invoicePrint1 min_padding_invoice1 border-end border-2 border-black'>{NumberWithCommas(+e?.mainData?.UnitCost, 2)}</div>
                     </div>
                 })}
                 <div className="d-flex headHeightInvoice1 border-bottom print_break_avoid_invoice1 border-2 border-black">
@@ -294,7 +297,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div className='p-1 d-flex align-items-center making_invoice1 making_invoicePrint1 border-end'></div>
                     <div className='p-1 d-flex align-items-center others_invoice1 others_invoicePrint1 border-end fw-bold justify-content-center'>{NumberWithCommas(totalAmount?.totalOtherAmount, 2)}</div>
-                    <div className='p-1 d-flex align-items-center total_invoice1 total_invoicePrint1 border-end fw-bold justify-content-end border-2 border-black'>{NumberWithCommas(totalAmount?.TotalAmount, 2)}</div>
+                    <div className='p-1 d-flex align-items-center total_invoice1 total_invoicePrint1 border-end fw-bold justify-content-end border-2 border-black'>{NumberWithCommas(totalAmount?.UnitCost, 2)}</div>
                 </div>
                 <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 border-2 border-black">
                     <div className="oldGoldInvoice1 border-end d-grid oldGoldInvoicePrint1">
