@@ -295,9 +295,11 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
         let obj = {...e};
         let findRecord = semiFInalArr?.findIndex((ele) => obj.GroupJob === ele?.GroupJob) 
         if(findRecord === -1){
+          //jema record na mle emna mate sidhu push
           semiFInalArr.push(obj)
         }
         else{
+          //jema record mle emna mate
           if(obj.GroupJob !== obj.SrJobno){
             obj.SrJobno = semiFInalArr[findRecord].SrJobno;
             obj.DesignImage = semiFInalArr[findRecord].DesignImage;

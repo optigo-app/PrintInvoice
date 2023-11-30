@@ -1,30 +1,31 @@
-export const setFinalArr = (semiFinalArr, arr, arr1, arr2) => {
-    let finalArr = [];
-    semiFinalArr?.forEach((e, i) => {
-        
+export const setFinalArr = (resultArr) => {
+    console.log(resultArr);
+    let semiFinalArr = [];
+    resultArr?.forEach((e) => {
         if(e?.GroupJob === ''){
-            finalArr.push(e)
+            semiFinalArr?.push(e)
         }else{
             let obj = {...e};
-            let findRecord = finalArr?.findIndex((elem) => elem?.GroupJob === elem?.SrJobno);
+            let findRecord = semiFinalArr.findIndex((e) => e.GroupJob === obj?.GroupJob);
             if(findRecord === -1){
-                finalArr.push(obj);
+                //eno matlab k nthi mlto record to
+                semiFinalArr.push(obj);
             }else{
-                if(obj.GroupJob !== obj.SrJobno){
-
-                    console.log(finalArr[findRecord]);
-                    // obj.SrJobno = finalArr[findRecord].SrJobno;
-                    // obj.DesignImage = finalArr[findRecord].DesignImage;
-                    // obj.HUID = finalArr[findRecord].HUID;
-                    // obj.designno = finalArr[findRecord].designno;
-                    // obj.CertificateNo = finalArr[findRecord].CertificateNo;
-                    // obj.JewelCodePrefix = finalArr[findRecord].JewelCodePrefix;
+                //etle k jo semiFinalArr ma record mli jaay GroupJob same hoy evo to 
+                if(obj?.GroupJob === obj.SrJobno){
+                    console.log("g and s same",semiFinalArr[findRecord]);
+                    obj.SrJobno = semiFinalArr[findRecord].GroupJob;
+                    obj.HUID = semiFinalArr[findRecord].HUID;
+                    obj.CertificateNo = semiFinalArr[findRecord].CertificateNo;
+                    obj.DesignImage = semiFinalArr[findRecord].DesignImage;
+                    obj.JewelCodePrefix = semiFinalArr[findRecord].JewelCodePrefix;
+                    obj.designno = semiFinalArr[findRecord].designno;
+                }else{
+                    console.log("g and s not same",semiFinalArr[findRecord]);
                 }
             }
-            
-        }
+        }   
     })
-
 
 
 }
