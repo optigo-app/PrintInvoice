@@ -128,7 +128,6 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     let companyFullName = ind === 0 ? json0Data?.CompanyFullName : "";
                     let categoryname = ind === 0 ? e?.Categoryname : "";
                     let otherAmtDetail = ind === 0 ? e?.OtherAmtDetail : "";
-                    console.log(e?.OtherCharges/json0Data?.CurrencyExchRate, json0Data?.CurrencyExchRate);
                     let certification = ind === 0 ? `${NumberWithCommas(e?.OtherCharges/json0Data?.CurrencyExchRate, 2)}` : "";
                     let certificateNo = ind === 0 ? e?.CertificateNo : "";
                     let lossAmt = ind === 0 ? NumberWithCommas(e?.LossAmt/json0Data?.CurrencyExchRate, 2) : "";
