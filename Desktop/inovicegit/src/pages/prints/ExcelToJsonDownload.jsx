@@ -20,7 +20,10 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (ele?.StockBarcode === e?.SrJobno) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-                        let findIndex = materials.findIndex((elem, index) => elem?.Rate === ele?.Rate && elem?.GroupName === ele?.GroupName);
+                        let findIndex = materials.findIndex((elem, index) => 
+                        elem?.Rate === ele?.Rate && elem?.GroupName === ele?.GroupName && 
+                        elem?.MasterManagement_DiamondStoneTypeid ===1 &&
+                        ele?.MasterManagement_DiamondStoneTypeid ===1 );
                         if (findIndex === -1) {
                             materials.push(ele);
                         } else {
@@ -29,7 +32,8 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                             materials[findIndex].Pcs += ele?.Pcs;
                         }
                     } else {
-                        let findIndex = materials.findIndex((elem, index) => elem?.Rate === ele?.Rate && elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
+                        let findIndex = materials.findIndex((elem, index) => elem?.Rate === ele?.Rate 
+                        && elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid);
                         if (findIndex === -1) {
                             materials.push(ele);
                         } else {
@@ -45,6 +49,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
             let metals = materials.filter(ele => ele?.MasterManagement_DiamondStoneTypeid === 4);
             let blankDiamonds = [];
             let blankColorStones = [];
+            // console.log(diamonds);
             diamonds.forEach((ele, ind) => {
                 let findIndex = blankDiamonds.findIndex((elem, index) =>elem?.ShapeName === ele?.ShapeName && 
                 elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname 

@@ -13,7 +13,6 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn }) => {
 
     const loadData = (data) => {
         let exchangerate = data?.BillPrint_Json[0]?.CurrencyExchRate;
-        console.log(data);
         setJson0Data(data?.BillPrint_Json[0]);
         let newArr = [];
         let metalArr = [];
@@ -240,7 +239,6 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn }) => {
             }
         });
         setData(finalArr);
-        console.log(finalArr);
     }
 
     useEffect(() => {
@@ -493,7 +491,6 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                 </div> */}
                 {data.length > 0 && data?.map((e, i) => {
-                    console.log(e);
                     return <div className="d-flex border-start border-end border-bottom" key={i}>
                         <div className={`${style?.pad_1} fw-bold ${style?.srNo} border-end text-center`}>
                             <p>{NumberWithCommas(i + 1, 0)}</p>
