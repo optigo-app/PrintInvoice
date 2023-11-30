@@ -186,6 +186,12 @@ min-width: max-content;
   min-height: 30px
 }
 
+/* jewelleryinvoiceContain */
+
+.jewelleryinvoiceContain .headerTitle{
+  font-size: 20px;
+}
+
 @media print {
   .hide-on-print {
     display: none;

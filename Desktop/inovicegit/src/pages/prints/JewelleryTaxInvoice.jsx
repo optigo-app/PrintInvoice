@@ -133,7 +133,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     }, []);
     return (
         loader ? <Loader /> : msg === "" ? <>
-            <div className={`container max_width_container pad_60_allPrint ${style?.containerJewellery}`}>
+            <div className={`container max_width_container pad_60_allPrint ${style?.containerJewellery} jewelleryinvoiceContain`}>
                 {/* buttons */}
                 <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}>
                     <div className="form-check ps-3">
@@ -183,7 +183,11 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                         {e?.miscWts !==  0 && <> | {NumberWithCommas(e?.miscWts, 3)} Cts</> }
                              </p>
                             {e.materials.length > 0 && e.materials.map((ele, ind) => {
-                                return <p key={ind}>{ele?.IsCenterStone === 1 ? "CENTER STONE" : ele?.MasterManagement_DiamondStoneTypeName}: {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} Cts | {ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}
+                                return <p key={ind}>{ele?.IsCenterStone === 1 ? "Center stone" : <>
+                                {ele?.MasterManagement_DiamondStoneTypeid === 1 && "Diamond"}
+                                {ele?.MasterManagement_DiamondStoneTypeid === 2 && "Colorstone"}
+                                {ele?.MasterManagement_DiamondStoneTypeid === 3 && "Misc"}
+                                </>}: {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} Cts | {ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}
                                 </p>
                             })}
                         </div>
