@@ -159,10 +159,15 @@ const BagPrint4B = ({ queries, headers }) => {
               data?.map((e, i) => {
                 return (
                   <React.Fragment key={i}>
-                    {e?.additional?.pages?.length > 0 ? <> {(
-                      e?.additional?.pages?.map((ele, ind) => {
-                        return (
-                            <div className="container4A container4B" key={ind}>
+                    {
+                    e?.additional?.pages?.length > 0 ? <> 
+                    {
+                      (
+                        e?.additional?.pages?.map
+                        ((ele, ind) => 
+                          {
+                            return (
+                                <div className="container4A container4B" key={ind}>
                               <div className="print4Apart_1 print4bpart_1">
                                 <div className="part_1_4A">
                                   <div className="title4A jobDiaGold4A border_bottom4A">
@@ -210,10 +215,10 @@ const BagPrint4B = ({ queries, headers }) => {
                                         {e?.data?.promiseDatef ?? ""}
                                       </div>
                                     </div>
-                                    <div className="size4A border_right4A">
+                                    <div className="size4AB border_right4A">
                                       <div
                                         className="custText4A"
-                                        style={{ paddingTop: "3px" }}
+                                        style={{ paddingTop: "1px", paddingLeft: "1px" }}
                                       >
                                         SIZE
                                       </div>
@@ -247,7 +252,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                       className="code4A border_right4A code4A_text"
                                       style={{ width: "94pt" }}
                                     >
-                                      <div className="code_4A_change border-end border-black height_23_4A code4A_text height_11_Print4a">
+                                      <div className="code_4A_change  height_23_4A code4A_text height_11_Print4a" style={{width:"89.99pt"}}>
                                         {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                       </div>
                                     </div>
@@ -316,8 +321,8 @@ const BagPrint4B = ({ queries, headers }) => {
                                       id="img4B"
                                     />
                                   </div>
-                                  <div className="barcode_sticker_4A border-black">
-                                    <div className="barcodeText4A">
+                                  <div className="barcode_sticker_4AB border-black">
+                                    <div className="barcodeText4AB">
                                       <div className="BARCODE_TEXT_4A border_right4A">
                                         <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
                                           DIAMOND
@@ -365,11 +370,220 @@ const BagPrint4B = ({ queries, headers }) => {
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                        );
-                      })
-                    )}
-                      <div className="container4A container4B" key={i + "a"}>
+                                </div>
+                            );
+                          }
+                        )
+                      )
+                    } 
+                    </> : (<>
+                      <div className="container4A container4B" >
+                              <div className="print4Apart_1 print4bpart_1">
+                                <div className="part_1_4A">
+                                  <div className="title4A jobDiaGold4A border_bottom4A">
+                                    <div className="jobDiaGoldText4A ps-1">
+                                      {e?.data?.serialjobno}
+                                    </div>
+                                    <div className="jobDiaGoldText4A">
+                                      {e?.data?.Designcode}
+                                    </div>
+                                    <div className="jobDiaGoldText4A border_right4A pe-1" style={{ paddingRight: "2px" }}>
+                                      {e?.data?.MetalType} {e?.data?.MetalColorCo}
+                                    </div>
+                                  </div>
+                                  <div className="height_border_31_4A border_bottom4A">
+                                    <div className="cust4A border_right4A">
+                                      <div
+                                        className="custText4A"
+                                        style={{ paddingTop: "1px", height:"12px" }}
+                                      >
+                                        CUST
+                                      </div>
+                                      <div className="custTextRes4A ">
+                                        {e?.data?.CustomerCode}
+                                      </div>
+                                    </div>
+                                    <div className="ordDt4A border_right4A">
+                                      <div
+                                        className="custText4A"
+                                        style={{ paddingTop: "1px", height:"12px" }}
+                                      >
+                                        ORD.DT.
+                                      </div>
+                                      <div className="custTextRes4A" style={{fontSize:`${e?.data?.orderDatef?.length > 7 ? '7.5pt' : '9pt'}`}}>
+                                        {e?.data?.orderDatef ?? ""}
+                                      </div>
+                                    </div>
+                                    <div className="delDt4A border_right4A">
+                                      <div
+                                        className="custText4A"
+                                        style={{ paddingTop: "3px" }}
+                                      >
+                                        DEL.DT.
+                                      </div>
+                                      <div className="custTextRes4A" style={{fontSize:`${e?.data?.promiseDatef?.length > 7 ? '7.5pt' : '9pt'}`, lineHeight:"6px"}}>
+                                        {e?.data?.promiseDatef ?? ""}
+                                      </div>
+                                    </div>
+                                    <div className="size4AB border_right4A">
+                                      <div
+                                        className="custText4A"
+                                        style={{ paddingTop: "1px", paddingLeft: "1px" }}
+                                      >
+                                        SIZE
+                                      </div>
+                                      <div className="custTextRes4A">
+                                        {e?.data?.Size}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="title4A border_bottom4A d_flex4A">
+                                    <div className="code4A border_right4A code4A_text d-flex align-items-center">
+                                      CODE
+                                    </div>
+                                    <div className="size4AS border_right4A code4A_text d-flex align-items-center">
+                                      SIZE
+                                    </div>
+                                    <div className="pcs4A border_right4A code4A_text d-flex align-items-center">
+                                      PCS
+                                    </div>
+                                    <div className="wt4A border_right4A code4A_text d-flex align-items-center">
+                                      WT
+                                    </div>
+                                    <div className="pcs4A border_right4A code4A_text d-flex align-items-center">
+                                      PCS
+                                    </div>
+                                    <div className="wt4A border_right4A code4A_text d-flex align-items-center">
+                                      WT
+                                    </div>
+                                  </div>
+                                  <div className="height_23_4A border_bottom4A d_flex4A">
+                                    <div
+                                      className="code4A border_right4A code4A_text"
+                                      style={{ width: "94pt" }}
+                                    >
+                                      <div className="code_4A_change height_23_4A code4A_text height_11_Print4a" style={{width:"90.6pt"}}>
+                                        {e?.data?.MetalType} {e?.data?.MetalColorCo}
+                                      </div>
+                                    </div>
+                                    <div className="pcs4A border_right4A code4A_text"></div>
+                                    <div className="wt4A border_right4A code4A_text"></div>
+                                    <div className="pcs4A border_right4A code4A_text"></div>
+                                    <div className="wt4A border_right4A code4A_text"></div>
+                                  </div>
+                                  <div className="record_line_1">
+                                    {/* {ele?.data.map((elem, index) => {
+                                      return elem?.MasterManagement_DiamondStoneTypeid ===
+                                        5 ? (
+                                        <div className="record_line_4A border_bottom4A" key={index} >
+                                          <div className="code4A border_right4A code4A_text" style={{ width: "94pt", lineHeight: "8px", }} >
+                                            <div className="finding height_23_4A"> {elem?.Shapename} {elem?.Quality} {elem?.ColorName} </div>
+                                          </div>
+                                          <div className="pcs4A border_right4A code4A_text">{NumberWithCommas(elem?.ActualPcs, 0)}</div>
+                                          <div className="wt4A border_right4A code4A_text">{fixedValues(elem?.ActualWeight, 3)}</div>
+                                          <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)}</div>
+                                          <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
+                                        </div>
+                                      ) : (
+                                        <div
+                                          className="record_line_4A border_bottom4A"
+                                          key={index}
+                                        >
+                                          <div className="code4A border_right4A code4A_text">
+                                            {elem?.LimitedShapeQualityColorCode}
+                                          </div>
+                                          <div className="size4AS border_right4A code4A_text">
+                                            {elem?.Sizename}
+                                          </div>
+                                          <div className="pcs4A border_right4A code4A_text"> {NumberWithCommas(elem?.ActualPcs, 0)} </div>
+                                          <div className="wt4A border_right4A code4A_text"> {fixedValues(elem?.ActualWeight, 3)} </div>
+                                          <div className="pcs4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && NumberWithCommas(notZero(elem?.IssuePcs), 0)} </div>
+                                          <div className="wt4A border_right4A code4A_text">{notZero(elem?.IssuePcs) !== "" && fixedValues(notZero(elem?.IssueWeight), 3)}</div>
+                                        </div>
+                                      );
+                                    })} */}
+                                    {
+                                      Array.from(
+                                        { length: 14 },
+                                        (_, index) => (
+                                          <div
+                                            className="record_line_4A border_bottom4A"
+                                            key={index}
+                                          >
+                                            <div className="code4A border_right4A code4A_text"></div>
+                                            <div className="size4AS border_right4A code4A_text"></div>
+                                            <div className="pcs4A border_right4A code4A_text"></div>
+                                            <div className="wt4A border_right4A code4A_text"></div>
+                                            <div className="pcs4A border_right4A code4A_text"></div>
+                                            <div className="wt4A border_right4A code4A_text"></div>
+                                          </div>
+                                        )
+                                      )}
+                                  </div>
+                                </div>
+                                <div className="part_2_4B">
+                                  <div className="img_sec_4A border-bottom border-black">
+                                    <img
+                                      src={e?.additional?.img}
+                                      alt=""
+                                      onError={(e) => handleImageError(e)}
+                                      loading="eager"
+                                      id="img4B"
+                                    />
+                                  </div>
+                                  <div className="barcode_sticker_4AB border-black">
+                                    <div className="barcodeText4AB">
+                                      <div className="BARCODE_TEXT_4A border_right4A">
+                                        <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
+                                          DIAMOND
+                                        </div>
+                                        <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
+                                          {e?.additional?.dia?.ActualPcs}/
+                                          {e?.additional?.dia?.ActualWeight?.toFixed(3)}
+                                        </div>
+                                        <div className="diamond_custom_4B border_bottom4A"></div>
+                                      </div>
+                                      <div className="BARCODE_TEXT_4A border_right4A">
+                                        <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
+                                          CS
+                                        </div>
+                                        <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
+                                          {e?.additional?.clr?.ActualPcs}/
+                                          {fixedValues(e?.additional?.clr?.ActualWeight, 2)}
+                                        </div>
+                                        <div className="diamond_custom_4B border_bottom4A"></div>
+                                      </div>
+                                      <div className="BARCODE_TEXT_4A border_right4A">
+                                        <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
+                                          METAL
+                                        </div>
+                                        <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
+                                          {fixedValues(e?.data?.ActualGrossweight, 3)}
+                                        </div>
+                                        <div className="diamond_custom_4B "></div>
+                                      </div>
+                                    </div>
+                                    <div className="barcode_img_4A barcode_img_4B">
+                                      <BarcodeGenerator
+                                        data={e?.data?.serialjobno}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="part_3_4A">
+                                  <div className="cast_ins">
+                                    CAST INS.:
+                                    <span className="red_4A line_height_123">
+                                      {checkInstruction(e?.data?.officeuse)}
+                                      {(e?.data?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.ProductInstruction) : checkInstruction(e?.data?.QuoteRemark))}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                                </div>
+                    </>)
+                    }
+                    <div className="container4A container4B" key={i + "a"}>
                         <div className="print4Apart_1 print4bpart_1">
                           <div className="part_1_container_4A container_print4Apart_1">
                             <div className="title4A jobDiaGold4A border_bottom4A">
@@ -653,7 +867,6 @@ const BagPrint4B = ({ queries, headers }) => {
                           </div>
                         </div>
                       </div>
-                    </> : (<></>)}
                   </React.Fragment>
                 );
               })

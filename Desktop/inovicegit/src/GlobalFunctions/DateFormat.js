@@ -1,6 +1,5 @@
 
 export const formatDate = (inputDate) => {
-    console.log("before format", inputDate);
     let inpDate = inputDate?.trim();
     if(inpDate === '01 Jan 1900'){
         return '';
