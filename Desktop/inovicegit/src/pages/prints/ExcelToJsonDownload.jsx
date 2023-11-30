@@ -46,23 +46,29 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
             let blankDiamonds = [];
             let blankColorStones = [];
             diamonds.forEach((ele, ind) => {
-                let findIndex = blankDiamonds.findIndex((elem, index) =>elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname && elem?.Rate === ele?.Rate );
+                let findIndex = blankDiamonds.findIndex((elem, index) =>elem?.ShapeName === ele?.ShapeName && 
+                elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname 
+                && elem?.Rate === ele?.Rate );
                 if(findIndex === -1){
                     blankDiamonds.push(ele);
                 }else{
                     blankDiamonds[findIndex].SizeName = ele?.GroupName;
                     blankDiamonds[findIndex].Wt += ele?.Wt;
                     blankDiamonds[findIndex].Amount += ele?.Amount;
+                    blankDiamonds[findIndex].Pcs += ele?.Pcs;
                 }
             });
             colorStones.forEach((ele, ind) => {
-                let findIndex = blankColorStones.findIndex((elem, index) =>elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname && elem?.Rate === ele?.Rate );
+                let findIndex = blankColorStones.findIndex((elem, index) =>elem?.ShapeName === ele?.ShapeName && 
+                elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname 
+                && elem?.Rate === ele?.Rate );
                 if(findIndex === -1){
                     blankColorStones.push(ele);
                 }else{
                     blankColorStones[findIndex].SizeName = ele?.GroupName;
                     blankColorStones[findIndex].Wt += ele?.Wt;
                     blankColorStones[findIndex].Amount += ele?.Amount;
+                    blankColorStones[findIndex].Pcs += ele?.Pcs;
                 }
             });
 
@@ -89,7 +95,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                         diamondColorName = diamonds[ind]?.Colorname;
                         diamondWt = NumberWithCommas(diamonds[ind]?.Wt, 3);
                         diamondRate = NumberWithCommas(diamonds[ind]?.Rate, 2);
-                        diamondAmount = NumberWithCommas(diamonds[ind]?.Amount, 2);
+                        diamondAmount = NumberWithCommas(diamonds[ind]?.Amount/json0Data?.CurrencyExchRate, 2);
                         diamondGroupname = diamonds[ind]?.GroupName;
                         diamondShapename = diamonds[ind]?.ShapeName;
                         diamondPcs = NumberWithCommas(diamonds[ind]?.Pcs, 0);
@@ -122,12 +128,13 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     let companyFullName = ind === 0 ? json0Data?.CompanyFullName : "";
                     let categoryname = ind === 0 ? e?.Categoryname : "";
                     let otherAmtDetail = ind === 0 ? e?.OtherAmtDetail : "";
-                    let certification = ind === 0 ? `${NumberWithCommas(e?.OtherCharges, 2)}` : "";
+                    console.log(e?.OtherCharges/json0Data?.CurrencyExchRate, json0Data?.CurrencyExchRate);
+                    let certification = ind === 0 ? `${NumberWithCommas(e?.OtherCharges/json0Data?.CurrencyExchRate, 2)}` : "";
                     let certificateNo = ind === 0 ? e?.CertificateNo : "";
-                    let lossAmt = ind === 0 ? NumberWithCommas(e?.LossAmt, 2) : "";
+                    let lossAmt = ind === 0 ? NumberWithCommas(e?.LossAmt/json0Data?.CurrencyExchRate, 2) : "";
                     let LossWt = ind === 0 ? NumberWithCommas(e?.LossWt, 3) : "";
                     let metalAmount = ind === 0 ? NumberWithCommas(e?.MetalAmount/json0Data?.CurrencyExchRate, 2) : "";
-                    let makingAmount = ind === 0 ? NumberWithCommas(e?.MakingAmount, 2) : "";
+                    let makingAmount = ind === 0 ? NumberWithCommas(e?.MakingAmount/json0Data?.CurrencyExchRate, 2) : "";
                     let totalAmount = ind === 0 ? NumberWithCommas(e?.TotalAmount/json0Data?.CurrencyExchRate, 2) : "";
                     let qty = ind === 0 ? 1 : "";
                     let subCategory = ind === 0 ? "OPEN SETTING" : "";
