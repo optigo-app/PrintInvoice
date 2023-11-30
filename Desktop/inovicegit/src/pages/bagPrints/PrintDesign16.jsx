@@ -249,7 +249,8 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       </div>
                                       <div className="bg16oldlh7">
                                         <span className="bg16oldlh7">ORD:</span>
-                                        <span className="bg16oldlh7">{e?.data?.rd?.orderDatef}</span>
+                                        
+                                        <span className="bg16oldlh7">{(e?.data?.rd?.orderDatef !== "01Jan00" && e?.data?.rd?.orderDatef !== "01Jan1900") && e?.data?.rd?.orderDatef}</span>
                                       </div>
                                       <div style={{color:"red"}}>
                                         <span className="bg16oldlh7"></span>
@@ -922,7 +923,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                                       </div>
                                       <div className="bg16oldlh7">
                                         <span className="bg16oldlh7">ORD:</span>
-                                        <span className="bg16oldlh7">{e?.data?.rd?.orderDatef}</span>
+                                        <span className="bg16oldlh7">{(e?.data?.rd?.orderDatef !== "01Jan00" && e?.data?.rd?.orderDatef !== "01Jan1900") && e?.data?.rd?.orderDatef}</span>
                                       </div>
                                       <div style={{color:"red"}}>
                                         <span className="bg16oldlh7"></span>

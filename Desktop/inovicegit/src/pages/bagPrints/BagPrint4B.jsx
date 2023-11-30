@@ -195,7 +195,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                       >
                                         ORD.DT.
                                       </div>
-                                      <div className="custTextRes4A">
+                                      <div className="custTextRes4A" style={{fontSize:`${e?.data?.orderDatef?.length > 7 ? '7.5pt' : '9pt'}`}}>
                                         {e?.data?.orderDatef ?? ""}
                                       </div>
                                     </div>
@@ -206,7 +206,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                       >
                                         DEL.DT.
                                       </div>
-                                      <div className="custTextRes4A">
+                                      <div className="custTextRes4A" style={{fontSize:`${e?.data?.promiseDatef?.length > 7 ? '7.5pt' : '9pt'}`, lineHeight:"6px"}}>
                                         {e?.data?.promiseDatef ?? ""}
                                       </div>
                                     </div>

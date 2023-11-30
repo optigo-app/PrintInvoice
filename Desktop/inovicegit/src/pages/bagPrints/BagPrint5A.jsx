@@ -205,7 +205,9 @@ const BagPrint5A = ({ queries, headers }) => {
                                         <p className="f5A diffColor">
                                           DEL. DT.
                                         </p>
-                                        <p className="f5A"></p>
+                                        <p className="f5A">
+                                          {/* {e?.data?.rd?.promiseDatef ?? ''}  */}
+                                        </p>
                                       </div>
                                       <div className="info5Alast">
                                         <p
@@ -470,7 +472,9 @@ const BagPrint5A = ({ queries, headers }) => {
                                   <p className="f5A diffColor">
                                     DEL. DT.
                                   </p>
-                                  <p className="f5A"></p>
+                                  <p className="f5A">
+                                    {/* {e?.data?.rd?.promiseDatef ?? ''} */}
+                                  </p>
                                 </div>
                                 <div className="info5Alast">
                                   <p

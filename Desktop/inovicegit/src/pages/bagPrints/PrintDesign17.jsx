@@ -217,7 +217,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                       ORD.DT.
                                     </p>
                                     <p className="bold fsize17">
-                                      {e?.data?.rd?.["OrderDate"]}
+                                      {e?.data?.rd?.["OrderDate"] === "01 Jan 1900" ? '' : e?.data?.rd?.OrderDate}
                                     </p>
                                   </div>
                                   <div className="w_25 p_3">
@@ -496,7 +496,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                     ORD.DT.
                                   </span>
                                   <span className="bold fsize17">
-                                    {e?.data?.rd?.["OrderDate"]}
+                                    {e?.data?.rd?.["OrderDate"] === "01 Jan 1900" ? '' : e?.data?.rd?.OrderDate}
                                   </span>
                                 </p>
                               </div>

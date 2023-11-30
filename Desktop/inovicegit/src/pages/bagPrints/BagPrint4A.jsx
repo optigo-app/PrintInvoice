@@ -8,7 +8,7 @@ import { GetData } from "../../GlobalFunctions/GetData";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { handleImageError } from "../../GlobalFunctions/HandleImageError";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
-import { checkArr, checkInstruction, fixedValues } from "../../GlobalFunctions";
+import { checkInstruction, fixedValues } from "../../GlobalFunctions";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 
 const BagPrint4A = ({ queries, headers }) => {
@@ -263,7 +263,7 @@ const BagPrint4A = ({ queries, headers }) => {
                   <React.Fragment key={i}>
                     {e?.additional?.pages?.length > 0 ? <> {(
                       e?.additional?.pages?.map((ele, ind) => {
-                        console.log(e?.data, e?.data?.promiseDatef)
+                        console.log(e?.data);
                         return (
                             <div className="container4A container4AA" key={ind}>
                               <div className="print4Apart_1 print4apart_1">
@@ -301,7 +301,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                       >
                                         ORD.DT.
                                       </div>
-                                      <div className="custTextRes4A">
+                                      <div className="custTextRes4A" style={{fontSize:`${e?.data?.orderDatef?.length > 6 ? '7pt' : '9pt'}`}}>
                                         {e?.data?.orderDatef ?? ""}
                                       </div>
                                     </div>
@@ -312,7 +312,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                       >
                                         DEL.DT.
                                       </div>
-                                      <div className="custTextRes4A">
+                                      <div className="custTextRes4A" style={{fontSize:`${e?.data?.promiseDatef?.length > 6 ? '7pt' : '9pt'}`}}>
                                         {e?.data?.promiseDatef ?? ""}
                                       </div>
                                     </div>
@@ -851,7 +851,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 >
                                   ORD.DT.
                                 </div>
-                                <div className="custTextRes4A">
+                                <div className="custTextRes4A" style={{fontSize:`${e?.data?.orderDatef?.length > 7 ? '7pt' : '9pt'}`}}>
                                   {e?.data?.orderDatef ?? ""}
                                 </div>
                               </div>
@@ -862,9 +862,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                 >
                                   DEL.DT.
                                 </div>
-                                {console.log(e?.data?.promiseDatef)}
-                                <div className="custTextRes4A">
-                                  { (e?.data?.promiseDatef !== "01Jan00" && e?.data?.promiseDatef) ?? ""}
+                                <div className="custTextRes4A" style={{fontSize:`${e?.data?.promiseDatef?.length > 7 ? '7pt' : '9pt'}`}}>
+                                  {( e?.data?.promiseDatef)}
                                 </div>
                               </div>
                               <div className="size4A border_right4A size4AA">

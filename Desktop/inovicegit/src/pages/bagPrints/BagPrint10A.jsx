@@ -212,6 +212,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                             DEL. DT.
                                           </p>
                                           <p className="f10A">
+                                          {/* {e?.data?.rd?.promiseDatef ?? ''} */}
                                           </p>
                                         </div>
                                         <div className="info10Alast">
@@ -523,6 +524,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     <div className="info10Aend">
                                       <p className="f10A diffColor">DEL. DT.</p>
                                       <p className="f10A">
+                                      {/* {e?.data?.rd?.promiseDatef ?? ''} */}
                                       </p>
                                     </div>
                                     <div className="info10Alast">
