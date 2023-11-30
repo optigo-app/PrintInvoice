@@ -29,6 +29,7 @@ export const setFinalArr = (resultArr) => {
 
                 diamonds?.forEach((ele) => {
                     let findRecord = blankArrDia?.findIndex((a) => a?.ShapeName === ele?.ShapeName && a?.QualityName === ele?.QualityName && a?.Colorname === ele?.Colorname && a?.Rate)    
+                    console.log(findRecord);
                     
                 })
 
