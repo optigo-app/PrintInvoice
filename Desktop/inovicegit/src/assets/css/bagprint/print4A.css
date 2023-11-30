@@ -44,12 +44,12 @@
 
 
 .part_1_4A {
-    width: 169.7pt;
+    width: 172.7pt;
     /* border-right: 1px solid #000; */
 }
 
 .part_1_container_4A {
-    width: 169.7pt;
+    width: 173.7pt;
 }
 
 .title4A {
@@ -112,15 +112,20 @@
 }
 
 .size4AA {
-    width: 26pt;
+    width: 28pt;
 }
 
 .code4A {
     margin-bottom: -3px;
-    width: 50pt;
-    font-size: 9pt;
+    width: 53pt;
+    /* font-size: 9pt; */
 }
-
+.truncatefind4A {
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hides the overflowing text */
+    text-overflow: ellipsis; /* Displays ellipsis (...) when text overflows */
+    max-width: 122px; /* Adjust the maximum width as needed */
+  }
 .code_4A_change {
     min-width: 46.5pt;
     width: 46.5pt;
@@ -128,7 +133,7 @@
 }
 
 .size4AS {
-    width: 43.912499999999994pt;
+    width: 41.9125pt;
     /* text-align: center; */
 }
 
@@ -138,7 +143,7 @@
 }
 
 .code4A_text {
-    font-size: 6.5pt;
+    font-size: 7pt;
     line-height: 115%;
 }
 
@@ -170,7 +175,7 @@
 }
 
 .part_2_4A {
-    width: 88pt;
+    width: 85pt;
     height: 243pt;
     overflow: hidden;
     border-left: 1px solid black;

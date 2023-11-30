@@ -12,17 +12,26 @@ export const setFinalArr = (resultArr) => {
                 semiFinalArr.push(obj);
             }else{
                 //etle k jo semiFinalArr ma record mli jaay GroupJob same hoy evo to 
-                if(obj?.GroupJob === obj.SrJobno){
+                if(semiFinalArr[findRecord]?.GroupJob !== semiFinalArr[findRecord].SrJobno){
                     console.log("g and s same",semiFinalArr[findRecord]);
-                    obj.SrJobno = semiFinalArr[findRecord].GroupJob;
-                    obj.HUID = semiFinalArr[findRecord].HUID;
-                    obj.CertificateNo = semiFinalArr[findRecord].CertificateNo;
-                    obj.DesignImage = semiFinalArr[findRecord].DesignImage;
-                    obj.JewelCodePrefix = semiFinalArr[findRecord].JewelCodePrefix;
-                    obj.designno = semiFinalArr[findRecord].designno;
-                }else{
-                    console.log("g and s not same",semiFinalArr[findRecord]);
+                      semiFinalArr[findRecord].SrJobno = obj.SrJobno;
+                      semiFinalArr[findRecord].HUID =  obj.HUID;
+                      semiFinalArr[findRecord].CertificateNo = obj.CertificateNo ;
+                      semiFinalArr[findRecord].DesignImage = obj.DesignImage;
+                      semiFinalArr[findRecord].JewelCodePrefix = obj.JewelCodePrefix ;
+                      semiFinalArr[findRecord].designno = obj.designno ;
                 }
+
+                let diamonds = [obj.diamonds, semiFinalArr[findRecord].diamonds]?.flat();
+                console.log(diamonds);
+                let blankArrDia = [];
+                let blankArrCls = [];
+
+                diamonds?.forEach((ele) => {
+                    let findRecord = blankArrDia?.findIndex((a) => a?.ShapeName === ele?.ShapeName && a?.QualityName === ele?.QualityName && a?.Colorname === ele?.Colorname && a?.Rate)    
+                    
+                })
+
             }
         }   
     })

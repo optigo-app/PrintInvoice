@@ -376,7 +376,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                                   <div
                                                       className="code4A border_right4A code4A_text"
                                                       style={{
-                                                      width: "94pt",
+                                                      width: "92pt",
                                                       lineHeight: "8px",
                                                       }}  
                                                   >
@@ -394,11 +394,11 @@ const BagPrint4A = ({ queries, headers }) => {
                                                   <div
                                                       className="code4A border_right4A code4A_text"
                                                       style={{
-                                                      width: "94pt",
+                                                      width: "92pt",
                                                       lineHeight: "8px",
                                                       }}  
                                                   >
-                                                  <div className="finding height_23_4A" style={{fontSize:"6.5pt"}}>
+                                                  <div className="finding height_23_4A truncatefind4A" style={{fontSize:"6.8pt"}}>
                                                     {elem?.ConcatedFullShapeQualityColorName}
                                                   </div>
                                                 </div>
@@ -431,6 +431,8 @@ const BagPrint4A = ({ queries, headers }) => {
                                                 {
                                                   elem?.MasterManagement_DiamondStoneTypeid === 6 ? <div className="record_line_4A border_bottom4A" >
                                                   <div className="code4A border_right4A code4A_text" style={{width:"124.5px"}}>
+                                          
+                                                    {}
                                                     {
                                                       elem?.ConcatedFullShapeQualityColorCode
                                                     }
