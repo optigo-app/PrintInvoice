@@ -26,7 +26,6 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                         } else {
                             materials[findIndex].Wt += ele?.Wt;
                             materials[findIndex].Amount += ele?.Amount;
-                            console.log(materials[findIndex].Pcs, ele?.Pcs); 
                             materials[findIndex].Pcs += ele?.Pcs;
                         }
                     } else {
@@ -54,7 +53,6 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     blankDiamonds[findIndex].SizeName = ele?.GroupName;
                     blankDiamonds[findIndex].Wt += ele?.Wt;
                     blankDiamonds[findIndex].Amount += ele?.Amount;
-                    blankDiamonds[findIndex].Pcs += ele?.Pcs;
                 }
             });
             colorStones.forEach((ele, ind) => {
@@ -65,7 +63,6 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     blankColorStones[findIndex].SizeName = ele?.GroupName;
                     blankColorStones[findIndex].Wt += ele?.Wt;
                     blankColorStones[findIndex].Amount += ele?.Amount;
-                    blankColorStones[findIndex].Pcs += ele?.Pcs;
                 }
             });
 
@@ -109,14 +106,14 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                         stonePcs = NumberWithCommas(colorStones[ind]?.Pcs, 0);
                         stoneWt = NumberWithCommas(colorStones[ind]?.Wt, 3);
                         stoneRate = NumberWithCommas(colorStones[ind]?.Rate, 2);
-                        stoneAmount = NumberWithCommas(colorStones[ind]?.Amount, 2);
+                        stoneAmount = NumberWithCommas(colorStones[ind]?.Amount/json0Data?.CurrencyExchRate, 2);
                     }
                     if (metals[ind]) {
                         // metalPurity = metals[i]?.MetalPurity;
                         // metalColor = metals[i]?.MetalColor;
                         metalRate = NumberWithCommas(metals[ind]?.Rate, 2);
                     }
-                    let goldValue =  ind === 0 ? NumberWithCommas(e?.MetalAmount - e?.LossAmt, 2) : "";
+                    let goldValue =  ind === 0 ? NumberWithCommas((e?.MetalAmount - e?.LossAmt)/json0Data?.CurrencyExchRate, 2) : "";
                     if(goldValue === 0){
                         goldValue = ""
                     }
@@ -129,14 +126,14 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     let certificateNo = ind === 0 ? e?.CertificateNo : "";
                     let lossAmt = ind === 0 ? NumberWithCommas(e?.LossAmt, 2) : "";
                     let LossWt = ind === 0 ? NumberWithCommas(e?.LossWt, 3) : "";
-                    let metalAmount = ind === 0 ? NumberWithCommas(e?.MetalAmount, 2) : "";
+                    let metalAmount = ind === 0 ? NumberWithCommas(e?.MetalAmount/json0Data?.CurrencyExchRate, 2) : "";
                     let makingAmount = ind === 0 ? NumberWithCommas(e?.MakingAmount, 2) : "";
-                    let totalAmount = ind === 0 ? NumberWithCommas(e?.TotalAmount, 2) : "";
+                    let totalAmount = ind === 0 ? NumberWithCommas(e?.TotalAmount/json0Data?.CurrencyExchRate, 2) : "";
                     let qty = ind === 0 ? 1 : "";
                     let subCategory = ind === 0 ? "OPEN SETTING" : "";
                     let rateType = ind === 0 ? "GMS" : "";
                     let certifiedby = ind === 0 ? "IGI" : "";
-                    let diamondTotalAmount = ind === 0 ? NumberWithCommas(e?.DiamondAmount, 2) : "";
+                    let diamondTotalAmount = ind === 0 ? NumberWithCommas(e?.DiamondAmount/json0Data?.CurrencyExchRate, 2) : "";
                     let metalPurity = ind === 0 ? e?.MetalPurity : "";
                     let metalColor = ind === 0 ? e?.MetalColor : "";
                     let grosswt = ind === 0 ? NumberWithCommas(e?.grosswt, 3) : "";
@@ -151,7 +148,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                 });
             }
         });
-        ExportToExcel(blankArr, data?.BillPrint_Json[0]?.InvoiceNo)
+        ExportToExcel(blankArr, data?.BillPrint_Json[0]?.InvoiceNo);
     }
 
     const createObj = (srJobno, discription, designno, CompanyFullName, Div, Qty, Type, Categoryname, SubCategory, Brand, Country, DiaDiv, diamondQualityname,
