@@ -263,6 +263,7 @@ const BagPrint4A = ({ queries, headers }) => {
                   <React.Fragment key={i}>
                     {e?.additional?.pages?.length > 0 ? <> {(
                       e?.additional?.pages?.map((ele, ind) => {
+                        console.log(e?.data, e?.data?.promiseDatef)
                         return (
                             <div className="container4A container4AA" key={ind}>
                               <div className="print4Apart_1 print4apart_1">
@@ -861,8 +862,9 @@ const BagPrint4A = ({ queries, headers }) => {
                                 >
                                   DEL.DT.
                                 </div>
+                                {console.log(e?.data?.promiseDatef)}
                                 <div className="custTextRes4A">
-                                  {e?.data?.promiseDatef ?? ""}
+                                  { (e?.data?.promiseDatef !== "01Jan00" && e?.data?.promiseDatef) ?? ""}
                                 </div>
                               </div>
                               <div className="size4A border_right4A size4AA">
