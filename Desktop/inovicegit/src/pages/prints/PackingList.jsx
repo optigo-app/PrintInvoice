@@ -295,18 +295,20 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
         let obj = {...e};
         let findRecord = semiFInalArr?.findIndex((ele) => obj.GroupJob === ele?.GroupJob) 
         if(findRecord === -1){
+        // console.log("mle 6", obj);
           //jema record na mle emna mate sidhu push
           semiFInalArr.push(obj)
         }
         else{
           //jema record mle emna mate
-          if(obj.GroupJob !== obj.SrJobno){
-            obj.SrJobno = semiFInalArr[findRecord].SrJobno;
-            obj.DesignImage = semiFInalArr[findRecord].DesignImage;
-            obj.HUID = semiFInalArr[findRecord].HUID;
-            obj.designno = semiFInalArr[findRecord].designno;
-            obj.CertificateNo = semiFInalArr[findRecord].CertificateNo;
-            obj.JewelCodePrefix = semiFInalArr[findRecord].JewelCodePrefix;
+          
+          if(semiFInalArr[findRecord]?.GroupJob !== semiFInalArr[findRecord]?.SrJobno){
+            semiFInalArr[findRecord].GroupJob = obj.SrJobno;
+            semiFInalArr[findRecord].DesignImage = obj.DesignImage;
+            semiFInalArr[findRecord].HUID =  obj.HUID;
+            semiFInalArr[findRecord].designno =  obj.designno;
+            semiFInalArr[findRecord].CertificateNo = obj.CertificateNo;
+            semiFInalArr[findRecord].JewelCodePrefix =  obj.JewelCodePrefix;
           }
           let diamondsD = [obj.diamonds, semiFInalArr[findRecord].diamonds].flat();
           // console.log(diamondsD);

@@ -400,7 +400,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                                       }}  
                                                   >
                                                   <div className="finding height_23_4A truncatefind4A" style={{fontSize:"6.8pt"}}>
-                                                    {elem?.ConcatedFullShapeQualityColorName}
+                                                    {elem?.ConcatedFullShapeQualityColorCode}
                                                   </div>
                                                 </div>
                                                 <div className="pcs4A border_right4A code4A_text">{elem?.ActualPcs}</div>

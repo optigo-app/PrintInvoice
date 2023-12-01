@@ -492,10 +492,81 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       setTotalLbhOthAmt(total_of_labour_Other);
       setTotalnetlosswt(totnetlosswt);
       setTotalgrosswt(totgrosswt);
+      setTotals(totals);
       resultArr.push(obj);
 
-      setTotals(totals);
+
+  
+
+
     });
+
+    let semiFInalArr = [];
+
+    console.log("hello");
+    resultArr?.forEach((e, i) => {
+      debugger
+  console.log(e);
+ if(e?.GroupJob === ''){
+   semiFInalArr.push(e)
+ }else{
+   let obj = {...e};
+   let findRecord = semiFInalArr?.findIndex((ele) => obj.GroupJob === ele?.GroupJob) 
+   if(findRecord === -1){
+   // console.log("mle 6", obj);
+     //jema record na mle emna mate sidhu push
+     semiFInalArr.push(obj)
+   }
+   else{
+     //jema record mle emna mate
+     
+     if(semiFInalArr[findRecord]?.GroupJob !== semiFInalArr[findRecord]?.SrJobno){
+       semiFInalArr[findRecord].GroupJob = obj.SrJobno;
+       semiFInalArr[findRecord].DesignImage = obj.DesignImage;
+       semiFInalArr[findRecord].HUID =  obj.HUID;
+       semiFInalArr[findRecord].designno =  obj.designno;
+       semiFInalArr[findRecord].CertificateNo = obj.CertificateNo;
+       semiFInalArr[findRecord].JewelCodePrefix =  obj.JewelCodePrefix;
+     }
+     let diamondsD = [obj.diamonds, semiFInalArr[findRecord].diamonds].flat();
+     // console.log(diamondsD);
+     let blankArrDiaD = [];
+     diamondsD?.forEach((elem, i) => {
+       let findIndexofDiamond = blankArrDiaD?.findIndex(el => el?.ShapeName === elem?.ShapeName &&
+         el?.QualityName === elem?.QualityName &&el?.Colorname === elem?.Colorname &&el?.Rate === elem?.Rate);
+
+         if(findIndexofDiamond === -1){
+           blankArrDiaD.push(elem);
+         }else{
+           blankArrDiaD[findIndexofDiamond].Wt += elem.Wt
+           blankArrDiaD[findIndexofDiamond].Pcs += elem.Pcs
+           blankArrDiaD[findIndexofDiamond].Amount += elem.Amount
+         }
+     });
+     let colorstonesD = [obj.colorstone, semiFInalArr[findRecord].colorstone].flat();
+     
+     let blankArrCS = [];
+     colorstonesD?.forEach((elem, i) => {
+       let findIndexofColorStone = blankArrCS?.findIndex(el => el.ShapeName === elem?.ShapeName && el?.QualityName === elem?.QualityName && el?.Colorname === elem?.Colorname &&
+          el?.Rate === elem?.Rate);
+         if(findIndexofColorStone === -1){
+           blankArrCS.push(elem);
+         }else{
+           blankArrCS[findIndexofColorStone].Wt += elem.Wt;
+           blankArrCS[findIndexofColorStone].Pcs += elem.Pcs;
+           blankArrCS[findIndexofColorStone].Amount += elem.Amount;
+         }
+     })
+   //  console.log(blankArrDiaD);
+   //  console.log(blankArrCS);
+
+    obj.diamonds = blankArrDiaD;
+    obj.colorstone = blankArrCS;
+
+   }
+ }
+   
+  })
 
     totalAmt = totalAmt + arr?.AddLess;
     let allTax = taxGenrator(arr, totalAmt);
