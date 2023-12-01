@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import Loader from '../../components/Loader';
 import { useEffect } from 'react';
-import { ExportToExcel, NumberWithCommas, apiCall, isObjectEmpty } from '../../GlobalFunctions';
+import { ExportToExcel, NumberWithCommas, apiCall, fixedValues, isObjectEmpty } from '../../GlobalFunctions';
 
 const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
 
@@ -10,7 +10,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
     const [msg, setMsg] = useState("");
 
     const loadData = (data) => {
-        console.log(data);
+        // console.log(data);
         let json0Data = data?.BillPrint_Json[0];
         let json1Data = data?.BillPrint_Json1;
         let json2Data = data?.BillPrint_Json2;
@@ -55,7 +55,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                 if (findRecord === -1) {
                     blankDiamonds.push(elem);
                     // console.log(elem?.Pcs);
-                }else{
+                } else {
                     // console.log(elem?.GroupName, "sdfhdjf");
                     blankDiamonds[findRecord].SizeName += elem?.GroupName;
                     blankDiamonds[findRecord].Wt += elem?.Wt;
@@ -113,6 +113,7 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     let stoneRate = "";
                     let stoneAmount = "";
                     let metalRate = "";
+                    let metalrateCopy = 0;
 
                     if (colorStones[ind]) {
                         stoneShape = colorStones[ind]?.ShapeName;
@@ -122,13 +123,16 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                         stoneAmount = NumberWithCommas(colorStones[ind]?.Amount / json0Data?.CurrencyExchRate, 2);
                     }
                     if (metals[ind]) {
-    
+
                         metalRate = NumberWithCommas(metals[ind]?.Rate, 2);
+                        metalrateCopy = +(fixedValues(metals[ind]?.Rate, 2));
                     }
                     let goldValue = ind === 0 ? NumberWithCommas((e?.MetalAmount - e?.LossAmt) / json0Data?.CurrencyExchRate, 2) : "";
+                    // let goldValue = ind === 0 ? NumberWithCommas((e?.NetWt*metalrateCopy) , 2) : "";
                     if (goldValue === 0) {
                         goldValue = ""
                     }
+                    // console.log(e?.LossAmt ,  metalrateCopy,  json0Data?.CurrencyExchRate);
                     let srJobno = ind === 0 ? e?.SrJobno : "";
                     let designno = ind === 0 ? e?.designno : "";
                     let companyFullName = ind === 0 ? json0Data?.CompanyFullName : "";
@@ -136,7 +140,9 @@ const ExcelToJsonDownload = ({ urls, token, invoiceNo, printName, evn }) => {
                     let otherAmtDetail = ind === 0 ? e?.OtherAmtDetail : "";
                     let certification = ind === 0 ? `${NumberWithCommas(e?.OtherCharges / json0Data?.CurrencyExchRate, 2)}` : "";
                     let certificateNo = ind === 0 ? e?.CertificateNo : "";
-                    let lossAmt = ind === 0 ? NumberWithCommas(e?.LossAmt / json0Data?.CurrencyExchRate, 2) : "";
+                    // let lossAmt = ind === 0 ? NumberWithCommas((e?.LossAmt * metalrateCopy) / json0Data?.CurrencyExchRate, 2) : "";
+                    let lossAmt = ind === 0 ? NumberWithCommas((e?.LossWt * metalrateCopy) / json0Data?.CurrencyExchRate, 2) : "";
+                    // LossWt
                     let LossWt = ind === 0 ? NumberWithCommas(e?.LossWt, 3) : "";
                     let metalAmount = ind === 0 ? NumberWithCommas(e?.MetalAmount / json0Data?.CurrencyExchRate, 2) : "";
                     let makingAmount = ind === 0 ? NumberWithCommas(e?.MakingAmount / json0Data?.CurrencyExchRate, 2) : "";

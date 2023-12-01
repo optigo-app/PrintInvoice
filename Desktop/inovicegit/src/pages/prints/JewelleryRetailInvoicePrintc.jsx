@@ -39,6 +39,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
   const [taxes, setTaxes] = useState([]);
   const [bank, setBank] = useState([]);
   async function loadData(data) {
+    // console.log(data);
     try {
       setHeaderData(data?.BillPrint_Json[0]);
       let blankArr = [];
@@ -56,7 +57,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
         data?.BillPrint_Json2.forEach((ele, ind) => {
           if (e?.SrJobno === ele?.StockBarcode) {
             if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
-              materials.unshift(ele)
+              materials.unshift(ele);
             };
             if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
               totals.diaColorWt += ele?.Wt;
@@ -227,7 +228,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
                     {/* <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-EDJHF236D</div> */}
                     <div className="fslhJL">
                       {headerData?.Company_VAT_GST_No} |
-                      {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | {headerData?.vat_cst_pan}
+                      {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
                     </div>
                   </div>
                   <div className="col-2 d-flex align-items-center justify-content-center">
@@ -274,7 +275,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
                     <div className="fslhJL">Phno: {headerData?.customermobileno}</div>
                     <div className="fslhJL">{headerData?.vat_cst_pan}</div>
                     <div className="fslhJL">
-                      {headerData?.Cust_CST_STATE}
+                      {headerData?.Cust_CST_STATE}-
                       {headerData?.Cust_CST_STATE_No}
                     </div>
                   </div>
