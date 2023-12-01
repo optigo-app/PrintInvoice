@@ -55,21 +55,29 @@
     min-width: 70.8px;
 }
 
+.others_invoicePrint1{
+    width: 9.5%;
+    min-width: 9.5%;
+}
 
 
-.others_invoicePrint1, 
 .total_invoicePrint1 {
     width: 10%;
     min-width: 10%;
 }
-.hsn_invoicePrint1, .making_invoicePrint1{
-    width: 5%;
-    min-width: 5%;
+.hsn_invoicePrint1{
+    width: 6%;
+    min-width: 6%;
+}
+
+.making_invoicePrint1{
+    width: 7.5%;
+    min-width: 7.5%;
 }
 
 .materialInvoicePrint1{
-    width: 50%;
-    min-width: 50%;
+    width: 47%;
+    min-width: 47%;
 }
 
 .hsn_invoice1 {
