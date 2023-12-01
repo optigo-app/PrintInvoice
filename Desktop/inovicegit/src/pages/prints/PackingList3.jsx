@@ -57,7 +57,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
     totfinewt: 0,
     totgrosswt: 0,
     totnetwt: 0,
-    totpurnetwt:0
+    totpurnetwt: 0
   };
   let diamondList = [];
   let colorStoneList = [];
@@ -108,7 +108,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     };
     sendData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // eslint-disable-next-line array-callback-return
   dynamicList2?.length > 0 &&
@@ -260,10 +260,10 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
   const handlePrint = (e) => {
     window.print();
   };
+
   const separatedOthAmt = (obj) => {
     const parsedAmounts = obj?.OtherAmtDetail?.split("#@#")?.map((item) => {
       let [name, value] = item?.split("#-#");
-
       return { name, value: parseFloat(value) || 0 };
     });
     setOtherAmounts(parsedAmounts);
@@ -320,6 +320,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
     let totalAmt = 0;
 
     // eslint-disable-next-line array-callback-return
+    let metalArr = [];
     arr1?.map((e, i) => {
       let OtherAmountDetail = otherAmountDetail(e?.OtherAmtDetail);
       let diamonds = [];
@@ -328,7 +329,15 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       let misc = [];
       let finding = [];
       let stoneNMisc = [];
-
+      let objects = {
+        GroupJob: e?.GroupJob,
+        grosswt: e?.grosswt,
+        NetWt: e?.NetWt,
+        LossWt: e?.LossWt,
+        Amount: 0,
+      }
+      let metalsRates = 0;
+      let metalsAmounts = 0;
       let totals = {
         diamonds: {
           Wt: 0,
@@ -392,7 +401,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       totallbrAmt += e?.MakingAmount;
       totalOtherAmt += e?.OtherCharges + e?.MiscAmount;
       total_of_labour_Other += e?.MakingAmount + e?.OtherCharges;
-      totals.totpurenetwt  += e?.PureNetWt;
+      totals.totpurenetwt += e?.PureNetWt;
 
       // eslint-disable-next-line array-callback-return
       arr2.map((ele, ind) => {
@@ -440,6 +449,9 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
             mainTotal.metal.Pcs += ele?.Pcs;
             mainTotal.metal.Rate += ele?.Rate;
             mainTotal.metal.Amount += ele?.Amount;
+            objects.Amount += ele?.Amount;
+            metalsRates += ele?.Rate;
+            metalsAmounts += ele?.Amount;
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
             finding.push(ele);
@@ -468,13 +480,9 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
           }
         }
       });
-
       lswt += e?.LossWt;
-
       setLossWt(lswt);
-
       setTotalUnitCostAmt(totalUnitPrice);
-
       let obj = { ...e };
       let separte = separatedOthAmt(obj);
       obj.OtherAmountDetail = OtherAmountDetail;
@@ -486,6 +494,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       obj.misc = misc;
       obj.finding = finding;
       obj.totals = totals;
+      obj.metalsRates = metalsRates;
+      obj.metalsAmounts = metalsAmounts;
       let sumoflbr = e?.MakingAmount;
       obj.LabourAmountSum = sumoflbr;
 
@@ -495,78 +505,104 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       setTotals(totals);
       resultArr.push(obj);
 
-
-  
-
-
+      if (objects.GroupJob !== "") {
+        let findRecord = metalArr.findIndex(ele => ele?.GroupJob === objects.GroupJob);
+        if (findRecord === -1) {
+          metalArr.push(objects);
+        } else {
+          metalArr[findRecord].grosswt += objects?.grosswt
+          metalArr[findRecord].NetWt += objects?.NetWt
+          metalArr[findRecord].LossWt += objects?.LossWt
+          metalArr[findRecord].Amount += objects?.Amount
+        }
+      }
     });
-
+    console.log(resultArr);
     let semiFInalArr = [];
-
-    console.log("hello");
     resultArr?.forEach((e, i) => {
-      debugger
-  console.log(e);
- if(e?.GroupJob === ''){
-   semiFInalArr.push(e)
- }else{
-   let obj = {...e};
-   let findRecord = semiFInalArr?.findIndex((ele) => obj.GroupJob === ele?.GroupJob) 
-   if(findRecord === -1){
-   // console.log("mle 6", obj);
-     //jema record na mle emna mate sidhu push
-     semiFInalArr.push(obj)
-   }
-   else{
-     //jema record mle emna mate
-     
-     if(semiFInalArr[findRecord]?.GroupJob !== semiFInalArr[findRecord]?.SrJobno){
-       semiFInalArr[findRecord].GroupJob = obj.SrJobno;
-       semiFInalArr[findRecord].DesignImage = obj.DesignImage;
-       semiFInalArr[findRecord].HUID =  obj.HUID;
-       semiFInalArr[findRecord].designno =  obj.designno;
-       semiFInalArr[findRecord].CertificateNo = obj.CertificateNo;
-       semiFInalArr[findRecord].JewelCodePrefix =  obj.JewelCodePrefix;
-     }
-     let diamondsD = [obj.diamonds, semiFInalArr[findRecord].diamonds].flat();
-     // console.log(diamondsD);
-     let blankArrDiaD = [];
-     diamondsD?.forEach((elem, i) => {
-       let findIndexofDiamond = blankArrDiaD?.findIndex(el => el?.ShapeName === elem?.ShapeName &&
-         el?.QualityName === elem?.QualityName &&el?.Colorname === elem?.Colorname &&el?.Rate === elem?.Rate);
+      if (e?.GroupJob === '') {
+        semiFInalArr.push(e);
+      } else {
+        let obj = { ...e };
+        let findRecord = semiFInalArr?.findIndex((ele) => obj.GroupJob === ele?.GroupJob);
+        if (findRecord === -1) {
+          // console.log("mle 6", obj);
+          //jema record na mle emna mate sidhu push
+          semiFInalArr.push(obj);
+        }
+        else {
+          //jema record mle emna mate
+          if (semiFInalArr[findRecord]?.GroupJob !== semiFInalArr[findRecord]?.SrJobno) {
+            semiFInalArr[findRecord].GroupJob = obj.SrJobno;
+            semiFInalArr[findRecord].DesignImage = obj.DesignImage;
+            semiFInalArr[findRecord].HUID = obj.HUID;
+            semiFInalArr[findRecord].designno = obj.designno;
+            semiFInalArr[findRecord].CertificateNo = obj.CertificateNo;
+            semiFInalArr[findRecord].JewelCodePrefix = obj.JewelCodePrefix;
+          }
+          let diamondsD = [obj.diamonds, semiFInalArr[findRecord].diamonds].flat();
+          // console.log(diamondsD);
+          let blankArrDiaD = [];
+          // diamonds 
+          diamondsD?.forEach((elem, i) => {
+            let findIndexofDiamond = blankArrDiaD?.findIndex(el => el?.ShapeName === elem?.ShapeName &&
+              el?.QualityName === elem?.QualityName && el?.Colorname === elem?.Colorname && el?.Rate === elem?.Rate);
 
-         if(findIndexofDiamond === -1){
-           blankArrDiaD.push(elem);
-         }else{
-           blankArrDiaD[findIndexofDiamond].Wt += elem.Wt
-           blankArrDiaD[findIndexofDiamond].Pcs += elem.Pcs
-           blankArrDiaD[findIndexofDiamond].Amount += elem.Amount
-         }
-     });
-     let colorstonesD = [obj.colorstone, semiFInalArr[findRecord].colorstone].flat();
-     
-     let blankArrCS = [];
-     colorstonesD?.forEach((elem, i) => {
-       let findIndexofColorStone = blankArrCS?.findIndex(el => el.ShapeName === elem?.ShapeName && el?.QualityName === elem?.QualityName && el?.Colorname === elem?.Colorname &&
-          el?.Rate === elem?.Rate);
-         if(findIndexofColorStone === -1){
-           blankArrCS.push(elem);
-         }else{
-           blankArrCS[findIndexofColorStone].Wt += elem.Wt;
-           blankArrCS[findIndexofColorStone].Pcs += elem.Pcs;
-           blankArrCS[findIndexofColorStone].Amount += elem.Amount;
-         }
-     })
-   //  console.log(blankArrDiaD);
-   //  console.log(blankArrCS);
+            if (findIndexofDiamond === -1) {
+              blankArrDiaD.push(elem);
+            } else {
+              blankArrDiaD[findIndexofDiamond].Wt += elem.Wt
+              blankArrDiaD[findIndexofDiamond].Pcs += elem.Pcs
+              blankArrDiaD[findIndexofDiamond].Amount += elem.Amount
+            }
+          });
+          let colorstonesD = [obj.colorstone, semiFInalArr[findRecord].colorstone].flat();
 
-    obj.diamonds = blankArrDiaD;
-    obj.colorstone = blankArrCS;
+          // color stones
+          let blankArrCS = [];
+          colorstonesD?.forEach((elem, i) => {
+            let findIndexofColorStone = blankArrCS?.findIndex(el => el.ShapeName === elem?.ShapeName && el?.QualityName === elem?.QualityName && el?.Colorname === elem?.Colorname &&
+              el?.Rate === elem?.Rate);
+            if (findIndexofColorStone === -1) {
+              blankArrCS.push(elem);
+            } else {
+              blankArrCS[findIndexofColorStone].Wt += elem.Wt;
+              blankArrCS[findIndexofColorStone].Pcs += elem.Pcs;
+              blankArrCS[findIndexofColorStone].Amount += elem.Amount;
+            }
+          })
+          //  console.log(blankArrDiaD);
+          //  console.log(blankArrCS);
+          obj.diamonds = blankArrDiaD;
+          obj.colorstone = blankArrCS;
 
-   }
- }
-   
-  })
+          let blankMetals = [];
+          let metalArr = [obj.metal, semiFInalArr[findRecord].metal].flat();
+          metalArr.forEach((ele, ind) => {
+            let objj = {...ele};
+            if(objj.StockBarcode === semiFInalArr[findRecord]?.GroupJob){
+              objj.isMain = true;
+            }else{
+              objj.isMain = false;
+            }
+            let findMetals = blankMetals.findIndex(elem=>elem?.ShapeName === ele?.ShapeName && elem?.SizeName === ele?.SizeName && 
+              elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
+              if(findMetals === -1){
+                blankMetals.push(objj);
+              }else{
+                blankMetals[findMetals].Pcs += ele?.Pcs;
+                blankMetals[findMetals].Wt += ele?.Wt;
+                blankMetals[findMetals].Amount += ele?.Amount;
+              }
+          });
+          blankMetals.sort((a, b) => {
+            console.log(a, b);
+          });
+          console.log(metalArr);
+        }
+      }
+
+    })
 
     totalAmt = totalAmt + arr?.AddLess;
     let allTax = taxGenrator(arr, totalAmt);
@@ -663,46 +699,46 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       </div>
                       {
                         headerData?.customerAddress2?.length > 0 ? <div className="fslhpcl3">
-                        {headerData?.customerAddress2}
-                      </div> : ''
+                          {headerData?.customerAddress2}
+                        </div> : ''
                       }
                       {
                         headerData?.customerAddress1?.length > 0 ? <div className="fslhpcl3">
-                        {headerData?.customerAddress1}
-                      </div> : ''
+                          {headerData?.customerAddress1}
+                        </div> : ''
                       }
-                      {headerData?.customerAddress3?.length > 0 ?  <div className="fslhpcl3">
+                      {headerData?.customerAddress3?.length > 0 ? <div className="fslhpcl3">
                         {headerData?.customerAddress3}
                       </div> : ''}
-                      
+
                       {
                         (headerData?.customercity?.length > 0 || headerData?.customerpincode?.length > 0) ? <div className="fslhpcl3">
-                        {headerData?.customercity}
-                        {headerData?.customerpincode}
-                      </div> : ''
+                          {headerData?.customercity}
+                          {headerData?.customerpincode}
+                        </div> : ''
                       }
-                      {headerData?.customeremail1?.length > 0 ?  <div className="fslhpcl3">
+                      {headerData?.customeremail1?.length > 0 ? <div className="fslhpcl3">
                         {headerData?.customeremail1}
                       </div> : ''}
-                      
-                      {headerData?.vat_cst_pan?.length > 0 ? <div className="fslhpcl3">{headerData?.vat_cst_pan}</div> : ''} 
-                      { (headerData?.Cust_CST_STATE?.length > 0 || headerData?.Cust_CST_STATE_No?.length > 0) ? <div className="fslhpcl3">
+
+                      {headerData?.vat_cst_pan?.length > 0 ? <div className="fslhpcl3">{headerData?.vat_cst_pan}</div> : ''}
+                      {(headerData?.Cust_CST_STATE?.length > 0 || headerData?.Cust_CST_STATE_No?.length > 0) ? <div className="fslhpcl3">
                         {headerData?.Cust_CST_STATE}-
                         {headerData?.Cust_CST_STATE_No}
-                      </div> : '' } 
+                      </div> : ''}
                     </div>
                     <div className="dynamicHeadpcl32">
                       <div className="fslhpcl3">Ship to</div>
                       {
-                          headerData?.customerfirmname?.length > 0 ? <div className="fslhpcl3">
+                        headerData?.customerfirmname?.length > 0 ? <div className="fslhpcl3">
                           <b className="pcl313">{headerData?.customerfirmname}</b>
                         </div> : ''
                       }
                       <div>
                         {
-                          headerData?.address?.length > 0 && 
+                          headerData?.address?.length > 0 &&
                           headerData?.address?.map((e, i) => {
-                            return(
+                            return (
                               <div className="fslhpcl3" key={i}>
                                 <div>{e}</div>
                               </div>
@@ -711,8 +747,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                         }
                       </div>
 
-                      
-                      
+
+
                     </div>
                     <div className="dynamicHeadpcl33">
                       <div className="w-100 d-flex justify-content-between align-items-center pe-2">
@@ -883,8 +919,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   {imgShow ? (
                                     <div className="imgpcl3">
                                       <img
-                                      src={e?.DesignImage}
-                                      onError={(e) => handleImageError(e)}
+                                        src={e?.DesignImage}
+                                        onError={(e) => handleImageError(e)}
                                         id="Imgpcl3"
                                         alt="#"
                                       />
@@ -939,44 +975,44 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
                               {/* Diamond */}
                               <div className="diamondPcl3 positionpcl3 pd5pcl3">
-                                <div style={{width:"100%"}}>
+                                <div style={{ width: "100%" }}>
                                   {
                                     //diamond
 
                                     e?.diamonds?.length > 0 &&
-                                      e?.diamonds?.map((ele, index) => {
-                                        return (
-                                          <div
-                                            className="diamondValuepcl3"
-                                            key={index}
-                                          >
-                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {ele?.ShapeName}
-                                            </div>
-                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {ele?.SizeName}
-                                            </div>
-                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {ele?.Pcs}
-                                            </div>
-                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {ele?.Wt}
-                                            </div>
-                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {NumberWithCommas(ele?.Rate, 2)}
-                                            </div>
-                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                              <b className="fsdpcl3">
-                                                {NumberWithCommas(
-                                                  ele?.Amount,
-                                                  2
-                                                )}
-                                              </b>
-                                            </div>
+                                    e?.diamonds?.map((ele, index) => {
+                                      return (
+                                        <div
+                                          className="diamondValuepcl3"
+                                          key={index}
+                                        >
+                                          <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                            {ele?.ShapeName}
                                           </div>
-                                        );
-                                        // }
-                                      })
+                                          <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                            {ele?.SizeName}
+                                          </div>
+                                          <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                            {ele?.Pcs}
+                                          </div>
+                                          <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                            {ele?.Wt}
+                                          </div>
+                                          <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                            {NumberWithCommas(ele?.Rate, 2)}
+                                          </div>
+                                          <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                            <b className="fsdpcl3">
+                                              {NumberWithCommas(
+                                                ele?.Amount,
+                                                2
+                                              )}
+                                            </b>
+                                          </div>
+                                        </div>
+                                      );
+                                      // }
+                                    })
                                   }
                                 </div>
                                 <div
@@ -1023,36 +1059,36 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     //metal
 
                                     e?.metal?.length > 0 &&
-                                      e?.metal?.map((ele, index) => {
-                                        return (
-                                          <div
-                                            className="MetalPcl3"
-                                            key={index}
-                                          >
-                                            <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {ele?.ShapeName}
-                                            </div>
-                                            <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {e?.grosswt?.toFixed(3)}
-                                            </div>
-                                            <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {e?.NetWt?.toFixed(3)}
-                                            </div>
-                                            <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {NumberWithCommas(ele?.Rate, 2)}
-                                            </div>
-                                            <div className="th4Wpcl3 brRightDpcl3">
-                                              <b style={{ fontSize: "8.5px" }}>
-                                                {NumberWithCommas(
-                                                  ele?.Amount,
-                                                  2
-                                                )}
-                                              </b>
-                                            </div>
+                                    e?.metal?.map((ele, index) => {
+                                      return (
+                                        <div
+                                          className="MetalPcl3"
+                                          key={index}
+                                        >
+                                          <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                            {ele?.ShapeName}
                                           </div>
-                                        );
-                                        // }
-                                      })
+                                          <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                            {e?.grosswt?.toFixed(3)}
+                                          </div>
+                                          <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                            {e?.NetWt?.toFixed(3)}
+                                          </div>
+                                          <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                            {NumberWithCommas(ele?.Rate, 2)}
+                                          </div>
+                                          <div className="th4Wpcl3 brRightDpcl3">
+                                            <b style={{ fontSize: "8.5px" }}>
+                                              {NumberWithCommas(
+                                                ele?.Amount,
+                                                2
+                                              )}
+                                            </b>
+                                          </div>
+                                        </div>
+                                      );
+                                      // }
+                                    })
                                   }
                                   {e?.LossWt === 0 ? (
                                     ""
@@ -1116,51 +1152,51 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   {
                                     //stone&misc
                                     e?.stone_misc?.length > 0 &&
-                                      e?.stone_misc?.map((ele, index) => {
-                                        
-                                        return (
-                                          <div key={index}>
-                                            {ele?.ShapeName ===
+                                    e?.stone_misc?.map((ele, index) => {
+
+                                      return (
+                                        <div key={index}>
+                                          {ele?.ShapeName ===
                                             "Certification_IGI" ? (
-                                              ""
-                                            ) : (
-                                              <div
-                                                className="diamondValuepcl3"
-                                                key={index}
-                                              >
-                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                  {ele?.ShapeName}{" "}
-                                                </div>
-                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                  {ele?.SizeName}
-                                                </div>
-                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                  {ele?.Pcs}
-                                                </div>
-                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                  {ele?.Wt?.toFixed(3)}
-                                                </div>
-                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                            ""
+                                          ) : (
+                                            <div
+                                              className="diamondValuepcl3"
+                                              key={index}
+                                            >
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {ele?.ShapeName}{" "}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {ele?.SizeName}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {ele?.Pcs}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {ele?.Wt?.toFixed(3)}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {NumberWithCommas(
+                                                  ele?.Rate,
+                                                  2
+                                                )}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                <b
+                                                  style={{ fontSize: "8.5px" }}
+                                                >
                                                   {NumberWithCommas(
-                                                    ele?.Rate,
+                                                    ele?.Amount,
                                                     2
                                                   )}
-                                                </div>
-                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                  <b
-                                                    style={{ fontSize: "8.5px" }}
-                                                  >
-                                                    {NumberWithCommas(
-                                                      ele?.Amount,
-                                                      2
-                                                    )}
-                                                  </b>
-                                                </div>
+                                                </b>
                                               </div>
-                                            )}
-                                          </div>
-                                        );
-                                      })
+                                            </div>
+                                          )}
+                                        </div>
+                                      );
+                                    })
                                   }
                                 </div>
                                 <div
@@ -1201,64 +1237,64 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   </div>
                                 </div>
                               </div>
-                              <div className=" labourandotherAMTpcl3" style={{width:"13%", borderRight:"1px solid #989898"}}>
+                              <div className=" labourandotherAMTpcl3" style={{ width: "13%", borderRight: "1px solid #989898" }}>
                                 <div className="w-100 pt-2">
-                                {
-                                  (e?.MakingAmount === 0 && e?.MaKingCharge_Unit === 0) ? <div className="w-100 d-flex justify-content-between align-items-center fsdpcl3">
-                                  <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{width:"33.33%"}}></div>
-                                  <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{width:"33.33%"}}></div>
-                                  <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{width:"33.33%"}}></div>
-                              </div>  : 
-                                        <div className="w-100 d-flex justify-content-between align-items-center fsdpcl3" style={{height:"18px"}}>
-                                            <div className="d-flex justify-content-start align-items-center fsdpcl3" style={{width:"33.33%", paddingLeft:"2px"}}>Labour</div>
-                                            <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{width:"33.33%"}}>{e?.MaKingCharge_Unit}</div>
-                                            <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{width:"33.33%"}}>{e?.MakingAmount}</div>
-                                        </div>
-                                }
-                                {
-                                  e?.OtherAmountDetail?.map((e, i) => {
-                                    return(
-                                      <div className="d-flex justify-content-between align-items-center w-100" key={i} style={{paddingLeft:"2px", height:"18px"}}>
-                                        <div className="d-flex justify-content-start align-items-center fsdpcl3 w-75" >{e?.label}</div>
-                                        <div className="d-flex justify-content-start align-items-center fsdpcl3 w-25" >{e?.value}</div>
+                                  {
+                                    (e?.MakingAmount === 0 && e?.MaKingCharge_Unit === 0) ? <div className="w-100 d-flex justify-content-between align-items-center fsdpcl3">
+                                      <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{ width: "33.33%" }}></div>
+                                      <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{ width: "33.33%" }}></div>
+                                      <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{ width: "33.33%" }}></div>
+                                    </div> :
+                                      <div className="w-100 d-flex justify-content-between align-items-center fsdpcl3" style={{ height: "18px" }}>
+                                        <div className="d-flex justify-content-start align-items-center fsdpcl3" style={{ width: "33.33%", paddingLeft: "2px" }}>Labour</div>
+                                        <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{ width: "33.33%" }}>{e?.MaKingCharge_Unit}</div>
+                                        <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{ width: "33.33%" }}>{e?.MakingAmount}</div>
                                       </div>
-                                    )
-                                  })
-                                }
-                              </div>
-                              <div className="w-100">
-                                  
-                                
-                                {
-                                  e?.totmakAmt === 0 ? '' : <div
-                                  className="th6flex2pcl3 positionpcl3D"
-                                  style={{
-                                    backgroundColor: "#eeeded",
-                                    border: "1px solid #989898",
-                                    
-                                    height: "21px",
-                                    borderBottom: "0px",
-                                    borderRight: "0px",
-                                    borderLeft: "0px",
-                                  }}
-                                >
-                                  <div className="th6Wpcl3 brRightDpcl3"></div>
-                                  <div className="th6Wpcl3 brRightDpcl3"></div>
-                                  <div className="th6Wpcl3 brRightDpcl3">
-                                    {totmakAmt === 0 ? (
-                                      <b className="fsdpcl3">0.000</b>
-                                    ) : (
-                                      <b className="fsdpcl3">
-                                        {NumberWithCommas(totmakAmt, 2)}
-                                      </b>
-                                    )}
-                                  </div>
+                                  }
+                                  {
+                                    e?.OtherAmountDetail?.map((e, i) => {
+                                      return (
+                                        <div className="d-flex justify-content-between align-items-center w-100" key={i} style={{ paddingLeft: "2px", height: "18px" }}>
+                                          <div className="d-flex justify-content-start align-items-center fsdpcl3 w-75" >{e?.label}</div>
+                                          <div className="d-flex justify-content-start align-items-center fsdpcl3 w-25" >{e?.value}</div>
+                                        </div>
+                                      )
+                                    })
+                                  }
                                 </div>
-                                }
+                                <div className="w-100">
+
+
+                                  {
+                                    e?.totmakAmt === 0 ? '' : <div
+                                      className="th6flex2pcl3 positionpcl3D"
+                                      style={{
+                                        backgroundColor: "#eeeded",
+                                        border: "1px solid #989898",
+
+                                        height: "21px",
+                                        borderBottom: "0px",
+                                        borderRight: "0px",
+                                        borderLeft: "0px",
+                                      }}
+                                    >
+                                      <div className="th6Wpcl3 brRightDpcl3"></div>
+                                      <div className="th6Wpcl3 brRightDpcl3"></div>
+                                      <div className="th6Wpcl3 brRightDpcl3">
+                                        {totmakAmt === 0 ? (
+                                          <b className="fsdpcl3">0.000</b>
+                                        ) : (
+                                          <b className="fsdpcl3">
+                                            {NumberWithCommas(totmakAmt, 2)}
+                                          </b>
+                                        )}
+                                      </div>
+                                    </div>
+                                  }
+                                </div>
+
                               </div>
-                                
-                              </div>
-                              <div className="pd5pcl3" style={{width:"7%"}}>
+                              <div className="pd5pcl3" style={{ width: "7%" }}>
                                 <div className="totalAndDiscountpcl3" >
                                   <div className="th7pcl3ss">
                                     <b style={{ fontSize: "10px" }}>
@@ -1291,147 +1327,147 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="pcl3TableCopyD no_break">
                         <div
                           className="tableBodypcl3"
-                          style={{ backgroundColor: "#eeeded", width:"2%" }}
+                          style={{ backgroundColor: "#eeeded", width: "2%" }}
                         >
                           <div className="thDEpcl3">
                             <b></b>
                           </div>
                         </div>
-                        <div style={{width:"12%"}}>
-                        <div
-                          className="tableBodypcl3 w-100"
-                          style={{
-                            backgroundColor: "#eeeded",
-                            borderBottom: "0px",
-                            borderRight: "0px",
-                            height: "22px",
-                          }}
-                        >
-                          <div className="th2Dpcl3 w-100" >
-                            <div>
-                              <b className="fsdpcl3 w-100">TOTAL</b>
-                            </div>
-                          </div>
-                        </div>
-                          </div>
-                          <div style={{width:"22%"}}>
-                          <div className="diamondPcl3 positionpcl3 w-100">
+                        <div style={{ width: "12%" }}>
                           <div
-                            className="diamondValuepcl3 positionpcl3D w-100"
+                            className="tableBodypcl3 w-100"
                             style={{
                               backgroundColor: "#eeeded",
-                              border: "1px solid #989898",
-                              height: "21px",
                               borderBottom: "0px",
-                              borderTop: "0px",
                               borderRight: "0px",
-                            }}
-                          >
-                            <div className="th3Wpcl3 brRightDpcl3"></div>
-                            <div className="th3Wpcl3 brRightDpcl3"></div>
-                            <div className="th3Wpcl3 brRightDpcl3">
-                              <b className="fsdpcl3">{totalObj.totdiapcs}</b>
-                            </div>
-                            <div className="th3Wpcl3 brRightDpcl3">
-                              <b className="fsdpcl3">
-                                {totalObj.totdiawt.toFixed(3)}
-                              </b>
-                            </div>
-                            <div className="th3Wpcl3 brRightDpcl3"></div>
-                            <div className="th3Wpcl3 brRightDpcl3">
-                              <b className="fsdpcl3">
-                                {NumberWithCommas(totalObj.totdiaamt, 2)}
-                              </b>
-                            </div>
-                          </div>
-                          </div>
-                          </div>
-
-                            <div style={{width:"22%"}}>
-                          <div className="metalPcl3 positionpcl3 w-100">
-                          <div
-                            className="MetalPcl3 positionpcl3D w-100"
-                            style={{
-                              backgroundColor: "#e8e8e8",
-                              height: "21px",
-                              lineHeight: "10px",
-                              border: "1px solid #989898",
-                              borderBottom: "0px",
-                              borderTop: "0px",
-                              borderLeft: "0px",
-                              borderRight: "0px",
-                            }}
-                          >
-                            <div className="th4Wpcl3 brRightDpcl3"></div>
-                            <div className="th4Wpcl3 brRightDpcl3">
-                              <b className="fsdpcl3">
-                                {totalgrosswt?.toFixed(3)}
-                              </b>
-                            </div>
-                            <div className="th4Wpcl3 brRightDpcl3">
-                              <b className="fsdpcl3">
-                                {totalnetlosswt?.toFixed(3)}
-                              </b>
-                            </div>
-                            <div className="th4Wpcl3 brRightDpcl3"></div>
-                            <div className="th4Wpcl3 brRightDpcl3">
-                              <b style={{ fontSize: "8.5px" }}>
-                                {NumberWithCommas(totalObj.totmtamt, 2)}
-                              </b>
-                            </div>
-                          </div>
-                          </div>
-                          </div>
-
-                            <div style={{width:"22%"}}>
-                          <div className="diamondPcl3 positionpcl3 w-100">
-                          <div
-                            className="diamondValuepcl3 positionpcl3D w-100"
-                            style={{
-                              backgroundColor: "#e8e8e8",
-                            }}
-                          >
-                            <div className="th3Wpcl3 brRightDpcl3"></div>
-                            <div className="th3Wpcl3 brRightDpcl3"></div>
-                            <div className="th3Wpcl3 brRightDpcl3">
-                              <b className="fsdpcl3">{totalObj.totstpcs}</b>
-                            </div>
-                            <div className="th3Wpcl3 brRightDpcl3">
-                              <b className="fsdpcl3">
-                                {totalObj.totstwt.toFixed(3)}
-                              </b>
-                            </div>
-                            <div className="th3Wpcl3 brRightDpcl3"></div>
-                            <div className="th3Wpcl3 brRightDpcl3">
-                              <b className="fsdpcl3">
-                                {NumberWithCommas(totalObj.totstamt, 2)}
-                              </b>
-                            </div>
-                          </div>
-                          </div>
-                          </div>
-
-                        <div style={{width:"13%"}}>
-                          <div className="labourPcl3 w-100">
-                          <div
-                            className="th6flex2pcl3 w-100 "
-                            style={{
-                              backgroundColor: "#e8e8e8",
                               height: "22px",
                             }}
                           >
-                            <div className="th6Wpcl3 brRightDpcl3"></div>
-                            <div className="th6Wpcl3 brRightDpcl3"></div>
-                            <div className="th6Wpcl3 brRightDpcl3">
-                              <b className="fsdpcl3">
-                                {NumberWithCommas(totalLbhOthAmt, 2)}
-                              </b>
+                            <div className="th2Dpcl3 w-100" >
+                              <div>
+                                <b className="fsdpcl3 w-100">TOTAL</b>
+                              </div>
                             </div>
                           </div>
+                        </div>
+                        <div style={{ width: "22%" }}>
+                          <div className="diamondPcl3 positionpcl3 w-100">
+                            <div
+                              className="diamondValuepcl3 positionpcl3D w-100"
+                              style={{
+                                backgroundColor: "#eeeded",
+                                border: "1px solid #989898",
+                                height: "21px",
+                                borderBottom: "0px",
+                                borderTop: "0px",
+                                borderRight: "0px",
+                              }}
+                            >
+                              <div className="th3Wpcl3 brRightDpcl3"></div>
+                              <div className="th3Wpcl3 brRightDpcl3"></div>
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">{totalObj.totdiapcs}</b>
+                              </div>
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {totalObj.totdiawt.toFixed(3)}
+                                </b>
+                              </div>
+                              <div className="th3Wpcl3 brRightDpcl3"></div>
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {NumberWithCommas(totalObj.totdiaamt, 2)}
+                                </b>
+                              </div>
+                            </div>
                           </div>
                         </div>
 
-                        <div style={{width:"7%"}}>
+                        <div style={{ width: "22%" }}>
+                          <div className="metalPcl3 positionpcl3 w-100">
+                            <div
+                              className="MetalPcl3 positionpcl3D w-100"
+                              style={{
+                                backgroundColor: "#e8e8e8",
+                                height: "21px",
+                                lineHeight: "10px",
+                                border: "1px solid #989898",
+                                borderBottom: "0px",
+                                borderTop: "0px",
+                                borderLeft: "0px",
+                                borderRight: "0px",
+                              }}
+                            >
+                              <div className="th4Wpcl3 brRightDpcl3"></div>
+                              <div className="th4Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {totalgrosswt?.toFixed(3)}
+                                </b>
+                              </div>
+                              <div className="th4Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {totalnetlosswt?.toFixed(3)}
+                                </b>
+                              </div>
+                              <div className="th4Wpcl3 brRightDpcl3"></div>
+                              <div className="th4Wpcl3 brRightDpcl3">
+                                <b style={{ fontSize: "8.5px" }}>
+                                  {NumberWithCommas(totalObj.totmtamt, 2)}
+                                </b>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style={{ width: "22%" }}>
+                          <div className="diamondPcl3 positionpcl3 w-100">
+                            <div
+                              className="diamondValuepcl3 positionpcl3D w-100"
+                              style={{
+                                backgroundColor: "#e8e8e8",
+                              }}
+                            >
+                              <div className="th3Wpcl3 brRightDpcl3"></div>
+                              <div className="th3Wpcl3 brRightDpcl3"></div>
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">{totalObj.totstpcs}</b>
+                              </div>
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {totalObj.totstwt.toFixed(3)}
+                                </b>
+                              </div>
+                              <div className="th3Wpcl3 brRightDpcl3"></div>
+                              <div className="th3Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {NumberWithCommas(totalObj.totstamt, 2)}
+                                </b>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style={{ width: "13%" }}>
+                          <div className="labourPcl3 w-100">
+                            <div
+                              className="th6flex2pcl3 w-100 "
+                              style={{
+                                backgroundColor: "#e8e8e8",
+                                height: "22px",
+                              }}
+                            >
+                              <div className="th6Wpcl3 brRightDpcl3"></div>
+                              <div className="th6Wpcl3 brRightDpcl3"></div>
+                              <div className="th6Wpcl3 brRightDpcl3">
+                                <b className="fsdpcl3">
+                                  {NumberWithCommas(totalLbhOthAmt, 2)}
+                                </b>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style={{ width: "7%" }}>
                           <div>
                             <div
                               className="th7Dpcl3 w-100"
@@ -1466,7 +1502,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           <div className="mrpWpcl3 fsdpcl3 w-50">
                             {NumberWithCommas(
                               +totalUniCostAmt?.toFixed(2) -
-                                totalObj?.totDiscount?.toFixed(2)
+                              totalObj?.totDiscount?.toFixed(2)
                             )}
                           </div>{" "}
                         </div>
@@ -1501,7 +1537,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           <div className="mrpWpcl3">
                             <b className="fsdpcl3 w-100">
                               {NumberWithCommas(finalAmount, 2)}
-                            
+
                             </b>{" "}
                           </div>{" "}
                         </div>
@@ -1511,7 +1547,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       className="footerTotalpcl3 no_break"
                       style={{ width: "100%" }}
                     >
-                      <div className="footerSummarypcl3" style={{width:"30%"}}>
+                      <div className="footerSummarypcl3" style={{ width: "30%" }}>
                         <div className="sumpcl3">SUMMARY</div>
                         <div className="flexSumpcl3">
                           <div className="amountSummarySectionpcl3SUM">
@@ -1520,7 +1556,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <b className="fsdpcl3">GOLD IN 24KT</b>
                               </div>
                               <div className="mrpWpcl3D textrightpcl3 fsdpcl3 justify-content-end pe-1 w-50">
-                                { totalObj.totpurnetwt?.toFixed(2)} gm
+                                {totalObj.totpurnetwt?.toFixed(2)} gm
                               </div>{" "}
                             </div>
                             <div className="fapcl3D">
@@ -1579,7 +1615,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                               style={{ width: "", height: "18pt" }}
                             ></div>
                           </div>
-                          <div className="amountSummarySectionpcl3SUM" style={{borderLeft:"0px"}}>
+                          <div className="amountSummarySectionpcl3SUM" style={{ borderLeft: "0px" }}>
                             <div className="fapcl3D">
                               <div className="mrpWpcl3D w-50">
                                 <b className="fsdpcl3">GOLD</b>
@@ -1651,17 +1687,17 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           </div>
                         </div>
                       </div>
-                      <div style={{width:"15%"}}>
+                      <div style={{ width: "15%" }}>
                         <div className="diaDetailpcl3 brbpcl3all">DIAMOND DETAILS</div>
                         <div className="amountSummarySectionpcl3DIAM">
                           {calculatedData?.length > 0 &&
                             calculatedData?.map((e, i) => {
                               return (
                                 <div className="fapcl3DE" key={i}>
-                                  <div className="mrpWpcl3D " style={{width:"60%"}}>
-                                    <b className="fsdpcl3" style={{lineHeight:"6px"}}>{e?.ShapeName}</b>
+                                  <div className="mrpWpcl3D " style={{ width: "60%" }}>
+                                    <b className="fsdpcl3" style={{ lineHeight: "6px" }}>{e?.ShapeName}</b>
                                   </div>
-                                  <div className="mrpWpcl3D fsdpcl3 "style={{width:"40%", lineHeight:"5px"}}>
+                                  <div className="mrpWpcl3D fsdpcl3 " style={{ width: "40%", lineHeight: "5px" }}>
                                     {e?.totalPcs}/
                                     {e?.totalWt?.toFixed(3)} cts
                                   </div>{" "}
@@ -1674,7 +1710,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           ></div>
                         </div>
                       </div>
-                      <div style={{width:"15%"}}>
+                      <div style={{ width: "15%" }}>
                         <div className="diaDetailpcl3 brbpcl3all">OTHER DETAILS</div>
                         <div className="amountSummarySectionpcl3DIAM">
                           <div className="fapcl3D">
@@ -1684,13 +1720,13 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             >
                               <b className="fsdpcl3">RATE IN 24KT</b>
                             </div>
-                            <div className="mrpWpcl3D fsdpcl3 d-flex justify-content-end pe-1 align-items-center" style={{width:"50%"}}>
+                            <div className="mrpWpcl3D fsdpcl3 d-flex justify-content-end pe-1 align-items-center" style={{ width: "50%" }}>
                               {NumberWithCommas(headerData?.MetalRate24K, 2)}
                             </div>{" "}
                           </div>
                         </div>
                       </div>
-                      <div style={{width:"15%"}}>
+                      <div style={{ width: "15%" }}>
                         <div className="diaDetailpcl3 brbpcl3all">REMARK</div>
                         <div className="amountSummarySectionpcl3DIAM">
                           <div className="fapcl3D" style={{ width: "168px" }}>

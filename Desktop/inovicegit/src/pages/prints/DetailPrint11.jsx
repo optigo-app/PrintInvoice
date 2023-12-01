@@ -115,6 +115,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             obj.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
             totals.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
           }
+          
           if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
             objects.rate += ele?.Rate;
             objects.amount += ele?.Amount;
@@ -137,6 +138,11 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
             obj.metalRateGold += ele?.Rate;
             obj.metalRateAmount += ele?.Amount;
             fineWt = ele?.FineWt
+          }
+
+          if(ele?.MasterManagement_DiamondStoneTypeid === 5) {
+            obj.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
+            totals.totalGold += (ele?.Amount / data.BillPrint_Json[0]?.CurrencyExchRate);
           }
         }
       });

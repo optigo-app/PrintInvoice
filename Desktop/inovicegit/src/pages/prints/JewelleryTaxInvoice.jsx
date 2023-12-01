@@ -180,7 +180,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="col-5 p-1 border-end"><p>{e?.MetalTypePurity} {e?.MetalColor} | {NumberWithCommas(e?.grosswt, 3)} gms GW | {NumberWithCommas(e?.NetWt, 3)} gms NW
                         {e?.diamondWts !==  0 && <> | {NumberWithCommas(e?.diamondWts, 3)} Cts</> }
                         {e?.colorStoneWts !==  0 && <> | {NumberWithCommas(e?.colorStoneWts, 3)} Cts</> }
-                        {e?.miscWts !==  0 && <> | {NumberWithCommas(e?.miscWts, 3)} Cts</> }
+                        {e?.miscWts !==  0 && <> | {NumberWithCommas(e?.miscWts, 3)} gms</> }
                              </p>
                             {e.materials.length > 0 && e.materials.map((ele, ind) => {
                                 return <p key={ind}>{ele?.IsCenterStone === 1 ? "Center stone" : <>
@@ -249,7 +249,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div className="col-3 border-end d-flex flex-column justify-content-between p-2">
                         <p>Signature</p>
-                        <p className='fw-bold'>{json0Data?.CustName}</p>
+                        <p className='fw-bold'>{json0Data?.customerfirmname}</p>
                     </div>
                     <div className="col-3 d-flex flex-column justify-content-between p-2">
                         <p>Signature</p>
