@@ -245,7 +245,8 @@ const BagPrint7A = ({ queries, headers }) => {
             finalClsArr,
             finalMiscArr
           );
-   
+          let metalqualitycolor = a?.rd?.tunch + " " + a?.rd?.MetalColorCo;
+          a.rd.metalqualitycolor = metalqualitycolor;
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
           let img = imagePath + a?.rd?.ThumbImagePath;
@@ -282,7 +283,6 @@ const BagPrint7A = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
-
   return (
     <>
       {data?.length === 0 ? (
@@ -337,6 +337,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                     </div>
                                   </div>
                                   <div className="party7A">
+                                    
                                     <div>
                                       Party: <b>{e?.data?.rd?.CustomerCode}</b>
                                     </div>
@@ -363,8 +364,8 @@ const BagPrint7A = ({ queries, headers }) => {
                                     </div>
                                   </div>
                                   <div className="party7A">
-                                    <div>Size: {e?.data?.rd?.Size}</div>
-                                    <div className="pe-1">
+                                    <div className="d-flex"><div>Size: </div><div className="fw-bold">{e?.data?.rd?.Size}</div></div>
+                                    <div className="pe-1 fw-bold">
                                       ({e?.data?.rd?.Quantity})Pcs
                                     </div>
                                   </div>
@@ -455,11 +456,10 @@ const BagPrint7A = ({ queries, headers }) => {
                                     fontSize: "11px",
                                     lineHeight: "9px",
                                     padding: "2px",
-                                    height: "20px",
+                                    height: "22px",
                                   }}
                                 >
-                                  {e?.data?.rd?.MetalType}{" "}
-                                  {e?.data?.rd?.MetalColorCo}
+                                  {e?.data?.rd?.metalqualitycolor}
                                 </div>
                               </div>
                             </div>
@@ -740,7 +740,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 <div className="w-100 d-flex justify-content-between align-items-center sizehead7A fw-bold">
                                   <div
                                     className="spw7A d-flex justify-content-start align-items-center pe-1"
-                                    style={{ width: "54px" }}
+                                    style={{ width: "74px" }}
                                   >
                                     Size
                                   </div>
@@ -771,7 +771,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                           <div
                                             className="spw7AD d-flex justify-content-start align-items-center fw-bold"
                                             style={{
-                                              width: "54px",
+                                              width: "70px",
                                               paddingLeft: "1px",
                                               height:"10px",
                                               lineHeight:"5px"
@@ -783,7 +783,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                           <div
                                             className="spw7AD d-flex justify-content-start align-items-center"
                                             style={{
-                                              width: "54px",
+                                              width: "70px",
                                               paddingLeft: "1px",
                                               height:"10px",
                                               lineHeight:"5px"
@@ -882,7 +882,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                 </div>
                               </div>
                               <div className="party7A">
-                                <div>Size: {e?.data?.rd?.Size}</div>
+                                <div className="d-flex"><div>Size: </div><div className="fw-bold px-1">{ e?.data?.rd?.Size}</div></div>
                                 <div className="pe-1">
                                   ({e?.data?.rd?.Quantity})Pcs
                                 </div>
@@ -967,11 +967,10 @@ const BagPrint7A = ({ queries, headers }) => {
                                 fontSize: "11px",
                                 lineHeight: "8px",
                                 padding: "2px",
-                                height: "20px",
+                                height: "22px",
                               }}
                             >
-                              {e?.data?.rd?.MetalType}
-                              {e?.data?.rd?.MetalColorCo}
+                              {e?.data?.rd?.metalqualitycolor}
                             </div>
                           </div>
                         </div>
@@ -1162,13 +1161,13 @@ const BagPrint7A = ({ queries, headers }) => {
                               className="d-flex justify-content-between align-items-center fw-bold"
                               style={{
                                 height: "11px",
-                                width: "105px;",
+                                width: "105px",
                                 borderBottom: "1px solid #989898",
                               }}
                             >
                               <div
                                 className="w7A d-flex justify-content-start align-items-center pe-1"
-                                style={{ width: "54px", fontSize: "9px",  height:"10px",
+                                style={{ width: "70px", fontSize: "9px",  height:"10px",
                                 lineHeight:"5px" }}
                               >
                                 Size
