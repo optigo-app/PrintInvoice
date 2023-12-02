@@ -147,7 +147,12 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="border d-flex justify-content-between">
                         <div className="col-6 p-2">
                             <p className='lh-1 pb-1'>To, </p>
-                            <p className='fw-bold lh-1 pb-1'>{json0Data?.CustName}</p>
+                            <p className='fw-bold lh-1 pb-1'>{json0Data?.customerfirmname}</p>
+                            <p className='lh-1 pb-1'>{json0Data?.customerstreet}</p>
+                            <p className='lh-1 pb-1'>{json0Data?.customerregion}</p>
+                            <p className='lh-1 pb-1'>{json0Data?.customercity}</p>
+
+                            
                             <p className='lh-1 pb-1'>{json0Data?.State},  {json0Data?.PinCode}</p>
                             <p className='lh-1 pb-1'>Tel : {json0Data?.customermobileno}</p>
                             <p className='lh-1 pb-1'>{json0Data?.customeremail1}</p>
@@ -212,7 +217,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div className="col-2 p-1 border-end">
                         {tax.map((e, i) => {
-                            return <p key={i}>{e?.label} @ {e?.per}</p>
+                            return <p key={i}>{e?.name} @ {e?.per}</p>
                         })}
                         <p>TOTAL</p>
                         {json0Data?.AddLess > 0 ? <p>Add</p> : <p>Less</p>}
