@@ -347,7 +347,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   </div>
                                   <div className="party7A">
                                     <div>
-                                      DgN: <b>{e?.data?.rd?.Designcode}</b>
+                                      Dgn: <b>{e?.data?.rd?.Designcode}</b>
                                     </div>
                                     <div className="barcode7A">
                                       {e?.data?.rd?.length !== 0 &&
@@ -451,7 +451,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   loading="eager"
                                 />
                                 <div
-                                  className="borderBottom7A"
+                                  className="borderBottom7A d-flex justify-content-center align-items-center fw-bold"
                                   style={{
                                     fontSize: "11px",
                                     lineHeight: "9px",
@@ -472,19 +472,19 @@ const BagPrint7A = ({ queries, headers }) => {
                                       style={{ height: "11px" }}
                                     >
                                       <p
-                                        className="w7A d-flex justify-content-start align-items-center pe-1"
+                                        className="w7A d-flex justify-content-center align-items-center pe-1"
                                         style={{ width: "82px" }}
                                       >
                                         <b>Type</b>
                                       </p>
                                       <p
-                                        className="w7A d-flex justify-content-start align-items-center pe-1"
+                                        className="w7A d-flex justify-content-center align-items-center pe-1"
                                         style={{ width: "82px" }}
                                       >
                                         <b>Purity</b>
                                       </p>
                                       <p
-                                        className="w7A d-flex justify-content-start align-items-center pe-1"
+                                        className="w7A d-flex justify-content-center align-items-center pe-1"
                                         style={{ width: "80px", borderRight:"0px" }}
                                       >
                                         <b>Color</b>
@@ -540,8 +540,8 @@ const BagPrint7A = ({ queries, headers }) => {
                                   <div>
                                     <div className="tableHead7B">
                                       <div
-                                        className="dept7A fw-bold"
-                                        style={{ width: "63px" }}
+                                        className="dept7A fw-bold d-flex justify-content-start align-items-center"
+                                        style={{ width: "63px", paddingLeft:'2px' }}
                                       >
                                         Dept
                                       </div>
@@ -865,7 +865,7 @@ const BagPrint7A = ({ queries, headers }) => {
                               </div>
                               <div className="party7A">
                                 <div>
-                                  Dg No. : <b>{e?.data?.rd?.Designcode}</b>
+                                  Dgn: <b>{e?.data?.rd?.Designcode}</b>
                                 </div>
                                 <div className="barcode7A">
                                   {e?.data?.rd?.length !== 0 &&
@@ -884,7 +884,7 @@ const BagPrint7A = ({ queries, headers }) => {
                               <div className="party7A">
                                 <div className="d-flex"><div>Size: </div><div className="fw-bold px-1">{ e?.data?.rd?.Size}</div></div>
                                 <div className="pe-1">
-                                  ({e?.data?.rd?.Quantity})Pcs
+                                  ({e?.data?.rd?.Quantity === 0 ? '1' : e?.data?.rd?.Quantity})Pcs
                                 </div>
                               </div>
                             </div>
@@ -962,7 +962,7 @@ const BagPrint7A = ({ queries, headers }) => {
                               loading="eager"
                             />
                             <div
-                              className="borderBottom7A"
+                              className="borderBottom7A d-flex justify-content-center align-items-center fw-bold"
                               style={{
                                 fontSize: "11px",
                                 lineHeight: "8px",
@@ -976,31 +976,28 @@ const BagPrint7A = ({ queries, headers }) => {
                         </div>
                         <div className="main7A">
                           <div className="main7AEntry">
-                            <div
-                              className="d-flex justify-content-between align-items-center dup7Aemt"
-                              style={{ paddingTop: "1px" }}
-                            >
+                            <div className="d-flex justify-content-between align-items-center dup7Aemt" >
                               <div
-                                className="w7A d-flex justify-content-start align-items-center pe-1"
+                                className="w7A d-flex justify-content-center align-items-center pe-1"
                                 style={{ width: "82px", fontSize: "9px" }}
                               >
                                 Type
                               </div>
                               <div
-                                className="w7A d-flex justify-content-start align-items-center pe-1"
+                                className="w7A d-flex justify-content-center align-items-center pe-1"
                                 style={{ width: "82px", fontSize: "9px" }}
                               >
                                 Purity
                               </div>
                               <div
-                                className="w7A d-flex justify-content-start align-items-center pe-1"
+                                className="w7A d-flex justify-content-center align-items-center pe-1"
                                 style={{ width: "80px", fontSize: "9px" }}
                               >
                                 Color
                               </div>
                             </div>
                             <div className="tableHead7B">
-                              <div className="dept7A fw-bold" style={{ width: "62px" }}>
+                              <div className="dept7A fw-bold d-flex justify-content-start " style={{ width: "62px", paddingLeft:"2px" }}>
                                 Dept
                               </div>
                               <div className="dept7A fw-bold">WrKr</div>

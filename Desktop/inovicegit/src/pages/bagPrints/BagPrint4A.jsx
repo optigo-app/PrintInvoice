@@ -263,7 +263,6 @@ const BagPrint4A = ({ queries, headers }) => {
                   <React.Fragment key={i}>
                     {e?.additional?.pages?.length > 0 ? <> {(
                       e?.additional?.pages?.map((ele, ind) => {
-                        console.log(e?.data);
                         return (
                             <div className="container4A container4AA" key={ind}>
                               <div className="print4Apart_1 print4apart_1">
