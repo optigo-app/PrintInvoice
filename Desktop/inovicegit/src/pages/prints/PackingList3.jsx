@@ -67,7 +67,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
   let stoneMiscList = [];
 
   async function loadData(data) {
-    console.log(data);
     try {
       let address = data?.BillPrint_Json[0]?.Printlable.split("\r\n");
       data.BillPrint_Json[0].address = address;
@@ -321,6 +320,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
     // eslint-disable-next-line array-callback-return
     let metalArr = [];
+    // eslint-disable-next-line array-callback-return
     arr1?.map((e, i) => {
       let OtherAmountDetail = otherAmountDetail(e?.OtherAmtDetail);
       let diamonds = [];
@@ -393,9 +393,13 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
       totnetlosswt = totnetlosswt + +e?.NetWt + +e?.LossWt;
 
+      // for groupjob labour calculation
+      let labours = [{label: "labour", rate: e?.MaKingCharge_Unit, amount:e?.MakingAmount }] 
+      
+      
+      
       totals.labour.labourAmount = totals.labour.labourAmount + e?.MakingAmount;
-      totals.OtherCh.OtherAmount =
-        totals.OtherCh.OtherAmount + e?.OtherCharges + e?.MiscAmount;
+      totals.OtherCh.OtherAmount = totals.OtherCh.OtherAmount + e?.OtherCharges + e?.MiscAmount;
       totalAmt += e?.TotalAmount;
       totalUnitPrice += e?.UnitCost;
       totallbrAmt += e?.MakingAmount;
@@ -454,6 +458,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
             metalsAmounts += ele?.Amount;
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
+           
             finding.push(ele);
             totals.finding.Wt += ele?.Wt;
             totals.finding.Pcs += ele?.Pcs;
@@ -486,7 +491,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       let obj = { ...e };
       let separte = separatedOthAmt(obj);
       obj.OtherAmountDetail = OtherAmountDetail;
-      obj.OtherAmountInfo = separte;
+      // obj.OtherAmountInfo = separte;
       obj.diamonds = diamonds;
       obj.colorstone = colorstone;
       obj.stone_misc = stoneNMisc;
@@ -495,6 +500,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       obj.finding = finding;
       obj.totals = totals;
       obj.metalsRates = metalsRates;
+      obj.labours = labours;
       obj.metalsAmounts = metalsAmounts;
       let sumoflbr = e?.MakingAmount;
       obj.LabourAmountSum = sumoflbr;
@@ -517,92 +523,110 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
         }
       }
     });
-    console.log(resultArr);
+
+
+
+
+
+
+
+    
+    console.log("hello");
+
     let semiFInalArr = [];
-    resultArr?.forEach((e, i) => {
-      if (e?.GroupJob === '') {
+
+    resultArr?.forEach((e) => {
+      console.log(e);
+      if(e?.GroupJob === ''){
         semiFInalArr.push(e);
-      } else {
-        let obj = { ...e };
-        let findRecord = semiFInalArr?.findIndex((ele) => obj.GroupJob === ele?.GroupJob);
-        if (findRecord === -1) {
-          // console.log("mle 6", obj);
-          //jema record na mle emna mate sidhu push
-          semiFInalArr.push(obj);
+      }else{
+
+        let findRecord = semiFInalArr?.findIndex((ele) => ele?.GroupJob === e?.GroupJob);
+        if(findRecord === -1){
+            semiFInalArr.push(e);   
         }
-        else {
-          //jema record mle emna mate
-          if (semiFInalArr[findRecord]?.GroupJob !== semiFInalArr[findRecord]?.SrJobno) {
-            semiFInalArr[findRecord].GroupJob = obj.SrJobno;
-            semiFInalArr[findRecord].DesignImage = obj.DesignImage;
-            semiFInalArr[findRecord].HUID = obj.HUID;
-            semiFInalArr[findRecord].designno = obj.designno;
-            semiFInalArr[findRecord].CertificateNo = obj.CertificateNo;
-            semiFInalArr[findRecord].JewelCodePrefix = obj.JewelCodePrefix;
-          }
-          let diamondsD = [obj.diamonds, semiFInalArr[findRecord].diamonds].flat();
-          // console.log(diamondsD);
-          let blankArrDiaD = [];
-          // diamonds 
-          diamondsD?.forEach((elem, i) => {
-            let findIndexofDiamond = blankArrDiaD?.findIndex(el => el?.ShapeName === elem?.ShapeName &&
-              el?.QualityName === elem?.QualityName && el?.Colorname === elem?.Colorname && el?.Rate === elem?.Rate);
-
-            if (findIndexofDiamond === -1) {
-              blankArrDiaD.push(elem);
-            } else {
-              blankArrDiaD[findIndexofDiamond].Wt += elem.Wt
-              blankArrDiaD[findIndexofDiamond].Pcs += elem.Pcs
-              blankArrDiaD[findIndexofDiamond].Amount += elem.Amount
-            }
-          });
-          let colorstonesD = [obj.colorstone, semiFInalArr[findRecord].colorstone].flat();
-
-          // color stones
-          let blankArrCS = [];
-          colorstonesD?.forEach((elem, i) => {
-            let findIndexofColorStone = blankArrCS?.findIndex(el => el.ShapeName === elem?.ShapeName && el?.QualityName === elem?.QualityName && el?.Colorname === elem?.Colorname &&
-              el?.Rate === elem?.Rate);
-            if (findIndexofColorStone === -1) {
-              blankArrCS.push(elem);
-            } else {
-              blankArrCS[findIndexofColorStone].Wt += elem.Wt;
-              blankArrCS[findIndexofColorStone].Pcs += elem.Pcs;
-              blankArrCS[findIndexofColorStone].Amount += elem.Amount;
-            }
-          })
-          //  console.log(blankArrDiaD);
-          //  console.log(blankArrCS);
-          obj.diamonds = blankArrDiaD;
-          obj.colorstone = blankArrCS;
-
-          let blankMetals = [];
-          let metalArr = [obj.metal, semiFInalArr[findRecord].metal].flat();
-          metalArr.forEach((ele, ind) => {
-            let objj = {...ele};
-            if(objj.StockBarcode === semiFInalArr[findRecord]?.GroupJob){
-              objj.isMain = true;
-            }else{
-              objj.isMain = false;
-            }
-            let findMetals = blankMetals.findIndex(elem=>elem?.ShapeName === ele?.ShapeName && elem?.SizeName === ele?.SizeName && 
-              elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
-              if(findMetals === -1){
-                blankMetals.push(objj);
-              }else{
-                blankMetals[findMetals].Pcs += ele?.Pcs;
-                blankMetals[findMetals].Wt += ele?.Wt;
-                blankMetals[findMetals].Amount += ele?.Amount;
+        else{
+          //replace
+            if(semiFInalArr[findRecord].GroupJob !== semiFInalArr[findRecord]?.SrJobno){
+              semiFInalArr[findRecord].SrJobno = semiFInalArr[findRecord]?.GroupJob;
+              if(e?.SrJobno === e?.GroupJob){
+                semiFInalArr[findRecord].designno = e?.designno;
+                semiFInalArr[findRecord].DesignImage = e?.DesignImage;
+                semiFInalArr[findRecord].CertificateNo = e?.CertificateNo;
+                semiFInalArr[findRecord].HUID = e?.HUID;
+                semiFInalArr[findRecord].JewelCodePrefix = e?.JewelCodePrefix;
+                semiFInalArr[findRecord].PO = e?.PO;
+                semiFInalArr[findRecord].Size = e?.Size;
+                semiFInalArr[findRecord].MetalColor = e?.MetalColor;
+                semiFInalArr[findRecord].Tunch = e?.Tunch;
               }
-          });
-          blankMetals.sort((a, b) => {
-            console.log(a, b);
-          });
-          console.log(metalArr);
+            }
+
+
+            semiFInalArr[findRecord].grosswt += e?.grosswt;
+            semiFInalArr[findRecord].NetWt += e?.NetWt;
+            semiFInalArr[findRecord].TotalAmount += e?.TotalAmount;
+            semiFInalArr[findRecord].UnitCost += e?.UnitCost;
+            semiFInalArr[findRecord].PureNetWt += e?.PureNetWt;
+            semiFInalArr[findRecord].convertednetwt += e?.convertednetwt;
+            semiFInalArr[findRecord].diamonds = [...semiFInalArr[findRecord].diamonds, ...e?.diamonds]?.flat();
+            semiFInalArr[findRecord].stone_misc = [...semiFInalArr[findRecord].stone_misc, ...e?.stone_misc]?.flat();
+            semiFInalArr[findRecord].labours = [...semiFInalArr[findRecord].labours, ...e?.labours]?.flat();
+
+            let otherChargess = [semiFInalArr[findRecord].OtherAmountDetail, e.OtherAmountDetail].flat();
+            let blankOtherCharges = [];
+            otherChargess.forEach((ele, ind) => {
+
+              let findOther = blankOtherCharges.findIndex((elem, indd) => elem.label === ele.label);
+              if(findOther === -1){
+                blankOtherCharges.push(ele);
+              }else{
+                blankOtherCharges[findOther].value = +blankOtherCharges[findOther].value + +ele.value;
+              }
+            });
+            semiFInalArr[findRecord].OtherAmountDetail = blankOtherCharges;
+
+            //diamonds total
+            semiFInalArr[findRecord].totals.diamonds.Wt += e?.totals?.diamonds?.Wt;
+            semiFInalArr[findRecord].totals.diamonds.Pcs += e?.totals?.diamonds?.Pcs;
+            semiFInalArr[findRecord].totals.diamonds.Amount += e?.totals?.diamonds?.Amount;
+            //colorstone&misc total
+            semiFInalArr[findRecord].totals.stone_misc.Wt += e?.totals?.stone_misc?.Wt;
+            semiFInalArr[findRecord].totals.stone_misc.Pcs += e?.totals?.stone_misc?.Pcs;
+            semiFInalArr[findRecord].totals.stone_misc.Amount += e?.totals?.stone_misc?.Amount;
+            //totpurewt
+            semiFInalArr[findRecord].totals.totpurenetwt += e?.totals?.totpurenetwt;
+            semiFInalArr[findRecord].totals.OtherCh.OtherAmount += e?.totals.OtherCh.OtherAmount + e?.OtherCharges + e?.MiscAmount;
+
+
         }
       }
+      
+
 
     })
+
+
+
+
+console.log(semiFInalArr);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     totalAmt = totalAmt + arr?.AddLess;
     let allTax = taxGenrator(arr, totalAmt);
