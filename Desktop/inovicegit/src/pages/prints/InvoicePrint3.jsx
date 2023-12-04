@@ -308,7 +308,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
     setLOM(LOM);
     setGroupedArrAmountTotal(groupedAmtTotal);
 
-    console.log(arr);
 
     // arr.sort((a, b) => {
     //   if (a.MasterManagement_DiamondStoneTypeid !== b.MasterManagement_DiamondStoneTypeid) {
@@ -350,7 +349,10 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
     setInWords(words);
     setGrandTotal(aa);
     setTotDiscount(totdis);
-    const groupedData = arr.reduce((result, item) => {
+
+
+
+    const groupedData = arr?.reduce((result, item) => {
       let groupName;
 
       switch (item.MasterManagement_DiamondStoneTypeid) {
@@ -381,7 +383,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn }) => {
       return result;
     }, {});
 
-    const groupNamesArray = Object.keys(groupedData);
+    const groupNamesArray = Object?.keys(groupedData);
     const sentence = groupNamesArray?.join(", ");
     setDescArr(sentence);
   };
