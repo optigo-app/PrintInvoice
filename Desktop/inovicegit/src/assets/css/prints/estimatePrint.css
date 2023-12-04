@@ -52,9 +52,9 @@
 
 .recordEstimatePrint * {
     font-size: 9px;
-    word-break: break-all;
+    word-break: normal;
     line-height: 120%;
-    font-weight: 700;
+    /* font-weight: 700; */
 }
 
 .width20EstimatePrint {
@@ -150,6 +150,10 @@
     height: 18px;
 }
 
+.heiht_18_8_estimatePrint{
+    height: 18.8px;
+}
+
 .height_19_estimatePrint {
     height: 19px;
 }
@@ -185,6 +189,10 @@
     object-position: left;
     margin-left: 5px;
 }
+
+/* .word_break_estimate *{
+    word-break: break-all;
+} */
 
 @media print {
     .recordEstimatePrint {
