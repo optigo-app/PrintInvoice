@@ -193,7 +193,8 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                         {/* <p className="">{headerData?.customerAddress2}</p> */}
                         <p className="">{headerData?.customercity} {headerData?.customerpincode}</p>
                         <p className="">Phone +91 {headerData?.customermobileno.replaceAll("-", '')}</p>
-                        <p className="">PAN No - {headerData?.Pannumber}</p>
+                        {/* <p className="">PAN No - {headerData?.Pannumber}</p> */}
+                        <p>{headerData?.vat_cst_pan}</p>
                     </div>
                     <div className="col-6 p-2">
                         <div className="col-12 ms-auto">

@@ -12,8 +12,27 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [taxes, setTaxes] = useState([]);
-    const toWords = new ToWords();
     let pName = atob(printName).toLowerCase();
+
+    const getStyles = (retailPrint1, retailPrint, value) => {
+        return pName === 'retail1 print' ?
+            (value ? retailPrint1 : `${retailPrint1}NoRate`) :
+            (value ? retailPrint : `${retailPrint}NoRate`);
+    }
+
+    const [styles, setStyles] = useState({
+        Material: getStyles("materialRetailPrint1", "materialRetailPrint", true),
+        Qty: getStyles("qtyRetailPrint1", "qtyRetailPrint", true),
+        Pcs: getStyles("pcsRetailPrint1", "pcsRetailPrint", true),
+        Wt: getStyles("wtRetailPrint1", "wtRetailPrint", true),
+        // Rate: "",
+        Amount: getStyles("", "amountRetailPrint", true),
+    });
+
+
+
+    const toWords = new ToWords();
+
     const loadData = (data) => {
         setJsonData1(data?.BillPrint_Json[0]);
         let resultArr = [];
@@ -40,14 +59,14 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         materialArray.push(ele);
                         if (ele?.MasterManagement_DiamondStoneTypeid !== 4) {
                             totalObj.pcs += ele?.Pcs;
-                       if(ele?.MasterManagement_DiamondStoneTypeid === 1){
-                        totalObj.materialWeight += ele?.Wt;
-                        console.log(ele?.Wt);
-                       }
-                        }else{
+                            if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+                                totalObj.materialWeight += ele?.Wt;
+                                console.log(ele?.Wt);
+                            }
+                        } else {
                             totalObj.goldWeight += ele?.Wt;
                         }
-              
+
                         totalObj.rate += ele?.Rate;
                         totalObj.amount += ele?.Amount;
                     }
@@ -190,6 +209,16 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
     const handleChange = (e) => {
         rate ? setRate(false) : setRate(true);
+        let value = rate ? false : true;
+        setStyles({
+            ...styles,
+            Material: getStyles("materialRetailPrint1", "materialRetailPrint", value),
+            Qty: getStyles("qtyRetailPrint1", "qtyRetailPrint", value),
+            Pcs: getStyles("pcsRetailPrint1", "pcsRetailPrint", value),
+            Wt: getStyles("wtRetailPrint1", "wtRetailPrint", value),
+            // Rate: "",
+            Amount: getStyles("", "amountRetailPrint", value),
+        })
     }
 
     useEffect(() => {
@@ -288,7 +317,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <p>{jsonData1?.HSN_No}</p>
                             </div>
                         </div>
-                        <p className='mt-5 position-absolute bottom-0 pb-1 fs-5'>{jsonData1?.MetalRate24K && (jsonData1?.MetalRate24K).toFixed(2)}</p>
+                        <p className='mt-5 position-absolute bottom-0 pb-1 ratePara'>{rate && (jsonData1?.MetalRate24K && (jsonData1?.MetalRate24K).toFixed(2))}</p>
                     </div>
                 </div>
                 {/* table */}
@@ -304,22 +333,22 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             <p className='fw-bold'>Material Description</p>
                         </div>
                         <div className="d-flex">
-                            <div className={`${pName === 'retail1 print' ? `materialRetailPrint1` : `materialRetailPrint`} border-end d-flex justify-content-center align-items-center`}>
+                            <div className={`${styles.Material} border-end d-flex justify-content-center align-items-center`}>
                                 <p className='fw-bold'>Material</p>
                             </div>
-                            <div className={`${pName === 'retail1 print' ? `qtyRetailPrint1` : `qtyRetailPrint`} border-end d-flex justify-content-center align-items-center`}>
+                            <div className={`${styles.Qty} border-end d-flex justify-content-center align-items-center`}>
                                 <p className='fw-bold'>Qty</p>
                             </div>
-                            <div className={`${pName === 'retail1 print' ? `pcsRetailPrint1` : `pcsRetailPrint`} border-end d-flex justify-content-center align-items-center`}>
+                            <div className={`${styles.Pcs} border-end d-flex justify-content-center align-items-center`}>
                                 <p className='fw-bold'>Pcs</p>
                             </div>
-                            <div className={`${pName === 'retail1 print' ? `wtRetailPrint1` : `wtRetailPrint`} border-end d-flex justify-content-center align-items-center`}>
+                            <div className={`${styles.Wt} border-end d-flex justify-content-center align-items-center`}>
                                 <p className='fw-bold'>Wt.</p>
                             </div>
-                            <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} d-flex justify-content-center align-items-center`}>
-                                <p className='fw-bold'>{rate && "Rate"}</p>
-                            </div>
-                            {pName !== 'retail1 print' && <div className="amountRetailPrint d-flex justify-content-center align-items-center">
+                            {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} d-flex justify-content-center align-items-center`}>
+                                <p className='fw-bold'>Rate</p>
+                            </div>}
+                            {pName !== 'retail1 print' && <div className={`${styles.Amount} d-flex justify-content-center align-items-center`}>
                                 <p className='fw-bold'>Amount</p>
                             </div>}
                         </div>
@@ -341,32 +370,33 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             <p className='fw-bold'>{e?.SrNo}</p>
                         </div>
                         <div className="poductDiscriptionRetailPrint border-end p-1">
-                            <p>{e?.SubCategoryname} {e?.Categoryname} {e?.designno} | {e?.SrJobno}</p>
+                            <p>{e?.SubCategoryname} {e?.Categoryname} </p>
+                            <p>{e?.designno} | {e?.SrJobno}</p>
                             <img src={e?.DesignImage} alt="" className='w-100 product_image_retailPrint' onError={handleImageError} />
                             <p className='text-center fw-bold pt-1'>Tunch: {NumberWithCommas(e?.Tunch, 3)}</p>
-                            <p className='text-center pt-1'>HUID- {e?.HUID}</p>
+                            {e?.HUID !== "" && <p className='text-center pt-1'>HUID- {e?.HUID}</p>}
                             <p className='text-center fw-bold pt-1'>{fixedValues(e?.grosswt, 3)}gm <span className='fw-normal'>Gross</span></p>
                         </div>
                         <div className="materialDescriptionRetailPrint border-end">
                             <div className="d-grid h-100">
                                 {e?.materials.length > 0 && e?.materials.map((ele, ind) => {
                                     return <div className={`d-flex ${ind !== e?.materials.length - 1 && `border-bottom`}`} key={ind}>
-                                        <div className={`${pName === 'retail1 print' ? `materialRetailPrint1` : `materialRetailPrint`} border-end p-1 d-flex align-items-center`}>
+                                        <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
                                             <p>{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.ShapeName : ele?.MasterManagement_DiamondStoneTypeName}</p>
                                         </div>
-                                        <div className={`${pName === 'retail1 print' ? `qtyRetailPrint1` : `qtyRetailPrint`} border-end p-1 d-flex align-items-center`}>
+                                        <div className={`${styles.Qty} border-end p-1 d-flex align-items-center`}>
                                             <p>{ele?.MasterManagement_DiamondStoneTypeid === 3 ? ele?.ShapeName : ele?.QualityName}</p>
                                         </div>
-                                        <div className={`${pName === 'retail1 print' ? `pcsRetailPrint1` : `pcsRetailPrint`} border-end p-1 d-flex align-items-center justify-content-end`}>
+                                        <div className={`${styles.Pcs} border-end p-1 d-flex align-items-center justify-content-end`}>
                                             <p className='text-end'>{ele?.MasterManagement_DiamondStoneTypeid !== 4 && NumberWithCommas(ele?.Pcs, 0)}</p>
                                         </div>
-                                        <div className={`${pName === 'retail1 print' ? `wtRetailPrint1` : `wtRetailPrint`} border-end p-1 d-flex align-items-center justify-content-end`}>
+                                        <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
                                             <p className='text-end'>{fixedValues(ele?.Wt, 3)}</p>
                                         </div>
-                                        <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
-                                            <p className='text-end'>{rate && NumberWithCommas(ele?.Rate, 2)}</p>
-                                        </div>
-                                        {pName !== 'retail1 print' && <div className="amountRetailPrint p-1 d-flex align-items-center justify-content-end">
+                                        {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
+                                            <p className='text-end'>{NumberWithCommas(ele?.Rate, 2)}</p>
+                                        </div>}
+                                        {pName !== 'retail1 print' && <div className={`${styles.Amount} p-1 d-flex align-items-center justify-content-end`}>
                                             <p className='text-end'>{NumberWithCommas(ele?.Amount, 2)}</p>
                                         </div>}
                                     </div>
@@ -395,28 +425,28 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div className="materialDescriptionRetailPrint border-end">
                         <div className="d-flex">
-                            <div className={`${pName === 'retail1 print' ? `materialRetailPrint1` : `materialRetailPrint`} border-end p-1 min_height_44_retail_print_1`}>
+                            <div className={`${styles.Material} border-end p-1 min_height_44_retail_print_1`}>
                                 <p className='fw-bold'></p>
                             </div>
-                            <div className={`${pName === 'retail1 print' ? `qtyRetailPrint1` : `qtyRetailPrint`} border-end p-1 min_height_44_retail_print_1`}>
+                            <div className={`${styles.Qty} border-end p-1 min_height_44_retail_print_1`}>
                                 <p className='fw-bold'></p>
                             </div>
-                            <div className={`${pName === 'retail1 print' ? `pcsRetailPrint1` : `pcsRetailPrint`} border-end p-1 text-end d-flex align-items-center justify-content-end min_height_44_retail_print_1`}>
+                            <div className={`${styles.Pcs} border-end p-1 text-end d-flex align-items-center justify-content-end min_height_44_retail_print_1`}>
                                 <p className='fw-bold text-end'>{NumberWithCommas(total?.pcs, 0)}</p>
                             </div>
-                            <div className={`${pName === 'retail1 print' ? `wtRetailPrint1` : `wtRetailPrint`} border-end p-1 d-flex align-items-end justify-content-center flex-column min_height_44_retail_print_1`}>
+                            <div className={`${styles.Wt} border-end p-1 d-flex align-items-end justify-content-center flex-column min_height_44_retail_print_1`}>
                                 <p className='fw-bold lh-1 text-end'>{fixedValues(total?.materialWeight, 3)} Ctw</p>
                                 <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight, 3)} gm</p>
                             </div>
-                            <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end min_height_44_retail_print_1`}>
+                            {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end min_height_44_retail_print_1`}>
                                 <p className='fw-bold text-end'>
-                                    {/* {rate && NumberWithCommas(total?.rate, 2)} */}
-                                    </p>
-                            </div>
-                            {pName !== 'retail1 print' && <div className="amountRetailPrint p-1 d-flex align-items-center justify-content-end min_height_44_retail_print_1">
+                                    {/* {NumberWithCommas(total?.rate, 2)} */}
+                                </p>
+                            </div>}
+                            {pName !== 'retail1 print' && <div className={`${styles.Amount} p-1 d-flex align-items-center justify-content-end min_height_44_retail_print_1`}>
                                 <p className='fw-bold text-end'>
                                     {/* {NumberWithCommas(total?.amount, 2)} */}
-                                    </p>
+                                </p>
                             </div>}
                         </div>
                     </div>

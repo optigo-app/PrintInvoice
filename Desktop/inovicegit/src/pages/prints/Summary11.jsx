@@ -32,7 +32,7 @@ const Summary11 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [category, setCategory] = useState([]);
 
     const loadData = (data) => {
-        // console.log(data);
+        console.log(data);
         let head = HeaderComponent(data?.BillPrint_Json[0]?.HeaderNo, data?.BillPrint_Json[0]);
         let footerComp = FooterComponent(data?.BillPrint_Json[0]?.HeaderNo, data?.BillPrint_Json[0]);
         setHeader(data?.BillPrint_Json[0]);
@@ -153,7 +153,7 @@ const Summary11 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <p>{header?.customerregion}</p>
                     <p>{header?.customercity}{header?.customerpincode}</p>
                     <p>Phno:-{header?.customermobileno}</p>
-                    <p>{header?.vat_cst_pan} | {header?.Company_CST_STATE}-{header?.Company_CST_STATE_No}</p>
+                    <p>{header?.vat_cst_pan} | {header?.Cust_CST_STATE}-{header?.Cust_CST_STATE_No}</p>
                 </div>
                 {/* table header */}
                 <div className={`d-flex border-start border-end border-bottom ${style?.containerSummry11DataFont}`}>

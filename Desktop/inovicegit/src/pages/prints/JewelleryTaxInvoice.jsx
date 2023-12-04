@@ -22,7 +22,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     const [summary, setSummary] = useState([]);
 
     const loadData = (data) => {
-        console.log(data);
+        // console.log(data);
         let json0Datas = data.BillPrint_Json[0];
         let custDetail = { ...customerDetail };
         if(data.BillPrint_Json[0]?.vat_cst_pan !== ""){
@@ -151,9 +151,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                             <p className='lh-1 pb-1'>{json0Data?.customerstreet}</p>
                             <p className='lh-1 pb-1'>{json0Data?.customerregion}</p>
                             <p className='lh-1 pb-1'>{json0Data?.customercity}</p>
-
-                            
-                            <p className='lh-1 pb-1'>{json0Data?.State},  {json0Data?.PinCode}</p>
+                            <p className='lh-1 pb-1'>{json0Data?.State},  {json0Data?.customerpincode}</p>
                             <p className='lh-1 pb-1'>Tel : {json0Data?.customermobileno}</p>
                             <p className='lh-1 pb-1'>{json0Data?.customeremail1}</p>
                         </div>

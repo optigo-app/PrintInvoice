@@ -188,7 +188,6 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                 rateSumMap[Rate].name = "DIAMOND";
                 rateSumMap[Rate].discount = record.Discount;
             });
-
             const result = Object.keys(rateSumMap).map(rate => ({
                 rate: rate,
                 totalWeight: (rateSumMap[rate].totalWeight).toFixed(3),
@@ -196,7 +195,6 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                 name: "DIAMOND",
                 discount: rateSumMap[rate].discount
             }));
-
             let obj = { ...lastDiamondTableTotal };
             result.forEach((e, i) => {
                 obj.diaCtw += +(e?.totalWeight);
@@ -280,7 +278,8 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
             const key5Value = obj?.NetWt+obj?.LossWt;
             const key6Value = obj?.MetalAmount;
             const key7Value = obj?.Tunch;
-            const key8Value = +((obj?.Tunch * obj?.NetWt / 100).toFixed(3));
+            // const key8Value = +((obj?.Tunch * obj?.NetWt / 100).toFixed(3));
+            const key8Value = +((obj?.PureNetWt).toFixed(3));
             const foundIndex = result.findIndex(item => item.metalType === key1Value);
             nWt += obj?.NetWt;
             makingAmount += obj.MakingAmount;
@@ -293,7 +292,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                 result[foundIndex].NetWt += key5Value;
                 result[foundIndex].MetalAmount += key6Value;
                 result[foundIndex].tunch = key7Value;
-                result[foundIndex].pureWt = key8Value;
+                result[foundIndex].pureWt += key8Value;
             }
         });
         let findGold24K = result.reduce((sum, item) => sum + item?.fineWt, 0)
@@ -375,19 +374,19 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="d-flex justify-content-end align-items-center print_sec_sum4 container max_width_container pt-4">
                         <div className="form-check pe-3">
                             <input className="form-check-input border-dark" type="checkbox" id='chbox' checked={header} onChange={e => handleChange(e, "header")} />
-                            <label className="form-check-label pt-2" htmlFor='chbox'>
+                            <label className="form-check-label" htmlFor='chbox'>
                                 With Header
                             </label>
                         </div>
                         <div className="form-check pe-3">
                             <input className="form-check-input border-dark" type="checkbox" id='chbox1' checked={image} onChange={e => handleChange(e, "image")} />
-                            <label className="form-check-label pt-2" htmlFor='chbox1'>
+                            <label className="form-check-label" htmlFor='chbox1'>
                                 With Image
                             </label>
                         </div>
                         <div className="form-check">
                             <input className="form-check-input border-dark" type="checkbox" id='chbox2' checked={summary} onChange={e => handleChange(e, "summary")} />
-                            <label className="form-check-label pt-2" htmlFor='chbox2'>
+                            <label className="form-check-label" htmlFor='chbox2'>
                                 With Summary
                             </label>
                         </div>
@@ -586,7 +585,8 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                 </div>
                                                 <div className="d-flex w-100">
                                                     <div className="w-50 fw-bold ps-2">*(G+D) WT</div>
-                                                    <div className="w-50 text-end pe-2">{fixedValues(totalSummary?.gDWt, 3)} gm	</div>
+                                                    {/* <div className="w-50 text-end pe-2">{fixedValues(totalSummary?.gDWt, 3)} gm	</div> */}
+                                                    <div className="w-50 text-end pe-2">{fixedValues(((total.diaWt/5)+total.nwt), 3)} gm	</div>
                                                 </div>
                                                 <div className="d-flex w-100">
                                                     <div className="w-50 fw-bold ps-2">NET WT </div>
