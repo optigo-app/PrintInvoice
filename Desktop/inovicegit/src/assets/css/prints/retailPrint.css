@@ -23,10 +23,6 @@
     min-height: 44px;
 }
 
-/* .srNoRetailPrint {
-    width: 40px;
-    min-width: 40px;
-} */
 
 .srNoRetailPrint {
     width: 5%;
@@ -48,16 +44,7 @@
     min-width: 50%;
 }
 
-/* .materialDescriptionRetailPrint {
-    width: px;
-    min-width: px;
-} */
 
-/* .materialRetailPrint,
-.qtyRetailPrint {
-    width: 100px;
-    min-width: 100px;
-} */
 
 .materialRetailPrint,
 .wtRetailPrint,
@@ -67,20 +54,26 @@
     min-width: 18%;
 }
 
-/* .pcsRetailPrint {
-    width: 60px;
-    min-width: 60px;
-}
-
-.wtRetailPrint {
-    width: 80px;
-} */
 .qtyRetailPrint,
 .pcsRetailPrint
  {
     width: 14%;
     min-width: 14%;
 }
+
+.materialRetailPrintNoRate,
+.wtRetailPrintNoRate,
+.amountRetailPrintNoRate {
+    width: 21.6%;
+    min-width: 21.6%;
+}
+
+.qtyRetailPrintNoRate,
+.pcsRetailPrintNoRate{
+    width: 17.6%;
+    min-width: 17.6%;
+}
+
 
 .materialRetailPrint1,
 .wtRetailPrint1,
@@ -96,28 +89,28 @@
     min-width: 17%;
 }
 
+.materialRetailPrint1NoRate{
+    width: 28.5%;
+    min-width: 28.5%;
+}
+
+.wtRetailPrint1NoRate{
+    width: 24.5%;
+    min-width: 24.5%;
+}
+
+.qtyRetailPrint1NoRate,
+.pcsRetailPrint1NoRate{
+    width: 23.5%;
+    min-width: 23.5%;
+}
+
 
 .makingRetailPrint, .totalRetailPrint, .othersRetailPrint {
     width: 10%;
     min-width: 10%;
 }
 
-/* .rateRetailPrint,
-.amountRetailPrint {
-    width: 100px;
-    min-width: 100px;
-} */
-
-/* .makingRetailPrint,
-.totalRetailPrint {
-    width: 120px;
-    min-width: 120px;
-} */
-
-/* .othersRetailPrint {
-    width: 100px;
-    min-width: 100px;
-} */
 
 .totalInWordsRetailPrint {
     width: 727px;
@@ -143,6 +136,10 @@
 .printBtnRetailPrint{
     right: -10%;
     margin-top: -25px;
+}
+
+.ratePara{
+    font-size: 15px;
 }
 
 @media print{
