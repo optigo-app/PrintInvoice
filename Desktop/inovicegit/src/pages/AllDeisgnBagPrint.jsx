@@ -29,7 +29,7 @@ import Jobbagsticker3 from './bagPrints/jobBagStickers/Jobbagsticker3';
 const AllDesignBagPrint = () => {
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
-  const printName = queryParams.printname;
+  const printName = queryParams?.printname?.toLowerCase();
   let queries = {
     YearCode: queryParams.YearCode,
     appuserid: queryParams.appuserid,
@@ -50,31 +50,31 @@ const AllDesignBagPrint = () => {
 
   return (
     <div>
-      {printName === "BagPrint1A" && <BagPrint1A queries={queries} headers={headers} />}
-      {printName === "BagPrint2A" && <BagPrint2A queries={queries} headers={headers} />}
-      {printName === "BagPrint3A" && <BagPrint3A queries={queries} headers={headers} />}
-      {printName === "BagPrint4A" && <BagPrint4A queries={queries} headers={headers} />}
-      {printName === "BagPrint4B" && <BagPrint4B queries={queries} headers={headers} />}
-      {printName === "BagPrint5A" && <BagPrint5A queries={queries} headers={headers} />}
-      {printName === "BagPrint6A" && <BagPrint6A queries={queries} headers={headers} />}
-      {printName === "BagPrint7A" && <BagPrint7A queries={queries} headers={headers} />}
-      {printName === "BagPrint20" && <BagPrint20A queries={queries} headers={headers} />}
-      {printName === "BagPrint10A" && <BagPrint10A queries={queries} headers={headers} />}
-      {printName === "BagPrint11A" && <BagPrint11A queries={queries} headers={headers} />}
-      {printName === "BagPrint12A" && <BagPrint12A queries={queries} headers={headers} />}
-      {printName === "BagPrint13A" && <BagPrint13A queries={queries} headers={headers} />}
-      {printName === "BagPrint14A" && <BagPrint14A queries={queries} headers={headers} />}
-      {printName === "BagPrint15A" && <BagPrint15A queries={queries} headers={headers} />}
-      {printName === "BagPrint16" && <PrintDesign16 queries={queries} headers={headers} />}
-      {printName === "BagPrint17" && <PrintDesign17 queries={queries} headers={headers} />}
+      {printName === "bagprint1a" && <BagPrint1A queries={queries} headers={headers} />}
+      {printName === "bagprint2a" && <BagPrint2A queries={queries} headers={headers} />}
+      {printName === "bagprint3a" && <BagPrint3A queries={queries} headers={headers} />}
+      {printName === "bagprint4a" && <BagPrint4A queries={queries} headers={headers} />}
+      {printName === "bagprint4b" && <BagPrint4B queries={queries} headers={headers} />}
+      {printName === "bagprint5a" && <BagPrint5A queries={queries} headers={headers} />}
+      {printName === "bagprint6a" && <BagPrint6A queries={queries} headers={headers} />}
+      {printName === "bagprint7a" && <BagPrint7A queries={queries} headers={headers} />}
+      {printName === "bagprint20" && <BagPrint20A queries={queries} headers={headers} />}
+      {printName === "bagprint10a" && <BagPrint10A queries={queries} headers={headers} />}
+      {printName === "bagprint11a" && <BagPrint11A queries={queries} headers={headers} />}
+      {printName === "bagprint12a" && <BagPrint12A queries={queries} headers={headers} />}
+      {printName === "bagprint13a" && <BagPrint13A queries={queries} headers={headers} />}
+      {printName === "bagprint14a" && <BagPrint14A queries={queries} headers={headers} />}
+      {printName === "bagprint15a" && <BagPrint15A queries={queries} headers={headers} />}
+      {printName === "bagprint16" && <PrintDesign16 queries={queries} headers={headers} />}
+      {printName === "bagprint17" && <PrintDesign17 queries={queries} headers={headers} />}
       {/* {printName === "BagPrint16" && <BagPrint16A queries={queries} headers={headers} />} */}
       {/* {printName === "BagPrint17" && <BagPrint17A queries={queries} headers={headers} />} */}
-      {printName === "BagPrint18" && <BagPrint18A queries={queries} headers={headers} />}
+      {printName === "bagprint18" && <BagPrint18A queries={queries} headers={headers} />}
       {/* {printName === "BagPrint16" && <BagPrint16A queries={queries} headers={headers} />} */}
       {/* {printName === "BagPrint16" && <BagPrint16A queries={queries} headers={headers} />} */}
-      {printName === "JobbagstickerA" && <Jobbagsticker queries={queries} headers={headers} />}
+      {printName === "jobbagstickera" && <Jobbagsticker queries={queries} headers={headers} />}
       {/* {printName === "JobbagstickerA" && <EngageMat queries={queries} headers={headers} />} */}
-      {printName === "Jobbagsticker3" && <Jobbagsticker3 queries={queries} headers={headers} />}
+      {printName === "jobbagsticker3" && <Jobbagsticker3 queries={queries} headers={headers} />}
       {/* {printName === "BagPrint18" && <Bg18 queries={queries} headers={headers} />} */}
     </div>
   );

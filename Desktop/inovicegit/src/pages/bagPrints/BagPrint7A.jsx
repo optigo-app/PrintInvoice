@@ -283,6 +283,7 @@ const BagPrint7A = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
+  
   return (
     <>
       {data?.length === 0 ? (

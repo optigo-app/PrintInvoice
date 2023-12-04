@@ -29,6 +29,7 @@ export const printConditions = [
     { printName: "jewellery invoice", etpType: "print", componentName: "JewelleryInvoice" },
     { printName: "invoice print 2", etpType: "print", componentName: "InvoicePrint2" },
     { printName: "invoice print3", etpType: "print", componentName: "InvoicePrint3" },
+    { printName: "invoice print4", etpType: "print", componentName: "InvoicePrint4" },
     { printName: "tax invoice", etpType: "print", componentName: "TaxInvoice" },
     { printName: "rough estimate", etpType: "print", componentName: "RoughEstimate" },
     { printName: "export", etpType: "print", componentName: "Export" },

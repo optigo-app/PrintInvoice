@@ -1,0 +1,24 @@
+.containerinvp4{
+    max-width: 1200px !important;
+    padding: 0 15px !important;
+    margin: 2rem auto !important;
+    width: 100% !important;
+}
+.linesinvp4 {
+    line-height: 100%;
+    padding: 2px;
+    height: 20px;
+    font-size: 14px;
+}
+.theadinvp4{
+    height: 24px;
+    border: 1px solid #e8e8e8;
+    font-size: 14px;
+}
+.descinvp4{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28%;
+    border-right: 1px solid #e8e8e8;
+}
