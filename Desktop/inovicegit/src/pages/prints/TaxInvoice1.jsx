@@ -249,7 +249,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className='sr_invoice1 sr_invoicePrint1 min_padding_invoice1 border-start border-2 border-black'>{e?.mainData?.SrNo}</div>
                         <div className='product_discription_invoice1 product_discription_invoice_print_1 min_padding_invoice1 border-start border-end'>
                             <p> {e?.mainData?.Categoryname} {e?.mainData?.Collectionname} {e?.mainData?.DesignNo} | {e?.jobNo}</p>
-                            {image && <img src={e?.mainData?.DesignImage} alt="" className='w-100 p-1' onError={handleImageError} />}
+                            {image && <img src={e?.mainData?.DesignImage} alt="" className='w-100 p-1 imgTaxInvoice1' onError={handleImageError} />}
                             {e?.mainData?.HUID !== "" && <p className={`${!image && "pt-3"}`}>HUID-{e?.mainData?.HUID} </p>}
                         </div>
                         <div className='hsn_invoice1 hsn_invoicePrint1 min_padding_invoice1 border-end'>{BillPrint_Json?.HSN_No}</div>

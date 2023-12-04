@@ -62,8 +62,8 @@
 
 
 .total_invoicePrint1 {
-    width: 10%;
-    min-width: 10%;
+    width: 10.004%;
+    min-width: 10.004%;
 }
 .hsn_invoicePrint1{
     width: 6%;
@@ -250,6 +250,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.imgTaxInvoice1{
+    max-height: 75px;
+    object-fit: contain;
+    object-position: center;
 }
 
 @media print {

@@ -25,7 +25,6 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
         Qty: getStyles("qtyRetailPrint1", "qtyRetailPrint", true),
         Pcs: getStyles("pcsRetailPrint1", "pcsRetailPrint", true),
         Wt: getStyles("wtRetailPrint1", "wtRetailPrint", true),
-        // Rate: "",
         Amount: getStyles("", "amountRetailPrint", true),
     });
 
@@ -216,7 +215,6 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
             Qty: getStyles("qtyRetailPrint1", "qtyRetailPrint", value),
             Pcs: getStyles("pcsRetailPrint1", "pcsRetailPrint", value),
             Wt: getStyles("wtRetailPrint1", "wtRetailPrint", value),
-            // Rate: "",
             Amount: getStyles("", "amountRetailPrint", value),
         })
     }
