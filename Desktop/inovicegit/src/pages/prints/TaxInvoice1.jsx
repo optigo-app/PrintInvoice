@@ -138,7 +138,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
         setBillPrint_Json2(datas?.BillPrint_Json2);
         findMaterials(datas?.BillPrint_Json2, datas?.BillPrint_Json1, datas?.BillPrint_Json);
     }
-
+ 
     useEffect(() => {
         const sendData = async () => {
             try {
