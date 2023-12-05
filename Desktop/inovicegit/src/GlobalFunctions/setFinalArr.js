@@ -1,5 +1,4 @@
 export const setFinalArr = (resultArr) => {
-    console.log(resultArr);
     // const groupedByGroupJob = resultArr.reduce((acc, obj) => {
     //     const key = obj.GroupJob || ''; // Use 'Unknown' if GroupJob is undefined or empty
     //     if (!acc[key]) {
