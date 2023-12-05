@@ -28,8 +28,8 @@ const Header2 = ({ data }) => {
             {data?.CompanyEmail} | {data?.CompanyWebsite}
           </span>
           <span className={header2.lines}>
-            {data?.Company_VAT_GST_No} | {data?.Company_CST_STATE}
-            -GSTIN-25GJERDR202314
+            {data?.Company_VAT_GST_No} | {data?.Company_CST_STATE}-{data?.Company_CST_STATE_No}
+            {/* -GSTIN-25GJERDR202314 */}
           </span>
         </div>
       </div>
