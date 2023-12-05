@@ -57,7 +57,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
     totfinewt: 0,
     totgrosswt: 0,
     totnetwt: 0,
-    totpurnetwt: 0
+    totpurnetwt: 0,
   };
   let diamondList = [];
   let colorStoneList = [];
@@ -335,7 +335,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
         NetWt: e?.NetWt,
         LossWt: e?.LossWt,
         Amount: 0,
-      }
+      };
       let metalsRates = 0;
       let metalsAmounts = 0;
       let totals = {
@@ -386,7 +386,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
         OtherCh: {
           OtherAmount: 0,
         },
-        totpurenetwt: 0
+        totpurenetwt: 0,
       };
 
       totgrosswt += e?.grosswt;
@@ -394,12 +394,17 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       totnetlosswt = totnetlosswt + +e?.NetWt + +e?.LossWt;
 
       // for groupjob labour calculation
-      let labours = [{label: "labour", rate: e?.MaKingCharge_Unit, amount:e?.MakingAmount }] 
-      
-      
-      
+      let labours = [
+        {
+          label: "labour",
+          rate: e?.MaKingCharge_Unit,
+          amount: e?.MakingAmount,
+        },
+      ];
+
       totals.labour.labourAmount = totals.labour.labourAmount + e?.MakingAmount;
-      totals.OtherCh.OtherAmount = totals.OtherCh.OtherAmount + e?.OtherCharges + e?.MiscAmount;
+      totals.OtherCh.OtherAmount =
+        totals.OtherCh.OtherAmount + e?.OtherCharges + e?.MiscAmount;
       totalAmt += e?.TotalAmount;
       totalUnitPrice += e?.UnitCost;
       totallbrAmt += e?.MakingAmount;
@@ -458,7 +463,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
             metalsAmounts += ele?.Amount;
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
-           
             finding.push(ele);
             totals.finding.Wt += ele?.Wt;
             totals.finding.Pcs += ele?.Pcs;
@@ -512,118 +516,231 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       resultArr.push(obj);
 
       if (objects.GroupJob !== "") {
-        let findRecord = metalArr.findIndex(ele => ele?.GroupJob === objects.GroupJob);
+        let findRecord = metalArr.findIndex(
+          (ele) => ele?.GroupJob === objects.GroupJob
+        );
         if (findRecord === -1) {
           metalArr.push(objects);
         } else {
-          metalArr[findRecord].grosswt += objects?.grosswt
-          metalArr[findRecord].NetWt += objects?.NetWt
-          metalArr[findRecord].LossWt += objects?.LossWt
-          metalArr[findRecord].Amount += objects?.Amount
+          metalArr[findRecord].grosswt += objects?.grosswt;
+          metalArr[findRecord].NetWt += objects?.NetWt;
+          metalArr[findRecord].LossWt += objects?.LossWt;
+          metalArr[findRecord].Amount += objects?.Amount;
         }
       }
     });
 
-
-
-
-
-
-
-    
+    console.log(resultArr);
 
     let semiFInalArr = [];
 
     resultArr?.forEach((e) => {
-      if(e?.GroupJob === ''){
+      if (e?.GroupJob === "") {
         semiFInalArr.push(e);
-      }else{
-
-        let findRecord = semiFInalArr?.findIndex((ele) => ele?.GroupJob === e?.GroupJob);
-        if(findRecord === -1){
-            semiFInalArr.push(e);   
-        }
-        else{
+      } else {
+        let findRecord = semiFInalArr?.findIndex(
+          (ele) => ele?.GroupJob === e?.GroupJob
+        );
+        if (findRecord === -1) {
+          semiFInalArr.push(e);
+        } else {
           //replace
-            if(semiFInalArr[findRecord].GroupJob !== semiFInalArr[findRecord]?.SrJobno){
-              semiFInalArr[findRecord].SrJobno = semiFInalArr[findRecord]?.GroupJob;
-              if(e?.SrJobno === e?.GroupJob){
-                semiFInalArr[findRecord].designno = e?.designno;
-                semiFInalArr[findRecord].DesignImage = e?.DesignImage;
-                semiFInalArr[findRecord].CertificateNo = e?.CertificateNo;
-                semiFInalArr[findRecord].HUID = e?.HUID;
-                semiFInalArr[findRecord].JewelCodePrefix = e?.JewelCodePrefix;
-                semiFInalArr[findRecord].PO = e?.PO;
-                semiFInalArr[findRecord].Size = e?.Size;
-                semiFInalArr[findRecord].MetalColor = e?.MetalColor;
-                semiFInalArr[findRecord].Tunch = e?.Tunch;
-              }
+          if (
+            semiFInalArr[findRecord].GroupJob !==
+            semiFInalArr[findRecord]?.SrJobno
+          ) {
+            semiFInalArr[findRecord].SrJobno =
+              semiFInalArr[findRecord]?.GroupJob;
+            if (e?.SrJobno === e?.GroupJob) {
+              semiFInalArr[findRecord].designno = e?.designno;
+              semiFInalArr[findRecord].DesignImage = e?.DesignImage;
+              semiFInalArr[findRecord].CertificateNo = e?.CertificateNo;
+              semiFInalArr[findRecord].HUID = e?.HUID;
+              semiFInalArr[findRecord].JewelCodePrefix = e?.JewelCodePrefix;
+              semiFInalArr[findRecord].PO = e?.PO;
+              semiFInalArr[findRecord].Size = e?.Size;
+              semiFInalArr[findRecord].MetalColor = e?.MetalColor;
+              semiFInalArr[findRecord].Tunch = e?.Tunch;
             }
+          }
 
-            semiFInalArr[findRecord].grosswt += e?.grosswt;
-            semiFInalArr[findRecord].NetWt += e?.NetWt;
-            semiFInalArr[findRecord].TotalAmount += e?.TotalAmount;
-            semiFInalArr[findRecord].UnitCost += e?.UnitCost;
-            semiFInalArr[findRecord].PureNetWt += e?.PureNetWt;
-            semiFInalArr[findRecord].convertednetwt += e?.convertednetwt;
-            semiFInalArr[findRecord].diamonds = [...semiFInalArr[findRecord].diamonds, ...e?.diamonds]?.flat();
-            semiFInalArr[findRecord].stone_misc = [...semiFInalArr[findRecord].stone_misc, ...e?.stone_misc]?.flat();
-            semiFInalArr[findRecord].labours = [...semiFInalArr[findRecord].labours, ...e?.labours]?.flat();
+          semiFInalArr[findRecord].grosswt += e?.grosswt;
+          semiFInalArr[findRecord].NetWt += e?.NetWt;
+          semiFInalArr[findRecord].TotalAmount += e?.TotalAmount;
+          semiFInalArr[findRecord].UnitCost += e?.UnitCost;
+          semiFInalArr[findRecord].PureNetWt += e?.PureNetWt;
+          semiFInalArr[findRecord].convertednetwt += e?.convertednetwt;
+          semiFInalArr[findRecord].diamonds = [
+            ...semiFInalArr[findRecord].diamonds,
+            ...e?.diamonds,
+          ]?.flat();
+          semiFInalArr[findRecord].stone_misc = [
+            ...semiFInalArr[findRecord].stone_misc,
+            ...e?.stone_misc,
+          ]?.flat();
+          semiFInalArr[findRecord].labours = [
+            ...semiFInalArr[findRecord].labours,
+            ...e?.labours,
+          ]?.flat();
 
-            let otherChargess = [semiFInalArr[findRecord].OtherAmountDetail, e.OtherAmountDetail].flat();
-            let blankOtherCharges = [];
-            otherChargess.forEach((ele, ind) => {
+          let otherChargess = [
+            semiFInalArr[findRecord].OtherAmountDetail,
+            e.OtherAmountDetail,
+          ].flat();
+          let blankOtherCharges = [];
+          otherChargess.forEach((ele, ind) => {
+            let findOther = blankOtherCharges.findIndex(
+              (elem, indd) => elem.label === ele.label
+            );
+            if (findOther === -1) {
+              blankOtherCharges.push(ele);
+            } else {
+              blankOtherCharges[findOther].value =
+                +blankOtherCharges[findOther].value + +ele.value;
+            }
+          });
+          semiFInalArr[findRecord].OtherAmountDetail = blankOtherCharges;
 
-              let findOther = blankOtherCharges.findIndex((elem, indd) => elem.label === ele.label);
-              if(findOther === -1){
-                blankOtherCharges.push(ele);
-              }else{
-                blankOtherCharges[findOther].value = +blankOtherCharges[findOther].value + +ele.value;
+          //diamonds total
+          semiFInalArr[findRecord].totals.diamonds.Wt +=
+            e?.totals?.diamonds?.Wt;
+          semiFInalArr[findRecord].totals.diamonds.Pcs +=
+            e?.totals?.diamonds?.Pcs;
+          semiFInalArr[findRecord].totals.diamonds.Amount +=
+            e?.totals?.diamonds?.Amount;
+          //colorstone&misc total
+          semiFInalArr[findRecord].totals.stone_misc.Wt +=
+            e?.totals?.stone_misc?.Wt;
+          semiFInalArr[findRecord].totals.stone_misc.Pcs +=
+            e?.totals?.stone_misc?.Pcs;
+          semiFInalArr[findRecord].totals.stone_misc.Amount +=
+            e?.totals?.stone_misc?.Amount;
+          //totpurewt
+          semiFInalArr[findRecord].totals.totpurenetwt +=
+            e?.totals?.totpurenetwt;
+          semiFInalArr[findRecord].totals.OtherCh.OtherAmount +=
+            e?.totals.OtherCh.OtherAmount + e?.OtherCharges + e?.MiscAmount;
+
+          // for diamonds
+          let obj = { ...e };
+
+          let diamonds = [
+            ...semiFInalArr[findRecord].diamonds,
+            ...obj?.diamonds,
+          ].flat();
+          semiFInalArr[findRecord].diamonds = diamonds;
+
+          let colorstone = [
+            ...semiFInalArr[findRecord].colorstone,
+            ...obj?.colorstone,
+          ].flat();
+          semiFInalArr[findRecord].colorstone = colorstone;
+
+          let misc = [...semiFInalArr[findRecord].misc, ...obj?.misc].flat();
+          semiFInalArr[findRecord].v = misc;
+
+          if ( semiFInalArr[findRecord].GroupJob === semiFInalArr[findRecord].SrJobno ) {
+            let blankMetal = [];
+            let mainMetals = [...semiFInalArr[findRecord].metal].flat();
+            mainMetals.forEach((ele, ind) => {
+              let findMetal = blankMetal.findIndex(
+                (element, index) => element.ShapeName === ele.ShapeName
+              );
+              if (findMetal === -1) {
+                blankMetal.push(ele);
+              } else {
+                blankMetal[findMetal].Wt += ele?.Wt;
+                blankMetal[findMetal].Pcs += ele?.Pcs;
+                blankMetal[findMetal].Amount += ele?.Amount;
+                if (blankMetal[findMetal].IsPrimaryMetal !== 1 && ele?.IsPrimaryMetal === 1) {
+                  blankMetal[findMetal].QualityName = ele?.QualityName;
+                }
               }
             });
-            semiFInalArr[findRecord].OtherAmountDetail = blankOtherCharges;
 
-            //diamonds total
-            semiFInalArr[findRecord].totals.diamonds.Wt += e?.totals?.diamonds?.Wt;
-            semiFInalArr[findRecord].totals.diamonds.Pcs += e?.totals?.diamonds?.Pcs;
-            semiFInalArr[findRecord].totals.diamonds.Amount += e?.totals?.diamonds?.Amount;
-            //colorstone&misc total
-            semiFInalArr[findRecord].totals.stone_misc.Wt += e?.totals?.stone_misc?.Wt;
-            semiFInalArr[findRecord].totals.stone_misc.Pcs += e?.totals?.stone_misc?.Pcs;
-            semiFInalArr[findRecord].totals.stone_misc.Amount += e?.totals?.stone_misc?.Amount;
-            //totpurewt
-            semiFInalArr[findRecord].totals.totpurenetwt += e?.totals?.totpurenetwt;
-            semiFInalArr[findRecord].totals.OtherCh.OtherAmount += e?.totals.OtherCh.OtherAmount + e?.OtherCharges + e?.MiscAmount;
+            let objMetals = [...e?.metal].flat();
+            objMetals.forEach((elel, indd) => {
+              let objj = {...elel};
+              let newEle = true;
+              mainMetals.forEach((elem, inddex) => {
+                if(elem.ShapeName === objj.ShapeName){
+                  elem.Wt += objj.Wt;
+                  elem.Pcs += objj.Pcs;
+                  elem.Amount += objj.Amount;
+                  newEle = false;
+                }
+              });
+              if(newEle){
+                mainMetals.push(objj);
+              }
 
+            });
 
+            semiFInalArr[findRecord].metal = mainMetals;
+
+          }else if(e.GroupJob === e?.SrJobno){
+
+            let blankMetal = [];
+            // let mainMetals = [...semiFInalArr[findRecord].metal].flat();
+            let mainMetals = [...e.metal].flat();
+            mainMetals.forEach((ele, ind) => {
+              let findMetal = blankMetal.findIndex(
+                (element, index) => element.ShapeName === ele.ShapeName
+              );
+              if (findMetal === -1) {
+                findMetal.push(ele);
+              } else {
+                blankMetal[findMetal].Wt += ele?.Wt;
+                blankMetal[findMetal].Pcs += ele?.Pcs;
+                blankMetal[findMetal].Amount += ele?.Amount;
+                if (blankMetal[findMetal].IsPrimaryMetal !== 1 && ele?.IsPrimaryMetal === 1) {
+                  blankMetal[findMetal].QualityName = ele?.QualityName;
+                }
+              }
+            });
+
+            let objMetals = [...semiFInalArr[findRecord]?.metals].flat();
+            objMetals.forEach((elel, indd) => {
+              let objj = {...elel};
+              let newEle = true;
+              mainMetals.forEach((elem, inddex) => {
+                if(elem.ShapeName === objj.ShapeName){
+                  elem.Wt += objj.Wt;
+                  elem.Pcs += objj.Pcs;
+                  elem.Amount += objj.Amount;
+                  newEle = false;
+                }
+              });
+              if(newEle){
+                mainMetals.push(objj);
+              }
+
+            });
+
+            semiFInalArr[findRecord].metal = mainMetals;
+          }else{
+            let blankMetals = [];
+            let metalsd =[...e?.metal, semiFInalArr[findRecord].metal].flat();
+            metalsd.forEach((ele, ind) => {
+              let findMetal = blankMetals.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
+              if(findMetal === -1){
+                blankMetals.push(ele);
+              }else{
+                blankMetals[findMetal].Wt += ele?.Wt;
+                blankMetals[findMetal].Pcs += ele?.Pcs;
+                blankMetals[findMetal].Amount += ele?.Amount;
+                if(ele.IsPrimaryMetal === 1){
+                  blankMetals[findMetal].QualityName = ele?.QualityName;
+                } 
+              }
+            });
+            semiFInalArr[findRecord].metal = blankMetals;
+          }
         }
       }
-      
+    });
 
-
-    })
-
-
-
-
-console.log(semiFInalArr);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
+    console.log(semiFInalArr);
 
     totalAmt = totalAmt + arr?.AddLess;
     let allTax = taxGenrator(arr, totalAmt);
@@ -636,7 +753,8 @@ console.log(semiFInalArr);
 
     setFinalAmount(totalAmt);
     setTaxTotal(allTax);
-    setResultArray(resultArr);
+    // setResultArray(resultArr);
+    setResultArray(semiFInalArr);
     setMainTotal(mainTotal);
   };
   return (
@@ -705,11 +823,7 @@ console.log(semiFInalArr);
                       </div>
                     </div>
                     <div className="headpcl3Img">
-                      <img
-                        src={headerData?.PrintLogo}
-                        alt="#"
-                        id="pcl3Img"
-                      />
+                      <img src={headerData?.PrintLogo} alt="#" id="pcl3Img" />
                     </div>
                   </div>
                   <div className="dynamicHeadpcl3main">
@@ -718,80 +832,97 @@ console.log(semiFInalArr);
                       <div className="fslhpcl3">
                         <b className="pcl313">{headerData?.customerfirmname}</b>
                       </div>
-                      {
-                        headerData?.customerAddress2?.length > 0 ? <div className="fslhpcl3">
+                      {headerData?.customerAddress2?.length > 0 ? (
+                        <div className="fslhpcl3">
                           {headerData?.customerAddress2}
-                        </div> : ''
-                      }
-                      {
-                        headerData?.customerAddress1?.length > 0 ? <div className="fslhpcl3">
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {headerData?.customerAddress1?.length > 0 ? (
+                        <div className="fslhpcl3">
                           {headerData?.customerAddress1}
-                        </div> : ''
-                      }
-                      {headerData?.customerAddress3?.length > 0 ? <div className="fslhpcl3">
-                        {headerData?.customerAddress3}
-                      </div> : ''}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {headerData?.customerAddress3?.length > 0 ? (
+                        <div className="fslhpcl3">
+                          {headerData?.customerAddress3}
+                        </div>
+                      ) : (
+                        ""
+                      )}
 
-                      {
-                        (headerData?.customercity?.length > 0 || headerData?.customerpincode?.length > 0) ? <div className="fslhpcl3">
+                      {headerData?.customercity?.length > 0 ||
+                      headerData?.customerpincode?.length > 0 ? (
+                        <div className="fslhpcl3">
                           {headerData?.customercity}
                           {headerData?.customerpincode}
-                        </div> : ''
-                      }
-                      {headerData?.customeremail1?.length > 0 ? <div className="fslhpcl3">
-                        {headerData?.customeremail1}
-                      </div> : ''}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {headerData?.customeremail1?.length > 0 ? (
+                        <div className="fslhpcl3">
+                          {headerData?.customeremail1}
+                        </div>
+                      ) : (
+                        ""
+                      )}
 
-                      {headerData?.vat_cst_pan?.length > 0 ? <div className="fslhpcl3">{headerData?.vat_cst_pan}</div> : ''}
-                      {(headerData?.Cust_CST_STATE?.length > 0 || headerData?.Cust_CST_STATE_No?.length > 0) ? <div className="fslhpcl3">
-                        {headerData?.Cust_CST_STATE}-
-                        {headerData?.Cust_CST_STATE_No}
-                      </div> : ''}
+                      {headerData?.vat_cst_pan?.length > 0 ? (
+                        <div className="fslhpcl3">
+                          {headerData?.vat_cst_pan}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {headerData?.Cust_CST_STATE?.length > 0 ||
+                      headerData?.Cust_CST_STATE_No?.length > 0 ? (
+                        <div className="fslhpcl3">
+                          {headerData?.Cust_CST_STATE}-
+                          {headerData?.Cust_CST_STATE_No}
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <div className="dynamicHeadpcl32">
                       <div className="fslhpcl3">Ship to</div>
-                      {
-                        headerData?.customerfirmname?.length > 0 ? <div className="fslhpcl3">
-                          <b className="pcl313">{headerData?.customerfirmname}</b>
-                        </div> : ''
-                      }
+                      {headerData?.customerfirmname?.length > 0 ? (
+                        <div className="fslhpcl3">
+                          <b className="pcl313">
+                            {headerData?.customerfirmname}
+                          </b>
+                        </div>
+                      ) : (
+                        ""
+                      )}
                       <div>
-                        {
-                          headerData?.address?.length > 0 &&
+                        {headerData?.address?.length > 0 &&
                           headerData?.address?.map((e, i) => {
                             return (
                               <div className="fslhpcl3" key={i}>
                                 <div>{e}</div>
                               </div>
-                            )
-                          })
-                        }
+                            );
+                          })}
                       </div>
-
-
-
                     </div>
                     <div className="dynamicHeadpcl33">
                       <div className="w-100 d-flex justify-content-between align-items-center pe-2">
-                        <div className="fw-bold">
-                          BILL NO
-                        </div>
-                        <div className="">
-                          {headerData?.InvoiceNo}
-                        </div>
+                        <div className="fw-bold">BILL NO</div>
+                        <div className="">{headerData?.InvoiceNo}</div>
                       </div>
                       <div className="w-100 d-flex justify-content-between align-items-center pe-2">
-                        <div className="fw-bold">
-                          DATE
-                        </div>
+                        <div className="fw-bold">DATE</div>
                         <div className="billno3pdlpcl3 pcl313">
                           {headerData?.EntryDate}
                         </div>
                       </div>
                       <div className="w-100 d-flex justify-content-between align-items-center pe-2">
-                        <div className="fw-bold">
-                          HSN
-                        </div>
+                        <div className="fw-bold">HSN</div>
                         <div className="billno3pdlpcl3 pcl313">
                           {headerData?.HSN_No}
                         </div>
@@ -920,7 +1051,7 @@ console.log(semiFInalArr);
                             <div className="pcl3TableCopy no_break" key={i}>
                               <div className="tableBodypcl3">
                                 <div className="thDpcl3">
-                                  <b className="fsdpcl3">{e?.SrNo}</b>
+                                  <b className="fsdpcl3">{i+1}</b>
                                 </div>
                               </div>
 
@@ -1001,39 +1132,39 @@ console.log(semiFInalArr);
                                     //diamond
 
                                     e?.diamonds?.length > 0 &&
-                                    e?.diamonds?.map((ele, index) => {
-                                      return (
-                                        <div
-                                          className="diamondValuepcl3"
-                                          key={index}
-                                        >
-                                          <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                            {ele?.ShapeName}
+                                      e?.diamonds?.map((ele, index) => {
+                                        return (
+                                          <div
+                                            className="diamondValuepcl3"
+                                            key={index}
+                                          >
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                              {ele?.ShapeName}
+                                            </div>
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                              {ele?.SizeName}
+                                            </div>
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                              {ele?.Pcs}
+                                            </div>
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                              {ele?.Wt}
+                                            </div>
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                              {NumberWithCommas(ele?.Rate, 2)}
+                                            </div>
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                              <b className="fsdpcl3">
+                                                {NumberWithCommas(
+                                                  ele?.Amount,
+                                                  2
+                                                )}
+                                              </b>
+                                            </div>
                                           </div>
-                                          <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                            {ele?.SizeName}
-                                          </div>
-                                          <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                            {ele?.Pcs}
-                                          </div>
-                                          <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                            {ele?.Wt}
-                                          </div>
-                                          <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                            {NumberWithCommas(ele?.Rate, 2)}
-                                          </div>
-                                          <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                            <b className="fsdpcl3">
-                                              {NumberWithCommas(
-                                                ele?.Amount,
-                                                2
-                                              )}
-                                            </b>
-                                          </div>
-                                        </div>
-                                      );
-                                      // }
-                                    })
+                                        );
+                                        // }
+                                      })
                                   }
                                 </div>
                                 <div
@@ -1080,36 +1211,36 @@ console.log(semiFInalArr);
                                     //metal
 
                                     e?.metal?.length > 0 &&
-                                    e?.metal?.map((ele, index) => {
-                                      return (
-                                        <div
-                                          className="MetalPcl3"
-                                          key={index}
-                                        >
-                                          <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                            {ele?.ShapeName}
+                                      e?.metal?.map((ele, index) => {
+                                        return (
+                                          <div
+                                            className="MetalPcl3"
+                                            key={index}
+                                          >
+                                            <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                              {ele?.ShapeName}
+                                            </div>
+                                            <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                              {e?.grosswt?.toFixed(3)}
+                                            </div>
+                                            <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                              {e?.NetWt?.toFixed(3)}
+                                            </div>
+                                            <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                              {NumberWithCommas(ele?.Rate, 2)}
+                                            </div>
+                                            <div className="th4Wpcl3 brRightDpcl3">
+                                              <b style={{ fontSize: "8.5px" }}>
+                                                {NumberWithCommas(
+                                                  ele?.Amount,
+                                                  2
+                                                )}
+                                              </b>
+                                            </div>
                                           </div>
-                                          <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                            {e?.grosswt?.toFixed(3)}
-                                          </div>
-                                          <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                            {e?.NetWt?.toFixed(3)}
-                                          </div>
-                                          <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
-                                            {NumberWithCommas(ele?.Rate, 2)}
-                                          </div>
-                                          <div className="th4Wpcl3 brRightDpcl3">
-                                            <b style={{ fontSize: "8.5px" }}>
-                                              {NumberWithCommas(
-                                                ele?.Amount,
-                                                2
-                                              )}
-                                            </b>
-                                          </div>
-                                        </div>
-                                      );
-                                      // }
-                                    })
+                                        );
+                                        // }
+                                      })
                                   }
                                   {e?.LossWt === 0 ? (
                                     ""
@@ -1124,7 +1255,7 @@ console.log(semiFInalArr);
                                       <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
                                         {e?.LossWt?.toFixed(3)}
                                       </div>
-                                      <div className="th4Wpcl3 brRightDpcl3 fsdpcl3"></div>
+                                      <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">{NumberWithCommas(e?.metalsRates, 2)}</div>
                                       <div className="th4Wpcl3 brRightDpcl3">
                                         <b style={{ fontSize: "8.5px" }}>
                                           {NumberWithCommas(e?.LossAmt, 2)}
@@ -1173,51 +1304,52 @@ console.log(semiFInalArr);
                                   {
                                     //stone&misc
                                     e?.stone_misc?.length > 0 &&
-                                    e?.stone_misc?.map((ele, index) => {
-
-                                      return (
-                                        <div key={index}>
-                                          {ele?.ShapeName ===
+                                      e?.stone_misc?.map((ele, index) => {
+                                        return (
+                                          <div key={index}>
+                                            {ele?.ShapeName ===
                                             "Certification_IGI" ? (
-                                            ""
-                                          ) : (
-                                            <div
-                                              className="diamondValuepcl3"
-                                              key={index}
-                                            >
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                {ele?.ShapeName}{" "}
-                                              </div>
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                {ele?.SizeName}
-                                              </div>
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                {ele?.Pcs}
-                                              </div>
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                {ele?.Wt?.toFixed(3)}
-                                              </div>
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                {NumberWithCommas(
-                                                  ele?.Rate,
-                                                  2
-                                                )}
-                                              </div>
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                <b
-                                                  style={{ fontSize: "8.5px" }}
-                                                >
+                                              ""
+                                            ) : (
+                                              <div
+                                                className="diamondValuepcl3"
+                                                key={index}
+                                              >
+                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                  {ele?.ShapeName}{" "}
+                                                </div>
+                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                  {ele?.SizeName}
+                                                </div>
+                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                  {ele?.Pcs}
+                                                </div>
+                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                  {ele?.Wt?.toFixed(3)}
+                                                </div>
+                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
                                                   {NumberWithCommas(
-                                                    ele?.Amount,
+                                                    ele?.Rate,
                                                     2
                                                   )}
-                                                </b>
+                                                </div>
+                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                  <b
+                                                    style={{
+                                                      fontSize: "8.5px",
+                                                    }}
+                                                  >
+                                                    {NumberWithCommas(
+                                                      ele?.Amount,
+                                                      2
+                                                    )}
+                                                  </b>
+                                                </div>
                                               </div>
-                                            </div>
-                                          )}
-                                        </div>
-                                      );
-                                    })
+                                            )}
+                                          </div>
+                                        );
+                                      })
                                   }
                                 </div>
                                 <div
@@ -1258,36 +1390,83 @@ console.log(semiFInalArr);
                                   </div>
                                 </div>
                               </div>
-                              <div className=" labourandotherAMTpcl3" style={{ width: "13%", borderRight: "1px solid #989898" }}>
+                              <div
+                                className=" labourandotherAMTpcl3"
+                                style={{
+                                  width: "13%",
+                                  borderRight: "1px solid #989898",
+                                }}
+                              >
                                 <div className="w-100 pt-2">
-                                  {
-                                    (e?.MakingAmount === 0 && e?.MaKingCharge_Unit === 0) ? <div className="w-100 d-flex justify-content-between align-items-center fsdpcl3">
-                                      <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{ width: "33.33%" }}></div>
-                                      <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{ width: "33.33%" }}></div>
-                                      <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{ width: "33.33%" }}></div>
-                                    </div> :
-                                      <div className="w-100 d-flex justify-content-between align-items-center fsdpcl3" style={{ height: "18px" }}>
-                                        <div className="d-flex justify-content-start align-items-center fsdpcl3" style={{ width: "33.33%", paddingLeft: "2px" }}>Labour</div>
-                                        <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{ width: "33.33%" }}>{e?.MaKingCharge_Unit}</div>
-                                        <div className="d-flex justify-content-center align-items-center fsdpcl3" style={{ width: "33.33%" }}>{e?.MakingAmount}</div>
+                                  {e?.MakingAmount === 0 &&
+                                  e?.MaKingCharge_Unit === 0 ? (
+                                    <div className="w-100 d-flex justify-content-between align-items-center fsdpcl3">
+                                      <div
+                                        className="d-flex justify-content-center align-items-center fsdpcl3"
+                                        style={{ width: "33.33%" }}
+                                      ></div>
+                                      <div
+                                        className="d-flex justify-content-center align-items-center fsdpcl3"
+                                        style={{ width: "33.33%" }}
+                                      ></div>
+                                      <div
+                                        className="d-flex justify-content-center align-items-center fsdpcl3"
+                                        style={{ width: "33.33%" }}
+                                      ></div>
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className="w-100 d-flex justify-content-between align-items-center fsdpcl3"
+                                      style={{ height: "18px" }}
+                                    >
+                                      <div
+                                        className="d-flex justify-content-start align-items-center fsdpcl3"
+                                        style={{
+                                          width: "33.33%",
+                                          paddingLeft: "2px",
+                                        }}
+                                      >
+                                        Labour
                                       </div>
-                                  }
-                                  {
-                                    e?.OtherAmountDetail?.map((e, i) => {
-                                      return (
-                                        <div className="d-flex justify-content-between align-items-center w-100" key={i} style={{ paddingLeft: "2px", height: "18px" }}>
-                                          <div className="d-flex justify-content-start align-items-center fsdpcl3 w-75" >{e?.label}</div>
-                                          <div className="d-flex justify-content-start align-items-center fsdpcl3 w-25" >{e?.value}</div>
+                                      <div
+                                        className="d-flex justify-content-center align-items-center fsdpcl3"
+                                        style={{ width: "33.33%" }}
+                                      >
+                                        {e?.MaKingCharge_Unit}
+                                      </div>
+                                      <div
+                                        className="d-flex justify-content-center align-items-center fsdpcl3"
+                                        style={{ width: "33.33%" }}
+                                      >
+                                        {e?.MakingAmount}
+                                      </div>
+                                    </div>
+                                  )}
+                                  {e?.OtherAmountDetail?.map((e, i) => {
+                                    return (
+                                      <div
+                                        className="d-flex justify-content-between align-items-center w-100"
+                                        key={i}
+                                        style={{
+                                          paddingLeft: "2px",
+                                          height: "18px",
+                                        }}
+                                      >
+                                        <div className="d-flex justify-content-start align-items-center fsdpcl3 w-75">
+                                          {e?.label}
                                         </div>
-                                      )
-                                    })
-                                  }
+                                        <div className="d-flex justify-content-start align-items-center fsdpcl3 w-25">
+                                          {e?.value}
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
                                 </div>
                                 <div className="w-100">
-
-
-                                  {
-                                    e?.totmakAmt === 0 ? '' : <div
+                                  {e?.totmakAmt === 0 ? (
+                                    ""
+                                  ) : (
+                                    <div
                                       className="th6flex2pcl3 positionpcl3D"
                                       style={{
                                         backgroundColor: "#eeeded",
@@ -1311,12 +1490,11 @@ console.log(semiFInalArr);
                                         )}
                                       </div>
                                     </div>
-                                  }
+                                  )}
                                 </div>
-
                               </div>
                               <div className="pd5pcl3" style={{ width: "7%" }}>
-                                <div className="totalAndDiscountpcl3" >
+                                <div className="totalAndDiscountpcl3">
                                   <div className="th7pcl3ss">
                                     <b style={{ fontSize: "10px" }}>
                                       {NumberWithCommas(e?.UnitCost, 2)}
@@ -1364,7 +1542,7 @@ console.log(semiFInalArr);
                               height: "22px",
                             }}
                           >
-                            <div className="th2Dpcl3 w-100" >
+                            <div className="th2Dpcl3 w-100">
                               <div>
                                 <b className="fsdpcl3 w-100">TOTAL</b>
                               </div>
@@ -1523,7 +1701,7 @@ console.log(semiFInalArr);
                           <div className="mrpWpcl3 fsdpcl3 w-50">
                             {NumberWithCommas(
                               +totalUniCostAmt?.toFixed(2) -
-                              totalObj?.totDiscount?.toFixed(2)
+                                totalObj?.totDiscount?.toFixed(2)
                             )}
                           </div>{" "}
                         </div>
@@ -1558,7 +1736,6 @@ console.log(semiFInalArr);
                           <div className="mrpWpcl3">
                             <b className="fsdpcl3 w-100">
                               {NumberWithCommas(finalAmount, 2)}
-
                             </b>{" "}
                           </div>{" "}
                         </div>
@@ -1568,7 +1745,10 @@ console.log(semiFInalArr);
                       className="footerTotalpcl3 no_break"
                       style={{ width: "100%" }}
                     >
-                      <div className="footerSummarypcl3" style={{ width: "30%" }}>
+                      <div
+                        className="footerSummarypcl3"
+                        style={{ width: "30%" }}
+                      >
                         <div className="sumpcl3">SUMMARY</div>
                         <div className="flexSumpcl3">
                           <div className="amountSummarySectionpcl3SUM">
@@ -1636,7 +1816,10 @@ console.log(semiFInalArr);
                               style={{ width: "", height: "18pt" }}
                             ></div>
                           </div>
-                          <div className="amountSummarySectionpcl3SUM" style={{ borderLeft: "0px" }}>
+                          <div
+                            className="amountSummarySectionpcl3SUM"
+                            style={{ borderLeft: "0px" }}
+                          >
                             <div className="fapcl3D">
                               <div className="mrpWpcl3D w-50">
                                 <b className="fsdpcl3">GOLD</b>
@@ -1694,9 +1877,7 @@ console.log(semiFInalArr);
                               </div>{" "}
                             </div>
                             <div className="fapcl3 w-100">
-                              <div
-                                className="mrpWpcl3 diaDetailpcl3 justify-content-start ps-1 w-50"
-                              >
+                              <div className="mrpWpcl3 diaDetailpcl3 justify-content-start ps-1 w-50">
                                 <b className="fsdpcl3">TOTAL</b>
                               </div>
                               <div className="mrpWpcl3 diaDetailpcl3 justify-content-end pe-1 w-50">
@@ -1709,18 +1890,30 @@ console.log(semiFInalArr);
                         </div>
                       </div>
                       <div style={{ width: "15%" }}>
-                        <div className="diaDetailpcl3 brbpcl3all">DIAMOND DETAILS</div>
+                        <div className="diaDetailpcl3 brbpcl3all">
+                          DIAMOND DETAILS
+                        </div>
                         <div className="amountSummarySectionpcl3DIAM">
                           {calculatedData?.length > 0 &&
                             calculatedData?.map((e, i) => {
                               return (
                                 <div className="fapcl3DE" key={i}>
-                                  <div className="mrpWpcl3D " style={{ width: "60%" }}>
-                                    <b className="fsdpcl3" style={{ lineHeight: "6px" }}>{e?.ShapeName}</b>
+                                  <div
+                                    className="mrpWpcl3D "
+                                    style={{ width: "60%" }}
+                                  >
+                                    <b
+                                      className="fsdpcl3"
+                                      style={{ lineHeight: "6px" }}
+                                    >
+                                      {e?.ShapeName}
+                                    </b>
                                   </div>
-                                  <div className="mrpWpcl3D fsdpcl3 " style={{ width: "40%", lineHeight: "5px" }}>
-                                    {e?.totalPcs}/
-                                    {e?.totalWt?.toFixed(3)} cts
+                                  <div
+                                    className="mrpWpcl3D fsdpcl3 "
+                                    style={{ width: "40%", lineHeight: "5px" }}
+                                  >
+                                    {e?.totalPcs}/{e?.totalWt?.toFixed(3)} cts
                                   </div>{" "}
                                 </div>
                               );
@@ -1732,16 +1925,18 @@ console.log(semiFInalArr);
                         </div>
                       </div>
                       <div style={{ width: "15%" }}>
-                        <div className="diaDetailpcl3 brbpcl3all">OTHER DETAILS</div>
+                        <div className="diaDetailpcl3 brbpcl3all">
+                          OTHER DETAILS
+                        </div>
                         <div className="amountSummarySectionpcl3DIAM">
                           <div className="fapcl3D">
-                            <div
-                              className="mrpWpcl3D"
-                              style={{ width: "50%" }}
-                            >
+                            <div className="mrpWpcl3D" style={{ width: "50%" }}>
                               <b className="fsdpcl3">RATE IN 24KT</b>
                             </div>
-                            <div className="mrpWpcl3D fsdpcl3 d-flex justify-content-end pe-1 align-items-center" style={{ width: "50%" }}>
+                            <div
+                              className="mrpWpcl3D fsdpcl3 d-flex justify-content-end pe-1 align-items-center"
+                              style={{ width: "50%" }}
+                            >
                               {NumberWithCommas(headerData?.MetalRate24K, 2)}
                             </div>{" "}
                           </div>
