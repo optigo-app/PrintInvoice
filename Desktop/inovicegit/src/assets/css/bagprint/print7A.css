@@ -94,7 +94,7 @@
 
 #img7A {
     height: 125px;
-    object-fit: cover;
+    /* object-fit: cover; */
     width: 96px;
     border-bottom: 1px solid #989898;
 
