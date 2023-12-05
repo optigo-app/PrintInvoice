@@ -18,7 +18,7 @@ const Subhead2 = ({ data }) => {
             {data?.customercity} {data?.customerpincode}
           </span>
           <span className={style.lines}>{data?.customeremail1}</span>
-          <span className={style.lines}>GSTIN-25GJERDR202314</span>
+          <span className={style.lines}>GSTIN-{data?.Cust_VAT_GST_No}</span>
           
         </div>
         <div className={style.custDetails}>

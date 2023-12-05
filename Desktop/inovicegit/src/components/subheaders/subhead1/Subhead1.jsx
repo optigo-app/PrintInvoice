@@ -15,7 +15,7 @@ const Subhead1 = ({ data }) => {
           <span className={style.lines}>{data?.customerAddress3}</span>
           <span className={style.lines}>{data?.customercity} {data?.customerpincode}</span>
           <span className={style.lines}>{data?.customeremail1}</span>
-          <span className={style.lines}>GSTIN-25GJERDR202314</span>
+          <span className={style.lines}>{data?.Cust_VAT_GST_No}</span>
           <span className={style.lines}></span>
           <span className={style.lines}></span>
         </div>
