@@ -67,6 +67,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
   let stoneMiscList = [];
 
   async function loadData(data) {
+    console.log(data);
     try {
       let address = data?.BillPrint_Json[0]?.Printlable.split("\r\n");
       data.BillPrint_Json[0].address = address;

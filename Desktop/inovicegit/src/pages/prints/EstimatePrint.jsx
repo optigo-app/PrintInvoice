@@ -788,7 +788,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             </p>
                         </div>
                         <div className="h-100 pad_bot_25_estimatePrint">
-                            {diamondDetailss.pcs === 0 && <div className="d-flex w-100 justify-content-between p-1">
+                            {diamondDetailss.pcs !== 0 && <div className="d-flex w-100 justify-content-between p-1">
                                 <p className='fw-bold'>Others</p>
                                 <p>{NumberWithCommas(diamondDetailss.pcs, 0)} / {fixedValues(diamondDetailss.wt, 3)} cts</p>
                             </div>}

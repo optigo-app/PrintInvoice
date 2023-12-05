@@ -22,14 +22,14 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     const [summary, setSummary] = useState([]);
 
     const loadData = (data) => {
-        // console.log(data);
+        console.log(data);
         let json0Datas = data.BillPrint_Json[0];
         let custDetail = { ...customerDetail };
-        if(data.BillPrint_Json[0]?.vat_cst_pan !== ""){
+        if (data.BillPrint_Json[0]?.vat_cst_pan !== "") {
             let custpanGstArr = data.BillPrint_Json[0]?.vat_cst_pan.split("|");
             let custpans = custpanGstArr[1] ? custpanGstArr[1].split("-") : "";
-            let custGst =  custpanGstArr[0] ? custpanGstArr[0].split("-") : "";
-            custDetail.pan =custpans[1] ?  custpans[1] : "";
+            let custGst = custpanGstArr[0] ? custpanGstArr[0].split("-") : "";
+            custDetail.pan = custpans[1] ? custpans[1] : "";
             custDetail.gst = custGst[1] ? custGst[1] : "";
             setCustomerDetail(custDetail);
         }
@@ -46,8 +46,8 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
         data?.BillPrint_Json1.forEach((e, i) => {
             let findRecord = metalArr.findIndex(elem => elem?.label === e?.MetalTypePurity);
             if (findRecord === -1) {
-                metalArr.push({ label: e?.MetalTypePurity, value:e?.NetWt, gm: true })
-            }else{
+                metalArr.push({ label: e?.MetalTypePurity, value: e?.NetWt, gm: true })
+            } else {
                 metalArr[findRecord].value += e?.NetWt
             }
             grossWt += e?.grosswt;
@@ -89,10 +89,10 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
             obj.materials = materials;
             resultArr.push(obj);
         });
-        metalArr.push({label: "Diamond Wt", value: diamondWt, gm: false});
-        metalArr.push({label: "Stone Wt", value: colorStoneWt, gm: false});
+        metalArr.push({ label: "Diamond Wt", value: diamondWt, gm: false });
+        metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
         // metalArr.push({label: "Misc Wt", value: diamondWt, gm: false});
-        metalArr.push({label: "Gross Wt", value: grossWt, gm: true});
+        metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
         setSummary(metalArr);
         let taxValue = taxGenrator(json0Datas, totalAmountBefore);
         let afterTotal = taxValue.reduce((accumulator, currentValue) => {
@@ -147,18 +147,18 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="border d-flex justify-content-between">
                         <div className="col-6 p-2">
                             <p className='lh-1 pb-1'>To, </p>
-                            <p className='fw-bold lh-1 pb-1'>{json0Data?.customerfirmname}</p>
-                            <p className='lh-1 pb-1'>{json0Data?.customerstreet}</p>
-                            <p className='lh-1 pb-1'>{json0Data?.customerregion}</p>
-                            <p className='lh-1 pb-1'>{json0Data?.customercity}</p>
-                            <p className='lh-1 pb-1'>{json0Data?.State},  {json0Data?.customerpincode}</p>
-                            <p className='lh-1 pb-1'>Tel : {json0Data?.customermobileno}</p>
+                            {json0Data?.customerfirmname !== "" && <p className='fw-bold lh-1 pb-1'>{json0Data?.customerfirmname}</p>}
+                            {json0Data?.customerstreet !== "" && <p className='lh-1 pb-1'>{json0Data?.customerstreet}</p>}
+                            {json0Data?.customerregion !== "" && <p className='lh-1 pb-1'>{json0Data?.customerregion}</p>}
+                            {json0Data?.customercity !== "" && <p className='lh-1 pb-1'>{json0Data?.customercity}</p>}
+                            <p className='lh-1 pb-1'>{json0Data?.customerstate}, {json0Data?.customercountry} {json0Data?.customerpincode}</p>
+                            {json0Data?.customermobileno !== "" && <p className='lh-1 pb-1'>Tel : {json0Data?.customermobileno}</p>}
                             <p className='lh-1 pb-1'>{json0Data?.customeremail1}</p>
                         </div>
                         <div className="col-5 px-2 py-3">
                             <p className='lh-1 pb-1'>Invoice<span className='fw-bold'>#: {json0Data?.InvoiceNo}</span>  Dated <span className="fw-bold">{json0Data?.EntryDate}</span></p>
                             {customerDetail?.pan !== "" && <p className='lh-1 pb-1'>PAN<span className='fw-bold'>#: {customerDetail?.pan}</span> </p>}
-                            <p className='lh-1 pb-1'>GSTIN <span className='fw-bold'>{customerDetail?.gst} {(json0Data?.Cust_CST_STATE !== "" && json0Data?.Cust_CST_STATE_No !== "") && <>| {json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}</>} </span></p>
+                            {customerDetail?.gst !== "" &&  <p className='lh-1 pb-1'>GSTIN <span className='fw-bold'>{customerDetail?.gst} {(json0Data?.Cust_CST_STATE !== "" && json0Data?.Cust_CST_STATE_No !== "") && <>| {json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}</>} </span></p>}
                             <p className='lh-1 pb-1'>Due Date: <span className='fw-bold'>{json0Data?.DueDate}</span></p>
                         </div>
                     </div>
@@ -181,15 +181,15 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                             <p>{e?.Size}</p>
                         </div>
                         <div className="col-5 p-1 border-end"><p>{e?.MetalTypePurity} {e?.MetalColor} | {NumberWithCommas(e?.grosswt, 3)} gms GW | {NumberWithCommas(e?.NetWt, 3)} gms NW
-                        {e?.diamondWts !==  0 && <> | {NumberWithCommas(e?.diamondWts, 3)} Cts</> }
-                        {e?.colorStoneWts !==  0 && <> | {NumberWithCommas(e?.colorStoneWts, 3)} Cts</> }
-                        {e?.miscWts !==  0 && <> | {NumberWithCommas(e?.miscWts, 3)} gms</> }
-                             </p>
+                            {e?.diamondWts !== 0 && <> | {NumberWithCommas(e?.diamondWts, 3)} Cts</>}
+                            {e?.colorStoneWts !== 0 && <> | {NumberWithCommas(e?.colorStoneWts, 3)} Cts</>}
+                            {e?.miscWts !== 0 && <> | {NumberWithCommas(e?.miscWts, 3)} gms</>}
+                        </p>
                             {e.materials.length > 0 && e.materials.map((ele, ind) => {
                                 return <p key={ind}>{ele?.IsCenterStone === 1 ? "Center stone" : <>
-                                {ele?.MasterManagement_DiamondStoneTypeid === 1 && "Diamond"}
-                                {ele?.MasterManagement_DiamondStoneTypeid === 2 && "Colorstone"}
-                                {ele?.MasterManagement_DiamondStoneTypeid === 3 && "Misc"}
+                                    {ele?.MasterManagement_DiamondStoneTypeid === 1 && "Diamond"}
+                                    {ele?.MasterManagement_DiamondStoneTypeid === 2 && "Colorstone"}
+                                    {ele?.MasterManagement_DiamondStoneTypeid === 3 && "Misc"}
                                 </>}: {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} Cts | {ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}
                                 </p>
                             })}

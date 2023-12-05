@@ -1,0 +1,14 @@
+.estimate1Container *{
+    font-size: 14px;
+    word-break: normal;
+}
+
+.img{
+    max-height: 75px;
+}
+
+@media print{
+    .print_sec_sum4{
+        display: none !important;
+    }
+}
