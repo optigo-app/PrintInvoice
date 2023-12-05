@@ -272,11 +272,12 @@ const PrintDesign16 = ({ queries, headers }) => {
                                         }}
                                       >
                                         
-                                        {e?.data?.rd?.Quantity === 0
+                                         {/* {e?.data?.rd?.Designcode1}{e?.data?.rd?.IsSplits_Quotation_Quantity} Pcs */}
+                                        {e?.data?.rd?.IsSplits_Quotation_Quantity === 0
                                             ? `${
                                                 e?.data?.rd?.Designcode1
-                                              }(${1}PCS)`
-                                            : `${e?.data?.rd?.Designcode1}(${e?.data?.rd?.Quantity} PCS)`}
+                                              }(${e?.data?.rd?.IsSplits_Quotation_Quantity}PCS)`
+                                            : `${e?.data?.rd?.Designcode1}(${e?.data?.rd?.IsSplits_Quotation_Quantity} PCS)`}
                                       </span>
                                       <span
                                         style={{ fontWeight: "normal" }}
@@ -943,11 +944,11 @@ const PrintDesign16 = ({ queries, headers }) => {
                                             fontSize: "2.8mm",
                                           }}
                                         >
-                                          {e?.data?.rd?.Quantity === 0
+                                          {e?.data?.rd?.IsSplits_Quotation_Quantity === 0
                                             ? `${
                                                 e?.data?.rd?.Designcode1
                                               }(${1}PCS)`
-                                            : `${e?.data?.rd?.Designcode1}(${e?.data?.rd?.Quantity}PCS)`}
+                                            : `${e?.data?.rd?.Designcode1}(${e?.data?.rd?.IsSplits_Quotation_Quantity} PCS)`}
                                         </span>
                                         <span
                                           style={{ fontWeight: "normal" }}

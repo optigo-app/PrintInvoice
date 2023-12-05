@@ -169,7 +169,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                                         <div className="firstCell" > <b>DNS type</b></div>
                                                         <div className="secondCell"> {e?.data?.rd?.category}</div>
                                                         <div className="thirdCell"><b>Item count</b></div>
-                                                        <div className="fourthCell"> {e?.data?.rd?.Quantity}</div>
+                                                        <div className="fourthCell"> {e?.data?.rd?.IsSplits_Quotation_Quantity}</div>
                                                     </div>
                                                     <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                                         <div className="firstCell" style={{ "borderTop": "0px" }}> <b>DNS Name</b></div>
@@ -318,7 +318,7 @@ const BagPrint15A = ({ queries, headers }) => {
                                             <div className="firstCell" ><b>DNS type</b></div>
                                             <div className="secondCell"> {e?.data?.rd?.category}</div>
                                             <div className="thirdCell"><b>Item count</b></div>
-                                            <div className="fourthCell"> {e?.data?.rd?.Quantity}</div>
+                                            <div className="fourthCell"> {e?.data?.rd?.IsSplits_Quotation_Quantity}</div>
                                         </div>
                                         <div style={{ "display": "flex", "justifyContent": "space-between" }}>
                                             <div className="firstCell" style={{ "borderTop": "0px" }}> <b>DNS Name</b></div>

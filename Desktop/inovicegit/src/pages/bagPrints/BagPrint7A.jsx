@@ -367,7 +367,7 @@ const BagPrint7A = ({ queries, headers }) => {
                                   <div className="party7A">
                                     <div className="d-flex"><div>Size: </div><div className="fw-bold">{e?.data?.rd?.Size}</div></div>
                                     <div className="pe-1 fw-bold">
-                                      ({e?.data?.rd?.Quantity})Pcs
+                                      ({e?.data?.rd?.IsSplits_Quotation_Quantity}) Pcs
                                     </div>
                                   </div>
                                 </div>
@@ -884,8 +884,8 @@ const BagPrint7A = ({ queries, headers }) => {
                               </div>
                               <div className="party7A">
                                 <div className="d-flex"><div>Size: </div><div className="fw-bold px-1">{ e?.data?.rd?.Size}</div></div>
-                                <div className="pe-1">
-                                  ({e?.data?.rd?.Quantity === 0 ? '1' : e?.data?.rd?.Quantity})Pcs
+                                <div className="pe-1 fw-bold">
+                                  ({e?.data?.rd?.IsSplits_Quotation_Quantity}) Pcs
                                 </div>
                               </div>
                             </div>
