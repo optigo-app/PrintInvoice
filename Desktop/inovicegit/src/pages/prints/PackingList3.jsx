@@ -563,7 +563,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
               }
             }
 
-
             semiFInalArr[findRecord].grosswt += e?.grosswt;
             semiFInalArr[findRecord].NetWt += e?.NetWt;
             semiFInalArr[findRecord].TotalAmount += e?.TotalAmount;

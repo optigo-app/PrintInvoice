@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { HeaderComponent, NumberWithCommas, SubheaderComponent, apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/jewelleryTaxInvoice.module.css";
+import style1 from "../../assets/css/headers/header1.module.css";
 
 const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
@@ -141,7 +142,36 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                 </div>
                 {/* header */}
-                {headerComp}
+                {/* {headerComp} */}
+
+
+                {json0Data?.IsBranchWiseAddress === 1 ?
+                    <div className="d-flex justify-content-between p-2">
+                        <div>
+                            <div dangerouslySetInnerHTML={{ __html: json0Data?.Branch_Address }}></div>
+                        </div>
+                        <div>
+                            <img src={json0Data?.PrintLogo} alt="" className={`${style?.image}`} />
+                        </div>
+                    </div> :
+                    <div className={style1.companyDetails}>
+                        <div className={`${style1.companyhead} p-2`}>
+                            <span className={style1.lines} style1={{ fontWeight: "bold" }}>
+                                {json0Data?.CompanyFullName}
+                            </span>
+                            <span className={style1.lines}>{json0Data?.CompanyAddress}</span>
+                            <span className={style1.lines}>{json0Data?.CompanyAddress2}</span>
+                            <span className={style1.lines}>{json0Data?.CompanyCity}-{json0Data?.CompanyPinCode},{json0Data?.CompanyState}({json0Data?.CompanyCountry})</span>
+                            <span className={style1.lines}>Tell No: {json0Data?.CompanyTellNo}</span>
+                            <span className={style1.lines}>
+                                {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
+                            </span>
+                            <span className={style1.lines}>
+                                {json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}
+                            </span>
+                        </div>
+                        <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100"><img src={json0Data?.PrintLogo} alt="" className={style1.headerImg} /></div>
+                    </div>}
                 {/* sub header */}
                 <div className="mt-2 no_break">
                     <div className="border d-flex justify-content-between">
@@ -158,7 +188,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="col-5 px-2 py-3">
                             <p className='lh-1 pb-1'>Invoice<span className='fw-bold'>#: {json0Data?.InvoiceNo}</span>  Dated <span className="fw-bold">{json0Data?.EntryDate}</span></p>
                             {customerDetail?.pan !== "" && <p className='lh-1 pb-1'>PAN<span className='fw-bold'>#: {customerDetail?.pan}</span> </p>}
-                            {customerDetail?.gst !== "" &&  <p className='lh-1 pb-1'>GSTIN <span className='fw-bold'>{customerDetail?.gst} {(json0Data?.Cust_CST_STATE !== "" && json0Data?.Cust_CST_STATE_No !== "") && <>| {json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}</>} </span></p>}
+                            {customerDetail?.gst !== "" && <p className='lh-1 pb-1'>GSTIN <span className='fw-bold'>{customerDetail?.gst} {(json0Data?.Cust_CST_STATE !== "" && json0Data?.Cust_CST_STATE_No !== "") && <>| {json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}</>} </span></p>}
                             <p className='lh-1 pb-1'>Due Date: <span className='fw-bold'>{json0Data?.DueDate}</span></p>
                         </div>
                     </div>
@@ -180,7 +210,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                             <p>Design: <span className="fw-bold">{e?.designno}</span> </p>
                             <p>{e?.Size}</p>
                         </div>
-                        <div className="col-5 p-1 border-end"><p>{e?.MetalTypePurity} {e?.MetalColor} | {NumberWithCommas(e?.grosswt, 3)} gms GW | {NumberWithCommas(e?.NetWt, 3)} gms NW
+                        <div className="col-5 p-1 border-end"><p>{e?.MetalTypePurity} {e?.MetalColorCode} | {NumberWithCommas(e?.grosswt, 3)} gms GW | {NumberWithCommas(e?.NetWt, 3)} gms NW
                             {e?.diamondWts !== 0 && <> | {NumberWithCommas(e?.diamondWts, 3)} Cts</>}
                             {e?.colorStoneWts !== 0 && <> | {NumberWithCommas(e?.colorStoneWts, 3)} Cts</>}
                             {e?.miscWts !== 0 && <> | {NumberWithCommas(e?.miscWts, 3)} gms</>}

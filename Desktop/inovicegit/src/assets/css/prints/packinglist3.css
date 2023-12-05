@@ -70,7 +70,7 @@
 
 .headpcl3Img {
     display: flex;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
     height: 80pt;
     width: 30%;
@@ -727,6 +727,8 @@
 #pcl3Img {
     height: 85%;
     width: 65%;
+    object-fit: contain;
+    object-position: right;
 }
 
 .printpcl3 {
