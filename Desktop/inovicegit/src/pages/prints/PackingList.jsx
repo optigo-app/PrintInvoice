@@ -108,13 +108,14 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
     let totalAmt = 0;
     let metalRateGold = [];
     // eslint-disable-next-line array-callback-return
-    arr1.map((e, i) => {
+    arr1?.map((e, i) => {
       let objects = {
         netWt: e?.NetWt,
         amount: 0,
         rate: 0,
         groupjob: e?.GroupJob,
       };
+      // eslint-disable-next-line no-unused-vars
       let objectsCS = {
         netWt: e?.NetWt,
         amount: 0,
@@ -176,16 +177,16 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
       totgrosswt += e?.grosswt;
 
       totnetlosswt = totnetlosswt + +e?.NetWt + +e?.LossWt;
-      totals.labour.labourAmount = totals.labour.labourAmount + e?.MakingAmount;
+      totals.labour.labourAmount = totals?.labour?.labourAmount + e?.MakingAmount;
       totals.OtherCh.OtherAmount =
-        totals.OtherCh.OtherAmount + e?.OtherCharges + e?.MiscAmount;
+        totals?.OtherCh?.OtherAmount + e?.OtherCharges + e?.MiscAmount;
       totallbrAmt += e?.MakingAmount;
       totalOtherAmt += e?.OtherCharges + e?.MiscAmount;
 
       totalAmt = totalAmt + e?.TotalAmount;
 
       // eslint-disable-next-line array-callback-return
-      arr2.map((ele, ind) => {
+      arr2?.map((ele, ind) => {
         if (e.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamonds.push(ele);
@@ -261,11 +262,11 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
       obj.OtherChargeAmountSum = sumofOth;
       resultArr.push(obj);
       if (e?.groupjob !== "") {
-        let findRecord = metalRateGold.findIndex(
-          (elem) => elem?.groupjob === objects.groupjob
+        let findRecord = metalRateGold?.findIndex(
+          (elem) => elem?.groupjob === objects?.groupjob
         );
         if (findRecord === -1) {
-          metalRateGold.push(objects);
+          metalRateGold?.push(objects);
         } else {
           metalRateGold[findRecord].netWt = objects?.netWt;
           metalRateGold[findRecord].amount = objects?.amount;
@@ -281,6 +282,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
 
 
 
+    // eslint-disable-next-line no-unused-vars
     let aaaa =  setFinalArr(resultArr, arr,arr1,arr2);
 
 
@@ -293,24 +295,24 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
         semiFInalArr.push(e)
       }else{
         let obj = {...e};
-        let findRecord = semiFInalArr?.findIndex((ele) => obj.GroupJob === ele?.GroupJob) 
+        let findRecord = semiFInalArr?.findIndex((ele) => obj?.GroupJob === ele?.GroupJob) 
         if(findRecord === -1){
         // console.log("mle 6", obj);
           //jema record na mle emna mate sidhu push
-          semiFInalArr.push(obj)
+          semiFInalArr?.push(obj)
         }
         else{
           //jema record mle emna mate
           
           if(semiFInalArr[findRecord]?.GroupJob !== semiFInalArr[findRecord]?.SrJobno){
-            semiFInalArr[findRecord].GroupJob = obj.SrJobno;
-            semiFInalArr[findRecord].DesignImage = obj.DesignImage;
-            semiFInalArr[findRecord].HUID =  obj.HUID;
-            semiFInalArr[findRecord].designno =  obj.designno;
-            semiFInalArr[findRecord].CertificateNo = obj.CertificateNo;
-            semiFInalArr[findRecord].JewelCodePrefix =  obj.JewelCodePrefix;
+            semiFInalArr[findRecord].GroupJob = obj?.SrJobno;
+            semiFInalArr[findRecord].DesignImage = obj?.DesignImage;
+            semiFInalArr[findRecord].HUID =  obj?.HUID;
+            semiFInalArr[findRecord].designno =  obj?.designno;
+            semiFInalArr[findRecord].CertificateNo = obj?.CertificateNo;
+            semiFInalArr[findRecord].JewelCodePrefix =  obj?.JewelCodePrefix;
           }
-          let diamondsD = [obj.diamonds, semiFInalArr[findRecord].diamonds].flat();
+          let diamondsD = [obj?.diamonds, semiFInalArr[findRecord]?.diamonds]?.flat();
           // console.log(diamondsD);
           let blankArrDiaD = [];
           diamondsD?.forEach((elem, i) => {
@@ -318,25 +320,25 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
               el?.QualityName === elem?.QualityName &&el?.Colorname === elem?.Colorname &&el?.Rate === elem?.Rate);
 
               if(findIndexofDiamond === -1){
-                blankArrDiaD.push(elem);
+                blankArrDiaD?.push(elem);
               }else{
-                blankArrDiaD[findIndexofDiamond].Wt += elem.Wt
-                blankArrDiaD[findIndexofDiamond].Pcs += elem.Pcs
-                blankArrDiaD[findIndexofDiamond].Amount += elem.Amount
+                blankArrDiaD[findIndexofDiamond].Wt += elem?.Wt
+                blankArrDiaD[findIndexofDiamond].Pcs += elem?.Pcs
+                blankArrDiaD[findIndexofDiamond].Amount += elem?.Amount
               }
           });
-          let colorstonesD = [obj.colorstone, semiFInalArr[findRecord].colorstone].flat();
+          let colorstonesD = [obj?.colorstone, semiFInalArr[findRecord]?.colorstone]?.flat();
           
           let blankArrCS = [];
           colorstonesD?.forEach((elem, i) => {
             let findIndexofColorStone = blankArrCS?.findIndex(el => el.ShapeName === elem?.ShapeName && el?.QualityName === elem?.QualityName && el?.Colorname === elem?.Colorname &&
                el?.Rate === elem?.Rate);
               if(findIndexofColorStone === -1){
-                blankArrCS.push(elem);
+                blankArrCS?.push(elem);
               }else{
-                blankArrCS[findIndexofColorStone].Wt += elem.Wt;
-                blankArrCS[findIndexofColorStone].Pcs += elem.Pcs;
-                blankArrCS[findIndexofColorStone].Amount += elem.Amount;
+                blankArrCS[findIndexofColorStone].Wt += elem?.Wt;
+                blankArrCS[findIndexofColorStone].Pcs += elem?.Pcs;
+                blankArrCS[findIndexofColorStone].Amount += elem?.Amount;
               }
           })
         //  console.log(blankArrDiaD);
@@ -367,13 +369,13 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
     semiFInalArr.map((e, i) => {
       let obj = {...e};
       if(e?.GroupJob === ""){
-        obj.goldPrice = obj.metalGold24KRate;
+        obj.goldPrice = obj?.metalGold24KRate;
       }else{
-        let findRecord = metalRateGold.findIndex(elem=> elem?.groupjob === e?.GroupJob);
+        let findRecord = metalRateGold?.findIndex(elem=> elem?.groupjob === e?.GroupJob);
         if(findRecord === -1){
-          obj.goldPrice = obj.metalGold24KRate;
+          obj.goldPrice = obj?.metalGold24KRate;
         }else{
-          obj.goldPrice = metalRateGold[findRecord].amount / (arr?.CurrencyExchRate * metalRateGold[findRecord].netWt);
+          obj.goldPrice = metalRateGold[findRecord]?.amount / (arr?.CurrencyExchRate * metalRateGold[findRecord]?.netWt);
         }
       };
       finalArr.push(obj);
@@ -442,53 +444,53 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
 
   dynamicList2?.length > 0 &&
     // eslint-disable-next-line array-callback-return
-    dynamicList2.map((e, i) => {
+    dynamicList2?.map((e, i) => {
       if (e?.MasterManagement_DiamondStoneTypeid === 1) {
-        totalObj.totdiapcs = totalObj.totdiapcs + +e?.Pcs;
-        totalObj.totdiawt = totalObj.totdiawt + +e?.Wt;
-        totalObj.totdiaamt = totalObj.totdiaamt + +e?.Amount;
+        totalObj.totdiapcs = totalObj?.totdiapcs + +e?.Pcs;
+        totalObj.totdiawt = totalObj?.totdiawt + +e?.Wt;
+        totalObj.totdiaamt = totalObj?.totdiaamt + +e?.Amount;
         diamondList.push(e);
       }
       if (e?.MasterManagement_DiamondStoneTypeid === 2) {
-        totalObj.totcspcs = totalObj.totcspcs + e?.Pcs;
-        totalObj.totcswt = totalObj.totcswt + e?.Wt;
-        totalObj.totcsamt = totalObj.totcsamt + e?.Amount;
+        totalObj.totcspcs = totalObj?.totcspcs + e?.Pcs;
+        totalObj.totcswt = totalObj?.totcswt + e?.Wt;
+        totalObj.totcsamt = totalObj?.totcsamt + e?.Amount;
         colorStoneList.push(e);
       }
       if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-        totalObj.totmiscpcs = totalObj.totmiscpcs + e?.Pcs;
-        totalObj.totmiscwt = totalObj.totmiscwt + e?.Wt;
-        totalObj.totmiscamt = totalObj.totmiscamt + e?.Amount;
+        totalObj.totmiscpcs = totalObj?.totmiscpcs + e?.Pcs;
+        totalObj.totmiscwt = totalObj?.totmiscwt + e?.Wt;
+        totalObj.totmiscamt = totalObj?.totmiscamt + e?.Amount;
         miscList.push(e);
       }
       if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-        totalObj.totmtpcs = totalObj.totmtpcs + e?.Pcs;
-        totalObj.totmtwt = totalObj.totmtwt + e?.Wt;
-        totalObj.totmtamt = totalObj.totmtamt + e?.Amount;
+        totalObj.totmtpcs = totalObj?.totmtpcs + e?.Pcs;
+        totalObj.totmtwt = totalObj?.totmtwt + e?.Wt;
+        totalObj.totmtamt = totalObj?.totmtamt + e?.Amount;
         metalList.push(e);
       }
       if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-        findingList.push(e);
+        findingList?.push(e);
       }
       if (
         e?.MasterManagement_DiamondStoneTypeid === 2 ||
-        e.MasterManagement_DiamondStoneTypeid === 3
+        e?.MasterManagement_DiamondStoneTypeid === 3
       ) {
-        totalObj.totstpcs = totalObj.totstpcs + e?.Pcs;
-        totalObj.totstwt = totalObj.totstwt + e?.Wt;
-        totalObj.totstamt = totalObj.totstamt + e?.Amount;
+        totalObj.totstpcs = totalObj?.totstpcs + e?.Pcs;
+        totalObj.totstwt = totalObj?.totstwt + e?.Wt;
+        totalObj.totstamt = totalObj?.totstamt + e?.Amount;
       }
     });
 
   // eslint-disable-next-line array-callback-return
-  dynamicList1.map((e) => {
-    totalObj.totlbramt = totalObj.totlbramt + e?.MaKingCharge_Unit;
-    totalObj.totalAmt = totalObj.totalAmt + e?.TotalAmount;
-    totalObj.totmakingAmt = totalObj.totmakingAmt + e?.MakingAmount;
-    totalObj.totDiscount = totalObj.totDiscount + e?.DiscountAmt;
-    totalObj.totgrosswt = totalObj.totgrosswt + e?.grosswt;
-    totalObj.totnetwt = totalObj.totnetwt + e?.NetWt;
-    totalObj.totOthAmt = totalObj.totOthAmt + e?.OtherCharges + e?.MiscAmount;
+  dynamicList1?.map((e) => {
+    totalObj.totlbramt = totalObj?.totlbramt + e?.MaKingCharge_Unit;
+    totalObj.totalAmt = totalObj?.totalAmt + e?.TotalAmount;
+    totalObj.totmakingAmt = totalObj?.totmakingAmt + e?.MakingAmount;
+    totalObj.totDiscount = totalObj?.totDiscount + e?.DiscountAmt;
+    totalObj.totgrosswt = totalObj?.totgrosswt + e?.grosswt;
+    totalObj.totnetwt = totalObj?.totnetwt + e?.NetWt;
+    totalObj.totOthAmt = totalObj?.totOthAmt + e?.OtherCharges + e?.MiscAmount;
   });
 
   return (
