@@ -399,6 +399,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
           label: "labour",
           rate: e?.MaKingCharge_Unit,
           amount: e?.MakingAmount,
+          // SrJobno:e?.SrJobno,
         },
       ];
 
@@ -530,8 +531,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     });
 
-    console.log(resultArr);
-
     let semiFInalArr = [];
 
     resultArr?.forEach((e) => {
@@ -561,34 +560,82 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
               semiFInalArr[findRecord].Size = e?.Size;
               semiFInalArr[findRecord].MetalColor = e?.MetalColor;
               semiFInalArr[findRecord].Tunch = e?.Tunch;
+              // semiFInalArr[findRecord].labours = [...e,]
+              
+              // semiFInalArr[findRecord].labours = [...{label:'labour', rate:e?.MaKingCharge_Unit, amount:e?.MakingAmount}]
             }
           }
-
           semiFInalArr[findRecord].grosswt += e?.grosswt;
           semiFInalArr[findRecord].NetWt += e?.NetWt;
           semiFInalArr[findRecord].TotalAmount += e?.TotalAmount;
           semiFInalArr[findRecord].UnitCost += e?.UnitCost;
           semiFInalArr[findRecord].PureNetWt += e?.PureNetWt;
           semiFInalArr[findRecord].convertednetwt += e?.convertednetwt;
-          semiFInalArr[findRecord].diamonds = [
-            ...semiFInalArr[findRecord].diamonds,
-            ...e?.diamonds,
-          ]?.flat();
-          semiFInalArr[findRecord].stone_misc = [
-            ...semiFInalArr[findRecord].stone_misc,
-            ...e?.stone_misc,
-          ]?.flat();
+          // let arrforlabour = [];
+          // if(e?.SrJobno === e?.GroupJob){
+          //   semiFInalArr[findRecord].labours = [...e?.labours];
+          // }else{
+          //   console.log(e?.labours);
+          //   let obj = {
+          //     label:'labour',
+          //     rate:0,
+          //     amount:0
+          //   }
+          //   e?.labours?.forEach((e, i) => {
+          //     console.log(e); 
+          //     obj.amount += e?.amount;
+          //     obj.rate += e?.rate;
+          //   })
+          //   arrforlabour.push(obj);
+          // }
+          // console.log(arrforlabour);
+          
+          // const result = resultArr.map((item) => {
+          //   const sumById = e?.labours?.reduce((acc, curr) => {
+          //     const { id, amount, rate } = curr;
+          //     acc[id] = acc[id] || { id, totalAmount: 0, totalRate: 0 };
+          //     acc[id].totalAmount += amount;
+          //     acc[id].totalRate += rate;
+          //     return acc;
+          //   }, {});
+          
+          //   return { ...item, sumsById: Object.values(sumById) };
+          // });
+          
+          // console.log(result);
+
+
+
+
+          // semiFInalArr[findRecord].diamonds = [
+          //   ...semiFInalArr[findRecord].diamonds,
+          //   ...e?.diamonds,
+          // ]?.flat();
+          // semiFInalArr[findRecord].stone_misc = [
+          //   ...semiFInalArr[findRecord].stone_misc,
+          //   ...e?.stone_misc,
+          // ]?.flat();
+          
           semiFInalArr[findRecord].labours = [
             ...semiFInalArr[findRecord].labours,
             ...e?.labours,
           ]?.flat();
 
+          
+          semiFInalArr[findRecord].labours?.map((el) => {
+            return el.GroupJob = e?.GroupJob
+          })
+          semiFInalArr[findRecord].labours?.map((el) => {
+            return el.SrJobno = e?.SrJobno
+          })
+          console.log(semiFInalArr[findRecord].labours);
+
           let otherChargess = [
-            semiFInalArr[findRecord].OtherAmountDetail,
-            e.OtherAmountDetail,
-          ].flat();
+            semiFInalArr[findRecord]?.OtherAmountDetail,
+            e?.OtherAmountDetail,
+          ]?.flat();
           let blankOtherCharges = [];
-          otherChargess.forEach((ele, ind) => {
+          otherChargess?.forEach((ele, ind) => {
             let findOther = blankOtherCharges.findIndex(
               (elem, indd) => elem.label === ele.label
             );
@@ -618,12 +665,12 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
           //totpurewt
           semiFInalArr[findRecord].totals.totpurenetwt +=
             e?.totals?.totpurenetwt;
-          semiFInalArr[findRecord].totals.OtherCh.OtherAmount +=
-            e?.totals.OtherCh.OtherAmount + e?.OtherCharges + e?.MiscAmount;
 
+          semiFInalArr[findRecord].totals.OtherCh.OtherAmount +=
+            e?.totals?.OtherCh?.OtherAmount + e?.OtherCharges + e?.MiscAmount;
+          // e?.totals.OtherCh.OtherAmount ;
           // for diamonds
           let obj = { ...e };
-
           let diamonds = [
             ...semiFInalArr[findRecord].diamonds,
             ...obj?.diamonds,
@@ -639,7 +686,10 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
           let misc = [...semiFInalArr[findRecord].misc, ...obj?.misc].flat();
           semiFInalArr[findRecord].v = misc;
 
-          if ( semiFInalArr[findRecord].GroupJob === semiFInalArr[findRecord].SrJobno ) {
+          if (
+            semiFInalArr[findRecord].GroupJob ===
+            semiFInalArr[findRecord].SrJobno
+          ) {
             let blankMetal = [];
             let mainMetals = [...semiFInalArr[findRecord].metal].flat();
             mainMetals.forEach((ele, ind) => {
@@ -652,7 +702,10 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                 blankMetal[findMetal].Wt += ele?.Wt;
                 blankMetal[findMetal].Pcs += ele?.Pcs;
                 blankMetal[findMetal].Amount += ele?.Amount;
-                if (blankMetal[findMetal].IsPrimaryMetal !== 1 && ele?.IsPrimaryMetal === 1) {
+                if (
+                  blankMetal[findMetal].IsPrimaryMetal !== 1 &&
+                  ele?.IsPrimaryMetal === 1
+                ) {
                   blankMetal[findMetal].QualityName = ele?.QualityName;
                 }
               }
@@ -660,26 +713,22 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
             let objMetals = [...e?.metal].flat();
             objMetals.forEach((elel, indd) => {
-              let objj = {...elel};
+              let objj = { ...elel };
               let newEle = true;
               mainMetals.forEach((elem, inddex) => {
-                if(elem.ShapeName === objj.ShapeName){
+                if (elem.ShapeName === objj.ShapeName) {
                   elem.Wt += objj.Wt;
                   elem.Pcs += objj.Pcs;
                   elem.Amount += objj.Amount;
                   newEle = false;
                 }
               });
-              if(newEle){
+              if (newEle) {
                 mainMetals.push(objj);
               }
-
             });
-
             semiFInalArr[findRecord].metal = mainMetals;
-
-          }else if(e.GroupJob === e?.SrJobno){
-
+          } else if (e.GroupJob === e?.SrJobno) {
             let blankMetal = [];
             // let mainMetals = [...semiFInalArr[findRecord].metal].flat();
             let mainMetals = [...e.metal].flat();
@@ -693,7 +742,10 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                 blankMetal[findMetal].Wt += ele?.Wt;
                 blankMetal[findMetal].Pcs += ele?.Pcs;
                 blankMetal[findMetal].Amount += ele?.Amount;
-                if (blankMetal[findMetal].IsPrimaryMetal !== 1 && ele?.IsPrimaryMetal === 1) {
+                if (
+                  blankMetal[findMetal].IsPrimaryMetal !== 1 &&
+                  ele?.IsPrimaryMetal === 1
+                ) {
                   blankMetal[findMetal].QualityName = ele?.QualityName;
                 }
               }
@@ -701,37 +753,38 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
             let objMetals = [...semiFInalArr[findRecord]?.metals].flat();
             objMetals.forEach((elel, indd) => {
-              let objj = {...elel};
+              let objj = { ...elel };
               let newEle = true;
               mainMetals.forEach((elem, inddex) => {
-                if(elem.ShapeName === objj.ShapeName){
+                if (elem.ShapeName === objj.ShapeName) {
                   elem.Wt += objj.Wt;
                   elem.Pcs += objj.Pcs;
                   elem.Amount += objj.Amount;
                   newEle = false;
                 }
               });
-              if(newEle){
+              if (newEle) {
                 mainMetals.push(objj);
               }
-
             });
 
             semiFInalArr[findRecord].metal = mainMetals;
-          }else{
+          } else {
             let blankMetals = [];
-            let metalsd =[...e?.metal, semiFInalArr[findRecord].metal].flat();
+            let metalsd = [...e?.metal, semiFInalArr[findRecord].metal].flat();
             metalsd.forEach((ele, ind) => {
-              let findMetal = blankMetals.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
-              if(findMetal === -1){
+              let findMetal = blankMetals.findIndex(
+                (elem, index) => elem?.ShapeName === ele?.ShapeName
+              );
+              if (findMetal === -1) {
                 blankMetals.push(ele);
-              }else{
+              } else {
                 blankMetals[findMetal].Wt += ele?.Wt;
                 blankMetals[findMetal].Pcs += ele?.Pcs;
                 blankMetals[findMetal].Amount += ele?.Amount;
-                if(ele.IsPrimaryMetal === 1){
+                if (ele.IsPrimaryMetal === 1) {
                   blankMetals[findMetal].QualityName = ele?.QualityName;
-                } 
+                }
               }
             });
             semiFInalArr[findRecord].metal = blankMetals;
@@ -739,8 +792,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
         }
       }
     });
-
-    console.log(semiFInalArr);
 
     totalAmt = totalAmt + arr?.AddLess;
     let allTax = taxGenrator(arr, totalAmt);
@@ -750,6 +801,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       allTax?.map((e) => {
         totalAmt += +e?.amount;
       });
+
+      
 
     setFinalAmount(totalAmt);
     setTaxTotal(allTax);
@@ -913,7 +966,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="dynamicHeadpcl33">
                       <div className="w-100 d-flex justify-content-between align-items-center pe-2">
                         <div className="fw-bold">BILL NO</div>
-                        <div className="">{headerData?.InvoiceNo}</div>
+                        <div className="pcl313">{headerData?.InvoiceNo}</div>
                       </div>
                       <div className="w-100 d-flex justify-content-between align-items-center pe-2">
                         <div className="fw-bold">DATE</div>
@@ -1046,12 +1099,14 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                         resultArray?.map((e, i) => {
                           let totmakAmt = 0;
 
-                          totmakAmt += e?.OtherCharges + e?.MakingAmount;
+                          totmakAmt +=
+                            e?.OtherCharges + e?.MakingAmount + e?.MiscAmount;
+                          // totmakAmt +=  e?.MakingAmount;
                           return (
                             <div className="pcl3TableCopy no_break" key={i}>
                               <div className="tableBodypcl3">
                                 <div className="thDpcl3">
-                                  <b className="fsdpcl3">{i+1}</b>
+                                  <b className="fsdpcl3">{i + 1}</b>
                                 </div>
                               </div>
 
@@ -1139,7 +1194,11 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             key={index}
                                           >
                                             <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {ele?.ShapeName}
+                                              {ele?.ShapeName +
+                                                " " +
+                                                ele?.QualityName +
+                                                " " +
+                                                ele?.Colorname}
                                             </div>
                                             <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
                                               {ele?.SizeName}
@@ -1255,7 +1314,9 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                       <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
                                         {e?.LossWt?.toFixed(3)}
                                       </div>
-                                      <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">{NumberWithCommas(e?.metalsRates, 2)}</div>
+                                      <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
+                                        {NumberWithCommas(e?.metalsRates, 2)}
+                                      </div>
                                       <div className="th4Wpcl3 brRightDpcl3">
                                         <b style={{ fontSize: "8.5px" }}>
                                           {NumberWithCommas(e?.LossAmt, 2)}
@@ -1398,70 +1459,19 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 }}
                               >
                                 <div className="w-100 pt-2">
-                                  {e?.MakingAmount === 0 &&
-                                  e?.MaKingCharge_Unit === 0 ? (
-                                    <div className="w-100 d-flex justify-content-between align-items-center fsdpcl3">
-                                      <div
-                                        className="d-flex justify-content-center align-items-center fsdpcl3"
-                                        style={{ width: "33.33%" }}
-                                      ></div>
-                                      <div
-                                        className="d-flex justify-content-center align-items-center fsdpcl3"
-                                        style={{ width: "33.33%" }}
-                                      ></div>
-                                      <div
-                                        className="d-flex justify-content-center align-items-center fsdpcl3"
-                                        style={{ width: "33.33%" }}
-                                      ></div>
-                                    </div>
-                                  ) : (
-                                    <div
-                                      className="w-100 d-flex justify-content-between align-items-center fsdpcl3"
-                                      style={{ height: "18px" }}
-                                    >
-                                      <div
-                                        className="d-flex justify-content-start align-items-center fsdpcl3"
-                                        style={{
-                                          width: "33.33%",
-                                          paddingLeft: "2px",
-                                        }}
-                                      >
-                                        Labour
-                                      </div>
-                                      <div
-                                        className="d-flex justify-content-center align-items-center fsdpcl3"
-                                        style={{ width: "33.33%" }}
-                                      >
-                                        {e?.MaKingCharge_Unit}
-                                      </div>
-                                      <div
-                                        className="d-flex justify-content-center align-items-center fsdpcl3"
-                                        style={{ width: "33.33%" }}
-                                      >
-                                        {e?.MakingAmount}
-                                      </div>
-                                    </div>
-                                  )}
-                                  {e?.OtherAmountDetail?.map((e, i) => {
-                                    return (
-                                      <div
-                                        className="d-flex justify-content-between align-items-center w-100"
-                                        key={i}
-                                        style={{
-                                          paddingLeft: "2px",
-                                          height: "18px",
-                                        }}
-                                      >
-                                        <div className="d-flex justify-content-start align-items-center fsdpcl3 w-75">
-                                          {e?.label}
-                                        </div>
-                                        <div className="d-flex justify-content-start align-items-center fsdpcl3 w-25">
-                                          {e?.value}
-                                        </div>
-                                      </div>
-                                    );
-                                  })}
+                                  <div>
+                                    {e?.labours?.map((e, i) => {
+                                      return <div key={i} className="d-flex justify-content-between align-items-center px-1"><div className="d-flex justify-content-start align-items-center" style={{width:"33.33%"}}>{e?.label}</div>
+                                      <div className="d-flex justify-content-center align-items-center" style={{width:"33.33%"}}>{e?.rate}</div>
+                                      <div className="d-flex justify-content-end align-items-center" style={{width:"33.33%"}}>{e?.amount}</div></div>;
+                                    })}
+                                    {e?.OtherAmountDetail?.map((e, i) => {
+                                      return <div key={i} className="d-flex justify-content-between align-items-center px-1"><div className="d-flex justify-content-start align-items-center" style={{width:"80%"}}>{e?.label}</div>
+                                      <div className="d-flex justify-content-end align-items-center" style={{width:"20%"}}>{e?.value}</div></div>;
+                                    })}
+                                  </div>
                                 </div>
+
                                 <div className="w-100">
                                   {e?.totmakAmt === 0 ? (
                                     ""

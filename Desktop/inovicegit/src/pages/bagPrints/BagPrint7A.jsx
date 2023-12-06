@@ -169,13 +169,14 @@ const BagPrint7A = ({ queries, headers }) => {
           clr.ActualWeight = +clr.ActualWeight?.toFixed(3);
           misc.ActualPcs = +misc.ActualPcs?.toFixed(3);
           misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
-          if (dia.ActualPcs !== 0 && dia.ActualWeight !== 0) {
+          if (dia?.ActualPcs !== 0 && dia?.ActualWeight !== 0) {
             finalDiaArr.push(dia);
           }
-          if (clr.ActualPcs !== 0 && clr.ActualWeight !== 0) {
+          // finalDiaArr.push(dia);
+          if (clr?.ActualPcs !== 0 && clr?.ActualWeight !== 0) {
             finalClsArr.push(clr);
           }
-          if (misc.ActualPcs !== 0 && misc.ActualWeight !== 0) {
+          if (misc?.ActualPcs !== 0 && misc?.ActualWeight !== 0) {
             finalMiscArr.push(misc);
           }
           let DLIST = [...DiamondList];
