@@ -66,6 +66,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
             UnitCost: 0
         };
         json1.forEach((e, i) => {
+             totalobj.totalOtherAmount += e?.MetalAmount + e?.OtherCharges;
             arrResult.forEach((ele, ind) => {
                 if (e.SrJobno === ele.jobNo) {
                     // let totalAmount = 0;
@@ -75,7 +76,8 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         if (element.MasterManagement_DiamondStoneTypeid === 4) {
                             obj.materialCharges = 0;
                         } else {
-                            obj.materialCharges = +((obj.Rate * obj.Wt).toFixed(2));
+                            // obj.materialCharges = +((obj.Rate * obj.Wt).toFixed(2));
+                            obj.materialCharges = obj?.Amount;
                             totalobj.totalOtherAmount += obj.materialCharges;
                         }
                         arr.push(obj);
@@ -83,12 +85,12 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                         if (element?.MasterManagement_DiamondStoneTypeid !== 4 && element?.MasterManagement_DiamondStoneTypeid !== 3) {
                             totalobj.diaWt += element.Wt;
                         }
-                        if(element?.MasterManagement_DiamondStoneTypeid === 3){
+                        if (element?.MasterManagement_DiamondStoneTypeid === 3) {
                             totalobj.weightInGram += element.Wt;
                         }
                     });
                     // finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e, totalAmount: totalAmount });
-                    finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e });    
+                    finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e });
                 }
             });
             totalobj.TotalAmount += e?.TotalAmount;
@@ -116,19 +118,171 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
         // tax end
 
         totalobj.gwt = +((totalobj.gwt).toFixed(2));
-        totalobj.discountAmt = +((totalobj.discountAmt).toFixed(2));          
+        totalobj.discountAmt = +((totalobj.discountAmt).toFixed(2));
         let debitCardinfo = ReceiveInBank(json0[0]?.BankPayDet);
         setBank(debitCardinfo);
         // totalobj.netBalanceAmount = +((totalobj.totalAmountAfterTax - json0[0].OldGoldAmount - json0[0].AdvanceAmount - json0[0].CashReceived - json0[0].BankReceived).toFixed(2));
-        totalobj.netBalanceAmount = +(totalobj.totalAmountAfterTax - json0[0].OldGoldAmount - json0[0].AdvanceAmount - json0[0].CashReceived );
+        totalobj.netBalanceAmount = +(totalobj.totalAmountAfterTax - json0[0].OldGoldAmount - json0[0].AdvanceAmount - json0[0].CashReceived);
         debitCardinfo.length > 0 && debitCardinfo.forEach((e, i) => {
             totalobj.netBalanceAmount -= e?.amount
         });
         // totalobj.textnumber = CapitalizeWords(convertor.toWords(Math.round(totalobj.netBalanceAmount)));
         totalobj.textnumber = toWords.convert(+((totalobj.netBalanceAmount)?.toFixed(2))) + " Only";
-        
+
         setTotalAmount(totalobj);
         setResultArr(finalArr);
+
+        let semiFinalArr = [];
+
+        finalArr.forEach((e, i) => {
+            let obj = { ...e };
+            if (obj?.mainData?.GroupJob === "") {
+                semiFinalArr.push(obj);
+            } else {
+                let findRec = semiFinalArr.findIndex((ele, ind) => ele?.mainData?.GroupJob === obj?.mainData?.GroupJob);
+                if (findRec === -1) {
+                    semiFinalArr.push(obj);
+                } else {
+                    let mainMetals = [];
+                    let whichArr = "";
+                    if (semiFinalArr[findRec].mainData.SrJobno !== semiFinalArr[findRec].mainData.GroupJob) {
+                        semiFinalArr[findRec].mainData.SrJobno = semiFinalArr[findRec].mainData.GroupJob;
+                    } else {
+                        mainMetals = semiFinalArr[findRec].data.filter((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4);
+                        whichArr = "semiFinal";
+                    }
+                    if (obj.mainData.SrJobno === obj.mainData.GroupJob) {
+                        semiFinalArr[findRec].mainData.Categoryname = obj.mainData.Categoryname;
+                        semiFinalArr[findRec].mainData.SubCategoryname = obj.mainData.SubCategoryname;
+                        semiFinalArr[findRec].mainData.Collectionname = obj.mainData.Collectionname;
+                        semiFinalArr[findRec].mainData.designno = obj.mainData.designno;
+                        semiFinalArr[findRec].mainData.HUID = obj.mainData.HUID;
+                        mainMetals = obj.data.filter((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4);
+                        whichArr = "obj";
+                    }
+
+                    semiFinalArr[findRec].mainData.MakingAmount += obj.mainData.MakingAmount;
+                    semiFinalArr[findRec].mainData.TotalAmount += obj.mainData.TotalAmount;
+                    semiFinalArr[findRec].mainData.grosswt += obj.mainData.grosswt;
+                    semiFinalArr[findRec].mainData.NetWt += obj.mainData.NetWt;
+                    semiFinalArr[findRec].mainData.LossWt += obj.mainData.LossWt;
+                    semiFinalArr[findRec].mainData.MetalAmount += obj.mainData.MetalAmount;
+
+                    // semiFinalArr[findRec].data.TotalAmount += obj.data.TotalAmount; 
+
+                    // for metals
+                    let blankMetals = [];
+                    if (whichArr === "semiFinal") {
+                        let otherMetals = obj.data.filter((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4);
+                        otherMetals.forEach((ele, ind) => {
+                            let objj = { ...ele };
+                            let newMetal = true;
+                            mainMetals.forEach((elem, index) => {
+                                if (elem?.ShapeName === objj?.ShapeName) {
+                                    elem.Amount += objj?.Amount;
+                                    elem.Pcs += objj?.Pcs;
+                                    elem.Wt += objj?.Wt;
+                                    elem.materialCharges += +((objj.Rate * objj.Wt).toFixed(2));
+                                    newMetal = false;
+                                    if (elem?.IsPrimaryMetal !== 1 && objj?.IsPrimaryMetal === 1) {
+                                        elem.QualityName = objj?.QualityName;
+                                    }
+                                }
+                            });
+                            if (newMetal) {
+                                mainMetals.push(objj);
+                            }
+                        });
+                        blankMetals = mainMetals;
+
+                    } else if (whichArr === "obj") {
+                        let otherMetals = semiFinalArr[findRec].data.filter((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4);
+                        otherMetals.forEach((ele, ind) => {
+                            let objj = { ...ele };
+                            let newMetal = true;
+                            mainMetals.forEach((elem, index) => {
+                                if (elem?.ShapeName === objj?.ShapeName) {
+                                    elem.Amount += objj?.Amount;
+                                    elem.Pcs += objj?.Pcs;
+                                    elem.Wt += objj?.Wt;
+                                    newMetal = false;
+                                    elem.materialCharges += +((objj.Rate * objj.Wt).toFixed(2));
+                                    if (elem?.IsPrimaryMetal !== 1 && objj?.IsPrimaryMetal === 1) {
+                                        elem.QualityName = objj?.QualityName;
+                                    }
+                                }
+                            });
+                            if (newMetal) {
+                                mainMetals.push(objj);
+                            }
+                        });
+                        blankMetals = mainMetals;
+                    } else {
+                        let metals = [semiFinalArr[findRec].data.filter((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4), obj.data.filter((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4)].flat();
+                        let blankM = []
+                        metals.forEach((ele, ind) => {
+                            let findMetals = blankM.findIndex(elee => elee?.ShapeName === ele?.ShapeName);
+                            if (findMetals === -1) {
+                                blankM.push(ele);
+                            } else {
+                                blankM[findMetals].Wt += ele?.Wt;
+                                blankM[findMetals].Pcs += ele?.Pcs;
+                                blankM[findMetals].amount += ele?.amount;
+                                blankM[findMetals].materialCharges += +((ele.Rate * ele.Wt).toFixed(2));
+                                if (blankM[findMetals].IsPrimaryMetal !== 1 && ele?.IsPrimaryMetal === 1) {
+                                    blankM[findMetals].QualityName = ele?.QualityName;
+                                }
+                            }
+                        });
+                        blankMetals = blankM
+                    }
+                    // for materials
+                    let blankMaterials = [];
+                    let materials = [semiFinalArr[findRec].data.filter((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid !== 4), obj.data.filter((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid !== 4)].flat();
+                    materials.forEach((ele, ind) => {
+                        let findMaterial = blankMaterials.findIndex((elem, index) => elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid &&
+                            elem?.ShapeName === ele?.ShapeName 
+                            // elem?.Colorname === ele?.Colorname &&
+                            // elem?.QualityName === ele?.QualityName &&
+                            // elem?.SizeName === ele?.SizeName &&
+                            // elem?.Rate === ele?.Rate
+                        );
+                        if (findMaterial === -1) {
+                            blankMaterials.push(ele);
+                        } else {
+                            blankMaterials[findMaterial].Wt += ele?.Wt;
+                            blankMaterials[findMaterial].Pcs += ele?.Pcs;
+                            blankMaterials[findMaterial].Amount += ele?.Amount;
+                            // blankMaterials[findMaterial].materialCharges += +((ele.Rate * ele.Wt).toFixed(2));
+                            blankMaterials[findMaterial].materialCharges += ele?.Amount;
+                        }
+                    });
+                    blankMaterials.sort((a, b) => {
+                        if (a.MasterManagement_DiamondStoneTypeid === b.MasterManagement_DiamondStoneTypeid) {
+                            return a.id - b.id; // If mastermanagementtypeid is the same, sort by ID
+                        } else {
+                            return a.MasterManagement_DiamondStoneTypeid - b.MasterManagement_DiamondStoneTypeid;
+                        }
+                    });
+                    semiFinalArr[findRec].data = [...blankMetals, ...blankMaterials].flat();
+                }
+            }
+        });
+        // console.log(semiFinalArr);
+        semiFinalArr.sort((a, b) => {
+            const nameA = a.mainData.SrJobno.toUpperCase(); // Convert names to uppercase for case-insensitive comparison
+            const nameB = b.mainData.SrJobno.toUpperCase();
+
+            if (nameA < nameB) {
+                return -1; // 'a' comes before 'b'
+            }
+            if (nameA > nameB) {
+                return 1; // 'b' comes before 'a'
+            }
+            return 0; // Names are equal
+        });
+        setResultArr(semiFinalArr);
+
     }
 
     const loadData = (datas) => {
@@ -138,7 +292,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
         setBillPrint_Json2(datas?.BillPrint_Json2);
         findMaterials(datas?.BillPrint_Json2, datas?.BillPrint_Json1, datas?.BillPrint_Json);
     }
- 
+
     useEffect(() => {
         const sendData = async () => {
             try {
@@ -246,9 +400,10 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 {resultArr.length > 0 && resultArr.map((e, i) => {
                     return <div className="d-flex w-100 border-bottom table_row_invoice1 border-2 border-black" key={i}>
-                        <div className='sr_invoice1 sr_invoicePrint1 min_padding_invoice1 border-start border-2 border-black'>{e?.mainData?.SrNo}</div>
+                        <div className='sr_invoice1 sr_invoicePrint1 min_padding_invoice1 border-start border-2 border-black'>{i + 1}</div>
                         <div className='product_discription_invoice1 product_discription_invoice_print_1 min_padding_invoice1 border-start border-end'>
-                            <p> {e?.mainData?.Categoryname} {e?.mainData?.Collectionname} {e?.mainData?.DesignNo} | {e?.jobNo}</p>
+                            <p> {e?.mainData?.SubCategoryname} {e?.mainData?.Categoryname} </p>
+                            <p>{e?.mainData?.designno} | {e?.mainData?.SrJobno}</p>
                             {image && <img src={e?.mainData?.DesignImage} alt="" className='w-100 p-1 imgTaxInvoice1' onError={handleImageError} />}
                             {e?.mainData?.HUID !== "" && <p className={`${!image && "pt-3"}`}>HUID-{e?.mainData?.HUID} </p>}
                         </div>
@@ -260,22 +415,26 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <div className='min_padding_invoice1  border-end justify-content-center col-2'>{ind === 0 && ele?.QualityName}</div>
                                     <div className='min_padding_invoice1  border-end justify-content-center col-2'>{ind === 0 && fixedValues(e?.mainData?.grosswt, 3)}</div>
                                     <div className='min_padding_invoice1  border-end justify-content-center col-2'>{ele?.ShapeName !== "GOLD" && fixedValues(ele?.Wt, 3)}</div>
-                                    <div className='min_padding_invoice1  border-end justify-content-center col-2'>{ind === 0 && fixedValues(e?.mainData?.NetWt, 3)}</div>
+                                    <div className='min_padding_invoice1  border-end justify-content-center col-2'>{ind === 0 && fixedValues(e?.mainData?.NetWt + e?.mainData?.LossWt, 3)}</div>
                                     <div className='min_padding_invoice1  justify-content-end col-2'>{ele?.MasterManagement_DiamondStoneTypeid === 4 && NumberWithCommas(ele?.Rate, 2)}</div>
                                 </div>
                             })}
                         </div>
-                        <div className='d-flex align-items-center justify-content-center making_invoice1 making_invoicePrint1 p-1 border-end'>{NumberWithCommas(e?.mainData?.MakingAmount, 2)}</div>
+                        {/* <div className='d-flex align-items-center justify-content-center making_invoice1 making_invoicePrint1 p-1 border-end'>{NumberWithCommas(e?.mainData?.MakingAmount, 2)}</div> */}
+                        <div className='d-flex align-items-center justify-content-center making_invoice1 making_invoicePrint1 p-1 border-end'>{NumberWithCommas(e?.mainData?.MaKingCharge_Unit, 2)}</div>
                         <div className='others_invoice1 others_invoicePrint1  border-end'>
                             <div className="d-grid h-100">
                                 <div className='text-center border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1'>
-                                    {NumberWithCommas(e?.mainData?.OtherCharges, 2)}
+                                    {NumberWithCommas(e?.mainData?.MetalAmount, 2)}
                                 </div>
                                 {e?.data.length > 0 && e?.data.map((ele, ind) => {
-                                    return <div className={`text-center ${ind !== e?.data.length - 1 && `border-bottom`} material_inner_invoice1 p-1 minHeight20_5_taxInvoice1`} key={ind}>
+                                    return ele?.materialCharges !== 0 && <div className={`text-center ${ind !== e?.data.length - 1 && `border-bottom`} material_inner_invoice1 p-1 minHeight20_5_taxInvoice1`} key={ind}>
                                         {NumberWithCommas(ele?.materialCharges, 2)}
                                     </div>
                                 })}
+                                <div className='text-center border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1'>
+                                    {NumberWithCommas(e?.mainData?.OtherCharges, 2)}
+                                </div>
                             </div>
                         </div>
                         <div className='d-flex align-items-center justify-content-end total_invoice1 total_invoicePrint1 min_padding_invoice1 border-end border-2 border-black'>{NumberWithCommas(+e?.mainData?.UnitCost, 2)}</div>
@@ -301,7 +460,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 border-2 border-black">
                     <div className="oldGoldInvoice1 border-end d-grid oldGoldInvoicePrint1">
-                        <div className='d-flex p-1 border-bottom'><div>Narration / Remark: <div dangerouslySetInnerHTML={{__html: BillPrint_Json?.Remark}}></div></div></div>
+                        <div className='d-flex p-1 border-bottom'><div>Narration / <span className="fw-bold">Remark:</span> <div dangerouslySetInnerHTML={{ __html: BillPrint_Json?.Remark }}></div></div></div>
                         <div className='d-flex border-bottom p-1 flex-column'>
                             <p className='pb-1'>Old Gold Purchase Description :</p>
                             <p className='fw-bold pb-1'>Total Weight :</p>
