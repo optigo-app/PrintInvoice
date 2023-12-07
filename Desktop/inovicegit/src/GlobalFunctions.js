@@ -227,10 +227,10 @@ export const ReceiveInBank = (BankPayDet) => {
 
 export const checkInstruction = (ins) => {
   if (
-    ins !== "undefined" &&
+    !ins?.trim()?.includes("undefined") &&
     ins !== undefined &&
     ins !== null &&
-    ins !== "null"
+    !ins?.trim()?.includes("null")
   ) {
     return ins;
   }

@@ -322,6 +322,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
     let metalArr = [];
     // eslint-disable-next-line array-callback-return
     arr1?.map((e, i) => {
+      // console.log(e);
       let OtherAmountDetail = otherAmountDetail(e?.OtherAmtDetail);
       let diamonds = [];
       let colorstone = [];
@@ -387,6 +388,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
           OtherAmount: 0,
         },
         totpurenetwt: 0,
+        labour_other_both : 0
       };
 
       totgrosswt += e?.grosswt;
@@ -394,25 +396,30 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       totnetlosswt = totnetlosswt + +e?.NetWt + +e?.LossWt;
 
       // for groupjob labour calculation
+
+      let isGroupjob = true;
+      if (e?.SrJobno !== e?.GroupJob) {
+        isGroupjob = false;
+      }
       let labours = [
         {
           label: "labour",
           rate: e?.MaKingCharge_Unit,
           amount: e?.MakingAmount,
-          // SrJobno:e?.SrJobno,
+          isGroupjob: isGroupjob,
         },
       ];
 
       totals.labour.labourAmount = totals.labour.labourAmount + e?.MakingAmount;
-      totals.OtherCh.OtherAmount =
-        totals.OtherCh.OtherAmount + e?.OtherCharges + e?.MiscAmount;
+      totals.OtherCh.OtherAmount = totals.OtherCh.OtherAmount + e?.OtherCharges + e?.MiscAmount;
       totalAmt += e?.TotalAmount;
       totalUnitPrice += e?.UnitCost;
       totallbrAmt += e?.MakingAmount;
       totalOtherAmt += e?.OtherCharges + e?.MiscAmount;
       total_of_labour_Other += e?.MakingAmount + e?.OtherCharges;
       totals.totpurenetwt += e?.PureNetWt;
-
+      totals.labour_other_both += e?.OtherCharges + e?.MakingAmount;
+      let fromMetaltoLabour = [];
       // eslint-disable-next-line array-callback-return
       arr2.map((ele, ind) => {
         if (e?.SrJobno === ele?.StockBarcode) {
@@ -478,10 +485,16 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
             ele?.MasterManagement_DiamondStoneTypeid === 3 ||
             ele?.MasterManagement_DiamondStoneTypeid === 2
           ) {
-            stoneNMisc.push(ele);
+            
 
-            if (ele?.ShapeName === "Certification_IGI") return "";
+            if ((ele?.ShapeName === "Certification_IGI") || (ele?.ShapeName === "Certification_NM award") || (ele?.ShapeName === "Hallmark") || (ele?.ShapeName === "Stamping") ){
+                let obj = {...ele};
+                obj.label =  ele?.ShapeName;
+                obj.value = ele?.Rate;
+                fromMetaltoLabour.push(obj)
+            }
             else {
+              stoneNMisc.push(ele);
               totals.stone_misc.Wt += ele?.Wt;
               totals.stone_misc.Pcs += ele?.Pcs;
               totals.stone_misc.Rate += ele?.Rate;
@@ -495,7 +508,11 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       setTotalUnitCostAmt(totalUnitPrice);
       let obj = { ...e };
       let separte = separatedOthAmt(obj);
-      obj.OtherAmountDetail = OtherAmountDetail;
+      let allLabourNOtherCharges = [...OtherAmountDetail, ...fromMetaltoLabour];
+      if(e?.PriorityCharges !== 0){
+        allLabourNOtherCharges.push({label:"Handling", value:e?.PriorityCharges?.toFixed(2)})
+      }
+      obj.OtherAmountDetail = allLabourNOtherCharges;
       // obj.OtherAmountInfo = separte;
       obj.diamonds = diamonds;
       obj.colorstone = colorstone;
@@ -509,6 +526,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       obj.metalsAmounts = metalsAmounts;
       let sumoflbr = e?.MakingAmount;
       obj.LabourAmountSum = sumoflbr;
+      // obj.labour_other_both = labour_other_both
 
       setTotalLbhOthAmt(total_of_labour_Other);
       setTotalnetlosswt(totnetlosswt);
@@ -534,6 +552,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
     let semiFInalArr = [];
 
     resultArr?.forEach((e) => {
+      // console.log(e);
       if (e?.GroupJob === "") {
         semiFInalArr.push(e);
       } else {
@@ -560,9 +579,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
               semiFInalArr[findRecord].Size = e?.Size;
               semiFInalArr[findRecord].MetalColor = e?.MetalColor;
               semiFInalArr[findRecord].Tunch = e?.Tunch;
-              // semiFInalArr[findRecord].labours = [...e,]
-              
-              // semiFInalArr[findRecord].labours = [...{label:'labour', rate:e?.MaKingCharge_Unit, amount:e?.MakingAmount}]
             }
           }
           semiFInalArr[findRecord].grosswt += e?.grosswt;
@@ -571,41 +587,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
           semiFInalArr[findRecord].UnitCost += e?.UnitCost;
           semiFInalArr[findRecord].PureNetWt += e?.PureNetWt;
           semiFInalArr[findRecord].convertednetwt += e?.convertednetwt;
-          // let arrforlabour = [];
-          // if(e?.SrJobno === e?.GroupJob){
-          //   semiFInalArr[findRecord].labours = [...e?.labours];
-          // }else{
-          //   console.log(e?.labours);
-          //   let obj = {
-          //     label:'labour',
-          //     rate:0,
-          //     amount:0
-          //   }
-          //   e?.labours?.forEach((e, i) => {
-          //     console.log(e); 
-          //     obj.amount += e?.amount;
-          //     obj.rate += e?.rate;
-          //   })
-          //   arrforlabour.push(obj);
-          // }
-          // console.log(arrforlabour);
-          
-          // const result = resultArr.map((item) => {
-          //   const sumById = e?.labours?.reduce((acc, curr) => {
-          //     const { id, amount, rate } = curr;
-          //     acc[id] = acc[id] || { id, totalAmount: 0, totalRate: 0 };
-          //     acc[id].totalAmount += amount;
-          //     acc[id].totalRate += rate;
-          //     return acc;
-          //   }, {});
-          
-          //   return { ...item, sumsById: Object.values(sumById) };
-          // });
-          
-          // console.log(result);
-
-
-
 
           // semiFInalArr[findRecord].diamonds = [
           //   ...semiFInalArr[findRecord].diamonds,
@@ -615,25 +596,41 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
           //   ...semiFInalArr[findRecord].stone_misc,
           //   ...e?.stone_misc,
           // ]?.flat();
-          
+
           semiFInalArr[findRecord].labours = [
             ...semiFInalArr[findRecord].labours,
             ...e?.labours,
           ]?.flat();
 
-          
-          semiFInalArr[findRecord].labours?.map((el) => {
-            return el.GroupJob = e?.GroupJob
+
+          //logic of value's Job no and Gruop Job no is same of not, true=rateTrue, false=rateFalse
+          let rateTrue =  semiFInalArr[findRecord]?.labours?.filter((e) => e?.isGroupjob === true);
+          let rateFalse =  semiFInalArr[findRecord]?.labours?.filter((e) => e?.isGroupjob === false);
+
+          let sumofRate = [];
+          //logic of same rate then sum of amount
+          // eslint-disable-next-line array-callback-return
+          rateFalse?.map((e) => {
+            let findIndex = sumofRate?.findIndex((el) => el?.rate === e?.rate)
+            if(findIndex === -1){
+              sumofRate.push(e)
+            }else{
+              sumofRate[findIndex].amount += (+e?.amount);
+            }
           })
-          semiFInalArr[findRecord].labours?.map((el) => {
-            return el.SrJobno = e?.SrJobno
-          })
-          console.log(semiFInalArr[findRecord].labours);
+
+          //final made array to assign that particular object
+          let arrforlabour = [...rateTrue, ...sumofRate];
+
+          //final array of labour for print 
+          semiFInalArr[findRecord].labours = arrforlabour;
+
 
           let otherChargess = [
             semiFInalArr[findRecord]?.OtherAmountDetail,
             e?.OtherAmountDetail,
           ]?.flat();
+
           let blankOtherCharges = [];
           otherChargess?.forEach((ele, ind) => {
             let findOther = blankOtherCharges.findIndex(
@@ -668,7 +665,11 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
           semiFInalArr[findRecord].totals.OtherCh.OtherAmount +=
             e?.totals?.OtherCh?.OtherAmount + e?.OtherCharges + e?.MiscAmount;
-          // e?.totals.OtherCh.OtherAmount ;
+
+          semiFInalArr[findRecord].totals.labour_other_both += e?.MaKingCharge_Unit + e?.MakingAmount;
+          semiFInalArr[findRecord].totals.metal.Amount += e?.totals?.metal?.Amount;
+          
+          
           // for diamonds
           let obj = { ...e };
           let diamonds = [
@@ -683,15 +684,24 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
           ].flat();
           semiFInalArr[findRecord].colorstone = colorstone;
 
+          let stone_misc = [
+            ...semiFInalArr[findRecord].stone_misc,
+            ...obj?.stone_misc,
+          ].flat();
+          semiFInalArr[findRecord].stone_misc = stone_misc;
+
           let misc = [...semiFInalArr[findRecord].misc, ...obj?.misc].flat();
-          semiFInalArr[findRecord].v = misc;
+          semiFInalArr[findRecord].misc = misc;
+
 
           if (
             semiFInalArr[findRecord].GroupJob ===
             semiFInalArr[findRecord].SrJobno
-          ) {
+          )
+           {
             let blankMetal = [];
             let mainMetals = [...semiFInalArr[findRecord].metal].flat();
+            
             mainMetals.forEach((ele, ind) => {
               let findMetal = blankMetal.findIndex(
                 (element, index) => element.ShapeName === ele.ShapeName
@@ -713,6 +723,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
             let objMetals = [...e?.metal].flat();
             objMetals.forEach((elel, indd) => {
+              
+
               let objj = { ...elel };
               let newEle = true;
               mainMetals.forEach((elem, inddex) => {
@@ -753,6 +765,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
             let objMetals = [...semiFInalArr[findRecord]?.metals].flat();
             objMetals.forEach((elel, indd) => {
+              // console.log(elel);
               let objj = { ...elel };
               let newEle = true;
               mainMetals.forEach((elem, inddex) => {
@@ -773,6 +786,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
             let blankMetals = [];
             let metalsd = [...e?.metal, semiFInalArr[findRecord].metal].flat();
             metalsd.forEach((ele, ind) => {
+              // console.log(ele);
               let findMetal = blankMetals.findIndex(
                 (elem, index) => elem?.ShapeName === ele?.ShapeName
               );
@@ -789,6 +803,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
             });
             semiFInalArr[findRecord].metal = blankMetals;
           }
+          
         }
       }
     });
@@ -801,9 +816,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
       allTax?.map((e) => {
         totalAmt += +e?.amount;
       });
-
-      
-
+      // console.log(resultArr);
     setFinalAmount(totalAmt);
     setTaxTotal(allTax);
     // setResultArray(resultArr);
@@ -1097,11 +1110,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div>
                       {resultArray?.length > 0 &&
                         resultArray?.map((e, i) => {
-                          let totmakAmt = 0;
-
-                          totmakAmt +=
-                            e?.OtherCharges + e?.MakingAmount + e?.MiscAmount;
-                          // totmakAmt +=  e?.MakingAmount;
                           return (
                             <div className="pcl3TableCopy no_break" key={i}>
                               <div className="tableBodypcl3">
@@ -1188,6 +1196,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
                                     e?.diamonds?.length > 0 &&
                                       e?.diamonds?.map((ele, index) => {
+                      console.log(ele);
+
                                         return (
                                           <div
                                             className="diamondValuepcl3"
@@ -1238,22 +1248,22 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     borderBottom: "0px",
                                   }}
                                 >
-                                  <div className="th3Wpcl3 brRightDpcl3"></div>
-                                  <div className="th3Wpcl3 brRightDpcl3"></div>
-                                  <div className="th3Wpcl3 brRightDpcl3">
+                                  {/* <div className="th3Wpcl3 brRightDpcl3"></div> */}
+                                  <div className="th3Wpcl3 brRightDpcl3" style={{width:"30px"}}></div>
+                                  <div className="th3Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"86px"}}>
                                     <b className="fsdpcl3">
                                       {e?.totals?.diamonds?.Pcs}
                                     </b>
                                   </div>
-                                  <div className="th3Wpcl3 brRightDpcl3">
+                                  <div className="th3Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"56px"}}>
                                     <b className="fsdpcl3">
                                       {e?.totals?.diamonds?.Wt?.toFixed(3)}
                                     </b>
                                   </div>
-                                  <div className="th3Wpcl3 brRightDpcl3">
+                                  {/* <div className="th3Wpcl3 brRightDpcl3">
                                     <b className="fsdpcl3"></b>
-                                  </div>
-                                  <div className="th3Wpcl3 brRightDpcl3">
+                                  </div> */}
+                                  <div className="th3Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"86.2px"}}>
                                     <b className="fsdpcl3 ">
                                       {NumberWithCommas(
                                         e?.totals?.diamonds?.Amount,
@@ -1271,6 +1281,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
                                     e?.metal?.length > 0 &&
                                       e?.metal?.map((ele, index) => {
+                                        
                                         return (
                                           <div
                                             className="MetalPcl3"
@@ -1290,10 +1301,11 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             </div>
                                             <div className="th4Wpcl3 brRightDpcl3">
                                               <b style={{ fontSize: "8.5px" }}>
-                                                {NumberWithCommas(
+                                                {ele?.Amount - e?.LossAmt}
+                                                {/* {NumberWithCommas(
                                                   ele?.Amount,
                                                   2
-                                                )}
+                                                )} */}
                                               </b>
                                             </div>
                                           </div>
@@ -1336,21 +1348,21 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     borderRight: "0px",
                                   }}
                                 >
-                                  <div className="th4Wpcl3 brRightDpcl3"></div>
+                                  {/* <div className="th4Wpcl3 brRightDpcl3"></div> */}
 
-                                  <div className="th4Wpcl3 brRightDpcl3">
+                                  <div className="th4Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"80px"}}> 
                                     <b className="fsdpcl3">
                                       {e?.grosswt?.toFixed(3)}
                                     </b>
                                   </div>
-                                  <div className="th4Wpcl3 brRightDpcl3">
+                                  <div className="th4Wpcl3 brRightDpcl3 th4Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"73px"}}>
                                     <b className="fsdpcl3">
                                       {e?.totals?.metal?.Wt?.toFixed(3)}
                                     </b>
                                   </div>
-                                  <div className="th4Wpcl3 brRightDpcl3"></div>
-                                  <div className="th4Wpcl3 brRightDpcl3">
-                                    <b style={{ fontSize: "8.5px" }}>
+                                  {/* <div className="th4Wpcl3 brRightDpcl3"></div> */}
+                                  <div className="th4Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"102px"}}>
+                                    <b style={{ fontSize: "10px" }}>
                                       {NumberWithCommas(
                                         e?.totals?.metal?.Amount,
                                         2
@@ -1368,46 +1380,88 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                       e?.stone_misc?.map((ele, index) => {
                                         return (
                                           <div key={index}>
-                                            {ele?.ShapeName ===
-                                            "Certification_IGI" ? (
-                                              ""
-                                            ) : (
-                                              <div
-                                                className="diamondValuepcl3"
-                                                key={index}
-                                              >
-                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                  {ele?.ShapeName}{" "}
-                                                </div>
-                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                  {ele?.SizeName}
-                                                </div>
-                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                  {ele?.Pcs}
-                                                </div>
-                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                  {ele?.Wt?.toFixed(3)}
-                                                </div>
-                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                            {
+                                              
+                                              ele?.MasterManagement_DiamondStoneTypeid === 3 ? <div
+                                              className="diamondValuepcl3"
+                                              key={index}
+                                            >
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                               M: {ele?.ShapeName +
+                                              " " +
+                                              ele?.QualityName +
+                                              " " +
+                                              ele?.Colorname}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {ele?.SizeName}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {ele?.Pcs}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {ele?.Wt?.toFixed(3)}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {NumberWithCommas(
+                                                  ele?.Rate,
+                                                  2
+                                                )}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                <b
+                                                  style={{
+                                                    fontSize: "8.5px",
+                                                  }}
+                                                >
                                                   {NumberWithCommas(
-                                                    ele?.Rate,
+                                                    ele?.Amount,
                                                     2
                                                   )}
-                                                </div>
-                                                <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                                  <b
-                                                    style={{
-                                                      fontSize: "8.5px",
-                                                    }}
-                                                  >
-                                                    {NumberWithCommas(
-                                                      ele?.Amount,
-                                                      2
-                                                    )}
-                                                  </b>
-                                                </div>
+                                                </b>
                                               </div>
-                                            )}
+                                            </div> : <div
+                                              className="diamondValuepcl3"
+                                              key={index}
+                                            >
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {ele?.ShapeName +
+                                              " " +
+                                              ele?.QualityName +
+                                              " " +
+                                              ele?.Colorname}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {ele?.SizeName}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {ele?.Pcs}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {ele?.Wt?.toFixed(3)}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                {NumberWithCommas(
+                                                  ele?.Rate,
+                                                  2
+                                                )}
+                                              </div>
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                                <b
+                                                  style={{
+                                                    fontSize: "8.5px",
+                                                  }}
+                                                >
+                                                  {NumberWithCommas(
+                                                    ele?.Amount,
+                                                    2
+                                                  )}
+                                                </b>
+                                              </div>
+                                            </div>
+                                            }
+                                              
+                                            
                                           </div>
                                         );
                                       })
@@ -1437,12 +1491,9 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                       {e?.totals?.stone_misc?.Wt?.toFixed(3)}
                                     </b>
                                   </div>
-                                  <div className="th3Wpcl3 brRightDpcl3"></div>
-                                  <div className="th3Wpcl3 brRightDpcl3">
-                                    <b className="fsdpcl3">
-                                      {/* {e?.totals?.stone_misc?.Amount?.toFixed(
-                                        2
-                                      )} */}
+                                  {/* <div className="th3Wpcl3 brRightDpcl3"></div> */}
+                                  <div className="th3Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"78px"}}>
+                                    <b className="fsdpcl3 w-100 d-flex justify-content-end align-items-center pe-1 h-100">
                                       {NumberWithCommas(
                                         e?.totals?.stone_misc?.Amount,
                                         2
@@ -1461,19 +1512,58 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <div className="w-100 pt-2">
                                   <div>
                                     {e?.labours?.map((e, i) => {
-                                      return <div key={i} className="d-flex justify-content-between align-items-center px-1"><div className="d-flex justify-content-start align-items-center" style={{width:"33.33%"}}>{e?.label}</div>
-                                      <div className="d-flex justify-content-center align-items-center" style={{width:"33.33%"}}>{e?.rate}</div>
-                                      <div className="d-flex justify-content-end align-items-center" style={{width:"33.33%"}}>{e?.amount}</div></div>;
+                                      return (
+                                        <div
+                                          key={i}
+                                          className="d-flex justify-content-between align-items-center px-1"
+                                        >
+                                          <div
+                                            className="d-flex justify-content-start align-items-center"
+                                            style={{ width: "33.33%", fontSize:"10px", lineHeight:"9px" }}
+                                          >
+                                            {e?.label}
+                                          </div>
+                                          <div
+                                            className="d-flex justify-content-center align-items-center"
+                                            style={{ width: "33.33%", fontSize:"10px", lineHeight:"9px" }}
+                                          >
+                                            {e?.rate}
+                                          </div>
+                                          <div
+                                            className="d-flex justify-content-end align-items-center"
+                                            style={{ width: "33.33%", fontSize:"10px", lineHeight:"9px" }}
+                                          >
+                                            {e?.amount}
+                                          </div>
+                                        </div>
+                                      );
                                     })}
                                     {e?.OtherAmountDetail?.map((e, i) => {
-                                      return <div key={i} className="d-flex justify-content-between align-items-center px-1"><div className="d-flex justify-content-start align-items-center" style={{width:"80%"}}>{e?.label}</div>
-                                      <div className="d-flex justify-content-end align-items-center" style={{width:"20%"}}>{e?.value}</div></div>;
+                                      return (
+                                        <div
+                                          key={i}
+                                          className="d-flex justify-content-between align-items-center px-1"
+                                        >
+                                          <div
+                                            className="d-flex justify-content-start align-items-center"
+                                            style={{ width: "75%", fontSize:"10px", lineHeight:"9px" }}
+                                          >
+                                            {e?.label}
+                                          </div>
+                                          <div
+                                            className="d-flex justify-content-end align-items-center"
+                                            style={{ width: "25%", fontSize:"10px", lineHeight:"9px" }}
+                                          >
+                                            {e?.value}
+                                          </div>
+                                        </div>
+                                      );
                                     })}
                                   </div>
                                 </div>
 
                                 <div className="w-100">
-                                  {e?.totmakAmt === 0 ? (
+                                  {e?.totals?.labour_other_both === 0 ? (
                                     ""
                                   ) : (
                                     <div
@@ -1488,14 +1578,14 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                         borderLeft: "0px",
                                       }}
                                     >
-                                      <div className="th6Wpcl3 brRightDpcl3"></div>
-                                      <div className="th6Wpcl3 brRightDpcl3"></div>
-                                      <div className="th6Wpcl3 brRightDpcl3">
-                                        {totmakAmt === 0 ? (
+                                      {/* <div className="th6Wpcl3 brRightDpcl3"></div> */}
+                                      {/* <div className="th6Wpcl3 brRightDpcl3"></div> */}
+                                      <div className="th6Wpcl3 brRightDpcl3 w-100 d-flex justify-content-end align-items-center pe-1">
+                                        {e?.totals?.labour_other_both === 0 ? (
                                           <b className="fsdpcl3">0.000</b>
                                         ) : (
                                           <b className="fsdpcl3">
-                                            {NumberWithCommas(totmakAmt, 2)}
+                                            {NumberWithCommas(e?.totals.labour_other_both, 2)}
                                           </b>
                                         )}
                                       </div>
@@ -1572,18 +1662,18 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 borderRight: "0px",
                               }}
                             >
-                              <div className="th3Wpcl3 brRightDpcl3"></div>
-                              <div className="th3Wpcl3 brRightDpcl3"></div>
-                              <div className="th3Wpcl3 brRightDpcl3">
+                              {/* <div className="th3Wpcl3 brRightDpcl3"></div> */}
+                              <div className="th3Wpcl3 brRightDpcl3" style={{width:"30px"}}></div>
+                              <div className="th3Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"85px"}}>
                                 <b className="fsdpcl3">{totalObj.totdiapcs}</b>
                               </div>
-                              <div className="th3Wpcl3 brRightDpcl3">
+                              <div className="th3Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"56px"}}>
                                 <b className="fsdpcl3">
                                   {totalObj.totdiawt.toFixed(3)}
                                 </b>
                               </div>
-                              <div className="th3Wpcl3 brRightDpcl3"></div>
-                              <div className="th3Wpcl3 brRightDpcl3">
+                              {/* <div className="th3Wpcl3 brRightDpcl3"></div> */}
+                              <div className="th3Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"85px"}}>
                                 <b className="fsdpcl3">
                                   {NumberWithCommas(totalObj.totdiaamt, 2)}
                                 </b>
@@ -1607,19 +1697,19 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 borderRight: "0px",
                               }}
                             >
-                              <div className="th4Wpcl3 brRightDpcl3"></div>
-                              <div className="th4Wpcl3 brRightDpcl3">
+                              {/* <div className="th4Wpcl3 brRightDpcl3"></div> */}
+                              <div className="th4Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"80px"}}>
                                 <b className="fsdpcl3">
                                   {totalgrosswt?.toFixed(3)}
                                 </b>
                               </div>
-                              <div className="th4Wpcl3 brRightDpcl3">
+                              <div className="th4Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"73px"}}>
                                 <b className="fsdpcl3">
                                   {totalnetlosswt?.toFixed(3)}
                                 </b>
                               </div>
-                              <div className="th4Wpcl3 brRightDpcl3"></div>
-                              <div className="th4Wpcl3 brRightDpcl3">
+                              {/* <div className="th4Wpcl3 brRightDpcl3"></div> */}
+                              <div className="th4Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"102px"}}>
                                 <b style={{ fontSize: "8.5px" }}>
                                   {NumberWithCommas(totalObj.totmtamt, 2)}
                                 </b>
@@ -1646,8 +1736,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   {totalObj.totstwt.toFixed(3)}
                                 </b>
                               </div>
-                              <div className="th3Wpcl3 brRightDpcl3"></div>
-                              <div className="th3Wpcl3 brRightDpcl3">
+                              {/* <div className="th3Wpcl3 brRightDpcl3"></div> */}
+                              <div className="th3Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"86px"}}>
                                 <b className="fsdpcl3">
                                   {NumberWithCommas(totalObj.totstamt, 2)}
                                 </b>
@@ -1665,9 +1755,9 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 height: "22px",
                               }}
                             >
-                              <div className="th6Wpcl3 brRightDpcl3"></div>
-                              <div className="th6Wpcl3 brRightDpcl3"></div>
-                              <div className="th6Wpcl3 brRightDpcl3">
+                              {/* <div className="th6Wpcl3 brRightDpcl3"></div> */}
+                              {/* <div className="th6Wpcl3 brRightDpcl3"></div> */}
+                              <div className="th6Wpcl3 brRightDpcl3 d-flex justify-content-end align-items-center pe-1" style={{width:"152px"}}>
                                 <b className="fsdpcl3">
                                   {NumberWithCommas(totalLbhOthAmt, 2)}
                                 </b>

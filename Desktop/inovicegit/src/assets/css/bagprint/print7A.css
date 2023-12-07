@@ -4,7 +4,9 @@
     word-break: break-all;
     line-height: 100%;
 } */
-
+.container7A *{
+    font-family: Calibri;
+}
 .container7A {
     height: 525px;
     width: 351px;
@@ -14,7 +16,8 @@
     margin-top: 1.7rem;
     /* margin-left: 2rem;
     margin-top: 2rem; */
-    font-size: 12px;
+    /* font-size: 12px; */
+    font-size: 10px;
 }
 
 .head7A {
@@ -121,10 +124,12 @@
 .main7AEntry {
     display: flex;
     flex-direction: column;
-    width: 244px;
+    /* width: 244px; */
+    width: 234px;
 }
 .main7AEntry2{
-    width: 104px;
+    /* width: 104px; */
+    width: 112px;
     height: 100%;
     border-left: 1px solid #989898;
 }
@@ -139,7 +144,7 @@
     /* flex-direction: column; */
 }
 .sizehead7A{
-    height: 11px;
+    height: 16px;
     border-bottom: 1px solid #989898;
 }
 .spw7A{
@@ -159,12 +164,14 @@
     border-right: 1px solid #989898;
     min-height: 11px;
     font-size: 10px;
+    /* font-size: 8.6px; */
 }
 .tableHead7B {
     display: flex;
     justify-content: space-between;
     /* width: 268px; */
-    width: 244px;
+    /* width: 244px; */
+    width: 235px;
     border-bottom: 1px solid #989898;
     border-right: 1px solid #989898;
     /* border-top: 1px solid #989898; */
@@ -179,7 +186,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 58px;
+    /* width: 58px; */
+    width: 49px;
     border-bottom: 1px solid #989898;
     border-right: 1px solid #989898;
     /* border-top: 1px solid #989898; */
@@ -201,13 +209,15 @@
     display: flex;
     justify-content: space-between;
     /* width: 268px !important; */
-    width: 243px !important;
+    /* width: 243px !important; */
+    width: 234px !important;
 }
 
 .type7A {
     display: flex;
     /* width: 353px; */
-    width: 243px;
+    /* width: 243px; */
+    width: 234px;
     height: 11px;
     /* margin-top: 1px; */
 }
@@ -270,7 +280,7 @@
 }
 .w7A70{
     /* width: 62px !important; */
-    width: 58px !important;
+    width: 49px !important;
 }
 .dept7AD {
     display: flex;
@@ -299,7 +309,8 @@
 }
 
 .fs7A {
-    font-size: 10.4px;
+    /* font-size: 10.4px; */
+    font-size: 10px;
 }
 
 .print7A {
