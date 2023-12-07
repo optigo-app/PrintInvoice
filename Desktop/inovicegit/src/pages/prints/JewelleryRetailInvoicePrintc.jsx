@@ -412,7 +412,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
                     <div className={`${style?.wordsJewerryRetailInvoicePrint}p-2 d-flex align-items-center pt-5`}>
                       <div className="p-2 pt-4">
                         <p>In Words Indian Rupees</p>
-                        <p className="fw-bold">{toWords.convert(fixedValues(total?.afterTax, 2))} Only</p>
+                        <p className="fw-bold">{toWords.convert(+fixedValues(total?.afterTax, 2))} Only</p>
                       </div>
                     </div>
                     <div className={`${style?.RemarkJewelleryInvoicePrintC} p-2`}>

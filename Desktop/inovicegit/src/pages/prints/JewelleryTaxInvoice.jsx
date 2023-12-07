@@ -58,13 +58,14 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
             let obj = { ...e };
             let materials = [];
             totalAmountBefore += e?.TotalAmount;
+            let metalColorCode = "";
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (obj?.SrJobno === ele?.StockBarcode) {
-                    if ((ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 3) && ele?.IsHSCOE === 0) {
+                    // if ((ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 3) && ele?.IsHSCOE === 0) {
+                        if ((ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 ) && ele?.IsHSCOE === 0) {
                         let findRecord = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid &&
                             elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
                         if (findRecord === -1) {
-                            let object = { ...ele };
                             materials.push(ele);
                         } else {
                             materials[findRecord].Pcs += ele?.Pcs;
@@ -81,6 +82,12 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                             miscWt += ele?.Wt;
                             miscWts += ele?.Wt;
                         }
+                    }else if(ele?.MasterManagement_DiamondStoneTypeid === 4){
+                        if(ele?.IsPrimaryMetal === 1){
+                            metalColorCode = ele?.MetalColorCode
+                        }else if(metalColorCode === ""){
+                            metalColorCode = ele?.MetalColorCode;
+                        }
                     }
                 }
             });
@@ -88,6 +95,8 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
             obj.colorStoneWts = colorStoneWts;
             obj.miscWts = miscWts;
             obj.materials = materials;
+            obj.metalColorCode = metalColorCode;
+            
             resultArr.push(obj);
         });
         metalArr.push({ label: "Diamond Wt", value: diamondWt, gm: false });
@@ -199,7 +208,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="col-2 p-1 border-end"><p className='fw-bold text-center'>ITEM CODE</p></div>
                     <div className="col-5 p-1 border-end"><p className='fw-bold text-center'>DESCRIPTION</p></div>
                     <div className="col-2 p-1 border-end"><p className='fw-bold text-center'>IMAGE</p></div>
-                    <div className="col-2 p-1"><p className='fw-bold text-center'>AMOUNT (INR)</p></div>
+                    <div className="col-2 p-1"><p className='fw-bold text-center'>AMOUNT ({json0Data?.CurrencyCode})</p></div>
                 </div>
                 {/* table data */}
                 {data.length > 0 && data.map((e, i) => {
@@ -210,11 +219,13 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                             <p>Design: <span className="fw-bold">{e?.designno}</span> </p>
                             <p>{e?.Size}</p>
                         </div>
-                        <div className="col-5 p-1 border-end"><p>{e?.MetalTypePurity} {e?.MetalColorCode} | {NumberWithCommas(e?.grosswt, 3)} gms GW | {NumberWithCommas(e?.NetWt, 3)} gms NW
+
+                        <div className="col-5 p-1 border-end"><p>{e?.MetalTypePurity} {e?.metalColorCode} | {NumberWithCommas(e?.grosswt, 3)} gms GW | {NumberWithCommas(e?.NetWt, 3)} gms NW
                             {e?.diamondWts !== 0 && <> | {NumberWithCommas(e?.diamondWts, 3)} Cts</>}
                             {e?.colorStoneWts !== 0 && <> | {NumberWithCommas(e?.colorStoneWts, 3)} Cts</>}
                             {e?.miscWts !== 0 && <> | {NumberWithCommas(e?.miscWts, 3)} gms</>}
                         </p>
+                        {e?.JobRemark !== "" && <div><p className='text-decoration-underline fw-bold'>REMARKS </p><p>{e?.JobRemark}</p></div>}
                             {e.materials.length > 0 && e.materials.map((ele, ind) => {
                                 return <p key={ind}>{ele?.IsCenterStone === 1 ? "Center stone" : <>
                                     {ele?.MasterManagement_DiamondStoneTypeid === 1 && "Diamond"}
@@ -231,7 +242,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                 {/* total */}
                 <div className="d-flex border-start border-end border-bottom no_break lightGrey">
                     <div className="col-1 p-1 border-end"><p className='text-center'></p></div>
-                    <div className="col-9 p-1 border-end"><p className='fw-bold'>TOTAL</p> </div>
+                    <div className="col-9 p-1 border-end"><p className='fw-bold'>Total</p> </div>
                     <div className="col-2 p-1"><p className='text-end fw-bold'><span dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}></span>{NumberWithCommas(totalAmount.before, 2)} </p></div>
                 </div>
                 {/* Remakrs */}
@@ -247,7 +258,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                         {tax.map((e, i) => {
                             return <p key={i}>{e?.name} @ {e?.per}</p>
                         })}
-                        <p>TOTAL</p>
+                        <p>Total</p>
                         {json0Data?.AddLess > 0 ? <p>Add</p> : <p>Less</p>}
                     </div>
                     <div className="col-2 p-1">

@@ -1,10 +1,71 @@
-.tax_invoice_container{
-    max-width: 808px !important;
-    margin: 0 auto !important;
+.tax_invoice_container {
+    zoom: 1.3;
 }
 
-@media print{
+.tax_invoice_container *, .container * {
+    font-size: 10px;
+    line-height: 120%;
+    word-break: normal;
+}
+
+.srno {
+    width: 4%;
+    min-width: 4%;
+}
+
+.design {
+    width: 7%;
+    min-width: 7%;
+}
+
+.diamond {
+    width: 24%;
+    min-width: 24%;
+}
+
+.metal {
+    width: 17%;
+    min-width: 17%;
+}
+
+.stone {
+    width: 24%;
+    min-width: 24%;
+}
+
+.otherAmount {
+    width: 7%;
+    min-width: 7%;
+}
+
+.labourAmount {
+    width: 10%;
+    min-width: 10%;
+}
+
+.totalAmount {
+    width: 7%;
+    min-width: 7%;
+}
+
+.pad_1{
+    padding: 1px;
+}
+
+
+
+
+
+
+
+
+
+@media print {
     .print_sec_sum4 {
         display: none !important;
-      }
+    }
+
+    .tax_invoice_container *, .container * {
+        font-size: 7px;
+    }
 }

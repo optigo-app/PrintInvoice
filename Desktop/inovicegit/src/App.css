@@ -130,6 +130,17 @@ ol {
   width: 60px !important;
 }
 
+.imgWidth{
+  max-height: 75px;
+  width: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.text_secondary{
+  color: rgba(0,0,0,0.3);
+}
+
 .image-container {
   display: flex;
   justify-content: center; /* Horizontally center */

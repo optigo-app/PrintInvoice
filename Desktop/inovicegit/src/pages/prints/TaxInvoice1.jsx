@@ -182,7 +182,8 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     elem.Amount += objj?.Amount;
                                     elem.Pcs += objj?.Pcs;
                                     elem.Wt += objj?.Wt;
-                                    elem.materialCharges += +((objj.Rate * objj.Wt).toFixed(2));
+                                    // elem.materialCharges += +((objj.Rate * objj.Wt).toFixed(2));
+                                    elem.materialCharges += objj?.Amount;
                                     newMetal = false;
                                     if (elem?.IsPrimaryMetal !== 1 && objj?.IsPrimaryMetal === 1) {
                                         elem.QualityName = objj?.QualityName;
@@ -206,7 +207,8 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     elem.Pcs += objj?.Pcs;
                                     elem.Wt += objj?.Wt;
                                     newMetal = false;
-                                    elem.materialCharges += +((objj.Rate * objj.Wt).toFixed(2));
+                                    // elem.materialCharges += +((objj.Rate * objj.Wt).toFixed(2));
+                                    elem.materialCharges += objj.Amount;
                                     if (elem?.IsPrimaryMetal !== 1 && objj?.IsPrimaryMetal === 1) {
                                         elem.QualityName = objj?.QualityName;
                                     }
@@ -228,7 +230,8 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 blankM[findMetals].Wt += ele?.Wt;
                                 blankM[findMetals].Pcs += ele?.Pcs;
                                 blankM[findMetals].amount += ele?.amount;
-                                blankM[findMetals].materialCharges += +((ele.Rate * ele.Wt).toFixed(2));
+                                // blankM[findMetals].materialCharges += +((ele.Rate * ele.Wt).toFixed(2));
+                                blankM[findMetals].materialCharges += ele?.Amount;
                                 if (blankM[findMetals].IsPrimaryMetal !== 1 && ele?.IsPrimaryMetal === 1) {
                                     blankM[findMetals].QualityName = ele?.QualityName;
                                 }
@@ -428,13 +431,13 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     {NumberWithCommas(e?.mainData?.MetalAmount, 2)}
                                 </div>
                                 {e?.data.length > 0 && e?.data.map((ele, ind) => {
-                                    return ele?.materialCharges !== 0 && <div className={`text-center ${ind !== e?.data.length - 1 && `border-bottom`} material_inner_invoice1 p-1 minHeight20_5_taxInvoice1`} key={ind}>
+                                    return ele?.materialCharges !== 0 && <div className={`text-center ${(e?.mainData?.OtherCharges !== 0 || ind !== e?.data.length ) && `border-bottom`} material_inner_invoice1 p-1 minHeight20_5_taxInvoice1`} key={ind}>
                                         {NumberWithCommas(ele?.materialCharges, 2)}
                                     </div>
                                 })}
-                                <div className='text-center border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1'>
+                                {e?.mainData?.OtherCharges !== 0 && <div className='text-center border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1'>
                                     {NumberWithCommas(e?.mainData?.OtherCharges, 2)}
-                                </div>
+                                </div>}
                             </div>
                         </div>
                         <div className='d-flex align-items-center justify-content-end total_invoice1 total_invoicePrint1 min_padding_invoice1 border-end border-2 border-black'>{NumberWithCommas(+e?.mainData?.UnitCost, 2)}</div>

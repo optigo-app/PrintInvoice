@@ -33,5 +33,6 @@
 
 .linesf3{
     font-size: 15px;
-    line-height: 12px;
+    /* line-height: 12px0; */
+    line-height: 130%;
 }

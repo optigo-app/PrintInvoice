@@ -1,5 +1,5 @@
 import React from 'react'
-import { apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, handlePrint, isObjectEmpty, otherAmountDetail } from '../../GlobalFunctions';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Loader from '../../components/Loader';
@@ -11,11 +11,19 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [json0Data, setJson0Data] = useState({});
-
+    const [document, setDocument] = useState([]);
 
     const loadData = (data) => {
         setJson0Data(data?.BillPrint_Json[0]);
+        let documnets = otherAmountDetail(data?.BillPrint_Json[0]?.DocumentDetail);
         console.log(data);
+        setDocument(documnets);
+
+        let dataArr = [];
+        data?.BillPrint_Json1.forEach((e, i) => {
+            console.log(e);
+        })
+
     }
 
     const handleChange = (e) => {
@@ -64,29 +72,28 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <p>{json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}</p>
             </div>
             {/* print name */}
-            <div className="border p-1 mt-2 border-2 min_height_label bgGrey text-center" >
+            <div className="border p-1 border-2 min_height_label bgGrey text-center" >
                 <p className='text-uppercase fw-bold text-white'>{json0Data?.PrintHeadLabel}</p>
             </div>
             {/* customer detail */}
             <div className="my-1 border border-black d-flex">
                 <div className="col-7 p-2 border-end">
-                    <p>Customer Name : <span className="fw-bold">Prashant Rajput</span></p>
-                    <p>Karawan naka</p>
-                    <p>Near nimzari naka</p>
-                    <p>Shirpur-425405</p>
-                    <p>India</p>
-                    <p>darren@orail.co.in</p>
-                    <p>Phno:951-021-3588</p>
-                    <p>GSTIN-GST2023 | PAN-PAN2023 | Aadhar-20231017</p>
-                    <p>STATE CODE-GS</p>
+                    <p>Customer Name : <span className="fw-bold">{json0Data?.CustName}</span></p>
+                    <p>{json0Data?.customerAddress1}</p>
+                    <p>{json0Data?.customerAddress2}</p>
+                    <p>{json0Data?.customercity}-{json0Data?.customerpincode}</p>
+                    <p>{json0Data?.customercountry}</p>
+                    <p>{json0Data?.customeremail1}</p>
+                    <p>Phno:{json0Data?.customermobileno}</p>
+                    <p>{json0Data?.vat_cst_pan} | Aadhar-{json0Data?.aadharno}</p>
+                    <p>{json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}</p>
                 </div>
                 <div className="col-5 p-2">
-                    <p><span className="fw-bold">INVOICE NO     	</span>SK16742022  </p>
-                    <p><span className="fw-bold">DATE	        </span>04/12/2023  </p>
-                    <p><span className="fw-bold">AADHAR CARD	    </span>ABCDF  </p>
-                    <p><span className="fw-bold">NRI ID	        </span>!@$%^  </p>
-                    <p><span className="fw-bold">FOREIGN PASSPORT</span>	%^      </p>
-
+                    <p><span className="fw-bold">INVOICE NO </span>{json0Data?.InvoiceNo}  </p>
+                    <p><span className="fw-bold">DATE </span>{json0Data?.DueDate} </p>
+                    {document.map((e, i) => {
+                        return <p key={i}><span className="fw-bold">{e?.label} </span>{e?.value}  </p>
+                    })}
                 </div>
             </div>
             {/* table header */}
@@ -116,16 +123,16 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
             </div>
             {/* table data */}
-            <div className="border-start border-bottom border-end d-flex">
+            <div className="border-start border-bottom border-end d-flex no_break">
                 <div className="col-3 d-flex">
                     <div className="col-3 p-1 border-end d-flex align-items-center justify-content-center"><p className="">1</p></div>
                     <div className="col-6 p-1 border-end">
                         <p> LITE WEIGHT  Ring</p>
                         <p>1829 | 1/15263</p>
-                        <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/Design_Image/Gj6nwcTL0pMDE0OTIyNg==/Red_Thumb/0149226_04112023155022392.jpg" alt="" className={`w-100 img`} />
+                        {image && <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/Design_Image/Gj6nwcTL0pMDE0OTIyNg==/Red_Thumb/0149226_04112023155022392.jpg" alt="" className={`w-100 ${style?.img}`} />}
                         <p className="text-center" p>HUID-FGH5324</p>
                     </div>
-                    <div className="col-3 p-1 border-end d-flex align-items-center justify-content-center"><p className="">85213</p></div>
+                    <div className="col-3 p-1 border-end d-flex align-items-center justify-content-center"><p className="">{json0Data?.HSN_No}</p></div>
                 </div>
                 <div className='col-6'>
                     <div className="d-grid h-100 border-end">
@@ -159,7 +166,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
             </div>
             {/* table total */}
-            <div className="border-start border-bottom border-end d-flex">
+            <div className="border-start border-bottom border-end d-flex no_break">
                 <div className="col-3 d-flex">
                     <div className="col-3 p-1 border-end d-flex align-items-center justify-content-center"></div>
                     <div className="col-6 p-1 border-end d-flex align-items-center">
@@ -185,7 +192,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
             </div>
             {/* tax */}
-            <div className="border-start border-bottom border-end d-flex">
+            <div className="border-start border-bottom border-end d-flex no_break">
                 <div className="col-9 border-end">
                     <div className="d-grid w-100 h-100">
                         <div className="border-bottom p-1">
@@ -196,7 +203,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="col-2 border-end">
                     <p className='p-1'>Discount</p>
                     <p className='p-1'>Total Amt. before Tax</p>
@@ -211,34 +218,56 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <p className='p-1'>Net Bal. Amount</p>
                 </div>
                 <div className="col-1 ">
-                    <p className='p-1'>0.00</p>
-                    <p className='p-1'>19,200.20</p>
-                    <p className='p-1'>24.96</p>
-                    <p className='p-1'>24.96</p>
-                    <p className='p-1'>-0.12</p>
-                    <p className='p-1'>19,250.00</p>
-                    <p className='p-1'>0.00</p>
-                    <p className='p-1'>0.00</p>
-                    <p className='p-1'>0.00</p>
-                    <p className='p-1'>0.00</p>
-                    <p className='p-1'>19,250.00</p>
+                    <p className='p-1 text-end'>0.00</p>
+                    <p className='p-1 text-end'>19,200.20</p>
+                    <p className='p-1 text-end'>24.96</p>
+                    <p className='p-1 text-end'>24.96</p>
+                    <p className='p-1 text-end'>-0.12</p>
+                    <p className='p-1 text-end'>19,250.00</p>
+                    <p className='p-1 text-end'>0.00</p>
+                    <p className='p-1 text-end'>0.00</p>
+                    <p className='p-1 text-end'>0.00</p>
+                    <p className='p-1 text-end'>0.00</p>
+                    <p className='p-1 text-end'>19,250.00</p>
                 </div>
             </div>
             {/* grand total */}
-            <div className="border-start border-bottom border-end d-flex">
+            <div className="border-start border-bottom border-end d-flex no_break">
                 <div className="col-9 p-1 border-end">
                     <p className=''>In Words Indian Rupees</p>
                     <p className=''>Nineteen Thousand Two Hundred and Fifty Only</p>
                 </div>
-                <div className="col-2 border-end">
+                <div className="col-2 border-end d-flex align-items-center p-1">
                     <p className="fw-bold">GRAND TOTAL	</p>
                 </div>
-                <div className="col-1">
+                <div className="col-1 d-flex align-items-center justify-content-end p-1">
                     <p className="fw-bold">₹ 19,250.00</p>
                 </div>
             </div>
             {/* remark */}
-            <div className="border-start border-bottom border-end d-flex"></div>
+            <div className="border-start border-bottom border-end d-flex pt-2 no_break">
+                <div dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }}></div>
+            </div>
+            {/* bank detail */}
+            <div className="border-start border-bottom border-end d-flex no_break">
+                <div className="col-4 p-2 border-end">
+                    <p className='fw-bold'>Bank Detail</p>
+                    <p>Bank Name:{json0Data?.bankname}</p>
+                    <p>Branch: {json0Data?.bankaddress}</p>
+                    <p>Account Name: {json0Data?.accountname}</p>
+                    <p>Account No. : {json0Data?.accountnumber}</p>
+                    <p>RTGS/NEFT IFSC: {json0Data?.rtgs_neft_ifsc}</p>
+                </div>
+                <div className="col-4 d-flex flex-column justify-content-between p-2 border-end">
+                    <p>Signature</p>
+                    <p className='fw-bold'>{json0Data?.customerfirmname}</p>
+                </div>
+                <div className="col-4 d-flex flex-column justify-content-between p-2">
+                    <p>Signature</p>
+                    <p className='fw-bold'>{json0Data?.CompanyFullName}</p>
+                </div>
+            </div>
+
         </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}
     </>
     )
@@ -246,4 +275,10 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
 
 
 
-export default EstimatePrint1
+export default EstimatePrint1;
+
+
+
+
+// customerfirmname
+// CompanyFullName

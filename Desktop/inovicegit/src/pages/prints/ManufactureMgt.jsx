@@ -1,19 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import style from "../../assets/css/prints/manufacturemgt.module.css";
 import Loader from '../../components/Loader';
-import { FooterComponent, HeaderComponent, apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { FooterComponent, HeaderComponent, NumberWithCommas, apiCall, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 
 const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [headerComp, setHeaderComp] = useState(null);
     const [headerData, setHeaderData] = useState({});
+    const [data, setData] = useState([]);
 
     const loadData = (data) => {
         setHeaderData(data?.BillPrint_Json[0]);
         let headerDatas = data?.BillPrint_Json[0];
         let head = HeaderComponent(2, headerDatas);
         setHeaderComp(head);
+
+        let resultArr = [];
+        data?.BillPrint_Json1.forEach((e, i) => {
+            let obj = { ...e };
+            let metalColorCode = "";
+            let diamonds = [];
+
+            let diamondWt = 0;
+            let colorWt = 0;
+            let miscWt = 0;
+
+            data?.BillPrint_Json2.forEach((ele, ind) => {
+                if (ele?.StockBarcode === e?.SrJobno) {
+                    if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+                        if (ele?.IsPrimaryMetal === 1) {
+                            metalColorCode = ele?.MetalColorCode;
+                        } else if (metalColorCode === "") {
+                            metalColorCode = ele?.MetalColorCode;
+                        }
+                    } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+                        // let findDiamonds = 
+                        diamondWt += ele?.Wt;
+                        diamonds.push(ele);
+                    } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+                        colorWt += ele?.Wt;
+                    } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+                        miscWt += ele?.Wt;
+                    }
+                }
+            });
+
+            obj.metalColorCode = metalColorCode;
+            obj.diamonds = diamonds;
+            obj.diamondWt = diamondWt;
+            obj.colorWt = colorWt;
+            obj.miscWt = miscWt;
+            resultArr.push(obj);
+        });
+        setData(resultArr)
     }
 
     useEffect(() => {
@@ -49,22 +89,80 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                         <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
                     </div>
                 </div>
+                {/* company address */}
                 {headerComp}
+                {/* customer address */}
+                <div className="mt-1 p-2 border-top d-flex">
+                    <div className="col-6">
+                        <p>To,</p>
+                        <p className='fs-6 fw-bold'>{headerData?.customerfirmname}</p>
+                        <p>{headerData?.customerstreet}</p>
+                        <p>{headerData?.customerregion}</p>
+                        <p>{headerData?.customercity}-{headerData?.customerpincode}</p>
+                        <p>Tel: {headerData?.customermobileno}</p>
+                        <p>{headerData?.customeremail1}</p>
+                    </div>
+                    <div className="col-6 d-flex justify-content-end">
+                        <div className="col-8 d-flex flex-column justify-content-center align-items-end">
+                            <p>Invoice#: <span className="fw-bold">{headerData?.InvoiceNo}</span> Dated <span className="fw-bold">{headerData?.EntryDate}</span></p>
+                            <p>Due Date: <span className="fw-bold">{headerData?.DueDate}</span></p>
+                            {/* <p>GSTIN: <span className="fw-bold">24</span> | {headerData?.Cust_CST_STATE} <span className="fw-bold">{headerData?.Cust_CST_STATE_No}</span></p> */}
+                        </div>
+                    </div>
+                </div>
                 <div className="pt-2">
                     {/* Table Header */}
                     <div className="d-flex border">
-                        <div className="col-2 border-end">
-                            <p className="fw-bold p-1">SR NO</p>
+                        <div className="col-1 border-end">
+                            <p className="fw-bold p-1 text-center">SR NO</p>
                         </div>
                         <div className="col-3 border-end">
-                            <p className="fw-bold p-1">ITEM CODE</p>
+                            <p className="fw-bold p-1 text-center">ITEM CODE</p>
                         </div>
-                        <div className="col-7">
-                            <p className="fw-bold p-1">DESCRIPTION</p>
+                        <div className="col-6 border-end">
+                            <p className="fw-bold p-1 text-center">DESCRIPTION</p>
+                        </div>
+                        <div className="col-2">
+                            <p className="fw-bold p-1 text-center">AMOUNT({headerData?.CurrencyCode})</p>
                         </div>
                     </div>
                     {/* Table Data */}
-                    <div className="d-flex border-start border-bottom border-end">
+                    {data.map((e, i) => {
+                        console.log(e);
+                        return <div className="d-flex border-start border-bottom border-end" key={i}>
+                            <div className="col-1 border-end">
+                                <p className="fw-bold p-1">{i + 1}</p>
+                            </div>
+                            <div className="col-3 border-end">
+                                <p className="fw-bold p-1"> Job: {e?.SrJobno} </p>
+                                <p className="fw-bold p-1"> Design: {e?.designno} </p>
+                                <img src={e?.DesignImage} alt="" className={`${style?.img_manufacture} p-1`} onError={handleImageError} />
+                            </div>
+                            <div className="col-6 border-end">
+                                <p className="fw-bold p-1 text_secondary">RECEIVED JEWELLERY</p>
+                                <p className="px-1 py-2">{e?.MetalTypePurity} {e?.metalColorCode} |
+                                    {NumberWithCommas(e?.grosswt, 3)} gms GW |
+                                    {NumberWithCommas(e?.NetWt, 3)} gms NW |
+                                    DIA: {NumberWithCommas(e?.diamondWt, 3)} Cts |
+                                    CS: {NumberWithCommas(e?.colorWt, 3)}Cts |
+                                    MISC: {NumberWithCommas(e?.miscWt, 3)} gms </p>
+
+                                <p className="fw-bold p-1 text_secondary">REPAIRED JEWELLERY</p>
+                                <p className="px-1 py-2">{e?.MetalTypePurity} {e?.metalColorCode} |
+                                    {NumberWithCommas(e?.grosswt, 3)} gms GW |
+                                    {NumberWithCommas(e?.NetWt, 3)} gms NW |
+                                    DIA: {NumberWithCommas(e?.diamondWt, 3)} Cts |
+                                    CS: {NumberWithCommas(e?.colorWt, 3)}Cts |
+                                    MISC: {NumberWithCommas(e?.miscWt, 3)} gms </p>
+
+                                <p className="p-1">design wise remark</p>
+                            </div>
+                            <div className="col-2">
+                                <p className="p-1 text-end"><span dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></span> {NumberWithCommas(e?.TotalAmount, 2)}</p>
+                            </div>
+                        </div>
+                    })}
+                    {/* <div className="d-flex border-start border-bottom border-end">
                         <div className="col-2 border-end">
                             <p className="fw-bold p-1">1</p>
                         </div>
@@ -114,18 +212,18 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                             <p className="pt-2 px-1 pb-1 fw-bold text-decoration">REMARKS :</p>
                             <p className="p-1">design wise remark</p>
                         </div>
-                    </div>
+                    </div> */}
                     {/* signature */}
-                    <div className={`d-flex border-start border-bottom border-end ${style?.height_manufacture} pad_20_allPrint`}>
+                    <div className={`d-flex border-start border-bottom border-end ${style?.height_manufacture}`}>
                         <div className="col-6 p-2 d-flex justify-content-between flex-column border-end position-relative">
                             <p>Signature :</p>
                             <p className="fw-bold">{headerData?.CustName}</p>
-                            <p className={`position-absolute ${style?.blankArea} bgGrey border-start border-bottom`}></p>
+                            {/* <p className={`position-absolute ${style?.blankArea} bgGrey border-start border-bottom`}></p> */}
                         </div>
                         <div className="col-6 p-2 d-flex justify-content-between flex-column position-relative">
                             <p>Signature :</p>
                             <p className="fw-bold">{headerData?.CompanyFullName}</p>
-                            <p className={`position-absolute ${style?.blankArea} bgGrey border-start border-end border-bottom`}></p>
+                            {/* <p className={`position-absolute ${style?.blankArea} bgGrey border-start border-end border-bottom`}></p> */}
                         </div>
                     </div>
                 </div>
@@ -138,41 +236,3 @@ export default ManufactureMgt
 
 
 
-
-// ORAIL SERVICE Shangai-La Plaza Mall Nagpur
-// Nagpur-605001, Maharashtra (India)
-// T 78945612301
-// darren@orail.co.in | www.optigoapps.com
-// GSTIN-22AAAAA0000A125 STATE CODE-22 | PAN-EDJHF236D
-// To,
-// Gopinath Pvt Ltd
-// 45.69 Madhav Parl soc,near
-// adajan patiya
-// Adajdn
-// Surat - 395004
-// Tel: 872-588-5214
-// gopinath@co.in
-// Invoice#: SK14812022
-// Dated 04 Oct 2023
-// HSN: 85213
-// Orail
-// SR NO
-// ITEM CODE
-// DESCRIPTION
-// 1
-// ISSUE JEWELLERY
-// Job: 1/14361
-// Design: 1537
-// GOLD 18K YW53 | 9.095 gms GW | 3.256 gms NW | DIA: 2.243 Cts | CS: 0.540 Cts | MISC: 7.525 gms
-// 23
-// 2
-// Job: 1/14362 Design: 1538
-// 26
-// Signature
-// ISSUE JEWELLERY
-// GOLD 18K YW53 | 8.841 gms GW | 3.025 gms NW | DIA: 0.637 Cts CS: 0.694 Cts | MISC: 6.187 gms
-// REMARKS
-// design wise remark
-// Signature
-// Kishan Patel
-// ORAIL SERVICE

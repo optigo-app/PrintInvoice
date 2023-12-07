@@ -12,6 +12,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [data, setData] = useState([]);
 
     const loadData = (data) => {
+        console.log(data);
         let exchangerate = data?.BillPrint_Json[0]?.CurrencyExchRate;
         setJson0Data(data?.BillPrint_Json[0]);
         let newArr = [];
@@ -238,6 +239,17 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 finalArr[findRecord].rowWiseMetalTotal = rowWiseMetalTotal;
             }
         });
+        finalArr.sort((a, b) => {
+            let nameA = a?.SrJobno.toUpperCase();
+            let nameB = b?.SrJobno.toUpperCase();
+            if(nameA > nameB){
+                return 1
+            }else if(nameA < nameB){
+                return -1
+            }else{
+                return a-b
+            }
+        })
         setData(finalArr);
     }
 

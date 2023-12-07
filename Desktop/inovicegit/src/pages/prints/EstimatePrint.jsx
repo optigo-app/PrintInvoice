@@ -95,7 +95,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
             let obj = { ...e };
             obj.OtherCharges = obj?.OtherCharges + obj?.TotalDiamondHandling;
             totals.otherAmount += obj?.OtherCharges;
-
+            let findingTotal = 0;
             let diamonds = [];
             let metals = [];
             let colorStones = [];
@@ -182,6 +182,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     totalSetttingAmount += ele?.SettingAmount;
                     settingRate += ele?.SettingRate;
                     if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
+                        findingTotal += ele?.Wt;
                         finding.push(ele);
                         totals.findingWeight += ele?.Wt
                     }
@@ -255,9 +256,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
             obj.miscsTotal = miscsTotal;
             obj.settingAmount = settingAmount;
             obj.settingRate = settingRate;
+            obj.findingTotal = findingTotal;
             totals.totalamount += e?.TotalAmount;
             totals.grosswt += e?.grosswt;
-
             totals.gdWt += e?.MetalDiaWt;
             totals.NetWt += e?.NetWt;
             totals.makingAmount += e?.MakingAmount;
@@ -401,9 +402,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             blankFindingArr[findFinding].Amount += elem?.Amount;
                         }
                     });
-
-
-
+                   
                     // for metals
                     if (obj.SrJobno === obj.GroupJob) {
                         let objmetals = [];
@@ -450,7 +449,6 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             }
                         });
                         finalArr[findRecord].metals = objmetals;
-                        // console.log(objmetals);
 
                     } else if (finalArr[findRecord]?.SrJobno === finalArr[findRecord]?.GroupJob) {
                         let objmetals = [];
@@ -501,7 +499,6 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     }
 
                     // other changes
-
                     let otherAmountDetails = [finalArr[findRecord].otherAmountDetails, obj.otherAmountDetails].flat();
                     let blankOtherAmtDetails = [];
 
@@ -524,7 +521,6 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     finalArr[findRecord].MakingAmount += obj?.MakingAmount;
                     finalArr[findRecord].MaKingCharge_Unit += obj?.MaKingCharge_Unit;
                     finalArr[findRecord].TotalAmount += obj?.TotalAmount;
-
                     
                     finalArr[findRecord].metalsTotal.amount += obj?.metalsTotal.amount;
                     finalArr[findRecord].metalsTotal.pcs += obj?.metalsTotal.pcs;
@@ -542,8 +538,12 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     finalArr[findRecord].miscsTotal.amount += obj?.miscsTotal.amount;
                     finalArr[findRecord].miscsTotal.pcs += obj?.miscsTotal.pcs;
                     finalArr[findRecord].miscsTotal.weight += obj?.miscsTotal.weight;
-
-
+                    if(finalArr[findRecord].metals[0]){
+                        finalArr[findRecord].metals[0].Wt = finalArr[findRecord].metals[0].Wt - (finalArr[findRecord].findingTotal +obj?.findingTotal);
+                    }
+                    console.log(finalArr[findRecord].metals);
+                    // finalArr[findRecord].metals[0].Wt = finalArr[findRecord].findingTotal +obj?.findingTotal ;
+                    finalArr[findRecord].findingTotal += obj?.findingTotal;
                     // diamondTotal
                 }
             }
@@ -730,7 +730,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                             </div>
                             <div className="diamondEstimatePrint border-end position-relative">
-                                <div className='h-100 d-grid pad_bot_29_estimatePrint'>
+                                {/* <div className='h-100 d-grid pad_bot_29_estimatePrint'> */}
+                                <div className='pad_bot_29_estimatePrint'>
                                     {e?.diamonds.length > 0 && e?.diamonds.map((ele, ind) => {
                                         return <div className='d-flex ' key={ind}>
                                             <div className='width20EstimatePrint p_1Estimate'><p className=''>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p></div>
@@ -752,7 +753,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                             </div>
                             <div className="metalEstimatePrint border-end position-relative">
-                                <div className='h-100 d-grid pad_bot_29_estimatePrint'>
+                                {/* <div className='h-100 d-grid pad_bot_29_estimatePrint'> */}
+                                <div className='pad_bot_29_estimatePrint'>
                                     {e?.metals.length > 0 && e?.metals.map((ele, ind) => {
                                         return <div className='d-flex' key={ind}>
                                             <div className='width_40_estimatePrint p_1Estimate'><p className=''>{ele?.ShapeName} {ele?.QualityName}</p></div>
@@ -784,7 +786,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                             </div>
                             <div className="stoneEstimatePrint border-end position-relative">
-                                <div className='h-100 d-grid pad_bot_29_estimatePrint'>
+                                {/* <div className='h-100 d-grid pad_bot_29_estimatePrint'> */}
+                                <div className='pad_bot_29_estimatePrint'>
                                     {e?.colorStones.length > 0 && e?.colorStones.map((ele, ind) => {
                                         return <div className='d-flex ' key={ind}>
                                             <div className='width20EstimatePrint p_1Estimate'><p>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p></div>
