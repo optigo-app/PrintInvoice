@@ -41,6 +41,7 @@ export const printConditions = [
   { printName: "retail invoice print 4", etpType: "print", componentName: "RetailInvoicePrint4" },
   { printName: "invoice print r", etpType: "print", componentName: "InvoicePrint4Clone" },
   { printName: "repair print", etpType: "print", componentName: "ManufactureMgt" },
+  { printName: "repair print2", etpType: "print", componentName: "ManufactureMgt2" },
   { printName: "retail tax invoice", etpType: "print", componentName: "RetailTaxInvoice" },
   { printName: "summary print s", etpType: "print", componentName: "Summarys" },
   { printName: "summary 11", etpType: "print", componentName: "Summary11" },

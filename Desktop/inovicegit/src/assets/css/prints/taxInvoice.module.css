@@ -48,11 +48,18 @@
     min-width: 7%;
 }
 
+.cgst{
+    width: 93%;
+    min-width: 93%;
+}
+
 .pad_1{
     padding: 1px;
 }
 
-
+.customerFirmName{
+    font-size: 12px;
+}
 
 
 
@@ -66,6 +73,10 @@
     }
 
     .tax_invoice_container *, .container * {
-        font-size: 7px;
+        font-size: 8px;
+    }
+
+    .customerFirmName{
+        font-size: 10px;
     }
 }

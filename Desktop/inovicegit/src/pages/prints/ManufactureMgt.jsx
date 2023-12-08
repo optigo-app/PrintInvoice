@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from "../../assets/css/prints/manufacturemgt.module.css";
 import Loader from '../../components/Loader';
-import { FooterComponent, HeaderComponent, NumberWithCommas, apiCall, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { FooterComponent, HeaderComponent, NumberWithCommas, apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 
 const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
     const [loader, setLoader] = useState(true);
@@ -9,6 +9,11 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
     const [headerComp, setHeaderComp] = useState(null);
     const [headerData, setHeaderData] = useState({});
     const [data, setData] = useState([]);
+    const [total, SetTotal] = useState({
+        totalAmount: 0,
+        grandTotal: 0
+    });
+    const [tax, setTax] = useState([]);
 
     const loadData = (data) => {
         setHeaderData(data?.BillPrint_Json[0]);
@@ -17,7 +22,9 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
         setHeaderComp(head);
 
         let resultArr = [];
+        let totals = { ...total };
         data?.BillPrint_Json1.forEach((e, i) => {
+            totals.totalAmount += e?.TotalAmount;
             let obj = { ...e };
             let metalColorCode = "";
             let diamonds = [];
@@ -26,34 +33,123 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
             let colorWt = 0;
             let miscWt = 0;
 
+            let metalWt = 0;
+
+            let miscRepairWt = 0;
+            let receivedJewelleryGrossWt = 0;
+
+            let repairedJewelleryGrossWt = 0;
+
+            let materialIsAdded = 0;
+
+            let metalAdded = 0;
+            let diamondAdded = 0;
+            let colorStoneAdded = 0;
+            let miscAdded = 0;
+            let findingAdded = 0;
+
+            let grossWtAdded = 0;
+            let netWtdded = 0;
+            let materialAdded = [];
+
+            let netDetach = 0;
+            let diamondDetach = 0;
+            let colorStoneDetach = 0;
+            let metalDetach = 0;
+            let FindingDetach = 0;
+
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (ele?.StockBarcode === e?.SrJobno) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+                        metalWt += ele?.Wt;
                         if (ele?.IsPrimaryMetal === 1) {
                             metalColorCode = ele?.MetalColorCode;
                         } else if (metalColorCode === "") {
                             metalColorCode = ele?.MetalColorCode;
                         }
+                        if (ele?.IsRepireEdit === 1) {
+                            metalAdded += ele?.Wt;
+                        }
+                        if (ele?.DetachWeight !== null) {
+                            metalDetach += ele?.DetachWeight;
+                        }
+
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-                        // let findDiamonds = 
                         diamondWt += ele?.Wt;
                         diamonds.push(ele);
+                        if (ele?.IsRepireEdit === 1) {
+                            diamondAdded += ele?.Wt;
+                            materialAdded.push(ele);
+                        }
+                        if (ele?.DetachWeight !== null) {
+                            diamondDetach += ele?.DetachWeight;
+                        }
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                         colorWt += ele?.Wt;
+                        if (ele?.IsRepireEdit === 1) {
+                            colorStoneAdded += ele?.Wt;
+                            materialAdded.push(ele);
+                        }
+                        if (ele?.DetachWeight !== null) {
+                            colorStoneDetach += ele?.DetachWeight;
+                        }
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
                         miscWt += ele?.Wt;
+                        if (ele?.IsRepireEdit === 0) {
+                            miscRepairWt += ele?.Wt;
+                        }
+                        if (ele?.IsRepireEdit === 1) {
+                            materialAdded.push(ele);
+                            miscAdded += ele?.Wt;
+                        }
+                    } else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
+                        if (ele?.IsRepireEdit === 1) {
+                            materialAdded.push(ele);
+                            findingAdded += ele?.Wt;
+                        }
+                        if (ele?.DetachWeight !== null) {
+                            FindingDetach += ele?.DetachWeight;
+                        }
+                    }
+                    if (ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2) {
+                        repairedJewelleryGrossWt += (ele?.Wt - ele?.DetachWeight - ele?.IsReapirDelete + ele?.IsRepireEdit) / 5;
+                    } else {
+                        repairedJewelleryGrossWt += (ele?.Wt - ele?.DetachWeight - ele?.IsReapirDelete + ele?.IsRepireEdit);
                     }
                 }
             });
 
+            grossWtAdded = metalAdded + ((diamondAdded + colorStoneAdded) / 5) + miscAdded + findingAdded;
+            netWtdded = metalAdded + findingAdded;
+            let diamondColorWt = (diamondWt + colorWt) / 5;
+            netDetach = metalDetach + FindingDetach;
             obj.metalColorCode = metalColorCode;
             obj.diamonds = diamonds;
             obj.diamondWt = diamondWt;
             obj.colorWt = colorWt;
             obj.miscWt = miscWt;
+            obj.diamondColorWt = diamondColorWt;
+            obj.miscRepairWt = miscRepairWt;
+            obj.grossWtAdded = grossWtAdded;
+            obj.netWtdded = netWtdded;
+            obj.diamondAdded = diamondAdded;
+            obj.colorStoneAdded = colorStoneAdded;
+            obj.miscAdded = miscAdded;
+            obj.materialAdded = materialAdded;
+            obj.netDetach = netDetach;
+            obj.diamondDetach = diamondDetach;
+            obj.colorStoneDetach = colorStoneDetach;
+            obj.receivedJewelleryGrossWt = miscRepairWt + diamondColorWt + metalWt;
+            obj.repairedJewelleryGrossWt = repairedJewelleryGrossWt;
             resultArr.push(obj);
         });
-        setData(resultArr)
+        SetTotal(totals);
+        let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.totalAmount);
+        totals.grandTotal = taxValue.reduce((a, b) => {
+            return a + +b.amount;
+        }, 0)+totals?.totalAmount+data?.BillPrint_Json[0]?.AddLess;
+        setData(resultArr);
+        setTax(taxValue);
     }
 
     useEffect(() => {
@@ -92,7 +188,7 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                 {/* company address */}
                 {headerComp}
                 {/* customer address */}
-                <div className="mt-1 p-2 border-top d-flex">
+                <div className="p-2 border-top d-flex">
                     <div className="col-6">
                         <p>To,</p>
                         <p className='fs-6 fw-bold'>{headerData?.customerfirmname}</p>
@@ -105,8 +201,8 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className="col-6 d-flex justify-content-end">
                         <div className="col-8 d-flex flex-column justify-content-center align-items-end">
                             <p>Invoice#: <span className="fw-bold">{headerData?.InvoiceNo}</span> Dated <span className="fw-bold">{headerData?.EntryDate}</span></p>
+                            <p>GSTIN: <span className="fw-bold">{headerData?.Cust_VAT_GST_No}</span> | STATE CODE <span className="fw-bold">{headerData?.Cust_CST_STATE_No}</span></p>
                             <p>Due Date: <span className="fw-bold">{headerData?.DueDate}</span></p>
-                            {/* <p>GSTIN: <span className="fw-bold">24</span> | {headerData?.Cust_CST_STATE} <span className="fw-bold">{headerData?.Cust_CST_STATE_No}</span></p> */}
                         </div>
                     </div>
                 </div>
@@ -116,10 +212,10 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="col-1 border-end">
                             <p className="fw-bold p-1 text-center">SR NO</p>
                         </div>
-                        <div className="col-3 border-end">
+                        <div className="col-2 border-end">
                             <p className="fw-bold p-1 text-center">ITEM CODE</p>
                         </div>
-                        <div className="col-6 border-end">
+                        <div className="col-7 border-end">
                             <p className="fw-bold p-1 text-center">DESCRIPTION</p>
                         </div>
                         <div className="col-2">
@@ -128,96 +224,94 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     {/* Table Data */}
                     {data.map((e, i) => {
-                        console.log(e);
                         return <div className="d-flex border-start border-bottom border-end" key={i}>
                             <div className="col-1 border-end">
                                 <p className="fw-bold p-1">{i + 1}</p>
                             </div>
-                            <div className="col-3 border-end">
-                                <p className="fw-bold p-1"> Job: {e?.SrJobno} </p>
-                                <p className="fw-bold p-1"> Design: {e?.designno} </p>
+                            <div className="col-2 border-end">
+                                <p className="p-1"> Job: {e?.SrJobno} </p>
+                                <p className="p-1"> Design: {e?.designno} </p>
                                 <img src={e?.DesignImage} alt="" className={`${style?.img_manufacture} p-1`} onError={handleImageError} />
                             </div>
-                            <div className="col-6 border-end">
-                                <p className="fw-bold p-1 text_secondary">RECEIVED JEWELLERY</p>
-                                <p className="px-1 py-2">{e?.MetalTypePurity} {e?.metalColorCode} |
-                                    {NumberWithCommas(e?.grosswt, 3)} gms GW |
+                            <div className="col-7 border-end">
+                                <p className="fw-bold p-1 text_secondary no_break">RECEIVED JEWELLERY</p>
+                                <p className="px-1 py-2 no_break">{e?.MetalTypePurity} {e?.metalColorCode} |
+                                    {NumberWithCommas(e?.receivedJewelleryGrossWt, 3)} gms GW |
+                                    {NumberWithCommas(e?.NetWt, 3)} gms NW |
+                                    DIA: {NumberWithCommas(e?.diamondWt, 3)} Cts |
+                                    CS: {NumberWithCommas(e?.colorWt, 3)}Cts |
+                                    MISC: {NumberWithCommas(e?.miscRepairWt, 3)} gms </p>
+
+                                <p className="fw-bold p-1 text_secondary no_break">REPAIRED JEWELLERY</p>
+                                <p className="px-1 py-2 no_break">{e?.MetalTypePurity} {e?.metalColorCode} |
+                                    {NumberWithCommas(e?.repairedJewelleryGrossWt, 3)} gms GW |
                                     {NumberWithCommas(e?.NetWt, 3)} gms NW |
                                     DIA: {NumberWithCommas(e?.diamondWt, 3)} Cts |
                                     CS: {NumberWithCommas(e?.colorWt, 3)}Cts |
                                     MISC: {NumberWithCommas(e?.miscWt, 3)} gms </p>
 
-                                <p className="fw-bold p-1 text_secondary">REPAIRED JEWELLERY</p>
-                                <p className="px-1 py-2">{e?.MetalTypePurity} {e?.metalColorCode} |
-                                    {NumberWithCommas(e?.grosswt, 3)} gms GW |
-                                    {NumberWithCommas(e?.NetWt, 3)} gms NW |
-                                    DIA: {NumberWithCommas(e?.diamondWt, 3)} Cts |
-                                    CS: {NumberWithCommas(e?.colorWt, 3)}Cts |
-                                    MISC: {NumberWithCommas(e?.miscWt, 3)} gms </p>
+                                <p className="fw-bold p-1 text_secondary no_break">ADDED MATERIAL DETAIL</p>
+                                <p className="px-1 py-2 no_break">{e?.MetalTypePurity} {e?.metalColorCode} |
+                                    {NumberWithCommas(e?.grossWtAdded, 3)} gms GW |
+                                    {NumberWithCommas(e?.netWtdded, 3)} gms NW |
+                                    DIA: {NumberWithCommas(e?.diamondAdded, 3)} Cts |
+                                    CS: {NumberWithCommas(e?.colorStoneAdded, 3)}Cts |
+                                    MISC: {NumberWithCommas(e?.miscAdded, 3)} gms </p>
 
-                                <p className="p-1">design wise remark</p>
+                                {e?.materialAdded.map((ele, ind) => {
+                                    return <p key={i} className='p-1 no_break'>{ele?.MasterManagement_DiamondStoneTypeName}: {NumberWithCommas(ele?.Pcs, 0)} PCs | {NumberWithCommas(ele?.Wt, 3)}
+                                        {ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 ? " Cts" : " gms"} | {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
+                                })}
+
+                                <p className="fw-bold p-1 text_secondary no_break">DETACHED MATERIAL</p>
+                                <p className="px-1 py-2 no_break">
+                                    Net: {NumberWithCommas(e?.netDetach, 3)} gms NW |
+                                    DIA: {NumberWithCommas(e?.diamondDetach, 3)} Cts |
+                                    CS: {NumberWithCommas(e?.colorStoneDetach, 3)}Cts
+                                </p>
                             </div>
                             <div className="col-2">
-                                <p className="p-1 text-end"><span dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></span> {NumberWithCommas(e?.TotalAmount, 2)}</p>
+                                <p className="p-1 text-end"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span> {NumberWithCommas(e?.TotalAmount, 2)}</p>
                             </div>
                         </div>
                     })}
-                    {/* <div className="d-flex border-start border-bottom border-end">
-                        <div className="col-2 border-end">
-                            <p className="fw-bold p-1">1</p>
-                        </div>
-                        <div className="col-3 border-end">
-                            <p className="fw-bold p-1"> Job: 1/14361 </p>
-                            <p className="fw-bold p-1"> Design: 1537 </p>
-                            <img src="https://resize.indiatvnews.com/en/resize/newbucket/400_-/2018/01/jewellery-1515647069.jpg" alt="" className={`${style?.img_manufacture} p-1`} />
-                            <p className="fw-bold p-1"> 23 </p>
-                        </div>
-                        <div className="col-7">
-                            <p className="fw-bold p-1 text-secondary">ISSUE JEWELLERY</p>
-                            <p className="px-1 py-2">GOLD 18K YW53 | 9.095 gms GW | 3.256 gms NW | DIA: 2.243 Cts | CS: 0.540 Cts | MISC: 7.525 gms </p>
-                            <p className="pt-2 px-1 pb-1 fw-bold text-decoration">REMARKS :</p>
-                            <p className="p-1">design wise remark</p>
+                    {/* Table Total */}
+                    <div className="d-flex border-start border-end border-bottom lightGrey">
+                        <div className="col-1"></div>
+                        <div className="col-9 border-end p-1"><p className="fw-bold">TOTAL</p></div>
+                        <div className="col-2 p-1">
+                            <p className="fw-bold text-end"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span> {NumberWithCommas(total?.totalAmount, 2)}</p>
                         </div>
                     </div>
-                    <div className="d-flex border-start border-bottom border-end">
-                        <div className="col-2 border-end">
-                            <p className="fw-bold p-1">1</p>
+                    {/* Table Tax */}
+                    <div className="d-flex border-start border-end border-bottom">
+                        <div className="col-10 border-end">
+                            {tax.map((ele, ind) => {
+                                return <p className='text-end p-1' key={ind}>{ele?.name} @ {ele?.per}</p>
+                            })}
+                           {headerData?.AddLess !== 0 && <p className='text-end p-1'> {headerData?.AddLess > 0 ? "Add" : "Less"}</p>}
                         </div>
-                        <div className="col-3 border-end">
-                            <p className="fw-bold p-1"> Job: 1/14361 </p>
-                            <p className="fw-bold p-1"> Design: 1537 </p>
-                            <img src="https://resize.indiatvnews.com/en/resize/newbucket/400_-/2018/01/jewellery-1515647069.jpg" alt="" className={`${style?.img_manufacture} p-1`} />
-                            <p className="fw-bold p-1"> 23 </p>
-                        </div>
-                        <div className="col-7">
-                            <p className="fw-bold p-1 text-secondary">ISSUE JEWELLERY</p>
-                            <p className="px-1 py-2">GOLD 18K YW53 | 9.095 gms GW | 3.256 gms NW | DIA: 2.243 Cts | CS: 0.540 Cts | MISC: 7.525 gms </p>
-                            <p className="pt-2 px-1 pb-1 fw-bold text-decoration">REMARKS :</p>
-                            <p className="p-1">design wise remark</p>
+                        <div className="col-2">
+                            {tax.map((ele, ind) => {
+                                return <p className='text-end p-1 ' key={ind}>{ele?.amount}</p>
+                            })}
+                           {headerData?.AddLess !== 0 && <p className='text-end p-1'> {headerData?.AddLess}</p>}
                         </div>
                     </div>
-                    <div className="d-flex border-start border-bottom border-end">
-                        <div className="col-2 border-end">
-                            <p className="fw-bold p-1">1</p>
+                    {/* Table Grand Total */}
+                    <div className="d-flex border-start border-end border-bottom lightGrey">
+                        <div className="col-10 border-end">
+                          <p className="text-end p-1 fw-bold">GRAND TOTAL</p>
                         </div>
-                        <div className="col-3 border-end">
-                            <p className="fw-bold p-1"> Job: 1/14361 </p>
-                            <p className="fw-bold p-1"> Design: 1537 </p>
-                            <img src="https://resize.indiatvnews.com/en/resize/newbucket/400_-/2018/01/jewellery-1515647069.jpg" alt="" className={`${style?.img_manufacture} p-1`} />
-                            <p className="fw-bold p-1"> 23 </p>
+                        <div className="col-2">
+                        <p className="text-end p-1 fw-bold"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span> {NumberWithCommas(total?.grandTotal, 2)}</p>
                         </div>
-                        <div className="col-7">
-                            <p className="fw-bold p-1 text-secondary">ISSUE JEWELLERY</p>
-                            <p className="px-1 py-2">GOLD 18K YW53 | 9.095 gms GW | 3.256 gms NW | DIA: 2.243 Cts | CS: 0.540 Cts | MISC: 7.525 gms </p>
-                            <p className="pt-2 px-1 pb-1 fw-bold text-decoration">REMARKS :</p>
-                            <p className="p-1">design wise remark</p>
-                        </div>
-                    </div> */}
+                    </div>
                     {/* signature */}
-                    <div className={`d-flex border-start border-bottom border-end ${style?.height_manufacture}`}>
+                    <div className={`d-flex border-start border-bottom border-end ${style?.height_manufacture} no_break`}>
                         <div className="col-6 p-2 d-flex justify-content-between flex-column border-end position-relative">
                             <p>Signature :</p>
-                            <p className="fw-bold">{headerData?.CustName}</p>
+                            <p className="fw-bold">{headerData?.customerfirmname}</p>
                             {/* <p className={`position-absolute ${style?.blankArea} bgGrey border-start border-bottom`}></p> */}
                         </div>
                         <div className="col-6 p-2 d-flex justify-content-between flex-column position-relative">
