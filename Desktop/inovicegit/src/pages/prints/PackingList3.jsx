@@ -1170,9 +1170,9 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   <div className="fsdpcl3">{e?.lineid}</div>
                                   <div className="th2DEpcl3">
                                     <div className="fsdpcl3">Tunch : </div>
-                                    <div className="fsdpcl3">
+                                    <div className="fsdpcl3 fw-bold">
                                       {" "}
-                                      {e?.Tunch}
+                                      {(+e?.Tunch)?.toFixed(3)}
                                     </div>{" "}
                                   </div>
                                   <div className="fsdpcl3">
@@ -1196,7 +1196,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
 
                                     e?.diamonds?.length > 0 &&
                                       e?.diamonds?.map((ele, index) => {
-                      console.log(ele);
 
                                         return (
                                           <div
@@ -1217,7 +1216,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                               {ele?.Pcs}
                                             </div>
                                             <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
-                                              {ele?.Wt}
+                                              {ele?.Wt?.toFixed(3)}
                                             </div>
                                             <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
                                               {NumberWithCommas(ele?.Rate, 2)}
