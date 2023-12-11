@@ -11,6 +11,7 @@ import {
   otherAmountDetail,
 } from "../../GlobalFunctions";
 import { taxGenrator } from "./../../GlobalFunctions";
+import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 
 const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [headerData, setHeaderData] = useState({});
@@ -26,7 +27,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [otherAmounts, setOtherAmounts] = useState([]);
   const [totalUniCostAmt, setTotalUnitCostAmt] = useState(0);
   const [totalLbhOthAmt, setTotalLbhOthAmt] = useState(0);
-
   const [totalgrosswt, setTotalgrosswt] = useState(0);
   const [totalnetlosswt, setTotalnetlosswt] = useState(0);
   const [finalAmount, setFinalAmount] = useState(0);
@@ -78,6 +78,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
+       let resultArr =  OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1,data?.BillPrint_Json2)
+       console.log(resultArr);
       setLoader(false);
     } catch (error) {
       console.log(error);
@@ -1221,7 +1223,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
                                               {NumberWithCommas(ele?.Rate, 2)}
                                             </div>
-                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                            <div className="th3Wpcl3 brRightDpcl3 fsdpcl3 d-flex justify-content-end pe-1">
                                               <b className="fsdpcl3">
                                                 {NumberWithCommas(
                                                   ele?.Amount,
@@ -1241,7 +1243,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     width: "100%",
                                     // height: "21px",
                                     border: "1px solid #989898",
-                                    backgroundColor: "#eeeded",
+                                    backgroundColor: "#F5F5F5",
                                     borderRight: "0px",
                                     borderLeft: "0px",
                                     borderBottom: "0px",
@@ -1298,7 +1300,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
                                               {NumberWithCommas(ele?.Rate, 2)}
                                             </div>
-                                            <div className="th4Wpcl3 brRightDpcl3">
+                                            <div className="th4Wpcl3 brRightDpcl3 d-flex justify-content-end pe-1">
                                               <b className="fsdpcl3">
                                                 {ele?.Amount - e?.LossAmt}
                                               </b>
@@ -1324,7 +1326,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                       <div className="th4Wpcl3 brRightDpcl3 fsdpcl3">
                                         {NumberWithCommas(e?.metalsRates, 2)}
                                       </div>
-                                      <div className="th4Wpcl3 brRightDpcl3">
+                                      <div className="th4Wpcl3 brRightDpcl3 d-flex justify-content-end pe-1">
                                         <b className="fsdpcl3">
                                           {NumberWithCommas(e?.LossAmt, 2)}
                                         </b>
@@ -1337,7 +1339,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   style={{
                                     width: "100%",
                                     border: "1px solid #989898",
-                                    backgroundColor: "#e8e8e8",
+                                    backgroundColor: "#F5F5F5",
                                     borderBottom: "0px",
                                     borderLeft: "0px",
                                     borderRight: "0px",
@@ -1402,7 +1404,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                   2
                                                 )}
                                               </div>
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3 d-flex justify-content-end pe-1">
                                                 <b
                                                   className="fsdpcl3"
                                                 >
@@ -1438,7 +1440,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                   2
                                                 )}
                                               </div>
-                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3">
+                                              <div className="th3Wpcl3 brRightDpcl3 fsdpcl3 d-flex justify-content-end pe-1">
                                                 <b className="fsdpcl3">
                                                   {NumberWithCommas(
                                                     ele?.Amount,
@@ -1461,7 +1463,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     width: "100%",
                                     // height: "21px",
                                     border: "1px solid #989898",
-                                    backgroundColor: "#eeeded",
+                                    backgroundColor: "#F5F5F5",
                                     borderBottom: "0px",
                                     borderRight: "0px",
                                     borderLeft: "0px",
@@ -1561,7 +1563,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <div
                                       className="th6flex2pcl3 positionpcl3D"
                                       style={{
-                                        backgroundColor: "#eeeded",
+                                        backgroundColor: "#F5F5F5",
                                         border: "1px solid #989898",
 
                                         // height: "21px",
@@ -1593,7 +1595,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   <div
                                     className="th7pcl3Dis"
                                     style={{
-                                      backgroundColor: "#eeeded",
+                                      backgroundColor: "#F5F5F5",
                                       border: "1px solid #989898",
                                       width: "100%",
                                       justifyContent: "flex-end",
@@ -1616,7 +1618,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="pcl3TableCopyD no_break">
                         <div
                           className="tableBodypcl3"
-                          style={{ backgroundColor: "#eeeded", width: "2%" }}
+                          style={{ backgroundColor: "#F5F5F5", width: "2%" }}
                         >
                           <div className="thDEpcl3">
                             <b></b>
@@ -1626,7 +1628,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           <div
                             className="tableBodypcl3 w-100"
                             style={{
-                              backgroundColor: "#eeeded",
+                              backgroundColor: "#F5F5F5",
                               borderBottom: "0px",
                               borderRight: "0px",
                               // height: "22px",
@@ -1644,7 +1646,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div
                               className="diamondValuepcl3 positionpcl3D w-100"
                               style={{
-                                backgroundColor: "#eeeded",
+                                backgroundColor: "#F5F5F5",
                                 border: "1px solid #989898",
                                 height: "21px",
                                 borderBottom: "0px",
@@ -1675,7 +1677,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div
                               className="MetalPcl3 positionpcl3D w-100"
                               style={{
-                                backgroundColor: "#e8e8e8",
+                                backgroundColor: "#F5F5F5",
                                 height: "21px",
                                 lineHeight: "10px",
                                 border: "1px solid #989898",
@@ -1709,7 +1711,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div
                               className="diamondValuepcl3 positionpcl3D w-100"
                               style={{
-                                backgroundColor: "#e8e8e8",
+                                backgroundColor: "#F5F5F5",
                               }}
                             >
                               <div className="th3Wpcl3 brRightDpcl3"></div>
@@ -1736,7 +1738,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div
                               className="th6flex2pcl3 w-100 "
                               style={{
-                                backgroundColor: "#e8e8e8",
+                                backgroundColor: "#F5F5F5",
                                 height: "22px",
                               }}
                             >
@@ -1754,7 +1756,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div
                               className="th7Dpcl3 w-100 fsdpcl3"
                               style={{
-                                backgroundColor: "#e8e8e8",
+                                backgroundColor: "#F5F5F5",
                                 // height: "22px",
                               }}
                             >
@@ -1993,7 +1995,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     </b>
                                   </div>
                                   <div
-                                    className="mrpWpcl3D fsdpcl3 "
+                                    className="mrpWpcl3D fsdpcl3 d-flex justify-content-end pe-1"
                                     style={{ width: "40%", lineHeight: "5px" }}
                                   >
                                     {e?.totalPcs}/{e?.totalWt?.toFixed(3)} cts
