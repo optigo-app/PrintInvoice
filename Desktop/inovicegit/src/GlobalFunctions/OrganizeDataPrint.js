@@ -49,6 +49,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     total_amount: 0,
     total_unitcost: 0,
     total_discount_amount:0,
+    total_purenetwt : 0,
   };
   //json1 array
   json1?.length > 0 &&
@@ -107,6 +108,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_amount += j1?.TotalAmount;
       maintotal.total_unitcost += j1?.UnitCost;
       maintotal.total_discount_amount += j1?.DiscountAmt;
+      maintotal.total_purenetwt += j1?.PureNetWt;
 
       //json2
       json2?.length > 0 &&
@@ -201,6 +203,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       obj.other_amount_details = other_details;
       resultArray.push(obj);
     });
+
+  //totalAmount
   let totalAmount = maintotal.total_amount + header?.AddLess;
   let allTax = taxGenrator(header, totalAmount);
 
@@ -208,9 +212,6 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     allTax?.forEach((e) => {
       totalAmount += +e?.amount;
     });
-  // const finalAmount = totalAmount;
-  // const mainTotal = maintotal;
-  // const allTaxes = allTax;
   const finalObject = {
     resultArray : resultArray,
     mainTotal : maintotal,
