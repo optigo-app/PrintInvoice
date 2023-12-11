@@ -151,7 +151,7 @@ const BagPrint4B = ({ queries, headers }) => {
                   className="container4A container4B"
                   style={{ border: "0px" }}
                 >
-                  <div className="print4Apart_1 print4bpart_1"></div>
+                  <div className="print4Apart_1 print4bpart_1" style={{border:"0px"}}></div>
                 </div>
                 )
             )}
