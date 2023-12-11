@@ -201,6 +201,6 @@ export const OrganizeDataPrint = (header, json1, json2) => {
         obj.other_amount_details = other_details;
         resultArray.push(obj);
     });
-    
-    return resultArray;
+    console.log(resultArray);
+    return {resultArray, maintotal};
 };
