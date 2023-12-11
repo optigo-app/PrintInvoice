@@ -35,7 +35,7 @@
 }
 
 .headpcl3 {
-    min-height: 118px;
+    min-height: 95px;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -47,8 +47,8 @@
     flex-direction: column;
     width: 70%;
     line-height: 120%;
-    font-size: 12px;
-    height: 118px;
+    /* font-size: 12px; */
+    /* height: 118px; */
     line-height: 15px;
     padding-top: 4px;
     padding-left: 4px;
@@ -58,22 +58,22 @@
     display: flex;
     align-items: center;
     width: 100%;
-    height: 15px !important;
+    height: 13px !important;
     line-height: 120%;
-    font-size: 13px;
+    font-size: 11px;
 }
 
 .pcl313 {
     line-height: 120%;
-    font-size: 13px;
+    font-size: 11px;
 }
 
 .headpcl3Img {
     display: flex;
     justify-content: end;
     align-items: center;
-    height: 80pt;
-    width: 30%;
+    /* height: 85%; */
+    width: 20%;
 }
 
 .dynamicHeadpcl31 {
@@ -215,7 +215,7 @@
 }
 
 .th7pcl3 {
-    width: 6%;
+    width: 7%;
     height: 44px;
     line-height: 120%;
     font-size: 14px;
@@ -225,7 +225,7 @@
 }
 
 .th7Dpcl3 {
-    height: 20px;
+    min-height: 1.8rem;
     line-height: 120%;
     font-size: 15.5px;
     display: flex;
@@ -237,13 +237,23 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
 }
 
 .th3flex1pcl3 {
     display: flex;
     line-height: 120%;
     font-size: 14px;
-    height: 22px;
+    /* height: 22px; */
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #989898;
+}
+.th3flex1pcl3diamond {
+    display: flex;
+    line-height: 120%;
+    font-size: 14px;
+    height: 50%;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid #989898;
@@ -252,11 +262,17 @@
 .th3flex2pcl3 {
     display: flex;
     justify-content: space-between;
+    
+}
+.th3flex2pcl3diamond {
+    display: flex;
+    justify-content: space-between;
+    height: 50%;
 }
 
 .th3Wpcl3 {
     width: 17%;
-    height: 16pt;
+    /* height: 16pt; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -271,7 +287,7 @@
 
 .th4Wpcl3 {
     width: 20%;
-    height: 15pt;
+    /* height: 15pt; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -283,6 +299,7 @@
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
+    height: 100%;
 }
 
 .th4flex1pcl3 {
@@ -292,7 +309,25 @@
     border-bottom: 1px solid #989898;
     line-height: 120%;
     font-size: 14px;
-    height: 22px;
+    /* height: 22px; */
+}
+.th4flex1pcl3metal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #989898;
+    line-height: 120%;
+    font-size: 14px;
+    height: 50%;
+    /* height: 22px; */
+}
+
+.th4flex2pcl3metal {
+    display: flex;
+    justify-content: space-between;
+    line-height: 120%;
+    font-size: 14px;
+    height: 50%;
 }
 
 .th4flex2pcl3 {
@@ -306,6 +341,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
 }
 
 .th5flex1pcl3 {
@@ -338,6 +374,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
 }
 
 .th6flex1pcl3 {
@@ -349,6 +386,16 @@
     height: 22px;
     border-bottom: 1px solid #989898;
 }
+.labourandotherpcl3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 120%;
+    font-size: 14px;
+    /* height: 22px; */
+    border-bottom: 1px solid #989898;
+    height: 52%;
+}
 
 .th6flex2pcl3 {
     display: flex;
@@ -356,10 +403,20 @@
     align-items: center;
     width: 100%;
     height: 17pt;
-    line-height: 11px;
-    /* padding: 3px; */
     line-height: 120%;
     font-size: 14px;
+    min-height: 1.8rem;
+}
+.otherandlabourpcl3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* height: 17pt; */
+    line-height: 120%;
+    font-size: 14px;
+    height: 48%;
+    /* min-height: 1.8rem; */
 }
 
 .th6Wpcl3 {
@@ -375,6 +432,7 @@
     align-items: center;
     border-right: 1px solid #989898;
     width: 2%;
+    min-height: 1.8rem;
 }
 
 .tableBodypcl3_1 {
@@ -437,7 +495,7 @@
 
 .pcl3TableCopyD {
     width: 100%;
-    height: 23px;
+    /* height: 23px; */
     border-right: 1px solid black;
     border-left: 1px solid black;
     display: flex;
@@ -485,6 +543,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    min-height: 1.8rem;
 }
 
 .metalPcl3 {
@@ -496,6 +555,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    min-height: 1.8rem;
 }
 
 .labourPcl3 {
@@ -623,7 +683,7 @@
     justify-content: center;
     align-items: center;
     font-weight: 700;
-    background-color: #eeeded;
+    background-color: #F5F5F5;
     border-left: 2px solid #989898;
     border-bottom: 2px solid #989898;
     border-right: 2px solid #989898;
@@ -634,7 +694,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #eeeded;
+    background-color: #F5F5F5;
     font-weight: 700;
     border-top: 1px solid #989898;
 }
@@ -658,7 +718,7 @@
     border-right: 2px solid #989898;
     border-left: 0px;
     border-bottom: 2px solid #989898;
-    padding-bottom: 1rem;
+    padding-bottom: 3px;
 }
 
 .brbpcl3all {
@@ -703,13 +763,14 @@
 .th7pcl3Dis {
     position: relative;
     bottom: 0;
-    height: 22px;
+    /* height: 22px; */
     display: flex;
     justify-content: center;
     align-items: center;
     line-height: 120%;
     font-size: 14px;
     line-height: 10px;
+    min-height: 1.8rem;
 
 }
 
@@ -725,8 +786,8 @@
 }
 
 #pcl3Img {
-    height: 85%;
-    width: 65%;
+    height: 75%;
+    width: 50%;
     object-fit: contain;
     object-position: right;
 }
@@ -758,8 +819,8 @@
 }
 
 .fsdpcl3 {
-    line-height: 120%;
-    font-size: 8.5px !important;
+    line-height:  8px;
+    font-size: 9.5px ;
 }
 
 .pd5pcl3 {
@@ -771,13 +832,13 @@
         display: none;
     }
     .fsdpcl3{
-        font-size: 8px !important;
+        font-size: 6px !important;
         line-height: 120%;
     }
     .pcl3TableCopy {
         page-break-inside: avoid;
         line-height: 120%;
-        font-size: 9.5px;
+        font-size: 6px !important;
     }
 
     body {
@@ -787,5 +848,61 @@
         .print_sec_sum4 {
             display: none !important;
           }
-
+          .fslhpcl3{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 15px !important;
+            line-height: 120%;
+            font-size: 8.5px !important;
+    }
+    .th7Dpcl3 {
+        min-height: 1.2rem;
+        line-height: 120%;
+        font-size: 15.5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .th6flex2pcl3 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 17pt;
+        line-height: 120%;
+        font-size: 14px;
+        min-height: 1.2rem;
+    }
+    .th7pcl3Dis {
+        position: relative;
+        bottom: 0;
+        /* height: 22px; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        line-height: 120%;
+        font-size: 14px;
+        line-height: 10px;
+        min-height: 1.2rem;
+    }
+    .diamondValuepcl3 {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        min-height: 1.2rem;
+    }
+    .MetalPcl3 {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        min-height: 1.2rem;
+    }
+    .tableBodypcl3 {
+        display: flex;
+        align-items: center;
+        border-right: 1px solid #989898;
+        width: 2%;
+        min-height: 1.2rem;
+    }
 }
