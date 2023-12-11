@@ -196,7 +196,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
         obj.misc = miscList;
         obj.metal = metalList;
         obj.finding = findingList;
-        obj.maintotal = maintotal;
+        // obj.maintotal = maintotal;
         obj.totals = jobwise_totals;
         obj.other_amount_details = other_details;
         resultArray.push(obj);
