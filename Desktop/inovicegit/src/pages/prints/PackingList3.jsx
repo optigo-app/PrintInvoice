@@ -78,7 +78,8 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-       let resultArr =  OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1,data?.BillPrint_Json2)
+       let a =  OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1,data?.BillPrint_Json2)
+        console.log(a);
       setLoader(false);
     } catch (error) {
       console.log(error);
@@ -1806,7 +1807,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                           })}
                         <div className="fapcl3">
                           <div className="d-flex justify-content-end w-50 fsdpcl3">
-                            Less{" "}
+                            { headerData?.AddLess > 0 ? 'Add' : 'Less' }
                           </div>
                           <div className="mrpWpcl3 fsdpcl3">
                             {headerData?.AddLess?.toFixed(2)}
@@ -1814,7 +1815,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                         <div className="fapcl3">
                           <div className="d-flex justify-content-end w-50">
-                            <b className="fsdpcl3">Final Amount</b>
+                            <b className="fsdpcl3">Final Amount</b> 
                           </div>
                           <div className="mrpWpcl3">
                             <b className="fsdpcl3 w-100">
