@@ -1,12 +1,14 @@
 import React from 'react';
-import { NumberWithCommas, apiCall, handleImageError, handlePrint, isObjectEmpty, otherAmountDetail, taxGenrator } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, otherAmountDetail, taxGenrator } from '../../GlobalFunctions';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/estimatePrint1.module.css";
+import { ToWords } from 'to-words';
 
 const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
 
+    const toWords = new ToWords();
     const [image, setImage] = useState(true);
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
@@ -20,7 +22,9 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
         OtherCharges: 0,
         UnitCost: 0,
         TotalAmount: 0,
-        discount: 0
+        discount: 0,
+        afterTaxAmount: 0,
+        netBalanceAmount: 0,
     });
     const [tax, setTax] = useState([]);
 
@@ -128,6 +132,16 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
 
         let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.TotalAmount);
         setTax(taxValue);
+
+        totals.afterTaxAmount = taxValue.reduce((acc, currVal) => {
+            return acc + +currVal?.amount;
+        }, 0) + totals?.TotalAmount + data?.BillPrint_Json[0]?.AddLess;
+
+        totals.netBalanceAmount = totals.afterTaxAmount -
+            data?.BillPrint_Json[0]?.OldGoldAmount -
+            data?.BillPrint_Json[0]?.AdvanceAmount -
+            data?.BillPrint_Json[0]?.CashReceived -
+            data?.BillPrint_Json[0]?.BankReceived;
 
         dataArr.sort((a, b) => {
             let nameA = (a?.designno)?.toLowerCase();
@@ -327,7 +341,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="col-9 border-end">
                     <div className="d-grid w-100 h-100">
                         <div className="border-bottom p-1">
-                            <p>Narration / Remark: <span className="fw-bold">Task 342 & 320 Estiamte Print bill</span></p>
+                            <p>Narration / Remark: <span className="fw-bold">{json0Data?.Remark}</span></p>
                         </div>
                         <div className="p-1">
                             <p>Old Gold Purchase Description : </p>
@@ -341,7 +355,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                     {tax.map((e, i) => {
                         return <p className='p-1' key={i}>{e?.name} @ {e?.per}</p>
                     })}
-                    <p className='p-1'>Less</p>
+                    {json0Data?.AddLess !== 0 && <p className='p-1'>{json0Data?.AddLess > 0 ? "Add" : "Less"}</p>}
                     <p className='p-1'>Total Amt. after Tax</p>
                     <p className='p-1'>Old Gold</p>
                     <p className='p-1'>Advance</p>
@@ -353,28 +367,28 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <p className='p-1 text-end'>{NumberWithCommas(total.discount, 0)}</p>
                     <p className='p-1 text-end'>{NumberWithCommas(total?.TotalAmount, 2)}</p>
                     {tax.map((e, i) => {
-                        return <p className='p-1' key={i}>{e?.amount}</p>
+                        return <p className='p-1 text-end' key={i}>{e?.amount}</p>
                     })}
-                    <p className='p-1 text-end'>-0.12</p>
-                    <p className='p-1 text-end'>19,250.00</p>
-                    <p className='p-1 text-end'>0.00</p>
-                    <p className='p-1 text-end'>0.00</p>
-                    <p className='p-1 text-end'>0.00</p>
-                    <p className='p-1 text-end'>0.00</p>
-                    <p className='p-1 text-end'>19,250.00</p>
+                    {json0Data?.AddLess !== 0 && <p className='p-1 text-end'>{json0Data?.AddLess}</p>}
+                    <p className='p-1 text-end'>{NumberWithCommas(total?.afterTaxAmount, 2)}</p>
+                    <p className='p-1 text-end'>{NumberWithCommas(json0Data?.OldGoldAmount, 2)}</p>
+                    <p className='p-1 text-end'>{NumberWithCommas(json0Data?.AdvanceAmount, 2)}</p>
+                    <p className='p-1 text-end'>{NumberWithCommas(json0Data?.CashReceived, 2)}</p>
+                    <p className='p-1 text-end'>{NumberWithCommas(json0Data?.BankReceived, 2)}</p>
+                    <p className='p-1 text-end'>{NumberWithCommas(total?.netBalanceAmount, 2)}</p>
                 </div>
             </div>
             {/* grand total */}
             <div className="border-start border-bottom border-end d-flex no_break">
                 <div className="col-9 p-1 border-end">
                     <p className=''>In Words Indian Rupees</p>
-                    <p className=''>Nineteen Thousand Two Hundred and Fifty Only</p>
+                    <p className=''>{toWords.convert(+fixedValues(total?.afterTaxAmount, 2))}</p>
                 </div>
                 <div className="col-2 border-end d-flex align-items-center p-1">
                     <p className="fw-bold">GRAND TOTAL	</p>
                 </div>
                 <div className="col-1 d-flex align-items-center justify-content-end p-1">
-                    <p className="fw-bold">₹ 19,250.00</p>
+                    <p className="fw-bold"><span dangerouslySetInnerHTML={{__html: json0Data?.Currencysymbol}}></span> {NumberWithCommas(total?.afterTaxAmount, 2)}</p>
                 </div>
             </div>
             {/* remark */}

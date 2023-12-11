@@ -688,7 +688,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                     <div className="OtherAmountEstimatePrint border-end p-1 d-flex align-items-center justify-content-center flex-wrap">
-                        <p className='text-center fw-bold'>Other </p>
+                        <p className='text-center fw-bold'>Other &nbsp;</p>
                         <p className='text-center fw-bold'>Amount </p>
                     </div>
                     <div className="labourEstimatePrint border-end">
@@ -699,7 +699,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                     <div className="totalAmountEstimatePrint p-1 d-flex align-items-center justify-content-center flex-wrap">
-                        <p className='text-center fw-bold'>Total </p>
+                        <p className='text-center fw-bold'>Total &nbsp;</p>
                         <p className='text-center fw-bold'>Amount </p>
                     </div>
                 </div>
@@ -708,7 +708,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     {json2Data.length > 0 && json2Data.map((e, i) => {
                         return <div className="d-flex border-bottom recordEstimatePrint overflow-hidden " key={i}>
                             <div className="srNoEstimatePrint border-end p_1Estimate">
-                                <p>{i + 1}</p>
+                                <p className='text-center'>{i + 1}</p>
                             </div>
                             <div className="designEstimatePrint border-end p_1Estimate">
                                 <div className="d-flex justify-content-between">
@@ -722,7 +722,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                     {image && <>{imageLoading && <Loader2 />}{<img src={e?.DesignImage} alt="" className='w-100 estimate_img' onError={handleImageError} onLoad={handleImageLoad} style={{ display: imageLoading ? 'none' : 'block' }} />}</>}
                                 </div>
                                 <div>
-                                    {e?.HUID !== "" && <p className='fw-bold text-center'>HUID{e?.HUID}</p>}
+                                    {e?.HUID !== "" && <p className='text-center'>HUID{e?.HUID}</p>}
                                     {e?.PO !== "" && <p className='fw-bold text-center'>PO:<span className='fw-normal'>{e?.PO}</span></p>}
                                     <div className="d-flex justify-content-between">
                                     </div>
