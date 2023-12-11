@@ -289,7 +289,6 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
     }
 
     const loadData = (datas) => {
-        console.log(datas);
         setBillPrint_Json(datas?.BillPrint_Json[0]);
         setBillPrint_Json1(datas?.BillPrint_Json1);
         setBillPrint_Json2(datas?.BillPrint_Json2);

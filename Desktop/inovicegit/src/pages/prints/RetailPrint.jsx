@@ -60,7 +60,6 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             totalObj.pcs += ele?.Pcs;
                             if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
                                 totalObj.materialWeight += ele?.Wt;
-                                console.log(ele?.Wt);
                             }
                         } else {
                             totalObj.goldWeight += ele?.Wt;
