@@ -1,5 +1,5 @@
-import React from 'react'
-import { apiCall, handlePrint, isObjectEmpty, otherAmountDetail } from '../../GlobalFunctions';
+import React from 'react';
+import { NumberWithCommas, apiCall, handleImageError, handlePrint, isObjectEmpty, otherAmountDetail } from '../../GlobalFunctions';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Loader from '../../components/Loader';
@@ -12,6 +12,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     const [msg, setMsg] = useState("");
     const [json0Data, setJson0Data] = useState({});
     const [document, setDocument] = useState([]);
+    const [data, setData] = useState([]);
 
     const loadData = (data) => {
         setJson0Data(data?.BillPrint_Json[0]);
@@ -21,9 +22,82 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
 
         let dataArr = [];
         data?.BillPrint_Json1.forEach((e, i) => {
-            console.log(e);
-        })
+            let obj = { ...e };
+            let diamonds = [];
+            let metals = [];
+            data?.BillPrint_Json1.forEach((ele, ind) => {
+                if (ele?.StockBarcode === e?.SrJobno) {
+                    if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+                        obj.metals.push(ele);
+                    } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+                        let findDiamonds = obj.diamonds.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
+                        if (findDiamonds === -1) {
+                            obj.diamonds.push(ele);
+                        } else {
+                            obj.diamonds[findDiamonds].Wt += ele?.Wt;
+                        }
+                    }
+                }
+            });
+            obj.diamonds = diamonds;
+            obj.metals = metals;
+            let metalRate = 0;
+            let metalcount = 0;
+            obj.metals.forEach((ele, ind) => {
+                console.log(ele);
+                metalRate += ele?.Rate;
+                metalcount += 1;
+            });
+            if(metalcount > 0) {
+                metalRate = metalRate / metalcount;
+            }
+            console.log(metalRate);
+            obj.metalRate = metalRate;
+            obj.metalcount = metalcount;
+            if (e?.GroupJob !== "") {
+                let findData = dataArr.findIndex((ele) => ele?.GroupJob === e?.GroupJob);
+                if (findData === -1) {
+                    dataArr.push(obj);
+                } else {
+                    if (obj?.GroupJob === obj?.SrJobno) {
+                        dataArr[findData].SrJobno = dataArr[findData]?.GroupJob;
+                        dataArr[findData].SubCategoryname = obj?.SubCategoryname;
+                        dataArr[findData].Categoryname = obj?.Categoryname;
+                        dataArr[findData].designno = obj?.designno;
+                        dataArr[findData].DesignImage = obj?.DesignImage;
+                        dataArr[findData].MetalTypePurity = obj?.MetalTypePurity;
+                        dataArr[findData].MetalType = obj?.MetalType;
+                        dataArr[findData].MetalPurity = obj?.MetalPurity;
+                    } else {
+                        obj.SrJobno = obj?.GroupJob;
+                        obj.SubCategoryname = dataArr[findData]?.SubCategoryname;
+                        obj.Categoryname = dataArr[findData]?.Categoryname;
+                        obj.designno = dataArr[findData]?.designno;
+                        obj.DesignImage = dataArr[findData]?.DesignImage;
+                        obj.MetalTypePurity = dataArr[findData]?.MetalTypePurity;
+                        obj.MetalType = dataArr[findData]?.MetalType;
+                        obj.MetalPurity = dataArr[findData]?.MetalPurity;
+                    }
+                    let diamonds = [...obj.diamonds, ...dataArr[findData].diamonds].flat();
+                    let blankDiamonds = [];
+                    diamonds.forEach((ele, ind) => {
+                        let findDiamond = blankDiamonds.findIndex((elem, index) => elem.ShapeName === ele?.ShapeName);
+                        if (findDiamond === -1) {
+                            blankDiamonds.push(ele);
+                        } else {
+                            blankDiamonds[findDiamond].Wt += ele?.Wt;
+                        }
+                    });
+                    dataArr[findData].diamonds = blankDiamonds;
+                    obj.diamonds = blankDiamonds;
+                    dataArr.push(obj);
+                }
+            } else {
+                dataArr.push(obj);
+            }
+        });
 
+        setData(dataArr);
     }
 
     const handleChange = (e) => {
@@ -123,7 +197,51 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
             </div>
             {/* table data */}
-            <div className="border-start border-bottom border-end d-flex no_break">
+            {data.map((e, i) => {
+                return <div className="border-start border-bottom border-end d-flex no_break" key={i}>
+                    <div className="col-3 d-flex">
+                        <div className="col-3 p-1 border-end d-flex align-items-center justify-content-center"><p className="">{i + 1}</p></div>
+                        <div className="col-6 p-1 border-end">
+                            <p> {e?.SubCategoryname}  {e?.Categoryname}</p>
+                            <p>{e?.designno} | {e?.SrJobno}</p>
+                            {image && <img src={e?.DesignImage} alt="" className={`w-100 ${style?.img}`} onError={handleImageError} />}
+                            {e?.HUID !== "" && <p className="text-center">HUID-{e?.HUID}</p>}
+                        </div>
+                        <div className="col-3 p-1 border-end d-flex align-items-center justify-content-center"><p className="">{json0Data?.HSN_No}</p></div>
+                    </div>
+                    <div className='col-6'>
+                        <div className="d-grid h-100 border-end">
+                            <div className="d-flex border-bottom">
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{e?.MetalType}</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{e?.MetalPurity}</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{NumberWithCommas(e?.grosswt, 3)}	</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>LESS WT.</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{NumberWithCommas(e?.NetWt)}</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''>{NumberWithCommas(e?.metalRate, 2)}</p></div>
+                            </div>
+                            <div className="d-flex">
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>Other Charge	</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>	</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''></p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-3 d-flex">
+                        <div className="col-4 p-1 border-end d-flex align-items-center justify-content-center"><p className="">200.00</p></div>
+                        <div className="col-4 border-end d-flex align-items-center justify-content-center">
+                            <div className="d-grid h-100 w-100">
+                                <div className="d-flex align-items-center justify-content-end p-1 border-bottom"><p className=''>5,700.00</p> </div>
+                                <div className="d-flex align-items-center justify-content-end p-1 border-bottom"><p className=''>157.00 </p> </div>
+                            </div>
+                        </div>
+                        <div className="col-4 p-1 d-flex align-items-center justify-content-end"><p className="">10,607.00</p></div>
+                    </div>
+                </div>
+            })}
+            {/* <div className="border-start border-bottom border-end d-flex no_break">
                 <div className="col-3 d-flex">
                     <div className="col-3 p-1 border-end d-flex align-items-center justify-content-center"><p className="">1</p></div>
                     <div className="col-6 p-1 border-end">
@@ -164,7 +282,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     <div className="col-4 p-1 d-flex align-items-center justify-content-end"><p className="">10,607.00</p></div>
                 </div>
-            </div>
+            </div> */}
             {/* table total */}
             <div className="border-start border-bottom border-end d-flex no_break">
                 <div className="col-3 d-flex">

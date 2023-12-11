@@ -46,6 +46,8 @@ export const printConditions = [
   { printName: "packing list 1", etpType: "print", componentName: "PackingList1" },
   { printName: "retail invoice 2", etpType: "print", componentName: "RetailInvoice2_3" },
   { printName: "retail invoice 3", etpType: "print", componentName: "RetailInvoice2_3" },
+  { printName: "repair print", etpType: "print", componentName: "ManufactureMgt" },
+  { printName: "repair print", etpType: "print", componentName: "ManufactureMgt" },
   // Add more print conditions here
 ];
 export const excelConditions = [
@@ -56,10 +58,10 @@ export const excelConditions = [
   { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel" },
 ];
 
-export const alterationConditions = [
-  { printName: "repair print", etpType: "alteration", componentName: "ManufactureMgt2" },
-]
+// export const alterationConditions = [
+//   { printName: "repair print", etpType: "alteration", componentName: "ManufactureMgt2" },
+// ]
 
-export const alterationReceiveConditions = [
-  { printName: "repair print", etpType: "alteration receive", componentName: "ManufactureMgt" },
-]
+// export const alterationReceiveConditions = [
+//   { printName: "repair print", etpType: "alteration receive", componentName: "ManufactureMgt" },
+// ]

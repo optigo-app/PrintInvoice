@@ -67,7 +67,7 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
         const sendData = async () => {
             try {
                 const data = await apiCall(token, invoiceNo, printName, urls, evn);
-                if (data?.Status === '200') {
+                if (data?.Status === '200' && evn === "alteration") {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {
                         loadData(data?.Data);
