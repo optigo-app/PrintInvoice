@@ -1,4 +1,4 @@
-import { otherAmountDetail } from "../GlobalFunctions";
+import { otherAmountDetail, taxGenrator } from "../GlobalFunctions";
 
 export const OrganizeDataPrint = (header, json1, json2) => {
   let resultArray = [];
@@ -48,17 +48,17 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     netwt: 0,
     total_amount: 0,
     total_unitcost: 0,
+    total_discount_amount:0,
   };
-
   //json1 array
   json1?.length > 0 &&
     json1?.forEach((j1, i) => {
-        let diamondList = [];
-        let colorstoneList = [];
-        let metalList = [];
-        let findingList = [];
-        let miscList = [];
-        let stone_miscList = [];
+      let diamondList = [];
+      let colorstoneList = [];
+      let metalList = [];
+      let findingList = [];
+      let miscList = [];
+      let stone_miscList = [];
       let jobwise_totals = {
         diamonds: {
           Wt: 0,
@@ -105,7 +105,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.netwt += j1?.NetWt;
       maintotal.grosswt += j1?.grosswt;
       maintotal.total_amount += j1?.TotalAmount;
-      maintotal.total_unitcost += j1?.UnitCost; 
+      maintotal.total_unitcost += j1?.UnitCost;
+      maintotal.total_discount_amount += j1?.DiscountAmt;
 
       //json2
       json2?.length > 0 &&
@@ -190,16 +191,31 @@ export const OrganizeDataPrint = (header, json1, json2) => {
             //ending of comparing of job no block
           }
         });
-        let obj = {...j1};
-        obj.diamonds = diamondList;
-        obj.colorstone = colorstoneList;
-        obj.misc = miscList;
-        obj.metal = metalList;
-        obj.finding = findingList;
-        // obj.maintotal = maintotal;
-        obj.totals = jobwise_totals;
-        obj.other_amount_details = other_details;
-        resultArray.push(obj);
+      let obj = { ...j1 };
+      obj.diamonds = diamondList;
+      obj.colorstone = colorstoneList;
+      obj.misc = miscList;
+      obj.metal = metalList;
+      obj.finding = findingList;
+      obj.totals = jobwise_totals;
+      obj.other_amount_details = other_details;
+      resultArray.push(obj);
     });
-    return {resultArray, maintotal};
+  let totalAmount = maintotal.total_amount + header?.AddLess;
+  let allTax = taxGenrator(header, totalAmount);
+
+  allTax?.length > 0 &&
+    allTax?.forEach((e) => {
+      totalAmount += +e?.amount;
+    });
+  // const finalAmount = totalAmount;
+  // const mainTotal = maintotal;
+  // const allTaxes = allTax;
+  const finalObject = {
+    resultArray : resultArray,
+    mainTotal : maintotal,
+    finalAmount : totalAmount,
+    allTaxes : allTax
+  }
+  return finalObject;
 };
