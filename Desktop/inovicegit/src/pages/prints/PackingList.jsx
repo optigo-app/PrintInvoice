@@ -298,7 +298,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
         let findRecord = semiFInalArr?.findIndex((ele) => obj?.GroupJob === ele?.GroupJob) 
         if(findRecord === -1){
         // console.log("mle 6", obj);
-          //jema record na mle emna mate sidhu push
+          
           semiFInalArr?.push(obj)
         }
         else{
@@ -341,15 +341,10 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                 blankArrCS[findIndexofColorStone].Amount += elem?.Amount;
               }
           })
-        //  console.log(blankArrDiaD);
-        //  console.log(blankArrCS);
-
          obj.diamonds = blankArrDiaD;
          obj.colorstone = blankArrCS;
-
         }
       }
-        
     })
 
 
