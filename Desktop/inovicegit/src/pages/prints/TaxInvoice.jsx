@@ -264,7 +264,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn }) => {
             <div className="d-flex border-start border-end border-bottom no_break">
               <div className="col-4 border-end">
                   <div className="lightGrey text-center border-bottom">
-                    <p className={`fw-bold ${pad_1}`}>SUMMARY</p>
+                    <p className={`fw-bold ${style?.pad_1}`}>SUMMARY</p>
                     <div className="d-flex">
                       <div className="col-6 border-end">
 

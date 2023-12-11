@@ -33,12 +33,17 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
             let colorWt = 0;
             let miscWt = 0;
 
+            let diamondRepairedWt = 0;
+            let colorRepairedWt = 0;
+            let miscRepairedWt = 0;
+
             let metalWt = 0;
 
             let miscRepairWt = 0;
             let receivedJewelleryGrossWt = 0;
 
             let repairedJewelleryGrossWt = 0;
+            let repairedJewelleryNetWt = 0;
 
             let materialIsAdded = 0;
 
@@ -67,12 +72,15 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                         } else if (metalColorCode === "") {
                             metalColorCode = ele?.MetalColorCode;
                         }
-                        if (ele?.IsRepireEdit === 1) {
-                            metalAdded += ele?.Wt;
-                        }
+                        // if (ele?.IsRepireEdit === 1) {
+                        //     metalAdded += ele?.Wt;
+                        // }
+                          
                         if (ele?.DetachWeight !== null) {
                             metalDetach += ele?.DetachWeight;
                         }
+                        repairedJewelleryNetWt += (ele?.Wt + ele?.WtAdd - ele?.DetachWeight);
+                        metalAdded += ele?.WtAdd;
 
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
                         diamondWt += ele?.Wt;
@@ -83,15 +91,22 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                         }
                         if (ele?.DetachWeight !== null) {
                             diamondDetach += ele?.DetachWeight;
+                            diamondRepairedWt += (ele?.Wt - ele?.DetachWeight);
+                        } else {
+                            diamondRepairedWt += ele?.Wt;
                         }
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                         colorWt += ele?.Wt;
                         if (ele?.IsRepireEdit === 1) {
                             colorStoneAdded += ele?.Wt;
                             materialAdded.push(ele);
+
                         }
                         if (ele?.DetachWeight !== null) {
                             colorStoneDetach += ele?.DetachWeight;
+                            colorRepairedWt += (ele?.Wt - ele?.DetachWeight);
+                        } else {
+                            colorRepairedWt += ele?.Wt;
                         }
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
                         miscWt += ele?.Wt;
@@ -102,22 +117,33 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                             materialAdded.push(ele);
                             miscAdded += ele?.Wt;
                         }
+                        if (ele?.IsReapirDelete !== 1) {
+                            miscRepairedWt += ele?.Wt;
+                        }
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
                         if (ele?.IsRepireEdit === 1) {
                             materialAdded.push(ele);
                             findingAdded += ele?.Wt;
+                            repairedJewelleryNetWt += ele?.Wt;
                         }
                         if (ele?.DetachWeight !== null) {
                             FindingDetach += ele?.DetachWeight;
+                            repairedJewelleryNetWt -= ele?.DetachWeight;
                         }
                     }
-                    if (ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2) {
-                        repairedJewelleryGrossWt += (ele?.Wt - ele?.DetachWeight - ele?.IsReapirDelete + ele?.IsRepireEdit) / 5;
-                    } else {
-                        repairedJewelleryGrossWt += (ele?.Wt - ele?.DetachWeight - ele?.IsReapirDelete + ele?.IsRepireEdit);
-                    }
+                    // if (ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2) {
+                    //     repairedJewelleryGrossWt += (ele?.Wt - ele?.DetachWeight) / 5;
+                    // } else {
+                    //     repairedJewelleryGrossWt += (ele?.Wt - ele?.DetachWeight);
+                    // }
                 }
             });
+
+            repairedJewelleryGrossWt = (diamondRepairedWt / 5) + (colorRepairedWt / 5) + miscRepairedWt + repairedJewelleryNetWt;
+            // repairedJewelleryNetWt
+            // diamondRepairedWt
+            // colorRepairedWt
+            // miscRepairedWt
 
             grossWtAdded = metalAdded + ((diamondAdded + colorStoneAdded) / 5) + miscAdded + findingAdded;
             netWtdded = metalAdded + findingAdded;
@@ -139,15 +165,21 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
             obj.netDetach = netDetach;
             obj.diamondDetach = diamondDetach;
             obj.colorStoneDetach = colorStoneDetach;
+
+            obj.diamondRepairedWt = diamondRepairedWt;
+            obj.colorRepairedWt = colorRepairedWt;
+            obj.miscRepairedWt = miscRepairedWt;
+
             obj.receivedJewelleryGrossWt = miscRepairWt + diamondColorWt + metalWt;
             obj.repairedJewelleryGrossWt = repairedJewelleryGrossWt;
+            obj.repairedJewelleryNetWt = repairedJewelleryNetWt;
             resultArr.push(obj);
         });
         SetTotal(totals);
         let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.totalAmount);
         totals.grandTotal = taxValue.reduce((a, b) => {
             return a + +b.amount;
-        }, 0)+totals?.totalAmount+data?.BillPrint_Json[0]?.AddLess;
+        }, 0) + totals?.totalAmount + data?.BillPrint_Json[0]?.AddLess;
         setData(resultArr);
         setTax(taxValue);
     }
@@ -199,7 +231,7 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                         <p>{headerData?.customeremail1}</p>
                     </div>
                     <div className="col-6 d-flex justify-content-end">
-                        <div className="col-8 d-flex flex-column justify-content-center align-items-end">
+                        <div className="col-9 d-flex flex-column justify-content-center">
                             <p>Invoice#: <span className="fw-bold">{headerData?.InvoiceNo}</span> Dated <span className="fw-bold">{headerData?.EntryDate}</span></p>
                             <p>GSTIN: <span className="fw-bold">{headerData?.Cust_VAT_GST_No}</span> | STATE CODE <span className="fw-bold">{headerData?.Cust_CST_STATE_No}</span></p>
                             <p>Due Date: <span className="fw-bold">{headerData?.DueDate}</span></p>
@@ -208,7 +240,7 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
                 <div className="pt-2">
                     {/* Table Header */}
-                    <div className="d-flex border">
+                    <div className="d-flex border lightGrey">
                         <div className="col-1 border-end">
                             <p className="fw-bold p-1 text-center">SR NO</p>
                         </div>
@@ -245,10 +277,10 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <p className="fw-bold p-1 text_secondary no_break">REPAIRED JEWELLERY</p>
                                 <p className="px-1 py-2 no_break">{e?.MetalTypePurity} {e?.metalColorCode} |
                                     {NumberWithCommas(e?.repairedJewelleryGrossWt, 3)} gms GW |
-                                    {NumberWithCommas(e?.NetWt, 3)} gms NW |
-                                    DIA: {NumberWithCommas(e?.diamondWt, 3)} Cts |
-                                    CS: {NumberWithCommas(e?.colorWt, 3)}Cts |
-                                    MISC: {NumberWithCommas(e?.miscWt, 3)} gms </p>
+                                    {NumberWithCommas(e?.repairedJewelleryNetWt, 3)} gms NW |
+                                    DIA: {NumberWithCommas(e?.diamondRepairedWt, 3)} Cts |
+                                    CS: {NumberWithCommas(e?.colorRepairedWt, 3)}Cts |
+                                    MISC: {NumberWithCommas(e?.miscRepairedWt, 3)} gms </p>
 
                                 <p className="fw-bold p-1 text_secondary no_break">ADDED MATERIAL DETAIL</p>
                                 <p className="px-1 py-2 no_break">{e?.MetalTypePurity} {e?.metalColorCode} |
@@ -259,7 +291,7 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                                     MISC: {NumberWithCommas(e?.miscAdded, 3)} gms </p>
 
                                 {e?.materialAdded.map((ele, ind) => {
-                                    return <p key={i} className='p-1 no_break'>{ele?.MasterManagement_DiamondStoneTypeName}: {NumberWithCommas(ele?.Pcs, 0)} PCs | {NumberWithCommas(ele?.Wt, 3)}
+                                    return <p key={ind} className='p-1 no_break'>{ele?.MasterManagement_DiamondStoneTypeName}: {NumberWithCommas(ele?.Pcs, 0)} PCs | {NumberWithCommas(ele?.Wt, 3)}
                                         {ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 ? " Cts" : " gms"} | {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
                                 })}
 
@@ -289,22 +321,22 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                             {tax.map((ele, ind) => {
                                 return <p className='text-end p-1' key={ind}>{ele?.name} @ {ele?.per}</p>
                             })}
-                           {headerData?.AddLess !== 0 && <p className='text-end p-1'> {headerData?.AddLess > 0 ? "Add" : "Less"}</p>}
+                            {headerData?.AddLess !== 0 && <p className='text-end p-1'> {headerData?.AddLess > 0 ? "Add" : "Less"}</p>}
                         </div>
                         <div className="col-2">
                             {tax.map((ele, ind) => {
                                 return <p className='text-end p-1 ' key={ind}>{ele?.amount}</p>
                             })}
-                           {headerData?.AddLess !== 0 && <p className='text-end p-1'> {headerData?.AddLess}</p>}
+                            {headerData?.AddLess !== 0 && <p className='text-end p-1'> {headerData?.AddLess}</p>}
                         </div>
                     </div>
                     {/* Table Grand Total */}
                     <div className="d-flex border-start border-end border-bottom lightGrey">
                         <div className="col-10 border-end">
-                          <p className="text-end p-1 fw-bold">GRAND TOTAL</p>
+                            <p className="text-end p-1 fw-bold">GRAND TOTAL</p>
                         </div>
                         <div className="col-2">
-                        <p className="text-end p-1 fw-bold"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span> {NumberWithCommas(total?.grandTotal, 2)}</p>
+                            <p className="text-end p-1 fw-bold"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span> {NumberWithCommas(total?.grandTotal, 2)}</p>
                         </div>
                     </div>
                     {/* signature */}

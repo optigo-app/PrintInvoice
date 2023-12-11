@@ -262,7 +262,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
             totals.gdWt += e?.MetalDiaWt;
             totals.NetWt += e?.NetWt;
             totals.makingAmount += e?.MakingAmount;
-
+            if(obj.metals[0]){
+                obj.metals[0].Wt = obj.metals[0]?.Wt - findingTotal;
+            }
             resultArr.push(obj);
         });
         setDiamondDetailss(diamondDetails);

@@ -21,9 +21,10 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     });
     const [tax, settax] = useState([]);
     const [summary, setSummary] = useState([]);
+    const [evns, setEvns] = useState(atob(evn).toLowerCase());
 
     const loadData = (data) => {
-        console.log(data);
+        // console.log(data);
         let json0Datas = data.BillPrint_Json[0];
         let custDetail = { ...customerDetail };
         if (data.BillPrint_Json[0]?.vat_cst_pan !== "") {
@@ -47,7 +48,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
         data?.BillPrint_Json1.forEach((e, i) => {
             let findRecord = metalArr.findIndex(elem => elem?.label === e?.MetalTypePurity);
             if (findRecord === -1) {
-                metalArr.push({ label: e?.MetalTypePurity, value: e?.NetWt, gm: true })
+                metalArr.push({ label: e?.MetalTypePurity, value: e?.NetWt, gm: true });
             } else {
                 metalArr[findRecord].value += e?.NetWt
             }
@@ -56,13 +57,14 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
             let colorStoneWts = 0;
             let miscWts = 0;
             let obj = { ...e };
+            let miscWt = 0;
             let materials = [];
-            totalAmountBefore += e?.TotalAmount;
+            totalAmountBefore += e?.TotalAmount/data?.BillPrint_Json[0].CurrencyExchRate;
             let metalColorCode = "";
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (obj?.SrJobno === ele?.StockBarcode) {
                     // if ((ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 3) && ele?.IsHSCOE === 0) {
-                        if ((ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 ) && ele?.IsHSCOE === 0) {
+                        if ((ele?.MasterManagement_DiamondStoneTypeid === 1 || ele?.MasterManagement_DiamondStoneTypeid === 2 || ele?.MasterManagement_DiamondStoneTypeid === 3) && ele?.IsHSCOE === 0) {
                         let findRecord = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid &&
                             elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
                         if (findRecord === -1) {
@@ -75,13 +77,16 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                         if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
                             diamondWt += ele?.Wt;
                             diamondWts += ele?.Wt;
-                        } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+                        } 
+                         if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                             colorStoneWt += ele?.Wt;
                             colorStoneWts += ele?.Wt;
-                        } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+                        }
+                        if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
                             miscWt += ele?.Wt;
                             miscWts += ele?.Wt;
                         }
+                    
                     }else if(ele?.MasterManagement_DiamondStoneTypeid === 4){
                         if(ele?.IsPrimaryMetal === 1){
                             metalColorCode = ele?.MetalColorCode
@@ -89,14 +94,16 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                             metalColorCode = ele?.MetalColorCode;
                         }
                     }
+           
                 }
             });
+            obj.TotalAmount = obj.TotalAmount/data?.BillPrint_Json[0].CurrencyExchRate;
             obj.diamondWts = diamondWts;
             obj.colorStoneWts = colorStoneWts;
             obj.miscWts = miscWts;
             obj.materials = materials;
             obj.metalColorCode = metalColorCode;
-            
+            obj.miscWt = miscWt;
             resultArr.push(obj);
         });
         metalArr.push({ label: "Diamond Wt", value: diamondWt, gm: false });
@@ -195,10 +202,10 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                             <p className='lh-1 pb-1'>{json0Data?.customeremail1}</p>
                         </div>
                         <div className="col-5 px-2 py-3">
-                            <p className='lh-1 pb-1'>Invoice<span className='fw-bold'>#: {json0Data?.InvoiceNo}</span>  Dated <span className="fw-bold">{json0Data?.EntryDate}</span></p>
+                            <p className='lh-1 pb-1'>{evns === "memo" && "Memo "} Invoice<span className='fw-bold'>#: {json0Data?.InvoiceNo}</span>  Dated <span className="fw-bold">{json0Data?.EntryDate}</span></p>
                             {customerDetail?.pan !== "" && <p className='lh-1 pb-1'>PAN<span className='fw-bold'>#: {customerDetail?.pan}</span> </p>}
                             {customerDetail?.gst !== "" && <p className='lh-1 pb-1'>GSTIN <span className='fw-bold'>{customerDetail?.gst} {(json0Data?.Cust_CST_STATE !== "" && json0Data?.Cust_CST_STATE_No !== "") && <>| {json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}</>} </span></p>}
-                            <p className='lh-1 pb-1'>Due Date: <span className='fw-bold'>{json0Data?.DueDate}</span></p>
+                           {evns !== "memo" && <p className='lh-1 pb-1'>Due Date: <span className='fw-bold'>{json0Data?.DueDate}</span></p>}
                         </div>
                     </div>
                 </div>
@@ -231,7 +238,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                                     {ele?.MasterManagement_DiamondStoneTypeid === 1 && "Diamond"}
                                     {ele?.MasterManagement_DiamondStoneTypeid === 2 && "Colorstone"}
                                     {ele?.MasterManagement_DiamondStoneTypeid === 3 && "Misc"}
-                                </>}: {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} Cts | {ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}
+                                </>}: {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} gms | {ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}
                                 </p>
                             })}
                         </div>

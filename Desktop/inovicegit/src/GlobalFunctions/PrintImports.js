@@ -40,8 +40,6 @@ export const printConditions = [
   { printName: "jewellery retail invoice c", etpType: "print", componentName: "JewelleryRetailInvoicePrintc" },
   { printName: "retail invoice print 4", etpType: "print", componentName: "RetailInvoicePrint4" },
   { printName: "invoice print r", etpType: "print", componentName: "InvoicePrint4Clone" },
-  { printName: "repair print", etpType: "print", componentName: "ManufactureMgt" },
-  { printName: "repair print2", etpType: "print", componentName: "ManufactureMgt2" },
   { printName: "retail tax invoice", etpType: "print", componentName: "RetailTaxInvoice" },
   { printName: "summary print s", etpType: "print", componentName: "Summarys" },
   { printName: "summary 11", etpType: "print", componentName: "Summary11" },
@@ -57,3 +55,11 @@ export const excelConditions = [
   { printName: "sale format j1", etpType: "excel", componentName: "ExcelToJsonDownloadJ1" },
   { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel" },
 ];
+
+export const alterationConditions = [
+  { printName: "repair print", etpType: "alteration", componentName: "ManufactureMgt2" },
+]
+
+export const alterationReceiveConditions = [
+  { printName: "repair print", etpType: "alteration receive", componentName: "ManufactureMgt" },
+]

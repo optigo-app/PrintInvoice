@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Suspense } from 'react';
+import Loader from '../components/Loader';
 const AllDesignPrint = () => {
   const [importedComponent, setImportedComponent] = useState(null);
   const queryString = window.location.search;
@@ -19,25 +21,50 @@ const AllDesignPrint = () => {
       const token = queryParams.get('tkn');
       const invoiceno = queryParams.get('invn');
       const evn = queryParams.get('evn');
-      setImportedComponent(<AnotherComponent billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />);
+      // setImportedComponent(<AnotherComponent billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />);
+      return (
+        <AnotherComponent
+          billNumber={billNum}
+          urls={atob(urls)}
+          token={token}
+          invoiceNo={invoiceno}
+          printName={printname}
+          evn={evn}
+        />
+      )
     } catch (error) {
       console.log(error);
     }
   };
   const takePrint = async () => {
     let module = await import(`../GlobalFunctions/PrintImports`);
-    const conditions = etpType === "print" ? module.printConditions : module.excelConditions;
+    let conditions  = [];
+    if(etpType === "print") {
+      conditions = module.printConditions;
+    }else if(etpType === "excel"){
+      conditions = module.excelConditions;
+    }else if(etpType === "alteration"){
+      conditions = module.alterationConditions;
+    }else if(etpType === "alteration receive"){
+      conditions = module.alterationReceiveConditions;
+    }
+  ;
     let findPrint = conditions.find(e => printName === e?.printName);
     if (findPrint) {
-      importComponent(findPrint.componentName);
+      // importComponent(findPrint.componentName);
+
+      const component = await importComponent(findPrint.componentName);
+      setImportedComponent(component);
     }
   }
   useEffect(() => {
     takePrint();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <>{importedComponent} </>
+    <Suspense fallback={<Loader />}>
+      {importedComponent}
+    </Suspense>
   );
 };
 export default AllDesignPrint;

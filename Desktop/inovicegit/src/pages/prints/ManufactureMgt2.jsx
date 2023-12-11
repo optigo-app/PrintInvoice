@@ -110,7 +110,7 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                         <p>{headerData?.customeremail1}</p>
                     </div>
                     <div className="col-6 d-flex justify-content-end">
-                        <div className="col-8 d-flex flex-column justify-content-center align-items-end pe-4">
+                        <div className="col-8 d-flex flex-column justify-content-center pe-4">
                             <p>Invoice#: <span className="fw-bold">{headerData?.InvoiceNo}</span> Dated <span className="fw-bold">{headerData?.EntryDate}</span></p>
                             <p>Due Date: <span className="fw-bold">{headerData?.DueDate}</span></p>
                             {/* <p>GSTIN: <span className="fw-bold">24</span> | {headerData?.Cust_CST_STATE} <span className="fw-bold">{headerData?.Cust_CST_STATE_No}</span></p> */}
@@ -119,14 +119,14 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
                 <div className="pt-2">
                     {/* Table Header */}
-                    <div className="d-flex border">
+                    <div className="d-flex border lightGrey">
                         <div className="col-1 border-end">
                             <p className="fw-bold p-1 text-center">SR NO</p>
                         </div>
-                        <div className="col-4 border-end">
+                        <div className="col-3 border-end">
                             <p className="fw-bold p-1 text-center">ITEM CODE</p>
                         </div>
-                        <div className="col-7">
+                        <div className="col-8">
                             <p className="fw-bold p-1 text-center">DESCRIPTION</p>
                         </div>
                     </div>
@@ -136,12 +136,12 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
                             <div className="col-1 border-end">
                                 <p className="fw-bold p-1">{i + 1}</p>
                             </div>
-                            <div className="col-4 border-end">
+                            <div className="col-3 border-end">
                                 <p className=" p-1"> Job: {e?.SrJobno} </p>
                                 <p className=" p-1"> Design: {e?.designno} </p>
                                 <img src={e?.DesignImage} alt="" className={`${style?.img_manufacture} p-1`} onError={handleImageError} />
                             </div>
-                            <div className="col-7">
+                            <div className="col-8">
                                 <p className="fw-bold p-1 text_secondary">RECEIVED JEWELLERY</p>
                                 <p className="px-1 pb-1 pt-2">{e?.MetalTypePurity} {e?.metalColorCode} |
                                     {NumberWithCommas(e?.grosswt, 3)} gms GW |
