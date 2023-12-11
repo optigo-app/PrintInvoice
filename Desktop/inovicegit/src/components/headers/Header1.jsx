@@ -18,7 +18,8 @@ const Header1 = ( { data } ) => {
             {data?.CompanyEmail} | {data?.CompanyWebsite}
           </span>
           <span className={style.lines}>
-            {data?.Company_VAT_GST_No} | {data?.Company_CST_STATE}-{data?.Company_CST_STATE_No} | PAN-{data?.Pannumber}
+            {/* {data?.Company_VAT_GST_No} | {data?.Company_CST_STATE}-{data?.Company_CST_STATE_No} | PAN-{data?.Pannumber} */}
+            {data?.Company_VAT_GST_No} | STATE CODE-{data?.Company_CST_STATE_No} | PAN-{data?.Pannumber}
           </span>
         </div>
         <div style={{width:"30%"}} className="d-flex justify-content-end align-item-center h-100"><img src={data?.PrintLogo} alt="" className={style.headerImg} /></div>

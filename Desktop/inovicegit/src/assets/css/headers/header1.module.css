@@ -6,10 +6,10 @@
 .headline {
         height: 40px;
         width: 100%;
-        background-color: rgb(131 126 126);
+        background-color: #939292;
         font-weight: bold;
         color: white;
-        font-size: 22px;
+        font-size: 20px !important;
         padding: 1rem;
         display: flex;
         justify-content: flex-start;
