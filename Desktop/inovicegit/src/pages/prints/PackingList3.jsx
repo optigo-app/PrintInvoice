@@ -79,7 +79,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
         data?.BillPrint_Json2
       );
        let resultArr =  OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1,data?.BillPrint_Json2)
-       console.log(resultArr);
       setLoader(false);
     } catch (error) {
       console.log(error);
