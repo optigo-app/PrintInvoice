@@ -66,7 +66,7 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
 
         let grossWtAdded = 0;
         let netWtdded = 0;
-        let materialAdded = [];
+        let materialAdded = []; 
 
         let netDetach = 0;
         let diamondDetach = 0;
