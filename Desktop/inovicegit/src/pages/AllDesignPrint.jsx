@@ -21,7 +21,6 @@ const AllDesignPrint = () => {
       const token = queryParams.get('tkn');
       const invoiceno = queryParams.get('invn');
       const evn = queryParams.get('evn');
-      // setImportedComponent(<AnotherComponent billNumber={billNum} urls={atob(urls)} token={token} invoiceNo={invoiceno} printName={printname} evn={evn} />);
       return (
         <AnotherComponent
           billNumber={billNum}
@@ -51,8 +50,6 @@ const AllDesignPrint = () => {
   ;
     let findPrint = conditions.find(e => printName === e?.printName);
     if (findPrint) {
-      // importComponent(findPrint.componentName);
-
       const component = await importComponent(findPrint.componentName);
       setImportedComponent(component);
     }
