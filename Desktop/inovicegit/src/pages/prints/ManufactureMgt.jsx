@@ -2,13 +2,8 @@ import React, { Suspense, useEffect, useState } from "react";
 import style from "../../assets/css/prints/manufacturemgt.module.css";
 import Loader from "../../components/Loader";
 import {
-  HeaderComponent,
-  NumberWithCommas,
   apiCall,
-  handleImageError,
-  handlePrint,
   isObjectEmpty,
-  taxGenrator,
 } from "../../GlobalFunctions";
 
 const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
