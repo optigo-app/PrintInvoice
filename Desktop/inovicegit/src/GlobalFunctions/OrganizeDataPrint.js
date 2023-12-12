@@ -1,8 +1,13 @@
 import { otherAmountDetail, taxGenrator } from "../GlobalFunctions";
+import { Global_Grouping } from "./Global_Grouping";
 
 export const OrganizeDataPrint = (header, json1, json2) => {
   let resultArray = [];
-
+  let dlist = [];
+  let clist = [];
+  let misclistg = [];
+  let metallistg = [];
+  let flsit = [];
   let maintotal = {
     diamonds: {
       Wt: 0,
@@ -283,7 +288,10 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               blankArrFinding[recordIs].Amount += +j2?.Amount;
             }
           }
-          if(j2?.MasterManagement_DiamondStoneTypeid === 2 || j2?.MasterManagement_DiamondStoneTypeid === 3){
+          if (
+            j2?.MasterManagement_DiamondStoneTypeid === 2 ||
+            j2?.MasterManagement_DiamondStoneTypeid === 3
+          ) {
             // blankArrstone_misc
             let recordIs = blankArrstone_misc?.findIndex(
               (e) =>
@@ -302,11 +310,12 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           }
         }
       });
+
       let obj = { ...j1 };
       obj.diamonds = diamondList;
       obj.colorstone = colorstoneList;
       obj.misc = miscList;
-      obj.metal = metalList;  
+      obj.metal = metalList;
       obj.finding = findingList;
       obj.totals = jobwise_totals;
       obj.other_amount_details = other_details;
@@ -317,6 +326,11 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       obj.grouping_of_finding_sqc_jobwise = blankArrFinding;
       obj.grouping_of_stone_misc_sqc_jobwise = blankArrstone_misc;
       resultArray.push(obj);
+      dlist = diamondList;
+      clist = colorstoneList;
+      misclistg = miscList;
+      metallistg = metalList;
+      flsit = findingList;
     });
 
   //totalAmount
@@ -327,7 +341,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     allTax?.forEach((e) => {
       totalAmount += +e?.amount;
     });
-
+    const grouping_whole_main_array = Global_Grouping(json1, json2);
   const finalObject = {
     resultArray: resultArray,
     mainTotal: maintotal,
