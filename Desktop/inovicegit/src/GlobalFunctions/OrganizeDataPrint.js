@@ -2,6 +2,7 @@ import { otherAmountDetail, taxGenrator } from "../GlobalFunctions";
 
 export const OrganizeDataPrint = (header, json1, json2) => {
   let resultArray = [];
+
   let maintotal = {
     diamonds: {
       Wt: 0,
@@ -39,17 +40,17 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       Rate: 0,
       Amount: 0,
     },
-    labour: {
+    total_labour: {
       labour_rate: 0,
       labour_amount: 0,
     },
-    other: 0,
+    total_other: 0,
     grosswt: 0,
     netwt: 0,
     total_amount: 0,
     total_unitcost: 0,
-    total_discount_amount:0,
-    total_purenetwt : 0,
+    total_discount_amount: 0,
+    total_purenetwt: 0,
   };
   //json1 array
   json1?.length > 0 &&
@@ -60,6 +61,12 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       let findingList = [];
       let miscList = [];
       let stone_miscList = [];
+      let blankArrDiamond = [];
+      let blankArrColorstone = [];
+      let blankArrMisc = [];
+      let blankArrMetal = [];
+      let blankArrFinding = [];
+
       let jobwise_totals = {
         diamonds: {
           Wt: 0,
@@ -100,9 +107,9 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       };
 
       let other_details = otherAmountDetail(j1?.OtherAmtDetail);
-      maintotal.labour.labour_rate += j1?.MaKingCharge_Unit;
-      maintotal.labour.labour_amount += j1?.MakingAmount;
-      maintotal.other += j1?.OtherCharges;
+      maintotal.total_labour.labour_rate += j1?.MaKingCharge_Unit;
+      maintotal.total_labour.labour_amount += j1?.MakingAmount;
+      maintotal.total_other += j1?.OtherCharges;
       maintotal.netwt += j1?.NetWt;
       maintotal.grosswt += j1?.grosswt;
       maintotal.total_amount += j1?.TotalAmount;
@@ -193,6 +200,95 @@ export const OrganizeDataPrint = (header, json1, json2) => {
             //ending of comparing of job no block
           }
         });
+      json2?.forEach((j2, i) => {
+        if (j1?.SrJobno === j2?.StockBarcode) {
+          if (j2?.MasterManagement_DiamondStoneTypeid === 1) {
+            let recordIs = blankArrDiamond?.findIndex(
+              (e) =>
+                e?.ShapeName === j2?.ShapeName &&
+                e?.QualityName === j2?.QualityName &&
+                e?.Colorname === j2?.Colorname
+            );
+            if (recordIs === -1) {
+              blankArrDiamond.push(j2);
+            } else {
+              console.log("hello", j2?.StockBarcode);
+              blankArrDiamond[recordIs].Wt += +j2?.Wt;
+              blankArrDiamond[recordIs].Pcs += +j2?.Pcs;
+              blankArrDiamond[recordIs].Rate += +j2?.Rate;
+              blankArrDiamond[recordIs].Amount += +j2?.Amount;
+            }
+          }
+          if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
+            let recordIs = blankArrColorstone?.findIndex(
+              (e) =>
+                e?.ShapeName === j2?.ShapeName &&
+                e?.QualityName === j2?.QualityName &&
+                e?.Colorname === j2?.Colorname
+            );
+            if (recordIs === -1) {
+              blankArrColorstone.push(j2);
+            } else {
+              console.log("hello", j2?.StockBarcode);
+              blankArrColorstone[recordIs].Wt += +j2?.Wt;
+              blankArrColorstone[recordIs].Pcs += +j2?.Pcs;
+              blankArrColorstone[recordIs].Rate += +j2?.Rate;
+              blankArrColorstone[recordIs].Amount += +j2?.Amount;
+            }
+          }
+          if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
+            let recordIs = blankArrMisc?.findIndex(
+              (e) =>
+                e?.ShapeName === j2?.ShapeName &&
+                e?.QualityName === j2?.QualityName &&
+                e?.Colorname === j2?.Colorname
+            );
+            if (recordIs === -1) {
+              blankArrMisc.push(j2);
+            } else {
+              console.log("hello", j2?.StockBarcode);
+              blankArrMisc[recordIs].Wt += +j2?.Wt;
+              blankArrMisc[recordIs].Pcs += +j2?.Pcs;
+              blankArrMisc[recordIs].Rate += +j2?.Rate;
+              blankArrMisc[recordIs].Amount += +j2?.Amount;
+            }
+          }
+          if (j2?.MasterManagement_DiamondStoneTypeid === 4) {
+            let recordIs = blankArrMetal?.findIndex(
+              (e) =>
+                e?.ShapeName === j2?.ShapeName &&
+                e?.QualityName === j2?.QualityName &&
+                e?.Colorname === j2?.Colorname
+            );
+            if (recordIs === -1) {
+              blankArrMetal.push(j2);
+            } else {
+              console.log("hello", j2?.StockBarcode);
+              blankArrMetal[recordIs].Wt += +j2?.Wt;
+              blankArrMetal[recordIs].Pcs += +j2?.Pcs;
+              blankArrMetal[recordIs].Rate += +j2?.Rate;
+              blankArrMetal[recordIs].Amount += +j2?.Amount;
+            }
+          }
+          if (j2?.MasterManagement_DiamondStoneTypeid === 5) {
+            let recordIs = blankArrFinding?.findIndex(
+              (e) =>
+                e?.ShapeName === j2?.ShapeName &&
+                e?.QualityName === j2?.QualityName &&
+                e?.Colorname === j2?.Colorname
+            );
+            if (recordIs === -1) {
+              blankArrFinding.push(j2);
+            } else {
+              console.log("hello", j2?.StockBarcode);
+              blankArrFinding[recordIs].Wt += +j2?.Wt;
+              blankArrFinding[recordIs].Pcs += +j2?.Pcs;
+              blankArrFinding[recordIs].Rate += +j2?.Rate;
+              blankArrFinding[recordIs].Amount += +j2?.Amount;
+            }
+          }
+        }
+      });
       let obj = { ...j1 };
       obj.diamonds = diamondList;
       obj.colorstone = colorstoneList;
@@ -201,6 +297,11 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       obj.finding = findingList;
       obj.totals = jobwise_totals;
       obj.other_amount_details = other_details;
+      obj.grouping_of_diamonds_sqc = blankArrDiamond;
+      obj.grouping_of_colorstone_sqc = blankArrColorstone;
+      obj.grouping_of_misc_sqc = blankArrMisc;
+      obj.grouping_of_metal_sqc = blankArrMetal;
+      obj.grouping_of_finding_sqc = blankArrFinding;
       resultArray.push(obj);
     });
 
@@ -212,11 +313,13 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     allTax?.forEach((e) => {
       totalAmount += +e?.amount;
     });
+
   const finalObject = {
-    resultArray : resultArray,
-    mainTotal : maintotal,
-    finalAmount : totalAmount,
-    allTaxes : allTax
-  }
+    resultArray: resultArray,
+    mainTotal: maintotal,
+    finalAmount: totalAmount,
+    allTaxes: allTax,
+    // grouping_of_diamonds_sqc : blankArrDiamond,
+  };
   return finalObject;
 };

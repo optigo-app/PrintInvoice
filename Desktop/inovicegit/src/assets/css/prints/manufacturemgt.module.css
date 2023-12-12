@@ -23,6 +23,11 @@
     z-index: 2;
 }
 
+.width_301{
+    min-width: 301px;
+    width: 301px;
+}
+
 @media print{
     .print_sec_sum4 {
         display: none !important;
