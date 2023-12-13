@@ -1,5 +1,4 @@
 import { otherAmountDetail, taxGenrator } from "../GlobalFunctions";
-import { Global_Grouping } from "./Global_Grouping";
 
 export const OrganizeDataPrint = (header, json1, json2) => {
   let resultArray = [];
@@ -341,7 +340,6 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     allTax?.forEach((e) => {
       totalAmount += +e?.amount;
     });
-    const grouping_whole_main_array = Global_Grouping(json1, json2);
   const finalObject = {
     resultArray: resultArray,
     mainTotal: maintotal,

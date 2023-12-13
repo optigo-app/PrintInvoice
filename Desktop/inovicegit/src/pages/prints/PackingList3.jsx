@@ -1302,7 +1302,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             </div>
                                             <div className="th4Wpcl3 brRightDpcl3 d-flex justify-content-end pe-1">
                                               <b className="fsdpcl3">
-                                                {ele?.Amount - e?.LossAmt}
+                                                {(ele?.Amount - e?.LossAmt)?.toFixed(2)}
                                               </b>
                                             </div>
                                           </div>

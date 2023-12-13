@@ -412,16 +412,14 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    /* height: 17pt; */
     line-height: 120%;
     font-size: 14px;
-    height: 48%;
-    /* min-height: 1.8rem; */
+    height: 50%;
 }
 
 .th6Wpcl3 {
     width: 33%;
-    height: 15pt;
+    /* height: 15pt; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -869,7 +867,7 @@
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        height: 17pt;
+        height: 14pt;
         line-height: 120%;
         font-size: 14px;
         min-height: 1.2rem;
@@ -905,4 +903,12 @@
         width: 2%;
         min-height: 1.2rem;
     }
+    .th6Wpcl3 {
+        width: 33%;
+        /* height: 13pt; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+ 
 }
