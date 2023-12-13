@@ -47,6 +47,7 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
 
   try {
     const response = await axios.post(urls, body);
+    console.log(response?.data?.Data);
     return response?.data;
   } catch (error) {
     console.error(error);
@@ -324,17 +325,3 @@ export const checkImageExists = (url) => {
     img.src = url;
   });
 };
-
-// checkImageExists(obj?.DesignImage)
-//   .then((exists) => {
-//     if (exists) {
-//       return obj?.DesignImage;
-//     } else {
-//       return defaultImg;
-//     }
-//   })
-//   .catch((error) => {
-//     // obj?.DesignImage = defaultImg;
-//     return defaultImg;
-//     console.error('Error checking image existence:', error);
-//   });

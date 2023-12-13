@@ -16,7 +16,6 @@ const RepairAlteration = ({ data }) => {
     grandTotal: 0,
   });
   const [tax, setTax] = useState([]);
-
   const loadData = (data) => {
     setHeaderData(data?.BillPrint_Json[0]);
     let headerDatas = data?.BillPrint_Json[0];
@@ -68,7 +67,6 @@ const RepairAlteration = ({ data }) => {
 
       resultArr.push(obj);
     });
-    console.log(resultArr);
     setData(resultArr);
   };
 
@@ -155,7 +153,7 @@ const RepairAlteration = ({ data }) => {
             key={i}
           >
             <div className="col-1 border-end">
-              <p className="fw-bold p-1">{i + 1}</p>
+              <p className="fw-bold p-1 text-center pt-2">{i + 1}</p>
             </div>
             <div className="col-3 border-end">
               <p className="p-1"> Job: {e?.SrJobno} </p>
@@ -176,19 +174,19 @@ const RepairAlteration = ({ data }) => {
               <p className="px-1 pb-1 pt-2">
                 {e?.MetalTypePurity} {e?.metalColorCode} |{" "}
                 {e?.grosswt !== 0 && (
-                  <>{NumberWithCommas(e?.grosswt, 3)} gms GW | </>
+                  <>{NumberWithCommas(e?.grosswt, 3)} gms GW</>
                 )}
                 {e?.NetWt !== 0 && (
-                  <>{NumberWithCommas(e?.NetWt, 3)} gms NW | DIA: </>
+                  <> | {NumberWithCommas(e?.NetWt, 3)} gms NW  </>
                 )}
                 {e?.diamondWt !== 0 && (
-                  <>{NumberWithCommas(e?.diamondWt, 3)} Cts | CS: </>
+                  <> | DIA: {NumberWithCommas(e?.diamondWt, 3)} Cts  </>
                 )}
                 {e?.colorWt !== 0 && (
-                  <>{NumberWithCommas(e?.colorWt, 3)} Cts | MISC: </>
+                  <> | CS: {NumberWithCommas(e?.colorWt, 3)} Cts</>
                 )}
                 {e?.miscWt !== 0 && (
-                  <>{NumberWithCommas(e?.miscWt, 3)} gms</>
+                  <> | MISC: {NumberWithCommas(e?.miscWt, 3)} gms</>
                 )}
               </p>
 
@@ -208,9 +206,9 @@ const RepairAlteration = ({ data }) => {
                   <p key={ind} className="p-1">
                     {" "}
                     {ele?.MasterManagement_DiamondStoneTypeName}:{" "}
-                    {ele?.Pcs !== 0 && <>{ele?.Pcs} PCs |</>}{" "}
-                    {ele?.Wt !== 0 && <>{ele?.Wt} Cts |</>}{" "}
-                    {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}{" "}
+                    {ele?.Pcs !== 0 && <>{ele?.Pcs} PCs</>}{" "}
+                    {ele?.Wt !== 0 && <> | {ele?.Wt} Cts</>}{" "}
+                    | {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}{" "}
                   </p>
                 );
               })}
@@ -220,9 +218,9 @@ const RepairAlteration = ({ data }) => {
                   <p key={ind} className="p-1">
                     {" "}
                     {ele?.MasterManagement_DiamondStoneTypeName}:{" "}
-                    {ele?.Pcs !== 0 && <>{ele?.Pcs} PCs |</>}{" "}
-                    {ele?.Wt !== 0 && <>{ele?.Wt} gms |</>}{" "}
-                    {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}{" "}
+                    {ele?.Pcs !== 0 && <>{ele?.Pcs} PCs</>}{" "}
+                    {ele?.Wt !== 0 && <> | {ele?.Wt} gms</>}{" "}
+                    | {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}{" "}
                   </p>
                 );
               })}
