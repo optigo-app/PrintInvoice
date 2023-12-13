@@ -8,7 +8,7 @@ const AllDesignPrint = () => {
   const printname = queryParams.get('pnm');
   let etp = queryParams.get('etp');
   if (etp === null) {
-    etp = "cHJpbnQ="
+    etp = "cHJpbnQ=";
   }
   let printName = atob(printname).toLowerCase();
   let etpType = atob(etp).toLowerCase();

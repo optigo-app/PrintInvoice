@@ -6,7 +6,7 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 
-const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
+const RepairPrint = ({ token, invoiceNo, printName, urls, evn }) => {
   const [importedComponent, setImportedComponent] = useState(null);
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
@@ -69,4 +69,4 @@ const ManufactureMgt = ({ token, invoiceNo, printName, urls, evn }) => {
   );
 };
 
-export default ManufactureMgt;
+export default RepairPrint;

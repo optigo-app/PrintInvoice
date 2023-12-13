@@ -178,6 +178,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                             let objj = { ...ele };
                             let newMetal = true;
                             mainMetals.forEach((elem, index) => {
+                                console.log(elem);
                                 if (elem?.ShapeName === objj?.ShapeName) {
                                     elem.Amount += objj?.Amount;
                                     elem.Pcs += objj?.Pcs;
