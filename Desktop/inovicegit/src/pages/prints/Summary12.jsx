@@ -58,6 +58,8 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
         clrCtw: 0,
         colorStoneAmount: 0
     });
+
+    const [saleReturn, setSaleReturn]=  useState(atob(evn)?.toLowerCase() === "sales return" ? true : false);
     const [loader, setLoader] = useState(true);
     const [taxes, setTaxes] = useState([]);
     const [msg, setMsg] = useState("");
@@ -353,6 +355,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
         }
 
         sendData();
+        console.log(atob(evn)?.toLowerCase()) ;
     }, []);
 
     const handleChange = (e, name) => {
@@ -697,7 +700,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                                 <div className='remarks_sum4 no_break'>
                                     <span className="fw-bold font_16_sum4 ps-2 float-start pe-2">REMARKS : </span>
-                                    <div dangerouslySetInnerHTML={{ __html: billPrintJson?.PrintRemark }} className='summary12Remark pt-1'></div>
+                                    <div dangerouslySetInnerHTML={{ __html: saleReturn ? billPrintJson?.Remark : billPrintJson?.PrintRemark }} className='summary12Remark pt-1'></div>
                                 </div>
                                 <div className="d-flex border mb-2 no_break">
                                     <div className="w-50 border-end height_65_sum4 d-flex justify-content-center align-items-end border-end">

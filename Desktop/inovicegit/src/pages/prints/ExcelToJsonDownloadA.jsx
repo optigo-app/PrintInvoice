@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import Loader from '../../components/Loader';
 import { useEffect } from 'react';
-import { ExportToExcel, NumberWithCommas, apiCall, isObjectEmpty } from '../../GlobalFunctions';
+import {NumberWithCommas, apiCall, isObjectEmpty } from '../../GlobalFunctions';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import style from "../../assets/css/prints/exporttojsondownloadA.module.css";
 

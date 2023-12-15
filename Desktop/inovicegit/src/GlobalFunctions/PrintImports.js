@@ -55,6 +55,7 @@ export const excelConditions = [
   { printName: "sale format a", etpType: "excel", componentName: "ExcelToJsonDownloadA" },
   { printName: "sale format j1", etpType: "excel", componentName: "ExcelToJsonDownloadJ1" },
   { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel" },
+  { printName: "quotation format", etpType: "excel", componentName: "QuotationExcel" },
 ];
 
 export const alterationArray = [

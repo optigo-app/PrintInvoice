@@ -11,11 +11,6 @@ const RepairAlteration = ({ data }) => {
   const [headerComp, setHeaderComp] = useState(null);
   const [headerData, setHeaderData] = useState({});
   const [datas, setData] = useState([]);
-  const [total, SetTotal] = useState({
-    totalAmount: 0,
-    grandTotal: 0,
-  });
-  const [tax, setTax] = useState([]);
   const loadData = (data) => {
     setHeaderData(data?.BillPrint_Json[0]);
     let headerDatas = data?.BillPrint_Json[0];
@@ -100,7 +95,7 @@ const RepairAlteration = ({ data }) => {
         <p>{headerData?.customerstreet}</p>
         <p>{headerData?.customerregion}</p>
         <p>
-          {headerData?.customercity}-{headerData?.customerpincode}
+          {headerData?.customercity} {headerData?.customerpincode}
         </p>
         <p>Tel: {headerData?.customermobileno}</p>
         <p>{headerData?.customeremail1}</p>
@@ -119,8 +114,8 @@ const RepairAlteration = ({ data }) => {
             HSN: <span className="fw-bold">{headerData?.HSN_No}</span>
           </p>
           <p>
-            GSTIN: <span className="fw-bold">24</span> |
-            {headerData?.Cust_CST_STATE}
+            GSTIN: <span className="fw-bold">{headerData?.Cust_VAT_GST_No}</span> |
+            {headerData?.Cust_CST_STATE}{" "}
             <span className="fw-bold">
               {headerData?.Cust_CST_STATE_No}
             </span>

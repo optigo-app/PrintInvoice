@@ -96,7 +96,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
             totalobj.TotalAmount += e?.TotalAmount;
             totalobj.UnitCost += e?.UnitCost;
             totalobj.totalOtherAmount += e?.OtherCharges;
-            totalobj.netWeight += e?.NetWt;
+            totalobj.netWeight += e?.NetWt+e?.LossWt;
             totalobj.gwt += e?.grosswt;
             totalobj.discountAmt += e?.DiscountAmt;
         });
@@ -107,7 +107,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
         // totalobj.totalAmountAfterTax = +((totalobj.TotalAmount + totalobj.cgstTax + totalobj.sgstTax - totalobj.discountAmt).toFixed(2));
 
         // tax
-        totalobj.totalAmountAfterTax = 0
+        totalobj.totalAmountAfterTax = 0;
         let taxValue = taxGenrator(json0[0], totalobj.TotalAmount);
         setTaxes(taxValue);
         taxValue.forEach((e, i) => {
@@ -401,6 +401,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div className='total_invoice1 total_invoicePrint1 d-flex align-items-center justify-content-center fw-bold border-end border-2 border-black'>Total</div>
                 </div>
+                {console.log(resultArr)}
                 {resultArr.length > 0 && resultArr.map((e, i) => {
                     return <div className="d-flex w-100 border-bottom table_row_invoice1 border-2 border-black" key={i}>
                         <div className='sr_invoice1 sr_invoicePrint1 min_padding_invoice1 border-start border-2 border-black'>{i + 1}</div>

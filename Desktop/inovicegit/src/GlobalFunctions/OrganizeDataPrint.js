@@ -340,11 +340,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     allTax?.forEach((e) => {
       totalAmount += +e?.amount;
     });
-<<<<<<< HEAD
-  const finalObject = {
-=======
     const finalObject = {
->>>>>>> b63f9842b549d2e1a1716e3edf0a4ec3a987b626
     resultArray: resultArray,
     mainTotal: maintotal,
     finalAmount: totalAmount,

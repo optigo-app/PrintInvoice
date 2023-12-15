@@ -220,7 +220,7 @@ const RepairAlterationReceive = ({ data }) => {
           <p>{headerData?.customerstreet}</p>
           <p>{headerData?.customerregion}</p>
           <p>
-            {headerData?.customercity}-{headerData?.customerpincode}
+            {headerData?.customercity} {headerData?.customerpincode}
           </p>
           <p>Tel: {headerData?.customermobileno}</p>
           <p>{headerData?.customeremail1}</p>
@@ -239,7 +239,7 @@ const RepairAlterationReceive = ({ data }) => {
             <p>
               GSTIN:{" "}
               <span className="fw-bold">{headerData?.Cust_VAT_GST_No}</span>|
-              STATE CODE{" "}
+              {headerData?.Cust_CST_STATE}{" "}
               <span className="fw-bold">{headerData?.Cust_CST_STATE_No}</span>
             </p>
             <p>
@@ -339,7 +339,7 @@ const RepairAlterationReceive = ({ data }) => {
                 {(e?.grossWtAdded !== 0 || e?.netWtdded !== 0 || e?.diamondAdded !== 0 || e?.colorStoneAdded !== 0 || e?.miscAdded !== 0) ? ( <p className="px-1 py-2 no_break">
                     {e?.MetalTypePurity} {e?.metalColorCode}
                     {e?.grossWtAdded !== 0 &&
-                      ` |{" "}${NumberWithCommas(e?.grossWtAdded, 3)} gms GW`}
+                      ` |${NumberWithCommas(e?.grossWtAdded, 3)} gms GW`}
                     {e?.netWtdded !== 0 &&
                       ` | ${NumberWithCommas(e?.netWtdded, 3)} gms NW`}
                     {e?.diamondAdded !== 0 &&

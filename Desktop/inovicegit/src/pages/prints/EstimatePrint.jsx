@@ -135,6 +135,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 amount: 0
             }
             totals.gold24Kt += e?.convertednetwt;
+
+
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (e?.SrJobno === ele?.StockBarcode) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
@@ -190,14 +192,18 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     totalSetttingAmount += ele?.SettingAmount;
                     settingRate += ele?.SettingRate;
                     if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
-                        findingTotal += ele?.Wt;
-                        finding.push(ele);
-                        totals.findingWeight += ele?.Wt
+                        if(ele?.Supplier === "Customer"){
+                            findingTotal += ele?.Wt;
+                            finding.push(ele);
+                            totals.findingWeight += ele?.Wt
+                        }
                         // metalsTotal.weight += ele.Wt;
                         // totals.weightWithDiamondLoss += ele.Wt;
                     }
                 }   
             });
+
+  
             totals.labourAmount += totalSetttingAmount;
             if (diamonds.length > 0) {
                 diamonds.reduce((accumulator, currentObject) => {
@@ -214,6 +220,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     return accumulator;
                 }, diamondTotal);
             }
+            let WtSpecial = e?.NetWt + (diamondTotal.weight/5) - e?.LossWt - findingTotal;
             if (metals.length > 0) {
                 metals.reduce((accumulator, currentObject) => {
                     accumulator.amount += currentObject.Amount;
@@ -252,6 +259,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                     return accumulator;
                 }, miscsTotal);
             }
+            obj.WtSpecial = WtSpecial;
             obj.otherAmountDetails = otherAmountDetails;
             obj.mics = mics;
             obj.diamonds = diamonds;
@@ -342,6 +350,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             finalArr[findRecord].Size = obj?.Size;
                         }
                     };
+
+                    finalArr[findRecord].WtSpecial += obj?.WtSpecial;
 
                     // for diamonds 
                     let blankDiamondArr = [];
@@ -770,7 +780,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                     {e?.metals.length > 0 && e?.metals.map((ele, ind) => {
                                         return <div className='d-flex' key={ind}>
                                             <div className='width_40_estimatePrint p_1Estimate'><p className=''>{ele?.ShapeName} {ele?.QualityName}</p></div>
-                                            <div className='width_40_estimatePrint p_1Estimate'><p className='text-end '>{fixedValues(ele?.Weight, 3)}</p></div>
+                                            <div className='width_40_estimatePrint p_1Estimate'><p className='text-end '>{ind === 0 ? fixedValues(e?.WtSpecial, 3) :fixedValues(ele?.Weight, 3)}</p></div>
                                             <div className='width_40_estimatePrint p_1Estimate'><p className='text-end '>{fixedValues(ele?.Wt, 3)}</p></div>
                                             <div className='width_40_estimatePrint p_1Estimate'><p className='text-end '>{NumberWithCommas(ele?.Rate, 2)}</p></div>
                                             <div className='width_40_estimatePrint p_1Estimate'><p className='text-end '>{NumberWithCommas(ele?.Amount, 2)}</p></div>
@@ -792,7 +802,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <div className='width200EstimatePrint p_1Estimate'><p></p></div>
                                     {/* <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end fw-bold'>{fixedValues(e?.metalsTotal?.weightWithDiamondLoss, 3)}</p></div> */}
                                     <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end fw-bold'>{fixedValues(e?.metalsTotal?.weight, 3)}</p></div>
-                                    <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end fw-bold'>{fixedValues(e?.metalsTotal?.Wt, 3)}</p></div>
+                                    {/* <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end fw-bold'>{fixedValues(e?.metalsTotal?.Wt, 3)}</p></div> */}
+                                    <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end fw-bold'>{fixedValues(e?.NetWt, 3)}</p></div>
                                     <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end fw-bold'></p></div>
                                     <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end fw-bold'>{NumberWithCommas(e?.metalsTotal?.amount, 2)}</p></div>
                                 </div>
