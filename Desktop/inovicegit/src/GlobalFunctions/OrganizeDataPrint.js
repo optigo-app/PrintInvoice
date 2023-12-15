@@ -2,11 +2,7 @@ import { otherAmountDetail, taxGenrator } from "../GlobalFunctions";
 
 export const OrganizeDataPrint = (header, json1, json2) => {
   let resultArray = [];
-  let dlist = [];
-  let clist = [];
-  let misclistg = [];
-  let metallistg = [];
-  let flsit = [];
+  
   let maintotal = {
     diamonds: {
       Wt: 0,
@@ -71,6 +67,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       let blankArrMetal = [];
       let blankArrFinding = [];
       let blankArrstone_misc = [];
+      let diamondSettingGroup = [];
       let jobwise_totals = {
         diamonds: {
           Wt: 0,
@@ -222,6 +219,25 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               blankArrDiamond[recordIs].Amount += +j2?.Amount;
             }
           }
+          if (j2?.MasterManagement_DiamondStoneTypeid === 1) {
+            let recordIs = diamondSettingGroup?.findIndex(
+              (e) =>
+                e?.ShapeName === j2?.ShapeName &&
+                e?.QualityName === j2?.QualityName &&
+                e?.Colorname === j2?.Colorname &&
+                e?.SettingName === j2?.SettingName &&
+                e?.SizeName === j2?.SizeName
+            );
+            if (recordIs === -1) {
+              diamondSettingGroup.push(j2);
+            } else {
+              diamondSettingGroup[recordIs].Wt += +j2?.Wt;
+              diamondSettingGroup[recordIs].Pcs += +j2?.Pcs;
+              diamondSettingGroup[recordIs].Rate += +j2?.Rate;
+              diamondSettingGroup[recordIs].Amount += +j2?.Amount;
+              diamondSettingGroup[recordIs].SettingAmount += +j2?.SettingAmount;
+            }
+          }
           if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
             let recordIs = blankArrColorstone?.findIndex(
               (e) =>
@@ -324,12 +340,9 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       // obj.grouping_of_metal_sqc_jobwise = blankArrMetal;
       obj.grouping_of_finding_sqc_jobwise = blankArrFinding;
       obj.grouping_of_stone_misc_sqc_jobwise = blankArrstone_misc;
+      obj.diamondSettingGroup = diamondSettingGroup;
       resultArray.push(obj);
-      dlist = diamondList;
-      clist = colorstoneList;
-      misclistg = miscList;
-      metallistg = metalList;
-      flsit = findingList;
+      
     });
 
   //totalAmount
