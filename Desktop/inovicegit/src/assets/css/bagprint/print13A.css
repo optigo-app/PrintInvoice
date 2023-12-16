@@ -323,6 +323,7 @@
     position: absolute !important;
     top: 6rem !important;
     left: 19px !important;
+    margin: 0px;
 }
 .entry13AHead {
     display: flex;
@@ -472,6 +473,7 @@
     position: absolute;
     top: 6rem !important;
     left: 15rem !important;
+    margin: 0px;
     /* top: 9rem !important;
     left: 17rem !important; */
     /* height: 20px;

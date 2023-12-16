@@ -221,8 +221,8 @@
 }
 
 .barcode11A>.barcode_sticker {
-    height: 25px;
-    width: 200px;
+    height: 25px !important;
+    width: 200px !important;
     object-fit: cover;
     transform: rotate(90deg) !important;
     position: absolute !important;

@@ -320,13 +320,13 @@
 }
 
 .barcode5A>.barcode_sticker {
-    height: 20px;
-    width: 175px;
-    object-fit: cover;
-    transform: rotate(90deg);
-    position: absolute;
-    top: 95px;
-    right: -6.5rem;
+    height: 20px !important;
+    width: 175px !important;
+    object-fit: cover !important;
+    transform: rotate(90deg) !important;
+    position: absolute !important;
+    top: 95px !important;
+    right: -6.5rem !important;
 }
 
 .diaflex5A {
@@ -427,13 +427,13 @@
     padding-left: 12px;
 }
 .barcode5AD > .barcode_sticker {
-    height: 20px;
-    width: 175px;
-    object-fit: cover;
-    transform: rotate(90deg);
-    position: absolute;
-    top: 95px;
-    right: -6.5rem;
+    height: 20px !important;
+    width: 175px !important;
+    object-fit: cover !important;
+    transform: rotate(90deg) !important;
+    position: absolute !important;
+    top: 95px !important;
+    right: -6.5rem !important;
 }
 .f5ADuplicate {
     font-size: 10px;

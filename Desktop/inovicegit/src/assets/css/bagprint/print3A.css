@@ -89,8 +89,8 @@
 }
 
 .barcode3A>.barcode_sticker {
-    height: 20px;
-    width: 200px;
+    height: 20px !important;
+    width: 200px !important;
     object-fit: cover;
     position: absolute !important;
     top: 110px !important;
@@ -110,8 +110,8 @@
 }
 
 .barcode3AD>.barcode_sticker {
-    height: 25px;
-    width: 200px;
+    height: 25px !important;
+    width: 200px !important;
     object-fit: cover;
     position: absolute !important;
     top: 120px !important;

@@ -263,13 +263,14 @@
 }
 
 .barcode10A>.barcode_sticker {
-    height: 20px;
-    width: 160px;
+    height: 20px !important;
+    width: 160px !important;
     object-fit: cover;
     transform: rotate(90deg) !important;
     position: absolute !important;
     top: 109px !important;
     left: 15px !important;
+    margin: 0px;
     /* right: 13rem;
     /* height: 20px;
     width: 160px;
@@ -439,13 +440,14 @@
     font-weight: bold;
 }
 .barcode10AD>.barcode_sticker {
-    height: 20px;
-    width: 160px;
+    height: 20px !important;
+    width: 160px !important;
     object-fit: cover;
     transform: rotate(90deg) !important;
     position: absolute !important;
     top: 100px !important;
     left: 240px !important;
+    margin: 0px;
     /* height: 20px;
     width: 160px;
     object-fit: cover;

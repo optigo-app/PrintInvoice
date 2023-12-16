@@ -130,7 +130,8 @@
     position: relative;
     right: -50px !important;
     top: 8px !important;
-    transform: translate(0) rotate(0deg) !important;    
+    transform: translate(0) rotate(0deg) !important;   
+    margin: 0px;
 }
 
 .barcodediv {

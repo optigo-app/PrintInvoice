@@ -859,7 +859,7 @@ const BagPrint4B = ({ queries, headers }) => {
                               </div>
 
                             </div>
-                            <div className="barcode_img_container_4A">
+                            <div className="barcode_img_container_4B">
                               <BarcodeGenerator
                                 data={e?.data?.serialjobno}
                               />

@@ -248,9 +248,9 @@
 
 .barcode_img_4A>img {
     top: 100px !important;
-    height: 23px;
-    width: 175px;
-    object-fit: cover;
+    height: 23px !important;
+    width: 175px !important;
+    object-fit: cover !important;
     transform: rotate(90deg) !important;
     position: relative !important;
     left: -67px !important;
@@ -370,11 +370,11 @@
 }
 
 .barcode_img_container_4A>img {
-    height: 23px;
-    width: 175px;
-    object-fit: cover;
+    height: 23px !important;
+    width: 175px !important;
+    object-fit: cover !important;
     transform: rotate(90deg) !important;
-    position: relative;
+    position: relative !important;
     left: -66px !important;
     right: -56px !important;
     top: 91px !important;
