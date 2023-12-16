@@ -4,7 +4,9 @@ import Loader from "../../components/Loader";
 import { useEffect } from "react";
 import {
   NumberWitdCommas,
+  NumberWithCommas,
   apiCall,
+  handleGlobalImgError,
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import ReactdTMLTableToExcel from "react-html-table-to-excel";
@@ -17,101 +19,196 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
   const [data, setData] = useState([]);
 
   const loadData = (data) => {
-    let Mostly_Calculation =  OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1,data?.BillPrint_Json2)
+    let Mostly_Calculation = OrganizeDataPrint(
+      data?.BillPrint_Json[0],
+      data?.BillPrint_Json1,
+      data?.BillPrint_Json2
+    );
     let json0Data = data?.BillPrint_Json[0];
     let resultArr = [];
-    console.log(Mostly_Calculation);
     Mostly_Calculation?.resultArray?.forEach((e, i) => {
-        let obj = {...e};
-        let settingDiamonds = [];
-        let settingcolorStones = [];
-        e?.diamonds.forEach((ele, ind) => {
-            let findRecord = settingDiamonds.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.SizeName === ele?.SizeName && elem?.SettingName === ele?.SettingName);
-            if(findRecord === -1){
-                settingDiamonds.push(ele);
-            }else{
-                settingDiamonds[findRecord].Pcs += ele?.Pcs;
-                settingDiamonds[findRecord].Wt += ele?.Wt;
-                settingDiamonds[findRecord].Amount += ele?.Amount;
-                if(ele?.SettingAmount !== null){
-                    settingDiamonds[findRecord].Amount += ele?.SettingAmount;
-                }
-            }
-        });
-        e?.colorstone.forEach((ele, ind) => {
-            let findRecord = settingcolorStones.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.SizeName === ele?.SizeName && elem?.SettingName === ele?.SettingName);
-            if(findRecord === -1){
-                settingcolorStones.push(ele);
-            }else{
-                settingcolorStones[findRecord].Pcs += ele?.Pcs;
-                settingcolorStones[findRecord].Wt += ele?.Wt;
-                settingcolorStones[findRecord].Amount += ele?.Amount;
-                if(ele?.SettingAmount !== null){
-                    settingcolorStones[findRecord].Amount += ele?.SettingAmount;
-                }
-            }
-        });
-
-        let miscs = [];
-
-        e?.misc.forEach((ele, ind) => {
-          let findRecord = miscs.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.SizeName === ele?.SizeName && elem?.SettingName === ele?.SettingName);
-          if(findRecord === -1){
-            miscs.push(ele);
-        }else{
-            miscs[findRecord].Pcs += ele?.Pcs;
-            miscs[findRecord].Wt += ele?.Wt;
-            miscs[findRecord].Amount += ele?.Amount;
-            if(ele?.SettingAmount !== null){
-                miscs[findRecord].Amount += ele?.SettingAmount;
-            }
-        }
-        });
-
-        settingDiamonds.sort((a, b) => {
-            let nameA = a?.ShapeName;
-            let nameB = b?.ShapeName;
-            if(nameA < nameB){
-                return -1;
-            }else{
-                return 1;
-            }
-        });
-        
-        settingcolorStones.sort((a, b) => {
-            let nameA = a?.ShapeName;
-            let nameB = b?.ShapeName;
-            if(nameA < nameB){
-                return -1;
-            }else{
-                return 1;
-            }
-        });
-
-        miscs.sort((a, b) => {
-          let nameA = a?.ShapeName;
-          let nameB = b?.ShapeName;
-          if(nameA < nameB){
-              return -1;
-          }else{
-              return 1;
+      let settingDiamonds = [];
+      let settingcolorStones = [];
+      e?.diamonds.forEach((ele, ind) => {
+        let findRecord = settingDiamonds.findIndex(
+          (elem, index) =>
+            elem?.ShapeName === ele?.ShapeName &&
+            elem?.Colorname === ele?.Colorname &&
+            elem?.QualityName === ele?.QualityName &&
+            elem?.SizeName === ele?.SizeName &&
+            elem?.SettingName === ele?.SettingName
+        );
+        if (findRecord === -1) {
+          settingDiamonds.push(ele);
+        } else {
+          settingDiamonds[findRecord].Pcs += ele?.Pcs;
+          settingDiamonds[findRecord].Wt += ele?.Wt;
+          settingDiamonds[findRecord].Amount += ele?.Amount;
+          if (ele?.SettingAmount !== null) {
+            settingDiamonds[findRecord].SettingAmount += ele?.SettingAmount;
           }
+        }
+      });
+      e?.colorstone.forEach((ele, ind) => {
+        let findRecord = settingcolorStones.findIndex(
+          (elem, index) =>
+            elem?.ShapeName === ele?.ShapeName &&
+            elem?.Colorname === ele?.Colorname &&
+            elem?.QualityName === ele?.QualityName &&
+            elem?.SizeName === ele?.SizeName &&
+            elem?.SettingName === ele?.SettingName
+        );
+        if (findRecord === -1) {
+          settingcolorStones.push(ele);
+        } else {
+          settingcolorStones[findRecord].Pcs += ele?.Pcs;
+          settingcolorStones[findRecord].Wt += ele?.Wt;
+          settingcolorStones[findRecord].Amount += ele?.Amount;
+          if (ele?.SettingAmount !== null) {
+            settingcolorStones[findRecord].SettingAmount += ele?.SettingAmount;
+          }
+        }
       });
 
-      // let metalFinding = [...]
+      let miscs = [];
 
+      e?.misc.forEach((ele, ind) => {
+        let findRecord = miscs.findIndex(
+          (elem, index) =>
+            elem?.ShapeName === ele?.ShapeName &&
+            elem?.Colorname === ele?.Colorname &&
+            elem?.QualityName === ele?.QualityName &&
+            elem?.SizeName === ele?.SizeName &&
+            elem?.SettingName === ele?.SettingName
+        );
+        if (findRecord === -1) {
+          miscs.push(ele);
+        } else {
+          miscs[findRecord].Pcs += ele?.Pcs;
+          miscs[findRecord].Wt += ele?.Wt;
+          miscs[findRecord].Amount += ele?.Amount;
+          if (ele?.SettingAmount !== null) {
+            miscs[findRecord].SettingAmount += ele?.SettingAmount;
+          }
+        }
+      });
 
+      settingDiamonds.sort((a, b) => {
+        let nameA = a?.ShapeName;
+        let nameB = b?.ShapeName;
+        if (nameA < nameB) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
 
+      settingcolorStones.sort((a, b) => {
+        let nameA = a?.ShapeName;
+        let nameB = b?.ShapeName;
+        if (nameA < nameB) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
 
+      miscs.sort((a, b) => {
+        let nameA = a?.ShapeName;
+        let nameB = b?.ShapeName;
+        if (nameA < nameB) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
 
-        let diamondColorStones = [...settingDiamonds, ...settingcolorStones].flat();
-        let length =  5;  
+      let metalFinding = [...e?.metal, ...e?.finding].flat();
+      let diamondColorStones = [
+        ...settingDiamonds,
+        ...settingcolorStones,
+        ...miscs,
+      ].flat();
+      let length = 5;
 
+      if (length < miscs.length) {
+        length = miscs.length;
+      }
 
+      if (length < metalFinding.length) {
+        length = metalFinding.length;
+      }
+
+      if (length < diamondColorStones.length) {
+        length = diamondColorStones.length;
+      }
+
+      Array.from({ length: length }).forEach((elem, index) => {
+        let obj = {
+          srNo: index === 0 ? i + 1 : 0,
+          designNo: index === 0 ? e?.designno : 0,
+          category: index === 1 ? e?.Categoryname : 0,
+          img: index === 2 ? e?.DesignImage : 0,
+          metalQuality: metalFinding[index]
+            ? `${metalFinding[index]?.ShapeName} ${metalFinding[index]?.QualityName} ${metalFinding[index]?.FindingTypename} ${metalFinding[index]?.FindingAccessories}`
+            : "",
+          color: metalFinding[index] ? metalFinding[index]?.Colorname : "",
+          netWt: metalFinding[index] ? metalFinding[index]?.Wt : "",
+          grossWt: metalFinding[index] ? e?.grosswt : "",
+          metalRate: metalFinding[index] ? metalFinding[index]?.Rate : "",
+          metalAmount: metalFinding[index] ? metalFinding[index]?.Amount : "",
+          diamondCode: `${
+            settingDiamonds[index]
+              ? `${
+                  settingDiamonds[index]
+                    ?.MasterManagement_DiamondStoneTypeid === 1
+                    ? "D"
+                    : ""
+                } 
+          ${
+            settingDiamonds[index]?.MasterManagement_DiamondStoneTypeid === 2
+              ? "CS"
+              : ""
+          } 
+          ${settingDiamonds[index]?.ShapeName}
+          ${settingDiamonds[index]?.QualityName}
+          ${settingDiamonds[index]?.Colorname}`
+              : ""
+          }`,
+          diamondSize: settingDiamonds[index]
+            ? settingDiamonds[index]?.SizeName
+            : "",
+          diamondPcs: settingDiamonds[index] ? settingDiamonds[index]?.Pcs : 0,
+          diamondWt: settingDiamonds[index] ? settingDiamonds[index]?.Wt : 0,
+          diamondRate: settingDiamonds[index]
+            ? settingDiamonds[index]?.Rate
+            : 0,
+          diamondAmount: settingDiamonds[index]
+            ? settingDiamonds[index]?.Amount
+            : 0,
+
+          miscCode: ``,
+          miscSize: ``,
+          miscPcs: ``,
+          miscWt: ``,
+          miscRate: ``,
+          miscAmount: ``,
+
+          settingAmount: settingDiamonds[index]?.SettingAmount,
+          makingRate: index === 0 && e?.MaKingCharge_Unit,
+          makingAmount: index === 0 && e?.MakingAmount,
+          makingHeightRowWise: index === 0 && length,
+          other: index === 0 && e?.OtherCharges,
+          unitCost: index === 0 && e?.UnitCost,
+          qty: "",
+          totalAmount: index === 0 && e?.TotalAmount,
+        };
+        resultArr.push(obj);
+      });
     });
     setData(resultArr);
     setdeader(json0Data);
-    setTimeout(() => { 
+    setTimeout(() => {
       const button = document.getElementById("test-table-xls-button");
       button.click();
     }, 0);
@@ -155,9 +252,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
             sheet="tablexls"
             buttonText="Download as XLS"
           />
-          <table
-            id="table-to-xls"
-          >
+          <table id="table-to-xls">
             <thead>
               <tr>
                 <td width={20}></td>
@@ -298,7 +393,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     padding: "0.5px",
                   }}
                 >
-              Setting Amt
+                  Setting Amt
                 </th>
 
                 <th
@@ -579,6 +674,365 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
               </tr>
             </thead>
             <tbody>
+              {/* data */}
+              {data.map((e, i) => {
+                return (
+                  <tr key={i}>
+                    <td></td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.srNo !== 0 && e?.srNo}
+                    </td>
+
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.designNo !== 0 && (
+                        <p className="fw-bold" align="center">
+                          {e?.designNo}
+                        </p>
+                      )}
+                      {e?.designNo === 0 && e?.category !== 0 && (
+                        <p className="fw-bold" align="center">
+                          {e?.category}
+                        </p>
+                      )}
+                      {e?.designNo === 0 &&
+                        e?.category === 0 &&
+                        e?.img !== 0 && (
+                          <img
+                            src={e?.img}
+                            onError={(eve) =>
+                              handleGlobalImgError(eve, header?.DefImage)
+                            }
+                            width={60}
+                            height={60}
+                          />
+                        )}
+                    </td>
+
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.metalQuality}
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.color}
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    ></td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.netWt !== "" && NumberWithCommas(e?.netWt, 3)}
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.grossWt !== "" && NumberWithCommas(e?.grossWt, 3)}
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.metalRate !== "" && NumberWithCommas(e?.metalRate, 2)}
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.metalAmount !== "" &&
+                        NumberWithCommas(e?.metalAmount, 2)}
+                    </td>
+
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.diamondCode}
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.diamondSize}
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.diamondPcs !== 0 &&
+                        NumberWithCommas(e?.diamondPcs, 0)}
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.diamondWt !== 0 && NumberWithCommas(e?.diamondWt, 3)}
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {console.log(e?.diamondRate)}
+                      {e?.diamondRate !== 0 &&
+                        NumberWithCommas(e?.diamondRate, 2)}
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.diamondAmount !== 0 &&
+                        NumberWithCommas(e?.diamondAmount, 2)}
+                    </td>
+
+                    <td
+                      colSpan={2}
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    ></td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      12
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      11.1
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    ></td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      437.5
+                    </td>
+
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      0
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    ></td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      3500
+                    </td>
+
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      0
+                    </td>
+
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    ></td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      3
+                    </td>
+                    {/* height={21} */}
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                      align="right"
+                    >
+                      ₹ 14,396.00
+                    </td>
+                  </tr>
+                );
+              })}
+
               {/* tax */}
               <tr>
                 <td></td>
@@ -630,8 +1084,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
-                >
-                </td>
+                ></td>
                 <td
                   style={{
                     backgroundColor: "#f5f5f5",
@@ -656,8 +1109,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
-                >
-                </td>
+                ></td>
                 <td
                   style={{
                     backgroundColor: "#f5f5f5",
@@ -665,7 +1117,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     padding: "0.5px",
                   }}
                 >
-                         437.5
+                  437.5
                 </td>
 
                 <td
@@ -675,8 +1127,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
-                >
-                </td>
+                ></td>
                 <td
                   style={{
                     backgroundColor: "#f5f5f5",
@@ -701,8 +1152,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
-                >
-                </td>
+                ></td>
                 <td
                   style={{
                     backgroundColor: "#f5f5f5",
@@ -710,34 +1160,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     padding: "0.5px",
                   }}
                 >
-                         437.5
-                </td>
-
-                <td
-                  style={{
-                    backgroundColor: "#f5f5f5",
-                    border: "1px solid #bdbdbd",
-                    padding: "0.5px",
-                  }}
-                >
-                       0
-                </td>
-                <td
-                  style={{
-                    backgroundColor: "#f5f5f5",
-                    border: "1px solid #bdbdbd",
-                    padding: "0.5px",
-                  }}
-                >
-                </td>
-                <td
-                  style={{
-                    backgroundColor: "#f5f5f5",
-                    border: "1px solid #bdbdbd",
-                    padding: "0.5px",
-                  }}
-                >
-                    3500
+                  437.5
                 </td>
 
                 <td
@@ -747,7 +1170,23 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     padding: "0.5px",
                   }}
                 >
-                    0
+                  0
+                </td>
+                <td
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    border: "1px solid #bdbdbd",
+                    padding: "0.5px",
+                  }}
+                ></td>
+                <td
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    border: "1px solid #bdbdbd",
+                    padding: "0.5px",
+                  }}
+                >
+                  3500
                 </td>
 
                 <td
@@ -757,7 +1196,16 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     padding: "0.5px",
                   }}
                 >
+                  0
                 </td>
+
+                <td
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    border: "1px solid #bdbdbd",
+                    padding: "0.5px",
+                  }}
+                ></td>
                 <td
                   style={{
                     backgroundColor: "#f5f5f5",
@@ -765,7 +1213,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     padding: "0.5px",
                   }}
                 >
-                    3
+                  3
                 </td>
                 {/* height={21} */}
                 <td
@@ -776,7 +1224,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                   }}
                   align="right"
                 >
-               ₹ 14,396.00
+                  ₹ 14,396.00
                 </td>
               </tr>
             </tbody>
