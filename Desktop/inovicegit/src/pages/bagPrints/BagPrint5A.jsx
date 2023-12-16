@@ -828,9 +828,9 @@ const BagPrint5A = ({ queries, headers }) => {
                           </div>
                         </div>
                         <div className="enteryBarcode5AD">
-                          <div className="enteryBarcode3ADyn">
+                          <div className="enteryBarcode5ADyn">
                             <div
-                              className="entry3AHead"
+                              className="entry5AHead"
                               style={{ fontWeight: "normal", width: "290px" }}
                             >
                               <div
@@ -895,59 +895,59 @@ const BagPrint5A = ({ queries, headers }) => {
                                 WORKER
                               </div>
                             </div>
-                            <div className="entryheader3A">
+                            <div className="entryheader5A">
                               <div
-                                className="entry3AHeadD"
+                                className="entry5AHeadD"
                                 style={{ fontWeight: "normal" }}
                               >
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode5aD"
                                   style={{ width: "46px" }}
                                 >
                                   GRD{" "}
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode5aD"
                                   style={{ width: "46px" }}
                                 >
                                   FIL
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode5aD"
                                   style={{ width: "46px" }}
                                 >
                                   PPL
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode5aD"
                                   style={{ width: "46px" }}
                                 >
                                   SET.{" "}
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode5aD"
                                   style={{ width: "46px" }}
                                 >
                                   ASM
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode5aD"
                                   style={{ width: "46px" }}
                                 >
                                   FPL
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode5aD"
                                   style={{ width: "46px" }}
                                 >
                                   PLT
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode5aD"
                                   style={{ width: "46px" }}
                                 ></div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode5aD"
                                   style={{
                                     borderBottom: "1px solid #989898",
                                     width: "46px",
@@ -958,28 +958,28 @@ const BagPrint5A = ({ queries, headers }) => {
                                 <div>
                                   {Array.from({ length: 9 }, (_, index) => (
                                     <div
-                                      className="entry3AHeadEntry"
+                                      className="entry5AHeadEntry"
                                       key={index}
                                       style={{ fontWeight: "normal" }}
                                     >
                                       <div
-                                        className="rmcode3aDE"
+                                        className="rmcode5aDE"
                                         style={{ width: "52px" }}
                                       ></div>
                                       <div
-                                        className="rmcode3aDE"
+                                        className="rmcode5aDE"
                                         style={{ width: "51px" }}
                                       ></div>
                                       <div
-                                        className="rmcode3aDE"
+                                        className="rmcode5aDE"
                                         style={{ width: "51px" }}
                                       ></div>
                                       <div
-                                        className="rmcode3aDE"
+                                        className="rmcode5aDE"
                                         style={{ width: "37px" }}
                                       ></div>
                                       <div
-                                        className="rmcode3aDE"
+                                        className="rmcode5aDE"
                                         style={{
                                           width: "56px",
                                           borderRight: "0px",

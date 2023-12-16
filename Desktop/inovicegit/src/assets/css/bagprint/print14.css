@@ -117,15 +117,18 @@
     justify-content: center;
     align-items: center;
 }
-
+.imagediv > img {
+        height: 150.5px;
+        width: 240px;
+        object-fit: contain;
+}
 
 .barcode14>.barcode_sticker {
     height: 25px;
     width: 150px;
     object-fit: cover;
     position: relative;
-    /* right: -45px !important; */
-    right: 0px !important;
+    right: -50px !important;
     top: 8px !important;
     transform: translate(0) rotate(0deg) !important;    
 }

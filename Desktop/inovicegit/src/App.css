@@ -177,10 +177,13 @@ ol {
   line-height: 120%;
 }
 
-.print_btn{
-  padding-bottom: 15px;
+.print_btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 10px;
+  margin-top: 10px;
 }
-
 .min_width_max{
   min-width: max-content;
 }

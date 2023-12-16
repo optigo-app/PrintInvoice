@@ -15,7 +15,7 @@ const AllDesignPrint = () => {
   const importComponent = async (name) => {
     try {
       const module = await import(`./prints/${name}`);
-      const AnotherComponent = module.default;
+      const AnotherComponent = module?.default;
       const billNum = queryParams.get('billNo');
       const urls = queryParams.get('up');
       const token = queryParams.get('tkn');

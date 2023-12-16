@@ -247,13 +247,13 @@
 }
 
 .barcode_img_4A>img {
-    top: 86px !important;
+    top: 100px !important;
     height: 23px;
     width: 175px;
     object-fit: cover;
-    transform: rotate(90deg);
-    position: relative;
-    left: -57px !important;
+    transform: rotate(90deg) !important;
+    position: relative !important;
+    left: -67px !important;
 }
 
 .priority4A {
@@ -370,13 +370,12 @@
 }
 
 .barcode_img_container_4A>img {
-    top: 86px !important;
     height: 23px;
     width: 175px;
     object-fit: cover;
-    transform: rotate(90deg);
+    transform: rotate(90deg) !important;
     position: relative;
-    left: -58px !important;
+    left: -66px !important;
     right: -56px !important;
     top: 91px !important;
 }

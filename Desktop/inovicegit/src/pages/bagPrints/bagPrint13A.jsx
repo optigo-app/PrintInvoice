@@ -10,7 +10,7 @@ import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Loader from "../../components/Loader";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-import { checkInstruction } from './../../GlobalFunctions';
+import { checkInstruction } from '../../GlobalFunctions';
 
 const BagPrint13A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
@@ -846,88 +846,88 @@ const BagPrint13A = ({ queries, headers }) => {
                         </div>
                       </div>
                       <div className="enteryBarcode13AD">
-                        <div className="enteryBarcode3ADyn">
+                        <div className="enteryBarcode13ADyn">
                           <div
-                            className="entry3AHead"
+                            className="entry13AHead"
                             style={{ fontWeight: "normal", width: "290px" }}
                           >
-                            <div className="rmcode3a" style={{ width: "43px" }}>
+                            <div className="rmcode13a" style={{ width: "43px" }}>
                               DEPT{" "}
                             </div>
-                            <div className="rmcode3a" style={{ width: "52px" }}>
+                            <div className="rmcode13a" style={{ width: "52px" }}>
                               ISSUE
                             </div>
-                            <div className="rmcode3a" style={{ width: "52px" }}>
+                            <div className="rmcode13a" style={{ width: "52px" }}>
                               RECEIVE
                             </div>
-                            <div className="rmcode3a" style={{ width: "52px" }}>
+                            <div className="rmcode13a" style={{ width: "52px" }}>
                               SCRAP
                             </div>
-                            <div className="rmcode3a" style={{ width: "37px" }}>
+                            <div className="rmcode13a" style={{ width: "37px" }}>
                               PCS
                             </div>
                             <div
-                              className="rmcode3a"
+                              className="rmcode13a"
                               style={{ borderRight: "0px", width: "56px" }}
                             >
                               WORKER
                             </div>
                           </div>
-                          <div className="entryheader3A">
+                          <div className="entryheader13A">
                             <div
-                              className="entry3AHeadD"
+                              className="entry13AHeadD"
                               style={{ fontWeight: "normal" }}
                             >
                               <div
-                                className="rmcode3aD"
+                                className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
                                 GRD{" "}
                               </div>
                               <div
-                                className="rmcode3aD"
+                                className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
                                 FIL
                               </div>
                               <div
-                                className="rmcode3aD"
+                                className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
                                 PPL
                               </div>
                               <div
-                                className="rmcode3aD"
+                                className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
                                 SET.{" "}
                               </div>
                               <div
-                                className="rmcode3aD"
+                                className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
                                 ASM
                               </div>
                               <div
-                                className="rmcode3aD"
+                                className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
                                 FPL
                               </div>
                               <div
-                                className="rmcode3aD"
+                                className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
                                 PLT
                               </div>
                               <div
-                                className="rmcode3aD"
+                                className="rmcode13aD"
                                 style={{ width: "46px" }}
                               >
                                 ENM
                               </div>
                               <div
-                                className="rmcode3aD"
+                                className="rmcode13aD"
                                 style={{
                                   borderBottom: "1px solid #989898",
                                   width: "46px",
@@ -940,7 +940,7 @@ const BagPrint13A = ({ queries, headers }) => {
                               <div>
                                 {Array.from({ length: 9 }, (_, index) => (
                                   <div
-                                    className="entry3AHeadEntry"
+                                    className="entry13AHeadEntry"
                                     key={index}
                                     style={{ fontWeight: "normal" }}
                                   >
