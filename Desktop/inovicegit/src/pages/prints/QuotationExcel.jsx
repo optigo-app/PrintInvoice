@@ -8,7 +8,6 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import ReactdTMLTableToExcel from "react-html-table-to-excel";
-import style from "../../assets/css/prints/exporttojsondownloadA.module.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 
 const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
@@ -19,12 +18,100 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
 
   const loadData = (data) => {
     let Mostly_Calculation =  OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1,data?.BillPrint_Json2)
-        console.log(Mostly_Calculation);
     let json0Data = data?.BillPrint_Json[0];
     let resultArr = [];
+    console.log(Mostly_Calculation);
+    Mostly_Calculation?.resultArray?.forEach((e, i) => {
+        let obj = {...e};
+        let settingDiamonds = [];
+        let settingcolorStones = [];
+        e?.diamonds.forEach((ele, ind) => {
+            let findRecord = settingDiamonds.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.SizeName === ele?.SizeName && elem?.SettingName === ele?.SettingName);
+            if(findRecord === -1){
+                settingDiamonds.push(ele);
+            }else{
+                settingDiamonds[findRecord].Pcs += ele?.Pcs;
+                settingDiamonds[findRecord].Wt += ele?.Wt;
+                settingDiamonds[findRecord].Amount += ele?.Amount;
+                if(ele?.SettingAmount !== null){
+                    settingDiamonds[findRecord].Amount += ele?.SettingAmount;
+                }
+            }
+        });
+        e?.colorstone.forEach((ele, ind) => {
+            let findRecord = settingcolorStones.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.SizeName === ele?.SizeName && elem?.SettingName === ele?.SettingName);
+            if(findRecord === -1){
+                settingcolorStones.push(ele);
+            }else{
+                settingcolorStones[findRecord].Pcs += ele?.Pcs;
+                settingcolorStones[findRecord].Wt += ele?.Wt;
+                settingcolorStones[findRecord].Amount += ele?.Amount;
+                if(ele?.SettingAmount !== null){
+                    settingcolorStones[findRecord].Amount += ele?.SettingAmount;
+                }
+            }
+        });
+
+        let miscs = [];
+
+        e?.misc.forEach((ele, ind) => {
+          let findRecord = miscs.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.SizeName === ele?.SizeName && elem?.SettingName === ele?.SettingName);
+          if(findRecord === -1){
+            miscs.push(ele);
+        }else{
+            miscs[findRecord].Pcs += ele?.Pcs;
+            miscs[findRecord].Wt += ele?.Wt;
+            miscs[findRecord].Amount += ele?.Amount;
+            if(ele?.SettingAmount !== null){
+                miscs[findRecord].Amount += ele?.SettingAmount;
+            }
+        }
+        });
+
+        settingDiamonds.sort((a, b) => {
+            let nameA = a?.ShapeName;
+            let nameB = b?.ShapeName;
+            if(nameA < nameB){
+                return -1;
+            }else{
+                return 1;
+            }
+        });
+        
+        settingcolorStones.sort((a, b) => {
+            let nameA = a?.ShapeName;
+            let nameB = b?.ShapeName;
+            if(nameA < nameB){
+                return -1;
+            }else{
+                return 1;
+            }
+        });
+
+        miscs.sort((a, b) => {
+          let nameA = a?.ShapeName;
+          let nameB = b?.ShapeName;
+          if(nameA < nameB){
+              return -1;
+          }else{
+              return 1;
+          }
+      });
+
+      // let metalFinding = [...]
+
+
+
+
+
+        let diamondColorStones = [...settingDiamonds, ...settingcolorStones].flat();
+        let length =  5;  
+
+
+    });
     setData(resultArr);
     setdeader(json0Data);
-    setTimeout(() => {
+    setTimeout(() => { 
       const button = document.getElementById("test-table-xls-button");
       button.click();
     }, 0);
@@ -70,13 +157,12 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
           />
           <table
             id="table-to-xls"
-            // className={`${style?.excelToJsonDownloadATable}`}
           >
             <thead>
               <tr>
                 <td width={20}></td>
                 <td
-                  colSpan={24}
+                  colSpan={28}
                   align="left"
                   height={40}
                   style={{
@@ -94,7 +180,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                 <td colSpan={5} align="left">
                   <p className="">TO</p>
                 </td>
-                <td colSpan={15} rowSpan={4}></td>
+                <td colSpan={19} rowSpan={4}></td>
                 <td>
                   <p className="fw-normal">Quotation#</p>
                 </td>
@@ -193,14 +279,26 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
 
                 <th
                   width={80}
-                  colSpan={3}
+                  colSpan={6}
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
                 >
-                  Setting
+                  Misc
+                </th>
+
+                <th
+                  width={100}
+                  rowSpan={2}
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    border: "1px solid #bdbdbd",
+                    padding: "0.5px",
+                  }}
+                >
+              Setting Amt
                 </th>
 
                 <th
@@ -405,7 +503,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     padding: "0.5px",
                   }}
                 >
-                  Setting Type
+                  Code
                 </th>
                 <th
                   width={80}
@@ -415,7 +513,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     padding: "0.5px",
                   }}
                 >
-                  Setting Rate
+                  Size
                 </th>
                 <th
                   width={80}
@@ -425,10 +523,41 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     padding: "0.5px",
                   }}
                 >
-                  Setting Amt
+                  Pcs
                 </th>
                 <th
                   width={80}
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    border: "1px solid #bdbdbd",
+                    padding: "0.5px",
+                  }}
+                >
+                  Wt
+                </th>
+                <th
+                  width={80}
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    border: "1px solid #bdbdbd",
+                    padding: "0.5px",
+                  }}
+                >
+                  Rate
+                </th>
+                <th
+                  width={80}
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    border: "1px solid #bdbdbd",
+                    padding: "0.5px",
+                  }}
+                >
+                  Amt .
+                </th>
+
+                <th
+                  width={100}
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
@@ -454,7 +583,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
               <tr>
                 <td></td>
                 <td
-                  colSpan={23}
+                  colSpan={27}
                   style={{
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
@@ -538,15 +667,52 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                 >
                          437.5
                 </td>
+
+                <td
+                  colSpan={2}
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    border: "1px solid #bdbdbd",
+                    padding: "0.5px",
+                  }}
+                >
+                </td>
                 <td
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
-                  colSpan={2}
+                >
+                  12
+                </td>
+                <td
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    border: "1px solid #bdbdbd",
+                    padding: "0.5px",
+                  }}
+                >
+                  11.1
+                </td>
+                <td
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    border: "1px solid #bdbdbd",
+                    padding: "0.5px",
+                  }}
                 >
                 </td>
+                <td
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    border: "1px solid #bdbdbd",
+                    padding: "0.5px",
+                  }}
+                >
+                         437.5
+                </td>
+
                 <td
                   style={{
                     backgroundColor: "#f5f5f5",
