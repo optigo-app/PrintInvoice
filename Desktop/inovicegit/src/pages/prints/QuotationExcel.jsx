@@ -187,6 +187,10 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
             ? settingDiamonds[index]?.Amount
             : 0,
 
+          designNoFlag: index === 0 ? true : false,
+          categoryFlag: index === 1 ? true : false,
+          imgFlag: index === 2 ? true : false,
+
           miscCode: ``,
           miscSize: ``,
           miscPcs: ``,
@@ -194,14 +198,16 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
           miscRate: ``,
           miscAmount: ``,
 
-          settingAmount: settingDiamonds[index]?.SettingAmount,
-          makingRate: index === 0 && e?.MaKingCharge_Unit,
-          makingAmount: index === 0 && e?.MakingAmount,
-          makingHeightRowWise: index === 0 && length,
-          other: index === 0 && e?.OtherCharges,
-          unitCost: index === 0 && e?.UnitCost,
-          qty: "",
-          totalAmount: index === 0 && e?.TotalAmount,
+          settingAmount: settingDiamonds[index]
+            ? settingDiamonds[index]?.SettingAmount
+            : 0,
+          makingRate: index === 0 ? e?.MaKingCharge_Unit : 0,
+          makingAmount: index === 0 ? e?.MakingAmount : 0,
+          makingHeightRowWise: index === 0 ? length : 0,
+          other: index === 0 ? e?.OtherCharges : 0,
+          unitCost: index === 0 ? e?.UnitCost : 0,
+          qty: index === 0 ? 1 : 0,
+          totalAmount: index === 0 ? e?.TotalAmount : 0,
         };
         resultArr.push(obj);
       });
@@ -691,40 +697,64 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     >
                       {e?.srNo !== 0 && e?.srNo}
                     </td>
-
-                    <td
-                      style={{
-                        borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                        }`,
-                        borderLeft: "1px solid #bdbdbd",
-                        borderRight: "1px solid #bdbdbd",
-                        padding: "0.5px",
-                      }}
-                    >
-                      {e?.designNo !== 0 && (
+{console.log(e?.designNoFlag, e?.categoryFlag, e?.imgFlag)}
+                    {e?.designNoFlag && (
+                      <td
+                        style={{
+                          borderBottom: `${
+                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          }`,
+                          borderLeft: "1px solid #bdbdbd",
+                          borderRight: "1px solid #bdbdbd",
+                          padding: "0.5px",
+                        }}
+                      >
                         <p className="fw-bold" align="center">
                           {e?.designNo}
                         </p>
-                      )}
-                      {e?.designNo === 0 && e?.category !== 0 && (
+                      </td>
+                    )}
+
+                    {e?.categoryFlag && (
+                      <td
+                        style={{
+                          borderBottom: `${
+                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          }`,
+                          borderLeft: "1px solid #bdbdbd",
+                          borderRight: "1px solid #bdbdbd",
+                          padding: "0.5px",
+                        }}
+                      >
                         <p className="fw-bold" align="center">
                           {e?.category}
                         </p>
-                      )}
-                      {e?.designNo === 0 &&
-                        e?.category === 0 &&
-                        e?.img !== 0 && (
+                      </td>
+                    )}
+
+                    {e?.imgFlag && (
+                      <td
+                        style={{
+                          borderBottom: `${
+                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          }`,
+                          borderLeft: "1px solid #bdbdbd",
+                          borderRight: "1px solid #bdbdbd",
+                          padding: "0.5px",
+                        }}
+                      >
                           <img
-                            src={e?.img}
-                            onError={(eve) =>
-                              handleGlobalImgError(eve, header?.DefImage)
-                            }
-                            width={60}
-                            height={60}
-                          />
-                        )}
-                    </td>
+                        src={e?.img}
+                        onError={(eve) =>
+                          handleGlobalImgError(eve, header?.DefImage)
+                        }
+                        style={{
+                          objectFit: "contain",
+                        }}
+                        height={50}
+                      />
+                      </td>
+                    )}
 
                     <td
                       style={{
@@ -888,7 +918,6 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     </td>
 
                     <td
-                      colSpan={2}
                       style={{
                         borderBottom: `${
                           data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
@@ -898,30 +927,6 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                         padding: "0.5px",
                       }}
                     ></td>
-                    <td
-                      style={{
-                        borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                        }`,
-                        borderLeft: "1px solid #bdbdbd",
-                        borderRight: "1px solid #bdbdbd",
-                        padding: "0.5px",
-                      }}
-                    >
-                      12
-                    </td>
-                    <td
-                      style={{
-                        borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                        }`,
-                        borderLeft: "1px solid #bdbdbd",
-                        borderRight: "1px solid #bdbdbd",
-                        padding: "0.5px",
-                      }}
-                    >
-                      11.1
-                    </td>
                     <td
                       style={{
                         borderBottom: `${
@@ -941,9 +946,37 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
                       }}
-                    >
-                      437.5
-                    </td>
+                    ></td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    ></td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    ></td>
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    ></td>
 
                     <td
                       style={{
@@ -955,66 +988,90 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                         padding: "0.5px",
                       }}
                     >
-                      0
+                      {e?.settingAmount !== 0 &&
+                        NumberWithCommas(e?.settingAmount, 2)}
                     </td>
-                    <td
-                      style={{
-                        borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                        }`,
-                        borderLeft: "1px solid #bdbdbd",
-                        borderRight: "1px solid #bdbdbd",
-                        padding: "0.5px",
-                      }}
-                    ></td>
-                    <td
-                      style={{
-                        borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                        }`,
-                        borderLeft: "1px solid #bdbdbd",
-                        borderRight: "1px solid #bdbdbd",
-                        padding: "0.5px",
-                      }}
-                    >
-                      3500
-                    </td>
+                    {e?.makingHeightRowWise !== 0 && (
+                      <td
+                        style={{
+                          borderBottom: `${
+                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          }`,
+                          borderLeft: "1px solid #bdbdbd",
+                          borderRight: "1px solid #bdbdbd",
+                          padding: "0.5px",
+                        }}
+                        rowSpan={e?.makingHeightRowWise}
+                      >
+                        {e?.makingRate !== 0 &&
+                          NumberWithCommas(e?.makingRate, 2)}
+                      </td>
+                    )}
+                    {e?.makingHeightRowWise !== 0 && (
+                      <td
+                        style={{
+                          borderBottom: `${
+                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          }`,
+                          borderLeft: "1px solid #bdbdbd",
+                          borderRight: "1px solid #bdbdbd",
+                          padding: "0.5px",
+                        }}
+                        rowSpan={e?.makingHeightRowWise}
+                      >
+                        {e?.makingAmount !== 0 &&
+                          NumberWithCommas(e?.makingAmount, 2)}
+                      </td>
+                    )}
 
-                    <td
-                      style={{
-                        borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                        }`,
-                        borderLeft: "1px solid #bdbdbd",
-                        borderRight: "1px solid #bdbdbd",
-                        padding: "0.5px",
-                      }}
-                    >
-                      0
-                    </td>
+                    {e?.makingHeightRowWise !== 0 && (
+                      <td
+                        style={{
+                          borderBottom: `${
+                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          }`,
+                          borderLeft: "1px solid #bdbdbd",
+                          borderRight: "1px solid #bdbdbd",
+                          padding: "0.5px",
+                        }}
+                        rowSpan={e?.makingHeightRowWise}
+                      >
+                        {e?.other !== 0 && NumberWithCommas(e?.other, 2)}
+                      </td>
+                    )}
 
-                    <td
-                      style={{
-                        borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                        }`,
-                        borderLeft: "1px solid #bdbdbd",
-                        borderRight: "1px solid #bdbdbd",
-                        padding: "0.5px",
-                      }}
-                    ></td>
-                    <td
-                      style={{
-                        borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                        }`,
-                        borderLeft: "1px solid #bdbdbd",
-                        borderRight: "1px solid #bdbdbd",
-                        padding: "0.5px",
-                      }}
-                    >
-                      3
-                    </td>
+                    {e?.makingHeightRowWise !== 0 && (
+                      <td
+                        style={{
+                          borderBottom: `${
+                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          }`,
+                          borderLeft: "1px solid #bdbdbd",
+                          borderRight: "1px solid #bdbdbd",
+                          padding: "0.5px",
+                        }}
+                        rowSpan={e?.makingHeightRowWise}
+                      >
+                        {" "}
+                        {e?.unitCost !== 0 && NumberWithCommas(e?.unitCost, 2)}
+                      </td>
+                    )}
+
+                    {e?.makingHeightRowWise !== 0 && (
+                      <td
+                        style={{
+                          borderBottom: `${
+                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          }`,
+                          borderLeft: "1px solid #bdbdbd",
+                          borderRight: "1px solid #bdbdbd",
+                          padding: "0.5px",
+                        }}
+                        rowSpan={e?.makingHeightRowWise}
+                      >
+                        {e?.qty !== 0 && NumberWithCommas(e?.qty, 0)}
+                      </td>
+                    )}
                     {/* height={21} */}
                     <td
                       style={{
@@ -1027,7 +1084,8 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                       }}
                       align="right"
                     >
-                      ₹ 14,396.00
+                      {e?.totalAmount !== 0 &&
+                        NumberWithCommas(e?.totalAmount, 2)}
                     </td>
                   </tr>
                 );
