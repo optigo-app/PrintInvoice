@@ -17,6 +17,22 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
   const [msg, setMsg] = useState("");
   const [header, setdeader] = useState({});
   const [data, setData] = useState([]);
+  const [total, setTotal] = useState({
+    metalAmount: 0,
+    diamondPcs: 0,
+    diamondWt: 0,
+    diamondAmount: 0,
+    miscsPcs: 0,
+    miscsWt: 0,
+    miscsAmount: 0,
+    settingAmount: 0,
+    makingAmount: 0,
+    otherCharges: 0,
+    unitcost: 0,
+    qty: 0,
+    totalAmount: 0,
+  });
+  const [tax, setTax] = useState([]);
 
   const loadData = (data) => {
     let Mostly_Calculation = OrganizeDataPrint(
@@ -24,12 +40,23 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+    let totals = { ...total };
+
     let json0Data = data?.BillPrint_Json[0];
     let resultArr = [];
     Mostly_Calculation?.resultArray?.forEach((e, i) => {
+      totals.makingAmount += e?.MakingAmount;
+      totals.otherCharges += e?.OtherCharges;
+      totals.totalAmount += e?.TotalAmount;
+      totals.qty += 1;
+
       let settingDiamonds = [];
       let settingcolorStones = [];
       e?.diamonds.forEach((ele, ind) => {
+        totals.diamondPcs += ele?.Pcs;
+        totals.diamondAmount += ele?.Amount;
+        totals.diamondWt += ele?.Wt;
+        totals.settingAmount += ele?.SettingAmount;
         let findRecord = settingDiamonds.findIndex(
           (elem, index) =>
             elem?.ShapeName === ele?.ShapeName &&
@@ -50,6 +77,10 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
         }
       });
       e?.colorstone.forEach((ele, ind) => {
+        totals.diamondPcs += ele?.Pcs;
+        totals.diamondAmount += ele?.Amount;
+        totals.diamondWt += ele?.Wt;
+        totals.settingAmount += ele?.SettingAmount;
         let findRecord = settingcolorStones.findIndex(
           (elem, index) =>
             elem?.ShapeName === ele?.ShapeName &&
@@ -73,6 +104,9 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
       let miscs = [];
 
       e?.misc.forEach((ele, ind) => {
+        totals.miscsPcs += ele?.Pcs;
+        totals.miscsWt += ele?.Wt;
+        totals.miscsAmount += ele?.Amount;
         let findRecord = miscs.findIndex(
           (elem, index) =>
             elem?.ShapeName === ele?.ShapeName &&
@@ -124,6 +158,13 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
       });
 
       let metalFinding = [...e?.metal, ...e?.finding].flat();
+
+      let metalamount = metalFinding.reduce((acc, cobj) => {
+        return acc + cobj?.Amount;
+      }, 0);
+
+      totals.metalAmount += metalamount;
+
       let diamondColorStones = [
         ...settingDiamonds,
         ...settingcolorStones,
@@ -191,12 +232,16 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
           categoryFlag: index === 1 ? true : false,
           imgFlag: index === 2 ? true : false,
 
-          miscCode: ``,
-          miscSize: ``,
-          miscPcs: ``,
-          miscWt: ``,
-          miscRate: ``,
-          miscAmount: ``,
+          miscCode: `${
+            miscs[index]
+              ? `M ${miscs[index]?.ShapeName} ${miscs[index]?.QualityName} ${miscs[index]?.Colorname}`
+              : ""
+          } `,
+          miscSize: miscs[index] ? miscs[index]?.SizeName : "",
+          miscPcs: miscs[index] ? miscs[index]?.Pcs : 0,
+          miscWt: miscs[index] ? miscs[index]?.Wt : 0,
+          miscRate: miscs[index] ? miscs[index]?.Rate : 0,
+          miscAmount: miscs[index] ? miscs[index]?.Amount : 0,
 
           settingAmount: settingDiamonds[index]
             ? settingDiamonds[index]?.SettingAmount
@@ -212,6 +257,24 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
         resultArr.push(obj);
       });
     });
+
+    if (data?.BillPrint_Json[0]?.AddLess !== 0) {
+      Mostly_Calculation?.allTaxes.push({
+        name: `${data?.BillPrint_Json[0]?.AddLess > 0 ? "Add" : "Less"}`,
+        per: "",
+        amount: data?.BillPrint_Json[0]?.AddLess,
+      });
+    }
+
+    let totalAmount =
+      Mostly_Calculation?.allTaxes.reduce((acc, cobj) => {
+        return acc + +cobj?.amount;
+      }, 0) + totals?.totalAmount;
+
+    totals.totalAmount = totalAmount;
+
+    setTax(Mostly_Calculation?.allTaxes);
+    setTotal(totals);
     setData(resultArr);
     setdeader(json0Data);
     setTimeout(() => {
@@ -262,7 +325,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
             <thead>
               <tr>
                 <td width={20}></td>
-                <td
+                <th
                   colSpan={28}
                   align="left"
                   height={40}
@@ -272,8 +335,8 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     fontWeight: "bold",
                   }}
                 >
-                  <p weig>CLASSMATE CORPORATION PVT LTD </p>
-                </td>
+                  <font size="5">{header?.companyname} </font>
+                </th>
               </tr>
 
               <tr>
@@ -286,27 +349,27 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                   <p className="fw-normal">Quotation#</p>
                 </td>
                 <td colSpan={3} align="left" style={{ fontWeight: "bold" }}>
-                  <p className="fw-bold">: QT24347</p>
+                  <p className="fw-bold">: {header?.InvoiceNo}</p>
                 </td>
               </tr>
 
               <tr>
                 <td></td>
                 <td colSpan={5} align="left">
-                  <p className="">Kamlesh Patil pvt ltd</p>
+                  <p className="">{header?.customerfirmname}</p>
                 </td>
                 <td>
                   <p className="fw-normal">Date</p>
                 </td>
                 <td colSpan={3} align="left" style={{ fontWeight: "bold" }}>
-                  <p className="fw-bold">: 09 Dec 2023</p>
+                  <p className="fw-bold">: {header?.EntryDate}</p>
                 </td>
               </tr>
 
               <tr>
                 <td></td>
                 <td colSpan={5} align="left">
-                  <p className="">Near railway station, Vadodara</p>
+                  <p className="">{header?.customerstreet}</p>
                 </td>
                 <td></td>
                 <td colSpan={3}></td>
@@ -315,7 +378,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
               <tr>
                 <td></td>
                 <td colSpan={5} align="left">
-                  <p className="">VADODARA</p>
+                  <p className="">{header?.customercity}</p>
                 </td>
                 <td>
                   <p> </p>
@@ -697,9 +760,8 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     >
                       {e?.srNo !== 0 && e?.srNo}
                     </td>
-{console.log(e?.designNoFlag, e?.categoryFlag, e?.imgFlag)}
                     {e?.designNoFlag && (
-                      <td
+                      <th
                         style={{
                           borderBottom: `${
                             data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
@@ -710,9 +772,9 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                         }}
                       >
                         <p className="fw-bold" align="center">
-                          {e?.designNo}
+                          <font size="3"> {e?.designNo}</font>
                         </p>
-                      </td>
+                      </th>
                     )}
 
                     {e?.categoryFlag && (
@@ -743,16 +805,16 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                           padding: "0.5px",
                         }}
                       >
-                          <img
-                        src={e?.img}
-                        onError={(eve) =>
-                          handleGlobalImgError(eve, header?.DefImage)
-                        }
-                        style={{
-                          objectFit: "contain",
-                        }}
-                        height={50}
-                      />
+                        <img
+                          src={e?.img}
+                          onError={(eve) =>
+                            handleGlobalImgError(eve, header?.DefImage)
+                          }
+                          style={{
+                            objectFit: "contain",
+                          }}
+                          height={50}
+                        />
                       </td>
                     )}
 
@@ -899,11 +961,10 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                         padding: "0.5px",
                       }}
                     >
-                      {console.log(e?.diamondRate)}
                       {e?.diamondRate !== 0 &&
                         NumberWithCommas(e?.diamondRate, 2)}
                     </td>
-                    <td
+                    <th
                       style={{
                         borderBottom: `${
                           data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
@@ -915,7 +976,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     >
                       {e?.diamondAmount !== 0 &&
                         NumberWithCommas(e?.diamondAmount, 2)}
-                    </td>
+                    </th>
 
                     <td
                       style={{
@@ -926,7 +987,9 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
                       }}
-                    ></td>
+                    >
+                      {e?.miscCode}
+                    </td>
                     <td
                       style={{
                         borderBottom: `${
@@ -936,7 +999,9 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
                       }}
-                    ></td>
+                    >
+                      {e?.miscSize}
+                    </td>
                     <td
                       style={{
                         borderBottom: `${
@@ -946,7 +1011,9 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
                       }}
-                    ></td>
+                    >
+                      {e?.miscPcs !== 0 && NumberWithCommas(e?.miscPcs, 0)}
+                    </td>
                     <td
                       style={{
                         borderBottom: `${
@@ -956,7 +1023,9 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
                       }}
-                    ></td>
+                    >
+                      {e?.miscWt !== 0 && NumberWithCommas(e?.miscWt, 3)}
+                    </td>
                     <td
                       style={{
                         borderBottom: `${
@@ -966,7 +1035,9 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
                       }}
-                    ></td>
+                    >
+                      {e?.miscRate !== 0 && NumberWithCommas(e?.miscRate, 2)}
+                    </td>
                     <td
                       style={{
                         borderBottom: `${
@@ -976,7 +1047,10 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
                       }}
-                    ></td>
+                    >
+                      {e?.miscAmount !== 0 &&
+                        NumberWithCommas(e?.miscAmount, 2)}
+                    </td>
 
                     <td
                       style={{
@@ -1073,7 +1147,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                       </td>
                     )}
                     {/* height={21} */}
-                    <td
+                    <th
                       style={{
                         borderBottom: `${
                           data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
@@ -1086,195 +1160,215 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     >
                       {e?.totalAmount !== 0 &&
                         NumberWithCommas(e?.totalAmount, 2)}
-                    </td>
+                    </th>
                   </tr>
                 );
               })}
 
               {/* tax */}
-              <tr>
-                <td></td>
-                <td
-                  colSpan={27}
-                  style={{
-                    border: "1px solid #bdbdbd",
-                    padding: "0.5px",
-                  }}
-                  align="right"
-                >
-                  CGST @ 0.13%
-                </td>
-                <td
-                  style={{
-                    border: "1px solid #bdbdbd",
-                    padding: "0.5px",
-                  }}
-                  align="right"
-                >
-                  18.67
-                </td>
-              </tr>
+              {tax.map((e, i) => {
+                return (
+                  <tr key={i}>
+                    <td></td>
+                    <td
+                      colSpan={27}
+                      style={{
+                        border: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                      align="right"
+                    >
+                      {e?.name} {e?.per !== "" && "@"} {e?.per}
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                      align="right"
+                    >
+                      {NumberWithCommas(e?.amount, 2)}
+                    </td>
+                  </tr>
+                );
+              })}
 
               {/* total */}
               <tr>
-                <td></td>
-                <td
+                <th></th>
+                <th
                   colSpan={8}
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
-                ></td>
-                <td
+                ></th>
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
                 >
-                  6972
-                </td>
-                <td
+                  {NumberWithCommas(total?.metalAmount, 2)}
+                </th>
+                <th
                   colSpan={2}
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
-                ></td>
-                <td
+                ></th>
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
                 >
-                  12
-                </td>
-                <td
+                  {NumberWithCommas(total?.diamondPcs, 0)}
+                </th>
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
                 >
-                  11.1
-                </td>
-                <td
+                  {NumberWithCommas(total?.diamondWt, 3)}
+                </th>
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
-                ></td>
-                <td
+                ></th>
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
+                  align="end"
                 >
-                  437.5
-                </td>
+                  {NumberWithCommas(total?.diamondAmount, 2)}
+                </th>
 
-                <td
-                  colSpan={2}
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
-                ></td>
-                <td
+                ></th>
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
+                ></th>
+                <th
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    border: "1px solid #bdbdbd",
+                    padding: "0.5px",
+                  }}
+                  align="end"
                 >
-                  12
-                </td>
-                <td
+                  {total?.miscsPcs !== 0 &&
+                    NumberWithCommas(total?.miscsPcs, 0)}
+                </th>
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
+                  align="end"
                 >
-                  11.1
-                </td>
-                <td
+                  {total?.miscsWt !== 0 && NumberWithCommas(total?.miscsWt, 3)}
+                </th>
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
-                ></td>
-                <td
+                ></th>
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
+                  align="end"
                 >
-                  437.5
-                </td>
+                  {total?.miscsAmount !== 0 &&
+                    NumberWithCommas(total?.miscsAmount, 2)}
+                </th>
 
-                <td
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
+                  align="end"
                 >
-                  0
-                </td>
-                <td
+                  {NumberWithCommas(total?.settingAmount, 2)}
+                </th>
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
-                ></td>
-                <td
+                ></th>
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
+                  align="end"
                 >
-                  3500
-                </td>
+                  {NumberWithCommas(total?.makingAmount, 2)}
+                </th>
 
-                <td
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
+                  align="end"
                 >
-                  0
-                </td>
+                  {NumberWithCommas(total?.otherCharges, 2)}
+                </th>
 
-                <td
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
-                ></td>
-                <td
+                ></th>
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
                     padding: "0.5px",
                   }}
+                  align="end"
                 >
-                  3
-                </td>
+                  {NumberWithCommas(total?.qty, 0)}
+                </th>
                 {/* height={21} */}
-                <td
+                <th
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
@@ -1282,8 +1376,11 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                   }}
                   align="right"
                 >
-                  ₹ 14,396.00
-                </td>
+                  <span
+                    dangerouslySetInnerHTML={{ __html: header?.Currencysymbol }}
+                  ></span>
+                  {NumberWithCommas(total?.totalAmount, 2)}
+                </th>
               </tr>
             </tbody>
           </table>
