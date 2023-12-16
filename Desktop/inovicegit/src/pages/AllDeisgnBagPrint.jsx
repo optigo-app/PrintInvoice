@@ -22,8 +22,8 @@ import BagPrint4B from './bagPrints/BagPrint4B';
 // import BagPrint17A from './bagPrints/BagPrint17A';
 // import Bg18 from './bagPrints/Bg18';
 import BagPrint20A from './bagPrints/BagPrint20A';
-import Jobbagsticker from './bagPrints/jobBagStickers/Jobbagsticker';
-import Jobbagsticker3 from './bagPrints/jobBagStickers/Jobbagsticker3';
+import Jobbagsticker from './bagPrints/Jobbagsticker';
+import Jobbagsticker3 from './bagPrints/Jobbagsticker3';
 // import EngageMat from './bagPrints/jobBagStickers/EngageMat';
 
 const AllDesignBagPrint = () => {

@@ -883,9 +883,9 @@ const BagPrint10A = ({ queries, headers }) => {
                           </div>
                         </div>
                         <div className="enteryBarcode10AD">
-                          <div className="enteryBarcode3ADyn">
+                          <div className="enteryBarcode10ADyn">
                             <div
-                              className="entry3AHead"
+                              className="entry10AHead"
                               style={{ fontWeight: "normal", width: "290px" }}
                             >
                               <div
@@ -925,13 +925,13 @@ const BagPrint10A = ({ queries, headers }) => {
                                 WORKER
                               </div>
                             </div>
-                            <div className="entryheader3A">
+                            <div className="entryheader10A">
                               <div
-                                className="entry3AHeadD"
+                                className="entry10AHeadD"
                                 style={{ fontWeight: "normal" }}
                               >
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode10aD"
                                   style={{
                                     width: "46px",
                                     display: "flex",
@@ -942,7 +942,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                   GRD{" "}
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode10aD"
                                   style={{
                                     width: "46px",
                                     display: "flex",
@@ -953,7 +953,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                   FIL
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode10aD"
                                   style={{
                                     width: "46px",
                                     display: "flex",
@@ -964,7 +964,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                   PPL
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode10aD"
                                   style={{
                                     width: "46px",
                                     display: "flex",
@@ -975,7 +975,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                   SET.
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode10aD"
                                   style={{
                                     width: "46px",
                                     display: "flex",
@@ -986,7 +986,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                   ASM
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode10aD"
                                   style={{
                                     width: "46px",
                                     display: "flex",
@@ -997,7 +997,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                   FPL
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode10aD"
                                   style={{
                                     width: "46px",
                                     display: "flex",
@@ -1008,7 +1008,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                   PLT
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode10aD"
                                   style={{
                                     width: "46px",
                                     display: "flex",
@@ -1019,7 +1019,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                   ENM
                                 </div>
                                 <div
-                                  className="rmcode3aD"
+                                  className="rmcode10aD"
                                   style={{
                                     borderBottom: "1px solid #989898",
                                     width: "46px",
@@ -1035,28 +1035,28 @@ const BagPrint10A = ({ queries, headers }) => {
                                 <div>
                                   {Array.from({ length: 9 }, (_, index) => (
                                     <div
-                                      className="entry3AHeadEntry"
+                                      className="entry10AHeadEntry"
                                       key={index}
                                       style={{ fontWeight: "normal" }}
                                     >
                                       <div
-                                        className="rmcode3aDE"
+                                        className="rmcode10aDE"
                                         style={{ width: "52px" }}
                                       ></div>
                                       <div
-                                        className="rmcode3aDE"
+                                        className="rmcode10aDE"
                                         style={{ width: "51px" }}
                                       ></div>
                                       <div
-                                        className="rmcode3aDE"
+                                        className="rmcode10aDE"
                                         style={{ width: "51px" }}
                                       ></div>
                                       <div
-                                        className="rmcode3aDE"
+                                        className="rmcode10aDE"
                                         style={{ width: "37px" }}
                                       ></div>
                                       <div
-                                        className="rmcode3aDE"
+                                        className="rmcode10aDE"
                                         style={{
                                           width: "56px",
                                           borderRight: "0px",

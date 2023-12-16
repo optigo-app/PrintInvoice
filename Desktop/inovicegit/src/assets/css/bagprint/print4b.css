@@ -27,11 +27,11 @@
     height: 130pt;
 }
 .barcode_img_4B>img {
-    top: 72px !important;
+    top: 75px !important;
     height: 23px;
     width: 175px;
     object-fit: cover;
-    transform: rotate(90deg);
-    position: relative;
-    left: -57px !important;
+    transform: rotate(90deg) !important;
+    position: relative !important;
+    left: -66px !important;
 }

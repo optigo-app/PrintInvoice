@@ -224,10 +224,10 @@
     height: 25px;
     width: 200px;
     object-fit: cover;
-    transform: rotate(90deg);
-    position: absolute;
-    top: 6rem;
-    right: -94px !important;
+    transform: rotate(90deg) !important;
+    position: absolute !important;
+    top: 6.5rem !important;
+    right: -120px !important;
 }
 
 .p11A {
