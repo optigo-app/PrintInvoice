@@ -9,8 +9,8 @@ const AllDesign = () => {
     const queryParamss = new URLSearchParams(location.search);
   return (
     <>
-     {queryParamss.get('printname') ? <AllDesignBagPrint /> : <AllDesignPrint />}
-     {/* {queryParamss.get('printname') ? <AllDesignBagPrint2 /> : <AllDesignPrint />} */}
+     {/* {queryParamss.get('printname') ? <AllDesignBagPrint /> : <AllDesignPrint />} */}
+     {queryParamss.get('printname') ? <AllDesignBagPrint2 /> : <AllDesignPrint />}
   </>
   )
 }
