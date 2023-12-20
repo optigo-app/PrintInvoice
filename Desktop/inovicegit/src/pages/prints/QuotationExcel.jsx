@@ -760,6 +760,32 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     >
                       {e?.srNo !== 0 && e?.srNo}
                     </td>
+                    {e?.imgFlag && (
+                      <td
+                        style={{
+                          // borderBottom: `${
+                          //   data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          // }`,
+                          borderLeft: "1px solid #bdbdbd",
+                          borderRight: "1px solid #bdbdbd",
+                          padding: "0.5px",
+                        }}
+                      >
+                        <div>
+
+                        
+                        <img
+                          src={e?.img}
+                          alt="#"
+                          onError={(eve) =>
+                            handleGlobalImgError(eve, header?.DefImage)
+                          }
+                          style={{ objectFit: "contain" }}
+                          height={50}
+                        />
+                        </div>
+                      </td>
+                    )}
                     {e?.designNoFlag && (
                       <th
                         style={{
@@ -794,29 +820,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                       </td>
                     )}
 
-                    {e?.imgFlag && (
-                      <td
-                        style={{
-                          borderBottom: `${
-                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                          }`,
-                          borderLeft: "1px solid #bdbdbd",
-                          borderRight: "1px solid #bdbdbd",
-                          padding: "0.5px",
-                        }}
-                      >
-                        <img
-                          src={e?.img}
-                          onError={(eve) =>
-                            handleGlobalImgError(eve, header?.DefImage)
-                          }
-                          style={{
-                            objectFit: "contain",
-                          }}
-                          height={50}
-                        />
-                      </td>
-                    )}
+
 
                     <td
                       style={{
