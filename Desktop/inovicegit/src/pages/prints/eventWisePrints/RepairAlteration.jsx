@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import style from "../../assets/css/prints/manufacturemgt.module.css";
+import style from "../../../assets/css/prints/manufacturemgt.module.css";
 import {
   HeaderComponent,
   NumberWithCommas,
   handleImageError,
   handlePrint,
-} from "../../GlobalFunctions";
+} from "../../../GlobalFunctions";
 
 const RepairAlteration = ({ data }) => {
   const [headerComp, setHeaderComp] = useState(null);

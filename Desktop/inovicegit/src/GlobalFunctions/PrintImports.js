@@ -47,6 +47,9 @@ export const printConditions = [
   { printName: "retail invoice 2", etpType: "print", componentName: "RetailInvoice2_3" },
   { printName: "retail invoice 3", etpType: "print", componentName: "RetailInvoice2_3" },
   { printName: "repair print", etpType: "print", componentName: "RepairPrint" },
+  { printName: "sale order", etpType: "print", componentName: "SaleOrder" },
+
+  
   // Add more print conditions here
 ];
 export const excelConditions = [

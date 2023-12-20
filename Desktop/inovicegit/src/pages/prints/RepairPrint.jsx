@@ -14,7 +14,7 @@ const RepairPrint = ({ token, invoiceNo, printName, urls, evn }) => {
 
   const importComponent = async (printData, data) => {
     try {
-      const module = await import(`../prints/${printData?.evname}`);
+      const module = await import(`../prints/eventWisePrints/${printData?.evname}`);
       const AnotherComponent = module.default;
       return <AnotherComponent data={data} />;
     } catch (error) {

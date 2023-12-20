@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import style from "../../assets/css/prints/manufacturemgt.module.css";
+import style from "../../../assets/css/prints/manufacturemgt.module.css";
 import {
   HeaderComponent,
   NumberWithCommas,
   handleImageError,
   handlePrint,
   taxGenrator,
-} from "../../GlobalFunctions";
+} from "../../../GlobalFunctions";
 
 const RepairAlterationReceive = ({ data }) => {
   console.log(data, "alteration receive");

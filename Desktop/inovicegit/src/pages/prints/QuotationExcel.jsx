@@ -48,11 +48,13 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
       totals.makingAmount += e?.MakingAmount;
       totals.otherCharges += e?.OtherCharges;
       totals.totalAmount += e?.TotalAmount;
-      totals.qty += 1;
+      totals.qty += e?.Quantity;
 
       let settingDiamonds = [];
       let settingcolorStones = [];
+      let diamondWt = 0;
       e?.diamonds.forEach((ele, ind) => {
+        diamondWt += ele?.Wt;
         totals.diamondPcs += ele?.Pcs;
         totals.diamondAmount += ele?.Amount;
         totals.diamondWt += ele?.Wt;
@@ -126,7 +128,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
           }
         }
       });
-
+    
       settingDiamonds.sort((a, b) => {
         let nameA = a?.ShapeName;
         let nameB = b?.ShapeName;
@@ -158,6 +160,11 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
       });
 
       let metalFinding = [...e?.metal, ...e?.finding].flat();
+      let wtmd = 0;
+      if(e?.metal[0]){
+        wtmd = e?.metal[0].Wt;
+      }
+      wtmd += (diamondWt/5);
 
       let metalamount = metalFinding.reduce((acc, cobj) => {
         return acc + cobj?.Amount;
@@ -168,9 +175,9 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
       let diamondColorStones = [
         ...settingDiamonds,
         ...settingcolorStones,
-        ...miscs,
+        // ...miscs,
       ].flat();
-      let length = 5;
+      let length = 3;
 
       if (length < miscs.length) {
         length = miscs.length;
@@ -194,38 +201,39 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
             ? `${metalFinding[index]?.ShapeName} ${metalFinding[index]?.QualityName} ${metalFinding[index]?.FindingTypename} ${metalFinding[index]?.FindingAccessories}`
             : "",
           color: metalFinding[index] ? metalFinding[index]?.Colorname : "",
+          wtmd: index === 0 ? wtmd : 0,
           netWt: metalFinding[index] ? metalFinding[index]?.Wt : "",
           grossWt: metalFinding[index] ? e?.grosswt : "",
           metalRate: metalFinding[index] ? metalFinding[index]?.Rate : "",
           metalAmount: metalFinding[index] ? metalFinding[index]?.Amount : "",
           diamondCode: `${
-            settingDiamonds[index]
+            diamondColorStones[index]
               ? `${
-                  settingDiamonds[index]
+                  diamondColorStones[index]
                     ?.MasterManagement_DiamondStoneTypeid === 1
                     ? "D"
                     : ""
                 } 
           ${
-            settingDiamonds[index]?.MasterManagement_DiamondStoneTypeid === 2
+            diamondColorStones[index]?.MasterManagement_DiamondStoneTypeid === 2
               ? "CS"
               : ""
           } 
-          ${settingDiamonds[index]?.ShapeName}
-          ${settingDiamonds[index]?.QualityName}
-          ${settingDiamonds[index]?.Colorname}`
+          ${diamondColorStones[index]?.ShapeName}
+          ${diamondColorStones[index]?.QualityName}
+          ${diamondColorStones[index]?.Colorname}`
               : ""
           }`,
-          diamondSize: settingDiamonds[index]
-            ? settingDiamonds[index]?.SizeName
+          diamondSize: diamondColorStones[index]
+            ? diamondColorStones[index]?.SizeName
             : "",
-          diamondPcs: settingDiamonds[index] ? settingDiamonds[index]?.Pcs : 0,
-          diamondWt: settingDiamonds[index] ? settingDiamonds[index]?.Wt : 0,
-          diamondRate: settingDiamonds[index]
-            ? settingDiamonds[index]?.Rate
+          diamondPcs: diamondColorStones[index] ? diamondColorStones[index]?.Pcs : 0,
+          diamondWt: diamondColorStones[index] ? diamondColorStones[index]?.Wt : 0,
+          diamondRate: diamondColorStones[index]
+            ? diamondColorStones[index]?.Rate
             : 0,
-          diamondAmount: settingDiamonds[index]
-            ? settingDiamonds[index]?.Amount
+          diamondAmount: diamondColorStones[index]
+            ? diamondColorStones[index]?.Amount
             : 0,
 
           designNoFlag: index === 0 ? true : false,
@@ -243,15 +251,15 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
           miscRate: miscs[index] ? miscs[index]?.Rate : 0,
           miscAmount: miscs[index] ? miscs[index]?.Amount : 0,
 
-          settingAmount: settingDiamonds[index]
-            ? settingDiamonds[index]?.SettingAmount
+          settingAmount: diamondColorStones[index]
+            ? diamondColorStones[index]?.SettingAmount
             : 0,
           makingRate: index === 0 ? e?.MaKingCharge_Unit : 0,
           makingAmount: index === 0 ? e?.MakingAmount : 0,
           makingHeightRowWise: index === 0 ? length : 0,
           other: index === 0 ? e?.OtherCharges : 0,
           unitCost: index === 0 ? e?.UnitCost : 0,
-          qty: index === 0 ? 1 : 0,
+          qty: index === 0 ? e?.Quantity : 0,
           totalAmount: index === 0 ? e?.TotalAmount : 0,
         };
         resultArr.push(obj);
@@ -312,7 +320,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
       {loader ? (
         <Loader />
       ) : msg === "" ? (
-        <div className="">
+        <div className="d-none">
           <ReactdTMLTableToExcel
             id="test-table-xls-button"
             className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
@@ -323,6 +331,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
           />
           <table id="table-to-xls">
             <thead>
+              <tr></tr>
               <tr>
                 <td width={20}></td>
                 <th
@@ -331,6 +340,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                   height={40}
                   style={{
                     backgroundColor: "#f5f5f5",
+                    border: "1px solid #b5b5b5",
                     padding: "1px",
                     fontWeight: "bold",
                   }}
@@ -341,49 +351,49 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
 
               <tr>
                 <td></td>
-                <td colSpan={5} align="left">
+                <td colSpan={24} align="left" style={{borderLeft: "1px solid #b5b5b5",borderRight: "1px solid #b5b5b5", padding: "1px"}}>
                   <p className="">TO</p>
                 </td>
-                <td colSpan={19} rowSpan={4}></td>
+                {/* <td colSpan={19} rowSpan={4}></td> */}
                 <td>
                   <p className="fw-normal">Quotation#</p>
                 </td>
-                <td colSpan={3} align="left" style={{ fontWeight: "bold" }}>
+                <td colSpan={3} align="left" style={{ fontWeight: "bold",borderRight: "1px solid #b5b5b5", padding: "1px" }}>
                   <p className="fw-bold">: {header?.InvoiceNo}</p>
                 </td>
               </tr>
 
               <tr>
                 <td></td>
-                <td colSpan={5} align="left">
+                <td colSpan={24} align="left" style={{borderLeft: "1px solid #b5b5b5",borderRight: "1px solid #b5b5b5", padding: "1px"}}>
                   <p className="">{header?.customerfirmname}</p>
                 </td>
                 <td>
                   <p className="fw-normal">Date</p>
                 </td>
-                <td colSpan={3} align="left" style={{ fontWeight: "bold" }}>
+                <td colSpan={3} align="left" style={{ fontWeight: "bold",borderRight: "1px solid #b5b5b5", padding: "1px" }}>
                   <p className="fw-bold">: {header?.EntryDate}</p>
                 </td>
               </tr>
 
               <tr>
                 <td></td>
-                <td colSpan={5} align="left">
+                <td colSpan={24} align="left" style={{borderLeft: "1px solid #b5b5b5",borderRight: "1px solid #b5b5b5", padding: "1px"}}>
                   <p className="">{header?.customerstreet}</p>
                 </td>
                 <td></td>
-                <td colSpan={3}></td>
+                <td colSpan={3} style={{borderRight: "1px solid #b5b5b5", padding: "1px"}}></td>
               </tr>
 
               <tr>
                 <td></td>
-                <td colSpan={5} align="left">
+                <td colSpan={24} align="left" style={{borderLeft: "1px solid #b5b5b5",borderRight: "1px solid #b5b5b5", padding: "1px"}}>
                   <p className="">{header?.customercity}</p>
                 </td>
                 <td>
                   <p> </p>
                 </td>
-                <td colSpan={3}>
+                <td colSpan={3} style={{borderRight: "1px solid #b5b5b5", padding: "1px"}}>
                   <p> </p>
                 </td>
               </tr>
@@ -527,7 +537,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
               <tr>
                 <td></td>
                 <th
-                  width={80}
+                  width={160}
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
@@ -599,7 +609,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                 </th>
 
                 <th
-                  width={80}
+                  width={120}
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
@@ -660,7 +670,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                 </th>
 
                 <th
-                  width={80}
+                  width={120}
                   style={{
                     backgroundColor: "#f5f5f5",
                     border: "1px solid #bdbdbd",
@@ -748,10 +758,11 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                 return (
                   <tr key={i}>
                     <td></td>
+                    
                     <td
                       style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
@@ -760,407 +771,304 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                     >
                       {e?.srNo !== 0 && e?.srNo}
                     </td>
-                    {e?.designNoFlag && (
-                      <th
-                        style={{
-                          borderBottom: `${
-                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                          }`,
-                          borderLeft: "1px solid #bdbdbd",
-                          borderRight: "1px solid #bdbdbd",
-                          padding: "0.5px",
-                        }}
-                      >
-                        <p className="fw-bold" align="center">
-                          <font size="3"> {e?.designNo}</font>
-                        </p>
-                      </th>
-                    )}
 
-                    {e?.categoryFlag && (
-                      <td
-                        style={{
-                          borderBottom: `${
-                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                          }`,
-                          borderLeft: "1px solid #bdbdbd",
-                          borderRight: "1px solid #bdbdbd",
-                          padding: "0.5px",
-                        }}
-                      >
+                    <td
+                      style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}
+                    >
+                      {e?.imgFlag && (
+                        <div style={{ height: "21px" }}>
+                          <img
+                            src={e?.img}
+                            onError={(eve) =>
+                              handleGlobalImgError(eve, header?.DefImage)
+                            }
+                            style={{
+                              objectFit: "contain",
+                            }}
+                            height={60}
+                          />
+                        </div>
+                      )}
+                      {e?.categoryFlag && (
                         <p className="fw-bold" align="center">
                           {e?.category}
                         </p>
-                      </td>
-                    )}
+                      )}
+                      {e?.designNoFlag && (
+                        <p className="fw-bold" align="center">
+                          <font size="3">
+                            <b> {e?.designNo}</b>
+                          </font>
+                        </p>
+                      )}
+                    </td>
 
-                    {e?.imgFlag && (
-                      <td
-                        style={{
-                          borderBottom: `${
-                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                          }`,
-                          borderLeft: "1px solid #bdbdbd",
-                          borderRight: "1px solid #bdbdbd",
-                          padding: "0.5px",
-                        }}
-                      >
-                        <img
-                          src={e?.img}
-                          onError={(eve) =>
-                            handleGlobalImgError(eve, header?.DefImage)
-                          }
-                          style={{
-                            objectFit: "contain",
-                          }}
-                          height={50}
-                        />
-                      </td>
-                    )}
+                    <td  style={{
+                        borderBottom: `${
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
+                        }`,
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}>{e?.metalQuality}</td>
 
-                    <td
-                      style={{
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
-                      {e?.metalQuality}
-                    </td>
-                    <td
-                      style={{
+                      }}>{e?.color}</td>
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
-                      {e?.color}
-                    </td>
-                    <td
-                      style={{
+                      }}>{e?.wtmd !== 0 && NumberWithCommas(e?.wtmd, 3)}</td>
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    ></td>
-                    <td
-                      style={{
+                      }}> {e?.netWt !== "" && NumberWithCommas(e?.netWt, 3)}</td>
+
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
-                      {e?.netWt !== "" && NumberWithCommas(e?.netWt, 3)}
-                    </td>
-                    <td
-                      style={{
-                        borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                        }`,
-                        borderLeft: "1px solid #bdbdbd",
-                        borderRight: "1px solid #bdbdbd",
-                        padding: "0.5px",
-                      }}
-                    >
+                      }}>
                       {e?.grossWt !== "" && NumberWithCommas(e?.grossWt, 3)}
                     </td>
-                    <td
-                      style={{
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
+                      }}>
                       {e?.metalRate !== "" && NumberWithCommas(e?.metalRate, 2)}
                     </td>
-                    <td
-                      style={{
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
+                      }}>
                       {e?.metalAmount !== "" &&
                         NumberWithCommas(e?.metalAmount, 2)}
                     </td>
 
-                    <td
-                      style={{
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
-                      {e?.diamondCode}
-                    </td>
-                    <td
-                      style={{
+                      }}>{e?.diamondCode}</td>
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
-                      {e?.diamondSize}
-                    </td>
-                    <td
-                      style={{
+                      }}>{e?.diamondSize}</td>
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
+                      }}>
                       {e?.diamondPcs !== 0 &&
                         NumberWithCommas(e?.diamondPcs, 0)}
                     </td>
-                    <td
-                      style={{
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
+                      }}>
                       {e?.diamondWt !== 0 && NumberWithCommas(e?.diamondWt, 3)}
                     </td>
-                    <td
-                      style={{
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
+                      }}>
                       {e?.diamondRate !== 0 &&
                         NumberWithCommas(e?.diamondRate, 2)}
                     </td>
-                    <th
-                      style={{
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
+                      }}>
                       {e?.diamondAmount !== 0 &&
-                        NumberWithCommas(e?.diamondAmount, 2)}
-                    </th>
+                        <b>{NumberWithCommas(e?.diamondAmount, 2)}</b>}
+                    </td>
 
-                    <td
-                      style={{
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
-                      {e?.miscCode}
-                    </td>
-                    <td
-                      style={{
+                      }}>{e?.miscCode}</td>
+                    <td style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
-                      {e?.miscSize}
-                    </td>
-                    <td
-                      style={{
+                      }}>{e?.miscSize}</td>
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
+                      }}>
                       {e?.miscPcs !== 0 && NumberWithCommas(e?.miscPcs, 0)}
                     </td>
-                    <td
-                      style={{
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
-                      {e?.miscWt !== 0 && NumberWithCommas(e?.miscWt, 3)}
-                    </td>
-                    <td
-                      style={{
+                      }}>{e?.miscWt !== 0 && NumberWithCommas(e?.miscWt, 3)}</td>
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
+                      }}>
                       {e?.miscRate !== 0 && NumberWithCommas(e?.miscRate, 2)}
                     </td>
-                    <td
-                      style={{
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
+                      }}>
                       {e?.miscAmount !== 0 &&
                         NumberWithCommas(e?.miscAmount, 2)}
                     </td>
-
-                    <td
-                      style={{
+                    <td  style={{
                         borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
+                          data[i + 1]?.srNo !== 0 ? "1px solid #bdbdbd" : ""
                         }`,
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                    >
+                      }}>
                       {e?.settingAmount !== 0 &&
                         NumberWithCommas(e?.settingAmount, 2)}
                     </td>
                     {e?.makingHeightRowWise !== 0 && (
-                      <td
-                        style={{
-                          borderBottom: `${
-                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                          }`,
-                          borderLeft: "1px solid #bdbdbd",
-                          borderRight: "1px solid #bdbdbd",
-                          padding: "0.5px",
-                        }}
-                        rowSpan={e?.makingHeightRowWise}
-                      >
+                      <td rowSpan={e?.makingHeightRowWise}  style={{
+                        borderBottom:  "1px solid #bdbdbd",
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}>
                         {e?.makingRate !== 0 &&
                           NumberWithCommas(e?.makingRate, 2)}
                       </td>
                     )}
                     {e?.makingHeightRowWise !== 0 && (
-                      <td
-                        style={{
-                          borderBottom: `${
-                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                          }`,
-                          borderLeft: "1px solid #bdbdbd",
-                          borderRight: "1px solid #bdbdbd",
-                          padding: "0.5px",
-                        }}
-                        rowSpan={e?.makingHeightRowWise}
-                      >
+                      <td rowSpan={e?.makingHeightRowWise}  style={{
+                        borderBottom:  "1px solid #bdbdbd",
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}>
                         {e?.makingAmount !== 0 &&
                           NumberWithCommas(e?.makingAmount, 2)}
                       </td>
                     )}
 
                     {e?.makingHeightRowWise !== 0 && (
-                      <td
-                        style={{
-                          borderBottom: `${
-                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                          }`,
-                          borderLeft: "1px solid #bdbdbd",
-                          borderRight: "1px solid #bdbdbd",
-                          padding: "0.5px",
-                        }}
-                        rowSpan={e?.makingHeightRowWise}
-                      >
+                      <td rowSpan={e?.makingHeightRowWise} style={{
+                        borderBottom:  "1px solid #bdbdbd",
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}>
                         {e?.other !== 0 && NumberWithCommas(e?.other, 2)}
                       </td>
                     )}
 
                     {e?.makingHeightRowWise !== 0 && (
-                      <td
-                        style={{
-                          borderBottom: `${
-                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                          }`,
-                          borderLeft: "1px solid #bdbdbd",
-                          borderRight: "1px solid #bdbdbd",
-                          padding: "0.5px",
-                        }}
-                        rowSpan={e?.makingHeightRowWise}
-                      >
+                      <td rowSpan={e?.makingHeightRowWise} style={{
+                        borderBottom:  "1px solid #bdbdbd",
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}>
                         {" "}
-                        {e?.unitCost !== 0 && NumberWithCommas(e?.unitCost, 2)}
+                        {e?.unitCost !== 0 && NumberWithCommas(e?.unitCost/e?.qty, 2)}
                       </td>
                     )}
 
                     {e?.makingHeightRowWise !== 0 && (
-                      <td
-                        style={{
-                          borderBottom: `${
-                            data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                          }`,
-                          borderLeft: "1px solid #bdbdbd",
-                          borderRight: "1px solid #bdbdbd",
-                          padding: "0.5px",
-                        }}
-                        rowSpan={e?.makingHeightRowWise}
-                      >
-                        {e?.qty !== 0 && NumberWithCommas(e?.qty, 0)}
-                      </td>
-                    )}
-                    {/* height={21} */}
-                    <th
-                      style={{
-                        borderBottom: `${
-                          data[i + 1]?.srNo !== 0 && "1px solid #bdbdbd"
-                        }`,
+                      <td rowSpan={e?.makingHeightRowWise} style={{
+                        borderBottom:  "1px solid #bdbdbd",
                         borderLeft: "1px solid #bdbdbd",
                         borderRight: "1px solid #bdbdbd",
                         padding: "0.5px",
-                      }}
-                      align="right"
-                    >
-                      {e?.totalAmount !== 0 &&
-                        NumberWithCommas(e?.totalAmount, 2)}
-                    </th>
+                      }}>
+                        {e?.qty !== 0 && NumberWithCommas(e?.qty, 0)}
+                      </td>
+                    )}
+                    {e?.makingHeightRowWise !== 0 && (
+                      <td align="right" rowSpan={e?.makingHeightRowWise} style={{
+                        borderBottom:  "1px solid #bdbdbd",
+                        borderLeft: "1px solid #bdbdbd",
+                        borderRight: "1px solid #bdbdbd",
+                        padding: "0.5px",
+                      }}>
+                        {e?.totalAmount !== 0 &&
+                          NumberWithCommas(e?.totalAmount, 2)}
+                      </td>
+                    )}
                   </tr>
                 );
               })}

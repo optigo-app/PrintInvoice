@@ -59,7 +59,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
         colorStoneAmount: 0
     });
 
-    const [saleReturn, setSaleReturn]=  useState(atob(evn)?.toLowerCase() === "sales return" ? true : false);
+    const [saleReturn, setSaleReturn]=  useState(atob(evn)?.toLowerCase() === "sale return" ? true : false);
     const [loader, setLoader] = useState(true);
     const [taxes, setTaxes] = useState([]);
     const [msg, setMsg] = useState("");

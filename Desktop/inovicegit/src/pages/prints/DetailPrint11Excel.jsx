@@ -485,7 +485,10 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
               <td style={{ borderTop: '1px solid black', padding: '1px' }}></td>
               <td style={{ borderTop: '1px solid black', padding: '1px' }}></td>
               <td style={{ borderTop: '1px solid black', borderRight: '1px solid black', padding: '1px' }} className='d-block text-end' width={180}>
-                {isImageWorking && (json0Data?.PrintLogo !== "" && <img src={json0Data?.PrintLogo} alt="" className='w-25 h-auto ms-auto d-block object-fit-contain' onError={handleImageErrors} height={120} width={150} />)}
+                {isImageWorking && (json0Data?.PrintLogo !== "" && 
+                 <img src={json0Data?.PrintLogo} alt="" 
+                 className='w-25 h-auto ms-auto d-block object-fit-contain'
+                 onError={handleImageErrors} height={120} width={150} />)}
               </td>
             </tr>
             <tr>

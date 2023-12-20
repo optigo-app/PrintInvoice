@@ -206,6 +206,13 @@ min-width: max-content;
   font-size: 20px;
 }
 
+.computerGenerated{
+  text-transform: uppercase;
+    text-align: left;
+    font-size: 9px !important;
+    color: gray;
+}
+
 @media print {
   .hide-on-print {
     display: none;
