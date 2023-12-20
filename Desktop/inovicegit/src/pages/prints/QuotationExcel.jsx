@@ -785,7 +785,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
                       {e?.imgFlag && (
                         <div style={{ height: "21px" }}>
                           <img
-                            src={e?.img}
+                            src={e?.img} alt=""
                             onError={(eve) =>
                               handleGlobalImgError(eve, header?.DefImage)
                             }
