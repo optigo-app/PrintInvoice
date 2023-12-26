@@ -1,0 +1,13 @@
+.InvoicePrint_10_11 *{
+    font-size: 14px;
+}
+
+.min_height_21{
+    min-height: 21px;
+}
+
+@media print{
+    .print_sec_sum4{
+        display: none !important;
+    }
+}

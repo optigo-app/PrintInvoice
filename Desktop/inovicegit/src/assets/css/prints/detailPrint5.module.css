@@ -1,0 +1,78 @@
+.detailPrint5 * {
+  word-break: normal;
+  font-size: 12px;
+}
+
+.detailPrint5Table * {
+  font-size: 10px;
+}
+
+.srNo {
+  width: 5%;
+  min-width: 5%;
+}
+.design {
+  width: 10%;
+  min-width: 10%;
+}
+.diamond,
+.metal,
+.stone {
+  width: 20%;
+  min-width: 20%;
+}
+.otherAmount {
+  width: 7%;
+  min-width: 7%;
+}
+.labour {
+  width: 11%;
+  min-width: 11%;
+}
+.totalAmount {
+  width: 7%;
+  min-width: 7%;
+}
+
+.w_20 {
+  width: 20%;
+  min-width: 20%;
+}
+
+.img {
+  max-width: 75px;
+  max-height: 75px;
+  object-fit: contain;
+}
+
+.min_height_15 {
+  min-height: 15px;
+}
+
+.total {
+  width: 15%;
+  min-width: 15%;
+}
+
+.taxes {
+    width: 93%;
+    min-width: 93%;
+}
+
+.height_createBy{
+    height: 100px;
+}
+
+@media print {
+  .print_sec_sum4 {
+    display: none !important;
+  }
+
+  .detailPrint5 * {
+    font-size: 9px;
+  }
+
+  .detailPrint5Table * {
+    font-size: 7px;
+  }
+}

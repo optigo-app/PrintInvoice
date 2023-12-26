@@ -10,6 +10,7 @@ import {
 import Loader from "../../components/Loader";
 import style from "../../assets/css/prints/jewelleryTaxInvoice.module.css";
 import style1 from "../../assets/css/prints/jewelleryTaxInvoice.module.css";
+import style2 from "../../assets/css/headers/header1.module.css";
 
 const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
   const [loader, setLoader] = useState(true);
@@ -212,27 +213,27 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
         </div>
       </div>
     ) : (
-      <div className={style1.companyDetails}>
-        <div className={`${style1.companyhead} p-2`}>
-          <span className={style1.lines} style1={{ fontWeight: "bold" }}>
+      <div className={`${style2.companyDetails}`}>
+        <div className={`${style2.companyhead} p-2`}>
+          <p className={style2.lines} style21={{ fontWeight: "bold" }}>
             {json0Data?.CompanyFullName}
-          </span>
-          <span className={style1.lines}>{json0Data?.CompanyAddress}</span>
-          <span className={style1.lines}>{json0Data?.CompanyAddress2}</span>
-          <span className={style1.lines}>
+          </p>
+          <p className={style2.lines}>{json0Data?.CompanyAddress}</p>
+          <p className={style2.lines}>{json0Data?.CompanyAddress2}</p>
+          <p className={style2.lines}>
             {json0Data?.CompanyCity}-{json0Data?.CompanyPinCode},
             {json0Data?.CompanyState}({json0Data?.CompanyCountry})
-          </span>
-          <span className={style1.lines}>
+          </p>
+          <p className={style2.lines}>
             Tell No: {json0Data?.CompanyTellNo}
-          </span>
-          <span className={style1.lines}>
+          </p>
+          <p className={style2.lines}>
             {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
-          </span>
-          <span className={style1.lines}>
+          </p>
+          <p className={style2.lines}>
             {json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}
             -{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}
-          </span>
+          </p>
         </div>
         <div
           style={{ width: "30%" }}
@@ -241,7 +242,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
           <img
             src={json0Data?.PrintLogo}
             alt=""
-            className={style1.headerImg}
+            className={style2.headerImg}
           />
         </div>
       </div>
@@ -385,7 +386,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                             "Misc"}
                         </>
                       )}
-                      : {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} gms | {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <> {" "} {ele?.Colorname} {ele?.QualityName}</>}
+                      : {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} {ele?.MasterManagement_DiamondStoneTypeid === 3 ? "gms" : "Cts"} | {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <> {" "} {ele?.Colorname} {ele?.QualityName}</>}
                     </p>
                   );
                 })}
