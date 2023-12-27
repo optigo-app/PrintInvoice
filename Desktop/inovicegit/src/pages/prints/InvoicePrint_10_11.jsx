@@ -4,23 +4,34 @@ import style from "../../assets/css/prints/InvoicePrint_10_11.module.css";
 import {
   FooterComponent,
   HeaderComponent,
+  NumberWithCommas,
   apiCall,
+  fixedValues,
   handlePrint,
   isObjectEmpty,
+  taxGenrator,
 } from "../../GlobalFunctions";
+import { ToWords } from 'to-words';
 import BarcodePrintGenerator from "../../components/barcodes/BarcodePrintGenerator";
 
 const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
   const [data, setData] = useState([]);
+  const [otherMaterial, setOtherMaterial] = useState([]);
   const [header, setHeader] = useState(null);
   const [footer, setFooter] = useState(null);
   const [headerData, setHeaderData] = useState({});
   const [customerAddress, setCustomerAddress] = useState([]);
+  const [total, setTotal] = useState({
+    total: 0,
+    grandtotal: 0,
+  });
+  const [taxes, setTaxes] = useState([]);
+  const [pnm, setPnm] = useState(atob(printName).toLowerCase());
+  const toWords = new ToWords();
 
   const loadData = (data) => {
-    console.log(data);
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     setHeader(head);
     setHeaderData(data?.BillPrint_Json[0]);
@@ -28,12 +39,14 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
     setFooter(footers);
     let custAddress = data?.BillPrint_Json[0]?.Printlable.split("\n");
     setCustomerAddress(custAddress);
+    let totals = { ...total };
     let resultArr = [];
     let diamond = {
       Wt: 0,
       Pcs: 0,
       Amount: 0,
       title: "DIAMOND",
+      Rate: 0,
     };
 
     let colorStone = {
@@ -41,40 +54,213 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
       Pcs: 0,
       Amount: 0,
       title: "COLOR STONE",
+      Rate: 0,
     };
 
     let miscs = {
       Wt: 0,
       Pcs: 0,
       Amount: 0,
-      title: "MISCS",
+      title: "OTHER MATERIAL",
+      Rate: 0,
     };
 
+    let labour = {
+      Wt: 0,
+      Pcs: 0,
+      Amount: 0,
+      title: "LABOUR",
+      Rate: 0,
+    };
+
+    let other = {
+      Wt: 0,
+      Pcs: 0,
+      Amount: 0,
+      title: "OTHER",
+      Rate: 0,
+    };
+
+    let handling = {
+      Wt: 0,
+      Pcs: 0,
+      Amount: 0,
+      title: "HANDLING",
+      Rate: 0,
+    };
+
+    let labourArr = [];
+
+    let setting = {
+      Wt: 0,
+      Pcs: 0,
+      Amount: 0,
+      title: "SETTING",
+      Rate: 0,
+    }
+
     data.BillPrint_Json1.forEach((e, i) => {
+      let findOther = labourArr.findIndex((ele, ind) => ele?.Rate === e?.MaKingCharge_Unit);
+      if(findOther === -1){
+        labourArr.push({
+          Wt: 0,
+          Pcs: 0,
+          Amount: e?.MakingAmount,
+          title: "LABOUR",
+          Rate: e?.MaKingCharge_Unit,
+        })
+      }else{
+        labourArr[findOther].Amount += e?.MakingAmount
+        // labourArr[findOther].Rate += e?.MaKingCharge_Unit
+      }
       let obj = { ...e };
-      if (obj?.GroupJob === "") {
-        let metalRate = 0;
-        data?.BillPrint_Json2.forEach((ele, ind) => {
-          if (ele?.StockBarcode === e?.SrJobno) {
-            if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
-              metalRate += ele?.Amount / ele?.Wt;
-            } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-              diamond.Wt += ele?.Wt;
-              diamond.Pcs += ele?.Pcs;
-              diamond.Amount += ele?.Amount;
-            } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
-              colorStone.Wt += ele?.Wt;
-              colorStone.Pcs += ele?.Pcs;
-              colorStone.Amount += ele?.Amount;
-            } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
-              miscs.Wt += ele?.Wt;
-              miscs.Pcs += ele?.Pcs;
-              miscs.Amount += ele?.Amount;
-            }
+      let metalObj = {
+        GroupJob: obj?.GroupJob,
+        MetalTypePurity: obj?.MetalTypePurity,
+        grossWt: obj?.grosswt,
+        NetWt: obj?.NetWt + obj?.LossWt,
+        Rate: 0,
+        Amount: 0,
+        SrJobno: obj?.SrJobno,
+        Pcs: 0,
+        Quantity: obj?.Quantity,
+        grossShow: false,
+      };
+      labour.Amount += e?.MakingAmount;
+      labour.Rate += e?.MaKingCharge_Unit;
+      other.Amount += e?.OtherCharges;
+      handling.Amount += e?.TotalDiamondHandling;
+
+      data?.BillPrint_Json2.forEach((ele, ind) => {
+        if (ele?.StockBarcode === e?.SrJobno) {
+          if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+            metalObj.Amount += ele?.Amount;
+            metalObj.Pcs += ele?.Pcs;
+          } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+            diamond.Wt += ele?.Wt;
+            diamond.Pcs += ele?.Pcs;
+            diamond.Amount += ele?.Amount;
+            labour.Amount += ele?.SettingAmount;
+            setting.Amount += ele?.SettingAmount;
+          } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+            colorStone.Wt += ele?.Wt;
+            colorStone.Pcs += ele?.Pcs;
+            colorStone.Amount += ele?.Amount;
+            labour.Amount += ele?.SettingAmount;
+            setting.Amount += ele?.SettingAmount;
+          } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+            miscs.Wt += ele?.Wt;
+            miscs.Pcs += ele?.Pcs;
+            miscs.Amount += ele?.Amount;
           }
-        });
+        }
+      });
+      metalObj.Rate = metalObj?.Amount / metalObj?.NetWt;
+      totals.total +=
+        metalObj?.Amount +
+        e?.MakingAmount +
+        e?.OtherCharges +
+        e?.TotalDiamondHandling;
+      resultArr.push(metalObj);
+    });
+
+    let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.total);
+    setTaxes(taxValue);
+
+    totals.grandtotal +=
+      totals?.total +
+      taxValue.reduce((acc, cobj) => {
+        return acc + +cobj?.amount;
+      }, 0) +
+      data?.BillPrint_Json[0]?.AddLess;
+
+    setTotal(totals);
+
+    labour.Rate = labour?.Rate / data.BillPrint_Json1?.length;
+    diamond.Rate = NumberWithCommas(diamond?.Amount / diamond?.Wt, 2) + " / Wt";
+    colorStone.Rate =
+      NumberWithCommas(colorStone?.Amount / colorStone?.Wt, 2) + " / Wt";
+    miscs.Rate = NumberWithCommas(miscs?.Amount / miscs?.Wt, 2) + " / Wt";
+    diamond.Wt = NumberWithCommas(diamond.Wt, 3) + " Ctw";
+    colorStone.Wt = NumberWithCommas(colorStone.Wt, 3) + " Ctw";
+    miscs.Wt = NumberWithCommas(miscs.Wt, 3) + " Gms";
+    labour.Rate = NumberWithCommas(labour.Rate, 2);
+
+    let otherMaterials = [];
+    if(pnm === "invoice print 10"){
+      otherMaterials = [diamond, colorStone, miscs, labour, other, handling];
+    }else if(pnm === "invoice print 11"){
+      otherMaterials = [diamond, colorStone, miscs, labourArr,setting, other, handling].flat();
+    }
+
+    setOtherMaterial(otherMaterials);
+
+    let finalArr = [];
+    resultArr.forEach((e, i) => {
+      if (e?.GroupJob === "") {
+        e.grossShow = true;
+        finalArr.push(e);
+      } else {
+        let findRecord = finalArr.findIndex(
+          (ele, ind) =>
+            ele?.GroupJob === e?.GroupJob &&
+            e?.MetalTypePurity === ele.MetalTypePurity &&
+            e?.Rate === ele?.Rate
+        );
+        if (findRecord === -1) {
+          if (e?.GroupJob === e?.SrJobno) {
+            e.grossShow = true;
+          }
+          finalArr.push(e);
+        } else {
+          if (e?.GroupJob === e?.SrJobno) {
+            e.NetWt += finalArr[findRecord].NetWt;
+            e.Amount += finalArr[findRecord].Amount;
+            e.Rate = e?.Amount / e?.NetWt;
+            e.Pcs += finalArr[findRecord]?.Pcs;
+            // e.grossWt += finalArr[findRecord]?.grossWt;
+            // e.grossShow = true;
+            finalArr.push(e);
+          } else {
+            finalArr[findRecord].NetWt += e?.Amount;
+            finalArr[findRecord].Amount += e?.Amount;
+            finalArr[findRecord].Rate =
+              finalArr[findRecord]?.Amount / finalArr[findRecord]?.NetWt;
+            finalArr[findRecord].Pcs += e?.Pcs;
+            // finalArr[findRecord].grossShow = true;
+            //  finalArr[findRecord].grossWt += e.grossWt;
+          }
+        }
       }
     });
+
+    let final2Arr = [];
+    finalArr.forEach((e, i) => {
+      if (e?.GroupJob === "") {
+        final2Arr.push(e);
+      } else {
+        if (e?.SrJobno === e?.GroupJob) {
+          let findRec = final2Arr.findIndex(
+            (ele, ind) => ele?.GroupJob === e?.GroupJob
+          );
+          if (findRec !== -1) {
+            e.grossWt += final2Arr[findRec]?.grossWt;
+            e.grossShow = true;
+          }
+        } else {
+          let findRec = final2Arr.findIndex(
+            (ele, ind) => ele?.GroupJob === e?.GroupJob
+          );
+          if (findRec !== -1) {
+            final2Arr[findRec].grossWt += e.grossWt;
+            final2Arr[findRec].grossShow = true;
+          }
+        }
+        final2Arr.push(e);
+      }
+    });
+
+    setData(final2Arr);
 
   };
 
@@ -125,7 +311,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
       {header}
 
       {/* barcodes */}
-      <div className="my-1">
+      <div className="mb-1">
         <div className="d-flex justify-content-between border p-2 pb-1">
           <div className={`${style?.barcode}`}>
             <BarcodePrintGenerator data={headerData?.InvoiceNo} />
@@ -214,65 +400,124 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
           <div className="col-9">
             <div className="d-flex border-bottom">
               <div className="col-2 px-1">
-                <p className={`${style?.min_height_21}`}>GOLD 18K</p>
-                <p className={`${style?.min_height_21}`}>DIAMOND</p>
-                <p className={`${style?.min_height_21}`}>LABOUR</p>
-                <p className={`${style?.min_height_21}`}>OTHER</p>
-                <p className={`${style?.min_height_21}`}>HANDLING </p>
+                {data.map((e, i) => {
+                  return (
+                    <p className={`${style?.min_height_21}`} key={i}>
+                      {e?.MetalTypePurity} {e?.GroupJob}
+                    </p>
+                  );
+                })}
+                {otherMaterial.map((e, i) => {
+                  return (
+                    <p className={`${style?.min_height_21}`} key={i}>
+                      {e?.title}
+                    </p>
+                  );
+                })}
               </div>
               <div className="col-2 px-1">
-                <p className={`${style?.min_height_21} text-end`}>
-                  34.000 Gms{" "}
-                </p>
+                {data.map((e, i) => {
+                  return e?.grossShow ? (
+                    <p className={`${style?.min_height_21} text-end`} key={i}>
+                      {NumberWithCommas(e?.grossWt, 3)}
+                    </p>
+                  ) : (
+                    <p className={`${style?.min_height_21}`} key={i}></p>
+                  );
+                })}
                 <p className={`${style?.min_height_21} text-end`}></p>
                 <p className={`${style?.min_height_21} text-end`}></p>
                 <p className={`${style?.min_height_21} text-end`}></p>
                 <p className={`${style?.min_height_21} text-end`}></p>
               </div>
               <div className="col-2 px-1">
-                <p className={`${style?.min_height_21} text-end`}>
-                  31.790 Gms{" "}
-                </p>
+                {data.map((e, i) => {
+                  return (
+                    <p className={`${style?.min_height_21} text-end`} key={i}>
+                      {NumberWithCommas(e?.NetWt, 3)}
+                    </p>
+                  );
+                })}
                 <p className={`${style?.min_height_21} text-end`}></p>
                 <p className={`${style?.min_height_21} text-end`}></p>
                 <p className={`${style?.min_height_21} text-end`}></p>
                 <p className={`${style?.min_height_21} text-end`}></p>
               </div>
               <div className="col-1 px-1">
-                <p className={`${style?.min_height_21} text-end`}> </p>
-                <p className={`${style?.min_height_21} text-end`}>5</p>
-                <p className={`${style?.min_height_21} text-end`}></p>
-                <p className={`${style?.min_height_21} text-end`}></p>
-                <p className={`${style?.min_height_21} text-end`}></p>
+                {Array.from({ length: data.length }).map((e, i) => {
+                  return (
+                    <p
+                      key={i}
+                      className={`${style?.min_height_21} text-end`}
+                    ></p>
+                  );
+                })}
+                {otherMaterial.map((e, i) => {
+                  return (
+                    <p className={`${style?.min_height_21} text-end`} key={i}>
+                      {e?.Pcs !== 0 && NumberWithCommas(e?.Pcs, 0)}
+                    </p>
+                  );
+                })}
               </div>
 
               <div className="col-1 px-1">
-                <p className={`${style?.min_height_21} text-end`}> </p>
-                <p className={`${style?.min_height_21} text-end`}>16.500 Ctw</p>
+                {Array.from({ length: data.length }).map((e, i) => {
+                  return (
+                    <p
+                      key={i}
+                      className={`${style?.min_height_21} text-end`}
+                    ></p>
+                  );
+                })}
+                {otherMaterial.map((e, i) => {
+                  return (
+                    <p className={`${style?.min_height_21} text-end`} key={i}>
+                      {e?.Wt !== 0 && e?.Wt}
+                    </p>
+                  );
+                })}
                 <p className={`${style?.min_height_21} text-end`}></p>
                 <p className={`${style?.min_height_21} text-end`}></p>
                 <p className={`${style?.min_height_21} text-end`}></p>
               </div>
               <div className="col-2 px-1">
-                <p className={`${style?.min_height_21} text-end`}>456.00 </p>
-                <p className={`${style?.min_height_21} text-end`}>
-                  133.33 / Wt
-                </p>
-                <p className={`${style?.min_height_21} text-end`}>200.00</p>
-                <p className={`${style?.min_height_21} text-end`}></p>
-                <p className={`${style?.min_height_21} text-end`}></p>
+                {data.map((e, i) => {
+                  return (
+                    <p className={`${style?.min_height_21} text-end`} key={i}>
+                      {NumberWithCommas(e?.Rate, 2)}
+                    </p>
+                  );
+                })}
+                {otherMaterial.map((e, i) => {
+                  return (
+                    <p className={`${style?.min_height_21} text-end`} key={i}>
+                      {e?.Rate !== 0 && e?.Rate}
+                    </p>
+                  );
+                })}
               </div>
               <div className="col-2 px-1">
-                <p className={`${style?.min_height_21} text-end`}>14,496.24</p>
-                <p className={`${style?.min_height_21} text-end`}>2,200.00</p>
-                <p className={`${style?.min_height_21} text-end`}>9,958.00</p>
-                <p className={`${style?.min_height_21} text-end`}>50.00</p>
-                <p className={`${style?.min_height_21} text-end`}>8,250.00</p>
+                {data.map((e, i) => {
+                  return (
+                    <p className={`${style?.min_height_21} text-end`} key={i}>
+                      {NumberWithCommas(e?.Amount, 2)}
+                    </p>
+                  );
+                })}
+                {otherMaterial.map((e, i) => {
+                  return (
+                    <p className={`${style?.min_height_21} text-end`} key={i}>
+                      {e?.Amount !== 0 && NumberWithCommas(e?.Amount, 2)}
+                    </p>
+                  );
+                })}
               </div>
             </div>
           </div>
         </div>
-        <div className="d-flex border-start border-end border-bottom mb-1">
+        {/* total */}
+        <div className="d-flex border-start border-end border-bottom mb-1 no_break">
           <div className="col-3 border-end d-flex align-items-center justify-content-center flex-column"></div>
           <div className="col-9">
             <div className="d-flex border-bottom">
@@ -297,43 +542,46 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
               <div className="col-2 px-1">
                 <p className={`${style?.min_height_21} text-end fw-bold`}>
-                  14,496.24
+                  {NumberWithCommas(total?.total, 2)}
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="d-flex border">
+        {/* taxes */}
+        <div className="d-flex border no_break">
           <div className="col-8 border-end"></div>
           <div className="col-4 px-1">
-            <div className="d-flex justify-content-between">
-              <p>IGST @ 0.25%</p>
-              <p>87.39</p>
+            {taxes?.map((e, i) => {
+              return <div className="d-flex justify-content-between" key={i}>
+              <p>{e?.name} @ {e?.per}</p>
+              <p>{e?.amount}</p>
             </div>
-            <div className="d-flex justify-content-between">
-              <p>Less</p>
-              <p>-0.12</p>
-            </div>
+            })}
+           {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between">
+              <p>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
+              <p>{headerData?.AddLess}</p>
+            </div>}
           </div>
         </div>
-        <div className="d-flex border-start border-end border-bottom">
+        <div className="d-flex border-start border-end border-bottom no_break">
           <div className="col-8 border-end px-1">
             <p className="fw-bold"> IN Words Indian Rupees</p>
             <p className="fw-bold">
-              Thirty-Five Thousand and Forty-One Point Fifty-One Only.
+              {toWords.convert(+fixedValues(total?.grandtotal, 2))} Only.
             </p>
           </div>
           <div className="col-4 px-1 d-flex justify-content-between align-items-center">
             <p className="text-end fw-bold">Grand Total </p>
-            <p className="text-end fw-bold">35,041.51</p>
+            <p className="text-end fw-bold">{NumberWithCommas(total?.grandtotal, 2)}</p>
           </div>
         </div>
         <div
-          className=" border-start border-end border-bottom p-1"
+          className=" border-start border-end border-bottom p-1 no_break"
           dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
         ></div>
-        <p className="p-1">
-          <span className="fw-bold"> REMARKS :</span> Tax invoice 1 Print
+        <p className="p-1 no_break">
+          <span className="fw-bold"> REMARKS :</span> {headerData?.Remark}
         </p>
         {footer}
       </div>

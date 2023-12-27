@@ -109,6 +109,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
       let settingRate = 0;
       let obj = { ...e };
+      obj.otherChargesTotal = obj?.OtherCharges;
       obj.OtherCharges = obj?.OtherCharges + obj?.TotalDiamondHandling;
       totals.otherAmount += obj?.OtherCharges;
       let findingTotal = 0;
@@ -409,11 +410,16 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               finalArr[findRecord].PO = obj?.PO;
               finalArr[findRecord].Tunch = obj?.Tunch;
               finalArr[findRecord].Size = obj?.Size;
+
             }
           }
-
+          finalArr[findRecord].otherChargesTotal += obj?.otherChargesTotal;
           finalArr[findRecord].WtSpecial += obj?.WtSpecial;
-
+          finalArr[findRecord].totalSetttingAmount += obj?.totalSetttingAmount;
+          finalArr[findRecord].metalNetWt += obj?.metalNetWt;
+          finalArr[findRecord].NetWt += obj?.NetWt;
+          finalArr[findRecord].LossWt += obj?.LossWt;
+          
           // for diamonds
           let blankDiamondArr = [];
           let diamonds = [
@@ -1311,7 +1317,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end">
                           <div className="text-end p_1Estimate">
                             <p className="fw-bold">
-                              {NumberWithCommas(e?.OtherCharges, 2)}
+                              {NumberWithCommas(e?.otherChargesTotal, 2)}
                             </p>
                           </div>
                         </div>

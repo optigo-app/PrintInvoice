@@ -46,18 +46,18 @@
 }
 
 .remarks {
-  width: 40.5%;
-  min-width: 40.5%;
+  width: 33.3%;
+  min-width: 33.3%;
 }
 
 .gold18k{
-  width: 30.5%;
-  min-width: 30.5%;
+  width: 34.7%;
+  min-width: 34.7%;
 }
 
 .grandTotal{
-  width: 15%;
-  min-width: 15%;
+  width: 18%;
+  min-width: 18%;
 }
 
 @media print {

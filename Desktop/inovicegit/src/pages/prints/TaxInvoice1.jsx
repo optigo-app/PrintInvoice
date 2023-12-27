@@ -79,7 +79,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
       UnitCost: 0,
     };
     json1.forEach((e, i) => {
-      totalobj.totalOtherAmount += e?.MetalAmount + e?.OtherCharges;
+      // totalobj.totalOtherAmount += e?.MetalAmount + e?.OtherCharges;
       arrResult.forEach((ele, ind) => {
         if (e.SrJobno === ele.jobNo) {
           // let totalAmount = 0;
@@ -91,7 +91,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
             } else {
               // obj.materialCharges = +((obj.Rate * obj.Wt).toFixed(2));
               obj.materialCharges = obj?.Amount;
-              totalobj.totalOtherAmount += obj.materialCharges;
+              // totalobj.totalOtherAmount += obj.materialCharges;
             }
             arr.push(obj);
             // totalobj.TotalAmount += element.Amount;
@@ -112,7 +112,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
       });
       totalobj.TotalAmount += e?.TotalAmount;
       totalobj.UnitCost += e?.UnitCost;
-      totalobj.totalOtherAmount += e?.OtherCharges;
+      // totalobj.totalOtherAmount += e?.OtherCharges;
       totalobj.netWeight += e?.NetWt + e?.LossWt;
       totalobj.gwt += e?.grosswt;
       totalobj.discountAmt += e?.DiscountAmt;
@@ -124,7 +124,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
       2
     );
     totalobj.TotalAmount = +totalobj.TotalAmount.toFixed(2);
-    totalobj.totalOtherAmount = +totalobj.totalOtherAmount.toFixed(2);
+    // totalobj.totalOtherAmount = +totalobj.totalOtherAmount.toFixed(2);
     // totalobj.totalAmountAfterTax = +((totalobj.TotalAmount + totalobj.cgstTax + totalobj.sgstTax - totalobj.discountAmt).toFixed(2));
 
     // tax
@@ -158,7 +158,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
     totalobj.textnumber =
       toWords.convert(+totalobj.netBalanceAmount?.toFixed(2)) + " Only";
 
-    setTotalAmount(totalobj);
+ 
     setResultArr(finalArr);
 
     let semiFinalArr = [];
@@ -386,6 +386,17 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
       return 0; // Names are equal
     });
     setResultArr(semiFinalArr);
+
+    semiFinalArr.forEach((e, i) => {
+            totalobj.totalOtherAmount += e?.mainData?.MetalAmount + e?.mainData?.OtherCharges;
+            e.data.forEach((ele, ind) => {
+              if(ele?.MasterManagement_DiamondStoneTypeid !== 4){
+                totalobj.totalOtherAmount += ele.Amount;
+              }
+            })
+    })
+    console.log(totalobj);
+    setTotalAmount(totalobj);
   };
 
   const loadData = (datas) => {
@@ -667,7 +678,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="p-1 min_padding_invoice1  border-end justify-content-center col-2">
                   {fixedValues(totalAmount?.gwt, 3)}
                 </div>
-                <div className="min_padding_invoice1  border-end fw-bold d-block text-center col-2">
+                <div className="  border-end fw-bold d-block text-center col-2">
                   <p>{fixedValues(totalAmount?.diaWt, 3)} Ctw </p>
                   <p>{fixedValues(totalAmount?.weightInGram, 3)} gm</p>
                 </div>

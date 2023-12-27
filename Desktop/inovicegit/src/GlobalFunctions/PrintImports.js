@@ -51,9 +51,11 @@ export const printConditions = [
   { printName: "sale order", etpType: "print", componentName: "SaleOrder" },
   { printName: "invoice print 10", etpType: "print", componentName: "InvoicePrint_10_11" },
   { printName: "invoice print 11", etpType: "print", componentName: "InvoicePrint_10_11" },
+  { printName: "invoice print 12", etpType: "print", componentName: "InvoicePrint_12" },
   
   // Add more print conditions here
 ];
+
 export const excelConditions = [
   { printName: "sale format b", etpType: "excel", componentName: "ExcelToJsonDownload" },
   { printName: "sale format s", etpType: "excel", componentName: "ExcelToJsonDownloads" },
