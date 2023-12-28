@@ -1,5 +1,6 @@
 .InvoicePrint_12 * {
-  font-size: 14px;
+  font-size: 11px;
+  word-break: normal;
 }
 
 .Sr {
@@ -36,6 +37,30 @@
     width: 10%;
     min-width: 10%;
 }
+
+.table > div{
+  padding: 0 3px;
+}
+
+.words{
+  width: 68%;
+  min-width: 68%;
+}
+
+.totalAmount{
+  width: 32%;
+  min-width: 32%;
+}
+
+.totalAmtWord{
+width: 68.8%;
+min-width: 68.8%;
+}
+.totalAmtValue{
+  width: 31.1%;
+  min-width: 31.1%;
+}
+
 
 @media print {
   .print_sec_sum4 {

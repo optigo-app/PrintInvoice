@@ -2,6 +2,7 @@ export const printConditions = [
   { printName: "summary 4", etpType: "print", componentName: "Summary4" },
   { printName: "summary 12", etpType: "print", componentName: "Summary12" },
   { printName: "tax invoice 1", etpType: "print", componentName: "TaxInvoice1" },
+  { printName: "tax invoice 3", etpType: "print", componentName: "TaxInvoice3" },
   { printName: "packing list 3", etpType: "print", componentName: "PackingList3" },
   { printName: "misc print 1", etpType: "print", componentName: "MiscPrint1" },
   { printName: "estimate print", etpType: "print", componentName: "EstimatePrint" },

@@ -1481,7 +1481,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div className="width200EstimatePrint p_1Estimate h-100">
                     <p className="fw-bold fw-bold text-end">
-                      {fixedValues(total?.finalMetalsTotal?.Wt, 3)}
+                      {/* {fixedValues(total?.finalMetalsTotal?.Wt, 3)} */}
+                      {NumberWithCommas(total?.gdWt, 3)}
                     </p>
                   </div>
                   {/* <div className='width200EstimatePrint p_1Estimate h-100'><p className='fw-bold fw-bold text-end'>{NumberWithCommas(total?.finalMetalsTotal?.rate, 2)}</p></div> */}

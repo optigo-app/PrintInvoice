@@ -314,19 +314,6 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
 
     setTotal(totals);
     setData(resultArr);
-    // summaryArr.sort((a, b) => {
-    //   if (a.id === 4 && b.id === 4) {
-    //     return a.label.localeCompare(b.label);
-    //   } else {
-    //     if (a.id === 4 && b.id !== 4) {
-    //       return -1;
-    //     } else if (b.id === 4 && a.id !== 4) {
-    //       return 1;
-    //     } else {
-    //       return a.id - b.id;
-    //     }
-    //   }
-    // });
 
     summary2Arr.sort((a, b) => {
       return a.id - b.id;
@@ -520,7 +507,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             <div className={`${style?.itemCode} p-1  border-end`}>
               <p>
                 {" "}
-                Design: <span className="fw-bold">{e?.designno}</span>
+                DESIGN: <span className="fw-bold">{e?.designno}</span>
               </p>
             </div>
             <div className={`${style?.description} p-1 border-end `}>
@@ -552,7 +539,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 e?.Categoryname !== "" ||
                 e?.SubCategoryname !== "") && (
                 <p className="pt-2">
-                  Product: {e?.Collectionname}, {e?.Categoryname},{" "}
+                  PRODUCT: {e?.Collectionname}, {e?.Categoryname},{" "}
                   {e?.SubCategoryname}
                 </p>
               )}
@@ -616,11 +603,8 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
       </div>
       {/* taxes */}
       <div className="border-start border-end border-bottom d-flex no_break">
-        <div className={`${style?.remarks} p-1 fw-bold border-end`}>
-          <p className="fw-bold text-decoration-underline">REMARKS: </p>
-          <p>{headerData?.PrintRemark}</p>
-        </div>
-        <div className={`${style?.gold18k} border-end`}>
+      <div className={`${style?.gold18k} border-end`}>
+          <p className="fw-semibold text-center border-bottom py-1 lightGrey">SUMMARY</p>
           <div className="d-flex h-100">
             <div className="col-6 border-end p-1 ">
               {summary.map((e, i) => {
@@ -650,6 +634,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
           </div>
         </div>
+        <div className={`${style?.remarks} p-1 fw-bold border-end`}>
+          <p className="fw-bold text-decoration-underline">REMARKS: </p>
+          <p>{headerData?.PrintRemark}</p>
+        </div>
         <div className={`${style?.grandTotal} p-1 border-end`}>
           {tax.map((e, i) => {
             return (
@@ -658,8 +646,8 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
               </p>
             );
           })}
-          <p> Total </p>
-          {summary.map((e, i) => {
+          <p className=""> TOTAL </p>
+          {/* {summary.map((e, i) => {
             return (
               e?.amount !== 0 &&
               e?.label !== "Gross Wt" && (
@@ -668,9 +656,9 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 </p>
               )
             );
-          })}
+          })} */}
           {headerData?.AddLess !== 0 && (
-            <p>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
+            <p className="">{headerData?.AddLess > 0 ? "ADD" : "LESS"}</p>
           )}
         </div>
         <div className={`${style?.amount} p-1 text-end fw-bold`}>
@@ -692,7 +680,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             ></span>{" "}
             {NumberWithCommas(total?.afterTax, 2)}
           </p>
-          {summary.map((e, i) => {
+          {/* {summary.map((e, i) => {
             return (
               e?.amount !== 0 &&
               e?.label !== "Gross Wt" && (
@@ -706,7 +694,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 </p>
               )
             );
-          })}
+          })} */}
           {headerData?.AddLess !== 0 && (
             <p>
               <span
@@ -719,8 +707,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
       </div>
       {/* grand total */}
       <div className="border-start border-end border-bottom d-flex lightGrey no_break">
-        <div className={`${style?.remarks} p-1 fw-bold border-end`}></div>
-        <div className={`${style?.gold18k} p-1 border-end d-flex`}>
+      <div className={`${style?.gold18k} p-1 border-end d-flex`}>
           <div className="col-6 border-end"></div>
           <div className="col-6 d-flex justify-content-between">
             <p className="fw-bold">TOTAL</p>
@@ -733,6 +720,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             </p>
           </div>
         </div>
+        <div className={`${style?.remarks} p-1 fw-bold border-end`}></div>
         <div className={`${style?.grandTotal} p-1 border-end`}>
           <p className="fw-bold"> GRAND TOTAL</p>
         </div>

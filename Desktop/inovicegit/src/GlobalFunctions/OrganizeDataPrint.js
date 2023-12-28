@@ -51,6 +51,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     total_unitcost: 0,
     total_discount_amount: 0,
     total_purenetwt: 0,
+    total_Quantity: 0,
+    total_Making_Amount: 0,
   };
   //json1 array
   json1?.length > 0 &&
@@ -118,6 +120,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_unitcost += j1?.UnitCost;
       maintotal.total_discount_amount += j1?.DiscountAmt;
       maintotal.total_purenetwt += j1?.PureNetWt;
+      maintotal.total_Quantity += j1?.Quantity;
+      maintotal.total_Making_Amount += j1?.MakingAmount;
 
       //json2
       json2?.length > 0 &&
