@@ -27,9 +27,15 @@
   min-width: 7.39%;
 }
 
+.words{
+  width: 69.7%;
+  min-width: 69.7%;
+}
 
-
-
+.grandTotal{
+  width: 30.3%;
+  min-width: 30.3%;
+}
 
 
 
