@@ -1,0 +1,36 @@
+.taxinvoice3 * {
+  font-size: 13px;
+  line-height: 120%;
+}
+
+/* Sr#	Item	Purity	Qty	Gold	Diamond	ColorStone	Others	Labour	Total */
+
+.Sr {
+  width: 5%;
+  min-width: 5%;
+}
+
+.Item{
+    width: 10%;
+    min-width: 10%;
+}
+
+.Gold,
+.Diamond,
+.ColorStone {
+  width: 16%;
+  min-width: 16%;
+}
+
+.Purity, .Qty, .Others, .Labour , .Total {
+  width: 7.39%;
+  min-width: 7.39%;
+}
+
+
+
+
+
+
+
+
