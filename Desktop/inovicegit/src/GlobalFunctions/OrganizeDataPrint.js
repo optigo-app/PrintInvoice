@@ -47,12 +47,15 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     total_other: 0,
     grosswt: 0,
     netwt: 0,
+    MetalAmount: 0,
+    lossWt: 0,
     total_amount: 0,
     total_unitcost: 0,
     total_discount_amount: 0,
     total_purenetwt: 0,
     total_Quantity: 0,
     total_Making_Amount: 0,
+    total_discount: 0,
   };
   //json1 array
   json1?.length > 0 &&
@@ -115,6 +118,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_labour.labour_amount += j1?.MakingAmount;
       maintotal.total_other += j1?.OtherCharges;
       maintotal.netwt += j1?.NetWt;
+      maintotal.lossWt += j1?.LossWt;
       maintotal.grosswt += j1?.grosswt;
       maintotal.total_amount += j1?.TotalAmount;
       maintotal.total_unitcost += j1?.UnitCost;
@@ -122,7 +126,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_purenetwt += j1?.PureNetWt;
       maintotal.total_Quantity += j1?.Quantity;
       maintotal.total_Making_Amount += j1?.MakingAmount;
-
+      maintotal.MetalAmount += j1?.MetalAmount;
+      maintotal.total_discount += j1?.Discount;
       //json2
       json2?.length > 0 &&
         json2?.forEach((j2, i) => {

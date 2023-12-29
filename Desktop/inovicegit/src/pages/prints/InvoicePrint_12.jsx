@@ -23,7 +23,6 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [grandTotal, setGrandTotal] = useState(0);
   const toWords = new ToWords();
 
-
   const loadData = (data) => {
     setHeaderData(data?.BillPrint_Json[0]);
     let footers = FooterComponent("2", data?.BillPrint_Json[0]);

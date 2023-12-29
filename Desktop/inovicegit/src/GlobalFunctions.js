@@ -111,7 +111,8 @@ export const taxGenrator = (headerData, totalAmount) => {
       let obj = {
         name: e,
         per: `${headerData[e]?.toFixed(2)}%`,
-        amount: ((totalAmount * headerData[e]) / 100)?.toFixed(2),
+        // amount: ((totalAmount * headerData[e]) / 100)?.toFixed(2),
+        amount: headerData?.[`Total${e}Amount`]?.toFixed(2),
       };
       blankArr.push(obj);
     });

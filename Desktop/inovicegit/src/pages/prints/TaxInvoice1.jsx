@@ -220,6 +220,8 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
             obj.mainData.MetalAmount;
           semiFinalArr[findRec].mainData.UnitCost =
             +semiFinalArr[findRec].mainData.UnitCost + +obj.mainData.UnitCost;
+            semiFinalArr[findRec].mainData.OtherCharges += obj.mainData.OtherCharges
+            
 
           // semiFinalArr[findRec].data.TotalAmount += obj.data.TotalAmount;
 
@@ -618,9 +620,9 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                                   3
                                 )}
                             </div>
-                            <div className="min_padding_invoice1  justify-content-center col-2">
-                              {ele?.MasterManagement_DiamondStoneTypeid === 4 &&
-                                NumberWithCommas(ele?.Rate, 2)}
+                            <div className="min_padding_invoice1  justify-content-end col-2">
+                            <p className="text-end">  {ele?.MasterManagement_DiamondStoneTypeid === 4 &&
+                                NumberWithCommas(ele?.Rate, 2)}</p>
                             </div>
                           </div>
                         );
@@ -632,7 +634,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div className="others_invoice1 others_invoicePrint1  border-end">
                     <div className="d-grid h-100">
-                      <div className="text-center border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1">
+                      <div className="text-end border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1">
                         {NumberWithCommas(e?.mainData?.MetalAmount, 2)}
                       </div>
                       {e?.data.length > 0 &&
@@ -640,7 +642,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                           return (
                             ele?.materialCharges !== 0 && (
                               <div
-                                className={`text-center ${
+                                className={`text-end ${
                                   (e?.mainData?.OtherCharges !== 0 ||
                                     ind !== e?.data.length) &&
                                   `border-bottom`
@@ -653,7 +655,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                           );
                         })}
                       {e?.mainData?.OtherCharges !== 0 && (
-                        <div className="text-center border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1">
+                        <div className="text-end border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1">
                           {NumberWithCommas(e?.mainData?.OtherCharges, 2)}
                         </div>
                       )}
@@ -676,7 +678,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="p-1 min_padding_invoice1  border-end col-2"></div>
                 <div className="p-1 min_padding_invoice1  border-end col-2"></div>
                 <div className="p-1 min_padding_invoice1  border-end justify-content-center col-2">
-                  {fixedValues(totalAmount?.gwt, 3)}
+                  <p className="fw-bold">{fixedValues(totalAmount?.gwt, 3)}</p>
                 </div>
                 <div className="  border-end fw-bold d-block text-center col-2">
                   <p>{fixedValues(totalAmount?.diaWt, 3)} Ctw </p>
@@ -689,7 +691,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
             </div>
             <div className="p-1 d-flex align-items-center making_invoice1 making_invoicePrint1 border-end"></div>
-            <div className="p-1 d-flex align-items-center others_invoice1 others_invoicePrint1 border-end fw-bold justify-content-center">
+            <div className="p-1 d-flex align-items-center others_invoice1 others_invoicePrint1 border-end fw-bold justify-content-end">
               {NumberWithCommas(totalAmount?.totalOtherAmount, 2)}
             </div>
             <div className="p-1 d-flex align-items-center total_invoice1 total_invoicePrint1 border-end fw-bold justify-content-end border-2 border-black">

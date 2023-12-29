@@ -1,0 +1,358 @@
+import React, { useEffect, useState } from "react";
+import {
+  FooterComponent,
+  HeaderComponent,
+  NumberWithCommas,
+  apiCall,
+  fixedValues,
+  handlePrint,
+  isObjectEmpty,
+} from "../../GlobalFunctions";
+import Loader from "../../components/Loader";
+import style from "../../assets/css/prints/TaxInvoicePrint4.module.css";
+import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+import { ToWords } from "to-words";
+
+const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
+  const [loader, setLoader] = useState(true);
+  const [msg, setMsg] = useState("");
+  const [data, setData] = useState([]);
+  const [header, setHeader] = useState(null);
+  const [footer, setFooter] = useState(null);
+  const [address, setAddress] = useState([]);
+  const [headerData, setHeaderData] = useState({});
+  const toWords = new ToWords();
+
+  const loadData = (data) => {
+    console.log(data);
+    let head = HeaderComponent("1", data?.BillPrint_Json[0]);
+    setHeader(head);
+    setHeaderData(data?.BillPrint_Json[0]);
+    let adr = data?.BillPrint_Json[0]?.Printlable.split(`\r\n`);
+    setAddress(adr);
+    setFooter(FooterComponent("2", data?.BillPrint_Json[0]));
+    let datas = OrganizeDataPrint(
+      data?.BillPrint_Json[0],
+      data?.BillPrint_Json1,
+      data?.BillPrint_Json2
+    );
+    datas?.resultArray.sort((a, b) => {
+      var nameA = a.designno.toUpperCase(); // Convert names to uppercase for case-insensitive comparison
+      var nameB = b.designno.toUpperCase();
+
+      if (nameA < nameB) {
+        return -1; // A should come before B
+      }
+      if (nameA > nameB) {
+        return 1; // A should come after B
+      }
+      return 0; // Names are equal
+    });
+    console.log(datas);
+    setData(datas);
+  };
+
+  useEffect(() => {
+    const sendData = async () => {
+      try {
+        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        if (data?.Status === "200") {
+          let isEmpty = isObjectEmpty(data?.Data);
+          if (!isEmpty) {
+            loadData(data?.Data);
+            setLoader(false);
+          } else {
+            setLoader(false);
+            setMsg("Data Not Found");
+          }
+        } else {
+          setLoader(false);
+          setMsg(data?.Message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    sendData();
+  }, []);
+
+  return loader ? (
+    <Loader />
+  ) : msg === "" ? (
+    <div
+      className={`container container-fluid max_width_container mt-1 ${style?.taxinvoiceprint4} pad_60_allPrint`}
+    >
+      {/* buttons */}
+      <div
+        className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
+      >
+        <div className="form-check ps-3">
+          <input
+            type="button"
+            className="btn_white blue  mt-2"
+            value="Print"
+            onClick={(e) => handlePrint(e)}
+          />
+        </div>
+      </div>
+      {/* header */}
+      {header}
+      {/* sub header */}
+      <div className="d-flex border mb-1">
+        <div className="col-8 p-2">
+          <p>{headerData?.lblBillTo}</p>
+          <p className="fw-semibold">{headerData?.customerfirmname}</p>
+          <p>{headerData?.customerAddress1}</p>
+          <p>{headerData?.customerAddress2}</p>
+          {/* <p>{headerData?.customerAddress3}</p> */}
+          <p>
+            {headerData?.customercity1}
+            {headerData?.customerpincode}
+          </p>
+          <p>{headerData?.customeremail1}</p>
+          {/* <p>GSTIN-{headerData?.CustGstNo}</p> */}
+          {headerData?.Cust_CST_STATE_No !== "" && (
+            <p>{headerData?.Cust_CST_STATE_No_}</p>
+          )}
+          <p>{headerData?.vat_cst_pan}</p>
+        </div>
+
+        <div className="col-4 p-2">
+          <p>
+            <span className="fw-semibold pe-2">BILL NO </span>{" "}
+            {headerData?.InvoiceNo}
+          </p>
+          <p>
+            <span className="fw-semibold pe-2">DATE </span>{" "}
+            {headerData?.EntryDate}
+          </p>
+          <p>
+            <span className="fw-semibold pe-2">HSN </span> {headerData?.HSN_No}
+          </p>
+          <p>
+            <span className="fw-semibold pe-2">NAME OF GOODS </span> Jewellery
+          </p>
+          <p>
+            <span className="fw-semibold pe-2">PLACE OF SUPPLY </span> Gujarat
+          </p>
+          <p>
+            <span className="fw-semibold pe-2">TERMS </span> 0
+          </p>
+        </div>
+      </div>
+      {/* table Header */}
+      <div className="d-flex mt-1 border">
+        <div
+          className={`${style?.Sr} border-end d-flex justify-content-center align-items-center`}
+        >
+          <p className="text-center fw-bold">Sr# </p>
+        </div>
+        <div
+          className={`${style?.Description} border-end d-flex justify-content-center align-items-center`}
+        >
+          <p className="text-center fw-bold">Description</p>
+        </div>
+
+        <div
+          className={`${style?.Purity} border-end d-flex justify-content-center align-items-center`}
+        >
+          <p className="text-center fw-bold">Purity </p>
+        </div>
+
+        <div
+          className={`${style?.Gr} border-end d-flex justify-content-center align-items-center`}
+        >
+          <p className="text-center fw-bold">Gr wt </p>
+        </div>
+
+        <div
+          className={`${style?.DWt} border-end d-flex justify-content-center align-items-center`}
+        >
+          <p className="text-center fw-bold">D.Wt </p>
+        </div>
+
+        <div
+          className={`${style?.DRate} border-end d-flex justify-content-center align-items-center`}
+        >
+          <p className="text-center fw-bold">D.Rate </p>
+        </div>
+
+        <div
+          className={`${style?.StWt} border-end d-flex justify-content-center align-items-center`}
+        >
+          <p className="text-center fw-bold">St.Wt </p>
+        </div>
+        <div
+          className={`${style?.StRate} border-end d-flex justify-content-center align-items-center`}
+        >
+          <p className="text-center fw-bold">St.Rate </p>
+        </div>
+        <div
+          className={`${style?.NetWt} border-end d-flex justify-content-center align-items-center`}
+        >
+          <p className="text-center fw-bold">Net Wt </p>
+        </div>
+        <div
+          className={`${style?.Wastage} border-end d-flex justify-content-center align-items-center`}
+        >
+          <p className="text-center fw-bold">Wastage </p>
+        </div>
+        <div
+          className={`${style?.Rate} border-end d-flex justify-content-center align-items-center`}
+        >
+          <p className="text-center fw-bold">Rate </p>
+        </div>
+        <div
+          className={`${style?.Amount} d-flex justify-content-center align-items-center`}
+        >
+          <p className="text-center fw-bold">Amount</p>
+        </div>
+      </div>
+      {/* table data */}
+      {data?.resultArray.map((e, i) => {
+        return (
+          <div className="d-flex border-start border-end border-bottom no_break" key={i}>
+            <div className={`${style?.Sr} border-end p-1`}>
+              <p className="">{i + 1}</p>
+            </div>
+            <div className={`${style?.Description} border-end p-1`}>
+              <p className="">{e?.Categoryname}</p>
+            </div>
+            <div className={`${style?.Purity} border-end p-1`}>
+              <p className="">{e?.MetalTypePurity}</p>
+            </div>
+            <div className={`${style?.Gr} border-end p-1 text-end`}>
+              <p className="">{NumberWithCommas(e?.grosswt, 3)}</p>
+            </div>
+            <div className={`${style?.DWt} border-end p-1 text-end`}>
+              <p className="">{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p>
+            </div>
+            <div className={`${style?.DRate} border-end p-1 text-end`}>
+              <p className="">{NumberWithCommas(e?.totals?.diamonds?.Rate, 2)}</p>
+            </div>
+            <div className={`${style?.StWt} border-end p-1 text-end`}>
+              <p className="">{NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}</p>
+            </div>
+            <div className={`${style?.StRate} border-end p-1 text-end`}>
+              <p className="">{NumberWithCommas(e?.totals?.colorstone?.Rate, 2)}</p>
+            </div>
+            <div className={`${style?.NetWt} border-end p-1 text-end`}>
+              <p className="">{NumberWithCommas(e?.NetWt, 3)}</p>
+            </div>
+            <div className={`${style?.Wastage} border-end p-1 text-end`}>
+              <p className="">{NumberWithCommas(e?.Wastage, 3)}</p>
+            </div>
+            <div className={`${style?.Rate} border-end p-1 text-end`}>
+              <p className="">533.81</p>
+            </div>
+            <div className={`${style?.Amount} p-1 text-end`}>
+              <p className="">{NumberWithCommas(e?.UnitCost, 2)}</p>
+            </div>
+          </div>
+        );
+      })}
+      {/* table total */}
+      <div className="d-flex border-start border-end border-bottom no_break">
+            <div className={`${style?.Sr} border-end p-1`}>
+              <p className=""></p>
+            </div>
+            <div className={`${style?.Description} border-end p-1`}>
+              <p className="fw-bold">TOTAL</p>
+            </div>
+            <div className={`${style?.Purity} border-end p-1`}>
+              <p className=""></p>
+            </div>
+            <div className={`${style?.Gr} border-end p-1 text-end`}>
+              <p className="">{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</p>
+            </div>
+            <div className={`${style?.DWt} border-end p-1 text-end`}>
+              <p className="">{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}</p>
+            </div>
+            <div className={`${style?.DRate} border-end p-1 text-end`}>
+              <p className=""></p>
+            </div>
+            <div className={`${style?.StWt} border-end p-1 text-end`}>
+              <p className="">{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}</p>
+            </div>
+            <div className={`${style?.StRate} border-end p-1 text-end`}>
+              <p className=""></p>
+            </div>
+            <div className={`${style?.NetWt} border-end p-1 text-end`}>
+              <p className="">{NumberWithCommas(data?.mainTotal?.netwt, 3)}</p>
+            </div>
+            <div className={`${style?.Wastage} border-end p-1 text-end`}>
+              <p className=""></p>
+            </div>
+            <div className={`${style?.Rate} border-end p-1 text-end`}>
+              <p className=""></p>
+            </div>
+            <div className={`${style?.Amount} p-1 text-end`}>
+              <p className="">{NumberWithCommas(data?.mainTotal?.total_unitcost, 2)}</p>
+            </div>
+          </div>
+      {/* In Words */}
+      <div className="d-flex border-start border-end border-bottom no_break">
+        <div
+          className={`${style?.words} border-end p-1 d-flex justify-content-end flex-column`}
+        >
+          <p>In Words Indian Rupees</p>
+          <p className="fw-bold">
+            {toWords.convert(+fixedValues(data?.finalAmount, 2))} Only
+          </p>
+        </div>
+        <div className={`${style?.grandTotal}`}>
+          <div className="d-flex">
+            <div className={`${style?.Values} text-end border-end p-1`}>
+              {data?.allTaxes.map((e, i) => {
+                return (
+                  <p key={i}>
+                    {e?.name} @ {e?.per}
+                  </p>
+                );
+              })}
+              {headerData?.AddLess !== 0 && (
+                <p>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
+              )}
+            </div>
+            <div className={`${style?.amounts} p-1 text-end`}>
+              {data?.allTaxes.map((e, i) => {
+                return <p key={i}>{e?.amount}</p>;
+              })}
+              {headerData?.AddLess !== 0 && (
+                <p>{NumberWithCommas(headerData?.AddLess, 2)}</p>
+              )}
+            </div>
+          </div>
+          <div className="d-flex border-top">
+            <div className={`${style?.Values} text-end border-end p-1`}>
+              <p className="fw-bold">GRAND TOTAL</p>
+            </div>
+            <div className={`${style?.amounts} p-1 text-end`}>
+              <p className="fw-bold">{NumberWithCommas(data?.finalAmount)}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* declaration */}
+      <div
+        className="border-start border-end border-bottom p-2"
+        dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
+      ></div>
+      {/* remarks */}
+      <div className="d-flex border-start border-end border-bottom p-2 no_break">
+        <p>
+          <span className="fw-bold">REMARKS : </span>
+          {headerData?.PrintRemark}
+        </p>
+      </div>
+
+      {footer}
+    </div>
+  ) : (
+    <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
+      {msg}
+    </p>
+  );
+};
+
+export default TaxInvoicePrint4;

@@ -52,7 +52,10 @@ export const printConditions = [
   {printName: 'summary print s', etpType: 'print', componentName: 'Summarys'},
   {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
   {printName: 'tax invoice 1', etpType: 'print', componentName: 'TaxInvoice1'},
-  {printName: 'tax invoice 3', etpType: 'print', componentName: 'TaxInvoice3'}
+  {printName: 'tax invoice 3', etpType: 'print', componentName: 'TaxInvoice3'},
+  {printName: 'tax invoice print 4', etpType: 'print', componentName: 'TaxInvoicePrint4'}, 
+  {printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5'}, 
+  {printName: 'tax invoice 6', etpType: 'print', componentName: 'TaxInvoice5'}, 
 ];
 
 export const excelConditions = [

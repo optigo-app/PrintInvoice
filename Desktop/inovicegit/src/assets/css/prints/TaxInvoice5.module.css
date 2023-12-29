@@ -1,0 +1,57 @@
+.taxinvoice5 *{
+    font-size: 14px;
+    line-height: 120%;
+    word-break: normal;
+}
+
+.Sr {
+  width: 7%;
+  min-width: 7%;
+}
+.Jewel {
+  width: 12%;
+  min-width: 12%;
+}
+.KT {
+  width: 10%;
+  min-width: 10%;
+}
+.Gross {
+  width: 15%;
+  min-width: 15%;
+}
+.Net {
+  width: 15%;
+  min-width: 15%;
+}
+.Diamond {
+  width: 15%;
+  min-width: 15%;
+}
+.Stone {
+  width: 15%;
+  min-width: 15%;
+}
+.Price {
+  width: 11%;
+  min-width: 11%;
+}
+.words {
+  width: 59%;
+  min-width: 59%;
+}
+.grandTotal {
+  width: 41%;
+  min-width: 41%;
+}
+.grandTotalWord {
+  width: 73%;
+  min-width: 73%;
+}
+.grandTotalValue {
+  width: 27%;
+  min-width: 27%;
+}
+.sup{
+    font-size: 11px;
+}
