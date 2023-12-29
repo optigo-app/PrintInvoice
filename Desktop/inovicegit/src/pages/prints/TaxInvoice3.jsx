@@ -133,7 +133,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
       </div>
       {/* table Header */}
-      <div className="d-flex mt-1 border d-flex">
+      <div className="d-flex mt-1 border">
         <div
           className={`${style?.Sr} border-end d-flex justify-content-center align-items-center`}
         >
@@ -204,7 +204,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
       </div>
       {/* table data */}
-      <div className="d-flex border-start border-end border-bottom d-flex">
+      <div className="d-flex border-start border-end border-bottom ">
         <div className={`${style?.Sr} border-end p-1`}>
           <p className="text-center">1</p>
         </div>
@@ -230,7 +230,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn }) => {
             <p className="text-end p-1">0.080 </p>
           </div>
           <div className="col-6">
-            <p className="text-end p-1">800.00  </p>
+            <p className="text-end p-1">800.00 </p>
           </div>
         </div>
         <div className={`${style?.ColorStone} d-flex border-end`}>
@@ -238,7 +238,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn }) => {
             <p className="text-end p-1">0.080 </p>
           </div>
           <div className="col-6">
-            <p className="text-end p-1">800.00  </p>
+            <p className="text-end p-1">800.00 </p>
           </div>
         </div>
         <div className={`${style?.Others} border-end p-1`}>
@@ -251,8 +251,8 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn }) => {
           <p className="text-end">6,179.52</p>
         </div>
       </div>
-        {/* table total */}
-        <div className="d-flex border-start border-end border-bottom d-flex">
+      {/* table total */}
+      <div className="d-flex border-start border-end border-bottom">
         <div className={`${style?.Sr} border-end p-1`}>
           <p className="text-center"></p>
         </div>
@@ -278,7 +278,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn }) => {
             <p className="text-end fw-semibold p-1">0.080 </p>
           </div>
           <div className="col-6">
-            <p className="text-end fw-semibold p-1">800.00  </p>
+            <p className="text-end fw-semibold p-1">800.00 </p>
           </div>
         </div>
         <div className={`${style?.ColorStone} d-flex border-end`}>
@@ -286,7 +286,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn }) => {
             <p className="text-end fw-semibold p-1">0.080 </p>
           </div>
           <div className="col-6">
-            <p className="text-end fw-semibold p-1">800.00  </p>
+            <p className="text-end fw-semibold p-1">800.00 </p>
           </div>
         </div>
         <div className={`${style?.Others} border-end p-1`}>
@@ -298,8 +298,49 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn }) => {
         <div className={`${style?.Total} p-1`}>
           <p className="text-end fw-semibold">6,179.52</p>
         </div>
-      </div>    
+      </div>
+      {/* In Words */}
+      <div className="d-flex border-start border-end border-bottom">
+        <div
+          className={`${style?.words} border-end p-1 d-flex justify-content-end flex-column`}
+        >
+          <p>In Words Indian Rupees</p>
+          <p className="fw-bold">
+            Eighty-Five Thousand Five Hundred and Twenty-Four Point Ninety-Two
+            Only
+          </p>
+        </div>
+        <div className={`${style?.grandTotal}`}>
+          <div className="d-flex">
+            <div className="col-6 text-end border-end p-1">
+              <p> CGST @ 0.13%</p>
+              <p>SGST @ 0.13%</p>
+              <p>Less</p>
+            </div>
+            <div className="col-6 p-1 text-end">
+              <p> 110.89 </p>
+              <p>110.89 </p>
+              <p>-0.23</p>
+            </div>
+          </div>
+          <div className="d-flex border-top">
+            <div className="col-6 text-end border-end p-1">
+              <p className="fw-bold">GRAND TOTAL</p>
+            </div>
+            <div className="col-6 p-1 text-end">
+              <p className="fw-bold">85,524.92</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* declaration */}
+      <div className="border-start border-end border-bottom p-2" dangerouslySetInnerHTML={{__html: headerData?.Declaration}}></div>
+      {/* remarks */}
+      <div className="d-flex border-start border-end border-bottom p-2">
+          <p><span className="fw-bold">REMARKS : </span>Insert remark here</p>
+      </div>
     </div>
+    
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
       {msg}
