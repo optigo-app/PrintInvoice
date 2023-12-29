@@ -1,8 +1,7 @@
-* {
+.header3{
     word-break: break-all;
     box-sizing: border-box;
 }
-
 .headline {
     height: 40px;
     width: 100%;
@@ -31,24 +30,29 @@
     height: 16px;
     font-size: 14px;
 }
+.linesmain {
+    line-height: 100%;
+    padding: 2px;
+    height: 22px;
+    font-size: 14px;
+}
 .headerImg {
-    /* height: 50%; */
-    width: 25%;
+    width: 10% !important;
 }
 .einvoiceDetails{
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding-top: 3px;
     border-top: 1px solid #e8e8e8;
-    min-height: 50px;
+    min-height: 25px;
     height: 100%;
-    
 }
 .fshead3comp{
     font-size: 16px;
-    padding: 3px;
+    padding-left: 2px;
+    padding-right: 2px;
+
 }
 .einvdetails{
     height: 20px;
@@ -62,12 +66,29 @@
     color: black;
 }
 
-.trlinesh3{
-    font-size: 16px;
+.qrcodeupperdivh3{
+    width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
-    width: 50%;
-    height: 16px;
-    
+}
+.qrcodeupperdivh3 > .qrcodegenh3{
+    height: 135px !important;
+    width: 100% !important;
+    margin-right: 10px;
+}
+.qrcodeupperdivh3 > canvas{
+    height: 130px !important;
+    width: 33% !important;
+    margin-right: 10px;
+}
+
+.tranDetails{
+    border: 1px solid #e8e8e8;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.commonwidthh3{
+    width: 33.33%;
+    padding: 2px;
 }

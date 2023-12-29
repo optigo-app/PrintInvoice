@@ -360,7 +360,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       obj.grouping_of_diamonds_sqc_jobwise = blankArrDiamond;
       obj.grouping_of_colorstone_sqc_jobwise = blankArrColorstone;
       obj.grouping_of_misc_sqc_jobwise = blankArrMisc;
-      // obj.grouping_of_metal_sqc_jobwise = blankArrMetal;
+      // obj.grouping_of_metal_sqc_jobwise = blankArrMetal; 
       obj.grouping_of_finding_sqc_jobwise = blankArrFinding;
       obj.grouping_of_stone_misc_sqc_jobwise = blankArrstone_misc;
       obj.diamondSettingGroup = diamondSettingGroup;

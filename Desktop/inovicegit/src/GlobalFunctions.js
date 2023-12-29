@@ -9,7 +9,8 @@ import Subhead1 from "./components/subheaders/subhead1/Subhead1";
 import Subhead2 from "./components/subheaders/subhead2/Subhead2";
 import { exportToExcel } from "react-json-to-excel";
 import Footer2 from "./components/footers/Footer2";
-import { ToWords } from 'to-words';
+import { ToWords } from "to-words";
+import Header4 from "./components/headers/Header4";
 
 //print button function for print pop up
 export const handlePrint = (e) => {
@@ -20,8 +21,8 @@ export const handleImageError = (e) => {
   e.target.src = img;
 };
 export const handleGlobalImgError = (e, img) => {
-  e.target.src = img
-}
+  e.target.src = img;
+};
 //sentence words first char capital function
 export const CapitalizeWords = (text) => {
   const capitalizeFirstLetter = (word) => {
@@ -52,19 +53,22 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 // new api print
 export const newApiPrint = async (token, invoiceNo, printName, url, evn) => {
   let data = `{\r\n  "token" : "${token}"\r\n  ,"invoiceno":"${invoiceNo}"\r\n  ,"printname":"${printName}"\r\n  ,"Eventname":"${evn}"\r\n}`;
   let headers = {
-    'Content-Type': 'text/plain',
-    'Cookie': 'ASP.NET_SessionId=eosdeooiexxjky0svpuomnc0'
-  }
+    "Content-Type": "text/plain",
+    Cookie: "ASP.NET_SessionId=eosdeooiexxjky0svpuomnc0",
+  };
   try {
-    axios.post(url, data, { headers }).then(res => console.log(res)).catch(err => console.log(err));
+    axios
+      .post(url, data, { headers })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   } catch (error) {
-    console.error('API call failed:', error);
+    console.error("API call failed:", error);
     return null; // Handle the error as needed
   }
 };
@@ -158,6 +162,14 @@ export const HeaderComponent = (headNo, headerData) => {
       headerComponent = <Header3 data={headerData} />;
       break;
 
+    case "4":
+      headerComponent = <Header4 data={headerData} />;
+      break;
+
+    // case "5":
+    //   headerComponent = <Header5 data={headerData} />;
+    //   break;
+
     default:
       headerComponent = <Header1 data={headerData} />;
       break;
@@ -173,8 +185,8 @@ export const FooterComponent = (footerNo, footerData) => {
   switch (footerNo) {
     case "1":
       footerComponent = <Footer1 data={footerData} />;
-
       break;
+
     case "2":
       footerComponent = <Footer2 data={footerData} />;
       break;
@@ -289,7 +301,6 @@ export const otherAmountDetail = (otherAmtDetail) => {
 };
 
 export const checkArr = (diaArr, clsArr, miscArr, fArr) => {
-
   let mainArr = [];
   if (diaArr?.length > 2) {
     mainArr = mainArr?.concat(diaArr);
@@ -308,14 +319,14 @@ export const checkArr = (diaArr, clsArr, miscArr, fArr) => {
 
 export const numberToWord = (num) => {
   const toWords = new ToWords();
-  if (typeof (num) === "string") {
-    return toWords.convert(+fixedValues(num, 2))
-  } else if (typeof (num) === "number") {
-    return toWords.convert(num)
+  if (typeof num === "string") {
+    return toWords.convert(+fixedValues(num, 2));
+  } else if (typeof num === "number") {
+    return toWords.convert(num);
   } else {
-    return ""
+    return "";
   }
-}
+};
 
 export const checkImageExists = (url) => {
   return new Promise((resolve, reject) => {

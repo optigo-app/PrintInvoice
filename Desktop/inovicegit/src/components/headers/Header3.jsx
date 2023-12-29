@@ -1,11 +1,11 @@
 import React from "react";
 import style from "../../assets/css/headers/header3.module.css";
-import QRCodeGenerator from "../QRCodeGenerator";
-import { HeaderComponent } from "./../../GlobalFunctions";
+import QrCodeForPrint from "../QrCodeForPrint";
 
 const Header3 = ({ data }) => {
   return (
-    <div className="w-100">
+    <div className={style.header3}>
+
       <div className={style.headline}>
         <div className="fs-4">{data?.PrintHeadLabel}</div>
         <div className="fs-4">Government of India e-Invoice System</div>
@@ -17,7 +17,7 @@ const Header3 = ({ data }) => {
           <div>
             <img src={data?.PrintLogo} alt="home" className={style.headerImg} />
           </div>
-          <div className={`fw-bold fs-5 ${style.lines}`}>{data?.CompanyFullName}</div>
+          <div className={`fw-bold fs-5 ${style.linesmain}`}>{data?.CompanyFullName}</div>
           <div className={style.lines}>{data?.CompanyAddress}</div>
           <div className={style.lines}>{data?.CompanyCity} {data?.CompanyAddress2}</div>
           <div className={style.lines}>{data?.CompanyCity} - {data?.CompanyPinCode} {data?.CompanyState} ({data?.CompanyCountry})</div>
@@ -30,16 +30,16 @@ const Header3 = ({ data }) => {
           </div>
         </div>
         <div className="w-25">
-          <div className="w-100 d-flex justify-content-end align-items-center">
-            <QRCodeGenerator text="hellosdkjnksdfbnkjbsfkjbbdasfklnenfsdeflkhnresglkjgklkndfkgjngkjngklnasdfkjndfdglkndfgknkdfgjnkjadekjsdnkj" />
+          <div className={style.qrcodeupperdivh3}>
+            <QrCodeForPrint text="hellosdkjnksdfbnkjbsfkjbbdasfklnenfsdeflkhnresglkjgklkndfkgjngkjngklnasdfkjndfdglkndfgknkdfgjnkjadekjsdnkj" />
           </div>
-          <div className="w-100 d-flex justify-content-center align-items-center fw-bold fs-4">
+          <div className="w-100 d-flex justify-content-center align-items-center fw-bold fs-5 pe-2">
             Tax Invoice for Supply of Services Issued u/section 31(2) of CGST
             ACT, 2017
           </div>
         </div>
       </div>
-      <div style={{border:"1px solid #e8e8e8", marginTop:"1rem"}}>
+      <div className={style.tranDetails}>
         <div className={style.einvdetails}>1.e-Invoice Details</div>
         <div className={style.einvoiceDetails}>
             <div className="d-flex">
@@ -56,26 +56,24 @@ const Header3 = ({ data }) => {
             </div>
         </div>
       </div>
-      <div style={{border:"1px solid #e8e8e8", marginTop:"0.5rem", marginBottom:"0.5rem"}}>
+      <div className={style.tranDetails}>
         <div className={style.einvdetails}>2.Transaction Details</div>
         <div className={style.einvoiceDetails}>
-                <div style={{width:"33.33%"}}>
-                    <div className="w-100 d-flex border-end"><span className={`fw-bold ${style.trlinesh3}`}>Category : </span><span className={style.trlinesh3}>B2B</span></div>
-                    <div className="w-100 d-flex"><span className={`fw-bold ${style.trlinesh3}`}>Invoice Type : </span><span className={style.trlinesh3}>Tax Invoice</span></div>
-                </div>
-                <div style={{width:"33.33%"}}>
-                    <div className="w-100 d-flex"><span className={`fw-bold ${style.trlinesh3}`}>Invoice No : </span><span className={style.trlinesh3}>{data?.InvoiceNo}</span></div>
-                    <div className="w-100 d-flex"><span className={`fw-bold ${style.trlinesh3}`}>Invoice Date : </span><span className={style.trlinesh3}>20 OCT 2023</span></div>
-                </div>
-                <div style={{width:"33.33%"}}>
-                    <div className="w-100 d-flex"><span className={`fw-bold ${style.trlinesh3}`}>IGST on INTRA : </span><span className={style.trlinesh3}>NA</span></div>
-                    <div className="w-100 d-flex"><span className={`fw-bold ${style.trlinesh3}`}>Description : </span><span className={style.trlinesh3}>Jewelllary</span></div>
-                </div>
-                
-            
+          <div className={style.commonwidthh3}>
+            <div><b>Category : </b> B2B</div>
+            <div><b>Invoice Type : </b> Tax Invoice</div>
+          </div>
+          <div className={style.commonwidthh3}>
+            <div><b>Invoice No : </b> LVJ236273</div>
+            <div><b>Invoice Date : </b> 28 Dec 2023</div>
+          </div>
+          <div className={style.commonwidthh3}>
+            <div><b>IGST on INTRA : </b> NA</div>
+            <div><b>Description : </b> Jewellery</div>
+          </div>
         </div>
       </div>
-      
+            
     </div>
   );
 };
