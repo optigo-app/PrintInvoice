@@ -1,4 +1,5 @@
 import { otherAmountDetail, taxGenrator } from "../GlobalFunctions";
+import { numberToWords } from 'number-to-words';
 
 export const OrganizeDataPrint = (header, json1, json2) => {
   let resultArray = [];
@@ -132,6 +133,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       json2?.length > 0 &&
         json2?.forEach((j2, i) => {
           if (j1?.SrJobno === j2?.StockBarcode) {
+            console.log(j2);
             //for diamond
             if (j2?.MasterManagement_DiamondStoneTypeid === 1) {
               diamondList.push(j2);
@@ -380,12 +382,25 @@ export const OrganizeDataPrint = (header, json1, json2) => {
   allTax?.length > 0 &&
     allTax?.forEach((e) => {
       totalAmount += +e?.amount;
+      const [dollars, cents] = e?.amount?.split('.');
+        const amountInWords = [
+          numberToWords.toWords(parseInt(dollars)),
+          'point',
+          numberToWords.toWords(parseInt(cents || '0')),
+          ''
+        ].filter(Boolean).join(' ');
+      e.amountInWords = `TOTAL ${e.name} IN WORDS: ${amountInWords.charAt(0).toUpperCase() + amountInWords.slice(1)}`;
     });
+    totalAmount = (+totalAmount)?.toFixed(2);
   const finalObject = {
     resultArray: resultArray,
     mainTotal: maintotal,
-    finalAmount: totalAmount,
+    finalAmount: (+totalAmount),
     allTaxes: allTax,
+    header:header,
+    json1:json1,
+    json2:json2
+
   };
   return finalObject;
 };

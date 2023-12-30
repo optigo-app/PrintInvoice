@@ -24,9 +24,11 @@
 }
 .qrcodeheadimgh4{
     height: 150px;
-    width: 9%;
-    border: 1px solid black;
-    margin: 2rem;
+    margin-right: 5px;
+}
+.qrcodeheadimgh4 > canvas {
+    height: 145px !important;
+    width: 145px !important;
 }
 .invDetailsh4{
     width: 100%;
