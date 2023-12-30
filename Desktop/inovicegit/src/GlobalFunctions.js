@@ -131,6 +131,53 @@ export const taxGenrator = (headerData, totalAmount) => {
   return blankArr;
 };
 
+export const taxGenrator2 = (headerData, totalAmount) => {
+  let blankArr = [];
+  if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 0) {
+    let taxTypes = ["tax1", "tax2", "tax3", "tax4", "tax5"];
+    taxTypes?.forEach((e, i) => {
+      if (headerData[`${e}_taxname`] !== "") {
+        if (headerData[`${e}_IsOnDiscount`] === 1) {
+          let obj = {
+            name: headerData[[`${e}_taxname`]],
+            per: `${headerData[`${e}_value`]?.toFixed(2)}%`,
+            amount: ((totalAmount * headerData[`${e}_value`]) / 100)?.toFixed(
+              2
+            ),
+          };
+          blankArr.push(obj);
+        } else {
+          let obj = {
+            name: headerData[`${e}_taxname`],
+            per: headerData[`${e}_value`]?.toFixed(2),
+            amount: headerData[`${e}_value`]?.toFixed(2),
+          };
+          blankArr.push(obj);
+        }
+      }
+    });
+  } else if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 1) {
+    let arr = ["CGST", "SGST"];
+    arr?.forEach((e, i) => {
+      let obj = {
+        name: e,
+        per: `${headerData[e]?.toFixed(2)}%`,
+        // amount: ((totalAmount * headerData[e]) / 100)?.toFixed(2),
+        amount: (totalAmount*headerData[e]/100).toFixed(2),
+      };
+      blankArr.push(obj);
+    });
+  } else if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 2) {
+    let obj = {
+      name: headerData?.TaxProfilename,
+      per: `${headerData?.IGST?.toFixed(2)}%`,
+      amount: headerData?.TotalIGSTAmount?.toFixed(2),
+    };
+    blankArr.push(obj);
+  }
+  return blankArr;
+};
+
 //number with commas function
 export const NumberWithCommas = (value, val) => {
   const formattedNumber = parseFloat(+value)?.toLocaleString(undefined, {
@@ -166,10 +213,6 @@ export const HeaderComponent = (headNo, headerData) => {
     case "4":
       headerComponent = <Header4 data={headerData} />;
       break;
-
-    // case "5":
-    //   headerComponent = <Header5 data={headerData} />;
-    //   break;
 
     default:
       headerComponent = <Header1 data={headerData} />;

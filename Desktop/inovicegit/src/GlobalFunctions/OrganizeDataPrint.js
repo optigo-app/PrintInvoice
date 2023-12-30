@@ -56,6 +56,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     total_Quantity: 0,
     total_Making_Amount: 0,
     total_discount: 0,
+    total_diamondHandling: 0,
   };
   //json1 array
   json1?.length > 0 &&
@@ -80,12 +81,14 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           Pcs: 0,
           Rate: 0,
           Amount: 0,
+          SettingAmount: 0,
         },
         colorstone: {
           Wt: 0,
           Pcs: 0,
           Rate: 0,
           Amount: 0,
+          SettingAmount: 0,
         },
         metal: {
           Wt: 0,
@@ -128,6 +131,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_Making_Amount += j1?.MakingAmount;
       maintotal.MetalAmount += j1?.MetalAmount;
       maintotal.total_discount += j1?.Discount;
+      maintotal.total_diamondHandling += j1?.TotalDiamondHandling;
       //json2
       json2?.length > 0 &&
         json2?.forEach((j2, i) => {
@@ -143,6 +147,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.diamonds.Pcs += j2?.Pcs;
               maintotal.diamonds.Rate += j2?.Rate;
               maintotal.diamonds.Amount += j2?.Amount;
+              maintotal.diamonds.SettingAmount += j2?.SettingAmount;
             }
             //for colorstone
             if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -155,6 +160,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.colorstone.Pcs += j2?.Pcs;
               maintotal.colorstone.Rate += j2?.Rate;
               maintotal.colorstone.Amount += j2?.Amount;
+              maintotal.colorstone.SettingAmount += j2?.SettingAmount;
             }
             //for misc
             if (j2?.MasterManagement_DiamondStoneTypeid === 3) {

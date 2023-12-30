@@ -10,7 +10,7 @@ import {
 import Loader from "../../components/Loader";
 import style from "../../assets/css/prints/invoiceprint_12.module.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import { ToWords } from 'to-words';
+import { ToWords } from "to-words";
 
 const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [loader, setLoader] = useState(true);
@@ -32,6 +32,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+    console.log(datas);
     let finalArr = [];
     datas?.resultArray?.forEach((e, i) => {
       let findData = finalArr.findIndex(
@@ -46,6 +47,12 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
 
         finalArr[findData].totals.diamonds.Wt += e?.totals?.diamonds?.Wt;
         finalArr[findData].totals.colorstone.Wt += e?.totals?.colorstone?.Wt;
+        finalArr[findData].totals.misc.Amount += e?.totals?.misc?.Amount;
+        finalArr[findData].TotalDiamondHandling += e?.TotalDiamondHandling;
+        finalArr[findData].totals.diamonds.SettingAmount +=
+          e?.totals.diamonds.SettingAmount;
+        finalArr[findData].totals.colorstone.SettingAmount +=
+          e?.totals.colorstone.SettingAmount;
 
         let otherAmtDetails = [
           ...finalArr[findData]?.other_amount_details,
@@ -68,6 +75,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
         finalArr[findData].TotalAmount += e?.TotalAmount;
       }
     });
+    // console.log(datas);
     setData(finalArr);
     setTaxes(datas?.allTaxes);
     setTotal(datas?.mainTotal);
@@ -243,9 +251,28 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                 );
               })}
+              {e?.TotalDiamondHandling !== 0 && (
+                <div className="d-flex justify-content-between">
+                  <p>Handling</p>
+                  <p>{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>
+                </div>
+              )}
+              {e?.totals?.misc?.Amount !== 0 && (
+                <div className="d-flex justify-content-between">
+                  <p>Miscs</p>
+                  <p>{NumberWithCommas(e?.totals?.misc?.Amount, 2)}</p>
+                </div>
+              )}
             </div>
             <div className={`${style?.Making} border-end`}>
-              <p className="text-end">{NumberWithCommas(e?.MakingAmount, 2)}</p>
+              <p className="text-end">
+                {NumberWithCommas(
+                  e?.MakingAmount +
+                    e?.totals?.diamonds?.SettingAmount +
+                    e?.totals?.colorstone?.SettingAmount,
+                  2
+                )}
+              </p>
             </div>
             <div className={`${style?.ProductVal}`}>
               <p className="text-end">{NumberWithCommas(e?.TotalAmount, 2)}</p>
@@ -268,7 +295,9 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
           <p className=""></p>
         </div>
         <div className={`${style?.Qty} border-end fw-semibold`}>
-          <p className="text-end">{NumberWithCommas(total?.total_Quantity, 0)}</p>
+          <p className="text-end">
+            {NumberWithCommas(total?.total_Quantity, 0)}
+          </p>
         </div>
         <div className={`${style?.Gross} border-end fw-semibold`}>
           <p className="text-end">{NumberWithCommas(total?.grosswt, 3)}</p>
@@ -277,16 +306,27 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
           <p className="text-end">{NumberWithCommas(total?.diamonds?.Wt, 3)}</p>
         </div>
         <div className={`${style?.Stone} border-end fw-semibold`}>
-          <p className="text-end">{NumberWithCommas(total?.colorstone?.Wt, 3)}</p>
+          <p className="text-end">
+            {NumberWithCommas(total?.colorstone?.Wt, 3)}
+          </p>
         </div>
         <div className={`${style?.Net} border-end fw-semibold`}>
           <p className="text-end">{NumberWithCommas(total?.netwt, 3)}</p>
         </div>
         <div className={`${style?.Other} border-end fw-semibold`}>
-          <p className="text-end">{NumberWithCommas(total?.total_other, 2)}</p>
+          <p className="text-end">
+            {NumberWithCommas(
+              total?.total_other +
+                total?.misc?.Amount +
+                total?.total_diamondHandling,
+              2
+            )}
+          </p>
         </div>
         <div className={`${style?.Making} border-end fw-semibold`}>
-          <p className="text-end">{NumberWithCommas(total?.total_Making_Amount, 2)} </p>
+          <p className="text-end">
+            {NumberWithCommas(total?.total_Making_Amount, 2)}{" "}
+          </p>
         </div>
         <div className={`${style?.ProductVal} fw-semibold`}>
           <p className="text-end">{NumberWithCommas(total?.total_amount, 2)}</p>
@@ -300,7 +340,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
         >
           <p>Value in Words:</p>
           <p className="fw-semibold">
-          {toWords.convert(+fixedValues(grandTotal, 2))} Only.
+            {toWords.convert(+fixedValues(grandTotal, 2))} Only.
           </p>
         </div>
         <div className={`${style?.totalAmount}`}>
@@ -332,7 +372,9 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className={`${style?.totalAmtWord} border-end text-end`}>
                 {headerData?.AddLess > 0 ? "Add" : "Less"}
               </div>
-              <div className={`${style?.totalAmtValue} text-end`}>{NumberWithCommas(headerData?.AddLess, 2)}</div>
+              <div className={`${style?.totalAmtValue} text-end`}>
+                {NumberWithCommas(headerData?.AddLess, 2)}
+              </div>
             </div>
           )}
 
@@ -343,7 +385,10 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
               Total Amount To be Paid:
             </div>
             <div className={`${style?.totalAmtValue} text-end fw-bold`}>
-              <span dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></span>{NumberWithCommas(grandTotal, 2)}
+              <span
+                dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
+              ></span>
+              {NumberWithCommas(grandTotal, 2)}
             </div>
           </div>
         </div>

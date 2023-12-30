@@ -211,7 +211,10 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
       {/* table data */}
       {data?.resultArray.map((e, i) => {
         return (
-          <div className="d-flex border-start border-end border-bottom no_break" key={i}>
+          <div
+            className="d-flex border-start border-end border-bottom no_break"
+            key={i}
+          >
             <div className={`${style?.Sr} border-end p-1`}>
               <p className="">{i + 1}</p>
             </div>
@@ -228,13 +231,19 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
               <p className="">{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p>
             </div>
             <div className={`${style?.DRate} border-end p-1 text-end`}>
-              <p className="">{NumberWithCommas(e?.totals?.diamonds?.Rate, 2)}</p>
+              <p className="">
+                {NumberWithCommas(e?.totals?.diamonds?.Rate, 2)}
+              </p>
             </div>
             <div className={`${style?.StWt} border-end p-1 text-end`}>
-              <p className="">{NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}</p>
+              <p className="">
+                {NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}
+              </p>
             </div>
             <div className={`${style?.StRate} border-end p-1 text-end`}>
-              <p className="">{NumberWithCommas(e?.totals?.colorstone?.Rate, 2)}</p>
+              <p className="">
+                {NumberWithCommas(e?.totals?.colorstone?.Rate, 2)}
+              </p>
             </div>
             <div className={`${style?.NetWt} border-end p-1 text-end`}>
               <p className="">{NumberWithCommas(e?.NetWt, 3)}</p>
@@ -243,7 +252,12 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
               <p className="">{NumberWithCommas(e?.Wastage, 3)}</p>
             </div>
             <div className={`${style?.Rate} border-end p-1 text-end`}>
-              <p className="">533.81</p>
+              <p className="">
+                {NumberWithCommas(
+                  e?.MaKingCharge_Unit + e?.MetalAmount / e?.NetWt,
+                  2
+                )}
+              </p>
             </div>
             <div className={`${style?.Amount} p-1 text-end`}>
               <p className="">{NumberWithCommas(e?.UnitCost, 2)}</p>
@@ -253,43 +267,53 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
       })}
       {/* table total */}
       <div className="d-flex border-start border-end border-bottom no_break">
-            <div className={`${style?.Sr} border-end p-1`}>
-              <p className=""></p>
-            </div>
-            <div className={`${style?.Description} border-end p-1`}>
-              <p className="fw-bold">TOTAL</p>
-            </div>
-            <div className={`${style?.Purity} border-end p-1`}>
-              <p className=""></p>
-            </div>
-            <div className={`${style?.Gr} border-end p-1 text-end`}>
-              <p className="">{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</p>
-            </div>
-            <div className={`${style?.DWt} border-end p-1 text-end`}>
-              <p className="">{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}</p>
-            </div>
-            <div className={`${style?.DRate} border-end p-1 text-end`}>
-              <p className=""></p>
-            </div>
-            <div className={`${style?.StWt} border-end p-1 text-end`}>
-              <p className="">{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}</p>
-            </div>
-            <div className={`${style?.StRate} border-end p-1 text-end`}>
-              <p className=""></p>
-            </div>
-            <div className={`${style?.NetWt} border-end p-1 text-end`}>
-              <p className="">{NumberWithCommas(data?.mainTotal?.netwt, 3)}</p>
-            </div>
-            <div className={`${style?.Wastage} border-end p-1 text-end`}>
-              <p className=""></p>
-            </div>
-            <div className={`${style?.Rate} border-end p-1 text-end`}>
-              <p className=""></p>
-            </div>
-            <div className={`${style?.Amount} p-1 text-end`}>
-              <p className="">{NumberWithCommas(data?.mainTotal?.total_unitcost, 2)}</p>
-            </div>
-          </div>
+        <div className={`${style?.Sr} border-end p-1`}>
+          <p className=""></p>
+        </div>
+        <div className={`${style?.Description} border-end p-1`}>
+          <p className="fw-bold">TOTAL</p>
+        </div>
+        <div className={`${style?.Purity} border-end p-1`}>
+          <p className=""></p>
+        </div>
+        <div className={`${style?.Gr} border-end p-1 text-end`}>
+          <p className="fw-bold">
+            {NumberWithCommas(data?.mainTotal?.grosswt, 3)}
+          </p>
+        </div>
+        <div className={`${style?.DWt} border-end p-1 text-end`}>
+          <p className="fw-bold">
+            {NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}
+          </p>
+        </div>
+        <div className={`${style?.DRate} border-end p-1 text-end`}>
+          <p className=""></p>
+        </div>
+        <div className={`${style?.StWt} border-end p-1 text-end`}>
+          <p className="fw-bold">
+            {NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}
+          </p>
+        </div>
+        <div className={`${style?.StRate} border-end p-1 text-end`}>
+          <p className=""></p>
+        </div>
+        <div className={`${style?.NetWt} border-end p-1 text-end`}>
+          <p className="fw-bold">
+            {NumberWithCommas(data?.mainTotal?.netwt, 3)}
+          </p>
+        </div>
+        <div className={`${style?.Wastage} border-end p-1 text-end`}>
+          <p className=""></p>
+        </div>
+        <div className={`${style?.Rate} border-end p-1 text-end`}>
+          <p className=""></p>
+        </div>
+        <div className={`${style?.Amount} p-1 text-end`}>
+          <p className="fw-bold">
+            {NumberWithCommas(data?.mainTotal?.total_unitcost, 2)}
+          </p>
+        </div>
+      </div>
       {/* In Words */}
       <div className="d-flex border-start border-end border-bottom no_break">
         <div
@@ -303,6 +327,8 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
         <div className={`${style?.grandTotal}`}>
           <div className="d-flex">
             <div className={`${style?.Values} text-end border-end p-1`}>
+              <p>Discount</p>
+              <p className="fw-bold">Total Amount</p>
               {data?.allTaxes.map((e, i) => {
                 return (
                   <p key={i}>
@@ -315,6 +341,8 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
               )}
             </div>
             <div className={`${style?.amounts} p-1 text-end`}>
+            <p>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>
+            <p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost-data?.mainTotal?.total_discount_amount, 2)}</p>
               {data?.allTaxes.map((e, i) => {
                 return <p key={i}>{e?.amount}</p>;
               })}
@@ -328,7 +356,9 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
               <p className="fw-bold">GRAND TOTAL</p>
             </div>
             <div className={`${style?.amounts} p-1 text-end`}>
-              <p className="fw-bold">{NumberWithCommas(data?.finalAmount)}</p>
+              <p className="fw-bold">
+                {NumberWithCommas(data?.finalAmount, 2)}
+              </p>
             </div>
           </div>
         </div>

@@ -348,7 +348,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn }) => {
               <p className="fw-bold">GRAND TOTAL</p>
             </div>
             <div className={`${style?.grandTotalValue} p-1 text-end`}>
-              <p className="fw-bold">{NumberWithCommas(data?.finalAmount)}</p>
+              <p className="fw-bold">{NumberWithCommas(data?.finalAmount, 2)}</p>
             </div>
           </div>
         </div>

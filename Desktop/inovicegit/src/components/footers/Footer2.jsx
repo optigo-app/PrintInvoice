@@ -3,7 +3,7 @@ import React from "react";
 import style from "../../assets/css/footers/footer2.module.css";
 const Footer2 = ({data}) => {
   return (
-    <div className={style.container}>
+    <div className={`${style.container} no_break`}>
       <div
         className={style.block1f3}
         style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
