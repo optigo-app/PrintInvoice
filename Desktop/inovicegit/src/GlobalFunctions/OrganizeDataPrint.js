@@ -155,7 +155,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.diamonds.Pcs += j2?.Pcs;
               maintotal.diamonds.Rate += j2?.Rate;
               maintotal.diamonds.Amount += j2?.Amount;
-              maintotal.diamonds.SettingAmount += j2?.SettingAmount;
+              maintotal.diamonds.SettingAmount += (+j2?.SettingAmount);
             }
             //for colorstone
             if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -169,7 +169,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.colorstone.Pcs += j2?.Pcs;
               maintotal.colorstone.Rate += j2?.Rate;
               maintotal.colorstone.Amount += j2?.Amount;
-              maintotal.colorstone.SettingAmount += j2?.SettingAmount;
+              maintotal.colorstone.SettingAmount += (+j2?.SettingAmount);
             }
             //for misc
             if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
@@ -263,7 +263,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               diamondSettingGroup[recordIs2].Rate += +j2?.Rate;
               diamondSettingGroup[recordIs2].Amount += +j2?.Amount;
               diamondSettingGroup[recordIs2].SettingAmount +=
-                +j2?.SettingAmount;
+                (+j2?.SettingAmount);
             }
           }
           if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -297,7 +297,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               colorstoneSettingGroup[recordIs2].Rate += +j2?.Rate;
               colorstoneSettingGroup[recordIs2].Amount += +j2?.Amount;
               colorstoneSettingGroup[recordIs2].SettingAmount +=
-                +j2?.SettingAmount;
+                (+j2?.SettingAmount);
             }
           }
           if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
@@ -407,6 +407,11 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       e.amountInWords = `TOTAL ${e.name} IN WORDS: ${amountInWords.charAt(0).toUpperCase() + amountInWords.slice(1)}`;
     });
     totalAmount = (+totalAmount)?.toFixed(2);
+
+    
+
+
+
   const finalObject = {
     resultArray: resultArray,
     mainTotal: maintotal,

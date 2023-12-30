@@ -189,34 +189,41 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className="col9dp7 dp7cen border-end-0">FINE</div>
                   </div>
                   <div className="tbodydp7">
-                    <div className="d-flex">
-                      <div className="rcol1dp7 dp7cen1">1</div>
-                      <div className="rcol2dp7 d-flex flex-column align-items-start p-1">
-                        <div className="d-flex justify-content-between align-items-start w-100">
-                          <div>1715</div>
-                          <div>1/15339</div>
-                        </div>
-                        <div className="w-100 d-flex justify-content-center align-items-start">
-                          <img src={imgs} alt="design" className="rowimgdp7" />
-                        </div>
-                        <div className="w-100 d-flex justify-content-center align-items-start">
-                          HUID-AFSFA001
-                        </div>
-                      </div>
-                      <div className="rcol3dp7 dp7cen1">18K/Yellow</div>
-                      <div className="rcol4dp7 dp7cen2">10.000</div>
-                      <div className="rcol5dp7 dp7cen2">10.084</div>
-                      <div className="rcol6dp7 dp7cen2">0.000</div>
-                      <div className="rcol7dp7 dp7cen1">Round</div>
-                      <div className="rcol8dp7 dp7cen2">5</div>
-                      <div className="rcol9dp7 dp7cen2">0.080</div>
-                      <div className="rcol10dp7 dp7cen2">10000.00</div>
-                      <div className="rcol11dp7 dp7cen2">800.00</div>
-                      <div className="rcol12dp7 dp7cen2">50.00</div>
-                      <div className="rcol13dp7 dp7cen2 border-end-0">
-                        7.588
-                      </div>
-                    </div>
+                    {
+                        result?.resultArray?.map((e, i) => {
+                            return(
+                                <div className="d-flex brbdp7" key={i}>
+                                <div className="rcol1dp7 dp7cen1">{e?.SrNo}</div>
+                                <div className="rcol2dp7 d-flex flex-column align-items-start p-1">
+                                  <div className="d-flex justify-content-between align-items-start w-100">
+                                    <div>{e?.designno}</div>
+                                    <div>{e?.SrJobno}</div>
+                                  </div>
+                                  <div className="w-100 d-flex justify-content-center align-items-start">
+                                    <img src={imgs} alt="design" className="rowimgdp7" />
+                                  </div>
+                                   <div className="w-100 d-flex justify-content-center align-items-start">
+                                   {e?.HUID === "" ? '' : `HUID - ${e?.HUID}`}
+                                  </div>
+                                </div>
+                                <div className="rcol3dp7 dp7cen1">{e?.MetalPurity}/{e?.MetalColor}</div>
+                                <div className="rcol4dp7 dp7cen2">10.000</div>
+                                <div className="rcol5dp7 dp7cen2">10.084</div>
+                                <div className="rcol6dp7 dp7cen2">0.000</div>
+                                <div className="rcol7dp7 dp7cen1">Round</div>
+                                <div className="rcol8dp7 dp7cen2">5</div>
+                                <div className="rcol9dp7 dp7cen2">0.080</div>
+                                <div className="rcol10dp7 dp7cen2">10000.00</div>
+                                <div className="rcol11dp7 dp7cen2">800.00</div>
+                                <div className="rcol12dp7 dp7cen2">50.00</div>
+                                <div className="rcol13dp7 dp7cen2 border-end-0">
+                                  7.588
+                                </div>
+                              </div>            
+                            )
+                        })
+                    }
+                    
                   </div>
                 </div>
 
@@ -232,7 +239,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
 
                 {/* table total */}
-                <div className="w-100 brtdp7 dp7cen2 bradp7">85,503.37</div>
+                <div className="w-100 brtdp7 dp7cen2 bradp7">{NumberWithCommas(result?.mainTotal?.total_amount)}</div>
 
                 {/* taxes */}
                 {result?.allTaxes?.map((e, i) => {
@@ -248,14 +255,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     
                   );
                 })}
-
-                {/* <div className="w-100 bradp7 border-bottom-0 border-top-0 taxdp7">
-                  <div className="taxdp7d1">
-                    TOTAL SGST IN WORDS : One Hundred and Eleven Point Fifteen
-                  </div>
-                  <div className="taxdp7d2 dp7cen2">CGST @ 0.13%</div>
-                  <div className="taxdp7d3 dp7cen2">111.15</div>
-                </div> */}
                 <div className="w-100 bradp7 border-top-0 taxdp7">
                   <div className="taxdp7d4"></div>
                   <div className="taxdp7d2 dp7cen2 bldp7">
