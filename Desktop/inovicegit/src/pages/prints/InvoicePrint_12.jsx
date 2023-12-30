@@ -32,7 +32,6 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-    console.log(datas);
     let finalArr = [];
     datas?.resultArray?.forEach((e, i) => {
       let findData = finalArr.findIndex(
