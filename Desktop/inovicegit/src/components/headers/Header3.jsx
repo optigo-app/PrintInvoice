@@ -3,6 +3,7 @@ import style from "../../assets/css/headers/header3.module.css";
 import QrCodeForPrint from "../QrCodeForPrint";
 
 const Header3 = ({ data }) => {
+  console.log(data);
   return (
     <div className={style.header3}>
 
@@ -34,8 +35,7 @@ const Header3 = ({ data }) => {
             <QrCodeForPrint text="hellosdkjnksdfbnkjbsfkjbbdasfklnenfsdeflkhnresglkjgklkndfkgjngkjngklnasdfkjndfdglkndfgknkdfgjnkjadekjsdnkj" />
           </div>
           <div className="w-100 d-flex justify-content-center align-items-center fw-bold fs-5 pe-2">
-            Tax Invoice for Supply of Services Issued u/section 31(2) of CGST
-            ACT, 2017
+            {data?.InvoiceBillType}
           </div>
         </div>
       </div>
@@ -44,15 +44,15 @@ const Header3 = ({ data }) => {
         <div className={style.einvoiceDetails}>
             <div className="d-flex">
                 <div className={`fw-bold ${style.fshead3comp}`}>IRN : </div>
-                <div className={style.fshead3comp}>long number</div>
+                <div className={style.fshead3comp}> long number</div>
             </div>
             <div className="d-flex">
                 <div className={`fw-bold ${style.fshead3comp}`}>Ack No.</div>
-                <div className={style.fshead3comp}>3498757359795797</div>
+                <div className={style.fshead3comp}> 3498757359795797</div>
             </div>
             <div className="d-flex">
                 <div className={`fw-bold ${style.fshead3comp}`}>Ack. Date :</div>
-                <div className={style.fshead3comp}>2023-10-20 15:12:00</div>
+                <div className={style.fshead3comp}> 2023-10-20 15:12:00</div>
             </div>
         </div>
       </div>
@@ -64,8 +64,8 @@ const Header3 = ({ data }) => {
             <div><b>Invoice Type : </b> Tax Invoice</div>
           </div>
           <div className={style.commonwidthh3}>
-            <div><b>Invoice No : </b> LVJ236273</div>
-            <div><b>Invoice Date : </b> 28 Dec 2023</div>
+            <div><b>Invoice No : </b> {data?.InvoiceNo}</div>
+            <div><b>Invoice Date : </b> {data?.EntryDate}</div>
           </div>
           <div className={style.commonwidthh3}>
             <div><b>IGST on INTRA : </b> NA</div>
