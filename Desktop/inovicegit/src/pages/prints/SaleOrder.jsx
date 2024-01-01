@@ -5,6 +5,7 @@ import {
   HeaderComponent,
   NumberWithCommas,
   apiCall,
+  fixedValues,
   handleImageError,
   handlePrint,
   isObjectEmpty,
@@ -54,7 +55,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         summaryArr.push({
           label: "GOLD IN 24KT",
           value: e?.convertednetwt,
-          id: 4,
+          id: 1,
           suffix: " gm",
           name: "GOLD IN 24KT",
         });
@@ -69,7 +70,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         summaryArr.push({
           label: "Gross Wt",
           value: e?.grosswt,
-          id: 1,
+          id: 2,
           suffix: " gm",
           name: "Gross Wt",
         });
@@ -77,25 +78,12 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         summaryArr[findGross].value += e?.grosswt;
       }
 
-      let mdWt = summaryArr.findIndex((ele, ind) => ele?.label === "(M+D) WT");
-      if (mdWt === -1) {
-        summaryArr.push({
-          label: "(M+D) WT",
-          value: e?.NetWt,
-          id: 1,
-          suffix: " gm",
-          name: "(M+D) WT",
-        });
-      } else {
-        summaryArr[mdWt].value += e?.MetalDiaWt;
-      }
-
       let netWt = summaryArr.findIndex((ele, ind) => ele?.label === "NET WT");
       if (netWt === -1) {
         summaryArr.push({
           label: "NET WT",
           value: e?.NetWt,
-          id: 1,
+          id: 4,
           suffix: " gm",
           name: "NET WT",
         });
@@ -137,7 +125,6 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
       // pending setting amount add in labour
 
       // console.log(e?.MakingAmount);
-
       let otherAmount = summary2Arr.findIndex((ele) => ele?.label === "OTHER");
       if (otherAmount === -1) {
         summary2Arr.push({
@@ -177,7 +164,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
               summaryArr.push({
                 label: "DIAMOND",
                 value: ele?.Wt,
-                id: 1,
+                id: 5,
                 suffix: " Cts",
                 name: "Diamond Wt",
                 amount: ele?.Amount,
@@ -208,7 +195,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
               summaryArr.push({
                 label: "COLOR STONE",
                 value: ele?.Wt,
-                id: 2,
+                id: 6,
                 suffix: " Cts",
                 name: "Stone Wt",
                 amount: ele?.Amount,
@@ -239,7 +226,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
               summaryArr.push({
                 label: "MISC",
                 value: ele?.Wt,
-                id: 3,
+                id: 7,
                 suffix: " gms",
                 name: "Misc Wt",
                 amount: ele?.Amount,
@@ -278,8 +265,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             } else {
               summary2Arr[goldAmount].amount += ele?.Amount;
             }
-          }
-          else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
+          } else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
             let goldAmount = summary2Arr.findIndex(
               (ele) => ele?.label === "GOLD"
             );
@@ -302,7 +288,8 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
       obj.TotalAmount =
         e?.TotalAmount / data?.BillPrint_Json[0]?.CurrencyExchRate;
       obj.UnitCost = e?.UnitCost / data?.BillPrint_Json[0]?.CurrencyExchRate;
-      totals.TotalAmount += obj?.TotalAmount;
+      totals.TotalAmount +=
+        obj?.TotalAmount / data?.BillPrint_Json[0]?.CurrencyExchRate;
       totals.UnitCost += obj?.UnitCost / obj.Quantity;
       obj.diamondWt = diamondWt;
       obj.colorStoneWt = colorStoneWt;
@@ -310,33 +297,37 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
       resultArr.push(obj);
     });
 
+    // let mdWtt = summaryArr.findIndex((ele, ind) => ele?.label === "(M+D) WT");
+    // if (mdWtt === -1) {
+    //   summaryArr.push({
+    //     label: "(M+D) WT",
+    //     value: 0,
+    //     id: 1,
+    //     suffix: " gm",
+    //     name: "(M+D) WT",
+    //   });
+    // } else {
+    //   if (findDiamond !== -1) {
+    //     summaryArr[mdWtt].value += summaryArr[findDiamond].value / 5;
+    //   }
+    // }
+
     let findDiamond = summaryArr.findIndex(
       (elem, index) => elem?.label === "DIAMOND"
     );
-
-    let mdWtt = summaryArr.findIndex((ele, ind) => ele?.label === "(M+D) WT");
-    if (mdWtt === -1) {
+    let findNetWt = summaryArr.findIndex((ele, ind) => ele?.label === "NET WT");
+    if (findNetWt !== -1 || findDiamond !== -1) {
       summaryArr.push({
         label: "(M+D) WT",
-        value: 0,
-        id: 1,
+        value: fixedValues(summaryArr[findDiamond]?.value, 3)/5 + summaryArr[findNetWt]?.value,
+        id: 3,
         suffix: " gm",
         name: "(M+D) WT",
       });
-    } else {
-      if (findDiamond !== -1) {
-        summaryArr[mdWtt].value += summaryArr[findDiamond].value / 5;
-      }
     }
-
-    // summary2Arr.push({
-    //   label: data?.BillPrint_Json[0]?.AddLess > 0 ? "Add" : "Less",
-    //   value: data?.BillPrint_Json[0]?.AddLess,
-    //   id: 7,
-    //   suffix: "",
-    //   name: data?.BillPrint_Json[0]?.AddLess > 0 ? "Add" : "Less",
-    //   amount: data?.BillPrint_Json[0]?.AddLess,
-    // });
+    summaryArr.sort((a, b) => {
+      return a.id - b.id
+    })
 
     let taxValue = taxGenrator2(data?.BillPrint_Json[0], totals?.TotalAmount);
     settax(taxValue);
@@ -546,21 +537,21 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
             <div className={`${style?.itemCode} p-1  border-end`}>
               <p>
-                {" "}
+                
                 DESIGN: <span className="fw-bold">{e?.designno}</span>
               </p>
             </div>
             <div className={`${style?.description} p-1 border-end `}>
               <p>
-                {e?.MetalTypePurity} {e?.MetalColor}{" "}
-              </p>{" "}
+                {e?.MetalTypePurity} {e?.MetalColor}
+              </p>
               <p>
                 {e?.NetWt !== 0 &&
-                  `NET WT: ${NumberWithCommas(e?.NetWt, 3)} gms NW`}{" "}
+                  `NET WT: ${NumberWithCommas(e?.NetWt, 3)} gms NW`}
               </p>
               <p>
                 {e?.diamondWt !== 0 &&
-                  `DIA WT: ${NumberWithCommas(e?.diamondWt, 3)} Cts  `}{" "}
+                  `DIA WT: ${NumberWithCommas(e?.diamondWt, 3)} Cts  `}
               </p>
               <p>
                 {e?.colorStoneWt !== 0 &&
@@ -572,7 +563,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
               </p>
               <p>
                 {e?.grosswt !== 0 &&
-                  `GROSS WT: ${NumberWithCommas(e?.grosswt, 3)} gms GW`}{" "}
+                  `GROSS WT: ${NumberWithCommas(e?.grosswt, 3)} gms GW`}
               </p>
               {e?.Size !== "" && <p className="pt-1">SIZE: {e?.Size}</p>}
               {(e?.Collectionname !== "" ||
@@ -583,10 +574,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                   {e?.SubCategoryname}
                 </p>
               )}
-              {e?.JobRemark !== "" && <p className="pt-1">
-                {" "}
-                <span className="fw-bold">REMARKS:</span> {e?.JobRemark}{" "}
-              </p>}
+              {e?.JobRemark !== "" && (
+                <p className="pt-1">
+                  <span className="fw-bold">REMARKS:</span> {e?.JobRemark}
+                </p>
+              )}
             </div>
             <div className={`${style?.quantity} p-1 border-end `}>
               <p className="text-end"> {e?.Quantity}</p>
@@ -598,7 +590,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                     __html: headerData?.Currencysymbol,
                   }}
                 ></span>{" "}
-                {NumberWithCommas(e?.UnitCost / e?.Quantity, 2)}{" "}
+                {NumberWithCommas(e?.UnitCost / e?.Quantity, 2)}
               </p>
             </div>
             <div className={`${style?.amount} p-1  text-end`}>
@@ -608,7 +600,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                     __html: headerData?.Currencysymbol,
                   }}
                 ></span>{" "}
-                {NumberWithCommas(e?.TotalAmount, 2)}
+                {NumberWithCommas(
+                  e?.TotalAmount / headerData?.CurrencyExchRate,
+                  2
+                )}
               </p>
             </div>
           </div>
@@ -624,19 +619,17 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
         <div className={`${style?.unitPrice} p-1 text-end fw-bold border-end`}>
           <p>
-            {" "}
             <span
               dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
             ></span>{" "}
-            {NumberWithCommas(total?.UnitCost, 2)}{" "}
+            {NumberWithCommas(total?.UnitCost, 2)}
           </p>
         </div>
         <div className={`${style?.amount} p-1 text-end fw-bold`}>
           <p>
-            {" "}
             <span
               dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
-            ></span>{" "}
+            ></span>
             {NumberWithCommas(total?.TotalAmount, 2)}
           </p>
         </div>
@@ -655,7 +648,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className="d-flex justify-content-between" key={i}>
                       <p className="fw-bold">{e?.name}</p>
                       <p>
-                        {e?.Pcs && `${NumberWithCommas(e?.Pcs, 0)} / `}{" "}
+                        {e?.Pcs && `${NumberWithCommas(e?.Pcs, 0)} / `}
                         {NumberWithCommas(e?.value, 3)} {e?.suffix}
                       </p>
                     </div>

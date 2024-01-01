@@ -1,0 +1,66 @@
+.detailprint8 *{
+    font-size: 11px;
+    line-height: 120%;
+    word-break: normal;
+}
+.Sr, .qty, .totalt{
+    width: 5%;
+    min-width: 5%;
+}
+.design, .Pcs{
+    width: 10%;
+    min-width: 10%;
+}
+.material{
+    width: 50%;
+    min-width: 50%;
+}
+.other, .wtt{
+    width: 7%;
+    min-width: 7%;
+}
+.labour, .ctwt{
+    width: 14%;
+    min-width: 14%;
+}
+.amount, .taxAmount, .tt{
+    width: 9%;
+    min-width: 9%;
+}
+.Material, .Shape{
+    width: 12%;
+    min-width: 12%;
+}
+.Qlty, .Color, .Size, .WtCtw, .Rate, .Amount{
+    width: 11%;
+    min-width: 11%;
+}
+.words{
+    width: 70%;
+    min-width: 70%;
+}
+.taxes{
+    width: 21%;
+    min-width: 21%;
+}   
+.qtyt{
+    width: 33%;
+    min-width: 33%;
+}
+.dt{
+    width: 21.3%;
+    min-width: 21.3%;
+}
+.ct{
+    width: 6%;
+    min-width: 6%;
+}
+.mt{
+    width: 4.7%;
+    min-width: 4.7%;
+}
+
+
+
+
+

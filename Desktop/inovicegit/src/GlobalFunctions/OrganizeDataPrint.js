@@ -84,6 +84,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           Amount: 0,
           SettingAmount: 0,
           FineWt: 0,
+          length: 0,
         },
         colorstone: {
           Wt: 0,
@@ -92,6 +93,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           Amount: 0,
           SettingAmount: 0,
           FineWt: 0,
+          length: 0,
         },
         metal: {
           Wt: 0,
@@ -99,6 +101,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           Rate: 0,
           Amount: 0,
           FineWt: 0,
+          length: 0,
         },
         finding: {
           Wt: 0,
@@ -106,6 +109,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           Rate: 0,
           Amount: 0,
           FineWt: 0,
+          length: 0,
         },
         misc: {
           Wt: 0,
@@ -113,6 +117,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           Rate: 0,
           Amount: 0,
           FineWt: 0,
+          length: 0,
         },
         stone_misc: {
           Wt: 0,
@@ -151,6 +156,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.diamonds.Rate += j2?.Rate;
               jobwise_totals.diamonds.Amount += j2?.Amount;
               jobwise_totals.diamonds.FineWt += j2?.FineWt;
+              jobwise_totals.diamonds.length += 1;
               maintotal.diamonds.Wt += j2?.Wt;
               maintotal.diamonds.Pcs += j2?.Pcs;
               maintotal.diamonds.Rate += j2?.Rate;
@@ -165,6 +171,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.colorstone.Rate += j2?.Rate;
               jobwise_totals.colorstone.Amount += j2?.Amount;
               jobwise_totals.colorstone.FineWt += j2?.FineWt;
+              jobwise_totals.colorstone.length += 1;
               maintotal.colorstone.Wt += j2?.Wt;
               maintotal.colorstone.Pcs += j2?.Pcs;
               maintotal.colorstone.Rate += j2?.Rate;
@@ -179,6 +186,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.metal.Rate += j2?.Rate;
               jobwise_totals.metal.Amount += j2?.Amount;
               jobwise_totals.metal.FineWt += j2?.FineWt;
+              jobwise_totals.metal.length += 1;
               maintotal.metal.Wt += j2?.Wt;
               maintotal.metal.Pcs += j2?.Pcs;
               maintotal.metal.Rate += j2?.Rate;
@@ -192,6 +200,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.misc.Rate += j2?.Rate;
               jobwise_totals.misc.Amount += j2?.Amount;
               jobwise_totals.misc.FineWt += j2?.FineWt;
+              jobwise_totals.misc.length += 1;
               maintotal.misc.Wt += j2?.Wt;
               maintotal.misc.Pcs += j2?.Pcs;
               maintotal.misc.Rate += j2?.Rate;
@@ -205,6 +214,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.finding.Rate += j2?.Rate;
               jobwise_totals.finding.Amount += j2?.Amount;
               jobwise_totals.finding.FineWt += j2?.FineWt;
+              jobwise_totals.finding.length += 1;
               maintotal.finding.Wt += j2?.Wt;
               maintotal.finding.Pcs += j2?.Pcs;
               maintotal.finding.Rate += j2?.Rate;

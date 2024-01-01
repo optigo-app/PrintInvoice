@@ -213,6 +213,14 @@ min-width: max-content;
     color: gray;
 }
 
+.min_height_title{
+  min-height: 36.8px;
+}
+
+.pad_1{
+  padding: 1px;
+}
+
 @media print {
   .hide-on-print {
     display: none;

@@ -33,6 +33,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
       data?.BillPrint_Json2
     );
     let finalArr = [];
+    console.log(datas);
     datas?.resultArray?.forEach((e, i) => {
       let findData = finalArr.findIndex(
         (ele) => ele.MetalPurity === e?.MetalPurity

@@ -132,6 +132,7 @@ export const taxGenrator = (headerData, totalAmount) => {
 };
 
 export const taxGenrator2 = (headerData, totalAmount) => {
+  console.log(totalAmount);
   let blankArr = [];
   if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 0) {
     let taxTypes = ["tax1", "tax2", "tax3", "tax4", "tax5"];
@@ -171,7 +172,7 @@ export const taxGenrator2 = (headerData, totalAmount) => {
     let obj = {
       name: headerData?.TaxProfilename,
       per: `${headerData?.IGST?.toFixed(2)}%`,
-      amount: headerData?.TotalIGSTAmount?.toFixed(2),
+      amount: (totalAmount*headerData["IGST"]/100).toFixed(2)
     };
     blankArr.push(obj);
   }
