@@ -163,7 +163,7 @@ export const taxGenrator2 = (headerData, totalAmount) => {
         name: e,
         per: `${headerData[e]?.toFixed(2)}%`,
         // amount: ((totalAmount * headerData[e]) / 100)?.toFixed(2),
-        amount: (totalAmount*headerData[e]/100).toFixed(2),
+        amount: ((totalAmount * headerData[e]) / 100).toFixed(2),
       };
       blankArr.push(obj);
     });
@@ -380,3 +380,21 @@ export const checkImageExists = (url) => {
     img.src = url;
   });
 };
+
+export function formatAmount(amount) {
+  let amt = +amount;
+  // Convert the amount to a number and round it to 2 decimal places
+  const roundedAmount = Number(amt).toFixed(2);
+
+  // Check if the number has no decimal part
+  const hasNoDecimal = Number.isInteger(Number(amt));
+
+  // Use toLocaleString to add commas for thousands separator and ensure 2 decimal places
+  const formattedAmount = parseFloat(roundedAmount).toLocaleString("en-IN", {
+    minimumFractionDigits: hasNoDecimal ? 2 : 0,
+    maximumFractionDigits: 2,
+  });
+
+  return formattedAmount;
+}
+

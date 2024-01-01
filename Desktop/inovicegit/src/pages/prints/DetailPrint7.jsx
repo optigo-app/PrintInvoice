@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react";
 import {
-  FooterComponent,
   HeaderComponent,
   NumberWithCommas,
-  SubheaderComponent,
   apiCall,
+  formatAmount,
+  handleImageError,
   isObjectEmpty,
   numberToWord,
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "./../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/detailprint7.css";
-import imgs from "../../default.jpg";
+
 
 const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [result, setResult] = useState(null);
+  const [categoryWise, setCategoryWise] = useState([]);
+  const [miscWise, setMiscWise] = useState([]);
+  const [miscWise_total, setMiscWise_total] = useState({
+    Pcs:0,
+    Wt_Ctw:0,
+    dia_Wt_gm:0,
+    Wt_gm:0,
+    Amount:0
+  });
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [headerComp, setHeaderComp] = useState(null);
-  const [subHeaderComp, setSubHeaderComp] = useState(null);
-  const [footerComp, setFooterComp] = useState(null);
   async function loadData(data) {
     try {
       let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
@@ -29,21 +36,94 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-      console.log(datas);
+
+      let blankArr = [];
+      let blankArr2 = [];
+      let obj = {
+        Pcs:0,
+        Wt_Ctw:0,
+        dia_Wt_gm:0,
+        Wt_gm:0,
+        Amount:0
+      }
+      datas?.resultArray?.forEach((j2) => {
+        // let findIndex = blankArr?.map((el) => el?.Categoryname === e?.Categoryname);
+        // if(findIndex === -1){
+        //   e[findIndex].pieces += e[findIndex].length;
+        //   blankArr.push(e[findIndex]);
+        // }else{
+        //   blankArr[findIndex].FineWt += (+e?.FineWt);
+        //   blankArr[findIndex].Wastage += (+e?.Wastage);
+        //   blankArr[findIndex].grosswt += (+e?.grosswt);
+        //   blankArr[findIndex].NetWt += (+e?.NetWt);
+        // }
+        // console.log("zzzzz",blankArr);
+
+        let recordIs = blankArr?.findIndex(
+          (e) => e?.Categoryname === j2?.Categoryname
+          // e?.QualityName === j2?.QualityName &&
+          // e?.Colorname === j2?.Colorname
+        );
+        if (recordIs === -1) {
+          blankArr.push(j2);
+        } else {
+          blankArr[recordIs].grosswt += +j2?.grosswt;
+          blankArr[recordIs].NetWt += +j2?.NetWt;
+          blankArr[recordIs].Wastage += +j2?.Wastage;
+          blankArr[recordIs].PureNetWt += +j2?.PureNetWt;
+          blankArr[recordIs].Quantity += +j2?.Quantity;
+        }
+      });
+      datas?.json2?.forEach((e) => {
+        if (
+          e?.MasterManagement_DiamondStoneTypeid === 2 ||
+          e?.MasterManagement_DiamondStoneTypeid === 3
+        ) {
+          if (e?.ShapeName === "Hallmark" || e?.ShapeName === "Stamping") {
+            return "";
+          } else {
+            let recordIs = blankArr2?.findIndex((el) => el?.ShapeName === e?.ShapeName);
+            if (recordIs === -1) {
+              blankArr2.push(e);
+            } else {
+              blankArr2[recordIs].rate += +e?.rate;
+              blankArr2[recordIs].Wt += +e?.Wt;
+              blankArr2[recordIs].Amount += +e?.Amount;
+              blankArr2[recordIs].Pcs += +e?.Pcs;
+            }
+          }
+        }
+      });
+
+
+      //important
+       obj.Pcs = 0;
+       obj.Amount = 0;
+        blankArr2?.forEach((e) => {
+          obj.Pcs += e?.Pcs;
+          obj.Amount += e?.Amount;
+          if(e?.MasterManagement_DiamondStoneTypeid === 2){
+            obj.Wt_Ctw += e?.Wt;
+          }
+          if(e?.MasterManagement_DiamondStoneTypeid === 3){
+            obj.Wt_gm += e?.Wt;
+          }
+        })
+
+      setMiscWise_total(obj)
+      setMiscWise(blankArr2);
+      setCategoryWise(blankArr);
+
       setResult(datas);
+
       const headerCompo = HeaderComponent(
         data?.BillPrint_Json[0]?.headNo,
         data?.BillPrint_Json[0]
       );
       setHeaderComp(headerCompo);
-      const subheaderCompo = SubheaderComponent(
-        data?.BillPrint_Json[0]?.headNo,
-        data?.BillPrint_Json[0]
-      );
-      setSubHeaderComp(subheaderCompo);
-      const footer_comp = FooterComponent("2", data?.BillPrint_Json[0]);
-      setFooterComp(footer_comp);
+      
       setLoader(false);
+
     } catch (error) {
       console.log(error);
     }
@@ -74,6 +154,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
     sendData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       {loader ? (
@@ -189,70 +270,119 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className="col9dp7 dp7cen border-end-0">FINE</div>
                   </div>
                   <div className="tbodydp7">
-                    {
-                        result?.resultArray?.map((e, i) => {
-                            return(
-                                <div className="d-flex brbdp7" key={i}>
-                                <div className="rcol1dp7 dp7cen1">{e?.SrNo}</div>
-                                <div className="rcol2dp7 d-flex flex-column align-items-start p-1">
-                                  <div className="d-flex justify-content-between align-items-start w-100">
-                                    <div>{e?.designno}</div>
-                                    <div>{e?.SrJobno}</div>
+                    {result?.resultArray?.map((e, i) => {
+                      return (
+                        <div className="d-flex brbdp7" key={i}>
+                          <div className="rcol1dp7 dp7cen1">{e?.SrNo}</div>
+                          <div className="rcol2dp7 d-flex flex-column align-items-start p-1">
+                            <div className="d-flex justify-content-between align-items-start w-100">
+                              <div>{e?.designno}</div>
+                              <div>{e?.SrJobno}</div>
+                            </div>
+                            <div className="w-100 d-flex justify-content-center align-items-start">
+                              <img
+                                src={e?.DesignImage}
+                                onError={(e) => handleImageError(e)}
+                                alt="design"
+                                className="rowimgdp7"
+                              />
+                            </div>
+                            <div className="w-100 d-flex justify-content-center align-items-start">
+                              {e?.HUID === "" ? "" : `HUID - ${e?.HUID}`}
+                            </div>
+                          </div>
+                          <div className="rcol3dp7 dp7cen1">
+                            {e?.MetalPurity}/{e?.MetalColor}
+                          </div>
+                          <div className="rcol4dp7 dp7cen2">
+                            {e?.grosswt?.toFixed(3)}
+                          </div>
+                          <div className="rcol5dp7 dp7cen2">
+                            {(e?.NetWt + e?.LossWt)?.toFixed(3)}
+                          </div>
+                          <div className="rcol6dp7 dp7cen2">
+                            {e?.Wastage?.toFixed(3)}
+                          </div>
+                          <div
+                            style={{ width: "" }}
+                            className=" col7dp7 "
+                          >
+                            <div className="d-grid h-100">
+                            {e?.diamond_colorstone_misc?.map((e, ind) => {
+                              return (
+                                <div className="d-flex brtdp7" key={ind}>
+                                  <div className="w_subcoldp7 dp7cen1 brdp7">
+                                    {e?.ShapeName}
                                   </div>
-                                  <div className="w-100 d-flex justify-content-center align-items-start">
-                                    <img src={imgs} alt="design" className="rowimgdp7" />
+                                  <div className="w_subcoldp7 dp7cen2 brdp7">
+                                    {e?.Pcs}
                                   </div>
-                                   <div className="w-100 d-flex justify-content-center align-items-start">
-                                   {e?.HUID === "" ? '' : `HUID - ${e?.HUID}`}
+                                  <div className="w_subcoldp7 dp7cen2 brdp7">
+                                    {e?.Wt?.toFixed(3)}
+                                  </div>
+                                  <div className="w_subcoldp7 dp7cen2 brdp7">
+                                    {e?.Rate}
+                                  </div>
+                                  <div className="w_subcoldp7 dp7cen2">
+                                    {e?.Amount?.toFixed(2)}
                                   </div>
                                 </div>
-                                <div className="rcol3dp7 dp7cen1">{e?.MetalPurity}/{e?.MetalColor}</div>
-                                <div className="rcol4dp7 dp7cen2">10.000</div>
-                                <div className="rcol5dp7 dp7cen2">10.084</div>
-                                <div className="rcol6dp7 dp7cen2">0.000</div>
-                                <div className="rcol7dp7 dp7cen1">Round</div>
-                                <div className="rcol8dp7 dp7cen2">5</div>
-                                <div className="rcol9dp7 dp7cen2">0.080</div>
-                                <div className="rcol10dp7 dp7cen2">10000.00</div>
-                                <div className="rcol11dp7 dp7cen2">800.00</div>
-                                <div className="rcol12dp7 dp7cen2">50.00</div>
-                                <div className="rcol13dp7 dp7cen2 border-end-0">
-                                  7.588
-                                </div>
-                              </div>            
-                            )
-                        })
-                    }
-                    
+                              );
+                            })}
+                            </div>
+                         
+                          </div>
+                          <div className="rcol12dp7 dp7cen2 bldp7">
+                            {e?.OtherCharges?.toFixed(2)}
+                          </div>
+                          <div className="rcol13dp7 dp7cen2 border-end-0">
+                            {e?.PureNetWt?.toFixed(3)}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
                 {/* table all row total */}
-                <div className="totaldp7 w-100 brtdp7">
+                <div className="totaldp7 w-100 brtdp7 border-top-0 border-start border-end">
                   <div className="totcol1dp7"></div>
-                  <div className="totcol2dp7 dp7cen2">{result?.mainTotal?.grosswt}</div>
-                  <div className="totcol3dp7 dp7cen2">{result?.mainTotal?.misc?.Wt}</div>
+                  <div className="totcol2dp7 dp7cen2">
+                    {result?.mainTotal?.grosswt?.toFixed(3)}
+                  </div>
+                  <div className="totcol3dp7 dp7cen2">
+                    {result?.mainTotal?.netwtWithLossWt?.toFixed(3)}
+                  </div>
                   <div className="totcol4dp7"></div>
-                  <div className="totcol5dp7 dp7cen2">51,120.00</div>
-                  <div className="totcol6dp7 dp7cen2">{result?.mainTotal?.total_other?.toFixed(2)}</div>
-                  <div className="totcol7dp7 dp7cen2">32.198</div>
+                  <div className="totcol5dp7 dp7cen2">
+                    {formatAmount(
+                      result?.mainTotal?.total_diamond_colorstone_misc_amount
+                    )}
+                  </div>
+                  <div className="totcol6dp7 dp7cen2">
+                    {formatAmount(result?.mainTotal?.total_other)}
+                  </div>
+                  <div className="totcol7dp7 dp7cen2">{result?.mainTotal?.total_purenetwt?.toFixed(3)}</div>
                 </div>
 
                 {/* table total */}
-                <div className="w-100 brtdp7 dp7cen2 bradp7">{NumberWithCommas(result?.mainTotal?.total_amount)}</div>
+                <div className="w-100 brtdp7 dp7cen2 bradp7">
+                  {formatAmount(result?.mainTotal?.total_amount)}
+                </div>
 
                 {/* taxes */}
                 {result?.allTaxes?.map((e, i) => {
                   return (
-                    
-                      <div className="w-100 bradp7 border-bottom-0 border-top-0 taxdp7" key={i}>
-                        <div className="taxdp7d1">
-                          {e?.amountInWords}
-                        </div>
-                        <div className="taxdp7d2 dp7cen2">{e?.name} @ {e?.per}</div>
-                        <div className="taxdp7d3 dp7cen2">{e?.amount}</div>
+                    <div
+                      className="w-100 bradp7 border-bottom-0 border-top-0 taxdp7"
+                      key={i}
+                    >
+                      <div className="taxdp7d1">{e?.amountInWords}</div>
+                      <div className="taxdp7d2 dp7cen2">
+                        {e?.name} @ {e?.per}
                       </div>
-                    
+                      <div className="taxdp7d3 dp7cen2">{e?.amount}</div>
+                    </div>
                   );
                 })}
                 <div className="w-100 bradp7 border-top-0 taxdp7">
@@ -265,11 +395,11 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
 
                 {/* grand total */}
                 <div className="w-100 bradp7 border-top-0 taxdp7 finalAmt_h">
-                  <div className="taxdp7d1 fw-bold ps-1 h-100 dp7cen1">
+                  <div className="taxdp7d1 fw-bold ps-1 h-100 dp7cen1" style={{width:"70.5%"}}>
                     Total
                   </div>
-                  <div className="taxdp7d2 dp7cen2 bldp7 h-100"></div>
-                  <div className="taxdp7d3 dp7cen2 fw-bold pe-2 h-100 border-end-0">
+                  <div className="taxdp7d2 dp7cen2 bldp7 h-100 border-0 " style={{width:"20%"}}></div>
+                  <div className="taxdp7d3 dp7cen2 fw-bold pe-2 h-100 border-end-0 bldp7" style={{width:"10.2%"}}>
                     <div
                       dangerouslySetInnerHTML={{
                         __html: result?.header?.Currencysymbol,
@@ -282,8 +412,13 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                 </div>
                 <div className="w-100 d-flex brbdp7 brdp7 bldp7">
-                  <div className="brdp7 fw-bold ps-1" style={{ width: "3%" }} dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}>
-                  </div>
+                  <div
+                    className="brdp7 fw-bold ps-1"
+                    style={{ width: "3%" }}
+                    dangerouslySetInnerHTML={{
+                      __html: result?.header?.Currencysymbol,
+                    }}
+                  ></div>
                   <div className="ps-2 fw-bold" style={{ width: "97%" }}>
                     {numberToWord(result?.finalAmount)} Only
                   </div>
@@ -303,21 +438,47 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <div className="sum_prod_head_col_5 dp7cen">WASTAGE</div>
                       <div className="sum_prod_head_col_6 dp7cen">FINE</div>
                     </div>
-                    <div className="summary_container_dp7_product_body">
-                      <div className="sum_prod_head_col_1 dp7cen1">Earring</div>
-                      <div className="sum_prod_head_col_2 dp7cen2">1</div>
-                      <div className="sum_prod_head_col_3 dp7cen2">4.000</div>
-                      <div className="sum_prod_head_col_4 dp7cen2">4.010</div>
-                      <div className="sum_prod_head_col_5 dp7cen2">0.000</div>
-                      <div className="sum_prod_head_col_6 dp7cen2">3.017</div>
-                    </div>
+                    {categoryWise?.length > 0 &&
+                      categoryWise?.map((e, i) => {
+                        return (
+                          <div
+                            className="summary_container_dp7_product_body"
+                            key={i}
+                          >
+                            <div className="sum_prod_head_col_1 dp7cen1">
+                              {e?.Categoryname}
+                            </div>
+                            <div className="sum_prod_head_col_2 dp7cen2">
+                              {e?.Quantity}
+                            </div>
+                            <div className="sum_prod_head_col_3 dp7cen2">
+                              {e?.grosswt?.toFixed(3)}
+                            </div>
+                            <div className="sum_prod_head_col_4 dp7cen2">
+                              {e?.NetWt?.toFixed(3)}
+                            </div>
+                            <div className="sum_prod_head_col_5 dp7cen2">
+                              {e?.Wastage?.toFixed(3)}
+                            </div>
+                            <div className="sum_prod_head_col_6 dp7cen2">
+                              {e?.PureNetWt?.toFixed(3)}
+                            </div>
+                          </div>
+                        );
+                      })}
                     <div className="summary_container_dp7_product_total fw-bold">
                       <div className="sum_prod_head_col_1 dp7cen1">Total</div>
-                      <div className="sum_prod_head_col_2 dp7cen2">7</div>
-                      <div className="sum_prod_head_col_3 dp7cen2">47.760</div>
-                      <div className="sum_prod_head_col_4 dp7cen2">41.731 </div>
+                      <div className="sum_prod_head_col_2 dp7cen2">
+                        {result?.mainTotal?.total_Quantity}
+                      </div>
+                      <div className="sum_prod_head_col_3 dp7cen2">
+                        {result?.mainTotal?.grosswt?.toFixed(3)}
+                      </div>
+                      <div className="sum_prod_head_col_4 dp7cen2">
+                        {result?.mainTotal?.netwtWithLossWt?.toFixed(3)}
+                      </div>
                       <div className="sum_prod_head_col_5 dp7cen2"></div>
-                      <div className="sum_prod_head_col_6 dp7cen2">32.198</div>
+                      <div className="sum_prod_head_col_6 dp7cen2">{result?.mainTotal?.total_purenetwt?.toFixed(3)}</div>
                     </div>
                   </div>
                   <div style={{ height: "16px" }}></div>
@@ -343,39 +504,64 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                         AMOUNT
                       </div>
                     </div>
-
-                    <div className="summary_container_dp7_misc_body">
-                      <div className="summary_container_dp7_misc_head_col_1 dp7cen1">
-                        ASR
-                      </div>
-                      <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                        7
-                      </div>
-                      <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
-                        2000.00
-                      </div>
-                      <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
-                        0.530 Ctw
-                      </div>
-                      <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                        1060.00
-                      </div>
-                    </div>
+                    {miscWise?.length > 0 &&
+                      miscWise?.map((e, i) => {
+                        return (
+                          <div
+                            className="summary_container_dp7_misc_body"
+                            key={i}
+                          >
+                            <div className="summary_container_dp7_misc_head_col_1 dp7cen1">
+                              {e?.ShapeName}
+                            </div>
+                            <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
+                              {e?.Pcs}
+                            </div>
+                            <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
+                              {e?.Rate?.toFixed(2)}
+                            </div>
+                            <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
+                              {
+                                e?.MasterManagement_DiamondStoneTypeid === 2 ? `${e?.Wt?.toFixed(3)} Ctw` : `${e?.Wt?.toFixed(3)} gm`
+                              }
+                            </div>
+                            <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
+                              {e?.Amount?.toFixed(3)}
+                            </div>
+                          </div>
+                        );
+                      })}
 
                     <div className="summary_container_dp7_misc_total">
+                      <div className="summary_container_dp7_misc_head_col_1 dp7cen1">
+                        Other Charges
+                      </div>
+                      <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
+                        
+                      </div>
+                      <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
+                      <div className="summary_container_dp7_misc_head_col_4 dp7cen2 d-flex flex-column">
+                        <div className="w-100 dp7cen2"></div>
+                        <div className="w-100 dp7cen2"></div>
+                      </div>
+                      <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
+                        {result?.mainTotal?.total_other?.toFixed(2)}
+                      </div>
+                    </div>
+                    <div className="summary_container_dp7_misc_total fw-bold">
                       <div className="summary_container_dp7_misc_head_col_1 dp7cen1">
                         Total
                       </div>
                       <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                        45
+                        {miscWise_total?.Pcs}
                       </div>
                       <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
                       <div className="summary_container_dp7_misc_head_col_4 dp7cen2 d-flex flex-column">
-                        <div className="w-100 dp7cen2">5.560 Ctw</div>
-                        <div className="w-100 dp7cen2"> 26.800 Gm</div>
+                        <div className="w-100 dp7cen2">{miscWise_total?.Wt_Ctw?.toFixed(3)} Ctw</div>
+                        <div className="w-100 dp7cen2"> {miscWise_total?.Wt_gm?.toFixed(3)} Gm</div>
                       </div>
                       <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                        4170.00
+                        {(miscWise_total?.Amount + result?.mainTotal?.total_other)?.toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -394,21 +580,27 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                   REMARKS : {result?.header?.PrintRemark}
                 </div>
                 <div className="d-flex footer_bank">
-                    <div className="subheaddiv_1">
-                        <div className="fw-bold">Bank Detail</div>
-                        <div>Bank Name: {result?.header?.bankname}</div>
-                        <div>Branch: {result?.header?.bankaddress}</div>
-                        <div>Account Name: {result?.header?.accountname}</div>
-                        <div>Account No. : {result?.header?.accountnumber}</div>
-                        <div>RTGS/NEFT IFSC: Kotak00000405</div>
-                        <div>Enquiry No. (E & OE)</div>
+                  <div className="subheaddiv_1">
+                    <div className="fw-bold">Bank Detail</div>
+                    <div>Bank Name: {result?.header?.bankname}</div>
+                    <div>Branch: {result?.header?.bankaddress}</div>
+                    <div>Account Name: {result?.header?.accountname}</div>
+                    <div>Account No. : {result?.header?.accountnumber}</div>
+                    <div>RTGS/NEFT IFSC: Kotak00000405</div>
+                    <div>Enquiry No. (E & OE)</div>
+                  </div>
+                  <div className="subheaddiv_1 d-flex flex-column justify-content-between align-items-start">
+                    <div>Signature</div>
+                    <div className="fw-bold mb-2">
+                      {result?.header?.customerfirmname}
                     </div>
-                    <div className="subheaddiv_1 d-flex flex-column justify-content-between align-items-start">
-                        <div>Signature</div><div className="fw-bold mb-2">{result?.header?.customerfirmname}</div>
+                  </div>
+                  <div className="subheaddiv_1 d-flex flex-column justify-content-between align-items-start">
+                    <div>Signature</div>
+                    <div className="fw-bold mb-2">
+                      {result?.header?.CompanyFullName}
                     </div>
-                    <div className="subheaddiv_1 d-flex flex-column justify-content-between align-items-start">
-                        <div>Signature</div><div className="fw-bold mb-2">{result?.header?.CompanyFullName}</div>
-                    </div>
+                  </div>
                 </div>
               </div>
             </>
