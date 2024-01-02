@@ -380,21 +380,29 @@ export const checkImageExists = (url) => {
     img.src = url;
   });
 };
-
 export function formatAmount(amount) {
-  let amt = +amount;
-  // Convert the amount to a number and round it to 2 decimal places
-  const roundedAmount = Number(amt).toFixed(2);
-
-  // Check if the number has no decimal part
-  const hasNoDecimal = Number.isInteger(Number(amt));
-
-  // Use toLocaleString to add commas for thousands separator and ensure 2 decimal places
-  const formattedAmount = parseFloat(roundedAmount).toLocaleString("en-IN", {
-    minimumFractionDigits: hasNoDecimal ? 2 : 0,
+  const formattedAmount = parseFloat(+amount).toLocaleString('en-IN', {
+    minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 
   return formattedAmount;
 }
+// export function formatAmount(amount) {
+//   let amt = parseFloat(+amount);
+//   // Convert the amount to a number and round it to 2 decimal places
+//   const roundedAmount = Number(amt).toFixed(2);
+
+//   // Check if the number has no decimal part
+//   const hasNoDecimal = Number.isInteger(Number(amt));
+//   console.log(roundedAmount, hasNoDecimal);
+
+//   // Use toLocaleString to add commas for thousands separator and ensure 2 decimal places
+//   const formattedAmount = parseFloat(roundedAmount).toLocaleString("en-IN", {
+//     minimumFractionDigits: hasNoDecimal ? 2 : 0,
+//     maximumFractionDigits: 2,
+//   });
+
+//   return formattedAmount;
+// }
 
