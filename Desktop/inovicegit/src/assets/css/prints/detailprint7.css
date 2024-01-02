@@ -1,6 +1,8 @@
 .containerdp7{
     box-sizing: border-box;
     word-break: break-all;
+    margin: 0px;
+    padding: 50px;
 }
 
 /* borders */
@@ -23,17 +25,17 @@
 
 /* subheaders */
 .subheaddiv1{
-    width: 40%;
+    width: 35%;
     border-right: 1px solid #e8e8e8;
     padding: 5px;
 }
 .subheaddiv2{
-    width: 40%;
+    width: 35%;
     border-right: 1px solid #e8e8e8;   
     padding: 5px;
 }
 .subheaddiv3{
-    width: 20%;
+    width: 30%;
     padding: 5px;
 }
 .subhead{
@@ -62,6 +64,7 @@
 .theaddp7{
     display: flex;
     border-bottom: 1px solid #e8e8e8;
+    height: 50px;
 }
 .dp7cen{
     display: flex;
@@ -372,4 +375,44 @@
 .footer_bank{
     border: 1px solid #e8e8e8;   
     min-height: 6rem;   
+}
+@media print {
+    .hidebtn{
+     display: none !important;   
+    }
+    .containerdp7{
+        box-sizing: border-box;
+        word-break: break-all;
+        font-size: 7px !important;
+        margin: 0px !important;
+        padding: 10px !important;
+    }
+    .fsgdp7{
+        font-size: 7px !important;
+    }
+    .tabledp7{
+        margin-top: 2rem;
+        border: 0px; 
+    }
+    .hcompdp7{
+        page-break-inside: avoid;
+    }
+    .lhdp7{
+        line-height: 100%;
+        height: 20px;
+        font-size: 7px !important;
+    }
+    .bordersdp7{
+        border-left: 1px solid #e8e8e8;
+        border-right: 1px solid #e8e8e8;
+    }
+    .theaddp7{
+        display: flex;
+        border-bottom: 1px solid #e8e8e8;
+        border-top: 1px solid #e8e8e8;
+        height: 50px !important;
+    }
+    div > .lines{
+        font-size: 7px !important;
+    }
 }
