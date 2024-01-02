@@ -132,7 +132,6 @@ export const taxGenrator = (headerData, totalAmount) => {
 };
 
 export const taxGenrator2 = (headerData, totalAmount) => {
-  console.log(totalAmount);
   let blankArr = [];
   if (headerData?.TaxProfileid !== 0 && headerData?.GSTProfileid === 0) {
     let taxTypes = ["tax1", "tax2", "tax3", "tax4", "tax5"];

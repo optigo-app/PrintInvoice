@@ -32,6 +32,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
   });
   const [tax, settax] = useState([]);
   const [address, setAddress] = useState([]);
+  const [evns, setEvns] = useState(atob(evn).toLowerCase());
 
   const loadData = (data) => {
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
@@ -117,10 +118,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           id: 5,
           suffix: "",
           name: "LABOUR",
-          amount: e?.MakingAmount,
+          amount: e?.MakingAmount/data?.BillPrint_Json[0]?.CurrencyExchRate,
         });
       } else {
-        summary2Arr[labourAmount].amount += e?.MakingAmount;
+        summary2Arr[labourAmount].amount += e?.MakingAmount/data?.BillPrint_Json[0]?.CurrencyExchRate;
       }
       // pending setting amount add in labour
 
@@ -133,11 +134,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           id: 6,
           suffix: "",
           name: "OTHER",
-          amount: e?.OtherCharges + e?.TotalDiamondHandling,
+          amount: (e?.OtherCharges + e?.TotalDiamondHandling)/data?.BillPrint_Json[0]?.CurrencyExchRate,
         });
       } else {
         summary2Arr[otherAmount].amount +=
-          e?.OtherCharges + e?.TotalDiamondHandling;
+          (e?.OtherCharges + e?.TotalDiamondHandling)/data?.BillPrint_Json[0]?.CurrencyExchRate;
       }
 
       data?.BillPrint_Json2.forEach((ele, index) => {
@@ -182,11 +183,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 2,
                 suffix: "",
                 name: "DIAMOND",
-                amount: ele?.Amount,
+                amount: ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate,
                 Pcs: ele?.Pcs,
               });
             } else {
-              summary2Arr[diaAmount].amount += ele?.Amount;
+              summary2Arr[diaAmount].amount += ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate;
               summary2Arr[diaAmount].Pcs += ele?.Pcs;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -213,11 +214,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 3,
                 suffix: "",
                 name: "CST",
-                amount: ele?.Amount,
+                amount: ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate,
                 Pcs: ele?.Pcs,
               });
             } else {
-              summary2Arr[cstAmount].amount += ele?.Amount;
+              summary2Arr[cstAmount].amount += ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate;
               summary2Arr[cstAmount].Pcs += ele?.Pcs;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
@@ -244,10 +245,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 4,
                 suffix: "",
                 name: "MISC",
-                amount: ele?.Amount,
+                amount: ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate,
               });
             } else {
-              summary2Arr[miscAmount].amount += ele?.Amount;
+              summary2Arr[miscAmount].amount += ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
             let goldAmount = summary2Arr.findIndex(
@@ -260,10 +261,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 1,
                 suffix: "",
                 name: "GOLD",
-                amount: ele?.Amount,
+                amount: ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate,
               });
             } else {
-              summary2Arr[goldAmount].amount += ele?.Amount;
+              summary2Arr[goldAmount].amount += ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
             let goldAmount = summary2Arr.findIndex(
@@ -276,17 +277,17 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 1,
                 suffix: "",
                 name: "GOLD",
-                amount: ele?.Amount,
+                amount: ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate,
               });
             } else {
-              summary2Arr[goldAmount].amount += ele?.Amount;
+              summary2Arr[goldAmount].amount += ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate;
             }
           }
         }
       });
       let obj = { ...e };
       obj.TotalAmount =
-        e?.TotalAmount / data?.BillPrint_Json[0]?.CurrencyExchRate;
+        e?.TotalAmount ;
       obj.UnitCost = e?.UnitCost / data?.BillPrint_Json[0]?.CurrencyExchRate;
       totals.TotalAmount +=
         obj?.TotalAmount / data?.BillPrint_Json[0]?.CurrencyExchRate;
@@ -463,7 +464,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
               <span className="ps-1 fw-bold">{headerData?.EntryDate}</span>
             </p>
             <p>
-              ORDER#:{" "}
+             {evns === "orders" && "ORDER"}{evns === "quote" && "QUOTATION"}#:{" "}
               <span className="ps-1 fw-bold">{headerData?.InvoiceNo}</span>{" "}
             </p>
             {data[0]?.PO !== "" && (
@@ -514,7 +515,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           <p> UNIT PRICE</p>
         </div>
         <div className={`${style?.amount} p-1 text-center fw-bold`}>
-          <p> AMOUNT (INR)</p>
+          <p> AMOUNT ({headerData?.CurrencyCode})</p>
         </div>
       </div>
       {/* table data */}

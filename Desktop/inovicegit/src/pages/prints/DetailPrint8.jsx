@@ -321,7 +321,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
             <div
               className={`${style?.Sr} border-end d-flex justify-content-center align-items-center`}
             >
-              <p className="text-center pad_1">{i+1}</p>
+              <p className="text-center pad_1">{i + 1}</p>
             </div>
             <div className={`${style?.design} border-end`}>
               <p className="pad_1"> {e?.designno} </p>
@@ -425,28 +425,41 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
         <div
           className={`${style?.amount} d-flex justify-content-end align-items-center`}
         >
-          <p className="pad_1">6,179.52</p>
+          <p className="pad_1">
+            {NumberWithCommas(data?.mainTotal?.total_amount, 2)}
+          </p>
         </div>
       </div>
 
       {/* total cgst sgst*/}
       <div className="d-flex border-start border-end border-bottom">
         <div className={`${style?.words} border-end`}>
-          <p className="pad_1">
-            TOTAL CGST IN WORDS : One Hundred and Eleven Point Fifteen
-          </p>
-          <p className="pad_1">
-            TOTAL SGST IN WORDS : One Hundred and Eleven Point Fifteen
-          </p>
+          {data?.allTaxes.map((e, i) => {
+            return (
+              <div className="pad_1" key={i}>
+                TOTAL {e?.name} IN WORDS : {toWords.convert(+e?.amount)}
+              </div>
+            );
+          })}
         </div>
         <div className={`${style?.taxes} border-end`}>
-          <p className="pad_1 text-end">CGST @ 0.13%</p>
-          <p className="pad_1 text-end">SGST @ 0.13%</p>
+          {data?.allTaxes.map((e, i) => {
+            return (
+              <div className="pad_1 text-end" key={i}>
+                {e?.name} @ {e?.per}
+              </div>
+            );
+          })}
           <p className="pad_1 text-end">Sales Rounded Off</p>
         </div>
         <div className={`${style?.taxAmount}`}>
-          <p className="pad_1 text-end">111.15</p>
-          <p className="pad_1 text-end">111.15</p>
+          {data?.allTaxes.map((e, i) => {
+            return (
+              <div className="pad_1 text-end" key={i}>
+                {e?.amount}
+              </div>
+            );
+          })}
           <p className="pad_1 text-end">-0.15</p>
         </div>
       </div>
@@ -460,11 +473,24 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
         <div className={`${style?.qtyt} border-end`}></div>
         <div className={`${style?.dt} border-end`}>
-          <p className="pad_1">Qty:7</p>
-          <p className="pad_1">D: Company : 120/25.600 Ctw</p>
-          <p className="pad_1">C: Company : 19/5.560 Ctw</p>
-          <p className="pad_1">M: Company : 26/26.800 Wt</p>
-          <p className="pad_1">Wt:41.731</p>
+          <p className="pad_1">
+            Qty:{NumberWithCommas(data?.mainTotal?.total_Quantity, 0)}
+          </p>
+          <p className="pad_1">
+            D: Company : {NumberWithCommas(data?.mainTotal?.diamonds.Pcs, 0)}/
+            {NumberWithCommas(data?.mainTotal?.diamonds.Wt, 3)} Ctw
+          </p>
+          <p className="pad_1">
+            C: Company : {NumberWithCommas(data?.mainTotal?.colorstone.Pcs, 0)}/
+            {NumberWithCommas(data?.mainTotal?.colorstone.Wt, 3)} Ctw
+          </p>
+          <p className="pad_1">
+            M: Company : {NumberWithCommas(data?.mainTotal?.metal.Pcs, 0)}/
+            {NumberWithCommas(data?.mainTotal?.metal.Wt, 3)} Wt
+          </p>
+          <p className="pad_1">
+            Wt:{NumberWithCommas(data?.mainTotal?.netwtWithLossWt, 3)}
+          </p>
           <p className="pad_1">Ctw:31.160</p>
         </div>
         <div
@@ -475,7 +501,9 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
         <div
           className={`${style?.mt} border-end d-flex justify-content-end align-items-center`}
         >
-          <p className="text-end pad_1 fw-bold">7 </p>
+          <p className="text-end pad_1 fw-bold">
+            {NumberWithCommas(data?.mainTotal?.total_Quantity, 0)}{" "}
+          </p>
         </div>
         <div
           className={`${style?.wtt} border-end d-flex justify-content-end align-items-center`}
@@ -490,19 +518,25 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
         <div
           className={`${style?.tt} d-flex justify-content-end align-items-center`}
         >
-          <p className="text-end pad_1 fw-bold">₹ 85,725.52</p>
+          <p className="text-end pad_1 fw-bold">
+            <span
+              dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
+            ></span>{" "}
+            {NumberWithCommas(data?.finalAmount, 2)}
+          </p>
         </div>
         <div></div>
       </div>
 
       {/* in words */}
       <div className="d-flex border-start border-end border-bottom">
-        <div className={`${style?.totalt} border-end pad_1`}>₹</div>
+        <div className={`${style?.totalt} border-end pad_1`}>
+          <span
+            dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
+          ></span>
+        </div>
         <div className={`${style?.inWords} pad_1`}>
-          <p className="fw-bold">
-            Eighty-Five Thousand Seven Hundred and Twenty-Five Point Fifty-Two
-            Only
-          </p>
+          <p className="fw-bold">{toWords.convert(data?.finalAmount)} Only</p>
         </div>
       </div>
 
