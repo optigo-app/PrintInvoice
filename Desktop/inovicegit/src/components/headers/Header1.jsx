@@ -7,21 +7,21 @@ const Header1 = ( { data } ) => {
       <div className={`${style.headline} headerTitle`}>{data?.PrintHeadLabel}</div>
       <div className={style.companyDetails}>
         <div className={`${style.companyhead} p-2`}>
-          <span className={style.lines} style={{ fontWeight: "bold" }}>
+          <div className={style.lines} style={{ fontWeight: "bold" }}>
             {data?.CompanyFullName}
-          </span>
-          <span className={style.lines}>{data?.CompanyAddress}</span>
-          <span className={style.lines}>{data?.CompanyAddress2}</span>
-          <span className={style.lines}>{data?.CompanyCity}-{data?.CompanyPinCode},{data?.CompanyState}({data?.CompanyCountry})</span>
-          {/* <span className={style.lines}>Tell No: {data?.CompanyTellNo}</span> */}
-          <span>Tell No:  {data?.CompanyTellNo} | TOLL FREE {data?.CompanyTollFreeNo}</span>
-          <span className={style.lines}>
+          </div>
+          <div className={style.lines}>{data?.CompanyAddress}</div>
+          <div className={style.lines}>{data?.CompanyAddress2}</div>
+          <div className={style.lines}>{data?.CompanyCity}-{data?.CompanyPinCode},{data?.CompanyState}({data?.CompanyCountry})</div>
+          {/* <div className={style.lines}>Tell No: {data?.CompanyTellNo}</div> */}
+          <div className={style.lines}>Tell No:  {data?.CompanyTellNo} | TOLL FREE {data?.CompanyTollFreeNo}</div>
+          <div className={style.lines}>
             {data?.CompanyEmail} | {data?.CompanyWebsite}
-          </span>
-          <span className={style.lines}>
+          </div>
+          <div className={style.lines}>
             {/* {data?.Company_VAT_GST_No} | {data?.Company_CST_STATE}-{data?.Company_CST_STATE_No} | PAN-{data?.Pannumber} */}
             {data?.Company_VAT_GST_No} | {data?.Company_CST_STATE}-{data?.Company_CST_STATE_No} | PAN-{data?.Pannumber}
-          </span>
+          </div>
         </div>
         <div style={{width:"30%"}} className="d-flex justify-content-end align-item-center h-100"><img src={data?.PrintLogo} alt="" className={style.headerImg} /></div>
       </div>
@@ -29,7 +29,7 @@ const Header1 = ( { data } ) => {
 
       {/* <div className={style.custBlock}>
         <div className={style.custDetails}>
-          <span className={style.lines}>Bill To,</span>
+          <div className={style.lines}>Bill To,</div>
           <span className={style.lines} style={{ fontWeight: "bold" }}>
             {data?.customerfirmname}
           </span>
