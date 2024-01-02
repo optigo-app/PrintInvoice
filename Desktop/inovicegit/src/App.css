@@ -221,6 +221,11 @@ min-width: max-content;
   padding: 1px;
 }
 
+.w_20{
+  width: 20%;
+  min-width: 20%;
+}
+
 @media print {
   .hide-on-print {
     display: none;

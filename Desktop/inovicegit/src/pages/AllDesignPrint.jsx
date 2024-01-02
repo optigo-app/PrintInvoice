@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Suspense } from "react";
 import Loader from "../components/Loader";
+import { Helmet } from "react-helmet";
 const AllDesignPrint = () => {
   const [importedComponent, setImportedComponent] = useState(null);
   const queryString = window.location.search;
   const queryParams = new URLSearchParams(queryString);
   const printname = queryParams.get("pnm");
   let etp = queryParams.get("etp");
+  const [favicon, setFavicon] = useState(atob(queryParams.get("Fv")));
+  const [isFaviconLoaded, setIsFaviconLoaded] = useState(true);
   if (etp === null) {
     etp = "cHJpbnQ=";
   }
@@ -21,6 +24,7 @@ const AllDesignPrint = () => {
       const token = queryParams.get("tkn");
       const invoiceno = queryParams.get("invn");
       const evn = queryParams.get("evn");
+      const fv = atob(queryParams.get("Fv"));
       return (
         <AnotherComponent
           billNumber={billNum}
@@ -69,9 +73,44 @@ const AllDesignPrint = () => {
       setImportedComponent(component);
     }
   };
+
+  const checkFavicon = () => {
+    setIsFaviconLoaded(true);
+  };
+
+  const handleFaviconError = () => {
+    setIsFaviconLoaded(false);
+  };
+
+  const checkFaviconUrl = async () => {
+    try {
+      const response = await fetch(favicon, { method: "HEAD" });
+      if (!response.ok) {
+        handleFaviconError();
+      }
+    } catch (error) {
+      handleFaviconError();
+    }
+  };
   useEffect(() => {
     takePrint();
+    checkFaviconUrl();
   }, []);
-  return <Suspense fallback={<Loader />}>{importedComponent}</Suspense>;
+  return (
+    <>
+      <Suspense fallback={<Loader />}>{importedComponent}</Suspense>
+      {favicon && isFaviconLoaded && (
+        <Helmet>
+          <link
+            rel="icon"
+            href={favicon}
+            onLoad={checkFavicon}
+            onError={handleFaviconError}
+          />
+        </Helmet>
+      )}
+    
+    </>
+  );
 };
 export default AllDesignPrint;

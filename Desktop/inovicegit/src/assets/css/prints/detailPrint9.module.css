@@ -1,0 +1,39 @@
+.detailprint9 * {
+  font-size: 10px;
+  line-height: 120%;
+}
+
+.sr {
+  width: 5%;
+  min-width: 5%;
+}
+.diamond {
+  width: 21%;
+  min-width: 21%;
+}
+
+.labour,
+.other,
+.totalAmount,
+.design, .taxAmount {
+  width: 8%;
+  min-width: 8%;
+}
+ 
+.metal {
+  width: 25%;
+  min-width: 25%;
+}
+
+.stone {
+  width: 17%;
+  min-width: 17%;
+}
+.pad_bot_15 {
+  padding-bottom: 15px;
+}
+
+.taxWords{
+    width: 92%;
+    min-width: 92%;
+}

@@ -4,7 +4,7 @@ import { useState } from "react";
 import style from "../../assets/css/headers/header4.module.css";
 import QrCodeForPrint from "../QrCodeForPrint";
 const Header4 = ({ data }) => {
-  console.log(data);
+  // console.log(data);
   const [headerData, setHeaderData] = useState([]);
 
   useEffect(() => {

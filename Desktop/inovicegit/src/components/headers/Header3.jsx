@@ -3,7 +3,7 @@ import style from "../../assets/css/headers/header3.module.css";
 import QrCodeForPrint from "../QrCodeForPrint";
 
 const Header3 = ({ data }) => {
-  console.log(data);
+  // console.log(data);
   return (
     <div className={style.header3}>
 
