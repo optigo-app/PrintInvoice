@@ -43,7 +43,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
   };
 
   const loadData = (data) => {
-    console.log(data);
+    // console.log(data);
     setJson0Data(data?.BillPrint_Json?.[0]);
     let resultArr = [];
     let totals = { ...total };

@@ -275,9 +275,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
               <div className="d-flex">
                 <div className="col-2 border-end">
-                  <p className="fw-bold text-center pad_1">
-                    Quality
-                  </p>
+                  <p className="fw-bold text-center pad_1">Quality</p>
                 </div>
                 <div className="col-2 border-end">
                   <p className="fw-bold text-center pad_1">GWt</p>
@@ -339,9 +337,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
           </p>
           <p className="text-center">Size:1mm</p>
         </div>
-        <div
-          className={`${style?.diamond} border-end position-relative ${style?.pad_bot_15}`}
-        >
+        <div className={`${style?.diamond} border-end position-relative ${style?.pad_bot_15}`} >
           <div className="d-flex">
             <div className="w_20">
               <p className="pad_1">Tr PD PD</p>
@@ -394,9 +390,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
           </div>
         </div>
-        <div
-          className={`${style?.stone} border-end position-relative ${style?.pad_bot_15}`}
-        >
+        <div className={`${style?.stone} border-end position-relative ${style?.pad_bot_15}`} >
           <div className="d-flex">
             <div className="col-3">
               <p className="pad_1">Tr PD PD</p>
@@ -507,7 +501,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
           </div>
           <div className="d-flex position-absolute bottom-0 left-0 w-100 border-top lightGrey">
-          <div className="col-6 border-end">
+            <div className="col-6 border-end">
               <p className="text-end pad_1"></p>
             </div>
             <div className="col-6">
@@ -628,44 +622,144 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
           <p className="text-end">0.00</p>
         </div>
       </div>
-  0.000 gm	            GOLD	    21,754.87
-  54.380 gm	            DIAMOND	    4,047.36
-  52.880 gm	            CST	        660.00
-  48.598 gm	            MAKING	    13,349.60
-  27.79 cts	            OTHER	    1,247.50
-  5.000 cts	            LESS	    -0.09
-          {/* table summary */}
-          <div className="d-flex">
-            <div className="col-4 border-start border-end border-bottom">
-                <h4 className="lightGrey pad_1 fw-bold text-center">SUMMARY</h4>
-                <div className="d-flex">
-                    <div className="col-6 border-end pad_1">
-                        <div className="d-flex justify-content-between">
-                            <p className="fw-bold">GOLD IN 24KT</p>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                            <p className="fw-bold">GROSS WT	</p>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                            <p className="fw-bold">*(G+D) WT	</p>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                            <p className="fw-bold">NET WT	    </p>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                            <p className="fw-bold">DIAMOND WT	</p>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                            <p className="fw-bold">STONE WT	</p>
-                        </div>
-                    </div>
-                    <div className="col-6 pad_1"></div>
-                </div>
-            </div>
-            <div className="col-4 border-start border-end border-bottom"></div>
-            <div className="col-4 ps-2">
 
+      {/* table summary */}
+      <div className="d-flex">
+        <div className="col-4 border-start border-end border-bottom">
+          <h4 className="lightGrey fw-bold text-center">SUMMARY</h4>
+          <div className="d-flex">
+            <div className="col-6 border-end pad_1">
+              <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">GOLD IN 24KT</p>
+                <p>0.000 gm</p>
+              </div>
+              <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">GROSS WT </p>
+                <p>54.380 gm</p>
+              </div>
+              <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">*(G+D) WT </p>
+                <p>52.880 gm</p>
+              </div>
+              <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">NET WT </p>
+                <p>48.598 gm</p>
+              </div>
+              <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">DIAMOND WT </p>
+                <p>27.79 cts</p>
+              </div>
+              <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">STONE WT </p>
+                <p>5.000 cts</p>
+              </div>
             </div>
+            <div className="col-6 pad_1">
+              <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">GOLD</p>
+                <p>21,754.87</p>
+              </div>
+              <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">DIAMOND</p>
+                <p>4,047.36</p>
+              </div>
+              <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">CST</p>
+                <p>660.00</p>
+              </div>
+              <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">MAKING</p>
+                <p>13,349.60</p>
+              </div>
+              <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">OTHER</p>
+                <p>1,247.50</p>
+              </div>
+              <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">LESS</p>
+                <p>-0.09</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-4 d-flex">
+          <div className="col-6 border-start border-end border-bottom">
+            <h4 className="lightGrey fw-bold text-center">Summary Detail</h4>
+            <div className="d-flex justify-content-between">
+              <p className="fw-bold">BRIDAL MS</p>
+              <p>1</p>
+            </div>
+            <div className="d-flex justify-content-between">
+              <p className="fw-bold">Necklace</p>
+              <p>3</p>
+            </div>
+            <div className="d-flex justify-content-between">
+              <p className="fw-bold">Ring</p>
+              <p>1</p>
+            </div>
+            <div className="d-flex justify-content-between">
+              <p className="fw-bold">Star Jewellery</p>
+              <p>1</p>
+            </div>
+            <div className="d-flex justify-content-between">
+              <p className="fw-bold">woman bangel</p>
+              <p>1</p>
+            </div>
+          </div>
+          <div className="col-6 border-start border-end border-bottom d-flex">
+            <div
+              className={`col-6 border-end pad_1 ${style?.min_height_100} d-flex flex-column justify-content-between`}
+            >
+              <p>Signature</p>
+              <p className="fw-bold">Prashant Rajput pvt ltd</p>
+            </div>
+            <div
+              className={`col-6 pad_1 ${style?.min_height_100} d-flex flex-column justify-content-between`}
+            >
+              <p>Signature</p>
+              <p className="fw-bold">ORAIL SERVICE</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-4 ps-1">
+          <div className="border-start border-end border-bottom d-flex">
+            <div className="col-4 border-end">
+              <p className="fw-bold p-1">Grand Total </p>
+            </div>
+            <div className="col-8">
+              <div className="d-flex border-bottom">
+                <div
+                  className={`col-4 border-end ${style?.min_height_30} d-flex justify-content-center align-items-center`}
+                >
+                  Amount{" "}
+                </div>
+                <div
+                  className={`col-4 border-end ${style?.min_height_30} d-flex justify-content-center align-items-center`}
+                ></div>
+                <div
+                  className={`col-4 ${style?.min_height_30} d-flex justify-content-center align-items-center`}
+                >
+                  75,725.52
+                </div>
+              </div>
+              <div className="d-flex">
+                <div
+                  className={`col-4 border-end ${style?.min_height_30} d-flex justify-content-center align-items-center`}
+                >
+                  Fine{" "}
+                </div>
+                <div
+                  className={`col-4 border-end ${style?.min_height_30} d-flex justify-content-center align-items-center`}
+                >
+                  0.000{" "}
+                </div>
+                <div
+                  className={`col-4 ${style?.min_height_30} d-flex justify-content-center align-items-center`}
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* declaration */}

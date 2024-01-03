@@ -15,7 +15,7 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn }) => {
     })
 
     const loadData = (data) => {
-        console.log(data);
+        // console.log(data);
         setInvoice(data?.BillPrint_Json[0]?.InvoiceNo);
         setCustomerCode(data?.BillPrint_Json[0]?.Customercode);
 

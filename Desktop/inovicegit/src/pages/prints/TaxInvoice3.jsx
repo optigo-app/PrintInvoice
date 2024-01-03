@@ -25,7 +25,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn }) => {
   const toWords = new ToWords();
 
   const loadData = (data) => {
-    console.log(data);
+    // console.log(data);
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     setHeader(head);
     setHeaderData(data?.BillPrint_Json[0]);

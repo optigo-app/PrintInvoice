@@ -32,7 +32,7 @@ const Summary11 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [category, setCategory] = useState([]);
 
     const loadData = (data) => {
-        console.log(data);
+        // console.log(data);
         let head = HeaderComponent(data?.BillPrint_Json[0]?.HeaderNo, data?.BillPrint_Json[0]);
         let footerComp = FooterComponent(data?.BillPrint_Json[0]?.HeaderNo, data?.BillPrint_Json[0]);
         setHeader(data?.BillPrint_Json[0]);

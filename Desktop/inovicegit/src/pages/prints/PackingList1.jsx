@@ -12,7 +12,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [data, setData] = useState([]);
 
     const loadData = (data) => {
-        console.log(data);
+        // console.log(data);
         let exchangerate = data?.BillPrint_Json[0]?.CurrencyExchRate;
         setJson0Data(data?.BillPrint_Json[0]);
         let newArr = [];

@@ -33,7 +33,7 @@
 .lines {
         line-height: 100%;
         padding: 2px;
-        height: 20px;
+        /* height: 20px; */
         font-size: 14px;
 }
 

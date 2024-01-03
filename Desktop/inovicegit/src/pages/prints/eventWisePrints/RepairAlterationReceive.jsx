@@ -190,7 +190,7 @@ const RepairAlterationReceive = ({ data }) => {
   };
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
     loadData(data);
   }, []);
   return (
