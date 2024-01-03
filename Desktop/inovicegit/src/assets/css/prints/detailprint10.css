@@ -34,8 +34,16 @@
     /* line-height: 14px; */
 }
 
-
-
+/* border */
+.brR_dp10{
+    border-right:1px solid rgb(117, 115, 115) !important;
+}
+.br_dp10{
+    border:1px solid rgb(117, 115, 115) !important;
+}
+.bg_dp10{
+    background-color: #f1f1f1;
+}
 /* header part */
 .subheaderdp10{
     display: flex;
@@ -164,4 +172,59 @@
     height: 80%;
     width: 40%;
     margin: 2px;
+}
+
+/* grand total */
+.grandtotaldp10{
+    height: 25px;
+    border: 1px solid #989898;
+    font-weight: bold;
+}
+
+/* summary */
+.sumdp10{
+    width: 29%;
+}
+.dia_sum_dp10{
+    width: 15%;
+}
+.oth_sum_dp10{
+    width: 15%;
+}
+.remark_sum_dp10{
+    width: 15%;
+}
+.check_dp10{
+    width: 12%;
+}
+.h_bd10{
+    height: 25px;
+}
+
+@media print {
+    .fsgdp10{
+        font-size: 6px !important;
+        line-height: 6px !important;
+    }
+    .fsg2dp10{
+        font-size: 7px !important;
+        /* line-height: 14px; */
+    }
+    .containerdp10{
+        box-sizing: border-box;
+        word-break: break-all;
+        padding: 5px;
+        font-size: 6px !important;
+        line-height: 6px !important;
+    }
+
+    .hidebtndp10{
+        display: none !important;
+    }
+    .tbrowdp10{
+        page-break-inside: avoid;
+    }
+    .summarydp10{
+        page-break-inside: avoid;
+    }
 }

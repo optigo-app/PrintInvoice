@@ -50,6 +50,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     grosswt: 0,
     netwt: 0,
     netwtWithLossWt: 0,
+    convertednetwt:0,
     MetalAmount: 0,
     lossWt: 0,
     total_Wastage : 0,
@@ -152,6 +153,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_discount += j1?.Discount;
       maintotal.total_diamondHandling += j1?.TotalDiamondHandling;
       maintotal.total_Wastage += j1?.Wastage;
+      maintotal.convertednetwt += j1?.convertednetwt;
       //json2
       json2?.length > 0 &&
         json2?.forEach((j2, i) => {
@@ -191,8 +193,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.colorstone.SettingAmount += (+j2?.SettingAmount);
             }
             //for misc
-            if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
-              miscList.push(j2);
+            if (j2?.MasterManagement_DiamondStoneTypeid === 4) {
+              metalList.push(j2);
               diamond_colorstone_misc?.push(j2);
               jobwise_totals.metal.Wt += j2?.Wt;
               jobwise_totals.metal.Pcs += j2?.Pcs;
@@ -207,8 +209,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.metal.Amount += j2?.Amount;
             }
             //for metal
-            if (j2?.MasterManagement_DiamondStoneTypeid === 4) {
-              metalList.push(j2);
+            if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
+              miscList.push(j2);
               jobwise_totals.misc.Wt += j2?.Wt;
               jobwise_totals.misc.Pcs += j2?.Pcs;
               jobwise_totals.misc.Rate += j2?.Rate;
