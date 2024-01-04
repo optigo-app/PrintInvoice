@@ -124,7 +124,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
         data?.BillPrint_Json[0]
       );
       setHeaderComp(headerCompo);
-
       setLoader(false);
     } catch (error) {
       console.log(error);
@@ -419,7 +418,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <div className="taxdp7d2 dp7cen2 bldp7">
                     Sales Rounded Off
                   </div>
-                  <div className="taxdp7d3 dp7cen2">-0.15</div>
+                  <div className="taxdp7d3 dp7cen2">{result?.header?.AddLess}</div>
                 </div>
 
                 {/* grand total */}

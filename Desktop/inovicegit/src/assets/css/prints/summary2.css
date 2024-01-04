@@ -1,0 +1,97 @@
+.containerS2 *{
+    box-sizing: border-box;
+    word-break: break-all;
+}
+/* global */
+.containerS2{
+    padding: 10px;
+}
+.lhs2{
+    line-height: 14px;
+}
+.centers2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.starts2{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.tops2{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+.ends2{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* header */
+.printlogos2{
+    max-height: 123px;
+}
+
+/* table */
+
+/* table head */
+.theads2{
+    height: 50px;
+}
+
+.thcol1s2{
+    width: 4%; 
+}
+.thcol2s2{
+    width: 12%;
+}
+.thcol3s2{
+    width: 7%;
+}
+.thcol4s2{
+    width: 7%;
+}
+.thcol5s2{
+    width: 7%;
+}
+.thcol6s2{
+    width: 7%;
+}
+.thcol7s2{
+    width: 7%;
+}
+.thcol8s2{
+    width: 6%;
+}
+.thcol9s2{
+    width: 6%;
+}
+.thcol10s2{
+    width: 7%;
+}
+.thcol11s2{
+    width: 8%;
+}
+.thcol12s2{
+    width: 6%;
+}
+.thcol13s2{
+    width: 8%;
+}
+.thcol14s2{
+    width: 8%;
+}
+
+/* table body */
+.desImgs2{
+    height: 65%;
+    width: 50%;
+}
+@media print{
+    .hidebtns2{
+        display: none !important;
+    }
+}
