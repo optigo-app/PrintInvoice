@@ -398,7 +398,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
       {/* header */}
       {header}
       {/* barcodes */}
-      <div className="mb-1">
+      {pnm === "invoice print 10" && <div className="mb-1">
         <div className="d-flex justify-content-between border p-2 pb-1">
           <div className={`${style?.barcode}`}>
             <BarcodePrintGenerator data={headerData?.InvoiceNo} />
@@ -409,7 +409,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
             <p className="fw-bold text-center">{headerData?.InvoiceNo}</p>
           </div>
         </div>
-      </div>
+      </div>}
 
       <div className="border d-flex">
         <div className="col-4 px-2 border-end">

@@ -29,6 +29,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
     afterTax: 0,
     grandTotal: 0,
     UnitCost: 0,
+    Quantity: 0
   });
   const [tax, settax] = useState([]);
   const [address, setAddress] = useState([]);
@@ -48,20 +49,20 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
       let diamondWt = 0;
       let colorStoneWt = 0;
       let miscWt = 0;
-
+      totals.Quantity += e?.Quantity
       let findGold24Kt = summaryArr.findIndex(
         (ele) => ele?.label === "GOLD IN 24KT"
       );
       if (findGold24Kt === -1) {
         summaryArr.push({
           label: "GOLD IN 24KT",
-          value: e?.convertednetwt,
+          value: e?.convertednetwt*e?.Quantity,
           id: 1,
           suffix: " gm",
           name: "GOLD IN 24KT",
         });
       } else {
-        summaryArr[findGold24Kt].value += e?.convertednetwt;
+        summaryArr[findGold24Kt].value += (e?.convertednetwt*e?.Quantity);
       }
 
       let findGross = summaryArr.findIndex(
@@ -70,26 +71,26 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
       if (findGross === -1) {
         summaryArr.push({
           label: "Gross Wt",
-          value: e?.grosswt,
+          value: e?.grosswt*e?.Quantity,
           id: 2,
           suffix: " gm",
           name: "Gross Wt",
         });
       } else {
-        summaryArr[findGross].value += e?.grosswt;
+        summaryArr[findGross].value += (e?.grosswt*e?.Quantity);
       }
 
       let netWt = summaryArr.findIndex((ele, ind) => ele?.label === "NET WT");
       if (netWt === -1) {
         summaryArr.push({
           label: "NET WT",
-          value: e?.NetWt,
+          value: e?.NetWt*e?.Quantity,
           id: 4,
           suffix: " gm",
           name: "NET WT",
         });
       } else {
-        summaryArr[netWt].value += e?.NetWt;
+        summaryArr[netWt].value += (e?.NetWt*e?.Quantity);
       }
 
       let findLabour = summaryArr.findIndex(
@@ -118,10 +119,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           id: 5,
           suffix: "",
           name: "LABOUR",
-          amount: e?.MakingAmount/data?.BillPrint_Json[0]?.CurrencyExchRate,
+          amount: (e?.MakingAmount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity,
         });
       } else {
-        summary2Arr[labourAmount].amount += e?.MakingAmount/data?.BillPrint_Json[0]?.CurrencyExchRate;
+        summary2Arr[labourAmount].amount += (e?.MakingAmount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity;
       }
       // pending setting amount add in labour
 
@@ -134,11 +135,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           id: 6,
           suffix: "",
           name: "OTHER",
-          amount: (e?.OtherCharges + e?.TotalDiamondHandling)/data?.BillPrint_Json[0]?.CurrencyExchRate,
+          amount: ((e?.OtherCharges + e?.TotalDiamondHandling)/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity,
         });
       } else {
         summary2Arr[otherAmount].amount +=
-          (e?.OtherCharges + e?.TotalDiamondHandling)/data?.BillPrint_Json[0]?.CurrencyExchRate;
+          ((e?.OtherCharges + e?.TotalDiamondHandling)/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity;
       }
 
       data?.BillPrint_Json2.forEach((ele, index) => {
@@ -147,7 +148,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             (ele) => ele?.label === "LABOUR"
           );
           if (findlabo !== -1) {
-            summary2Arr[findlabo].amount += ele?.SettingAmount;
+            summary2Arr[findlabo].amount += ele?.SettingAmount*e?.Quantity;
           }
           let findMaterial = summaryArr.findIndex(
             (elem, index) =>
@@ -155,21 +156,21 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
               ele?.MasterManagement_DiamondStoneTypeid !== 5
           );
           if (findMaterial !== -1) {
-            summaryArr[findMaterial].value += ele?.Wt;
-            summaryArr[findMaterial].amount += ele?.Amount;
-            summaryArr[findMaterial].Pcs += ele?.Pcs;
+            summaryArr[findMaterial].value += ele?.Wt*e?.Quantity;
+            summaryArr[findMaterial].amount += ele?.Amount*e?.Quantity;
+            summaryArr[findMaterial].Pcs += ele?.Pcs*e?.Quantity;
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamondWt += ele?.Wt;
             if (findMaterial === -1) {
               summaryArr.push({
                 label: "DIAMOND",
-                value: ele?.Wt,
+                value: ele?.Wt*e?.Quantity,
                 id: 5,
                 suffix: " Cts",
                 name: "Diamond Wt",
-                amount: ele?.Amount,
-                Pcs: ele?.Pcs,
+                amount: ele?.Amount*e?.Quantity,
+                Pcs: ele?.Pcs*e?.Quantity,
               });
             }
 
@@ -183,11 +184,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 2,
                 suffix: "",
                 name: "DIAMOND",
-                amount: ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate,
+                amount: (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity,
                 Pcs: ele?.Pcs,
               });
             } else {
-              summary2Arr[diaAmount].amount += ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate;
+              summary2Arr[diaAmount].amount += (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity;
               summary2Arr[diaAmount].Pcs += ele?.Pcs;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -195,12 +196,12 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             if (findMaterial === -1) {
               summaryArr.push({
                 label: "COLOR STONE",
-                value: ele?.Wt,
+                value: ele?.Wt*e?.Quantity,
                 id: 6,
                 suffix: " Cts",
                 name: "Stone Wt",
-                amount: ele?.Amount,
-                Pcs: ele?.Pcs,
+                amount: ele?.Amount*e?.Quantity,
+                Pcs: ele?.Pcs*e?.Quantity,
               });
             }
 
@@ -214,11 +215,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 3,
                 suffix: "",
                 name: "CST",
-                amount: ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate,
+                amount: (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity,
                 Pcs: ele?.Pcs,
               });
             } else {
-              summary2Arr[cstAmount].amount += ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate;
+              summary2Arr[cstAmount].amount += (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity;
               summary2Arr[cstAmount].Pcs += ele?.Pcs;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
@@ -226,12 +227,12 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             if (findMaterial === -1) {
               summaryArr.push({
                 label: "MISC",
-                value: ele?.Wt,
+                value: ele?.Wt*e?.Quantity,
                 id: 7,
                 suffix: " gms",
                 name: "Misc Wt",
-                amount: ele?.Amount,
-                Pcs: ele?.Pcs,
+                amount: ele?.Amount*e?.Quantity,
+                Pcs: ele?.Pcs*e?.Quantity,
               });
             }
 
@@ -245,10 +246,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 4,
                 suffix: "",
                 name: "MISC",
-                amount: ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate,
+                amount: (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity,
               });
             } else {
-              summary2Arr[miscAmount].amount += ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate;
+              summary2Arr[miscAmount].amount += (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
             let goldAmount = summary2Arr.findIndex(
@@ -261,10 +262,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 1,
                 suffix: "",
                 name: "GOLD",
-                amount: ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate,
+                amount: (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity,
               });
             } else {
-              summary2Arr[goldAmount].amount += ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate;
+              summary2Arr[goldAmount].amount += ((ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity);
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
             let goldAmount = summary2Arr.findIndex(
@@ -320,7 +321,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
     if (findNetWt !== -1 || findDiamond !== -1) {
       summaryArr.push({
         label: "(M+D) WT",
-        value: fixedValues(summaryArr[findDiamond]?.value, 3)/5 + summaryArr[findNetWt]?.value,
+        value: +fixedValues(summaryArr[findDiamond]?.value, 3)/5 + summaryArr[findNetWt]?.value,
         id: 3,
         suffix: " gm",
         name: "(M+D) WT",
@@ -401,7 +402,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
       </div>
       <div className={style2.companyDetails}>
         <div className={`${style2.companyhead} p-2`}>
-          <span className={style2.lines} style2={{ fontWeight: "bold" }}>
+          <span className={style2.lines} style={{ fontWeight: "bold" }}>
             {headerData?.CompanyFullName}
           </span>
           <span className={style2.lines}>{headerData?.CompanyAddress}</span>
@@ -539,39 +540,39 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             <div className={`${style?.itemCode} p-1  border-end`}>
               <p>
                 
-                DESIGN: <span className="fw-bold">{e?.designno}</span>
+                <span className="fw-bold">{e?.designno}</span>
               </p>
             </div>
             <div className={`${style?.description} p-1 border-end `}>
-              <p>
-                {e?.MetalTypePurity} {e?.MetalColor}
+              <p> 
+                <span className="fw-bold">{e?.MetalType}: </span> {e?.MetalPurity} {e?.MetalColor}
               </p>
               <p>
                 {e?.NetWt !== 0 &&
-                  `NET WT: ${NumberWithCommas(e?.NetWt, 3)} gms NW`}
+                  <><span className="fw-bold">NET WT: </span>{`${NumberWithCommas(e?.NetWt, 3)} gms NW`}</>}
               </p>
               <p>
                 {e?.diamondWt !== 0 &&
-                  `DIA WT: ${NumberWithCommas(e?.diamondWt, 3)} Cts  `}
+                        <><span className="fw-bold">DIA WT: </span>{`${NumberWithCommas(e?.diamondWt, 3)} Cts`}</>}
               </p>
               <p>
                 {e?.colorStoneWt !== 0 &&
-                  `CS: ${NumberWithCommas(e?.colorStoneWt, 3)} Cts `}
+                   <><span className="fw-bold">CS: </span>{`${NumberWithCommas(e?.colorStoneWt, 3)} Cts`}</>}
               </p>
               <p>
                 {e?.miscWt !== 0 &&
-                  ` MISC: ${NumberWithCommas(e?.miscWt, 3)} gms `}
+                        <><span className="fw-bold">MISC: </span>{`${NumberWithCommas(e?.miscWt, 3)} gms`}</>}
               </p>
               <p>
                 {e?.grosswt !== 0 &&
-                  `GROSS WT: ${NumberWithCommas(e?.grosswt, 3)} gms GW`}
+                    <><span className="fw-bold">GROSS WT: </span>{`${NumberWithCommas(e?.grosswt, 3)} gms GW`}</>}
               </p>
-              {e?.Size !== "" && <p className="pt-1">SIZE: {e?.Size}</p>}
+              {e?.Size !== "" && <p className="pt-1"><span className="fw-bold">SIZE: </span> {e?.Size}</p>}
               {(e?.Collectionname !== "" ||
                 e?.Categoryname !== "" ||
                 e?.SubCategoryname !== "") && (
                 <p className="pt-2">
-                  PRODUCT: {e?.Collectionname}, {e?.Categoryname},{" "}
+                 <span className="fw-bold"> PRODUCT: </span> {e?.Collectionname}, {e?.Categoryname},{" "}
                   {e?.SubCategoryname}
                 </p>
               )}
@@ -618,9 +619,12 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         <div className={`${style?.total} p-1 fw-bold border-end`}>
           <p>TOTAL</p>
         </div>
+        <div className={`${style?.quantityTotal}  border-end text-end fw-bold px-1`}>
+          {NumberWithCommas(total?.Quantity, 0)}
+        </div>
         <div className={`${style?.unitPrice} p-1 text-end fw-bold border-end`}>
           <p>
-            <span
+            <span  
               dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
             ></span>{" "}
             {NumberWithCommas(total?.UnitCost, 2)}
@@ -647,7 +651,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 return (
                   e?.value !== 0 && (
                     <div className="d-flex justify-content-between" key={i}>
-                      <p className="fw-bold">{e?.name}</p>
+                      <p className="fw-bold">{(e?.name).toUpperCase()}</p>
                       <p>
                         {e?.Pcs && `${NumberWithCommas(e?.Pcs, 0)} / `}
                         {NumberWithCommas(e?.value, 3)} {e?.suffix}
@@ -684,16 +688,6 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             );
           })}
           <p className=""> TOTAL </p>
-          {/* {summary.map((e, i) => {
-            return (
-              e?.amount !== 0 &&
-              e?.label !== "Gross Wt" && (
-                <p key={i}>
-                  Total {e?.label === "COLOR STONE" ? "CS" : e?.label} Value
-                </p>
-              )
-            );
-          })} */}
           {headerData?.AddLess !== 0 && (
             <p className="">{headerData?.AddLess > 0 ? "ADD" : "LESS"}</p>
           )}
@@ -717,21 +711,6 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             ></span>{" "}
             {NumberWithCommas(total?.afterTax, 2)}
           </p>
-          {/* {summary.map((e, i) => {
-            return (
-              e?.amount !== 0 &&
-              e?.label !== "Gross Wt" && (
-                <p key={i}>
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: headerData?.Currencysymbol,
-                    }}
-                  ></span>{" "}
-                  {NumberWithCommas(e?.amount, 2)}
-                </p>
-              )
-            );
-          })} */}
           {headerData?.AddLess !== 0 && (
             <p>
               <span
@@ -748,12 +727,13 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           <div className="col-6 border-end"></div>
           <div className="col-6 d-flex justify-content-between">
             <p className="fw-bold">TOTAL</p>
-            <p>
+            <p className="fw-bold">
               {" "}
               <span
                 dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
               ></span>{" "}
-              {NumberWithCommas(total?.UnitCost, 2)}
+              {/* {NumberWithCommas(total?.UnitCost, 2)} */}
+              {NumberWithCommas(total?.grandTotal, 2)}
             </p>
           </div>
         </div>

@@ -243,7 +243,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
               <p className="text-end">{NumberWithCommas(e?.NetWt, 3)}</p>
             </div>
             <div className={`${style?.Other} border-end`}>
-              {e?.otherAmtDetails.map((ele, ind) => {
+              {e?.other_amount_details.map((ele, ind) => {
                 return (
                   <div className="d-flex justify-content-between" key={ind}>
                     <p>{ele?.label}</p>

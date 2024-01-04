@@ -44,6 +44,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
   });
   const [taxes, setTaxes] = useState([]);
   const [diamondDetail, setdDiamondDetails] = useState([]);
+  const [otherAmt, setOtherAmt] = useState(0);
+  const [discountAmt, setDiscountAmt] = useState(0);
+  const [brokarage, setBrokarage] = useState([]);
 
   const loadData = (data) => {
     // console.log(data);
@@ -54,11 +57,14 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
     setAddress(adr);
     let resultArr = [];
     let totals = { ...total };
+    let otherAmount = 0;
+    let discountAmts = 0;
     data?.BillPrint_Json1.forEach((e, i) => {
       let obj = { ...e };
       let diamonds = [];
       let colorStones = [];
       let metals = [];
+      let otherAmt = 0;
       let diaTotal = {
         Pcs: 0,
         Wt: 0,
@@ -74,8 +80,12 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
         Wt: 0,
         Amount: 0,
       };
+      discountAmts += e?.DiscountAmt;
+      otherAmount += e?.OtherCharges + e?.TotalDiamondHandling;
+      otherAmt += e?.OtherCharges + e?.TotalDiamondHandling;
       data?.BillPrint_Json2.forEach((ele, ind) => {
         if (ele?.StockBarcode === e?.SrJobno) {
+          obj.MakingAmount += ele.SettingAmount;
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamonds.push(ele);
             diaTotal.Wt += ele?.Wt;
@@ -93,6 +103,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
             metals.push(ele);
             metalTotal.Wt += ele?.Wt;
             metalTotal.Amount += ele?.Amount;
+          } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+            otherAmount += ele?.Amount;
+            otherAmt += ele?.Amount;
           }
         }
       });
@@ -103,8 +116,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
       totals.csTotal.Pcs += csTotal.Pcs;
       totals.csTotal.Wt += csTotal.Wt;
 
-      totals.OtherCharges += obj?.OtherCharges;
+      totals.OtherCharges += otherAmt;
       totals.MaKingCharge_Unit += obj?.MaKingCharge_Unit;
+
       totals.MakingAmount += obj?.MakingAmount;
       totals.TotalAmount += obj?.TotalAmount;
       totals.grosswt += obj?.grosswt;
@@ -123,11 +137,13 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
       obj.diaTotal = diaTotal;
       obj.metalTotal = metalTotal;
       obj.csTotal = csTotal;
+      obj.otherAmt = otherAmt;
       resultArr.push(obj);
     });
+    setDiscountAmt(discountAmts);
     let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.TotalAmount);
     setTaxes(taxValue);
-
+    setOtherAmt(otherAmount);
     let diamondDetails = [];
 
     data?.BillPrint_Json2.forEach((ele, ind) => {
@@ -181,6 +197,10 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
       }, 0) + data?.BillPrint_Json[0]?.AddLess;
     setData(resultArr);
     setTotal(totals);
+
+    let brokr = (data?.BillPrint_Json[0]?.Brokerage.split("@-@"));
+    brokr = brokr.map(ele=> ele?.split('#-#'));
+    setBrokarage(brokr);
   };
 
   useEffect(() => {
@@ -256,7 +276,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
             {headerData?.Cust_CST_STATE_No} | PAN-{headerData?.CustPanno} */}
             {headerData?.vat_cst_pan}
           </p>
-                    {headerData?.Cust_CST_STATE_No !== "" && (
+          {headerData?.Cust_CST_STATE_No !== "" && (
             <p>
               {headerData?.Cust_CST_STATE}-{headerData?.Cust_CST_STATE_No}
             </p>
@@ -411,9 +431,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <img
                     src={e?.DesignImage}
                     alt=""
-                    className={`${style?.img} mx-auto d-block w-100 ${
-                      !image && `d-none`
-                    }`}
+                    className={`${style?.img} mx-auto d-block w-100 ${!image && `d-none`
+                      }`}
                     onError={handleImageError}
                   />
                   {e?.HUID !== "" && (
@@ -461,7 +480,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="col-2 text-end">
                           {NumberWithCommas(ele?.Rate, 2)}
                         </div>
-                        <div className="col-2 text-end">
+                        <div className="col-2 text-end fw-bold">
                           {NumberWithCommas(ele?.Amount, 2)}
                         </div>
                       </div>
@@ -510,7 +529,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className={`${style?.w_20} text-end`}>
                           {NumberWithCommas(ele?.Rate, 2)}
                         </div>
-                        <div className={`${style?.w_20} text-end`}>
+                        <div className={`${style?.w_20} text-end fw-bold`}>
                           {NumberWithCommas(ele?.Amount, 2)}
                         </div>
                       </div>
@@ -568,7 +587,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className={`col-2 text-center`}>
                           {NumberWithCommas(ele?.Rate, 2)}
                         </div>
-                        <div className={`col-2 text-center`}>
+                        <div className={`col-2 text-center fw-bold`}>
                           {NumberWithCommas(ele?.Amount, 2)}
                         </div>
                       </div>
@@ -605,8 +624,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div>
                       <p className="text-end">
                         {" "}
-                        {e?.OtherCharges !== 0 &&
-                          NumberWithCommas(e?.OtherCharges, 2)}
+                        {e?.otherAmt !== 0 &&
+                          NumberWithCommas(e?.otherAmt, 2)}
                       </p>
                     </div>
                   </div>
@@ -615,8 +634,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                   >
                     <div className="d-flex w-100 justify-content-end">
                       <p className={` text-end fw-bold`}>
-                        {e?.OtherCharges !== 0 &&
-                          NumberWithCommas(e?.OtherCharges, 2)}
+                        {e?.otherAmt !== 0 &&
+                          NumberWithCommas(e?.otherAmt, 2)}
                       </p>
                     </div>
                   </div>
@@ -658,7 +677,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                 >
                   <div className="d-grid h-100 w-100">
                     <div>
-                      <p className={`text-end`}>
+                      <p className={`text-end fw-bold`}>
                         {e?.TotalAmount !== 0 &&
                           NumberWithCommas(e?.UnitCost, 2)}
                       </p>
@@ -706,7 +725,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                       {NumberWithCommas(e?.DiscountAmt, 2)}
                     </p>
                   </div>
-                  <div className={`${style?.totalAmount}  text-end`}>
+                  <div className={`${style?.totalAmount} text-end fw-bold`}>
                     <p className="text-end fw-bold">
                       {NumberWithCommas(e?.TotalAmount, 2)}
                     </p>
@@ -720,6 +739,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
         {/* taxes */}
         <div className="d-flex  border-bottom border-start border-end">
           <div className={`${style?.taxes} border-end `}>
+            {discountAmt !== 0 && <p className="text-end">
+              Total Discount
+            </p>}
             {taxes.map((e, i) => {
               return (
                 <p className="text-end" key={i}>
@@ -732,8 +754,17 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {headerData?.AddLess > 0 ? "Add" : "Less"}
               </p>
             )}
+            {headerData?.BankReceived !== 0 && <p className="text-end">
+              Recv. in Cash
+            </p>}
+            {headerData?.CashReceived !== 0 && <p className="text-end">
+              Recv. in Bank
+            </p>}
           </div>
           <div className={`${style?.totalAmount} `}>
+            {discountAmt !== 0 && <p className="text-end">
+              {NumberWithCommas(discountAmt, 2)}
+            </p>}
             {taxes.map((e, i) => {
               return (
                 <p className="text-end" key={i}>
@@ -746,6 +777,12 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {NumberWithCommas(headerData?.AddLess, 2)}
               </p>
             )}
+            {headerData?.BankReceived !== 0 && <p className="text-end">
+            {NumberWithCommas(headerData?.BankReceived, 2)} 
+            </p>}
+            {headerData?.CashReceived !== 0 && <p className="text-end">
+            {NumberWithCommas(headerData?.CashReceived, 2)}
+            </p>}
           </div>
         </div>
         {/* table total */}
@@ -970,10 +1007,17 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
               OTHER DETAILS
             </h6>
             <div>
+              {brokarage.map((e, i) => {
+                return <div className="d-flex justify-content-between px-1" key={i}>
+                <p className="fw-bold">{e[0]} </p>
+                <p>{NumberWithCommas(e[1], 2)}</p>
+              </div>
+              })}
               <div className="d-flex justify-content-between px-1">
                 <p className="fw-bold">RATE IN 24KT </p>
                 <p>{NumberWithCommas(headerData?.MetalRate24K, 2)}</p>
               </div>
+       
             </div>
           </div>
           <div className="col-2 border-bottom h-100 border-start">
