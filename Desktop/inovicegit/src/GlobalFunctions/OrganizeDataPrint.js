@@ -1,5 +1,5 @@
-import {  otherAmountDetail, taxGenrator } from "../GlobalFunctions";
-import { numberToWords } from 'number-to-words';
+import { otherAmountDetail, taxGenrator } from "../GlobalFunctions";
+import { numberToWords } from "number-to-words";
 
 export const OrganizeDataPrint = (header, json1, json2) => {
   let resultArray = [];
@@ -45,15 +45,15 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       labour_rate: 0,
       labour_amount: 0,
     },
-    total_diamond_colorstone_misc_amount:0,
+    total_diamond_colorstone_misc_amount: 0,
     total_other: 0,
     grosswt: 0,
     netwt: 0,
     netwtWithLossWt: 0,
-    convertednetwt:0,
+    convertednetwt: 0,
     MetalAmount: 0,
     lossWt: 0,
-    total_Wastage : 0,
+    total_Wastage: 0,
     total_FineWt: 0,
     total_amount: 0,
     total_unitcost: 0,
@@ -63,11 +63,11 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     total_Making_Amount: 0,
     total_discount: 0,
     total_diamondHandling: 0,
-    
   };
+
   //json1 array
   json1?.length > 0 &&
-    json1?.forEach((j1, i) => {
+    json1?.forEach((j1) => {
       let diamond_colorstone_misc = [];
       let diamondList = [];
       let colorstoneList = [];
@@ -83,6 +83,10 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       let blankArrstone_misc = [];
       let diamondSettingGroup = [];
       let colorstoneSettingGroup = [];
+      let diamondMetalPurityWise = [];
+      let colorstoneMetalPurityWise = [];
+      let diamondWtMetalPurityWise = 0;
+      let colorstoneWtMetalPurityWise = 0;
       let jobwise_totals = {
         diamonds: {
           Wt: 0,
@@ -140,7 +144,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_labour.labour_amount += j1?.MakingAmount;
       maintotal.total_other += j1?.OtherCharges;
       maintotal.netwt += j1?.NetWt;
-      maintotal.netwtWithLossWt = maintotal.netwtWithLossWt + ((+j1?.NetWt) + (+j1?.LossWt));
+      maintotal.netwtWithLossWt =
+       maintotal.netwtWithLossWt + (+j1?.NetWt + +j1?.LossWt);
       maintotal.lossWt += j1?.LossWt;
       maintotal.grosswt += j1?.grosswt;
       maintotal.total_amount += j1?.TotalAmount;
@@ -169,11 +174,11 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.diamonds.FineWt += j2?.FineWt;
               jobwise_totals.diamonds.length += 1;
               maintotal.diamonds.Wt += j2?.Wt;
-              maintotal.diamonds.total_FineWt += (+j2?.FineWt);
+              maintotal.diamonds.total_FineWt += +j2?.FineWt;
               maintotal.diamonds.Pcs += j2?.Pcs;
               maintotal.diamonds.Rate += j2?.Rate;
               maintotal.diamonds.Amount += j2?.Amount;
-              maintotal.diamonds.SettingAmount += (+j2?.SettingAmount);
+              maintotal.diamonds.SettingAmount += +j2?.SettingAmount;
             }
             //for colorstone
             if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -186,16 +191,16 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.colorstone.FineWt += j2?.FineWt;
               jobwise_totals.colorstone.length += 1;
               maintotal.colorstone.Wt += j2?.Wt;
-              maintotal.colorstone.total_FineWt += (+j2?.FineWt);
+              maintotal.colorstone.total_FineWt += +j2?.FineWt;
               maintotal.colorstone.Pcs += j2?.Pcs;
               maintotal.colorstone.Rate += j2?.Rate;
               maintotal.colorstone.Amount += j2?.Amount;
-              maintotal.colorstone.SettingAmount += (+j2?.SettingAmount);
+              maintotal.colorstone.SettingAmount += +j2?.SettingAmount;
             }
             //for misc
             if (j2?.MasterManagement_DiamondStoneTypeid === 4) {
               metalList.push(j2);
-              diamond_colorstone_misc?.push(j2);
+              
               jobwise_totals.metal.Wt += j2?.Wt;
               jobwise_totals.metal.Pcs += j2?.Pcs;
               jobwise_totals.metal.Rate += j2?.Rate;
@@ -203,7 +208,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.metal.FineWt += j2?.FineWt;
               jobwise_totals.metal.length += 1;
               maintotal.metal.Wt += j2?.Wt;
-              maintotal.metal.total_FineWt += (+j2?.FineWt);
+              maintotal.metal.total_FineWt += +j2?.FineWt;
               maintotal.metal.Pcs += j2?.Pcs;
               maintotal.metal.Rate += j2?.Rate;
               maintotal.metal.Amount += j2?.Amount;
@@ -211,6 +216,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
             //for metal
             if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
               miscList.push(j2);
+              diamond_colorstone_misc?.push(j2);
               jobwise_totals.misc.Wt += j2?.Wt;
               jobwise_totals.misc.Pcs += j2?.Pcs;
               jobwise_totals.misc.Rate += j2?.Rate;
@@ -218,7 +224,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.misc.FineWt += j2?.FineWt;
               jobwise_totals.misc.length += 1;
               maintotal.misc.Wt += j2?.Wt;
-              maintotal.misc.total_FineWt += (+j2?.FineWt);
+              maintotal.misc.total_FineWt += +j2?.FineWt;
               maintotal.misc.Pcs += j2?.Pcs;
               maintotal.misc.Rate += j2?.Rate;
               maintotal.misc.Amount += j2?.Amount;
@@ -233,7 +239,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.finding.FineWt += j2?.FineWt;
               jobwise_totals.finding.length += 1;
               maintotal.finding.Wt += j2?.Wt;
-              maintotal.finding.total_FineWt += (+j2?.FineWt);
+              maintotal.finding.total_FineWt += +j2?.FineWt;
               maintotal.finding.Pcs += j2?.Pcs;
               maintotal.finding.Rate += j2?.Rate;
               maintotal.finding.Amount += j2?.Amount;
@@ -249,7 +255,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.stone_misc.Rate += j2?.Rate;
               jobwise_totals.stone_misc.Amount += j2?.Amount;
               maintotal.stone_misc.Wt += j2?.Wt;
-              maintotal.stone_misc.total_FineWt += (+j2?.FineWt);
+              maintotal.stone_misc.total_FineWt += +j2?.FineWt;
               maintotal.stone_misc.Pcs += j2?.Pcs;
               maintotal.stone_misc.Rate += j2?.Rate;
               maintotal.stone_misc.Amount += j2?.Amount;
@@ -292,8 +298,20 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               diamondSettingGroup[recordIs2].Rate += +j2?.Rate;
               diamondSettingGroup[recordIs2].Amount += +j2?.Amount;
               diamondSettingGroup[recordIs2].SettingAmount +=
-                (+j2?.SettingAmount);
+                +j2?.SettingAmount;
             }
+
+            let recordIs3 = diamondMetalPurityWise?.findIndex((e) => e?.QualityName === j2?.QualityName);
+            // if(recordIs3 === -1){
+            //   diamondMetalPurityWise.push(j2);
+            //   diamondWtMetalPurityWise = (+j2?.Wt);
+            // }else{
+            //   diamondMetalPurityWise[recordIs3].Wt += +j2?.Wt;
+            //   diamondMetalPurityWise[recordIs3].Pcs += +j2?.Pcs;
+            //   diamondMetalPurityWise[recordIs3].Rate += +j2?.Rate;
+            //   diamondMetalPurityWise[recordIs3].Amount += +j2?.Amount;
+            //   diamondWtMetalPurityWise += +j2?.Wt;
+            // }
           }
           if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
             let recordIs = blankArrColorstone?.findIndex(
@@ -311,7 +329,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               blankArrColorstone[recordIs].Amount += +j2?.Amount;
             }
 
-                let recordIs2 = colorstoneSettingGroup?.findIndex(
+            let recordIs2 = colorstoneSettingGroup?.findIndex(
               (e) =>
                 e?.ShapeName === j2?.ShapeName &&
                 e?.QualityName === j2?.QualityName &&
@@ -326,8 +344,20 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               colorstoneSettingGroup[recordIs2].Rate += +j2?.Rate;
               colorstoneSettingGroup[recordIs2].Amount += +j2?.Amount;
               colorstoneSettingGroup[recordIs2].SettingAmount +=
-                (+j2?.SettingAmount);
+                +j2?.SettingAmount;
             }
+
+            // let recordIs3 = colorstoneMetalPurityWise?.findIndex((e) => e?.QualityName === j2?.QualityName);
+            // if(recordIs3 === -1){
+            //   colorstoneMetalPurityWise.push(j2);
+            //   colorstoneWtMetalPurityWise = (+j2?.Wt);
+            // }else{
+            //   colorstoneMetalPurityWise[recordIs3].Wt += +j2?.Wt;
+            //   colorstoneMetalPurityWise[recordIs3].Pcs += +j2?.Pcs;
+            //   colorstoneMetalPurityWise[recordIs3].Rate += +j2?.Rate;
+            //   colorstoneMetalPurityWise[recordIs3].Amount += +j2?.Amount;
+            //   colorstoneWtMetalPurityWise += +j2?.Wt;
+            // }
           }
           if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
             let recordIs = blankArrMisc?.findIndex(
@@ -400,8 +430,13 @@ export const OrganizeDataPrint = (header, json1, json2) => {
         }
       });
       diamond_colorstone_misc?.forEach((e) => {
-        maintotal.total_diamond_colorstone_misc_amount += (+e?.Amount);
-      })
+        maintotal.total_diamond_colorstone_misc_amount += +e?.Amount;
+      });
+      // json2?.forEach((e) => {
+      //   if(e?.QualityName === j1?.MetalPurity){
+      //     diamondWtMetalPurityWise += 
+      //   }
+      // })
       let obj = { ...j1 };
       obj.diamond_colorstone_misc = diamond_colorstone_misc;
       obj.diamonds = diamondList;
@@ -414,11 +449,15 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       obj.grouping_of_diamonds_sqc_jobwise = blankArrDiamond;
       obj.grouping_of_colorstone_sqc_jobwise = blankArrColorstone;
       obj.grouping_of_misc_sqc_jobwise = blankArrMisc;
-      // obj.grouping_of_metal_sqc_jobwise = blankArrMetal; 
+      // obj.grouping_of_metal_sqc_jobwise = blankArrMetal;
       obj.grouping_of_finding_sqc_jobwise = blankArrFinding;
       obj.grouping_of_stone_misc_sqc_jobwise = blankArrstone_misc;
       obj.diamondSettingGroup = diamondSettingGroup;
       obj.colorstoneSettingGroup = colorstoneSettingGroup;
+      obj.diamondMetalPurityWise = diamondMetalPurityWise;
+      obj.colorstoneMetalPurityWise = colorstoneMetalPurityWise;
+      obj.diamondWtMetalPurityWise = diamondWtMetalPurityWise;
+      obj.colorstoneWtMetalPurityWise = colorstoneWtMetalPurityWise;
       resultArray.push(obj);
     });
 
@@ -429,29 +468,29 @@ export const OrganizeDataPrint = (header, json1, json2) => {
   allTax?.length > 0 &&
     allTax?.forEach((e) => {
       totalAmount += +e?.amount;
-      const [dollars, cents] = e?.amount?.split('.');
-        const amountInWords = [
-          numberToWords.toWords(parseInt(dollars)),
-          'point',
-          numberToWords.toWords(parseInt(cents || '0')),
-          ''
-        ].filter(Boolean).join(' ');
-      e.amountInWords = `TOTAL ${e.name} IN WORDS: ${amountInWords.charAt(0).toUpperCase() + amountInWords.slice(1)}`;
+      const [dollars, cents] = e?.amount?.split(".");
+      const amountInWords = [
+        numberToWords.toWords(parseInt(dollars)),
+        "point",
+        numberToWords.toWords(parseInt(cents || "0")),
+        "",
+      ]
+        .filter(Boolean)
+        .join(" ");
+      e.amountInWords = `TOTAL ${e.name} IN WORDS: ${
+        amountInWords.charAt(0).toUpperCase() + amountInWords.slice(1)
+      }`;
     });
-    totalAmount = (+totalAmount)?.toFixed(2);
-
-    
-
+  totalAmount = (+totalAmount)?.toFixed(2);
 
   const finalObject = {
     resultArray: resultArray,
     mainTotal: maintotal,
-    finalAmount: (+totalAmount),
+    finalAmount: +totalAmount,
     allTaxes: allTax,
-    header:header,
-    json1:json1,
-    json2:json2
-
+    header: header,
+    json1: json1,
+    json2: json2,
   };
   return finalObject;
 };

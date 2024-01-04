@@ -48,6 +48,7 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn) => {
 
   try {
     const response = await axios.post(urls, body);
+    console.log(response);
     console.log(response?.data?.Data);
     return response?.data;
   } catch (error) {
