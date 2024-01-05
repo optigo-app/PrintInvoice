@@ -1,0 +1,24 @@
+.sr{
+    width: 5%;
+    min-width: 5%;
+}
+.design{
+    width: 10%;
+    min-width: 10%;
+}
+.metal, 
+.gwt,
+.nwt,
+.dpcs,
+.dwt,
+.cspcs,
+.cswt,
+.order,
+.total{
+    width: 7%;
+    min-width: 7%;
+}
+
+
+
+
