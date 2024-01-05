@@ -63,6 +63,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     total_Making_Amount: 0,
     total_discount: 0,
     total_diamondHandling: 0,
+    total_csamount:0,
+    total_Making_Amount_Other_Charges:0
   };
 
   //json1 array
@@ -137,12 +139,15 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           Amount: 0,
           FineWt: 0,
         },
+        Making_Amount_Other_Charges:0,
       };
 
       let other_details = otherAmountDetail(j1?.OtherAmtDetail);
       maintotal.total_labour.labour_rate += j1?.MaKingCharge_Unit;
       maintotal.total_labour.labour_amount += j1?.MakingAmount;
       maintotal.total_other += j1?.OtherCharges;
+      jobwise_totals.Making_Amount_Other_Charges += j1?.MakingAmount + j1?.OtherCharges;
+      maintotal.total_Making_Amount_Other_Charges += j1?.MakingAmount + j1?.OtherCharges;
       maintotal.netwt += j1?.NetWt;
       maintotal.netwtWithLossWt =
        maintotal.netwtWithLossWt + (+j1?.NetWt + +j1?.LossWt);
@@ -159,6 +164,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_diamondHandling += j1?.TotalDiamondHandling;
       maintotal.total_Wastage += j1?.Wastage;
       maintotal.convertednetwt += j1?.convertednetwt;
+      maintotal.total_csamount += j1?.CsAmount;
       //json2
       json2?.length > 0 &&
         json2?.forEach((j2, i) => {
@@ -458,6 +464,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       obj.colorstoneMetalPurityWise = colorstoneMetalPurityWise;
       obj.diamondWtMetalPurityWise = diamondWtMetalPurityWise;
       obj.colorstoneWtMetalPurityWise = colorstoneWtMetalPurityWise;
+      obj.Making_Amount_Other_Charges = jobwise_totals.Making_Amount_Other_Charges;
       resultArray.push(obj);
     });
 

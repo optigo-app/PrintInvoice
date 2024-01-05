@@ -3,18 +3,20 @@ import "../../assets/css/prints/summary2.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import {
-  FooterComponent,
   apiCall,
   formatAmount,
   handleImageError,
   handlePrint,
   isObjectEmpty,
+  numberToWord,
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
 
 const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [result, setResult] = useState(null);
+  const [categoryNameWise, setCategoryNameWise] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [classIs, setClassIs] = useState({
     col1: "thcol1s2",
     col2: "thcol2s2",
@@ -33,10 +35,9 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
   });
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-  const [footerComp, setFooterComp] = useState(null);
   const [hsnetwt, sethsnetwt] = useState(true);
   const [hsimg, sethsimg] = useState(true);
-  const [hsbrand, sethsbrand] = useState(true);
+  const [hsbrand, sethsbrand] = useState(false);
 
   useEffect(() => {
     const sendData = async () => {
@@ -63,47 +64,6 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    let print_name = atob(printName);
-    console.log(print_name);
-    if (print_name === "invoice print 5") {
-      setClassIs({
-        col1: "thcol1s2",
-        col2: "thcol1s2",
-        col3: "thcol1s2",
-        col4: "thcol1s2",
-        col5: "thcol1s2",
-        col6: "thcol1s2",
-        col7: "thcol1s2",
-        col8: "thcol1s2",
-        col9: "thcol1s2",
-        col10: "thcol1s2",
-        col11: "thcol1s2",
-        col12: "thcol1s2",
-        col13: "thcol1s2",
-        col14: "thcol1s2",
-      });
-    }
-    if (print_name === "invoice print 7") {
-      setClassIs({
-        col1: "thcol1s2",
-        col2: "thcol1s2",
-        col3: "thcol1s2",
-        col4: "thcol1s2",
-        col5: "thcol1s2",
-        col6: "thcol1s2",
-        col7: "thcol1s2",
-        col8: "thcol1s2",
-        col9: "thcol1s2",
-        col10: "thcol1s2",
-        col11: "thcol1s2",
-        col12: "thcol1s2",
-        col13: "thcol1s2",
-        col14: "thcol1s2",
-      });
-    }
-  }, [printName]);
-
   function loadData(data) {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
@@ -112,13 +72,19 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-    const footerCom = FooterComponent(
-      data?.BillPrint_Json[0]?.HeaderNo,
-      data?.BillPrint_Json[0]
-    );
-    setFooterComp(footerCom);
+    let cateWise = [];
+    datas?.resultArray?.forEach(e => {
+        console.log(e);
+        let findRecord = cateWise?.findIndex((el) => el?.Categoryname === e?.Categoryname);
+        if(findRecord === -1){
+          cateWise.push(e);
+        }else{
+          cateWise[findRecord].Quantity += e?.Quantity;
+        }
+    });
+    setCategoryNameWise(cateWise);
     setResult(datas);
-    console.log(datas.resultArray);
+    console.log(datas);
   }
 
   const handlenetwtcol = (e) => {
@@ -154,9 +120,9 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
         <>
           {msg === "" ? (
             <>
-              <div className="containerS2">
+              <div className="containerS2 fsgs2 pbs2">
                 {/* print and hide show buttons */}
-                <div className="d-flex justify-content-end align-items-center mb-3 mx-2 fw-bold user-select-none hidebtns2">
+                <div className="d-flex justify-content-end align-items-center mb-3 mx-2 fw-bold user-select-none mb-5 hidebtns2">
                   <div className="px-1">
                     <input
                       type="checkbox"
@@ -192,7 +158,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div>
                     <button
-                      className="btn_white blue m-0 mx-2 p-1"
+                      className="btn_white blue m-0 mx-2 p-1 fsgs2"
                       onClick={(e) => handlePrint(e)}
                     >
                       Print
@@ -247,7 +213,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div>
                       {result?.header?.HSN_No_Label} :{" "}
-                      <b>{result?.header?.HSN_No}</b>
+                      <b className="fsgs2">{result?.header?.HSN_No}</b>
                     </div>
                   </div>
                 </div>
@@ -304,9 +270,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className={`${classIs.col8} border-end centers2`}>
                       G WT
                     </div>
-                    <div className={`${classIs.col9} border-end centers2`}>
-                      NWT
-                    </div>
+                    { hsnetwt ? <div className={`${classIs.col9} border-end centers2`}> NWT </div> : '' } 
                     <div className={`${classIs.col10} border-end centers2`}>
                       MAKING
                     </div>
@@ -319,58 +283,140 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className={`${classIs.col13} border-end centers2`}>
                       GOLD AMT
                     </div>
-                    <div className={`${classIs.col14} centers2`}>AMOUNT</div>
+                    <div className={`${classIs.col14} centers2`} style={{width:`${hsnetwt ? '' : '14%'}`}}>AMOUNT</div>
                   </div>
                   {/* table body */}
                   <div>
                     {result?.resultArray?.map((e, i) => {
                       return (
-                        <div className="d-flex border border-top-0 trows2">
-                          <div className={`${classIs.col1} border-end centers2`}>{e?.SrNo}</div>
-                          <div className={`${classIs.col2} border-end d-flex flex-column ps-1`}>
-                            <div className="fw-bold">{e?.designno}</div>
+                        <div className="d-flex border border-top-0 trows2 pbias2" key={i}>
+                          <div className={`${classIs.col1} border-end d-flex justify-content-center align-items-start`}>{e?.SrNo}</div>
+                          <div className={`${classIs.col2} border-end d-flex flex-column justify-content-between ps-1`}>
+                            <div className="fw-bold d-flex justify-content-between px-1"><div>{e?.designno}</div> { hsbrand ? <div>{e?.BrandName}</div> : '' } </div>
                             <div className="fw-bold">{e?.SrJobno}</div>
-                            <div className="centers2"><img src={e?.DesignImage} alt="designimage" className="desImgs2" onError={(e) => handleImageError(e)} /></div>
+                            { hsimg ? <div className="centers2"><img src={e?.DesignImage} alt="designimage" className="desImgs2" onError={(e) => handleImageError(e)} /></div> : '' } 
                             <div className="centers2">{e?.HUID}</div>
                             <div className="centers2 fw-bold">Tunch : {e?.Tunch?.toFixed(3)}</div>
                           </div>
-                          <div className={`${classIs.col3} border-end centers2`}>{e?.MetalTypePurity}</div>
-                          <div className={`${classIs.col4} border-end centers2`}>QLTY</div>
-                          <div
-                            className={`${classIs.col5} border-end centers2`}
-                          >
-                            DIA WT
+                          <div className={`${classIs.col3} border-end toplefts2 ps-1`}>{e?.MetalTypePurity}</div>
+                          <div className={`${classIs.col4} border-end `}>
+                            {
+                              e?.diamonds?.map((el) => {
+                                return(
+                                  <div className="toplefts2 ps-1">{el?.ShapeName}</div>
+                                )
+                              })
+                            }
                           </div>
-                          <div
-                            className={`${classIs.col6} border-end centers2`}
-                          >
-                            DIA RATE
+                          <div className={`${classIs.col5} border-end `}>
+                            {
+                              e?.diamonds?.map((el) => {
+                                return(
+                                  <div className="tops2 pe-1">{el?.Wt?.toFixed(3)}</div>
+                                )
+                              })
+                            }
                           </div>
-                          <div
-                            className={`${classIs.col7} border-end centers2`}
-                          >
-                            DIA AMT
+                          <div className={`${classIs.col6} border-end`}>
+                            {
+                              e?.diamonds?.map((el) => {
+                                return(
+                                  <div className="tops2 pe-1">{formatAmount(el?.Rate)}</div>
+                                )
+                              })
+                            }
+                          </div>
+                          <div className={`${classIs.col7} border-end`}>
+                            {
+                              e?.diamonds?.map((el) => {
+                                return(
+                                  <div className="tops2 pe-1">{formatAmount(el?.Amount)}</div>
+                                )
+                              })
+                            }
                           </div>
                           <div className={`${classIs.col8} border-end tops2 pe-1`}>{e?.grosswt?.toFixed(3)}</div>
-                          <div className={`${classIs.col9} border-end tops2 pe-1`}>{e?.NetWt?.toFixed(3)}</div>
-                          <div
-                            className={`${classIs.col10} border-end centers2`}
-                          >
-                            MAKING
-                          </div>
+                           { hsnetwt ? <div className={`${classIs.col9} border-end tops2 pe-1`}>{e?.NetWt?.toFixed(3)}</div> : '' } 
+                          <div className={`${classIs.col10} border-end tops2 pe-1`}>{formatAmount(e?.Making_Amount_Other_Charges)}</div>
                           <div className={`${classIs.col11} border-end tops2 pe-1`}>{formatAmount(e?.CsAmount)}</div>
-                          <div
-                            className={`${classIs.col12} border-end centers2`}
-                          >
-                            GOLD FINE
-                          </div>
+                          <div className={`${classIs.col12} border-end tops2 pe-1`}>{e?.convertednetwt?.toFixed(3)}</div>
                           <div className={`${classIs.col13} border-end tops2 pe-1`}>{formatAmount(e?.MetalAmount)}</div>
-                          <div className={`${classIs.col14} tops2 pe-1`}>{formatAmount(e?.TotalAmount)}</div>
+                          <div className={`${classIs.col14} tops2 pe-1`} style={{width:`${hsnetwt ? '' : '14%'}`}}>{formatAmount(e?.TotalAmount)}</div>
                         </div>
                       );
                     })}
                   </div>
+                  {/* table total */}
+                  <div className="d-flex fw-bold border border-top-0 theads2 pbias2" style={{backgroundColor:"#F2F2F2", height:"40px"}}>
+                    <div className={`${classIs.col1} border-end centers2`}></div>
+                    <div className={`${classIs.col2} border-end starts2 ps-1`}>TOTAL</div>
+                    <div className={`${classIs.col3} border-end centers2`}></div>
+                    <div className={`${classIs.col4} border-end centers2`}></div>
+                    <div className={`${classIs.col5} border-end ends2 pe-1`}>{result?.mainTotal.diamonds?.Wt?.toFixed(3)}</div>
+                    <div className={`${classIs.col6} border-end centers2`}></div>
+                    <div className={`${classIs.col7} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.diamonds?.Amount)}</div>
+                    <div className={`${classIs.col8} border-end ends2 pe-1`}>{result?.mainTotal?.grosswt?.toFixed(3)}</div>
+                    { hsnetwt ? <div className={`${classIs.col9} border-end ends2 pe-1`}>{result?.mainTotal?.netwt?.toFixed(3)}</div> : '' } 
+                    <div className={`${classIs.col10} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.total_Making_Amount_Other_Charges)}</div>
+                    <div className={`${classIs.col11} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.total_csamount)}</div>
+                    <div className={`${classIs.col12} border-end ends2 pe-1`}>{result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
+                    <div className={`${classIs.col13} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.MetalAmount)}</div>
+                    <div className={`${classIs.col14} ends2 pe-1`} style={{width:`${hsnetwt ? '' : '14%'}`}}>{formatAmount(result?.mainTotal?.total_amount)}</div>
+                  </div>
                 </div>
+                {/* tax part */}
+                <div className="w-100 d-flex justify-content-end pbias2">
+                    <div className=" p-2 border border-top-0 boxwtaxs2">
+                      {
+                        result?.allTaxes?.map((e, i) => {
+                          return(
+                            <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-end">{e?.name} @ {e?.per}</div><div className="w-50 d-flex justify-content-end">{e?.amount}</div></div>
+                          )
+                        })
+                      }
+                      <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-end">{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className="w-50 d-flex justify-content-end fw-bold">{result?.header?.AddLess}</div></div>
+                    </div>
+                </div>
+                {/* grand total */}
+                <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2">
+                  <div>Gold in 24K : <b className="fsgs2">0.000</b></div>
+                  <div className="fw-bold">TOTAL IN HK$ : {formatAmount(result?.finalAmount)}</div>
+                </div>
+                {/* in words */}
+                <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2">
+                  <div className="fw-bold">{numberToWord(result?.finalAmount)}</div>
+                  <div className="fw-bold">TOTAL  :   HKD 85725.00 </div>
+                </div>
+                {/* summary */}
+                <div className="border mt-2 pbias2">
+                      <div className="fw-bold bgcs2 p-1 d-flex flex-wrap" >Summary Detail</div>
+                      <div className="d-flex flex-wrap p-1" style={{height:"50px"}}>
+                      {
+                        categoryNameWise?.map((e, i) => {
+                          return(
+                            <div className="w-25" key={i}>
+                                <div>{e?.Categoryname}	 : 	<b>{e?.Quantity}</b></div>
+                            </div>
+                          )
+                        })
+                      }
+                      </div>
+                      
+                </div>
+                {/* notes  */}
+                <div className="border mt-2 pbias2">
+                      <div className="fw-bold pt-3">NOTE:</div>
+                      <div dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
+                </div>
+                {/* remarks */}
+                <div  className="py-1 pbias2"><b className="fsgs2">REMARKS:</b> {result?.header?.PrintRemark}</div>
+                {/* footer */}
+                <div className="fw-bold py-1 pbias2">TERMS INCLUDED : </div>
+                <div className="d-flex border mt-1 fw-bold pbias2" style={{height:"5rem"}}>
+                  <div className="w-50 d-flex justify-content-center align-items-end border-end">RECEIVER'S SIGNATURE & SEAL</div>
+                  <div className="w-50 d-flex justify-content-center align-items-end">for,Classmate corporation Pvt Ltd</div>
+                </div>
+                
               </div>
             </>
           ) : (
