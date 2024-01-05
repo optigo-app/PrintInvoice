@@ -41,8 +41,8 @@
   min-width: 7%;
 }
 .total{
-  width: 68%;
-  min-width: 68%;
+  width: 61%;
+  min-width: 61%;
 }
 
 .remarks {
@@ -58,6 +58,11 @@
 .grandTotal{
   width: 16%;
   min-width: 16%;
+}
+
+.quantityTotal{
+  width: 7%;
+  min-width: 7%;
 }
 
 @media print {

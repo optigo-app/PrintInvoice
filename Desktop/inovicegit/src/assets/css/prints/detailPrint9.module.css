@@ -47,9 +47,17 @@
 }
 
 .min_height_100 {
-  min-height: 100px;
+  min-height: 85px;
 }
 
 .min_height_30 {
   min-height: 30px;
+}
+
+.pad_bot_12{
+  padding-bottom: 12px;
+}
+
+.min_height_12{
+  min-height: 12px;
 }
