@@ -15,11 +15,12 @@ import {
 import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
+import style2 from "../../assets/css/headers/header1.module.css";
 
 const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({});
     const [header, setHeader] = useState(null);
     const [headerData, setHeaderData] = useState({});
     const [address, setAddress] = useState([]);
@@ -38,6 +39,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
+        console.log(datas);
         setData(datas);
     };
 
@@ -78,17 +80,32 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="form-check ps-3">
                     <input
                         type="button"
-                        className="btn_white blue py-2 mt-2"
+                        className="btn_white blue py-1 mt-2"
                         value="Print"
                         onClick={(e) => handlePrint(e)}
                     />
                 </div>
             </div>
             {/* header */}
-            {header}
+            <div className={`${style2.headline} headerTitle`}>{headerData?.PrintHeadLabel}</div>
+            <div className={`d-flex justify-content-between align-items-center border-bottom mb-3 py-3`}>
+                <div className={`${style2.companyhead} p-2`}>
+                    <div className={style2.lines} style={{ fontWeight: "bold" }}>
+                        {headerData?.CompanyFullName}
+                    </div>
+                    <div className={style2.lines}>{headerData?.CompanyAddress}</div>
+                    <div className={style2.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+                    <div className={style2.lines}>T  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
+                    <div className={style2.lines}>
+                        {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
+                    </div>
+                </div>
+                <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /></div>
+            </div>
+
             {/* bill no */}
             <div className="d-flex justify-content-end py-1">
-                <div className="col-4 border">
+                <div className="col-4 border border-black">
                     <p>
                         <span className="fw-semibold px-2">BILL NO </span>{" "}
                         {headerData?.InvoiceNo}
@@ -103,8 +120,8 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* sub header */}
-            <div className="d-flex border mb-1 align-items-center">
-                <div className="col-8 p-2 border-end">
+            <div className="d-flex border border-black mb-1 align-items-center">
+                <div className="col-8 p-2 border-end border-black">
                     <p className="fw-semibold">{headerData?.lblBillTo} {headerData?.customerfirmname}</p>
                     <p>{headerData?.customerAddress1}</p>
                     <p>{headerData?.customerregion}</p>
@@ -131,8 +148,8 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* table header */}
-            <div className="d-flex border">
-                <div className="col-3 border-end">
+            <div className="d-flex border border-black">
+                <div className="col-3 border-end border-black">
                     <p className="fw-bold text-center">DESCRIPTION</p>
                 </div>
                 <div className="col-9 d-flex">
@@ -147,8 +164,8 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* table data */}
-            <div className="d-flex border-start border-end border-bottom">
-                <div className="col-3 border-end d-flex justify-content-center align-items-center pb-4">
+            <div className="d-flex border-start border-end border-bottom border-black">
+                <div className="col-3 border-end d-flex justify-content-center align-items-center pb-4 border-black">
                     <p className="text-center">GOLD BAR</p>
                 </div>
                 <div className="col-9 d-flex pb-4">
@@ -178,8 +195,8 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* table total */}
-            <div className="d-flex border-start border-end border-bottom mb-1">
-                <div className="col-3 border-end d-flex justify-content-center align-items-center pb-4">
+            <div className="d-flex border-start border-end border-bottom mb-1 border-black">
+                <div className="col-3 border-end d-flex justify-content-center align-items-center pb-4 border-black">
                     <p className="text-center"></p>
                 </div>
                 <div className="col-9 d-flex justify-content-between">
@@ -188,20 +205,69 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* taxes */}
-            <div className="d-flex border mb-1 justify-content-end">
+            <div className="d-flex  my-2 justify-content-end">
                 <div className="col-4">
                     <p><span className="fw-bold"> Note:</span> Insert remark here</p>
                 </div>
-                <div className="col-5 border p-1">
-                    <div className="d-flex justify-content-between">
+                <div className="col-5 border border-black">
+                    <div className="d-flex justify-content-between p-1">
                         <p>Discount	</p>
                         <p>949.60</p>
                     </div>
+                    <div className="d-flex justify-content-between p-1">
+                        <p className='fw-bold'>Total Amount	</p>
+                        <p className='fw-bold'>85,503.37</p>
+                    </div>
+                    <div className="d-flex justify-content-between p-1">
+                        <p>CGST @ 0.13%	</p>
+                        <p>111.15</p>
+                    </div>
+                    <div className="d-flex justify-content-between p-1">
+                        <p>SGST @ 0.13%	</p>
+                        <p>111.15</p>
+                    </div>
+                    <div className="d-flex justify-content-between p-1">
+                        <p>Less</p>
+                        <p>-0.67</p>
+                    </div>
+                    <div className="d-flex justify-content-between p-1 border-top border-black">
+                        <p className='fw-bold'>Grand Total</p>
+                        <p className='fw-bold'>{NumberWithCommas(data?.finalAmount, 2)}</p>
+                    </div>
                 </div>
             </div>
+            {/* in words */}
+            <div className="my-2 border p-1 border-black">
+                <p className="fw-bold">Rs.Eighty-Five Thousand Seven Hundred and Twenty-Five Only.</p>
+            </div>
+            {/* note */}
+            <div className="my-2 border p-1 border-black">
+                <p className="fw-bold">NOTE :
+                    1.I/We hereby certify that my/our registration certificate under the Goods And Service Tax Act 2017. Is in force on the date on which the sale of the goods specified in the tax invoice has been effected by me/us & it shall accounted for in the turnover of sales while filing of return & the due tax.If any payable on the sale has been paid or shall be paids.
+                    2.Returns of goods are subject to Terms & Conditions as mentioned in www.orail.com.
+                    3.The support is limited to working hours.
+                    4.Any case disapprency to jurdisory of state of gujarat.</p>
+            </div>
+            {/* company details */}
+            <div className="my-2 border p-1 border-black">
+                <p className="fw-bold">COMPANY DETAILS :</p>
+                <p>GSTIN. : {headerData?.Company_VAT_GST_No.split("GSTIN-")[1]}</p>
+                <p>STATE CODE. : {headerData?.Company_CST_STATE_No}</p>
+                <p>PAN NO. : {headerData?.Pannumber}</p>
+                <p>Kindly make your payment by the name of "{headerData?.accountname}"</p>
+                <p>Payable at {headerData?.customercity} ({headerData?.CompanyState}) by cheque or DD</p>
+                <p>Bank Detail : Bank Account No {headerData?.accountnumber}</p>
+                <p>Bank Name : {headerData?.bankname}, {headerData?.bankaddress}</p>
+                <p>RTGS/NEFT IFSC : {headerData?.rtgs_neft_ifsc}</p>
+            </div>
+            {/* signs */}
+            <div className="my-2 border d-flex border-black">
+                <div className={`col-6 ${style?.min_height_100} p-1 text-center border-end border-black`}><p className='fw-bold'>AUTHORISED, {headerData?.customerfirmname}</p></div>
+                <div className={`col-6 ${style?.min_height_100} p-1 text-center`}><p className='fw-bold'>AUTHORISED, {headerData?.CompanyFullName}</p></div>
+            </div>
             {/* footer */}
-            <div className="d-flex border mt-1">
-                <div className="col-4 border-end p-2">
+            {/* <div className="d-flex border mt-1 border-black">
+                <div className="col-4 border-end p-2 border-black">
                     <p className="fw-bold">Bank Detail</p>
                     <p>Bank Name: {headerData?.bankname}</p>
                     <p>Branch: {headerData?.bankaddress}</p>
@@ -209,7 +275,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <p>Account No. : {headerData?.accountnumber}</p>
                     <p>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</p>
                 </div>
-                <div className="col-4 border-end p-2 d-flex flex-column justify-content-between">
+                <div className="col-4 border-end p-2 d-flex flex-column justify-content-between border-black">
                     <p className="fw-bold">Signature</p>
                     <p>
                         <span className="fw-bold">{headerData?.CustName}</span>
@@ -220,7 +286,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <p className="fw-bold">Signature</p>
                     <p className="fw-bold">{headerData?.CompanyFullName}</p>
                 </div>
-            </div>
+            </div> */}
         </div>
     ) : (
         <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

@@ -25,12 +25,9 @@ export const printConditions = [
   {printName: 'invoice print r', etpType: 'print', componentName: 'InvoicePrint4Clone'},
   {printName: 'invoice print3', etpType: 'print', componentName: 'InvoicePrint3'},
   {printName: 'invoice print4', etpType: 'print', componentName: 'InvoicePrint4'},
-<<<<<<< HEAD
   {printName: 'invoice print 6', etpType: 'print', componentName: 'InvoicePrint6'},
-=======
   {printName: 'invoice print 5', etpType: 'print', componentName: 'InvoicePrint5'},
   {printName: 'invoice print 7', etpType: 'print', componentName: 'InvoicePrint5'},
->>>>>>> f0b8f664eea3b3e52f78fa9a61eb24b481409334
   {printName: 'item wise print', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'item wise print1', etpType: 'print', componentName: 'ItemWisePrint'},
   {printName: 'item wise print2', etpType: 'print', componentName: 'ItemWisePrint'},

@@ -13,6 +13,7 @@ import {
 } from "../../GlobalFunctions";
 import { ToWords } from "to-words";
 import BarcodePrintGenerator from "../../components/barcodes/BarcodePrintGenerator";
+import style2 from "../../assets/css/headers/header1.module.css";
 
 const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [loader, setLoader] = useState(true);
@@ -27,13 +28,16 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
     total: 0,
     grandtotal: 0,
     totals: 0,
+    discounttotals: 0
   });
-  const [pcs, setPcs] = useState(0);
+  const [discount, setDiscount] = useState(0);
   const [taxes, setTaxes] = useState([]);
   const [pnm, setPnm] = useState(atob(printName).toLowerCase());
+  const [totalpcsss, setTotalPcsss] = useState(0);
   const toWords = new ToWords();
 
   const loadData = (data) => {
+    let discounts = 0
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     setHeader(head);
     setHeaderData(data?.BillPrint_Json[0]);
@@ -102,7 +106,15 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
       Rate: 0,
     };
     let total2 = 0;
+
+    let totalPcs = [];
     data.BillPrint_Json1.forEach((e, i) => {
+      let findObj = totalPcs.findIndex((ele, ind) => ele?.label === e?.GroupJob && e?.GroupJob !== "");
+      discounts += e?.DiscountAmt;
+
+      if (findObj === -1) {
+        totalPcs.push({ label: e?.GroupJob, value: e?.Quantity });
+      }
       labour.Amount += e?.MakingAmount;
       labour.Rate += e?.MaKingCharge_Unit;
       other.Amount += e?.OtherCharges;
@@ -151,7 +163,11 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
         e?.OtherCharges +
         e?.TotalDiamondHandling;
     });
-    setPcs(pcss);
+    setDiscount(discounts);
+    let totalpcss = totalPcs.reduce((acc, cobj) => {
+      return acc + cobj?.value
+    }, 0);
+    setTotalPcsss(totalpcss);
 
     labour.Rate = labour?.Rate / data.BillPrint_Json1?.length;
     // diamond.Rate = NumberWithCommas(diamond?.Amount / diamond?.Wt, 2) + " / Wt";
@@ -168,7 +184,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
       colorStone.Rate = 0 + " / Wt";
     }
 
-    miscs.Rate = NumberWithCommas(miscs?.Amount, 2) + " / Pcs";
+    miscs.Rate = NumberWithCommas(miscs?.Amount, 2) + " / Wt";
     // miscs.Rate = NumberWithCommas(miscs?.Amount / miscs?.Wt, 2) + " / Pcs";
     diamond.Wt = NumberWithCommas(diamond.Wt, 3) + " Ctw";
     colorStone.Wt = NumberWithCommas(colorStone.Wt, 3) + " Ctw";
@@ -177,22 +193,22 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
 
     let otherMaterials = [];
     if (pnm === "invoice print 10") {
-      if(diamond?.Wt !== "0.000 Ctw"){
+      if (diamond?.Wt !== "0.000 Ctw") {
         otherMaterials.push(diamond);
       }
-      if(colorStone?.Wt !== "0.000 Ctw"){
+      if (colorStone?.Wt !== "0.000 Ctw") {
         otherMaterials.push(colorStone);
       }
-      if(miscs?.Wt !== "0.000 Gms"){
+      if (miscs?.Wt !== "0.000 Gms") {
         otherMaterials.push(miscs);
       }
-      if(labour.Amount !== 0){
+      if (labour.Amount !== 0) {
         otherMaterials.push(labour);
       }
-      if(other.Amount !== 0){
+      if (other.Amount !== 0) {
         otherMaterials.push(other);
       }
-      if(handling?.Amount !== 0){
+      if (handling?.Amount !== 0) {
         otherMaterials.push(handling);
       }
       otherMaterials = otherMaterials.flat();
@@ -288,8 +304,8 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
                 ? true
                 : false
               : obj.GroupJob === ""
-              ? true
-              : false,
+                ? true
+                : false,
         };
         testArr.push(metalobj);
       });
@@ -339,13 +355,15 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
       }
     });
     totals.totals = total2;
+    totals.discounttotals = totals.totals - discounts;
+
     setTotal(totals);
     setData(test2Arr);
     let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.totals);
     setTaxes(taxValue);
 
     totals.grandtotal +=
-      totals?.totals +
+      totals?.discounttotals +
       taxValue.reduce((acc, cobj) => {
         return acc + +cobj?.amount;
       }, 0) +
@@ -396,7 +414,27 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
       </div>
       {/* header */}
-      {header}
+      <div className={`${style2.headline} headerTitle`}>{headerData?.PrintHeadLabel}</div>
+      <div className={style2.companyDetails}>
+        <div className={`${style2.companyhead} p-2`}>
+          <div className={style2.lines} style={{ fontWeight: "bold" }}>
+            {headerData?.CompanyFullName}
+          </div>
+          <div className={style2.lines}>{headerData?.CompanyAddress}</div>
+          <div className={style2.lines}>{headerData?.CompanyAddress2}</div>
+          <div className={style2.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+          {/* <div className={style2.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
+          <div className={style2.lines}>Tell No:  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
+          <div className={style2.lines}>
+            {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
+          </div>
+          <div className={style2.lines}>
+            {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
+            {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
+          </div>
+        </div>
+        <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /></div>
+      </div>
       {/* barcodes */}
       {pnm === "invoice print 10" && <div className="mb-1">
         <div className="d-flex justify-content-between border p-2 pb-1">
@@ -444,20 +482,20 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
             <div className="col-6">{headerData?.EntryDate} </div>
           </div>
           <div className="d-flex">
-            <div className="fw-bold col-6">HSN</div>
+            <div className="fw-bold col-6">{headerData?.HSN_No_Label}</div>
             <div className="col-6">{headerData?.HSN_No} </div>
           </div>
           <div className="d-flex">
             <div className="fw-bold col-6">NAME OF GOODS</div>
-            <div className="col-6">Jewellery </div>
+            <div className="col-6">{headerData?.NameOfGoods} </div>
           </div>
           <div className="d-flex">
             <div className="fw-bold col-6">PLACE OF SUPPLY</div>
-            <div className="col-6">{headerData?.State} </div>
+            <div className="col-6">{headerData?.customerstate} </div>
           </div>
           <div className="d-flex">
             <div className="fw-bold col-6">TERMS</div>
-            <div className="col-6">0 </div>
+            <div className="col-6">{headerData?.DueDays} </div>
           </div>
         </div>
       </div>
@@ -481,8 +519,8 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
         <div className="d-flex border-start border-end border-bottom">
           <div className="col-3 border-end d-flex align-items-center justify-content-center flex-column">
-            <p>DIAMOND STUDDED JEWELLERY</p>
-            <p className="fw-bold">Total Pcs : {NumberWithCommas(pcs, 0)}</p>
+            <p className="w-100 text-center">DIAMOND STUDDED JEWELLERY</p>
+            <p className="fw-bold">Total Pcs : {NumberWithCommas(totalpcsss, 0)}</p>
           </div>
           <div className="col-9">
             <div className="d-flex border-bottom">
@@ -490,7 +528,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {data.map((e, i) => {
                   return (
                     <p className={`${style?.min_height_21}`} key={i}>
-                      {e?.MetalTypePurity} {e?.GroupJob}
+                      {e?.MetalTypePurity}
                     </p>
                   );
                 })}
@@ -506,7 +544,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {data.map((e, i) => {
                   return e?.GroupJob === "" ? (
                     <p className={`${style?.min_height_21} text-end`} key={i}>
-                      {e?.grossWt !== 0 && `${NumberWithCommas(e?.grossWt, 3)} gms`} 
+                      {e?.grossWt !== 0 && `${NumberWithCommas(e?.grossWt, 3)} gms`}
                     </p>
                   ) : e?.grossShow ? (
                     <p className={`${style?.min_height_21} text-end`} key={i}>
@@ -600,7 +638,8 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {otherMaterial.map((e, i) => {
                   return (
                     <p className={`${style?.min_height_21} text-end`} key={i}>
-                      {e?.Amount !== 0 && NumberWithCommas(e?.Amount, 2)}
+                      {/* {e?.Amount !== 0 && NumberWithCommas(e?.Amount, 2)} */}
+                      {NumberWithCommas(e?.Amount, 2)}
                     </p>
                   );
                 })}
@@ -644,6 +683,19 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
         <div className="d-flex border no_break">
           <div className="col-8 border-end"></div>
           <div className="col-4 px-1">
+            {discount !== 0 && <><div className="d-flex justify-content-between">
+              <p>
+                Discount
+              </p>
+              <p>{NumberWithCommas(discount, 2)}</p>
+            </div>
+              <div className="d-flex justify-content-between">
+              <p className="fw-bold"> Total Amount </p>
+              <p className="fw-bold"> {NumberWithCommas(total?.discounttotals, 2)}</p>
+            </div></>
+            }
+          
+            	
             {taxes?.map((e, i) => {
               return (
                 <div className="d-flex justify-content-between" key={i}>

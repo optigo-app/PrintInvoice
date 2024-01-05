@@ -592,7 +592,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                     __html: headerData?.Currencysymbol,
                   }}
                 ></span>{" "}
-                {NumberWithCommas(e?.UnitCost / e?.Quantity, 2)}
+                {NumberWithCommas(e?.UnitCost / e?.Quantity*headerData?.CurrencyExchRate, 2)}
               </p>
             </div>
             <div className={`${style?.amount} p-1  text-end`}>

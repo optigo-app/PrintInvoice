@@ -112,6 +112,11 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
     <div
       className={`container container-fluid max_width_container mt-1 ${style?.InvoicePrint_12} pad_60_allPrint`}
     >
+      {headerData?.PrintHeadLabel !== "" && <div className="py-2">
+        <p className="text-center">
+          {headerData?.PrintHeadLabel}
+        </p>
+      </div>}
       {/* buttons */}
       <div
         className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
@@ -138,9 +143,9 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
           <p>{headerData?.lblBillTo}</p>
           <p className="fs-6 fw-semibold">{headerData?.customerfirmname}</p>
           <p>{headerData?.customerAddress1}</p>
-          <p>{headerData?.customerregion}</p>
+          <p>{headerData?.customerAddress2}</p>
           <p>
-            {headerData?.customercity}
+            {headerData?.customercity1}
             {headerData?.customerpincode}
           </p>
           <p>{headerData?.customeremail1}</p>
@@ -163,7 +168,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
             <p>: {headerData?.HSN_No}</p>
             <p>: {headerData?.Company_CST_STATE_No}</p>
             <p>: {headerData?.Pannumber}</p>
-            <p>: 24AAAAA0000A1Z51</p>
+            <p>: {headerData?.Company_VAT_GST_No.replace("GSTIN-", "")}</p>
             <p>: DL05A0000051</p>
           </div>
         </div>
@@ -268,8 +273,8 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
               <p className="text-end">
                 {NumberWithCommas(
                   e?.MakingAmount +
-                    e?.totals?.diamonds?.SettingAmount +
-                    e?.totals?.colorstone?.SettingAmount,
+                  e?.totals?.diamonds?.SettingAmount +
+                  e?.totals?.colorstone?.SettingAmount,
                   2
                 )}
               </p>
@@ -317,8 +322,8 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
           <p className="text-end">
             {NumberWithCommas(
               total?.total_other +
-                total?.misc?.Amount +
-                total?.total_diamondHandling,
+              total?.misc?.Amount +
+              total?.total_diamondHandling,
               2
             )}
           </p>
@@ -351,7 +356,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
               Total Amount
             </div>
             <div className={`${style?.totalAmtValue} fw-bold text-end`}>
-              36641.25
+              {NumberWithCommas(total?.total_amount, 2)}
             </div>
           </div>
           {taxes.map((e, i) => {
@@ -394,11 +399,21 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
         </div>
       </div>
 
+      {/* remark */}
+      <div className={`border-bottom border-start border-end p-2`}>
+        <p className="fw-bold text-decoration-underline">Remark : </p>
+        <p>  {headerData?.PrintRemark}</p>
+      </div>
+
       {/* declaration */}
+      <div className="my-1 border">
+            <p className="fw-bold text-decoration-underline px-2 pt-2">Notes: </p>
       <div
-        className="my-1 border p-2"
+        className="px-2 pb-2"
         dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
       ></div>
+      </div>
+      
 
       {/* footer */}
       {footer}

@@ -1,5 +1,6 @@
 .InvoicePrint_10_11 *{
     font-size: 14px;
+    word-break: normal;
 }
 
 .min_height_21{
