@@ -34,7 +34,6 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [footerComp, setFooterComp] = useState(null);
   useEffect(() => {
     let print_name = atob(printName);
-    console.log(print_name);
     if (print_name === "invoice print 5") {
       setClassip({
         col1: "col1ip5",
