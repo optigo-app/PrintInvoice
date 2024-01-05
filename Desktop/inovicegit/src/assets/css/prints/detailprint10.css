@@ -23,6 +23,11 @@
     justify-content: flex-end;
     align-items: flex-start;
 }
+.start_dp10{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
 
 /* font size */
 .fsgdp10{

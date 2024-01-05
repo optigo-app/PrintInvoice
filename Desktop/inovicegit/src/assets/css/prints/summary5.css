@@ -1,0 +1,12 @@
+.containers5 *{
+    box-sizing: border-box;
+    word-break: break-all;
+}
+/* global */
+.containers5{
+    margin-top: 3rem;
+    padding: 5rem;
+}
+.fsgs5{
+    font-size: 14px;
+}

@@ -472,6 +472,21 @@ export const OrganizeDataPrint = (header, json1, json2) => {
   let totalAmount = maintotal.total_amount + header?.AddLess;
   let allTax = taxGenrator(header, totalAmount);
 
+  let brArr = [];
+  if (header?.Brokerage?.length > 0) {
+    let blankArr = header?.Brokerage?.split("@-@");
+    let resultArr = [];
+    blankArr.forEach((e, i) => {
+      let obj = {};
+      let arr = e?.split("#-#");
+      obj.label = arr[0];
+      obj.value = arr[1];
+      resultArr.push(obj);
+    });
+    brArr = resultArr;
+    // return resultArr;
+  }
+
   allTax?.length > 0 &&
     allTax?.forEach((e) => {
       totalAmount += +e?.amount;
@@ -490,12 +505,14 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     });
   totalAmount = (+totalAmount)?.toFixed(2);
 
+  let headerObj = {...header};
+  headerObj.BrokerageDetails = brArr; 
   const finalObject = {
     resultArray: resultArray,
     mainTotal: maintotal,
     finalAmount: +totalAmount,
     allTaxes: allTax,
-    header: header,
+    header: headerObj,
     json1: json1,
     json2: json2,
   };

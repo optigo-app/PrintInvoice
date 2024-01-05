@@ -14,7 +14,7 @@ const Header1 = ( { data } ) => {
           <div className={style.lines}>{data?.CompanyAddress2}</div>
           <div className={style.lines}>{data?.CompanyCity}-{data?.CompanyPinCode},{data?.CompanyState}({data?.CompanyCountry})</div>
           {/* <div className={style.lines}>Tell No: {data?.CompanyTellNo}</div> */}
-          <div className={style.lines}>Tell No:  {data?.CompanyTellNo} | TOLL FREE {data?.CompanyTollFreeNo}</div>
+          <div className={style.lines}>Tell No:  {data?.CompanyTellNo}</div>
           <div className={style.lines}>
             {data?.CompanyEmail} | {data?.CompanyWebsite}
           </div>
