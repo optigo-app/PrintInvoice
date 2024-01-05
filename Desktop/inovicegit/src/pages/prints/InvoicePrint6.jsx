@@ -27,7 +27,6 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [footer, setFooter] = useState(null);
     const toWords = new ToWords();
     const loadData = (data) => {
-        // console.log(data);
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
         setHeader(head);
         setHeaderData(data?.BillPrint_Json[0]);
@@ -39,6 +38,103 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
+        let resultArr = [];
+        datas.resultArray.forEach((e, i) => {
+            let findPMetal = e?.metal.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
+            let findRec = resultArr.findIndex((el, inde) => {
+                if (e?.MetalTypePurity === el?.MetalTypePurity) {
+                    let findprimaryMetal = el?.metal.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
+                    if (findprimaryMetal !== -1) {
+                        if (e?.metal[findPMetal].Rate === el.metal[findprimaryMetal].Rate) {
+                            return el
+                        }
+                    }
+                }
+            });
+            if (findRec === -1) {
+                let obj = { ...e };
+                obj.metalrate = obj.metal[findPMetal].Rate;
+                resultArr.push(obj);
+            } else {
+                resultArr[findRec].TotalAmount += e?.TotalAmount;
+                resultArr[findRec].NetWt += e?.NetWt;
+                resultArr[findRec].PureNetWt += e?.PureNetWt;
+                resultArr[findRec].LossWt += e?.LossWt;
+                resultArr[findRec].MaKingCharge_Unit += e?.MaKingCharge_Unit;
+                resultArr[findRec].MakingAmount += e?.MakingAmount;
+                resultArr[findRec].Making_Amount_Other_Charges += e?.Making_Amount_Other_Charges;
+                resultArr[findRec].MetalAmount += e?.MetalAmount;
+                resultArr[findRec].MetalDiaWt += e?.MetalDiaWt;
+                resultArr[findRec].MetalPriceRatio += e?.MetalPriceRatio;
+                resultArr[findRec].OtherCharges += e?.OtherCharges;
+                resultArr[findRec].PureNetWt += e?.PureNetWt;
+                resultArr[findRec].Tunch += e?.Tunch;
+                resultArr[findRec].UnitCost += e?.UnitCost;
+                resultArr[findRec].UnitCost += e?.UnitCost;
+
+                let other_amt = [e?.other_amount_details, resultArr[findRec].other_amount_details].flat();
+                let otheramts = [];
+                other_amt.forEach((elee, indd) => {
+                    let findOther = otheramts.findIndex((element, index) => element?.label === elee?.label);
+                    if (findOther === -1) {
+                        otheramts.push(elee);
+                    } else {
+                        otheramts[findOther].value = +otheramts[findOther].value + +elee?.value;
+                    }
+                });
+                resultArr[findRec].other_amount_details += otheramts;
+                resultArr[findRec].totals.Making_Amount_Other_Charges += e?.totals.Making_Amount_Other_Charges;
+
+                resultArr[findRec].totals.colorstone.Amount += e?.totals.colorstone.Amount;
+                resultArr[findRec].totals.colorstone.FineWt += e?.totals.colorstone.FineWt;
+                resultArr[findRec].totals.colorstone.Pcs += e?.totals.colorstone.Pcs;
+                resultArr[findRec].totals.colorstone.Rate += e?.totals.colorstone.Rate;
+                resultArr[findRec].totals.colorstone.SettingAmount += e?.totals.colorstone.SettingAmount;
+                resultArr[findRec].totals.colorstone.Wt += e?.totals.colorstone.Wt;
+                resultArr[findRec].totals.colorstone.length += e?.totals.colorstone.length;
+
+                resultArr[findRec].totals.diamonds.Amount += e?.totals.diamonds.Amount;
+                resultArr[findRec].totals.diamonds.FineWt += e?.totals.diamonds.FineWt;
+                resultArr[findRec].totals.diamonds.Pcs += e?.totals.diamonds.Pcs;
+                resultArr[findRec].totals.diamonds.Rate += e?.totals.diamonds.Rate;
+                resultArr[findRec].totals.diamonds.SettingAmount += e?.totals.diamonds.SettingAmount;
+                resultArr[findRec].totals.diamonds.Wt += e?.totals.diamonds.Wt;
+                resultArr[findRec].totals.diamonds.length += e?.totals.diamonds.length;
+
+                resultArr[findRec].totals.finding.Amount += e?.totals.finding.Amount;
+                resultArr[findRec].totals.finding.FineWt += e?.totals.finding.FineWt;
+                resultArr[findRec].totals.finding.Pcs += e?.totals.finding.Pcs;
+                resultArr[findRec].totals.finding.Rate += e?.totals.finding.Rate;
+                resultArr[findRec].totals.finding.SettingAmount += e?.totals.finding.SettingAmount;
+                resultArr[findRec].totals.finding.Wt += e?.totals.finding.Wt;
+                resultArr[findRec].totals.finding.length += e?.totals.finding.length;
+
+                resultArr[findRec].totals.metal.Amount += e?.totals.metal.Amount;
+                resultArr[findRec].totals.metal.FineWt += e?.totals.metal.FineWt;
+                resultArr[findRec].totals.metal.Pcs += e?.totals.metal.Pcs;
+                resultArr[findRec].totals.metal.Rate += e?.totals.metal.Rate;
+                resultArr[findRec].totals.metal.SettingAmount += e?.totals.metal.SettingAmount;
+                resultArr[findRec].totals.metal.Wt += e?.totals.metal.Wt;
+                resultArr[findRec].totals.metal.length += e?.totals.metal.length;
+
+                resultArr[findRec].totals.misc.Amount += e?.totals.misc.Amount;
+                resultArr[findRec].totals.misc.FineWt += e?.totals.misc.FineWt;
+                resultArr[findRec].totals.misc.Pcs += e?.totals.misc.Pcs;
+                resultArr[findRec].totals.misc.Rate += e?.totals.misc.Rate;
+                resultArr[findRec].totals.misc.SettingAmount += e?.totals.misc.SettingAmount;
+                resultArr[findRec].totals.misc.Wt += e?.totals.misc.Wt;
+                resultArr[findRec].totals.misc.length += e?.totals.misc.length;
+
+                resultArr[findRec].totals.stone_misc.Amount += e?.totals.stone_misc.Amount;
+                resultArr[findRec].totals.stone_misc.FineWt += e?.totals.stone_misc.FineWt;
+                resultArr[findRec].totals.stone_misc.Pcs += e?.totals.stone_misc.Pcs;
+                resultArr[findRec].totals.stone_misc.Rate += e?.totals.stone_misc.Rate;
+                resultArr[findRec].totals.stone_misc.SettingAmount += e?.totals.stone_misc.SettingAmount;
+                resultArr[findRec].totals.stone_misc.Wt += e?.totals.stone_misc.Wt;
+                resultArr[findRec].totals.stone_misc.length += e?.totals.stone_misc.length;
+            }
+        });
+        datas.resultArray = resultArr;
         console.log(datas);
         setData(datas);
     };
@@ -102,7 +198,6 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /></div>
             </div>
-
             {/* bill no */}
             <div className="d-flex justify-content-end py-1">
                 <div className="col-4 border border-black">
@@ -170,26 +265,42 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 <div className="col-9 d-flex pb-4">
                     <div className="col-4">
-                        <p className="px-1">GOLD 14K</p>
-                        <p className="px-1">GOLD 14K</p>
-                        <p className="px-1">GOLD 14K</p>
-                        <p className="px-1">GOLD 14K</p>
+                        {
+                            data?.resultArray.map((e, i) => {
+                                return <p className="px-1" key={i}>{e?.MetalTypePurity}</p>
+                            })
+                        }
+                        <p className={`px-1 ${style?.min_height_24}`} >LABOUR</p>
+                        <p className={`px-1 ${style?.min_height_24}`} >OTHER</p>
+
                     </div>
                     <div className="col-8 d-flex">
                         <div className="col-4">
-                            <p className="text-end px-1">9.337</p>
-                            <p className="text-end px-1">9.337</p>
-                            <p className="text-end px-1">9.337</p>
+                            {
+                                data?.resultArray.map((e, i) => {
+                                    return <p className="text-end px-1" key={i}>{NumberWithCommas(e?.MetalDiaWt, 3)}</p>
+                                })
+                            }
+                            <p className={`text-end px-1 ${style?.min_height_24}`} ></p>
+                            <p className={`text-end px-1 ${style?.min_height_24}`} ></p>
                         </div>
                         <div className="col-4">
-                            <p className="text-end px-1">296.00</p>
-                            <p className="text-end px-1">296.00</p>
-                            <p className="text-end px-1">296.00</p>
+                            {
+                                data?.resultArray.map((e, i) => {
+                                    return <p className="text-end px-1" key={i}>{NumberWithCommas(e?.metalrate, 2)}</p>
+                                })
+                            }
+                            <p className={`px-1 text-end ${style?.min_height_24}`} ></p>
+                            <p className={`px-1 text-end ${style?.min_height_24}`} ></p>
                         </div>
                         <div className="col-4">
-                            <p className="text-end px-1">2,763.75</p>
-                            <p className="text-end px-1">2,763.75</p>
-                            <p className="text-end px-1">2,763.75</p>
+                            {
+                                data?.resultArray.map((e, i) => {
+                                    return <p className="text-end px-1" key={i}>{NumberWithCommas(e?.MetalAmount, 2)}</p>
+                                })
+                            }
+                            <p className={`text-end px-1 ${style?.min_height_24}`} >{NumberWithCommas(data?.mainTotal?.total_labour?.labour_amount, 2)}</p>
+                            <p className={`text-end px-1 ${style?.min_height_24}`} >{NumberWithCommas(data?.mainTotal?.total_other, 2)}</p>
                         </div>
                     </div>
                 </div>
@@ -201,36 +312,36 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 <div className="col-9 d-flex justify-content-between">
                     <p className="px-1 fw-bold">Total</p>
-                    <p className="text-end px-1 fw-bold">86,452.97</p>
+                    <p className="text-end px-1 fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost, 2)}</p>
                 </div>
             </div>
             {/* taxes */}
             <div className="d-flex  my-2 justify-content-end">
                 <div className="col-4">
-                    <p><span className="fw-bold"> Note:</span> Insert remark here</p>
+                    <p><span className="fw-bold"> Note:</span> {headerData?.PrintRemark}</p>
                 </div>
                 <div className="col-5 border border-black">
-                    <div className="d-flex justify-content-between p-1">
+                    {data?.mainTotal?.total_discount_amount !== 0 && <div className="d-flex justify-content-between px-1 pt-1">
                         <p>Discount	</p>
-                        <p>949.60</p>
-                    </div>
-                    <div className="d-flex justify-content-between p-1">
+                        <p>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>
+                    </div>}
+                    <div className="d-flex justify-content-between px-1">
                         <p className='fw-bold'>Total Amount	</p>
-                        <p className='fw-bold'>85,503.37</p>
+                        <p className='fw-bold'>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p>
                     </div>
-                    <div className="d-flex justify-content-between p-1">
-                        <p>CGST @ 0.13%	</p>
-                        <p>111.15</p>
-                    </div>
-                    <div className="d-flex justify-content-between p-1">
-                        <p>SGST @ 0.13%	</p>
-                        <p>111.15</p>
-                    </div>
-                    <div className="d-flex justify-content-between p-1">
-                        <p>Less</p>
-                        <p>-0.67</p>
-                    </div>
-                    <div className="d-flex justify-content-between p-1 border-top border-black">
+                    {
+                        data?.allTaxes.map((e, i) => {
+                            return <div className="d-flex justify-content-between px-1" key={i}>
+                                <p>{e?.name} @ {e?.per}	</p>
+                                <p>{NumberWithCommas(+e?.amount, 2)}</p>
+                            </div>
+                        })
+                    }
+                  {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between px-1">
+                        <p>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
+                        <p>{NumberWithCommas(headerData?.AddLess, 2)}</p>
+                    </div>}
+                    <div className="d-flex justify-content-between px-1 border-top border-black">
                         <p className='fw-bold'>Grand Total</p>
                         <p className='fw-bold'>{NumberWithCommas(data?.finalAmount, 2)}</p>
                     </div>
@@ -238,7 +349,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
             {/* in words */}
             <div className="my-2 border p-1 border-black">
-                <p className="fw-bold">Rs.Eighty-Five Thousand Seven Hundred and Twenty-Five Only.</p>
+                <p className="fw-bold">Rs.{toWords.convert(+fixedValues(data?.finalAmount, 2))} Only.</p>
             </div>
             {/* note */}
             <div className="my-2 border p-1 border-black">
@@ -295,4 +406,5 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
     );
 }
 
-export default InvoicePrint6
+export default InvoicePrint6;
+

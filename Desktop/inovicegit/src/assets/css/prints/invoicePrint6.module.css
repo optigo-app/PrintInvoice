@@ -2,6 +2,10 @@
     min-height: 100px;
 }
 
+.min_height_24{
+    min-height: 24px;
+}
+
 @media print{
     .print_sec_sum4{
         display: none !important;
