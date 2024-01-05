@@ -25,6 +25,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
     const sendData = async () => {
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
+
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -47,15 +48,16 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
   }, []);
 
   function loadData(data) {
+
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;
-
+    
     const datas = OrganizeDataPrint(
       data?.BillPrint_Json[0],
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-
+      console.log(datas);
     let blankDiaArr = [];
     let only_rnd = [];
     let others_dia = [];
@@ -153,7 +155,8 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {/* header */}
                 <div className="w-100 mt-3">{headerCom}</div>
                 {/* subheader */}
-                <div className="subheaderdp10">
+                
+                 <div className="subheaderdp10">
                   <div className="subdiv1dp10 border-end fsgdp10 border-start ">
                     <div className="px-1">{result?.header?.lblBillTo}</div>
                     <div className="px-1 fw-bold">
@@ -211,9 +214,9 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       Gram
                     </div>
                   </div>
-                </div>
+                </div> 
                 {/* table */}
-                <div className="tabledp10">
+                 <div className="tabledp10">
                   {/* tablehead */}
                   <div className="theaddp10 fw-bold fsg2dp10">
                     <div className="col1dp10 center_sdp10">Sr</div>
@@ -345,6 +348,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                             <div className="centerdp10 fw-bold">
                               PO: {e?.PO}
                             </div>
+                            <div className="centerdp10 ">{e?.batchnumber}</div>
                             {e?.HUID !== "" ? (
                               <div className="centerdp10">HUID - {e?.HUID}</div>
                             ) : (
@@ -414,6 +418,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 </div>
                               );
                             })}
+                            <div className="px-2">{e?.JobRemark !== '' ? <><b>Remark : </b> {e?.JobRemark}</> : ''} </div>
                           </div>
                           <div className="tbcol3dp10">
                             {e?.colorstone?.map((el, ics) => {
@@ -455,7 +460,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                             </div>
                           </div>
                           <div className="tbcol8dp10 end_dp10 fw-bold p-1">
-                            {formatAmount(e?.TotalAmount)}
+                            {formatAmount((e?.TotalAmount + e?.DiscountAmt))}
                           </div>
                         </div>
                       );
@@ -467,7 +472,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <div className="d-flex justify-content-between">
                         <div className="w-50 end_dp10">Net Amount</div>
                         <div className="w-50 end_dp10 pe-2">
-                          {result?.mainTotal?.total_amount?.toFixed(2)}
+                          {((+result?.mainTotal?.total_amount?.toFixed(2)) + (+result?.mainTotal?.total_discount_amount?.toFixed(2)))}
                         </div>
                       </div>
                       <div className="d-flex justify-content-between">
@@ -698,12 +703,26 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <div className="h_bd10 centerdp10 bg_dp10 fw-bold border">
                         OTHER DETAILS
                       </div>
-                      <div className="d-flex justify-content-between w-100 px-1 border p-1">
-                        <div className="w-50 fw-bold centerdp10">
+                      <div className="d-flex flex-column justify-content-between w-100 px-1 border p-1">
+                        <div className="d-flex">
+                        <div className="w-50 fw-bold start_dp10">
                           RATE IN 24KT
                         </div>
-                        <div className="w-50 centerdp10">
+                        <div className="w-50 end_dp10">
                           {result?.header?.MetalRate24K?.toFixed(2)}
+                        </div>
+                        </div>
+                        <div>
+                        {
+                          result?.header?.BrokerageDetails?.map((e, i) => {
+                            return(
+                              <div className="d-flex" key={i}>
+                                <div className="w-50 fw-bold start_dp10">{e?.label}</div>
+                                <div className="w-50 end_dp10">{e?.value}</div>
+                              </div>
+                            )
+                          })
+                        }
                         </div>
                       </div>
                     </div>
@@ -723,6 +742,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                   </div>
                 </div>
+                
               </div>
             </>
           ) : (
