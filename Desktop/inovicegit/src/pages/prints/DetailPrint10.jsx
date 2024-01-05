@@ -133,7 +133,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
         <>
           {msg === "" ? (
             <>
-              <div className="containerdp10">
+              <div className="containerdp10 pab60_dp10">
                 <div className="d-flex justify-content-end align-items-center hidebtndp10">
                   <input
                     type="checkbox"
@@ -155,7 +155,6 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {/* header */}
                 <div className="w-100 mt-3">{headerCom}</div>
                 {/* subheader */}
-                
                  <div className="subheaderdp10">
                   <div className="subdiv1dp10 border-end fsgdp10 border-start ">
                     <div className="px-1">{result?.header?.lblBillTo}</div>
@@ -216,7 +215,8 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                 </div> 
                 {/* table */}
-                 <div className="tabledp10">
+                
+                <div className="tabledp10">
                   {/* tablehead */}
                   <div className="theaddp10 fw-bold fsg2dp10">
                     <div className="col1dp10 center_sdp10">Sr</div>
@@ -318,23 +318,23 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                   </div>
                   {/* table body */}
-                  <div className="tbodydp10 fsgdp10">
+                  <div className="tbodydp10 fsgdp10 ">
                     {result?.resultArray?.map((e, i) => {
                       return (
-                        <div className="tbrowdp10 h-100" key={i}>
+                        <div className="tbrowdp10 h-100 " key={i}>
                           <div className="tbcol1dp10 center_sdp10">
                             {e?.SrNo}
                           </div>
-                          <div className="tbcol2dp10">
+                          <div className="tbcol2dp10 d-flex flex-column justify-content-between">
                             <div className="d-flex justify-content-between px-1 ">
-                              <div>{e?.designno}</div>
-                              <div>{e?.SrJobno}</div>
+                              <div className="fsgdp10">{e?.designno}</div>
+                              <div className="fsgdp10">{e?.SrJobno}</div>
                             </div>
                             <div className="d-flex justify-content-end px-1">
                               {e?.MetalColor}
                             </div>
                             {imgFlag ? (
-                              <div className="w-100 d-flex justify-content-center align-items-start">
+                              <div className="w-100 d-flex justify-content-center align-items-start fsgdp10">
                                 <img
                                   src={e?.DesignImage}
                                   onError={(e) => handleImageError(e)}
@@ -345,16 +345,16 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                             ) : (
                               ""
                             )}
-                            <div className="centerdp10 fw-bold">
+                            <div className="centerdp10 fw-bold fsgdp10">
                               PO: {e?.PO}
                             </div>
-                            <div className="centerdp10 ">{e?.batchnumber}</div>
+                            <div className="centerdp10 fsgdp10">{e?.batchnumber}</div>
                             {e?.HUID !== "" ? (
-                              <div className="centerdp10">HUID - {e?.HUID}</div>
+                              <div className="centerdp10 fsgdp10">HUID - {e?.HUID}</div>
                             ) : (
                               ""
                             )}
-                            <div className="centerdp10">
+                            <div className="centerdp10 fsgdp10">
                               Tunch : &nbsp;
                               <b className="fsgdp10">{e?.Tunch?.toFixed(3)}</b>
                             </div>
@@ -384,7 +384,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                     {el?.Pcs}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10">
-                                    {el?.Wt}
+                                    {el?.Wt?.toFixed(3)}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10">
                                     {formatAmount(el?.Rate)}
@@ -401,24 +401,24 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                               return (
                                 <div className="d-flex w-100" key={imet}>
                                   <div
-                                    className="theadsubcol2_dp10 d-flex justify-content-start border-end h-100 p-1 border-end-0"
-                                    style={{ width: "40%" }}
+                                    className="theadsubcol2_dp10 d-flex justify-content-start border-end h-100 ps-1 border-end-0"
+                                    style={{ width: "37%" }}
                                   >
                                     {el?.ShapeName} {el?.QualityName}
                                   </div>
-                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 p-1 border-end-0 end_dp10">
+                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
                                     {(e?.NetWt + e?.LossWt)?.toFixed(3)}
                                   </div>
-                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 p-1 border-end-0 end_dp10">
+                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
                                     {el?.Rate?.toFixed(2)}
                                   </div>
-                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 p-1 border-end-0 end_dp10">
+                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
                                     {el?.Amount?.toFixed(2)}
                                   </div>
                                 </div>
                               );
                             })}
-                            <div className="px-2">{e?.JobRemark !== '' ? <><b>Remark : </b> {e?.JobRemark}</> : ''} </div>
+                            <div className="px-2">{e?.JobRemark !== '' ? <><b className="fsgdp10">Remark : </b> {e?.JobRemark}</> : ''} </div>
                           </div>
                           <div className="tbcol3dp10">
                             {e?.colorstone?.map((el, ics) => {
@@ -472,7 +472,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <div className="d-flex justify-content-between">
                         <div className="w-50 end_dp10">Net Amount</div>
                         <div className="w-50 end_dp10 pe-2">
-                          {((+result?.mainTotal?.total_amount?.toFixed(2)) + (+result?.mainTotal?.total_discount_amount?.toFixed(2)))}
+                          {((+result?.mainTotal?.total_amount?.toFixed(2)) + (+result?.mainTotal?.total_discount_amount?.toFixed(2)))?.toFixed(2)}
                         </div>
                       </div>
                       <div className="d-flex justify-content-between">
@@ -682,7 +682,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       {diamondWise?.map((e, i) => {
                         return (
                           <div
-                            className="d-flex justify-content-between px-1"
+                            className="d-flex justify-content-between px-1 fsgdp10"
                             key={i}
                           >
                             <div className="fw-bold w-50">
@@ -742,7 +742,6 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                   </div>
                 </div>
-                
               </div>
             </>
           ) : (
