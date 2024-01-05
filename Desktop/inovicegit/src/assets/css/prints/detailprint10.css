@@ -1,7 +1,7 @@
 .containerdp10{
     box-sizing: border-box;
     word-break: break-all;
-    padding: 1rem;
+    padding: 15rem;
     font-size: 12px;
     line-height: 14px;
 }
@@ -28,10 +28,13 @@
     justify-content: flex-start;
     align-items: center;
 }
-
+.pab60_dp10{
+    padding-bottom: 100px;
+    margin-bottom: 5rem;
+}
 /* font size */
 .fsgdp10{
-    font-size: 12px;
+    font-size: 14px;
     line-height: 14px;
 }
 .fsg2dp10{
@@ -131,7 +134,7 @@
     width: 16.66%;
 }
 .theadsubcol2_dp10{
-    width: 20%;
+    width: 23%;
 }
 
 /* table body one row columns */
@@ -188,10 +191,10 @@
 
 /* summary */
 .sumdp10{
-    width: 29%;
+    width: 31%;
 }
 .dia_sum_dp10{
-    width: 15%;
+    width: 18%;
 }
 .oth_sum_dp10{
     width: 15%;
@@ -200,7 +203,7 @@
     width: 15%;
 }
 .check_dp10{
-    width: 12%;
+    width: 10%;
 }
 .h_bd10{
     height: 25px;
@@ -208,19 +211,19 @@
 
 @media print {
     .fsgdp10{
-        font-size: 6px !important;
-        line-height: 6px !important;
+        font-size: 8px !important;
+        line-height: 8px !important;
     }
     .fsg2dp10{
-        font-size: 7px !important;
+        font-size: 8px !important;
         /* line-height: 14px; */
     }
     .containerdp10{
         box-sizing: border-box;
         word-break: break-all;
         padding: 5px;
-        font-size: 6px !important;
-        line-height: 6px !important;
+        font-size: 8px !important;
+        line-height: 10px !important;
     }
 
     .hidebtndp10{

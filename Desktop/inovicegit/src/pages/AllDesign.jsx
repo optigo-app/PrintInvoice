@@ -1,6 +1,6 @@
 import React, { useEffect, Suspense, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import AllDesignBagPrint from './AllDeisgnBagPrint';
+// import AllDesignBagPrint from './AllDeisgnBagPrint';
 import AllDesignPrint from './AllDesignPrint';
 import AllDesignBagPrint2 from './AllDesignBagPrint2';
 import AllGrids from './AllGrids';
