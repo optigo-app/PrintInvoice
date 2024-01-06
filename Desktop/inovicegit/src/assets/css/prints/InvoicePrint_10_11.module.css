@@ -7,6 +7,13 @@
     min-height: 21px;
 }
 
+.printBtn{
+    position: fixed;
+    right: 40px;
+    top: 20px;
+}
+
+
 @media print{
     .print_sec_sum4{
         display: none !important;

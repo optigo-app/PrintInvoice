@@ -14,6 +14,7 @@ import {
 import { ToWords } from "to-words";
 import BarcodePrintGenerator from "../../components/barcodes/BarcodePrintGenerator";
 import style2 from "../../assets/css/headers/header1.module.css";
+import footerStyle from "../../assets/css/footers/footer2.module.css";
 
 const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [loader, setLoader] = useState(true);
@@ -184,7 +185,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
       colorStone.Rate = 0 + " / Wt";
     }
 
-    miscs.Rate = NumberWithCommas(miscs?.Amount, 2) + " / Wt";
+    miscs.Rate = NumberWithCommas(miscs?.Amount, 2) + " / Pcs";
     // miscs.Rate = NumberWithCommas(miscs?.Amount / miscs?.Wt, 2) + " / Pcs";
     diamond.Wt = NumberWithCommas(diamond.Wt, 3) + " Ctw";
     colorStone.Wt = NumberWithCommas(colorStone.Wt, 3) + " Ctw";
@@ -328,6 +329,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
           test2Arr[findRec].Amount += e?.Amount;
           test2Arr[findRec].Pcs += e?.Pcs;
           test2Arr[findRec].grossWt += e?.grossWt;
+          test2Arr[findRec].NetWt += e?.NetWt;
         }
       } else {
         let findRec = test2Arr.findIndex(
@@ -342,6 +344,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
         );
         if (findRec !== -1) {
           test2Arr[findRec].grossWt += e?.grossWt;
+          test2Arr[findRec].NetWt += e?.NetWt;
         } else if (findGroup !== -1) {
           test2Arr[findGroup].grossWt += e.grossWt;
         }
@@ -349,6 +352,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
           test2Arr.push(e);
         } else {
           test2Arr[findRec].Wt += e?.Wt;
+          // test2Arr[findRec].grossWt += e?.grossWt;
           test2Arr[findRec].Amount += e?.Amount;
           test2Arr[findRec].Pcs += e?.Pcs;
         }
@@ -404,10 +408,10 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
       <div
         className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
       >
-        <div className="form-check ps-3">
+        <div className={`form-check ps-3 ${style?.printBtn}`}>
           <input
             type="button"
-            className="btn_white blue py-0 mt-2"
+            className="btn_white blue py-2 mt-2"
             value="Print"
             onClick={(e) => handlePrint(e)}
           />
@@ -424,7 +428,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
           <div className={style2.lines}>{headerData?.CompanyAddress2}</div>
           <div className={style2.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
           {/* <div className={style2.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
-          <div className={style2.lines}>Tell No:  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
+          <div className={style2.lines}>T:  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
           <div className={style2.lines}>
             {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
           </div>
@@ -456,7 +460,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
           <p>{headerData?.customerAddress1}</p>
           <p>{headerData?.customerAddress2}</p>
           <p>
-            {headerData?.customercity1}
+            {headerData?.customercity1} - {" "}
             {headerData?.PinCode}
           </p>
           <p>{headerData?.customeremail1}</p>
@@ -563,7 +567,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {data.map((e, i) => {
                   return (
                     <p className={`${style?.min_height_21} text-end`} key={i}>
-                      {NumberWithCommas(e?.NetWt, 3)}
+                      {NumberWithCommas(e?.NetWt, 3)} gms
                     </p>
                   );
                 })}
@@ -690,12 +694,12 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
               <p>{NumberWithCommas(discount, 2)}</p>
             </div>
               <div className="d-flex justify-content-between">
-              <p className="fw-bold"> Total Amount </p>
-              <p className="fw-bold"> {NumberWithCommas(total?.discounttotals, 2)}</p>
-            </div></>
+                <p className="fw-bold"> Total Amount </p>
+                <p className="fw-bold"> {NumberWithCommas(total?.discounttotals, 2)}</p>
+              </div></>
             }
-          
-            	
+
+
             {taxes?.map((e, i) => {
               return (
                 <div className="d-flex justify-content-between" key={i}>
@@ -733,9 +737,33 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
           dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
         ></div>
         <p className="p-1 no_break">
-          <span className="fw-bold"> REMARKS :</span> {headerData?.Remark}
+          <span className="fw-bold"> REMARKS :</span> {headerData?.PrintRemark}
         </p>
-        {footer}
+        {/* {footer} */}
+        <div className={`${footerStyle.container} no_break`}>
+          <div
+            className={footerStyle.block1f3}
+            style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+          >
+            <div className={footerStyle.linesf3} style={{ fontWeight: "bold" }}>Bank Detail</div>
+            <div className={footerStyle.linesf3}>Bank Name: {headerData?.bankname}</div>
+            <div className={footerStyle.linesf3}>Branch: {headerData?.bankaddress}</div>
+            <div className={footerStyle.linesf3}>Account Name: {headerData?.accountname}</div>
+            <div className={footerStyle.linesf3}>Account No. : {headerData?.accountnumber}</div>
+            <div className={footerStyle.linesf3}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
+          </div>
+          <div
+            className={footerStyle.block2f3}
+            style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+          >
+            <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
+            <div className={footerStyle.linesf3}>{headerData?.customerfirmname}</div>
+          </div>
+          <div className={footerStyle.block2f3} style={{ width: "33.33%" }}>
+            <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
+            <div className={footerStyle.linesf3}>{headerData?.CompanyFullName}</div>
+          </div>
+        </div>
       </div>
     </div>
   ) : (
