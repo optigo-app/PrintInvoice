@@ -134,7 +134,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
           {msg === "" ? (
             <>
               <div className="containerdp10 pab60_dp10">
-                <div className="d-flex justify-content-end align-items-center hidebtndp10">
+                <div className="d-flex justify-content-end align-items-center hidebtndp10 mb-4">
                   <input
                     type="checkbox"
                     id="imghideshow"
@@ -153,7 +153,24 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </button>
                 </div>
                 {/* header */}
-                <div className="w-100 mt-3">{headerCom}</div>
+                <div>
+                  <div className="pheaddp10">{result?.header?.PrintHeadLabel}</div>
+                  <div className="d-flex justify-content-between">
+                  <div className="p-1 fsgdp10">
+                    <div className="fw-bold fs-6 py-2">{result?.header?.CompanyFullName}</div>
+                    <div>{result?.header?.CompanyAddress}</div>
+                    <div>{result?.header?.CompanyAddress2}</div>
+                    <div>{result?.header?.CompanyCity}</div>
+                    <div>{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode}, {result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
+                    <div>T {result?.header?.CompanyTellNo}</div>
+                    <div>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
+                    <div>{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE}-{result?.header?.Company_CST_STATE_No} | PAN-{result?.header?.Pannumber}</div>
+                  </div>
+                  <div className="d-flex justify-content-end pe-2 pt-2">
+                    <img src={result?.header?.PrintLogo} alt="#companylogo" className="imgHWdp10" />
+                  </div>
+                  </div>
+                </div>
                 {/* subheader */}
                  <div className="subheaderdp10">
                   <div className="subdiv1dp10 border-end fsgdp10 border-start ">
@@ -219,8 +236,8 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="tabledp10">
                   {/* tablehead */}
                   <div className="theaddp10 fw-bold fsg2dp10">
-                    <div className="col1dp10 center_sdp10">Sr</div>
-                    <div className="col2dp10 center_sdp10 fw-bold">Design</div>
+                    <div className="col1dp10 centerdp10 ">Sr</div>
+                    <div className="col2dp10 centerdp10  fw-bold">Design</div>
                     <div className="col3dp10">
                       <div className="h-50 centerdp10 fw-bold w-100">
                         Diamond
@@ -418,7 +435,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 </div>
                               );
                             })}
-                            <div className="px-2">{e?.JobRemark !== '' ? <><b className="fsgdp10">Remark : </b> {e?.JobRemark}</> : ''} </div>
+                            <div className="p-2 px-1">{e?.JobRemark !== '' ? <><b className="fsgdp10">Remark : </b> {e?.JobRemark}</> : ''} </div>
                           </div>
                           <div className="tbcol3dp10">
                             {e?.colorstone?.map((el, ics) => {
@@ -544,8 +561,8 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <div className="theadsubcol2_dp10 end_dp10">
                         {result?.mainTotal?.netwtWithLossWt?.toFixed(3)}
                       </div>
-                      <div className="theadsubcol2_dp10"></div>
-                      <div className="theadsubcol2_dp10 end_dp10 pe-1">
+                      {/* <div className="theadsubcol2_dp10"></div> */}
+                      <div className="theadsubcol2_dp10 end_dp10 pe-1" style={{width:"46%"}}>
                         {formatAmount(result?.mainTotal?.metal?.Amount)}
                       </div>
                     </div>
@@ -558,8 +575,8 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <div className="theadsubcol1_dp10 end_dp10">
                         {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
                       </div>
-                      <div className="theadsubcol1_dp10"></div>
-                      <div className="theadsubcol1_dp10 end_dp10 pe-1">
+                      {/* <div className="theadsubcol1_dp10"></div> */}
+                      <div className="theadsubcol1_dp10 end_dp10 pe-1" style={{width:"33.32%"}}>
                         {formatAmount(result?.mainTotal?.colorstone?.Amount)}
                       </div>
                     </div>
@@ -578,7 +595,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                   {/* summary */}
                   <div className="d-flex justify-content-between mt-1 summarydp10">
                     <div className="d-flex flex-column sumdp10">
-                      <div className="fw-bold bg_dp10 w-100 centerdp10 h_bd10 border">
+                      <div className="fw-bold bg_dp10 w-100 centerdp10  border">
                         SUMMARY
                       </div>
                       <div className="d-flex w-100 fsgdp10">
@@ -669,13 +686,13 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="w-50 h-100"></div>
                         <div className="w-50 h-100 d-flex align-items-center border-start">
                           <div className="fw-bold w-50 px-1">TOTAL</div>
-                          <div className="w-50 end_dp10 px-1">
+                          <div className="w-50 end_dp10 px-1 fw-bold">
                             {formatAmount(result?.finalAmount)}
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="dia_sum_dp10 d-flex flex-column border-end border-start fsgdp10">
+                    <div className="dia_sum_dp10 d-flex flex-column border-end border-start border-bottom fsgdp10">
                       <div className="h_bd10 centerdp10 bg_dp10 fw-bold border">
                         Diamond Detail
                       </div>
@@ -694,10 +711,10 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                           </div>
                         );
                       })}
-                      <div className="d-flex justify-content-between px-1 bg_dp10 h_bd10 border">
+                      {/* <div className="d-flex justify-content-between px-1 bg_dp10 h_bd10 border">
                         <div className="fw-bold w-50"></div>
                         <div className="w-50"></div>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="oth_sum_dp10 fsgdp10">
                       <div className="h_bd10 centerdp10 bg_dp10 fw-bold border">

@@ -1,9 +1,9 @@
 import React, { useEffect, Suspense, useState } from "react";
 import { useLocation } from "react-router-dom";
-// import AllDesignBagPrint from './AllDeisgnBagPrint';
 import AllDesignPrint from "./AllDesignPrint";
 import AllDesignBagPrint2 from "./AllDesignBagPrint2";
 import AllGrids from "./AllGrids";
+// import AllDesignBagPrint from './AllDeisgnBagPrint';
 
 const AllDesign = () => {
   const location = useLocation();
@@ -20,10 +20,10 @@ const AllDesign = () => {
     } else {
       return null;
     }
-    // console.log(atob(queryParams.get('pnm')));
   };
+
   useEffect(() => {
-    const component = openProject(location.search);
+    const component = openProject(location?.search);
     setLoadedComponent(component);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

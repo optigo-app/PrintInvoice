@@ -34,8 +34,8 @@
 }
 /* font size */
 .fsgdp10{
-    font-size: 14px;
-    line-height: 14px;
+    font-size: 11px;
+    line-height: 11px;
 }
 .fsg2dp10{
     font-size: 14px;
@@ -53,6 +53,22 @@
     background-color: #f1f1f1;
 }
 /* header part */
+.pheaddp10{
+    height: 40px;
+    background-color: #989898;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 5px;
+    margin-bottom: 3px;
+}
+.imgHWdp10{
+    height: 100%;
+    max-height: 120px;
+}
 .subheaderdp10{
     display: flex;
     border-top: 1px solid #e8e8e8;
@@ -144,34 +160,42 @@
     border-bottom: 1px solid #e8e8e8;
     border-left: 1px solid #e8e8e8;
     border-right: 1px solid #e8e8e8;
+    
 }
 .tbcol1dp10{
     width: 2%;
     border-right:1px solid #e8e8e8;
+    padding-top: 10px;
 }
 .tbcol2dp10{
     width: 10%;
     border-right:1px solid #e8e8e8;
+    padding-top: 10px;
 }
 .tbcol3dp10{
     width: 23%;
     border-right:1px solid #e8e8e8;
+    padding-top: 10px;
 }
 .tbcol4dp10{
     width: 21%;
     border-right:1px solid #e8e8e8;
+    padding-top: 10px;
 }
 .tbcol6dp10{
     width: 5%;
     border-right:1px solid #e8e8e8;
+    padding-top: 10px !important;
 }
 .tbcol7dp10{
     width: 10%;
     border-right:1px solid #e8e8e8;
+    padding-top: 10px;
 }
 .tbcol8dp10{
     width: 6%;
     border-right:1px solid #e8e8e8;
+    padding-top: 10px !important;
 }
 
 
@@ -205,14 +229,12 @@
 .check_dp10{
     width: 10%;
 }
-.h_bd10{
-    height: 25px;
-}
+
 
 @media print {
     .fsgdp10{
-        font-size: 8px !important;
-        line-height: 8px !important;
+        font-size: 7px !important;
+        line-height: 7px !important;
     }
     .fsg2dp10{
         font-size: 8px !important;
@@ -221,9 +243,9 @@
     .containerdp10{
         box-sizing: border-box;
         word-break: break-all;
-        padding: 5px;
+        padding: 4px;
         font-size: 8px !important;
-        line-height: 10px !important;
+        line-height: 9px !important;
     }
 
     .hidebtndp10{
@@ -234,5 +256,23 @@
     }
     .summarydp10{
         page-break-inside: avoid;
+    }
+    .theaddp10{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 30px !important;
+        border-left:1px solid #e8e8e8;
+        border-right:1px solid #e8e8e8;
+        border-bottom:1px solid #e8e8e8;
+    }
+    .imgHWdp10{
+        height: 100%;
+        max-height: 60px;
+    }
+    .grandtotaldp10{
+        height: 15px !important;
+        border: 1px solid #989898;
+        font-weight: bold;
     }
 }
