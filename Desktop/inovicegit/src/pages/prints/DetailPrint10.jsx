@@ -249,7 +249,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="centerdp10 h-100 border-end theadsubcol1_dp10">
                           Size
                         </div>
-                        <div className="centerdp10 h-100 border-end theadsubcol1_dp10">
+                        <div className="centerdp10 h-100 border-end theadsubcol1_dp10" style={{width:"14.66%"}}>
                           Pcs
                         </div>
                         <div className="centerdp10 h-100 border-end theadsubcol1_dp10">
@@ -258,7 +258,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="centerdp10 h-100 border-end theadsubcol1_dp10">
                           Rate
                         </div>
-                        <div className="centerdp10 h-100 theadsubcol1_dp10">
+                        <div className="centerdp10 h-100 theadsubcol1_dp10" style={{width:"18.66%"}}>
                           Amount
                         </div>
                       </div>
@@ -351,7 +351,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                               {e?.MetalColor}
                             </div>
                             {imgFlag ? (
-                              <div className="w-100 d-flex justify-content-center align-items-start fsgdp10">
+                              <div className="w-100 d-flex justify-content-center align-items-start fsgdp10" style={{minHeight:"80px"}}>
                                 <img
                                   src={e?.DesignImage}
                                   onError={(e) => handleImageError(e)}
@@ -389,7 +389,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                           <div className="tbcol3dp10 ">
                             {e?.diamonds?.map((el, idia) => {
                               return (
-                                <div className="d-flex p-1" key={idia}>
+                                <div className="d-flex" key={idia}>
                                   <div className="theadsubcol1_dp10">
                                     {el?.ShapeName} {el?.QualityName}{" "}
                                     {el?.Colorname}
@@ -397,7 +397,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                   <div className="theadsubcol1_dp10">
                                     {el?.SizeName}
                                   </div>
-                                  <div className="theadsubcol1_dp10 end_dp10">
+                                  <div className="theadsubcol1_dp10 end_dp10" style={{width:"14.66%"}}>
                                     {el?.Pcs}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10">
@@ -406,7 +406,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                   <div className="theadsubcol1_dp10 end_dp10">
                                     {formatAmount(el?.Rate)}
                                   </div>
-                                  <div className="theadsubcol1_dp10 fw-bold end_dp10">
+                                  <div className="theadsubcol1_dp10 fw-bold end_dp10" style={{width:"18.66%"}}>
                                     {formatAmount(el?.Amount)}
                                   </div>
                                 </div>
@@ -440,7 +440,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                           <div className="tbcol3dp10">
                             {e?.colorstone?.map((el, ics) => {
                               return (
-                                <div className="d-flex p-1" key={ics}>
+                                <div className="d-flex" key={ics}>
                                   <div className="theadsubcol1_dp10">
                                     {el?.ShapeName}
                                   </div>
@@ -722,10 +722,10 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </div>
                       <div className="d-flex flex-column justify-content-between w-100 px-1 border p-1">
                         <div className="d-flex">
-                        <div className="w-50 fw-bold start_dp10">
+                        <div className="w-50 fw-bold start_dp10 fsgdp10">
                           RATE IN 24KT
                         </div>
-                        <div className="w-50 end_dp10">
+                        <div className="w-50 end_dp10 fsgdp10">
                           {result?.header?.MetalRate24K?.toFixed(2)}
                         </div>
                         </div>
@@ -733,7 +733,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                         {
                           result?.header?.BrokerageDetails?.map((e, i) => {
                             return(
-                              <div className="d-flex" key={i}>
+                              <div className="d-flex fsgdp10" key={i}>
                                 <div className="w-50 fw-bold start_dp10">{e?.label}</div>
                                 <div className="w-50 end_dp10">{e?.value}</div>
                               </div>

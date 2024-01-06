@@ -3,7 +3,7 @@ import { numberToWords } from "number-to-words";
 
 export const OrganizeDataPrint = (header, json1, json2) => {
   let resultArray = [];
-
+  let jobnodup = [];
   let maintotal = {
     diamonds: {
       Wt: 0,
@@ -225,8 +225,11 @@ export const OrganizeDataPrint = (header, json1, json2) => {
             }
             //for metal
             if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
+              if(j2?.ShapeName === "Hallmark" || j2?.ShapeName === "Stamping"){
+              }else{
+                diamond_colorstone_misc?.push(j2);
+              }
               miscList.push(j2);
-              diamond_colorstone_misc?.push(j2);
               jobwise_totals.misc.Wt += j2?.Wt;
               jobwise_totals.misc.Pcs += j2?.Pcs;
               jobwise_totals.misc.Rate += j2?.Rate;
@@ -448,7 +451,22 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       //   }
       // })
       let obj = { ...j1 };
+      
+      diamond_colorstone_misc?.forEach((e) => {  
+        if(e?.ShapeName === "Certification_NM award"){
+            jobnodup.push(e);
+        }
+      })
+      let diawtdup = 0;
+      diamond_colorstone_misc?.forEach((e) => {
+        jobnodup?.forEach((a) => {
+          if((a?.StockBarcode === e?.StockBarcode) && e?.MasterManagement_DiamondStoneTypeid === 1){
+              diawtdup += e?.Wt;
+          }
+        })
+      })
       obj.diamond_colorstone_misc = diamond_colorstone_misc;
+      obj.certificateWtDia = diawtdup;
       obj.diamonds = diamondList;
       obj.colorstone = colorstoneList;
       obj.misc = miscList;
