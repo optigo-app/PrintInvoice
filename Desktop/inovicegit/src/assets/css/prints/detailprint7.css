@@ -2,7 +2,8 @@
     box-sizing: border-box;
     word-break: break-all;
     margin: 0px;
-    padding: 50px;
+    padding: 20rem;
+    padding-top: 3rem;
 }
 
 /* borders */
@@ -40,7 +41,7 @@
 }
 .subhead{
     border: 1px solid #e8e8e8;   
-    min-height: 6rem;   
+    /* min-height: 6rem;    */
 }
 
 /* div wise fontsize and line height */
@@ -50,10 +51,24 @@
 .lhdp7{
     line-height: 100%;
     /* padding: 2px; */
-    height: 20px;
+    /* height: 20px; */
     font-size: 14px;
 }
-
+.pheaddp7{
+    height: 40px;
+    background-color: #989898;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 5px;
+}
+.headimgdp7{
+    height: 30%;
+    width: 30%;
+}
 /* table */
 .tabledp7{
     border: 1px solid #e8e8e8;
@@ -64,7 +79,7 @@
 .theaddp7{
     display: flex;
     border-bottom: 1px solid #e8e8e8;
-    height: 50px;
+    /* height: 50px; */
 }
 .dp7cen{
     display: flex;
@@ -86,27 +101,27 @@
 /* table columns */
 .col1dp7{
     width: 3%;
-    height: 50px;
+    /* height: 50px; */
     border-right: 1px solid #e8e8e8;
 }
 .col2dp7{
     width: 12%;
-    height: 50px;
+    /* height: 50px; */
     border-right: 1px solid #e8e8e8;
 }
 .col3dp7{
     width: 8%;
-    height: 50px;
+    /* height: 50px; */
     border-right: 1px solid #e8e8e8;
 }
 .col4dp7{
     width: 7%;
-    height: 50px;
+    /* height: 50px; */
     border-right: 1px solid #e8e8e8;
 }
 .col5dp7{
     width: 7%;
-    height: 50px;
+    /* height: 50px;s */
     border-right: 1px solid #e8e8e8;
 }
 .col6dp7{
@@ -312,7 +327,7 @@
     display: flex;
     border: 1px solid black;
     border-top: 0px;
-    height: 24px;
+    /* height: 24px; */
 }
 
 /* summary product table total */
@@ -399,7 +414,7 @@
     }
     .lhdp7{
         line-height: 100%;
-        height: 20px;
+        /* height: 20px; */
         font-size: 7px !important;
     }
     .bordersdp7{
@@ -410,9 +425,24 @@
         display: flex;
         border-bottom: 1px solid #e8e8e8;
         border-top: 1px solid #e8e8e8;
-        height: 50px !important;
+        /* height: 30px !important; */
     }
     div > .lines{
         font-size: 7px !important;
+    }
+    .headimgdp7{
+        height: 20%;
+        width: 20%;
+    }
+    .pheaddp7{
+        height: 30px;
+        background-color: #989898;
+        color: white;
+        font-size: 15px;
+        font-weight: bold;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 5px;
     }
 }

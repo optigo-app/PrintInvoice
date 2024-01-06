@@ -81,6 +81,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           e?.MasterManagement_DiamondStoneTypeid === 2 ||
           e?.MasterManagement_DiamondStoneTypeid === 3
         ) {
+
           if (e?.ShapeName === "Hallmark" || e?.ShapeName === "Stamping") {
             return "";
           } else {
@@ -116,7 +117,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       setMiscWise_total(obj);
       setMiscWise(blankArr2);
       setCategoryWise(blankArr);
-
+      console.log(datas);
       setResult(datas);
 
       const headerCompo = HeaderComponent(
@@ -134,7 +135,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
     const sendData = async () => {
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
-        console.log(data);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -182,16 +182,35 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     onChange={handleImgShow}
                     className="mx-2"
                   />
-                  <label htmlFor="showImg" className="mx-2">Show Image</label>
+                  <label htmlFor="showImg" className="me-2">
+                    With Image
+                  </label>
                   <button
-                      className="btn_white blue m-0 "
-                      onClick={(e) => handlePrint(e)}
-                    >
-                      Print
-                    </button>
+                    className="btn_white blue m-0 "
+                    onClick={(e) => handlePrint(e)}
+                  >
+                    Print
+                  </button>
                 </div>
                 {/* table header */}
-                <div className="w-100 hcompdp7">{headerComp}</div>
+                {/* <div className="w-100 hcompdp7">{headerComp}</div> */}
+                <div>
+                  <div className="pheaddp7">{result?.header?.PrintHeadLabel}</div>
+                  <div className="d-flex justify-content-between align-items-center p-1">
+                    <div>
+                      <div className="fw-bold fsgdp7 lhdp7">{result?.header?.CompanyFullName}</div>
+                      <div className="fsgdp7 lhdp7">{result?.header?.CompanyAddress}</div>
+                      <div className="fsgdp7 lhdp7">{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode},{result?.header?.CompanyState}({result?.header?.CompanyState})</div>
+                      <div className="fsgdp7 lhdp7">T {result?.header?.CompanyTellNo} | TOLL FREE  {result?.header?.CompanyTollFreeNo} | TOLL FREE  {result?.header?.CompanyTollFreeNo}</div>
+                      <div className="fsgdp7 lhdp7">{result?.header?.CompanyEmail}</div>
+                      <div className="fsgdp7 lhdp7">{result?.header?.CompanyEmail}</div>
+                      <div className="fsgdp7 lhdp7">{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE}-{result?.header?.Company_CST_STATE_No} | PAN-{result?.header?.Pannumber} </div>
+                    </div>
+                    <div className="d-flex justify-content-end">
+                      <img src={result?.header?.PrintLogo} alt="#companylogo" className="headimgdp7" />
+                    </div>
+                  </div>
+                </div>
 
                 {/* table sub header */}
                 <div className="d-flex subhead hcompdp7">
@@ -262,7 +281,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className="fsgdp7 lhdp7 d-flex justify-content-between">
                       <span className="w-50 fw-bold">Sales Person</span>
                       <span className="w-50 d-flex justify-content-start">
-                        shekhar
+                        {result?.header?.SalPerName?.split(" ")[0]}
                       </span>
                     </div>
                   </div>
@@ -298,7 +317,10 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <div className="tbodydp7">
                     {result?.resultArray?.map((e, i) => {
                       return (
-                        <div className="d-flex brbdp7 hcompdp7 bordersdp7" key={i}>
+                        <div
+                          className="d-flex brbdp7 hcompdp7 bordersdp7"
+                          key={i}
+                        >
                           <div className="rcol1dp7 dp7cen1">{e?.SrNo}</div>
                           <div className="rcol2dp7 d-flex flex-column  justify-content-between  align-items-start p-1">
                             <div className="d-flex justify-content-between align-items-start w-100">
@@ -336,23 +358,23 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                           </div>
                           <div style={{ width: "" }} className=" col7dp7 ">
                             <div className="d-grid h-100">
-                              {e?.diamond_colorstone_misc?.map((e, ind) => {
+                              {e?.diamond_colorstone_misc?.map((el, ind) => {
                                 return (
                                   <div className="d-flex brtdp7" key={ind}>
                                     <div className="w_subcoldp7 dp7cen1 brdp7">
-                                      {e?.ShapeName}
+                                      {el?.ShapeName}
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {e?.Pcs}
+                                      {el?.Pcs}
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {e?.Wt?.toFixed(3)}
+                                     { el?.ShapeName === "Certification_NM award" ? e?.certificateWtDia?.toFixed(3) : el?.Wt?.toFixed(3) } 
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {e?.Rate}
+                                      {el?.Rate}
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2">
-                                      {e?.Amount?.toFixed(2)}
+                                      {el?.Amount?.toFixed(2)}
                                     </div>
                                   </div>
                                 );
@@ -419,7 +441,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <div className="taxdp7d2 dp7cen2 bldp7">
                     Sales Rounded Off
                   </div>
-                  <div className="taxdp7d3 dp7cen2">{result?.header?.AddLess}</div>
+                  <div className="taxdp7d3 dp7cen2">
+                    {result?.header?.AddLess}
+                  </div>
                 </div>
 
                 {/* grand total */}
@@ -445,7 +469,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     ></div>
                     <div className="ps-1">
                       {" "}
-                      {NumberWithCommas(result?.finalAmount)}
+                      {/* {NumberWithCommas(result?.finalAmount)} */}
+                      {formatAmount(result?.finalAmount)}
                     </div>
                   </div>
                 </div>

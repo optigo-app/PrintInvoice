@@ -34,8 +34,8 @@
 }
 /* font size */
 .fsgdp10{
-    font-size: 11px;
-    line-height: 11px;
+    font-size: 14px;
+    line-height: 15px;
 }
 .fsg2dp10{
     font-size: 14px;
@@ -202,7 +202,7 @@
 /* table body img */
 .imgdp10{
     height: 80%;
-    width: 40%;
+    width: 65%;
     margin: 2px;
 }
 
