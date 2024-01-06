@@ -10,12 +10,14 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       Pcs: 0,
       Rate: 0,
       Amount: 0,
+      SettingAmount: 0
     },
     colorstone: {
       Wt: 0,
       Pcs: 0,
       Rate: 0,
       Amount: 0,
+      SettingAmount: 0
     },
     metal: {
       Wt: 0,
@@ -178,6 +180,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.diamonds.Rate += j2?.Rate;
               jobwise_totals.diamonds.Amount += j2?.Amount;
               jobwise_totals.diamonds.FineWt += j2?.FineWt;
+              jobwise_totals.diamonds.SettingAmount += j2?.SettingAmount;
               jobwise_totals.diamonds.length += 1;
               maintotal.diamonds.Wt += j2?.Wt;
               maintotal.diamonds.total_FineWt += +j2?.FineWt;
@@ -195,6 +198,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.colorstone.Rate += j2?.Rate;
               jobwise_totals.colorstone.Amount += j2?.Amount;
               jobwise_totals.colorstone.FineWt += j2?.FineWt;
+              jobwise_totals.colorstone.SettingAmount += j2?.SettingAmount;
               jobwise_totals.colorstone.length += 1;
               maintotal.colorstone.Wt += j2?.Wt;
               maintotal.colorstone.total_FineWt += +j2?.FineWt;

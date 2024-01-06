@@ -11,6 +11,7 @@ import Loader from "../../components/Loader";
 import style from "../../assets/css/prints/invoiceprint_12.module.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { ToWords } from "to-words";
+import footerStyle from "../../assets/css/footers/footer2.module.css";
 
 const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [loader, setLoader] = useState(true);
@@ -33,7 +34,6 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
       data?.BillPrint_Json2
     );
     let finalArr = [];
-    console.log(datas);
     datas?.resultArray?.forEach((e, i) => {
       let findData = finalArr.findIndex(
         (ele) => ele.MetalPurity === e?.MetalPurity
@@ -44,7 +44,6 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
         finalArr[findData].Quantity += e?.Quantity;
         finalArr[findData].grosswt += e?.grosswt;
         finalArr[findData].NetWt += e?.NetWt;
-
         finalArr[findData].totals.diamonds.Wt += e?.totals?.diamonds?.Wt;
         finalArr[findData].totals.colorstone.Wt += e?.totals?.colorstone?.Wt;
         finalArr[findData].totals.misc.Amount += e?.totals?.misc?.Amount;
@@ -112,11 +111,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
     <div
       className={`container container-fluid max_width_container mt-1 ${style?.InvoicePrint_12} pad_60_allPrint`}
     >
-      {headerData?.PrintHeadLabel !== "" && <div className="py-2">
-        <p className="text-center">
-          {headerData?.PrintHeadLabel}
-        </p>
-      </div>}
+
       {/* buttons */}
       <div
         className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
@@ -124,7 +119,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
         <div className="form-check ps-3">
           <input
             type="button"
-            className="btn_white blue py-0 mt-2"
+            className="btn_white blue py-2 mt-2"
             value="Print"
             onClick={(e) => handlePrint(e)}
           />
@@ -150,7 +145,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
           </p>
           <p>{headerData?.customeremail1}</p>
           <p>{headerData?.vat_cst_pan}</p>
-          <p>{headerData?.Cust_CST_STATE_No_},</p>
+          <p>{headerData?.Cust_CST_STATE_No_}</p>
         </div>
         <div className="col-4 d-flex ">
           <div className="col-4">
@@ -264,7 +259,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
               )}
               {e?.totals?.misc?.Amount !== 0 && (
                 <div className="d-flex justify-content-between">
-                  <p>Miscs</p>
+                  <p>Misc</p>
                   <p>{NumberWithCommas(e?.totals?.misc?.Amount, 2)}</p>
                 </div>
               )}
@@ -330,7 +325,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
         </div>
         <div className={`${style?.Making} border-end fw-semibold`}>
           <p className="text-end">
-            {NumberWithCommas(total?.total_Making_Amount, 2)}{" "}
+            {NumberWithCommas(total?.total_Making_Amount+total?.diamonds?.SettingAmount+total?.colorstone?.SettingAmount, 2)}{" "}
           </p>
         </div>
         <div className={`${style?.ProductVal} fw-semibold`}>
@@ -407,16 +402,40 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
 
       {/* declaration */}
       <div className="my-1 border">
-            <p className="fw-bold text-decoration-underline px-2 pt-2">Notes: </p>
-      <div
-        className="px-2 pb-2"
-        dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
-      ></div>
+        <p className="fw-bold text-decoration-underline px-2 pt-2">Notes: </p>
+        <div
+          className="px-2 pb-2"
+          dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
+        ></div>
       </div>
-      
+
 
       {/* footer */}
-      {footer}
+        {/* {footer} */}
+        <div className={`${footerStyle.container} no_break`}>
+          <div
+            className={footerStyle.block1f3}
+            style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+          >
+            <div className={footerStyle.linesf3} style={{ fontWeight: "bold" }}>Bank Detail</div>
+            <div className={footerStyle.linesf3}>Bank Name: {headerData?.bankname}</div>
+            <div className={footerStyle.linesf3}>Branch: {headerData?.bankaddress}</div>
+            <div className={footerStyle.linesf3}>Account Name: {headerData?.accountname}</div>
+            <div className={footerStyle.linesf3}>Account No. : {headerData?.accountnumber}</div>
+            <div className={footerStyle.linesf3}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
+          </div>
+          <div
+            className={footerStyle.block2f3}
+            style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+          >
+            <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
+            <div className={footerStyle.linesf3}>{headerData?.customerfirmname}</div>
+          </div>
+          <div className={footerStyle.block2f3} style={{ width: "33.33%" }}>
+            <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
+            <div className={footerStyle.linesf3}>{headerData?.CompanyFullName}</div>
+          </div>
+        </div>
     </div>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

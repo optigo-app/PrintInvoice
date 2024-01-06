@@ -4,6 +4,8 @@ import { useLocation } from "react-router-dom";
 import AllDesignPrint from "./AllDesignPrint";
 import AllDesignBagPrint2 from "./AllDesignBagPrint2";
 import AllGrids from "./AllGrids";
+import ErrorPage from "./error/ErrorPage";
+import Loader from "../components/Loader";
 
 const AllDesign = () => {
   const location = useLocation();
@@ -18,7 +20,7 @@ const AllDesign = () => {
     } else if (searchUrl?.includes("grids")) {
       return <AllGrids />;
     } else {
-      return null;
+      return <ErrorPage />;
     }
     // console.log(atob(queryParams.get('pnm')));
   };
@@ -29,12 +31,10 @@ const AllDesign = () => {
   }, []);
 
   return (
-    <>
+    <Suspense fallback={<Loader />}>
       {loadedComponent}
-      {/* {queryParams.get('printname') && <AllDesignBagPrint2 />}
-      {queryParams.get('pnm') && <AllDesignPrint />}
-      {queryParams.get('grids') && <AllGrids />} */}
-    </>
+
+    </Suspense>
   );
 };
 
