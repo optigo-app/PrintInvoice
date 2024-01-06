@@ -162,7 +162,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
           {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-
           {headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
         </p>
-        <p>CIN: {headerData?.CINNO} | MSME: DL05A0000051</p>
+        <p>CIN: {headerData?.CINNO} | MSME: {headerData?.MSME}</p>
         <p className="fw-bold pb-2">{headerData?.InvoiceBillType}</p>
       </div>
 

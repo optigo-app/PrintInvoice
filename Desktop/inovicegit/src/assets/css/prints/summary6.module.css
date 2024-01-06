@@ -1,10 +1,16 @@
+.summary6 * {
+    font-size: 12px;
+    line-height: 120%;
+    word-break: normal;
+}
+
 .sr{
-    width: 5%;
-    min-width: 5%;
+    width: 6%;
+    min-width: 6%;
 }
 .design{
-    width: 10%;
-    min-width: 10%;
+    width: 12%;
+    min-width: 12%;
 }
 .metal, 
 .gwt,
@@ -15,10 +21,26 @@
 .cswt,
 .order,
 .total{
-    width: 7%;
-    min-width: 7%;
+    width: 9.12%;
+    min-width: 9.12%;
 }
 
+.tax{
+    width: 27.29%;
+    min-width: 27.29%;
+}
 
+.taxWords{
+    width: 72.71%;
+    min-width: 72.71%;
+}
 
+/* .wid_22{
+    width: 23.9721%;
+    min-width: 23.9721%;
+} */
 
+.d_grid{
+    grid-template-columns: repeat(auto-fill, minmax(23%, 1fr)); /* or your desired column configuration */
+    grid-gap: 2%;
+}

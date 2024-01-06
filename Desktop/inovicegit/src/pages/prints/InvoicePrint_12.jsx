@@ -164,7 +164,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
             <p>: {headerData?.Company_CST_STATE_No}</p>
             <p>: {headerData?.Pannumber}</p>
             <p>: {headerData?.Company_VAT_GST_No.replace("GSTIN-", "")}</p>
-            <p>: DL05A0000051</p>
+            <p>: {headerData?.MSME}</p>
           </div>
         </div>
       </div>

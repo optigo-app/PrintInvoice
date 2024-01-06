@@ -443,8 +443,8 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
       {pnm === "invoice print 10" && <div className="mb-1">
         <div className="d-flex justify-content-between border p-2 pb-1">
           <div className={`${style?.barcode}`}>
-            <BarcodePrintGenerator data={headerData?.InvoiceNo} />
-            <p className="fw-bold text-center">{headerData?.InvoiceNo}</p>
+            <BarcodePrintGenerator data={headerData?.VenCode} />
+            <p className="fw-bold text-center">{headerData?.VenCode}</p>
           </div>
           <div className={`${style?.barcode}`}>
             <BarcodePrintGenerator data={headerData?.InvoiceNo} />
@@ -751,6 +751,8 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
             <div className={footerStyle.linesf3}>Account Name: {headerData?.accountname}</div>
             <div className={footerStyle.linesf3}>Account No. : {headerData?.accountnumber}</div>
             <div className={footerStyle.linesf3}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
+            <div className={footerStyle.linesf3}>Enquiry No. </div>
+            <div className={footerStyle.linesf3}> (E & OE)</div>
           </div>
           <div
             className={footerStyle.block2f3}

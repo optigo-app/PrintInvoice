@@ -12,6 +12,8 @@ import Loader from "../../components/Loader";
 import style from "../../assets/css/prints/TaxInvoicePrint4.module.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { ToWords } from "to-words";
+import style2 from "../../assets/css/headers/header1.module.css";
+import footerStyle from "../../assets/css/footers/footer2.module.css";
 
 const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [loader, setLoader] = useState(true);
@@ -96,7 +98,33 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
       </div>
       {/* header */}
-      {header}
+      <div className={`${style2.headline} headerTitle`}>{headerData?.PrintHeadLabel}</div>
+      <div className={style2.companyDetails}>
+        <div className={`${style2.companyhead} p-2`}>
+          <div className={style2.lines} style={{ fontWeight: "bold" }}>
+            {headerData?.CompanyFullName}
+          </div>
+          <div className={style2.lines}>{headerData?.CompanyAddress}</div>
+          <div className={style2.lines}>{headerData?.CompanyAddress2}</div>
+          <div className={style2.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+          {/* <div className={style2.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
+          <div className={style2.lines}>T:  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo} </div>
+          <div className={style2.lines}>
+            {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
+          </div>
+          <div className={style2.lines}>
+            {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
+            {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
+          </div>
+          <div className={style2.lines}>
+          CIN-{headerData?.Com_CINNO}
+          </div>
+          <div className={style2.lines}>
+          {headerData?.Com_GoldDealershipRefNo}
+          </div>
+        </div>
+        <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /></div>
+      </div>
       {/* sub header */}
       <div className="d-flex border mb-1">
         <div className="col-8 p-2">
@@ -118,26 +146,23 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
 
         <div className="col-4 p-2">
-          <p>
-            <span className="fw-semibold pe-2">BILL NO </span>{" "}
-            {headerData?.InvoiceNo}
+          <p className="d-flex">
+            <p className="fw-semibold pe-2 col-5">BILL NO </p>{" "}
+           <p className="col-7">:{headerData?.InvoiceNo}</p>
           </p>
-          <p>
-            <span className="fw-semibold pe-2">DATE </span>{" "}
-            {headerData?.EntryDate}
+          <p className="d-flex">
+            <p className="fw-semibold pe-2 col-5">DATE </p>{" "}
+           <p className="col-7">:{headerData?.EntryDate}</p>
           </p>
-          <p>
-            <span className="fw-semibold pe-2">HSN </span> {headerData?.HSN_No}
+          <p className="d-flex">
+            <p className="fw-semibold pe-2 col-5">{headerData?.HSN_No_Label} </p> 
+            <p className="col-7">:{headerData?.HSN_No}</p>
           </p>
-          <p>
-            <span className="fw-semibold pe-2">NAME OF GOODS </span> Jewellery
+          <p className="d-flex">
+            <p className="fw-semibold pe-2 col-5">Reverse Charge	 </p> 
+            <p className="col-7">:{headerData?.RevChar}</p>
           </p>
-          <p>
-            <span className="fw-semibold pe-2">PLACE OF SUPPLY </span> Gujarat
-          </p>
-          <p>
-            <span className="fw-semibold pe-2">TERMS </span> 0
-          </p>
+          
         </div>
       </div>
       {/* table Header */}
@@ -376,7 +401,27 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
         </p>
       </div>
 
-      {footer}
+      {/* {footer} */}
+      <div className={`${footerStyle.container} no_break`}>
+      <div
+        className={footerStyle.block1f3}
+        style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+      >
+        <div className={`${footerStyle.linesf3} fw-normal`}><span className="fw-bold">Sales Person Name :</span> {headerData?.SalPerName}</div>
+        <div className={`${footerStyle.linesf3} fw-normal d-flex`}><span className="fw-bold pe-2">Transaction Id:</span> <div dangerouslySetInnerHTML={{__html: headerData?.TransactionId}}></div></div>
+      </div>
+      <div
+        className={footerStyle.block2f3}
+        style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+      >
+        <div className={`${footerStyle.linesf3} fw-normal`}>Customer Signature</div>
+        <div className={footerStyle.linesf3}>{headerData?.customerfirmname}</div>
+      </div>
+      <div className={footerStyle.block2f3} style={{ width: "33.33%" }}>
+        <div className={`${footerStyle.linesf3} fw-normal`}>Auth. Signatory</div>
+        <div className={footerStyle.linesf3}>{headerData?.CompanyFullName}</div>
+      </div>
+    </div>
     </div>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
