@@ -28,7 +28,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
   });
   const [result, setResult] = useState(null);
   const [metaltypewise, setMetaltypewise] = useState([]);
-  const [headerCom, setHeaderCom] = useState(null);
+
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [footerComp, setFooterComp] = useState(null);
@@ -123,12 +123,52 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
           e?.diamondWtMetalPurityWise;
         metwise[findIndex].colorstoneWtMetalPurityWise +=
           e?.colorstoneWtMetalPurityWise;
+          metwise[findIndex].totals.diamonds.Wt += e?.totals?.diamonds?.Wt;
+          metwise[findIndex].totals.colorstone.Wt += e?.totals?.colorstone?.Wt;
       }
     });
+    console.log(datas);
     setMetaltypewise(metwise);
-    setHeaderCom(headerComp);
+    // console.log(metwise);
     setFooterComp(footerCom);
     setResult(datas);
+    
+    // datas?.resultArray?.forEach((e) => {
+    //   let diaArr = [];
+    //   let colorArr = [];
+
+    //   datas?.json2?.forEach((el) => {
+    //     if(e?.Srjobno === el?.Stockbarcode){
+    //       console.log(e, el);
+    //       if( el?.MasterManagement_DiamondStoneTypeid === 1){
+    //         let findRecord = diaArr?.findIndex((a) => a?.QualityName === el?.QualityName)
+    //         if(findRecord === -1){
+    //           diaArr.push(el);
+    //         }else{
+    //           diaArr[findRecord].Wt += el?.Wt;
+    //           diaArr[findRecord].Rate += el?.Rate;
+    //           diaArr[findRecord].Wt += el?.amount;
+    //         }
+    //       }
+    //       if( el?.MasterManagement_DiamondStoneTypeid === 2){
+    //         let findRecord = colorArr?.findIndex((a) => a?.QualityName === el?.QualityName)
+    //         if(findRecord === -1){
+    //           colorArr.push(el);
+    //         }else{
+    //           diaArr[findRecord].Wt += el?.Wt;
+    //           diaArr[findRecord].Rate += el?.Rate;
+    //           diaArr[findRecord].Wt += el?.amount;
+    //         }
+    //       }
+          
+    //     }
+    //     let obj = {...e};
+    //     obj.diamondMetalJobWise = diaArr;
+    //     obj.colorstoneMetalJobWise = colorArr;
+    //   })
+      
+    // })
+    console.log(datas);
   }
   return (
     <>
@@ -162,8 +202,8 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <div className="lhiv5">T {result?.header?.CompanyTellNo} | TOLL FREE {result?.header?.CompanyTollFreeNo} </div>
                       <div className="lhiv5">{result?.header?.CompanyEmail}</div>
                       <div className="lhiv5">{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE}-{result?.header?.Company_CST_STATE_No} | PAN-{result?.header?.Pannumber}</div>
-                      <div className="lhiv5">{result?.header?.CINNO}</div>
-                      <div className="lhiv5">{result?.header?.CINNO}</div>
+                      <div className="lhiv5">{result?.header?.Com_CINNO}</div>
+                      <div className="lhiv5">{result?.header?.Com_GoldDealershipRefNo}</div>
                     </div>
                     <div className="w-25 d-flex justify-content-end align-items-center"><img src={result?.header?.PrintLogo} className="printlogoiv5" alt="#" /></div>
                   </div>
@@ -295,12 +335,12 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                           <div
                             className={`${classip?.col6}  border-end endip5 px-1`}
                           >
-                            Dia Wt(ctw)
+                            {e?.totals?.diamonds?.Wt?.toFixed(3)}
                           </div>
                           <div
                             className={`${classip?.col7}  border-end endip5 px-1`}
                           >
-                            Stone Wt(ctw)
+                            {e?.totals?.colorstone?.Wt?.toFixed(3)}
                           </div>
                           <div
                             className={`${classip?.col8}  border-end endip5 px-1`}
@@ -374,7 +414,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                         )}
                       </div>
                       <div className={`${classip?.col11}  endip5 px-1`}>
-                        {formatAmount(result?.mainTotal?.total_amount)}
+                        {formatAmount(result?.mainTotal?.total_unitcost)}
                       </div>
                     </div>
                   </div>
@@ -393,7 +433,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                         Total Amount
                       </div>
                       <div className="w-50 px-1 endip5">
-                        {formatAmount(result?.mainTotal?.total_amount)}
+                        {formatAmount(result?.mainTotal?.total_unitcost)}
                       </div>
                     </div>
                     {result?.allTaxes?.map((e, i) => {
@@ -447,14 +487,32 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                     Notes:
                   </div>
                   <div
-                    className="p-1"
+                    className="p-1 fsgip5"
                     dangerouslySetInnerHTML={{
                       __html: result?.header?.Declaration,
                     }}
                   ></div>
                 </div>
                 {/* bank details footer */}
-                <div className="mt-1 fsgip5">{footerComp}</div>
+                {/* <div className="mt-1 fsgip5">{footerComp}</div> */}
+                <div className="mt-1 fsgip5 d-flex border">
+                    <div className="border-end fwi5 p-1">
+                      <div>Bank Details :</div>
+                      <div>Bank Name:Kotak Mahindra Bank</div>
+                      <div>Branch: SHOP NO-1 WTC , UDHNA DARWAJA SURAT-395004</div>
+                      <div>Account Name:Orail</div>
+                      <div>Account No. :147275899632</div>
+                      <div>RTGS/NEFT IFSC:Kotak00000405</div>
+                    </div>
+                    <div className="border-end fwi51 p-1 d-flex flex-column justify-content-between">
+                      <div>Signature</div>
+                      <div className="fw-bold">Dar Be Gold Jewelers</div>
+                    </div>
+                    <div className="p-1 fwi51 d-flex flex-column justify-content-between">
+                      <div>Signature</div>
+                      <div className="fw-bold">ORAIL SERVICE</div>
+                    </div>
+                </div>
               </div>
             </>
           ) : (

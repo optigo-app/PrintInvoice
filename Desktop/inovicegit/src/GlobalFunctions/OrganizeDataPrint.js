@@ -491,7 +491,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     });
 
   //totalAmount
-  let totalAmount = maintotal.total_amount + header?.AddLess;
+  let totalAmount = maintotal.total_amount + header?.AddLess + maintotal?.total_discount_amount;
   let allTax = taxGenrator(header, totalAmount);
 
   let brArr = [];

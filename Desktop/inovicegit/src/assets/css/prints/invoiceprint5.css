@@ -4,7 +4,8 @@
 }
 /* global in print */
 .containerIp5{
-    padding: 1rem;
+    padding: 15rem;
+    padding-top: 5rem;
 }
 .fsgip5{
     font-size: 14px;
@@ -125,13 +126,20 @@
 .taxip5{
     width: 21.3%;
 }
+.fwi5{
+    width: 40%;
+}
+.fwi51{
+    width: 35%;
+}
+
 
 @media print{
     .hidebtnip5{
         display: none !important;
     }
     .fsgip5{
-        font-size: 7px ;
+        font-size: 7px !important;
     }
     .wordsip5{
         width: 70% !important;
@@ -141,5 +149,10 @@
     }
     .texpartivp5{
         page-break-inside: avoid;
+    }
+    .containerIp5{
+        padding: 1rem;
+        font-size: 7px !important;
+        /* padding-top: 5rem; */
     }
 }
