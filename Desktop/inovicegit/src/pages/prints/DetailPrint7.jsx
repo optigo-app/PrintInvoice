@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  HeaderComponent,
-  NumberWithCommas,
   apiCall,
   formatAmount,
   handleImageError,
@@ -26,7 +24,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
   });
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-  const [headerComp, setHeaderComp] = useState(null);
   const [imgFlag, setImgFlag] = useState(true);
 
   async function loadData(data) {
@@ -38,7 +35,15 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-
+        datas?.resultArray?.forEach((e) => {
+          datas?.json2?.forEach((el) => {
+            if(e?.SrJobno === el?.StockBarcode){
+              if(el?.ShapeName === 'Certification_NM award' && el?.MasterManagement_DiamondStoneTypeid === 3){
+                el.Wt = e?.certificateWtDia;
+              }
+            }
+          })
+        })
       let blankArr = [];
       let blankArr2 = [];
       let obj = {
@@ -113,18 +118,12 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           obj.Wt_gm += e?.Wt;
         }
       });
-
+     
       setMiscWise_total(obj);
       setMiscWise(blankArr2);
       setCategoryWise(blankArr);
-      console.log(datas);
       setResult(datas);
 
-      const headerCompo = HeaderComponent(
-        data?.BillPrint_Json[0]?.HeaderNo,
-        data?.BillPrint_Json[0]
-      );
-      setHeaderComp(headerCompo);
       setLoader(false);
     } catch (error) {
       console.log(error);
@@ -415,11 +414,17 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     {result?.mainTotal?.total_purenetwt?.toFixed(3)}
                   </div>
                 </div>
-
+                
                 {/* table total */}
                 <div className="w-100 brtdp7 dp7cen2 bradp7 ">
                   {formatAmount(result?.mainTotal?.total_amount)}
                 </div>
+
+                {/* Courier info and Charges */}
+                <div className="w-100  dp7cen2  border border-top-0">
+                  {formatAmount(result?.header?.FreightCharges)}
+                </div>
+
 
                 {/* taxes */}
                 {result?.allTaxes?.map((e, i) => {
@@ -468,8 +473,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       }}
                     ></div>
                     <div className="ps-1">
-                      {" "}
-                      {/* {NumberWithCommas(result?.finalAmount)} */}
                       {formatAmount(result?.finalAmount)}
                     </div>
                   </div>
@@ -585,11 +588,11 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                             <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
                               {e?.Rate?.toFixed(2)}
                             </div>
-                            <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
-                              {e?.MasterManagement_DiamondStoneTypeid === 2
-                                ? `${e?.Wt?.toFixed(3)} Ctw`
-                                : `${e?.Wt?.toFixed(3)} gm`}
-                            </div>
+                             <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
+                            {e?.MasterManagement_DiamondStoneTypeid === 2
+                              ? `${e?.Wt?.toFixed(3)} Ctw`
+                              : `${e?.Wt?.toFixed(3)} gm`}
+                          </div>
                             <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
                               {e?.Amount?.toFixed(3)}
                             </div>
@@ -608,7 +611,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="w-100 dp7cen2"></div>
                       </div>
                       <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                        {result?.mainTotal?.total_other?.toFixed(2)}
+                        {(result?.mainTotal?.total_other + result?.header?.FreightCharges)?.toFixed(2)}
                       </div>
                     </div>
                     <div className="summary_container_dp7_misc_total fw-bold">
@@ -631,7 +634,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
                         {(
                           miscWise_total?.Amount +
-                          result?.mainTotal?.total_other
+                          result?.mainTotal?.total_other + result?.header?.FreightCharges
                         )?.toFixed(2)}
                       </div>
                     </div>
