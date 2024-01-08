@@ -17,6 +17,7 @@ export const printConditions = [
   {printName: 'export declaration form', etpType: 'print', componentName: 'ExportDeclarationForm'},
   {printName: 'export print', etpType: 'print', componentName: 'ExportPrint'},
   {printName: 'export print 1', etpType: 'print', componentName: 'ExportPrint1'},
+  {printName: 'export print 2', etpType: 'print', componentName: 'ExportPrint2'},
   {printName: 'invoice print', etpType: 'print', componentName: 'InvoicePrint'},
   {printName: 'invoice print 10', etpType: 'print', componentName: 'InvoicePrint_10_11'},
   {printName: 'invoice print 11', etpType: 'print', componentName: 'InvoicePrint_10_11'},

@@ -13,7 +13,6 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [totalAmount, setTotalAmount] = useState(0);
 
     const loadData = (data) => {
-        // console.log(data);
         let arr = [];
         let metalArrs = [];
         let gross = 0;

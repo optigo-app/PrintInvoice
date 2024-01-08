@@ -44,3 +44,15 @@
     grid-template-columns: repeat(auto-fill, minmax(23%, 1fr)); /* or your desired column configuration */
     grid-gap: 2%;
 }
+
+.print_sec_sum4{
+    position: absolute;
+    right: 5%;
+    top: 15px;
+}
+
+@media print{
+    .print_sec_sum4{
+        display: none !important;
+    }
+}
