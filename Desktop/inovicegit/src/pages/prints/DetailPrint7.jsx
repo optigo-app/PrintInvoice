@@ -15,6 +15,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [result, setResult] = useState(null);
   const [categoryWise, setCategoryWise] = useState([]);
   const [miscWise, setMiscWise] = useState([]);
+  const [otherAMountTotal, setOtherAmountTotal] = useState(0);
   const [miscWise_total, setMiscWise_total] = useState({
     Pcs: 0,
     Wt_Ctw: 0,
@@ -118,7 +119,20 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           obj.Wt_gm += e?.Wt;
         }
       });
-     
+      let othamttot = 0;
+      datas?.resultArray?.forEach((e) => {
+        datas?.json2?.forEach((el) => {
+          if(e?.SrJobno === el?.StockBarcode){
+            if(el?.MasterManagement_DiamondStoneTypeid === 3 && (el?.ShapeName === 'Hallmark' || el?.ShapeName === 'Stamping' || el?.ShapeName === 'Certification_NM award')){
+              e.OtherCharges += el?.Amount;
+            }
+          }
+        })
+      })
+      datas?.resultArray?.forEach((e) => {
+        othamttot += e?.OtherCharges ;
+      })
+      setOtherAmountTotal(othamttot);
       setMiscWise_total(obj);
       setMiscWise(blankArr2);
       setCategoryWise(blankArr);
@@ -408,7 +422,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     )}
                   </div>
                   <div className="totcol6dp7 dp7cen2">
-                    {formatAmount(result?.mainTotal?.total_other)}
+                    {/* {formatAmount(result?.mainTotal?.total_other)} */}
+                    {formatAmount(otherAMountTotal)}
                   </div>
                   <div className="totcol7dp7 dp7cen2">
                     {result?.mainTotal?.total_purenetwt?.toFixed(3)}
@@ -611,7 +626,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="w-100 dp7cen2"></div>
                       </div>
                       <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                        {(result?.mainTotal?.total_other + result?.header?.FreightCharges)?.toFixed(2)}
+                        {formatAmount(otherAMountTotal)}
+                        {/* {(result?.mainTotal?.total_other + result?.header?.FreightCharges)?.toFixed(2)} */}
                       </div>
                     </div>
                     <div className="summary_container_dp7_misc_total fw-bold">
@@ -632,10 +648,12 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                       </div>
                       <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                        {(
+                        {/* {formatAmount((miscWise_total?.Amount + otherAMountTotal +  result?.header?.FreightCharges))} */}
+                        {formatAmount((miscWise_total?.Amount + otherAMountTotal))}
+                        {/* {(
                           miscWise_total?.Amount +
                           result?.mainTotal?.total_other + result?.header?.FreightCharges
-                        )?.toFixed(2)}
+                        )?.toFixed(2)} */}
                       </div>
                     </div>
                   </div>
