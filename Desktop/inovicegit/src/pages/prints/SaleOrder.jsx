@@ -56,13 +56,13 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
       if (findGold24Kt === -1) {
         summaryArr.push({
           label: "GOLD IN 24KT",
-          value: e?.convertednetwt*e?.Quantity,
+          value: e?.convertednetwt * e?.Quantity,
           id: 1,
           suffix: " gm",
           name: "GOLD IN 24KT",
         });
       } else {
-        summaryArr[findGold24Kt].value += (e?.convertednetwt*e?.Quantity);
+        summaryArr[findGold24Kt].value += (e?.convertednetwt * e?.Quantity);
       }
 
       let findGross = summaryArr.findIndex(
@@ -71,26 +71,26 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
       if (findGross === -1) {
         summaryArr.push({
           label: "Gross Wt",
-          value: e?.grosswt*e?.Quantity,
+          value: e?.grosswt * e?.Quantity,
           id: 2,
           suffix: " gm",
           name: "Gross Wt",
         });
       } else {
-        summaryArr[findGross].value += (e?.grosswt*e?.Quantity);
+        summaryArr[findGross].value += (e?.grosswt * e?.Quantity);
       }
 
       let netWt = summaryArr.findIndex((ele, ind) => ele?.label === "NET WT");
       if (netWt === -1) {
         summaryArr.push({
           label: "NET WT",
-          value: e?.NetWt*e?.Quantity,
+          value: e?.NetWt * e?.Quantity,
           id: 4,
           suffix: " gm",
           name: "NET WT",
         });
       } else {
-        summaryArr[netWt].value += (e?.NetWt*e?.Quantity);
+        summaryArr[netWt].value += (e?.NetWt * e?.Quantity);
       }
 
       let findLabour = summaryArr.findIndex(
@@ -119,10 +119,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           id: 5,
           suffix: "",
           name: "LABOUR",
-          amount: (e?.MakingAmount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity,
+          amount: (e?.MakingAmount / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity,
         });
       } else {
-        summary2Arr[labourAmount].amount += (e?.MakingAmount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity;
+        summary2Arr[labourAmount].amount += (e?.MakingAmount / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity;
       }
       // pending setting amount add in labour
 
@@ -135,11 +135,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           id: 6,
           suffix: "",
           name: "OTHER",
-          amount: ((e?.OtherCharges + e?.TotalDiamondHandling)/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity,
+          amount: ((e?.OtherCharges + e?.TotalDiamondHandling) / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity,
         });
       } else {
         summary2Arr[otherAmount].amount +=
-          ((e?.OtherCharges + e?.TotalDiamondHandling)/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity;
+          ((e?.OtherCharges + e?.TotalDiamondHandling) / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity;
       }
 
       data?.BillPrint_Json2.forEach((ele, index) => {
@@ -148,7 +148,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             (ele) => ele?.label === "LABOUR"
           );
           if (findlabo !== -1) {
-            summary2Arr[findlabo].amount += ele?.SettingAmount*e?.Quantity;
+            summary2Arr[findlabo].amount += ele?.SettingAmount * e?.Quantity;
           }
           let findMaterial = summaryArr.findIndex(
             (elem, index) =>
@@ -156,21 +156,21 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
               ele?.MasterManagement_DiamondStoneTypeid !== 5
           );
           if (findMaterial !== -1) {
-            summaryArr[findMaterial].value += ele?.Wt*e?.Quantity;
-            summaryArr[findMaterial].amount += ele?.Amount*e?.Quantity;
-            summaryArr[findMaterial].Pcs += ele?.Pcs*e?.Quantity;
+            summaryArr[findMaterial].value += ele?.Wt * e?.Quantity;
+            summaryArr[findMaterial].amount += ele?.Amount * e?.Quantity;
+            summaryArr[findMaterial].Pcs += ele?.Pcs * e?.Quantity;
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamondWt += ele?.Wt;
             if (findMaterial === -1) {
               summaryArr.push({
                 label: "DIAMOND",
-                value: ele?.Wt*e?.Quantity,
+                value: ele?.Wt * e?.Quantity,
                 id: 5,
                 suffix: " Cts",
                 name: "Diamond Wt",
-                amount: ele?.Amount*e?.Quantity,
-                Pcs: ele?.Pcs*e?.Quantity,
+                amount: ele?.Amount * e?.Quantity,
+                Pcs: ele?.Pcs * e?.Quantity,
               });
             }
 
@@ -184,11 +184,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 2,
                 suffix: "",
                 name: "DIAMOND",
-                amount: (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity,
+                amount: (ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity,
                 Pcs: ele?.Pcs,
               });
             } else {
-              summary2Arr[diaAmount].amount += (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity;
+              summary2Arr[diaAmount].amount += (ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity;
               summary2Arr[diaAmount].Pcs += ele?.Pcs;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -196,12 +196,12 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             if (findMaterial === -1) {
               summaryArr.push({
                 label: "COLOR STONE",
-                value: ele?.Wt*e?.Quantity,
+                value: ele?.Wt * e?.Quantity,
                 id: 6,
                 suffix: " Cts",
                 name: "Stone Wt",
-                amount: ele?.Amount*e?.Quantity,
-                Pcs: ele?.Pcs*e?.Quantity,
+                amount: ele?.Amount * e?.Quantity,
+                Pcs: ele?.Pcs * e?.Quantity,
               });
             }
 
@@ -215,11 +215,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 3,
                 suffix: "",
                 name: "CST",
-                amount: (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity,
+                amount: (ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity,
                 Pcs: ele?.Pcs,
               });
             } else {
-              summary2Arr[cstAmount].amount += (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity;
+              summary2Arr[cstAmount].amount += (ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity;
               summary2Arr[cstAmount].Pcs += ele?.Pcs;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
@@ -227,12 +227,12 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             if (findMaterial === -1) {
               summaryArr.push({
                 label: "MISC",
-                value: ele?.Wt*e?.Quantity,
+                value: ele?.Wt * e?.Quantity,
                 id: 7,
                 suffix: " gms",
                 name: "Misc Wt",
-                amount: ele?.Amount*e?.Quantity,
-                Pcs: ele?.Pcs*e?.Quantity,
+                amount: ele?.Amount * e?.Quantity,
+                Pcs: ele?.Pcs * e?.Quantity,
               });
             }
 
@@ -246,10 +246,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 4,
                 suffix: "",
                 name: "MISC",
-                amount: (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity,
+                amount: (ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity,
               });
             } else {
-              summary2Arr[miscAmount].amount += (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity;
+              summary2Arr[miscAmount].amount += (ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
             let goldAmount = summary2Arr.findIndex(
@@ -262,10 +262,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 1,
                 suffix: "",
                 name: "GOLD",
-                amount: (ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity,
+                amount: (ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity,
               });
             } else {
-              summary2Arr[goldAmount].amount += ((ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate)*e?.Quantity);
+              summary2Arr[goldAmount].amount += ((ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity);
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
             let goldAmount = summary2Arr.findIndex(
@@ -278,17 +278,17 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 1,
                 suffix: "",
                 name: "GOLD",
-                amount: ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate,
+                amount: ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate,
               });
             } else {
-              summary2Arr[goldAmount].amount += ele?.Amount/data?.BillPrint_Json[0]?.CurrencyExchRate;
+              summary2Arr[goldAmount].amount += ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate;
             }
           }
         }
       });
       let obj = { ...e };
       obj.TotalAmount =
-        e?.TotalAmount ;
+        e?.TotalAmount;
       obj.UnitCost = e?.UnitCost / data?.BillPrint_Json[0]?.CurrencyExchRate;
       totals.TotalAmount +=
         obj?.TotalAmount / data?.BillPrint_Json[0]?.CurrencyExchRate;
@@ -321,7 +321,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
     if (findNetWt !== -1 || findDiamond !== -1) {
       summaryArr.push({
         label: "(M+D) WT",
-        value: +fixedValues(summaryArr[findDiamond]?.value, 3)/5 + summaryArr[findNetWt]?.value,
+        value: +fixedValues(summaryArr[findDiamond]?.value, 3) / 5 + summaryArr[findNetWt]?.value,
         id: 3,
         suffix: " gm",
         name: "(M+D) WT",
@@ -434,7 +434,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
       </div>
       {/* customer details */}
-      <div className="border d-flex">
+      <div className="border-top border-start border-end d-flex">
         <div className="col-4 p-2 border-end">
           <p> To,</p>
           <p className="fw-bold">{headerData?.customerfirmname}</p>
@@ -465,7 +465,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
               <span className="ps-1 fw-bold">{headerData?.EntryDate}</span>
             </p>
             <p>
-             {evns === "orders" && "ORDER"}{evns === "quote" && "QUOTATION"}#:{" "}
+              {evns === "orders" && "ORDER"}{evns === "quote" && "QUOTATION"}#:{" "}
               <span className="ps-1 fw-bold">{headerData?.InvoiceNo}</span>{" "}
             </p>
             {data[0]?.PO !== "" && (
@@ -488,7 +488,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
       </div>
       {/* table header */}
-      <div className="border-start border-end border-bottom d-flex lightGrey no_break">
+      {/* <div className="border-start border-end border-bottom d-flex lightGrey no_break">
         <div className={`${style?.srNo} p-1 text-center fw-bold border-end`}>
           <p>SR NO</p>
         </div>
@@ -518,9 +518,9 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         <div className={`${style?.amount} p-1 text-center fw-bold`}>
           <p> AMOUNT ({headerData?.CurrencyCode})</p>
         </div>
-      </div>
+      </div> */}
       {/* table data */}
-      {data.map((e, i) => {
+      {/* {data.map((e, i) => {
         return (
           <div
             className="border-start border-end border-bottom d-flex no_break"
@@ -539,12 +539,12 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
             <div className={`${style?.itemCode} p-1  border-end`}>
               <p>
-                
+
                 <span className="fw-bold">{e?.designno}</span>
               </p>
             </div>
             <div className={`${style?.description} p-1 border-end `}>
-              <p> 
+              <p>
                 <span className="fw-bold">{e?.MetalType}: </span> {e?.MetalPurity} {e?.MetalColor}
               </p>
               <p>
@@ -553,29 +553,29 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
               </p>
               <p>
                 {e?.diamondWt !== 0 &&
-                        <><span className="fw-bold">DIA WT: </span>{`${NumberWithCommas(e?.diamondWt, 3)} Cts`}</>}
+                  <><span className="fw-bold">DIA WT: </span>{`${NumberWithCommas(e?.diamondWt, 3)} Cts`}</>}
               </p>
               <p>
                 {e?.colorStoneWt !== 0 &&
-                   <><span className="fw-bold">CS: </span>{`${NumberWithCommas(e?.colorStoneWt, 3)} Cts`}</>}
+                  <><span className="fw-bold">CS: </span>{`${NumberWithCommas(e?.colorStoneWt, 3)} Cts`}</>}
               </p>
               <p>
                 {e?.miscWt !== 0 &&
-                        <><span className="fw-bold">MISC: </span>{`${NumberWithCommas(e?.miscWt, 3)} gms`}</>}
+                  <><span className="fw-bold">MISC: </span>{`${NumberWithCommas(e?.miscWt, 3)} gms`}</>}
               </p>
               <p>
                 {e?.grosswt !== 0 &&
-                    <><span className="fw-bold">GROSS WT: </span>{`${NumberWithCommas(e?.grosswt, 3)} gms GW`}</>}
+                  <><span className="fw-bold">GROSS WT: </span>{`${NumberWithCommas(e?.grosswt, 3)} gms GW`}</>}
               </p>
               {e?.Size !== "" && <p className="pt-1"><span className="fw-bold">SIZE: </span> {e?.Size}</p>}
               {(e?.Collectionname !== "" ||
                 e?.Categoryname !== "" ||
                 e?.SubCategoryname !== "") && (
-                <p className="pt-2">
-                 <span className="fw-bold"> PRODUCT: </span> {e?.Collectionname}, {e?.Categoryname},{" "}
-                  {e?.SubCategoryname}
-                </p>
-              )}
+                  <p className="pt-2">
+                    <span className="fw-bold"> PRODUCT: </span> {e?.Collectionname}, {e?.Categoryname},{" "}
+                    {e?.SubCategoryname}
+                  </p>
+                )}
               {e?.JobRemark !== "" && (
                 <p className="pt-1">
                   <span className="fw-bold">REMARKS:</span> {e?.JobRemark}
@@ -592,7 +592,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                     __html: headerData?.Currencysymbol,
                   }}
                 ></span>{" "}
-                {NumberWithCommas(e?.UnitCost / e?.Quantity*headerData?.CurrencyExchRate, 2)}
+                {NumberWithCommas(e?.UnitCost / e?.Quantity * headerData?.CurrencyExchRate, 2)}
               </p>
             </div>
             <div className={`${style?.amount} p-1  text-end`}>
@@ -610,7 +610,117 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
           </div>
         );
-      })}
+      })} */}
+      <div className="">
+        {/* table header */}
+        <table className="table w-100 table-border">
+          <thead>
+            <tr>
+              <th className={`${style?.srNo} p-1 text-center lightGrey_table  border`}>SR NO</th>
+              <th className={`${style?.image} p-1 text-center lightGrey_table  border`}>IMAGE</th>
+              <th className={`${style?.itemCode} p-1 text-center lightGrey_table  border`}>ITEM CODE</th>
+              <th className={`${style?.description} p-1 text-center lightGrey_table  border`}>DESCRIPTION</th>
+              <th className={`${style?.quantity} p-1 text-center lightGrey_table  border`}>QTY</th>
+              <th className={`${style?.unitPrice} p-1 text-center lightGrey_table  border`}>UNIT PRICE</th>
+              <th className={`${style?.amount} p-1 text-center lightGrey_table border `}>AMOUNT (INR)</th>
+            </tr>
+          </thead>
+           {/* table data */}
+          <tbody>
+            {data.map((e, i) => {
+              return (
+                <tr
+                  className="no_break"
+                  key={i}
+                >
+                  <td className={`${style?.srNo} p-1 border-end border-start border-bottom`}>
+                    <p className=" text-center">{i + 1}</p>
+                  </td>
+                  <td className={`${style?.image} p-1  border-end border-start border-bottom`}>
+                    <img
+                      src={e?.DesignImage}
+                      alt=""
+                      onError={handleImageError}
+                      className={`w-100 imgWidth`}
+                    />
+                  </td>
+                  <td className={`${style?.itemCode} p-1  border-end border-start border-bottom`}>
+                    <p>
+
+                      <span className="fw-bold">{e?.designno}</span>
+                    </p>
+                  </td>
+                  <td className={`${style?.description} p-1 border-end border-start border-bottom `}>
+                    <p>
+                      <span className="fw-bold">{e?.MetalType}: </span> {e?.MetalPurity} {e?.MetalColor}
+                    </p>
+                    <p>
+                      {e?.NetWt !== 0 &&
+                        <><span className="fw-bold">NET WT: </span>{`${NumberWithCommas(e?.NetWt, 3)} gms NW`}</>}
+                    </p>
+                    <p>
+                      {e?.diamondWt !== 0 &&
+                        <><span className="fw-bold">DIA WT: </span>{`${NumberWithCommas(e?.diamondWt, 3)} Cts`}</>}
+                    </p>
+                    <p>
+                      {e?.colorStoneWt !== 0 &&
+                        <><span className="fw-bold">CS: </span>{`${NumberWithCommas(e?.colorStoneWt, 3)} Cts`}</>}
+                    </p>
+                    <p>
+                      {e?.miscWt !== 0 &&
+                        <><span className="fw-bold">MISC: </span>{`${NumberWithCommas(e?.miscWt, 3)} gms`}</>}
+                    </p>
+                    <p>
+                      {e?.grosswt !== 0 &&
+                        <><span className="fw-bold">GROSS WT: </span>{`${NumberWithCommas(e?.grosswt, 3)} gms GW`}</>}
+                    </p>
+                    {e?.Size !== "" && <p className="pt-1"><span className="fw-bold">SIZE: </span> {e?.Size}</p>}
+                    {(e?.Collectionname !== "" ||
+                      e?.Categoryname !== "" ||
+                      e?.SubCategoryname !== "") && (
+                        <p className="pt-2">
+                          <span className="fw-bold"> PRODUCT: </span> {e?.Collectionname}, {e?.Categoryname},{" "}
+                          {e?.SubCategoryname}
+                        </p>
+                      )}
+                    {e?.JobRemark !== "" && (
+                      <p className="pt-1">
+                        <span className="fw-bold">REMARKS:</span> {e?.JobRemark}
+                      </p>
+                    )}
+                  </td>
+                  <td className={`${style?.quantity} p-1 border-end border-start border-bottom `}>
+                    <p className="text-end"> {e?.Quantity}</p>
+                  </td>
+                  <td className={`${style?.unitPrice} p-1 border-end border-start border-bottom text-end`}>
+                    <p>
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: headerData?.Currencysymbol,
+                        }}
+                      ></span>{" "}
+                      {NumberWithCommas(e?.UnitCost / e?.Quantity * headerData?.CurrencyExchRate, 2)}
+                    </p>
+                  </td>
+                  <td className={`${style?.amount} p-1  text-end border-start border-bottom border-end`}>
+                    <p>
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: headerData?.Currencysymbol,
+                        }}
+                      ></span>{" "}
+                      {NumberWithCommas(
+                        e?.TotalAmount / headerData?.CurrencyExchRate,
+                        2
+                      )}
+                    </p>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       {/* table total */}
       <div className="border-start border-end border-bottom d-flex lightGrey no_break">
         <div
@@ -624,7 +734,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
         <div className={`${style?.unitPrice} p-1 text-end fw-bold border-end`}>
           <p>
-            <span  
+            <span
               dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
             ></span>{" "}
             {NumberWithCommas(total?.UnitCost, 2)}

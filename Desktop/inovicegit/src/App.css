@@ -104,6 +104,10 @@ ol {
   background-color: #f5f5f5;
 }
 
+.lightGrey_table{
+  background-color: #f5f5f5 !important;
+}
+
 .d_none{
   display: none;
 }
