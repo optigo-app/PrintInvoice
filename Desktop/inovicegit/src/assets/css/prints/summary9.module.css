@@ -1,0 +1,50 @@
+.summary9 * {
+    font-size: 10px;
+    line-height: 120%;
+    word-break: normal;
+}
+
+.SR {
+    width: 5%;
+    min-width: 5%;
+}
+
+.DESIGN {
+    width: 11%;
+    min-width: 11%;
+}
+
+.STONE {
+    width: 25%;
+    min-width: 25%;
+}
+
+.GWT,
+.NWT,
+.PURITY,
+.WASTAGE,
+.GOLDRate,
+.PUREWT {
+    width: 6%;
+    min-width: 6%;
+}
+
+.TOTALMISC {
+    width: 8%;
+    min-width: 8%;
+}
+
+.GOLDAMOUNT {
+    width: 7%;
+    min-width: 7%;
+}
+
+.TOTALAMT {
+    width: 8%;
+    min-width: 8%;
+}
+
+.tableTotal{
+    width: 16%;
+    min-width: 16%;
+}
