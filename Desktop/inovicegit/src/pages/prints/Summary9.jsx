@@ -224,17 +224,17 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="col-3  p-1 border-end"></div>
                     <div className="col-3  p-1 border-end text-end fw-bold">{NumberWithCommas(data?.mainTotal?.colorstone?.Pcs + data?.mainTotal?.misc?.Pcs, 0)}/{NumberWithCommas(data?.mainTotal?.colorstone?.Wt + data?.mainTotal?.misc?.Wt, 3)}</div>
                     <div className="col-3  p-1 border-end text-end fw-bold"></div>
-                    <div className="col-3  p-1 text-end fw-bold">480.00</div>
+                    <div className="col-3  p-1 text-end fw-bold">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount + data?.mainTotal?.misc?.Amount, 2)}</div>
                 </div>
-                <div className={`${style?.GWT} border-end p-1 text-end fw-bold`}>10.230</div>
-                <div className={`${style?.NWT} border-end p-1 text-end fw-bold`}>8.609</div>
+                <div className={`${style?.GWT} border-end p-1 text-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</div>
+                <div className={`${style?.NWT} border-end p-1 text-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.netwt, 3)}</div>
                 <div className={`${style?.PURITY} border-end p-1 text-end fw-bold`}></div>
                 <div className={`${style?.WASTAGE} border-end p-1 text-end fw-bold`}></div>
                 <div className={`${style?.GOLDRate} border-end p-1 text-end fw-bold`}></div>
-                <div className={`${style?.PUREWT} border-end p-1 text-end fw-bold`}>6.543</div>
-                <div className={`${style?.TOTALMISC} border-end p-1 text-end fw-bold`}>540.00</div>
-                <div className={`${style?.GOLDAMOUNT} border-end p-1 text-end fw-bold`}>42,528.46</div>
-                <div className={`${style?.TOTALAMT} p-1 text-end fw-bold`}>45,659.54</div>
+                <div className={`${style?.PUREWT} border-end p-1 text-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.total_purenetwt, 3)}</div>
+                <div className={`${style?.TOTALMISC} border-end p-1 text-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.totalMiscAmount, 2)}</div>
+                <div className={`${style?.GOLDAMOUNT} border-end p-1 text-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.metal?.Amount, 2)}</div>
+                <div className={`${style?.TOTALAMT} p-1 text-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</div>
             </div>
             {/* summary */}
             <div className="my-1 d-flex">

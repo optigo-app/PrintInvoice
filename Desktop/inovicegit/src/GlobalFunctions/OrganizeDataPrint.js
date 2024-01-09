@@ -68,7 +68,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     total_diamondHandling: 0,
     total_csamount:0,
     total_Making_Amount_Other_Charges:0,
-    total_fineWtByMetalWtCalculation:0
+    total_fineWtByMetalWtCalculation:0,
+    totalMiscAmount: 0
   };
 
   //json1 array
@@ -171,6 +172,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.convertednetwt += j1?.convertednetwt;
       maintotal.total_csamount += j1?.CsAmount;
       maintotal.total_fineWtByMetalWtCalculation += ((j1?.NetWt * j1?.Tunch)/100);
+      maintotal.totalMiscAmount += j1?.MiscAmount;
+      
       //json2
       json2?.length > 0 &&
         json2?.forEach((j2, i) => {

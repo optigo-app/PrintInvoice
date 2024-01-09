@@ -168,7 +168,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 value: ele?.Wt * e?.Quantity,
                 id: 5,
                 suffix: " Cts",
-                name: "Diamond Wt",
+                name: "Dia Wt",
                 amount: ele?.Amount * e?.Quantity,
                 Pcs: ele?.Pcs * e?.Quantity,
               });
@@ -199,7 +199,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 value: ele?.Wt * e?.Quantity,
                 id: 6,
                 suffix: " Cts",
-                name: "Stone Wt",
+                name: "Cs Wt",
                 amount: ele?.Amount * e?.Quantity,
                 Pcs: ele?.Pcs * e?.Quantity,
               });
@@ -278,10 +278,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 1,
                 suffix: "",
                 name: "GOLD",
-                amount: ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate,
+                amount: ((ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate)* e?.Quantity),
               });
             } else {
-              summary2Arr[goldAmount].amount += ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate;
+              summary2Arr[goldAmount].amount += ((ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate)* e?.Quantity);
             }
           }
         }
@@ -613,7 +613,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
       })} */}
       <div className="">
         {/* table header */}
-        <table className="table w-100 table-border">
+        <table className="table w-100 table-border mb-0">
           <thead>
             <tr>
               <th className={`${style?.srNo} p-1 text-center lightGrey_table  border`}>SR NO</th>
@@ -622,7 +622,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
               <th className={`${style?.description} p-1 text-center lightGrey_table  border`}>DESCRIPTION</th>
               <th className={`${style?.quantity} p-1 text-center lightGrey_table  border`}>QTY</th>
               <th className={`${style?.unitPrice} p-1 text-center lightGrey_table  border`}>UNIT PRICE</th>
-              <th className={`${style?.amount} p-1 text-center lightGrey_table border `}>AMOUNT (INR)</th>
+              <th className={`${style?.amount} p-1 text-center lightGrey_table border `}>AMOUNT ({headerData?.CurrencyCode})</th>
             </tr>
           </thead>
            {/* table data */}

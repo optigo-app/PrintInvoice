@@ -7,8 +7,8 @@
 }
 
 .srNo {
-  width: 7%;
-  min-width: 7%;
+  width: 5%;
+  min-width: 5%;
 }
 
 .image {
@@ -17,13 +17,13 @@
 }
 
 .itemCode {
-  width: 11%;
-  min-width: 11%;
+  width: 18%;
+  min-width: 18%;
 }
 
 .description {
-  width: 40%;
-  min-width: 40%;
+  width: 38%;
+  min-width: 38%;
 }
 
 .unitPrice {
@@ -32,27 +32,27 @@
 }
 
 .amount {
-  width: 14%;
-  min-width: 14%;
+  width: 12%;
+  min-width: 12%;
 }
 
 .quantity{
-  width: 7%;
-  min-width: 7%;
+  width: 5%;
+  min-width: 5%;
 }
 .total{
-  width: 61%;
-  min-width: 61%;
+  width: 67%;
+  min-width: 67%;
 }
 
 .remarks {
-  width: 30%;
-  min-width: 30%;
+  width: 20%;
+  min-width: 20%;
 }
 
 .gold18k{
-  width: 40%;
-  min-width: 40%;
+  width: 50%;
+  min-width: 50%;
 }
 
 .grandTotal{
@@ -61,8 +61,8 @@
 }
 
 .quantityTotal{
-  width: 7%;
-  min-width: 7%;
+  width: 5%;
+  min-width: 5%;
 }
 
 @media print {
