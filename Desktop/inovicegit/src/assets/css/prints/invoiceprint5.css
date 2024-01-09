@@ -172,7 +172,7 @@
     }
 
     .fsgip5 {
-        font-size: 9px !important;
+        font-size: 11px !important;
     }
 
     .wordsip5 {
@@ -194,6 +194,7 @@
     .theadip5 {
         display: flex;
         height: 30px !important;
+        font-size: 11px !important;
     }
 
     .h_60_ivp57 {
