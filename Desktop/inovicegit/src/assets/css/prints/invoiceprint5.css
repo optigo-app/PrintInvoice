@@ -2,31 +2,37 @@
     box-sizing: border-box;
     word-break: break-all;
 }
+
 /* global in print */
-.containerIp5{
+.containerIp5 {
     padding: 15rem;
     padding-top: 5rem;
 }
-.fsgip5{
+
+.fsgip5 {
     font-size: 14px;
 }
-.centerip5{
+
+.centerip5 {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.startip5{
+
+.startip5 {
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
-.endip5{
+
+.endip5 {
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
+
 /* header */
-.hliv5{
+.hliv5 {
     height: 40px;
     background-color: #989898;
     color: white;
@@ -37,122 +43,166 @@
     justify-content: flex-start;
     align-items: center;
 }
-.lhiv5{
+
+.lhiv5 {
     line-height: 14px;
 }
-.printlogoiv5{
-    max-height: 123px;
+
+.printlogoiv5 {
+    height: 80%;
+    width: 50%;
 }
 
 /* sub header */
-.subdiv1ip5{
+.subdiv1ip5 {
     width: 80%;
 }
-.subdiv2ip5{
+
+.subdiv2ip5 {
     width: 20%;
 }
 
 /* table  */
 
-.theadip5{
+.theadip5 {
     display: flex;
     height: 50px;
 }
-.tbodyip5{
-    display: flex;  
-    min-height: 3rem;  
+
+.tbodyip5 {
+    display: flex;
+    min-height: 3rem;
     height: 100%;
 }
 
 /* table head columns width */
-.col1ip5{
+.col1ip5 {
     width: 4%;
 }
-.col2ip5{
+
+.col2ip5 {
     width: 20%;
 }
-.col3ip5{
+
+.col3ip5 {
     width: 7%;
 }
-.col4ip5{
+
+.col4ip5 {
     width: 7%;
 }
-.col5ip5{
+
+.col5ip5 {
     width: 8%;
 }
-.col6ip5{
+
+.col6ip5 {
     width: 9%;
 }
-.col7ip5{
+
+.col7ip5 {
     width: 9%;
 }
-.col8ip5{
+
+.col8ip5 {
     width: 12%;
 }
 
 
 /* inp7 */
-.col1ip7{
+.col1ip7 {
     width: 4%;
 }
-.col2ip7{
+
+.col2ip7 {
     width: 27%;
 }
-.col3ip7{
+
+.col3ip7 {
     width: 8%;
 }
-.col4ip7{
+
+.col4ip7 {
     width: 7%;
 }
-.col5ip7{
+
+.col5ip7 {
     width: 10%;
 }
-.col6ip7{
+
+.col6ip7 {
     width: 0%;
     display: none !important;
 }
-.col7ip7{
+
+.col7ip7 {
     width: 0%;
     display: none !important;
 }
-.col8ip7{
+
+.col8ip7 {
     width: 14%;
 }
 
 /* tax department */
-.wordsip5{
+.wordsip5 {
     width: 79.7%;
 }
-.taxip5{
+
+.taxip5 {
     width: 21.3%;
 }
-.fwi5{
+
+.fwi5 {
     width: 40%;
 }
-.fwi51{
+
+.fwi51 {
     width: 35%;
 }
 
+.h_60_ivp57 {
+    height: 60px;
+}
 
-@media print{
-    .hidebtnip5{
+@media print {
+    .hidebtnip5 {
         display: none !important;
     }
-    .fsgip5{
-        font-size: 7px !important;
+
+    .fsgip5 {
+        font-size: 9px !important;
     }
-    .wordsip5{
+
+    .wordsip5 {
         width: 70% !important;
     }
-    .taxip5{
+
+    .taxip5 {
         width: 30% !important;
     }
-    .texpartivp5{
+
+    .texpartivp5 {
         page-break-inside: avoid;
     }
-    .containerIp5{
+
+    .containerIp5 {
         padding: 1rem;
-        font-size: 7px !important;
-        /* padding-top: 5rem; */
+        font-size: 9px !important;
     }
+
+    .theadip5 {
+        display: flex;
+        height: 30px !important;
+    }
+
+    .h_60_ivp57 {
+        height: 30px;
+    }
+
+    .printlogoiv5 {
+        height: 60%;
+        width: 50%;
+    }
+
 }

@@ -66,7 +66,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     total_discount: 0,
     total_diamondHandling: 0,
     total_csamount:0,
-    total_Making_Amount_Other_Charges:0
+    total_Making_Amount_Other_Charges:0,
+    total_fineWtByMetalWtCalculation:0
   };
 
   //json1 array
@@ -142,6 +143,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           FineWt: 0,
         },
         Making_Amount_Other_Charges:0,
+        fineWtByMetalWtCalculation:0
       };
 
       let other_details = otherAmountDetail(j1?.OtherAmtDetail);
@@ -167,6 +169,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_Wastage += j1?.Wastage;
       maintotal.convertednetwt += j1?.convertednetwt;
       maintotal.total_csamount += j1?.CsAmount;
+      maintotal.total_fineWtByMetalWtCalculation += ((j1?.NetWt * j1?.Tunch)/100);
       //json2
       json2?.length > 0 &&
         json2?.forEach((j2, i) => {
@@ -273,7 +276,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.stone_misc.Rate += j2?.Rate;
               maintotal.stone_misc.Amount += j2?.Amount;
             }
-
+            jobwise_totals.fineWtByMetalWtCalculation = ((j1?.NetWt * j1?.Tunch)/100);
             //ending of comparing of job no block
           }
         });
@@ -473,7 +476,6 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       obj.metal = metalList;
       obj.finding = findingList;
       obj.totals = jobwise_totals;
-      obj.other_amount_details = other_details;
       obj.grouping_of_diamonds_sqc_jobwise = blankArrDiamond;
       obj.grouping_of_colorstone_sqc_jobwise = blankArrColorstone;
       obj.grouping_of_misc_sqc_jobwise = blankArrMisc;
@@ -487,11 +489,13 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       obj.diamondWtMetalPurityWise = diamondWtMetalPurityWise;
       obj.colorstoneWtMetalPurityWise = colorstoneWtMetalPurityWise;
       obj.Making_Amount_Other_Charges = jobwise_totals.Making_Amount_Other_Charges;
+      obj.fineWtByMetalWtCalculation = jobwise_totals.fineWtByMetalWtCalculation;
       resultArray.push(obj);
     });
 
   //totalAmount
-  let totalAmount = maintotal.total_amount + header?.AddLess + maintotal?.total_discount_amount;
+  // let totalAmount = maintotal.total_amount + header?.AddLess + maintotal?.total_discount_amount ;
+  let totalAmount = maintotal.total_amount + header?.AddLess + header?.FreightCharges;
   let allTax = taxGenrator(header, totalAmount);
 
   let brArr = [];
