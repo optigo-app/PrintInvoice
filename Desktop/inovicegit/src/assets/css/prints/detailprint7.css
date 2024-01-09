@@ -2,8 +2,9 @@
     box-sizing: border-box;
     word-break: break-all;
     margin: 0px;
-    padding: 20rem;
     padding-top: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* borders */
@@ -399,7 +400,7 @@
         box-sizing: border-box;
         word-break: break-all;
         font-size: 11px !important;
-        margin: 0px !important;
+        margin: 0px auto !important;
         padding: 10px !important;
     }
     .fsgdp7{
