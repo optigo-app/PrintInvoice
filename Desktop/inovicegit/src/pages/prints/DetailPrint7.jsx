@@ -13,11 +13,17 @@ import "../../assets/css/prints/detailprint7.css";
 
 const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [result, setResult] = useState(null);
+  const [json_2, setjson_2] = useState([]);
   const [categoryWise, setCategoryWise] = useState([]);
   const [miscWise, setMiscWise] = useState([]);
   const [otherAMountTotal, setOtherAmountTotal] = useState(0);
   const [miscWise_total, setMiscWise_total] = useState({
     Pcs: 0,
+    pcPcs:0,
+    wtWeight_Ctw:0,
+    wtWeight_gm:0,
+    AmtAmount:0,
+    Wt:0,
     Wt_Ctw: 0,
     dia_Wt_gm: 0,
     Wt_gm: 0,
@@ -27,28 +33,63 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
 
+  const miscWiseData1 = (arr) => {
+    // const js34 = [].concat(arr?.BillPrint_Json2);
+    // let misc_color_1 = [];
+    // let misc_color_1_without_hs = [];
+    // let arr1 = [];
+    // let a = js34?.map((e) => {
+    //   if(e?.MasterManagement_DiamondStoneTypeid === 2 || e?.MasterManagement_DiamondStoneTypeid === 3){
+    //     misc_color_1.push(e);
+    //     if(e?.ShapeName === 'Stamping' || e?.ShapeName === 'Hallmark'){}
+    //     else{
+    //       misc_color_1_without_hs.push(e);
+    //     }
+    //   }
+    // })
+    // console.log(misc_color_1_without_hs);
+
+    // misc_color_1_without_hs.map((a) => {
+    //   let findInd123 = arr1.findIndex((al) => al?.ShapeName === a?.ShapeName);
+    //   if(findInd123 === -1){
+    //     arr1.push(a);
+    //   }else{
+    //     // arr1[findInd123].Wt += a?.Wt;
+    //     // arr1[findInd123].Rate += a?.Rate;
+    //     // arr1[findInd123].Amount += a?.Amount;
+    //   }
+    // })
+
+    // console.log(arr);
+ 
+
+  };
   async function loadData(data) {
     try {
+      
       let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
       data.BillPrint_Json[0].address = address;
-     
+ 
       const datas = OrganizeDataPrint(
         data?.BillPrint_Json[0],
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-  
+
       //certification wt added
       datas?.resultArray?.forEach((e) => {
-          datas?.json2?.forEach((el) => {
-            if(e?.SrJobno === el?.StockBarcode){
-              if(el?.ShapeName === 'Certification_NM award' && el?.MasterManagement_DiamondStoneTypeid === 3){
-                el.Wt = e?.certificateWtDia;
-              }
+        datas?.json2?.forEach((el) => {
+          if (e?.SrJobno === el?.StockBarcode) {
+            if (
+              el?.ShapeName === "Certification_NM award" &&
+              el?.MasterManagement_DiamondStoneTypeid === 3
+            ) {
+              el.Wt = e?.certificateWtDia;
             }
-          })
-      })
-      
+          }
+        });
+      });
+
       let blankArr = [];
       let blankArr2 = [];
       let obj = {
@@ -60,7 +101,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       };
       //category wise data setting
       datas?.resultArray?.forEach((j2) => {
-        let recordIs = blankArr?.findIndex((e) => e?.Categoryname === j2?.Categoryname);
+        let recordIs = blankArr?.findIndex(
+          (e) => e?.Categoryname === j2?.Categoryname
+        );
         if (recordIs === -1) {
           blankArr.push(j2);
         } else {
@@ -71,92 +114,152 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           blankArr[recordIs].Quantity += +j2?.Quantity;
         }
       });
-      
+
       //cate wise data and finewt
       let cateWise2 = [];
       blankArr?.forEach((e) => {
-        let obj = {...e};
-        let fineWtBYNetWtCal = ((e?.NetWt * e?.Tunch)/100);
+        let obj = { ...e };
+        let fineWtBYNetWtCal = (e?.NetWt * e?.Tunch) / 100;
         obj.fineWtBYNetWtCal = fineWtBYNetWtCal;
         cateWise2.push(obj);
-      })
+      });
 
       //set misc wise data
-      datas?.json2?.forEach((e) => {
-        // console.log(e?.StockBarcode, e?.MasterManagement_DiamondStoneTypeid, e?.ShapeName, e?.Wt);
-        if (
-          e?.MasterManagement_DiamondStoneTypeid === 2 ||
-          e?.MasterManagement_DiamondStoneTypeid === 3
-        ) {
-
-          if (e?.ShapeName === "Hallmark" || e?.ShapeName === "Stamping") {
-            return "";
-          } else {
-            let recordIs = blankArr2?.findIndex(
-              (el) => ((el?.ShapeName === e?.ShapeName) && (el?.StockBarcode === e?.StockBarcode))
-            );
-            if (recordIs === -1) {
-              blankArr2.push(e);
-            } else {
-              blankArr2[recordIs].rate += +e?.rate;
-              blankArr2[recordIs].Wt += +e?.Wt;
-              blankArr2[recordIs].Amount += +e?.Amount;
-              blankArr2[recordIs].Pcs += +e?.Pcs;
-            }
-          }
-        }
-      });
-console.log(blankArr2);
-      let anotherArr = [].concat(blankArr2);
-       miscWiseData(anotherArr);
-      // console.log(blankArr2);
-      // let misc_summary = [];
-      // blankArr2?.forEach((e) => {
-      //     // console.log(e);
-      //     let findInd = misc_summary.findIndex((el) => el?.ShapeName === e?.ShapeName);
-      //     if(findInd === -1){
-      //       misc_summary.push(e);
-      //     }else{
-      //       misc_summary[findInd].Wt += e?.Wt;
-      //       misc_summary[findInd].Amount += e?.Amount;
-      //       misc_summary[findInd].Rate += e?.Rate;
-      //       // misc_summary[findInd].Wt += e?.Wt;
+      // datas?.json2?.forEach((e) => {
+      //   // console.log(e?.StockBarcode, e?.MasterManagement_DiamondStoneTypeid, e?.ShapeName, e?.Wt);
+      //   if (
+      //     e?.MasterManagement_DiamondStoneTypeid === 2 ||
+      //     e?.MasterManagement_DiamondStoneTypeid === 3
+      //   ) {
+      //     if (e?.ShapeName === "Hallmark" || e?.ShapeName === "Stamping") {
+      //       return "";
+      //     } else {
+      //       let recordIs = blankArr2?.findIndex(
+      //         (el) =>
+      //           el?.ShapeName === e?.ShapeName &&
+      //           el?.StockBarcode === e?.StockBarcode
+      //       );
+      //       if (recordIs === -1) {
+      //         blankArr2.push(e);
+      //       } else {
+      //         blankArr2[recordIs].rate += +e?.rate;
+      //         blankArr2[recordIs].Wt += +e?.Wt;
+      //         blankArr2[recordIs].Amount += +e?.Amount;
+      //         blankArr2[recordIs].Pcs += +e?.Pcs;
+      //       }
       //     }
-      // })
-      // console.log(misc_summary);
-      // //important
-      // obj.Pcs = 0;
-      // obj.Amount = 0;
-      // blankArr2?.forEach((e) => {
-      //   obj.Pcs += e?.Pcs;
-      //   obj.Amount += e?.Amount;
-      //   if (e?.MasterManagement_DiamondStoneTypeid === 2) {
-      //     obj.Wt_Ctw += e?.Wt;
-      //   }
-      //   if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-      //     obj.Wt_gm += e?.Wt;
       //   }
       // });
-
+ 
       let othamttot = 0;
+
       datas?.resultArray?.forEach((e) => {
         datas?.json2?.forEach((el) => {
-          if(e?.SrJobno === el?.StockBarcode){
-            if(el?.MasterManagement_DiamondStoneTypeid === 3 && (el?.ShapeName === 'Hallmark' || el?.ShapeName === 'Stamping' || el?.ShapeName?.includes('Certification_'))){
+          if (e?.SrJobno === el?.StockBarcode) {
+            if (
+              el?.MasterManagement_DiamondStoneTypeid === 3 &&
+              (el?.ShapeName === "Hallmark" ||
+                el?.ShapeName === "Stamping" ||
+                el?.ShapeName?.includes("Certification_"))
+            ) {
               e.OtherCharges += el?.Amount;
             }
           }
-        })
-      })
+        });
+      });
+
       datas?.resultArray?.forEach((e) => {
-        othamttot += e?.OtherCharges + e?.TotalDiamondHandling; 
-      })
+        othamttot += e?.OtherCharges + e?.TotalDiamondHandling;
+      });
+
       setOtherAmountTotal(othamttot);
-      setMiscWise_total(obj);
+      // setMiscWise_total(obj);
       // setMiscWise(blankArr2);
       setCategoryWise(cateWise2);
-      setResult(datas); 
+      setResult(datas);
       setLoader(false);
+
+      let miscs = [];
+      let colorstones = [];
+      datas.json2.map((ele, ind) => {
+        if(ele?.ShapeName === 'Stamping' || ele?.ShapeName === 'Hallmark'){}
+        else{
+          if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+            colorstones.push(ele);
+          } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+            miscs.push(ele);
+          }
+        }
+      });
+  
+      let miscs_filter = [];
+      let colrStone_filter = [];
+  
+      miscs.map((ele, ind) => {
+        let findMiscs = miscs_filter.findIndex(
+          (elem, index) => elem?.ShapeName === ele?.ShapeName
+        );
+        if (findMiscs === -1) {
+          let objj = {...ele};
+          objj.wtWeight = ele?.Wt;
+          objj.pcPcs = ele?.Pcs;
+          objj.AmtAmount = ele?.Amount;
+          miscs_filter.push(objj);
+        } else {
+          miscs_filter[findMiscs].wtWeight += ele?.Wt;
+          miscs_filter[findMiscs].pcPcs += ele?.Pcs;
+          miscs_filter[findMiscs].AmtAmount += ele?.Amount;
+        }
+      });
+  
+      colorstones.map((ele, ind) => {
+        let findcs = colrStone_filter.findIndex(
+          (elem, index) => elem?.ShapeName === ele?.ShapeName
+        );
+        if (findcs === -1) {
+          let objj = {...ele};
+          objj.wtWeight = ele?.Wt;
+          objj.pcPcs = ele?.Pcs;
+          objj.AmtAmount = ele?.Amount;
+          colrStone_filter.push(objj);
+        } else {
+          colrStone_filter[findcs].wtWeight += ele?.Wt;
+          colrStone_filter[findcs].pcPcs += ele?.Pcs;
+          colrStone_filter[findcs].AmtAmount += ele?.Amount;
+        }
+      });
+      let arrnew = [...colrStone_filter, ...miscs_filter].flat();
+
+      let misc_sum_total = {
+        Pcs: 0,
+        pcPcs:0,
+        wtWeight_Ctw:0,
+        wtWeight_gm:0,
+        Wt_Ctw: 0,
+        dia_Wt_gm: 0,
+        Wt_gm: 0,
+        Amount: 0,
+        AmtAmount: 0,
+      }
+      arrnew?.forEach((e) => {
+        if(e?.MasterManagement_DiamondStoneTypeid === 2){
+          misc_sum_total.wtWeight_Ctw += e?.wtWeight;
+        }else{
+          misc_sum_total.wtWeight_gm += e?.wtWeight;
+        }
+
+
+          misc_sum_total.pcPcs += e?.pcPcs;
+          misc_sum_total.AmtAmount += e?.AmtAmount;
+
+          misc_sum_total.Wt += e?.Wt;
+          misc_sum_total.Pcs += e?.Pcs;
+          misc_sum_total.Amount += e?.Amount;
+      })
+      console.log(misc_sum_total);
+      setMiscWise(arrnew);
+      setMiscWise_total(misc_sum_total);
+
     } catch (error) {
       console.log(error);
     }
@@ -170,7 +273,6 @@ console.log(blankArr2);
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
             loadData(data?.Data);
-
             setLoader(false);
           } else {
             setLoader(false);
@@ -188,22 +290,7 @@ console.log(blankArr2);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const miscWiseData = (arr) => {
-    let m_s = [];
-    console.log(arr);
-    // arr?.forEach((e) => {
-    //   console.log(e);
-    //   let findInd = m_s?.findIndex((el) => (el?.ShapeName === e?.ShapeName));
-    //   if(findInd === -1){
-    //     m_s.push(e);
-    //   }else{
-    //     m_s[findInd].Wt += e?.Wt;
-    //     m_s[findInd].Rate += e?.Rate;
-    //     m_s[findInd].Amount += e?.Amount;
-    //   }
-    // })
-    // console.log(m_s);
-  }
+
 
   const handleImgShow = (e) => {
     if (imgFlag) setImgFlag(false);
@@ -243,18 +330,45 @@ console.log(blankArr2);
                 {/* table header */}
                 {/* <div className="w-100 hcompdp7">{headerComp}</div> */}
                 <div>
-                  <div className="pheaddp7">{result?.header?.PrintHeadLabel}</div>
+                  <div className="pheaddp7">
+                    {result?.header?.PrintHeadLabel}
+                  </div>
                   <div className="d-flex justify-content-between align-items-center p-1">
                     <div>
-                      <div className="fw-bold fsgdp7 lhdp7">{result?.header?.CompanyFullName}</div>
-                      <div className="fsgdp7 lhdp7">{result?.header?.CompanyAddress}</div>
-                      <div className="fsgdp7 lhdp7">{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode},{result?.header?.CompanyState}({result?.header?.CompanyState})</div>
-                      <div className="fsgdp7 lhdp7">T {result?.header?.CompanyTellNo} | TOLL FREE  {result?.header?.CompanyTollFreeNo} | TOLL FREE  {result?.header?.CompanyTollFreeNo}</div>
-                      <div className="fsgdp7 lhdp7">{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
-                      <div className="fsgdp7 lhdp7">{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE} - {result?.header?.Company_CST_STATE_No} | PAN-{result?.header?.Pannumber} </div>
+                      <div className="fw-bold fsgdp7 lhdp7">
+                        {result?.header?.CompanyFullName}
+                      </div>
+                      <div className="fsgdp7 lhdp7">
+                        {result?.header?.CompanyAddress}
+                      </div>
+                      <div className="fsgdp7 lhdp7">
+                        {result?.header?.CompanyCity}-
+                        {result?.header?.CompanyPinCode},
+                        {result?.header?.CompanyState}(
+                        {result?.header?.CompanyState})
+                      </div>
+                      <div className="fsgdp7 lhdp7">
+                        T {result?.header?.CompanyTellNo} | TOLL FREE{" "}
+                        {result?.header?.CompanyTollFreeNo} | TOLL FREE{" "}
+                        {result?.header?.CompanyTollFreeNo}
+                      </div>
+                      <div className="fsgdp7 lhdp7">
+                        {result?.header?.CompanyEmail} |{" "}
+                        {result?.header?.CompanyWebsite}
+                      </div>
+                      <div className="fsgdp7 lhdp7">
+                        {result?.header?.Company_VAT_GST_No} |{" "}
+                        {result?.header?.Company_CST_STATE} -{" "}
+                        {result?.header?.Company_CST_STATE_No} | PAN-
+                        {result?.header?.Pannumber}{" "}
+                      </div>
                     </div>
                     <div className="d-flex justify-content-end">
-                      <img src={result?.header?.PrintLogo} alt="#companylogo" className="headimgdp7" />
+                      <img
+                        src={result?.header?.PrintLogo}
+                        alt="#companylogo"
+                        className="headimgdp7"
+                      />
                     </div>
                   </div>
                 </div>
@@ -285,7 +399,8 @@ console.log(blankArr2);
                       {result?.header?.vat_cst_pan}
                     </div>
                     <div className="fsgdp7 lhdp7">
-                      {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No}
+                      {result?.header?.Cust_CST_STATE} -{" "}
+                      {result?.header?.Cust_CST_STATE_No}
                     </div>
                   </div>
                   <div className="subheaddiv2">
@@ -390,7 +505,10 @@ console.log(blankArr2);
                               {e?.HUID === "" ? "" : `HUID - ${e?.HUID}`}
                             </div>
                           </div>
-                          <div className="rcol3dp7 dp7cen1" style={{wordBreak:"break-word"}}>
+                          <div
+                            className="rcol3dp7 dp7cen1"
+                            style={{ wordBreak: "break-word" }}
+                          >
                             {e?.MetalPurity}/{e?.MetalColor}
                           </div>
                           <div className="rcol4dp7 dp7cen2">
@@ -414,7 +532,10 @@ console.log(blankArr2);
                                       {el?.Pcs}
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2 brdp7">
-                                     { el?.ShapeName === "Certification_NM award" ? e?.certificateWtDia?.toFixed(3) : el?.Wt?.toFixed(3) } 
+                                      {el?.ShapeName ===
+                                      "Certification_NM award"
+                                        ? e?.certificateWtDia?.toFixed(3)
+                                        : el?.Wt?.toFixed(3)}
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2 brdp7">
                                       {el?.Rate?.toFixed(2)}
@@ -428,10 +549,12 @@ console.log(blankArr2);
                             </div>
                           </div>
                           <div className="rcol12dp7 dp7cen2 bldp7">
-                            {formatAmount((e?.OtherCharges + e?.TotalDiamondHandling))}
+                            {formatAmount(
+                              e?.OtherCharges + e?.TotalDiamondHandling
+                            )}
                           </div>
                           <div className="rcol13dp7 dp7cen2 border-end-0">
-                            {(e?.totals?.fineWtByMetalWtCalculation)?.toFixed(3)}
+                            {e?.totals?.fineWtByMetalWtCalculation?.toFixed(3)}
                           </div>
                         </div>
                       );
@@ -450,16 +573,20 @@ console.log(blankArr2);
                   </div>
                   <div className="totcol4dp7"></div>
                   <div className="totcol5dp7 dp7cen2">
-                    {formatAmount(result?.mainTotal?.total_diamond_colorstone_misc_amount)}
+                    {formatAmount(
+                      result?.mainTotal?.total_diamond_colorstone_misc_amount
+                    )}
                   </div>
                   <div className="totcol6dp7 dp7cen2">
                     {formatAmount(otherAMountTotal)}
                   </div>
                   <div className="totcol7dp7 dp7cen2">
-                    {result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)}
+                    {result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(
+                      3
+                    )}
                   </div>
                 </div>
-                
+
                 {/* table total */}
                 <div className="w-100 brtdp7 dp7cen2 bradp7 ">
                   {formatAmount(result?.mainTotal?.total_amount)}
@@ -467,13 +594,20 @@ console.log(blankArr2);
 
                 {/* Courier info and Charges */}
                 <div className="w-100 d-flex border border-top-0">
-                  <div style={{width:"69.9%"}}></div>
-                  <div style={{width:"30.1%"}} className="d-flex">
-                    <div style={{width:"63%"}} className="border-end border-start px-1  dp7cen2  ">{result?.header?.ModeOfDel} : </div>
-                    <div style={{width:"37%"}} className="px-1  dp7cen2  "> {formatAmount(result?.header?.FreightCharges)}</div>
+                  <div style={{ width: "69.9%" }}></div>
+                  <div style={{ width: "30.1%" }} className="d-flex">
+                    <div
+                      style={{ width: "63%" }}
+                      className="border-end border-start px-1  dp7cen2  "
+                    >
+                      {result?.header?.ModeOfDel} :{" "}
+                    </div>
+                    <div style={{ width: "37%" }} className="px-1  dp7cen2  ">
+                      {" "}
+                      {formatAmount(result?.header?.FreightCharges)}
+                    </div>
                   </div>
                 </div>
-
 
                 {/* taxes */}
                 {result?.allTaxes?.map((e, i) => {
@@ -594,7 +728,9 @@ console.log(blankArr2);
                       </div>
                       <div className="sum_prod_head_col_5 dp7cen2"></div>
                       <div className="sum_prod_head_col_6 dp7cen2">
-                        {result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)}
+                        {result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(
+                          3
+                        )}
                       </div>
                     </div>
                   </div>
@@ -632,18 +768,18 @@ console.log(blankArr2);
                               {e?.ShapeName}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                              {e?.Pcs}
+                              {e?.pcPcs}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
                               {e?.Rate?.toFixed(2)}
                             </div>
-                             <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
-                            {e?.MasterManagement_DiamondStoneTypeid === 2
-                              ? `${e?.Wt?.toFixed(3)} Ctw`
-                              : `${e?.Wt?.toFixed(3)} gm`}
-                          </div>
+                            <div className="summary_container_dp7_misc_head_col_4 dp7cen2">
+                              {e?.MasterManagement_DiamondStoneTypeid === 2
+                                ? `${e?.wtWeight?.toFixed(3)} Ctw`
+                                : `${e?.wtWeight?.toFixed(3)} gm`}
+                            </div>
                             <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                              {formatAmount(e?.Amount)}
+                              {formatAmount(e?.AmtAmount)}
                             </div>
                           </div>
                         );
@@ -669,20 +805,22 @@ console.log(blankArr2);
                         Total
                       </div>
                       <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                        {miscWise_total?.Pcs}
+                        {miscWise_total?.pcPcs}
                       </div>
                       <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
                       <div className="summary_container_dp7_misc_head_col_4 dp7cen2 d-flex flex-column">
                         <div className="w-100 dp7cen2">
-                          {miscWise_total?.Wt_Ctw?.toFixed(3)} Ctw
+                          {miscWise_total?.wtWeight_Ctw?.toFixed(3)} Ctw
                         </div>
                         <div className="w-100 dp7cen2">
                           {" "}
-                          {miscWise_total?.Wt_gm?.toFixed(3)} Gm
+                          {miscWise_total?.wtWeight_gm?.toFixed(3)} Gm
                         </div>
                       </div>
                       <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                        {formatAmount((miscWise_total?.Amount + otherAMountTotal))}
+                        {formatAmount(
+                          miscWise_total?.AmtAmount + otherAMountTotal
+                        )}
                       </div>
                     </div>
                   </div>
