@@ -497,7 +497,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
 
   //totalAmount
   // let totalAmount = maintotal.total_amount + header?.AddLess + maintotal?.total_discount_amount ;
-  let totalAmount = maintotal.total_amount + header?.AddLess + header?.FreightCharges;
+  // let totalAmount = maintotal.total_amount + header?.AddLess + header?.FreightCharges;
+  let totalAmount = maintotal.total_amount;
   let allTax = taxGenrator(header, totalAmount);
 
   let brArr = [];
@@ -518,7 +519,6 @@ export const OrganizeDataPrint = (header, json1, json2) => {
   //alltax
   allTax?.length > 0 &&
   allTax?.forEach((e) => {
-    totalAmount += +e?.amount;
     const [dollars, cents] = e?.amount?.split(".");
     const dollarsInWords = numberToWords.toWords(parseInt(dollars));
     const centsInWords = cents
@@ -534,11 +534,16 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       let amtInWords = CapitalizeWords(amountInWords)
     e.amountInWords = `TOTAL ${e.name} IN WORDS: ${amtInWords}`;
   });
-  
+  allTax?.forEach((e) => {
+      totalAmount += (+e?.amount);
+  })
   totalAmount = (+totalAmount)?.toFixed(2);
+  totalAmount = (+totalAmount) + (+header?.AddLess) + (+header?.FreightCharges);
 
   let headerObj = {...header};
+
   headerObj.BrokerageDetails = brArr; 
+
   const finalObject = {
     resultArray: resultArray,
     mainTotal: maintotal,

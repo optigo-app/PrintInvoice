@@ -13,6 +13,7 @@ import Loader from "../../components/Loader";
 import "../../assets/css/prints/invoiceprint5.css";
 
 const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
+  const [grandTotal, setGrandTotal] = useState(0);
   const [classip, setClassip] = useState({
     col1: "",
     col2: "",
@@ -97,16 +98,10 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-    const headerComp = HeaderComponent(
-      data?.BillPrint_Json[0]?.HeaderNo,
-      data?.BillPrint_Json[0]
-    );
-    const footerCom = FooterComponent("2", data?.BillPrint_Json[0]);
+  
 
     let metwise = [];
     datas?.resultArray?.forEach((e) => {
-      //   let diamond_metwise = [];
-      //   let colorstone_metwise = [];
       let findIndex = metwise?.findIndex(
         (el) => el?.MetalPurity === e?.MetalPurity
       );
@@ -115,10 +110,12 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
       } else {
         metwise[findIndex].grosswt += e?.grosswt;
         metwise[findIndex].NetWt += e?.NetWt;
+        metwise[findIndex].UnitCost += e?.UnitCost;
         metwise[findIndex].TotalAmount += e?.TotalAmount;
         metwise[findIndex].MakingAmount += e?.MakingAmount;
         metwise[findIndex].Quantity += e?.Quantity;
         metwise[findIndex].OtherCharges += e?.OtherCharges;
+        metwise[findIndex].DiscountAmt += e?.DiscountAmt;
         metwise[findIndex].diamondWtMetalPurityWise +=
           e?.diamondWtMetalPurityWise;
         metwise[findIndex].colorstoneWtMetalPurityWise +=
@@ -127,12 +124,15 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
           metwise[findIndex].totals.colorstone.Wt += e?.totals?.colorstone?.Wt;
       }
     });
+
     console.log(datas);
-    setMetaltypewise(metwise);
-    setFooterComp(footerCom);
-    setResult(datas);
-    // console.log(metwise);
     
+    
+    setMetaltypewise(metwise);
+
+    setResult(datas);
+
+
     // datas?.resultArray?.forEach((e) => {
     //   let diaArr = [];
     //   let colorArr = [];
@@ -177,7 +177,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
         <>
           {msg === "" ? (
             <>
-              <div className="containerIp5">
+              <div className="containerIp5 pb-5 mb-5">
                 {/* print button */}
                 <div className="d-flex justify-content-end mb-3 mx-2 hidebtnip5">
                   <button
@@ -357,7 +357,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                             {formatAmount(e?.MakingAmount)}
                           </div>
                           <div className={`${classip?.col11} endip5 px-1`}>
-                            {formatAmount(e?.TotalAmount)}
+                            {formatAmount((e?.TotalAmount + e?.DiscountAmt))}
                           </div>
                         </div>
                       );
@@ -413,7 +413,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                         )}
                       </div>
                       <div className={`${classip?.col11}  endip5 px-1`}>
-                        {formatAmount(result?.mainTotal?.total_unitcost)}
+                        {formatAmount((result?.mainTotal?.total_unitcost))}
                       </div>
                     </div>
                   </div>
@@ -466,20 +466,20 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                           }}
                         ></div>
                         <div className="px-1">
-                          {formatAmount(result?.finalAmount)}
+                          {formatAmount((result?.mainTotal?.total_unitcost + result?.header?.TotalGSTAmount + result?.header?.AddLess))}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 {/* remarks and description */}
-                <div className="mt-1 border p-1 fsgip5">
+                <div className="mt-1 border p-1 fsgip5 texpartivp5">
                   <div className="text-decoration-underline fw-bold">
                     Remarks:
                   </div>
                   <div>{result?.header?.PrintRemark}</div>
                 </div>
-                <div className="border mt-1 fsgip5">
+                <div className="border mt-1 fsgip5 texpartivp5">
                   <div className="text-decoration-underline fw-bold">
                     Notes:
                   </div>
@@ -491,23 +491,22 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                   ></div>
                 </div>
                 {/* bank details footer */}
-                {/* <div className="mt-1 fsgip5">{footerComp}</div> */}
-                <div className="mt-1 fsgip5 d-flex border">
+                <div className="mt-1 fsgip5 d-flex border texpartivp5">
                     <div className="border-end fwi5 p-1">
                       <div>Bank Details :</div>
-                      <div>Bank Name:Kotak Mahindra Bank</div>
-                      <div>Branch: SHOP NO-1 WTC , UDHNA DARWAJA SURAT-395004</div>
-                      <div>Account Name:Orail</div>
-                      <div>Account No. :147275899632</div>
-                      <div>RTGS/NEFT IFSC:Kotak00000405</div>
+                      <div>Bank Name:{result?.header?.bankname}</div>
+                      <div>Branch: {result?.header?.bankaddress}</div>
+                      <div>Account Name:{result?.header?.accountname}</div>
+                      <div>Account No. :{result?.header?.accountnumber}</div>
+                      <div>RTGS/NEFT IFSC:{result?.header?.rtgs_neft_ifsc}</div>
                     </div>
                     <div className="border-end fwi51 p-1 d-flex flex-column justify-content-between">
                       <div>Signature</div>
-                      <div className="fw-bold">Dar Be Gold Jewelers</div>
+                      <div className="fw-bold">{result?.header?.customerfirmname}</div>
                     </div>
                     <div className="p-1 fwi51 d-flex flex-column justify-content-between">
                       <div>Signature</div>
-                      <div className="fw-bold">ORAIL SERVICE</div>
+                      <div className="fw-bold">{result?.header?.CompanyFullName}</div>
                     </div>
                 </div>
               </div>

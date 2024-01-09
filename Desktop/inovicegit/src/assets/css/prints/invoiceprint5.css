@@ -5,8 +5,9 @@
 
 /* global in print */
 .containerIp5 {
-    padding: 15rem;
     padding-top: 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .fsgip5 {
@@ -186,9 +187,8 @@
         page-break-inside: avoid;
     }
 
-    .containerIp5 {
-        padding: 1rem;
-        font-size: 9px !important;
+    .containerIp5{
+        padding: 10px !important;
     }
 
     .theadip5 {
