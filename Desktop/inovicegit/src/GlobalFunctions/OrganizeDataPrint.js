@@ -2,6 +2,7 @@ import { CapitalizeWords, otherAmountDetail, taxGenrator } from "../GlobalFuncti
 import { numberToWords } from "number-to-words";
 
 export const OrganizeDataPrint = (header, json1, json2) => {
+ 
   let resultArray = [];
   let jobnodup = [];
   let maintotal = {
@@ -445,6 +446,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           }
         }
       });
+      
       diamond_colorstone_misc?.forEach((e) => {
         maintotal.total_diamond_colorstone_misc_amount += +e?.Amount;
       });
@@ -510,25 +512,10 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       resultArr.push(obj);
     });
     brArr = resultArr;
-    // return resultArr;
-  }
 
-  // allTax?.length > 0 &&
-  //   allTax?.forEach((e) => {
-  //     totalAmount += +e?.amount;
-  //     const [dollars, cents] = e?.amount?.split(".");
-  //     const amountInWords = [
-  //       numberToWords.toWords(parseInt(dollars)),
-  //       "point",
-  //       numberToWords.toWords(parseInt(cents || "0")),
-  //       "",
-  //     ]
-  //       .filter(Boolean)
-  //       .join(" ");
-  //     e.amountInWords = `TOTAL ${e.name} IN WORDS: ${
-  //       amountInWords.charAt(0).toUpperCase() + amountInWords.slice(1)
-  //     }`;
-  //   });
+  }
+  
+  //alltax
   allTax?.length > 0 &&
   allTax?.forEach((e) => {
     totalAmount += +e?.amount;
