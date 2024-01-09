@@ -787,7 +787,8 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
         <div className={`${style?.remarks} p-1 fw-bold border-end`}>
           <p className="fw-bold text-decoration-underline">REMARKS: </p>
-          <p>{headerData?.PrintRemark}</p>
+          <p dangerouslySetInnerHTML={{__html: headerData?.PrintRemark}}></p>
+          {/* <p>{headerData?.PrintRemark}</p> */}
         </div>
         <div className={`${style?.grandTotal} p-1 border-end`}>
           {tax.map((e, i) => {

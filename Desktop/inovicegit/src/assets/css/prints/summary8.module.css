@@ -1,0 +1,24 @@
+.Category, .Metal, .Hsn, .Making, .Total{
+    width: 12.6%;
+    min-width: 12.6%;
+}
+.Pcs{
+    width: 7%;
+    min-width: 7%;
+}
+.Gross, .Net, .Rate{
+    width: 10%;
+    min-width: 10%;
+}
+
+.tax{
+    width: 87.4%;
+    min-width: 87.4%;
+}
+
+
+@medila print{
+    .print_sec_sum4{
+        display: none !important
+    }
+}
