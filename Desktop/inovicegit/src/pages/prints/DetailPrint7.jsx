@@ -31,14 +31,13 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
     try {
       let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
       data.BillPrint_Json[0].address = address;
-
+     
       const datas = OrganizeDataPrint(
         data?.BillPrint_Json[0],
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-      
-
+  
       //certification wt added
       datas?.resultArray?.forEach((e) => {
           datas?.json2?.forEach((el) => {
@@ -72,10 +71,19 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           blankArr[recordIs].Quantity += +j2?.Quantity;
         }
       });
-      console.log(blankArr);
+      
+      //cate wise data and finewt
+      let cateWise2 = [];
+      blankArr?.forEach((e) => {
+        let obj = {...e};
+        let fineWtBYNetWtCal = ((e?.NetWt * e?.Tunch)/100);
+        obj.fineWtBYNetWtCal = fineWtBYNetWtCal;
+        cateWise2.push(obj);
+      })
 
       //set misc wise data
       datas?.json2?.forEach((e) => {
+        // console.log(e?.StockBarcode, e?.MasterManagement_DiamondStoneTypeid, e?.ShapeName, e?.Wt);
         if (
           e?.MasterManagement_DiamondStoneTypeid === 2 ||
           e?.MasterManagement_DiamondStoneTypeid === 3
@@ -85,7 +93,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
             return "";
           } else {
             let recordIs = blankArr2?.findIndex(
-              (el) => el?.ShapeName === e?.ShapeName
+              (el) => ((el?.ShapeName === e?.ShapeName) && (el?.StockBarcode === e?.StockBarcode))
             );
             if (recordIs === -1) {
               blankArr2.push(e);
@@ -98,20 +106,37 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           }
         }
       });
-
+console.log(blankArr2);
+      let anotherArr = [].concat(blankArr2);
+       miscWiseData(anotherArr);
+      // console.log(blankArr2);
+      // let misc_summary = [];
+      // blankArr2?.forEach((e) => {
+      //     // console.log(e);
+      //     let findInd = misc_summary.findIndex((el) => el?.ShapeName === e?.ShapeName);
+      //     if(findInd === -1){
+      //       misc_summary.push(e);
+      //     }else{
+      //       misc_summary[findInd].Wt += e?.Wt;
+      //       misc_summary[findInd].Amount += e?.Amount;
+      //       misc_summary[findInd].Rate += e?.Rate;
+      //       // misc_summary[findInd].Wt += e?.Wt;
+      //     }
+      // })
+      // console.log(misc_summary);
       // //important
-      obj.Pcs = 0;
-      obj.Amount = 0;
-      blankArr2?.forEach((e) => {
-        obj.Pcs += e?.Pcs;
-        obj.Amount += e?.Amount;
-        if (e?.MasterManagement_DiamondStoneTypeid === 2) {
-          obj.Wt_Ctw += e?.Wt;
-        }
-        if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-          obj.Wt_gm += e?.Wt;
-        }
-      });
+      // obj.Pcs = 0;
+      // obj.Amount = 0;
+      // blankArr2?.forEach((e) => {
+      //   obj.Pcs += e?.Pcs;
+      //   obj.Amount += e?.Amount;
+      //   if (e?.MasterManagement_DiamondStoneTypeid === 2) {
+      //     obj.Wt_Ctw += e?.Wt;
+      //   }
+      //   if (e?.MasterManagement_DiamondStoneTypeid === 3) {
+      //     obj.Wt_gm += e?.Wt;
+      //   }
+      // });
 
       let othamttot = 0;
       datas?.resultArray?.forEach((e) => {
@@ -124,16 +149,13 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
         })
       })
       datas?.resultArray?.forEach((e) => {
-        console.log(e);
         othamttot += e?.OtherCharges + e?.TotalDiamondHandling; 
       })
       setOtherAmountTotal(othamttot);
       setMiscWise_total(obj);
-      setMiscWise(blankArr2);
-      setCategoryWise(blankArr);
+      // setMiscWise(blankArr2);
+      setCategoryWise(cateWise2);
       setResult(datas); 
-      console.log(datas);
-
       setLoader(false);
     } catch (error) {
       console.log(error);
@@ -165,6 +187,23 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
     sendData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const miscWiseData = (arr) => {
+    let m_s = [];
+    console.log(arr);
+    // arr?.forEach((e) => {
+    //   console.log(e);
+    //   let findInd = m_s?.findIndex((el) => (el?.ShapeName === e?.ShapeName));
+    //   if(findInd === -1){
+    //     m_s.push(e);
+    //   }else{
+    //     m_s[findInd].Wt += e?.Wt;
+    //     m_s[findInd].Rate += e?.Rate;
+    //     m_s[findInd].Amount += e?.Amount;
+    //   }
+    // })
+    // console.log(m_s);
+  }
 
   const handleImgShow = (e) => {
     if (imgFlag) setImgFlag(false);
@@ -428,10 +467,10 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
 
                 {/* Courier info and Charges */}
                 <div className="w-100 d-flex border border-top-0">
-                  <div style={{width:"80%"}}></div>
-                  <div style={{width:"20%"}} className="d-flex">
-                    <div style={{width:"45%"}} className="border-end px-1  dp7cen2  ">{result?.header?.ModeOfDel} : </div>
-                    <div style={{width:"55%"}} className="px-1  dp7cen2  "> {formatAmount(result?.header?.FreightCharges)}</div>
+                  <div style={{width:"69.9%"}}></div>
+                  <div style={{width:"30.1%"}} className="d-flex">
+                    <div style={{width:"63%"}} className="border-end border-start px-1  dp7cen2  ">{result?.header?.ModeOfDel} : </div>
+                    <div style={{width:"37%"}} className="px-1  dp7cen2  "> {formatAmount(result?.header?.FreightCharges)}</div>
                   </div>
                 </div>
 
@@ -537,7 +576,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                               {e?.Wastage?.toFixed(3)}
                             </div>
                             <div className="sum_prod_head_col_6 dp7cen2">
-                              {e?.PureNetWt?.toFixed(3)}
+                              {e?.fineWtByMetalWtCalculation?.toFixed(3)}
                             </div>
                           </div>
                         );
@@ -555,7 +594,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </div>
                       <div className="sum_prod_head_col_5 dp7cen2"></div>
                       <div className="sum_prod_head_col_6 dp7cen2">
-                        {result?.mainTotal?.total_purenetwt?.toFixed(3)}
+                        {result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)}
                       </div>
                     </div>
                   </div>
@@ -604,7 +643,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                               : `${e?.Wt?.toFixed(3)} gm`}
                           </div>
                             <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                              {e?.Amount?.toFixed(3)}
+                              {formatAmount(e?.Amount)}
                             </div>
                           </div>
                         );
