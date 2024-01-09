@@ -31,12 +31,16 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
     try {
       let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
       data.BillPrint_Json[0].address = address;
+
       const datas = OrganizeDataPrint(
         data?.BillPrint_Json[0],
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-        datas?.resultArray?.forEach((e) => {
+      
+
+      //certification wt added
+      datas?.resultArray?.forEach((e) => {
           datas?.json2?.forEach((el) => {
             if(e?.SrJobno === el?.StockBarcode){
               if(el?.ShapeName === 'Certification_NM award' && el?.MasterManagement_DiamondStoneTypeid === 3){
@@ -44,7 +48,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
               }
             }
           })
-        })
+      })
+      
       let blankArr = [];
       let blankArr2 = [];
       let obj = {
@@ -54,24 +59,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
         Wt_gm: 0,
         Amount: 0,
       };
+      //category wise data setting
       datas?.resultArray?.forEach((j2) => {
-        // let findIndex = blankArr?.map((el) => el?.Categoryname === e?.Categoryname);
-        // if(findIndex === -1){
-        //   e[findIndex].pieces += e[findIndex].length;
-        //   blankArr.push(e[findIndex]);
-        // }else{
-        //   blankArr[findIndex].FineWt += (+e?.FineWt);
-        //   blankArr[findIndex].Wastage += (+e?.Wastage);
-        //   blankArr[findIndex].grosswt += (+e?.grosswt);
-        //   blankArr[findIndex].NetWt += (+e?.NetWt);
-        // }
-        // console.log("zzzzz",blankArr);
-
-        let recordIs = blankArr?.findIndex(
-          (e) => e?.Categoryname === j2?.Categoryname
-          // e?.QualityName === j2?.QualityName &&
-          // e?.Colorname === j2?.Colorname
-        );
+        let recordIs = blankArr?.findIndex((e) => e?.Categoryname === j2?.Categoryname);
         if (recordIs === -1) {
           blankArr.push(j2);
         } else {
@@ -82,6 +72,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           blankArr[recordIs].Quantity += +j2?.Quantity;
         }
       });
+      console.log(blankArr);
+
+      //set misc wise data
       datas?.json2?.forEach((e) => {
         if (
           e?.MasterManagement_DiamondStoneTypeid === 2 ||
@@ -106,7 +99,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
         }
       });
 
-      //important
+      // //important
       obj.Pcs = 0;
       obj.Amount = 0;
       blankArr2?.forEach((e) => {
@@ -119,24 +112,27 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           obj.Wt_gm += e?.Wt;
         }
       });
+
       let othamttot = 0;
       datas?.resultArray?.forEach((e) => {
         datas?.json2?.forEach((el) => {
           if(e?.SrJobno === el?.StockBarcode){
-            if(el?.MasterManagement_DiamondStoneTypeid === 3 && (el?.ShapeName === 'Hallmark' || el?.ShapeName === 'Stamping' || el?.ShapeName === 'Certification_NM award')){
+            if(el?.MasterManagement_DiamondStoneTypeid === 3 && (el?.ShapeName === 'Hallmark' || el?.ShapeName === 'Stamping' || el?.ShapeName?.includes('Certification_'))){
               e.OtherCharges += el?.Amount;
             }
           }
         })
       })
       datas?.resultArray?.forEach((e) => {
-        othamttot += e?.OtherCharges ;
+        console.log(e);
+        othamttot += e?.OtherCharges + e?.TotalDiamondHandling; 
       })
       setOtherAmountTotal(othamttot);
       setMiscWise_total(obj);
       setMiscWise(blankArr2);
       setCategoryWise(blankArr);
-      setResult(datas);
+      setResult(datas); 
+      console.log(datas);
 
       setLoader(false);
     } catch (error) {
@@ -215,9 +211,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <div className="fsgdp7 lhdp7">{result?.header?.CompanyAddress}</div>
                       <div className="fsgdp7 lhdp7">{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode},{result?.header?.CompanyState}({result?.header?.CompanyState})</div>
                       <div className="fsgdp7 lhdp7">T {result?.header?.CompanyTellNo} | TOLL FREE  {result?.header?.CompanyTollFreeNo} | TOLL FREE  {result?.header?.CompanyTollFreeNo}</div>
-                      <div className="fsgdp7 lhdp7">{result?.header?.CompanyEmail}</div>
-                      <div className="fsgdp7 lhdp7">{result?.header?.CompanyEmail}</div>
-                      <div className="fsgdp7 lhdp7">{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE}-{result?.header?.Company_CST_STATE_No} | PAN-{result?.header?.Pannumber} </div>
+                      <div className="fsgdp7 lhdp7">{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
+                      <div className="fsgdp7 lhdp7">{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE} - {result?.header?.Company_CST_STATE_No} | PAN-{result?.header?.Pannumber} </div>
                     </div>
                     <div className="d-flex justify-content-end">
                       <img src={result?.header?.PrintLogo} alt="#companylogo" className="headimgdp7" />
@@ -251,8 +246,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       {result?.header?.vat_cst_pan}
                     </div>
                     <div className="fsgdp7 lhdp7">
-                      {result?.header?.Cust_CST_STATE}{" "}
-                      {result?.header?.Cust_CST_STATE_No}
+                      {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No}
                     </div>
                   </div>
                   <div className="subheaddiv2">
@@ -357,7 +351,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                               {e?.HUID === "" ? "" : `HUID - ${e?.HUID}`}
                             </div>
                           </div>
-                          <div className="rcol3dp7 dp7cen1">
+                          <div className="rcol3dp7 dp7cen1" style={{wordBreak:"break-word"}}>
                             {e?.MetalPurity}/{e?.MetalColor}
                           </div>
                           <div className="rcol4dp7 dp7cen2">
@@ -384,7 +378,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                                      { el?.ShapeName === "Certification_NM award" ? e?.certificateWtDia?.toFixed(3) : el?.Wt?.toFixed(3) } 
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {el?.Rate}
+                                      {el?.Rate?.toFixed(2)}
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2">
                                       {el?.Amount?.toFixed(2)}
@@ -395,10 +389,10 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                             </div>
                           </div>
                           <div className="rcol12dp7 dp7cen2 bldp7">
-                            {e?.OtherCharges?.toFixed(2)}
+                            {formatAmount((e?.OtherCharges + e?.TotalDiamondHandling))}
                           </div>
                           <div className="rcol13dp7 dp7cen2 border-end-0">
-                            {e?.PureNetWt?.toFixed(3)}
+                            {(e?.totals?.fineWtByMetalWtCalculation)?.toFixed(3)}
                           </div>
                         </div>
                       );
@@ -417,16 +411,14 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                   <div className="totcol4dp7"></div>
                   <div className="totcol5dp7 dp7cen2">
-                    {formatAmount(
-                      result?.mainTotal?.total_diamond_colorstone_misc_amount
-                    )}
+                    {formatAmount(result?.mainTotal?.total_diamond_colorstone_misc_amount)}
                   </div>
                   <div className="totcol6dp7 dp7cen2">
                     {/* {formatAmount(result?.mainTotal?.total_other)} */}
                     {formatAmount(otherAMountTotal)}
                   </div>
                   <div className="totcol7dp7 dp7cen2">
-                    {result?.mainTotal?.total_purenetwt?.toFixed(3)}
+                    {result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)}
                   </div>
                 </div>
                 
@@ -436,8 +428,12 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
 
                 {/* Courier info and Charges */}
-                <div className="w-100  dp7cen2  border border-top-0">
-                  {formatAmount(result?.header?.FreightCharges)}
+                <div className="w-100 d-flex border border-top-0">
+                  <div style={{width:"80%"}}></div>
+                  <div style={{width:"20%"}} className="d-flex">
+                    <div style={{width:"45%"}} className="border-end px-1  dp7cen2  ">{result?.header?.ModeOfDel} : </div>
+                    <div style={{width:"55%"}} className="px-1  dp7cen2  "> {formatAmount(result?.header?.FreightCharges)}</div>
+                  </div>
                 </div>
 
 
@@ -476,11 +472,11 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                   <div
                     className="taxdp7d2 dp7cen2 bldp7 h-100 border-0 "
-                    style={{ width: "20%" }}
+                    style={{ width: "19%" }}
                   ></div>
                   <div
                     className="taxdp7d3 dp7cen2 fw-bold pe-2 h-100 border-end-0 bldp7"
-                    style={{ width: "10.2%" }}
+                    style={{ width: "11.2%" }}
                   >
                     <div
                       dangerouslySetInnerHTML={{
@@ -648,12 +644,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                       </div>
                       <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                        {/* {formatAmount((miscWise_total?.Amount + otherAMountTotal +  result?.header?.FreightCharges))} */}
                         {formatAmount((miscWise_total?.Amount + otherAMountTotal))}
-                        {/* {(
-                          miscWise_total?.Amount +
-                          result?.mainTotal?.total_other + result?.header?.FreightCharges
-                        )?.toFixed(2)} */}
                       </div>
                     </div>
                   </div>
@@ -678,7 +669,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div>Branch: {result?.header?.bankaddress}</div>
                     <div>Account Name: {result?.header?.accountname}</div>
                     <div>Account No. : {result?.header?.accountnumber}</div>
-                    <div>RTGS/NEFT IFSC: Kotak00000405</div>
+                    <div>RTGS/NEFT IFSC: {result?.header?.rtgs_neft_ifsc}</div>
                     <div>Enquiry No. (E & OE)</div>
                   </div>
                   <div className="subheaddiv_1 d-flex flex-column justify-content-between align-items-start">
@@ -687,7 +678,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       {result?.header?.customerfirmname}
                     </div>
                   </div>
-                  <div className="subheaddiv_1 d-flex flex-column justify-content-between align-items-start">
+                  <div className="subheaddiv_1 d-flex flex-column justify-content-between align-items-start border-end-0">
                     <div>Signature</div>
                     <div className="fw-bold mb-2">
                       {result?.header?.CompanyFullName}

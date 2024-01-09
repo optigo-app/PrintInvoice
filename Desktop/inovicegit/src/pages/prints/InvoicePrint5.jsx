@@ -129,9 +129,9 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
     });
     console.log(datas);
     setMetaltypewise(metwise);
-    // console.log(metwise);
     setFooterComp(footerCom);
     setResult(datas);
+    // console.log(metwise);
     
     // datas?.resultArray?.forEach((e) => {
     //   let diaArr = [];
@@ -168,7 +168,6 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
     //   })
       
     // })
-    console.log(datas);
   }
   return (
     <>
@@ -456,9 +455,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </div>
                     </div>
                     <div
-                      className="d-flex w-100 border-top"
-                      style={{ height: "60px" }}
-                    >
+                      className="d-flex w-100 border-top h_60_ivp57">
                       <div className="fw-bold px-1 w-50 border-end centerip5">
                         Total Amount To be Paid:
                       </div>
