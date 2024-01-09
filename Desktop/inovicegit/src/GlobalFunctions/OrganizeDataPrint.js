@@ -69,7 +69,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     total_csamount:0,
     total_Making_Amount_Other_Charges:0,
     total_fineWtByMetalWtCalculation:0,
-    totalMiscAmount: 0
+    totalMiscAmount: 0,
+    total_otherChargesMiscHallStamp:0
   };
 
   //json1 array
@@ -145,7 +146,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           FineWt: 0,
         },
         Making_Amount_Other_Charges:0,
-        fineWtByMetalWtCalculation:0
+        fineWtByMetalWtCalculation:0,
+        otherChargesMiscHallStamp:0,
       };
 
       let other_details = otherAmountDetail(j1?.OtherAmtDetail);
@@ -248,6 +250,11 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.misc.Pcs += j2?.Pcs;
               maintotal.misc.Rate += j2?.Rate;
               maintotal.misc.Amount += j2?.Amount;
+              if(j2?.ShapeName === 'Hallmark' || j2?.ShapeName === 'Stamping' || j2?.ShapeName?.includes('Certification')){
+                jobwise_totals.otherChargesMiscHallStamp += j2?.Amount;
+                maintotal.total_otherChargesMiscHallStamp += j2?.Amount;
+              }
+
             }
             //for finding
             if (j2?.MasterManagement_DiamondStoneTypeid === 5) {
@@ -280,7 +287,11 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.stone_misc.Rate += j2?.Rate;
               maintotal.stone_misc.Amount += j2?.Amount;
             }
+
             jobwise_totals.fineWtByMetalWtCalculation = ((j1?.NetWt * j1?.Tunch)/100);
+
+            // jobwise_totals.otherChargesMiscHallStamp += (j2)
+
             //ending of comparing of job no block
           }
         });
