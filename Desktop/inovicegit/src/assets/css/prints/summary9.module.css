@@ -48,3 +48,17 @@
     width: 16%;
     min-width: 16%;
 }
+
+.w_20{
+    width: 20%;
+    min-width: 20%;
+}
+
+.metalCol{
+    width: calc( 100% / 7);
+    min-width: calc( 100% / 7);
+}
+
+.shapeName{
+    word-break: break-all;
+}
