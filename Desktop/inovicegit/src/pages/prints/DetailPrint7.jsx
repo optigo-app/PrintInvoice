@@ -414,7 +414,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     {formatAmount(result?.mainTotal?.total_diamond_colorstone_misc_amount)}
                   </div>
                   <div className="totcol6dp7 dp7cen2">
-                    {/* {formatAmount(result?.mainTotal?.total_other)} */}
                     {formatAmount(otherAMountTotal)}
                   </div>
                   <div className="totcol7dp7 dp7cen2">

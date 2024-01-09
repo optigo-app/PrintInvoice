@@ -1,4 +1,4 @@
-import { otherAmountDetail, taxGenrator } from "../GlobalFunctions";
+import { CapitalizeWords, otherAmountDetail, taxGenrator } from "../GlobalFunctions";
 import { numberToWords } from "number-to-words";
 
 export const OrganizeDataPrint = (header, json1, json2) => {
@@ -513,22 +513,41 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     // return resultArr;
   }
 
+  // allTax?.length > 0 &&
+  //   allTax?.forEach((e) => {
+  //     totalAmount += +e?.amount;
+  //     const [dollars, cents] = e?.amount?.split(".");
+  //     const amountInWords = [
+  //       numberToWords.toWords(parseInt(dollars)),
+  //       "point",
+  //       numberToWords.toWords(parseInt(cents || "0")),
+  //       "",
+  //     ]
+  //       .filter(Boolean)
+  //       .join(" ");
+  //     e.amountInWords = `TOTAL ${e.name} IN WORDS: ${
+  //       amountInWords.charAt(0).toUpperCase() + amountInWords.slice(1)
+  //     }`;
+  //   });
   allTax?.length > 0 &&
-    allTax?.forEach((e) => {
-      totalAmount += +e?.amount;
-      const [dollars, cents] = e?.amount?.split(".");
-      const amountInWords = [
-        numberToWords.toWords(parseInt(dollars)),
-        "point",
-        numberToWords.toWords(parseInt(cents || "0")),
-        "",
-      ]
-        .filter(Boolean)
-        .join(" ");
-      e.amountInWords = `TOTAL ${e.name} IN WORDS: ${
-        amountInWords.charAt(0).toUpperCase() + amountInWords.slice(1)
-      }`;
-    });
+  allTax?.forEach((e) => {
+    totalAmount += +e?.amount;
+    const [dollars, cents] = e?.amount?.split(".");
+    const dollarsInWords = numberToWords.toWords(parseInt(dollars));
+    const centsInWords = cents
+      ? numberToWords.toWords(parseInt(cents.padEnd(2, '0')))
+      : "Zero";
+    const amountInWords = [
+      dollarsInWords.charAt(0).toUpperCase() + dollarsInWords.slice(1),
+      "point",
+      centsInWords.charAt(0).toUpperCase() + centsInWords.slice(1),
+    ]
+      .filter(Boolean)
+      .join(" ");
+      let amtInWords = CapitalizeWords(amountInWords)
+    e.amountInWords = `TOTAL ${e.name} IN WORDS: ${amtInWords}`;
+  });
+  
   totalAmount = (+totalAmount)?.toFixed(2);
 
   let headerObj = {...header};
