@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { ToWords } from 'to-words';
 import {
-    FooterComponent,
-    HeaderComponent,
     apiCall,
-    fixedValues,
-    handleImageError,
     isObjectEmpty,
-    numberToWord,
     NumberWithCommas,
-    taxGenrator,
     handlePrint
 } from "../../GlobalFunctions";
 
 import style from '../../assets/css/prints/summary8.module.css';
 import Loader from "../../components/Loader";
-import headerStyle from "../../assets/css/headers/header1.module.css";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import style2 from "../../assets/css/headers/header1.module.css";
 import footerStyle from "../../assets/css/footers/footer2.module.css";
