@@ -699,7 +699,8 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                           __html: headerData?.Currencysymbol,
                         }}
                       ></span>{" "}
-                      {NumberWithCommas(e?.UnitCost / e?.Quantity * headerData?.CurrencyExchRate, 2)}
+                      {/* {NumberWithCommas(e?.UnitCost / (e?.Quantity * headerData?.CurrencyExchRate), 2)} */}
+                      {NumberWithCommas(e?.UnitCost /  headerData?.CurrencyExchRate, 2)}
                     </p>
                   </td>
                   <td className={`${style?.amount} p-1  text-end border-start border-bottom border-end`}>
@@ -709,10 +710,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                           __html: headerData?.Currencysymbol,
                         }}
                       ></span>{" "}
-                      {NumberWithCommas(
-                        e?.TotalAmount / headerData?.CurrencyExchRate,
-                        2
-                      )}
+                      {NumberWithCommas( e?.TotalAmount / headerData?.CurrencyExchRate, 2 )}
                     </p>
                   </td>
                 </tr>

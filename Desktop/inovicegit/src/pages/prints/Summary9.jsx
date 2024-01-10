@@ -21,12 +21,13 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [msg, setMsg] = useState("");
     const [data, setData] = useState({});
     const [headerData, setHeaderData] = useState({});
+    const [summary, setSummary] = useState([]);
     const toWords = new ToWords();
     const [checkBox, setCheckbox] = useState({
         header: false,
         image: false,
         summary: false
-    })
+    });
 
     const loadData = (data) => {
         setHeaderData(data?.BillPrint_Json[0]);
@@ -36,6 +37,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
             data?.BillPrint_Json2
         );
         let resultArray = [];
+        let summaries = [];
         datas.resultArray.forEach((e, i) => {
             let findMetalrate = e?.metal.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
             let obj = { ...e };
@@ -45,9 +47,16 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                 obj.metalrate = e?.metal[findMetalrate]?.Rate;
             }
             resultArray.push(obj);
+            let findSummary = summaries.findIndex((ele, ind) => ele?.Categoryname === e?.Categoryname && ele?.SubCategoryname === e?.SubCategoryname);
+            if(findSummary === -1){
+                summaries.push({Categoryname: e?.Categoryname, SubCategoryname: e?.SubCategoryname, Quantity: e?.Quantity});
+            }else{
+                summaries[findSummary].Quantity += e?.Quantity;
+            }
         })
         datas.resultArray = resultArray;
         console.log(datas);
+        setSummary(summaries);
         setData(datas);
     };
 
@@ -165,7 +174,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
             {/* table data */}
             {data?.resultArray.map((e, i) => {
                 return <div className="d-flex border-start border-end border-bottom" key={i}>
-                    <div className={`${style?.SR} text-center border-end p-1`}>1</div>
+                    <div className={`${style?.SR} text-center border-end p-1`}>{i+1}</div>
                     <div className={`${style?.DESIGN} fw-bold  border-end p-1`}>
                         <p>{e?.SrJobno} - {e?.Categoryname}</p>
                         <img src={e?.DesignImage} alt="" className='w-100 imgWidth' onError={handleImageError} />
@@ -242,24 +251,25 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="border">
                         <p className="lightGrey p-1 fw-bold text-center">Summary Detail</p>
                         <div className="d-grid p-2" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
-                            <div className="d-flex"><div className="col-9">BRIDAL MS | Regular </div><div className="col-1">:</div><div className="col-2">1</div></div>
-                            <div className="d-flex"><div className="col-9">Necklace | Necklace </div><div className="col-1">:</div><div className="col-2">3</div></div>
-                            <div className="d-flex"><div className="col-9">Ring | Light Weight </div><div className="col-1">:</div><div className="col-2">1</div></div>
-                            <div className="d-flex"><div className="col-9">Star Jewellery | Star Diamond</div><div className="col-1">:</div><div className="col-2">1</div></div>
-                            <div className="d-flex"><div className="col-9">woman bangel | Bangles </div><div className="col-1">:</div><div className="col-2">1</div></div>
+                            {summary.map((e, i) => {
+                                return   <div className="d-flex" key={i}><div className="col-9">{e?.Categoryname} | {e?.SubCategoryname} </div><div className="col-1">:</div><div className="col-2">{NumberWithCommas(e?.Quantity, 0)}</div></div>
+                            })}
                         </div>
                     </div>
                 </div>
                 <div className="ps-1 col-4">
                     <div className='p-1 border h-100'>
-                        <div className="d-flex justify-content-between">
-                            <p>IGST @ 0.25%</p>
-                            <p>199.16</p>
+                        {data?.allTaxes.map((e, i) => {
+                            return  <div className="d-flex justify-content-between" key={i}>
+                            <p>{e?.name} @ {e?.per}</p>
+                            <p>{NumberWithCommas(+e?.amount, 2)}</p>
                         </div>
-                        <div className="d-flex justify-content-between">
-                            <p className='fw-bold'>Less</p>
-                            <p className='fw-bold'>-0.98</p>
-                        </div>
+                        })}
+                    
+                       {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between">
+                            <p className='fw-bold'>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
+                            <p className='fw-bold'>{NumberWithCommas(headerData?.AddLess, 2)}</p>
+                        </div>}
                     </div>
                 </div>
             </div>
@@ -271,11 +281,11 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="col-4 p-1 ps-2">
                     <div className="d-flex justify-content-between">
                         <p>CASH :</p>
-                        <p className='fw-bold'>79,860.27</p>
+                        <p className='fw-bold'>{NumberWithCommas(data?.finalAmount, 2)}</p>
                     </div>
                     <div className="d-flex justify-content-between">
                         <p>Gold in 24K :</p>
-                        <p className='fw-bold'>36.935</p>
+                        <p className='fw-bold'>{NumberWithCommas(data?.mainTotal?.metal?.Wt, 3)}</p>
                     </div>
                 </div>
             </div>
@@ -292,15 +302,15 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">GROSS WT	</p>
-                                    <p>54.380 gm</p>
+                                    <p>{NumberWithCommas(data?.mainTotal?.grosswt, 3)} gm</p>
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">NET WT </p>
-                                    <p>47.323 gm	</p>
+                                    <p>{NumberWithCommas(data?.mainTotal?.netwt, 3)} gm	</p>
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">MINA/KUNDAN	</p>
-                                    <p>4 / 1.050 gm	</p>
+                                    <p>{NumberWithCommas(data?.mainTotal?.misc?.Pcs, 3)} / {NumberWithCommas(data?.mainTotal?.misc?.Wt, 3)} gm	</p>
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">STONE WT</p>
@@ -308,37 +318,37 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                                 <div className="d-flex justify-content-between lightGrey position-absolute start-0 bottom-0 w-100 px-1 py-1">
                                     <p className="fw-bold">STONE WT</p>
-                                    <p>13 / 5.000 ctw	</p>
+                                    <p>{NumberWithCommas(data?.mainTotal?.colorstone?.Pcs, 3)} / {NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)} ctw	</p>
                                 </div>
                             </div>
                             <div className="col-6 px-1 pb-4 position-relative">
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">GOLD</p>
-                                    <p>36.935 gm</p>
+                                    <p>{NumberWithCommas(data?.mainTotal?.metal?.Amount, 2)} </p>
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">MINA/KUNDAN	</p>
-                                    <p>54.380 gm</p>
+                                    <p>{NumberWithCommas(data?.mainTotal?.misc?.Amount, 2)} </p>
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">CST </p>
-                                    <p>47.323 gm	</p>
+                                    <p>{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)} 	</p>
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">MAKING	</p>
-                                    <p>4 / 1.050 gm	</p>
+                                    <p>{NumberWithCommas(data?.mainTotal?.total_Making_Amount, 2)} 	</p>
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">OTHER</p>
-                                    <p>13 / 5.000 ctw	</p>
+                                    <p>{NumberWithCommas(data?.mainTotal?.total_other, 2)}	</p>
                                 </div>
-                                <div className="d-flex justify-content-between">
-                                    <p className="fw-bold">LESS</p>
-                                    <p>13 / 5.000 ctw	</p>
-                                </div>
+                                {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between">
+                                    <p className="fw-bold">{headerData?.AddLess > 0 ? "ADD" : "LESS"}</p>
+                                    <p>{NumberWithCommas(headerData?.AddLess, 2)}	</p>
+                                </div>}
                                 <div className="d-flex justify-content-between lightGrey position-absolute start-0 bottom-0 w-100 px-1 py-1">
-                                    <p className="fw-bold">STONE WT</p>
-                                    <p>13 / 5.000 ctw	</p>
+                                    <p className="fw-bold">TOTAL</p>
+                                    <p>{NumberWithCommas(data?.finalAmount, 2)} 	</p>
                                 </div>
                             </div>
                         </div>
