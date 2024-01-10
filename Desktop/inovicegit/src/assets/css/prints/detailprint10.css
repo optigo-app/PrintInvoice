@@ -1,9 +1,12 @@
 .containerdp10{
     box-sizing: border-box;
     word-break: break-all;
-    padding: 15rem;
     font-size: 12px;
     line-height: 14px;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 5rem;
+    
 }
 /* value space and direction */
 .centerdp10{
@@ -34,11 +37,11 @@
 }
 /* font size */
 .fsgdp10{
-    font-size: 14px;
+    font-size: 12px;
     line-height: 15px;
 }
 .fsg2dp10{
-    font-size: 14px;
+    font-size: 12px;
     /* line-height: 14px; */
 }
 
@@ -274,5 +277,16 @@
         height: 15px !important;
         border: 1px solid #989898;
         font-weight: bold;
+    }
+    .containerdp10{
+        box-sizing: border-box;
+        word-break: break-all;
+        font-size: 7px;
+        line-height: 7px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 10px;
+        margin-top: 5rem;
+        
     }
 }

@@ -181,6 +181,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
 
       let miscs = [];
       let colorstones = [];
+      // eslint-disable-next-line array-callback-return
       datas.json2.map((ele, ind) => {
         if(ele?.ShapeName === 'Stamping' || ele?.ShapeName === 'Hallmark'){}
         else{
@@ -195,6 +196,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       let miscs_filter = [];
       let colrStone_filter = [];
   
+      // eslint-disable-next-line array-callback-return
       miscs.map((ele, ind) => {
         let findMiscs = miscs_filter.findIndex(
           (elem, index) => elem?.ShapeName === ele?.ShapeName
@@ -212,6 +214,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
         }
       });
   
+      // eslint-disable-next-line array-callback-return
       colorstones.map((ele, ind) => {
         let findcs = colrStone_filter.findIndex(
           (elem, index) => elem?.ShapeName === ele?.ShapeName
@@ -256,7 +259,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           misc_sum_total.Pcs += e?.Pcs;
           misc_sum_total.Amount += e?.Amount;
       })
-      console.log(misc_sum_total);
       setMiscWise(arrnew);
       setMiscWise_total(misc_sum_total);
 

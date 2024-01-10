@@ -295,180 +295,176 @@ export const OrganizeDataPrint = (header, json1, json2) => {
             //ending of comparing of job no block
           }
         });
-      json2?.forEach((j2, i) => {
-        if (j1?.SrJobno === j2?.StockBarcode) {
-          if (j2?.MasterManagement_DiamondStoneTypeid === 1) {
-            let recordIs = blankArrDiamond?.findIndex(
-              (e) =>
-                e?.ShapeName === j2?.ShapeName &&
-                e?.QualityName === j2?.QualityName &&
-                e?.Colorname === j2?.Colorname
-            );
-            if (recordIs === -1) {
-              blankArrDiamond.push(j2);
-            } else {
-              blankArrDiamond[recordIs].Wt += +j2?.Wt;
-              blankArrDiamond[recordIs].Pcs += +j2?.Pcs;
-              blankArrDiamond[recordIs].Rate += +j2?.Rate;
-              blankArrDiamond[recordIs].Amount += +j2?.Amount;
-            }
+      // json2?.forEach((j2, i) => {
+      //   if (j1?.SrJobno === j2?.StockBarcode) {
+      //     if (j2?.MasterManagement_DiamondStoneTypeid === 1) {
+      //       let recordIs = blankArrDiamond?.findIndex(
+      //         (e) =>
+      //           e?.ShapeName === j2?.ShapeName &&
+      //           e?.QualityName === j2?.QualityName &&
+      //           e?.Colorname === j2?.Colorname
+      //       );
+      //       if (recordIs === -1) {
+      //         blankArrDiamond.push(j2);
+      //       } else {
+      //         blankArrDiamond[recordIs].Wt += +j2?.Wt;
+      //         blankArrDiamond[recordIs].Pcs += +j2?.Pcs;
+      //         blankArrDiamond[recordIs].Rate += +j2?.Rate;
+      //         blankArrDiamond[recordIs].Amount += +j2?.Amount;
+      //       }
 
-            let recordIs2 = diamondSettingGroup?.findIndex(
-              (e) =>
-                e?.ShapeName === j2?.ShapeName &&
-                e?.QualityName === j2?.QualityName &&
-                e?.Colorname === j2?.Colorname &&
-                e?.SettingName === j2?.SettingName &&
-                e?.SizeName === j2?.SizeName
-            );
-            if (recordIs2 === -1) {
-              diamondSettingGroup.push(j2);
-            } else {
-              diamondSettingGroup[recordIs2].Wt += +j2?.Wt;
-              diamondSettingGroup[recordIs2].Pcs += +j2?.Pcs;
-              diamondSettingGroup[recordIs2].Rate += +j2?.Rate;
-              diamondSettingGroup[recordIs2].Amount += +j2?.Amount;
-              diamondSettingGroup[recordIs2].SettingAmount +=
-                +j2?.SettingAmount;
-            }
+      //       let recordIs2 = diamondSettingGroup?.findIndex(
+      //         (e) =>
+      //           e?.ShapeName === j2?.ShapeName &&
+      //           e?.QualityName === j2?.QualityName &&
+      //           e?.Colorname === j2?.Colorname &&
+      //           e?.SettingName === j2?.SettingName &&
+      //           e?.SizeName === j2?.SizeName
+      //       );
+      //       if (recordIs2 === -1) {
+      //         diamondSettingGroup.push(j2);
+      //       } else {
+      //         diamondSettingGroup[recordIs2].Wt += +j2?.Wt;
+      //         diamondSettingGroup[recordIs2].Pcs += +j2?.Pcs;
+      //         diamondSettingGroup[recordIs2].Rate += +j2?.Rate;
+      //         diamondSettingGroup[recordIs2].Amount += +j2?.Amount;
+      //         diamondSettingGroup[recordIs2].SettingAmount +=
+      //           +j2?.SettingAmount;
+      //       }
 
-            let recordIs3 = diamondMetalPurityWise?.findIndex((e) => e?.QualityName === j2?.QualityName);
-            // if(recordIs3 === -1){
-            //   diamondMetalPurityWise.push(j2);
-            //   diamondWtMetalPurityWise = (+j2?.Wt);
-            // }else{
-            //   diamondMetalPurityWise[recordIs3].Wt += +j2?.Wt;
-            //   diamondMetalPurityWise[recordIs3].Pcs += +j2?.Pcs;
-            //   diamondMetalPurityWise[recordIs3].Rate += +j2?.Rate;
-            //   diamondMetalPurityWise[recordIs3].Amount += +j2?.Amount;
-            //   diamondWtMetalPurityWise += +j2?.Wt;
-            // }
-          }
-          if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
-            let recordIs = blankArrColorstone?.findIndex(
-              (e) =>
-                e?.ShapeName === j2?.ShapeName &&
-                e?.QualityName === j2?.QualityName &&
-                e?.Colorname === j2?.Colorname
-            );
-            if (recordIs === -1) {
-              blankArrColorstone.push(j2);
-            } else {
-              blankArrColorstone[recordIs].Wt += +j2?.Wt;
-              blankArrColorstone[recordIs].Pcs += +j2?.Pcs;
-              blankArrColorstone[recordIs].Rate += +j2?.Rate;
-              blankArrColorstone[recordIs].Amount += +j2?.Amount;
-            }
+      //       let recordIs3 = diamondMetalPurityWise?.findIndex((e) => e?.QualityName === j2?.QualityName);
+      //       // if(recordIs3 === -1){
+      //       //   diamondMetalPurityWise.push(j2);
+      //       //   diamondWtMetalPurityWise = (+j2?.Wt);
+      //       // }else{
+      //       //   diamondMetalPurityWise[recordIs3].Wt += +j2?.Wt;
+      //       //   diamondMetalPurityWise[recordIs3].Pcs += +j2?.Pcs;
+      //       //   diamondMetalPurityWise[recordIs3].Rate += +j2?.Rate;
+      //       //   diamondMetalPurityWise[recordIs3].Amount += +j2?.Amount;
+      //       //   diamondWtMetalPurityWise += +j2?.Wt;
+      //       // }
+      //     }
+      //     if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
+      //       let recordIs = blankArrColorstone?.findIndex(
+      //         (e) =>
+      //           e?.ShapeName === j2?.ShapeName &&
+      //           e?.QualityName === j2?.QualityName &&
+      //           e?.Colorname === j2?.Colorname
+      //       );
+      //       if (recordIs === -1) {
+      //         blankArrColorstone.push(j2);
+      //       } else {
+      //         blankArrColorstone[recordIs].Wt += +j2?.Wt;
+      //         blankArrColorstone[recordIs].Pcs += +j2?.Pcs;
+      //         blankArrColorstone[recordIs].Rate += +j2?.Rate;
+      //         blankArrColorstone[recordIs].Amount += +j2?.Amount;
+      //       }
 
-            let recordIs2 = colorstoneSettingGroup?.findIndex(
-              (e) =>
-                e?.ShapeName === j2?.ShapeName &&
-                e?.QualityName === j2?.QualityName &&
-                e?.Colorname === j2?.Colorname &&
-                e?.SizeName === j2?.colorstoneSettingGroup
-            );
-            if (recordIs2 === -1) {
-              colorstoneSettingGroup.push(j2);
-            } else {
-              colorstoneSettingGroup[recordIs2].Wt += +j2?.Wt;
-              colorstoneSettingGroup[recordIs2].Pcs += +j2?.Pcs;
-              colorstoneSettingGroup[recordIs2].Rate += +j2?.Rate;
-              colorstoneSettingGroup[recordIs2].Amount += +j2?.Amount;
-              colorstoneSettingGroup[recordIs2].SettingAmount +=
-                +j2?.SettingAmount;
-            }
+      //       let recordIs2 = colorstoneSettingGroup?.findIndex(
+      //         (e) =>
+      //           e?.ShapeName === j2?.ShapeName &&
+      //           e?.QualityName === j2?.QualityName &&
+      //           e?.Colorname === j2?.Colorname &&
+      //           e?.SizeName === j2?.colorstoneSettingGroup
+      //       );
+      //       if (recordIs2 === -1) {
+      //         colorstoneSettingGroup.push(j2);
+      //       } else {
+      //         colorstoneSettingGroup[recordIs2].Wt += +j2?.Wt;
+      //         colorstoneSettingGroup[recordIs2].Pcs += +j2?.Pcs;
+      //         colorstoneSettingGroup[recordIs2].Rate += +j2?.Rate;
+      //         colorstoneSettingGroup[recordIs2].Amount += +j2?.Amount;
+      //         colorstoneSettingGroup[recordIs2].SettingAmount +=
+      //           +j2?.SettingAmount;
+      //       }
 
-            // let recordIs3 = colorstoneMetalPurityWise?.findIndex((e) => e?.QualityName === j2?.QualityName);
-            // if(recordIs3 === -1){
-            //   colorstoneMetalPurityWise.push(j2);
-            //   colorstoneWtMetalPurityWise = (+j2?.Wt);
-            // }else{
-            //   colorstoneMetalPurityWise[recordIs3].Wt += +j2?.Wt;
-            //   colorstoneMetalPurityWise[recordIs3].Pcs += +j2?.Pcs;
-            //   colorstoneMetalPurityWise[recordIs3].Rate += +j2?.Rate;
-            //   colorstoneMetalPurityWise[recordIs3].Amount += +j2?.Amount;
-            //   colorstoneWtMetalPurityWise += +j2?.Wt;
-            // }
-          }
-          if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
-            let recordIs = blankArrMisc?.findIndex(
-              (e) =>
-                e?.ShapeName === j2?.ShapeName &&
-                e?.QualityName === j2?.QualityName &&
-                e?.Colorname === j2?.Colorname
-            );
-            if (recordIs === -1) {
-              blankArrMisc.push(j2);
-            } else {
-              blankArrMisc[recordIs].Wt += +j2?.Wt;
-              blankArrMisc[recordIs].Pcs += +j2?.Pcs;
-              blankArrMisc[recordIs].Rate += +j2?.Rate;
-              blankArrMisc[recordIs].Amount += +j2?.Amount;
-            }
-          }
-          if (j2?.MasterManagement_DiamondStoneTypeid === 4) {
-            let recordIs = blankArrMetal?.findIndex(
-              (e) =>
-                e?.ShapeName === j2?.ShapeName &&
-                e?.QualityName === j2?.QualityName &&
-                e?.Colorname === j2?.Colorname
-            );
-            if (recordIs === -1) {
-              blankArrMetal.push(j2);
-            } else {
-              blankArrMetal[recordIs].Wt += +j2?.Wt;
-              blankArrMetal[recordIs].Pcs += +j2?.Pcs;
-              blankArrMetal[recordIs].Rate += +j2?.Rate;
-              blankArrMetal[recordIs].Amount += +j2?.Amount;
-            }
-          }
-          if (j2?.MasterManagement_DiamondStoneTypeid === 5) {
-            let recordIs = blankArrFinding?.findIndex(
-              (e) =>
-                e?.ShapeName === j2?.ShapeName &&
-                e?.QualityName === j2?.QualityName &&
-                e?.Colorname === j2?.Colorname
-            );
-            if (recordIs === -1) {
-              blankArrFinding.push(j2);
-            } else {
-              blankArrFinding[recordIs].Wt += +j2?.Wt;
-              blankArrFinding[recordIs].Pcs += +j2?.Pcs;
-              blankArrFinding[recordIs].Rate += +j2?.Rate;
-              blankArrFinding[recordIs].Amount += +j2?.Amount;
-            }
-          }
-          if (
-            j2?.MasterManagement_DiamondStoneTypeid === 2 ||
-            j2?.MasterManagement_DiamondStoneTypeid === 3
-          ) {
-            // blankArrstone_misc
-            let recordIs = blankArrstone_misc?.findIndex(
-              (e) =>
-                e?.ShapeName === j2?.ShapeName &&
-                e?.QualityName === j2?.QualityName &&
-                e?.Colorname === j2?.Colorname
-            );
-            if (recordIs === -1) {
-              blankArrstone_misc.push(j2);
-            } else {
-              blankArrstone_misc[recordIs].Wt += +j2?.Wt;
-              blankArrstone_misc[recordIs].Pcs += +j2?.Pcs;
-              blankArrstone_misc[recordIs].Rate += +j2?.Rate;
-              blankArrstone_misc[recordIs].Amount += +j2?.Amount;
-            }
-          }
-        }
-      });
+      //       // let recordIs3 = colorstoneMetalPurityWise?.findIndex((e) => e?.QualityName === j2?.QualityName);
+      //       // if(recordIs3 === -1){
+      //       //   colorstoneMetalPurityWise.push(j2);
+      //       //   colorstoneWtMetalPurityWise = (+j2?.Wt);
+      //       // }else{
+      //       //   colorstoneMetalPurityWise[recordIs3].Wt += +j2?.Wt;
+      //       //   colorstoneMetalPurityWise[recordIs3].Pcs += +j2?.Pcs;
+      //       //   colorstoneMetalPurityWise[recordIs3].Rate += +j2?.Rate;
+      //       //   colorstoneMetalPurityWise[recordIs3].Amount += +j2?.Amount;
+      //       //   colorstoneWtMetalPurityWise += +j2?.Wt;
+      //       // }
+      //     }
+      //     if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
+      //       let recordIs = blankArrMisc?.findIndex(
+      //         (e) =>
+      //           e?.ShapeName === j2?.ShapeName &&
+      //           e?.QualityName === j2?.QualityName &&
+      //           e?.Colorname === j2?.Colorname
+      //       );
+      //       if (recordIs === -1) {
+      //         blankArrMisc.push(j2);
+      //       } else {
+      //         blankArrMisc[recordIs].Wt += +j2?.Wt;
+      //         blankArrMisc[recordIs].Pcs += +j2?.Pcs;
+      //         blankArrMisc[recordIs].Rate += +j2?.Rate;
+      //         blankArrMisc[recordIs].Amount += +j2?.Amount;
+      //       }
+      //     }
+      //     if (j2?.MasterManagement_DiamondStoneTypeid === 4) {
+      //       let recordIs = blankArrMetal?.findIndex(
+      //         (e) =>
+      //           e?.ShapeName === j2?.ShapeName &&
+      //           e?.QualityName === j2?.QualityName &&
+      //           e?.Colorname === j2?.Colorname
+      //       );
+      //       if (recordIs === -1) {
+      //         blankArrMetal.push(j2);
+      //       } else {
+      //         blankArrMetal[recordIs].Wt += +j2?.Wt;
+      //         blankArrMetal[recordIs].Pcs += +j2?.Pcs;
+      //         blankArrMetal[recordIs].Rate += +j2?.Rate;
+      //         blankArrMetal[recordIs].Amount += +j2?.Amount;
+      //       }
+      //     }
+      //     if (j2?.MasterManagement_DiamondStoneTypeid === 5) {
+      //       let recordIs = blankArrFinding?.findIndex(
+      //         (e) =>
+      //           e?.ShapeName === j2?.ShapeName &&
+      //           e?.QualityName === j2?.QualityName &&
+      //           e?.Colorname === j2?.Colorname
+      //       );
+      //       if (recordIs === -1) {
+      //         blankArrFinding.push(j2);
+      //       } else {
+      //         blankArrFinding[recordIs].Wt += +j2?.Wt;
+      //         blankArrFinding[recordIs].Pcs += +j2?.Pcs;
+      //         blankArrFinding[recordIs].Rate += +j2?.Rate;
+      //         blankArrFinding[recordIs].Amount += +j2?.Amount;
+      //       }
+      //     }
+      //     if (
+      //       j2?.MasterManagement_DiamondStoneTypeid === 2 ||
+      //       j2?.MasterManagement_DiamondStoneTypeid === 3
+      //     ) {
+      //       // blankArrstone_misc
+      //       let recordIs = blankArrstone_misc?.findIndex(
+      //         (e) =>
+      //           e?.ShapeName === j2?.ShapeName &&
+      //           e?.QualityName === j2?.QualityName &&
+      //           e?.Colorname === j2?.Colorname
+      //       );
+      //       if (recordIs === -1) {
+      //         blankArrstone_misc.push(j2);
+      //       } else {
+      //         blankArrstone_misc[recordIs].Wt += +j2?.Wt;
+      //         blankArrstone_misc[recordIs].Pcs += +j2?.Pcs;
+      //         blankArrstone_misc[recordIs].Rate += +j2?.Rate;
+      //         blankArrstone_misc[recordIs].Amount += +j2?.Amount;
+      //       }
+      //     }
+      //   }
+      // });
       
       diamond_colorstone_misc?.forEach((e) => {
         maintotal.total_diamond_colorstone_misc_amount += +e?.Amount;
       });
-      // json2?.forEach((e) => {
-      //   if(e?.QualityName === j1?.MetalPurity){
-      //     diamondWtMetalPurityWise += 
-      //   }
-      // })
+
       let obj = { ...j1 };
       
       diamond_colorstone_misc?.forEach((e) => {  
