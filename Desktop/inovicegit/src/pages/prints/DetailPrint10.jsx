@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import {
-  HeaderComponent,
   apiCall,
   formatAmount,
   handleImageError,
@@ -16,7 +15,6 @@ import Loader from "../../components/Loader";
 const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [result, setResult] = useState(null);
   const [diamondWise, setDiamondWise] = useState([]);
-  const [headerCom, setHeaderCom] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
@@ -57,63 +55,85 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-      console.log(datas);
-    let blankDiaArr = [];
-    let only_rnd = [];
-    let others_dia = [];
-    let OTHERS_OBJ = {
-      ShapeName: "OTHERS",
-      Pcs: 0,
-      Wt: 0,
-      Rate: 0,
-      Amount: 0,
-    };
+    console.log(datas);
+    
+    let diaObj = {
+      ShapeName : "OTHERS",
+      wtWt:0,
+      pcPcs:0,
+      rRate:0,
+      amtAmount:0,
+    }
+    
+    let diaonlyrndarr1 = [];
+    let diaonlyrndarr2 = [];
+    let diaonlyrndarr3 = [];
+    let diaonlyrndarr4 = [];
+    let diarndotherarr5 = [];
 
     datas?.json2?.forEach((e) => {
-      if (e.MasterManagement_DiamondStoneTypeid === 1) {
-        let findRecord = blankDiaArr?.findIndex(
-          (el) =>
-            el?.ShapeName === e?.ShapeName &&
-            el?.QualityName === e?.QualityName &&
-            el?.Colorname === e?.Colorname
-        );
-        if (findRecord === -1) {
-          blankDiaArr.push(e);
-        } else {
-          blankDiaArr[findRecord].Wt += e?.Wt;
-          blankDiaArr[findRecord].Pcs += e?.Pcs;
-          blankDiaArr[findRecord].Amount += e?.Amount;
+      if(e?.MasterManagement_DiamondStoneTypeid === 1){
+        if(e.ShapeName?.toLowerCase() === 'rnd'){
+          diaonlyrndarr1.push(e);
+        }else{
+          diaonlyrndarr2.push(e);
         }
       }
     });
 
-    blankDiaArr?.forEach((e) => {
-      if (e?.ShapeName === "RND") {
-        only_rnd.push(e);
-      } else {
-        others_dia.push(e);
+    diaonlyrndarr1.forEach((e) => {
+      let findRecord = diaonlyrndarr3.findIndex((a) => 
+      e?.StockBarcode === a?.StockBarcode &&
+      e?.ShapeName === a?.ShapeName && 
+      e?.QualityName === a?.QualityName &&
+      e?.Colorname === a?.Colorname ) 
+
+      if(findRecord === -1){
+        let obj = {...e};
+        obj.wtWt = e?.Wt;
+        obj.pcPcs = e?.Pcs;
+        obj.rRate = e?.Rate;
+        obj.amtAmount = e?.Amount;
+        diaonlyrndarr3.push(obj);
+      }else{
+        diaonlyrndarr3[findRecord].wtWt += e?.Wt;
+        diaonlyrndarr3[findRecord].pcPcs += e?.Pcs;
+        diaonlyrndarr3[findRecord].rRate += e?.Rate;
+        diaonlyrndarr3[findRecord].amtAmount += e?.Amount;
       }
     });
 
-    others_dia?.forEach((e) => {
-      OTHERS_OBJ.Pcs += e?.Pcs;
-      OTHERS_OBJ.Wt += e?.Wt;
-      OTHERS_OBJ.Rate += e?.Rate;
-      OTHERS_OBJ.Amount += e?.Amount;
+    diaonlyrndarr2.forEach((e) => {
+      let findRecord = diaonlyrndarr4.findIndex((a) => 
+      e?.StockBarcode === a?.StockBarcode &&
+      e?.ShapeName === a?.ShapeName && 
+      e?.QualityName === a?.QualityName &&
+      e?.Colorname === a?.Colorname ) 
+
+      if(findRecord === -1){
+        let obj = {...e};
+        obj.wtWt = e?.Wt;
+        obj.pcPcs = e?.Pcs;
+        obj.rRate = e?.Rate;
+        obj.amtAmount = e?.Amount;
+        diaonlyrndarr4.push(obj);
+      }else{
+        diaonlyrndarr4[findRecord].wtWt += e?.Wt;
+        diaonlyrndarr4[findRecord].pcPcs += e?.Pcs;
+        diaonlyrndarr4[findRecord].rRate += e?.Rate;
+        diaonlyrndarr4[findRecord].amtAmount += e?.Amount;
+      }
     });
 
-    let mainRNDArr = [...only_rnd];
+    diaonlyrndarr4.forEach((e) => {
+      diaObj.wtWt += e?.wtWt;
+      diaObj.pcPcs += e?.pcPcs;
+      diaObj.rRate += e?.rRate;
+      diaObj.amtAmount += e?.amtAmount;
+    });
 
-    mainRNDArr.push(OTHERS_OBJ);
-
-    setDiamondWise(mainRNDArr);
-
-    const headerComp = HeaderComponent(
-      data?.BillPrint_Json[0]?.HeaderNo,
-      data?.BillPrint_Json[0]
-    );
-    setHeaderCom(headerComp);
-
+    diarndotherarr5 = [...diaonlyrndarr3, diaObj];
+    setDiamondWise(diarndotherarr5);
     setResult(datas);
   }
 
@@ -706,15 +726,15 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                               {e?.ShapeName} {e?.QualityName} {e?.Colorname}
                             </div>
                             <div className="w-50 end_dp10">
-                              {e?.Pcs} / {e?.Wt?.toFixed(3)} cts
+                              {e?.pcPcs} / {e?.wtWt?.toFixed(3)} cts
                             </div>
                           </div>
                         );
                       })}
-                      {/* <div className="d-flex justify-content-between px-1 bg_dp10 h_bd10 border">
+                      <div className="d-flex justify-content-between px-1 bg_dp10 h_bd10 border">
                         <div className="fw-bold w-50"></div>
                         <div className="w-50"></div>
-                      </div> */}
+                      </div>
                     </div>
                     <div className="oth_sum_dp10 fsgdp10">
                       <div className="h_bd10 centerdp10 bg_dp10 fw-bold border">
