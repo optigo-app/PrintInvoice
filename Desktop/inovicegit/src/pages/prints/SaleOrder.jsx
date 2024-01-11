@@ -278,10 +278,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 1,
                 suffix: "",
                 name: "GOLD",
-                amount: ((ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate)* e?.Quantity),
+                amount: ((ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity),
               });
             } else {
-              summary2Arr[goldAmount].amount += ((ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate)* e?.Quantity);
+              summary2Arr[goldAmount].amount += ((ele?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate) * e?.Quantity);
             }
           }
         }
@@ -625,14 +625,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
               <th className={`${style?.amount} p-1 text-center lightGrey_table border `}>AMOUNT ({headerData?.CurrencyCode})</th>
             </tr>
           </thead>
-           {/* table data */}
+          {/* table data */}
           <tbody>
             {data.map((e, i) => {
               return (
-                <tr
-                  className="no_break"
-                  key={i}
-                >
+                <tr className="no_break" key={i} >
                   <td className={`${style?.srNo} p-1 border-end border-start border-bottom`}>
                     <p className=" text-center">{i + 1}</p>
                   </td>
@@ -700,7 +697,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                         }}
                       ></span>{" "}
                       {/* {NumberWithCommas(e?.UnitCost / (e?.Quantity * headerData?.CurrencyExchRate), 2)} */}
-                      {NumberWithCommas(e?.UnitCost /  headerData?.CurrencyExchRate, 2)}
+                      {NumberWithCommas(e?.UnitCost / e?.Quantity, 2)}
                     </p>
                   </td>
                   <td className={`${style?.amount} p-1  text-end border-start border-bottom border-end`}>
@@ -710,17 +707,27 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                           __html: headerData?.Currencysymbol,
                         }}
                       ></span>{" "}
-                      {NumberWithCommas( e?.TotalAmount / headerData?.CurrencyExchRate, 2 )}
+                      {NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)}
                     </p>
                   </td>
                 </tr>
               );
             })}
+            {/* table total */}
+            <tr className="no_break"  >
+              <td className={`${style?.srNo} p-1 border-end border-start border-bottom lightGrey_table`}> </td>
+              <td className={`${style?.image} p-1  border-start border-bottom lightGrey_table`}> <p className="fw-bold">TOTAL</p> </td>
+              <td className={`${style?.itemCode} p-1   border-start border-bottom lightGrey_table`}> </td>
+              <td className={`${style?.description} p-1  border-start border-bottom lightGrey_table `}> </td>
+              <td className={`${style?.quantity} p-1 border-end border-start border-bottom lightGrey_table`}> <p className="text-end fw-bold"> {NumberWithCommas(total?.Quantity, 0)}</p> </td>
+              <td className={`${style?.unitPrice} p-1 border-end border-start border-bottom lightGrey_table text-end`}> <p className="fw-bold"> <span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }} ></span>{" "} {NumberWithCommas(total?.UnitCost, 2)} </p> </td>
+              <td className={`${style?.amount} p-1  text-end border-start border-bottom lightGrey_table border-end`}> <p className="fw-bold"> <span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }} ></span> {NumberWithCommas(total?.TotalAmount, 2)} </p> </td>
+            </tr>
           </tbody>
         </table>
       </div>
       {/* table total */}
-      <div className="border-start border-end border-bottom d-flex lightGrey no_break">
+      {/* <div className="border-start border-end border-bottom d-flex lightGrey no_break">
         <div
           className={`${style?.srNo} p-1 text-center fw-bold border-end`}
         ></div>
@@ -746,7 +753,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             {NumberWithCommas(total?.TotalAmount, 2)}
           </p>
         </div>
-      </div>
+      </div> */}
       {/* taxes */}
       <div className="border-start border-end border-bottom d-flex no_break">
         <div className={`${style?.gold18k} border-end`}>
@@ -785,7 +792,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
         <div className={`${style?.remarks} p-1 fw-bold border-end`}>
           <p className="fw-bold text-decoration-underline">REMARKS: </p>
-          <p dangerouslySetInnerHTML={{__html: headerData?.PrintRemark}}></p>
+          <p dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
           {/* <p>{headerData?.PrintRemark}</p> */}
         </div>
         <div className={`${style?.grandTotal} p-1 border-end`}>
