@@ -5,14 +5,17 @@ import {
   handleImageError,
   handlePrint,
   isObjectEmpty,
-  numberToWord,
+  
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "./../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/detailprint7.css";
+import { convertAmountToWords } from "../../GlobalFunctions/convertAmountToWords";
+import { ToWords } from "to-words";
 
 const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [result, setResult] = useState(null);
+  const toWords = new ToWords();
   const [json_2, setjson_2] = useState([]);
   const [categoryWise, setCategoryWise] = useState([]);
   const [miscWise, setMiscWise] = useState([]);
@@ -118,9 +121,12 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       //cate wise data and finewt
       let cateWise2 = [];
       blankArr?.forEach((e) => {
+        console.log(e);
         let obj = { ...e };
+        let netwtwithloss = (e?.NetWt + e?.LossWt)
         let fineWtBYNetWtCal = (e?.NetWt * e?.Tunch) / 100;
         obj.fineWtBYNetWtCal = fineWtBYNetWtCal;
+        obj.netwtwithloss = netwtwithloss;
         cateWise2.push(obj);
       });
 
@@ -671,7 +677,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     }}
                   ></div>
                   <div className="ps-2 fw-bold" style={{ width: "97%" }}>
-                    {numberToWord(result?.finalAmount)} Only
+                    {toWords.convert(result?.finalAmount)}
                   </div>
                 </div>
 
@@ -706,7 +712,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                               {e?.grosswt?.toFixed(3)}
                             </div>
                             <div className="sum_prod_head_col_4 dp7cen2">
-                              {e?.NetWt?.toFixed(3)}
+                              {e?.netwtwithloss?.toFixed(3)}
                             </div>
                             <div className="sum_prod_head_col_5 dp7cen2">
                               {e?.Wastage?.toFixed(3)}
