@@ -553,8 +553,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       totalAmount += (+e?.amount);
   })
   totalAmount = (+totalAmount)?.toFixed(2);
-  // totalAmount = (+totalAmount) + (+header?.AddLess);
-  totalAmount = (+totalAmount) + (+header?.AddLess) + (+header?.FreightCharges);
+  totalAmount = (+totalAmount) + (+header?.AddLess);
+  // totalAmount = (+totalAmount) + (+header?.AddLess) + (+header?.FreightCharges);
 
   let headerObj = {...header};
 
