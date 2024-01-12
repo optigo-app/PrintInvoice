@@ -105,7 +105,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
             {/* header */}
             <div className={`${style2.headline} headerTitle`}>{headerData?.PrintHeadLabel}</div>
             <div className={style2.companyDetails}>
-                <div style={{ width: "43%" }} className="d-flex align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /></div>
+                <div style={{ width: "43%" }} className="d-flex align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} style={{ maxWidth: "145px"}}/></div>
                 <div className={`${style2.companyhead} p-2`} style={{ width: "57%" }}>
                     <div className={style2.lines} style={{ fontWeight: "bold" }}>
                         {headerData?.CompanyFullName}
@@ -210,12 +210,11 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* bank details */}
-            <div className={`${footerStyle.container} no_break border-black p-0 h-100 py-0 align-items-start`}>
-
-                <div className={`d-flex flex-column justify-content-start border-black p-2`} style={{ width: "33.33%" }} >
+            <div className={`d-flex no_break border-black p-0 h-100 py-0 align-items-start mb-0 border`}>
+                <div className={`col-4 border-black p-2`} style={{ width: "33.33%" }} >
                     <div className={footerStyle.linesf3}>Payment Details</div>
                 </div>
-                <div className={`${footerStyle.block2f3} d-flex flex-column  border-black border-end border-start`} style={{ width: "33.33%" }}>
+                <div className={`col-4  border-black border-end border-start p-2`} style={{ width: "33.33%" }}>
                     {summary.map((e, i) => {
                         return <div className="d-flex w-100" key={i}>
                             <div className="col-6 fw-normal">{e?.MetalTypePurity}</div>
@@ -231,7 +230,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="col-6 fw-normal">{NumberWithCommas(data?.mainTotal?.netwt, 3)}</div>
                     </div>
                 </div>
-                <div className={`${footerStyle.block1f3} border-0`} style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }} >
+                <div className={`col-4 p-2`} style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }} >
                     <div className={footerStyle.linesf3} style={{ fontWeight: "bold" }}>Bank Detail</div>
                     <div className={footerStyle.linesf3}>Bank Name: {headerData?.bankname}</div>
                     <div className={footerStyle.linesf3}>Branch: {headerData?.bankaddress}</div>

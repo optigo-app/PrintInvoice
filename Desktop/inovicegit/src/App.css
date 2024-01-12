@@ -168,6 +168,13 @@ ol {
   margin: 0 auto;          /* Center the image horizontally */
 }
 
+.logoimg{
+  max-width: 125px;
+  max-height: 125px;
+  object-fit: contain;
+  object-position: center;
+}
+
 .keep_zeroes_2{
   mso-number-format:'0.00'
 }

@@ -1,0 +1,72 @@
+.packingList2 * {
+    font-size: 8px;
+    line-height: 120%;
+    word-break: normal;
+}
+
+.Sr {
+    width: 4%;
+    min-width: 4%;
+}
+
+.Jewelcode, .Price {
+     width: 7%;
+    min-width: 7%;
+}
+
+.Diamond, .Metal, .Stone {
+    width: 20%;
+    min-width: 20%;
+}
+
+.Labour, .Other {
+    width: 11%;
+    min-width: 11%;
+}
+
+.w_20{
+    width: 20%;
+    min-width: 20%;
+}
+
+.pb_21{
+    padding-bottom: 15px;
+}
+
+.min_height{
+    min-height: 15px;
+}
+
+.stone_labour_other{
+    width: 42%;
+    min-width: 42%;
+}
+
+.discount{
+    width: 86.9%;
+    min-width: 86.9%;
+}
+
+.discount_amount{
+    width: 13.1%;
+    min-width: 13.1%;
+}
+
+.tax{
+    width: 93%;
+    min-width: 93%;
+}
+
+@media print{
+.print_sec_sum4{
+    display: none !important;
+}
+}
+
+
+
+
+
+
+
+
