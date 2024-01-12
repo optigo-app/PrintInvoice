@@ -25,6 +25,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       Pcs: 0,
       Rate: 0,
       Amount: 0,
+      FineWt: 0,
     },
     finding: {
       Wt: 0,
@@ -192,7 +193,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.diamonds.SettingAmount += j2?.SettingAmount;
               jobwise_totals.diamonds.length += 1;
               maintotal.diamonds.Wt += j2?.Wt;
-              maintotal.diamonds.total_FineWt += +j2?.FineWt;
+              maintotal.diamonds.total_FineWt += j2?.FineWt;
               maintotal.diamonds.Pcs += j2?.Pcs;
               maintotal.diamonds.Rate += j2?.Rate;
               maintotal.diamonds.Amount += j2?.Amount;
@@ -210,7 +211,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.colorstone.SettingAmount += j2?.SettingAmount;
               jobwise_totals.colorstone.length += 1;
               maintotal.colorstone.Wt += j2?.Wt;
-              maintotal.colorstone.total_FineWt += +j2?.FineWt;
+              maintotal.colorstone.total_FineWt += j2?.FineWt;
               maintotal.colorstone.Pcs += j2?.Pcs;
               maintotal.colorstone.Rate += j2?.Rate;
               maintotal.colorstone.Amount += j2?.Amount;
@@ -219,7 +220,6 @@ export const OrganizeDataPrint = (header, json1, json2) => {
             //for misc
             if (j2?.MasterManagement_DiamondStoneTypeid === 4) {
               metalList.push(j2);
-              
               jobwise_totals.metal.Wt += j2?.Wt;
               jobwise_totals.metal.Pcs += j2?.Pcs;
               jobwise_totals.metal.Rate += j2?.Rate;
@@ -228,6 +228,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               jobwise_totals.metal.length += 1;
               maintotal.metal.Wt += j2?.Wt;
               maintotal.metal.total_FineWt += +j2?.FineWt;
+              maintotal.metal.FineWt += +j2?.FineWt;
               maintotal.metal.Pcs += j2?.Pcs;
               maintotal.metal.Rate += j2?.Rate;
               maintotal.metal.Amount += j2?.Amount;

@@ -62,3 +62,9 @@
 .shapeName{
     word-break: break-all;
 }
+
+@media print {
+    .print_sec_sum4{
+        display: none !important;
+    }
+}

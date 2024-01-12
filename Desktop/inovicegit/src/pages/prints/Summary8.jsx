@@ -56,10 +56,8 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
             }
         });
         setSummary(summaries);
-
         datas.resultArray = resultArray;
         datas?.resultArray.sort((acc, cobj) => acc.Categoryname.localeCompare(cobj.Categoryname));
-        console.log(datas);
         setData(datas);
     };
 
@@ -107,8 +105,8 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
             {/* header */}
             <div className={`${style2.headline} headerTitle`}>{headerData?.PrintHeadLabel}</div>
             <div className={style2.companyDetails}>
-                <div style={{ width: "30%" }} className="d-flex align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /></div>
-                <div className={`${style2.companyhead} p-2`}>
+                <div style={{ width: "43%" }} className="d-flex align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /></div>
+                <div className={`${style2.companyhead} p-2`} style={{ width: "57%" }}>
                     <div className={style2.lines} style={{ fontWeight: "bold" }}>
                         {headerData?.CompanyFullName}
                     </div>
@@ -116,7 +114,9 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className={style2.lines}>{headerData?.CompanyAddress2}</div>
                     <div className={style2.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
                     {/* <div className={style2.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
-                    <div className={style2.lines}>T:  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
+                    <div className={style2.lines}>T:  {headerData?.CompanyTellNo}
+                        {/* | TOLL FREE {headerData?.CompanyTollFreeNo} | TOLL FREE {headerData?.CompanyTollFreeNo} */}
+                    </div>
                     <div className={style2.lines}>
                         {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
                     </div>
@@ -135,9 +135,10 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="d-flex justify-content-between">
                     <div className="col-6 px-1">
                         <p>{headerData?.lblBillTo}</p>
-                        <p className="fw-bold">{headerData?.PrintHeadLabel}</p>
+                        <p className="fw-bold">{headerData?.customerfirmname}</p>
                         <p>{headerData?.customerAddress1}</p>
                         <p>{headerData?.customerAddress2}</p>
+                        <p>{headerData?.customerAddress3}</p>
                         <p>{headerData?.customercity} - {headerData?.PinCode}</p>
                         <p>Tel : {headerData?.customermobileno}</p>
                         <p>{headerData?.customeremail1}</p>
@@ -163,7 +164,6 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className={`${style?.Making} p-1 fw-bold text-center border-black border-end`}><p>Making Rate</p></div>
                 <div className={`${style?.Total} p-1 fw-bold text-center`}><p>Total Amount</p></div>
             </div>
-
             {/* table data */}
             {data?.resultArray.map((e, i) => {
                 return <div className="d-flex border-start border-end border-bottom border-black">
@@ -172,14 +172,13 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className={`${style?.Hsn} p-1 border-black border-end`}><p>{headerData?.HSN_No}</p></div>
                     <div className={`${style?.Pcs} p-1 text-end border-black border-end`}><p>{NumberWithCommas(e?.Quantity, 0)}</p></div>
                     <div className={`${style?.Gross} p-1 text-end border-black border-end`}><p>{NumberWithCommas(e?.grosswt, 3)}</p></div>
-                    <div className={`${style?.Net} p-1 text-end border-black border-end`}><p>{NumberWithCommas(e?.NetWt, 3)}</p></div>
+                    <div className={`${style?.Net} p-1 text-end border-black border-end`}><p>{NumberWithCommas(e?.NetWt + e?.LossWt, 3)}</p></div>
                     <div className={`${style?.Rate} p-1 text-end border-black border-end`}><p>{NumberWithCommas(e?.metalRate, 2)}</p></div>
                     <div className={`${style?.Making} p-1 text-end border-black border-end`}><p>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p></div>
-                    <div className={`${style?.Total} p-1 text-end`}><p>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+                    <div className={`${style?.Total} p-1 text-end`}><p>{NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)}</p></div>
                 </div>
             })
             }
-
             {/* table total */}
             <div className="d-flex border border-black my-1 lightGrey">
                 <div className={`${style?.Category} p-1 border-black border-end fw-bold`}><p>TOTAL</p></div>
@@ -187,10 +186,10 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className={`${style?.Hsn} p-1 border-black border-end`}><p></p></div>
                 <div className={`${style?.Pcs} p-1 text-end border-black border-end fw-bold`}><p>{NumberWithCommas(data?.mainTotal?.total_Quantity, 0)}</p></div>
                 <div className={`${style?.Gross} p-1 text-end border-black border-end fw-bold`}><p>{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</p></div>
-                <div className={`${style?.Net} p-1 text-end border-black border-end fw-bold`}><p>{NumberWithCommas(data?.mainTotal?.netwt, 3)}</p></div>
+                <div className={`${style?.Net} p-1 text-end border-black border-end fw-bold`}><p>{NumberWithCommas(data?.mainTotal?.netwtWithLossWt, 3)}</p></div>
                 <div className={`${style?.Rate} p-1 text-end border-black border-end`}><p></p></div>
                 <div className={`${style?.Making} p-1 text-end border-black border-end`}><p></p></div>
-                <div className={`${style?.Total} p-1 text-end fw-bold`}><p>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p></div>
+                <div className={`${style?.Total} p-1 text-end fw-bold`}><p>{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p></div>
             </div>
             {/* table taxes */}
             <div className="border border-black my-1 lightGrey">
@@ -202,7 +201,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
                 })}
 
                 {headerData?.AddLess !== 0 && <div className="d-flex border-black border-bottom">
-                    <div className={`${style?.tax} p-1 border-black border-end fw-semibold text-end`}><p>{headerData?.AddLess > 0 ? "ADD" : "LESS"} </p></div>
+                    <div className={`${style?.tax} p-1 border-black border-end fw-semibold text-end`}><p>ADD/LESS </p></div>
                     <div className={`${style?.Total} p-1 text-end fw-semibold`}><p>{NumberWithCommas(headerData?.AddLess, 2)}</p></div>
                 </div>}
                 <div className="d-flex">
@@ -243,12 +242,12 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
             {/* footer */}
             <div className="my-1 border border-black d-flex ">
-                <div className="col-6 d-flex flex-column justify-content-between p-2 border-end border-black" style={{ minHeight: "200px"}}>
+                <div className="col-6 d-flex flex-column justify-content-between p-2 border-end border-black" style={{ minHeight: "200px" }}>
                     <p> Signature</p>
                     <p className='fw-bold'>{headerData?.customerfirmname}</p>
                 </div>
-                <div className="col-6 d-flex flex-column justify-content-between p-2" style={{ minHeight: "200px"}}>
-                <p> Signature</p>
+                <div className="col-6 d-flex flex-column justify-content-between p-2" style={{ minHeight: "200px" }}>
+                    <p> Signature</p>
                     <p className='fw-bold'>{headerData?.CompanyFullName}</p>
                 </div>
             </div>

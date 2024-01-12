@@ -1,0 +1,44 @@
+.summaryInCurrency * {
+    font-size: 10px;
+    line-height: 120%;
+    word-break: normal;
+}
+
+.SR {
+    width: 5%;
+    min-width: 5%;
+}
+
+
+.PURITY,
+.QLTY,
+.DIAWT,
+.DIARATE,
+.DIAAMT,
+.GWT,
+.NWT,
+.MAKING,
+.CSAMT,
+.GOLDFINE,
+.GOLDAMT,
+.AMOUNT{
+    width: 7.1%;
+    min-width: 7.1%;
+}
+
+.DESIGN {
+    width: 10%;
+    min-width: 10%;
+}
+
+.total{
+    width: 29.2%;
+    min-width: 29.2%;
+}
+
+
+@media print {
+    .print_sec_sum4 {
+        display: none !important;
+    }
+}

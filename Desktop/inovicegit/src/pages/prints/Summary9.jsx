@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ToWords } from 'to-words';
 import {
-    FooterComponent,
     HeaderComponent,
     apiCall,
-    fixedValues,
     handleImageError,
     isObjectEmpty,
-    numberToWord,
     NumberWithCommas,
-    taxGenrator,
     handlePrint
 } from "../../GlobalFunctions";
 import style from '../../assets/css/prints/summary9.module.css';
@@ -23,6 +19,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [msg, setMsg] = useState("");
     const [data, setData] = useState({});
     const [headerData, setHeaderData] = useState({});
+    const [header, setHeader] = useState(null);
     const [summary, setSummary] = useState([]);
     const toWords = new ToWords();
     const [checkBox, setCheckbox] = useState({
@@ -42,18 +39,10 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
     });
     const [miscs, setMiscs] = useState({
         list: [],
-        // total: {
-        //     Wt: 0,
-        //     Amount: 0,
-        // }
     });
 
     const [colorStones, setColorStones] = useState({
         list: [],
-        // total: {
-        //     Wt: 0,
-        //     Amount: 0,
-        // }
     });
 
 
@@ -72,6 +61,8 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
         let csLists = { ...colorStones };
         let misc = [];
         let miscLists = { ...miscs }
+        let headers = HeaderComponent("1", data?.BillPrint_Json[0]);
+        setHeader(headers);
         datas.resultArray.forEach((e, i) => {
             let findMetalrate = e?.metal.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
             let obj = lodash.cloneDeep(e);
@@ -107,26 +98,14 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
         data?.BillPrint_Json2.forEach((ele, ind) => {
             if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                 let findColor = colorStone.findIndex((elem, index) => elem?.Rate === ele?.Rate);
-                csLists.total.Wt += ele?.Wt;
-                csLists.total.Amount += ele?.Amount;
                 if (findColor === -1) {
                     colorStone.push(ele);
-                } 
-                // else {
-                //     colorStone[findColor].Wt += ele?.Wt;
-                //     colorStone[findColor].Amount += ele?.Amount;
-                // }
+                }
             } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
                 let findMiscs = misc.findIndex((elem, index) => elem?.Rate === ele?.Rate);
-                miscLists.total.Wt += ele?.Wt;
-                miscLists.total.Amount += ele?.Amount;
                 if (findMiscs === -1) {
                     misc.push(ele);
-                } 
-                // else {
-                //     misc[findMiscs].Wt += ele?.Wt;
-                //     misc[findMiscs].Amount += ele?.Amount;
-                // }
+                }
             }
         });
         metalLists.list = metals;
@@ -206,6 +185,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* header */}
+            {checkBox?.header && header}
             <div className="border d-flex justify-content-between p-2">
                 <p>INVOICE# : <span className="fw-bold">{headerData?.InvoiceNo}</span></p>
                 <p>DATE : <span className="fw-bold">{headerData?.EntryDate}</span></p>
@@ -254,11 +234,11 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
             {/* table data */}
             {data?.resultArray.map((e, i) => {
-                return <div className="d-flex border-start border-end border-bottom" key={i}>
+                return <div className="d-flex border-start border-end border-bottom no_break" key={i}>
                     <div className={`${style?.SR} text-center border-end p-1`}>{i + 1}</div>
                     <div className={`${style?.DESIGN} fw-bold  border-end p-1`}>
                         <p>{e?.SrJobno} - {e?.Categoryname}</p>
-                        <img src={e?.DesignImage} alt="" className='w-100 imgWidth' onError={handleImageError} />
+                        {checkBox?.image && <img src={e?.DesignImage} alt="" className='w-100 imgWidth' onError={handleImageError} />}
                         <p> {e?.MetalTypePurity}</p>
                         {e?.HUID !== "" && <p>HUID-{e?.HUID}</p>}
                     </div>
@@ -308,7 +288,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             })}
             {/* table total */}
-            <div className="d-flex border-start border-end border-bottom lightGrey">
+            <div className="d-flex border-start border-end border-bottom lightGrey no_break">
                 <div className={`${style?.tableTotal} text-center border-end p-1 fw-bold`}>TOTAL</div>
                 <div className={`${style?.STONE}   border-end d-flex`}>
                     <div className="col-3  p-1 border-end"></div>
@@ -327,7 +307,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className={`${style?.TOTALAMT} p-1 text-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</div>
             </div>
             {/* summary */}
-            <div className="my-1 d-flex">
+            <div className="my-1 d-flex no_break">
                 <div className="col-8 pe-1">
                     <div className="border">
                         <p className="lightGrey p-1 fw-bold text-center">Summary Detail</p>
@@ -355,7 +335,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* total */}
-            <div className="mb-1 border lightGrey d-flex">
+            <div className="mb-1 border lightGrey d-flex no_break">
                 <div className="col-8 text-end p-1 PS-2">
                     <p className="fw-bold">TOTAL</p>
                 </div>
@@ -371,7 +351,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* summary */}
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between no_break">
                 <div className="col-6 pe-1">
                     <div className="border">
                         <p className="fw-bold lightGrey p-1">SUMMARY</p>
@@ -455,7 +435,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* note */}
-            <div className="my-1 border p-1">
+            <div className="my-1 border p-1 no_break">
                 <p className="fw-bold">NOTE :</p>
                 1.I/We hereby certify that my/our registration certificate under the Goods And Service Tax Act 2017. Is in force on the date on which the sale of the goods specified in the tax invoice has been effected by me/us & it shall accounted for in the turnover of sales while filing of return & the due tax.If any payable on the sale has been paid or shall be paids.
                 2.Returns of goods are subject to Terms & Conditions as mentioned in www.orail.com.
@@ -463,11 +443,11 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                 4.Any case disapprency to jurdisory of state of gujarat.
             </div>
             {/* print remark */}
-            <div>
+            <div className='no_break'>
                 <p><span className="fw-bold">REMARKS :</span> React print remark_Test</p>
             </div>
             {/* TERMS INCLUDED : */}
-            <div className='pb-2'>
+            <div className='pb-2 no_break'>
                 <p className="fw-bold">TERMS INCLUDED :</p>
                 <div className="d-flex border">
                     <div className='text-center pt-5 border-end col-6'>
@@ -478,84 +458,86 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                 </div>
             </div>
-            {/* metal table */}
-            <div className="d-flex border">
-                <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Metal Type</div>
-                <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Gwt</div>
-                <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Net wt</div>
-                <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Tunch</div>
-                <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Pure wt</div>
-                <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Gold Price 24 kt</div>
-                <div className={`${style?.metalCol} p-1 fw-bold text-center`}>Gold Amount</div>
-            </div>
-            {metalList.list.map((e, i) => {
-                return <div className="d-flex border-start border-end border-bottom" key={i}>
-                    <div className={`${style?.metalCol} p-1 text-center border-end`}>{e?.MetalTypePurity}</div>
-                    <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(e?.grosswt, 3)}</div>
-                    <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(e?.NetWt, 3)}</div>
-                    <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(e?.Tunch, 3)}</div>
-                    <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(e?.PureNetWt, 3)}</div>
-                    <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(headerData?.MetalRate24K, 2)}</div>
-                    <div className={`${style?.metalCol} p-1 text-end`}>{NumberWithCommas(e?.totals?.metal?.Amount, 2)}</div>
+            {checkBox?.summary && <>
+                {/* metal table */}
+                <div className="d-flex border no_break">
+                    <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Metal Type</div>
+                    <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Gwt</div>
+                    <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Net wt</div>
+                    <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Tunch</div>
+                    <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Pure wt</div>
+                    <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Gold Price 24 kt</div>
+                    <div className={`${style?.metalCol} p-1 fw-bold text-center`}>Gold Amount</div>
                 </div>
-            })}
-            {/* metal table total */}
-            <div className="d-flex border-start border-end border-bottom lightGrey">
-                <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>TOTAL</div>
-                <div className={`${style?.metalCol} p-1 fw-bold text-end border-end`}>{NumberWithCommas(metalList?.total?.grosswt, 3)}</div>
-                <div className={`${style?.metalCol} p-1 fw-bold text-end border-end`}>{NumberWithCommas(metalList?.total?.NetWt, 3)}</div>
-                <div className={`${style?.metalCol} p-1 fw-bold text-end border-end`}></div>
-                <div className={`${style?.metalCol} p-1 fw-bold text-end border-end`}>{NumberWithCommas(metalList?.total?.PureNetWt, 3)}</div>
-                <div className={`${style?.metalCol} p-1 fw-bold text-end border-end`}></div>
-                <div className={`${style?.metalCol} p-1 fw-bold text-end`}>{NumberWithCommas(metalList?.total?.Amount, 2)}</div>
-            </div>
-            {/* misc and colorstone tables */}
-            <div className="d-flex mt-1">
-                <div className="col-6 pe-1">
-                    <div className="border d-flex" >
-                        <div className='fw-bold col-3 text-center p-1 border-end'>Misc Type</div>
-                        <div className='fw-bold col-3 text-center p-1 border-end'>Misc Ctw</div>
-                        <div className='fw-bold col-3 text-center p-1 border-end'>Misc Price</div>
-                        <div className='fw-bold col-3 text-center p-1'>Misc Amount</div>
+                {metalList.list.map((e, i) => {
+                    return <div className="d-flex border-start border-end border-bottom no_break" key={i}>
+                        <div className={`${style?.metalCol} p-1 text-center border-end`}>{e?.MetalTypePurity}</div>
+                        <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(e?.grosswt, 3)}</div>
+                        <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(e?.NetWt, 3)}</div>
+                        <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(e?.Tunch, 3)}</div>
+                        <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(e?.PureNetWt, 3)}</div>
+                        <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(headerData?.MetalRate24K, 2)}</div>
+                        <div className={`${style?.metalCol} p-1 text-end`}>{NumberWithCommas(e?.totals?.metal?.Amount, 2)}</div>
                     </div>
-                    {miscs.list.map((ele, ind) => {
-                        return <div className="border-start border-end border-bottom d-flex" key={ind}>
-                            <div className='col-3 text-center p-1 border-end'>{ele?.MasterManagement_DiamondStoneTypeName}</div>
-                            <div className='col-3 text-center p-1 border-end'>{NumberWithCommas(ele?.Wt, 3)}</div>
-                            <div className='col-3 text-center p-1 border-end'>{NumberWithCommas(ele?.Rate, 2)}</div>
-                            <div className='col-3 text-center p-1'>{NumberWithCommas(ele?.Amount, 2)}</div>
+                })}
+                {/* metal table total */}
+                <div className="d-flex border-start border-end border-bottom lightGrey no_break">
+                    <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>TOTAL</div>
+                    <div className={`${style?.metalCol} p-1 fw-bold text-end border-end`}>{NumberWithCommas(metalList?.total?.grosswt, 3)}</div>
+                    <div className={`${style?.metalCol} p-1 fw-bold text-end border-end`}>{NumberWithCommas(metalList?.total?.NetWt, 3)}</div>
+                    <div className={`${style?.metalCol} p-1 fw-bold text-end border-end`}></div>
+                    <div className={`${style?.metalCol} p-1 fw-bold text-end border-end`}>{NumberWithCommas(metalList?.total?.PureNetWt, 3)}</div>
+                    <div className={`${style?.metalCol} p-1 fw-bold text-end border-end`}></div>
+                    <div className={`${style?.metalCol} p-1 fw-bold text-end`}>{NumberWithCommas(metalList?.total?.Amount, 2)}</div>
+                </div>
+                {/* misc and colorstone tables */}
+                <div className="d-flex mt-1">
+                    <div className="col-6 pe-1">
+                        <div className="border d-flex no_break" >
+                            <div className='fw-bold col-3 text-center p-1 border-end'>Misc Type</div>
+                            <div className='fw-bold col-3 text-center p-1 border-end'>Misc Ctw</div>
+                            <div className='fw-bold col-3 text-center p-1 border-end'>Misc Price</div>
+                            <div className='fw-bold col-3 text-center p-1'>Misc Amount</div>
                         </div>
-                    })}
-                    <div className="border-start border-end border-bottom d-flex lightGrey">
-                        <div className='col-3 text-end p-1 border-end fw-bold'> Total</div>
-                        <div className='col-3 text-center p-1 border-end fw-bold'>{NumberWithCommas(miscs?.total?.Wt, 3)}</div>
-                        <div className='col-3 text-center p-1 border-end fw-bold'></div>
-                        <div className='col-3 text-center p-1 fw-bold'>{NumberWithCommas(miscs?.total?.Amount, 2)}</div>
-                    </div>
-                </div>
-                <div className="col-6 ps-1">
-                    <div className="border d-flex">
-                        <div className='fw-bold col-3 text-center p-1 border-end'>CS Type</div>
-                        <div className='fw-bold col-3 text-center p-1 border-end'>CS Ctw</div>
-                        <div className='fw-bold col-3 text-center p-1 border-end'>CS Price</div>
-                        <div className='fw-bold col-3 text-center p-1'>CS Amount</div>
-                    </div>
-                    {colorStones.list.map((ele, ind) => {
-                        return <div className="border-start border-end border-bottom d-flex" key={ind}>
-                            <div className='col-3 text-center p-1 border-end'>{ele?.MasterManagement_DiamondStoneTypeName}</div>
-                            <div className='col-3 text-center p-1 border-end'>{NumberWithCommas(ele?.Wt, 3)}</div>
-                            <div className='col-3 text-center p-1 border-end'>{NumberWithCommas(ele?.Rate, 2)}</div>
-                            <div className='col-3 text-center p-1'>{NumberWithCommas(ele?.Amount, 2)}</div>
+                        {miscs.list.map((ele, ind) => {
+                            return <div className="border-start border-end border-bottom d-flex no_break" key={ind}>
+                                <div className='col-3 text-center p-1 border-end'>{ele?.MasterManagement_DiamondStoneTypeName}</div>
+                                <div className='col-3 text-center p-1 border-end'>{NumberWithCommas(ele?.Wt, 3)}</div>
+                                <div className='col-3 text-center p-1 border-end'>{NumberWithCommas(ele?.Rate, 2)}</div>
+                                <div className='col-3 text-center p-1'>{NumberWithCommas(ele?.Amount, 2)}</div>
+                            </div>
+                        })}
+                        <div className="border-start border-end border-bottom d-flex lightGrey no_break">
+                            <div className='col-3 text-end p-1 border-end fw-bold'> Total</div>
+                            <div className='col-3 text-center p-1 border-end fw-bold'>{NumberWithCommas(miscs?.total?.Wt, 3)}</div>
+                            <div className='col-3 text-center p-1 border-end fw-bold'></div>
+                            <div className='col-3 text-center p-1 fw-bold'>{NumberWithCommas(miscs?.total?.Amount, 2)}</div>
                         </div>
-                    })}
-                    <div className="border-start border-end border-bottom d-flex lightGrey">
-                        <div className='col-3 text-end p-1 border-end fw-bold'> </div>
-                        <div className='col-3 text-center p-1 border-end fw-bold'>{NumberWithCommas(colorStones?.total?.Wt, 3)}</div>
-                        <div className='col-3 text-center p-1 border-end fw-bold'></div>
-                        <div className='col-3 text-center p-1 fw-bold'>{NumberWithCommas(colorStones?.total?.Amount, 2)}</div>
+                    </div>
+                    <div className="col-6 ps-1">
+                        <div className="border d-flex no_break">
+                            <div className='fw-bold col-3 text-center p-1 border-end'>CS Type</div>
+                            <div className='fw-bold col-3 text-center p-1 border-end'>CS Ctw</div>
+                            <div className='fw-bold col-3 text-center p-1 border-end'>CS Price</div>
+                            <div className='fw-bold col-3 text-center p-1'>CS Amount</div>
+                        </div>
+                        {colorStones.list.map((ele, ind) => {
+                            return <div className="border-start border-end border-bottom d-flex no_break" key={ind}>
+                                <div className='col-3 text-center p-1 border-end'>{ele?.MasterManagement_DiamondStoneTypeName}</div>
+                                <div className='col-3 text-center p-1 border-end'>{NumberWithCommas(ele?.Wt, 3)}</div>
+                                <div className='col-3 text-center p-1 border-end'>{NumberWithCommas(ele?.Rate, 2)}</div>
+                                <div className='col-3 text-center p-1'>{NumberWithCommas(ele?.Amount, 2)}</div>
+                            </div>
+                        })}
+                        <div className="border-start border-end border-bottom d-flex lightGrey no_break">
+                            <div className='col-3 text-end p-1 border-end fw-bold'> </div>
+                            <div className='col-3 text-center p-1 border-end fw-bold'>{NumberWithCommas(colorStones?.total?.Wt, 3)}</div>
+                            <div className='col-3 text-center p-1 border-end fw-bold'></div>
+                            <div className='col-3 text-center p-1 fw-bold'>{NumberWithCommas(colorStones?.total?.Amount, 2)}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>}
         </div>
     ) : (
         <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

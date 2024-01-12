@@ -88,7 +88,6 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                 dataArray[findPurPer].total.diaCsAmount += e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt;
             }
         });
-        console.log(dataArray);
         setData(dataArray);
     }
 
@@ -133,25 +132,26 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
             {/* company address */}
             <div className='pb-2'>
                 <p className="fs-6 fw-semibold">SEZ RULE NO. 46(2)</p>
-                <p className="fs-6 fw-semibold py-1">Gatisofttech</p>
-                <p className='fw-bold'>202,Sai Darshan Appt, Bhim Kacchi Street,</p>
-                <p className='fw-bold'>Nr.Central Bank Of India, Nanpura,</p>
-                <p className='fw-bold'>surat-395001. India</p>
+                <p className="fs-6 fw-semibold py-1">{headerData?.customerfirmname}</p>
+                <p className='fw-bold'>{headerData?.customerAddress1}</p>
+                <p className='fw-bold'>{headerData?.customerAddress2}</p>
+                <p className='fw-bold'>{headerData?.customerAddress3}</p>
+                <p className='fw-bold'>{headerData?.customercity}{headerData?.customerpincode}, {headerData?.customercountry}</p>
             </div>
             {/* table title */}
             <p className="fw-semibold text-center border border-black p-1">VALUE ADDITION</p>
             <div className="d-flex border-start border-end border-bottom p-1 border-black">
                 <div className="col-3 px-1">
-                    <p className="fw-bold"> Inv Exp No: 134/19-20</p>
+                    <p className="fw-bold"> Inv Exp No: {headerData?.InvoiceNo}</p>
                 </div>
                 <div className="col-3 px-1">
-                    <p className="fw-bold"> Dated: 22-07-2019</p>
+                    <p className="fw-bold"> Dated: {headerData?.EntryDate}</p>
                 </div>
                 <div className="col-3 px-1">
                     <p className="fw-bold"> EDF No:</p>
                 </div>
                 <div className="col-3 px-1">
-                    <p className="fw-bold">Dated:</p>
+                    <p className="fw-bold">Dated: {headerData?.DueDate}</p>
                 </div>
             </div>
             <div className="d-flex border-start border-end border-bottom border-black">
@@ -217,11 +217,10 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <div className={`${style?.material} border-end border-black d-flex w-100`}>
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{NumberWithCommas(ele?.grosswt, 3)}</p></div>
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{NumberWithCommas(ele?.NetWt, 3)}</p></div>
-                                        <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>G</p></div>
+                                        <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{NumberWithCommas(ele?.LossWt, 3)}</p></div>
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{NumberWithCommas(ele?.LossPer, 2)}</p></div>
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{NumberWithCommas(ele?.LossWt + ele?.NetWt, 2)}</p></div>
-                                        {console.log(ele?.metalRate)}
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.metalRate !== undefined && NumberWithCommas(ele?.metalRate, 2)}</p></div>
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{NumberWithCommas(ele?.totals?.metal?.Amount, 2)}</p></div>
                                         <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'></p></div>
@@ -245,7 +244,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className={`${style?.material} border-end border-black d-flex w-100`}>
                                 <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{NumberWithCommas(e?.total?.grosswt, 3)}</p></div>
                                 <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{NumberWithCommas(e?.total?.NetWt, 3)}</p></div>
-                                <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>G</p></div>
+                                <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
                                 <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{NumberWithCommas(e?.total?.LossWt, 3)}</p></div>
                                 <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{NumberWithCommas(e?.total?.LossPer, 2)}</p></div>
                                 <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{NumberWithCommas(e?.total?.totalWt, 3)}</p></div>
@@ -259,7 +258,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <div className={`col-5 p-1`}><p className='fw-bold text-end'>{NumberWithCommas(e?.total?.diaCsAmount, 2)}</p></div>
                             </div>
                             <div className={`${style?.fob} p-1`}>
-                                <p className="fw-bold text-end">407.32</p>
+                                <p className="fw-bold text-end"></p>
                             </div>
                         </div>
                     </div>
