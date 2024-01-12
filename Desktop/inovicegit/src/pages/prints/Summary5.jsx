@@ -496,8 +496,8 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   {/* amount in words */}
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">
-                    <div>{numberToWord((result?.finalAmount - result?.header?.FreightCharges)?.toFixed(2))} Only /-</div>
-                    <div>TOTAL : {result?.header?.CurrencyCode} {formatAmount((result?.finalAmount - result?.header?.FreightCharges))}</div>
+                    <div>{numberToWord((result?.finalAmount)?.toFixed(2))} Only /-</div>
+                    <div>TOTAL : {result?.header?.CurrencyCode} {formatAmount((result?.finalAmount))}</div>
                   </div>
                 </div>
                 {/* description */}
