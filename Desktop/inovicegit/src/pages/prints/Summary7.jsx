@@ -214,13 +214,13 @@ const Summary7 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div className="fw-bold border-black border-bottom pbias7">
                       <div className="d-flex justify-content-end">
-                        Final Amount:Rs.{formatAmount(((result?.finalAmount - result?.header?.FreightCharges)))}
+                        Final Amount:Rs.{formatAmount(((result?.finalAmount )))}
                       </div>
                       <div className="d-flex justify-content-end">
-                        Payable Amount:Rs.{formatAmount(((result?.finalAmount - result?.header?.FreightCharges)))}
+                        Payable Amount:Rs.{formatAmount(((result?.finalAmount )))}
                       </div>
                       <div className="fw-normal" style={{wordBreak:"break-word"}}>
-                        In Words : {toWords.convert((result?.finalAmount - result?.header?.FreightCharges) )} Only
+                        In Words : {toWords.convert((result?.finalAmount ) )} Only
                       </div>
                     </div>
                     <div className="fw-bold pbias7">
