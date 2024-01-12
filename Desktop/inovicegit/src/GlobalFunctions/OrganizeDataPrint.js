@@ -70,7 +70,9 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     total_Making_Amount_Other_Charges:0,
     total_fineWtByMetalWtCalculation:0,
     totalMiscAmount: 0,
-    total_otherChargesMiscHallStamp:0
+    total_otherChargesMiscHallStamp:0, 
+    total_TotalCsSetcost : 0,
+    total_TotalDiaSetcost: 0
   };
 
   //json1 array
@@ -175,6 +177,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_csamount += j1?.CsAmount;
       maintotal.total_fineWtByMetalWtCalculation += ((j1?.NetWt * j1?.Tunch)/100);
       maintotal.totalMiscAmount += j1?.MiscAmount;
+      maintotal.total_TotalCsSetcost += j1?.TotalCsSetcost;
+      maintotal.total_TotalDiaSetcost += j1?.TotalDiaSetcost;
       
       //json2
       json2?.length > 0 &&

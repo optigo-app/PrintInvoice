@@ -109,13 +109,13 @@
     width: 15%;
 }
 .col6s5{
-    width: 5%;
+    width: 4%;
 }
 .col7s5{
     width: 5%;
 }
 .col8s5{
-    width: 5%;
+    width: 6%;
 }
 /* colorstone */
 .colctss5{
@@ -125,13 +125,13 @@
     width: 5%;
 }
 .col10s5{
-    width: 5%;
+    width: 4%;
 }
 .col11s5{
     width: 5%;
 }
 .col12s5{
-    width: 5%;
+    width: 6%;
 }
 /* making */
 .colmaks5{
@@ -177,11 +177,11 @@
     .containers5{
         max-width: 1200px;
         margin: 0 auto;
-        margin-top: 2rem;
+        margin-top: 5px !important;
         padding: 10px;
     }
     .fsgs5{
-        font-size: 10px;
+        font-size: 9px;
     }
     .pbiag{
         page-break-inside: avoid;

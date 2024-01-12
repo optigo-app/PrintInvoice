@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { OrganizeDataPrint } from "./../../GlobalFunctions/OrganizeDataPrint";
+import Loader from "../../components/Loader";
+import "../../assets/css/prints/detailprint7.css";
+import { ToWords } from "to-words";
 import {
   apiCall,
   formatAmount,
@@ -7,19 +11,18 @@ import {
   isObjectEmpty,
   
 } from "../../GlobalFunctions";
-import { OrganizeDataPrint } from "./../../GlobalFunctions/OrganizeDataPrint";
-import Loader from "../../components/Loader";
-import "../../assets/css/prints/detailprint7.css";
-import { convertAmountToWords } from "../../GlobalFunctions/convertAmountToWords";
-import { ToWords } from "to-words";
 
 const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
-  const [result, setResult] = useState(null);
+
   const toWords = new ToWords();
-  const [json_2, setjson_2] = useState([]);
+
+  const [result, setResult] = useState(null);
   const [categoryWise, setCategoryWise] = useState([]);
   const [miscWise, setMiscWise] = useState([]);
   const [otherAMountTotal, setOtherAmountTotal] = useState(0);
+  const [msg, setMsg] = useState("");
+  const [loader, setLoader] = useState(true);
+  const [imgFlag, setImgFlag] = useState(true);
   const [miscWise_total, setMiscWise_total] = useState({
     Pcs: 0,
     pcPcs:0,
@@ -32,41 +35,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
     Wt_gm: 0,
     Amount: 0,
   });
-  const [msg, setMsg] = useState("");
-  const [loader, setLoader] = useState(true);
-  const [imgFlag, setImgFlag] = useState(true);
-
-  const miscWiseData1 = (arr) => {
-    // const js34 = [].concat(arr?.BillPrint_Json2);
-    // let misc_color_1 = [];
-    // let misc_color_1_without_hs = [];
-    // let arr1 = [];
-    // let a = js34?.map((e) => {
-    //   if(e?.MasterManagement_DiamondStoneTypeid === 2 || e?.MasterManagement_DiamondStoneTypeid === 3){
-    //     misc_color_1.push(e);
-    //     if(e?.ShapeName === 'Stamping' || e?.ShapeName === 'Hallmark'){}
-    //     else{
-    //       misc_color_1_without_hs.push(e);
-    //     }
-    //   }
-    // })
-    // console.log(misc_color_1_without_hs);
-
-    // misc_color_1_without_hs.map((a) => {
-    //   let findInd123 = arr1.findIndex((al) => al?.ShapeName === a?.ShapeName);
-    //   if(findInd123 === -1){
-    //     arr1.push(a);
-    //   }else{
-    //     // arr1[findInd123].Wt += a?.Wt;
-    //     // arr1[findInd123].Rate += a?.Rate;
-    //     // arr1[findInd123].Amount += a?.Amount;
-    //   }
-    // })
-
-    // console.log(arr);
- 
-
-  };
+  
   async function loadData(data) {
     try {
       
@@ -94,14 +63,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       });
 
       let blankArr = [];
-      let blankArr2 = [];
-      let obj = {
-        Pcs: 0,
-        Wt_Ctw: 0,
-        dia_Wt_gm: 0,
-        Wt_gm: 0,
-        Amount: 0,
-      };
       //category wise data setting
       datas?.resultArray?.forEach((j2) => {
         let recordIs = blankArr?.findIndex(
@@ -121,7 +82,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       //cate wise data and finewt
       let cateWise2 = [];
       blankArr?.forEach((e) => {
-        console.log(e);
         let obj = { ...e };
         let netwtwithloss = (e?.NetWt + e?.LossWt)
         let fineWtBYNetWtCal = (e?.NetWt * e?.Tunch) / 100;
@@ -129,33 +89,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
         obj.netwtwithloss = netwtwithloss;
         cateWise2.push(obj);
       });
-
-      //set misc wise data
-      // datas?.json2?.forEach((e) => {
-      //   // console.log(e?.StockBarcode, e?.MasterManagement_DiamondStoneTypeid, e?.ShapeName, e?.Wt);
-      //   if (
-      //     e?.MasterManagement_DiamondStoneTypeid === 2 ||
-      //     e?.MasterManagement_DiamondStoneTypeid === 3
-      //   ) {
-      //     if (e?.ShapeName === "Hallmark" || e?.ShapeName === "Stamping") {
-      //       return "";
-      //     } else {
-      //       let recordIs = blankArr2?.findIndex(
-      //         (el) =>
-      //           el?.ShapeName === e?.ShapeName &&
-      //           el?.StockBarcode === e?.StockBarcode
-      //       );
-      //       if (recordIs === -1) {
-      //         blankArr2.push(e);
-      //       } else {
-      //         blankArr2[recordIs].rate += +e?.rate;
-      //         blankArr2[recordIs].Wt += +e?.Wt;
-      //         blankArr2[recordIs].Amount += +e?.Amount;
-      //         blankArr2[recordIs].Pcs += +e?.Pcs;
-      //       }
-      //     }
-      //   }
-      // });
  
       let othamttot = 0;
 
@@ -179,8 +112,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       });
 
       setOtherAmountTotal(othamttot);
-      // setMiscWise_total(obj);
-      // setMiscWise(blankArr2);
       setCategoryWise(cateWise2);
       setResult(datas);
       setLoader(false);
@@ -203,7 +134,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       let colrStone_filter = [];
   
       // eslint-disable-next-line array-callback-return
-      miscs.map((ele, ind) => {
+      miscs?.map((ele, ind) => {
         let findMiscs = miscs_filter.findIndex(
           (elem, index) => elem?.ShapeName === ele?.ShapeName
         );
@@ -221,8 +152,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       });
   
       // eslint-disable-next-line array-callback-return
-      colorstones.map((ele, ind) => {
-        let findcs = colrStone_filter.findIndex(
+      colorstones?.map((ele, ind) => {
+        let findcs = colrStone_filter?.findIndex(
           (elem, index) => elem?.ShapeName === ele?.ShapeName
         );
         if (findcs === -1) {
@@ -237,6 +168,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           colrStone_filter[findcs].AmtAmount += ele?.Amount;
         }
       });
+
       let arrnew = [...colrStone_filter, ...miscs_filter].flat();
 
       let misc_sum_total = {
@@ -250,6 +182,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
         Amount: 0,
         AmtAmount: 0,
       }
+
       arrnew?.forEach((e) => {
         if(e?.MasterManagement_DiamondStoneTypeid === 2){
           misc_sum_total.wtWeight_Ctw += e?.wtWeight;
@@ -265,6 +198,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           misc_sum_total.Pcs += e?.Pcs;
           misc_sum_total.Amount += e?.Amount;
       })
+
       setMiscWise(arrnew);
       setMiscWise_total(misc_sum_total);
 
@@ -297,8 +231,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
     sendData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-
 
   const handleImgShow = (e) => {
     if (imgFlag) setImgFlag(false);
@@ -336,7 +268,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </button>
                 </div>
                 {/* table header */}
-                {/* <div className="w-100 hcompdp7">{headerComp}</div> */}
                 <div>
                   <div className="pheaddp7">
                     {result?.header?.PrintHeadLabel}
@@ -677,7 +608,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     }}
                   ></div>
                   <div className="ps-2 fw-bold" style={{ width: "97%" }}>
-                    {toWords.convert(result?.finalAmount)}
+                    {toWords.convert(result?.finalAmount)} Only /-
                   </div>
                 </div>
 
