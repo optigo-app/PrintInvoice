@@ -274,11 +274,11 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className="colh6s5 border-end">
                       <div className="w-100 centers5 border-bottom">MISC</div>
                       <div className="d-flex w-100">
-                        <div className="subcolhs5 centers5 border-end">PCS</div>
+                        <div className="subcolhs5 centers5 border-end" style={{width:"27.33%"}}>PCS</div>
                         <div className="subcolhs5 centers5 border-end">
                           RATE
                         </div>
-                        <div className="subcolhs5 centers5">AMNT</div>
+                        <div className="subcolhs5 centers5" style={{width:"39.33%"}}>AMNT</div>
                       </div>
                     </div>
                     <div className="colh7s5 border-end">
@@ -287,9 +287,9 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn }) => {
                       </div>
                       <div className="d-flex w-100">
                         <div className="w-25 centers5 border-end">WT</div>
-                        <div className="w-25 centers5 border-end">PCS</div>
+                        <div className=" centers5 border-end" style={{width:"20%"}}>PCS</div>
                         <div className="w-25 centers5 border-end">RATE</div>
-                        <div className="w-25 centers5">AMNT</div>
+                        <div className="centers5" style={{width:"30%"}}>AMNT</div>
                       </div>
                     </div>
                     <div className="colh8s5 border-end">
@@ -404,7 +404,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn }) => {
                             {formatAmount(e?.MaKingCharge_Unit)}
                           </div>
                           <div className="col14s5 border-end ends5 pb10s5">
-                            {formatAmount(e?.MakingAmount)}
+                            {formatAmount((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost))}
                           </div>
                           <div className="col15s5 border-end ends5 pb10s5">
                             {formatAmount(e?.Wastage)}
@@ -454,7 +454,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     <div className="col13s5 border-end ends5"></div>
                     <div className="col14s5 border-end ends5">
-                      {formatAmount(result?.mainTotal?.total_Making_Amount)}
+                      {formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost))}
                     </div>
                     <div className="col15s5 border-end ends5"></div>
                     <div className="col16s5 border-end ends5">
@@ -496,7 +496,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   {/* amount in words */}
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">
-                    <div>{numberToWord((result?.finalAmount - result?.header?.FreightCharges)?.toFixed(2))}</div>
+                    <div>{numberToWord((result?.finalAmount - result?.header?.FreightCharges)?.toFixed(2))} Only /-</div>
                     <div>TOTAL : {result?.header?.CurrencyCode} {formatAmount((result?.finalAmount - result?.header?.FreightCharges))}</div>
                   </div>
                 </div>
