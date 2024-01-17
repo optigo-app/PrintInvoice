@@ -20,40 +20,72 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn }) => {
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
-        setData(datas)
         console.log(datas);
         let resultArr = [];
         datas?.resultArray?.forEach((e, i) => {
-            let obj = {...e};
+            let obj = { ...e };
             let diaClr = [...obj?.diamonds, ...obj?.colorstone].flat();
             let findMetal = obj?.metal.findIndex(ele => ele?.IsPrimaryMetal);
             let metalrate = 0;
-            if(findMetal === -1){
+            if (findMetal === -1) {
                 metalrate = findMetal?.Rate;
             }
+            let miscCeramicWt = obj?.misc?.reduce((acc, cobj) => (cobj?.acc + cobj?.Wt), 0)
 
             diaClr.forEach((ele, ind) => {
-                let objecttype = {
-                    id: ind === 0 ? i+1 : 0,
+                let objectType = {
+                    image: false,
+                    id: ind === 0 ? i + 1 : 0,
                     mtpyColName: ind === 0 ? obj?.MetalTypePurity + " " + obj?.MetalColor : "",
-                    pcs: ind === 0 ? obj?.Qunatity : "",
+                    Quantity: ind === 0 ? obj?.Quantity : 0,
                     metalRate: ind === 0 ? metalrate : 0,
                     diaclrquality: ele?.QualityName,
                     diaclrsize: ele?.SizeName,
                     diaclrPcs: ele?.Pcs,
-                    diaclrWt: ele?.Wt, 
+                    diaclrWt: ele?.Wt,
                     diarate: ele?.Rate,
                     diaAmount: ele?.Amount,
-                    // metalAmount: ind === 0 ? obj?.
+                    metalAmount: ind === 0 ? obj?.totals?.metal?.Amount : 0,
+                    eneaml: (ind === 0 && obj?.totals?.colorstone?.Amount !== 0) ? obj?.totals?.colorstone?.Amount : 0,
+                    otherCharges: ind === 0 ? obj?.OtherCharges : 0,
+                    TotalAmount: ind === 0 ? obj?.TotalAmount : 0,
                 };
+                resultArr.push(objectType);
             });
 
-        });
+            if (diaClr?.length === 0) {
+                let objectType = {
+                    image: false,
+                    id: i + 1,
+                    mtpyColName: obj?.MetalTypePurity + " " + obj?.MetalColor,
+                    Quantity: obj?.Quantity,
+                    metalRate: metalrate,
+                    diaclrquality: 0,
+                    diaclrsize: 0,
+                    diaclrPcs: 0,
+                    diaclrWt: 0,
+                    diarate: 0,
+                    diaAmount: 0,
+                    metalAmount: obj?.totals?.metal?.Amount,
+                    eneaml: (obj?.totals?.colorstone?.Amount !== 0) ? obj?.totals?.colorstone?.Amount : "",
+                    otherCharges: obj?.OtherCharges,
+                    TotalAmount: obj?.TotalAmount,
+                };
+                resultArr.push(objectType);
+            }
 
+            let objectTypeImage = {
+                image: true,
+                src: obj?.DesignImage
+            }
+            resultArr.push(objectTypeImage);
+        });
+        datas.resultArray = resultArr;
+        setData(datas);
         setTimeout(() => {
             const button = document.getElementById('test-table-xls-button');
             if (button !== null) {
-                // button.click();
+                button.click();
             }
         }, 0);
     }
@@ -133,78 +165,77 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn }) => {
                     </thead>
                     <tbody>
                         {data?.resultArray?.map((e, i) => {
-                            return <>
-                                <tr>
-                                    <td></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>1</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>WCH-24210/1726KD12598 old barcode</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>JS00112-YGP900</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}> </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>18 KT , YL  </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>1 </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}> </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>0.01</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>5.31</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>5.000</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>0.11</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>0</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>0.2</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>colour stone</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>colour stone loss </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>example</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}> </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>0</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>0</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>30000</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>mat product </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>300</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>0</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>300</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>Polish & rhodium (polish rhodium)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }} colSpan={3}> <img src="https://img.freepik.com/premium-photo/beautiful-royal-indian-wedding-jewelry-wallpaper-special-day-generative-ai_753390-3773.jpg" alt="" width={375} height={75} style={{ objectFit: "contain" }} /> </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}> </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>  </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}> </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}> </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>gross</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>gross</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>gross</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>Name#</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>loss wight </td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>--</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>0</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>0.000</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>value</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>Amount</td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                    <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
-                                </tr>
-                            </>
+                            return (!e?.image ? 
+                            <tr>
+                                <td></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>{e?.id !== 0 && NumberWithCommas(e?.id, 0)}</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}> </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>{e?.mtpyColName}  </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>{NumberWithCommas(e?.Qunatity, 0)} </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}> </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>{NumberWithCommas(e?.metalRate, 2)}</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>{e?.eneaml !== 0 && "ColorStone"}</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>{NumberWithCommas(e?.eneaml, 2)} </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>example</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}> </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>{e?.diaclrquality}</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>{e?.diaclrsize}</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>{NumberWithCommas(e?.diaclrPcs, 0)}</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>{NumberWithCommas(e?.diaclrWt, 3)}</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>{NumberWithCommas(e?.diaclrRate, 2)} </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>{NumberWithCommas(e?.diaAmount, 2)}</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>0</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>300</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                            </tr> : 
+                            <tr>
+                                <td></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }} colSpan={3}> <img src="https://img.freepik.com/premium-photo/beautiful-royal-indian-wedding-jewelry-wallpaper-special-day-generative-ai_753390-3773.jpg" alt="" width={375} height={75} style={{ objectFit: "contain" }} /> </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}> </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>  </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}> </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}> </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>gross</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>gross</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>gross</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>Name#</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>loss wight </td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>--</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>0</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>0.000</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>value</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}>Amount</td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                                <td style={{ borderLeft: "0.5px solid #000", borderRight: "0.5px solid #000", padding: "1px" }}></td>
+                            </tr>)
                         })}
 
                     </tbody>
