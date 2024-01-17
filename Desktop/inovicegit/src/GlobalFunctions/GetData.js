@@ -28,6 +28,7 @@ export const GetData = async (job) => {
         //     }
         // });
         // console.log(newArr);
+        console.log(datas);
         return datas;
     } catch (error) {
         console.log(error);

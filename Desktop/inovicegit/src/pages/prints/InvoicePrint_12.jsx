@@ -6,6 +6,7 @@ import {
   isObjectEmpty,
   FooterComponent,
   fixedValues,
+  otherAmountDetail,
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import style from "../../assets/css/prints/invoiceprint_12.module.css";
@@ -34,8 +35,10 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
       data?.BillPrint_Json2
     );
     let finalArr = [];
+    
+    
     datas?.resultArray?.forEach((e, i) => {
-      let findData = finalArr.findIndex(
+      let findData = finalArr?.findIndex(
         (ele) => ele.MetalPurity === e?.MetalPurity
       );
       if (findData === -1) {
@@ -52,29 +55,45 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
           e?.totals.diamonds.SettingAmount;
         finalArr[findData].totals.colorstone.SettingAmount +=
           e?.totals.colorstone.SettingAmount;
-
+          
+        // let otherAmtDetails = [
+        //   ...finalArr[findData]?.other_amount_details,
+        //   ...e?.other_amount_details,
+        // ]?.flat();
+        // let otherAmtDetail = [];
+        // otherAmtDetails?.forEach((elem, index) => {
+        //   let findOther = otherAmtDetail?.findIndex(
+        //     (ele) => ele?.label === elem?.label
+        //   );
+        //   if (findOther === -1) {
+        //     otherAmtDetail.push(elem);
+        //   } else {
+        //     otherAmtDetail[findOther].value =
+        //       +otherAmtDetail[findOther]?.value + +elem?.value;
+        //   }
+        // });
+        // finalArr[findData].otherAmtDetails = otherAmtDetail;
         let otherAmtDetails = [
-          ...finalArr[findData]?.other_amount_details,
-          ...e?.other_amount_details,
-        ].flat();
-        let otherAmtDetail = [];
-        otherAmtDetails.forEach((elem, index) => {
-          let findOther = otherAmtDetail.findIndex(
+          ...e?.other_details,
+          ...finalArr[findData]?.other_details,
+        ]?.flat();
+        let  otherAmtDetail2 = [];
+        otherAmtDetails?.forEach((elem, index) => {
+          let findOther = otherAmtDetail2?.findIndex(
             (ele) => ele?.label === elem?.label
           );
           if (findOther === -1) {
-            otherAmtDetail.push(elem);
+            otherAmtDetail2.push(elem);
           } else {
-            otherAmtDetail[findOther].value =
-              +otherAmtDetail[findOther]?.value + +elem?.value;
+            otherAmtDetail2[findOther].value =
+              +otherAmtDetail2[findOther]?.value + +elem?.value;
           }
         });
-        finalArr[findData].otherAmtDetails = otherAmtDetail;
+        finalArr[findData].otherAmtDetails = otherAmtDetail2;
         finalArr[findData].MakingAmount += e?.MakingAmount;
         finalArr[findData].TotalAmount += e?.TotalAmount;
       }
     });
-    // console.log(datas);
     setData(finalArr);
     setTaxes(datas?.allTaxes);
     setTotal(datas?.mainTotal);
@@ -243,7 +262,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
               <p className="text-end">{NumberWithCommas(e?.NetWt, 3)}</p>
             </div>
             <div className={`${style?.Other} border-end`}>
-              {e?.other_amount_details.map((ele, ind) => {
+              {e?.other_amount_details?.map((ele, ind) => {
                 return (
                   <div className="d-flex justify-content-between" key={ind}>
                     <p>{ele?.label}</p>
