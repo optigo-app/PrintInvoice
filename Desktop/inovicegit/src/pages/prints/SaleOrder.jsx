@@ -487,13 +487,13 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         <table className="table w-100 table-border mb-0">
           <thead>
             <tr>
-              <th className={`${style?.srNo} p-1 text-center lightGrey_table  border`}>SR NO</th>
+              <th className={`${style?.srNo} p-1 text-center lightGrey_table  border `} style={{wordBreak: "normal"}}>SR NO</th>
               <th className={`${style?.image} p-1 text-center lightGrey_table  border`}>IMAGE</th>
               <th className={`${style?.itemCode} p-1 text-center lightGrey_table  border`}>ITEM CODE</th>
               <th className={`${style?.description} p-1 text-center lightGrey_table  border`}>DESCRIPTION</th>
               <th className={`${style?.quantity} p-1 text-center lightGrey_table  border`}>QTY</th>
               <th className={`${style?.unitPrice} p-1 text-center lightGrey_table  border`}>UNIT PRICE</th>
-              <th className={`${style?.amount} p-1 text-center lightGrey_table border `}>AMOUNT ({headerData?.CurrencyCode})</th>
+              <th className={`${style?.amount} p-1 text-center lightGrey_table border`} style={{wordBreak: "normal"}}>AMOUNT ({headerData?.CurrencyCode})</th>
             </tr>
           </thead>
           {/* table data */}
@@ -661,20 +661,20 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
           </div>
         </div>
-        <div className={`${style?.remarks} p-1 fw-bold border-end`}>
-          <p className="fw-bold text-decoration-underline">REMARKS: </p>
+        <div className={`${style?.remarks} p-1 border-end`}>
+          <p className="fw-bold text-decoration-underline fw-bold">REMARKS: </p>
           <p dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
           {/* <p>{headerData?.PrintRemark}</p> */}
         </div>
         <div className={`${style?.grandTotal} p-1 border-end`}>
           {tax.map((e, i) => {
             return (
-              <p key={i}>
+              <p key={i} className="text-end">
                 {e?.name} @ {e?.per}
               </p>
             );
           })}
-          <p className=""> TOTAL </p>
+          <p className="text-end"> TOTAL </p>
           {headerData?.AddLess !== 0 && (
             <p className="">{headerData?.AddLess > 0 ? "ADD" : "LESS"}</p>
           )}
@@ -726,7 +726,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
         <div className={`${style?.remarks} p-1 fw-bold border-end`}></div>
         <div className={`${style?.grandTotal} p-1 border-end`}>
-          <p className="fw-bold"> GRAND TOTAL</p>
+          <p className="fw-bold text-end"> GRAND TOTAL</p>
         </div>
         <div className={`${style?.amount} p-1 text-end fw-bold`}>
           <p>

@@ -188,7 +188,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="border d-flex mt-2">
                     <div className="col-6 p-2">
                         <p className="">{headerData?.lblBillTo}</p>
-                        <p className="fs-4 pb-1">{headerData?.CustName}</p>
+                        <p className="fs-6 pb-1 fw-semibold">{headerData?.CustName}</p>
                         <p className="">{headerData?.customerAddress1}</p>
                         {/* <p className="">{headerData?.customerAddress2}</p> */}
                         <p className="">{headerData?.customercity} {headerData?.customerpincode}</p>
@@ -305,12 +305,12 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <p>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</p>
                             </div>
                             <div className="col-4 p-2 border-end d-flex justify-content-between flex-column">
-                                <p>Signature</p>
-                                <p className='fw-bold'>{headerData?.CustName}</p>
+                                <p style={{fontSize: "12px"}}>Signature</p>
+                                <p className='fw-bold' style={{fontSize: "12px"}}>{headerData?.CustName}</p>
                             </div>
                             <div className="col-4 p-2 d-flex justify-content-between flex-column">
-                                <p className="fw-bold">For</p>
-                                <p className="fw-bold">{headerData?.CompanyFullName}</p>
+                                <p className="fw-bold" style={{fontSize: "12px"}}>For</p>
+                                <p className="fw-bold" style={{fontSize: "12px"}}>{headerData?.CompanyFullName}</p>
                             </div>
                         </div>
                     </div>
