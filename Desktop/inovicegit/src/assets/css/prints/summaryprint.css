@@ -6,7 +6,7 @@
     max-width: 1200px;
     padding: 10px;
     margin: 0 auto;
-    font-size: 16px;
+    font-size: 12px;
 }
 .center_sp{
     display: flex;
@@ -73,7 +73,9 @@
 .col17h_ps{
     width: 9%;
 }
-
+.pad_r_sp{
+    padding-right: 2px;
+}
 
 @media print{
     .HSBtn_sp{
@@ -83,7 +85,7 @@
         max-width: 1200px;
         padding: 10px;
         margin: 0 auto;
-        font-size: 10px;
+        font-size: 8px;
     }
     .pbia_sp{
         page-break-inside: avoid;
