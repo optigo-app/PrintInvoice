@@ -15,6 +15,7 @@ const BagPrint7A = ({ queries, headers }) => {
   const [data, setData] = useState([]);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
+
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize7 = 22;
   useEffect(() => {
@@ -109,7 +110,7 @@ const BagPrint7A = ({ queries, headers }) => {
           finalDiaArr?.forEach((e) => {
             dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
             dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
-          })
+          });
           const groupedCOLORSTONEData = ColorStoneList?.reduce((acc, obj) => {
             const key = obj.Sizename;
 
@@ -131,11 +132,11 @@ const BagPrint7A = ({ queries, headers }) => {
             return acc;
           }, {});
           const finalClsArr = Object.values(groupedCOLORSTONEData);
-          
+
           finalClsArr?.forEach((e) => {
-          clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
-              clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
-          })
+            clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
+            clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
+          });
           const groupedMISCAllData = MiscList?.reduce((acc, obj) => {
             const key = obj.Sizename;
 
@@ -157,11 +158,11 @@ const BagPrint7A = ({ queries, headers }) => {
             return acc;
           }, {});
           const finalMiscArr = Object.values(groupedMISCAllData);
-  
+
           finalMiscArr?.forEach((e) => {
             misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
-                misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
-            })
+            misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
+          });
           dia.ActualPcs = +dia.ActualPcs?.toFixed(3);
           dia.ActualWeight = +dia.ActualWeight?.toFixed(3);
           clr.ActualPcs = +clr.ActualPcs?.toFixed(3);
@@ -239,11 +240,7 @@ const BagPrint7A = ({ queries, headers }) => {
           let allMaterials = [...DIAgrouArr, ...CLSgrouArr, ...MISCgrouArr];
 
           let arr = [];
-          let mainArr2 = arr?.concat(
-            finalDiaArr,
-            finalClsArr,
-            finalMiscArr
-          );
+          let mainArr2 = arr?.concat(finalDiaArr, finalClsArr, finalMiscArr);
           let metalqualitycolor = a?.rd?.tunch + " " + a?.rd?.MetalColorCo;
           a.rd.metalqualitycolor = metalqualitycolor;
           let imagePath = queryParams?.imagepath;
@@ -282,7 +279,7 @@ const BagPrint7A = ({ queries, headers }) => {
       }, 5000);
     }
   }, [data]);
-  
+
   return (
     <>
       {data?.length === 0 ? (
@@ -315,894 +312,1005 @@ const BagPrint7A = ({ queries, headers }) => {
                 return (
                   <React.Fragment key={ins}>
                     {e?.additional?.pages?.length > 0 ? (
-                      e?.additional?.pages?.map((ele, ind) => {
-                        return (
-                          <div className="container7A" key={ind}>
-                            <div className="head7A">
-                              <div className="head7AjobInfo">
-                                <div
-                                  style={{
-                                    backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
-                                  }}
-                                >
-                                  <div className="head7AjobInfoJobNO">
-                                    <div>
-                                      Ord. : {e?.data?.rd?.orderDatef ?? ""}
-                                    </div>
-                                    <div>
-                                      Due : {e?.data?.rd?.promiseDatef ?? ""}
-                                    </div>
-                                    <div>
-                                      <b>{e?.data?.rd?.serialjobno}</b>
-                                    </div>
-                                  </div>
-                                  <div className="party7A">
-                                    
-                                    <div>
-                                      Party: <b>{e?.data?.rd?.CustomerCode}</b>
-                                    </div>
-                                    <div style={{ paddingBottom: "4px" }}>
-                                      Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
-                                    </div>
-                                  </div>
-                                  <div className="party7A">
-                                    <div>
-                                      Dgn: <b>{e?.data?.rd?.Designcode}</b>
-                                    </div>
-                                    <div className="barcode7A">
-                                      {e?.data?.rd?.length !== 0 &&
-                                        e?.data?.rd !== undefined && (
-                                          <>
-                                            {e?.data?.rd?.serialjobno !==
-                                              undefined && (
-                                              <BarcodeGenerator
-                                                data={e?.data?.rd?.serialjobno}
-                                              />
+                      <>
+                        {e?.additional?.pages?.map((ele, ind) => {
+                          return (
+                            <React.Fragment key={ind}>
+                              <div className="container7A">
+                                <div className="head7A">
+                                  <div className="head7AjobInfo">
+                                    <div
+                                      style={{
+                                        backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                                      }}
+                                    >
+                                      <div className="head7AjobInfoJobNO">
+                                        <div>
+                                          Ord. : {e?.data?.rd?.orderDatef ?? ""}
+                                        </div>
+                                        <div>
+                                          Due :{" "}
+                                          {e?.data?.rd?.promiseDatef ?? ""}
+                                        </div>
+                                        <div>
+                                          <b>{e?.data?.rd?.serialjobno}</b>
+                                        </div>
+                                      </div>
+                                      <div className="party7A">
+                                        <div>
+                                          Party:{" "}
+                                          <b>{e?.data?.rd?.CustomerCode}</b>
+                                        </div>
+                                        <div style={{ paddingBottom: "4px" }}>
+                                          Ord No. :{" "}
+                                          <b>{e?.data?.rd?.OrderNo}</b>
+                                        </div>
+                                      </div>
+                                      <div className="party7A">
+                                        <div>
+                                          Dgn: <b>{e?.data?.rd?.Designcode}</b>
+                                        </div>
+                                        <div className="barcode7A">
+                                          {e?.data?.rd?.length !== 0 &&
+                                            e?.data?.rd !== undefined && (
+                                              <>
+                                                {e?.data?.rd?.serialjobno !==
+                                                  undefined && (
+                                                  <BarcodeGenerator
+                                                    data={
+                                                      e?.data?.rd?.serialjobno
+                                                    }
+                                                  />
+                                                )}
+                                              </>
                                             )}
-                                          </>
-                                        )}
+                                        </div>
+                                      </div>
+                                      <div className="party7A">
+                                        <div className="d-flex">
+                                          <div>Size: </div>
+                                          <div className="fw-bold">
+                                            {e?.data?.rd?.Size}
+                                          </div>
+                                        </div>
+                                        <div className="pe-1 fw-bold">
+                                          (
+                                          {
+                                            e?.data?.rd
+                                              ?.IsSplits_Quotation_Quantity
+                                          }
+                                          ) Pcs
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="mat7AInfo">
+                                      <div className="pcswt7AH">
+                                        <div className="net7A">
+                                          <b>Net Wt.</b>
+                                        </div>
+                                        <div className="net7A justify-content-end pe-1">
+                                          {e?.data?.rd?.netwt}
+                                        </div>
+                                        <div className="net7A">
+                                          <b>Gr Wt.</b>
+                                        </div>
+                                        <div className="net7A justify-content-end pe-1">
+                                          {e?.data?.rd?.ActualGrossweight?.toFixed(
+                                            3
+                                          )}
+                                        </div>
+                                      </div>
+                                      <div className="pcswt7AH">
+                                        <div className="net7A">
+                                          <b>Dia Pcs:</b>
+                                        </div>
+                                        <div className="net7A justify-content-end pe-1">
+                                          {e?.additional?.dia?.ActualPcs}
+                                        </div>
+                                        <div className="net7A">
+                                          <b>Dia Wt.</b>
+                                        </div>
+                                        <div className="net7A justify-content-end pe-1">
+                                          {e?.additional?.dia?.ActualWeight?.toFixed(
+                                            3
+                                          )}
+                                        </div>
+                                      </div>
+                                      <div className="pcswt7AH">
+                                        <div className="net7A">
+                                          <b>Clr Pcs:</b>
+                                        </div>
+                                        <div className="net7A justify-content-end pe-1">
+                                          {e?.additional?.clr?.ActualPcs}
+                                        </div>
+                                        <div className="net7A">
+                                          <b>Clr Wt.</b>
+                                        </div>
+                                        <div className="net7A justify-content-end pe-1">
+                                          {e?.additional?.clr?.ActualWeight?.toFixed(
+                                            3
+                                          )}
+                                        </div>
+                                      </div>
+                                      <div className="pcswt7AH">
+                                        <div className="net7A">
+                                          <b>Misc Pcs:</b>
+                                        </div>
+                                        <div className="net7A justify-content-end pe-1">
+                                          {e?.additional?.misc?.ActualPcs}
+                                        </div>
+                                        <div className="net7A">
+                                          <b>Misc Wt.</b>
+                                        </div>
+                                        <div className="net7A justify-content-end pe-1">
+                                          {e?.additional?.misc?.ActualWeight?.toFixed(
+                                            3
+                                          )}
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
-                                  <div className="party7A">
-                                    <div className="d-flex"><div>Size: </div><div className="fw-bold">{e?.data?.rd?.Size}</div></div>
-                                    <div className="pe-1 fw-bold">
-                                      ({e?.data?.rd?.IsSplits_Quotation_Quantity}) Pcs
+                                  <div className="imgSize7A">
+                                    {" "}
+                                    <img
+                                      src={
+                                        e?.additional?.img !== ""
+                                          ? e?.additional?.img
+                                          : require("../../assets/img/default.jpg")
+                                      }
+                                      id="img7A"
+                                      alt=""
+                                      onError={(e) => handleImageError(e)}
+                                      loading="eager"
+                                    />
+                                    <div
+                                      className="borderBottom7A d-flex justify-content-center align-items-center fw-bold"
+                                      style={{
+                                        fontSize: "11px",
+                                        lineHeight: "9px",
+                                        padding: "2px",
+                                        height: "22px",
+                                      }}
+                                    >
+                                      {checkInstruction(
+                                        e?.data?.rd?.metalqualitycolor
+                                      )}
                                     </div>
                                   </div>
                                 </div>
-                                <div className="mat7AInfo">
-                                  <div className="pcswt7AH">
-                                    <div className="net7A">
-                                      <b>Net Wt.</b>
+                                <div className="main7A">
+                                  <div className="main7AEntry">
+                                    <div className="divide7A">
+                                      <div className="tableHead7A">
+                                        <div
+                                          className="type7A"
+                                          style={{ height: "11px" }}
+                                        >
+                                          <p
+                                            className="w7A d-flex justify-content-center align-items-center pe-1"
+                                            style={{ width: "82px" }}
+                                          >
+                                            <b>Type</b>
+                                          </p>
+                                          <p
+                                            className="w7A d-flex justify-content-center align-items-center pe-1"
+                                            style={{ width: "82px" }}
+                                          >
+                                            <b>Purity</b>
+                                          </p>
+                                          <p
+                                            className="w7A d-flex justify-content-center align-items-center pe-1"
+                                            style={{
+                                              width: "70px",
+                                              borderRight: "0px",
+                                            }}
+                                          >
+                                            <b>Color</b>
+                                          </p>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div className="net7A justify-content-end pe-1">
-                                      {e?.data?.rd?.netwt}
+                                    <div className="divide7A">
+                                      <div>
+                                        {e?.additional?.material?.length > 0 &&
+                                          e?.additional?.material?.map(
+                                            (e, i) => {
+                                              return (
+                                                <React.Fragment key={i}>
+                                                  {e?.Shapename === "TOTAL" ? (
+                                                    ""
+                                                  ) : (
+                                                    <div className="tableHead7A">
+                                                      <div
+                                                        className="w7A d-flex justify-content-start align-items-center"
+                                                        style={{
+                                                          width: "82px",
+                                                          paddingLeft: "1px",
+                                                        }}
+                                                      >
+                                                        {e?.Shapecode}
+                                                      </div>
+                                                      <div
+                                                        className="w7A d-flex justify-content-start align-items-center"
+                                                        style={{
+                                                          width: "82px",
+                                                          paddingLeft: "1px",
+                                                        }}
+                                                      >
+                                                        {e?.QualityCode}
+                                                      </div>
+                                                      <div
+                                                        className="w7A d-flex justify-content-start align-items-center"
+                                                        style={{
+                                                          width: "70px",
+                                                          paddingLeft: "1px",
+                                                          borderRight: "0px",
+                                                        }}
+                                                      >
+                                                        {e?.ColorCode}
+                                                      </div>
+                                                    </div>
+                                                  )}
+                                                </React.Fragment>
+                                              );
+                                            }
+                                          )}
+                                      </div>
                                     </div>
-                                    <div className="net7A">
-                                      <b>Gr Wt.</b>
-                                    </div>
-                                    <div className="net7A justify-content-end pe-1">
-                                      {e?.data?.rd?.ActualGrossweight?.toFixed(
-                                        3
-                                      )}
+                                    <div className="d-flex">
+                                      <div>
+                                        <div className="tableHead7B">
+                                          <div
+                                            className="dept7A fw-bold d-flex justify-content-start align-items-center"
+                                            style={{
+                                              width: "53px",
+                                              paddingLeft: "2px",
+                                            }}
+                                            // 63px
+                                          >
+                                            Dept
+                                          </div>
+                                          <div className="dept7A fw-bold">
+                                            WrKr
+                                          </div>
+                                          <div className="dept7A fw-bold">
+                                            In Wt
+                                          </div>
+                                          <div className="dept7A fw-bold">
+                                            OutWt
+                                          </div>
+                                          <div className="dept7A fw-bold">
+                                            D Wt
+                                          </div>
+                                          <div
+                                            className="dept7A fw-bold"
+                                            style={{ borderRight: "0px" }}
+                                          >
+                                            (%)
+                                          </div>
+                                        </div>
+                                        <div className="entryVal7A">
+                                          <div className="tableHead7C">
+                                            <div className="dept7AD w7A70">
+                                              WAX
+                                            </div>
+                                            <div className="dept7AD w7A70">
+                                              CAS
+                                            </div>
+                                            <div className="dept7AD w7A70">
+                                              GRNDING
+                                            </div>
+                                            <div className="dept7AD w7A70">
+                                              FILING
+                                            </div>
+                                            <div className="dept7AD w7A70">
+                                              BUFFING
+                                            </div>
+                                            <div className="dept7AD w7A70">
+                                              PRE POLI
+                                            </div>
+                                            <div className="dept7AD w7A70">
+                                              SETTING
+                                            </div>
+                                            <div className="dept7AD w7A70">
+                                              MTL FSH
+                                            </div>
+                                            <div className="dept7AD w7A70">
+                                              F POLISH
+                                            </div>
+                                            <div
+                                              className="dept7AD w7A70"
+                                              style={{ borderBottom: "0px" }}
+                                            >
+                                              RHODIUM
+                                            </div>
+                                          </div>
+
+                                          <div className="dflexcolumn">
+                                            {Array.from(
+                                              { length: 10 },
+                                              (_, index) => {
+                                                return (
+                                                  <div
+                                                    className="dis7A"
+                                                    key={index}
+                                                  >
+                                                    <div className="dept7AE"></div>
+                                                    <div className="dept7AE"></div>
+                                                    <div className="dept7AE"></div>
+                                                    <div className="dept7AE"></div>
+                                                    <div
+                                                      className="dept7AE"
+                                                      style={{
+                                                        borderRight: "0px",
+                                                      }}
+                                                    ></div>
+                                                  </div>
+                                                );
+                                              }
+                                            )}
+                                          </div>
+                                        </div>
+                                        <div className="tableHead7B">
+                                          <div
+                                            className="dept7A"
+                                            style={{ width: "63px" }}
+                                          >
+                                            MFG
+                                          </div>
+                                          <div className="dept7A">Gwt</div>
+                                          <div className="dept7A">Dwt</div>
+                                          <div className="dept7A">Cwt</div>
+                                          <div className="dept7A">Nwt</div>
+                                          <div
+                                            className="dept7A"
+                                            style={{ borderRight: "0px" }}
+                                          >
+                                            Sign
+                                          </div>
+                                        </div>
+                                        <div className="tableHead7B">
+                                          <div
+                                            className="dept7A"
+                                            style={{
+                                              width: "63px",
+                                              height: "16px",
+                                            }}
+                                          ></div>
+                                          <div className="dept7A"></div>
+                                          <div className="dept7A"></div>
+                                          <div className="dept7A"></div>
+                                          <div className="dept7A"></div>
+                                          <div
+                                            className="dept7A"
+                                            style={{ borderRight: "0px" }}
+                                          ></div>
+                                        </div>
+                                        <div
+                                          className="tableHead7B"
+                                          style={{
+                                            fontWeight: "bold",
+                                          }}
+                                        >
+                                          <div
+                                            className="dept7A fs7A"
+                                            style={{ width: "63px" }}
+                                          >
+                                            Gr. Wt{" "}
+                                          </div>
+                                          <div
+                                            className="dept7A fs7A"
+                                            style={{ width: "63px" }}
+                                          >
+                                            Chaki Post
+                                          </div>
+                                          <div
+                                            className="dept7A fs7A"
+                                            style={{ width: "63px" }}
+                                          >
+                                            Taar
+                                          </div>
+                                          <div
+                                            className="dept7A fs7A"
+                                            style={{ width: "63px" }}
+                                          >
+                                            Extra Metal
+                                          </div>
+                                          <div
+                                            className="dept7A fs7A"
+                                            style={{ borderRight: "0px" }}
+                                          >
+                                            Other
+                                          </div>
+                                        </div>
+                                        <div
+                                          className="tableHead7B"
+                                          style={{
+                                            fontWeight: "bold",
+                                            height: "16px",
+                                          }}
+                                        >
+                                          <div
+                                            className="dept7A"
+                                            style={{ width: "63px" }}
+                                          ></div>
+                                          <div
+                                            className="dept7A"
+                                            style={{ width: "63px" }}
+                                          ></div>
+                                          <div
+                                            className="dept7A"
+                                            style={{ width: "63px" }}
+                                          ></div>
+                                          <div
+                                            className="dept7A"
+                                            style={{ width: "63px" }}
+                                          ></div>
+                                          <div
+                                            className="dept7A"
+                                            style={{ borderRight: "0px" }}
+                                          ></div>
+                                        </div>
+
+                                        <div className="footer7A">
+                                          <b
+                                            style={{
+                                              lineHeight: "8px",
+                                              marginTop: "3px",
+                                              padding: "2px",
+                                            }}
+                                          >
+                                            Remark:{" "}
+                                            {" " +
+                                              (e?.data?.rd?.ProductInstruction
+                                                ?.length > 0
+                                                ? checkInstruction(
+                                                    e?.data?.rd
+                                                      ?.ProductInstruction
+                                                  )
+                                                : checkInstruction(
+                                                    e?.data?.rd?.QuoteRemark
+                                                  ))}
+                                          </b>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
-                                  <div className="pcswt7AH">
-                                    <div className="net7A">
-                                      <b>Dia Pcs:</b>
+                                  <div className="main7AEntry2">
+                                    <div className="w-100 d-flex justify-content-between align-items-center sizehead7A fw-bold">
+                                      <div
+                                        className="spw7A d-flex justify-content-start align-items-center pe-1"
+                                        style={{ width: "40%", height: "16px" }}
+                                        // 74px
+                                      >
+                                        Size
+                                      </div>
+                                      <div
+                                        className="spw7A d-flex justify-content-start align-items-center pe-1"
+                                        style={{ width: "30%", height: "16px" }}
+                                        // 30px
+                                      >
+                                        Pcs
+                                      </div>
+                                      <div
+                                        className="spw7A d-flex justify-content-start align-items-center pe-1"
+                                        style={{
+                                          width: "30%",
+                                          borderRight: "0px",
+                                          height: "16px",
+                                          // 24px
+                                        }}
+                                      >
+                                        Wt
+                                      </div>
                                     </div>
-                                    <div className="net7A justify-content-end pe-1">
-                                      {e?.additional?.dia?.ActualPcs}
-                                    </div>
-                                    <div className="net7A">
-                                      <b>Dia Wt.</b>
-                                    </div>
-                                    <div className="net7A justify-content-end pe-1">
-                                      {e?.additional?.dia?.ActualWeight?.toFixed(
-                                        3
-                                      )}
-                                    </div>
-                                  </div>
-                                  <div className="pcswt7AH">
-                                    <div className="net7A">
-                                      <b>Clr Pcs:</b>
-                                    </div>
-                                    <div className="net7A justify-content-end pe-1">
-                                      {e?.additional?.clr?.ActualPcs}
-                                    </div>
-                                    <div className="net7A">
-                                      <b>Clr Wt.</b>
-                                    </div>
-                                    <div className="net7A justify-content-end pe-1">
-                                      {e?.additional?.clr?.ActualWeight?.toFixed(
-                                        3
-                                      )}
-                                    </div>
-                                  </div>
-                                  <div className="pcswt7AH">
-                                    <div className="net7A">
-                                      <b>Misc Pcs:</b>
-                                    </div>
-                                    <div className="net7A justify-content-end pe-1">
-                                      {e?.additional?.misc?.ActualPcs}
-                                    </div>
-                                    <div className="net7A">
-                                      <b>Misc Wt.</b>
-                                    </div>
-                                    <div className="net7A justify-content-end pe-1">
-                                      {e?.additional?.misc?.ActualWeight?.toFixed(
-                                        3
-                                      )}
+                                    <div>
+                                      {ele?.data?.map((e, i) => {
+                                        return (
+                                          <div
+                                            className="w-100 d-flex justify-content-between align-items-center sizehead7A"
+                                            key={i}
+                                          >
+                                            {e?.Sizename.includes("TOTAL") ? (
+                                              <div
+                                                className="spw7AD d-flex justify-content-start align-items-center fw-bold"
+                                                style={{
+                                                  width: "40%",
+                                                  paddingLeft: "1px",
+                                                  paddingTop: "1.5px",
+                                                  height: "16px",
+                                                  lineHeight: "8px",
+                                                  // 70px
+                                                }}
+                                              >
+                                                {e?.Sizename?.slice(0, 16)}
+                                              </div>
+                                            ) : (
+                                              <div
+                                                className="spw7AD d-flex justify-content-start align-items-center"
+                                                style={{
+                                                  width: "40%",
+                                                  paddingLeft: "1px",
+                                                  paddingTop: "1.5px",
+                                                  height: "16px",
+                                                  lineHeight: "8px",
+                                                  // 70px
+                                                }}
+                                              >
+                                                {e?.Sizename?.slice(0, 16)}
+                                              </div>
+                                            )}
+                                            {e?.Sizename.includes("TOTAL") ? (
+                                              <div
+                                                className="spw7AD d-flex justify-content-end align-items-center fw-bold"
+                                                style={{
+                                                  width: "30%",
+                                                  paddingRight: "1px",
+                                                  paddingTop: "1.5px",
+                                                  height: "16px",
+                                                  lineHeight: "8px",
+                                                  // 30px
+                                                }}
+                                              >
+                                                {e?.ActualPcs}
+                                              </div>
+                                            ) : (
+                                              <div
+                                                className="spw7AD d-flex justify-content-end align-items-center"
+                                                style={{
+                                                  width: "30%",
+                                                  paddingRight: "1px",
+                                                  paddingTop: "1.5px",
+                                                  height: "16px",
+                                                  lineHeight: "8px",
+                                                  // 30px
+                                                }}
+                                              >
+                                                {e?.ActualPcs}
+                                              </div>
+                                            )}
+                                            <div
+                                              className="spw7AD"
+                                              style={{
+                                                width: "30%",
+                                                borderRight: "0px",
+                                                paddingTop: "1.5px",
+                                                height: "16px",
+                                                lineHeight: "8px",
+                                                // 24px
+                                              }}
+                                            ></div>
+                                          </div>
+                                        );
+                                      })}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="imgSize7A">
-                                {" "}
-                                <img
-                                  src={
-                                    e?.additional?.img !== ""
-                                      ? e?.additional?.img
-                                      : require("../../assets/img/default.jpg")
-                                  }
-                                  id="img7A"
-                                  alt=""
-                                  onError={(e) => handleImageError(e)}
-                                  loading="eager"
-                                />
-                                <div
-                                  className="borderBottom7A d-flex justify-content-center align-items-center fw-bold"
-                                  style={{
-                                    fontSize: "11px",
-                                    lineHeight: "9px",
-                                    padding: "2px",
-                                    height: "22px",
-                                  }}
-                                >
-                                  {checkInstruction(e?.data?.rd?.metalqualitycolor)}
+                            </React.Fragment>
+                          );
+                        })}
+                        {e?.data?.rd?.ThumbImagePath === "" ? (
+                          ""
+                        ) : (
+                          <div className="container7A">
+                            <div style={{ padding: "1rem" }}>
+                              <img
+                                src={
+                                  e?.additional?.img !== ""
+                                    ? e?.additional?.img
+                                    : require("../../assets/img/default.jpg")
+                                }
+                                alt="materialimage"
+                                id="img7ABig"
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <div className="container7A">
+                          <div className="head7A">
+                            <div className="head7AjobInfo">
+                              <div
+                                style={{
+                                  backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
+                                }}
+                              >
+                                <div className="head7AjobInfoJobNO">
+                                  <div>
+                                    Ord. : {e?.data?.rd?.orderDatef ?? ""}
+                                  </div>
+                                  <div>
+                                    Due : {e?.data?.rd?.promiseDatef ?? ""}
+                                  </div>
+                                  <div>
+                                    <b>{e?.data?.rd?.serialjobno}</b>
+                                  </div>
+                                </div>
+                                <div className="party7A">
+                                  <div>
+                                    Party: <b>{e?.data?.rd?.CustomerCode}</b>
+                                  </div>
+                                  <div style={{ paddingBottom: "4px" }}>
+                                    Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
+                                  </div>
+                                </div>
+                                <div className="party7A">
+                                  <div>
+                                    Dgn: <b>{e?.data?.rd?.Designcode}</b>
+                                  </div>
+                                  <div className="barcode7A">
+                                    {e?.data?.rd?.length !== 0 &&
+                                      e?.data?.rd !== undefined && (
+                                        <>
+                                          {e?.data?.rd?.serialjobno !==
+                                            undefined && (
+                                            <BarcodeGenerator
+                                              data={e?.data?.rd?.serialjobno}
+                                            />
+                                          )}
+                                        </>
+                                      )}
+                                  </div>
+                                </div>
+                                <div className="party7A">
+                                  <div className="d-flex">
+                                    <div>Size: </div>
+                                    <div className="fw-bold px-1">
+                                      {e?.data?.rd?.Size}
+                                    </div>
+                                  </div>
+                                  <div className="pe-1 fw-bold">
+                                    ({e?.data?.rd?.IsSplits_Quotation_Quantity})
+                                    Pcs
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="mat7AInfo">
+                                <div className="pcswt7AH">
+                                  <div className="net7A">
+                                    <b>Net Wt.</b>
+                                  </div>
+                                  <div className="net7A justify-content-end pe-1">
+                                    {e?.data?.rd?.netwt?.toFixed(3)}
+                                  </div>
+                                  <div className="net7A">
+                                    <b>Gr Wt.</b>
+                                  </div>
+                                  <div className="net7A justify-content-end pe-1">
+                                    {e?.data?.rd?.ActualGrossweight.toFixed(3)}
+                                  </div>
+                                </div>
+                                <div className="pcswt7AH">
+                                  <div className="net7A">
+                                    <b>Dia Pcs:</b>
+                                  </div>
+                                  <div className="net7A justify-content-end pe-1">
+                                    {e?.additional?.dia?.ActualPcs}
+                                  </div>
+                                  <div className="net7A">
+                                    <b>Dia Wt.</b>
+                                  </div>
+                                  <div className="net7A justify-content-end pe-1">
+                                    {e?.additional?.dia?.ActualWeight.toFixed(
+                                      3
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="pcswt7AH">
+                                  <div className="net7A">
+                                    <b>Clr Pcs:</b>
+                                  </div>
+                                  <div className="net7A justify-content-end pe-1">
+                                    {e?.additional?.clr?.ActualPcs}
+                                  </div>
+                                  <div className="net7A">
+                                    <b>Clr Wt.</b>
+                                  </div>
+                                  <div className="net7A justify-content-end pe-1">
+                                    {e?.additional?.clr?.ActualWeight.toFixed(
+                                      3
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="pcswt7AH">
+                                  <div className="net7A">
+                                    <b>Misc Pcs:</b>
+                                  </div>
+                                  <div className="net7A justify-content-end pe-1">
+                                    {e?.additional?.misc?.ActualPcs}
+                                  </div>
+                                  <div className="net7A">
+                                    <b>Misc Wt.</b>
+                                  </div>
+                                  <div className="net7A justify-content-end pe-1">
+                                    {e?.additional?.misc?.ActualWeight.toFixed(
+                                      3
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            <div className="main7A">
-                              <div className="main7AEntry">
-                                <div className="divide7A">
-                                  <div className="tableHead7A">
-                                    <div
-                                      className="type7A"
-                                      style={{ height: "11px" }}
-                                    >
-                                      <p
-                                        className="w7A d-flex justify-content-center align-items-center pe-1"
-                                        style={{ width: "82px" }}
-                                      >
-                                        <b>Type</b>
-                                      </p>
-                                      <p
-                                        className="w7A d-flex justify-content-center align-items-center pe-1"
-                                        style={{ width: "82px" }}
-                                      >
-                                        <b>Purity</b>
-                                      </p>
-                                      <p
-                                        className="w7A d-flex justify-content-center align-items-center pe-1"
-                                        style={{ width: "70px", borderRight:"0px" }}
-                                      >
-                                        <b>Color</b>
-                                      </p>
-                                    </div>
-                                  </div>
+                            <div className="imgSize7A">
+                              {" "}
+                              <img
+                                src={
+                                  e?.additional?.img !== ""
+                                    ? e?.additional?.img
+                                    : require("../../assets/img/default.jpg")
+                                }
+                                id="img7A"
+                                alt=""
+                                onError={(e) => handleImageError(e)}
+                                loading="eager"
+                              />
+                              <div
+                                className="borderBottom7A d-flex justify-content-center align-items-center fw-bold"
+                                style={{
+                                  fontSize: "11px",
+                                  lineHeight: "8px",
+                                  padding: "2px",
+                                  height: "22px",
+                                }}
+                              >
+                                {checkInstruction(
+                                  e?.data?.rd?.metalqualitycolor
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="main7A">
+                            <div className="main7AEntry">
+                              <div className="d-flex justify-content-between align-items-center dup7Aemt">
+                                <div
+                                  className="w7A d-flex justify-content-center align-items-center pe-1"
+                                  style={{ width: "82px", fontSize: "9px" }}
+                                >
+                                  Type
                                 </div>
-                                <div className="divide7A">
-                                  <div>
-                                    {e?.additional?.material?.length > 0 &&
-                                      e?.additional?.material?.map((e, i) => {
-                                        return (
-                                          <React.Fragment key={i}>
-                                            {e?.Shapename === "TOTAL" ? (
-                                              ""
-                                            ) : (
-                                              <div className="tableHead7A">
-                                                <div
-                                                  className="w7A d-flex justify-content-start align-items-center"
-                                                  style={{
-                                                    width: "82px",
-                                                    paddingLeft: "1px",
-                                                  }}
-                                                >
-                                                  {e?.Shapecode}
-                                                </div>
-                                                <div
-                                                  className="w7A d-flex justify-content-start align-items-center"
-                                                  style={{
-                                                    width: "82px",
-                                                    paddingLeft: "1px",
-                                                  }}
-                                                >
-                                                  {e?.QualityCode}
-                                                </div>
-                                                <div
-                                                  className="w7A d-flex justify-content-start align-items-center"
-                                                  style={{
-                                                    width: "70px",
-                                                    paddingLeft: "1px",
-                                                    borderRight:"0px"
-                                                  }}
-                                                >
-                                                  {e?.ColorCode}
-                                                </div>
-                                              </div>
-                                            )}
-                                          </React.Fragment>
-                                        );
-                                      })}
-                                  </div>
+                                <div
+                                  className="w7A d-flex justify-content-center align-items-center pe-1"
+                                  style={{ width: "82px", fontSize: "9px" }}
+                                >
+                                  Purity
                                 </div>
-                                <div className="d-flex">
-                                  <div>
-                                    <div className="tableHead7B">
-                                      <div
-                                        className="dept7A fw-bold d-flex justify-content-start align-items-center"
-                                        style={{ width: "53px", paddingLeft:'2px' }}
-                                        // 63px
-                                      >
-                                        Dept
-                                      </div>
-                                      <div className="dept7A fw-bold">WrKr</div>
-                                      <div className="dept7A fw-bold">In Wt</div>
-                                      <div className="dept7A fw-bold">OutWt</div>
-                                      <div className="dept7A fw-bold">D Wt</div>
-                                      <div
-                                        className="dept7A fw-bold"
-                                        style={{ borderRight: "0px" }}
-                                      >
-                                        (%)
-                                      </div>
-                                    </div>
-                                    <div className="entryVal7A">
-                                      <div className="tableHead7C">
-                                        <div className="dept7AD w7A70">WAX</div>
-                                        <div className="dept7AD w7A70">CAS</div>
-                                        <div className="dept7AD w7A70">
-                                          GRNDING
-                                        </div>
-                                        <div className="dept7AD w7A70">
-                                        FILING
-                                        </div>
-                                        <div className="dept7AD w7A70">
-                                          BUFFING
-                                        </div>
-                                        <div className="dept7AD w7A70">
-                                          PRE POLI
-                                        </div>
-                                        <div className="dept7AD w7A70">
-                                          SETTING
-                                        </div>
-                                        <div className="dept7AD w7A70">
-                                          MTL FSH
-                                        </div>
-                                        <div className="dept7AD w7A70">
-                                          F POLISH
-                                        </div>
-                                        <div
-                                          className="dept7AD w7A70"
-                                          style={{ borderBottom: "0px" }}
-                                        >
-                                          RHODIUM
-                                        </div>
-                                      </div>
-
-                                      <div className="dflexcolumn">
-                                        {Array.from(
-                                          { length: 10 },
-                                          (_, index) => {
-                                            return (
-                                              <div
-                                                className="dis7A"
-                                                key={index}
-                                              >
-                                                <div className="dept7AE"></div>
-                                                <div className="dept7AE"></div>
-                                                <div className="dept7AE"></div>
-                                                <div className="dept7AE"></div>
-                                                <div
-                                                  className="dept7AE"
-                                                  style={{ borderRight: "0px" }}
-                                                ></div>
-                                              </div>
-                                            );
-                                          }
-                                        )}
-                                      </div>
-                                    </div>
-                                    <div className="tableHead7B">
-                                      <div
-                                        className="dept7A"
-                                        style={{ width: "63px" }}
-                                      >
-                                        MFG
-                                      </div>
-                                      <div className="dept7A">Gwt</div>
-                                      <div className="dept7A">Dwt</div>
-                                      <div className="dept7A">Cwt</div>
-                                      <div className="dept7A">Nwt</div>
-                                      <div
-                                        className="dept7A"
-                                        style={{ borderRight: "0px" }}
-                                      >
-                                        Sign
-                                      </div>
-                                    </div>
-                                    <div className="tableHead7B">
-                                      <div
-                                        className="dept7A"
-                                        style={{
-                                          width: "63px",
-                                          height: "16px",
-                                        }}
-                                      ></div>
-                                      <div className="dept7A"></div>
-                                      <div className="dept7A"></div>
-                                      <div className="dept7A"></div>
-                                      <div className="dept7A"></div>
-                                      <div
-                                        className="dept7A"
-                                        style={{ borderRight: "0px" }}
-                                      ></div>
-                                    </div>
-                                    <div
-                                      className="tableHead7B"
-                                      style={{
-                                        fontWeight: "bold",
-                                      }}
-                                    >
-                                      <div
-                                        className="dept7A fs7A"
-                                        style={{ width: "63px" }}
-                                      >
-                                        Gr. Wt{" "}
-                                      </div>
-                                      <div
-                                        className="dept7A fs7A"
-                                        style={{ width: "63px" }}
-                                      >
-                                        Chaki Post
-                                      </div>
-                                      <div
-                                        className="dept7A fs7A"
-                                        style={{ width: "63px" }}
-                                      >
-                                        Taar
-                                      </div>
-                                      <div
-                                        className="dept7A fs7A"
-                                        style={{ width: "63px" }}
-                                      >
-                                        Extra Metal
-                                      </div>
-                                      <div
-                                        className="dept7A fs7A"
-                                        style={{ borderRight: "0px" }}
-                                      >
-                                        Other
-                                      </div>
-                                    </div>
-                                    <div
-                                      className="tableHead7B"
-                                      style={{
-                                        fontWeight: "bold",
-                                        height: "16px",
-                                      }}
-                                    >
-                                      <div
-                                        className="dept7A"
-                                        style={{ width: "63px" }}
-                                      ></div>
-                                      <div
-                                        className="dept7A"
-                                        style={{ width: "63px" }}
-                                      ></div>
-                                      <div
-                                        className="dept7A"
-                                        style={{ width: "63px" }}
-                                      ></div>
-                                      <div
-                                        className="dept7A"
-                                        style={{ width: "63px" }}
-                                      ></div>
-                                      <div
-                                        className="dept7A"
-                                        style={{ borderRight: "0px" }}
-                                      ></div>
-                                    </div>
-
-                                    <div className="footer7A">
-                                      <b
-                                        style={{
-                                          lineHeight: "8px",
-                                          marginTop: "3px",
-                                          padding: "2px",
-                                        }}
-                                      >
-                                        Remark:{" "}
-                                        {" " +
-                                          (e?.data?.rd?.ProductInstruction
-                                            ?.length > 0
-                                            ? checkInstruction(
-                                                e?.data?.rd?.ProductInstruction
-                                              )
-                                            : checkInstruction(
-                                                e?.data?.rd?.QuoteRemark
-                                              ))}
-                                      </b>
-                                    </div>
-                                  </div>
+                                <div
+                                  className="w7A d-flex justify-content-center align-items-center pe-1"
+                                  style={{ width: "70px", fontSize: "9px" }}
+                                >
+                                  Color
                                 </div>
                               </div>
-                              <div className="main7AEntry2">
-                                <div className="w-100 d-flex justify-content-between align-items-center sizehead7A fw-bold">
+                              <div className="tableHead7B">
+                                <div
+                                  className="dept7A fw-bold d-flex justify-content-start "
+                                  style={{ width: "52px", paddingLeft: "2px" }}
+                                >
+                                  Dept
+                                </div>
+                                <div className="dept7A fw-bold">WrKr</div>
+                                <div className="dept7A fw-bold">In Wt</div>
+                                <div className="dept7A fw-bold">OutWt</div>
+                                <div className="dept7A fw-bold">D Wt</div>
+                                <div
+                                  className="dept7A fw-bold"
+                                  style={{ borderRight: "0px" }}
+                                >
+                                  (%)
+                                </div>
+                              </div>
+                              <div className="entryVal7A">
+                                <div className="tableHead7C">
+                                  <div className="dept7AD w7A70">WAX</div>
+                                  <div className="dept7AD w7A70">CAS</div>
+                                  <div className="dept7AD w7A70">GRNDING</div>
+                                  <div className="dept7AD w7A70">FILING</div>
+                                  <div className="dept7AD w7A70">BUFFING</div>
+                                  <div className="dept7AD w7A70">PRE POLI</div>
+                                  <div className="dept7AD w7A70">SETTING</div>
+                                  <div className="dept7AD w7A70">MTL FSH</div>
+                                  <div className="dept7AD w7A70">F POLISH</div>
                                   <div
-                                    className="spw7A d-flex justify-content-start align-items-center pe-1"
-                                    style={{ width: "40%", height:"16px" }}
-                                    // 74px
+                                    className="dept7AD w7A70"
+                                    style={{ borderBottom: "0px" }}
                                   >
-                                    Size
-                                  </div>
-                                  <div
-                                    className="spw7A d-flex justify-content-start align-items-center pe-1"
-                                    style={{ width: "30%", height:"16px" }}
-                                    // 30px
-                                  >
-                                    Pcs
-                                  </div>
-                                  <div
-                                    className="spw7A d-flex justify-content-start align-items-center pe-1"
-                                    style={{
-                                      width: "30%",
-                                      borderRight: "0px",
-                                      height:"16px"
-                                      // 24px
-                                    }}
-                                  >
-                                    Wt
+                                    RHODIUM
                                   </div>
                                 </div>
-                                <div>
-                                  {ele?.data?.map((e, i) => {
+
+                                <div className="dflexcolumn">
+                                  {Array.from({ length: 10 }, (_, index) => {
                                     return (
-                                      <div
-                                        className="w-100 d-flex justify-content-between align-items-center sizehead7A"
-                                        key={i}
-                                      >
-                                        {e?.Sizename.includes("TOTAL") ? (
-                                          <div
-                                            className="spw7AD d-flex justify-content-start align-items-center fw-bold"
-                                            style={{
-                                              width: "40%",
-                                              paddingLeft: "1px",
-                                              paddingTop: "1.5px",
-                                              height:"16px",
-                                              lineHeight:"8px"
-                                              // 70px
-                                            }}
-                                          >
-                                            {e?.Sizename?.slice(0, 16)}
-                                          </div>
-                                        ) : (
-                                          <div
-                                            className="spw7AD d-flex justify-content-start align-items-center"
-                                            style={{
-                                              width: "40%",
-                                              paddingLeft: "1px",
-                                              paddingTop: "1.5px",
-                                              height:"16px",
-                                              lineHeight:"8px"
-                                              // 70px
-                                            }}
-                                          >
-                                            {e?.Sizename?.slice(0, 16)}
-                                          </div>
-                                        )}
-                                        {e?.Sizename.includes("TOTAL") ? (
-                                          <div
-                                            className="spw7AD d-flex justify-content-end align-items-center fw-bold"
-                                            style={{
-                                              width: "30%",
-                                              paddingRight: "1px",
-                                              paddingTop: "1.5px",
-                                              height:"16px",
-                                              lineHeight:"8px"
-                                              // 30px
-                                            }}
-                                          >
-                                            {e?.ActualPcs}
-                                          </div>
-                                        ) : (
-                                          <div
-                                            className="spw7AD d-flex justify-content-end align-items-center"
-                                            style={{
-                                              width: "30%",
-                                              paddingRight: "1px",
-                                              paddingTop: "1.5px",
-                                              height:"16px",
-                                              lineHeight:"8px"
-                                              // 30px
-                                            }}
-                                          >
-                                            {e?.ActualPcs}
-                                          </div>
-                                        )}
+                                      <div className="dis7A" key={index}>
+                                        <div className="dept7AE"></div>
+                                        <div className="dept7AE"></div>
+                                        <div className="dept7AE"></div>
+                                        <div className="dept7AE"></div>
                                         <div
-                                          className="spw7AD"
-                                          style={{
-                                            width: "30%",
-                                            borderRight: "0px",
-                                            paddingTop: "1.5px",
-                                            height:"16px",
-                                            lineHeight:"8px"
-                                            // 24px
-                                          }}
+                                          className="dept7AE"
+                                          style={{ borderRight: "0px" }}
                                         ></div>
                                       </div>
                                     );
                                   })}
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                        );
-                      })
-                    ) : (
-                      <div className="container7A">
-                        <div className="head7A">
-                          <div className="head7AjobInfo">
-                            <div
-                              style={{
-                                backgroundColor: `${e?.data?.rd?.prioritycolorcode}`,
-                              }}
-                            >
-                              <div className="head7AjobInfoJobNO">
-                                <div>
-                                  Ord. : {e?.data?.rd?.orderDatef ?? ""}
-                                </div>
-                                <div>
-                                  Due : {e?.data?.rd?.promiseDatef ?? ""}
-                                </div>
-                                <div>
-                                  <b>{e?.data?.rd?.serialjobno}</b>
-                                </div>
-                              </div>
-                              <div className="party7A">
-                                <div>
-                                  Party: <b>{e?.data?.rd?.CustomerCode}</b>
-                                </div>
-                                <div style={{ paddingBottom: "4px" }}>
-                                  Ord No. : <b>{e?.data?.rd?.OrderNo}</b>
-                                </div>
-                              </div>
-                              <div className="party7A">
-                                <div>
-                                  Dgn: <b>{e?.data?.rd?.Designcode}</b>
-                                </div>
-                                <div className="barcode7A">
-                                  {e?.data?.rd?.length !== 0 &&
-                                    e?.data?.rd !== undefined && (
-                                      <>
-                                        {e?.data?.rd?.serialjobno !==
-                                          undefined && (
-                                          <BarcodeGenerator
-                                            data={e?.data?.rd?.serialjobno}
-                                          />
-                                        )}
-                                      </>
-                                    )}
-                                </div>
-                              </div>
-                              <div className="party7A">
-                                <div className="d-flex"><div>Size: </div><div className="fw-bold px-1">{ e?.data?.rd?.Size}</div></div>
-                                <div className="pe-1 fw-bold">
-                                  ({e?.data?.rd?.IsSplits_Quotation_Quantity}) Pcs
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="mat7AInfo">
-                              <div className="pcswt7AH">
-                                <div className="net7A">
-                                  <b>Net Wt.</b>
-                                </div>
-                                <div className="net7A justify-content-end pe-1">
-                                  {e?.data?.rd?.netwt?.toFixed(3)}
-                                </div>
-                                <div className="net7A">
-                                  <b>Gr Wt.</b>
-                                </div>
-                                <div className="net7A justify-content-end pe-1">
-                                  {e?.data?.rd?.ActualGrossweight.toFixed(3)}
-                                </div>
-                              </div>
-                              <div className="pcswt7AH">
-                                <div className="net7A">
-                                  <b>Dia Pcs:</b>
-                                </div>
-                                <div className="net7A justify-content-end pe-1">
-                                  {e?.additional?.dia?.ActualPcs}
-                                </div>
-                                <div className="net7A">
-                                  <b>Dia Wt.</b>
-                                </div>
-                                <div className="net7A justify-content-end pe-1">
-                                  {e?.additional?.dia?.ActualWeight.toFixed(3)}
-                                </div>
-                              </div>
-                              <div className="pcswt7AH">
-                                <div className="net7A">
-                                  <b>Clr Pcs:</b>
-                                </div>
-                                <div className="net7A justify-content-end pe-1">
-                                  {e?.additional?.clr?.ActualPcs}
-                                </div>
-                                <div className="net7A">
-                                  <b>Clr Wt.</b>
-                                </div>
-                                <div className="net7A justify-content-end pe-1">
-                                  {e?.additional?.clr?.ActualWeight.toFixed(3)}
-                                </div>
-                              </div>
-                              <div className="pcswt7AH">
-                                <div className="net7A">
-                                  <b>Misc Pcs:</b>
-                                </div>
-                                <div className="net7A justify-content-end pe-1">
-                                  {e?.additional?.misc?.ActualPcs}
-                                </div>
-                                <div className="net7A">
-                                  <b>Misc Wt.</b>
-                                </div>
-                                <div className="net7A justify-content-end pe-1">
-                                  {e?.additional?.misc?.ActualWeight.toFixed(3)}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="imgSize7A">
-                            {" "}
-                            <img
-                              src={
-                                e?.additional?.img !== ""
-                                  ? e?.additional?.img
-                                  : require("../../assets/img/default.jpg")
-                              }
-                              id="img7A"
-                              alt=""
-                              onError={(e) => handleImageError(e)}
-                              loading="eager"
-                            />
-                            <div
-                              className="borderBottom7A d-flex justify-content-center align-items-center fw-bold"
-                              style={{
-                                fontSize: "11px",
-                                lineHeight: "8px",
-                                padding: "2px",
-                                height: "22px",
-                              }}
-                            >
-                              {checkInstruction(e?.data?.rd?.metalqualitycolor) }
-                            </div>
-                          </div>  
-                        </div>
-                        <div className="main7A">
-                          <div className="main7AEntry">
-                            <div className="d-flex justify-content-between align-items-center dup7Aemt" >
-                              <div
-                                className="w7A d-flex justify-content-center align-items-center pe-1"
-                                style={{ width: "82px", fontSize: "9px" }}
-                              >
-                                Type
-                              </div>
-                              <div
-                                className="w7A d-flex justify-content-center align-items-center pe-1"
-                                style={{ width: "82px", fontSize: "9px" }}
-                              >
-                                Purity
-                              </div>
-                              <div
-                                className="w7A d-flex justify-content-center align-items-center pe-1"
-                                style={{ width: "70px", fontSize: "9px" }}
-                              >
-                                Color
-                              </div>
-                            </div>
-                            <div className="tableHead7B">
-                              <div className="dept7A fw-bold d-flex justify-content-start " style={{ width: "52px", paddingLeft:"2px" }}>
-                                Dept
-                              </div>
-                              <div className="dept7A fw-bold">WrKr</div>
-                              <div className="dept7A fw-bold">In Wt</div>
-                              <div className="dept7A fw-bold">OutWt</div>
-                              <div className="dept7A fw-bold">D Wt</div>
-                              <div
-                                className="dept7A fw-bold"
-                                style={{ borderRight: "0px" }}
-                              >
-                                (%)
-                              </div>
-                            </div>
-                            <div className="entryVal7A">
-                              <div className="tableHead7C">
-                                <div className="dept7AD w7A70">WAX</div>
-                                <div className="dept7AD w7A70">CAS</div>
-                                <div className="dept7AD w7A70">GRNDING</div>
-                                <div className="dept7AD w7A70">FILING</div>
-                                <div className="dept7AD w7A70">BUFFING</div>
-                                <div className="dept7AD w7A70">PRE POLI</div>
-                                <div className="dept7AD w7A70">SETTING</div>
-                                <div className="dept7AD w7A70">MTL FSH</div>
-                                <div className="dept7AD w7A70">F POLISH</div>
+                              <div className="tableHead7B">
                                 <div
-                                  className="dept7AD w7A70"
-                                  style={{ borderBottom: "0px" }}
+                                  className="dept7A"
+                                  style={{ width: "63px" }}
                                 >
-                                  RHODIUM
+                                  MFG
+                                </div>
+                                <div className="dept7A">Gwt</div>
+                                <div className="dept7A">Dwt</div>
+                                <div className="dept7A">Cwt</div>
+                                <div className="dept7A">Nwt</div>
+                                <div
+                                  className="dept7A"
+                                  style={{ borderRight: "0px" }}
+                                >
+                                  Sign
                                 </div>
                               </div>
-
-                              <div className="dflexcolumn">
-                                {Array.from({ length: 10 }, (_, index) => {
-                                  return (
-                                    <div className="dis7A" key={index}>
-                                      <div className="dept7AE"></div>
-                                      <div className="dept7AE"></div>
-                                      <div className="dept7AE"></div>
-                                      <div className="dept7AE"></div>
-                                      <div
-                                        className="dept7AE"
-                                        style={{ borderRight: "0px" }}
-                                      ></div>
-                                    </div>
-                                  );
-                                })}
+                              <div className="tableHead7B">
+                                <div
+                                  className="dept7A"
+                                  style={{ width: "63px", height: "16px" }}
+                                ></div>
+                                <div className="dept7A"></div>
+                                <div className="dept7A"></div>
+                                <div className="dept7A"></div>
+                                <div className="dept7A"></div>
+                                <div
+                                  className="dept7A"
+                                  style={{ borderRight: "0px" }}
+                                ></div>
+                              </div>
+                              <div
+                                className="tableHead7B"
+                                style={{
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                <div
+                                  className="dept7A fs7A"
+                                  style={{ width: "63px" }}
+                                >
+                                  Gr. Wt{" "}
+                                </div>
+                                <div
+                                  className="dept7A fs7A"
+                                  style={{ width: "63px" }}
+                                >
+                                  Chaki Post
+                                </div>
+                                <div
+                                  className="dept7A fs7A"
+                                  style={{ width: "63px" }}
+                                >
+                                  Taar
+                                </div>
+                                <div
+                                  className="dept7A fs7A"
+                                  style={{ width: "63px" }}
+                                >
+                                  Extra Metal
+                                </div>
+                                <div
+                                  className="dept7A fs7A"
+                                  style={{ borderRight: "0px" }}
+                                >
+                                  Other
+                                </div>
+                              </div>
+                              <div
+                                className="tableHead7B"
+                                style={{ fontWeight: "bold", height: "16px" }}
+                              >
+                                <div
+                                  className="dept7A"
+                                  style={{ width: "63px" }}
+                                ></div>
+                                <div
+                                  className="dept7A"
+                                  style={{ width: "63px" }}
+                                ></div>
+                                <div
+                                  className="dept7A"
+                                  style={{ width: "63px" }}
+                                ></div>
+                                <div
+                                  className="dept7A"
+                                  style={{ width: "63px" }}
+                                ></div>
+                                <div
+                                  className="dept7A"
+                                  style={{ borderRight: "0px" }}
+                                ></div>
+                              </div>
+                              <div className="footer7A">
+                                <b>
+                                  {}
+                                  Remark:{" "}
+                                  {" " +
+                                    (e?.data?.rd?.ProductInstruction?.length > 0
+                                      ? checkInstruction(
+                                          e?.data?.rd?.ProductInstruction
+                                        )
+                                      : checkInstruction(
+                                          e?.data?.rd?.QuoteRemark
+                                        ))}
+                                </b>
                               </div>
                             </div>
-                            <div className="tableHead7B">
-                              <div className="dept7A" style={{ width: "63px" }}>
-                                MFG
-                              </div>
-                              <div className="dept7A">Gwt</div>
-                              <div className="dept7A">Dwt</div>
-                              <div className="dept7A">Cwt</div>
-                              <div className="dept7A">Nwt</div>
+                            <div className="main7AEntry2">
                               <div
-                                className="dept7A"
-                                style={{ borderRight: "0px" }}
+                                className="d-flex justify-content-between align-items-center fw-bold"
+                                style={{
+                                  height: "16px",
+                                  width: "113px",
+                                  borderBottom: "1px solid #989898",
+                                }}
                               >
-                                Sign
-                              </div>
-                            </div>
-                            <div className="tableHead7B">
-                              <div
-                                className="dept7A"
-                                style={{ width: "63px", height: "16px" }}
-                              ></div>
-                              <div className="dept7A"></div>
-                              <div className="dept7A"></div>
-                              <div className="dept7A"></div>
-                              <div className="dept7A"></div>
-                              <div
-                                className="dept7A"
-                                style={{ borderRight: "0px" }}
-                              ></div>
-                            </div>
-                            <div
-                              className="tableHead7B"
-                              style={{
-                                fontWeight: "bold",
-                              }}
-                            >
-                              <div
-                                className="dept7A fs7A"
-                                style={{ width: "63px" }}
-                              >
-                                Gr. Wt{" "}
-                              </div>
-                              <div
-                                className="dept7A fs7A"
-                                style={{ width: "63px" }}
-                              >
-                                Chaki Post
-                              </div>
-                              <div
-                                className="dept7A fs7A"
-                                style={{ width: "63px" }}
-                              >
-                                Taar
-                              </div>
-                              <div
-                                className="dept7A fs7A"
-                                style={{ width: "63px" }}
-                              >
-                                Extra Metal
-                              </div>
-                              <div
-                                className="dept7A fs7A"
-                                style={{ borderRight: "0px" }}
-                              >
-                                Other
-                              </div>
-                            </div>
-                            <div
-                              className="tableHead7B"
-                              style={{ fontWeight: "bold", height: "16px" }}
-                            >
-                              <div
-                                className="dept7A"
-                                style={{ width: "63px" }}
-                              ></div>
-                              <div
-                                className="dept7A"
-                                style={{ width: "63px" }}
-                              ></div>
-                              <div
-                                className="dept7A"
-                                style={{ width: "63px" }}
-                              ></div>
-                              <div
-                                className="dept7A"
-                                style={{ width: "63px" }}
-                              ></div>
-                              <div
-                                className="dept7A"
-                                style={{ borderRight: "0px" }}
-                              ></div>
-                            </div>
-                            <div className="footer7A">
-                              <b>
-                                {}
-                                Remark:{" "}
-                                {" " +
-                                  (e?.data?.rd?.ProductInstruction?.length > 0
-                                    ? checkInstruction(
-                                        e?.data?.rd?.ProductInstruction
-                                      )
-                                    : checkInstruction(
-                                        e?.data?.rd?.QuoteRemark
-                                      ))}
-                              </b>
-                            </div>
-                          </div>
-                          <div className="main7AEntry2">
-                            <div
-                              className="d-flex justify-content-between align-items-center fw-bold"
-                              style={{
-                                height: "16px",
-                                width: "113px",
-                                borderBottom: "1px solid #989898",
-                              }}
-                            >
-                              <div
-                                className="w7A d-flex justify-content-start align-items-center pe-1"
-                                style={{ width: "40%", fontSize: "9px",  height:"16px",
-                                lineHeight:"5px" }}
-                              >
-                                Size
-                              </div>
-                              <div
-                                className="w7A d-flex justify-content-start align-items-center pe-1"
-                                style={{ width: "30%", fontSize: "9px",   height:"16px",
-                                lineHeight:"5px" }}
-                              >
-                                Pcs
-                              </div>
-                              <div
-                                className="w7A d-flex justify-content-start align-items-center pe-1"
-                                style={{ width: "30%", fontSize: "9px",   height:"16px",
-                                lineHeight:"5px" }}
-                              >
-                                Wt
+                                <div
+                                  className="w7A d-flex justify-content-start align-items-center pe-1"
+                                  style={{
+                                    width: "40%",
+                                    fontSize: "9px",
+                                    height: "16px",
+                                    lineHeight: "5px",
+                                  }}
+                                >
+                                  Size
+                                </div>
+                                <div
+                                  className="w7A d-flex justify-content-start align-items-center pe-1"
+                                  style={{
+                                    width: "30%",
+                                    fontSize: "9px",
+                                    height: "16px",
+                                    lineHeight: "5px",
+                                  }}
+                                >
+                                  Pcs
+                                </div>
+                                <div
+                                  className="w7A d-flex justify-content-start align-items-center pe-1"
+                                  style={{
+                                    width: "30%",
+                                    fontSize: "9px",
+                                    height: "16px",
+                                    lineHeight: "5px",
+                                  }}
+                                >
+                                  Wt
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
+                        {e?.data?.rd?.ThumbImagePath === "" ? (
+                          ""
+                        ) : (
+                          <div className="container7A">
+                            <div style={{ padding: "1rem" }}>
+                              <img
+                                src={
+                                  e?.additional?.img !== ""
+                                    ? e?.additional?.img
+                                    : require("../../assets/img/default.jpg")
+                                }
+                                alt="materialimage"
+                                id="img7ABig"
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </>
                     )}
                   </React.Fragment>
                 );

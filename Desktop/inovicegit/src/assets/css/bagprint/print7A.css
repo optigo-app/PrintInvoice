@@ -100,7 +100,10 @@
     /* object-fit: cover; */
     width: 96px;
     border-bottom: 1px solid #989898;
-
+}
+#img7ABig{
+    height: 30.5rem;
+    width: 19.5rem;
 }
 
 .borderBottom7A {
