@@ -84,6 +84,7 @@ export const excelConditions = [
   { printName: "sale format s", etpType: "excel", componentName: "ExcelToJsonDownloads" },
   { printName: "sale format a", etpType: "excel", componentName: "ExcelToJsonDownloadA" },
   { printName: "sale format j1", etpType: "excel", componentName: "ExcelToJsonDownloadJ1" },
+  { printName: "sale format r", etpType: "excel", componentName: "ExcelToJsonDownloadR" },
   { printName: "quotation format", etpType: "excel", componentName: "QuotationExcel" },
 ];
 

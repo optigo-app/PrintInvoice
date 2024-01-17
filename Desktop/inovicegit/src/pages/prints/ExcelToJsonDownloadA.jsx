@@ -62,7 +62,6 @@ const ExcelToJsonDownloadA = ({ urls, token, invoiceNo, printName, evn }) => {
         }, 0);
     }
 
-
     useEffect(() => {
         const sendData = async () => {
             try {

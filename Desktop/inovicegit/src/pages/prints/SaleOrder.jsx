@@ -14,6 +14,7 @@ import {
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import style2 from "../../assets/css/headers/header1.module.css";
+import footerStyle from "../../assets/css/footers/footer2.module.css";
 
 const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
   const [loader, setLoader] = useState(true);
@@ -119,14 +120,13 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           id: 5,
           suffix: "",
           name: "LABOUR",
-          amount: (e?.MakingAmount ) * e?.Quantity,
+          amount: (e?.MakingAmount) * e?.Quantity,
         });
       } else {
-        summary2Arr[labourAmount].amount += (e?.MakingAmount ) * e?.Quantity;
+        summary2Arr[labourAmount].amount += (e?.MakingAmount) * e?.Quantity;
       }
       // pending setting amount add in labour
 
-      // console.log(e?.MakingAmount);
       let otherAmount = summary2Arr.findIndex((ele) => ele?.label === "OTHER");
       if (otherAmount === -1) {
         summary2Arr.push({
@@ -184,11 +184,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 2,
                 suffix: "",
                 name: "DIAMOND",
-                amount: (ele?.Amount ) * e?.Quantity,
+                amount: (ele?.Amount) * e?.Quantity,
                 Pcs: ele?.Pcs,
               });
             } else {
-              summary2Arr[diaAmount].amount += (ele?.Amount ) * e?.Quantity;
+              summary2Arr[diaAmount].amount += (ele?.Amount) * e?.Quantity;
               summary2Arr[diaAmount].Pcs += ele?.Pcs;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -215,11 +215,11 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 3,
                 suffix: "",
                 name: "CST",
-                amount: (ele?.Amount ) * e?.Quantity,
+                amount: (ele?.Amount) * e?.Quantity,
                 Pcs: ele?.Pcs,
               });
             } else {
-              summary2Arr[cstAmount].amount += (ele?.Amount ) * e?.Quantity;
+              summary2Arr[cstAmount].amount += (ele?.Amount) * e?.Quantity;
               summary2Arr[cstAmount].Pcs += ele?.Pcs;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
@@ -246,10 +246,10 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 id: 4,
                 suffix: "",
                 name: "MISC",
-                amount: (ele?.Amount ) * e?.Quantity,
+                amount: (ele?.Amount) * e?.Quantity,
               });
             } else {
-              summary2Arr[miscAmount].amount += (ele?.Amount ) * e?.Quantity;
+              summary2Arr[miscAmount].amount += (ele?.Amount) * e?.Quantity;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
             let goldAmount = summary2Arr.findIndex(
@@ -265,7 +265,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 amount: (ele?.Amount) * e?.Quantity,
               });
             } else {
-              summary2Arr[goldAmount].amount += ((ele?.Amount ) * e?.Quantity);
+              summary2Arr[goldAmount].amount += ((ele?.Amount) * e?.Quantity);
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
             let goldAmount = summary2Arr.findIndex(
@@ -281,7 +281,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                 amount: ((ele?.Amount) * e?.Quantity),
               });
             } else {
-              summary2Arr[goldAmount].amount += ((ele?.Amount ) * e?.Quantity);
+              summary2Arr[goldAmount].amount += ((ele?.Amount) * e?.Quantity);
             }
           }
         }
@@ -314,14 +314,12 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
     //   }
     // }
 
-    let findDiamond = summaryArr.findIndex(
-      (elem, index) => elem?.label === "DIAMOND"
-    );
+    let findDiamond = summaryArr.findIndex( (elem, index) => elem?.label === "DIAMOND" );
     let findNetWt = summaryArr.findIndex((ele, ind) => ele?.label === "NET WT");
-    if (findNetWt !== -1 || findDiamond !== -1) {
+    if (findNetWt !== -1) {
       summaryArr.push({
         label: "(M+D) WT",
-        value: +fixedValues(summaryArr[findDiamond]?.value, 3) / 5 + summaryArr[findNetWt]?.value,
+        value: (findDiamond !== -1 ? (+fixedValues(summaryArr[findDiamond]?.value, 3) / 5) : 0 ) + summaryArr[findNetWt]?.value,
         id: 3,
         suffix: " gm",
         name: "(M+D) WT",
@@ -487,13 +485,13 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
         <table className="table w-100 table-border mb-0">
           <thead>
             <tr>
-              <th className={`${style?.srNo} p-1 text-center lightGrey_table  border `} style={{wordBreak: "normal"}}>SR NO</th>
+              <th className={`${style?.srNo} p-1 text-center lightGrey_table  border `} style={{ wordBreak: "normal" }}>SR NO</th>
               <th className={`${style?.image} p-1 text-center lightGrey_table  border`}>IMAGE</th>
               <th className={`${style?.itemCode} p-1 text-center lightGrey_table  border`}>ITEM CODE</th>
               <th className={`${style?.description} p-1 text-center lightGrey_table  border`}>DESCRIPTION</th>
               <th className={`${style?.quantity} p-1 text-center lightGrey_table  border`}>QTY</th>
               <th className={`${style?.unitPrice} p-1 text-center lightGrey_table  border`}>UNIT PRICE</th>
-              <th className={`${style?.amount} p-1 text-center lightGrey_table border`} style={{wordBreak: "normal"}}>AMOUNT ({headerData?.CurrencyCode})</th>
+              <th className={`${style?.amount} p-1 text-center lightGrey_table border`} style={{ wordBreak: "normal" }}>AMOUNT ({headerData?.CurrencyCode})</th>
             </tr>
           </thead>
           {/* table data */}
@@ -568,7 +566,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                         }}
                       ></span>{" "}
                       {/* {NumberWithCommas(e?.UnitCost / (e?.Quantity * headerData?.CurrencyExchRate), 2)} */}
-                      {NumberWithCommas(e?.UnitCost/e?.Quantity, 2)}
+                      {NumberWithCommas(e?.UnitCost / e?.Quantity, 2)}
                     </p>
                   </td>
                   <td className={`${style?.amount} p-1  text-end border-start border-bottom border-end`}>
@@ -597,34 +595,6 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           </tbody>
         </table>
       </div>
-      {/* table total */}
-      {/* <div className="border-start border-end border-bottom d-flex lightGrey no_break">
-        <div
-          className={`${style?.srNo} p-1 text-center fw-bold border-end`}
-        ></div>
-        <div className={`${style?.total} p-1 fw-bold border-end`}>
-          <p>TOTAL</p>
-        </div>
-        <div className={`${style?.quantityTotal}  border-end text-end fw-bold px-1`}>
-          {NumberWithCommas(total?.Quantity, 0)}
-        </div>
-        <div className={`${style?.unitPrice} p-1 text-end fw-bold border-end`}>
-          <p>
-            <span
-              dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
-            ></span>{" "}
-            {NumberWithCommas(total?.UnitCost, 2)}
-          </p>
-        </div>
-        <div className={`${style?.amount} p-1 text-end fw-bold`}>
-          <p>
-            <span
-              dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
-            ></span>
-            {NumberWithCommas(total?.TotalAmount, 2)}
-          </p>
-        </div>
-      </div> */}
       {/* taxes */}
       <div className="border-start border-end border-bottom d-flex no_break">
         <div className={`${style?.gold18k} border-end`}>
@@ -640,7 +610,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                       <p className="fw-bold">{(e?.name).toUpperCase()}</p>
                       <p>
                         {e?.Pcs && `${NumberWithCommas(e?.Pcs, 0)} / `}
-                        {NumberWithCommas(e?.value, 3)} {e?.suffix}
+                        {NumberWithCommas(+e?.value, 3)} {e?.suffix}
                       </p>
                     </div>
                   )
@@ -653,7 +623,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
                   e?.amount !== 0 && (
                     <div className="d-flex justify-content-between" key={i}>
                       <p className="fw-bold">{e?.name}</p>
-                      <p>{NumberWithCommas(e?.amount/headerData?.CurrencyExchRate, 2)}</p>
+                      <p>{NumberWithCommas(e?.amount / headerData?.CurrencyExchRate, 2)}</p>
                     </div>
                   )
                 );
@@ -676,7 +646,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           })}
           <p className="text-end"> TOTAL </p>
           {headerData?.AddLess !== 0 && (
-            <p className="">{headerData?.AddLess > 0 ? "ADD" : "LESS"}</p>
+            <p className="text-end">{headerData?.AddLess > 0 ? "ADD" : "LESS"}</p>
           )}
         </div>
         <div className={`${style?.amount} p-1 text-end fw-bold`}>
@@ -750,7 +720,25 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
         ></div>
       </div>
-      {footer}
+      {/* {footer} */}
+      <div className={`d-flex border no_break`}>
+        <div className={`col-4 border-end p-1`}  >
+          <div className={footerStyle.linesf3} style={{ fontWeight: "bold" }}>Bank Detail</div>
+          <div className={footerStyle.linesf3}>Bank Name: {headerData?.bankname}</div>
+          <div className={footerStyle.linesf3}>Branch: {headerData?.bankaddress}</div>
+          <div className={footerStyle.linesf3}>Account Name: {headerData?.accountname}</div>
+          <div className={footerStyle.linesf3}>Account No. : {headerData?.accountnumber}</div>
+          <div className={footerStyle.linesf3}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
+        </div>
+        <div className={`col-4 border-end p-1 d-flex justify-content-between flex-column`} >
+          <div className={footerStyle.linesf3}>Signature</div>
+          <div className={`fw-bold`}>{headerData?.customerfirmname}</div>
+        </div>
+        <div className="p-1 d-flex justify-content-between flex-column">
+          <div className={footerStyle.linesf3}>Signature</div>
+          <div className={`fw-bold`}>{headerData?.CompanyFullName}</div>
+        </div>
+      </div>
     </div>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

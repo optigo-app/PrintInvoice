@@ -168,7 +168,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
             <div className={`container-fluid max_width_container ${style?.invoicePrint4CloneContainer} pad_60_allPrint ${style?.pad_60_allPrint} pt-2`}>
                 {/* Print Label */}
-                <p className="fs-2 fw-bold text-center">{headerData?.PrintHeadLabel}</p>
+                <p className="fs-2 fw-bold text-center pb-4">{headerData?.PrintHeadLabel}</p>
                 {/* Company Address */}
                 <div className="d-flex">
                     <div className="col-9 px-2">
@@ -188,7 +188,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="border d-flex mt-2">
                     <div className="col-6 p-2">
                         <p className="">{headerData?.lblBillTo}</p>
-                        <p className="fs-6 pb-1 fw-semibold">{headerData?.CustName}</p>
+                        <p className="pb-1 fw-semibold" style={{    fontSize: "19px"}}>{headerData?.CustName}</p>
                         <p className="">{headerData?.customerAddress1}</p>
                         {/* <p className="">{headerData?.customerAddress2}</p> */}
                         <p className="">{headerData?.customercity} {headerData?.customerpincode}</p>
@@ -269,6 +269,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
                     {/* Tax Amount */}
                     <div className="d-flex border-start border-end border-bottom">
                         <div className="col-8 p-2 border-end">
+                            <p className="fw-bold">Remark:</p>
                             <div dangerouslySetInnerHTML={{ __html: headerData?.Remark }}></div>
                         </div>
                         <div className="col-4">
