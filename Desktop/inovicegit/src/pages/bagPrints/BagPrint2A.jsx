@@ -11,7 +11,7 @@ import Loader from "../../components/Loader";
 import { handlePrint } from "../../GlobalFunctions/HandlePrint";
 import { organizeData } from "../../GlobalFunctions/OrganizeBagPrintData";
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
-import { checkInstruction } from './../../GlobalFunctions';
+import { checkArr, checkInstruction } from "./../../GlobalFunctions";
 
 function BagPrint2A({ queries, headers }) {
   const [data, setData] = useState([]);
@@ -43,83 +43,215 @@ function BagPrint2A({ queries, headers }) {
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
         // eslint-disable-next-line array-callback-return
+        // datas?.map((a) => {
+        //   imgUrls?.push(a?.rd?.ThumbImagePath);
+        //   let separateData = GetSeparateData(a?.rd1);
+        //   separateData?.diamondArr.unshift({
+        //     heading: "DIAMOND DETAIL",
+        //     MasterManagement_DiamondStoneTypeid: 3,
+        //   });
+        //   separateData?.colorStoneArr.unshift({
+        //     heading: "COLOR STONE DETAIL",
+        //     MasterManagement_DiamondStoneTypeid: 4,
+        //   });
+        //   separateData?.findingArr.unshift({
+        //     heading: "FINDING DETAIL",
+        //     MasterManagement_DiamondStoneTypeid: 5,
+        //   });
+        //   separateData?.miscArr.unshift({
+        //     heading: "MISC DETAIL",
+        //     MasterManagement_DiamondStoneTypeid: 7,
+        //   });
+
+        //   // eslint-disable-next-line array-callback-return
+        //   separateData?.diamondArr?.map((e) => {
+        //     if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
+        //       separateData.diamondArr = [];
+        //     }
+        //   });
+        //   // eslint-disable-next-line array-callback-return
+        //   separateData?.colorStoneArr.map((e) => {
+        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+        //       separateData.colorStoneArr = [];
+        //     }
+        //   });
+        //   // eslint-disable-next-line array-callback-return
+        //   separateData?.miscArr.map((e) => {
+        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+        //       separateData.miscArr = [];
+        //     }
+        //   });
+        //   // eslint-disable-next-line array-callback-return
+        //   separateData?.findingArr.map((e) => {
+        //     if (e.ActualPcs === 0 && e.ActualWeight === 0) {
+        //       separateData.findingArr = [];
+        //     }
+        //   });
+
+        //   let arr = [];
+        //   let mainArr = arr.concat(
+        //     separateData?.diamondArr,
+        //     separateData?.colorStoneArr,
+        //     separateData?.miscArr,
+        //     separateData?.findingArr
+        //   );
+        //   let imagePath = queryParams?.imagepath;
+        //   imagePath = atob(queryParams?.imagepath);
+        //   let img = imagePath + a?.rd?.ThumbImagePath;
+        //   let arrofCHunk = GetChunkData(chunkSize11, mainArr);
+
+        //   responseData.push({
+        //     data: a,
+        //     additional: {
+        //       length: separateData?.length,
+        //       clr: separateData?.clr,
+        //       dia: separateData?.dia,
+        //       f: separateData?.f,
+        //       img: img,
+        //       misc: separateData?.misc,
+        //       pages: arrofCHunk,
+        //     },
+        //   });
+        //   setData(responseData);
+        // });
         datas?.map((a) => {
-          imgUrls?.push(a?.rd?.ThumbImagePath);
-          let separateData = GetSeparateData(a?.rd1);
-          separateData?.diamondArr.unshift({
-            heading: "DIAMOND DETAIL",
-            MasterManagement_DiamondStoneTypeid: 3,
-          });
-          separateData?.colorStoneArr.unshift({
-            heading: "COLOR STONE DETAIL",
+          let length = 0;
+          let clr = {
+            Shapename: "TOTAL",
+            Sizename: "C TOTAL",
+            ActualPcs: 0,
+            ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 4,
-          });
-          separateData?.findingArr.unshift({
-            heading: "FINDING DETAIL",
-            MasterManagement_DiamondStoneTypeid: 5,
-          });
-          separateData?.miscArr.unshift({
-            heading: "MISC DETAIL",
+          };
+          let dia = {
+            Shapename: "TOTAL",
+            Sizename: "D TOTAL",
+            ActualPcs: 0,
+            ActualWeight: 0,
+            MasterManagement_DiamondStoneTypeid: 3,
+          };
+          let misc = {
+            Shapename: "TOTAL",
+            Sizename: "MISC TOTAL",
+            ActualPcs: 0,
+            ActualWeight: 0,
             MasterManagement_DiamondStoneTypeid: 7,
-          });
+          };
+          let f = {
+            Shapename: "TOTAL",
+            Sizename: "F TOTAL",
+            ActualPcs: 0,
+            ActualWeight: 0,
+            MasterManagement_DiamondStoneTypeid: 5,
+          };
+          let DiamondList = [];
+          let ColorStoneList = [];
+          let MiscList = [];
+          let FindingList = [];
 
           // eslint-disable-next-line array-callback-return
-          separateData?.diamondArr?.map((e) => {
-            if (e?.ActualPcs === 0 && e?.ActualWeight === 0) {
-              separateData.diamondArr = [];
+          a?.rd1?.map((e, i) => {
+            if (e?.ConcatedFullShapeQualityColorCode !== "- - - ") {
+              length++;
+            }
+            if (e?.MasterManagement_DiamondStoneTypeid === 3) {
+              DiamondList.push(e);
+              dia.ActualPcs = dia.ActualPcs + e?.ActualPcs;
+              dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
+            } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
+              ColorStoneList.push(e);
+              clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
+              clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
+            } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
+              FindingList.push(e);
+              f.ActualPcs = f.ActualPcs + e?.ActualPcs;
+              f.ActualWeight = f.ActualWeight + e?.ActualWeight;
+            } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
+              MiscList.push(e);
+              misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
+              misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
             }
           });
-          // eslint-disable-next-line array-callback-return
-          separateData?.colorStoneArr.map((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-              separateData.colorStoneArr = [];
-            }
-          });
-          // eslint-disable-next-line array-callback-return
-          separateData?.miscArr.map((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-              separateData.miscArr = [];
-            }
-          });
-          // eslint-disable-next-line array-callback-return
-          separateData?.findingArr.map((e) => {
-            if (e.ActualPcs === 0 && e.ActualWeight === 0) {
-              separateData.findingArr = [];
-            }
-          });
+          dia.ActualPcs = +dia.ActualPcs?.toFixed(3);
+          dia.ActualWeight = +dia.ActualWeight?.toFixed(3);
+          clr.ActualPcs = +clr.ActualPcs?.toFixed(3);
+          clr.ActualWeight = +clr.ActualWeight?.toFixed(3);
+          misc.ActualPcs = +misc.ActualPcs?.toFixed(3);
+          misc.ActualWeight = +misc.ActualWeight?.toFixed(3);
+          f.ActualPcs = +f.ActualPcs?.toFixed(3);
+          f.ActualWeight = +f.ActualWeight?.toFixed(3);
+          DiamondList?.push(dia);
+          ColorStoneList?.push(clr);
+          MiscList?.push(misc);
+          FindingList?.push(f);
+          
+          let newDia = {
+            Shapename: "Diamond Detail",
+            Sizename: "Diamond Detail",
+            ActualPcs: "",
+            ActualWeight: "",
+            MasterManagement_DiamondStoneTypeid: 3,
+          };
+          let newCS = {
+            Shapename: "Colorstone Detail",
+            Sizename: "Colorstone Detail",
+            ActualPcs: "",
+            ActualWeight: "",
+            MasterManagement_DiamondStoneTypeid: 4,
+          };
+          let newMisc = {
+            Shapename: "Misc Detail",
+            Sizename: "Misc Detail",
+            ActualPcs: "",
+            ActualWeight: "",
+            MasterManagement_DiamondStoneTypeid: 7,
+          };
+          let newfind = {
+            Shapename: "Finding Detail",
+            Sizename: "Finding Detail",
+            ActualPcs: "",
+            ActualWeight: "",
+            MasterManagement_DiamondStoneTypeid: 5,
+          };
 
-          let arr = [];
-          let mainArr = arr.concat(
-            separateData?.diamondArr,
-            separateData?.colorStoneArr,
-            separateData?.miscArr,
-            separateData?.findingArr
+          DiamondList?.unshift(newDia);
+          ColorStoneList?.unshift(newCS);
+          MiscList?.unshift(newMisc);
+          FindingList?.unshift(newfind);
+          
+          let mainArr = checkArr(
+            DiamondList,
+            ColorStoneList,
+            MiscList,
+            FindingList
           );
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
+
           let img = imagePath + a?.rd?.ThumbImagePath;
-          let arrofCHunk = GetChunkData(chunkSize11, mainArr);
-          
+
+          const arr =  GetChunkData(chunkSize11, mainArr);
+            
           responseData.push({
             data: a,
             additional: {
-              length: separateData?.length,
-              clr: separateData?.clr,
-              dia: separateData?.dia,
-              f: separateData?.f,
+              length: length,
+              clr: clr,
+              dia: dia,
+              f: f,
               img: img,
-              misc: separateData?.misc,
-              pages: arrofCHunk,
+              misc: misc,
+              pages: arr,
             },
           });
           setData(responseData);
         });
-    } catch (error) {
+      } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -257,7 +389,6 @@ function BagPrint2A({ queries, headers }) {
                                           {e?.data?.rd?.orderDatef}
                                         </div>
                                       </div>
-
                                     </div>
                                   </div>
                                   <div className="print2A_header_bagImgPart2">
@@ -299,46 +430,167 @@ function BagPrint2A({ queries, headers }) {
                                       >
                                         <b>RM SIZE</b>
                                       </div>
-                                    <div className="d-flex justify-content-between align-items-center" style={{width:"127px"}}>
-                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"28px"}}>
-                                        <div style={{height:"14.5px", borderBottom:"1px solid black", borderRight:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ACTUAL</div>
-                                        <div className="w-100 d-flex fonts2A" style={{height:"16.5px"}}><div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
-                                        <div className="w-50 d-flex justify-content-center align-items-center" style={{borderRight:"1px solid black", height:"13px"}}>WT</div></div>
-                                      </div>
-                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"28px"}}>
-                                        <div style={{height:"16.5px", borderBottom:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ISSUE</div>
-                                        <div className="w-100 d-flex fonts2A" style={{height:"16.5px"}}>
-                                          <div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
-                                          <div className="w-50 d-flex justify-content-center align-items-center" style={{height:"13px"}}>WT</div>
+                                      <div
+                                        className="d-flex justify-content-between align-items-center"
+                                        style={{ width: "127px" }}
+                                      >
+                                        <div
+                                          className="w-50 d-flex flex-column justify-content-start align-items-center"
+                                          style={{ height: "28px" }}
+                                        >
+                                          <div
+                                            style={{
+                                              borderBottom: "1px solid black",
+                                              borderRight: "1px solid black",
+                                            }}
+                                            className="w-100 fonts1A d-flex justify-content-center align-items-center h-50"
+                                          >
+                                            ACTUAL
+                                          </div>
+                                          <div className="w-100 d-flex fonts2A h-50">
+                                            <div
+                                              style={{
+                                                borderRight: "1px solid black",
+                                                height: "13px",
+                                              }}
+                                              className="w-50 d-flex justify-content-center align-items-center"
+                                            >
+                                              PCS
+                                            </div>
+                                            <div
+                                              className="w-50 d-flex justify-content-center align-items-center"
+                                              style={{
+                                                borderRight: "1px solid black",
+                                                height: "13px",
+                                              }}
+                                            >
+                                              WT
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          className="w-50 d-flex flex-column justify-content-start align-items-center"
+                                          style={{ height: "28px" }}
+                                        >
+                                          <div
+                                            style={{
+                                              borderBottom: "1px solid black",
+                                            }}
+                                            className="w-100 fonts1A d-flex justify-content-center align-items-center h-50"
+                                          >
+                                            ISSUE
+                                          </div>
+                                          <div
+                                            className="w-100 d-flex fonts2A h-50"
+                                          >
+                                            <div
+                                              style={{
+                                                borderRight: "1px solid black",
+                                                height: "13px",
+                                              }}
+                                              className="w-50 d-flex justify-content-center align-items-center"
+                                            >
+                                              PCS
+                                            </div>
+                                            <div
+                                              className="w-50 d-flex justify-content-center align-items-center"
+                                              style={{ height: "13px" }}
+                                            >
+                                              WT
+                                            </div>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                    </div>
-
-                                    {ele?.data?.map((e, ai) => {
+                                    <div>
+                                          {
+                                            ele?.data?.map((s, si) => {
+                                              return(
+                                                <React.Fragment>
+                                                  <div key={si}>
+                                            {" "}
+                                            {s?.Sizename === "Diamond Detail" ||
+                                              s?.Sizename ===
+                                               "Colorstone Detail" ||
+                                              s?.Sizename === "Misc Detail" || s?.Sizename === "Finding Detail" ? (
+                                              <div
+                                                className="fs20A w-100 d-flex justify-content-center align-items-center fw-bold border-bottom border-black"
+                                                style={{
+                                                  height:'14px',
+                                                  paddingTop: "1px",
+                                                  paddingBottom: "1px",
+                                                }}
+                                              >
+                                                {s?.Sizename?.toUpperCase()}
+                                              </div>
+                                            ) : (
+                                              <React.Fragment>
+                                                {s?.Sizename === "C TOTAL" ||
+                                                s?.Sizename === "D TOTAL" ||
+                                                s?.Sizename === "MISC TOTAL" ? (
+                                                  <div className="print2AMidBody d-flex fw-bold">
+                                                    <div className="print2ARM RMW2A total2Afont d-flex justify-content-center align-items-center">{s?.Shapename + " "}</div><div className="sizename2A total2Afont"></div>
+                                                    <div className="pcswt2A">
+                                                      <div className="actualPcsWt2A">
+                                                        <div className="pcs2A total2Afont">{s?.ActualPcs}</div>
+                                                        <div className="pcs2A total2Afont border-end-0" style={{width:'40px'}}>{(+s?.ActualWeight)?.toFixed(3)}</div>
+                                                      </div>
+                                                    </div>
+                                                    <div className=""><div className=""><div className="    " style={{borderRight: "1px solid rgb(0, 0, 0)", width: "33px", height: "14px"}}></div></div></div>
+                                                  </div>
+                                                ) : (
+                                                  <>
+                                                  {
+                                                    s?.MasterManagement_DiamondStoneTypeid === 5 ? <div className="print2AMidBody">
+                                                      {
+                                                        s?.Shapename === 'TOTAL' ? <div className="print2ARM FIND2A total2Afont fw-bold d-flex justify-content-center align-items-center">{s?.Shapename}</div> : <div className="print2ARM FIND2A total2Afont"> { s?.LimitedShapeQualityColorCode?.toUpperCase() +
+                                                          " " +
+                                                          s?.Quality?.toUpperCase() +
+                                                          " " +
+                                                          s?.ColorName?.toUpperCase()}</div>
+                                                      }
+                                                      <div className="pcswt2A">
+                                                      {s?.Shapename === 'TOTAL' ? 
+                                                      <div className="actualPcsWt2A fw-bold">
+                                                         <div className={`pcs2A total2Afont` }>{s?.ActualPcs}</div> 
+                                                          <div className="pcs2A border-end-0 total2Afont" style={{borderRight:'0px', width:'40px'}}>{(+s?.ActualWeight)?.toFixed(3)}</div>
+                                                        </div> 
+                                                         : <div className="actualPcsWt2A">
+                                                         <div className={`pcs2A total2Afont` }>{s?.ActualPcs}</div> 
+                                                          <div className="pcs2A border-end-0 total2Afont" style={{borderRight:'0px', width:'40px'}}>{(+s?.ActualWeight)?.toFixed(3)}</div>
+                                                        </div> }
+                                                      </div>
+                                                      <div className=""><div className=""><div className="    " style={{borderRight: "1px solid rgb(0, 0, 0)", width: "33px", height: "14px"}}></div></div></div>
+                                                    </div> : <div className="d-flex border-bottom border-black" style={{height:'14px'}}>
+                                                    <div className="print2ARM RMW2A total2Afont">{ s?.materialtypename + " "+ s?.Shapename}</div>
+                                                    <div className="sizename2A total2Afont">{s?.Sizename}</div>
+                                                    <div className="pcswt2A"> 
+                                                      <div className="actualPcsWt2A">
+                                                        <div className="pcs2A total2Afont">{s?.ActualPcs}</div>
+                                                        <div style={{borderRight:'0px', width:'40px'}} className="pcs2A total2Afont">{(+s?.ActualWeight)?.toFixed(3)}</div>
+                                                      </div>
+                                                    </div>
+                                                    <div className=""><div className=""><div className="    " style={{borderRight: "1px solid rgb(0, 0, 0)", width: "33px", height: "14px"}}></div></div></div>
+                                                  </div>
+                                                  }
+                                                  </>
+                                                )}
+                                              </React.Fragment>
+                                            )}
+                                          </div>
+                                                </React.Fragment>
+                                              )
+                                            })
+                                          }
+                                    {/* {ele?.data?.map((e, ai) => {
                                       return (
                                         <React.Fragment key={ai}>
                                           {e?.heading === "DIAMOND DETAIL" ||
                                           e?.heading === "COLOR STONE DETAIL" ||
                                           e?.heading === "MISC DETAIL" ||
                                           e?.heading === "FINDING DETAIL" ? (
-                                            <div
-                                              className="print2AMidBody"
-                                              style={
-                                                ai === 0 ? { display: "" } : {}
-                                              }
-                                            >
-                                              <div
-                                                className="print2ARM"
-                                                style={{
-                                                  width: "300px",
-                                                  borderRight: "0px",
-                                                  display: "flex",
-                                                  justifyContent: "center",
-                                                  alignItems: "center",
-                                                  fontWeight: "bold",
-                                                }}
-                                              >
+                                            <div className="print2AMidBody" style={ ai === 0 ? { display: "" } : {} } >
+                                              <div className="print2ARM head2Achange" >
                                                 {e?.heading}
                                               </div>
                                             </div>
@@ -347,20 +599,11 @@ function BagPrint2A({ queries, headers }) {
                                               {e?.Shapename === "TOTAL" ? (
                                                 <div className="print2AMidBody">
                                                   <div
-                                                    className="print2ARM RMW2A"
-                                                    style={{
-                                                      fontWeight: "bold",
-                                                      fontSize: "10px",
-                                                      justifyContent: "center",
-                                                    }}
-                                                  >
-                                                    {e?.Shapename}
+                                                    className="print2ARM RMW2A fw-bold justify-content-center total2Afont" >
+                                                    {  e?.Shapename}
                                                   </div>
                                                   <div
-                                                    className="sizename2A"
-                                                    style={{
-                                                      fontSize: "10.7px",
-                                                    }}
+                                                    className="sizename2A" style={{ fontSize: "10.7px"}}
                                                   >
                                                     {(e?.Sizename &&
                                                       e?.Sizename !== "" &&
@@ -372,27 +615,14 @@ function BagPrint2A({ queries, headers }) {
                                                   </div>
                                                   <div className="pcswt2A">
                                                     <div className="actualPcsWt2A">
-                                                      <div
-                                                        className="pcs2A"
-                                                        style={{
-                                                          fontWeight: "bold",
-                                                          fontSize: "10px",
-                                                          lineHeight: "8px",
-                                                        }}
-                                                      >
+                                                      <div className="pcs2A fw-bold total2Afont">
                                                         {e?.ActualPcs}
                                                       </div>
                                                       <div
-                                                        className="pcs2A"
+                                                        className="pcs2A border-end-0 fw-bold justify-content-end total2Afont pad1_2A"
                                                         style={{
-                                                          borderRight: "0px",
                                                           width: "40px",
-                                                          fontWeight: "bold",
                                                           fontSize: "9.5px",
-                                                          lineHeight: "8px",
-                                                          justifyContent:
-                                                            "flex-end",
-                                                          paddingRight: "1px",
                                                         }}
                                                       >
                                                         {e?.ActualWeight?.toFixed(
@@ -421,12 +651,7 @@ function BagPrint2A({ queries, headers }) {
                                                   {e?.MasterManagement_DiamondStoneTypeid ===
                                                   5 ? (
                                                     <div className="print2AMidBody">
-                                                      <div
-                                                        className="print2ARM FIND2A"
-                                                        style={{
-                                                          fontSize: "10px",
-                                                        }}
-                                                      >
+                                                      <div className="print2ARM FIND2A total2Afont" >
                                                         {e?.LimitedShapeQualityColorCode?.toUpperCase() +
                                                           " " +
                                                           e?.Quality?.toUpperCase() +
@@ -435,27 +660,10 @@ function BagPrint2A({ queries, headers }) {
                                                       </div>
                                                       <div className="pcswt2A">
                                                         <div className="actualPcsWt2A">
+                                                          <div className="pcs2A total2Afont" > {e?.ActualPcs}</div>
                                                           <div
-                                                            className="pcs2A"
-                                                            style={{
-                                                              fontSize: "10px",
-                                                            }}
-                                                          >
-                                                            {e?.ActualPcs}
-                                                          </div>
-                                                          <div
-                                                            className="pcs2A"
-                                                            style={{
-                                                              borderRight:
-                                                                "0px",
-                                                              width: "40px",
-                                                              fontSize: "10px",
-                                                              lineHeight: "8px",
-                                                              justifyContent:
-                                                                "flex-end",
-                                                              paddingRight:
-                                                                "1px",
-                                                            }}
+                                                            className="pcs2A total2Afont border-end-0 justify-content-end pad1_2A"
+                                                            style={{ width: "40px" }}
                                                           >
                                                             {e?.ActualWeight?.toFixed(
                                                               3
@@ -480,21 +688,15 @@ function BagPrint2A({ queries, headers }) {
                                                     </div>
                                                   ) : (
                                                     <div className="print2AMidBody">
-
                                                       <div
                                                         className="print2ARM RMW2A lh1Ady"
                                                         style={{
                                                           fontSize: "10px",
                                                         }}
                                                       >
-                                                        {e?.LimitedShapeQualityColorCode?.toUpperCase()}
+                                                        { e?.materialtypename?.toUpperCase() +" "+ e?.LimitedShapeQualityColorCode?.toUpperCase()}
                                                       </div>
-                                                      <div
-                                                        className="sizename2A lh1Ady"
-                                                        style={{
-                                                          fontSize: "10px",
-                                                        }}
-                                                      >
+                                                      <div className="sizename2A lh1Ady total2Afont" >
                                                         {(e?.Sizename &&
                                                           e?.Sizename !== "" &&
                                                           e?.Sizename?.slice(
@@ -505,30 +707,9 @@ function BagPrint2A({ queries, headers }) {
                                                       </div>
                                                       <div className="pcswt2A">
                                                         <div className="actualPcsWt2A ">
-                                                          <div
-                                                            className="pcs2A lh1Ady"
-                                                            style={{
-                                                              fontSize: "10px",
-                                                            }}
-                                                          >
-                                                            {e?.ActualPcs}
-                                                          </div>
-                                                          <div
-                                                            className="pcs2A lh1Ady"
-                                                            style={{
-                                                              borderRight:
-                                                                "0px",
-                                                              width: "40px",
-                                                              fontSize: "10px",
-                                                              justifyContent:
-                                                                "flex-end",
-                                                              paddingRight:
-                                                                "1px",
-                                                            }}
-                                                          >
-                                                            {e?.ActualWeight?.toFixed(
-                                                              2
-                                                            )}
+                                                          <div className="pcs2A lh1Ady total2Afont" > {e?.ActualPcs} </div>
+                                                          <div className="pcs2A lh1Ady total2Afont justify-content-end border-end-0 pad1_2A" style={{ width: "40px" }} >
+                                                            {e?.ActualWeight?.toFixed( 2 )}
                                                           </div>
                                                         </div>
                                                       </div>
@@ -554,10 +735,10 @@ function BagPrint2A({ queries, headers }) {
                                           )}
                                         </React.Fragment>
                                       );
-                                    })}
+                                    })} */}
                                     {Array.from(
                                       { length: ele?.length },
-                                      (_,iabcd) => {
+                                      (_, iabcd) => {
                                         return (
                                           <React.Fragment key={iabcd}>
                                             {iabcd !== 0 ? (
@@ -653,13 +834,26 @@ function BagPrint2A({ queries, headers }) {
                                         );
                                       }
                                     )}
+                                    </div>
                                   </div>
-                                  <div style={{lineHeight:'15px'}}>
+                                  <div style={{ lineHeight: "15px" }}>
                                     <span className="fw-bold">
                                       INSTRUCTION :
                                     </span>
                                     <span style={{ color: "red" }}>
-                                    {" " + checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
+                                      {" " +
+                                        checkInstruction(
+                                          e?.data?.rd?.officeuse
+                                        ) +
+                                        " " +
+                                        (e?.data?.rd?.ProductInstruction
+                                          ?.length > 0
+                                          ? checkInstruction(
+                                              e?.data?.rd?.ProductInstruction
+                                            )
+                                          : checkInstruction(
+                                              e?.data?.rd?.QuoteRemark
+                                            ))}
                                     </span>
                                   </div>
                                 </div>
@@ -707,32 +901,63 @@ function BagPrint2A({ queries, headers }) {
 
                               <div className="print2AMaterial">
                                 <div className="print2AMaterialCG">
-                                  <div className="g2A"  style={{width:"36px"}}>CUST.</div>
-                                  <div className="custHead2A" style={{width:"53px"}}>
+                                  <div
+                                    className="g2A"
+                                    style={{ width: "36px" }}
+                                  >
+                                    CUST.
+                                  </div>
+                                  <div
+                                    className="custHead2A"
+                                    style={{ width: "53px" }}
+                                  >
                                     {e?.data?.rd?.CustomerCode}
                                   </div>
-                                  <div className="custCode2A" style={{width:"53px"}}>
+                                  <div
+                                    className="custCode2A"
+                                    style={{ width: "53px" }}
+                                  >
                                     <b>GOLD</b>
                                   </div>
-                                  <div className="cst2A" style={{width:"63px"}}>
+                                  <div
+                                    className="cst2A"
+                                    style={{ width: "63px" }}
+                                  >
                                     <b>DIA</b>
                                   </div>
                                   <div
                                     className="cst2A"
-                                    style={{ borderRight: "0px", width:"63px" }}
+                                    style={{
+                                      borderRight: "0px",
+                                      width: "63px",
+                                    }}
                                   >
                                     <b>CST</b>
                                   </div>
                                 </div>
                                 <div className="print2AMaterialCG">
-                                  <div className="g2A" style={{width:"36px"}}>SIZE</div>
-                                  <div className="custHead2A" style={{width:"53px"}}>
+                                  <div
+                                    className="g2A"
+                                    style={{ width: "36px" }}
+                                  >
+                                    SIZE
+                                  </div>
+                                  <div
+                                    className="custHead2A"
+                                    style={{ width: "53px" }}
+                                  >
                                     {e?.data?.rd?.Size}
                                   </div>
-                                  <div className="custCode2A" style={{width:"53px"}}>
+                                  <div
+                                    className="custCode2A"
+                                    style={{ width: "53px" }}
+                                  >
                                     {e?.data?.rd?.MetalWeight?.toFixed(3)}
                                   </div>
-                                  <div className="cst2A" style={{width:"63px"}}>
+                                  <div
+                                    className="cst2A"
+                                    style={{ width: "63px" }}
+                                  >
                                     {e?.additional?.dia?.ActualPcs}/
                                     {e?.additional?.dia?.ActualWeight?.toFixed(
                                       3
@@ -740,7 +965,10 @@ function BagPrint2A({ queries, headers }) {
                                   </div>
                                   <div
                                     className="cst2A"
-                                    style={{ borderRight: "0px", width:"63px" }}
+                                    style={{
+                                      borderRight: "0px",
+                                      width: "63px",
+                                    }}
                                   >
                                     {e?.additional?.clr?.ActualPcs}/
                                     {e?.additional?.clr?.ActualWeight?.toFixed(
@@ -771,7 +999,6 @@ function BagPrint2A({ queries, headers }) {
                                     {e?.data?.rd?.OrderDate}
                                   </div>
                                 </div>
-                                
                               </div>
                             </div>
                             <div className="print2A_header_bagImgPart2">
@@ -810,23 +1037,91 @@ function BagPrint2A({ queries, headers }) {
                                 >
                                   <b>RM SIZE</b>
                                 </div>
-                                <div className="d-flex justify-content-between align-items-center" style={{width:"127px"}}>
-                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"33px", paddingTop:"3px"}}>
-                                        <div style={{height:"14.5px", borderBottom:"1px solid black", borderRight:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ACTUAL</div>
-                                        <div className="w-100 d-flex fonts2A" style={{height:"16.5px"}}><div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
-                                        <div className="w-50 d-flex justify-content-center align-items-center" style={{borderRight:"1px solid black", height:"13px"}}>WT</div></div>
+                                <div
+                                  className="d-flex justify-content-between align-items-center"
+                                  style={{ width: "127px" }}
+                                >
+                                  <div
+                                    className="w-50 d-flex flex-column justify-content-start align-items-center"
+                                    style={{
+                                      height: "33px",
+                                      paddingTop: "3px",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        height: "14.5px",
+                                        borderBottom: "1px solid black",
+                                        borderRight: "1px solid black",
+                                      }}
+                                      className="w-100 fonts1A d-flex justify-content-center align-items-center"
+                                    >
+                                      ACTUAL
+                                    </div>
+                                    <div
+                                      className="w-100 d-flex fonts2A"
+                                      style={{ height: "16.5px" }}
+                                    >
+                                      <div
+                                        style={{
+                                          borderRight: "1px solid black",
+                                          height: "13px",
+                                        }}
+                                        className="w-50 d-flex justify-content-center align-items-center"
+                                      >
+                                        PCS
                                       </div>
-                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"33px", paddingTop:"1px"}}>
-                                        <div style={{height:"16.5px", borderBottom:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ISSUE</div>
-                                        <div className="w-100 d-flex fonts2A" style={{height:"16.5px"}}>
-                                          <div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
-                                          <div className="w-50 d-flex justify-content-center align-items-center" style={{height:"13px"}}>WT</div>
-                                        </div>
+                                      <div
+                                        className="w-50 d-flex justify-content-center align-items-center"
+                                        style={{
+                                          borderRight: "1px solid black",
+                                          height: "13px",
+                                        }}
+                                      >
+                                        WT
                                       </div>
                                     </div>
-
+                                  </div>
+                                  <div
+                                    className="w-50 d-flex flex-column justify-content-start align-items-center"
+                                    style={{
+                                      height: "33px",
+                                      paddingTop: "1px",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        height: "16.5px",
+                                        borderBottom: "1px solid black",
+                                      }}
+                                      className="w-100 fonts1A d-flex justify-content-center align-items-center"
+                                    >
+                                      ISSUE
+                                    </div>
+                                    <div
+                                      className="w-100 d-flex fonts2A"
+                                      style={{ height: "16.5px" }}
+                                    >
+                                      <div
+                                        style={{
+                                          borderRight: "1px solid black",
+                                          height: "13px",
+                                        }}
+                                        className="w-50 d-flex justify-content-center align-items-center"
+                                      >
+                                        PCS
+                                      </div>
+                                      <div
+                                        className="w-50 d-flex justify-content-center align-items-center"
+                                        style={{ height: "13px" }}
+                                      >
+                                        WT
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
-                              {Array.from({ length: 15 }, (_,iad) => {
+                              {Array.from({ length: 15 }, (_, iad) => {
                                 return (
                                   <div className="print2AMidBody" key={iad}>
                                     <div className="print2ARM RMW2A">
@@ -870,10 +1165,18 @@ function BagPrint2A({ queries, headers }) {
                                 );
                               })}
                             </div>
-                            <div style={{lineHeight:'15px'}}>
+                            <div style={{ lineHeight: "15px" }}>
                               <span className="fw-bold">INSTRUCTION :</span>
                               <span style={{ color: "red" }}>
-                              {checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}
+                                {checkInstruction(e?.data?.rd?.officeuse) +
+                                  " " +
+                                  (e?.data?.rd?.ProductInstruction?.length > 0
+                                    ? checkInstruction(
+                                        e?.data?.rd?.ProductInstruction
+                                      )
+                                    : checkInstruction(
+                                        e?.data?.rd?.QuoteRemark
+                                      ))}
                               </span>
                             </div>
                           </div>
