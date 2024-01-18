@@ -18,7 +18,6 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
-        console.log(datas);
         setHeaderData(data?.BillPrint_Json[0]);
 
         // Your array

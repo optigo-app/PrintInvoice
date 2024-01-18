@@ -111,7 +111,6 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn }) => {
         metalLists.list = metals;
         setMetalList(metalLists);
         datas.resultArray = resultArray;
-        console.log(datas);
         setSummary(summaries);
         setData(datas);
         csLists.list = colorStone;

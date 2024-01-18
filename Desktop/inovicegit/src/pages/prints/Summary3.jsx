@@ -56,7 +56,6 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn }) => {
       data?.BillPrint_Json2
     );
     setResult(datas);
-    console.log(datas);
   }
   useEffect(() => {
     let print_name = atob(printName);

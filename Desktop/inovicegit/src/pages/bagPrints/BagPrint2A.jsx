@@ -300,12 +300,12 @@ function BagPrint2A({ queries, headers }) {
                                         <b>RM SIZE</b>
                                       </div>
                                     <div className="d-flex justify-content-between align-items-center" style={{width:"127px"}}>
-                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"33px", paddingTop:"3px"}}>
+                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"28px"}}>
                                         <div style={{height:"14.5px", borderBottom:"1px solid black", borderRight:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ACTUAL</div>
                                         <div className="w-100 d-flex fonts2A" style={{height:"16.5px"}}><div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
                                         <div className="w-50 d-flex justify-content-center align-items-center" style={{borderRight:"1px solid black", height:"13px"}}>WT</div></div>
                                       </div>
-                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"33px", paddingTop:"1px"}}>
+                                      <div className="w-50 d-flex flex-column justify-content-start align-items-center" style={{height:"28px"}}>
                                         <div style={{height:"16.5px", borderBottom:"1px solid black"}} className="w-100 fonts1A d-flex justify-content-center align-items-center">ISSUE</div>
                                         <div className="w-100 d-flex fonts2A" style={{height:"16.5px"}}>
                                           <div style={{borderRight:"1px solid black", height:"13px"}} className="w-50 d-flex justify-content-center align-items-center">PCS</div>
@@ -654,7 +654,7 @@ function BagPrint2A({ queries, headers }) {
                                       }
                                     )}
                                   </div>
-                                  <div>
+                                  <div style={{lineHeight:'15px'}}>
                                     <span className="fw-bold">
                                       INSTRUCTION :
                                     </span>
@@ -870,7 +870,7 @@ function BagPrint2A({ queries, headers }) {
                                 );
                               })}
                             </div>
-                            <div>
+                            <div style={{lineHeight:'15px'}}>
                               <span className="fw-bold">INSTRUCTION :</span>
                               <span style={{ color: "red" }}>
                               {checkInstruction(e?.data?.rd?.officeuse) + " " + (e?.data?.rd?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.rd?.ProductInstruction) : checkInstruction(e?.data?.rd?.QuoteRemark))}

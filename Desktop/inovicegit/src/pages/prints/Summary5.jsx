@@ -94,7 +94,6 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn }) => {
     setMiscTotal(miscobj);
     // setCategoryNameWise(cateWise);
     setResult(datas);
-    console.log(datas);
   }
 
   const handleHideShowS5 = (e) => {

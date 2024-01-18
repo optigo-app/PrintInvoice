@@ -79,7 +79,6 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
         data?.BillPrint_Json2
       );
        let Mostly_Calculation =  OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1,data?.BillPrint_Json2)
-        console.log(Mostly_Calculation);
       setLoader(false);
     } catch (error) {
       console.log(error);

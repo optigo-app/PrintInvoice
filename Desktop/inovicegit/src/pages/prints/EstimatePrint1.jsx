@@ -31,7 +31,6 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     const loadData = (data) => {
         setJson0Data(data?.BillPrint_Json[0]);
         let documnets = otherAmountDetail(data?.BillPrint_Json[0]?.DocumentDetail);
-        console.log(data);
         setDocument(documnets);
         let totals = { ...total };
         let dataArr = [];

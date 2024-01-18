@@ -40,7 +40,6 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn }) => {
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
-        console.log(datas);
         setData(datas);
         let summaryItems = [];
         datas?.resultArray?.forEach((e, i) => {

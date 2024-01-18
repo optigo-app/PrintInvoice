@@ -9,7 +9,6 @@ import {
 } from "../../../GlobalFunctions";
 
 const RepairAlterationReceive = ({ data }) => {
-  console.log(data, "alteration receive");
   const [headerComp, setHeaderComp] = useState(null);
   const [headerData, setHeaderData] = useState({});
   const [datas, setData] = useState([]);

@@ -41,7 +41,6 @@ const BarcodePrintGenerator = ({ data }) => {
   }, []);
 
   return <>
-  {console.log(data)}
    <canvas ref={canvasRef} className='d_none'></canvas>
   {imageSrc && <img src={imageSrc} alt="Barcode" className={`${style?.barcodeSticker}`} loading="eager"  />}
   </>;

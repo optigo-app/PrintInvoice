@@ -51,7 +51,6 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn }) => {
         copydata?.BillPrint_Json2
       );
   
-      console.log(datas);
 
       const js1 = lsh.cloneDeep(datas?.resultArray);
       const js2 = lsh.cloneDeep(datas?.json2);
