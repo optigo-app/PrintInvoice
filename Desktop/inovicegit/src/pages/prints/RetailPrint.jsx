@@ -288,7 +288,6 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         <p className='line_height_110'>{jsonData1?.customercity}{jsonData1?.customerpincode}</p>
                         <p className='line_height_110'>{jsonData1?.customeremail1}</p>
                         <p className='line_height_110'>{jsonData1?.vat_cst_pan}</p>
-                        {console.log(jsonData1)}
                         <p className='line_height_110'>{jsonData1?.Cust_CST_STATE} {jsonData1?.Cust_CST_STATE_No}</p>
                     </div>
                     <div className="col-4 p-1 border-end">

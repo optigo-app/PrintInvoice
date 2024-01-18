@@ -74,7 +74,6 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
     );
     let cateWise = [];
     datas?.resultArray?.forEach(e => {
-        console.log(e);
         let findRecord = cateWise?.findIndex((el) => el?.Categoryname === e?.Categoryname);
         if(findRecord === -1){
           cateWise.push(e);
@@ -84,7 +83,6 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
     });
     setCategoryNameWise(cateWise);
     setResult(datas);
-    console.log(datas);
   }
 
   const handlenetwtcol = (e) => {

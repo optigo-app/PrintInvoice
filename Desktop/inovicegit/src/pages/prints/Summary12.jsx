@@ -355,7 +355,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
         }
 
         sendData();
-        console.log(atob(evn)?.toLowerCase()) ;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleChange = (e, name) => {

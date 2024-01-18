@@ -83,7 +83,6 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn }) => {
       }
       return 0; // Names are equal
     });
-    console.log(datas);
     setData(datas);
   };
 

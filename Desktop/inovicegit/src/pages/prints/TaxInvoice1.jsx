@@ -397,7 +397,6 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
               }
             })
     })
-    console.log(totalobj);
     setTotalAmount(totalobj);
   };
 

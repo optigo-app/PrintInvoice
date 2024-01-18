@@ -50,7 +50,6 @@ const Summary7 = ({ urls, token, invoiceNo, printName, evn }) => {
       copydata?.BillPrint_Json2
     );
 
-    console.log(datas);
     setResult(datas);
   }
 

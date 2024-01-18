@@ -20,7 +20,6 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn }) => {
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
-        console.log(datas);
         let resultArr = [];
         datas?.resultArray?.forEach((e, i) => {
             let obj = { ...e };

@@ -29,7 +29,6 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn }) => {
             data?.BillPrint_Json2
         );
         setData(datas);
-        console.log(datas);
     };
 
     const handleChange = (e) => {

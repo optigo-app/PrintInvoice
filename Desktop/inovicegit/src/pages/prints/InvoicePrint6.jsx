@@ -135,7 +135,6 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
             }
         });
         datas.resultArray = resultArr;
-        console.log(datas);
         setData(datas);
     };
 

@@ -128,7 +128,6 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
       }
     });
 
-    console.log(datas, metwise);
     
     
     setMetaltypewise(metwise);
