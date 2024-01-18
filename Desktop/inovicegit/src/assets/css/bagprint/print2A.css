@@ -209,7 +209,8 @@
     display: flex;
     border-bottom: 1px solid;
     justify-content: space-between;
-    width: 304px;
+    align-items: center;
+    width: 302px;
     height: 33px;
     font-size: 14px;
 }
@@ -252,6 +253,7 @@
     justify-content: flex-start;
     align-items: center;
     width: 65px;
+    height: 100%;
     padding-left: 2px;
     padding-right: 2px;
     border-right: 1px solid;
@@ -326,6 +328,7 @@
     justify-content: flex-start;
     align-items: center;
     padding: 2px;
+    height: 100%;
 }
 
 .pcswt2A {
@@ -350,7 +353,7 @@
 .actualPcsWt2A {
     display: flex;
     font-size: 12px;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     width: 70px;
 }
@@ -411,6 +414,22 @@
   .fonts2A{
     font-size: 12px;
     font-weight: bold;
+  }
+
+  .head2Achange{
+    width: 300px;
+    border-right: 0px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .total2Afont{
+    font-size:  10px;
+    line-height: 8px;
+  }
+  .pad1_2A{
+    padding-right: 1px;
   }
 @media print {
 
