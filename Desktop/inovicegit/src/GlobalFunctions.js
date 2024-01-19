@@ -387,6 +387,140 @@ export function formatAmount(amount) {
 
   return formattedAmount;
 }
+
+export const shapeColorQuality = (jsonData) => {
+  let diamondsWithOutRate = [];
+  let colorStonesWithOutRate = [];
+  let miscsWithOutRate = [];
+  let findingWithOutRate = [];
+  let metalWithOutRate = [];
+
+  let diamondsWithRate = [];
+  let colorStonesWithRate = [];
+  let miscsWithRate = [];
+  let findingWithRate = [];
+  let metalWithRate = [];
+
+  jsonData.forEach((ele, ind) => {
+    if(ele?.MasterManagement_DiamondStoneTypeid === 1){
+      let findDiamondWithOutRates = diamondsWithOutRate.findIndex((elem, indd) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName);
+      if(findDiamondWithOutRates === -1){
+        diamondsWithOutRate.push(ele);
+      }else{
+        diamondsWithOutRate[findDiamondWithOutRates].Wt += ele?.Wt;
+        diamondsWithOutRate[findDiamondWithOutRates].Pcs += ele?.Pcs;
+        diamondsWithOutRate[findDiamondWithOutRates].Amount += ele?.Amount;
+        diamondsWithOutRate[findDiamondWithOutRates].SettingAmount += ele?.SettingAmount;
+      }
+      let findDiamondsWithRates = diamondsWithRate.findIndex((elem, indd) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
+      if(findDiamondsWithRates === -1){
+        diamondsWithRate.push(ele);
+      }else{
+        diamondsWithRate[findDiamondsWithRates].Wt += ele?.Wt;
+        diamondsWithRate[findDiamondsWithRates].Pcs += ele?.Pcs;
+        diamondsWithRate[findDiamondsWithRates].Amount += ele?.Amount;
+        diamondsWithRate[findDiamondsWithRates].SettingAmount += ele?.SettingAmount;
+      }
+    }else if(ele?.MasterManagement_DiamondStoneTypeid === 2){
+      let colorStonesWithOutRates = colorStonesWithOutRate.findIndex((elem, indd) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName);
+      if(colorStonesWithOutRates === -1){
+        colorStonesWithOutRate.push(ele);
+      }else{
+        colorStonesWithOutRate[colorStonesWithOutRates].Wt += ele?.Wt;
+        colorStonesWithOutRate[colorStonesWithOutRates].Pcs += ele?.Pcs;
+        colorStonesWithOutRate[colorStonesWithOutRates].Amount += ele?.Amount;
+        colorStonesWithOutRate[colorStonesWithOutRates].SettingAmount += ele?.SettingAmount;
+      }
+
+      let colorStonesWithRates = colorStonesWithRate.findIndex((elem, indd) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
+      if(colorStonesWithRates === -1){
+        colorStonesWithRate.push(ele);
+      }else{
+        colorStonesWithRate[colorStonesWithRates].Wt += ele?.Wt;
+        colorStonesWithRate[colorStonesWithRates].Pcs += ele?.Pcs;
+        colorStonesWithRate[colorStonesWithRates].Amount += ele?.Amount;
+        colorStonesWithRate[colorStonesWithRates].SettingAmount += ele?.SettingAmount;
+      }
+    }else if(ele?.MasterManagement_DiamondStoneTypeid === 3){
+      let miscsWithOutRates = miscsWithOutRate.findIndex((elem, indd) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName);
+      if(miscsWithOutRates === -1){
+        miscsWithOutRate.push(ele);
+      }else{
+        miscsWithOutRate[miscsWithOutRates].Wt += ele?.Wt;
+        miscsWithOutRate[miscsWithOutRates].Pcs += ele?.Pcs;
+        miscsWithOutRate[miscsWithOutRates].Amount += ele?.Amount;
+        miscsWithOutRate[miscsWithOutRates].SettingAmount += ele?.SettingAmount;
+      }
+
+      let miscsWithRates = miscsWithRate.findIndex((elem, indd) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
+      if(miscsWithRates === -1){
+        miscsWithRate.push(ele);
+      }else{
+        miscsWithRate[miscsWithRates].Wt += ele?.Wt;
+        miscsWithRate[miscsWithRates].Pcs += ele?.Pcs;
+        miscsWithRate[miscsWithRates].Amount += ele?.Amount;
+        miscsWithRate[miscsWithRates].SettingAmount += ele?.SettingAmount;
+      }
+    }else if(ele?.MasterManagement_DiamondStoneTypeid === 4){
+      let metalWithOutRates = metalWithOutRate.findIndex((elem, indd) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName);
+      if(metalWithOutRates === -1){
+        metalWithOutRate.push(ele);
+      }else{
+        metalWithOutRate[metalWithOutRates].Wt += ele?.Wt;
+        metalWithOutRate[metalWithOutRates].Pcs += ele?.Pcs;
+        metalWithOutRate[metalWithOutRates].Amount += ele?.Amount;
+        metalWithOutRate[metalWithOutRates].SettingAmount += ele?.SettingAmount;
+      }
+
+      let metalWithRates = metalWithRate.findIndex((elem, indd) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
+      if(metalWithRates === -1){
+        metalWithRate.push(ele);
+      }else{
+        metalWithRate[metalWithRates].Wt += ele?.Wt;
+        metalWithRate[metalWithRates].Pcs += ele?.Pcs;
+        metalWithRate[metalWithRates].Amount += ele?.Amount;
+        metalWithRate[metalWithRates].SettingAmount += ele?.SettingAmount;
+      }
+    }else if(ele?.MasterManagement_DiamondStoneTypeid === 5){
+      let findingWithOutRates = findingWithOutRate.findIndex((elem, indd) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName);
+      if(findingWithOutRates === -1){
+        findingWithOutRate.push(ele);
+      }else{
+        findingWithOutRate[findingWithOutRates].Wt += ele?.Wt;
+        findingWithOutRate[findingWithOutRates].Pcs += ele?.Pcs;
+        findingWithOutRate[findingWithOutRates].Amount += ele?.Amount;
+        findingWithOutRate[findingWithOutRates].SettingAmount += ele?.SettingAmount;
+      }
+
+      let findingWithRates = findingWithRate.findIndex((elem, indd) => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
+      if(findingWithRates === -1){
+        findingWithRate.push(ele);
+      }else{
+        findingWithRate[findingWithRates].Wt += ele?.Wt;
+        findingWithRate[findingWithRates].Pcs += ele?.Pcs;
+        findingWithRate[findingWithRates].Amount += ele?.Amount;
+        findingWithRate[findingWithRates].SettingAmount += ele?.SettingAmount;
+      }
+    }
+  });
+
+  return {
+    withoutRate: {
+      diamonds: diamondsWithOutRate,
+      colorStones: colorStonesWithOutRate,
+      miscs: miscsWithOutRate,
+      finding: findingWithOutRate,
+      metal: metalWithOutRate,
+    },
+    withRate: {
+      diamonds: diamondsWithRate,
+      colorStones: colorStonesWithRate,
+      miscs: miscsWithRate,
+      finding: findingWithRate,
+      metal: metalWithRate,
+    }
+  }
+}
 // export function formatAmount(amount) {
 //   let amt = parseFloat(+amount);
 //   // Convert the amount to a number and round it to 2 decimal places

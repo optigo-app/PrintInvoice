@@ -78,7 +78,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
 
           // other amount
           let otherAmts = [];
-          let otherAmtsDts = [...resultArr[findRecord]?.other_amount_details, ...e?.other_amount_details].flat();
+          let otherAmtsDts = [...resultArr[findRecord]?.other_details, ...e?.other_details].flat();
           otherAmtsDts.forEach((ele, ind) => {
             let findRec = otherAmts.findIndex((elem, index) => elem?.label === ele?.label);
             if (findRec === -1) {
@@ -87,7 +87,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
               otherAmts[findRec].value = +otherAmts[findRec].value + +ele?.value;
             }
           });
-          resultArr[findRecord].other_amount_details = otherAmts;
+          resultArr[findRecord].other_details = otherAmts;
 
           // diamonds
           let diamonds = [];
@@ -150,7 +150,6 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
 
     setCategory(categories);
     setData(datas);
-    console.log(datas);
   };
 
   useEffect(() => {
@@ -429,7 +428,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
       {data?.resultArray.map((e, i) => {
         return <div key={i}>
           <div className="d-flex border-start border-end border-bottom">
-            <div
+            <div  
               className={`${style?.sr} pad_1 border-end d-flex align-items-center justify-content-center`}
             >
               <p className="fw-bold">{i + 1}</p>
@@ -538,7 +537,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
             <div
               className={`${style?.other} border-end position-relative ${style?.pad_bot_15}`}
             >
-              {e?.other_amount_details.map((ele, ind) => {
+              {e?.other_details.map((ele, ind) => {
                 return <div className="d-flex justify-content-center" key={ind}>
                   <p className="w-100 text-end pad_1">{NumberWithCommas(+ele?.value, 2)}</p>
                 </div>
