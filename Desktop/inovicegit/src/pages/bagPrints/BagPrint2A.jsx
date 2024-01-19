@@ -562,7 +562,7 @@ function BagPrint2A({ queries, headers }) {
                                                       </div>
                                                       <div className=""><div className=""><div className="    " style={{borderRight: "1px solid rgb(0, 0, 0)", width: "33px", height: "14px"}}></div></div></div>
                                                     </div> : <div className="d-flex border-bottom border-black" style={{height:'14px'}}>
-                                                    <div className="print2ARM RMW2A total2Afont">{ s?.materialtypename + " "+ s?.Shapename}</div>
+                                                    <div className="print2ARM RMW2A total2Afont">{ s?.materialtypename?.toUpperCase() + " "+s?.LimitedShapeQualityColorCode?.toUpperCase()}</div>
                                                     <div className="sizename2A total2Afont">{s?.Sizename}</div>
                                                     <div className="pcswt2A"> 
                                                       <div className="actualPcsWt2A">
