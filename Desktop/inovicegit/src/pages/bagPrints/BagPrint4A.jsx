@@ -432,7 +432,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                                   elem?.MasterManagement_DiamondStoneTypeid === 6 ? <div className="record_line_4A border_bottom4A" >
                                                   <div className="code4A border_right4A code4A_text" style={{width:"124.5px"}}>
                                           
-                                                    {}
+                                                    
                                                     {
                                                       elem?.ConcatedFullShapeQualityColorCode
                                                     }
