@@ -3,7 +3,7 @@
 }
 
 .tax_invoice_container *, .container * {
-    font-size: 10px;
+    font-size: 8px;
     line-height: 120%;
     word-break: normal;
 }
@@ -61,7 +61,9 @@
     font-size: 12px;
 }
 
-
+.wordBreak *{
+    word-break: break-all;
+}
 
 
 

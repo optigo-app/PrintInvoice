@@ -75,6 +75,18 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     labourAmount: 0,
     discountAmt: 0,
   });
+
+  const [diamondTotal, setDiamondTotal] = useState({
+    Wt: 0,
+    Pcs: 0,
+    AMount: 0,
+  });
+
+  const [colorStoneMiscTotal, setColorStoneMiscTotal] = useState({
+    Wt: 0,
+    Pcs: 0,
+    Amount: 0,
+  })
   const [taxes, setTaxes] = useState([]);
   const [diamondDetail, setDiamondDetail] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -91,7 +103,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   };
 
   const caiculateMaterial = (data) => {
-    // console.log(data);
+    console.log(data);
     let resultArr = [];
     let totals = { ...total };
     totals.previeligeCardDisocunt = data?.BillPrint_Json[0]?.Privilege_discount;
@@ -101,12 +113,13 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       pcs: 0,
       wt: 0,
     };
+    let diamondTotals = {...diamondTotal};
+    let colorStoneTotals = {...colorStoneMiscTotal};
     data?.BillPrint_Json1.forEach((e, i) => {
       totals.discountAmt += e?.DiscountAmt;
       let settingAmount = 0;
       let totalSetttingAmount = 0;
       totalSetttingAmount += e?.MakingAmount;
-
       let settingRate = 0;
       let obj = { ...e };
       obj.otherChargesTotal = obj?.OtherCharges;
@@ -168,8 +181,14 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
             totals.stoneWt += ele?.Wt;
             totals.stonePcs += ele?.Pcs;
             totals.colorStoneAmount += ele?.Amount;
+            colorStoneTotals.Wt += ele?.Wt;
+            colorStoneTotals.Pcs += ele?.Pcs;
+            colorStoneTotals.Amount += ele?.Amount;
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+            diamondTotals.Pcs += ele?.Pcs;
+            diamondTotals.Wt += ele?.Wt;
+            diamondTotals.Amount += ele?.Amount;
             diamondDetails.pcs += ele?.Pcs;
             diamondDetails.wt += ele?.Wt;
             diamonds.push(ele);
@@ -220,6 +239,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               totals.miscWt += ele?.Wt;
               totals.miscPcs += ele?.Pcs;
               totals.miscAmount += ele?.Amount;
+
+              colorStoneTotals.Wt += ele?.Wt;
+              colorStoneTotals.Pcs += ele?.Pcs;
+              colorStoneTotals.Amount += ele?.Amount;
             }
           }
           settingAmount += ele?.SettingAmount;
@@ -248,8 +271,6 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
           totals.finalDiamondTotal.weight += currentObject.Wt;
           totals.finalDiamondTotal.pcs += currentObject.Pcs;
           totals.finalDiamondTotal.rate += currentObject.Rate;
-
-          // accumulator.size += +(currentObject.SizeName);
           return accumulator;
         }, diamondTotal);
       }
@@ -325,6 +346,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       // totals.finalMetalsTotal.weight += metalsTotal.Wt;
       resultArr.push(obj);
     });
+
+    setDiamondTotal(diamondTotals);
+    setColorStoneMiscTotal(colorStoneTotals);
     setDiamondDetailss(diamondDetails);
     totals.cgstAmount =
       (data?.BillPrint_Json[0]?.CGST * totals.totalamount) / 100;
@@ -1453,18 +1477,18 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div className="width20EstimatePrint p_1Estimate h-100">
                     <p className="text-end fw-bold">
-                      {NumberWithCommas(total?.finalDiamondTotal?.pcs, 0)}
+                      {diamondTotal?.Pcs > 0 && NumberWithCommas(diamondTotal?.Pcs, 0)}
                     </p>
                   </div>
                   <div className="width20EstimatePrint p_1Estimate h-100">
                     <p className="text-end fw-bold">
-                      {NumberWithCommas(total?.finalDiamondTotal?.weight, 3)}
+                      {diamondTotal?.Wt > 0 && NumberWithCommas(diamondTotal?.Wt, 3)}
                     </p>
                   </div>
                   <div className="width20EstimatePrint p_1Estimate h-100"></div>
                   <div className="width20EstimatePrint p_1Estimate h-100">
                     <p className="text-end fw-bold">
-                      {NumberWithCommas(total?.finalDiamondTotal?.amount, 2)}
+                      {diamondTotal?.AMount > 0 && NumberWithCommas(diamondTotal?.AMount, 2)}
                     </p>
                   </div>
                 </div>
@@ -1476,13 +1500,13 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div className="width200EstimatePrint p_1Estimate h-100">
                     <p className="fw-bold fw-bold text-end">
-                      {fixedValues(total?.weightWithDiamondLoss, 3)}
+                      {total?.weightWithDiamondLoss !== 0 && fixedValues(total?.weightWithDiamondLoss, 3)}
                     </p>
                   </div>
                   <div className="width200EstimatePrint p_1Estimate h-100">
                     <p className="fw-bold fw-bold text-end">
                       {/* {fixedValues(total?.finalMetalsTotal?.Wt, 3)} */}
-                      {NumberWithCommas(total?.gdWt, 3)}
+                      {total?.gdWt !== 0 && NumberWithCommas(total?.gdWt, 3)}
                     </p>
                   </div>
                   {/* <div className='width200EstimatePrint p_1Estimate h-100'><p className='fw-bold fw-bold text-end'>{NumberWithCommas(total?.finalMetalsTotal?.rate, 2)}</p></div> */}
@@ -1491,7 +1515,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div className="width200EstimatePrint p_1Estimate h-100">
                     <p className="fw-bold fw-bold text-end">
-                      {NumberWithCommas(total?.finalMetalsTotal?.amount, 2)}
+                      {total?.finalMetalsTotal?.amount !== 0 && NumberWithCommas(total?.finalMetalsTotal?.amount, 2)}
                     </p>
                   </div>
                 </div>
@@ -1506,18 +1530,16 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div className="width20EstimatePrint p_1Estimate h-100">
                     <p className="text-end fw-bold">
-                      {NumberWithCommas(
-                        total?.finalColorStonesTotal?.pcs +
-                          total?.finalmiscsTotal?.pcs,
+                      {colorStoneMiscTotal?.Pcs !== 0 && NumberWithCommas(
+                        colorStoneMiscTotal?.Pcs,
                         0
                       )}
                     </p>
                   </div>
                   <div className="width20EstimatePrint p_1Estimate h-100">
                     <p className="text-end fw-bold">
-                      {fixedValues(
-                        total?.finalColorStonesTotal?.weight +
-                          total?.finalmiscsTotal?.weight,
+                      {colorStoneMiscTotal?.Wt !== 0 && fixedValues(
+                        colorStoneMiscTotal?.Wt,
                         3
                       )}
                     </p>
@@ -1525,9 +1547,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                   <div className="width20EstimatePrint p_1Estimate h-100"></div>
                   <div className="width20EstimatePrint p_1Estimate h-100">
                     <p className="text-end fw-bold">
-                      {NumberWithCommas(
-                        total?.finalColorStonesTotal?.amount +
-                          total?.finalmiscsTotal?.amount,
+                      {colorStoneMiscTotal?.Amount !== 0 && NumberWithCommas(
+                        colorStoneMiscTotal?.Amount,
                         2
                       )}
                     </p>
@@ -1538,7 +1559,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="totalBgEstimatePrint bottom-0 w-100 h-100">
                   <div className="h-100 text-end p_1Estimate">
                     <p className="fw-bold">
-                      {NumberWithCommas(total?.otherAmount, 2)}
+                      {total?.otherAmount !== 0 && NumberWithCommas(total?.otherAmount, 2)}
                     </p>
                   </div>
                 </div>
@@ -1546,7 +1567,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               <div className="labourEstimatePrint border-end">
                 <div className="d-flex totalBgEstimatePrint w-100 h-100 justify-content-end">
                   <div className="p_1Estimate fw-bold">
-                    <p>{NumberWithCommas(total?.labourAmount, 2)}</p>
+                    <p>{total?.labourAmount !== 0 && NumberWithCommas(total?.labourAmount, 2)}</p>
                   </div>
                 </div>
               </div>
@@ -1559,7 +1580,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                           __html: json1Data?.Currencysymbol,
                         }}
                       ></span>
-                      {NumberWithCommas(total?.finalAmount, 2)}
+                      {total?.finalAmount !== 0 && NumberWithCommas(total?.finalAmount, 2)}
                     </p>
                   </div>
                 </div>
@@ -1594,10 +1615,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         <p className="fw-bold">DIAMOND WT</p>
                         <p>
                           {NumberWithCommas(total?.diaPcs, 0)} /{" "}
-                          {NumberWithCommas(
-                            total?.finalDiamondTotal?.weight,
-                            3
-                          )}{" "}
+                          {NumberWithCommas( diamondTotal?.Wt, 3 )}{" "}
                           cts
                         </p>
                       </div>

@@ -49,6 +49,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       labour_rate: 0,
       labour_amount: 0,
     },
+    total_other_charges: 0,
     total_diamond_colorstone_misc_amount: 0,
     total_other: 0,
     grosswt: 0,
@@ -175,6 +176,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_diamondHandling += j1?.TotalDiamondHandling;
       maintotal.total_Wastage += j1?.Wastage;
       maintotal.convertednetwt += j1?.convertednetwt;
+      maintotal.total_other_charges += j1?.OtherCharges;
       maintotal.total_csamount += j1?.CsAmount;
       maintotal.total_fineWtByMetalWtCalculation += ((j1?.NetWt * j1?.Tunch)/100);
       maintotal.totalMiscAmount += j1?.MiscAmount;

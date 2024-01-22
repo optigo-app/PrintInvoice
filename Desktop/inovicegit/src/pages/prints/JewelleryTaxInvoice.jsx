@@ -133,7 +133,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
     // metalArr.push({label: "Misc Wt", value: diamondWt, gm: false});
     if(!estimate){
-        metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
+        // metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
     }
     setSummary(metalArr);
     let taxValue = taxGenrator(json0Datas, totalAmountBefore);

@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "../../assets/css/headers/header1.module.css";
-const Header1 = ( { data } ) => {
+import ImageComponent from "../ImageComponent ";
+const Header1 = ({ data }) => {
+  const [logoStyle, setlogoStyle] = useState({ maxWidth: "120px", maxHeight: "95px", minHeight: "95px" });
   return (
     <>
-    
+
       <div className={`${style.headline} headerTitle`}>{data?.PrintHeadLabel}</div>
       <div className={style.companyDetails}>
         <div className={`${style.companyhead} p-2`}>
@@ -23,7 +25,10 @@ const Header1 = ( { data } ) => {
             {data?.Company_VAT_GST_No} | {data?.Company_CST_STATE}-{data?.Company_CST_STATE_No} | PAN-{data?.Pannumber}
           </div>
         </div>
-        <div style={{width:"30%"}} className="d-flex justify-content-end align-item-center h-100"><img src={data?.PrintLogo} alt="" className={style.headerImg} /></div>
+        <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
+          <ImageComponent imageUrl={data?.PrintLogo} styles={logoStyle} />
+          {/* <img src={data?.PrintLogo} alt="" className={style.headerImg} /> */}
+        </div>
       </div>
 
 

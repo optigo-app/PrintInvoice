@@ -99,7 +99,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
       totals.afterTax += totals?.total + data?.BillPrint_Json[0]?.AddLess;
       let debitCardinfo = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
       setBank(debitCardinfo);
-      totals.netBalAmount = totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount - data?.BillPrint_Json[0]?.CashReceived;
+      totals.netBalAmount = totals.afterTax - data?.BillPrint_Json[0]?.OldGoldAmount - data?.BillPrint_Json[0]?.CashReceived - data?.BillPrint_Json[0]?.AdvanceAmount;
       debitCardinfo.length > 0 && debitCardinfo.forEach((e, i) => {
         totals.netBalAmount -= e.amount;
       });
@@ -429,6 +429,7 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
                       <p className="p-1 text-end">{headerData?.AddLess >= 0 ? "Add" : "Less"}</p>
                       <p className="p-1 text-end">Total Amt after Tax</p>
                       <p className="p-1 text-end">Old Gold</p>
+                      <p className="p-1 text-end">Advance</p>
                       <p className="p-1 text-end">Recv. in Cash</p>
                       {bank.length > 0 && bank.map((e, i) => {
                         return <p className="p-1 text-end" key={i}>Recv. in Bank ({e?.label})</p>
@@ -446,12 +447,12 @@ const JewelleryRetailInvoicePrintc = ({ urls, token, invoiceNo, printName, evn }
                       <p className="p-1 text-end">{NumberWithCommas(headerData?.AddLess, 2)}</p>
                       <p className="p-1 text-end">{NumberWithCommas(total?.afterTax, 2)}</p>
                       <p className="p-1 text-end">{NumberWithCommas(headerData?.OldGoldAmount, 2)}</p>
+                      <p className="p-1 text-end">{NumberWithCommas(headerData?.AdvanceAmount, 2)}</p>
                       <p className="p-1 text-end">{NumberWithCommas(headerData?.CashReceived, 2)}</p>
                       {bank.length > 0 && bank.map((e, i) => {
                         return <p className="p-1 text-end" key={i}>{NumberWithCommas(e?.amount, 2)}</p>
                       })}
-                      {/* <p className="p-1 text-end">{NumberWithCommas(headerData?.BankReceived, 2)}</p> */}
-                      <p className="p-1 text-end">{NumberWithCommas(total?.netBalAmount, 2)}</p>
+                      <p className="p-1 text-end">{NumberWithCommas(+fixedValues(total?.netBalAmount, 2), 2)}</p>
                       <p className="fw-bold text-end p-1 border-top"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span>{NumberWithCommas(total?.afterTax, 2)}</p>
                     </div>
                   </div>

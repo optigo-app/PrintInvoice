@@ -15,6 +15,7 @@ import {
 import Loader from "../../components/Loader";
 import style2 from "../../assets/css/headers/header1.module.css";
 import footerStyle from "../../assets/css/footers/footer2.module.css";
+import ImageComponent from "../../components/ImageComponent ";
 
 const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
   const [loader, setLoader] = useState(true);
@@ -35,6 +36,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
   const [tax, settax] = useState([]);
   const [address, setAddress] = useState([]);
   const [evns, setEvns] = useState(atob(evn).toLowerCase());
+  const [logoStyle, setlogoStyle] = useState({ maxWidth: "120px", maxHeight: "95px", minHeight: "95px" });
 
   const loadData = (data) => {
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
@@ -424,11 +426,7 @@ const SaleOrder = ({ token, invoiceNo, printName, urls, evn }) => {
           style={{ width: "30%" }}
           className="d-flex justify-content-end align-item-center h-100"
         >
-          <img
-            src={headerData?.PrintLogo}
-            alt=""
-            className={style2.headerImg}
-          />
+          <ImageComponent imageUrl={headerData?.PrintLogo} styles={logoStyle} />
         </div>
       </div>
       {/* customer details */}
