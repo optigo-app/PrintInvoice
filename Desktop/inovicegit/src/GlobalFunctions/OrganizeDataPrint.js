@@ -76,6 +76,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     total_TotalCsSetcost : 0,
     total_TotalDiaSetcost: 0,
     total_MakingAmount_Setting_Amount: 0,
+    total_otherCharge_Diamond_Handling: 0
   };
 
   //json1 array
@@ -184,6 +185,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.totalMiscAmount += j1?.MiscAmount;
       maintotal.total_TotalCsSetcost += j1?.TotalCsSetcost;
       maintotal.total_TotalDiaSetcost += j1?.TotalDiaSetcost;
+      maintotal.total_otherCharge_Diamond_Handling += j1?.TotalDiamondHandling + j1?.OtherCharges + j1?.MiscAmount
       
       
       //json2
@@ -407,8 +409,26 @@ export const OrganizeDataPrint = (header, json1, json2) => {
 
   headerObj.BrokerageDetails = brArr; 
 
-  resultArray.sort((a, b) => a.designno - b.designno);
+  // resultArray.sort((a, b) => a.designno - b.designno);
+  const customSort = (a, b) => {
+    
+    if (isNaN(a?.designno) && isNaN(b?.designno)) {
+      // If both are non-numeric, compare as strings
+      return (a?.designno)?.localeCompare(b?.designno);
+    } else if (isNaN(a?.designno)) {
+      // If only 'a' is non-numeric, place it at the end
+      return 1;
+    } else if (isNaN(b?.designno)) {
+      // If only 'b' is non-numeric, place it at the end
+      return -1;
+    } else {
+      // If both are numeric, compare as numbers
+      return a?.designno - b?.designno;
+    }
+  };
   
+  resultArray?.sort(customSort);
+
   const finalObject = {
     resultArray: resultArray,
     mainTotal: maintotal,

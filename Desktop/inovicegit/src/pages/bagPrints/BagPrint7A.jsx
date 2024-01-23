@@ -243,9 +243,13 @@ const BagPrint7A = ({ queries, headers }) => {
           let mainArr2 = arr?.concat(finalDiaArr, finalClsArr, finalMiscArr);
           let metalqualitycolor = a?.rd?.tunch + " " + a?.rd?.MetalColorCo;
           a.rd.metalqualitycolor = metalqualitycolor;
+          
+          let original_img = (a?.rd?.ThumbImagePath)?.replace("Red_Thumb", "Red_Original");
           let imagePath = queryParams?.imagepath;
           imagePath = atob(queryParams?.imagepath);
-          let img = imagePath + a?.rd?.ThumbImagePath;
+          // let img = imagePath + a?.rd?.ThumbImagePath;
+          let img = imagePath + original_img;
+          // img = "http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/Design_Image/nIsi2cMImIMDAxMDU0NQ==/Red_Thumb/0010545_18082022094452158.jpg?0.850428";
           let chunkData = GetChunkData(chunkSize7, mainArr2);
           let chunkDatas = allMaterials?.slice(0, 7);
           responseData.push({
