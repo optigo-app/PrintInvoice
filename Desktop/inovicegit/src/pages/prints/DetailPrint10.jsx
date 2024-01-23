@@ -58,9 +58,13 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
     let diaObj = {
       ShapeName: "OTHERS",
       wtWt: 0,
+      wtWts: 0,
       pcPcs: 0,
+      pcPcss: 0,
       rRate: 0,
+      rRates: 0,
       amtAmount: 0,
+      amtAmounts: 0,
     };
 
     let diaonlyrndarr1 = [];
@@ -68,7 +72,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
     let diaonlyrndarr3 = [];
     let diaonlyrndarr4 = [];
     let diarndotherarr5 = [];
-
+    let diaonlyrndarr6 = [];
     datas?.json2?.forEach((e) => {
       if (e?.MasterManagement_DiamondStoneTypeid === 1) {
         if (e.ShapeName?.toLowerCase() === "rnd") {
@@ -115,26 +119,60 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
       if (findRecord === -1) {
         let obj = { ...e };
         obj.wtWt = e?.Wt;
+        obj.wtWts = e?.Wt;
         obj.pcPcs = e?.Pcs;
+        obj.pcPcss = e?.Pcs;
         obj.rRate = e?.Rate;
+        obj.rRates = e?.Rate;
         obj.amtAmount = e?.Amount;
+        obj.amtAmounts = e?.Amount;
         diaonlyrndarr4.push(obj);
       } else {
         diaonlyrndarr4[findRecord].wtWt += e?.Wt;
+        diaonlyrndarr4[findRecord].wtWts += e?.Wt;
         diaonlyrndarr4[findRecord].pcPcs += e?.Pcs;
+        diaonlyrndarr4[findRecord].pcPcss += e?.Pcs;
         diaonlyrndarr4[findRecord].rRate += e?.Rate;
+        diaonlyrndarr4[findRecord].rRates += e?.Rate;
         diaonlyrndarr4[findRecord].amtAmount += e?.Amount;
+        diaonlyrndarr4[findRecord].amtAmounts += e?.Amount;
       }
     });
 
     diaonlyrndarr4.forEach((e) => {
       diaObj.wtWt += e?.wtWt;
+      diaObj.wtWts += e?.wtWts;
       diaObj.pcPcs += e?.pcPcs;
+      diaObj.pcPcss += e?.pcPcss;
       diaObj.rRate += e?.rRate;
+      diaObj.rRates += e?.rRates;
       diaObj.amtAmount += e?.amtAmount;
+      diaObj.amtAmounts += e?.amtAmounts;
+    });
+    
+    diaonlyrndarr3?.forEach((e) => {
+      let find_record = diaonlyrndarr6?.findIndex(
+        (a) =>
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+      if (find_record === -1) {
+        let obj = { ...e };
+        obj.wtWts = e?.wtWt;
+        obj.pcPcss = e?.pcPcs;
+        obj.rRates = e?.rRate;
+        obj.amtAmounts = e?.amtAmount;
+        diaonlyrndarr6.push(obj);
+      }else{
+        diaonlyrndarr6[find_record].wtWts += e?.wtWt;
+        diaonlyrndarr6[find_record].pcPcss += e?.pcPcs;
+        diaonlyrndarr6[find_record].rRates += e?.rRate;
+        diaonlyrndarr6[find_record].amtAmounts += e?.amtAmount;
+      }
     });
 
-    diarndotherarr5 = [...diaonlyrndarr3, diaObj];
+    diarndotherarr5 = [...diaonlyrndarr6, diaObj];
     setDiamondWise(diarndotherarr5);
     setResult(datas);
   }
@@ -675,14 +713,14 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </div>
                     </div>
                     <div className="col6dp10 end_dp10 pe-1 d-flex align-items-center brR_dp10">
-                      {formatAmount(result?.mainTotal?.total_other)}
+                      {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
                     </div>
                     <div className="col7dp10 end_dp10 pe-1 d-flex align-items-center brR_dp10">
                       {formatAmount(
-                        result?.mainTotal?.total_labour?.labour_amount
+                        result?.mainTotal?.total_MakingAmount_Setting_Amount
                       )}
                     </div>
-                    <div className="col8dp10 end_dp10 pe-1 d-flex align-items-center">
+                    <div className="col8dp10 end_dp10  d-flex align-items-center">
                       {formatAmount(result?.finalAmount)}
                     </div>
                   </div>
@@ -756,14 +794,14 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                             <div className="w-50 fw-bold">MAKING </div>
                             <div className="w-50 end_dp10">
                               {formatAmount(
-                                result?.mainTotal?.total_labour?.labour_amount
+                                result?.mainTotal?.total_MakingAmount_Setting_Amount
                               )}
                             </div>
                           </div>
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">OTHER </div>
                             <div className="w-50 end_dp10">
-                              {formatAmount(result?.mainTotal?.total_other)}
+                              {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
                             </div>
                           </div>
                           <div className="d-flex justify-content-between px-1">
@@ -780,27 +818,27 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="w-50 h-100"></div>
                         <div className="w-50 h-100 d-flex align-items-center border-start">
                           <div className="fw-bold w-50 px-1">TOTAL</div>
-                          <div className="w-50 end_dp10 px-1 fw-bold">
+                          <div className="w-50 end_dp10 px-1">
                             {formatAmount(result?.finalAmount)}
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="dia_sum_dp10 d-flex flex-column border-end border-start border-bottom fsgdp10">
+                    <div className="dia_sum_dp10 d-flex flex-column  fsgdp10">
                       <div className="h_bd10 centerdp10 bg_dp10 fw-bold border">
                         Diamond Detail
                       </div>
                       {diamondWise?.map((e, i) => {
                         return (
                           <div
-                            className="d-flex justify-content-between px-1 fsgdp10"
+                            className="d-flex justify-content-between px-1 border-end border-start fsgdp10"
                             key={i}
                           >
                             <div className="fw-bold w-50">
                               {e?.ShapeName} {e?.QualityName} {e?.Colorname}
                             </div>
                             <div className="w-50 end_dp10">
-                              {e?.pcPcs} / {e?.wtWt?.toFixed(3)} cts
+                              {e?.pcPcss} / {e?.wtWts?.toFixed(3)} cts
                             </div>
                           </div>
                         );
