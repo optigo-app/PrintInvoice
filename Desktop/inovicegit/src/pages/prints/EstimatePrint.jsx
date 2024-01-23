@@ -86,7 +86,20 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     Wt: 0,
     Pcs: 0,
     Amount: 0,
-  })
+  });
+
+  const [ColorStoneTotal, setColorStoneTotal] = useState({
+    Wt: 0,
+    Pcs: 0,
+    Amount: 0,
+  });
+
+  const [miscTotal, setMiscTotal] = useState({
+    Wt: 0,
+    Pcs: 0,
+    Amount: 0,
+  });
+
   const [taxes, setTaxes] = useState([]);
   const [diamondDetail, setDiamondDetail] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -115,6 +128,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     };
     let diamondTotals = {...diamondTotal};
     let colorStoneTotals = {...colorStoneMiscTotal};
+    let colorStoness = {...ColorStoneTotal};
+    let miscstotals = {...miscTotal};
     data?.BillPrint_Json1.forEach((e, i) => {
       totals.discountAmt += e?.DiscountAmt;
       let settingAmount = 0;
@@ -184,6 +199,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
             colorStoneTotals.Wt += ele?.Wt;
             colorStoneTotals.Pcs += ele?.Pcs;
             colorStoneTotals.Amount += ele?.Amount;
+            colorStoness.Wt += ele?.Wt;
+            colorStoness.Pcs += ele?.Pcs;
+            colorStoness.Amount += ele?.Amount;
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
             diamondTotals.Pcs += ele?.Pcs;
@@ -243,6 +261,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               colorStoneTotals.Wt += ele?.Wt;
               colorStoneTotals.Pcs += ele?.Pcs;
               colorStoneTotals.Amount += ele?.Amount;
+
+              miscstotals.Wt += ele?.Wt;
+              miscstotals.Pcs += ele?.Pcs;
+              miscstotals.Amount += ele?.Amount;
             }
           }
           settingAmount += ele?.SettingAmount;
@@ -346,7 +368,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       // totals.finalMetalsTotal.weight += metalsTotal.Wt;
       resultArr.push(obj);
     });
-
+    setMiscTotal(miscstotals);
+    setColorStoneTotal(colorStoness);
     setDiamondTotal(diamondTotals);
     setColorStoneMiscTotal(colorStoneTotals);
     setDiamondDetailss(diamondDetails);
@@ -362,7 +385,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       totals.miscAmount +
       totals.makingAmount +
       totals.otherAmount +
-      data?.BillPrint_Json[0].AddLess
+      data?.BillPrint_Json[0].AddLess 
     ).toFixed(3);
 
     // taxes
@@ -753,7 +776,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   }, []);
 
   const handleImageLoad = () => {
-    setImageLoading(false);
+    setImageLoading(false); 
   };
 
   return (
@@ -1622,22 +1645,22 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="d-flex justify-content-between p-1">
                         <p className="fw-bold">STONE WT</p>
                         <p>
-                          {NumberWithCommas(total?.stonePcs, 0)} /{" "}
-                          {fixedValues(total?.finalColorStonesTotal?.weight, 3)}{" "}
+                          {NumberWithCommas(ColorStoneTotal?.Pcs, 0)} /{" "}
+                          {fixedValues(ColorStoneTotal?.Wt, 3)}{" "}
                           cts
                         </p>
                       </div>
                       <div className="d-flex justify-content-between p-1">
                         <p className="fw-bold">MISC WT</p>
                         <p>
-                          {NumberWithCommas(total?.miscPcs, 0)} /{" "}
-                          {fixedValues(total?.finalmiscsTotal?.weight, 3)} gm
+                          {NumberWithCommas(miscTotal?.Pcs, 0)} /{" "}
+                          {fixedValues(miscTotal?.Wt, 3)} gm
                         </p>
                       </div>
-                      <div className="d-flex justify-content-between p-1">
+                      {total?.findingWeight !== 0 && <div className="d-flex justify-content-between p-1">
                         <p className="fw-bold">FINDING WT</p>
                         <p>{fixedValues(total?.findingWeight, 3)} gm</p>
-                      </div>
+                      </div>}
                     </div>
                     <div className="w-50 h-100 pb-4">
                       <div className="d-flex justify-content-between p-1">
