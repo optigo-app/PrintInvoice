@@ -74,7 +74,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     totalMiscAmount: 0,
     total_otherChargesMiscHallStamp:0, 
     total_TotalCsSetcost : 0,
-    total_TotalDiaSetcost: 0
+    total_TotalDiaSetcost: 0,
+    total_MakingAmount_Setting_Amount: 0,
   };
 
   //json1 array
@@ -152,6 +153,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
         Making_Amount_Other_Charges:0,
         fineWtByMetalWtCalculation:0,
         otherChargesMiscHallStamp:0,
+        makingAmount_settingAmount:0,
       };
 
       let other_details = otherAmountDetail(j1?.OtherAmtDetail);
@@ -183,10 +185,12 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_TotalCsSetcost += j1?.TotalCsSetcost;
       maintotal.total_TotalDiaSetcost += j1?.TotalDiaSetcost;
       
+      
       //json2
       json2?.length > 0 &&
         json2?.forEach((j2, i) => {
           if (j1?.SrJobno === j2?.StockBarcode) {
+            
             //for diamond
             if (j2?.MasterManagement_DiamondStoneTypeid === 1) {
               diamond_colorstone_misc?.push(j2);
@@ -204,6 +208,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.diamonds.Rate += j2?.Rate;
               maintotal.diamonds.Amount += j2?.Amount;
               maintotal.diamonds.SettingAmount += +j2?.SettingAmount;
+              
             }
             //for colorstone
             if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -296,13 +301,14 @@ export const OrganizeDataPrint = (header, json1, json2) => {
             }
 
             jobwise_totals.fineWtByMetalWtCalculation = ((j1?.NetWt * j1?.Tunch)/100);
+            jobwise_totals.makingAmount_settingAmount += j2?.SettingAmount;
 
             // jobwise_totals.otherChargesMiscHallStamp += (j2)
 
             //ending of comparing of job no block
           }
         });
-
+        
       diamond_colorstone_misc?.forEach((e) => {
         maintotal.total_diamond_colorstone_misc_amount += +e?.Amount;
       });
@@ -322,6 +328,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           }
         })
       })
+      jobwise_totals.makingAmount_settingAmount += j1?.MakingAmount;
       obj.diamond_colorstone_misc = diamond_colorstone_misc;
       obj.certificateWtDia = diawtdup;
       obj.diamonds = diamondList;
@@ -345,6 +352,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       obj.Making_Amount_Other_Charges = jobwise_totals.Making_Amount_Other_Charges;
       obj.other_details = other_details;
       obj.fineWtByMetalWtCalculation = jobwise_totals.fineWtByMetalWtCalculation;
+      maintotal.total_MakingAmount_Setting_Amount += jobwise_totals.makingAmount_settingAmount;
+      
       resultArray.push(obj);
     });
 
@@ -398,6 +407,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
 
   headerObj.BrokerageDetails = brArr; 
 
+  resultArray.sort((a, b) => a.designno - b.designno);
+  
   const finalObject = {
     resultArray: resultArray,
     mainTotal: maintotal,
