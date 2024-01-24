@@ -1,6 +1,8 @@
 
 .container7A * {
     font-family: Calibri;
+    box-sizing: border-box;
+    word-break: break-all;
 }
 
 .container7A {
