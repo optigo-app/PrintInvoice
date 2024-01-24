@@ -18,6 +18,7 @@
     margin-top: 2rem; */
     /* font-size: 12px; */
     font-size: 10px;
+    position: relative;
 }
 
 .head7A {
@@ -102,8 +103,12 @@
     border-bottom: 1px solid #989898;
 }
 #img7ABig{
-    height: 30.5rem;
-    width: 19.5rem;
+    height: 19.5rem;
+    width: 29.5rem;
+    transform: rotate(90deg);
+    position: absolute;
+    top: 6.5rem;
+    left: -4rem;
 }
 
 .borderBottom7A {
