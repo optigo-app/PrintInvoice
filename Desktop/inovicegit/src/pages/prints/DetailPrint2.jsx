@@ -73,7 +73,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn }) => {
                     />
                 </div>
             </div>
-            <div className={`container max_width_container pad_60_allPrint jewelleryinvoiceContain pt-2`} >
+            <div className={`container max_width_container pad_60_allPrint ${style?.detailPrint2} pt-2`} >
                 <h4 className='lightGrey min_height_label px-2'>{headerData?.PrintHeadLabel}</h4>
                 <div className="d-flex pt-2 justify-content-between">
                     <div className='col-6'>
@@ -108,10 +108,40 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                 </div>
                 {/* table header */}
-                <div className="d-flex">
-                Sr	Design	Diamond	Metal	Stone	Other	Labour	Total Amount
-Code	Wt	Rate	Amount	Quality	Wt(M+D)	N+L	Amount	Code	Amount	Amount	Amount
+                <div className="d-flex border-start border-end border-top border-black">
+                    <div className={`${style?.sr} border-bottom text-center fw-bold border-end d-flex justify-content-center align-items-center`}><p>Sr</p></div>
+                    <div className={`${style?.design} border-bottom text-center fw-bold border-end d-flex justify-content-center align-items-center`}><p>Design</p></div>
+                    <div className={`${style?.diamond} border-bottom text-center fw-bold border-end`}>
+                        <p className='border-bottom'>Diamond</p>
+                        <div className="d-flex">
+                            <div className='col-3'><p className='text-center fw-bold border-end'>Code</p></div>
+                            <div className='col-3'><p className='text-center fw-bold border-end'>Wt</p></div>
+                            <div className='col-3'><p className='text-center fw-bold border-end'>Rate</p></div>
+                            <div className='col-3'><p className='text-center fw-bold border-end'>Amount</p></div>
+                        </div>
+                    </div>
+                    <div className={`${style?.metal} border-bottom text-center fw-bold border-end`}>
+                        <p className='border-bottom'>Metal</p>
+                        <div className="d-flex">
+                            <div className='col-3'><p className='text-center fw-bold border-end'>Quality</p></div>
+                            <div className='col-3'><p className='text-center fw-bold border-end'>Wt(M+D)</p></div>
+                            <div className='col-3'><p className='text-center fw-bold border-end'>N+L</p></div>
+                            <div className='col-3'><p className='text-center fw-bold border-end'>Amount</p></div>
+                        </div>
+                    </div>
+                    <div className={`${style?.stone} border-bottom text-center fw-bold border-end`}>
+                        <p>Stone</p>
+                        <div className="d-flex">
+                            <div className='col-6'><p className='text-center fw-bold border-end'>Code</p></div>
+                            <div className='col-6'><p className='text-center fw-bold border-end'>Amount</p></div>
+                        </div>
+                    </div>
+                    <div className={`${style?.other} border-bottom text-center fw-bold border-end d-flex justify-content-center align-items-center`}><p>Other Amount</p></div>
+                    <div className={`${style?.labour} border-bottom text-center fw-bold border-end d-flex justify-content-center align-items-center`}><p>Labour Amount</p></div>
+                    <div className={`${style?.total} border-bottom text-center fw-bold d-flex justify-content-center align-items-center`}><p>Total Amount</p></div>
                 </div>
+                {/* table */}
+
             </div>
         </>
     ) : (
