@@ -87,6 +87,7 @@ export const printConditions = [
 export const excelConditions = [
   { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel"},
   { printName: "image zip file", etpType: "excel", componentName: "ImageExportExcel"},
+  { printName: "packing list c", etpType: "excel", componentName: "PackingListCExcel"},
   { printName: "sale format b", etpType: "excel", componentName: "ExcelToJsonDownload"},
   { printName: "sale format s", etpType: "excel", componentName: "ExcelToJsonDownloads"},
   { printName: "sale format a", etpType: "excel", componentName: "ExcelToJsonDownloadA"},

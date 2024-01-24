@@ -379,6 +379,17 @@ export const checkImageExists = (url) => {
     img.src = url;
   });
 };
+
+export const checkImageExistss = (url, callback) => {
+  var img = new Image();
+  img.onload = function() {
+      callback(true);
+  };
+  img.onerror = function() {
+      callback(false);
+  };
+  img.src = url;
+}
 export function formatAmount(amount) {
   const formattedAmount = parseFloat(+amount).toLocaleString('en-IN', {
     minimumFractionDigits: 2,
