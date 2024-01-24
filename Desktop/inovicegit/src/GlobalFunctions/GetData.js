@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const GetData = async (job) => {
     try {
+
         let p_tag = { "SerialJobno": `${job?.jobno}`, "customerid": `${job?.custid}`, "BagPrintName": `${job?.printname}` };
         let jsonString = JSON.stringify(p_tag);
         let base64String = btoa(jsonString);
@@ -10,9 +11,13 @@ export const GetData = async (job) => {
             "p": `${base64String}`,
             "f": `${job?.appuserid} ${job?.printname}`
         };
+
         let urls = atob(job?.url);
+
         const response = await axios.post(urls, Body, { headers: job?.headers });
+
         let datas = JSON.parse(response?.data?.d);
+
         // let newArr = [];
         // console.log(datas);
         // let jobss = [];
@@ -28,7 +33,28 @@ export const GetData = async (job) => {
         //     }
         // });
         // console.log(newArr);
-        return datas;
+        
+        const rd = (datas?.rd)?.sort((a, b) => {
+            const numA = parseInt(a?.serialjobno?.split('/')[1], 10);
+            const numB = parseInt(b?.serialjobno?.split('/')[1], 10);
+            // Compare the numeric values
+            return numA - numB;
+          });
+
+        const rd1 = (datas?.rd1)?.sort((a, b) => {
+            const numA = parseInt(a?.SerialJobno?.split('/')[1], 10);
+            const numB = parseInt(b?.SerialJobno?.split('/')[1], 10);
+            // Compare the numeric values
+            return numA - numB;
+          });
+
+        const obj = {
+            rd:rd,
+            rd1:rd1
+        }
+
+        return obj;
+        // return datas;
     } catch (error) {
         console.log(error);
     }

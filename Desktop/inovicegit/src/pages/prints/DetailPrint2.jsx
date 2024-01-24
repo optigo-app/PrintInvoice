@@ -67,8 +67,8 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="form-check ps-3">
                     <input
                         type="button"
-                        className="btn_white blue py-1"
                         value="Print"
+                        className="btn_white blue py-1"
                         onClick={(e) => handlePrint(e)}
                     />
                 </div>
