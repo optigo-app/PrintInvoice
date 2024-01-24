@@ -85,13 +85,14 @@ export const printConditions = [
 ];
 
 export const excelConditions = [
-  { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel" },
-  { printName: "sale format b", etpType: "excel", componentName: "ExcelToJsonDownload" },
-  { printName: "sale format s", etpType: "excel", componentName: "ExcelToJsonDownloads" },
-  { printName: "sale format a", etpType: "excel", componentName: "ExcelToJsonDownloadA" },
-  { printName: "sale format j1", etpType: "excel", componentName: "ExcelToJsonDownloadJ1" },
-  { printName: "sale format r", etpType: "excel", componentName: "ExcelToJsonDownloadR" },
-  { printName: "quotation format", etpType: "excel", componentName: "QuotationExcel" },
+  { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel"},
+  { printName: "image zip file", etpType: "excel", componentName: "ImageExportExcel"},
+  { printName: "sale format b", etpType: "excel", componentName: "ExcelToJsonDownload"},
+  { printName: "sale format s", etpType: "excel", componentName: "ExcelToJsonDownloads"},
+  { printName: "sale format a", etpType: "excel", componentName: "ExcelToJsonDownloadA"},
+  { printName: "sale format j1", etpType: "excel", componentName: "ExcelToJsonDownloadJ1"},
+  { printName: "sale format r", etpType: "excel", componentName: "ExcelToJsonDownloadR"},
+  { printName: "quotation format", etpType: "excel", componentName: "QuotationExcel"},
 ];
 
 export const alterationArray = [

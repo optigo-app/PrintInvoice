@@ -1,9 +1,54 @@
-.print_sec_sum4{
+.detailPrint2 *{
+    word-break: normal;
+}
+
+
+.print_sec_sum4 {
     right: 15px;
 }
 
+.sr {
+    width: 5%;
+    min-width: 5%;
+}
+
+.design {
+    width: 11%;
+    min-width: 11%;
+}
+
+.diamond {
+    width: 23%;
+    min-width: 23%;
+}
+
+.metal {
+    width: 23%;
+    min-width: 23%;
+}
+
+.stone {
+    width: 13%;
+    min-width: 13%;
+}
+
+.other {
+    width: 8%;
+    min-width: 8%;
+}
+
+.labour {
+    width: 8%;
+    min-width: 8%;
+}
+
+.total {
+    width: 9%;
+    min-width: 9%;
+}
+
 @media print {
-    .print_sec_sum4{
+    .print_sec_sum4 {
         display: none !important;
     }
 }
