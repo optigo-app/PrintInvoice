@@ -335,6 +335,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       obj.certificateWtDia = diawtdup;
       obj.diamonds = diamondList;
       obj.colorstone = colorstoneList;
+      obj.stone_misc = stone_miscList;
       obj.misc = miscList;
       obj.metal = metalList;
       obj.finding = findingList;

@@ -168,4 +168,15 @@
         margin: 0 auto;
         padding: 20px;
     }
+    .headlabeldp4{
+        height: 20px;
+        background-color: #f7f6f6;
+        color: black;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 10px;
+        border: 1px solid #989898;
+        font-size: 12px;
+    }
 }
