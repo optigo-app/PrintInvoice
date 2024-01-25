@@ -253,6 +253,10 @@ min-width: max-content;
   font-size: 10px !important;
 }
 
+.height_inherit{
+  height: inherit;
+}
+
 @media print {
   .hide-on-print {
     display: none;
