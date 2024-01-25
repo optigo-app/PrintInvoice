@@ -10,6 +10,7 @@ export const printConditions = [
   {printName: 'detail print1 (l)', etpType: 'print', componentName: 'DetailPrint1'},
   {printName: 'detail print1 (p)', etpType: 'print', componentName: 'DetailPrint1'},
   {printName: 'detail print3', etpType: 'print', componentName: 'DetailPrint3'},
+  {printName: 'detail print4', etpType: 'print', componentName: 'DetailPrint4'},
   {printName: 'detail print 8', etpType: 'print', componentName: 'DetailPrint8'},
   {printName: 'detail print 9', etpType: 'print', componentName: 'DetailPrint9'},
   {printName: 'detail print 10', etpType: 'print', componentName: 'DetailPrint10'},

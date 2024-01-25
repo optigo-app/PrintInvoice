@@ -384,6 +384,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn }) => {
           Checked By
         </div>
       </div>
+      <div className="text-secondary printHide_dp3">**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
         </div>
         </> : 
         <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
