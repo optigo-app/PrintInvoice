@@ -11,6 +11,7 @@ import {
 import Loader from "./../../components/Loader";
 const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [result, setResult] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [diamondWise, setDiamondWise] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -65,7 +66,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
       ) : (
         <>
           {msg === "" ? (
-            <div className="container_dp4">
+            <div className="container_dp4 mb-5 pb-5">
               <div className="d-flex justify-content-end align-items-center user-select-none printHide_dp4 mt-5">
                 <div className="mb-3 me-2 justify-content-center align-items-center">
                   <input
@@ -406,7 +407,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                                   {e?.totals?.diamonds?.Wt?.toFixed(3)}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4">
-                                  {/* {e?.totals?.diamonds?.Wt?.toFixed(3)} */}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4">
                                   {formatAmount(e?.totals?.diamonds?.Amount)}
@@ -494,10 +494,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <div className="d-flex fs_dp4">
                                   <div className=".col_w_dp4 start_dp4"></div>
                                   <div className=".col_w_dp4 end_dp4">
-                                    {/* {e?.totals?.diamonds?.Wt?.toFixed(3)} */}
                                   </div>
                                   <div className=".col_w_dp4 end_dp4">
-                                    {/* {formatAmount(e?.totals?.diamonds?.Amount)} */}
                                   </div>
                                 </div>
                               </div>
@@ -507,13 +505,10 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <div className="d-flex fs_dp4">
                                   <div className="w-25 start_dp4"></div>
                                   <div className="w-25 end_dp4">
-                                    {/* {e?.totals?.metal?.Wt?.toFixed(3)} */}
                                   </div>
                                   <div className="w-25 end_dp4">
-                                    {/* {e?.totals?.metal?.Wt?.toFixed(3)} */}
                                   </div>
                                   <div className="w-25 end_dp4">
-                                    {/* {formatAmount(e?.totals?.metal?.Amount)} */}
                                   </div>
                                 </div>
                               </div>
@@ -522,14 +517,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                               <div>
                                 <div className="d-flex end_dp4">
                                   Discount {e?.Discount} On Amount
-                                  {/* <div className=".col_w_dp4 start_dp4"></div>
-                                <div className=".col_w_dp4 end_dp4">
                                 </div>
-                                <div className=".col_w_dp4 end_dp4">
-                                </div> */}
-                                </div>
-                                {/* {e?.totals?.colorstone?.Wt?.toFixed(3)} */}
-                                {/* {formatAmount(e?.totals?.colorstone?.Amount)} */}
                               </div>
                             </div>
                             <div className="col6_dp4 border-secondary border-end end_top_dp4">
@@ -543,9 +531,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                               <div className="d-flex">
                                 <div className="w-50 end_top_dp4"></div>
                                 <div className="w-50 end_top_dp4">
-                                  {/* {formatAmount(
-                                  e?.totals?.makingAmount_settingAmount
-                                )} */}
                                   {formatAmount(e?.DiscountAmt)}
                                 </div>
                               </div>
@@ -591,7 +576,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <div className="col1_dp4 border-secondary border-end center_top_dp4"></div>
                   <div className="col2_dp4 border-secondary border-end">
                     <div className="fw-bold center_dp4 fs_dp4">
-                      {/* {e?.grosswt?.toFixed(3)} gm Gross */}
                       TOTAL
                     </div>
                   </div>
@@ -615,7 +599,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                           {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                         </div>
                         <div className="dia_col_w_dp4 end_dp4">
-                          {/* {e?.totals?.diamonds?.Wt?.toFixed(3)} */}
                         </div>
                         <div className="dia_col_w_dp4 end_dp4">
                           {formatAmount(result?.mainTotal?.diamonds?.Amount)}
@@ -628,13 +611,11 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <div className="d-flex fs_dp4">
                         <div className="dia_col_w_dp4 start_dp4"></div>
                         <div className="dia_col_w_dp4 end_dp4">
-                          {/* {e?.totals?.metal?.Wt?.toFixed(3)} */}
                         </div>
                         <div className="dia_col_w_dp4 end_dp4">
                           {result?.mainTotal?.metal?.Wt?.toFixed(3)}
                         </div>
                         <div className="dia_col_w_dp4 end_dp4" style={{width:'10%'}}>
-                          {/* {formatAmount(e?.totals?.metal?.Rate)} */}
                         </div>
                         <div className="dia_col_w_dp4 end_dp4" style={{width:'30%'}}>
                           {formatAmount(result?.mainTotal?.metal?.Amount)}
@@ -677,7 +658,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                   <div className="col7_dp4 border-secondary border-end">
                     <div className="d-flex fs_dp4">
-                      {/* <div className="w-50 end_top_dp4"></div> */}
                       <div className="w-100 end_top_dp4">
                         {formatAmount(
                           result?.mainTotal?.total_MakingAmount_Setting_Amount
@@ -739,7 +719,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                             DIAMOND WT
                           </div>
                           <div className="border-secondary border-end pad_e_dp4">
-                            {result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts
+                            { result?.mainTotal?.diamonds?.Pcs } / {result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts
                           </div>
                         </div>
                         <div className="d-flex justify-content-between">
@@ -747,8 +727,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                             STONE WT
                           </div>
                           <div className="border-secondary border-end pad_e_dp4">
-                            {" "}
-                            {result?.mainTotal?.colorstone?.Wt?.toFixed(3)} cts
+                          { result?.mainTotal?.colorstone?.Pcs } / {result?.mainTotal?.colorstone?.Wt?.toFixed(3)} cts
                           </div>
                         </div>
                         <div className="summary_dp4_head border-secondary border border-start border-bottom-0"></div>
@@ -795,7 +774,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="d-flex justify-content-between">
                           <div className="pad_s_dp4 fw-bold">ADD/LESS</div>
                           <div className="border-secondary border-end pad_e_dp4">
-                            {result?.header?.AddLesss}
+                            {result?.header?.AddLess}
                           </div>
                         </div>
                         <div className="summary_dp4_head d-flex justify-content-between  border-secondary border border-bottom-0 border-start-0 bgc_dp4">
@@ -810,9 +789,14 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <div style={{width:'20%'}}>
                     <div className="summary_dp4_head border-secondary border border-top-0 fw-bold border-start-0">Diamond Details</div>
                     <div>
-                      <div className="d-flex justify-content-between w-100 border-secondary border-end">
-                        <div className="pad_s_dp4">RI</div>
-                        <div className="pad_e_dp4">20/4.700</div>
+                      {
+                        Array.from({length:6}, (_,index) => (
+                          <div key={index} className="border-end border-secondary">1</div>
+                        ))
+                      }
+                      <div className="d-flex justify-content-between w-100 border-secondary border-end border-bottom border-top">
+                        <div className="pad_s_dp4 fw-bold">DIAMOND</div>
+                        <div className="pad_e_dp4">{result?.mainTotal?.diamonds?.Pcs} / {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</div>
                       </div>
                     </div>
                   </div>
@@ -836,10 +820,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                   </div>
                 </div>
-                {/* <div className="d-flex" style={{width:'15%'}}>
-                  <div>Diamond Details</div>
-                  <div>Other Details</div>
-                </div> */}
                 <div className="check_dp4 border-secondary border border-bottom d-flex justify-content-center align-items-end border-top-0" style={{ width: "20%" }}>
                   <div className="w-50 border-secondary border-end h-100 center_bottom_dp4">Created By</div>
                   <div className="w-50 h-100 center_bottom_dp4">Checked By</div>

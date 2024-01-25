@@ -15,7 +15,7 @@ import { checkInstruction } from "../../GlobalFunctions";
 function BagPrint1A({ queries, headers }) {
   const [data, setData] = useState([]);
   const location = useLocation();
-  const queryParams = queryString.parse(location.search);
+  const queryParams = queryString?.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const chunkSize11 = 15;
   const imgUrls = [];
