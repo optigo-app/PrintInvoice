@@ -1,20 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Suspense } from "react";
 import Loader from "../components/Loader";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet";
 const AllDesignPrint = () => {
   const [importedComponent, setImportedComponent] = useState(null);
   const queryString = window.location.search;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const queryParams = new URLSearchParams(queryString);
   const printname = queryParams.get("pnm");
   let etp = queryParams.get("etp");
-  const [favicon, setFavicon] = useState(atob(queryParams.get("Fv")));
+  const [faviconIcon, setFaviconIcon] = useState(null);
+
+  useEffect(() => {
+      setFaviconIcon(atob(queryParams?.get("Fv")))
+    }, [faviconIcon])
+    
   const [isFaviconLoaded, setIsFaviconLoaded] = useState(true);
+
   if (etp === null) {
     etp = "cHJpbnQ=";
   }
+
   let printName = atob(printname).toLowerCase();
   let etpType = atob(etp).toLowerCase();
+
   const importComponent = async (name) => {
     try {
       const module = await import(`./prints/${name}`);
@@ -84,7 +94,7 @@ const AllDesignPrint = () => {
 
   const checkFaviconUrl = async () => {
     try {
-      const response = await fetch(favicon, { method: "HEAD" });
+      const response = await fetch(faviconIcon, { method: "HEAD" });
       if (!response.ok) {
         handleFaviconError();
       }
@@ -95,15 +105,16 @@ const AllDesignPrint = () => {
   useEffect(() => {
     takePrint();
     checkFaviconUrl();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
       <Suspense fallback={<Loader />}>{importedComponent}</Suspense>
-      {favicon && isFaviconLoaded && (
+      {faviconIcon && isFaviconLoaded && (
         <Helmet>
           <link
             rel="icon"
-            href={favicon}
+            href={faviconIcon}
             onLoad={checkFavicon}
             onError={handleFaviconError}
           />
