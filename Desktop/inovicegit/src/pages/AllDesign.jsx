@@ -33,7 +33,6 @@ const AllDesign = () => {
   return (
     <Suspense fallback={<Loader />}>
       {loadedComponent}
-
     </Suspense>
   );
 };

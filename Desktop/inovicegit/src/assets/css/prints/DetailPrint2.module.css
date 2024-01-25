@@ -1,5 +1,6 @@
 .detailPrint2 *{
     word-break: normal;
+    font-size: 9px;
 }
 
 
@@ -42,10 +43,21 @@
     min-width: 8%;
 }
 
-.total {
+.total, .cgstNumber {
     width: 9%;
     min-width: 9%;
 }
+
+.totalWord{
+    width: 16%;
+    min-width: 16%;
+}
+
+.cgst{
+    width: 91%;
+    min-width: 91%;
+}
+
 
 @media print {
     .print_sec_sum4 {

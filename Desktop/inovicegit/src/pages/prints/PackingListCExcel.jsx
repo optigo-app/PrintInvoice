@@ -21,8 +21,6 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
         // console.log(data);
         let resultArr = [];
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-        console.log(datas);
-
             for (const e of datas?.resultArray || []) {
             let goldRate = 0;
             let goldAmount = 0;
@@ -103,7 +101,7 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
     ) : msg === "" ? (
         <>
             {/* buttons */}
-            <div className=''>
+            <div className='d-none'>
                 <ReactHTMLTableToExcel
                     id="test-table-xls-button"
                     className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
