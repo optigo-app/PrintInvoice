@@ -1,6 +1,7 @@
 .CustomerDailyStatement *{
     font-size: 10px;
-    word-break: normal;
+    word-break: break-word; 
+    overflow-wrap: break-word; 
 }
 
 .bill {
@@ -14,8 +15,8 @@
 }
 
 .ratePerGm{
-    width: 9%;
-    min-width: 9%;
+    width: 7%;
+    min-width: 7%;
 }
 
 .part3{
@@ -35,8 +36,8 @@
 }
 
 .final {
-    width: 15%;
-    min-width: 15%;
+    width: 18%;
+    min-width: 18%;
 }
 
 .gross_sec_7{
@@ -47,4 +48,10 @@
 .items_sec{
     width: 88%;
     min-width: 88%;
+}
+
+@media print{
+    .print_sec_sum4{
+        display: none !important;
+    }
 }

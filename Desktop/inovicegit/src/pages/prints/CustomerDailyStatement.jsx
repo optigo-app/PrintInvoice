@@ -22,7 +22,13 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
             if(findBrandName === -1){
                 resultArr.push(obj);
             }else{
-                
+                if(obj?.MaKingCharge_Unit !== resultArr[findBrandName]?.MaKingCharge_Unit){
+                    obj.MaKingCharge_Unit = "MIX";
+                }if(obj?.Tunch === resultArr[findBrandName]?.Tunch){
+                    obj.Tunch = "MIX";
+                }
+
+                obj.Quantity += resultArr[findBrandName]?.Quantity;
             }
         })
         setData(datas);
@@ -54,7 +60,7 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
     }, []);
 
     return (
-        loader ? <Loader /> : msg === "" ? <div className={`container max_width_container pad_60_allPrint mt-2 ${style?.CustomerDailyStatement}`}>
+        loader ? <Loader /> : msg === "" ? <div className={`container max_width_container pad_60_allPrint mt-2 ${style?.CustomerDailyStatement} px-1`}>
             {/* print button */}
             <div className={`d-flex justify-content-center mb-4 align-items-center ${style?.print_sec_sum4} pt-4 pb-4 `}>
                 <div className="form-check ps-3 mt-2">
@@ -86,7 +92,7 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
 
                         <div className={`${style?.ratePerGm} border-end border-black d-flex height_inherit align-items-center justify-content-center text-center`}><p className="fw-bold ">Rate Gm/Ct</p></div>
                         <div className={`${style?.per} border-end border-black d-flex height_inherit align-items-center justify-content-center`}><p className="fw-bold ">Per</p></div>
-                        <div className={`${style?.taxPer} border-end border-black d-flex height_inherit align-items-center justify-content-center`}><p className="fw-bold ">TAX(%)</p></div>
+                        <div className={`${style?.taxPer} border-end border-black d-flex height_inherit align-items-center justify-content-center`}><p className="fw-bold ">TAX (%)</p></div>
 
                         <div className={`${style?.part3}`}>
                             <div className="d-flex w-100">
@@ -191,8 +197,8 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
                                 </div>
                                 <div className={`${style?.final} d-grid height_inherit`}>
                                     <div className={`d-flex`}>
-                                        <p className="col-6 d-flex align-items-center border-end border-black justify-content-end">0.000</p>
-                                        <p className="col-6 d-flex align-items-center justify-content-end">22,750.00</p>
+                                        <p className="col-6 d-flex align-items-center border-end border-black justify-content-end text-end">0.000</p>
+                                        <p className="col-6 d-flex align-items-center justify-content-end text-end">22,750.00</p>
                                     </div>
                                 </div>
                             </div>

@@ -1,0 +1,69 @@
+.pkgList4 * {
+    font-size: 8px;
+    word-break: normal;
+    overflow-wrap: break-word;
+}
+
+.print_sec_sum4 {
+    right: 10px;
+    top: 10px;
+}
+
+.pad_top {
+    padding-top: 35px;
+}
+
+.srNo {
+    width: 4%;
+    min-width: 4%;
+}
+
+.jewelcode {
+    width: 7%;
+    min-width: 7%;
+}
+
+.diamond {
+    width: 24%;
+    min-width: 24%;
+}
+
+.metal {
+    width: 21%;
+    min-width: 21%;
+}
+
+.stone {
+    width: 21%;
+    min-width: 21%;
+}
+
+.labour {
+    width: 9%;
+    min-width: 9%;
+}
+
+.other {
+    width: 9%;
+    min-width: 9%;
+}
+
+.amount {
+    width: 5%;
+    min-width: 5%;
+}
+
+.w_20{
+    width: 20%;
+    min-width: 20%;
+}
+
+@media print {
+    .print_sec_sum4 {
+        display: none !important;
+    }
+
+    .pad_top {
+        padding-top: 15px;
+    }
+}
