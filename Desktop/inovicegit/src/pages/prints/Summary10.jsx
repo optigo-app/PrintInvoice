@@ -81,10 +81,10 @@ const Summary10 = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
           </div>
           <div className="border mt-1 d-flex justify-content-between align-items-start p-1">
-                  <div className="d-flex"><div className="fw-bold">## : </div>&nbsp;{result?.header?.InvoiceNo}</div>
+                  <div className="d-flex fs_s10_2"><div className="fw-bold">## : </div>&nbsp;{result?.header?.InvoiceNo}</div>
                   <div>
-                      <div className="d-flex"><div className="fw-bold">DATE : </div>&nbsp;{result?.header?.EntryDate}</div>
-                      <div className="d-flex"><div className="fw-bold">{result?.header?.HSN_No_Label}&nbsp;&nbsp; : </div>&nbsp;&nbsp;{result?.header?.HSN_No}</div>
+                      <div className="d-flex fs_s10_2"><div className="fw-bold">DATE : </div>&nbsp;{result?.header?.EntryDate}</div>
+                      <div className="d-flex fs_s10_2"><div className="fw-bold">{result?.header?.HSN_No_Label}&nbsp;&nbsp; : </div>&nbsp;&nbsp;{result?.header?.HSN_No}</div>
                   </div>
           </div>
           <div className="p-1 border border-top-0 fs_s10 lh_s10">
@@ -117,7 +117,7 @@ const Summary10 = ({ urls, token, invoiceNo, printName, evn }) => {
                       result?.resultArray?.map((e, i) => {
                           return(
   
-                              <div className="d-flex border border-top-0 fs_s10 ">
+                              <div className="d-flex border border-top-0 fs_s10 " key={i}>
                                   <div className="center_s10 col1_s10 border-end">{i+1}</div>
                                   <div className="center_s10 col2_s10 border-end"><div className="lh_s10 fs_s10 p-1"><div className="border-bottom center_s10 fw-bold">{e?.designno}</div><div className="center_s10">{e?.SrJobno}</div></div></div>	
                                   <div className="left_s10 pad_l_s10 col3_s10 border-end">{e?.MetalTypePurity}</div>	
@@ -140,7 +140,7 @@ const Summary10 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="center_s10 col2_s10 border-end">TOTAL</div>	
                   <div className="center_s10 col3_s10 border-end"></div>	
                   <div className="right_s10 pad_r_s10 col3_s10 border-end">{result?.mainTotal?.grosswt?.toFixed(3)}</div>	
-                  <div className="right_s10 pad_r_s10 col3_s10 border-end">{result?.mainTotal?.netwt?.toFixed(3)}</div>	
+                  <div className="right_s10 pad_r_s10 col3_s10 border-end">{result?.mainTotal?.netwtWithLossWt?.toFixed(3)}</div>	
                   <div className="right_s10 pad_r_s10 col3_s10 border-end">{result?.mainTotal?.diamonds?.Pcs}</div>	
                   <div className="right_s10 pad_r_s10 col3_s10 border-end">{result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</div>	
                   <div className="right_s10 pad_r_s10 col3_s10 border-end">{result?.mainTotal?.colorstone?.Pcs}</div>	
@@ -180,9 +180,9 @@ const Summary10 = ({ urls, token, invoiceNo, printName, evn }) => {
             <div className="fw-bold fs_s10 left_s10 bg_s10 ps-2 p-2">Summary Details</div>
             <div className="d-flex flex-wrap">
               {
-                categoryWise?.map((a) => {
+                categoryWise?.map((a, i) => {
                   return(
-                    <div className="d-flex justify-content-between align-items-center w-25 p-1 fs_s10 lh_s10">
+                    <div className="d-flex justify-content-between align-items-center w-25 p-1 fs_s10 lh_s10" key={i}>
                       <div className="w1_s10 left_s10 fs_s10" style={{wordWrap:'break-word'}}>{a?.Categoryname} | {a?.SubCategoryname}</div><div className="fs_s10 w2_s10 center_s10">:</div><div className="center_s10 fw-bold w2_s10 fs_s10 pe-3">{a?.Quantity}</div>
                     </div>
                   )
