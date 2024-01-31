@@ -10,6 +10,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [data, setData] = useState([]);
     const [headerData, setHeaderData] = useState({});
     const [msg, setMsg] = useState("");
+    const [datass, setDatass] = useState({});
 
     const loadData = (data) => {
         // setData(arr);
@@ -18,8 +19,9 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
+        console.log(datas);
         setHeaderData(data?.BillPrint_Json[0]);
-
+        setDatass(datas);
         // Your array
         // let dataArray = lodash.cloneDeep(datas?.resultArray);
         let dataArray = [];
@@ -87,6 +89,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                 dataArray[findPurPer].total.diaCsAmount += e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt;
             }
         });
+
         setData(dataArray);
     }
 
@@ -176,7 +179,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className={`${style?.grs} d-flex justify-content-center align-items-center p-1 border-end border-black`}><p className='fw-bold text-center'>Wt Loss</p></div>
                             <div className={`${style?.grs} d-flex justify-content-center align-items-center p-1 border-end border-black`}><p className='fw-bold text-center'>% Wt Loss</p></div>
                             <div className={`${style?.grs} d-flex justify-content-center align-items-center p-1 border-end border-black`}><p className='fw-bold text-center'>Total Wt (gms)</p></div>
-                            <div className={`${style?.grs} d-flex justify-content-center align-items-center p-1 border-end border-black`}><p className='fw-bold text-center'>Metal Rate/gm IMP</p></div>
+                            <div className={`${style?.grs} d-flex justify-content-center align-items-center p-1 border-end border-black`}><p className='fw-bold text-center'>Metal Rate / gm IMP</p></div>
                             <div className={`${style?.grs} d-flex justify-content-center align-items-center p-1 border-end border-black`}><p className='fw-bold text-center'>Total Metal Cost</p></div>
                             <div className={`${style?.grs} d-flex justify-content-center align-items-center p-1`}><p className='fw-bold text-center'>Finding Cost</p></div>
                         </div>
@@ -290,30 +293,34 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
             </div>
             {/* total stone wt */}
-            <div className="d-flex justify-content-end pt-2">
+            <div className="d-flex justify-content-between pt-2 border-bottom border-black pb-1">
+                <div className="col-4 d-flex align-items-end px-2">
+                    <p className="fw-bold">Finding imported Vide</p>
+                </div>
                 <div className="col-8 d-flex">
-                    <div className="col-4 px-2">
-                        <p className="fw-bold">Total Stone Wt.</p>
+                    <div className="col-4 px-2 d-flex justify-content-between">
+                        <p className="fw-bold col-6">Total Stone Wt.</p>
+                        <p className="fw-bold col-6">{NumberWithCommas(datass?.mainTotal?.colorstone?.Wt, 3)}</p>
                     </div>
                     <div className="col-4 px-2">
                         <div className="d-flex h-100 flex-column justify-content-between">
                             <div>
                                 <div className="d-flex pb-2">
                                     <div className="col-4"><p className="fw-bold">Diamond</p></div>
-                                    <div className="col-4"><p className="fw-bold">13.080</p></div>
-                                    <div className="col-4"><p className="fw-bold">13.08</p></div>
+                                    <div className="col-4"><p className="fw-bold">{NumberWithCommas(datass?.mainTotal?.diamonds?.Wt, 3)}</p></div>
+                                    <div className="col-4"><p className="fw-bold">{NumberWithCommas(datass?.mainTotal?.diamonds?.Amount, 2)}</p></div>
                                 </div>
                                 <div className="d-flex pb-2">
                                     <div className="col-4"><p className="fw-bold">Color Stone</p></div>
-                                    <div className="col-4"><p className="fw-bold">0.208</p></div>
-                                    <div className="col-4"><p className="fw-bold">100.20</p></div>
+                                    <div className="col-4"><p className="fw-bold">{NumberWithCommas(datass?.mainTotal?.diamonds?.Wt, 3)}</p></div>
+                                    <div className="col-4"><p className="fw-bold">{NumberWithCommas(datass?.mainTotal?.diamonds?.Amount, 2)}</p></div>
                                 </div>
                             </div>
                             <div className='border-top border-black border-dotted mt-2'>
                                 <div className="d-flex p-1">
-                                    <div className="col-4"><p className="fw-bold">Color Stone</p></div>
-                                    <div className="col-4"><p className="fw-bold">0.208</p></div>
-                                    <div className="col-4"><p className="fw-bold">100.20</p></div>
+                                    <div className="col-4"><p className="fw-bold"></p></div>
+                                    <div className="col-4"><p className="fw-bold">{NumberWithCommas(datass?.mainTotal?.diamonds?.Wt + datass?.mainTotal?.diamonds?.Wt, 3)}</p></div>
+                                    <div className="col-4"><p className="fw-bold">{NumberWithCommas(datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.diamonds?.Amount, 2)}</p></div>
                                 </div>
                             </div>
                         </div>
@@ -405,6 +412,43 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                 </div>
             </div>
+            {/* fix lines */}
+            <div>
+                <p className="fw-bold py-1 px-2">
+                    We state that we have achieved minimum value addition of Studded
+                    Gold/Platinum/Silver Jewelry adn articals thereof in accordance with
+                    the provision of Foreign Trade policy & hand Book of Procedure 2004-2009.
+                </p>
+                <p className="fw-bold py-1 px-2">
+                    Diamonds / Color Stones imported under Bill Of Entry No. SEE ANNEXURE Dated :
+                </p>
+                <div className='col-6 border-top border-end border-bottom border-black'>
+                    <div className="d-flex border-bottom border-black px-1">
+                        <div className="col-6 border-end border-black p-1"><p className="fw-bold">Gold Used From</p></div>
+                        <div className="col-6 p-1"><p className="fw-bold">INV. 1014922 DTD : 11/07/2019</p></div>
+                    </div>
+                    <div className="d-flex border-bottom border-black px-1">
+                        <div className="col-6 border-end border-black p-1"><p className="fw-bold">Silver Used From</p></div>
+                        <div className="col-6 p-1"><p className="fw-bold">INV. 1014922 DTD : 11/07/2019</p></div>
+                    </div>
+                    <div className="d-flex px-1">
+                        <div className="col-6 border-end border-black p-1"><p className="fw-bold">Finding Used From</p></div>
+                        <div className="col-6 p-1"><p className="fw-bold">INV. 1014922 DTD : 11/07/2019</p></div>
+                    </div>
+                </div>
+                <div className="text-end">
+                    <p className="fw-bold">FOR, Company name</p>
+                </div>
+                <div className="d-flex justify-content-between pt-5 mt-5">
+                    <p className="fw-bold">
+                        Conversion Rate:
+                    </p>
+                    <p className="fw-bold">
+                        Authorised Signatory:
+                    </p>
+                </div>
+            </div>
+
 
         </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
     )
