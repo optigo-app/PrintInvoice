@@ -263,140 +263,149 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                 })
             }
-            {/* <div className="d-flex border-start border-end border-bottom border-black">
-                <p className="fw-semibold p-1">Gold 10KT, Studded Gold Jewellery, 5.00%</p>
-            </div>
+            {/* table total */}
             <div className="d-flex border-start border-end border-bottom border-black">
                 <div className={`${style?.des} border-end border-black d-flex`}>
-                    <div className="col-2 p-1 fw-bold border-end border-black"><p className="text-center">1</p></div>
-                    <div className="col-8 p-1 fw-bold border-end border-black"><p className="">ER1003476</p></div>
-                    <div className="col-2 p-1 fw-bold"><p className="text-end">1</p></div>
+                    <div className="col-10 p-1 fw-bold border-end border-black"><p>Grand Total</p></div>
+                    <div className="col-2 p-1 fw-bold"><p className="text-end">23</p></div>
                 </div>
                 <div className={`${style?.material} border-end border-black d-flex w-100`}>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>3.430</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>3.232</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>G</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>0.162</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>5.00</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>3.394</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>18.72</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>63.25</p></div>
-                    <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'></p></div>
-                </div>
-                <div className={`${style?.studding} border-end border-black d-flex`}>
-                    <div className={`col-3 p-1 border-end border-black`}><p className='fw-bold text-end'>40</p></div>
-                    <div className={`col-4 p-1 border-end border-black`}><p className='fw-bold text-end'>1.000</p></div>
-                    <div className={`col-5 p-1`}><p className='fw-bold text-end'>324.00</p></div>
-                </div>
-                <div className={`${style?.fob} p-1`}>
-                    <p className="fw-bold text-end">407.32</p>
-                </div>
-            </div>
-            <div className="d-flex border-start border-end border-bottom border-black">
-                <div className={`${style?.des} border-end border-black d-flex`}>
-                    <div className="col-10 p-1 fw-bold border-end border-black"><p>Total for</p></div>
-                    <div className="col-2 p-1 fw-bold"><p className="text-end">3</p></div>
-                </div>
-                <div className={`${style?.material} border-end border-black d-flex w-100`}>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>3.430</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>3.232</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>G</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>0.162</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>5.00</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>3.394</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>18.72</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>63.25</p></div>
-                    <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'></p></div>
-                </div>
-                <div className={`${style?.studding} border-end border-black d-flex`}>
-                    <div className={`col-3 p-1 border-end border-black`}><p className='fw-bold text-end'>40</p></div>
-                    <div className={`col-4 p-1 border-end border-black`}><p className='fw-bold text-end'>1.000</p></div>
-                    <div className={`col-5 p-1`}><p className='fw-bold text-end'>324.00</p></div>
-                </div>
-                <div className={`${style?.fob} p-1`}>
-                    <p className="fw-bold text-end">407.32</p>
-                </div>
-            </div>
-            <div className="d-flex border-start border-end border-bottom border-black">
-                <p className="fw-semibold p-1">Gold 10KT, Studded Gold Jewellery, 5.00%</p>
-            </div>
-            <div className="d-flex border-start border-end border-bottom border-black">
-                <div className={`${style?.des} border-end border-black d-flex`}>
-                    <div className="col-2 p-1 fw-bold border-end border-black"><p className="text-center">4</p></div>
-                    <div className="col-8 p-1 fw-bold border-end border-black"><p className="">ER1003476</p></div>
-                    <div className="col-2 p-1 fw-bold"><p className="text-end">1</p></div>
-                </div>
-                <div className={`${style?.material} border-end border-black d-flex w-100`}>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>3.430</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>3.232</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>G</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>0.162</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>5.00</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>3.394</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>18.72</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>63.25</p></div>
-                    <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'></p></div>
-                </div>
-                <div className={`${style?.studding} border-end border-black d-flex`}>
-                    <div className={`col-3 p-1 border-end border-black`}><p className='fw-bold text-end'>40</p></div>
-                    <div className={`col-4 p-1 border-end border-black`}><p className='fw-bold text-end'>1.000</p></div>
-                    <div className={`col-5 p-1`}><p className='fw-bold text-end'>324.00</p></div>
-                </div>
-                <div className={`${style?.fob} p-1`}>
-                    <p className="fw-bold text-end">407.32</p>
-                </div>
-            </div>
-            <div className="d-flex border-start border-end border-bottom border-black">
-                <div className={`${style?.des} border-end border-black d-flex`}>
-                    <div className="col-2 p-1 fw-bold border-end border-black"><p className="text-center"></p></div>
-                    <div className="col-8 p-1 fw-bold border-end border-black"><p className="">SF (Findings)</p></div>
-                    <div className="col-2 p-1 fw-bold"><p className="text-end">1</p></div>
-                </div>
-                <div className={`${style?.material} border-end border-black d-flex w-100`}>
+                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>38.190</p></div>
+                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>23.054</p></div>
+                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>12.520</p></div>
+                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>1.153</p></div>
                     <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
+                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>24.207</p></div>
                     <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>0.162</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>0.96</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
+                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>196.21</p></div>
                     <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'>12.02</p></div>
                 </div>
                 <div className={`${style?.studding} border-end border-black d-flex`}>
-                    <div className={`col-3 p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
-                    <div className={`col-4 p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
-                    <div className={`col-5 p-1`}><p className='fw-bold text-end'></p></div>
+                    <div className={`col-3 p-1 border-end border-black`}><p className='fw-bold text-end'>160</p></div>
+                    <div className={`col-4 p-1 border-end border-black`}><p className='fw-bold text-end'>13.080</p></div>
+                    <div className={`col-5 p-1`}><p className='fw-bold text-end'>2352.67</p></div>
                 </div>
                 <div className={`${style?.fob} p-1`}>
-                    <p className="fw-bold text-end">407.32</p>
+                    <p className="fw-bold text-end">2677.76</p>
                 </div>
             </div>
-            <div className="d-flex border-start border-end border-bottom border-black">
-                <div className={`${style?.des} border-end border-black d-flex`}>
-                    <div className="col-10 p-1 fw-bold border-end border-black"><p>Total for</p></div>
-                    <div className="col-2 p-1 fw-bold"><p className="text-end">3</p></div>
+            {/* total stone wt */}
+            <div className="d-flex justify-content-end pt-2">
+                <div className="col-8 d-flex">
+                    <div className="col-4">
+                        <p className="fw-bold">Total Stone Wt.</p>
+                    </div>
+                    <div className="col-4">
+                        <div className="d-flex h-100 flex-column justify-content-between">
+                            <div>
+                                <div className="d-flex pb-2">
+                                    <div className="col-4"><p className="fw-bold">Diamond</p></div>
+                                    <div className="col-4"><p className="fw-bold">13.080</p></div>
+                                    <div className="col-4"><p className="fw-bold">13.08</p></div>
+                                </div>
+                                <div className="d-flex pb-2">
+                                    <div className="col-4"><p className="fw-bold">Color Stone</p></div>
+                                    <div className="col-4"><p className="fw-bold">0.208</p></div>
+                                    <div className="col-4"><p className="fw-bold">100.20</p></div>
+                                </div>
+                            </div>
+                            <div className='border-top border-black border-dotted mt-2'>
+                                <div className="d-flex">
+                                    <div className="col-4"><p className="fw-bold">Color Stone</p></div>
+                                    <div className="col-4"><p className="fw-bold">0.208</p></div>
+                                    <div className="col-4"><p className="fw-bold">100.20</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-4">
+                        <div className="d-flex flex-column justify-content-between">
+                            <div>
+                                <div className="d-flex pb-2">
+                                    <div className="col-4">
+                                        <p className="fw-bold">Gold</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold">10.143</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold">189.88</p>
+                                    </div>
+                                </div>
+                                <div className="d-flex pb-2">
+                                    <div className="col-4">
+                                        <p className="fw-bold">Silver</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold">14.064</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold">6.33</p>
+                                    </div>
+                                </div>
+                                <div className="d-flex pb-2">
+                                    <div className="col-4">
+                                        <p className="fw-bold">Palladium</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold"></p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold"></p>
+                                    </div>
+                                </div>
+                                <div className="d-flex pb-2">
+                                    <div className="col-4">
+                                        <p className="fw-bold">Brass</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold">0.000</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold">0.000</p>
+                                    </div>
+                                </div>
+                                <div className="d-flex pb-2">
+                                    <div className="col-4">
+                                        <p className="fw-bold">Gold Access</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold">0.000</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold">0.000</p>
+                                    </div>
+                                </div>
+                                <div className="d-flex pb-2">
+                                    <div className="col-4">
+                                        <p className="fw-bold">Silver Access</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold">12.520</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold">12.02</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div className="d-flex pb-2">
+                                    <div className="col-4">
+                                        <p className="fw-bold">Silver Access</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold">12.520</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p className="fw-bold">12.02</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className={`${style?.material} border-end border-black d-flex w-100`}>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>3.430</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>3.232</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>G</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>0.162</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>5.00</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>3.394</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>18.72</p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>63.25</p></div>
-                    <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'></p></div>
-                </div>
-                <div className={`${style?.studding} border-end border-black d-flex`}>
-                    <div className={`col-3 p-1 border-end border-black`}><p className='fw-bold text-end'>40</p></div>
-                    <div className={`col-4 p-1 border-end border-black`}><p className='fw-bold text-end'>1.000</p></div>
-                    <div className={`col-5 p-1`}><p className='fw-bold text-end'>324.00</p></div>
-                </div>
-                <div className={`${style?.fob} p-1`}>
-                    <p className="fw-bold text-end">407.32</p>
-                </div>
-            </div> */}
+            </div>
+
         </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
     )
 }

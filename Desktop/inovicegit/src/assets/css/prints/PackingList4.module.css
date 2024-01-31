@@ -58,6 +58,11 @@
     min-width: 20%;
 }
 
+.taxes{
+    width: 95%;
+    min-width: 95%;
+}
+
 @media print {
     .print_sec_sum4 {
         display: none !important;
