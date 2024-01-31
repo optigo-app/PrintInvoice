@@ -292,10 +292,10 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
             {/* total stone wt */}
             <div className="d-flex justify-content-end pt-2">
                 <div className="col-8 d-flex">
-                    <div className="col-4">
+                    <div className="col-4 px-2">
                         <p className="fw-bold">Total Stone Wt.</p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-4 px-2">
                         <div className="d-flex h-100 flex-column justify-content-between">
                             <div>
                                 <div className="d-flex pb-2">
@@ -310,7 +310,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                             </div>
                             <div className='border-top border-black border-dotted mt-2'>
-                                <div className="d-flex">
+                                <div className="d-flex p-1">
                                     <div className="col-4"><p className="fw-bold">Color Stone</p></div>
                                     <div className="col-4"><p className="fw-bold">0.208</p></div>
                                     <div className="col-4"><p className="fw-bold">100.20</p></div>
@@ -318,7 +318,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-4">
+                    <div className="col-4 px-2">
                         <div className="d-flex flex-column justify-content-between">
                             <div>
                                 <div className="d-flex pb-2">
@@ -388,10 +388,10 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <div className="d-flex pb-2">
+                            <div className=' mt-2 border-top border-black border-dotted'>
+                                <div className="d-flex p-1">
                                     <div className="col-4">
-                                        <p className="fw-bold">Silver Access</p>
+                                        <p className="fw-bold"></p>
                                     </div>
                                     <div className="col-4">
                                         <p className="fw-bold">12.520</p>
