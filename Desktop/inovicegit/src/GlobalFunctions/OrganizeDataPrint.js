@@ -1,8 +1,8 @@
 import { CapitalizeWords, otherAmountDetail, taxGenrator } from "../GlobalFunctions";
 import { numberToWords } from "number-to-words";
-
+import { cloneDeep } from 'lodash';
 export const OrganizeDataPrint = (header, json1, json2) => {
- 
+
   let resultArray = [];
   let jobnodup = [];
   let maintotal = {
@@ -68,16 +68,18 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     total_Making_Amount: 0,
     total_discount: 0,
     total_diamondHandling: 0,
-    total_csamount:0,
-    total_Making_Amount_Other_Charges:0,
-    total_fineWtByMetalWtCalculation:0,
+    total_csamount: 0,
+    total_Making_Amount_Other_Charges: 0,
+    total_fineWtByMetalWtCalculation: 0,
     totalMiscAmount: 0,
-    total_otherChargesMiscHallStamp:0, 
-    total_TotalCsSetcost : 0,
+    total_otherChargesMiscHallStamp: 0,
+    total_TotalCsSetcost: 0,
     total_TotalDiaSetcost: 0,
     total_MakingAmount_Setting_Amount: 0,
     total_otherCharge_Diamond_Handling: 0
   };
+
+  let organizeDiamonds = [];
 
   //json1 array
   json1?.length > 0 &&
@@ -151,10 +153,10 @@ export const OrganizeDataPrint = (header, json1, json2) => {
           Amount: 0,
           FineWt: 0,
         },
-        Making_Amount_Other_Charges:0,
-        fineWtByMetalWtCalculation:0,
-        otherChargesMiscHallStamp:0,
-        makingAmount_settingAmount:0,
+        Making_Amount_Other_Charges: 0,
+        fineWtByMetalWtCalculation: 0,
+        otherChargesMiscHallStamp: 0,
+        makingAmount_settingAmount: 0,
       };
 
       let other_details = otherAmountDetail(j1?.OtherAmtDetail);
@@ -165,7 +167,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.total_Making_Amount_Other_Charges += j1?.MakingAmount + j1?.OtherCharges;
       maintotal.netwt += j1?.NetWt;
       maintotal.netwtWithLossWt =
-       maintotal.netwtWithLossWt + (+j1?.NetWt + +j1?.LossWt);
+        maintotal.netwtWithLossWt + (+j1?.NetWt + +j1?.LossWt);
       maintotal.lossWt += j1?.LossWt;
       maintotal.grosswt += j1?.grosswt;
       maintotal.total_amount += j1?.TotalAmount;
@@ -181,18 +183,18 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       maintotal.convertednetwt += j1?.convertednetwt;
       maintotal.total_other_charges += j1?.OtherCharges;
       maintotal.total_csamount += j1?.CsAmount;
-      maintotal.total_fineWtByMetalWtCalculation += ((j1?.NetWt * j1?.Tunch)/100);
+      maintotal.total_fineWtByMetalWtCalculation += ((j1?.NetWt * j1?.Tunch) / 100);
       maintotal.totalMiscAmount += j1?.MiscAmount;
       maintotal.total_TotalCsSetcost += j1?.TotalCsSetcost;
       maintotal.total_TotalDiaSetcost += j1?.TotalDiaSetcost;
       maintotal.total_otherCharge_Diamond_Handling += j1?.TotalDiamondHandling + j1?.OtherCharges + j1?.MiscAmount
-      
-      
+
+
       //json2
       json2?.length > 0 &&
         json2?.forEach((j2, i) => {
           if (j1?.SrJobno === j2?.StockBarcode) {
-            
+
             //for diamond
             if (j2?.MasterManagement_DiamondStoneTypeid === 1) {
               diamond_colorstone_misc?.push(j2);
@@ -210,7 +212,9 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.diamonds.Rate += j2?.Rate;
               maintotal.diamonds.Amount += j2?.Amount;
               maintotal.diamonds.SettingAmount += +j2?.SettingAmount;
-              
+
+            
+
             }
             //for colorstone
             if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -248,8 +252,8 @@ export const OrganizeDataPrint = (header, json1, json2) => {
             }
             //for metal
             if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
-              if(j2?.ShapeName === "Hallmark" || j2?.ShapeName === "Stamping"){
-              }else{
+              if (j2?.ShapeName === "Hallmark" || j2?.ShapeName === "Stamping") {
+              } else {
                 diamond_colorstone_misc?.push(j2);
               }
               miscList.push(j2);
@@ -264,7 +268,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.misc.Pcs += j2?.Pcs;
               maintotal.misc.Rate += j2?.Rate;
               maintotal.misc.Amount += j2?.Amount;
-              if(j2?.ShapeName === 'Hallmark' || j2?.ShapeName === 'Stamping' || j2?.ShapeName?.includes('Certification')){
+              if (j2?.ShapeName === 'Hallmark' || j2?.ShapeName === 'Stamping' || j2?.ShapeName?.includes('Certification')) {
                 jobwise_totals.otherChargesMiscHallStamp += j2?.Amount;
                 maintotal.total_otherChargesMiscHallStamp += j2?.Amount;
               }
@@ -302,7 +306,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
               maintotal.stone_misc.Amount += j2?.Amount;
             }
 
-            jobwise_totals.fineWtByMetalWtCalculation = ((j1?.NetWt * j1?.Tunch)/100);
+            jobwise_totals.fineWtByMetalWtCalculation = ((j1?.NetWt * j1?.Tunch) / 100);
             jobwise_totals.makingAmount_settingAmount += j2?.SettingAmount;
 
             // jobwise_totals.otherChargesMiscHallStamp += (j2)
@@ -310,23 +314,23 @@ export const OrganizeDataPrint = (header, json1, json2) => {
             //ending of comparing of job no block
           }
         });
-        
+
       diamond_colorstone_misc?.forEach((e) => {
         maintotal.total_diamond_colorstone_misc_amount += +e?.Amount;
       });
 
       let obj = { ...j1 };
-      
-      diamond_colorstone_misc?.forEach((e) => {  
-        if(e?.ShapeName === "Certification_NM award"){
-            jobnodup.push(e);
+
+      diamond_colorstone_misc?.forEach((e) => {
+        if (e?.ShapeName === "Certification_NM award") {
+          jobnodup.push(e);
         }
       })
       let diawtdup = 0;
       diamond_colorstone_misc?.forEach((e) => {
         jobnodup?.forEach((a) => {
-          if((a?.StockBarcode === e?.StockBarcode) && e?.MasterManagement_DiamondStoneTypeid === 1){
-              diawtdup += e?.Wt;
+          if ((a?.StockBarcode === e?.StockBarcode) && e?.MasterManagement_DiamondStoneTypeid === 1) {
+            diawtdup += e?.Wt;
           }
         })
       })
@@ -356,7 +360,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       obj.other_details = other_details;
       obj.fineWtByMetalWtCalculation = jobwise_totals.fineWtByMetalWtCalculation;
       maintotal.total_MakingAmount_Setting_Amount += jobwise_totals.makingAmount_settingAmount;
-      
+
       resultArray.push(obj);
     });
 
@@ -380,39 +384,39 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     brArr = resultArr;
 
   }
-  
+
   //alltax
   allTax?.length > 0 &&
-  allTax?.forEach((e) => {
-    const [dollars, cents] = e?.amount?.split(".");
-    const dollarsInWords = numberToWords.toWords(parseInt(dollars));
-    const centsInWords = cents
-      ? numberToWords.toWords(parseInt(cents.padEnd(2, '0')))
-      : "Zero";
-    const amountInWords = [
-      dollarsInWords.charAt(0).toUpperCase() + dollarsInWords.slice(1),
-      "point",
-      centsInWords.charAt(0).toUpperCase() + centsInWords.slice(1),
-    ]
-      .filter(Boolean)
-      .join(" ");
+    allTax?.forEach((e) => {
+      const [dollars, cents] = e?.amount?.split(".");
+      const dollarsInWords = numberToWords.toWords(parseInt(dollars));
+      const centsInWords = cents
+        ? numberToWords.toWords(parseInt(cents.padEnd(2, '0')))
+        : "Zero";
+      const amountInWords = [
+        dollarsInWords.charAt(0).toUpperCase() + dollarsInWords.slice(1),
+        "point",
+        centsInWords.charAt(0).toUpperCase() + centsInWords.slice(1),
+      ]
+        .filter(Boolean)
+        .join(" ");
       let amtInWords = CapitalizeWords(amountInWords)
-    e.amountInWords = `TOTAL ${e.name} IN WORDS: ${amtInWords}`;
-  });
+      e.amountInWords = `TOTAL ${e.name} IN WORDS: ${amtInWords}`;
+    });
   allTax?.forEach((e) => {
-      totalAmount += (+e?.amount);
+    totalAmount += (+e?.amount);
   })
   totalAmount = (+totalAmount)?.toFixed(2);
   totalAmount = (+totalAmount) + (+header?.AddLess);
   // totalAmount = (+totalAmount) + (+header?.AddLess) + (+header?.FreightCharges);
 
-  let headerObj = {...header};
+  let headerObj = { ...header };
 
-  headerObj.BrokerageDetails = brArr; 
+  headerObj.BrokerageDetails = brArr;
 
   // resultArray.sort((a, b) => a.designno - b.designno);
   const customSort = (a, b) => {
-    
+
     if (isNaN(a?.designno) && isNaN(b?.designno)) {
       // If both are non-numeric, compare as strings
       return (a?.designno)?.localeCompare(b?.designno);
@@ -427,8 +431,14 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       return a?.designno - b?.designno;
     }
   };
-  
+
   resultArray?.sort(customSort);
+
+  // organizeDiamonds.sort((a, b) => {
+  //   if (a.shapeColorQuality === "OTHER") return 1; // "OTHER" values go to the end
+  //   if (b.shapeColorQuality === "OTHER") return -1; // "OTHER" values go to the end
+  //   return a.shapeColorQuality.localeCompare(b.shapeColorQuality); // Sort alphabetically
+  // });
 
   const finalObject = {
     resultArray: resultArray,
@@ -438,6 +448,7 @@ export const OrganizeDataPrint = (header, json1, json2) => {
     header: headerObj,
     json1: json1,
     json2: json2,
+    // organizeDiamonds: organizeDiamonds,
   };
   return finalObject;
 };

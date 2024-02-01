@@ -38,6 +38,11 @@
     min-width: 16%;
 }
 
+.taxes{
+    width: 90%;
+    min-width: 90%;
+}
+
 .estimationPrint * {
     font-size: 14px;
     word-break: normal;

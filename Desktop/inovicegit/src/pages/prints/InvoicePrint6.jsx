@@ -72,18 +72,20 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                 resultArr[findRec].UnitCost += e?.UnitCost;
                 resultArr[findRec].UnitCost += e?.UnitCost;
 
-                let other_amt = [e?.other_amount_details, resultArr[findRec].other_amount_details].flat();
+                let other_amt = [e?.other_details, resultArr[findRec]?.other_details]?.flat();
                 let otheramts = [];
-                other_amt.forEach((elee, indd) => {
+                console.log(e);
+                other_amt?.forEach((elee, indd) => {
                     let findOther = otheramts.findIndex((element, index) => element?.label === elee?.label);
                     if (findOther === -1) {
                         otheramts.push(elee);
                     } else {
-                        otheramts[findOther].value = +otheramts[findOther].value + +elee?.value;
+                        console.log(otheramts[findOther]);
+                        otheramts[findOther].value = (+otheramts[findOther]?.value) + (+elee?.value);
                     }
                 });
-                resultArr[findRec].other_amount_details += otheramts;
-                resultArr[findRec].totals.Making_Amount_Other_Charges += e?.totals.Making_Amount_Other_Charges;
+                resultArr[findRec].other_details += otheramts;
+                resultArr[findRec].totals.Making_Amount_Other_Charges += e?.totals?.Making_Amount_Other_Charges;
 
                 resultArr[findRec].totals.colorstone.Amount += e?.totals.colorstone.Amount;
                 resultArr[findRec].totals.colorstone.FineWt += e?.totals.colorstone.FineWt;
