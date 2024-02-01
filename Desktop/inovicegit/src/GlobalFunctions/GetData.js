@@ -11,7 +11,6 @@ export const GetData = async (job) => {
             "p": `${base64String}`,
             "f": `${job?.appuserid} ${job?.printname}`
         };
-
         let urls = atob(job?.url);
 
         const response = await axios.post(urls, Body, { headers: job?.headers });

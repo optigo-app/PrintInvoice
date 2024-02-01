@@ -6,8 +6,8 @@ const Header1 = ({ data }) => {
   return (
     <>
 
-      <div className={`${style.headline} headerTitle`}>{data?.PrintHeadLabel}</div>
-      <div className={style.companyDetails}>
+      <div className={`${style.headline} headerTitle target_header`}>{data?.PrintHeadLabel}</div>
+      <div className={`${style.companyDetails} target_header`}>
         <div className={`${style.companyhead} p-2`}>
           <div className={style.lines} style={{ fontWeight: "bold" }}>
             {data?.CompanyFullName}
