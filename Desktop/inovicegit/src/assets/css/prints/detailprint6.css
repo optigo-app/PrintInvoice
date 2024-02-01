@@ -1,0 +1,25 @@
+.container_dp6 *{
+    box-sizing: border-box;
+    word-break: break-all;
+}
+.container_dp6{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+    margin-top: 4rem;
+}
+.headlabel_dp6{
+    height: 40px;
+    background-color: #989898;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 5px;
+}
+.printlogo_dp6{
+    max-height: 75px;
+    padding: 5px;
+}

@@ -6,7 +6,7 @@ export const printConditions = [
   {printName: 'detail print3', etpType: 'print', componentName: 'DetailPrint3'},
   {printName: 'detail print4', etpType: 'print', componentName: 'DetailPrint4'},
   {printName: 'detail print 5', etpType: 'print', componentName: 'DetailPrint5'},
-  {printName: 'detail print 6', etpType: 'print', componentName: 'HeaderCheck'},
+  {printName: 'detail print 6', etpType: 'print', componentName: 'DetailPrint6'},
   {printName: 'detail print 7', etpType: 'print', componentName: 'DetailPrint7'},
   {printName: 'detail print k', etpType: 'print', componentName: 'DetailPrint1'},
   {printName: 'detail print r', etpType: 'print', componentName: 'DetailPrint1'},
