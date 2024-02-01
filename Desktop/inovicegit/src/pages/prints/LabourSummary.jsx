@@ -7,13 +7,16 @@ import { formatAmount } from './../../GlobalFunctions';
 import Loader from './../../components/Loader';
 
 const LabourSummary = ({ token, invoiceNo, printName, urls, evn }) => {
+
   const [result, setResult] = useState();
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [header, setHeaderComp] = useState(null);
   const [footer, setFooterComp] = useState(null);
+  const [qualityTypes, setQualityTypes] = useState('');
 
   useEffect(() => {
+
     const sendData = async () => {
       try {
         const data = await apiCall(token, invoiceNo, printName, urls, evn);
@@ -34,6 +37,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn }) => {
         console.error(error);
       }
     };
+
     sendData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -57,12 +61,17 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn }) => {
     let footer_comp = FooterComponent(
       "2",
       copydata?.BillPrint_Json[0])
-
+    let _QualityTypes = datas?.resultArray?.map(e => e?.MetalPurity);
+    let __qualitytypes = new Set(_QualityTypes);
+    let ___qualitytypes = [...__qualitytypes];
+    console.log(___qualitytypes);
+    let concatenatedString = ___qualitytypes?.join(' | ');
+    setQualityTypes(concatenatedString)
     setHeaderComp(head_comp);
     setFooterComp(footer_comp)
-
     setResult(datas)
   };
+
   return (
     <>
     {
@@ -116,8 +125,8 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="col3_ls border-end d-flex justify-content-center align-items-center flex-column">
                     <div className="border-bottom w-100 d-flex justify-content-center align-items-center">Gold</div>
                     <div className="d-flex w-100">
-                      <div className="w-50 d-flex justify-content-center align-items-center ">Quality</div>
-                      <div className="w-50 d-flex justify-content-center align-items-center border-start">Net</div>
+                      <div className=" d-flex justify-content-center align-items-center " style={{width:'56%'}}>Quality</div>
+                      <div className=" d-flex justify-content-center align-items-center border-start" style={{width:'44%'}}>Net</div>
                     </div>
                 </div>
                 <div className="col4_ls border-end d-flex justify-content-center align-items-center flex-column">
@@ -140,27 +149,40 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
             {/* table body */}
             <div>
+            <div className="d-flex border border-top-0 fs_ls lh_ls">
+                      <div className="col_1_ls border-end d-flex justify-content-center align-items-center">1</div>
+                      <div className="col_2_ls border-end d-flex justify-content-start align-items-center ps-1 p-1" style={{wordBreak:'break-word'}}>Diamond Studed Jewellery</div>
+                      <div className="col_3_ls border-end d-flex justify-content-start align-items-center ps-1" style={{wordBreak:'break-word'}}>{qualityTypes}</div>
+                      <div className="col_4_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.netwtWithLossWt?.toFixed(3)}</div>
+                      <div className="col_5_ls border-end d-flex justify-content-end align-items-center pe-1">	</div>
+                      <div className="col_6_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</div>
+                      <div className="col_7_ls border-end d-flex justify-content-end align-items-center pe-1"></div>
+                      <div className="col_8_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}	</div>
+                      <div className="col_9_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}</div>
+                      <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_MakingAmount_Setting_Amount)}	</div>
+                      <div className="col_11_ls d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_amount)}</div>
+                    </div>
               {
                 result?.resultArray?.map((e, i) => {
                   return(
-                    <div className="d-flex border border-top-0 fs_ls" key={i}>
-                      <div className="col_1_ls border-end d-flex justify-content-center align-items-center">{i + 1}</div>
-                      <div className="col_2_ls border-end d-flex justify-content-start align-items-center ps-1" style={{wordBreak:'break-word'}}>Diamond Studed Jewellery</div>
-                      <div className="col_3_ls border-end d-flex justify-content-start align-items-center ps-1" style={{wordBreak:'break-word'}}>14K / 18K / 22K</div>
-                      <div className="col_4_ls border-end d-flex justify-content-end align-items-center pe-1">37.205</div>
-                      <div className="col_5_ls border-end d-flex justify-content-end align-items-center pe-1">7.733	</div>
-                      <div className="col_6_ls border-end d-flex justify-content-end align-items-center pe-1">4,231.50</div>
-                      <div className="col_7_ls border-end d-flex justify-content-end align-items-center pe-1">17,561.00	</div>
-                      <div className="col_8_ls border-end d-flex justify-content-end align-items-center pe-1">17,561.00	</div>
-                      <div className="col_9_ls border-end d-flex justify-content-end align-items-center pe-1">17,561.00	</div>
-                      <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">17,561.00	</div>
-                      <div className="col_11_ls d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_amount)}</div>
+                    <div className="d-flex border border-top-0 fs_ls" key={i} style={{height:'2rem'}}>
+                      <div className="col_1_ls border-end d-flex justify-content-center align-items-center"></div>
+                      <div className="col_2_ls border-end d-flex justify-content-start align-items-center ps-1" style={{wordBreak:'break-word'}}></div>
+                      <div className="col_3_ls border-end d-flex justify-content-start align-items-center ps-1" style={{wordBreak:'break-word'}}></div>
+                      <div className="col_4_ls border-end d-flex justify-content-end align-items-center pe-1"></div>
+                      <div className="col_5_ls border-end d-flex justify-content-end align-items-center pe-1">	</div>
+                      <div className="col_6_ls border-end d-flex justify-content-end align-items-center pe-1"></div>
+                      <div className="col_7_ls border-end d-flex justify-content-end align-items-center pe-1">	</div>
+                      <div className="col_8_ls border-end d-flex justify-content-end align-items-center pe-1">	</div>
+                      <div className="col_9_ls border-end d-flex justify-content-end align-items-center pe-1">	</div>
+                      <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">	</div>
+                      <div className="col_11_ls d-flex justify-content-end align-items-center pe-1"></div>
                     </div>        
                   )
                 })
               }
               {/* table total */}
-              <div className="d-flex border border-top-0 fw-bold fs_ls">
+              <div className="d-flex border border-top-0 fw-bold fs_ls lh_ls" style={{height:'2rem'}}>
                   <div className="col_1_ls border-end d-flex justify-content-center align-items-center"></div>
                   <div className="col_2_ls border-end d-flex justify-content-center align-items-center">TOTAL</div>
                   <div className="col_3_ls border-end d-flex justify-content-center align-items-center"></div>
@@ -218,5 +240,3 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn }) => {
 };
 
 export default LabourSummary;
-
-
