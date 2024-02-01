@@ -9,28 +9,38 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [data, setData] = useState({});
-
+    const [headerData, setHeaderData] = useState({});
 
     const loadData = (data) => {
         console.log(data);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         console.log(datas);
+        setHeaderData(data?.BillPrint_Json[0]);
         let resultArr = [];
         datas?.resultArray?.forEach((e, i) => {
             let obj = cloneDeep(e);
-            let findBrandName = resultArr?.findIndex((ele, ind) => obj?.BrandName === ele?.BrandName);
-            if(findBrandName === -1){
+            let findBrandName = resultArr?.findIndex((ele, ind) => (e?.BrandName)?.toLowerCase() === (ele?.BrandName)?.toLowerCase());
+            if (findBrandName === -1) {
                 resultArr.push(obj);
-            }else{
-                if(obj?.MaKingCharge_Unit !== resultArr[findBrandName]?.MaKingCharge_Unit){
-                    obj.MaKingCharge_Unit = "MIX";
-                }if(obj?.Tunch === resultArr[findBrandName]?.Tunch){
-                    obj.Tunch = "MIX";
+            } else {
+                if (obj?.MaKingCharge_Unit !== resultArr[findBrandName]?.MaKingCharge_Unit) {
+                    resultArr[findBrandName].MaKingCharge_Unit = "MIX";
+                } else {
+                    resultArr[findBrandName].MaKingCharge_Unit += obj?.MaKingCharge_Unit;
                 }
+                if (obj?.Tunch === resultArr[findBrandName]?.Tunch) {
+                    resultArr[findBrandName].Tunch = "MIX";
+                }
+                resultArr[findBrandName].Quantity += obj?.Quantity;
+                resultArr[findBrandName].Wastage += obj?.Wastage;
+                resultArr[findBrandName].totals.colorstone.Wt += obj?.totals.colorstone.Wt;
 
-                obj.Quantity += resultArr[findBrandName]?.Quantity;
+                
+
             }
-        })
+        });
+        datas.resultArray = resultArr
+        console.log(resultArr);
         setData(datas);
     }
 
@@ -74,8 +84,8 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
             {/* customer details */}
             <div className="d-flex">
-                <p>Bill Statement of:<span className='ps-3 fw-bold pe-4'>Hiral444</span></p>
-                <p>Date: <span className="ps-3 fw-bold">12 Jan 2024</span></p>
+                <p>Bill Statement of:<span className='ps-3 fw-bold pe-4'>{headerData?.Customercode}</span></p>
+                <p>Date: <span className="ps-3 fw-bold">{headerData?.EntryDate}</span></p>
             </div>
             {/* table */}
             <div className="d-flex border-black border lightGrey">
@@ -120,36 +130,70 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
             {/* data */}
             <div className="d-flex border-black border-start border-end border-bottom">
                 <div className={`${style?.bill} d-flex justify-content-center flex-column border-end border-black`}>
-                    <p className="fw-bold lh-1">SK19532022</p>
+                    <p className="fw-bold lh-1">{headerData?.InvoiceNo}</p>
                     <p className='lh-1'>Jewellery Sale</p>
                 </div>
                 <div className={`${style?.items_sec}`}>
                     <div className="d-flex">
                         <div className={`${style?.items} d-grid height_inherit`}>
-                            <div className={`d-flex `}>
-                                <div className='col-5 d-flex height_inherit align-items-center border-end border-black '><p className="">a</p> </div>
-                                <div className='col-3 d-flex height_inherit align-items-center border-end border-black justify-content-end'><p className="">1</p> </div>
-                                <div className='col-4 d-flex height_inherit align-items-center border-end border-black justify-content-end'><p className="">1,000.00</p></div>
-                            </div>
+                            {data?.resultArray?.map((e, i) => {
+                                return <div className={`d-flex ${i + 1 < data?.resultArray?.length && `border-bottom border-black`}`} key={i}>
+                                    <div className='col-5 d-flex height_inherit align-items-center border-end border-black py-1 '><p className="">{e?.BrandName}</p> </div>
+                                    <div className='col-3 d-flex height_inherit align-items-center border-end border-black justify-content-end py-1'><p className="">{e?.Quantity}</p> </div>
+                                    <div className='col-4 d-flex height_inherit align-items-center border-end border-black justify-content-end py-1'><p className="">{e?.MaKingCharge_Unit !== "MIX" ? NumberWithCommas(e?.MaKingCharge_Unit, 2) : e?.MaKingCharge_Unit}</p></div>
+                                </div>
+                            })}
                         </div>
 
-                        <div className={`${style?.ratePerGm} border-end border-black d-flex height_inherit align-items-center justify-content-end text-end`}><p className=" ">6,625.21</p></div>
-                        <div className={`${style?.per} border-end border-black d-flex height_inherit align-items-center justify-content-end`}><p className=" ">10%</p></div>
+                        <div className={`${style?.ratePerGm} border-end border-black d-flex height_inherit align-items-center justify-content-end text-end`}><p className=" "></p></div>
+                        <div className={`${style?.per} border-end border-black d-flex height_inherit align-items-center justify-content-end`}><p className=" "></p></div>
                         <div className={`${style?.taxPer} border-end border-black d-flex height_inherit align-items-end justify-content-center flex-column text-end`}>
-                            <p className=" ">CGST @ 0.13 </p>
-                            <p className="">SGST @ 0.13%</p>
-                            </div>
+                            {
+                                data?.allTaxes?.map((e, i) => {
+                                    return <p key={i}>{e?.name} @ {e?.per} </p>
+                                })
+                            }
+                        </div>
 
                         <div className={`${style?.part3} d-grid height_inherit`}>
                             <div className="d-flex w-100">
+
                                 <div className={`d-flex ${style?.gross_gold_ct_wt}`}>
-                                    <div className={`${style?.gross_sec_7} d-flex height_inherit align-items-center justify-content-end border-end border-black`}><p className=''> 3.000</p></div>
-                                    <div className={`${style?.gross_sec_7} d-flex height_inherit align-items-center justify-content-end border-end border-black`}><p className=''> 2.000</p></div>
-                                    <div className={`${style?.gross_sec_7} d-flex height_inherit align-items-center justify-content-end border-end border-black`}><p className=''> 4.900</p></div>
-                                    <div className={`${style?.gross_sec_7} d-flex height_inherit align-items-center justify-content-end border-end border-black`}><p className=''> 1.900</p></div>
-                                    <div className={`${style?.gross_sec_7} d-flex height_inherit align-items-center justify-content-end border-end border-black`}><p className=''> 3.000</p></div>
-                                    <div className={`${style?.gross_sec_7} d-flex height_inherit align-items-center justify-content-end border-end border-black`}><p className=''>76.000</p></div>
-                                    <div className={`${style?.gross_sec_7} d-flex height_inherit align-items-center justify-content-end border-end border-black`}><p className=''>10.000</p></div>
+                                    <div className={`${style?.gross_sec_7}  height_inherit border-end border-black`}>
+                                        {data?.resultArray?.map((e, i) => {
+                                            return <p className='' key={i}> {NumberWithCommas(e?.grosswt, 3)}</p>
+                                        })}
+                                    </div>
+                                    <div className={`${style?.gross_sec_7}  height_inherit border-end border-black`}>
+                                        {data?.resultArray?.map((e, i) => {
+                                            // return <p className='' key={i}> {NumberWithCommas(e?.grosswt, 3)}</p>
+                                        })}
+                                    </div>
+                                    <div className={`${style?.gross_sec_7}  height_inherit border-end border-black`}>
+                                        {data?.resultArray?.map((e, i) => {
+                                            return <p className='' key={i}> {NumberWithCommas(e?.NetWt, 3)}</p>
+                                        })}
+                                    </div>
+                                    <div className={`${style?.gross_sec_7}  height_inherit border-end border-black`}>
+                                        {data?.resultArray?.map((e, i) => {
+                                            // return <p className='' key={i}> {NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}</p>
+                                        })}
+                                    </div>
+                                    <div className={`${style?.gross_sec_7}  height_inherit border-end border-black`}>
+                                    {data?.resultArray?.map((e, i) => {
+                                            // return <p className='text-end' key={i}> {e?.MaKingCharge_Unit !== "MIX" ? NumberWithCommas(e?.MaKingCharge_Unit, 2) : e?.MaKingCharge_Unit}</p>
+                                        })}
+                                        </div>
+                                    <div className={`${style?.gross_sec_7}  height_inherit border-end border-black`}>
+                                    {data?.resultArray?.map((e, i) => {
+                                            return <p className='text-end' key={i}> {e?.MaKingCharge_Unit !== "MIX" ? NumberWithCommas(e?.MaKingCharge_Unit, 2) : e?.MaKingCharge_Unit}</p>
+                                        })}
+                                    </div>
+                                    <div className={`${style?.gross_sec_7}  height_inherit border-end border-black`}>
+                                    {data?.resultArray?.map((e, i) => {
+                                            return <p className='text-end' key={i}> {NumberWithCommas(e?.Wastage, 2)}</p>
+                                        })}
+                                    </div>
                                 </div>
                                 <div className={`${style?.final} d-grid height_inherit`}>
                                     <div className={`d-flex`}>
@@ -182,7 +226,7 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className={`${style?.taxPer} border-end border-black d-flex height_inherit align-items-end justify-content-center flex-column text-end`}>
                             <p className=" "> </p>
                             <p className=""></p>
-                            </div>
+                        </div>
 
                         <div className={`${style?.part3} d-grid height_inherit`}>
                             <div className="d-flex w-100">
