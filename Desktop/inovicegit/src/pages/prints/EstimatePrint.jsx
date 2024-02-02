@@ -126,10 +126,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       pcs: 0,
       wt: 0,
     };
-    let diamondTotals = {...diamondTotal};
-    let colorStoneTotals = {...colorStoneMiscTotal};
-    let colorStoness = {...ColorStoneTotal};
-    let miscstotals = {...miscTotal};
+    let diamondTotals = { ...diamondTotal };
+    let colorStoneTotals = { ...colorStoneMiscTotal };
+    let colorStoness = { ...ColorStoneTotal };
+    let miscstotals = { ...miscTotal };
     data?.BillPrint_Json1.forEach((e, i) => {
       totals.discountAmt += e?.DiscountAmt;
       let settingAmount = 0;
@@ -146,6 +146,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       let colorStones = [];
       let mics = [];
       let finding = [];
+      let anotherFinding = [];
       let otherAmountDetails = otherAmountDetail(e?.OtherAmtDetail);
       let diamondTotal = {
         pcs: 0,
@@ -276,6 +277,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               finding.push(ele);
               totals.findingWeight += ele?.Wt;
             }
+            anotherFinding.push(ele)
             // metalsTotal.weight += ele.Wt;
             // totals.weightWithDiamondLoss += ele.Wt;
           }
@@ -300,7 +302,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       let WtSpecial =
         e?.NetWt + (diamondTotal.weight / 5) - findingTotal;
 
-        let metalNetWt = e?.NetWt+e?.LossWt - findingTotal;
+      let metalNetWt = e?.NetWt + e?.LossWt - findingTotal;
       if (metals.length > 0) {
         metals.reduce((accumulator, currentObject) => {
           accumulator.amount += currentObject.Amount;
@@ -347,6 +349,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       obj.totalSetttingAmount = totalSetttingAmount;
       obj.metals = metals;
       obj.finding = finding;
+      obj.anotherFinding = anotherFinding;
       obj.colorStones = colorStones;
       obj.diamondTotal = diamondTotal;
       obj.metalsTotal = metalsTotal;
@@ -385,7 +388,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       totals.miscAmount +
       totals.makingAmount +
       totals.otherAmount +
-      data?.BillPrint_Json[0].AddLess 
+      data?.BillPrint_Json[0].AddLess
     ).toFixed(3);
 
     // taxes
@@ -466,7 +469,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
           finalArr[findRecord].metalNetWt += obj?.metalNetWt;
           finalArr[findRecord].NetWt += obj?.NetWt;
           finalArr[findRecord].LossWt += obj?.LossWt;
-          
+
           // for diamonds
           let blankDiamondArr = [];
           let diamonds = [
@@ -488,10 +491,14 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               blankDiamondArr[findDiamonds].Wt += elem?.Wt;
               blankDiamondArr[findDiamonds].Pcs += elem?.Pcs;
               blankDiamondArr[findDiamonds].Amount += elem?.Amount;
-              if(elem?.SettingAmount !== null){
-                blankDiamondArr[findDiamonds].SettingAmount += elem?.SettingAmount;
+              if (elem?.SettingAmount !== null) {
+                if (blankDiamondArr[findDiamonds].SettingAmount === null) {
+                  blankDiamondArr[findDiamonds].SettingAmount = elem?.SettingAmount;
+                } else {
+                  blankDiamondArr[findDiamonds].SettingAmount += elem?.SettingAmount;
+                }
               }
-  
+
             }
           });
 
@@ -516,6 +523,13 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               blankColorStoneArr[findColorStones].Wt += elem?.Wt;
               blankColorStoneArr[findColorStones].Pcs += elem?.Pcs;
               blankColorStoneArr[findColorStones].Amount += elem?.Amount;
+              if (elem?.SettingAmount !== null) {
+                if (blankColorStoneArr[findColorStones].SettingAmount === null) {
+                  blankColorStoneArr[findColorStones].SettingAmount = elem?.SettingAmount;
+                } else {
+                  blankColorStoneArr[findColorStones].SettingAmount += elem?.SettingAmount;
+                }
+              }
             }
           });
 
@@ -530,7 +544,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 elee?.QualityName === elem?.QualityName &&
                 elee?.Rate === elem?.Rate &&
                 elee?.MasterManagement_DiamondStoneTypeid ===
-                  elem?.MasterManagement_DiamondStoneTypeid &&
+                elem?.MasterManagement_DiamondStoneTypeid &&
                 elee?.SizeName === elem?.SizeName
             );
             if (findMiscs === -1) {
@@ -539,6 +553,13 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               blankMiscsArr[findMiscs].Wt += elem?.Wt;
               blankMiscsArr[findMiscs].Pcs += elem?.Pcs;
               blankMiscsArr[findMiscs].Amount += elem?.Amount;
+              if (elem?.SettingAmount !== null) {
+                if (blankMiscsArr[findMiscs].SettingAmount === null) {
+                  blankMiscsArr[findMiscs].SettingAmount = elem?.SettingAmount;
+                } else {
+                  blankMiscsArr[findMiscs].SettingAmount += elem?.SettingAmount;
+                }
+              }
             }
           });
 
@@ -556,7 +577,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 elee?.QualityName === elem?.QualityName &&
                 elee?.Rate === elem?.Rate &&
                 elee?.MasterManagement_DiamondStoneTypeid ===
-                  elem?.MasterManagement_DiamondStoneTypeid &&
+                elem?.MasterManagement_DiamondStoneTypeid &&
                 elee?.SizeName === elem?.SizeName
             );
             if (findFinding === -1) {
@@ -565,6 +586,42 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               blankFindingArr[findFinding].Wt += elem?.Wt;
               blankFindingArr[findFinding].Pcs += elem?.Pcs;
               blankFindingArr[findFinding].Amount += elem?.Amount;
+              if (elem?.SettingAmount !== null) {
+                if (blankFindingArr[findFinding].SettingAmount === null) {
+                  blankFindingArr[findFinding].SettingAmount = elem?.SettingAmount;
+                } else {
+                  blankFindingArr[findFinding].SettingAmount += elem?.SettingAmount;
+                }
+              }
+            }
+          });
+
+          let blankFindingAnotherArray = [];
+          let anotherFindings = [...finalArr[findRecord]?.anotherFinding, ...obj?.anotherFinding].flat();
+          anotherFindings.forEach((elem, ind) => {
+            let findFinding = blankFindingAnotherArray.findIndex(
+              (elee, indd) =>
+                elee?.ShapeName === elem?.ShapeName &&
+                elee?.Colorname === elem?.Colorname &&
+                elee?.QualityName === elem?.QualityName &&
+                elee?.Rate === elem?.Rate &&
+                elee?.MasterManagement_DiamondStoneTypeid ===
+                elem?.MasterManagement_DiamondStoneTypeid &&
+                elee?.SizeName === elem?.SizeName
+            );
+            if (findFinding === -1) {
+              blankFindingAnotherArray.push(elem);
+            } else {
+              blankFindingAnotherArray[findFinding].Wt += elem?.Wt;
+              blankFindingAnotherArray[findFinding].Pcs += elem?.Pcs;
+              blankFindingAnotherArray[findFinding].Amount += elem?.Amount;
+              if (elem?.SettingAmount !== null) {
+                if (blankFindingAnotherArray[findFinding].SettingAmount === null) {
+                  blankFindingAnotherArray[findFinding].SettingAmount = elem?.SettingAmount;
+                } else {
+                  blankFindingAnotherArray[findFinding].SettingAmount += elem?.SettingAmount;
+                }
+              }
             }
           });
 
@@ -695,6 +752,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
           finalArr[findRecord].colorStones = blankColorStoneArr;
           finalArr[findRecord].mics = blankMiscsArr;
           finalArr[findRecord].finding = blankFindingArr;
+          finalArr[findRecord].anotherFinding = blankFindingAnotherArray;
 
           // finalArr[findRecord].metals = blankMetalsArr;
           finalArr[findRecord].otherAmountDetails = blankOtherAmtDetails;
@@ -734,6 +792,11 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     });
 
     let finalArr2 = [];
+    finalArr.forEach((e, i) => {
+      console.log(e);
+      let labourArr = [];
+      
+    });
 
     finalArr.sort((a, b) => {
       const nameA = a.SrJobno.toUpperCase();
@@ -783,7 +846,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   }, []);
 
   const handleImageLoad = () => {
-    setImageLoading(false); 
+    setImageLoading(false);
   };
 
   return (
@@ -1064,10 +1127,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             })}
                         </div>
                         <div
-                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top ${
-                            e?.diamonds.length === 0 &&
+                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top ${e?.diamonds.length === 0 &&
                             "border-top height_29_5_estimatePrint"
-                          }`}
+                            }`}
                         >
                           <div className="width20EstimatePrint p_1Estimate">
                             <p className="fw-bold"></p>
@@ -1124,7 +1186,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
                                     <p className="text-end ">
-                                        {ind === 0 ? fixedValues(e?.metalNetWt, 3) : fixedValues(ele?.Wt, 3)}
+                                      {ind === 0 ? fixedValues(e?.metalNetWt, 3) : fixedValues(ele?.Wt, 3)}
                                     </p>
                                   </div>
                                   <div className="width_40_estimatePrint p_1Estimate">
@@ -1174,10 +1236,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             })}
                         </div>
                         <div
-                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top ${
-                            e?.metals.length === 0 &&
+                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top ${e?.metals.length === 0 &&
                             "border-top height_29_5_estimatePrint"
-                          }`}
+                            }`}
                         >
                           <div className="width200EstimatePrint p_1Estimate">
                             <p></p>
@@ -1191,7 +1252,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                           {/* <div className='width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end'><p className='text-end fw-bold'>{fixedValues(e?.metalsTotal?.Wt, 3)}</p></div> */}
                           <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold">
-                              {fixedValues(e?.NetWt+e?.LossWt, 3)}
+                              {fixedValues(e?.NetWt + e?.LossWt, 3)}
                             </p>
                           </div>
                           <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
@@ -1281,10 +1342,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             })}
                         </div>
                         <div
-                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 ${
-                            e?.colorStones.length === 0 &&
+                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 ${e?.colorStones.length === 0 &&
                             "border-top height_29_5_estimatePrint"
-                          }`}
+                            }`}
                         >
                           <div className="width20EstimatePrint p_1Estimate">
                             <p></p>
@@ -1296,28 +1356,28 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             <p className="text-end fw-bold">
                               {(e?.colorStones.length > 0 ||
                                 e?.mics.length > 0) && (
-                                <>
-                                  {NumberWithCommas(
-                                    e?.colorStonesTotal?.pcs +
+                                  <>
+                                    {NumberWithCommas(
+                                      e?.colorStonesTotal?.pcs +
                                       e?.miscsTotal?.pcs,
-                                    0
-                                  )}
-                                </>
-                              )}
+                                      0
+                                    )}
+                                  </>
+                                )}
                             </p>
                           </div>
                           <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold">
                               {(e?.colorStones.length > 0 ||
                                 e?.mics.length > 0) && (
-                                <>
-                                  {fixedValues(
-                                    e?.colorStonesTotal?.weight +
+                                  <>
+                                    {fixedValues(
+                                      e?.colorStonesTotal?.weight +
                                       e?.miscsTotal?.weight,
-                                    3
-                                  )}
-                                </>
-                              )}
+                                      3
+                                    )}
+                                  </>
+                                )}
                             </p>
                           </div>
                           <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
@@ -1327,14 +1387,14 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             <p className="text-end fw-bold">
                               {(e?.colorStones.length > 0 ||
                                 e?.mics.length > 0) && (
-                                <>
-                                  {NumberWithCommas(
-                                    e?.colorStonesTotal?.amount +
+                                  <>
+                                    {NumberWithCommas(
+                                      e?.colorStonesTotal?.amount +
                                       e?.miscsTotal?.amount,
-                                    2
-                                  )}
-                                </>
-                              )}
+                                      2
+                                    )}
+                                  </>
+                                )}
                             </p>
                           </div>
                         </div>
@@ -1645,7 +1705,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         <p className="fw-bold">DIAMOND WT</p>
                         <p>
                           {NumberWithCommas(total?.diaPcs, 0)} /{" "}
-                          {NumberWithCommas( diamondTotal?.Wt, 3 )}{" "}
+                          {NumberWithCommas(diamondTotal?.Wt, 3)}{" "}
                           cts
                         </p>
                       </div>
