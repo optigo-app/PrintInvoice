@@ -15,6 +15,15 @@ ol {
   /* font-size: 8px; */
 }
 
+.enime_17_old{
+  min-height: 353.5px;
+  max-height: 353.5px;
+    margin-bottom: 0;
+    box-sizing: border-box;
+}
+.enime_h_17_old{
+  height: 4.75mm !important;
+}
 
 .align_center {
   align-items: center;

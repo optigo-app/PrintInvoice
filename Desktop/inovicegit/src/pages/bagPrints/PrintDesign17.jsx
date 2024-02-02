@@ -682,7 +682,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                     </div>
                   )}
                   <div className="container_17_old mb_2 mt_2 pt_2 container_margin_left">
-                    <div className="border border-black border-2     ">
+                    <div className="border border-black border-2     enime_17_old">
                       <div className="d_flex">
                         <div className="side_1_17">
                           <div
@@ -821,7 +821,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                         <div className="d_flex dept">
                           <div className="w_98 unique17">
                             <div
-                              className="d_flex border_bottom h_4_5"
+                              className="d_flex border_bottom h_4_5 enime_h_17_old"
                               style={{ height: "3.5mm" }}
                             >
                               <div className="width_dept border_right pl_3 border_top bold separatedfs17old">
@@ -973,7 +973,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                         </div>
                         <div
                           className="BARCODE"
-                          style={{ height: "61mm", borderBottom: "0px solid" }}
+                          style={{ height: "60.6mm", borderBottom: "1px solid", borderRadius:"0" }}
                         >
                           {e?.data?.rd !== 0 && e?.data?.rd !== undefined && (
                             <>
