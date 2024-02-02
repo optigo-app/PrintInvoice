@@ -9,6 +9,7 @@ import {
     handlePrint,
     isObjectEmpty,
     taxGenrator,
+    FooterComponent,
 } from "../../GlobalFunctions";
 
 const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
@@ -16,10 +17,18 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [msg, setMsg] = useState("");
     const [image, setImage] = useState(false);
     const [header, setHeader] = useState(null);
+    const [footer, setFooter] = useState(null);
+    const [headerData, setHeaderData] = useState({});
+    const [label, setlabel] = useState([]);
 
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
         setHeader(head);
+        let footers = FooterComponent("2", data?.BillPrint_Json[0]);
+        setFooter(footers);
+        setHeaderData(data?.BillPrint_Json[0]);
+        let printArr = data?.BillPrint_Json[0]?.Printlable.split("\r\n");
+        setlabel(printArr);
     }
 
     useEffect(() => {
@@ -48,9 +57,9 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
 
     return (
         loader ? <Loader /> : msg === "" ? <>
-            <div className={`container max_width_container ${style?.invoiceprint8} mt-5 pad_60_allPrint px-1`}>
+            <div className={`container max_width_container ${style?.invoiceprint8} pad_60_allPrint px-1 mt-1`}>
                 {/* buttons */}
-                <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4">
+                <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 mt-4">
                     <div className="form-check pe-3 ">
                         <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => setImage(!image)} />
                         <label className="form-check-label ">
@@ -67,31 +76,29 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="d-flex border">
                     <div className="col-4 border-end p-2">
                         <p>Bill To,</p>
-                        <p className="fw-bold">Dar Be Gold Jewelers</p>
-                        <p>45/2 sangram shopping center</p>
-                        <p>Chowk bazaar</p>
-                        <p>lucknow394405</p>
-                        <p>Hiralvasoya@vg.com</p>
-                        <p>GSTIN-24FFFF0000B1J64 | PAN-DGJIF543D</p>
-                        <p>STATE CODE-24</p>
+                        <p className="fw-bold">{headerData?.customerfirmname}</p>
+                        <p>{headerData?.customerAddress1}</p>
+                        <p>{headerData?.customerAddress2}</p>
+                        <p>{headerData?.customercity}-{headerData?.PinCode}</p>
+                        <p>{headerData?.CompanyEmail}</p>
+                        <p>{headerData?.vat_cst_pan}</p>
+                        <p>{headerData?.CustGstNo}</p>
                     </div>
                     <div className="col-4 border-end p-2">
 
                         <p>Ship To,</p>
-                        <p className='fw-bold'>Dar Be Gold Jewelers</p>
-                        <p>Hiral Vasoya</p>
-                        <p>405 hari om society, Sai point</p>
-                        <p>surat, Gujarat</p>
-                        <p>India-395461</p>
-                        <p>Mobile No : 984-563-2514</p>
-                    </div>
+                        <p className='fw-bold'>{headerData?.customerfirmname}</p>
+                        {label?.map((ele, ind) => {
+                          return  <p key={ind}>{ele}</p>
+                        })}
+                    </div> 
                     <div className="col-4 p-2">
-                        <div className='d-flex'><p className="fw-bold col-6">BILL NO</p> <p className='col-6'>	SK19532022</p></div>
-                        <div className='d-flex'><p className="fw-bold col-6">DATE</p> <p className='col-6'>	12 Jan 2024</p></div>
-                        <div className='d-flex'><p className="fw-bold col-6">HSN</p> <p className='col-6'>	85213</p></div>
-                        <div className='d-flex'><p className="fw-bold col-6">NAME OF GOODS</p> <p className='col-6'>	Jewellery</p></div>
-                        <div className='d-flex'><p className="fw-bold col-6">PLACE OF SUPPLY</p> <p className='col-6'>	Karnataka</p></div>
-                        <div className='d-flex'><p className="fw-bold col-6">TERMS</p> <p className='col-6'>	7</p></div>
+                        <div className='d-flex'><p className="fw-bold col-6">BILL NO</p> <p className='col-6'>	{headerData?.InvoiceNo}</p></div>
+                        <div className='d-flex'><p className="fw-bold col-6">DATE</p> <p className='col-6'>	{headerData?.EntryDate}</p></div>
+                        <div className='d-flex'><p className="fw-bold col-6">{headerData?.HSN_No}</p> <p className='col-6'>	{headerData?.HSN_No_Label}</p></div>
+                        <div className='d-flex'><p className="fw-bold col-6">NAME OF GOODS</p> <p className='col-6'>	{headerData?.NameOfGoods}</p></div>
+                        <div className='d-flex'><p className="fw-bold col-6">PLACE OF SUPPLY</p> <p className='col-6'>	{headerData?.State}</p></div>
+                        <div className='d-flex'><p className="fw-bold col-6">TERMS</p><p className='col-6'>{headerData?.DueDays}</p></div>
                     </div>
                 </div>
                 {/* table header */}
@@ -214,6 +221,29 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                 </div>
+                {/* Grand Total */}
+                <div className="my-1">
+                    <div className="border d-flex">
+                        <div className="col-8 border-end px-2">
+                            <p className="fw-bold">IN Words Indian Rupees</p>
+                            <p className="fw-bold">Thirty-Nine Thousand One Hundred and Twenty-One Point Forty-Six Only.</p>
+                        </div>
+                        <div className="col-4 p-2 d-flex justify-content-between">
+                            <p className="fw-bold">Grand Total</p>
+                            <p className="fw-bold">39,121.46</p>
+                        </div>
+                    </div>
+                </div>
+                {/* Note */}
+                <div className="border-start border-end border-bottom px-2">
+                    <div dangerouslySetInnerHTML={{__html: headerData?.Declaration}}></div>
+                </div>
+                {/* print remark */}
+                <div className='px-2'>
+                    <p><span className="fw-bold">REMARKS : </span> {headerData?.PrintRemark}</p>
+                </div>
+                {/* note */}
+                {footer}
             </div>
             {/* <SampleDetailPrint11 /> */}
         </> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>

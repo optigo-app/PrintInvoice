@@ -13,6 +13,7 @@ import {
 } from "../../GlobalFunctions";
 import Loader2 from "../../components/Loader2";
 import Loader from "../../components/Loader";
+import { cloneDeep } from "lodash";
 
 const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   const [image, setImage] = useState(true);
@@ -598,6 +599,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
           let blankFindingAnotherArray = [];
           let anotherFindings = [...finalArr[findRecord]?.anotherFinding, ...obj?.anotherFinding].flat();
+          console.log(finalArr[findRecord]?.anotherFinding, obj?.anotherFinding);
           anotherFindings.forEach((elem, ind) => {
             let findFinding = blankFindingAnotherArray.findIndex(
               (elee, indd) =>
@@ -790,15 +792,51 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
         }
       }
     });
-
     let finalArr2 = [];
     finalArr.forEach((e, i) => {
-      console.log(e);
       let labourArr = [];
-      
+      let labouurTotal = 0;
+      e?.anotherFinding?.forEach((ele, ind) => {
+        if (ele?.SettingRate === e?.MaKingCharge_Unit) {
+          let findobj = labourArr?.findIndex((elem, index) => elem?.label === e?.MaKingCharge_Unit);
+          if (findobj === -1) {
+            labourArr.push({ label: e?.MaKingCharge_Unit, value: e?.MakingAmount + ele?.SettingAmount });
+            labouurTotal += e?.MakingAmount + ele?.SettingAmount;
+          } else {
+            if (ele?.SettingAmount !== null && ele?.SettingAmount !== 0) {
+              labourArr[findobj].value += ele?.SettingAmount;
+              labouurTotal += ele?.SettingAmount;
+            }
+          }
+        } else {
+          if (ele?.SettingAmount !== null && ele?.SettingAmount !== 0) {
+            labourArr.push({ label: ele?.SettingRate, value: ele?.SettingAmount });
+            labouurTotal += ele?.SettingAmount;
+          }
+        }
+      });
+      if (labourArr.length === 0) {
+        labourArr.push({ label: e?.MaKingCharge_Unit, value: e?.MakingAmount });
+      }
+      let diaCs = [...e?.diamonds, ...e?.colorStones]?.flat();
+      let diacsAmount = diaCs?.reduce((accc, cobj) => {
+        if (cobj?.SettingAmount !== null) {
+          return accc + cobj?.SettingAmount
+        } else {
+          return accc
+        }
+      }, 0);
+      if (diacsAmount !== 0) {
+        labourArr.push({ label: "Setting", value: diacsAmount });
+        labouurTotal += diacsAmount;
+      }
+      let obj = cloneDeep(e);
+      obj.labourArr = labourArr;
+      obj.labouurTotal = labouurTotal;
+      finalArr2.push(obj);
     });
 
-    finalArr.sort((a, b) => {
+    finalArr2.sort((a, b) => {
       const nameA = a.SrJobno.toUpperCase();
       const nameB = b.SrJobno.toUpperCase();
 
@@ -812,7 +850,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
       return 0;
     });
-    setJson2Data(finalArr);
+    setJson2Data(finalArr2);
   };
 
   const loadData = (data) => {
@@ -1445,16 +1483,22 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {" "}
                                 <div className="w-50 p_1Estimate">
                                   {/* <p>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p> */}
-                                  <p>Labour</p>
-                                  {e?.settingAmount !== 0 && <p>Labour</p>}
+                                  {/* <p>Labour</p>
+                                  {e?.settingAmount !== 0 && <p>Labour</p>} */}
+                                  {e?.labourArr?.map((ele, ind) => {
+                                    return <p key={ind}>{ele?.label}</p>
+                                  })}
                                 </div>
                                 <div className="w-50 text-end p_1Estimate">
-                                  <p>{NumberWithCommas(e?.MakingAmount, 2)}</p>
+                                  {/* <p>{NumberWithCommas(e?.MakingAmount, 2)}</p>
                                   {e?.settingAmount !== 0 && (
                                     <p>
                                       {NumberWithCommas(e?.settingAmount, 2)}
                                     </p>
-                                  )}
+                                  )} */}
+                                  {e?.labourArr?.map((ele, ind) => {
+                                    return <p key={ind}>{NumberWithCommas(ele?.value, 2)}</p>
+                                  })}
                                 </div>
                               </>
                             )}
