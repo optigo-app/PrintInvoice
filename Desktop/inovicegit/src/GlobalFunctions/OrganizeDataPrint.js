@@ -45,6 +45,12 @@ export const OrganizeDataPrint = (header, json1, json2) => {
       Rate: 0,
       Amount: 0,
     },
+    diamond_colorstone_misc:{
+      Wt: 0,
+      Pcs: 0,
+      Rate: 0,
+      Amount: 0,
+    },
     total_labour: {
       labour_rate: 0,
       labour_amount: 0,
@@ -317,6 +323,10 @@ export const OrganizeDataPrint = (header, json1, json2) => {
 
       diamond_colorstone_misc?.forEach((e) => {
         maintotal.total_diamond_colorstone_misc_amount += +e?.Amount;
+        maintotal.diamond_colorstone_misc.Amount += +e?.Amount;
+        maintotal.diamond_colorstone_misc.Rate += +e?.Rate;
+        maintotal.diamond_colorstone_misc.Wt += +e?.Wt;
+        maintotal.diamond_colorstone_misc.Pcs += +e?.Pcs;
       });
 
       let obj = { ...j1 };
