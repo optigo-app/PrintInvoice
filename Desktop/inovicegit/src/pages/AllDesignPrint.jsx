@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Suspense } from "react";
 import Loader from "../components/Loader";
 import { Helmet } from "react-helmet-async";
+// import "../assets/css/prints/commoncssprint.css";
 // import { Helmet } from "react-helmet";
 const AllDesignPrint = () => {
   const [importedComponent, setImportedComponent] = useState(null);
