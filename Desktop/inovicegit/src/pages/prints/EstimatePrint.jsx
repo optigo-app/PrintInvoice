@@ -434,6 +434,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     let brokarage = ReceiveInBank(data?.BillPrint_Json[0]?.Brokerage);
     setBrokarage(brokarage);
     let finalArr = [];
+
     resultArr.forEach((e, i) => {
       if (e?.GroupJob === "") {
         finalArr.push(e);
@@ -457,7 +458,6 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               finalArr[findRecord].PO = obj?.PO;
               finalArr[findRecord].Tunch = obj?.Tunch;
               finalArr[findRecord].Size = obj?.Size;
-
             }
           }
           finalArr[findRecord].otherChargesTotal += obj?.otherChargesTotal;
@@ -488,6 +488,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               blankDiamondArr[findDiamonds].Wt += elem?.Wt;
               blankDiamondArr[findDiamonds].Pcs += elem?.Pcs;
               blankDiamondArr[findDiamonds].Amount += elem?.Amount;
+              if(elem?.SettingAmount !== null){
+                blankDiamondArr[findDiamonds].SettingAmount += elem?.SettingAmount;
+              }
+  
             }
           });
 
@@ -728,6 +732,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
         }
       }
     });
+
+    let finalArr2 = [];
+
     finalArr.sort((a, b) => {
       const nameA = a.SrJobno.toUpperCase();
       const nameB = b.SrJobno.toUpperCase();
