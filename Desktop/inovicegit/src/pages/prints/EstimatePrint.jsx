@@ -796,6 +796,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     finalArr.forEach((e, i) => {
       let labourArr = [];
       let labouurTotal = 0;
+      labourArr.push({ label: e?.MaKingCharge_Unit, value: e?.MakingAmount  });
       e?.anotherFinding?.forEach((ele, ind) => {
         if (ele?.SettingRate === e?.MaKingCharge_Unit) {
           let findobj = labourArr?.findIndex((elem, index) => elem?.label === e?.MaKingCharge_Unit);
