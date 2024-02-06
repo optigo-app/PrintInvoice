@@ -275,6 +275,18 @@ body .border_left{
   border-left: 1px solid #ff000000 !important;
 }
 
+.exportprint2 .footerTarget{
+  border-color: #000 !important;
+  border: 1px solid #000 !important;
+  margin-bottom: 0;
+  height: 60.39px !important;
+}
+
+
+.exportprint2 .footerTarget .w-50:first-child{
+  border-right: 1px solid #000 !important;
+}
+
 @media print {
   .hide-on-print {
     display: none;

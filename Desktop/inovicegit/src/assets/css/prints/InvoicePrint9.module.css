@@ -1,0 +1,59 @@
+.invoiceprint9 * {
+    font-size: 12px;
+    line-height: 120%;
+}
+
+.Image {
+    width: 7%;
+    min-width: 7%;
+}
+
+.SNo {
+    width: 5%;
+    min-width: 5%;
+}
+
+.Description {
+    width: 18%;
+    min-width: 18%;
+}
+
+.HSN {
+    width: 7%;
+    min-width: 7%;
+}
+
+.Pcs {
+    width: 6%;
+    min-width: 6%;
+}
+
+.GGms {
+    width: 10%;
+    min-width: 10%;
+}
+
+.Stone {
+    width: 10%;
+    min-width: 10%;
+}
+
+.NGms {
+    width: 10%;
+    min-width: 10%;
+}
+
+.Rate {
+    width: 9%;
+    min-width: 9%;
+}
+
+.VA {
+    width: 8%;
+    min-width: 8%;
+}
+
+.Amount {
+    width: 10%;
+    min-width: 10%;
+}
