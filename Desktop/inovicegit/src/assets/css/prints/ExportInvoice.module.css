@@ -4,6 +4,8 @@
     font-size: 12.80px;
 }
 
+
+
 .exportInvoice p{
     line-height: 120%; 
 }
@@ -17,18 +19,18 @@
 }
 
 .rtgs{
-    width: 12%;
-    min-width: 12%;
+    width: 11%;
+    min-width: 11%;
 }
 
 .srNo{
-    width: 2%;
-    min-width: 2%;
+    width: 5%;
+    min-width: 5%;
 }
 
 .goods{
-    width: 25%;
-    min-width: 25%;
+    width: 23%;
+    min-width: 23%;
 }
 
 .kt{
@@ -135,7 +137,9 @@
     min-width: 6.67%;
 } */
 
-
+.exportInvoice .exportPrinttable *{
+    word-break: break-all;
+}
 
 @media print{
     .print_sec_sum4{

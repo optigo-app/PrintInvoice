@@ -5,6 +5,7 @@ import style from "../../assets/css/prints/ExportInvoice.module.css";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { cloneDeep } from 'lodash';
 import { ToWords } from "to-words";
+import footer1 from "../../assets/css/footers/footer1.module.css";
 
 const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     const toWords = new ToWords();
@@ -37,7 +38,6 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
         let categories = [];
         let quantities = 0;
         datas?.resultArray?.forEach((e, i) => {
-            console.log(e);
             if (e?.MetalType === "GOLD") {
                 let findGold = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
                 let findobj = resultArr?.findIndex((ele, ind) => ele?.metalRate === findGold?.Rate);
@@ -62,7 +62,6 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     table1Totals.grosswt += e?.grosswt;
                     table1Totals.NetWt += e?.NetWt;
                     resultArr[findobj].totals.metal.Amount += e?.totals?.metal?.Amount;
-                    console.log(resultArr[findobj]?.grosswt);
                     if (findGold !== undefined) {
                         resultArr[findobj].metalAmounts += findGold?.Amount;
                         resultArr[findobj].metalPcs += findGold?.Pcs;
@@ -146,7 +145,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 <div className='border-black border'>
                     {/* company details */}
-                    <div className="d-flex border-top border-bottom border-black">
+                    <div className="d-flex border-top border-bottom border-black ">
                         <div className='p-2 col-6 border-end border-black'>
                             <div className="d-flex justify-content-between">
                                 <p className="text-decoration-underline fw-semibold"> Exporter </p>
@@ -187,7 +186,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                     {/* customner details */}
-                    <div className="d-flex border-bottom border-black">
+                    <div className="d-flex border-bottom border-black ">
                         <div className='p-2 col-6 border-end border-black'>
                             <div className="d-flex justify-content-between">
                                 <p className="text-decoration-underline fw-semibold"> Consignee </p>
@@ -222,7 +221,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                     {/* pre-carriage by */}
-                    <div className="d-flex border-bottom border-black">
+                    <div className="d-flex border-bottom border-black overflow-hidden ">
                         <div className='col-6 border-end border-black'>
                             <div className="d-flex border-bottom border-black">
                                 <div className="col-6 pt-1 px-1 pb-4 border-end border-black">
@@ -248,7 +247,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <p className="fw-semibold">Final Destination</p>
                                 </div>
                             </div>
-                            <div className={`d-flex ${style?.min_height41_59}`}>
+                            <div className={`d-flex ${style?.min_height41_59} h-100`}>
                                 <div className="col-4 border-end border-black p-1 text-center">
                                     <p className="fw-semibold">Marks & Nos. AS ADDRESS</p>
                                 </div>
@@ -298,7 +297,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     {/* Blank-Line */}
                     <div className="d-flex border-bottom border-black pb-4"></div>
                     {/* table header */}
-                    <div className="d-flex border-bottom border-black">
+                    <div className={`d-flex border-bottom border-black no_break`}>
                         <div className={`${style?.rtgs} p-1 text-center border-end border-black`}><p className='fw-semibold h-100'>RITC (IIS) Code</p></div>
                         <div className={`${style?.srNo} p-1 text-center border-end border-black`}><p className='fw-semibold h-100'></p></div>
                         <div className={`${style?.goods} p-1 text-center`}><p className='fw-semibold'>Description of Goods</p></div>
@@ -311,7 +310,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     {/* table data */}
                     {data?.finalArr?.map((e, i) => {
-                        return <div className="d-flex border-black border_left" key={i}>
+                        return <div className={`d-flex border-black border_left no_break ${style?.exportPrinttable}`} key={i}>
                             <div className={`${style?.rtgs} text-center`} style={{ borderRight: "1px solid #ffffff00 !important" }}><p className='fw-semibold p-1'>{headerData?.HSN_No}</p></div>
                             <div className={`${style?.srNo} text-center`} style={{ borderRight: "1px solid #ffffff00 !important" }}><p className='fw-semibold p-1'>{`${i + 1})`}</p></div>
                             <div className={`${style?.goods} text-center`}><p className='fw-semibold p-1'>{e?.MetalPurity} plain Gold Jewellery</p></div>
@@ -323,22 +322,10 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className={`${style?.value} text-center border-black`}><p className='fw-semibold p-1'>{NumberWithCommas(e?.metalAmounts / headerData?.CurrencyExchRate, 2)}</p></div>
                         </div>
                     })}
-
-                    {/* <div className="d-flex border-black border_left">
-                        <div className={`${style?.rtgs} text-center`} style={{ borderRight: "1px solid #ffffff00 !important" }}><p className='fw-semibold  p-1'>71131910</p></div>
-                        <div className={`${style?.srNo} text-center`} style={{ borderRight: "1px solid #ffffff00 !important" }}><p className='fw-semibold  p-1'>{`2)`}</p></div>
-                        <div className={`${style?.goods} text-center`}><p className='fw-semibold  p-1'>18K plain Gold Jewellery</p></div>
-                        <div className={`${style?.kt} border-bottom text-center border-end border-black border-start`}><p className='fw-semibold  p-1'>14K</p></div>
-                        <div className={`${style?.pcs} border-bottom text-center border-end border-black`}><p className='fw-semibold  p-1'>1</p></div>
-                        <div className={`${style?.grossWt} border-bottom text-center border-end border-black`}><p className='fw-semibold  p-1'>1.99</p></div>
-                        <div className={`${style?.NetWt} border-bottom text-center border-black`}><p className='fw-semibold  p-1'>1.99</p></div>
-                        <div className={`${style?.Rate} border-bottom text-center border-end border-black`}><p className='fw-semibold border-start border-black p-1 h-100'>27.14</p></div>
-                        <div className={`${style?.value}  border-bottom text-center border-black`}><p className='fw-semibold p-1'>68.22</p></div>
-                    </div> */}
                     {/* table total */}
-                    <div className="d-flex border_left">
-                        <div className={`${style?.small} `}>
-                            <div className="d-flex pb-4">
+                    <div className={`d-flex border_left ${style?.exportPrinttable}`}>
+                        <div className={`${style?.small}`}>
+                            <div className="d-flex pb-4  no_break">
                                 <div className="col-5  border-black border-top h-100">
                                     <p className="fw-semibold border-start border-bottom border-black px-2 py-1">Item</p>
                                     {
@@ -346,7 +333,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                                             return <p className="fw-semibold border-start border-black px-2 py-1" key={i}>{e?.Categoryname}</p>
                                         })
                                     }
-                                    <p className="fw-semibold border-start border-bottom border-black px-2 py-1">Total</p>
+                                    <p className="fw-semibold border-start border-bottom border-black border-top px-2 py-1">Total</p>
                                 </div>
                                 <div className="col-3 border-black border-top">
                                     <p className="fw-semibold border-bottom border-start border-end border-black px-2 py-1">KT</p>
@@ -355,7 +342,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                                             return <p className="fw-semibold border-start border-end border-black px-2 py-1" key={i}>{e?.MetalPurity}</p>
                                         })
                                     }
-                                    <p className="fw-semibold border-bottom border-start border-end border-black px-2 py-1" style={{ minHeight: "24.36px" }}></p>
+                                    <p className="fw-semibold border-bottom border-start border-end border-black border-top px-2 py-1" style={{ minHeight: "24.36px" }}></p>
                                 </div>
                                 <div className="col-3 border-black  border-top">
                                     <p className="fw-semibold border-end border-bottom border-black px-2 py-1">QTY</p>
@@ -364,24 +351,24 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                                             return <p className="fw-semibold border-end border-black px-2 py-1" key={i}>{NumberWithCommas(e?.Quantity, 0)}</p>
                                         })
                                     }
-                                    <p className="fw-semibold border-end border-bottom border-black px-2 py-1" style={{ minHeight: "24.36px" }}>{NumberWithCommas(category?.Quantity, 0)}</p>
+                                    <p className="fw-semibold border-end border-bottom border-black border-top px-2 py-1" style={{ maxHeight: "24.36px" }}>{NumberWithCommas(category?.Quantity, 0)}</p>
                                 </div>
                             </div>
-                            <div className="d-flex border border-black">
+                            <div className="d-flex border border-black  no_break">
                                 <div className={`${style?.w_20} border-end border-black d-flex justify-content-center align-items-center`}><p className="fw-semibold text-center p-1">Total {headerData?.CurrencyCode}</p></div>
                                 <div className={`${style?.w_20} border-end border-black d-flex justify-content-center align-items-center`}><p className="fw-semibold text-center p-1">RBI  Exch. Rate</p></div>
                                 <div className={`${style?.w_20} border-end border-black d-flex justify-content-center align-items-center`}><p className="fw-semibold text-center p-1">Taxable Val {headerData?.CurrencyCode}</p></div>
                                 <div className={`${style?.w_20} border-end border-black d-flex justify-content-center align-items-center`}><p className="fw-semibold text-center p-1">IGST</p></div>
                                 <div className={`${style?.w_20} d-flex justify-content-center align-items-center`}><p className="fw-semibold text-center p-1">IGST  {headerData?.CurrencyCode}</p></div>
                             </div>
-                            <div className="d-flex border-start border-end border-bottom border-black">
+                            <div className="d-flex border-start border-end border-bottom border-black no_break">
                                 <div className={`${style?.w_20} border-end border-black d-flex justify-content-center align-items-center`}><p className="fw-semibold text-center p-1">{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p></div>
                                 <div className={`${style?.w_20} border-end border-black d-flex justify-content-center align-items-center`}><p className="fw-semibold text-center p-1">{headerData?.CurrencyExchRate}</p></div>
                                 <div className={`${style?.w_20} border-end border-black d-flex justify-content-center align-items-center`}><p className="fw-semibold text-center p-1">{NumberWithCommas(table1Total.totalTax / headerData?.CurrencyExchRate, 2)}</p></div>
                                 <div className={`${style?.w_20} border-end border-black d-flex justify-content-center align-items-center`}><p className="fw-semibold text-center p-1">3%</p></div>
                                 <div className={`${style?.w_20} d-flex justify-content-center align-items-center`}><p className="fw-semibold text-center p-1">{NumberWithCommas(table1Total?.IgstAmount / headerData?.CurrencyExchRate, 2)}</p></div>
                             </div>
-                            <div className="py-2">
+                            <div className="py-2 no_break">
                                 <div className="d-flex border border-black">
                                     <div className='col-4 border-end border-black'>
                                         <p className="fw-semibold p-1 border-bottom border-black">
@@ -395,25 +382,25 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className={`${style?.kt} border-black border-start border-end h-100`}>
+                        <div className={`${style?.kt} border-black border-start border-end h-100 `}>
                             <p className='fw-semibold text-center border-black border-bottom p-1'>Total</p>
                         </div>
-                        <div className={`${style?.pcs} border-black border-end h-100`}
+                        <div className={`${style?.pcs} border-black border-end h-100 `}
                         // style={{ width: "6.99%", minWidth: "6.99%", }}
                         >
                             <p className='fw-semibold text-center border-black border-bottom p-1'>{NumberWithCommas(table1Total?.Quantity, 0)}</p>
                         </div>
-                        <div className={`${style?.grossWt} border-black border-end h-100`}
+                        <div className={`${style?.grossWt} border-black border-end h-100 `}
                             style={{ width: "10.01%", minWidth: "10.01%", }}
                         >
                             <p className='fw-semibold text-center border-black border-bottom p-1'>{NumberWithCommas(table1Total?.grosswt, 3)}</p>
                         </div>
-                        <div className={`${style?.NetWt} border-black h-100`}
+                        <div className={`${style?.NetWt} border-black h-100 `}
                         //  style={{ width: "9.99%", minWidth: "9.99%", }}
                         >
                             <p className='fw-semibold text-center border-black border-bottom p-1'>{NumberWithCommas(table1Total?.NetWt, 3)}</p>
                         </div>
-                        <div className={`${style?.Rate} border-black border-end h-100`}
+                        <div className={`${style?.Rate} border-black border-end h-100 `}
                         // style={{ width: "16.9%", minWidth: "16.9%", }}
                         >
                             <p className='fw-semibold p-1 text-center border-black border-bottom border-start text-uppercase'>GOLD VALUE</p>
@@ -435,18 +422,18 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                     {/* Amount chargable */}
-                    <p className="fw-semibold px-2"> Amount Chargable : </p>
-                    <p className="fw-medium px-2 text-uppercase"> CIF  {headerData?.CurrencyCode}:-
+                    <p className="fw-semibold px-2 no_break"> Amount Chargable : </p>
+                    <p className="fw-medium px-2 text-uppercase no_break"> CIF  {headerData?.CurrencyCode}:-
                         {/* FOUR HUNDRED TWENTY EIGHT AND EIGHTY Cent   */}
                         {toWords?.convert(+fixedValues((headerData?.FreightCharges + data?.mainTotal?.total_amount) / headerData?.CurrencyExchRate, 2))} ONLY</p>
-                    <div className="d-flex justify-content-between pb-3 pt-2">
+                    <div className="d-flex justify-content-between pb-3 pt-2 no_break">
                         <p className='fw-semibold px-2'>GJEPC CERT.NO.</p>
                         <p className='fw-semibold px-2'>DATE: {headerData?.EntryDate}</p>
                         <p className='fw-semibold px-2'>RATE  {headerData?.CurrencyCode} : {NumberWithCommas(headerData?.MetalRate24K, 2)}</p>
                         <p className='fw-semibold px-2'>PER Toz FOR 0.9999 FINE GOLD</p>
                     </div>
                     {/* table header */}
-                    <div className="border-top border-bottom d-flex border-black">
+                    <div className={`border-top border-bottom d-flex border-black no_break`}>
                         <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">Gold KT</p></div>
                         <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">Gold Gr Wt Gms</p></div>
                         <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">Gold Nt Wt Gms</p></div>
@@ -473,7 +460,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                     {/* table data */}
                     {data?.finalArr?.map((e, i) => {
-                        return <div className="border-bottom d-flex border-black" key={i}>
+                        return <div className={`border-bottom d-flex border-black no_break ${style?.exportPrinttable}`} key={i}>
                             <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">{e?.MetalPurity}</p></div>
                             <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">{NumberWithCommas(e?.grosswt, 3)}</p></div>
                             <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">{NumberWithCommas(e?.NetWt, 3)}</p></div>
@@ -506,31 +493,8 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     })
                     }
-                    {/* 
-                    <div className="border-bottom d-flex border-black">
-                        <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">14K</p></div>
-                        <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">1.45</p></div>
-                        <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">1.44</p></div>
-                        <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">1.44</p></div>
-                        <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">27.12</p></div>
-                        <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">39.05</p></div>
-                        <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">0.86</p></div>
-                        <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">0.86</p></div>
-                        <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">22.17</p></div>
-                        <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">13.43</p></div>
-                        <div className={`${style?.smallstudding} border-end border-black`}>
-                            <div className="d-grid h-100">
-                                <div className="d-flex">
-                                    <div className="col-4 d-flex justify-content-center align-items-center border-end border-black"><p className="fw-semibold text-center">Dia</p></div>
-                                    <div className="col-4 d-flex justify-content-center align-items-center border-end border-black"><p className="fw-semibold text-center">0.05</p></div>
-                                    <div className="col-4 d-flex justify-content-center align-items-center"><p className="fw-semibold text-center">21.52</p></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={`${style?.smallgold} d-flex align-items-center justify-content-center`}><p className="fw-semibold text-center">173.59</p></div>
-                    </div> */}
                     {/* table total */}
-                    <div className=" border-bottom d-flex border-black">
+                    <div className={`border-bottom d-flex border-black no_break ${style?.exportPrinttable}`}>
                         <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-bold text-center"></p></div>
                         <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-bold text-center">{NumberWithCommas(table1Total?.grosswt, 3)}</p></div>
                         <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-bold text-center">{NumberWithCommas(table1Total?.NetWt, 3)}</p></div>
@@ -562,14 +526,10 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className={`${style?.smallgold} d-flex align-items-center justify-content-center`}><p className="fw-bold text-center">{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p></div>
                     </div>
                     {/* signature */}
-                    <div className="pt-5">
-                        <p className="fw-bold pb-2 px-2">
-                            the diamonds herein invoices have been purchased from legitimate Sources not involved in funding conflict and in compliance with UN Resolution - The Seller
-                            hereby guranatee that these diamonds and conflict free based on personal knowledge and the written guarantee provided by supplier of these diamonds.
-                        </p>
-                        <p className="fw-medium text-uppercase text-center px-2">
+                    <div className="pt-2 no_break">
+                        {/* <p className="fw-medium text-uppercase text-center px-2">
                             door to door insurance covered by <span className='text-lowercase'>bmc vama</span>
-                        </p>
+                        </p> */}
                         <div className="p-2">
                             <div className="border border-black p-2">
                                 <p className="fw-bold pb-1">Declaration : </p>
@@ -578,7 +538,10 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                             </div>
                         </div>
                         <div className='p-2'>
-                            {footer}
+                            <div className={`${footer1.footer1Info} no_break footerTarget`}>
+                                <div className={`w-50 d-flex justify-content-center align-items-end ${footer1.borderRightF1} h-100`}>RECEIVER's NAME & SIGNATURE</div>
+                                <div className="w-50 d-flex justify-content-center align-items-end h-100">for, {headerData?.customerfirmname}</div>
+                            </div>
                         </div>
 
                         {/* <div className="border-start border-top border-black d-flex p-2" style={{ minHeight: "65px" }}>

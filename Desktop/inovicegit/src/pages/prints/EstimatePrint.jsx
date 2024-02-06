@@ -140,7 +140,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       totalSetttingAmount += e?.MakingAmount;
       let settingRate = 0;
       let obj = { ...e };
-      obj.otherChargesTotal = obj?.OtherCharges;
+      obj.otherChargesTotal = obj?.OtherCharges + obj?.TotalDiamondHandling;
       obj.OtherCharges = obj?.OtherCharges + obj?.TotalDiamondHandling;
       let findingTotal = 0;
       let diamonds = [];

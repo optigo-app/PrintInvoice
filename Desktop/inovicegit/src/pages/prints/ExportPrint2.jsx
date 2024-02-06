@@ -4,6 +4,8 @@ import { NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty, num
 import Loader from '../../components/Loader';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import lodash from 'lodash';
+import footer1 from "../../assets/css/footers/footer1.module.css";
+
 
 const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
@@ -40,30 +42,6 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
         // Your array
         // let dataArray = lodash.cloneDeep(datas?.resultArray);
         let dataArray = [];
-
-        // Grouping based on "MetalTypePurity" and "lossWt"
-        // const groupedData = dataArray.reduce((groups, item) => {
-        //     const key = `${item.MetalTypePurity}_${item.LossPer}`;
-        //     (groups[key] = groups[key] || []).push(item);
-        //     return groups;
-        // }, {});
-        // console.log(groupedData);
-
-        // Calculate totals for each group
-        // const groupTotals = Object.keys(groupedData).map(groupKey => {
-        //     const group = groupedData[groupKey];
-        //     // const totalAmount = calculateGroupTotal(group);
-        //         console.log(group);
-        //     return {
-        //         Quantity: group[0].Quantity,
-        //         MetalTypePurity: group[0].MetalTypePurity,
-        //         LossWt: group[0].LossWt,
-        //         TotalAmount: group[0].TotalAmount,
-        //         grosswt: group[0].grosswt,
-        //         NetWt: group[0].NetWt,
-        //         TotalWt: group[0].NetWt + group[0].LossWt,
-        //     };
-        // });
 
         datas.resultArray.forEach((e, i) => {
             let findPurPer = dataArray.findIndex((ele, ind) => ele?.MetalTypePurity === e?.MetalTypePurity && ele?.LossPer === e?.LossPer);
@@ -497,7 +475,10 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                     </div>
                     <div className="col-6 ps-2">
-                        {footer}
+                    <div className={`${footer1.footer1Info} no_break footerTarget`}>
+                                <div className={`w-50 d-flex justify-content-center align-items-end ${footer1.borderRightF1} h-100`}>RECEIVER's NAME & SIGNATURE</div>
+                                <div className="w-50 d-flex justify-content-center align-items-end h-100">for, {headerData?.customerfirmname}</div>
+                            </div>
                     </div>
                 </div>
                 {/* <div className="text-end">

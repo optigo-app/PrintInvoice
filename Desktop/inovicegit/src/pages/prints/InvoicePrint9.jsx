@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from "../../assets/css/prints/InvoicePrint9.module.css";
 import Loader from '../../components/Loader';
+import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import {
     HeaderComponent,
     NumberWithCommas,
@@ -11,23 +12,38 @@ import {
     taxGenrator,
     FooterComponent,
 } from "../../GlobalFunctions";
+import footer2 from "../../assets/css/footers/footer2.module.css";
+import { cloneDeep } from 'lodash';
 
 const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [header, setHeader] = useState(null);
-    const [image, setImage] = useState(false);
-    const [footer, setFooter] = useState(null);
+    const [headerCheck, setHeaderCheck] = useState(true);
     const [label, setlabel] = useState([]);
     const [headerData, setHeaderData] = useState({});
+    const [data, setData] = useState({});
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
         setHeader(head);
-        let footers = FooterComponent("2", data?.BillPrint_Json[0]);
-        setFooter(footers);
         setHeaderData(data?.BillPrint_Json[0]);
         let printArr = data?.BillPrint_Json[0]?.Printlable.split("\r\n");
         setlabel(printArr);
+        let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
+        let resultArr = [];
+        datas?.resultArray?.map((e, i) => {
+            let obj = cloneDeep(e);
+            let findGold = obj?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+            if(findGold !== undefined){
+                obj.metalRate = findGold?.Rate;
+                obj.metalAmount = findGold?.Amount;
+                obj.metalPcs = findGold?.Pcs;
+            }
+            resultArr.push(obj);
+        });
+        datas.resultArray = resultArr;
+        setData(datas);
+        console.log(datas);
     }
     useEffect(() => {
         const sendData = async () => {
@@ -59,9 +75,9 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn }) => {
                 {/* buttons */}
                 <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 mt-4">
                     <div className="form-check pe-3 ">
-                        <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => setImage(!image)} />
-                        <label className="form-check-label ">
-                            With Image
+                        <input className="form-check-input border-dark" type="checkbox" checked={headerCheck} onChange={e => setHeaderCheck(!headerCheck)} />
+                        <label className="form-check-label pt-1">
+                            With Header
                         </label>
                     </div>
                     <div className="form-check ps-3">
@@ -69,9 +85,9 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                 </div>
                 {/* header */}
-                <div className='pb-2 border-bottom'>
+                {headerCheck && <div className='pb-2 border-bottom'>
                     {header}
-                </div>
+                </div>}
                 {/* print heading */}
                 <p className="fs-5 text-center fw-bold">{headerData?.PrintHeadLabel}</p>
                 {/* sub header */}
@@ -122,87 +138,163 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn }) => {
                     </div>
                 </div>
                 {/* table header */}
-                <div className="d-flex border">
-                    <div className={`${style?.Image} px-1`}><p className="fw-bold fs-6">Image	</p></div>
-                    <div className={`${style?.SNo} px-1`}><p className="fw-bold fs-6">S.No	</p></div>
-                    <div className={`${style?.Description} px-1`}><p className="fw-bold fs-6">Description	</p></div>
-                    <div className={`${style?.HSN} px-1`}><p className="fw-bold fs-6">HSN	</p></div>
-                    <div className={`${style?.Pcs} px-1`}><p className="fw-bold fs-6 text-end">Pcs	</p></div>
-                    <div className={`${style?.GGms} px-1`}><p className="fw-bold fs-6 text-end">G.Gms.Mg	</p></div>
-                    <div className={`${style?.Stone} px-1`}><p className="fw-bold fs-6 text-end">Stone Wt	</p></div>
-                    <div className={`${style?.NGms} px-1`}><p className="fw-bold fs-6 text-end">N.Gms.Mg	</p></div>
-                    <div className={`${style?.Rate} px-1`}><p className="fw-bold fs-6 text-end">Rate	</p></div>
-                    <div className={`${style?.VA} px-1`}><p className="fw-bold fs-6 text-end">V.A	</p></div>
-                    <div className={`${style?.Amount} px-1`}><p className="fw-bold fs-6 text-end">Amount</p></div>
+                <div className="d-flex border-start border-end border-bottom py-1">
+                    <div className={`${style?.Image} px-1`}><p className="fw-bold ">Image	</p></div>
+                    <div className={`${style?.SNo} px-1`}><p className="fw-bold ">S.No	</p></div>
+                    <div className={`${style?.Description} px-1`}><p className="fw-bold ">Description	</p></div>
+                    <div className={`${style?.HSN} px-1`}><p className="fw-bold ">HSN	</p></div>
+                    <div className={`${style?.Pcs} px-1`}><p className="fw-bold  text-end">Pcs	</p></div>
+                    <div className={`${style?.GGms} px-1`}><p className="fw-bold  text-end">G.Gms.Mg	</p></div>
+                    <div className={`${style?.Stone} px-1`}><p className="fw-bold  text-end">Stone Wt	</p></div>
+                    <div className={`${style?.NGms} px-1`}><p className="fw-bold  text-end">N.Gms.Mg	</p></div>
+                    <div className={`${style?.Rate} px-1`}><p className="fw-bold  text-end">Rate	</p></div>
+                    <div className={`${style?.VA} px-1`}><p className="fw-bold  text-end">V.A	</p></div>
+                    <div className={`${style?.Amount} px-1`}><p className="fw-bold  text-end">Amount</p></div>
                 </div>
                 {/* table data */}
-                <div className="d-flex border">
-                    <div className={`${style?.Image} px-1 border-end`}>
-                        <p className="fw-bold fs-6">1/16601	</p>
-                        <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/Design_Image/bD8ZTq6u5WMDE0ODkxMQ==/Red_Thumb/0148911_22112023120600745.jpg" alt="" className='imgWidth' />
-                    </div>
-                    <div className={`${style?.SNo} px-1 border-end`}><p className="fw-bold fs-6">1</p></div>
-                    <div className={`${style?.Description} px-1`}>
-                        <p className="fw-bold fs-6">Regular-18K</p>
-                        <p className=" fs-6">DIAMONDS mix vvs Round	</p>
-                        <p className=" fs-6">OTHER</p>
-                    </div>
-                    <div className={`${style?.HSN} px-1`}><p className="fw-bold fs-6">85213</p></div>
-                    <div className={`${style?.Pcs} px-1`}>
-                        <p className="fw-bold fs-6 text-end">1</p>
-                        <p className="fs-6 text-end">5</p>
-                    </div>
-                    <div className={`${style?.GGms} px-1`}><p className="fw-bold fs-6 text-end">10.000 g</p></div>
-                    <div className={`${style?.Stone} px-1`}>
-                        <p className="fw-bold fs-6 text-end">0.016 g</p>
-                        <p className="fs-6 text-end">0.080 cst</p>
-                    </div>
-                    <div className={`${style?.NGms} px-1`}><p className="fw-bold fs-6 text-end">9.984 g</p></div>
-                    <div className={`${style?.Rate} px-1`}>
-                        <p className="fw-bold fs-6 text-end">5,700.00</p>
-                        <p className="fs-6 text-end">1,000.00</p>
-                    </div>
-                    <div className={`${style?.VA} px-1`}><p className="fw-bold fs-6 text-end">2566.80</p></div>
-                    <div className={`${style?.Amount} px-1`}>
-                        <p className="fw-bold fs-6 text-end">59,475.60</p>
-                        <p className="fs-6 text-end"> 80.00 </p>
-                    </div>
-                </div>
+                {
+                    data?.resultArray?.map((e, i) => {
+                        return <div className="d-flex border-start border-end border-bottom" key={i}>
+                            <div className={`${style?.Image} px-1 border-end`}>
+                                <p className="fw-bold">{e?.SrJobno}	</p>
+                                <img src={e?.DesignImage} alt="" className='imgWidth' onError={handleImageError} />
+                            </div>
+                            <div className={`${style?.SNo} px-1 border-end`}><p className="fw-bold">{NumberWithCommas(i+1, 0)}</p></div>
+                            <div className={`${style?.Description} px-1`}>
+                                <p className="fw-bold">{e?.SubCategoryname}-{e?.MetalPurity}</p>
+                                {e?.diamonds?.map((ele, ind) => {
+                                    return   <p className="pt-1" key={ind}>DIAMONDS  {ele?.Colorname} {ele?.QualityName} {ele?.ShapeName} </p>
+                                })}
+                            </div>
+                            <div className={`${style?.HSN} px-1`}><p className="fw-bold">85213</p></div>
+                            <div className={`${style?.Pcs} px-1`}>
+                                <p className="fw-bold text-end">{NumberWithCommas(e?.Quantity, 0)}</p>
+                                {e?.diamonds?.map((ele, ind) => {
+                                    return   <p className="pt-1 text-end" key={ind}>  {NumberWithCommas(ele?.Pcs, 0)} </p>
+                                })}
+                            </div>
+                            <div className={`${style?.GGms} px-1`}><p className="fw-bold text-end">{NumberWithCommas(e?.grosswt, 3)} g</p></div>
+                            <div className={`${style?.Stone} px-1`}>
+                                <p className="fw-bold text-end">{NumberWithCommas(e?.grosswt, 3)} g</p>
+                                {e?.diamonds?.map((ele, ind) => {
+                                    return   <p className="pt-1 text-end" key={ind}>  {NumberWithCommas(ele?.Wt, 3)} </p>
+                                })}
+                            </div>
+                            <div className={`${style?.NGms} px-1`}><p className="fw-bold text-end">{NumberWithCommas(e?.NetWt, 3)} g</p></div>
+                            <div className={`${style?.Rate} px-1`}>
+                                <p className="fw-bold text-end">{NumberWithCommas(e?.metalRate, 2)}</p>
+                                {e?.diamonds?.map((ele, ind) => {
+                                    return   <p className="pt-1 text-end" key={ind}>  {NumberWithCommas(ele?.Rate, 2)} </p>
+                                })}
+                            </div>
+                            <div className={`${style?.VA} px-1`}><p className="fw-bold text-end">{NumberWithCommas(e?.metalAmount, 2)}</p></div>
+                            <div className={`${style?.Amount} px-1`}>
+                                <p className="fw-bold text-end">59,475.60</p>
+                                {e?.diamonds?.map((ele, ind) => {
+                                    return   <p className="pt-1 text-end" key={ind}>  {NumberWithCommas(ele?.Amount, 2)} </p>
+                                })}
+                            </div>
+                        </div>
+                    })
+                }
+
                 {/* table total */}
-                <div className="d-flex border">
-                    <div className={`${style?.Image} px-1 border-end`}>
-                        <p className="fw-bold fs-6">1/16601	</p>
-                        <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/Design_Image/bD8ZTq6u5WMDE0ODkxMQ==/Red_Thumb/0148911_22112023120600745.jpg" alt="" className='imgWidth' />
-                    </div>
-                    <div className={`${style?.SNo} px-1 border-end`}><p className="fw-bold fs-6">1</p></div>
-                    <div className={`${style?.Description} px-1`}>
-                        <p className="fw-bold fs-6">Regular-18K</p>
-                        <p className=" fs-6">DIAMONDS mix vvs Round	</p>
-                        <p className=" fs-6">OTHER</p>
-                    </div>
-                    <div className={`${style?.HSN} px-1`}><p className="fw-bold fs-6">85213</p></div>
+                <div className="d-flex border-start border-end border-bottom py-1">
+                    <div className={`${style?.total} px-1`}><p className="fw-bold text-center">Total</p></div>
+                    <div className={`${style?.HSN} px-1`}><p className="fw-bold"></p></div>
                     <div className={`${style?.Pcs} px-1`}>
-                        <p className="fw-bold fs-6 text-end">1</p>
-                        <p className="fs-6 text-end">5</p>
+                        <p className="fw-bold text-end">8</p>
                     </div>
-                    <div className={`${style?.GGms} px-1`}><p className="fw-bold fs-6 text-end">10.000 g</p></div>
+                    <div className={`${style?.GGms} px-1`}><p className="fw-bold text-end">50.760 </p></div>
                     <div className={`${style?.Stone} px-1`}>
-                        <p className="fw-bold fs-6 text-end">0.016 g</p>
-                        <p className="fs-6 text-end">0.080 cst</p>
+                        <p className="fw-bold text-end"></p>
                     </div>
-                    <div className={`${style?.NGms} px-1`}><p className="fw-bold fs-6 text-end">9.984 g</p></div>
+                    <div className={`${style?.NGms} px-1`}><p className="fw-bold text-end">44.528</p></div>
                     <div className={`${style?.Rate} px-1`}>
-                        <p className="fw-bold fs-6 text-end">5,700.00</p>
-                        <p className="fs-6 text-end">1,000.00</p>
+                        <p className="fw-bold text-end"></p>
                     </div>
-                    <div className={`${style?.VA} px-1`}><p className="fw-bold fs-6 text-end">2566.80</p></div>
+                    <div className={`${style?.VA} px-1`}><p className="fw-bold text-end"></p></div>
                     <div className={`${style?.Amount} px-1`}>
-                        <p className="fw-bold fs-6 text-end">59,475.60</p>
-                        <p className="fs-6 text-end"> 80.00 </p>
+                        <p className="fw-bold text-end">3,15,517.68 </p>
                     </div>
                 </div>
+                {/* table taxes */}
+                <div className="d-flex border-start border-end border-bottom">
+                    <div className="col-8 border-end p-2">
+                        <div className="d-flex justify-content-between">
+                            <p className="fw-semibold">Advances SK19532022</p>
+                            <p className="fw-semibold">0.00</p>
+                        </div>
+                        <div>
+                            <p className="fw-semibold">Remark : Remark for Bill</p>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <p className="fw-semibold">Credit :	</p>
+                            <p className="fw-semibold">3,15,025.94</p>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <p className="fw-semibold">Cash :	</p>
+                            <p className="fw-semibold">0.00 </p>
+                        </div>
+                    </div>
+                    <div className="col-4 p-2">
+                        <div className="d-flex justify-content-between">
+                            <p className="">Discount	</p>
+                            <p className="">1,857.50</p>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <p className="fw-bold">Total Amount</p>
+                            <p className="fw-bold">3,14,210.18</p>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <p className="">CGST @ 0.13%</p>
+                            <p className="">408.34</p>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <p className="">SGST @ 0.13%</p>
+                            <p className="">408.34</p>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <p className="">Less	    </p>
+                            <p className="">-0.92</p>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <p className="fw-bold">Grand Total	</p>
+                            <p className="fw-bold">3,15,025.94</p>
+                        </div>
+                    </div>
+                </div>
+                {/* amount in words */}
+                <div className="py-1 px-2">
+                    <p><span className="fw-bold">Rupees :</span> Three Lakh Fifteen Thousand and Twenty-Five Point Ninety-Four Only.</p>
+                </div>
+                {/* declaration */}
+                <p className="fw-bold pt-1 px-2 pb-2" dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}></p>
                 {/* note */}
-                {footer}
+                <div className={`${footer2.container} no_break target_footer`}>
+                    <div
+                        className={footer2.block1f3}
+                        style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+                    >
+                        <div className={footer2.linesf3} style={{ fontWeight: "bold" }}>Bank Detail</div>
+                        <div className={footer2.linesf3}>Bank Name: {headerData?.bankname}</div>
+                        <div className={footer2.linesf3}>Branch: {headerData?.bankaddress}</div>
+                        <div className={footer2.linesf3}>Account Name: {headerData?.accountname}</div>
+                        <div className={footer2.linesf3}>Account No. : {headerData?.accountnumber}</div>
+                        <div className={footer2.linesf3}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
+                    </div>
+                    <div
+                        className={footer2.block2f3}
+                        style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+                    >
+                        <div className={footer2.linesf3}>Signature</div>
+                        <div className={footer2.linesf3}>{headerData?.customerfirmname}</div>
+                    </div>
+                    <div className={footer2.block2f3} style={{ width: "33.33%" }}>
+                        <div className={footer2.linesf3}>Signature</div>
+                        <div className={footer2.linesf3}>{headerData?.CompanyFullName}</div>
+                    </div>
+                </div>
             </div>
             {/* <SampleDetailPrint11 /> */}
         </> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
