@@ -52,8 +52,10 @@
 }
 
 .Rate{
-    width: 16.9%;
-    min-width: 16.9%;
+    /* width: 16.9%;
+    min-width: 16.9%; */
+    width: 17.1%;
+    min-width: 17.1%;
 }
 
 .value{

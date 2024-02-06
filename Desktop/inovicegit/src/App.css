@@ -287,6 +287,10 @@ body .border_left{
   border-right: 1px solid #000 !important;
 }
 
+.exportInvoice .footerTarget, .exportInvoice .footerTarget > div:first-child{
+  border-color: #000 !important;
+}
+
 @media print {
   .hide-on-print {
     display: none;
