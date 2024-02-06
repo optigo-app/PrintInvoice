@@ -1,7 +1,11 @@
 import { CapitalizeWords, otherAmountDetail, taxGenrator } from "../GlobalFunctions";
 import { numberToWords } from "number-to-words";
 import { cloneDeep } from 'lodash';
-export const OrganizeDataPrint = (header, json1, json2) => {
+export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
+
+  let header = cloneDeep(header2);
+  let json1 = cloneDeep(json1_1);
+  let json2 = cloneDeep(json2_1);
 
   let resultArray = [];
   let jobnodup = [];
