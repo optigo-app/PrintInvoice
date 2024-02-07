@@ -291,6 +291,10 @@ body .border_left{
   border-color: #000 !important;
 }
 
+.word_break{
+  word-break: break-all !important;
+}
+
 @media print {
   .hide-on-print {
     display: none;

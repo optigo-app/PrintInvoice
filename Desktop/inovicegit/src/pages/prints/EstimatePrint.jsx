@@ -1513,10 +1513,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                               e?.otherAmountDetails.map((ele, ind) => {
                                 return (
                                   <div
-                                    className="d-flex word_break_estimate"
+                                    className="d-flex word_break_estimate "
                                     key={ind}
                                   >
-                                    <p className="p_1Estimate w-100" key={ind}>
+                                    <p className="p_1Estimate w-100 word_break" key={ind}>
                                       {ele?.label}{" "}
                                       <span className="float-end">
                                         {ele?.value}
@@ -1528,10 +1528,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             {e?.miscsList?.map((ele, ind) => {
                               return (
                                 <div
-                                  className="d-flex word_break_estimate"
+                                  className="d-flex word_break_estimate "
                                   key={ind}
                                 >
-                                  <p className="p_1Estimate w-100" key={ind}>
+                                  <p className="p_1Estimate w-100 word_break" key={ind}>
                                     {ele?.ShapeName}{" "}
                                     <span className="float-end">
                                       {NumberWithCommas(ele?.Amount, 2)}
@@ -1542,9 +1542,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             })}
                             {/* <p className='p_1Estimate'>Total Diamond Handling: {NumberWithCommas(e?.TotalDiamondHandling, 2)}</p> */}
                             {e?.TotalDiamondHandling !== 0 && (
-                              <p className="p_1Estimate text-end">
+                              <p className="p_1Estimate word_break">
                                 {" "}
-                                {NumberWithCommas(e?.TotalDiamondHandling, 2)}
+                                Total Diamond Handling
+                              <span className="float-end">  {NumberWithCommas(e?.TotalDiamondHandling, 2)}</span>
                               </p>
                             )}
                           </div>
@@ -1606,11 +1607,11 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="totalBgEstimatePrint position-absolute bottom-0  height_29_5_estimatePrint w-100 d-flex align-items-center justify-content-end pe-1">
                           <div className="text-end p_1Estimate">
                             <p className="fw-bold">
-                              <span
+                              {/* <span
                                 dangerouslySetInnerHTML={{
                                   __html: json1Data?.Currencysymbol,
                                 }}
-                              ></span>
+                              ></span> */}
                               {NumberWithCommas(e?.TotalAmount, 2)}
                             </p>
                           </div>

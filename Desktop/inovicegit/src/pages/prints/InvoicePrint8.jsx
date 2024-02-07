@@ -22,6 +22,12 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [footer, setFooter] = useState(null);
     const [headerData, setHeaderData] = useState({});
     const [label, setlabel] = useState([]);
+    const [other, setOther] = useState({
+        other1: [],
+        other2: [],
+    });
+    const [metal, setMetal] = useState([]);
+    const [data, setData] = useState({});
 
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
@@ -33,6 +39,7 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
         setlabel(printArr);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         console.log(datas);
+        setData(datas);
         let metals = [];
         let diamonds = [];
         let colorstone = [];
@@ -41,34 +48,47 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
         let othercharges2 = [];
         datas?.resultArray?.forEach((e, i) => {
             let findGold = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
-            if(findGold !== undefined){
+            if (findGold !== undefined) {
                 let findMetals = metals?.findIndex((elem, index) => elem?.metalRate === findGold?.Rate && elem?.MetalTypePurity === e?.MetalTypePurity);
-                if(findMetals === -1){
+                if (findMetals === -1) {
                     let obj = cloneDeep(e);
                     obj.metalRate = findGold?.Rate;
                     obj.metalAmount = findGold?.Amount;
                     obj.metalPcs = findGold?.Pcs;
                     obj.metalWt = findGold?.Wt;
-                }else{
+                    metals.push(obj);
+                } else {
                     metals[findMetals].grosswt = e?.grosswt;
                     metals[findMetals].NetWt = e?.NetWt;
                     metals[findMetals].metalAmount = e?.metalAmount;
                 }
+                e?.other_details?.forEach((ele, ind) => {
+                    let findOther = othercharges1?.findIndex((elem, index) => elem?.label === ele?.label);
+                    if (findOther === -1) {
+                        othercharges1.push(ele);
+                    } else {
+                        othercharges1[findOther].value = +othercharges1[findOther].value + +ele?.value;
+                    }
+                });
             }
         });
 
         data?.BillPrint_Json2?.forEach((ele, ind) => {
-            if(ele?.MasterManagement_DiamondStoneTypeid === 1){
-
-            }else if(ele?.MasterManagement_DiamondStoneTypeid === 2){
-                
-            }else if(ele?.MasterManagement_DiamondStoneTypeid === 3){
-                
-            }else if(ele?.MasterManagement_DiamondStoneTypeid === 4){
-                
+            if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+                if (ele?.IsHSCOE !== 0) {
+                    let findOther = othercharges2?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
+                    if (findOther === -1) {
+                        othercharges2.push(ele);
+                    } else {
+                        othercharges2[findOther].Wt += ele?.Wt;
+                        othercharges2[findOther].Pcs += ele?.Pcs;
+                        othercharges2[findOther].Amount += ele?.Amount;
+                    }
+                }
             }
         });
-        
+        setMetal(metals);
+        setOther({ ...other, other1: othercharges1, other2: othercharges2 });
     }
 
     useEffect(() => {
@@ -123,9 +143,9 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <p>Ship To,</p>
                         <p className='fw-bold'>{headerData?.customerfirmname}</p>
                         {label?.map((ele, ind) => {
-                          return  <p key={ind}>{ele}</p>
+                            return <p key={ind}>{ele}</p>
                         })}
-                    </div> 
+                    </div>
                     <div className="col-4 p-2">
                         <div className='d-flex'><p className="fw-bold col-6">BILL NO</p> <p className='col-6'>	{headerData?.InvoiceNo}</p></div>
                         <div className='d-flex'><p className="fw-bold col-6">DATE</p> <p className='col-6'>	{headerData?.EntryDate}</p></div>
@@ -152,79 +172,30 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="d-flex border-start border-end border-bottom">
                     <div className="col-4 border-end px-1 d-flex justify-content-center align-items-center flex-column"><p className=" text-center">DIAMOND STUDDED JEWELLERY</p><p className="fw-bold text-center">Total Pcs : 7</p></div>
                     <div className="col-8 px-1">
-                        <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>GOLD 18K</p>
-                            <p className={`text-end ${style?.Gross}`}>30.760 Gms</p>
-                            <p className={`text-end ${style?.Net}`}>25.854 Gms	</p>
-                            <p className={`text-end ${style?.Pcs}`}>120</p>
-                            <p className={`text-end ${style?.Qty}`}>25.600 Ctw</p>
-                            <p className={`text-end ${style?.Rate}`}>5,700.00</p>
-                            <p className={`text-end ${style?.Amount}`}>1,47,367.80</p>
-                        </div>
-                        <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>GOLD 18K</p>
-                            <p className={`text-end ${style?.Gross}`}>30.760 Gms</p>
-                            <p className={`text-end ${style?.Net}`}>25.854 Gms	</p>
-                            <p className={`text-end ${style?.Pcs}`}>120</p>
-                            <p className={`text-end ${style?.Qty}`}>25.600 Ctw</p>
-                            <p className={`text-end ${style?.Rate}`}>5,700.00</p>
-                            <p className={`text-end ${style?.Amount}`}>1,47,367.80</p>
-                        </div>
-                        <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>GOLD 18K</p>
-                            <p className={`text-end ${style?.Gross}`}>30.760 Gms</p>
-                            <p className={`text-end ${style?.Net}`}>25.854 Gms	</p>
-                            <p className={`text-end ${style?.Pcs}`}>120</p>
-                            <p className={`text-end ${style?.Qty}`}>25.600 Ctw</p>
-                            <p className={`text-end ${style?.Rate}`}>5,700.00</p>
-                            <p className={`text-end ${style?.Amount}`}>1,47,367.80</p>
-                        </div>
-                        <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>GOLD 18K</p>
-                            <p className={`text-end ${style?.Gross}`}>30.760 Gms</p>
-                            <p className={`text-end ${style?.Net}`}>25.854 Gms	</p>
-                            <p className={`text-end ${style?.Pcs}`}>120</p>
-                            <p className={`text-end ${style?.Qty}`}>25.600 Ctw</p>
-                            <p className={`text-end ${style?.Rate}`}>5,700.00</p>
-                            <p className={`text-end ${style?.Amount}`}>1,47,367.80</p>
-                        </div>
-                        <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>GOLD 18K</p>
-                            <p className={`text-end ${style?.Gross}`}>30.760 Gms</p>
-                            <p className={`text-end ${style?.Net}`}>25.854 Gms	</p>
-                            <p className={`text-end ${style?.Pcs}`}>120</p>
-                            <p className={`text-end ${style?.Qty}`}>25.600 Ctw</p>
-                            <p className={`text-end ${style?.Rate}`}>5,700.00</p>
-                            <p className={`text-end ${style?.Amount}`}>1,47,367.80</p>
-                        </div>
-                        <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>GOLD 18K</p>
-                            <p className={`text-end ${style?.Gross}`}>30.760 Gms</p>
-                            <p className={`text-end ${style?.Net}`}>25.854 Gms	</p>
-                            <p className={`text-end ${style?.Pcs}`}>120</p>
-                            <p className={`text-end ${style?.Qty}`}>25.600 Ctw</p>
-                            <p className={`text-end ${style?.Rate}`}>5,700.00</p>
-                            <p className={`text-end ${style?.Amount}`}>1,47,367.80</p>
-                        </div>
+                        {
+                            metal?.map((e, i) => {
+                                return <div className="d-flex" key={i}>{console.log(e?.MetalTypePurity)}
+                                    <p className={` ${style?.Detail}`}>{e?.MetalTypePurity} </p>
+                                    <p className={`text-end ${style?.Gross}`}>{NumberWithCommas(e?.grosswt, 3)} Gms</p>
+                                    <p className={`text-end ${style?.Net}`}>{NumberWithCommas(e?.NetWt, 3)} Gms	</p>
+                                    <p className={`text-end ${style?.Pcs}`}></p>
+                                    <p className={`text-end ${style?.Qty}`}> </p>
+                                    <p className={`text-end ${style?.Rate}`}>{NumberWithCommas(e?.metalRate, 2)}</p>
+                                    <p className={`text-end ${style?.Amount}`}>{NumberWithCommas(e?.metalAmount, 2)}</p>
+                                </div>
+                            })
+                        }
+                        {data?.mainTotal?.diamonds?.Pcs > 0 && <div className="d-flex">
+                            <p className={` ${style?.Detail}`}>DIAMOND</p>
+                            <p className={`text-end ${style?.Gross}`}></p>
+                            <p className={`text-end ${style?.Net}`}>	</p>
+                            <p className={`text-end ${style?.Pcs}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)}</p>
+                            <p className={`text-end ${style?.Qty}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)} Ctw</p>
+                            <p className={`text-end ${style?.Rate}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Rate, 2)} / Wt</p>
+                            <p className={`text-end ${style?.Amount}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</p>
+                        </div>}
 
-                        <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>GOLD 18K</p>
-                            <p className={`text-end ${style?.Gross}`}>30.760 Gms</p>
-                            <p className={`text-end ${style?.Net}`}>25.854 Gms	</p>
-                            <p className={`text-end ${style?.Pcs}`}>120</p>
-                            <p className={`text-end ${style?.Qty}`}>25.600 Ctw</p>
-                            <p className={`text-end ${style?.Rate}`}>5,700.00</p>
-                            <p className={`text-end ${style?.Amount}`}>1,47,367.80</p>
-                        </div>
-                        <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>GOLD 18K</p>
-                            <p className={`text-end ${style?.Gross}`}>30.760 Gms</p>
-                            <p className={`text-end ${style?.Net}`}>25.854 Gms	</p>
-                            <p className={`text-end ${style?.Pcs}`}>120</p>
-                            <p className={`text-end ${style?.Qty}`}>25.600 Ctw</p>
-                            <p className={`text-end ${style?.Rate}`}>5,700.00</p>
-                            <p className={`text-end ${style?.Amount}`}>1,47,367.80</p>
-                        </div>
+
                     </div>
                 </div>
                 {/* table total */}
@@ -270,7 +241,7 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
                 {/* Note */}
                 <div className="border-start border-end border-bottom px-2">
-                    <div dangerouslySetInnerHTML={{__html: headerData?.Declaration}}></div>
+                    <div dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}></div>
                 </div>
                 {/* print remark */}
                 <div className='px-2'>
