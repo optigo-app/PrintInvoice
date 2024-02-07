@@ -11,6 +11,8 @@ import {
     taxGenrator,
     FooterComponent,
 } from "../../GlobalFunctions";
+import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
+import { cloneDeep } from 'lodash';
 
 const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
@@ -29,6 +31,44 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
         setHeaderData(data?.BillPrint_Json[0]);
         let printArr = data?.BillPrint_Json[0]?.Printlable.split("\r\n");
         setlabel(printArr);
+        let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
+        console.log(datas);
+        let metals = [];
+        let diamonds = [];
+        let colorstone = [];
+        let misc = [];
+        let othercharges1 = [];
+        let othercharges2 = [];
+        datas?.resultArray?.forEach((e, i) => {
+            let findGold = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+            if(findGold !== undefined){
+                let findMetals = metals?.findIndex((elem, index) => elem?.metalRate === findGold?.Rate && elem?.MetalTypePurity === e?.MetalTypePurity);
+                if(findMetals === -1){
+                    let obj = cloneDeep(e);
+                    obj.metalRate = findGold?.Rate;
+                    obj.metalAmount = findGold?.Amount;
+                    obj.metalPcs = findGold?.Pcs;
+                    obj.metalWt = findGold?.Wt;
+                }else{
+                    metals[findMetals].grosswt = e?.grosswt;
+                    metals[findMetals].NetWt = e?.NetWt;
+                    metals[findMetals].metalAmount = e?.metalAmount;
+                }
+            }
+        });
+
+        data?.BillPrint_Json2?.forEach((ele, ind) => {
+            if(ele?.MasterManagement_DiamondStoneTypeid === 1){
+
+            }else if(ele?.MasterManagement_DiamondStoneTypeid === 2){
+                
+            }else if(ele?.MasterManagement_DiamondStoneTypeid === 3){
+                
+            }else if(ele?.MasterManagement_DiamondStoneTypeid === 4){
+                
+            }
+        });
+        
     }
 
     useEffect(() => {
@@ -60,12 +100,6 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn }) => {
             <div className={`container max_width_container ${style?.invoiceprint8} pad_60_allPrint px-1 mt-1`}>
                 {/* buttons */}
                 <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 mt-4">
-                    <div className="form-check pe-3 ">
-                        <input className="form-check-input border-dark" type="checkbox" checked={image} onChange={e => setImage(!image)} />
-                        <label className="form-check-label ">
-                            With Image
-                        </label>
-                    </div>
                     <div className="form-check ps-3">
                         <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
                     </div>
