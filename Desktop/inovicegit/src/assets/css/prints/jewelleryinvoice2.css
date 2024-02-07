@@ -14,10 +14,16 @@
     font-weight: bold;
 }
 .fs_ji2{
-    font-size: 14px;
+    font-size: 12px;
 }
 .lh_ji2{
-    line-height: 16px;
+    line-height: 15px;
+}
+.h30_ji2{
+    height: 30px;
+}
+.h40_ji2{
+    height: 40px;
 }
 .w33_ji2{
     width: 33.33%;
@@ -46,7 +52,7 @@
     width: 20%;
 }
 .col3_ji2{
-    width: 8%;
+    width: 11%;
 }
 .col4_ji2{
     width: 6%;
@@ -55,7 +61,7 @@
     width: 7%;
 }
 .col6_ji2{
-    width: 10%;
+    width: 7%;
 }
 .col7_ji2{
     width: 11%;
@@ -68,4 +74,27 @@
 }
 .col10_ji2{
     width: 13%;
+}
+
+@media print {
+    .d_none_ji2{
+        display: none !important;
+    }
+    .container_ji2{
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 10px;
+    }
+    .h30_ji2{
+        height: 30px;
+    }
+    .h40_ji2{
+        height: 30px;
+    }
+    .fs_ji2{
+        font-size: 9px !important;
+    }
+    .lh_ji2{
+        line-height: 13px !important;
+    }
 }
