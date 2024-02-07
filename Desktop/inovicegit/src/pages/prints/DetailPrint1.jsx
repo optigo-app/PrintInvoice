@@ -73,7 +73,9 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     image: detailPrintK ? true : false,
     brokarage: false,
   });
-  // const [diamondDetails, setDiamondDetails] = useState([]);
+
+
+  const [diamondDetails, setDiamondDetails] = useState([]);
 
   const handleChange = (e) => {
     const { name, checked } = e?.target;
@@ -97,6 +99,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     setLoader(false);
     let brok = otherAmountDetail(data?.BillPrint_Json[0]?.Brokerage);
     setBrokarage(brok);
+
+    data?.BillPrint_Json2?.forEach((e, i) => {
+      // let findDiamond
+    });
   };
 
   useEffect(() => {
