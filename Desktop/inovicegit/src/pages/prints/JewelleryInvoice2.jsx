@@ -11,6 +11,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [metWise, setMetWise] = useState([]);
+  const [totobj, setTotObj] = useState();
   const toWords = new ToWords();
 
   useEffect(() => {
@@ -140,7 +141,21 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
         const qualityB = parseInt(b?.MetalPurity);
         return qualityA - qualityB;
       });
-      console.log(metwise);
+      let tot_obj = {
+        pcs:0,
+        wt:0,
+        rate:0,
+        amount:0
+      }
+      metwise?.forEach((e) => {
+        e?.diamond_colorstone_misc?.forEach((el) => {
+          tot_obj.pcs += el?.a_pcs;
+          tot_obj.wt += el?.a_wt;
+          tot_obj.rate += el?.a_rate;
+          tot_obj.amount += el?.a_amount;
+        })
+      })
+      setTotObj(tot_obj);
     setMetWise(metwise);
   };
 
@@ -327,25 +342,25 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
                                   className="border-end pad_end_ji2 endc_ji2"
                                   style={{ width: "14.4%" }}
                                 >
-                                  {el?.Pcs}
+                                  {el?.a_pcs}
                                 </div>
                                 <div
                                   className="border-end pad_end_ji2 endc_ji2"
                                   style={{ width: "16.6%" }}
                                 >
-                                  {el?.Wt?.toFixed(3)}
+                                  {el?.a_wt?.toFixed(3)}
                                 </div>
                                 <div
                                   className="border-end pad_end_ji2 endc_ji2"
                                   style={{ width: "17%" }}
                                 >
-                                  {formatAmount(el?.Rate)}
+                                  {formatAmount(el?.a_rate)}
                                 </div>
                                 <div
                                   className="pad_end_ji2 endc_ji2"
                                   style={{ width: "26%" }}
                                 >
-                                  {formatAmount(el?.Amount)}
+                                  {formatAmount(el?.a_amount)}
                                 </div>
                               </div>
                             );
@@ -373,10 +388,12 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                   <div className="col3_ji2 border-end"></div>
                   <div className="col4_ji2 border-end endc_ji2 pad_end_ji2">
-                    {result?.mainTotal?.diamond_colorstone_misc?.Pcs}
+                    {/* {result?.mainTotal?.diamond_colorstone_misc?.Pcs} */}
+                    {totobj?.pcs}
                   </div>
                   <div className="col5_ji2 border-end center_ji2">
-                    {result?.mainTotal?.diamond_colorstone_misc?.Wt?.toFixed(3)} Ctw <br /> 43.476 gm
+                    {/* {result?.mainTotal?.diamond_colorstone_misc?.Wt?.toFixed(3)} Ctw <br /> 43.476 gm */}
+                    {totobj?.wt?.toFixed(3)} Ctw <br /> 43.476 gm
                   </div>
                   <div className="col6_ji2 border-end"></div>
                   <div className="col7_ji2 border-end endc_ji2 pad_end_ji2">
@@ -389,17 +406,17 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
                     { formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling)) }
                   </div>
                   <div className="col10_ji2 endc_ji2 pad_end_ji2">
-                    {formatAmount(result?.mainTotal?.total_unitcost)}
+                    {formatAmount(result?.mainTotal?.total_amount)}
                   </div>
                 </div>
               </div>
               <div className="d-flex border border-top-0">
-                <div className="border-end p-1 d-flex justify-content-end fs_ji2 lh_ji2 " style={{width:'70%'}}>
+                <div className="border-end p-1 d-flex flex-column justify-content-end fs_ji2 lh_ji2 " style={{width:'70%'}}>
                    In Words Indian Rupees <br />
                   <b>{toWords?.convert((result?.finalAmount))} Only /-</b>
                 </div>
                 <div  style={{width:'30%'}}>
-                   {result?.mainTotal?.total_discount > 0 ?<div className="fs_ji2 lh_ji2 d-flex"><div className="w-50 border-end endc_ji2 pe-2">Discount</div><div className="w-50 endc_ji2 pad_end_ji2">{result?.mainTotal?.total_discount?.toFixed(2)}</div></div> : '' } 
+                   {result?.mainTotal?.total_discount_amount > 0 ?<div className="fs_ji2 lh_ji2 d-flex"><div className="w-50 border-end endc_ji2 pe-2">Discount</div><div className="w-50 endc_ji2 pad_end_ji2">{result?.mainTotal?.total_discount_amount?.toFixed(2)}</div></div> : '' } 
                   <div className="d-flex fw-bold fs_ji2 lh_ji2"><div className="w-50 border-end pe-2 endc_ji2">Amount</div><div className="w-50 endc_ji2 pad_end_ji2">{formatAmount(result?.mainTotal?.total_amount)}</div></div>
                   {
                     result?.allTaxes?.map((e, i) => {
