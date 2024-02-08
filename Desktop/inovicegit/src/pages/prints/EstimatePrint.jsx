@@ -904,18 +904,18 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
     });
     diamondDetailsss.sort((a, b) => {
-    if (a.ShapeName === "OTHER" && b.ShapeName !== "OTHER") {
-        return 1; 
-    } else if (a.ShapeName !== "OTHER" && b.ShapeName === "OTHER") {
-        return -1; 
-    } else {
+      if (a.ShapeName === "OTHER" && b.ShapeName !== "OTHER") {
+        return 1;
+      } else if (a.ShapeName !== "OTHER" && b.ShapeName === "OTHER") {
+        return -1;
+      } else {
         if (a.Colorname !== b.Colorname) {
-            return a.Colorname.localeCompare(b.Colorname); 
+          return a.Colorname.localeCompare(b.Colorname);
         } else {
-            return a.QualityName.localeCompare(b.QualityName); 
+          return a.QualityName.localeCompare(b.QualityName);
         }
-    }
-})
+      }
+    })
     setDia(diamondDetailsss);
   };
 
@@ -1492,7 +1492,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                           <div className="width20EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold">
                               {(e?.colorStonesTotal?.amount +
-                                      e?.miscsTotal?.amount > 0) && (
+                                e?.miscsTotal?.amount > 0) && (
                                   <>
                                     {NumberWithCommas(
                                       e?.colorStonesTotal?.amount +
@@ -1506,14 +1506,12 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                       </div>
                       <div className="OtherAmountEstimatePrint border-end position-relative border_color_estimates">
-                        <div className="h-100 d-grid pad_bot_29_estimatePrint">
+                        <div className="h-100 d-grid pad_bot_29_estimatePrint" style={{ paddingBottom: "20.5px" }}>
                           <div className="border-bottom p_1Estimate border_color_estimates">
                             {/* <p className='text-center'>Certification Charge 5,227.00 </p> */}
                             {e?.otherAmountDetails.length > 0 &&
                               e?.otherAmountDetails.map((ele, ind) => {
-                                return (
-                                  <div
-                                    className="d-flex word_break_estimate "
+                                return ( +ele?.value !== 0 && <div className="d-flex word_break_estimate "
                                     key={ind}
                                   >
                                     <p className="p_1Estimate w-100 word_break" key={ind}>
@@ -1523,11 +1521,11 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                       </span>{" "}
                                     </p>
                                   </div>
-                                );
+                              )
                               })}
                             {e?.miscsList?.map((ele, ind) => {
                               return (
-                                <div
+                                +ele?.Amount !== 0 && <div
                                   className="d-flex word_break_estimate "
                                   key={ind}
                                 >
@@ -1543,14 +1541,13 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             {/* <p className='p_1Estimate'>Total Diamond Handling: {NumberWithCommas(e?.TotalDiamondHandling, 2)}</p> */}
                             {e?.TotalDiamondHandling !== 0 && (
                               <p className="p_1Estimate word_break">
-                                {" "}
-                                Total Diamond Handling
-                              <span className="float-end">  {NumberWithCommas(e?.TotalDiamondHandling, 2)}</span>
+                                Handling
+                                <span className="float-end">  {NumberWithCommas(e?.TotalDiamondHandling, 2)}</span>
                               </p>
                             )}
                           </div>
                         </div>
-                        <div className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end">
+                        <div className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end" style={{ height: "20.5px" }}>
                           <div className="text-end p_1Estimate">
                             <p className="fw-bold">
                               {NumberWithCommas(e?.otherChargesTotal, 2)}
@@ -1559,7 +1556,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                       </div>
                       <div className="labourEstimatePrint border-end position-relative border_color_estimates">
-                        <div className="h-100 d-grid pad_bot_29_estimatePrint">
+                        <div className="h-100 d-grid pad_bot_29_estimatePrint" style={{ paddingBottom: "20.5px" }}>
                           <div className="d-flex border-bottom border_color_estimates">
                             {/* <div className='w-50 text-end p_1Estimate'><p>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p><p>{NumberWithCommas(e?.settingRate, 2)}</p></div> */}
                             {e?.MakingAmount !== 0 && (
@@ -1570,7 +1567,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                   {/* <p>Labour</p>
                                   {e?.settingAmount !== 0 && <p>Labour</p>} */}
                                   {e?.labourArr?.map((ele, ind) => {
-                                    return <p key={ind}>{NumberWithCommas(+ele?.label, 2) !== "NaN" ? NumberWithCommas(+ele?.label, 2) : ele?.label }</p>
+                                    return <p key={ind}>{NumberWithCommas(+ele?.label, 2) !== "NaN" ? NumberWithCommas(+ele?.label, 2) : ele?.label}</p>
                                   })}
                                 </div>
                                 <div className="w-50 text-end p_1Estimate">
@@ -1588,7 +1585,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             )}
                           </div>
                         </div>
-                        <div className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end">
+                        <div className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end" style={{ height: "20.5px" }}>
                           <div className="">
                             <p className="text-end p_1Estimate fw-bold">
                               {NumberWithCommas(e?.totalSetttingAmount, 2)}
@@ -1597,14 +1594,14 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                       </div>
                       <div className="totalAmountEstimatePrint position-relative">
-                        <div className="h-100 d-grid pad_bot_29_estimatePrint">
+                        <div className="h-100 d-grid pad_bot_29_estimatePrint" style={{ paddingBottom: "20.5px" }}>
                           <div className="border-bottom border_color_estimates">
                             <p className="text-end p_1Estimate pe-1 fw-bold">
                               {NumberWithCommas(e?.TotalAmount, 2)}
                             </p>
                           </div>
                         </div>
-                        <div className="totalBgEstimatePrint position-absolute bottom-0  height_29_5_estimatePrint w-100 d-flex align-items-center justify-content-end pe-1">
+                        <div className="totalBgEstimatePrint position-absolute bottom-0  height_29_5_estimatePrint w-100 d-flex align-items-center justify-content-end pe-1" style={{ height: "20.5px" }}>
                           <div className="text-end p_1Estimate">
                             <p className="fw-bold">
                               {/* <span

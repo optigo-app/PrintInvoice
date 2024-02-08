@@ -203,42 +203,43 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className={`${style?.total} px-1`}><p className="fw-bold text-center">Total</p></div>
                     <div className={`${style?.HSN} px-1`}><p className="fw-bold"></p></div>
                     <div className={`${style?.Pcs} px-1`}>
-                        <p className="fw-bold text-end">8</p>
+                        <p className="fw-bold text-end">{NumberWithCommas(data?.mainTotal?.total_Quantity, 0)}</p>
                     </div>
-                    <div className={`${style?.GGms} px-1`}><p className="fw-bold text-end">50.760 </p></div>
+                    <div className={`${style?.GGms} px-1`}><p className="fw-bold text-end">{NumberWithCommas(data?.mainTotal?.grosswt, 3)} </p></div>
                     <div className={`${style?.Stone} px-1`}>
                         <p className="fw-bold text-end"></p>
                     </div>
-                    <div className={`${style?.NGms} px-1`}><p className="fw-bold text-end">44.528</p></div>
+                    <div className={`${style?.NGms} px-1`}><p className="fw-bold text-end">{NumberWithCommas(data?.mainTotal?.netwt, 3)}</p></div>
                     <div className={`${style?.Rate} px-1`}>
                         <p className="fw-bold text-end"></p>
                     </div>
                     <div className={`${style?.VA} px-1`}><p className="fw-bold text-end"></p></div>
                     <div className={`${style?.Amount} px-1`}>
-                        <p className="fw-bold text-end">3,15,517.68 </p>
+                        <p className="fw-bold text-end">{NumberWithCommas(data?.mainTotal?.total_amount, 2)} </p>
                     </div>
                 </div>
                 {/* table taxes */}
                 <div className="d-flex border-start border-end border-bottom">
                     <div className="col-8 border-end p-2">
                         <div className="d-flex justify-content-between">
-                            <p className="fw-semibold">Advances SK19532022</p>
-                            <p className="fw-semibold">0.00</p>
-                        </div>
-                        <div>
-                            <p className="fw-semibold">Remark : Remark for Bill</p>
+                            <p className="fw-bold">Advances {headerData?.InvoiceNo}</p>
+                            <p className="fw-bold">0.00</p>
                         </div>
                         <div className="d-flex justify-content-between">
-                            <p className="fw-semibold">Credit :	</p>
-                            <p className="fw-semibold">3,15,025.94</p>
+                            <p className="fw-bold">Remark : </p>
+                            <p className="fw-bold">{headerData?.PrintRemark}</p>
                         </div>
                         <div className="d-flex justify-content-between">
-                            <p className="fw-semibold">Cash :	</p>
-                            <p className="fw-semibold">0.00 </p>
+                            <p className="fw-bold">Credit :	</p>
+                            <p className="fw-bold">0.00</p>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <p className="fw-bold">Cash :	</p>
+                            <p className="fw-bold">0.00 </p>
                         </div>
                     </div>
-                    <div className="col-4 p-2">
-                        <div className="d-flex justify-content-between">
+                    <div className="col-4 p-2 d-flex flex-column justify-content-end">
+                        {/* <div className="d-flex justify-content-between">
                             <p className="">Discount	</p>
                             <p className="">1,857.50</p>
                         </div>
@@ -257,10 +258,10 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div className="d-flex justify-content-between">
                             <p className="">Less	    </p>
                             <p className="">-0.92</p>
-                        </div>
+                        </div> */}
                         <div className="d-flex justify-content-between">
                             <p className="fw-bold">Grand Total	</p>
-                            <p className="fw-bold">3,15,025.94</p>
+                            <p className="fw-bold">{NumberWithCommas(data?.finalAmount, 2)}</p>
                         </div>
                     </div>
                 </div>
