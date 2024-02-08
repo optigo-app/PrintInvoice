@@ -55,6 +55,12 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       Rate: 0,
       Amount: 0,
     },
+    diamond_colorstone_misc_2_new:{
+      Wt: 0,
+      Pcs: 0,
+      Rate: 0,
+      Amount: 0,
+    },
     total_labour: {
       labour_rate: 0,
       labour_amount: 0,
@@ -89,12 +95,13 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
     total_otherCharge_Diamond_Handling: 0
   };
 
-  let organizeDiamonds = [];
+
 
   //json1 array
   json1?.length > 0 &&
     json1?.forEach((j1) => {
       let diamond_colorstone_misc = [];
+      let diamond_colorstone_misc_2_new = [];
       let diamondList = [];
       let colorstoneList = [];
       let metalList = [];
@@ -208,6 +215,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
             //for diamond
             if (j2?.MasterManagement_DiamondStoneTypeid === 1) {
               diamond_colorstone_misc?.push(j2);
+              diamond_colorstone_misc_2_new?.push(j2);
               diamondList.push(j2);
               jobwise_totals.diamonds.Wt += j2?.Wt;
               jobwise_totals.diamonds.Pcs += j2?.Pcs;
@@ -230,6 +238,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
             if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
               colorstoneList.push(j2);
               diamond_colorstone_misc?.push(j2);
+              diamond_colorstone_misc_2_new?.push(j2);
               jobwise_totals.colorstone.Wt += j2?.Wt;
               jobwise_totals.colorstone.Pcs += j2?.Pcs;
               jobwise_totals.colorstone.Rate += j2?.Rate;
@@ -247,6 +256,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
             //for misc
             if (j2?.MasterManagement_DiamondStoneTypeid === 4) {
               metalList.push(j2);
+              
               jobwise_totals.metal.Wt += j2?.Wt;
               jobwise_totals.metal.Pcs += j2?.Pcs;
               jobwise_totals.metal.Rate += j2?.Rate;
@@ -262,6 +272,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
             }
             //for metal
             if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
+              diamond_colorstone_misc_2_new?.push(j2);
               if (j2?.ShapeName === "Hallmark" || j2?.ShapeName === "Stamping") {
               } else {
                 diamond_colorstone_misc?.push(j2);
@@ -333,6 +344,14 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
         maintotal.diamond_colorstone_misc.Pcs += +e?.Pcs;
       });
 
+      diamond_colorstone_misc_2_new?.forEach((e) => {
+        maintotal.total_diamond_colorstone_misc_amount += +e?.Amount;
+        maintotal.diamond_colorstone_misc_2_new.Amount += +e?.Amount;
+        maintotal.diamond_colorstone_misc_2_new.Rate += +e?.Rate;
+        maintotal.diamond_colorstone_misc_2_new.Wt += +e?.Wt;
+        maintotal.diamond_colorstone_misc_2_new.Pcs += +e?.Pcs;
+      });
+
       let obj = { ...j1 };
 
       diamond_colorstone_misc?.forEach((e) => {
@@ -350,6 +369,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       })
       jobwise_totals.makingAmount_settingAmount += j1?.MakingAmount;
       obj.diamond_colorstone_misc = diamond_colorstone_misc;
+      obj.diamond_colorstone_misc_2_new = diamond_colorstone_misc_2_new;
       obj.certificateWtDia = diawtdup;
       obj.diamonds = diamondList;
       obj.colorstone = colorstoneList;
