@@ -53,24 +53,59 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
 
     let metwise = [];
 
-    // let finalArr = [];
-    // datas?.resultArray?.forEach((e, i) => {
-    //   let findGold = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+    let finalArr = [];
+    datas?.resultArray?.forEach((e, i) => {
+      let findGold = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+      let obj = cloneDeep(e);
+      if (findGold !== undefined) {
+        obj.metalRate = findGold?.Rate;
+        obj.metalAmount = findGold?.Amount;
+        obj.metalWeight = findGold?.Wt;
+        obj.metalPcs = findGold?.Pcs;
+      } else {
+        obj.metalRate = 0;
+        obj.metalAmount = 0;
+        obj.metalWeight = 0;
+        obj.metalPcs = 0;
+      }
+      finalArr.push(obj);
+    });
+    datas.resultArray = finalArr;
+
+    // datas?.resultArray?.forEach((e) => {
+    //   let findIndex_ = metwise?.findIndex((a) => a?.MetalPurity === e?.MetalPurity)
     //   let obj = cloneDeep(e);
-    //   if (findGold !== undefined) {
-    //     obj.metalRate = findGold?.Rate;
-    //     obj.metalAmount = findGold?.Amount;
-    //     obj.metalWeight = findGold?.Wt;
-    //     obj.metalPcs = findGold?.Pcs;
-    //   } else {
-    //     obj.metalRate = 0;
-    //     obj.metalAmount = 0;
-    //     obj.metalWeight = 0;
-    //     obj.metalPcs = 0;
+    //   if(findIndex_ === -1){
+    //     obj.OtherCharges_d = 0;
+    //     obj.UnitCost_d = 0;
+    //     obj.TotalDiaSetcost_d = 0;
+    //     obj.TotalDiamondHandling_d = 0;
+    //     obj.TotalAmount_d = 0;
+    //     obj.MiscAmount_d = 0;
+    //     obj.MakingAmount_d = 0;
+    //     obj.MetalAmount_d = 0;
+    //     obj.grosswt_d = 0;
+    //     obj.NetWt_d = 0;
+    //     obj.LossWt_d = 0;
+    //     obj.total_MakingAmount_Setting_Amount_d = 0;
+    //     metwise.push(e);
+    //   }else{
+    //     metwise[findIndex_].OtherCharges_d += e?.OtherCharges;
+    //     metwise[findIndex_].UnitCost_d += e?.UnitCost;
+    //     metwise[findIndex_].TotalDiaSetcost_d += e?.TotalDiaSetcost;
+    //     metwise[findIndex_].TotalDiamondHandling_d += e?.TotalDiamondHandling;
+    //     metwise[findIndex_].TotalDiamondHandling_d += e?.TotalDiamondHandling;
+    //     metwise[findIndex_].TotalAmount_d = e?.TotalAmount;
+    //     metwise[findIndex_].MiscAmount_d = e?.MiscAmount;
+    //     metwise[findIndex_].MakingAmount_d = e?.MakingAmount;
+    //     metwise[findIndex_].MetalAmount_d = e?.MetalAmount;
+    //     metwise[findIndex_].grosswt_d = e?.grosswt;
+    //     metwise[findIndex_].NetWt_d = e?.NetWt;
+    //     metwise[findIndex_].LossWt_d = e?.LossWt;
+    //     metwise[findIndex_].total_MakingAmount_Setting_Amount_d = e?.total_MakingAmount_Setting_Amount;
+    //     metwise[findIndex_].diamond_colorstone_misc = ([...e?.diamond_colorstone_misc]?.flat());
     //   }
-    //   finalArr.push(obj);
-    // });
-    // datas.resultArray = finalArr
+    // })
     datas?.resultArray?.forEach((e) => {
       let findRecord = metwise?.findIndex(
         (a) => a?.MetalPurity === e?.MetalPurity 
@@ -78,17 +113,18 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
       );
       if (findRecord === -1) {
         let obj = { ...e };
-        // obj.OtherCharges_d = e?.OtherCharges;
-        // obj.UnitCost_d = e?.UnitCost;
-        // obj.TotalDiaSetcost_d = e?.TotalDiaSetcost;
-        // obj.TotalDiamondHandling_d = e?.TotalDiamondHandling;
-        // obj.TotalAmount_d = e?.TotalAmount;
-        // obj.MiscAmount_d = e?.MiscAmount;
-        // obj.MakingAmount_d = e?.MakingAmount;
-        // obj.MetalAmount_d = e?.MetalAmount;
-        // obj.grosswt_d = e?.grosswt;
-        // obj.NetWt_d = e?.NetWt;
-        // obj.LossWt_d = e?.LossWt;
+        obj.OtherCharges_d = e?.OtherCharges;
+        obj.UnitCost_d = e?.UnitCost;
+        obj.TotalDiaSetcost_d = e?.TotalDiaSetcost;
+        obj.TotalDiamondHandling_d = e?.TotalDiamondHandling;
+        obj.TotalAmount_d = e?.TotalAmount;
+        obj.MiscAmount_d = e?.MiscAmount;
+        obj.MakingAmount_d = e?.MakingAmount;
+        obj.MetalAmount_d = e?.MetalAmount;
+        obj.grosswt_d = e?.grosswt;
+        obj.NetWt_d = e?.NetWt;
+        obj.LossWt_d = e?.LossWt;
+        obj.total_MakingAmount_Setting_Amount_d = e?.total_MakingAmount_Setting_Amount;
         metwise.push(obj);
       } else {
         metwise[findRecord].OtherCharges_d += e?.OtherCharges;
@@ -108,17 +144,20 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
         metwise[findRecord].MetalAmount_d += e?.MetalAmount;
         metwise[findRecord].MetalAmount += e?.MetalAmount;
         metwise[findRecord].grosswt_d += e?.grosswt;
-        metwise[findRecord].grosswt += e?.grosswt;
+        // metwise[findRecord].grosswt += e?.grosswt;
         metwise[findRecord].NetWt_d += e?.NetWt;
-        metwise[findRecord].NetWt += e?.NetWt;
+        // metwise[findRecord].NetWt += e?.NetWt;
         metwise[findRecord].LossWt_d += e?.LossWt;
-        metwise[findRecord].LossWt += e?.LossWt;
-        metwise[findRecord].diamond_colorstone_misc = [...metwise[findRecord].diamond_colorstone_misc, ...e.diamond_colorstone_misc].flat()
+        // metwise[findRecord].LossWt += e?.LossWt;
+        // metwise[findRecord].total_MakingAmount_Setting_Amount += e?.total_MakingAmount_Setting_Amount;
+        metwise[findRecord].total_MakingAmount_Setting_Amount_d += e?.total_MakingAmount_Setting_Amount;
+        metwise[findRecord].diamond_colorstone_misc = [...metwise[findRecord].diamond_colorstone_misc, ...e?.diamond_colorstone_misc].flat()
       }
     });
-      metwise?.forEach((e) => {
+    metwise?.forEach((e) => {
         let metwise2 = [];
         e?.diamond_colorstone_misc?.forEach((a) => {
+          console.log(a);
           let find_Record = metwise2?.findIndex((el) => el?.MasterManagement_DiamondStoneTypeid === 1 && el?.QualityName === a?.QualityName);
           if(find_Record === -1){
             let obj = {...a};
@@ -130,7 +169,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
           }else{
               metwise2[find_Record].a_wt += a?.Wt;
               metwise2[find_Record].a_pcs += a?.Pcs;
-              metwise2[find_Record].a_rate += a?.Rate;
+              // metwise2[find_Record].a_rate += a?.Rate;
               metwise2[find_Record].a_amount += a?.Amount;
           }
         })
@@ -141,6 +180,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
         const qualityB = parseInt(b?.MetalPurity);
         return qualityA - qualityB;
       });
+    //   console.log(metwise);
       let tot_obj = {
         pcs:0,
         wt:0,
@@ -155,8 +195,10 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
           tot_obj.amount += el?.a_amount;
         })
       })
+    
       setTotObj(tot_obj);
-    setMetWise(metwise);
+      console.log(metwise);
+      setMetWise(metwise);
   };
 
   return (
@@ -178,7 +220,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
                   {result?.header?.PrintHeadLabel}
                 </div>
                 <div className="fs_ji2 lh_ji2 pb-2">
-                  <div className="fw-bold">
+                  <div className="fw-bold fs_2_ji2">
                     {result?.header?.CompanyFullName}
                   </div>
                   <div>{result?.header?.CompanyAddress}</div>
@@ -209,7 +251,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
               <div className="d-flex border fs_ji2 lh_ji2">
                 <div className="w33_ji2 border-end p-1 fs_ji2 lh_ji2">
                   <div>{result?.header?.lblBillTo}</div>
-                  <div>{result?.header?.customerfirmname}</div>
+                  <div className="fw-bold">{result?.header?.customerfirmname}</div>
                   <div>{result?.header?.customerAddress1}</div>
                   <div>{result?.header?.customerAddress2}</div>
                   <div>
@@ -244,15 +286,15 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
                 <div className="w33_ji2 p-1 fs_ji2 lh_ji2">
                   <div className="d-flex">
-                    <div className="w-50 fw-bold">VOUCHER</div>
+                    <div className="w-25 fw-bold">VOUCHER</div>
                     <div className="w-50">{result?.header?.InvoiceNo}</div>
                   </div>
                   <div className="d-flex">
-                    <div className="w-50 fw-bold">DATE</div>
+                    <div className="w-25 fw-bold">DATE</div>
                     <div className="w-50">{result?.header?.EntryDate}</div>
                   </div>
                   <div className="d-flex">
-                    <div className="w-50 fw-bold">
+                    <div className="w-25 fw-bold">
                       {result?.header?.HSN_No_Label}
                     </div>
                     <div className="w-50">{result?.header?.HSN_No}</div>
@@ -287,7 +329,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                         <div className="col2_ji2 border-end pad_start_ji2">
                           {" "}
-                          New Jewellery <br /> <b>{e?.grosswt?.toFixed(3)}</b> gm Gross
+                          New Jewellery <br /> <b>{e?.grosswt_d?.toFixed(3)}</b> gm Gross
                         </div>
                         <div
                           className="col3_ji2 border-end "
@@ -308,19 +350,21 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
                               className="border-end pad_end_ji2 endc_ji2"
                               style={{ width: "16.6%" }}
                             >
-                              {e?.metal?.map((a, i) => {
+                              {(e?.NetWt_d + e?.LossWt_d)?.toFixed(3)}
+                              {/* {e?.metal?.map((a, i) => {
                                 return <div key={i}>{a?.Wt?.toFixed(3)}</div>;
-                              })}
+                              })} */}
                             </div>
                             <div
                               className="border-end pad_end_ji2 endc_ji2"
                               style={{ width: "17%" }}
                             >
-                              {e?.metal?.map((a, i) => {
+                              { formatAmount( (e?.MetalAmount)/(e?.NetWt_d + e?.LossWt_d)) }
+                              {/* {e?.metal?.map((a, i) => {
                                 return (
                                   <div key={i}>{formatAmount(a?.Rate)}</div>
                                 );
-                              })}
+                              })} */}
                             </div>
                             <div
                               className="pad_end_ji2 endc_ji2"
@@ -342,7 +386,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
                                   className="border-end pad_end_ji2 endc_ji2"
                                   style={{ width: "14.4%" }}
                                 >
-                                  {el?.a_pcs}
+                                  {el?.Pcs}
                                 </div>
                                 <div
                                   className="border-end pad_end_ji2 endc_ji2"
@@ -355,6 +399,8 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
                                   style={{ width: "17%" }}
                                 >
                                   {formatAmount(el?.a_rate)}
+                                  {/* {console.log(((+el?.a_amount)/(+el?.a_wt)))} */}
+                                  {/* {el?.a_wt === 0 ? '' :  formatAmount((+el?.a_amount)/(+el?.a_wt))} */}
                                 </div>
                                 <div
                                   className="pad_end_ji2 endc_ji2"
@@ -406,7 +452,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
                     { formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling)) }
                   </div>
                   <div className="col10_ji2 endc_ji2 pad_end_ji2">
-                    {formatAmount(result?.mainTotal?.total_amount)}
+                    {formatAmount(result?.mainTotal?.total_unitcost)}
                   </div>
                 </div>
               </div>
