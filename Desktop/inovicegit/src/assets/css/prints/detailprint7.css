@@ -5,6 +5,7 @@
     padding-top: 3rem;
     max-width: 1200px;
     margin: 0 auto;
+    padding-bottom: 80px;
 }
 
 /* borders */
@@ -47,13 +48,19 @@
 
 /* div wise fontsize and line height */
 .fsgdp7{
+    font-size: 12px;
+}
+.fsgdp7_{
+    font-size: 16px;
+}
+._fsgdp7_{
     font-size: 14px;
 }
 .lhdp7{
-    line-height: 100%;
+    line-height: 18px;
     /* padding: 2px; */
     /* height: 20px; */
-    font-size: 14px;
+    /* font-size: 12px; */
 }
 .pheaddp7{
     height: 40px;
@@ -68,7 +75,7 @@
 }
 .headimgdp7{
     height: 30%;
-    width: 30%;
+    width: 50%;
 }
 /* table */
 .tabledp7{
@@ -406,6 +413,12 @@
     .fsgdp7{
         font-size: 11px !important;
     }
+    .fsgdp7_{
+        font-size: 14px;
+    }
+    ._fsgdp7_{
+        font-size: 12px;
+    }
     .tabledp7{
         margin-top: 2rem;
         border: 0px; 
@@ -414,9 +427,9 @@
         page-break-inside: avoid;
     }
     .lhdp7{
-        line-height: 100%;
+        line-height: 15px;
         /* height: 20px; */
-        font-size: 11px !important;
+        /* font-size: 11px !important; */
     }
     .bordersdp7{
         border-left: 1px solid #e8e8e8;
@@ -428,9 +441,9 @@
         border-top: 1px solid #e8e8e8;
         /* height: 30px !important; */
     }
-    div > .lines{
+    /* div > .lines{
         font-size: 11px !important;
-    }
+    } */
     .headimgdp7{
         height: 20%;
         width: 20%;
