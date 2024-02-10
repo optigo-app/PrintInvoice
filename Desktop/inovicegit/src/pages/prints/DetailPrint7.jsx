@@ -249,7 +249,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
             <>
               <div className="containerdp7 pb-5 mb-5">
                 {/* image show flag */}
-                <div className="d-flex justify-content-end align-items-center my-5 hidebtn">
+                <div className="d-flex justify-content-end align-items-center my-5 fsgdp7 hidebtn">
                   <input
                     type="checkbox"
                     checked={imgFlag}
@@ -269,12 +269,12 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
                 {/* table header */}
                 <div>
-                  <div className="pheaddp7">
+                  <div className="pheaddp7 w-100">
                     {result?.header?.PrintHeadLabel}
                   </div>
-                  <div className="d-flex justify-content-between align-items-center p-1">
-                    <div>
-                      <div className="fw-bold fsgdp7 lhdp7">
+                  <div className="d-flex justify-content-between align-items-center p-1 ">
+                    <div className="w-75 fsgdp7">
+                      <div className="fw-bold fsgdp7_ lhdp7">
                         {result?.header?.CompanyFullName}
                       </div>
                       <div className="fsgdp7 lhdp7">
@@ -302,7 +302,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                         {result?.header?.Pannumber}{" "}
                       </div>
                     </div>
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-end w-25 fsgdp7">
                       <img
                         src={result?.header?.PrintLogo}
                         alt="#companylogo"
@@ -313,12 +313,12 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
 
                 {/* table sub header */}
-                <div className="d-flex subhead hcompdp7">
+                <div className="d-flex subhead hcompdp7 fsgdp7">
                   <div className="subheaddiv1">
                     <div className="fsgdp7 lhdp7">
                       {result?.header?.lblBillTo}
                     </div>
-                    <div className="fsgdp7 lhdp7">
+                    <div className="_fsgdp7_ lhdp7">
                       <b>{result?.header?.customerfirmname}</b>
                     </div>
                     <div className="fsgdp7 lhdp7">
@@ -344,7 +344,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                   <div className="subheaddiv2">
                     <div className="fsgdp7 lhdp7">Ship To,</div>
-                    <div className="fsgdp7 lhdp7">
+                    <div className="_fsgdp7_ lhdp7">
                       <b>{result?.header?.customerfirmname}</b>
                     </div>
                     {result?.header?.address?.map((e, i) => {
@@ -355,7 +355,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       );
                     })}
                   </div>
-                  <div className="subheaddiv3">
+                  <div className="subheaddiv3 fsgdp7">
                     <div className="fsgdp7 lhdp7 d-flex justify-content-between">
                       <span className="w-50 fw-bold">INVOICE NO</span>
                       <span className="w-50 d-flex justify-content-start">
@@ -369,7 +369,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </span>
                     </div>
                     <div className="fsgdp7 lhdp7 d-flex justify-content-between">
-                      <span className="w-50 fw-bold">HSN</span>
+                      <span className="w-50 fw-bold">{result?.header?.HSN_No_Label}</span>
                       <span className="w-50 d-flex justify-content-start">
                         {result?.header?.HSN_No}
                       </span>
@@ -388,7 +388,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
 
                 {/* table head */}
-                <div className="tabledp7">
+                <div className="tabledp7 fsgdp7">
                   <div className="theaddp7 hcompdp7 bordersdp7">
                     <div className="col1dp7 dp7cen">SR#</div>
                     <div className="col2dp7 dp7cen">DESIGN DESCRIPTION</div>
@@ -421,7 +421,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                           className="d-flex brbdp7 hcompdp7 bordersdp7"
                           key={i}
                         >
-                          <div className="rcol1dp7 dp7cen1">{e?.SrNo}</div>
+                          <div className="rcol1dp7 dp7cen1">{i+1}</div>
                           <div className="rcol2dp7 d-flex flex-column  justify-content-between  align-items-start p-1">
                             <div className="d-flex justify-content-between align-items-start w-100">
                               <div>{e?.designno}</div>
@@ -502,37 +502,33 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
 
                 {/* table all row total */}
-                <div className="totaldp7 w-100 brtdp7 border-top-0 border-start border-end">
+                <div className="totaldp7 w-100 brtdp7 border-top-0 border-start border-end fsgdp7">
                   <div className="totcol1dp7"></div>
                   <div className="totcol2dp7 dp7cen2">
-                    {result?.mainTotal?.grosswt?.toFixed(3)}
+                    {result?.mainTotal?.grosswt !== 0 && result?.mainTotal?.grosswt?.toFixed(3)}
                   </div>
                   <div className="totcol3dp7 dp7cen2">
-                    {result?.mainTotal?.netwtWithLossWt?.toFixed(3)}
+                    {result?.mainTotal?.netwtWithLossWt !== 0 && result?.mainTotal?.netwtWithLossWt?.toFixed(3)}
                   </div>
                   <div className="totcol4dp7"></div>
                   <div className="totcol5dp7 dp7cen2">
-                    {formatAmount(
-                      result?.mainTotal?.total_diamond_colorstone_misc_amount
-                    )}
+                    {result?.mainTotal?.total_diamond_colorstone_misc_amount !== 0 && formatAmount(result?.mainTotal?.total_diamond_colorstone_misc_amount)}
                   </div>
                   <div className="totcol6dp7 dp7cen2">
-                    {formatAmount(otherAMountTotal)}
+                    {otherAMountTotal !== 0 && formatAmount(otherAMountTotal)}
                   </div>
                   <div className="totcol7dp7 dp7cen2">
-                    {result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(
-                      3
-                    )}
+                    {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)}
                   </div>
                 </div>
 
                 {/* table total */}
-                <div className="w-100 brtdp7 dp7cen2 bradp7 ">
-                  {formatAmount(result?.mainTotal?.total_amount)}
+                <div className="w-100 brtdp7 dp7cen2 bradp7 fsgdp7">
+                  {result?.mainTotal?.total_amount !== 0 && formatAmount(result?.mainTotal?.total_amount)}
                 </div>
 
                 {/* Courier info and Charges */}
-                <div className="w-100 d-flex border border-top-0">
+                <div className="w-100 d-flex border border-top-0 fsgdp7">
                   <div style={{ width: "69.9%" }}></div>
                   <div style={{ width: "30.1%" }} className="d-flex">
                     <div
@@ -552,7 +548,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {result?.allTaxes?.map((e, i) => {
                   return (
                     <div
-                      className="w-100 bradp7 border-bottom-0 border-top-0 taxdp7"
+                      className="w-100 bradp7 border-bottom-0 border-top-0 taxdp7 fsgdp7"
                       key={i}
                     >
                       <div className="taxdp7d1">{e?.amountInWords}</div>
@@ -563,7 +559,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                   );
                 })}
-                <div className="w-100 bradp7 border-top-0 taxdp7">
+                <div className="w-100 bradp7 border-top-0 taxdp7 fsgdp7">
                   <div className="taxdp7d4"></div>
                   <div className="taxdp7d2 dp7cen2 bldp7">
                     Sales Rounded Off
@@ -574,7 +570,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
 
                 {/* grand total */}
-                <div className="w-100 bradp7 border-top-0 taxdp7 finalAmt_h">
+                <div className="w-100 bradp7 border-top-0 taxdp7 finalAmt_h fsgdp7">
                   <div
                     className="taxdp7d1 fw-bold ps-1 h-100 dp7cen1"
                     style={{ width: "70.5%" }}
@@ -595,11 +591,11 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       }}
                     ></div>
                     <div className="ps-1">
-                      {formatAmount(result?.finalAmount)}
+                      {result?.finalAmount !== 0 && formatAmount(result?.finalAmount)}
                     </div>
                   </div>
                 </div>
-                <div className="w-100 d-flex brbdp7 brdp7 bldp7">
+                <div className="w-100 d-flex brbdp7 brdp7 bldp7 fsgdp7">
                   <div
                     className="brdp7 fw-bold ps-1"
                     style={{ width: "3%" }}
@@ -608,12 +604,12 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     }}
                   ></div>
                   <div className="ps-2 fw-bold" style={{ width: "97%" }}>
-                    {toWords.convert(result?.finalAmount)} Only /-
+                    {result?.finalAmount !== 0 && toWords.convert(result?.finalAmount)} Only /-
                   </div>
                 </div>
 
                 {/* summary */}
-                <div className="summary_container_dp7 hcompdp7">
+                <div className="summary_container_dp7 hcompdp7 fsgdp7">
                   <div className="summary_container_dp7_product_table hcompdp7">
                     <div className="summary_container_dp7_product_title">
                       PRODUCT SUMMARY
@@ -630,7 +626,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       categoryWise?.map((e, i) => {
                         return (
                           <div
-                            className="summary_container_dp7_product_body"
+                            className="summary_container_dp7_product_body fsgdp7"
                             key={i}
                           >
                             <div className="sum_prod_head_col_1 dp7cen1">
@@ -654,32 +650,30 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                           </div>
                         );
                       })}
-                    <div className="summary_container_dp7_product_total fw-bold">
+                    <div className="summary_container_dp7_product_total fw-bold fsgdp7">
                       <div className="sum_prod_head_col_1 dp7cen1">Total</div>
                       <div className="sum_prod_head_col_2 dp7cen2">
-                        {result?.mainTotal?.total_Quantity}
+                        {result?.mainTotal?.total_Quantity !== 0 && result?.mainTotal?.total_Quantity}
                       </div>
                       <div className="sum_prod_head_col_3 dp7cen2">
-                        {result?.mainTotal?.grosswt?.toFixed(3)}
+                        {result?.mainTotal?.grosswt !== 0 && result?.mainTotal?.grosswt?.toFixed(3)}
                       </div>
                       <div className="sum_prod_head_col_4 dp7cen2">
-                        {result?.mainTotal?.netwtWithLossWt?.toFixed(3)}
+                        {result?.mainTotal?.netwtWithLossWt !== 0 && result?.mainTotal?.netwtWithLossWt?.toFixed(3)}
                       </div>
                       <div className="sum_prod_head_col_5 dp7cen2"></div>
                       <div className="sum_prod_head_col_6 dp7cen2">
-                        {result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(
-                          3
-                        )}
+                        {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)}
                       </div>
                     </div>
                   </div>
                   <div style={{ height: "16px" }}></div>
-                  <div className="summary_container_dp7_misc_table hcompdp7">
+                  <div className="summary_container_dp7_misc_table hcompdp7 fsgdp7">
                     <div className="summary_container_dp7_misc_title">
                       MISC SUMMARY
                     </div>
 
-                    <div className="summary_container_dp7_misc_head w-100 fw-bold">
+                    <div className="summary_container_dp7_misc_head w-100 fw-bold fsgdp7">
                       <div className="summary_container_dp7_misc_head_col_1 dp7cen">
                         TYPE
                       </div>
@@ -700,7 +694,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       miscWise?.map((e, i) => {
                         return (
                           <div
-                            className="summary_container_dp7_misc_body"
+                            className="summary_container_dp7_misc_body fsgdp7"
                             key={i}
                           >
                             <div className="summary_container_dp7_misc_head_col_1 dp7cen1">
@@ -724,7 +718,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                         );
                       })}
 
-                    <div className="summary_container_dp7_misc_total">
+                    <div className="summary_container_dp7_misc_total fsgdp7">
                       <div className="summary_container_dp7_misc_head_col_1 dp7cen1">
                         Other Charges
                       </div>
@@ -767,17 +761,17 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
 
                 {/* footer */}
                 <div
-                  className="mt-1 bradp7 p-1 hcompdp7"
+                  className="mt-1 bradp7 p-1 hcompdp7 fsgdp7"
                   dangerouslySetInnerHTML={{
                     __html: result?.header?.Declaration,
                   }}
                 >
                   {}
                 </div>
-                <div className="border-top-0 bradp7 border-bottom-0 ps-1">
+                <div className="border-top-0 bradp7 border-bottom-0 ps-1 fsgdp7">
                   REMARKS : {result?.header?.PrintRemark}
                 </div>
-                <div className="d-flex footer_bank hcompdp7">
+                <div className="d-flex footer_bank hcompdp7 fsgdp7">
                   <div className="subheaddiv_1">
                     <div className="fw-bold">Bank Detail</div>
                     <div>Bank Name: {result?.header?.bankname}</div>
