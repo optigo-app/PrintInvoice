@@ -119,7 +119,6 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       }
       let obj = cloneDeep(e);
       obj.primaryMetalWt = primaryMetalWt;
-      console.log(primaryMetalWt);
       finalArr.push(obj);
     })
     settotalMetalWts(totalMetalWt);
@@ -796,8 +795,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                           {dp1lp ? <>
                             <p className="text-center">
                               <span className="fw-bold">
-                                {fixedValues(e?.grosswt, 3)}gm <span className="fw-bold">Gross</span>
-                              </span>
+                                {fixedValues(e?.grosswt, 3)}gm 
+                              </span><span className="">Gross</span>
                             </p>
                           </> : <>
                             <p className="text-center">
@@ -851,7 +850,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                             <p className="col-2 "></p>
                             <p className="col-2 text-end fw-bold d-flex align-items-center justify-content-end">
                               {e?.diamondsTotal?.Pcs !== 0 &&
-                                NumberWithCommas(e?.totals?.diamonds?.Pcs)}
+                                NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)}
                             </p>
                             <p className="col-2 text-end fw-bold d-flex align-items-center justify-content-end">
                               {e?.diamondsTotal?.Wt !== 0 &&
@@ -897,7 +896,6 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                               {/* fixedValues(e?.totals?.metal?.Wt + (e?.totals?.diamonds?.Wt / 5), 3)} */}
                             </p>
                             <p className="col-2 text-end fw-bold d-flex justify-content-end align-items-center">
-                              {console.log(e?.primaryMetalWt)}
                               {e?.NetWt !== 0 && (dp1lp ? fixedValues(e?.primaryMetalWt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3))}
                             </p>
                             <p className="col-2 text-end"></p>
@@ -1123,14 +1121,14 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </div>
                       <div className="totalAmountDetailPrint1 border-end  border-bottom d-flex align-tems-center justify-content-end lightGrey">
                         <p className="d-flex align-items-center">
-                          <span
+                        {!dp1lp &&   <span
                             dangerouslySetInnerHTML={{
                               __html: json0Data?.Currencysymbol,
                             }}
-                          ></span>{" "}
+                          ></span>}
                           <span className="fw-bold">
                             {e?.TotalAmount !== 0 &&
-                              (e?.TotalAmount).toFixed(2)}
+                              NumberWithCommas(e?.TotalAmount, 2)}
                           </span>
                         </p>
                       </div>

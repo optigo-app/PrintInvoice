@@ -75,29 +75,29 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     <p className="fs-5 text-white fw-bold">{headerData?.PrintHeadLabel}</p>
                 </div>
                 <div className='px-2 pb-2 border-bottom'>
-                    <p className="fs-5 fw-bold">Optigo</p>
-                    <p>57 Bansant lok</p>
-                    <p>New Delhi-605001, GUJARAT(India)</p>
-                    <p>T 9510213588 | TOLL FREE 1800-2568-28667</p>
-                    <p>darren@orail.co.in | www.optigoapps.com</p>
+                    <p className="fs-5 fw-bold">{headerData?.CompanyFullName}</p>
+                    <p>{headerData?.CompanyAddress}</p>
+                    <p>{headerData?.CompanyCity}-{headerData?.CompanyPinCode}, {headerData?.CompanyState}({headerData?.CompanyCountry})</p>
+                    <p>T {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</p>
+                    <p>{headerData?.CompanyEmail} | {headerData?.CompanyWebsite}</p>
                 </div>
                 <div className="py-2 d-flex justify-content-between">
                     <div className="col-3 px-2">
                         <div className="d-flex border-black border px-2">
                             <div className="col-6 fw-bold"><p>BILL NO :</p></div>
-                            <div className="col-6"><p>SK19082022</p></div>
+                            <div className="col-6"><p>{headerData?.InvoiceNo}</p></div>
                         </div>
                     </div>
                     <div className="col-3 px-2">
                         <div className="d-flex border-black border px-2">
-                            <div className="col-6 fw-bold"><p>HSN :</p></div>
-                            <div className="col-6"><p>85213</p></div>
+                            <div className="col-6 fw-bold"><p>{headerData?.HSN_No_Label} :</p></div>
+                            <div className="col-6"><p>{headerData?.HSN_No}</p></div>
                         </div>
                     </div>
                     <div className="col-3 px-2">
                         <div className="d-flex border-black border px-2">
                             <div className="col-6 fw-bold"><p>Date :</p></div>
-                            <div className="col-6"><p>09 Feb 2024</p></div>
+                            <div className="col-6"><p>{headerData?.EntryDate}</p></div>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 <div className="border-start border-end border-bottom border-black d-flex px-2">
                     <p className="fw-bold">test</p>
                 </div>
-                <div className="border-start border-end border-bottom  border-black ">
+                <div className="border-start border-end border-bottom  border-black">
                     <div className='px-2 border-bottom d-flex'>
                         <div className={`${style?.Variant}`}> <p className=''>Variant No/ Product Description </p></div>
                         <div className={`${style?.KT}`}> <p className='text-center'>KT </p></div>
@@ -127,19 +127,24 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         <div className={`${style?.Discount}`}> <p className='text-center'>Discount(Rs) </p></div>
                         <div className={`${style?.Product}`}> <p className='text-end'>Product Amount(Rs) </p></div>
                     </div>
-                    <div className="d-flex px-2 border-bottom">
-                        <div className={`${style?.Variant}`}> <p className=''>1829/1/15263 18K Ring</p></div>
-                        <div className={`${style?.KT}`}> <p className='text-center'>18K </p></div>
-                        <div className={`${style?.Qty}`}> <p className='text-center'>1 </p></div>
-                        <div className={`${style?.Gross}`}> <p className='text-center'>15.000 </p></div>
-                        <div className={`${style?.Dia}`}> <p className='text-center'>0.000</p></div>
-                        <div className={`${style?.Stone}`}> <p className='text-center'>0.000 </p></div>
-                        <div className={`${style?.Misc}`}> <p className='text-center'>0.000 </p></div>
-                        <div className={`${style?.Net}`}> <p className='text-center'>15.750</p></div>
-                        <div className={`${style?.Price}`}> <p className='text-center'>93,206.65</p></div>
-                        <div className={`${style?.Discount}`}> <p className='text-center'>0.00</p></div>
-                        <div className={`${style?.Product}`}> <p className='text-end'>93,806.65</p></div>
-                    </div>
+                    {
+                        data?.resultArray?.map((e, i) => {
+                            return <div className="d-flex px-2 border-bottom" key={i}>
+                                <div className={`${style?.Variant}`}> <p className=''>{e?.designno} / {e?.SrJobno} {e?.MetalPurity} {e?.Categoryname}</p></div>
+                                <div className={`${style?.KT}`}> <p className='text-center'>{e?.MetalPurity} </p></div>
+                                <div className={`${style?.Qty}`}> <p className='text-center'>{e?.Quantity} </p></div>
+                                <div className={`${style?.Gross}`}> <p className='text-center'>{NumberWithCommas(e?.grosswt, 3)} </p></div>
+                                <div className={`${style?.Dia}`}> <p className='text-center'>{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p></div>
+                                <div className={`${style?.Stone}`}> <p className='text-center'>{NumberWithCommas(e?.totals?.colorstone?.Wt, 3)} </p></div>
+                                <div className={`${style?.Misc}`}> <p className='text-center'>{NumberWithCommas(e?.totals?.misc?.Wt, 3)} </p></div>
+                                <div className={`${style?.Net}`}> <p className='text-center'>{NumberWithCommas(e?.NetWt, 3)}</p></div>
+                                <div className={`${style?.Price}`}> <p className='text-center'>{NumberWithCommas(e?.MetalAmount+e?.Making_Amount_Other_Charges, 2)}</p></div>
+                                <div className={`${style?.Discount}`}> <p className='text-center'>0.00</p></div>
+                                <div className={`${style?.Product}`}> <p className='text-end'>93,806.65</p></div>
+                            </div>
+                        })
+                    }
+
                     <div className="d-flex border-bottom px-2">
                         <div className={`${style?.Variant}`}> <p className=''>Total</p></div>
                         <div className={`${style?.KT}`}> <p className='text-center'> </p></div>
@@ -160,7 +165,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         </div>
                     </div>
                     <div className="d-flex">
-                        <div className="col-6 border-end border-black">
+                        <div className="col-6 border-end border-black position-relative">
                             <p className="fw-bold px-2">Payment Details  </p>
                             <div className="d-flex justify-content-between border-bottom px-2 border-black">
                                 <p>Payment Mode</p>
@@ -182,19 +187,52 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                 <p className='fw-bold'>Balance Amount</p>
                                 <p className='fw-bold'>Rs.97,51,164</p>
                             </div>
+                            <div className="pt-5 px-2 position-absolute bottom-0 left-0">
+                                <p className=''> Customer Name : Prashant Rajput</p>
+                                <p className='pt-5'>  Customer Signature</p>
+                            </div>
                         </div>
-                        <div className="col-6 border-bottom border-black">
-                            <div className="d-flex justify-content-between border-bottom border-black">
+                        <div className="col-6">
+                            <div className="d-flex justify-content-between border-bottom border-black px-2">
                                 <p>Total Value</p>
                                 <p>1,67,989.60</p>
                             </div>
-                            <div className="d-flex justify-content-between border-bottom border-black">
+                            <div className="d-flex justify-content-between border-bottom border-black px-2">
                                 <p>CGST @ 0.13%</p>
                                 <p>218.39</p>
                             </div>
-
-                            SGST @ 0.13%218.39 Less:- Other Discount0.38 Value after Discount1,67,989.22 Net Invoice Value1,68,426.00 Total Amount to be paid Rs.Rs.97,51,164
+                            <div className="d-flex justify-content-between border-bottom border-black px-2">
+                                <p>SGST @ 0.13%</p>
+                                <p>218.39</p>
+                            </div>
+                            <div className="d-flex justify-content-between border-bottom border-black px-2">
+                                <p>Less:- Other Discount</p>
+                                <p>0.38</p>
+                            </div>
+                            <div className="d-flex justify-content-between border-bottom border-black px-2">
+                                <p>Value after Discount </p>
+                                <p>1,67,989.22</p>
+                            </div>
+                            <div className="d-flex justify-content-between border-bottom border-black px-2">
+                                <p>Net Invoice Value</p>
+                                <p>1,68,426.00</p>
+                            </div>
+                            <div className="d-flex justify-content-between border-bottom border-black px-2">
+                                <p>Total Amount to be paid</p>
+                                <p>Rs.Rs.97,51,164</p>
+                            </div>
+                            <div className=" border-bottom border-black px-2">
+                                <p> Value In Words :- Rupees One Lakh Sixty-Eight Thousand Four Hundred and Twenty-Six Only</p>
+                            </div>
+                            <div className="pt-5 px-2">
+                                <p className='pt-5'>For Optigo</p>
+                                <p className='pt-5'>Authorised Signatory</p>
+                            </div>
                         </div>
+                    </div>
+                    <div className="border-black border-top px-2">
+                        <p className="fw-bold py-1">NOTE:-</p>
+                        <div dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}></div>
                     </div>
                 </div>
 

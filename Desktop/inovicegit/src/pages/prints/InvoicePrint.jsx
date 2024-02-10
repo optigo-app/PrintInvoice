@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import "../../assets/css/prints/invoicePrint.css";
 import { apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
+import { json } from 'react-router-dom';
+import { cloneDeep } from 'lodash';
 
 const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
 
@@ -39,7 +41,9 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   const loadData = (data) => {
     setJson0(data?.BillPrint_Json[0]);
     let result = [];
+    let finding = []; 
     data?.BillPrint_Json2.map((e, i) => {
+    if(e?.MasterManagement_DiamondStoneTypeid !== 3){
       if (result.length === 0) {
         if (e?.MasterManagement_DiamondStoneTypeid === 4) {
           let newTotal = findMetalName(result, e);
@@ -56,8 +60,22 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
           result = newTotal;
         }
       }
+    }if(e?.MasterManagement_DiamondStoneTypeid === 5){
+      finding.push(e);
+    }
     });
-    setData(result);
+    let finalArr = [];
+    result?.forEach((e, i) => {
+      let obj = cloneDeep(e);
+      if(e?.MasterManagement_DiamondStoneTypeid === 4 ){
+        let findMaterial = finding?.findIndex((ele, ind) => ele?.StockBarcode === e?.StockBarcode);
+        if(findMaterial !== -1){
+          obj.Wt -= finding[findMaterial]?.Wt;
+        }
+      }
+      finalArr.push(obj);
+    })
+    setData(finalArr);
   }
 
   useEffect(() => {
@@ -85,7 +103,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   }, []);
 
   return (
-   loader ? <Loader /> : msg === "" ? <div className='container portraitContainer inoviceprintContainer pad_60_allPrint mt-2'>
+   loader ? <Loader /> : msg === "" ? <div className='container portraitContainer inoviceprintContainer max_width_container pad_60_allPrint mt-2 px-1'>
       {/* buttons */}
       <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4">
         <div className="form-check">
@@ -97,7 +115,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       {/* address */}
       <div className="w-100 d-flex justify-content-between py-2 no_break">
         <div className='col-10 p-1 border border-2 border-white p-1'>
-          <p>{json0?.CompanyFullName}</p>
+          <p className='fw-bold fs-6'>{json0?.CompanyFullName}</p>
           <p>{json0?.CompanyAddress}</p>
           <p>{json0?.CompanyAddress2}-{json0?.CompanyPinCode}, {json0?.CompanyState}({json0?.CompanyCountry})</p>
           <p>T {json0?.CompanyTellNo} | TOLL FREE {json0?.CompanyTollFreeNo}</p>
@@ -114,16 +132,16 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
         <div className='col-3'>
           <div className="border border-2 p-2 border-black">
             <div className="d-flex">
-              <p className='fw-bold'>BILL NO</p>
-              <p className='ps-2'>{json0?.InvoiceNo}</p>
+              <p className='col-3 fw-bold'>BILL NO</p>
+              <p className='col-9 ps-2'>{json0?.InvoiceNo}</p>
             </div>
             <div className="d-flex">
-              <p className='fw-bold'>DATE</p>
-              <p className='ps-2'>{json0?.EntryDate}</p>
+              <p className='col-3 fw-bold'>DATE</p>
+              <p className='col-9 ps-2'>{json0?.EntryDate}</p>
             </div>
             <div className="d-flex">
-              <p className='fw-bold'>HSN</p>
-              <p className='ps-2'>{json0?.HSN_No}</p>
+              <p className='col-3 fw-bold'>HSN</p>
+              <p className='col-9 ps-2'>{json0?.HSN_No}</p>
             </div>
           </div>
         </div>
@@ -133,14 +151,16 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
         <div className="d-flex border-2 border border-black p-1">
           <div className="col-6">
             <p className='fs-6 fw-bold'> To,	{json0?.customerfirmname}</p>
+            <p className="ps-4">{json0?.customerstreet}</p>
             <p className="ps-4">{json0?.customerAddress2}</p>
             <p className="ps-4">{json0?.customercity}{json0?.customerpincode}</p>
             <p className="ps-4">STATE NAME : {json0?.State}</p>
           </div>
           <div className="col-2"></div>
-          <div className="col-4 d-flex justify-content-center align-items-start flex-column">
-            <p><span className='fw-bold'>GSTIN: </span><span className='ps-2'>{json0?.Company_VAT_GST_No}</span></p>
-            <p><span className='fw-bold'>STATE CODE: </span><span className='ps-2'>{json0?.Cust_CST_STATE_No}</span></p>
+          <div className="col-3 d-flex justify-content-center align-items-start flex-column">
+            <p className='d-flex w-100'><span className='fw-bold col-6'>GSTIN: </span><span className='col-6 ps-2'>{json0?.CustGstNo}</span></p>
+            <p className='d-flex w-100'><span className='fw-bold col-6'>STATE CODE: </span><span className='col-6 ps-2'>{json0?.Cust_CST_STATE_No}</span></p>
+            <p className='d-flex w-100'><span className='fw-bold col-6'>PAN NO : </span><span className='col-6 ps-2'>{json0?.CustPanno}</span></p>
           </div>
         </div>
       </div>
@@ -150,7 +170,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
           <div className="col-3 border-end border-2 border-black">
             <p className="fw-bold p-1 text-center border-bottom border-2 border-black">DESCRIPTION</p>
             <div className="minHieght150InvoicePrint d-flex justify-content-center align-items-center">
-              <p>GOLD JEWELLERY</p>
+              <p>DIAMOND STUDDED JEWELLERY</p>
             </div>
             <div className="minHieght28InvoicePrint border-top border-2 border-black"></div>
           </div>

@@ -1231,7 +1231,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             })}
                         </div>
                         <div
-                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top ${e?.diamonds.length === 0 &&
+                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates ${e?.diamonds.length === 0 &&
                             "border-top height_29_5_estimatePrint border_color_estimates"
                             }`}
                         >
