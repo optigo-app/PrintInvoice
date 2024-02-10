@@ -1,0 +1,24 @@
+.retailInvoicePrint3 *{
+    font-size: 14px;
+}
+
+.Variant, .Price,
+.Discount,
+.Product{
+    width: 11%;
+    min-width: 11%;
+}
+
+.KT, .Qty{
+    width: 6.5%;
+    min-width: 6.5%;
+}
+
+.Gross, 
+.Dia,
+.Stone,
+.Misc,
+.Net{
+    width: 8.6%;
+    min-width: 8.6%;
+}
