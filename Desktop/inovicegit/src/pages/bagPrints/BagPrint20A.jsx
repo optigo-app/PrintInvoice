@@ -194,7 +194,7 @@ const BagPrint20A = ({ queries, headers }) => {
         <Loader />
       ) : (
         <>
-          <div>
+          <div className="d-flex justify-content-end align-items-center mt-3 me-5">
             <button
               className="btn_white blue print_btn"
               onClick={(e) => handlePrint(e)}

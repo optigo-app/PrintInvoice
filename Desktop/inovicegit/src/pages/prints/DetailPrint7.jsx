@@ -238,8 +238,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       setImgFlag(true);
     }
   };
-  // DueDays
-  // DueDate
+  
   return (
     <>
       {loader ? (
@@ -270,9 +269,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
                 {/* table header */}
                 <div>
-                  <div className="pheaddp7 w-100">
+                  {result?.header?.PrintHeadLabel === '' ? '' : <div className="pheaddp7 w-100">
                     {result?.header?.PrintHeadLabel}
-                  </div>
+                  </div> } 
                   <div className="d-flex justify-content-between align-items-center p-1 ">
                     <div className="w-75 fsgdp7">
                       <div className="fw-bold fsgdp7_ lhdp7">
