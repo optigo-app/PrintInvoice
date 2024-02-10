@@ -29,6 +29,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     atob(printName).toLowerCase() === "detail print1 (l)" ? true : false
   );
 
+  const [dp1lp, setdp1lp] = useState((atob(printName).toLowerCase() === "detail print1 (l)" || atob(printName).toLowerCase() === "detail print1 (p)") ? true : false);
+
   const [brokarage, setBrokarage] = useState([]);
   const [msg, setMsg] = useState("");
   const [total, setTotal] = useState({
@@ -67,6 +69,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     addLess: 0,
     total: 0,
   });
+  const [totalMetalWts, settotalMetalWts] = useState(0);
+  const [address, setAddress] = useState([]);
   const [taxes, setTaxes] = useState([]);
   const [detailPrintK, setDetailPrintK] = useState(
     atob(printName).toLowerCase() === "detail print k" ? true : false
@@ -98,10 +102,28 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   };
 
   const loadData = (data) => {
+    let label = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+    setAddress(label);
     setJson0Data(data?.BillPrint_Json[0]);
     setJson1Data2(data?.BillPrint_Json2);
     setLoader(false);
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
+    let finalArr = [];
+    let totalMetalWt = 0;
+    datas?.resultArray?.map((e, i) => {
+      let primaryMetalWt = 0
+      let findMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+      if (findMetal !== undefined) {
+        primaryMetalWt = findMetal?.Wt;
+        totalMetalWt += findMetal?.Wt;
+      }
+      let obj = cloneDeep(e);
+      obj.primaryMetalWt = primaryMetalWt;
+      console.log(primaryMetalWt);
+      finalArr.push(obj);
+    })
+    settotalMetalWts(totalMetalWt);
+    datas.resultArray = finalArr;
     console.log(datas);
     setFinalD(datas);
     let brok = otherAmountDetail(data?.BillPrint_Json[0]?.Brokerage);
@@ -190,6 +212,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               data?.Data?.BillPrint_Json1,
               data?.Data?.BillPrint_Json2
             );
+            console.log(arr);
             setJson1Data(arr);
             setLoader(false);
           } else {
@@ -271,6 +294,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       let metalArr = [];
       let colorStoneArr = [];
       let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
+      let primaryMetalWt = 0;
       let diamondsTotal = {
         Pcs: 0,
         Wt: 0,
@@ -316,6 +340,9 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 summary.gold24Kt += el?.FineWt;
               }
             }
+            if (el?.IsPrimaryMetal === 1) {
+              primaryMetalWt += el?.Wt;
+            }
             // totals.metalWt += el?.Wt;
             totals.metalAmount += el?.Amount;
             summary.metalAmount += el?.Amount;
@@ -350,6 +377,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       // summary.otherCharges += e?.OtherCharges;
       summary.otherCharges += totalOther;
       obj.diamonds = diamondArr;
+      obj.primaryMetalWt = primaryMetalWt;
       obj.metals = metalArr;
       obj.colorStones = colorStoneArr;
       obj.diamondsTotal = diamondsTotal;
@@ -568,17 +596,24 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <p className="lhDetailPrint1 fw-bold">
                   {json0Data?.customerfirmname}
                 </p>
-                <p className="lhDetailPrint1">{json0Data?.CustName}</p>
-                <p className="lhDetailPrint1">{json0Data?.customerstreet}</p>
-                <p className="lhDetailPrint1">
-                  {json0Data?.customercity} {json0Data?.State}
-                </p>
-                <p className="lhDetailPrint1">
-                  {json0Data?.CompanyCountry}-{json0Data?.PinCode}
-                </p>
-                <p className="lhDetailPrint1">
-                  Mobile No : {json0Data?.customermobileno}
-                </p>
+                {
+                  dp1lp ? <>
+                    {address?.map((e, i) => {
+                      return <p className="lhDetailPrint1" key={i}>{e}</p>
+                    })}
+                  </> : <><p className="lhDetailPrint1">{json0Data?.CustName}</p>
+                    <p className="lhDetailPrint1">{json0Data?.customerstreet}</p>
+                    <p className="lhDetailPrint1">
+                      {json0Data?.customercity} {json0Data?.State}
+                    </p>
+                    <p className="lhDetailPrint1">
+                      {json0Data?.CompanyCountry}-{json0Data?.PinCode}
+                    </p>
+                    <p className="lhDetailPrint1">
+                      Mobile No : {json0Data?.customermobileno}
+                    </p></>
+                }
+
               </div>
               <div className="col-4 p-1">
                 <div className="d-flex">
@@ -708,14 +743,13 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
             </div>
             {/* data */}
-
             {
               finalD?.resultArray?.map((e, i) => {
                 return (
                   <div key={i} className="recordDetailPrint1">
                     <div className="d-flex w-100">
                       <div className="srNoDetailprint11 border-end border-start border-bottom pt-1">
-                        <p className="p-1">{NumberWithCommas(i + 1)}</p>
+                        <p className="p-1 text-center">{NumberWithCommas(i + 1)}</p>
                       </div>
                       <div className="designDetalPrint1 border-end  p-1 border-bottom pt-1">
                         <div className="d-flex">
@@ -758,12 +792,21 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                               </span>
                             </p>
                           )}
-                          <p className="text-center">
-                            Gross Wt:{" "}
-                            <span className="fw-bold">
-                              {fixedValues(e?.grosswt, 3)}
-                            </span>
-                          </p>
+
+                          {dp1lp ? <>
+                            <p className="text-center">
+                              <span className="fw-bold">
+                                {fixedValues(e?.grosswt, 3)}gm <span className="fw-bold">Gross</span>
+                              </span>
+                            </p>
+                          </> : <>
+                            <p className="text-center">
+                              Gross Wt:{" "}
+                              <span className="fw-bold">
+                                {fixedValues(e?.grosswt, 3)}
+                              </span>
+                            </p>
+                          </>}
                           {e?.Size !== "" && e?.Size !== "-" && (
                             <p className="text-center">Size: {e?.Size}</p>
                           )}
@@ -795,7 +838,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                                     {NumberWithCommas(ele?.Rate, 2)}
                                   </p>
                                   <p
-                                    className={`col-2 text-end ${detailPrintK && "fw-bold"
+                                    className={`col-2 text-end ${dp1lp && "fw-bold"} ${detailPrintK && "fw-bold"
                                       }`}
                                   >
                                     {NumberWithCommas(ele?.Amount, 2)}
@@ -806,16 +849,16 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                           <div className="d-flex border-bottom position-absolute bottom-0 w-100  border-top totalMinHeightDetailPrint1 lightGrey">
                             <p className="col-2 "></p>
                             <p className="col-2 "></p>
-                            <p className="col-2 text-end fw-bold">
+                            <p className="col-2 text-end fw-bold d-flex align-items-center justify-content-end">
                               {e?.diamondsTotal?.Pcs !== 0 &&
                                 NumberWithCommas(e?.totals?.diamonds?.Pcs)}
                             </p>
-                            <p className="col-2 text-end fw-bold">
+                            <p className="col-2 text-end fw-bold d-flex align-items-center justify-content-end">
                               {e?.diamondsTotal?.Wt !== 0 &&
                                 fixedValues(e?.totals?.diamonds?.Wt, 3)}
                             </p>
-                            <p className="col-2 text-end fw-bold"></p>
-                            <p className="col-2 text-end fw-bold">
+                            <p className="col-2 text-end fw-bold d-flex align-items-center justify-content-end"></p>
+                            <p className="col-2 text-end fw-bold d-flex align-items-center justify-content-end">
                               {e?.diamondsTotal?.Amount !== 0 &&
                                 NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}
                             </p>
@@ -832,10 +875,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                                     {ele?.ShapeName + " " + ele?.QualityName}
                                   </p>
                                   <p className="col-2  text-end">
-                                    {fixedValues(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}
+                                    {ind === 0 ? NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3) : NumberWithCommas(ele?.Wt, 3)}
                                   </p>
                                   <p className="col-2  text-end">
-                                    {fixedValues(e?.NetWt + e?.LossWt, 3)}
+                                    {dp1lp ? NumberWithCommas(ele?.Wt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3)}
                                   </p>
                                   <p className="col-2  text-end">
                                     {NumberWithCommas(ele?.Rate, 2)}
@@ -848,16 +891,17 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                             })}
                           <div className="d-flex position-absolute bottom-0 w-100  totalMinHeightDetailPrint1 border-top border-bottom lightGrey">
                             <p className="col-3 "></p>
-                            <p className="col-2 text-end fw-bold">
+                            <p className="col-2 text-end fw-bold d-flex justify-content-end align-items-center">
                               {e?.totals?.metal?.Wt !== 0 &&
-                                fixedValues(e?.totals?.metal?.Wt + (e?.totals?.diamonds?.Wt / 5), 3)}
+                                fixedValues(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}
+                              {/* fixedValues(e?.totals?.metal?.Wt + (e?.totals?.diamonds?.Wt / 5), 3)} */}
                             </p>
-                            <p className="col-2 text-end fw-bold">
-                              {e?.NetWt !== 0 &&
-                                fixedValues(e?.NetWt + e?.LossWt, 3)}
+                            <p className="col-2 text-end fw-bold d-flex justify-content-end align-items-center">
+                              {console.log(e?.primaryMetalWt)}
+                              {e?.NetWt !== 0 && (dp1lp ? fixedValues(e?.primaryMetalWt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3))}
                             </p>
                             <p className="col-2 text-end"></p>
-                            <p className="col-3 text-end fw-bold">
+                            <p className="col-3 text-end fw-bold d-flex justify-content-end align-items-center">
                               {e?.totals?.metal.Amount !== 0 &&
                                 NumberWithCommas(e?.totals?.metal.Amount, 2)}
                             </p>
@@ -887,7 +931,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                                     {NumberWithCommas(ele?.Rate, 2)}
                                   </p>
                                   <p
-                                    className={`col-2 text-end ${detailPrintK && "fw-bold"
+                                    className={`col-2 text-end ${dp1lp && "fw-bold"} ${detailPrintK && "fw-bold"
                                       }`}
                                   >
                                     {NumberWithCommas(ele?.Amount, 2)}
@@ -898,16 +942,16 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                           <div className="d-flex border-bottom position-absolute bottom-0 w-100  border-top totalMinHeightDetailPrint1 lightGrey">
                             <p className=" col-2 "></p>
                             <p className=" col-2 "></p>
-                            <p className=" col-2 text-end fw-bold">
+                            <p className=" col-2 text-end fw-bold d-flex align-items-center justify-content-end">
                               {e?.totals?.colorstone?.Pcs !== 0 &&
                                 e?.totals?.colorstone?.Pcs}
                             </p>
-                            <p className=" col-2 text-end fw-bold">
+                            <p className=" col-2 text-end fw-bold d-flex align-items-center justify-content-end">
                               {e?.totals?.colorstone?.Wt !== 0 &&
                                 fixedValues(e?.totals?.colorstone?.Wt, 3)}
                             </p>
                             <p className=" col-2 text-end"></p>
-                            <p className=" col-2 text-end fw-bold">
+                            <p className=" col-2 text-end fw-bold d-flex align-items-center justify-content-end">
                               {e?.totals?.colorstone?.Amount !== 0 &&
                                 NumberWithCommas(
                                   e?.totals?.colorstone?.Amount,
@@ -946,20 +990,30 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                                     <p>{ele?.label}</p>
                                     <p>{ele?.value}</p>
                                   </div>} */}
-                                <div
-                                  className="text-end"
-                                  style={{ fontSize: "10.5px" }}
-                                >
-                                  <p>{NumberWithCommas(e?.OtherCharges + e?.MiscAmount, 2)}</p>
-                                </div>
+                                {
+                                  dp1lp ? <div
+                                    className="text-end"
+                                    style={{ fontSize: "10.5px" }}
+                                  >
+                                    <p>{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)}</p>
+                                  </div> : <div
+                                    className="text-end"
+                                    style={{ fontSize: "10.5px" }}
+                                  >
+                                    <p>{NumberWithCommas(e?.OtherCharges + e?.MiscAmount, 2)}</p>
+                                  </div>
+                                }
                               </>
                             )}
                           </div>
                         </div>
-                        <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey">
+                        <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end">
                           <p className="text-end fw-bold">
-                            {e?.totalOther !== 0 &&
-                              NumberWithCommas(e?.OtherCharges + e?.MiscAmount, 2)}
+                            {
+                              dp1lp ?
+                                (e?.totalOther !== 0 && NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)) :
+                                (e?.totalOther !== 0 && NumberWithCommas(e?.OtherCharges + e?.MiscAmount, 2))
+                            }
                           </p>
                         </div>
                       </div>
@@ -988,11 +1042,11 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                             </div>
                           </div>
                         </div>
-                        <div className="position-absolute bottom-0 w-100 border-bottom  border-top totalMinHeightDetailPrint1 d-flex lightGrey">
+                        <div className="position-absolute bottom-0 w-100 border-bottom  border-top totalMinHeightDetailPrint1 d-flex lightGrey d-flex align-items-center justify-content-end">
                           <div className="col-5">
                             <p className="text-end fw-bold">
-                              {e?.MaKingCharge_Unit !== 0 &&
-                                NumberWithCommas(e?.MaKingCharge_Unit, 2)}
+                              {/* {e?.MaKingCharge_Unit !== 0 &&
+                                NumberWithCommas(e?.MaKingCharge_Unit, 2)} */}
                             </p>
                           </div>
                           <div className="col-7">
@@ -1020,7 +1074,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                             </p>
                           </div>
                         </div>
-                        <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey">
+                        <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end">
                           <p className="text-end fw-bold">
                             {e?.UnitCost !== 0 &&
                               NumberWithCommas(e?.UnitCost, 2)}
@@ -1028,7 +1082,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="d-flex w-100">
+                    {e?.Discount !== 0 && <div className="d-flex w-100">
                       <div className="srNoDetailprint11 border-end border-start  border-bottom">
                         <p className=" p-1"></p>
                       </div>
@@ -1080,7 +1134,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                           </span>
                         </p>
                       </div>
-                    </div>
+                    </div>}
                   </div>
                 );
               })
@@ -1160,7 +1214,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                   <div className="col-2 text-end">
                     <p className="fw-bold">
-                      {NumberWithCommas(finalD?.mainTotal?.metal?.Wt, 3)}
+                      {dp1lp ? NumberWithCommas(totalMetalWts, 3) : NumberWithCommas(finalD?.mainTotal?.metal?.Wt, 3)}
                       {/* {NumberWithCommas(finalD?.mainTotal?.netwt, 3)} */}
                     </p>
                   </div>
@@ -1220,12 +1274,12 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
               <div className="totalAmountDetailPrint1 border-end  border-bottom ">
                 <p className="d-flex justify-content-end align-items-center h-100 text-end fw-bold">
-                  <span
+                  {!dp1lp && <span
                     dangerouslySetInnerHTML={{
                       __html: json0Data?.Currencysymbol,
                     }}
-                  ></span>
-                  {(total?.withDiscountTaxAmount).toFixed(2)}
+                  ></span>}
+                  {(NumberWithCommas(total?.withDiscountTaxAmount, 2))}
                 </p>
               </div>
             </div>
@@ -1263,7 +1317,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <p className="p-1"> {fixedValues(total?.netWt, 3)} gm</p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">DIAMOND WT</p> 
+                      <p className="fw-bold p-1">DIAMOND WT</p>
                       <p className="p-1">
                         {NumberWithCommas(finalD?.mainTotal?.diamonds?.Pcs, 0)} / {NumberWithCommas(finalD?.mainTotal?.diamonds?.Wt, 3)}
                         {/* {NumberWithCommas(summary?.diamondpcs, 0)} /{" "} {fixedValues(summary?.diamondWt, 3)} cts */}
@@ -1313,7 +1367,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <p className="fw-bold p-1">MAKING</p>
                       <p className="p-1">
                         {" "}
-                        {NumberWithCommas(summary?.makingAmount, 2)}
+                        {/* {NumberWithCommas(summary?.makingAmount, 2)} */}
+                        {NumberWithCommas(total?.labourAmount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
@@ -1390,20 +1445,20 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                     OTHER DETAILS
                   </p>
                   {checkBox?.brokarage && brokarage.map((e, i) => {
-                      return (
-                        <div
-                          className="d-flex border-start border-end "
-                          key={i}
-                        >
-                          <div className="col-6">
-                            <p className="fw-bold p-1">{e?.label}</p>
-                          </div>
-                          <div className="col-6">
-                            <p className="text-end p-1">{e?.value}</p>
-                          </div>
+                    return (
+                      <div
+                        className="d-flex border-start border-end "
+                        key={i}
+                      >
+                        <div className="col-6">
+                          <p className="fw-bold p-1">{e?.label}</p>
                         </div>
-                      );
-                    })}
+                        <div className="col-6">
+                          <p className="text-end p-1">{e?.value}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
                   <div className="d-flex border-start border-end ">
                     <div className="col-6">
                       <p className="fw-bold p-1">RATE IN 24KT</p>
@@ -1430,15 +1485,21 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               <div className="col-2">
                 <div className="d-flex  border-start border-end border-bottom createdByDetailPrint1 border-top">
                   <div className="col-6 border-end  d-flex align-items-end justify-content-center">
-                    Created By
+                    <i> Created By</i>
                   </div>
                   <div className="col-6 d-flex align-items-end justify-content-center">
-                    Checked By
+                    <i> Checked By</i>
                   </div>
                 </div>
               </div>
             </div>
+            <div className="fs_dp4 text-secondary">
+                ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
+                IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
+                TRANSACTIONS
+              </div>
           </div>{" "}
+        
         </div>
       ) : (
         <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

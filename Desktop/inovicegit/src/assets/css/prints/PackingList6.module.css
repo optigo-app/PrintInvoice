@@ -1,0 +1,75 @@
+.Packinglist6 * {
+    font-size: 8px;
+    line-height: 120%;
+}
+
+.Packinglist6 {
+    zoom: 1.35;
+}
+
+.srNo {
+    width: 5%;
+    min-width: 5%;
+}
+
+.Jewelcode {
+    width: 10%;
+    min-width: 10%;
+}
+
+.total {
+    width: 15%;
+    min-width: 15%;
+}
+
+.Metal {
+    width: 25%;
+    min-width: 25%;
+}
+
+.Stone {
+    width: 21%;
+    min-width: 21%;
+}
+
+.Labour {
+    width: 12%;
+    min-width: 12%;
+}
+
+.Other {
+    width: 20%;
+    min-width: 20%;
+}
+
+.Price {
+    width: 7%;
+    min-width: 7%;
+}
+
+.taxes{
+    width: 93%;
+    min-width: 93%;
+}
+
+.w_20 {
+    width: 20%;
+    min-width: 20%;
+}
+
+.discount{
+    width: calc(78% - (20% / 3));
+    min-width: calc(78% - (20% / 3)); 
+}
+
+.otherAmount{
+    width: calc(20% / 3);
+    min-width: calc(20% / 3);
+}
+
+
+@media print {
+    .Packinglist6 {
+        zoom: unset;
+    }
+}
