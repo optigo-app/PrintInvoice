@@ -14,9 +14,7 @@ export const GetData = async (job) => {
         let urls = atob(job?.url);
 
         const response = await axios.post(urls, Body, { headers: job?.headers });
-            console.log(response);
         let datas = JSON.parse(response?.data?.d);
-        console.log(datas);
 
         // let newArr = [];
         // console.log(datas);
