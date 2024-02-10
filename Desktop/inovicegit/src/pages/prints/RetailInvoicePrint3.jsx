@@ -32,7 +32,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         setlabel(printArr);
         let totals = 0;
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-        console.log(datas);
+        // console.log(datas);
         setData(datas);
 
     }
@@ -138,9 +138,9 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                 <div className={`${style?.Stone}`}> <p className='text-center'>{NumberWithCommas(e?.totals?.colorstone?.Wt, 3)} </p></div>
                                 <div className={`${style?.Misc}`}> <p className='text-center'>{NumberWithCommas(e?.totals?.misc?.Wt, 3)} </p></div>
                                 <div className={`${style?.Net}`}> <p className='text-center'>{NumberWithCommas(e?.NetWt, 3)}</p></div>
-                                <div className={`${style?.Price}`}> <p className='text-center'>{NumberWithCommas(e?.MetalAmount+e?.Making_Amount_Other_Charges, 2)}</p></div>
-                                <div className={`${style?.Discount}`}> <p className='text-center'>0.00</p></div>
-                                <div className={`${style?.Product}`}> <p className='text-end'>93,806.65</p></div>
+                                <div className={`${style?.Price}`}> <p className='text-center'>{NumberWithCommas(e?.MetalAmount + e?.Making_Amount_Other_Charges, 2)}</p></div>
+                                <div className={`${style?.Discount}`}> <p className='text-center'>{NumberWithCommas(e?.DiscountAmt, 2)}</p></div>
+                                <div className={`${style?.Product}`}> <p className='text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                             </div>
                         })
                     }
@@ -148,20 +148,20 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     <div className="d-flex border-bottom px-2">
                         <div className={`${style?.Variant}`}> <p className=''>Total</p></div>
                         <div className={`${style?.KT}`}> <p className='text-center'> </p></div>
-                        <div className={`${style?.Qty}`}> <p className='text-center'>8 </p></div>
-                        <div className={`${style?.Gross}`}> <p className='text-center'>69.380</p></div>
-                        <div className={`${style?.Dia}`}> <p className='text-center'>27.786</p></div>
-                        <div className={`${style?.Stone}`}> <p className='text-center'>7.000 </p></div>
-                        <div className={`${style?.Misc}`}> <p className='text-center'>0.500 </p></div>
-                        <div className={`${style?.Net}`}> <p className='text-center'>64.348</p></div>
-                        <div className={`${style?.Price}`}> <p className='text-center'>1,72,868.74</p></div>
-                        <div className={`${style?.Discount}`}> <p className='text-center'>5,479.15</p></div>
-                        <div className={`${style?.Product}`}> <p className='text-end'>1,67,989.60</p></div>
+                        <div className={`${style?.Qty}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.total_Quantity, 0)} </p></div>
+                        <div className={`${style?.Gross}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</p></div>
+                        <div className={`${style?.Dia}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}</p></div>
+                        <div className={`${style?.Stone}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)} </p></div>
+                        <div className={`${style?.Misc}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.misc?.Wt, 3)}</p></div>
+                        <div className={`${style?.Net}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.netwt, 3)}</p></div>
+                        <div className={`${style?.Price}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.MetalAmount, 2)}</p></div>
+                        <div className={`${style?.Discount}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p></div>
+                        <div className={`${style?.Product}`}> <p className='text-end'>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p></div>
                     </div>
                     <div className="border-bottom border-black d-flex justify-content-end px-2">
                         <div className="col-4 d-flex justify-content-between">
                             <div><p>Product Total Value</p></div>
-                            <div><p>1,67,989.60</p></div>
+                            <div><p>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p></div>
                         </div>
                     </div>
                     <div className="d-flex">
@@ -195,23 +195,23 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         <div className="col-6">
                             <div className="d-flex justify-content-between border-bottom border-black px-2">
                                 <p>Total Value</p>
-                                <p>1,67,989.60</p>
+                                <p>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p>
                             </div>
-                            <div className="d-flex justify-content-between border-bottom border-black px-2">
-                                <p>CGST @ 0.13%</p>
-                                <p>218.39</p>
-                            </div>
-                            <div className="d-flex justify-content-between border-bottom border-black px-2">
-                                <p>SGST @ 0.13%</p>
-                                <p>218.39</p>
-                            </div>
-                            <div className="d-flex justify-content-between border-bottom border-black px-2">
-                                <p>Less:- Other Discount</p>
-                                <p>0.38</p>
-                            </div>
+                            {
+                                data?.allTaxes?.map((e, i) => {
+                                    return <div className="d-flex justify-content-between border-bottom border-black px-2" key={i}>
+                                        <p>{e?.name} @ {e?.per}</p>
+                                        <p>{NumberWithCommas(e?.amount, 2)}</p>
+                                    </div>
+                                })
+                            }
+                            {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between border-bottom border-black px-2">
+                                <p>{headerData?.AddLess > 0 ? "Add" : "Less"}:- Other Discount</p>
+                                <p>{NumberWithCommas(Math.abs(headerData?.AddLess), 2)}</p>
+                            </div>}
                             <div className="d-flex justify-content-between border-bottom border-black px-2">
                                 <p>Value after Discount </p>
-                                <p>1,67,989.22</p>
+                                <p>{NumberWithCommas(data?.mainTotal?.total_amount , 2)}</p>
                             </div>
                             <div className="d-flex justify-content-between border-bottom border-black px-2">
                                 <p>Net Invoice Value</p>

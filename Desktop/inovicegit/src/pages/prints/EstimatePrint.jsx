@@ -1023,7 +1023,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
           </div>
           <div className="my-2 w-100">
             {/* heading */}
-            <div className="border-start border-top border-end d-flex border-bottom recordEstimatePrint overflow-hidden border-black ">
+            <div className="border-start border-top border-end d-flex border-bottom recordEstimatePrint overflow-hidden border-black lightGrey">
               <div className="srNoEstimatePrint border-end p-1 d-flex align-items-center justify-content-center border_color_estimates">
                 <p className="fw-bold">Sr</p>
               </div>
