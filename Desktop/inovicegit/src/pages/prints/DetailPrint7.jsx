@@ -193,8 +193,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
         }else{
           misc_sum_total.wtWeight_gm += e?.wtWeight;
         }
-
-
           misc_sum_total.pcPcs += e?.pcPcs;
           misc_sum_total.AmtAmount += e?.AmtAmount;
 
@@ -389,7 +387,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     <div>
                       <div className="d-flex"><div className="fw-bold w-50">Due Date :</div><div className="w-50">{result?.header?.DueDate}</div></div>
-                      <div className="d-flex"><div className="fw-bold w-50">Due Days :</div><div className="w-50">{result?.header?.DueDays}</div></div>
+                      <div className="d-flex"><div className="fw-bold w-50">Terms :</div><div className="w-50">{result?.header?.DueDays}</div></div>
                     </div>
                   </div>
                 </div>
