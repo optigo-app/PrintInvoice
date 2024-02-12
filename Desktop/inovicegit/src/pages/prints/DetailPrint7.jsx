@@ -69,10 +69,13 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           (e) => e?.Categoryname === j2?.Categoryname
         );
         if (recordIs === -1) {
-          blankArr.push(j2);
+          let obj = {...j2};
+          obj.GrossWt = j2?.grosswt;
+          obj.netwt = j2?.NetWt;
+          blankArr.push(obj);
         } else {
-          blankArr[recordIs].grosswt += +j2?.grosswt;
-          blankArr[recordIs].NetWt += +j2?.NetWt;
+          blankArr[recordIs].GrossWt += +j2?.grosswt;
+          blankArr[recordIs].netwt += +j2?.NetWt;
           blankArr[recordIs].Wastage += +j2?.Wastage;
           blankArr[recordIs].PureNetWt += +j2?.PureNetWt;
           blankArr[recordIs].Quantity += +j2?.Quantity;
@@ -83,13 +86,14 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       let cateWise2 = [];
       blankArr?.forEach((e) => {
         let obj = { ...e };
-        let netwtwithloss = (e?.NetWt + e?.LossWt)
-        let fineWtBYNetWtCal = (e?.NetWt * e?.Tunch) / 100;
+        let netwtwithloss = (e?.netwt + e?.LossWt)
+        let fineWtBYNetWtCal = (e?.netwt * e?.Tunch) / 100;
         obj.fineWtBYNetWtCal = fineWtBYNetWtCal;
         obj.netwtwithloss = netwtwithloss;
         cateWise2.push(obj);
       });
- 
+      cateWise2.sort((a, b) => a.GrossWt - b.GrossWt);
+      
       let othamttot = 0;
 
       datas?.resultArray?.forEach((e) => {
@@ -198,7 +202,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
           misc_sum_total.Pcs += e?.Pcs;
           misc_sum_total.Amount += e?.Amount;
       })
-
       setMiscWise(arrnew);
       setMiscWise_total(misc_sum_total);
 
@@ -238,8 +241,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       setImgFlag(true);
     }
   };
-  // DueDays
-  // DueDate
+  
   return (
     <>
       {loader ? (
@@ -270,9 +272,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
                 {/* table header */}
                 <div>
-                  <div className="pheaddp7 w-100">
+                  {result?.header?.PrintHeadLabel === '' ? '' : <div className="pheaddp7 w-100">
                     {result?.header?.PrintHeadLabel}
-                  </div>
+                  </div> } 
                   <div className="d-flex justify-content-between align-items-center p-1 ">
                     <div className="w-75 fsgdp7">
                       <div className="fw-bold fsgdp7_ lhdp7">
@@ -421,6 +423,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                   <div className="tbodydp7">
                     {result?.resultArray?.map((e, i) => {
+
                       return (
                         <div
                           className="d-flex brbdp7 hcompdp7 bordersdp7"
@@ -596,7 +599,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       }}
                     ></div>
                     <div className="ps-1">
-                      {result?.finalAmount !== 0 && formatAmount(result?.finalAmount)}
+                      {(result?.finalAmount + result?.heder?.FreightCharges) !== 0 && formatAmount((result?.finalAmount + result?.header?.FreightCharges))}
                     </div>
                   </div>
                 </div>
@@ -641,7 +644,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                               {e?.Quantity}
                             </div>
                             <div className="sum_prod_head_col_3 dp7cen2">
-                              {e?.grosswt?.toFixed(3)}
+                              {e?.GrossWt?.toFixed(3)}
                             </div>
                             <div className="sum_prod_head_col_4 dp7cen2">
                               {e?.netwtwithloss?.toFixed(3)}
