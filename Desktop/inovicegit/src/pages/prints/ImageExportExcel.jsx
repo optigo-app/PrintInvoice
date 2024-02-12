@@ -9,7 +9,7 @@ const ImageExportExcel = ({ urls, token, invoiceNo, printName, evn }) => {
   const [msg, setMsg] = useState("");
 
   const loadData = (data) => {
-    console.log(data);
+    // console.log(data);
     let imagePaths = [];
     data?.BillPrint_Json1.forEach((e, i) => {
       if (e?.DesignImage !== "") {

@@ -12,9 +12,9 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
     const [headerData, setHeaderData] = useState({});
 
     const loadData = (data) => {
-        console.log(data);
+        // console.log(data);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-        console.log(datas);
+        // console.log(datas);
         setHeaderData(data?.BillPrint_Json[0]);
         let resultArr = [];
         datas?.resultArray?.forEach((e, i) => {
@@ -40,7 +40,7 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
             }
         });
         datas.resultArray = resultArr
-        console.log(resultArr);
+        // console.log(resultArr);
         setData(datas);
     }
 

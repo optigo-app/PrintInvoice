@@ -34,7 +34,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
-        console.log(datas);
+        // console.log(datas);
         let footers = FooterComponent("1", data?.BillPrint_Json[0]);
         setFooter(footers);
         setHeaderData(data?.BillPrint_Json[0]);

@@ -31,7 +31,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setHeaderData(data?.BillPrint_Json[0]);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         setData(datas);
-        console.log(datas);
+        // console.log(datas);
     }
 
     useEffect(() => {

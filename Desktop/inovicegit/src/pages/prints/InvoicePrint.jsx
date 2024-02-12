@@ -90,10 +90,10 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       }
     });
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-    console.log(datas);
+    // console.log(datas);
 
     datas?.resultArray?.forEach((e, i) => {
-      console.log(e);
+      // console.log(e);
       e?.other_details?.forEach((ele, ind) => {
         let findCharge = otherchrges1?.findIndex((elem, index) => elem?.label === ele?.label);
         if (findCharge === -1) {

@@ -123,7 +123,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     })
     settotalMetalWts(totalMetalWt);
     datas.resultArray = finalArr;
-    console.log(datas);
+    // console.log(datas);
     setFinalD(datas);
     let brok = otherAmountDetail(data?.BillPrint_Json[0]?.Brokerage);
     setBrokarage(brok);
@@ -211,7 +211,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               data?.Data?.BillPrint_Json1,
               data?.Data?.BillPrint_Json2
             );
-            console.log(arr);
+            // console.log(arr);
             setJson1Data(arr);
             setLoader(false);
           } else {

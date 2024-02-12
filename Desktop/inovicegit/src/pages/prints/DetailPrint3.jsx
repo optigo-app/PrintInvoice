@@ -42,7 +42,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-      console.log(datas);
+      // console.log(datas);
       setResult(datas);
       setLoader(false);
   }

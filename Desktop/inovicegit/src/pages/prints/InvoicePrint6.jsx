@@ -74,13 +74,13 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
 
                 let other_amt = [e?.other_details, resultArr[findRec]?.other_details]?.flat();
                 let otheramts = [];
-                console.log(e);
+                // console.log(e);
                 other_amt?.forEach((elee, indd) => {
                     let findOther = otheramts.findIndex((element, index) => element?.label === elee?.label);
                     if (findOther === -1) {
                         otheramts.push(elee);
                     } else {
-                        console.log(otheramts[findOther]);
+                        // console.log(otheramts[findOther]);
                         otheramts[findOther].value = (+otheramts[findOther]?.value) + (+elee?.value);
                     }
                 });

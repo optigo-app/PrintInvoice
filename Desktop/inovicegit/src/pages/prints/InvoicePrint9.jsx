@@ -43,7 +43,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn }) => {
         });
         datas.resultArray = resultArr;
         setData(datas);
-        console.log(datas);
+        // console.log(datas);
     }
     useEffect(() => {
         const sendData = async () => {

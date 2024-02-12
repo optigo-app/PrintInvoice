@@ -48,7 +48,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
       copydata?.BillPrint_Json1,
       copydata?.BillPrint_Json2
     );
-    console.log(datas);
+    // console.log(datas);
     setResult(datas);
 
     let metwise = [];
@@ -157,7 +157,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
     metwise?.forEach((e) => {
         let metwise2 = [];
         e?.diamond_colorstone_misc?.forEach((a) => {
-          console.log(a);
+          // console.log(a);
           let find_Record = metwise2?.findIndex((el) => el?.MasterManagement_DiamondStoneTypeid === 1 && el?.QualityName === a?.QualityName);
           if(find_Record === -1){
             let obj = {...a};
@@ -197,7 +197,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
       })
     
       setTotObj(tot_obj);
-      console.log(metwise);
+      // console.log(metwise);
       setMetWise(metwise);
   };
 

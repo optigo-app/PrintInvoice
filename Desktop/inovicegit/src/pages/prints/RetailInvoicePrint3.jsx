@@ -32,9 +32,8 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         setlabel(printArr);
         let totals = 0;
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-        // console.log(datas);
+        console.log(datas);
         setData(datas);
-
     }
 
     useEffect(() => {
@@ -211,11 +210,11 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                             </div>}
                             <div className="d-flex justify-content-between border-bottom border-black px-2">
                                 <p>Value after Discount </p>
-                                <p>{NumberWithCommas(data?.mainTotal?.total_amount , 2)}</p>
+                                <p>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p>
                             </div>
                             <div className="d-flex justify-content-between border-bottom border-black px-2">
                                 <p>Net Invoice Value</p>
-                                <p>1,68,426.00</p>
+                                <p>{NumberWithCommas(data?.mainTotal?.total_amount , 2)}</p>
                             </div>
                             <div className="d-flex justify-content-between border-bottom border-black px-2">
                                 <p>Total Amount to be paid</p>

@@ -22,8 +22,8 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn }) => {
     const loadData = (data) => {
         setHeaderData(data?.BillPrint_Json[0]);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-        console.log(data);
-        console.log(datas);
+        // console.log(data);
+        // console.log(datas);
         let organizeDiamonds = [];
         data?.BillPrint_Json2?.forEach((j2, ind) => {
             if (j2?.MasterManagement_DiamondStoneTypeid === 1) {

@@ -64,7 +64,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn }) => {
     let _QualityTypes = datas?.resultArray?.map(e => e?.MetalPurity);
     let __qualitytypes = new Set(_QualityTypes);
     let ___qualitytypes = [...__qualitytypes];
-    console.log(___qualitytypes);
+    // console.log(___qualitytypes);
     let concatenatedString = ___qualitytypes?.join(' | ');
     setQualityTypes(concatenatedString)
     setHeaderComp(head_comp);

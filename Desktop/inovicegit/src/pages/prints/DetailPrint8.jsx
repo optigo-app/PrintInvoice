@@ -56,7 +56,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
     });
     datas.resultArray = [...arr];
     setData(datas);
-    console.log(datas);
+    // console.log(datas);
   };
 
   const checkid = (data, keyValueGold, keyValueDiaCsM) => {

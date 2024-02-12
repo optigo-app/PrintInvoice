@@ -34,7 +34,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
   });
   const [taxes, setTaxes] = useState([]);
   const loadData = (data) => {
-    console.log(data);
+    // console.log(data);
     setjson0Data(data?.BillPrint_Json[0]);
     let totals = { ...total };
     let arr = [];
