@@ -32,9 +32,10 @@ export const CapitalizeWords = (text) => {
   const capitalizedWordsArray = wordsArray.map((word) => {
     return word?.split("-")?.map(capitalizeFirstLetter)?.join("-");
   });
-  const capitalizedText = capitalizedWordsArray.join(" ");
+  const capitalizedText = capitalizedWordsArray?.join(" ");
   // eslint-disable-next-line no-useless-concat
-  return capitalizedText + " " + "Only";
+  // return capitalizedText + " " + "Only";
+  return capitalizedText + " " ;
 };
 
 //global function of api calling
@@ -49,10 +50,7 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
 
   try {
     const response = await axios.post(urls, body);
-<<<<<<< HEAD
-    // console.log(response?.data?.Data);
-=======
->>>>>>> 66834dc0f5b6ca35d55962f1ecffd62a5e77e049
+    console.log(response?.data?.Data);
     return response?.data;
   } catch (error) {
     console.error(error);
