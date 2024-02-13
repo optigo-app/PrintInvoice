@@ -200,7 +200,6 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       maintotal.convertednetwt += j1?.convertednetwt;
       maintotal.total_other_charges += j1?.OtherCharges;
       maintotal.total_csamount += j1?.CsAmount;
-      maintotal.total_fineWtByMetalWtCalculation += ((j1?.NetWt * j1?.Tunch) / 100);
       maintotal.totalMiscAmount += j1?.MiscAmount;
       maintotal.total_TotalCsSetcost += j1?.TotalCsSetcost;
       maintotal.total_TotalDiaSetcost += j1?.TotalDiaSetcost;
@@ -230,9 +229,6 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               maintotal.diamonds.Rate += j2?.Rate;
               maintotal.diamonds.Amount += j2?.Amount;
               maintotal.diamonds.SettingAmount += +j2?.SettingAmount;
-
-            
-
             }
             //for colorstone
             if (j2?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -253,7 +249,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               maintotal.colorstone.Amount += j2?.Amount;
               maintotal.colorstone.SettingAmount += +j2?.SettingAmount;
             }
-            //for misc
+            //for metal
             if (j2?.MasterManagement_DiamondStoneTypeid === 4) {
               metalList.push(j2);
               
@@ -270,7 +266,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               maintotal.metal.Rate += j2?.Rate;
               maintotal.metal.Amount += j2?.Amount;
             }
-            //for metal
+            //for misc
             if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
               diamond_colorstone_misc_2_new?.push(j2);
               if (j2?.ShapeName === "Hallmark" || j2?.ShapeName === "Stamping") {
@@ -326,8 +322,16 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               maintotal.stone_misc.Rate += j2?.Rate;
               maintotal.stone_misc.Amount += j2?.Amount;
             }
-
-            jobwise_totals.fineWtByMetalWtCalculation = ((j1?.NetWt * j1?.Tunch) / 100);
+            // if(j?.MasterManagement_DiamondStoneTypeid === 5){
+            //   // jobwise_totals.fineWtByMetalWtCalculation = (())
+            // }else{
+            //   jobwise_totals.fineWtByMetalWtCalculation = ((j1?.NetWt * j1?.Tunch) / 100);
+            // }
+            if(j2?.MasterManagement_DiamondStoneTypeid === 5){
+              jobwise_totals.fineWtByMetalWtCalculation = (((j2?.Wt * j1?.Tunch)/100) + ((j1?.NetWt * (j1?.Tunch + j1?.Wastage))/100))
+            }else{
+              jobwise_totals.fineWtByMetalWtCalculation = ((j1?.NetWt * j1?.Tunch)/100);
+            }
             jobwise_totals.makingAmount_settingAmount += j2?.SettingAmount;
 
             // jobwise_totals.otherChargesMiscHallStamp += (j2)
@@ -344,13 +348,13 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
         maintotal.diamond_colorstone_misc.Pcs += +e?.Pcs;
       });
 
-      diamond_colorstone_misc_2_new?.forEach((e) => {
-        maintotal.total_diamond_colorstone_misc_amount += +e?.Amount;
-        maintotal.diamond_colorstone_misc_2_new.Amount += +e?.Amount;
-        maintotal.diamond_colorstone_misc_2_new.Rate += +e?.Rate;
-        maintotal.diamond_colorstone_misc_2_new.Wt += +e?.Wt;
-        maintotal.diamond_colorstone_misc_2_new.Pcs += +e?.Pcs;
-      });
+      // diamond_colorstone_misc_2_new?.forEach((e) => {
+      //   maintotal.total_diamond_colorstone_misc_amount += +e?.Amount;
+      //   maintotal.diamond_colorstone_misc_2_new.Amount += +e?.Amount;
+      //   maintotal.diamond_colorstone_misc_2_new.Rate += +e?.Rate;
+      //   maintotal.diamond_colorstone_misc_2_new.Wt += +e?.Wt;
+      //   maintotal.diamond_colorstone_misc_2_new.Pcs += +e?.Pcs;
+      // });
 
       let obj = { ...j1 };
 
@@ -378,18 +382,18 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       obj.metal = metalList;
       obj.finding = findingList;
       obj.totals = jobwise_totals;
-      obj.grouping_of_diamonds_sqc_jobwise = blankArrDiamond;
-      obj.grouping_of_colorstone_sqc_jobwise = blankArrColorstone;
-      obj.grouping_of_misc_sqc_jobwise = blankArrMisc;
+      // obj.grouping_of_diamonds_sqc_jobwise = blankArrDiamond;
+      // obj.grouping_of_colorstone_sqc_jobwise = blankArrColorstone;
+      // obj.grouping_of_misc_sqc_jobwise = blankArrMisc;
       // obj.grouping_of_metal_sqc_jobwise = blankArrMetal;
       obj.grouping_of_finding_sqc_jobwise = blankArrFinding;
       obj.grouping_of_stone_misc_sqc_jobwise = blankArrstone_misc;
       obj.diamondSettingGroup = diamondSettingGroup;
       obj.colorstoneSettingGroup = colorstoneSettingGroup;
-      obj.diamondMetalPurityWise = diamondMetalPurityWise;
-      obj.colorstoneMetalPurityWise = colorstoneMetalPurityWise;
-      obj.diamondWtMetalPurityWise = diamondWtMetalPurityWise;
-      obj.colorstoneWtMetalPurityWise = colorstoneWtMetalPurityWise;
+      // obj.diamondMetalPurityWise = diamondMetalPurityWise;
+      // obj.colorstoneMetalPurityWise = colorstoneMetalPurityWise;
+      // obj.diamondWtMetalPurityWise = diamondWtMetalPurityWise;
+      // obj.colorstoneWtMetalPurityWise = colorstoneWtMetalPurityWise;
       obj.Making_Amount_Other_Charges = jobwise_totals.Making_Amount_Other_Charges;
       obj.other_details = other_details;
       obj.fineWtByMetalWtCalculation = jobwise_totals.fineWtByMetalWtCalculation;
