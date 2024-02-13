@@ -103,10 +103,10 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 <div className="border border-black d-flex">
                     <div className='px-2'> <p className="fw-bold">TO,</p>	</div>
                     <div className='px-2'>
-                        <p className="fw-bold">Prashant Rajput	</p>
-                        <p>Near nimzari naka , near karwan naka , near engineering collage, market main road</p>
-                        <p>Near Nimazari naka</p>
-                        <p>Shirpur-425405</p>
+                        <p className="fw-bold">{headerData?.CustName}	</p>
+                        <p>{headerData?.customerAddress2} {headerData?.customerAddress1} {headerData?.customerAddress3}</p>
+                        <p>{headerData?.customerregion}</p>
+                        <p>{headerData?.customercity}-{headerData?.PinCode}</p>
                     </div>
                 </div>
                 <div className="border-start border-end border-bottom border-black d-flex px-2">
