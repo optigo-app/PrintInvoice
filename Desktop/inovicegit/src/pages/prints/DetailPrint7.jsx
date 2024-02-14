@@ -89,24 +89,22 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
 
       //cate wise data and finewt
       let cateWise2 = [];
+      let fine_wt_calculation = 0;
       blankArr?.forEach((e) => {
         let obj = { ...e };
         let netwtwithloss = (e?.netwt + e?.LossWt)
         let fineWtBYNetWtCal = 0;
         fineWtBYNetWtCal += e?.fineWtByMetalWtCalculation_finewt;
-        // if(e?.finding?.length > 0){
-        //     let f_wt = 0;
-        //     e?.finding?.forEach((el) => {
-        //           f_wt += el?.Wt;
-        //     })
-        //   fineWtBYNetWtCal = (((f_wt * e?.Tunch)/100) + (((e?.netwt) * (e?.Tunch + e?.Wastage))/100))
-        // }else{
-        //   fineWtBYNetWtCal = (e?.netwt * e?.Tunch) / 100;
-        // }
+        if(e?.LossWt === 0){
+          fine_wt_calculation += e?.PureNetWt;
+        }else{
+            fine_wt_calculation += (((((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100) + (e?.totals?.finding?.FineWt)))
+        }
         obj.fineWtBYNetWtCal = fineWtBYNetWtCal;
         obj.netwtwithloss = netwtwithloss;
         cateWise2.push(obj);
       });
+      datas.mainTotal.total_fineWtByMetalWtCalculation = fine_wt_calculation;
       cateWise2.sort((a, b) => a.GrossWt - b.GrossWt);
       
       let othamttot = 0;
@@ -786,7 +784,10 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                               {e?.Wastage?.toFixed(3)}
                             </div>
                             <div className="sum_prod_head_col_6 dp7cen2">
-                              {e?.fineWtBYNetWtCal?.toFixed(3)}
+                              {/* {e?.fineWtBYNetWtCal?.toFixed(3)} */}
+                              {e?.LossWt === 0 ? e?.PureNetWt : ((
+                              (((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100)
+                               + (e?.totals?.finding?.FineWt))?.toFixed(3))}
                             </div>
                           </div>
                         );
