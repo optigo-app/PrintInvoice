@@ -24,7 +24,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
-  const [finewt_Total, setfinewt_Total] = useState(0);
   const [miscWise_total, setMiscWise_total] = useState({
     Pcs: 0,
     pcPcs:0,
@@ -37,9 +36,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
     Wt_gm: 0,
     Amount: 0,
   });
-  // const [diamondList, setDIamondList] = useState([]);
-  // const [colorstoneList, setColorstoneList] = useState([]);
-  // const [miscList, setMiscList] = useState([]);
   
   async function loadData(data) {
     try {
@@ -93,24 +89,22 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
 
       //cate wise data and finewt
       let cateWise2 = [];
+      let fine_wt_calculation = 0;
       blankArr?.forEach((e) => {
         let obj = { ...e };
         let netwtwithloss = (e?.netwt + e?.LossWt)
         let fineWtBYNetWtCal = 0;
         fineWtBYNetWtCal += e?.fineWtByMetalWtCalculation_finewt;
-        // if(e?.finding?.length > 0){
-        //     let f_wt = 0;
-        //     e?.finding?.forEach((el) => {
-        //           f_wt += el?.Wt;
-        //     })
-        //   fineWtBYNetWtCal = (((f_wt * e?.Tunch)/100) + (((e?.netwt) * (e?.Tunch + e?.Wastage))/100))
-        // }else{
-        //   fineWtBYNetWtCal = (e?.netwt * e?.Tunch) / 100;
-        // }
+        if(e?.LossWt === 0){
+          fine_wt_calculation += e?.PureNetWt;
+        }else{
+            fine_wt_calculation += (((((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100) + (e?.totals?.finding?.FineWt)))
+        }
         obj.fineWtBYNetWtCal = fineWtBYNetWtCal;
         obj.netwtwithloss = netwtwithloss;
         cateWise2.push(obj);
       });
+      datas.mainTotal.total_fineWtByMetalWtCalculation = fine_wt_calculation;
       cateWise2.sort((a, b) => a.GrossWt - b.GrossWt);
       
       let othamttot = 0;
@@ -138,7 +132,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       setCategoryWise(cateWise2);
       // setResult(datas);
       setLoader(false);
-
 
 
       //product summary wise start
@@ -250,11 +243,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
         nvoarray.push(obj);
       })
       datas.resultArray = nvoarray;
-      let finewt_local_var = 0;
-      datas?.resultArray?.forEach((e) => {
-        finewt_local_var += e?.fineWtByMetalWtCalculation;
-      })
-      setfinewt_Total(finewt_local_var);
       setResult(datas)
   
     } catch (error) {
@@ -356,7 +344,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
       setImgFlag(true);
     }
   };
-  
   return (
     <>
       {loader ? (
@@ -601,7 +588,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                                         : el?.dcm_wt?.toFixed(3)}
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2 brdp7">
-                                        {el?.ShapeName === "Certification_NM award" ? ((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))
+                                        {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
                                         : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))}
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2">
@@ -642,7 +629,10 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                             )}
                           </div>
                           <div className="rcol13dp7 dp7cen2 border-end-0">
-                            {e?.totals?.fineWtByMetalWtCalculation?.toFixed(3)}
+
+                            {e?.LossWt === 0 ? e?.PureNetWt : ((
+                              (((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100)
+                               + (e?.totals?.finding?.FineWt))?.toFixed(3))}
                           </div>
                         </div>
                       );
@@ -794,7 +784,10 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                               {e?.Wastage?.toFixed(3)}
                             </div>
                             <div className="sum_prod_head_col_6 dp7cen2">
-                              {e?.fineWtBYNetWtCal?.toFixed(3)}
+                              {/* {e?.fineWtBYNetWtCal?.toFixed(3)} */}
+                              {e?.LossWt === 0 ? e?.PureNetWt : ((
+                              (((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100)
+                               + (e?.totals?.finding?.FineWt))?.toFixed(3))}
                             </div>
                           </div>
                         );
@@ -812,8 +805,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </div>
                       <div className="sum_prod_head_col_5 dp7cen2"></div>
                       <div className="sum_prod_head_col_6 dp7cen2">
-                        {finewt_Total === 0 ? '' : (finewt_Total?.toFixed(3))}
-                        {/* {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)} */}
+                        {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)}
                       </div>
                     </div>
                   </div>

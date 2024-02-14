@@ -96,7 +96,6 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
   };
 
 
-
   //json1 array
   json1?.length > 0 &&
     json1?.forEach((j1) => {
@@ -108,16 +107,16 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       let findingList = [];
       let miscList = [];
       let stone_miscList = [];
-      let blankArrDiamond = [];
-      let blankArrColorstone = [];
-      let blankArrMisc = [];
-      let blankArrMetal = [];
-      let blankArrFinding = [];
-      let blankArrstone_misc = [];
-      let diamondSettingGroup = [];
-      let colorstoneSettingGroup = [];
-      let diamondMetalPurityWise = [];
-      let colorstoneMetalPurityWise = [];
+      // let blankArrDiamond = [];
+      // let blankArrColorstone = [];
+      // let blankArrMisc = [];
+      // let blankArrMetal = [];
+      // let blankArrFinding = [];
+      // let blankArrstone_misc = [];
+      // let diamondSettingGroup = [];
+      // let colorstoneSettingGroup = [];
+      // let diamondMetalPurityWise = [];
+      // let colorstoneMetalPurityWise = [];
       let diamondWtMetalPurityWise = 0;
       let colorstoneWtMetalPurityWise = 0;
       let jobwise_totals = {
@@ -175,7 +174,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
         otherChargesMiscHallStamp: 0,
         makingAmount_settingAmount: 0,
       };
-
+      
       let other_details = otherAmountDetail(j1?.OtherAmtDetail);
       maintotal.total_labour.labour_rate += j1?.MaKingCharge_Unit;
       maintotal.total_labour.labour_amount += j1?.MakingAmount;
@@ -183,8 +182,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       jobwise_totals.Making_Amount_Other_Charges += j1?.MakingAmount + j1?.OtherCharges;
       maintotal.total_Making_Amount_Other_Charges += j1?.MakingAmount + j1?.OtherCharges;
       maintotal.netwt += j1?.NetWt;
-      maintotal.netwtWithLossWt =
-        maintotal.netwtWithLossWt + (+j1?.NetWt + +j1?.LossWt);
+      maintotal.netwtWithLossWt = maintotal.netwtWithLossWt + (+j1?.NetWt + +j1?.LossWt);
       maintotal.lossWt += j1?.LossWt;
       maintotal.grosswt += j1?.grosswt;
       maintotal.total_amount += j1?.TotalAmount;
@@ -203,14 +201,15 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       maintotal.totalMiscAmount += j1?.MiscAmount;
       maintotal.total_TotalCsSetcost += j1?.TotalCsSetcost;
       maintotal.total_TotalDiaSetcost += j1?.TotalDiaSetcost;
-      maintotal.total_otherCharge_Diamond_Handling += j1?.TotalDiamondHandling + j1?.OtherCharges + j1?.MiscAmount
+      maintotal.total_otherCharge_Diamond_Handling += j1?.TotalDiamondHandling + j1?.OtherCharges + j1?.MiscAmount;
+
 
 
       //json2
       json2?.length > 0 &&
         json2?.forEach((j2, i) => {
+          
           if (j1?.SrJobno === j2?.StockBarcode) {
-
             //for diamond
             if (j2?.MasterManagement_DiamondStoneTypeid === 1) {
               diamond_colorstone_misc?.push(j2);
@@ -322,19 +321,14 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               maintotal.stone_misc.Rate += j2?.Rate;
               maintotal.stone_misc.Amount += j2?.Amount;
             }
-            // if(j?.MasterManagement_DiamondStoneTypeid === 5){
-            //   // jobwise_totals.fineWtByMetalWtCalculation = (())
-            // }else{
-            //   jobwise_totals.fineWtByMetalWtCalculation = ((j1?.NetWt * j1?.Tunch) / 100);
+            // if(j1?.LossWt !== 0){
+            //   if(j2?.MasterManagement_DiamondStoneTypeid === 5){
+            //     console.log("sdfjhb",j2?.FineWt);
+            //     jobwise_totals.fineWtByMetalWtCalculation = (((j1?.NetWt * (j1?.Tunch + j1?.Wastage))/100) + ((j2?.FineWt)))
+            //     // (((j2?.Wt * (j1?.Tunch + j1?.Wastage))/100) + ((j1?.NetWt * (j1?.Tunch + j1?.Wastage))/100))
+            //   }
             // }
-            if(j2?.MasterManagement_DiamondStoneTypeid === 5){
-              jobwise_totals.fineWtByMetalWtCalculation = (((j2?.Wt * j1?.Tunch)/100) + ((j1?.NetWt * (j1?.Tunch + j1?.Wastage))/100))
-            }else{
-              jobwise_totals.fineWtByMetalWtCalculation = ((j1?.NetWt * j1?.Tunch)/100);
-            }
             jobwise_totals.makingAmount_settingAmount += j2?.SettingAmount;
-
-            // jobwise_totals.otherChargesMiscHallStamp += (j2)
 
             //ending of comparing of job no block
           }
@@ -373,7 +367,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       })
       jobwise_totals.makingAmount_settingAmount += j1?.MakingAmount;
       obj.diamond_colorstone_misc = diamond_colorstone_misc;
-      obj.diamond_colorstone_misc_2_new = diamond_colorstone_misc_2_new;
+      // obj.diamond_colorstone_misc_2_new = diamond_colorstone_misc_2_new;
       obj.certificateWtDia = diawtdup;
       obj.diamonds = diamondList;
       obj.colorstone = colorstoneList;
@@ -386,18 +380,19 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       // obj.grouping_of_colorstone_sqc_jobwise = blankArrColorstone;
       // obj.grouping_of_misc_sqc_jobwise = blankArrMisc;
       // obj.grouping_of_metal_sqc_jobwise = blankArrMetal;
-      obj.grouping_of_finding_sqc_jobwise = blankArrFinding;
-      obj.grouping_of_stone_misc_sqc_jobwise = blankArrstone_misc;
-      obj.diamondSettingGroup = diamondSettingGroup;
-      obj.colorstoneSettingGroup = colorstoneSettingGroup;
+      // obj.grouping_of_finding_sqc_jobwise = blankArrFinding;
+      // obj.grouping_of_stone_misc_sqc_jobwise = blankArrstone_misc;
+      // obj.diamondSettingGroup = diamondSettingGroup;
+      // obj.colorstoneSettingGroup = colorstoneSettingGroup;
       // obj.diamondMetalPurityWise = diamondMetalPurityWise;
       // obj.colorstoneMetalPurityWise = colorstoneMetalPurityWise;
-      // obj.diamondWtMetalPurityWise = diamondWtMetalPurityWise;
-      // obj.colorstoneWtMetalPurityWise = colorstoneWtMetalPurityWise;
+      obj.diamondWtMetalPurityWise = diamondWtMetalPurityWise;
+      obj.colorstoneWtMetalPurityWise = colorstoneWtMetalPurityWise;
       obj.Making_Amount_Other_Charges = jobwise_totals.Making_Amount_Other_Charges;
       obj.other_details = other_details;
       obj.fineWtByMetalWtCalculation = jobwise_totals.fineWtByMetalWtCalculation;
       maintotal.total_MakingAmount_Setting_Amount += jobwise_totals.makingAmount_settingAmount;
+      maintotal.total_fineWtByMetalWtCalculation += jobwise_totals.fineWtByMetalWtCalculation;
 
       resultArray.push(obj);
     });
