@@ -42,7 +42,7 @@ const AllDesignPrint = () => {
           billNumber={billNum}
           urls={atob(urls)}
           token={token}
-          invoiceNo={invoiceno}
+          invoiceNo={invoiceno}c
           printName={printname}
           evn={evn}
           ApiVer = {ApiVer}

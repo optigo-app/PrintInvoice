@@ -7,7 +7,7 @@ import { cloneDeep } from 'lodash';
 import { ToWords } from "to-words";
 import footer1 from "../../assets/css/footers/footer1.module.css";
 
-const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
+const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const toWords = new ToWords();
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
@@ -32,7 +32,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
         let footers = FooterComponent("1", data?.BillPrint_Json[0]);
         setFooter(footers);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-        // console.log(datas);
+        console.log(datas);
         let resultArr = [];
         let table1Totals = { ...table1Total };
         let categories = [];
@@ -103,7 +103,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {
@@ -234,14 +234,17 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
                             <div className="d-flex border-bottom border-black">
                                 <div className="col-6 pt-1 px-1 pb-4 border-end border-black">
                                     <p className="fw-semibold">Vessel/Flight No.</p>
+                                    <p className="">{headerData?.Flight_NO}</p>
                                 </div>
                                 <div className="col-6 pt-1 px-1 pb-4">
                                     <p className="fw-semibold">Port of Loading</p>
+                                    <p className="">{headerData?.portofloading}</p>
                                 </div>
                             </div>
                             <div className="d-flex border-bottom border-black">
                                 <div className="col-6 pt-1 px-1 pb-4 border-end border-black">
                                     <p className="fw-semibold">Port of Discharge</p>
+                                    <p className="">{headerData?.portofdischarge}</p>
                                 </div>
                                 <div className="col-6 pt-1 px-1 pb-4">
                                     <p className="fw-semibold">Final Destination</p>

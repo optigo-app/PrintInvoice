@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import style from "../../assets/css/prints/retailInvoicePrint3.module.css";
+import style from "../../assets/css/prints/retailInvoicePrint6.module.css";
 import { ToWords } from 'to-words';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { cloneDeep } from 'lodash';
@@ -23,16 +23,41 @@ const RetailInvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
     const [data, setData] = useState({});
     const [label, setlabel] = useState([]);
     const [headerData, setHeaderData] = useState({});
+    const [header, setHeader] = useState(null);
+    const [footer, setFooter] = useState(null);
+    const [document, setDocument] = useState({
+        aadharcard: "",
+        nri: "",
+        passport: "",
+    });
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
+        setHeader(head);
         let footers = FooterComponent("2", data?.BillPrint_Json[0]);
+        setFooter(footers);
         setHeaderData(data?.BillPrint_Json[0]);
         let printArr = data?.BillPrint_Json[0]?.Printlable.split("\r\n");
         setlabel(printArr);
-        let totals = 0;
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         console.log(datas);
         setData(datas);
+        let documentDetails = data?.BillPrint_Json[0]?.DocumentDetail.split("#@#");
+        let documents = {
+            aadharcard: "",
+            nri: "",
+            passport: "",
+        };
+        documentDetails?.forEach((e, i) => {
+            let data = e?.split("#-#");
+            if (data[0] === "Aadhar Card") {
+                documents.aadharcard = data[1];
+            } else if (data[0] === "NRI ID") {
+                documents.nri = data[1];
+            } else if (data[0] === "FOREIGN PASSPORT") {
+                documents.passport = data[1];
+            }
+        });
+        setDocument(documents);
     }
 
     useEffect(() => {
@@ -59,22 +84,190 @@ const RetailInvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         sendData();
     }, []);
 
-  return (
-    loader ? <Loader /> : msg === "" ? <>
-    <div className={`container max_width_container ${style?.retailInvoicePrint3} pad_60_allPrint px-1 mt-1`}>
-        {/* buttons */}
-        <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 mt-4">
-            <div className="form-check ps-3">
-                <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
+    return (
+        loader ? <Loader /> : msg === "" ? <>
+            <div className={`container max_width_container ${style?.retailInvoicePrint6} pad_60_allPrint px-1 mt-1`}>
+                {/* buttons */}
+                <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 mt-4">
+                    <div className="form-check ps-3">
+                        <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
+                    </div>
+                </div>
+                {/* header */}
+                {header}
+                {/* sub header */}
+                <div className="border d-flex">
+                    <div className="col-7 border-end p-2">
+                        <p>{headerData?.lblBillTo}</p>
+                        <p className='fw-bold'>{headerData?.CustName}</p>
+                        <p>{headerData?.customerAddress1}</p>
+                        <p>{headerData?.customerAddress2}</p>
+                        <p>{headerData?.customercity}{headerData?.customerpincode}</p>
+                        <p>{headerData?.customercountry}</p>
+                        <p>{headerData?.customeremail1}</p>
+                        <p>Phno:{headerData?.customermobileno}</p>
+                        <p>{headerData?.vat_cst_pan}</p>
+                        <p>{headerData?.Cust_CST_STATE} {headerData?.Cust_CST_STATE_No}</p>
+                    </div>
+                    <div className="col-5 p-2">
+                        <div className="d-flex">
+                            <div className="col-6"> <p className='fw-bold'>INVOICE NO</p> </div>
+                            <div className="col-6"> <p>{headerData?.InvoiceNo}</p> </div>
+                        </div>
+                        <div className="d-flex">
+                            <div className="col-6"> <p className='fw-bold'>DATE</p> </div>
+                            <div className="col-6"> <p>{headerData?.EntryDate}</p> </div>
+                        </div>
+                        <div className="d-flex">
+                            <div className="col-6"> <p className='fw-bold'>{headerData?.HSN_No_Label} </p> </div>
+                            <div className="col-6"> <p>{headerData?.HSN_No}</p> </div>
+                        </div>
+                        <div className="d-flex">
+                            <div className="col-6"> <p className='fw-bold'>Reverse Charge </p> </div>
+                            <div className="col-6 d-flex"> <input type="checkbox" /> <p className='px-1'> Yes</p> <input type="checkbox" /> <p className='px-1'> No</p> </div>
+                        </div>
+                        <div className="d-flex">
+                            <div className="col-6"> <p className='fw-bold'>AADHAR CARD </p> </div>
+                            <div className="col-6 d-flex">  <p className='px-1'>{document?.aadharcard}</p>  </div>
+                        </div>
+                        <div className="d-flex">
+                            <div className="col-6"> <p className='fw-bold'>NRI ID </p> </div>
+                            <div className="col-6 d-flex">  <p className='px-1'>{document?.nri}</p>  </div>
+                        </div>
+                        <div className="d-flex">
+                            <div className="col-6"> <p className='fw-bold'>FOREIGN PASSPORT</p> </div>
+                            <div className="col-6 d-flex">  <p className='px-1'>{document?.passport}</p>  </div>
+                        </div>
+                    </div>
+                </div>
+                {/* table header */}
+                <div className="pt-1">
+                    <div className=" d-flex border">
+                        <div className={`${style?.Sr} py-1 d-flex justify-content-center align-items-center border-end`}><p className="fw-bold">Sr#</p></div>
+                        <div className={`${style?.Product} py-1 d-flex justify-content-center align-items-center border-end`}><p className="fw-bold">Product Description</p></div>
+                        <div className={`${style?.Material} border-end`}>
+                            <div className="d-grid h-100">
+                                <div className="d-flex border-bottom"><p className="fw-bold w-100 text-center py-1">Material Description</p></div>
+                                <div className="d-flex">
+                                    <p className="fw-bold col-2 text-center border-end py-1">Material</p>
+                                    <p className="fw-bold col-2 text-center border-end py-1">Carat</p>
+                                    <p className="fw-bold col-2 text-center border-end py-1">GWT</p>
+                                    <p className="fw-bold col-2 text-center border-end py-1">STONE/DIA Wt.</p>
+                                    <p className="fw-bold col-2 text-center border-end py-1">NWT</p>
+                                    <p className="fw-bold col-2 text-center py-1">Rate</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={`${style?.Making} py-1 d-flex justify-content-center align-items-center border-end`}><p className="fw-bold">Making</p></div>
+                        <div className={`${style?.Others} py-1 d-flex justify-content-center align-items-center border-end`}><p className="fw-bold">Others</p></div>
+                        <div className={`${style?.Total} py-1 d-flex justify-content-center align-items-center`}><p className="fw-bold">Total</p></div>
+                    </div>
+                </div>
+                {/* table body */}
+                {data?.resultArray?.map((e, i) => {
+                    return <div className=" d-flex border-start border-end border-bottom" key={i}>
+                        <div className={`${style?.Sr} p-1 d-flex justify-content-center align-items-center border-end`}><p className=" text-center">{NumberWithCommas(i + 1, 0)}</p></div>
+                        <div className={`${style?.Product} p-1 border-end`}>
+                            <p className="">{e?.SubCategoryname}  {e?.Categoryname} </p>
+                            <p className="">{e?.designno} | {e?.SrJobno}</p>
+                            <img src={e?.DesignImage} alt="" className='imgWidth' onError={handleImageError} />
+                            <p className="text-center">HUID-{e?.HUID}</p>
+                        </div>
+                        <div className={`${style?.Material} border-end`}>
+                            <div className="d-grid h-100">
+                                {e?.metal?.map((ele, ind) => {
+                                    return <div className="d-flex border-bottom">
+                                    <p className=" col-2 border-end p-1">{ele?.ShapeName}</p>
+                                    <p className=" col-2 border-end p-1">Carat</p>
+                                    <p className=" col-2 text-end border-end p-1">GWT</p>
+                                    <p className=" col-2 text-end border-end p-1">STONE/DIA Wt.</p>
+                                    <p className=" col-2 text-end border-end p-1">NWT</p>
+                                    <p className=" col-2 text-end p-1">Rate</p>
+                                </div>
+                                })}
+                            
+                                <div className="d-flex">
+                                    <p className=" col-2 border-end p-1">Material</p>
+                                    <p className=" col-2 text-end border-end p-1">Carat</p>
+                                    <p className=" col-2 text-end border-end p-1">GWT</p>
+                                    <p className=" col-2 text-end border-end p-1">STONE/DIA Wt.</p>
+                                    <p className=" col-2 text-end border-end p-1">NWT</p>
+                                    <p className=" col-2 text-end p-1">Rate</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={`${style?.Making} p-1 border-end text-end`}><p className="">Making</p></div>
+                        <div className={`${style?.Others} p-1 border-end text-end`}><p className="">Others</p></div>
+                        <div className={`${style?.Total} p-1 text-end`}><p className="">Total</p></div>
+                    </div>
+                })
+                }
+                {/* table total */}
+                <div className=" d-flex border-start border-end border-bottom">
+                    <div className={`${style?.Sr} p-1 d-flex justify-content-center align-items-center border-end`}></div>
+                    <div className={`${style?.Product} p-1 border-end`}><p className="fw-bold">TOTAL</p></div>
+                    <div className={`${style?.Material} border-end d-flex `}>
+                        <p className=" col-2 border-end p-1"></p>
+                        <p className=" col-2 border-end p-1"></p>
+                        <p className=" col-2 text-end border-end p-1 fw-bold">GWT</p>
+                        <p className=" col-2 text-end border-end p-1 fw-bold">STONE/DIA Wt.</p>
+                        <p className=" col-2 text-end border-end p-1 fw-bold">NWT</p>
+                        <p className=" col-2 text-end p-1"></p>
+                    </div>
+                    <div className={`${style?.Making} p-1 border-end text-end`}><p className=""></p></div>
+                    <div className={`${style?.Others} p-1 border-end text-end`}><p className="fw-bold">Others</p></div>
+                    <div className={`${style?.Total} p-1 text-end`}><p className="fw-bold">Total</p></div>
+                </div>
+                {/* in words */}
+                <div className="d-flex border-start border-end border-bottom">
+                    <div className={`${style?.inwords} border-end d-flex flex-column justify-content-between py-1`}>
+                        <div></div>
+                        <div>
+                            <p className='px-1'>In Words Indian Rupees</p>
+                            <p className='px-1 fw-bold'>One Lakh Sixty-Eight Thousand Five Hundred and Thirty Point Ninety-Six Only</p>
+                        </div>
+                        <div><p className='px-1'>Old Gold Purchase Description : <span className="fw-bold">React invoice print bill & Task 530</span>	</p></div>
+                    </div>
+                    <div className={`${style?.taxes} border-end`}>
+                        <p className="text-end px-1">Discount</p>
+                        <p className="text-end px-1">Total Amt. before Tax</p>
+                        <p className="text-end px-1">CGST @ 0.13%</p>
+                        <p className="text-end px-1">SGST @ 0.13%</p>
+                        <p className="text-end px-1">Less</p>
+                        <p className="text-end px-1">Total Amt. after Tax</p>
+                        <p className="text-end px-1">Old Gold</p>
+                        <p className="text-end px-1">Recv.in Cash</p>
+                        <p className="text-end px-1">Recv.in Bank</p>
+                        <p className="text-end px-1">Net Bal. Amount</p>
+                        <p className="text-end mt-1 border-top p-1 fw-bold">GRAND TOTAL</p>
+                    </div>
+                    <div className={`${style?.Total}`}>
+                        <p className='text-end px-1'>5,479.15</p>
+                        <p className='text-end px-1'>1,68,094.30</p>
+                        <p className='text-end px-1'>218.52</p>
+                        <p className='text-end px-1'>218.52</p>
+                        <p className='text-end px-1'>-0.38</p>
+                        <p className='text-end px-1'>1,68,530.96</p>
+                        <p className='text-end px-1'>0.00</p>
+                        <p className='text-end px-1'>0.00</p>
+                        <p className='text-end px-1'>0.00</p>
+                        <p className='text-end px-1'>1,68,530.96</p>
+                        <p className="text-end mt-1 border-top p-1 fw-bold"> ₹ 1,68,530.96</p>
+                    </div>
+                </div>
+                {/* declaration */}
+                <div className="border-start border-end border-bottom p-2">
+                    1.I/We hereby certify that my/our registration certificate under the Goods And Service Tax Act 2017. Is in force on the date on which the sale of the goods specified in the tax invoice has been effected by me/us & it shall accounted for in the turnover of sales while filing of return & the due tax.If any payable on the sale has been paid or shall be paids.
+                    2.Returns of goods are subject to Terms & Conditions as mentioned in www.orail.com.
+                    3.The support is limited to working hours.
+                    4.Any case disapprency to jurdisory of state of gujarat.
+                </div>
+                {/* bank details */}
+                {footer}
             </div>
-        </div>
-        {/* header */}
-    
-
-    </div>
-    {/* <SampleDetailPrint11 /> */}
-</> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
-  )
+            {/* <SampleDetailPrint11 /> */}
+        </> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
+    )
 }
 
 export default RetailInvoicePrint6
