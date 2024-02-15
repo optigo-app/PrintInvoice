@@ -316,7 +316,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
 
                 <div className="tabledp10">
                   {/* tablehead */}
-                  <div className="theaddp10 fw-bold fsg2dp10">
+                  <div className="theaddp10 fw-bold fsg2dp10" style={{backgroundColor:'#F5F5F5'}}>
                     <div className="col1dp10 centerdp10 ">Sr</div>
                     <div className="col2dp10 centerdp10  fw-bold">Design</div>
                     <div className="col3dp10">
@@ -486,11 +486,11 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                             {e?.diamonds?.map((el, idia) => {
                               return (
                                 <div className="d-flex" key={idia}>
-                                  <div className="theadsubcol1_dp10">
-                                    {el?.ShapeName} {el?.QualityName}{" "}
+                                  <div className="theadsubcol1_dp10" style={{wordBreak:'break-word'}}>
+                                    {el?.ShapeName} {el?.QualityName}&nbsp;
                                     {el?.Colorname}
                                   </div>
-                                  <div className="theadsubcol1_dp10">
+                                  <div className="theadsubcol1_dp10 text-center" style={{lineHeight:'8px !important'}}>
                                     {el?.SizeName}
                                   </div>
                                   <div
@@ -552,14 +552,14 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                             {e?.colorstone?.map((el, ics) => {
                               return (
                                 <div className="d-flex" key={ics}>
-                                  <div className="theadsubcol1_dp10">
+                                  <div className="theadsubcol1_dp10" style={{wordBreak:'break-word'}}>
                                     {el?.ShapeName +
                                       " " +
                                       el?.QualityName +
                                       " " +
                                       el?.Colorname}
                                   </div>
-                                  <div className="theadsubcol1_dp10">
+                                  <div className="theadsubcol1_dp10 text-center">
                                     {el?.SizeName}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10">
@@ -587,7 +587,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                           </div>
                           <div className="tbcol7dp10 border-end">
                             <div className="d-flex">
-                              <div className="w-50 end_dp10 border-end">
+                              <div className="w-50 end_dp10 ">
                                 {formatAmount(e?.MaKingCharge_Unit)}
                               </div>
                               <div className="w-50 end_dp10">
@@ -654,7 +654,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                   {/* all table row total */}
                   <div
                     className="d-flex grandtotaldp10"
-                    style={{ backgroundColor: "#dbdbdb" }}
+                    style={{ backgroundColor: "#F5F5F5" }}
                   >
                     <div
                       className="centerdp10 brR_dp10"
@@ -884,14 +884,16 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </div>
                     </div>
                     <div className="check_dp10 border d-flex justify-content-center align-items-end pb-1 fsgdp10">
-                      Created By
+                      <i>Created By</i>
                     </div>
                     <div className="check_dp10 border d-flex justify-content-center align-items-end pb-1 fsgdp10">
-                      Checked By
+                      <i>Checked By</i>
                     </div>
                   </div>
+                  <div style={{color:'gray'}} className="pt-3" >**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
                 </div>
               </div>
+              
             </>
           ) : (
             <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
