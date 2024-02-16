@@ -40,6 +40,7 @@ function BagPrint2A({ queries, headers }) {
         };
 
         const allDatas = await GetData(objs);
+        console.log(allDatas);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
 
         // eslint-disable-next-line array-callback-return
@@ -114,6 +115,7 @@ function BagPrint2A({ queries, headers }) {
         //   });
         //   setData(responseData);
         // });
+        // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           let length = 0;
           let clr = {

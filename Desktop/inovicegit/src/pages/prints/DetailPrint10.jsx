@@ -314,7 +314,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
                 {/* table */}
 
-                <div className="tabledp10">
+                <div className="tabledp10 border border-black">
                   {/* tablehead */}
                   <div className="theaddp10 fw-bold fsg2dp10" style={{backgroundColor:'#F5F5F5'}}>
                     <div className="col1dp10 centerdp10 ">Sr</div>
@@ -724,6 +724,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       {formatAmount(result?.finalAmount)}
                     </div>
                   </div>
+                  </div>
                   {/* summary */}
                   <div className="d-flex justify-content-between mt-1 summarydp10">
                     <div className="d-flex flex-column sumdp10">
@@ -891,7 +892,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                   </div>
                   <div style={{color:'gray'}} className="pt-3" >**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
-                </div>
+                
               </div>
               
             </>
