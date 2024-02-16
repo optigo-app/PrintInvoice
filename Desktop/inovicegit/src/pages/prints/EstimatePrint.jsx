@@ -995,16 +995,16 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
           </div>
           {/* print name */}
-          <div className={`border p-1 mt-5 border-2 min_height_label lightGrey border_color_estimate`} >
-            <p className="text-uppercase fw-bold">
+          <div className={`border p-1 mt-1 border-2 min_height_label lightGrey border_color_estimate`} >
+            <p className="text-uppercase fw-bold estimatePrintFont_14" >
               {json1Data?.PrintHeadLabel}
             </p>
           </div>
           {/* customer detail */}
           <div className="py-2 d-flex justify-content-between px-1">
             <div>
-              <p>To,</p>
-              <p className="text-uppercase fw-bold">{json1Data?.CustName}</p>
+              <p className="estimatePrintFont_14">To,</p>
+              <p className="text-uppercase fw-bold estimatePrintFont_14">{json1Data?.CustName}</p>
             </div>
             <div>
               <div className="d-flex justify-conetnt-between">
@@ -1024,10 +1024,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
           <div className="my-2 w-100">
             {/* heading */}
             <div className="border-start border-top border-end d-flex border-bottom recordEstimatePrint overflow-hidden border-black lightGrey">
-              <div className="srNoEstimatePrint border-end p-1 d-flex align-items-center justify-content-center border_color_estimates">
+              <div className="srNoEstimatePrint border-end px-1 d-flex align-items-center justify-content-center border_color_estimates">
                 <p className="fw-bold">Sr</p>
               </div>
-              <div className="designEstimatePrint border-end p-1 d-flex align-items-center justify-content-center border_color_estimates">
+              <div className="designEstimatePrint border-end px-1 d-flex align-items-center justify-content-center border_color_estimates">
                 <p className="fw-bold">Design</p>
               </div>
               <div className="diamondEstimatePrint border-end border_color_estimates">
@@ -1035,22 +1035,22 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                   <p className="fw-bold">Diamond</p>
                 </div>
                 <div className="d-flex h-100">
-                  <div className="width20EstimatePrint p-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Code</p>
                   </div>
-                  <div className="width20EstimatePrint p-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Size</p>
                   </div>
-                  <div className="width20EstimatePrint p-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Pcs</p>
                   </div>
-                  <div className="width20EstimatePrint p-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Wt</p>
                   </div>
-                  <div className="width20EstimatePrint p-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Rate</p>
                   </div>
-                  <div className="width20EstimatePrint p-1">
+                  <div className="width20EstimatePrint px-1">
                     <p className="text-center fw-bold">Amount</p>
                   </div>
                 </div>
@@ -1060,19 +1060,19 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                   <p className="fw-bold">Metal</p>
                 </div>
                 <div className="d-flex h-100">
-                  <div className="width_40_estimatePrint p-1 border-end border_color_estimates">
+                  <div className="width_40_estimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Quality</p>
                   </div>
-                  <div className="width_40_estimatePrint p-1 border-end border_color_estimates">
+                  <div className="width_40_estimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">*Wt</p>
                   </div>
-                  <div className="width_40_estimatePrint p-1 border-end border_color_estimates">
+                  <div className="width_40_estimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Net Wt</p>
                   </div>
-                  <div className="width_40_estimatePrint p-1 border-end border_color_estimates">
+                  <div className="width_40_estimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Rate</p>
                   </div>
-                  <div className="width_40_estimatePrint p-1">
+                  <div className="width_40_estimatePrint px-1">
                     <p className="text-center fw-bold">Amount</p>
                   </div>
                 </div>
@@ -1082,39 +1082,39 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                   <p className="fw-bold">Stone & Misc</p>
                 </div>
                 <div className="d-flex h-100">
-                  <div className="width20EstimatePrint p-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Code</p>
                   </div>
-                  <div className="width20EstimatePrint p-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Size</p>
                   </div>
-                  <div className="width20EstimatePrint p-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Pcs</p>
                   </div>
-                  <div className="width20EstimatePrint p-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Wt</p>
                   </div>
-                  <div className="width20EstimatePrint p-1 border-end border_color_estimates">
+                  <div className="width20EstimatePrint px-1 border-end border_color_estimates">
                     <p className="text-center fw-bold">Rate</p>
                   </div>
-                  <div className="width20EstimatePrint p-1">
+                  <div className="width20EstimatePrint px-1">
                     <p className="text-center fw-bold">Amount</p>
                   </div>
                 </div>
               </div>
-              <div className="OtherAmountEstimatePrint border-end border_color_estimates p-1 d-flex align-items-center justify-content-center flex-wrap">
+              <div className="OtherAmountEstimatePrint border-end border_color_estimates px-1 d-flex align-items-center justify-content-center flex-wrap">
                 <p className="text-center fw-bold">Other &nbsp;</p>
                 <p className="text-center fw-bold">Amount </p>
               </div>
               <div className="labourEstimatePrint border-end border_color_estimates">
-                <div className="p-1 text-center border-bottom border_color_estimates">
+                <div className="px-1 text-center border-bottom border_color_estimates">
                   <p className="fw-bold">Labour</p>
                 </div>
                 <div className="d-flex h-100">
-                  <div className="col p-1 border-end border_color_estimates text-center">
+                  <div className="col px-1 border-end border_color_estimates text-center">
                     <p className="fw-bold">Rate</p>
                   </div>
-                  <div className="col p-1 text-center">
+                  <div className="col px-1 text-center">
                     <p className="fw-bold">Amount</p>
                   </div>
                 </div>
@@ -1152,7 +1152,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                                 <img
                                   src={e?.DesignImage}
                                   alt=""
-                                  className="w-100 estimate_img"
+                                  className="estimate_img mx-auto d-block text-center"
                                   onError={handleImageError}
                                   onLoad={handleImageLoad}
                                   style={{
@@ -1165,11 +1165,11 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                         <div>
                           {e?.HUID !== "" && (
-                            <p className="text-center">HUID{e?.HUID}</p>
+                            <p className="text-center">HUID-{e?.HUID}</p>
                           )}
                           {e?.PO !== "" && (
                             <p className="fw-bold text-center">
-                              PO:<span className="fw-normal">{e?.PO}</span>
+                              PO:<span className="fw-bold">{e?.PO}</span>
                             </p>
                           )}
                           <div className="d-flex justify-content-between"></div>
@@ -1506,8 +1506,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                       </div>
                       <div className="OtherAmountEstimatePrint border-end position-relative border_color_estimates">
-                        <div className="h-100 d-grid pad_bot_29_estimatePrint" style={{ paddingBottom: "20.5px" }}>
-                          <div className="border-bottom p_1Estimate border_color_estimates">
+                        <div className="h-100 d-grid pad_bot_29_estimatePrint" >
+                          <div className="p_1Estimate border_color_estimates">
                             {/* <p className='text-center'>Certification Charge 5,227.00 </p> */}
                             {e?.otherAmountDetails.length > 0 &&
                               e?.otherAmountDetails.map((ele, ind) => {
@@ -1547,7 +1547,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             )}
                           </div>
                         </div>
-                        <div className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end" style={{ height: "20.5px" }}>
+                        <div className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end border-top border_color_estimates" style={{ height: "14.5px" }}>
                           <div className="text-end p_1Estimate">
                             <p className="fw-bold">
                               {NumberWithCommas(e?.otherChargesTotal, 2)}
@@ -1556,8 +1556,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                       </div>
                       <div className="labourEstimatePrint border-end position-relative border_color_estimates">
-                        <div className="h-100 d-grid pad_bot_29_estimatePrint" style={{ paddingBottom: "20.5px" }}>
-                          <div className="d-flex border-bottom border_color_estimates">
+                        <div className="h-100 d-grid pad_bot_29_estimatePrint">
+                          <div className="d-flex  border_color_estimates">
                             {/* <div className='w-50 text-end p_1Estimate'><p>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p><p>{NumberWithCommas(e?.settingRate, 2)}</p></div> */}
                             {e?.MakingAmount !== 0 && (
                               <>
@@ -1585,7 +1585,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                             )}
                           </div>
                         </div>
-                        <div className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end" style={{ height: "20.5px" }}>
+                        <div className="totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end border-top border_color_estimates" style={{ height: "14.5px" }}>
                           <div className="">
                             <p className="text-end p_1Estimate fw-bold">
                               {NumberWithCommas(e?.totalSetttingAmount, 2)}
@@ -1594,14 +1594,14 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                         </div>
                       </div>
                       <div className="totalAmountEstimatePrint position-relative">
-                        <div className="h-100 d-grid pad_bot_29_estimatePrint" style={{ paddingBottom: "20.5px" }}>
-                          <div className="border-bottom border_color_estimates">
+                        <div className="h-100 d-grid pad_bot_29_estimatePrint">
+                          <div className="border_color_estimates">
                             <p className="text-end p_1Estimate pe-1 fw-bold">
                               {NumberWithCommas(e?.TotalAmount, 2)}
                             </p>
                           </div>
                         </div>
-                        <div className="totalBgEstimatePrint position-absolute bottom-0  height_29_5_estimatePrint w-100 d-flex align-items-center justify-content-end pe-1" style={{ height: "20.5px" }}>
+                        <div className="totalBgEstimatePrint position-absolute bottom-0  height_29_5_estimatePrint w-100 d-flex align-items-center justify-content-end pe-1 border-top border_color_estimates" style={{ height: "14.5px" }}>
                           <div className="text-end p_1Estimate">
                             <p className="fw-bold">
                               {/* <span

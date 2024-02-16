@@ -176,7 +176,7 @@ const RetailInvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 </div>
                 {/* table body */}
                 {data?.resultArray?.map((e, i) => {
-                    return <div className=" d-flex border-start border-end border-bottom" key={i}>
+                    return <div className=" d-flex border-start border-end border-bottom no_break" key={i}>
                         <div className={`${style?.Sr} p-1 d-flex justify-content-center align-items-center border-end`}><p className=" text-center">{NumberWithCommas(i + 1, 0)}</p></div>
                         <div className={`${style?.Product} p-1 border-end`}>
                             <p className="">{e?.SubCategoryname}  {e?.Categoryname} </p>
@@ -250,7 +250,7 @@ const RetailInvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 })
                 }
                 {/* table total */}
-                <div className=" d-flex border-start border-end border-bottom">
+                <div className=" d-flex border-start border-end border-bottom no_break">
                     <div className={`${style?.Sr} p-1 d-flex justify-content-center align-items-center border-end`}></div>
                     <div className={`${style?.Product} p-1 border-end`}><p className="fw-bold">TOTAL</p></div>
                     <div className={`${style?.Material} border-end d-flex `}>
@@ -269,7 +269,7 @@ const RetailInvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     <div className={`${style?.Total} p-1 text-end`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyRate, 2)}</p></div>
                 </div>
                 {/* in words */}
-                <div className="d-flex border-start border-end border-bottom">
+                <div className="d-flex border-start border-end border-bottom no_break">
                     <div className={`${style?.inwords} border-end d-flex flex-column justify-content-between py-1`}>
                         <div></div>
                         <div>
@@ -308,11 +308,8 @@ const RetailInvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     </div>
                 </div>
                 {/* declaration */}
-                <div className="border-start border-end border-bottom p-2">
-                    1.I/We hereby certify that my/our registration certificate under the Goods And Service Tax Act 2017. Is in force on the date on which the sale of the goods specified in the tax invoice has been effected by me/us & it shall accounted for in the turnover of sales while filing of return & the due tax.If any payable on the sale has been paid or shall be paids.
-                    2.Returns of goods are subject to Terms & Conditions as mentioned in www.orail.com.
-                    3.The support is limited to working hours.
-                    4.Any case disapprency to jurdisory of state of gujarat.
+                <div className="border-start border-end border-bottom p-2 no_break">
+                        <div dangerouslySetInnerHTML={{__html: headerData?.Declaration}}></div>
                 </div>
                 {/* bank details */}
                 {footer}
