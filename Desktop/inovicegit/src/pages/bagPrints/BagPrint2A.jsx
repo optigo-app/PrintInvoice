@@ -40,8 +40,8 @@ function BagPrint2A({ queries, headers }) {
         };
 
         const allDatas = await GetData(objs);
-        console.log(allDatas);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+        console.log(datas);
 
         // eslint-disable-next-line array-callback-return
         // datas?.map((a) => {
@@ -256,13 +256,13 @@ function BagPrint2A({ queries, headers }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (data.length !== 0) {
-      setTimeout(() => {
-        window.print();
-      }, 5000);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data.length !== 0) {
+  //     setTimeout(() => {
+  //       window.print();
+  //     }, 5000);
+  //   }
+  // }, [data]);
   return (
     <>
       {data.length === 0 ? (
@@ -419,7 +419,7 @@ function BagPrint2A({ queries, headers }) {
                                         className="print2ARM"
                                         style={{ width: "104px" }}
                                       >
-                                        <b>RM CODE</b>
+                                        <b className="fonts2A">RM CODE</b>
                                       </div>
                                       <div
                                         className="sizename2A"
@@ -430,7 +430,7 @@ function BagPrint2A({ queries, headers }) {
                                           width: "69px",
                                         }}
                                       >
-                                        <b>RM SIZE</b>
+                                        <b className="fonts2A">RM SIZE</b>
                                       </div>
                                       <div
                                         className="d-flex justify-content-between align-items-center"
@@ -438,14 +438,14 @@ function BagPrint2A({ queries, headers }) {
                                       >
                                         <div
                                           className="w-50 d-flex flex-column justify-content-start align-items-center"
-                                          style={{ height: "28px" }}
+                                          style={{ height: "30px" }}
                                         >
                                           <div
                                             style={{
                                               borderBottom: "1px solid black",
                                               borderRight: "1px solid black",
                                             }}
-                                            className="w-100 fonts1A d-flex justify-content-center align-items-center h-50"
+                                            className="w-100 d-flex justify-content-center align-items-center h-50 fonts2A"
                                           >
                                             ACTUAL
                                           </div>
@@ -453,7 +453,7 @@ function BagPrint2A({ queries, headers }) {
                                             <div
                                               style={{
                                                 borderRight: "1px solid black",
-                                                height: "13px",
+                                                height: "16px",
                                               }}
                                               className="w-50 d-flex justify-content-center align-items-center"
                                             >
@@ -463,7 +463,7 @@ function BagPrint2A({ queries, headers }) {
                                               className="w-50 d-flex justify-content-center align-items-center"
                                               style={{
                                                 borderRight: "1px solid black",
-                                                height: "13px",
+                                                height: "16px",
                                               }}
                                             >
                                               WT
@@ -472,7 +472,7 @@ function BagPrint2A({ queries, headers }) {
                                         </div>
                                         <div
                                           className="w-50 d-flex flex-column justify-content-start align-items-center"
-                                          style={{ height: "28px" }}
+                                          style={{ height: "30px" }}
                                         >
                                           <div
                                             style={{
@@ -488,7 +488,7 @@ function BagPrint2A({ queries, headers }) {
                                             <div
                                               style={{
                                                 borderRight: "1px solid black",
-                                                height: "13px",
+                                                height: "16px",
                                               }}
                                               className="w-50 d-flex justify-content-center align-items-center"
                                             >
@@ -496,7 +496,7 @@ function BagPrint2A({ queries, headers }) {
                                             </div>
                                             <div
                                               className="w-50 d-flex justify-content-center align-items-center"
-                                              style={{ height: "13px" }}
+                                              style={{ height: "16px" }}
                                             >
                                               WT
                                             </div>
@@ -516,7 +516,7 @@ function BagPrint2A({ queries, headers }) {
                                                "Colorstone Detail" ||
                                               s?.Sizename === "Misc Detail" || s?.Sizename === "Finding Detail" ? (
                                               <div
-                                                className="fs20A w-100 d-flex justify-content-center align-items-center fw-bold border-bottom border-black"
+                                                className="fonts2A fs20A w-100 d-flex justify-content-center align-items-center fw-bold border-bottom border-black"
                                                 style={{
                                                   height:'14px',
                                                   paddingTop: "1px",
@@ -545,7 +545,7 @@ function BagPrint2A({ queries, headers }) {
                                                   {
                                                     s?.MasterManagement_DiamondStoneTypeid === 5 ? <div className="print2AMidBody">
                                                       {
-                                                        s?.Shapename === 'TOTAL' ? <div className="print2ARM FIND2A total2Afont fw-bold d-flex justify-content-center align-items-center">{s?.Shapename}</div> : <div className="print2ARM FIND2A total2Afont"> { s?.LimitedShapeQualityColorCode?.toUpperCase() +
+                                                        s?.Shapename === 'TOTAL' ? <div className="print2ARM FIND2A total2Afont fw-bold d-flex justify-content-center align-items-center fonts2A">{s?.Shapename}</div> : <div className="print2ARM FIND2A total2Afont"> { s?.LimitedShapeQualityColorCode?.toUpperCase() +
                                                           " " +
                                                           s?.Quality?.toUpperCase() +
                                                           " " +
@@ -839,7 +839,7 @@ function BagPrint2A({ queries, headers }) {
                                     </div>
                                   </div>
                                   <div style={{ lineHeight: "15px" }}>
-                                    <span className="fw-bold">
+                                    <span className="fw-bold fonts2A">
                                       INSTRUCTION :
                                     </span>
                                     <span style={{ color: "red" }}>
@@ -861,7 +861,7 @@ function BagPrint2A({ queries, headers }) {
                                 </div>
                                 <div
                                   className="barcodeSetPrint2A"
-                                  style={{ height: "285px", marginTop: "3px" }}
+                                  style={{ height: "285px", marginTop: "2px" }}
                                 >
                                   <div className="barcodeprint2A">
                                     {e?.data?.rd?.serialjobno !== "" ? (
@@ -1026,7 +1026,7 @@ function BagPrint2A({ queries, headers }) {
                                   className="print2ARM"
                                   style={{ width: "104px" }}
                                 >
-                                  <b>RM CODE</b>
+                                  <b className="fonts2A">RM CODE</b>
                                 </div>
                                 <div
                                   className="sizename2A"
@@ -1037,7 +1037,7 @@ function BagPrint2A({ queries, headers }) {
                                     width: "69px",
                                   }}
                                 >
-                                  <b>RM SIZE</b>
+                                  <b className="fonts2A">RM SIZE</b>
                                 </div>
                                 <div
                                   className="d-flex justify-content-between align-items-center"
@@ -1046,8 +1046,8 @@ function BagPrint2A({ queries, headers }) {
                                   <div
                                     className="w-50 d-flex flex-column justify-content-start align-items-center"
                                     style={{
-                                      height: "33px",
-                                      paddingTop: "3px",
+                                      height: "30px",
+                                      paddingTop: "0px",
                                     }}
                                   >
                                     <div
@@ -1056,7 +1056,7 @@ function BagPrint2A({ queries, headers }) {
                                         borderBottom: "1px solid black",
                                         borderRight: "1px solid black",
                                       }}
-                                      className="w-100 fonts1A d-flex justify-content-center align-items-center"
+                                      className="w-100 d-flex justify-content-center align-items-center fonts2A"
                                     >
                                       ACTUAL
                                     </div>
@@ -1067,17 +1067,17 @@ function BagPrint2A({ queries, headers }) {
                                       <div
                                         style={{
                                           borderRight: "1px solid black",
-                                          height: "13px",
+                                          height: "16px",
                                         }}
-                                        className="w-50 d-flex justify-content-center align-items-center"
+                                        className="w-50 d-flex justify-content-center align-items-center fonts2A"
                                       >
                                         PCS
                                       </div>
                                       <div
-                                        className="w-50 d-flex justify-content-center align-items-center"
+                                        className="w-50 d-flex justify-content-center align-items-center fonts2A"
                                         style={{
                                           borderRight: "1px solid black",
-                                          height: "13px",
+                                          height: "16px",
                                         }}
                                       >
                                         WT
@@ -1087,13 +1087,13 @@ function BagPrint2A({ queries, headers }) {
                                   <div
                                     className="w-50 d-flex flex-column justify-content-start align-items-center"
                                     style={{
-                                      height: "33px",
-                                      paddingTop: "1px",
+                                      height: "30px",
+                                      // paddingTop: "1px",
                                     }}
                                   >
                                     <div
                                       style={{
-                                        height: "16.5px",
+                                        height: "15px",
                                         borderBottom: "1px solid black",
                                       }}
                                       className="w-100 fonts1A d-flex justify-content-center align-items-center"
@@ -1102,12 +1102,12 @@ function BagPrint2A({ queries, headers }) {
                                     </div>
                                     <div
                                       className="w-100 d-flex fonts2A"
-                                      style={{ height: "16.5px" }}
+                                      style={{ height: "15px" }}
                                     >
                                       <div
                                         style={{
                                           borderRight: "1px solid black",
-                                          height: "13px",
+                                          height: "16px",
                                         }}
                                         className="w-50 d-flex justify-content-center align-items-center"
                                       >
@@ -1115,7 +1115,7 @@ function BagPrint2A({ queries, headers }) {
                                       </div>
                                       <div
                                         className="w-50 d-flex justify-content-center align-items-center"
-                                        style={{ height: "13px" }}
+                                        style={{ height: "16px" }}
                                       >
                                         WT
                                       </div>
@@ -1168,7 +1168,7 @@ function BagPrint2A({ queries, headers }) {
                               })}
                             </div>
                             <div style={{ lineHeight: "15px" }}>
-                              <span className="fw-bold">INSTRUCTION :</span>
+                              <span className="fw-bold fonts2A">INSTRUCTION :</span>
                               <span style={{ color: "red" }}>
                                 {checkInstruction(e?.data?.rd?.officeuse) +
                                   " " +
