@@ -30,6 +30,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       Rate: 0,
       Amount: 0,
       FineWt: 0,
+      IsPrimaryMetal:0,
     },
     finding: {
       Wt: 0,
@@ -264,6 +265,9 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               maintotal.metal.Pcs += j2?.Pcs;
               maintotal.metal.Rate += j2?.Rate;
               maintotal.metal.Amount += j2?.Amount;
+              if(j2?.IsPrimaryMetal === 1){
+                maintotal.metal.IsPrimaryMetal += j2?.Wt;
+              }
             }
             //for misc
             if (j2?.MasterManagement_DiamondStoneTypeid === 3) {

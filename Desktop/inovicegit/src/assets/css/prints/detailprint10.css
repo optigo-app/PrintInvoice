@@ -106,7 +106,7 @@
     justify-content: space-between;
     align-items: center;
     height: 50px;
-    border-left:1px solid #e8e8e8;
+    border-left:1px solid #989898;
     border-right:1px solid #e8e8e8;
     border-bottom:1px solid #e8e8e8;
 }
@@ -160,10 +160,14 @@
 
 .tbrowdp10{
     display: flex;
-    border-bottom: 1px solid #e8e8e8;
-    border-left: 1px solid #e8e8e8;
-    border-right: 1px solid #e8e8e8;
+    border-bottom: 1px solid #989898;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
     
+}
+.brb_dp10{
+    border-left: 1px solid black;
+    border-right: 1px solid black;
 }
 .tbcol1dp10{
     width: 2%;
@@ -212,8 +216,11 @@
 /* grand total */
 .grandtotaldp10{
     height: 25px;
-    border: 1px solid #989898;
+    border-top: 1px solid #989898;
     font-weight: bold;
+}
+.brbb_dp10{
+    border-bottom: 1px solid black;
 }
 
 /* summary */

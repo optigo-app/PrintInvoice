@@ -314,7 +314,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
                 {/* table */}
 
-                <div className="tabledp10 border border-black">
+                <div className="tabledp10">
                   {/* tablehead */}
                   <div className="theaddp10 fw-bold fsg2dp10" style={{backgroundColor:'#F5F5F5'}}>
                     <div className="col1dp10 centerdp10 ">Sr</div>
@@ -517,6 +517,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                           </div>
                           <div className="tbcol4dp10">
                             {e?.metal?.map((el, imet) => {
+                              console.log(el)
                               return (
                                 <div className="d-flex w-100" key={imet}>
                                   <div
@@ -526,7 +527,8 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                     {el?.ShapeName} {el?.QualityName}
                                   </div>
                                   <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
-                                    {(e?.NetWt + e?.LossWt)?.toFixed(3)}
+                                    {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
+                                    {el?.Wt}
                                   </div>
                                   <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
                                     {el?.Rate?.toFixed(2)}
@@ -591,9 +593,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 {formatAmount(e?.MaKingCharge_Unit)}
                               </div>
                               <div className="w-50 end_dp10">
-                                {formatAmount(
-                                  e?.totals?.makingAmount_settingAmount
-                                )}
+                                {formatAmount( e?.MakingAmount )}
                               </div>
                             </div>
                           </div>
@@ -605,7 +605,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                     })}
                   </div>
                   {/* final total */}
-                  <div className="d-flex justify-content-end align-items-center">
+                  <div className="d-flex justify-content-end align-items-center brb_dp10">
                     <div style={{ width: "13%" }}>
                       <div className="d-flex justify-content-between">
                         <div className="w-50 end_dp10">Net Amount</div>
@@ -653,7 +653,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                   {/* all table row total */}
                   <div
-                    className="d-flex grandtotaldp10"
+                    className="d-flex grandtotaldp10 brb_dp10 brbb_dp10"
                     style={{ backgroundColor: "#F5F5F5" }}
                   >
                     <div
@@ -685,7 +685,8 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                         style={{ width: "40%" }}
                       ></div>
                       <div className="theadsubcol2_dp10 end_dp10">
-                        {result?.mainTotal?.netwtWithLossWt?.toFixed(3)}
+                        {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
+                        {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
                       </div>
                       {/* <div className="theadsubcol2_dp10"></div> */}
                       <div
@@ -716,9 +717,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
                     </div>
                     <div className="col7dp10 end_dp10 pe-1 d-flex align-items-center brR_dp10">
-                      {formatAmount(
-                        result?.mainTotal?.total_MakingAmount_Setting_Amount
-                      )}
+                      {formatAmount( result?.mainTotal?.total_labour?.labour_amount )}
                     </div>
                     <div className="col8dp10 end_dp10  d-flex align-items-center">
                       {formatAmount(result?.finalAmount)}
@@ -748,7 +747,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">NET WT</div>
                             <div className="w-50 end_dp10 pe-1">
-                              {result?.mainTotal?.netwtWithLossWt?.toFixed(3)}{" "}
+                            {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
                               gm
                             </div>
                           </div>

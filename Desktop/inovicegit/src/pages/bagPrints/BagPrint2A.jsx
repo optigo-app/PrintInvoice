@@ -41,7 +41,6 @@ function BagPrint2A({ queries, headers }) {
 
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-        console.log(datas);
 
         // eslint-disable-next-line array-callback-return
         // datas?.map((a) => {
@@ -256,13 +255,13 @@ function BagPrint2A({ queries, headers }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   if (data.length !== 0) {
-  //     setTimeout(() => {
-  //       window.print();
-  //     }, 5000);
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data.length !== 0) {
+      setTimeout(() => {
+        window.print();
+      }, 5000);
+    }
+  }, [data]);
   return (
     <>
       {data.length === 0 ? (

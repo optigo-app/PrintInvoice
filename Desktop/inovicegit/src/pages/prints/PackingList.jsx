@@ -4,6 +4,7 @@ import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 import {
   apiCall,
+  handleImageError,
   isObjectEmpty,
   NumberWithCommas,
   taxGenrator,
@@ -668,6 +669,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   src={e?.DesignImage}
                                   alt="packinglist"
                                   id="designimgpclid"
+                                  onError={(e) => handleImageError(e)}
                                 />
                               </div>
                               <div className="fspcl">{e?.CertificateNo}</div>
