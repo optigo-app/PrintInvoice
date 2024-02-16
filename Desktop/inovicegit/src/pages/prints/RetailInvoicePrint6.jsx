@@ -40,6 +40,17 @@ const RetailInvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         setlabel(printArr);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         console.log(datas);
+        let resultArray = [];
+        datas?.resultArray?.forEach((e, i) => {
+            let obj = cloneDeep(e);
+            let diamondRate = e?.diamonds?.reduce((acc, cobj) => acc + cobj?.Rate, 0);
+            diamondRate = diamondRate / e?.diamonds?.length;
+            obj.diamondRate = diamondRate / data?.BillPrint_Json[0]?.CurrencyRate;
+            let metalRate = e?.metal?.reduce((acc, cObj) => acc + cObj?.Rate, 0);
+            obj.metalRate = metalRate / data?.BillPrint_Json[0]?.CurrencyRate;
+            resultArray.push(obj);
+        });
+        datas.resultArray = resultArray;
         setData(datas);
         let documentDetails = data?.BillPrint_Json[0]?.DocumentDetail.split("#@#");
         let documents = {
@@ -175,30 +186,66 @@ const RetailInvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         </div>
                         <div className={`${style?.Material} border-end`}>
                             <div className="d-grid h-100">
-                                {e?.metal?.map((ele, ind) => {
-                                    return <div className="d-flex border-bottom">
-                                    <p className=" col-2 border-end p-1">{ele?.ShapeName}</p>
-                                    <p className=" col-2 border-end p-1">Carat</p>
-                                    <p className=" col-2 text-end border-end p-1">GWT</p>
-                                    <p className=" col-2 text-end border-end p-1">STONE/DIA Wt.</p>
-                                    <p className=" col-2 text-end border-end p-1">NWT</p>
-                                    <p className=" col-2 text-end p-1">Rate</p>
+                                <div className="d-flex border-bottom" >
+                                    <p className=" col-2 border-end p-1">{e?.MetalType}</p>
+                                    <div className=" col-2 border-end p-1">
+                                        <p>{NumberWithCommas(e?.totals?.metal?.Wt * 5, 3)}</p>
+                                        <p>{NumberWithCommas(e?.Tunch, 2)}%</p>
+                                        {e?.other_details?.map((elem, index) => {
+                                            return <p key={index}>{elem?.label}</p>
+                                        })}
+                                    </div>
+                                    <p className=" col-2 text-end border-end p-1">{NumberWithCommas(e?.grosswt, 3)}</p>
+                                    <p className=" col-2 text-end border-end p-1"></p>
+                                    <p className=" col-2 text-end border-end p-1">{NumberWithCommas(e?.NetWt, 3)}</p>
+                                    <p className=" col-2 text-end p-1">{NumberWithCommas(e?.metalRate, 2)}</p>
                                 </div>
-                                })}
-                            
-                                <div className="d-flex">
-                                    <p className=" col-2 border-end p-1">Material</p>
-                                    <p className=" col-2 text-end border-end p-1">Carat</p>
-                                    <p className=" col-2 text-end border-end p-1">GWT</p>
-                                    <p className=" col-2 text-end border-end p-1">STONE/DIA Wt.</p>
-                                    <p className=" col-2 text-end border-end p-1">NWT</p>
-                                    <p className=" col-2 text-end p-1">Rate</p>
+
+                                {e?.totals?.diamonds?.Wt !== 0 && <div className="d-flex border-bottom">
+                                    <p className="col-2 border-end p-1">Diamond</p>
+                                    <div className="col-2 border-end p-1"><p></p></div>
+                                    <p className="col-2 text-end border-end p-1"></p>
+                                    <p className="col-2 text-end border-end p-1">{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p>
+                                    <p className="col-2 text-end border-end p-1"></p>
+                                    <p className="col-2 text-end p-1">{NumberWithCommas(e?.diamondRate, 2)}</p>
                                 </div>
+                                }
+
+                                {e?.totals?.colorstone?.Wt !== 0 && <div className="d-flex border-bottom">
+                                    <p className="col-2 border-end p-1">Colorstone</p>
+                                    <div className="col-2 border-end p-1"><p></p></div>
+                                    <p className="col-2 text-end border-end p-1"></p>
+                                    <p className="col-2 text-end border-end p-1">{NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}</p>
+                                    <p className="col-2 text-end border-end p-1"></p>
+                                    <p className="col-2 text-end p-1">{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</p>
+                                </div>
+                                }
+
+                                {e?.totals?.misc?.Wt !== 0 && <div className="d-flex border-bottom">
+                                    <p className="col-2 border-end p-1">Misc</p>
+                                    <div className="col-2 border-end p-1"><p></p></div>
+                                    <p className="col-2 text-end border-end p-1"></p>
+                                    <p className="col-2 text-end border-end p-1">{NumberWithCommas(e?.totals?.misc?.Wt, 3)}</p>
+                                    <p className="col-2 text-end border-end p-1"></p>
+                                    <p className="col-2 text-end p-1">{NumberWithCommas(e?.totals?.misc?.Amount, 2)}</p>
+                                </div>
+                                }
+
+                                {e?.totals?.finding?.Wt !== 0 && <div className="d-flex border-bottom">
+                                    <p className="col-2 border-end p-1"></p>
+                                    <div className="col-2 border-end p-1"><p></p></div>
+                                    <p className="col-2 text-end border-end p-1"></p>
+                                    <p className="col-2 text-end border-end p-1">{NumberWithCommas(e?.totals?.finding?.Wt, 3)}</p>
+                                    <p className="col-2 text-end border-end p-1"></p>
+                                    <p className="col-2 text-end p-1"></p>
+                                </div>
+                                }
+
                             </div>
                         </div>
-                        <div className={`${style?.Making} p-1 border-end text-end`}><p className="">Making</p></div>
-                        <div className={`${style?.Others} p-1 border-end text-end`}><p className="">Others</p></div>
-                        <div className={`${style?.Total} p-1 text-end`}><p className="">Total</p></div>
+                        <div className={`${style?.Making} p-1 border-end text-end`}><p className="">{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p></div>
+                        <div className={`${style?.Others} p-1 border-end text-end`}><p className="">{NumberWithCommas(e?.OtherCharges, 2)}</p></div>
+                        <div className={`${style?.Total} p-1 text-end`}><p className="">{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                     </div>
                 })
                 }
@@ -209,14 +256,17 @@ const RetailInvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     <div className={`${style?.Material} border-end d-flex `}>
                         <p className=" col-2 border-end p-1"></p>
                         <p className=" col-2 border-end p-1"></p>
-                        <p className=" col-2 text-end border-end p-1 fw-bold">GWT</p>
-                        <p className=" col-2 text-end border-end p-1 fw-bold">STONE/DIA Wt.</p>
-                        <p className=" col-2 text-end border-end p-1 fw-bold">NWT</p>
+                        <p className=" col-2 text-end border-end p-1 fw-bold">{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</p>
+                        <div className=" col-2 text-end border-end p-1 fw-bold">
+                            <p>{NumberWithCommas(data?.mainTotal?.diamonds?.Wt + data?.mainTotal?.colorstone?.Wt + data?.mainTotal?.finding?.Wt, 3)} Ctw</p>
+                            <p>{NumberWithCommas(data?.mainTotal?.metal?.Wt, 3)} gm</p>
+                        </div>
+                        <p className=" col-2 text-end border-end p-1 fw-bold">{NumberWithCommas(data?.mainTotal?.netwt, 3)}</p>
                         <p className=" col-2 text-end p-1"></p>
                     </div>
                     <div className={`${style?.Making} p-1 border-end text-end`}><p className=""></p></div>
-                    <div className={`${style?.Others} p-1 border-end text-end`}><p className="fw-bold">Others</p></div>
-                    <div className={`${style?.Total} p-1 text-end`}><p className="fw-bold">Total</p></div>
+                    <div className={`${style?.Others} p-1 border-end text-end`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_other_charges, 2)}</p></div>
+                    <div className={`${style?.Total} p-1 text-end`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyRate, 2)}</p></div>
                 </div>
                 {/* in words */}
                 <div className="d-flex border-start border-end border-bottom">
@@ -224,16 +274,17 @@ const RetailInvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         <div></div>
                         <div>
                             <p className='px-1'>In Words Indian Rupees</p>
-                            <p className='px-1 fw-bold'>One Lakh Sixty-Eight Thousand Five Hundred and Thirty Point Ninety-Six Only</p>
+                            <p className='px-1 fw-bold'>{toWords?.convert(+fixedValues(data?.finalAmount / headerData?.CurrencyRate, 2))} Only</p>
                         </div>
-                        <div><p className='px-1'>Old Gold Purchase Description : <span className="fw-bold">React invoice print bill & Task 530</span>	</p></div>
+                        <div><p className='px-1'>Old Gold Purchase Description : <span className="fw-bold">{headerData?.PrintRemark}</span>	</p></div>
                     </div>
                     <div className={`${style?.taxes} border-end`}>
                         <p className="text-end px-1">Discount</p>
                         <p className="text-end px-1">Total Amt. before Tax</p>
-                        <p className="text-end px-1">CGST @ 0.13%</p>
-                        <p className="text-end px-1">SGST @ 0.13%</p>
-                        <p className="text-end px-1">Less</p>
+                        {data?.AllTaxes?.map((e, i) => {
+                            return <p className="text-end px-1" key={i}>{e?.label} @ {e?.per}%</p>
+                        })}
+                        {headerData?.AddLess !== 0 && <p className="text-end px-1">{headerData?.AddLess > 0 ? "Add" : "Less"}</p>}
                         <p className="text-end px-1">Total Amt. after Tax</p>
                         <p className="text-end px-1">Old Gold</p>
                         <p className="text-end px-1">Recv.in Cash</p>
@@ -242,17 +293,18 @@ const RetailInvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         <p className="text-end mt-1 border-top p-1 fw-bold">GRAND TOTAL</p>
                     </div>
                     <div className={`${style?.Total}`}>
-                        <p className='text-end px-1'>5,479.15</p>
-                        <p className='text-end px-1'>1,68,094.30</p>
-                        <p className='text-end px-1'>218.52</p>
-                        <p className='text-end px-1'>218.52</p>
-                        <p className='text-end px-1'>-0.38</p>
-                        <p className='text-end px-1'>1,68,530.96</p>
-                        <p className='text-end px-1'>0.00</p>
-                        <p className='text-end px-1'>0.00</p>
-                        <p className='text-end px-1'>0.00</p>
-                        <p className='text-end px-1'>1,68,530.96</p>
-                        <p className="text-end mt-1 border-top p-1 fw-bold"> ₹ 1,68,530.96</p>
+                        <p className='text-end px-1'>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>
+                        <p className='text-end px-1'>{NumberWithCommas(data?.mainTotal?.total_unitcost/headerData?.CurrencyRate, 2)}</p>
+                        {data?.AllTaxes?.map((e, i) => {
+                            return <p className="text-end px-1" key={i}>{e?.amount}</p>
+                        })}
+                            {headerData?.AddLess !== 0 && <p className="text-end px-1">{NumberWithCommas(headerData?.AddLess, 2)}</p>}
+                        <p className='text-end px-1'>{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyRate, 2)}</p>
+                        <p className='text-end px-1'>{NumberWithCommas(headerData?.OldGoldAmount, 2)}</p>
+                        <p className='text-end px-1'>{NumberWithCommas(headerData?.CashReceived, 2)}</p>
+                        <p className='text-end px-1'>{NumberWithCommas(headerData?.BankReceived, 2)}</p>
+                        <p className='text-end px-1'>{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyRate, 2)}</p>
+                        <p className="text-end mt-1 border-top p-1 fw-bold">{NumberWithCommas(data?.finalAmount / headerData?.CurrencyRate, 2)}</p>
                     </div>
                 </div>
                 {/* declaration */}
