@@ -15,6 +15,8 @@ import {
     FooterComponent,
     fixedValues,
 } from "../../GlobalFunctions";
+import { NavLink } from 'react-router-dom';
+import { blue } from '@mui/material/colors';
 
 const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [msg, setMsg] = useState("");
@@ -45,6 +47,32 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             let obj = cloneDeep(e);
             let metalRate = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1)?.Rate || 0;
             obj.metalRate = metalRate;
+            let diamonds = cloneDeep(e?.diamonds);
+            let blankDiamonds = [];
+            diamonds?.forEach((ele, ind) => {
+                let findDiamond = blankDiamonds?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname);
+                if (findDiamond === -1) {
+                    blankDiamonds.push(ele);
+                } else {
+                    blankDiamonds[findDiamond].Wt += ele?.Wt
+                    blankDiamonds[findDiamond].Pcs += ele?.Pcs
+                    blankDiamonds[findDiamond].Amount += ele?.Amount
+                }
+            });
+            let colorStone = cloneDeep(e?.colorstone);
+            let blankColorStone = [];
+            colorStone?.forEach((ele, ind) => {
+                let findColorStone = blankColorStone?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname);
+                if (findColorStone === -1) {
+                    blankColorStone.push(ele);
+                } else {
+                    blankColorStone[findColorStone].Wt += ele?.Wt
+                    blankColorStone[findColorStone].Pcs += ele?.Pcs
+                    blankColorStone[findColorStone].Amount += ele?.Amount
+                }
+            });
+            obj.blankDiamonds = blankDiamonds;
+            obj.blankColorStone = blankColorStone;
             resultArray.push(obj);
         });
         datas.resultArray = resultArray;
@@ -121,9 +149,129 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     <div className="col-4">
                         <p>Invoice#: <span className="fw-bold">{headerData?.InvoiceNo}</span> Dated <span className="fw-bold"> {headerData?.EntryDate}</span></p>
                         <p>{headerData?.HSN_No_Label}: <span className="fw-bold">{headerData?.HSN_No}</span></p>
-                        <p>PAN#: <span className="fw-bold">PAN2023</span></p>
-                        <p>GSTIN <span className="fw-bold">GST2023 | </span>STATE CODE GS</p>
-                        <p>Ref.Name: <span className="fw-bold">Umesh Bhoi</span></p>
+                        <p>PAN#: <span className="fw-bold">{headerData?.CustPanno}</span></p>
+                        <p>GSTIN <span className="fw-bold">{headerData?.CustGstNo} | </span>{headerData?.Cust_CST_STATE} {headerData?.Cust_CST_STATE_No}</p>
+                        <p>Ref.Name: <span className="fw-bold">{headerData?.SalPerName}</span></p>
+                    </div>
+                </div>
+                {/* table header */}
+                <div className="d-flex border-start border-end border-bottom lightGrey">
+                    <div className={`${style?.SR} text-center border-end py-1`}><p className="fw-bold">SR#</p></div>
+                    <div className={`${style?.DESCRIPTION} text-center border-end py-1`}><p className="fw-bold">DESCRIPTION</p></div>
+                    <div className={`${style?.AMOUNT} text-center border-end py-1`}><p className="fw-bold">AMOUNT</p></div>
+                    <div className={`${style?.DISCOUNT} text-center border-end py-1`}><p className="fw-bold">DISCOUNT</p></div>
+                    <div className={`${style?.TOTAL} text-center py-1`}><p className="fw-bold">TOTAL</p></div>
+                </div>
+                {/* table body */}
+                {data?.resultArray?.map((e, i) => {
+                    return <React.Fragment key={i}>
+                        <div className="d-flex border-start border-end border-bottom">
+                            <div className={`${style?.SR} text-center border-end py-1`}>
+                                <p className="">{NumberWithCommas(i + 1)}</p>
+                                <img src={e?.DesignImage} alt="" className='imgWidth' onError={handleImageError} />
+                                <p className="fw-bold">{e?.designno}</p>
+                            </div>
+                            <div className={`${style?.DESCRIPTION}  border-end p-1`}>
+                                <p><span className="fw-bold">MOUNTING - </span> ID: 9XIW1 | {e?.Categoryname} Size : {e?.Size} </p>
+                                <p>{e?.MetalTypePurity} {e?.MetalColor} | {NumberWithCommas(e?.grosswt, 3)} gms GW | {NumberWithCommas(e?.NetWt, 3)} gms NW</p>
+                                {e?.diamonds?.map((ele, ind) => {
+                                    return <p key={ind}>Diamond: {NumberWithCommas(ele?.Pcs, 0)} PCs | {NumberWithCommas(ele?.Wt, 3)} Cts | {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
+                                })}
+                                {e?.colorstone?.map((ele, ind) => {
+                                    return <p key={ind}>Colorstone: {NumberWithCommas(ele?.Pcs, 0)} PCs | {NumberWithCommas(ele?.Wt, 3)} Cts | {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p>
+                                })}
+                                {e?.JobRemark !== "" && <>
+                                    <p className='text-decoration-underline fw-bold pt-2'>REMARKS</p>
+                                    <p>{e?.JobRemark}</p>
+                                </>}
+                            </div>
+                            <div className={`${style?.AMOUNT} text-end border-end p-1`}><p className="">{NumberWithCommas(e?.UnitCost, 2)}	</p></div>
+                            <div className={`${style?.DISCOUNT} text-end border-end p-1`}><p className="">{NumberWithCommas(e?.DiscountAmt, 2)}</p></div>
+                            <div className={`${style?.TOTAL}  p-1`}><p className="text-end"></p></div>
+                        </div>
+                        <div className="d-flex border-start border-end border-bottom lightGrey">
+                            <div className={`${style?.SR} text-center border-end py-1`}>
+                                <p className=""></p>
+                            </div>
+                            <div className={`${style?.DESCRIPTION}  border-end p-1`}>
+                                <p className="fw-bold">AMOUNT </p>
+                            </div>
+                            <div className={`${style?.AMOUNT} text-end border-end p-1`}><p className="fw-bold">{NumberWithCommas(e?.UnitCost, 2)} </p></div>
+                            <div className={`${style?.DISCOUNT}  border-end p-1 text-end`}><p className="fw-bold">{NumberWithCommas(e?.DiscountAmt, 2)}</p></div>
+                            <div className={`${style?.TOTAL}  p-1 text-end`}><p className="fw-bold">{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+                        </div>
+                    </React.Fragment>
+                })}
+
+                {/* table total */}
+                <div className="d-flex border-start border-end border-bottom lightGrey">
+                    <div className={`${style?.SR} text-center border-end py-1`}>
+                        <p className=""></p>
+                    </div>
+                    <div className={`${style?.DESCRIPTION}  border-end p-1`}>
+                        <p className="fw-bold">TOTAL </p>
+                    </div>
+                    <div className={`${style?.AMOUNT} text-end border-end p-1`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost, 2)} </p></div>
+                    <div className={`${style?.DISCOUNT}  border-end p-1 text-end`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p></div>
+                    <div className={`${style?.TOTAL}  p-1 text-end`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p></div>
+                </div>
+                {/* taxes */}
+                <div className="d-flex border-start border-end border-bottom ">
+                    <div className={`${style?.REMARKS}  border-end p-1`}>
+                        <p className="fw-bold text-decoration-underline">REMARKS</p>
+                        <p>{headerData?.PrintRemark} </p>
+                    </div>
+                    <div className={`${style?.WORDS} border-end p-1`}>
+                        {
+                            data?.allTaxes?.map((e, i) => {
+                                return <p className="" key={i}>{e?.name} @ {e?.per}</p>
+                            })
+                        }
+                        <p className="">Total </p>
+                        {headerData?.AddLess !== 0 && <p className="">{headerData?.AddLess > 0 ? "Add" : "Less"}</p>}
+                    </div>
+                    <div className={`${style?.TOTAL}  p-1 text-end`}>
+                        {
+                            data?.allTaxes?.map((e, i) => {
+                                return <p className="" key={i}>{NumberWithCommas(e?.amount, 2)}</p>
+                            })
+                        }
+                        <p className="fw-bold">{NumberWithCommas(data?.finalAmount - headerData?.AddLess, 2)}</p>
+                        {headerData?.AddLess !== 0 && <p className="fw-bold">{NumberWithCommas(headerData?.AddLess, 2)}</p>}
+                    </div>
+                </div>
+                {/* grand total */}
+                <div className="d-flex border-start border-end border-bottom justify-content-between p-1 lightGrey">
+                    <p className="fw-bold">GRAND TOTAL</p>
+                    <p className="fw-bold">{NumberWithCommas(data?.finalAmount, 2)}</p>
+                </div>
+                {/* SIGNATURE  */}
+                <div className="my-1 d-flex border">
+                    <div className="col-6 border-end pb-5">
+                        <p className="fw-bold lightGrey text-center p-1 border-bottom mb-5">
+                            RECEIVER'S SIGNATURE & SEAL
+                        </p>
+                    </div>
+                    <div className="col-6 pb-5">
+                        <p className="fw-bold lightGrey text-center p-1 border-bottom mb-5">
+                            AUTHORIZED SIGNATURE & SEAL
+                        </p>
+                    </div>
+                </div>
+                {/* pre text */}
+                <pre className="preText mb-0">**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</pre>
+                {/* terms and conditions */}
+                <p className="p-2 text-decoration-underline">TERMS AND CONDITIONS</p>
+                {/* declaration */}
+                <div className="border p-2">
+                    <div dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}></div>
+                </div>
+                {/* footer */}
+                <div className="border-start border-end border-bottom py-1">
+                    <div className="text-center">
+                        <div>  <span className="fw-bold">{headerData?.CompanyFullName}</span>{headerData?.CompanyAddress},{headerData?.CompanyCity} - {headerData?.CompanyPinCode}</div>
+                        <div>  Tel. <span className="fw-bold">{headerData?.CompanyTellNo}.</span> | Fax. <span className="fw-bold">022-688669565</span> | Email: <span className="fw-bold">{headerData?.CompanyEmail}</span> | Website: <NavLink to={`${headerData?.CompanyWebsite}`} className={"text-decoration-underline"} style={{ color: "blue" }}>{headerData?.CompanyWebsite}</NavLink></div>
+                        <div>  {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Com_pannumber}</div>
                     </div>
                 </div>
             </div>

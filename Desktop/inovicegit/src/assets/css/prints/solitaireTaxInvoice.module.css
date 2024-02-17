@@ -1,4 +1,31 @@
-.solitaireTaxInvoice *{
+.solitaireTaxInvoice * {
     font-size: 13px;
     line-height: 120%;
+}
+
+.SR{
+    width: 7%;
+    min-width: 7%;
+}
+
+.AMOUNT,
+.DISCOUNT,
+.TOTAL {
+    width: 13%;
+    min-width: 13%;
+}
+
+.DESCRIPTION {
+    width: 54%;
+    min-width: 54%;
+}
+
+.REMARKS{
+    width: 61%;
+    min-width: 61%;
+}
+
+.WORDS{
+    width: 26%;
+    min-width: 26%;
 }

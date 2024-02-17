@@ -75,7 +75,8 @@
 
 .recordEstimatePrint * {
     font-size: 9px;
-    word-break: normal;
+    /* word-break: normal; */
+    word-break: break-all;
     line-height: 120%;
     /* font-weight: 700; */
 }
