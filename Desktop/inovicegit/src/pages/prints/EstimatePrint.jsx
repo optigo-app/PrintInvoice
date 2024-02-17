@@ -1984,12 +1984,12 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="d-flex h-100 w-100">
                   <div className="position-relative border-end w-50 border_color_estimates">
                     <p className="position-absolute bottom-0 w-100 text-center">
-                      Created By
+                     <i> Created By</i>
                     </p>
                   </div>
                   <div className="position-relative w-50">
                     <p className="position-absolute bottom-0 w-100  text-center">
-                      Checked By
+                      <i>Checked By</i>
                     </p>
                   </div>
                 </div>
