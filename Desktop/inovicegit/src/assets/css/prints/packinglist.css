@@ -131,7 +131,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    background-color: #ededed;
+    background-color: #F5F5F5 !important;
     height: 30px;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
@@ -142,8 +142,8 @@
     border-bottom: 1px solid #989898;
 }
 .srfslhpcl{
-    font-size: 14px !important;
-    line-height: 12px !important;
+    font-size: 14px ;
+    line-height: 12px ;
 }
 .srnopcl {
     display: flex;
@@ -152,7 +152,7 @@
     line-height: 120%;
     font-size: 14px;
     font-weight: bold;
-    background-color: #f7f5f5;
+    background-color: #F5F5F5;
     border-right: 1px solid #989898;
     border-bottom: 1px solid #989898;
     width: 19px;
@@ -178,7 +178,7 @@
     font-size: 14px;
     font-weight: bold;
     width: 127px;
-    background-color: #f7f5f5;
+    background-color: #F5F5F5 !important;
     border-bottom: 1px solid #989898;
     border-right: 1px solid #989898;
 }
@@ -204,7 +204,7 @@
     font-size: 14px;
     font-weight: bold;
     width: 284px;
-    background-color: #f7f5f5;
+    background-color: #F5F5F5;
 }
 
 .diapclheaderbody {
@@ -243,7 +243,7 @@
     font-size: 14px;
     font-weight: bold;
     width: 284px;
-    background-color: #f7f5f5;
+    background-color: #F5F5F5;
 }
 
 .metalpclheaderbody {
@@ -268,7 +268,7 @@
     font-size: 14px;
     font-weight: bold;
     width: 230px;
-    background-color: #f7f5f5;
+    background-color: #F5F5F5;
 }
 
 .stonepclheaderbody {
@@ -294,7 +294,7 @@
     font-size: 14px;
     font-weight: bold;
     width: 114px;
-    background-color: #f7f5f5;
+    background-color: #F5F5F5;
 }
 
 .labourpclheaderbody {
@@ -346,7 +346,7 @@
     font-size: 14px;
     font-weight: bold;
     width: 83px;
-    background-color: #f7f5f5;
+    background-color: #F5F5F5;
 }
 
 .pricepclheaderbody {
@@ -638,7 +638,7 @@
 }
 
 .bgpcl {
-    background-color: #f7f5f5;
+    background-color: #F5F5F5;
 }
 
 .btnpcl {
@@ -725,7 +725,7 @@
     font-size: 14px;
     height: 16px;
     border-bottom: 1px solid #989898;
-    background-color: #f7f5f5;
+    background-color: #F5F5F5 !important;
     font-weight: bold;
     width: 100%;
 }
@@ -978,7 +978,7 @@
     display: flex;
     justify-content: space-between;
     height: 15px;
-    background-color: #ededed;
+    background-color: #F5F5F5 !important;
 }
 
 .srpcltotrowtb {
@@ -1003,35 +1003,40 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 15px;
+    height: 14px;
     width: 21%;
     border-right: 1px solid #989898;
+    background-color: #F5F5F5 !important;
+
 }
 
 .stnpcltotrowtb {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 15px;
+    height: 14px;
     width: 21%;
     border-right: 1px solid #989898;
+    background-color: #F5F5F5 !important;
 }
 
 .lopcltotrowtb {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 15px;
+    height: 14px;
     width: 10%;
     border-right: 1px solid #989898;
+    background-color: #F5F5F5 !important;
 }
 
 .prpcltotrowtb {
     display: flex;
     align-items: center;
-    height: 15px;
+    height: 14px;
     width: 6%;
     border-right: 1px solid #989898;
+    background-color: #F5F5F5 !important;
 }
 
 .dispcltotrowtb {
@@ -1061,7 +1066,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 110px;
+    /* min-height: 110px; */
     width: 2%;
     border-right: 1px solid #989898;
     padding-top: 5px;
@@ -1072,7 +1077,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    min-height: 110px;
+    /* min-height: 110px; */
     width: 9%;
     border-right: 1px solid #989898;
 }
@@ -1090,7 +1095,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 110px;
+    /* min-height: 110px; */
     width: 21%;
     border-right: 1px solid #989898;
 }
@@ -1099,7 +1104,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 110px;
+    /* min-height: 110px; */
     width: 10%;
     border-right: 1px solid #989898;
 }
@@ -1107,7 +1112,7 @@
 .pcltbr1c7 {
     display: flex;
     align-items: flex-start;
-    min-height: 110px;
+    /* min-height: 110px; */
     width: 6%;
     border-right: 1px solid #989898;
 }
@@ -1120,8 +1125,8 @@
 }
 
 .fspcl {
-    font-size: 10px !important;
-    line-height: 8.5px;
+    font-size: 11px !important;
+    line-height: 12px;
 }
 
 @media print {
@@ -1141,5 +1146,8 @@
         .print_sec_sum4 {
             display: none !important;
           }
-
+          .fspcl {
+            font-size: 9px !important;
+            line-height: 10px;
+        }
 }
