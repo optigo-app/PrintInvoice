@@ -39,7 +39,6 @@ const RetailInvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         let printArr = data?.BillPrint_Json[0]?.Printlable.split("\r\n");
         setlabel(printArr);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-        console.log(datas);
         let resultArray = [];
         datas?.resultArray?.forEach((e, i) => {
             let obj = cloneDeep(e);

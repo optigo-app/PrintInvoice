@@ -28,7 +28,6 @@ const RetailInvoicePrint5 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [foreignPassport, setForeignPassport] = useState("");
 
     const loadData = (data) => {
-        console.log(data);
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
         setHeader(head);
         let footers = FooterComponent("2", data?.BillPrint_Json[0]);
@@ -38,7 +37,6 @@ const RetailInvoicePrint5 = ({ urls, token, invoiceNo, printName, evn }) => {
         setlabel(printArr);
         let totals = 0;
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-        console.log(datas);
         let nri = data?.BillPrint_Json[0]?.DocumentDetail?.split("#@#").map(e => e.split("#-#"));
         let findNri = nri?.findIndex((e, i) => e[0] === "NRI ID");
         if (findNri !== -1) {
