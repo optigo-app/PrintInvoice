@@ -119,6 +119,48 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   };
 
   const caiculateMaterial = (data) => {
+    let diamondDetailsss = [];
+    data?.BillPrint_Json2?.forEach((ele, ind) => {
+      if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+        if (ele?.ShapeName === "RND") {
+          let findDiamond = diamondDetailsss?.findIndex((elem, index) => elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName);
+          if (findDiamond === -1) {
+            diamondDetailsss.push(ele);
+          } else {
+            diamondDetailsss[findDiamond].Wt += ele?.Wt;
+            diamondDetailsss[findDiamond].Pcs += ele?.Pcs;
+            diamondDetailsss[findDiamond].Amount += ele?.Amount;
+          }
+
+        } else {
+          let findOther = diamondDetailsss?.findIndex((elem, index) => elem?.ShapeName === "OTHER");
+          if (findOther === -1) {
+            let obj = { ...ele };
+            obj.ShapeName = "OTHER";
+            diamondDetailsss.push(obj);
+          } else {
+            diamondDetailsss[findOther].Wt += ele?.Wt;
+            diamondDetailsss[findOther].Pcs += ele?.Pcs;
+            diamondDetailsss[findOther].Amount += ele?.Amount;
+          }
+        }
+      }
+
+    });
+    diamondDetailsss.sort((a, b) => {
+      if (a.ShapeName === "OTHER" && b.ShapeName !== "OTHER") {
+        return 1;
+      } else if (a.ShapeName !== "OTHER" && b.ShapeName === "OTHER") {
+        return -1;
+      } else {
+        if (a.Colorname !== b.Colorname) {
+          return a.Colorname.localeCompare(b.Colorname);
+        } else {
+          return a.QualityName.localeCompare(b.QualityName);
+        }
+      }
+    })
+    setDia(diamondDetailsss);
     let resultArr = [];
     let totals = { ...total };
     totals.previeligeCardDisocunt = data?.BillPrint_Json[0]?.Privilege_discount;
@@ -178,7 +220,6 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
         amount: 0,
       };
       totals.gold24Kt += e?.convertednetwt;
-
       data?.BillPrint_Json2.forEach((ele, ind) => {
         if (e?.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
@@ -426,17 +467,13 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
     totals.otherAmount = totals.otherAmount.toFixed(3);
     diamondDetailList.forEach((e, i) => {
       if (i >= 7) {
-        diamondDetailList2[diamondDetailList2.length - 1].pcs += +e.pcs.toFixed(
-          2
-        );
-        diamondDetailList2[diamondDetailList2.length - 1].wt += +e.wt.toFixed(
-          2
-        );
+        diamondDetailList2[diamondDetailList2.length - 1].pcs += +e.pcs;
+        diamondDetailList2[diamondDetailList2.length - 1].wt += +e.wt;
       } else {
         diamondDetailList2.unshift({
           shapeQualityColor: e.shapeQualityColor,
-          pcs: +e.pcs.toFixed(2),
-          wt: +e.wt.toFixed(2),
+          pcs: +e.pcs,
+          wt: +e.wt,
         });
       }
     });
@@ -875,48 +912,6 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
       return 0;
     });
     setJson2Data(finalArr2);
-    let diamondDetailsss = [];
-    data?.BillPrint_Json2?.forEach((ele, ind) => {
-      if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-        if (ele?.ShapeName === "RND") {
-          let findDiamond = diamondDetailsss?.findIndex((elem, index) => elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName);
-          if (findDiamond === -1) {
-            diamondDetailsss.push(ele);
-          } else {
-            diamondDetailsss[findDiamond].Wt += ele?.Wt;
-            diamondDetailsss[findDiamond].Pcs += ele?.Pcs;
-            diamondDetailsss[findDiamond].Amount += ele?.Amount;
-          }
-
-        } else {
-          let findOther = diamondDetailsss?.findIndex((elem, index) => elem?.ShapeName === "OTHER");
-          if (findOther === -1) {
-            let obj = { ...ele };
-            obj.ShapeName = "OTHER";
-            diamondDetailsss.push(obj);
-          } else {
-            diamondDetailsss[findOther].Wt += ele?.Wt;
-            diamondDetailsss[findOther].Pcs += ele?.Pcs;
-            diamondDetailsss[findOther].Amount += ele?.Amount;
-          }
-        }
-      }
-
-    });
-    diamondDetailsss.sort((a, b) => {
-      if (a.ShapeName === "OTHER" && b.ShapeName !== "OTHER") {
-        return 1;
-      } else if (a.ShapeName !== "OTHER" && b.ShapeName === "OTHER") {
-        return -1;
-      } else {
-        if (a.Colorname !== b.Colorname) {
-          return a.Colorname.localeCompare(b.Colorname);
-        } else {
-          return a.QualityName.localeCompare(b.QualityName);
-        }
-      }
-    })
-    setDia(diamondDetailsss);
   };
 
   const loadData = (data) => {
