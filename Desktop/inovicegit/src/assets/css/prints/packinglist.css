@@ -850,7 +850,7 @@
 }
 
 .jewpclthead {
-    width: 9%;
+    width: 8%;
     height: 30px;
     text-align: center;
     border-right: 1px solid #989898;
@@ -860,7 +860,7 @@
 }
 
 .diamheadpcl {
-    width: 21%;
+    width: 22%;
     display: flex;
     flex-direction: column;
     height: 30px;
@@ -995,7 +995,7 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    width: 9%;
+    width: 8%;
     border-right: 1px solid #989898;
 }
 
@@ -1004,7 +1004,7 @@
     justify-content: center;
     align-items: center;
     height: 14px;
-    width: 21%;
+    width: 22%;
     border-right: 1px solid #989898;
     background-color: #F5F5F5 !important;
 
@@ -1078,7 +1078,7 @@
     justify-content: space-around;
     align-items: center;
     /* min-height: 110px; */
-    width: 9%;
+    width: 8%;
     border-right: 1px solid #989898;
 }
 
@@ -1087,7 +1087,7 @@
     justify-content: center;
     align-items: flex-start;
     min-height: 110px;
-    width: 21%;
+    width: 22%;
     border-right: 1px solid #989898;
 }
 
@@ -1152,7 +1152,7 @@
             line-height: 10px;
         }
         .fspcl2{
-            font-size: 8px !important;
+            font-size: 7px !important;
         }
         .pclprint {
             max-width: 1200px;
