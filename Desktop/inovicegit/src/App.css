@@ -299,6 +299,10 @@ body .border_left{
   border-color: #000 !important;
 }
 
+.retailPrint2 .headerTitle.target_header{
+  display: none;
+} 
+
 .word_break{
   word-break: break-all !important;
 }

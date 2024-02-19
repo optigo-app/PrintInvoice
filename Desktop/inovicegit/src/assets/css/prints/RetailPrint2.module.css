@@ -1,0 +1,34 @@
+.retailPrint2 *{
+    font-size: 10px;
+    line-height: 120%;
+    word-break: normal;
+}
+
+.Sr{
+    width: 4%;
+    min-width: 4%;
+}
+
+.Item, .Product, .Design, .IGI{
+    width: 7.33%;
+    min-width: 7.33%;
+}
+
+.QR, .Certificate, .MRP, .TotalAmount{
+    width: 6%;
+    min-width: 6%;
+}
+
+.Metal,
+.Gross, 
+.Less,
+.Net,
+.DiaQuality,
+.DiaColor,
+.DiaPcs,
+.DiaWt, 
+.DisAmt, 
+.discountPer{
+    width: 5%;
+    min-width: 5%;
+}
