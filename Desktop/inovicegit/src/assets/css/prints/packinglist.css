@@ -133,13 +133,13 @@
     width: 100%;
     background-color: #F5F5F5 !important;
     height: 30px;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 0.5px solid black;
+    border-bottom: 0.5px solid black;
 }
 
 .pcltablebody {
     display: flex;
-    border-bottom: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
 }
 .srfslhpcl{
     font-size: 14px ;
@@ -153,8 +153,8 @@
     font-size: 14px;
     font-weight: bold;
     background-color: #F5F5F5;
-    border-right: 1px solid #989898;
-    border-bottom: 1px solid #989898;
+    border-right: 0.5px solid #989898;
+    border-bottom: 0.5px solid #989898;
     width: 19px;
 }
 
@@ -165,7 +165,7 @@
     line-height: 120%;
     font-size: 14px;
     font-weight: bold;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     width: 20px;
 }
 
@@ -179,8 +179,8 @@
     font-weight: bold;
     width: 127px;
     background-color: #F5F5F5 !important;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .jewelcodepclbody {
@@ -192,7 +192,7 @@
     font-size: 14px;
     font-weight: bold;
     width: 100px;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .diapclheader {
@@ -216,8 +216,8 @@
     font-size: 14px;
     font-weight: bold;
     width: 284px;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .diaentrypcl {
@@ -230,8 +230,8 @@
     font-size: 14px;
     font-weight: bold;
     width: 284px;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .metalpclheader {
@@ -255,8 +255,8 @@
     font-size: 14px;
     font-weight: bold;
     width: 284px;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .stonepclheader {
@@ -281,8 +281,8 @@
     height: 100%;
     font-weight: bold;
     width: 230px;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .labourpclheader {
@@ -307,8 +307,8 @@
     height: 100%;
     font-weight: bold;
     width: 114px;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .otherpclheader {
@@ -333,8 +333,8 @@
     font-size: 14px;
     font-weight: bold;
     width: 116px;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .pricepclheader {
@@ -359,7 +359,7 @@
     height: 100%;
     font-weight: bold;
     width: 83px;
-    border-bottom: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
 }
 
 .diarowpcl {
@@ -370,8 +370,8 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
+    border-right: 0.5px solid #989898;
     width: 284px;
 }
 
@@ -390,7 +390,7 @@
     justify-content: space-between;
     align-items: center;
     height: 16px;
-    border-bottom: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
     width: 284px;
 }
 
@@ -410,7 +410,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .dia1pclbody {
@@ -418,7 +418,7 @@
     display: flex;
     justify-content: END;
     align-items: CENTER;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     padding-right: 1px;
 }
 
@@ -430,8 +430,8 @@
     justify-content: center;
     align-items: center;
     height: 16px;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
+    border-right: 0.5px solid #989898;
     width: 230px;
 }
 
@@ -443,7 +443,7 @@
     justify-content: space-between;
     align-items: center;
     height: 16px;
-    border-bottom: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
     width: 230px;
 }
 
@@ -464,7 +464,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .shppclbody {
@@ -474,7 +474,7 @@
     justify-content: flex-start;
     align-items: center;
     height: 100%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .lbrowpcl {
@@ -485,8 +485,8 @@
     justify-content: center;
     align-items: center;
     height: 16px;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
+    border-right: 0.5px solid #989898;
     width: 114px;
 }
 
@@ -498,7 +498,7 @@
     justify-content: space-between;
     align-items: center;
     height: 16px;
-    border-bottom: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
     width: 114px;
 }
 
@@ -519,7 +519,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .othrowpcl {
@@ -530,8 +530,8 @@
     justify-content: center;
     align-items: center;
     height: 16px;
-    border-bottom: 1px solid #989898;
-    border-right: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
+    border-right: 0.5px solid #989898;
     width: 116px;
 }
 
@@ -543,7 +543,7 @@
     justify-content: space-between;
     align-items: center;
     height: 16px;
-    border-bottom: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
     width: 116px;
 }
 
@@ -564,7 +564,7 @@
     justify-content: center;
     align-items: center;
     height: 16px;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .othpclbody {
@@ -573,7 +573,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .pricerowpcl {
@@ -585,7 +585,7 @@
     line-height: 120%;
     font-size: 12px;
     font-weight: bold;
-    border-bottom: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
 }
 
 .pricerowpclbody {
@@ -668,7 +668,7 @@
 }
 
 .dispcl {
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     width: 175px;
     height: 15px;
     display: flex;
@@ -693,7 +693,7 @@
 }
 
 .brpclstn {
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     height: 100%;
     width: 100%;
 }
@@ -724,7 +724,7 @@
     line-height: 120%;
     font-size: 14px;
     height: 16px;
-    border-bottom: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
     background-color: #F5F5F5 !important;
     font-weight: bold;
     width: 100%;
@@ -733,7 +733,7 @@
 .srnorowtotpcl {
     width: 19px;
     height: 16px;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .jewrowtotpcl {
@@ -742,14 +742,14 @@
     align-items: center;
     width: 100px;
     height: 16px;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     font-weight: bold;
 }
 
 .diarowtotpcl {
     width: 284px;
     display: flex;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     font-weight: bold;
     height: 16px;
 }
@@ -757,7 +757,7 @@
 .metalrowtotpcl {
     width: 284px;
     display: flex;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     font-weight: bold;
     height: 16px;
 }
@@ -765,7 +765,7 @@
 .stonerowtotpcl {
     width: 229px;
     display: flex;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     font-weight: bold;
     height: 16px;
 }
@@ -773,7 +773,7 @@
 .labourrowtotpcl {
     width: 114px;
     display: flex;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     font-weight: bold;
     height: 16px;
 }
@@ -781,7 +781,7 @@
 .otherrowtotpcl {
     width: 116px;
     display: flex;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     font-weight: bold;
     height: 16px;
 }
@@ -790,7 +790,7 @@
     width: 83px;
     display: flex;
     justify-content: center;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     font-weight: bold;
     height: 16px;
     align-items: center;
@@ -802,7 +802,7 @@
     justify-content: center;
     align-items: center;
     height: 16px;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .stnptotpcl {
@@ -811,7 +811,7 @@
     justify-content: center;
     align-items: center;
     height: 16px;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .lbrtotpcl {
@@ -820,7 +820,7 @@
     justify-content: center;
     align-items: center;
     height: 16px;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .othtotcl {
@@ -829,22 +829,22 @@
     justify-content: center;
     align-items: center;
     height: 16px;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 
 }
 
 .pcltabletot {
     display: flex;
     flex-direction: column;
-    border-left: 1px solid #000;
-    border-right: 1px solid #000;
+    border-left: 0.5px solid #000;
+    border-right: 0.5px solid #000;
 }
 
 .srnopclthead {
     height: 30px;
     text-align: center;
     width: 2%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     font-size: 13px;
     line-height: 12px;
 }
@@ -853,7 +853,7 @@
     width: 8%;
     height: 30px;
     text-align: center;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -864,7 +864,7 @@
     display: flex;
     flex-direction: column;
     height: 30px;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .diamhpclcol {
@@ -879,7 +879,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
 }
 
 .shptheadpcl {
@@ -887,7 +887,7 @@
     width: 21%;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .shpcolpcl {
@@ -899,7 +899,7 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    border-bottom: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
 }
 
 .shpcolpclcol {
@@ -912,7 +912,7 @@
 .lotheadpcl {
     height: 30px;
     width: 10%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .pricetheadpcl {
@@ -928,7 +928,7 @@
     justify-content: center;
     align-items: center;
     height: 15px;
-    border-bottom: 1px solid #989898;
+    border-bottom: 0.5px solid #989898;
 }
 
 .lbhthpclcol {
@@ -941,21 +941,21 @@
 .dcolsthpcl {
     width: 100%;
     line-height: 100%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     height: 100%;
 }
 
 .shpthcolspcl {
     width: 100%;
     line-height: 100%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     min-height: 100%;
 }
 
 .lopclcol {
     width: 100%;
     line-height: 100%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     min-height: 100%;
 }
 
@@ -987,7 +987,7 @@
     align-items: center;
     height: 15px;
     width: 2%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .jwlpcltotrowtb {
@@ -996,7 +996,7 @@
     align-items: center;
     height: 15px;
     width: 8%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .diapcltotrowtb {
@@ -1005,7 +1005,7 @@
     align-items: center;
     height: 14px;
     width: 22%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     background-color: #F5F5F5 !important;
 
 }
@@ -1016,7 +1016,7 @@
     align-items: center;
     height: 14px;
     width: 21%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     background-color: #F5F5F5 !important;
 }
 
@@ -1026,7 +1026,7 @@
     align-items: center;
     height: 14px;
     width: 10%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     background-color: #F5F5F5 !important;
 }
 
@@ -1035,7 +1035,7 @@
     align-items: center;
     height: 14px;
     width: 6%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     background-color: #F5F5F5 !important;
 }
 
@@ -1048,7 +1048,7 @@
 .discpclcs {
     width: 90%;
     height: 15px;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1057,7 +1057,7 @@
 .disvalpclcs {
     width: 30%;
     height: 15px;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     display: flex;
     align-items: center;
 }
@@ -1068,7 +1068,7 @@
     align-items: flex-start;
     /* min-height: 110px; */
     width: 2%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
     padding-top: 5px;
 }
 
@@ -1079,7 +1079,7 @@
     align-items: center;
     /* min-height: 110px; */
     width: 8%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .pcltbr1c3 {
@@ -1088,7 +1088,7 @@
     align-items: flex-start;
     min-height: 110px;
     width: 22%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .pcltbr1c5 {
@@ -1097,7 +1097,7 @@
     align-items: flex-start;
     /* min-height: 110px; */
     width: 21%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .pcltbr1c6 {
@@ -1106,7 +1106,7 @@
     align-items: flex-start;
     /* min-height: 110px; */
     width: 10%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .pcltbr1c7 {
@@ -1114,7 +1114,7 @@
     align-items: flex-start;
     /* min-height: 110px; */
     width: 6%;
-    border-right: 1px solid #989898;
+    border-right: 0.5px solid #989898;
 }
 
 .summaryalignpcl {
@@ -1129,7 +1129,13 @@
     /* line-height: 12px; */
     line-height: 10px;
 }
-
+.p_2_pcl{
+    padding-top: 6px;
+    padding-bottom: 2px;
+}
+.be_1_pcl{
+    border-right: 0.5px solid #989898;
+}
 @media print {
     .btnpcl {
         display: none !important;
@@ -1142,13 +1148,13 @@
     .tablebodypcl::before {
         content: "";
         display: block;
-        border-top: 1px solid #989898;
+        border-top: 0.5px solid #989898;
     }
         .print_sec_sum4 {
             display: none !important;
           }
           .fspcl {
-            font-size: 8px !important;
+            font-size: 7px !important;
             line-height: 10px;
         }
         .fspcl2{
