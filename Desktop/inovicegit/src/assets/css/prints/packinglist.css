@@ -1126,7 +1126,8 @@
 
 .fspcl {
     font-size: 11px !important;
-    line-height: 12px;
+    /* line-height: 12px; */
+    line-height: 10px;
 }
 
 @media print {
