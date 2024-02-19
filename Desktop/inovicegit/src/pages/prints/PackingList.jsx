@@ -8,9 +8,7 @@ import {
   handleImageError,
   isObjectEmpty,
   NumberWithCommas,
-  taxGenrator,
 } from "../../GlobalFunctions";
-import { setFinalArr } from "../../GlobalFunctions/setFinalArr";
 import { OrganizeDataPrint } from './../../GlobalFunctions/OrganizeDataPrint';
 
 const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
@@ -870,7 +868,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   }
                               </div>
                               <div
-                                className="lopclcol fspcl pt-1"
+                                className="lopclcol fspcl pt-1"D
                                 style={{ borderRight: "0px" }}
                               >
                                 <div className="rightpcl fspcl">
@@ -1043,7 +1041,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                               className="lopcltotrowtb dispcltotrowtb"
                               style={{ width: "20%" }}
                             >
-                              <div className="discpclcs fwboldpcl fspcl">
+                              <div className="discpclcs fwboldpcl fspcl2">
                                 Discount {e?.Discount}% @Total Amount
                               </div>
                               <div
@@ -1068,7 +1066,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                   </div>
                   <div
                     className="tbodyrowpcltot border-start border-end border-black"
-                    style={{ borderBottom: "1px solid black", height: "15px" }}
+                    // style={{ borderBottom: "1px solid black", height: "15px" }}
                   >
                     <div className="srpcltotrowtb"></div>
                     <div className="jwlpcltotrowtb fspcl">
