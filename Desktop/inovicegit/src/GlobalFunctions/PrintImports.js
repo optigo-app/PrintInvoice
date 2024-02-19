@@ -69,6 +69,7 @@ export const printConditions = [
   {printName: 'retail invoice print 7', etpType: 'print', componentName: 'RetailInvoicePrint7'},
   {printName: 'retail print 1', etpType: 'print', componentName: 'RetailPrint'},
   {printName: 'retail print 2', etpType: 'print', componentName: 'RetailPrint2'},
+  {printName: 'retail print 3', etpType: 'print', componentName: 'RetailPrint3'},
   {printName: 'retail tax invoice', etpType: 'print', componentName: 'RetailTaxInvoice'},
   {printName: 'retail1 print', etpType: 'print', componentName: 'RetailPrint'},
   {printName: 'rough estimate', etpType: 'print', componentName: 'RoughEstimate'},

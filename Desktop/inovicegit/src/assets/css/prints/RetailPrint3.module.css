@@ -1,0 +1,36 @@
+.RetailPrint3 *{
+    font-size: 12px;
+    line-height: 120%;
+    word-break: normal;
+}
+
+.Sr{
+    width: 5%;
+    min-width: 5%;
+}
+.Product{
+    width: 8%;
+    min-width: 8%;
+}
+.Material{
+    width: 87%;
+    min-width: 87%;
+}
+
+.material	{
+    width: 10%;
+    min-width: 10%;
+}
+.qty, 
+.color,
+.pcs,
+.gWt,
+.nWt,
+.rate,
+.amount,
+.making,
+.discount,
+.total	{
+    width: 9%;
+    min-width: 9%;
+}
