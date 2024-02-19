@@ -100,11 +100,11 @@ const AllDesignPrint = () => {
       const response = await fetch(faviconIcon, { method: "HEAD" });
       if (!response.ok) {
         handleFaviconError();
-        setFaviconIcon(!faviconIcon)
+        setIsFaviconLoaded(false);
       }
     } catch (error) {
       handleFaviconError();
-      setFaviconIcon(!faviconIcon)
+      setIsFaviconLoaded(false);
     }
   };
   useEffect(() => {

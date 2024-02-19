@@ -26,6 +26,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
   const [responsejson, setResponsejson] = useState("");
   const [taxtotal, setTaxTotal] = useState([]);
   const [grandtot, setGrandTot] = useState([]);
+  const [misc_other, setMisc_Other] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const totalObj = {
@@ -432,6 +433,31 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
         data?.BillPrint_Json2
       );
       console.log(datas);
+
+      let misc_other = [];
+      datas?.resultArray?.forEach((e, index) => {
+        let misc_other_amt_label = {
+            Amount: 0,
+            label: 'Other'
+        };
+        e?.misc?.forEach((el) => {
+            if (!el?.ShapeName?.includes('Certification') && el?.ShapeName !== 'Hallmark' && el?.ShapeName !== 'Stamping') {
+                misc_other_amt_label.Amount += el?.Amount;
+            }
+        });
+        datas.resultArray[index].misc_other_amt_label = misc_other_amt_label;
+    });
+    
+    datas?.resultArray?.forEach((e, index) => {
+        let misc_separate = [];
+        e?.misc?.forEach((el) => {
+            if (el?.ShapeName?.includes('Certification') || el?.ShapeName === 'Hallmark' || el?.ShapeName === 'Stamping') {
+                misc_separate.push(el);
+            }
+        });
+        datas.resultArray[index].misc_separate = misc_separate;
+    });
+
       setResult(datas);
       setLoader(false);
   }
@@ -558,21 +584,21 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="diamheadpcl">
                         <div className="diamhpclcol1 fwboldpcl fspcl">Diamond</div>
                         <div className="diamhpclcol">
-                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl">
+                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{width:'27%'}}>
                             Shape
                           </div>
-                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl">
+                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{width:'27%'}}>
                             Size
                           </div>
-                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl">
+                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{width:'22%'}}>
                             Wt
                           </div>
-                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl">
+                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{width:'22%'}}>
                             Rate
                           </div>
                           <div
                             className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                            style={{ borderRight: "0px" }}
+                            style={{ borderRight: "0px", width:'27%' }}
                           >
                             Amount
                           </div>
@@ -580,22 +606,22 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                       </div>
                       <div className="diamheadpcl">
                         <div className="diamhpclcol1 fwboldpcl fspcl">Metal</div>
-                        <div className="diamhpclcol">
-                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl">
+                        <div className="diamhpclcol w-100">
+                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{width:'22%'}}> 
                             KT
                           </div>
-                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl">
+                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{width:'18%'}}>
                             Gr Wt
                           </div>
-                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl">
+                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{width:'18%'}}>
                             N + L
                           </div>
-                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl">
+                          <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{width:'20%'}}>
                             Rate
                           </div>
                           <div
                             className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                            style={{ borderRight: "0px" }}
+                            style={{ borderRight: "0px", width:'22%' }}
                           >
                             Amount
                           </div>
@@ -604,18 +630,18 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="shptheadpcl">
                         <div className="shpcolpcl1 fwboldpcl fspcl">Stone</div>
                         <div className="shpcolpclcol">
-                          <div className="shpthcolspcl centerpcl fwboldpcl fspcl">
+                          <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{width:'27%'}}>
                             Shape
                           </div>
-                          <div className="shpthcolspcl centerpcl fwboldpcl fspcl">
+                          <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{width:'22%'}}>
                             Wt
                           </div>
-                          <div className="shpthcolspcl centerpcl fwboldpcl fspcl">
+                          <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{width:'23%'}}>
                             Rate
                           </div>
                           <div
                             className="shpthcolspcl centerpcl fwboldpcl fspcl"
-                            style={{ borderRight: "0px" }}
+                            style={{ borderRight: "0px", width:'28%' }}
                           >
                             Amount
                           </div>
@@ -652,6 +678,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                       <div className="pricetheadpcl fwboldpcl fspcl">Price</div>
                     </div>
                     {result?.resultArray?.map((e, i) => {
+                      
                       return (
                         <div
                           className="tablebodypcl border-start border-end border-bottom border-black"
@@ -674,7 +701,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                             </div>
                             {/* diamond */}
                             <div className="pcltbr1c3 fspcl">
-                              <div className="dcolsthpcl fspcl pt-1">
+                              <div className="dcolsthpcl fspcl pt-1" style={{width:'27%'}}>
                                 {
                                   // eslint-disable-next-line array-callback-return
                                   e?.diamonds?.map((ele, i) => {
@@ -686,7 +713,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   })
                                 }
                               </div>
-                              <div className="dcolsthpcl fspcl pt-1">
+                              <div className="dcolsthpcl fspcl pt-1" style={{width:'27%'}}>
                                 {
                                   // eslint-disable-next-line array-callback-return
                                   e?.diamonds?.map((ele, i) => {
@@ -699,7 +726,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   })
                                 }
                               </div>
-                              <div className="dcolsthpcl fspcl pt-1">
+                              <div className="dcolsthpcl fspcl pt-1" style={{width:'22%'}}>
                                 {
                                   // eslint-disable-next-line array-callback-return
                                   e?.diamonds?.map((ele, i) => {
@@ -711,7 +738,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   })
                                 }
                               </div>
-                              <div className="dcolsthpcl fspcl pt-1">
+                              <div className="dcolsthpcl fspcl pt-1" style={{width:'22%'}}>
                                 {
                                   // eslint-disable-next-line array-callback-return
                                   e?.diamonds?.map((ele, i) => {
@@ -725,7 +752,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                               </div>
                               <div
                                 className="dcolsthpcl fspcl pt-1"
-                                style={{ borderRight: "0px" }}
+                                style={{ borderRight: "0px", width:'27%' }}
                               >
                                 {
                                   // eslint-disable-next-line array-callback-return
@@ -740,8 +767,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                               </div>
                             </div>
                             {/* metal */}
-                            <div className="pcltbr1c3 fspcl ">
-                              <div className="dcolsthpcl fspcl pt-1">
+                            <div className="pcltbr1c3 fspcl">
+                              <div className="dcolsthpcl fspcl pt-1" style={{width:'22%'}}>
                                 {
                                   // eslint-disable-next-line array-callback-return
                                   e?.metal?.map((ele, i) => {
@@ -755,11 +782,11 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   })
                                 }
                               </div>
-                              <div className="dcolsthpcl rightpcl fspcl pt-1">
+                              <div className="dcolsthpcl rightpcl fspcl pt-1" style={{width:'18%'}}>
                                 {e?.grosswt?.toFixed(3)}
                               </div>
-                              <div className="dcolsthpcl rightpcl fspcl pt-1">{(+e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3))?.toFixed(3)}</div>
-                              <div className="dcolsthpcl fspcl pt-1">
+                              <div className="dcolsthpcl rightpcl fspcl pt-1" style={{width:'18%'}}>{(+e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3))?.toFixed(3)}</div>
+                              <div className="dcolsthpcl fspcl pt-1" style={{width:'20%'}}>
                                 {
                                   // eslint-disable-next-line array-callback-return
                                   e?.metal?.map((ele, i) => {
@@ -774,7 +801,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                               </div>
                               <div
                                 className="dcolsthpcl fspcl pt-1"
-                                style={{ borderRight: "0px" }}
+                                style={{ borderRight: "0px", width:'22%' }}
                               >
                                 {
                                   // eslint-disable-next-line array-callback-return
@@ -790,7 +817,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                             </div>
                             {/* colorstone */}
                             <div className="pcltbr1c5 fspcl">
-                              <div className="shpthcolspcl fspcl pt-1">
+                              <div className="shpthcolspcl fspcl pt-1" style={{width:'27%'}}>
                                 {
                                   // eslint-disable-next-line array-callback-return
                                   e?.colorstone?.map((ele, i) => {
@@ -802,7 +829,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   })
                                 }
                               </div>
-                              <div className="shpthcolspcl fspcl pt-1">
+                              <div className="shpthcolspcl fspcl pt-1" style={{width:'22%'}}>
                                 {
                                   // eslint-disable-next-line array-callback-return
                                   e?.colorstone?.map((ele, i) => {
@@ -814,7 +841,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   })
                                 }
                               </div>
-                              <div className="shpthcolspcl fspcl pt-1">
+                              <div className="shpthcolspcl fspcl pt-1" style={{width:'23%'}}>
                                 {
                                   // eslint-disable-next-line array-callback-return
                                   e?.colorstone?.map((ele, i) => {
@@ -829,7 +856,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                               </div>
                               <div
                                 className="shpthcolspcl fspcl pt-1"
-                                style={{ borderRight: "0px" }}
+                                style={{ borderRight: "0px", width:'28%' }}
                               >
                                 {
                                   // eslint-disable-next-line array-callback-return
@@ -860,30 +887,51 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                               
                               <div className="lopclcol fspcl pt-1">
                                   {
-                                    e?.misc?.map((e, i) => {
-                                      return(
-                                        <div>{(e?.ShapeName?.includes('Certification') || e?.ShapeName === 'Hallmark' || e?.ShapeName === 'Stamping' ) ? e?.ShapeName : ''}</div>
-                                      )
+                                     e?.misc_separate?.map((el) => {
+                                        return ( el?.Amount > 0 && <div>{el?.ShapeName}</div>)
+                                    })                                    
+                                  }
+                                  {
+                                    <div>{e?.misc_other_amt_label?.Amount > 0 && e?.misc_other_amt_label?.label}</div>
+                                  }
+                                  {
+                                    e?.other_details?.map((el) => {
+                                      return <div>{el?.value > 0 && el?.label}</div>
                                     })
+                                  }
+                                  {
+                                    e?.TotalDiamondHandling > 0 && 'Handling'
                                   }
                               </div>
                               <div
                                 className="lopclcol fspcl pt-1"D
                                 style={{ borderRight: "0px" }}
                               >
-                                <div className="rightpcl fspcl">
-                                  {/* {formatAmount(e?.OtherCharges)} */}
-                                  {formatAmount(e?.MiscAmount)}
+                                <div className=" d-flex flex-column justify-content-end align-items-end pe-1 fspcl">
+                                  {
+                                    e?.misc_separate?.map((el) => {
+                                        return (<div>{el?.Amount > 0 && formatAmount(el?.Amount)}</div>)
+                                    })                                    
+                                  }
+                                  {
+                                    <div>{e?.misc_other_amt_label?.Amount > 0 && formatAmount(e?.misc_other_amt_label?.Amount)}</div>
+                                  }
+                                  {
+                                    e?.other_details?.map((el) => {
+                                      return <div>{+el?.value > 0 && formatAmount(+el?.value)}</div>
+                                    })
+                                  }
+                                  {e?.TotalDiamondHandling > 0 && formatAmount(e?.TotalDiamondHandling)}
                                 </div>
                                 <div className="rightpcl fspcl d-flex flex-column justify-content-end align-items-end w-100">
                                   {/* {formatAmount(e?.MiscAmount)} */}
-                                  {
+                                  {/* {
                                     e?.misc?.map((e, i) => {
                                       return(
                                         <div key={i}>{(e?.ShapeName?.includes('Certification') || e?.ShapeName === 'Hallmark' || e?.ShapeName === 'Stamping' ) ? e?.Rate : ''}</div>
                                       )
                                     })
-                                  }
+                                  } */}
                                 </div>
                               </div>
                             </div>
@@ -914,68 +962,72 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                               }}
                             ></div>
                             <div className="diapcltotrowtb fspcl">
-                              <div className="dcolsthpcl"></div>
-                              <div className="dcolsthpcl"></div>
+                              <div className="dcolsthpcl" style={{width:'27%'}}></div>
+                              <div className="dcolsthpcl" style={{width:'27%'}}></div>
                               <div
                                 className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center"
+                                style={{width:'22%'}}
                               >
                                 {e?.totals?.diamonds?.Wt?.toFixed(3)}
                               </div>
-                              <div className="dcolsthpcl"></div>
+                              <div className="dcolsthpcl" style={{width:'22%'}}></div>
                               <div
                                 className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
                                 style={{
                                   borderRight: "0px",
                                   paddingRight: "0px",
+                                  width:'27%'
                                 }}
                               >
                                 {formatAmount(e?.totals?.diamonds?.Amount)}
                               </div>
                             </div>
                             <div className="diapcltotrowtb">
-                              <div className="dcolsthpcl"></div>
+                              <div className="dcolsthpcl" style={{width:'22%'}}></div>
                               <div
                                 className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                                
+                                style={{width:'18%'}}
                               >
                                 {e?.grosswt?.toFixed(3)}
                               </div>
                               <div
                                 className="dcolsthpcl rightpcl fwboldpcl fspcld-flex justify-content-end align-items-center"
-                                
+                                style={{width:'18%'}}
                               >
                                 {(
                                   +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3)
                                 )?.toFixed(3)}
                               </div>
-                              <div className="dcolsthpcl"></div>
+                              <div className="dcolsthpcl" style={{width:'20%'}}></div>
                               <div
                                 className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
                                 style={{
                                   borderRight: "0px",
                                   paddingRight: "0px",
+                                  width:'22%'
                                 }}
                               >
                                 {formatAmount(e?.totals?.metal?.Amount)}
                               </div>
                             </div>
                             <div className="stnpcltotrowtb">
-                              <div className="shpthcolspcl"></div>
+                              <div className="shpthcolspcl" style={{width:'27%'}}></div>
                               <div
                                 className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                                style={{ paddingRight: "0px" }}
+                                style={{ paddingRight: "0px", width:'22%' }}
                               >
                                 {e?.totals?.colorstone?.Wt?.toFixed(3)}
                               </div>
-                              <div className="shpthcolspcl"></div>
+                              <div className="shpthcolspcl" style={{width:'23%'}}></div>
                               <div
                                 className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
                                 style={{
                                   borderRight: "0px",
                                   paddingRight: "0px",
+                                  width:'28%'
                                 }}
                               >
-                                {formatAmount(e?.totals?.colorstone?.Amount,2)}
+                                {formatAmount(e?.totals?.colorstone?.Amount)}
                               </div>
                             </div>
                             <div className="lopcltotrowtb">
@@ -999,7 +1051,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                                   paddingRight: "0px",
                                 }}
                               >
-                                {formatAmount((e?.OtherCharges +e?.totals?.otherChargesMiscHallStamp))}
+                                {formatAmount((e?.OtherCharges + e?.totals?.misc?.Amount + e?.TotalDiamondHandling))}
                               </div>
                             </div>
                             <div
@@ -1065,7 +1117,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                     })}
                   </div>
                   <div
-                    className="tbodyrowpcltot border-start border-end border-black"
+                    className="tbodyrowpcltot border-start border-end border-black border-bottom"
                     // style={{ borderBottom: "1px solid black", height: "15px" }}
                   >
                     <div className="srpcltotrowtb"></div>
@@ -1073,56 +1125,56 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
                       <b className="fspcl">TOTAL</b>
                     </div>
                     <div className="diapcltotrowtb">
-                      <div className="dcolsthpcl"></div>
-                      <div className="dcolsthpcl"></div>
+                      <div className="dcolsthpcl" style={{width:'27%'}}></div>
+                      <div className="dcolsthpcl" style={{width:'27%'}}></div>
                       <div
                         className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ paddingRight: "0px" }}
+                        style={{ paddingRight: "0px", width:'22%' }}
                       >
                         {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                       </div>
-                      <div className="dcolsthpcl"></div>
+                      <div className="dcolsthpcl" style={{width:'22%'}}></div>
                       <div
                         className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ borderRight: "0px", paddingRight: "0px" }}
+                        style={{ borderRight: "0px", paddingRight: "0px", width:'27%' }}
                       >
                         {formatAmount(result?.mainTotal?.diamonds?.Amount)}
                       </div>
                     </div>
                     <div className="diapcltotrowtb">
-                      <div className="dcolsthpcl"></div>
+                      <div className="dcolsthpcl" style={{width:'22%'}}></div>
                       <div
                         className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ paddingRight: "0px" }}
+                        style={{ paddingRight: "0px", width:'18%' }}
                       >
                         {result?.mainTotal?.grosswt?.toFixed(3)}
                       </div>
                       <div
                         className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ paddingRight: "0px" }}
+                        style={{ paddingRight: "0px", width:'18%' }}
                       >
                         {result?.mainTotal?.netwtWithLossWt?.toFixed(3)}
                       </div>
-                      <div className="dcolsthpcl"></div>
+                      <div className="dcolsthpcl" style={{width:'20%'}}></div>
                       <div
                         className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ borderRight: "0px", paddingRight: "0px" }}
+                        style={{ borderRight: "0px", paddingRight: "0px", width:'22%' }}
                       >
                         {formatAmount(result?.mainTotal.metal?.Amount)}
                       </div>
                     </div>
                     <div className="stnpcltotrowtb">
-                      <div className="shpthcolspcl"></div>
+                      <div className="shpthcolspcl" style={{width:'27%'}}></div>
                       <div
                         className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ paddingRight: "0px" }}
+                        style={{ paddingRight: "0px", width:'22%' }}
                       >
                         {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
                       </div>
-                      <div className="shpthcolspcl"></div>
+                      <div className="shpthcolspcl" style={{width:'23%'}}></div>
                       <div
                         className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ borderRight: "0px", paddingRight: "0px" }}
+                        style={{ borderRight: "0px", paddingRight: "0px", width:'28%' }}
                       >
                         {formatAmount(result?.mainTotal.colorstone?.Amount)}
                       </div>
