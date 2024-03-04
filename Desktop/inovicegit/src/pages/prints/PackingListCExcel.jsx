@@ -15,13 +15,37 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
         image: false,
     });
 
+    const [total, setTotal] = useState({
+        s_lcPcs: 0,
+        s_lcWt: 0,
+        s_lbPcs: 0,
+        s_lbWt: 0,
+        d_bugPcs: 0,
+        d_bugWt: 0,
+        d_prsPcs: 0,
+        d_prsWt: 0,
+    })
+
+    const [datas, setDatas] = useState({});
+
     const [data, setData] = useState([]);
 
-    const loadData = async(data) => {
-        // console.log(data);
+    const loadData = async (data) => {
         let resultArr = [];
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-            for (const e of datas?.resultArray || []) {
+        setDatas(datas);
+        console.log(datas);
+        let totals = {
+            s_lcPcs: 0,
+            s_lcWt: 0,
+            s_lbPcs: 0,
+            s_lbWt: 0,
+            d_bugPcs: 0,
+            d_bugWt: 0,
+            d_prsPcs: 0,
+            d_prsWt: 0,
+        }
+        for (const e of datas?.resultArray || []) {
             let goldRate = 0;
             let goldAmount = 0;
             let findgoldDetails = e?.metal.find((ele, ind) => ele?.IsPrimaryMetal === 1);
@@ -29,6 +53,39 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                 goldRate += findgoldDetails?.Rate;
                 goldAmount += findgoldDetails?.Amount;
             }
+            let ds_lcPcs = 0;
+            let ds_lcWt = 0;
+            let s_lbPcs = 0;
+            let s_lbPWt = 0;
+            let d_bugPcs = 0;
+            let d_bugWt = 0;
+            let d_prsPcs = 0;
+            let d_prsWt = 0;
+            e?.diamonds?.forEach((ele, ind) => {
+                if ((e?.QualityName)?.toLowerCase()?.includes("s-lc") && e?.ShapeName?.toLowerCase()?.includes("rnd")) {
+                    ds_lcPcs += ele?.Pcs;
+                    ds_lcWt += ele?.Wt;
+                } else if ((e?.QualityName)?.toLowerCase()?.includes("s-lb") && e?.ShapeName?.toLowerCase()?.includes("rnd")) {
+                    s_lbPcs += ele?.Pcs;
+                    s_lbPWt += ele?.Wt;
+                } else if ((e?.QualityName)?.toLowerCase()?.includes("s-lb") && e?.ShapeName?.toLowerCase()?.includes("bug")) {
+                    d_bugPcs += ele?.Pcs;
+                    d_bugWt += ele?.Wt;
+                } else if ((e?.QualityName)?.toLowerCase()?.includes("s-lb") && e?.ShapeName?.toLowerCase()?.includes("prs")) {
+                    d_prsPcs += ele?.Pcs;
+                    d_prsWt += ele?.Wt;
+                }
+            });
+
+            totals.s_lcPcs += ds_lcPcs;
+            totals.s_lcWt += ds_lcWt;
+            totals.s_lbPcs += s_lbPcs;
+            totals.s_lbWt += s_lbPWt;
+            totals.d_bugPcs += d_bugPcs;
+            totals.d_bugWt += d_bugWt;
+            totals.d_prsPcs += d_prsPcs;
+            totals.d_prsWt += d_prsWt;
+
             let obj = {
                 jobNo: e?.SrJobno,
                 designNo: e?.designno,
@@ -36,14 +93,26 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                 showImage: false,
                 category: e?.Categoryname,
                 grosswt: e?.grosswt,
-                netwt: e?.NetWt,
+                netwt: e?.NetWt + e?.LossWt,
                 mop: "",
+                diaPcs: e?.totals?.diamonds?.Pcs,
+                diaWt: e?.totals?.diamonds?.Wt,
+                ds_lcPcs: ds_lcPcs,
+                ds_lcWt: ds_lcWt,
+                s_lbPcs: s_lbPcs,
+                s_lbPWt: s_lbPWt,
                 goldRate: goldRate,
+                d_prsPcs: d_prsPcs,
+                d_prsWt: d_prsWt,
                 goldAmount: goldAmount,
                 totalPcs: e?.totals?.diamonds?.Pcs,
                 totalCts: e?.totals?.diamonds?.Wt,
+                d_bugPcs: d_bugPcs,
+                d_bugWt: d_bugWt,
+                diaAmt: e?.totals?.diamonds?.Amount,
                 size: e?.Size,
-                remark: e?.JobRemark
+                remark: e?.lineid,
+                colorStoneWt: e?.totals?.colorstone?.Wt
             };
 
             try {
@@ -59,11 +128,11 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                 // console.error("Error checking image existence:", error);
                 resultArr.push(obj);
             }
-      
+
         };
 
-        setData(resultArr)
-
+        setTotal(totals);
+        setData(resultArr);
         setTimeout(() => {
             const button = document.getElementById('test-table-xls-button');
             if (button !== null) {
@@ -111,11 +180,11 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                     buttonText="Download as XLS" />
                 <table id='table-to-xls'>
                     <thead>
-                        <tr>
+                        {/* <tr>
                             <th height={10}></th>
-                        </tr>
+                        </tr> */}
                         <tr>
-                            <th width={10} height={50}></th>
+                            {/* <th width={10} height={50}></th> */}
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>SR NO</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>JOB no</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>DESIGN NO.</th>
@@ -129,7 +198,8 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>Total pcs</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>Total Cts</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D S-LC (pcs)</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D S-LC (CW)	"D S-LB (pcs)</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D S-LC (CW)	</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D S-LB (pcs)</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>S-LB (CW)</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D WT pcs +11</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D WT CW +11</th>
@@ -150,62 +220,62 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                     <tbody>
                         {data.map((e, i) => {
                             return <tr key={i}>
-                                <td width={10} height={e?.showImage ? 150 : 35}></td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> {i + 1}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> {e?.jobNo}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> {e?.designNo}</td>
-                                <td style={{ padding: "10px", border: "0.5px solid #000", }} align='center'>{e?.showImage && <img src={e?.image} alt=' ' width={148} height={148} />}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> {e?.category}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> {NumberWithCommas(e?.grosswt, 3)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> {NumberWithCommas(e?.netwt, 3)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> {NumberWithCommas(e?.goldRate, 2)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> {NumberWithCommas(e?.goldAmount, 2)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 1246</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 6.926</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 905	5.450</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 341</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 1.476</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0.000</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0.000</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0.000</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 0</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> {e?.size}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> {e?.remark}</td>
+                                {/* <td width={10} ></td> */}
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{i + 1}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.jobNo}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.designNo}</td>
+                                <td style={{ padding: "10px", border: "0.5px solid #000", }} align='center'height={e?.showImage ? 150 : 35}>&nbsp;{e?.showImage && <img src={e?.image} alt=' ' width={148} height={148} />}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.category}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{NumberWithCommas(e?.grosswt, 3)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{NumberWithCommas(e?.netwt, 3)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{NumberWithCommas(e?.colorStoneWt, 3)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.goldRate, 2)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.goldAmount, 2)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.diaPcs, 0)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.diaWt, 3)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.ds_lcPcs, 0)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.ds_lcWt, 3)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.s_lbPcs, 0)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.s_lbPWt, 3)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.000</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bugPcs, 0)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bugWt, 3)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_prsPcs, 0)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_prsWt, 3)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.diaAmt, 2)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{e?.size}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{e?.remark}</td>
                             </tr>
                         })}
-
-
                         <tr>
                             <td width={10} height={40}></td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center' colSpan={3}> <b>TOTAL</b></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 34.250</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 32.865</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center' colSpan={2}> <b>TOTAL</b></td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.grosswt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.netwtWithLossWt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.colorstone?.Wt, 3)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 1246</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 6.926</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 905	5.450</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 341</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 1.476</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> 4141.44</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.diamonds?.Pcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.diamonds?.Wt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.s_lcPcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.s_lcWt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.s_lbPcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.s_lbWt, 3)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.d_bugPcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.d_bugWt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.d_prsPcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.d_prsWt, 3)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
@@ -214,8 +284,7 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
                         </tr>
-
-                        <tr>
+                        {/* <tr>
                             <td width={10} ></td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
@@ -246,7 +315,8 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                        </tr>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
+                        </tr> */}
                     </tbody>
                 </table>
             </div>

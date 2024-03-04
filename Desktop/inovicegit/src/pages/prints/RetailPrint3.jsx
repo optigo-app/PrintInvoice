@@ -41,7 +41,7 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setlabel(printArr);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         let resultArray = [];
-        datas?.resultArray?.map((e, i) => {
+        datas?.resultArray?.forEach((e, i) => {
             let obj = cloneDeep(e);
             let diamonds = [];
             obj?.diamonds?.forEach((ele, ind) => {
@@ -146,52 +146,292 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                 </div>
                 {/* table header */}
-                <div className="d-flex border">
+                {/* <div className="d-flex border">
                     <div className={`d-flex justify-content-center align-items-center ${style?.Sr} border-end`}><p className="fw-bold text-center p-1"> Sr#	</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.Product} border-end`}><p className="fw-bold text-center p-1"> Product Description	</p></div>
                     <div className={`${style?.Material}`}>
                         <div className="d-grid h-100">
                             <div className="d-flex border-bottom"><p className="fw-bold w-100 text-center p-1">Material Description</p></div>
                             <div className="d-flex">
-                                <p className="fw-bold w-100 text-center border-end p-1">Material</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">Qty</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">Color</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">Pcs</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">GWt.</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">NWt.</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">Rate</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">Amount</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">Making</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">Discount</p>
-                                <p className="fw-bold w-100 text-center p-1">Total</p>
+                                <p className={`fw-bold w-100 text-center border-end p-1 ${style?.material}`}>Material</p>
+                                <p className={`fw-bold w-100 text-center border-end p-1 ${style?.qty}`}>Qty</p>
+                                <p className={`fw-bold w-100 text-center border-end p-1 ${style?.color}`}>Color</p>
+                                <p className={`fw-bold w-100 text-center border-end p-1 ${style?.pcs}`}>Pcs</p>
+                                <p className={`fw-bold w-100 text-center border-end p-1 ${style?.gWt}`}>GWt.</p>
+                                <p className={`fw-bold w-100 text-center border-end p-1 ${style?.nWt}`}>NWt.</p>
+                                <p className={`fw-bold w-100 text-center border-end p-1 ${style?.rate}`}>Rate</p>
+                                <p className={`fw-bold w-100 text-center border-end p-1 ${style?.amount}`}>Amount</p>
+                                <p className={`fw-bold w-100 text-center border-end p-1 ${style?.making}`}>Making</p>
+                                <p className={`fw-bold w-100 text-center border-end p-1 ${style?.discount}`}>Discount</p>
+                                <p className={`fw-bold w-100 text-center p-1 ${style?.total}`}>Total</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> */}
+                {/* table body */}
+                <table className='w-100'>
+                    <tbody>
+                        <tr className="d-flex border">
+                            <td className={`d-flex justify-content-center align-items-center ${style?.Sr} border-end p-0`}><p className="fw-bold text-center p-1"> Sr#	</p></td>
+                            <td className={`d-flex justify-content-center align-items-center ${style?.Product} border-end p-0`}><p className="fw-bold text-center p-1"> Product Description	</p></td>
+                            <td className={`${style?.Material} p-0`}>
+                            <div className="d-flex border-bottom"><p className="fw-bold w-100 text-center p-1">Material Description</p></div>
+                                <table className='w-100 p-0'>
+                                    <tbody>
+                                        <tr>
+                                                    <td className={`p-0 fw-bold text-center border-end p-1 ${style?.material}`}>Material</td>
+                                                    <td className={`p-0 fw-bold text-center border-end p-1 ${style?.qty}`}>Qty</td>
+                                                    <td className={`p-0 fw-bold text-center border-end p-1 ${style?.color}`}>Color</td>
+                                                    <td className={`p-0 fw-bold text-center border-end p-1 ${style?.pcs}`}>Pcs</td>
+                                                    <td className={`p-0 fw-bold text-center border-end p-1 ${style?.gWt}`}>GWt.</td>
+                                                    <td className={`p-0 fw-bold text-center border-end p-1 ${style?.nWt}`}>NWt.</td>
+                                                    <td className={`p-0 fw-bold text-center border-end p-1 ${style?.rate}`}>Rate</td>
+                                                    <td className={`p-0 fw-bold text-center border-end p-1 ${style?.amount}`}>Amount</td>
+                                                    <td className={`p-0 fw-bold text-center border-end p-1 ${style?.making}`}>Making</td>
+                                                    <td className={`p-0 fw-bold text-center border-end p-1 ${style?.discount}`}>Discount</td>
+                                                    <td className={`p-0 fw-bold text-center p-1 ${style?.total}`}>Total</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        {
+                            data?.resultArray?.map((e, i) => {
+                                return <tr className="d-flex border-start border-end border-bottom" key={i}>
+                                    <td className={`d-flex justify-content-center align-items-center ${style?.Sr} border-end`}><p className="fw-bold text-center p-1"> {i + 1} </p></td>
+                                    <td className={`${style?.Product} border-end`}>
+                                        <p className="text-center p-1">{e?.SubCategoryname} {e?.Categoryname}  </p>
+                                        <p className="fw-bold text-center p-1"> {e?.designno} | {e?.SrJobno} </p>
+                                        <img src={e?.DesignImage} alt="" className='imgWidth' onError={handleImageError} />
+                                    </td>
+                                    <td className={`${style?.Material} p-0`}>
+                                        <table className='w-100 h-100'>
+                                            <tbody>
+                                                <tr>
+                                                    <td className={`border-end border-bottom ${style?.material}`}>
+                                                        <p className='p-1'>{e?.MetalType}</p>
+                                                    </td>
+                                                    <td className={`border-end border-bottom ${style?.qty}`}>
+                                                        <p className='p-1'>{e?.MetalPurity}</p>
+                                                    </td>
+                                                    <td className={`border-end border-bottom ${style?.color}`}>
+                                                        <p className='p-1'></p>
+                                                    </td>
+                                                    <td className={`border-end border-bottom ${style?.pcs}`}>
+                                                        <p className=' p-1'></p>
+                                                    </td>
+                                                    <td className={`border-end ${style?.gWt}`} rowSpan={2}>
+                                                        <p className='p-1'>{NumberWithCommas(e?.grosswt, 3)}</p>
+                                                    </td>
+                                                    <td className={`border-end border-bottom ${style?.nWt}`}>
+                                                        <p className='p-1'>{NumberWithCommas(e?.NetWt, 3)}</p>
+                                                    </td>
+                                                    <td className={` text-center border-end border-bottom ${style?.rate}`}>
+                                                        <p className='p-1 '>5700.00</p>
+                                                    </td>
+                                                    <td className={`text-center border-end border-bottom p-1 ${style?.amount}`}>
+                                                        <p>57478.80</p>
+                                                    </td>
+                                                    <td className={`text-center border-end p-1 ${style?.making}`} rowSpan={2}><p>1996.80</p></td>
+                                                    <td className={`text-center border-end p-1 ${style?.discount}`} rowSpan={2}><p>0.00</p></td>
+                                                    <td className={`text-center p-1 ${style?.total}`} rowSpan={2}><p>59605.60</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className={` border-end ${style?.material}`}>
+                                                        <p className='p-1'>{e?.MetalType}</p>
+                                                    </td>
+                                                    <td className={` border-end ${style?.qty}`}>
+                                                        <p className='p-1'>{e?.MetalPurity}</p>
+                                                    </td>
+                                                    <td className={` border-end ${style?.color}`}>
+                                                        <p className='p-1'></p>
+                                                    </td>
+                                                    <td className={` border-end ${style?.pcs}`}>
+                                                        <p className='d-flex justify-content-end align-items-center  p-1'></p>
+                                                    </td>
+                                                    <td className={`text-end border-end   ${style?.nWt}`}>
+                                                        <p className='p-1'>{NumberWithCommas(e?.NetWt, 3)}</p>
+                                                    </td>
+                                                    <td className={` border-end ${style?.rate}`}>
+                                                        <p className='p-1 '>5700.00</p>
+                                                    </td>
+                                                    <td className={`text-center border-end p-1 ${style?.amount}`}>
+                                                        <p>57478.80</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            })
+                        }
+                    </tbody>
+                </table>
+                {/* {
+                    data?.resultArray?.map((e, i) => {
+                        return <div className="d-flex border-start border-end border-bottom" key={i}>
+                            <div className={`d-flex justify-content-center align-items-center ${style?.Sr} border-end`}><p className="fw-bold text-center p-1"> {i + 1} </p></div>
+                            <div className={`${style?.Product} border-end`}>
+                                <p className="text-center p-1">{e?.SubCategoryname} {e?.Categoryname}  </p>
+                                <p className="fw-bold text-center p-1"> {e?.designno} | {e?.SrJobno} </p>
+                                <img src={e?.DesignImage} alt="" className='imgWidth' onError={handleImageError} />
+                            </div>
+                            <div className={`${style?.Material}`}>
+                                <div className="d-grid h-100">
+                                    <div className="d-flex">
+                                        <div className={`d-flex align-items-center w-100 text-center border-end border-bottom ${style?.material}`}>
+                                            <p className='p-1'>{e?.MetalType}</p>
+                                        </div>
+                                        <div className={`d-flex align-items-center w-100 text-center border-end border-bottom ${style?.qty}`}>
+                                            <p className='p-1'>{e?.MetalPurity}</p>
+                                        </div>
+                                        <div className={`d-flex align-items-center w-100 text-center border-end border-bottom ${style?.color}`}>
+                                            <p className='p-1'></p>
+                                        </div>
+                                        <div className={`w-100 text-center border-end border-bottom ${style?.pcs}`}>
+                                            <p className='d-flex justify-content-end align-items-center  p-1'></p>
+                                        </div>
+                                        <div className={`d-flex justify-content-end align-items-center w-100 text-center border-end border-bottom ${style?.gWt}`}><p className='p-1'>{NumberWithCommas(e?.grosswt, 3)}</p></div>
+                                        <div className={`w-100 text-end border-end border-bottom d-flex justify-content-end align-items-center  ${style?.nWt}`}>
+                                            <p className='p-1'>{NumberWithCommas(e?.NetWt, 3)}</p>
+                                        </div>
+                                        <div className={`d-flex align-items-center justify-content-end w-100 text-center border-end border-bottom ${style?.rate}`}>
+                                            <p className='p-1 '>5700.00</p>
+                                        </div>
+                                        <div className={`d-flex justify-content-end align-items-center w-100 text-center border-end p-1 ${style?.amount}`}>
+                                            <p>57478.80</p>
+                                        </div>
+                                        <div className={`d-flex justify-content-end align-items-center w-100 text-center border-end p-1 ${style?.making}`}><p>1996.80</p></div>
+                                        <div className={`d-flex justify-content-end align-items-center w-100 text-center border-end p-1 ${style?.discount}`}><p>0.00</p></div>
+                                        <div className={`d-flex justify-content-end align-items-center w-100 text-center p-1 ${style?.total}`}><p>59605.60</p></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    })
+                } */}
+
+                {/* <tr>
+                    <td rowspan="8">1
+                    </td>
+                    <td rowspan="8">
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tbody><tr>
+                                <td class="tddesignNo">kiaan_subcat&nbsp;&nbsp;kiaan_cat<b>IMPORT111 | 1/14896</b>
+                                </td>
+                            </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <img class="isImgHide" src="http://zen/lib/jo/28/images/default.jpg" alt="IMPORT111" />
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                    </td>
+                    <td class="cls-tbl-detail">GOLD</td>
+                    <td class="cls-tbl-detail style=">18K</td>
+                    <td class="cls-tbl-detail"></td>
+                    <td></td>
+                    <td></td>
+                    <td class="cls-tbl-detail" >5.000</td>
+                    <td class="cls-tbl-detail" >5558.07</td>
+                    <td class="cls-tbl-detail" >33348.42</td>
+                    <td rowspan="8" >3000.00</td>
+                    <td rowspan="8" >0.00</td>
+                    <td rowspan="8" >111562.92</td>
+                </tr> */}
+
+                {/* table total */}
+                <div className="d-flex border-start border-end border-bottom">
+                    <div className={`d-flex justify-content-center align-items-center ${style?.Sr} border-end`}><p className="fw-bold text-center p-1"> </p></div>
+                    <div className={`${style?.Product} border-end`}>
+                        <p className="fw-bold text-center p-1"> TOTAL </p>
+                    </div>
+                    <div className={`${style?.Material}`}>
+                        <div className="d-grid h-100">
+                            <div className="d-flex h-100">
+                                <div className={`fw-bold w-100 text-center border-end  ${style?.material}`}>
+                                    <p className='d-flex p-1'></p>
+                                </div>
+                                <div className={`fw-bold w-100 text-center border-end  ${style?.qty}`}>
+                                    <p className='d-flex p-1'></p>
+                                </div>
+                                <div className={`fw-bold w-100 text-center border-end  ${style?.color}`}>
+                                    <p className='d-flex p-1'></p>
+                                </div>
+                                <div className={`fw-bold w-100 text-end border-end  ${style?.pcs}`}>
+                                    <p className='p-1 w-100 text-end'>5</p>
+                                </div>
+                                <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-end border-end ${style?.gWt}`}><p className='p-1'>10.00</p></div>
+                                <div className={`fw-bold w-100 text-end border-end  ${style?.nWt}`}>
+                                    <p className='d-flex p-1 justify-content-end'>10.084</p>
+                                </div>
+                                <div className={`fw-bold w-100 text-end border-end  ${style?.rate}`}>
+                                    <p className='d-flex p-1 justify-content-end'></p>
+                                </div>
+                                <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-center border-end p-1 ${style?.amount}`}>
+                                    <p>57478.80</p>
+                                </div>
+                                <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-center p-1 border-end ${style?.making}`}><p>1996.80</p></div>
+                                <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-center p-1 border-end ${style?.discount}`}><p>0.00</p></div>
+                                <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-center p-1 ${style?.total}`}><p>59605.60</p></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {/* table body */}
+                {/* table amount */}
                 <div className="d-flex border-start border-end border-bottom">
-                    <div className={`d-flex justify-content-center align-items-center ${style?.Sr} border-end`}><p className="fw-bold text-center p-1"> 1 </p></div>
-                    <div className={`${style?.Product} border-end`}>
-                        <p className="fw-bold text-center p-1"> Regular  Necklace </p>
-                        <p className="fw-bold text-center p-1"> 1715 | 1/16601 </p>
-                        <img src="http://zen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/Design_Image/bD8ZTq6u5WMDE0ODkxMQ==/Red_Thumb/0148911_22112023120600745.jpg?0.52675" alt="" className='imgWidth'/>
+                    <div className={`${style?.inWords} border-end p-1`}>
+                        <p>In Words Indian Rupees</p>
+                        <p className='fw-bold'>Three lakh thirty five thousand five hundred and twenty five point forty eight only</p>
                     </div>
-                    <div className={`${style?.Material}`}>
-                        <div className="d-grid h-100">
-                            <div className="d-flex">
-                                <p className="fw-bold w-100 text-center border-end p-1">GOLD</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">18K</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">mix</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">5</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">10.00</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">10.084</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">5700.00	</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">57478.80</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">1996.80	</p>
-                                <p className="fw-bold w-100 text-center border-end p-1">0.00</p>
-                                <p className="fw-bold w-100 text-center p-1">59605.60</p>
-                            </div>
-                        </div>
+                    <div className={`${style?.inNumbers} border-end pt-1`}>
+                        <p className='text-end px-1'>Discount</p>
+                        <p className='text-end border-bottom px-1 pb-1'>IGST @ 0.25</p>
+                        <p className="fw-bold text-end px-1 pt-1">GRAND TOTAL</p>
+                        <p className="text-end px-1 pt-1">RECEIPTS</p>
+                        <p className="text-end px-1 pt-1">OLD GOLD</p>
+                        <p className="fw-bold text-end px-1 pt-1">BALANCE</p>
+                    </div>
+                    <div className={` ${style?.totalInNumbers} py-1`}>
+                        <p className='text-end px-1'>59605.60</p>
+                        <p className='text-end px-1 pb-1 border-bottom'>836.72 </p>
+                        <p className="fw-bold text-end px-1 pt-1">335525.48</p>
+                        <p className="text-end px-1 pt-1">0.00</p>
+                        <p className="text-end px-1 pt-1">0.00</p>
+                        <p className="fw-bold text-end px-1 pt-1">335525.48</p>
+                    </div>
+                </div>
+                {/* declaration */}
+                <div className="my-1 border p-1">
+                    <div>
+                        Terms and Condition : 1.I/We hereby certify that my/our registration certificate under the Goods And Service Tax Act 2017. Is in force on the date on which the sale of the goods specified in the tax invoice has been effected by me/us & it shall accounted for in the turnover of sales while filing of return & the due tax.If any payable on the sale has been paid or shall be paids.
+                        2.Returns of goods are subject to Terms & Conditions as mentioned in www.orail.com.
+                        3.The support is limited to working hours.
+                    </div>
+                </div>
+                <div className="my-1 border">
+                    <p className="fw-bold p-1"><span className="text-decoration-underline">Remark :</span></p>
+                </div>
+                <div className="my-1 border p-1 d-flex">
+                    <div className="col-4 border-end">
+                        <p className="fw-bold">Bank Details :</p>
+                        <p>Bank Name:Kotak Mahindra Bank</p>
+                        <p>Branch: SHOP NO-1 WTC , UDHNA DARWAJA SURAT-395004</p>
+                        <p>Account Name:Orail</p>
+                        <p>Account No. :147275899632</p>
+                        <p>RTGS/NEFT IFSC:Kotak00000405</p>
+                        <p>GST NO:24AAAAA0000A1Z51</p>
+                        <p>PAN NO:FDGH5564CD</p>
+                        <p>TELL NO:9510213588</p>
+                    </div>
+                    <div className="col-4 border-end d-flex justify-content-between p-1 flex-column">
+                        <p>Signature</p>
+                        <p className='fw-bold pb-3'>SHAH PVT LMT</p>
+                    </div>
+                    <div className="col-4 d-flex justify-content-between p-1 flex-column">
+                        <p>Signature</p>
+                        <p className='fw-bold pb-3'>SHAH PVT LMT</p>
                     </div>
                 </div>
             </div>

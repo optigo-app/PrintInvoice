@@ -28,6 +28,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
     });
 
     const loadData = (data) => {
+        console.log(data);
         // setData(arr);
         let datas = OrganizeDataPrint(
             data?.BillPrint_Json[0],
@@ -275,9 +276,9 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.totals?.finding?.Wt !== 0 && NumberWithCommas(ele?.totals?.finding?.Wt, 3)}</p></div>
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.LossWt !== 0 && NumberWithCommas(ele?.LossWt, 3)}</p></div>
                                         <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.LossPer !== 0 && NumberWithCommas(ele?.LossPer, 2)}</p></div>
-                                        <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.LossWt + ele?.NetWt !== 0 && NumberWithCommas(ele?.LossWt + ele?.NetWt, 2)}</p></div>
-                                        <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{(ele?.metalRate !== undefined && ele?.metalRate !== 0) && NumberWithCommas(ele?.metalRate, 2)}</p></div>
-                                        <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.totals?.metal?.Amount !== 0 && NumberWithCommas(ele?.totals?.metal?.Amount, 2)}</p></div>
+                                        <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.LossWt + ele?.NetWt !== 0 && NumberWithCommas(ele?.LossWt + ele?.NetWt, 3)}</p></div>
+                                        <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{(ele?.metalRate !== undefined && ele?.metalRate !== 0) && NumberWithCommas(ele?.metalRate/headerData?.CurrencyExchRate, 2)}</p></div>
+                                        <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{ele?.totals?.metal?.Amount !== 0 && NumberWithCommas(ele?.totals?.metal?.Amount/headerData?.CurrencyExchRate, 2)}</p></div>
                                         <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'>{ele?.totals?.finding?.Amount !== 0 && NumberWithCommas(ele?.totals?.finding?.Amount, 2)}</p></div>
                                     </div>
                                     <div className={`${style?.studding} border-end border-black d-flex`}>
@@ -364,19 +365,19 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                                             <p className="fw-bold">{e?.Wt !== 0 && NumberWithCommas(e?.Wt, 3)}</p>
                                         </div>
                                         <div className="col-4">
-                                            <p className="fw-bold">{e?.Amount !== 0 && NumberWithCommas(e?.Amount, 2)}</p>
+                                            <p className="fw-bold">{e?.Amount !== 0 && NumberWithCommas(e?.Amount/headerData?.CurrencyExchRate, 2)}</p>
                                         </div>
                                     </div>
                                 })}
                                 <div className="d-flex pb-2">
                                     <div className="col-4"><p className="fw-bold">Diamond</p></div>
                                     <div className="col-4"><p className="fw-bold">{datass?.mainTotal?.diamonds?.Wt !== 0 && NumberWithCommas(datass?.mainTotal?.diamonds?.Wt, 3)}</p></div>
-                                    <div className="col-4"><p className="fw-bold">{datass?.mainTotal?.diamonds?.Amount !== 0 && NumberWithCommas(datass?.mainTotal?.diamonds?.Amount, 2)}</p></div>
+                                    <div className="col-4"><p className="fw-bold">{datass?.mainTotal?.diamonds?.Amount !== 0 && NumberWithCommas(datass?.mainTotal?.diamonds?.Amount/headerData?.CurrencyExchRate, 2)}</p></div>
                                 </div>
                                 <div className="d-flex pb-2">
                                     <div className="col-4"><p className="fw-bold">Color Stone</p></div>
                                     <div className="col-4"><p className="fw-bold">{datass?.mainTotal?.colorstone?.Wt !== 0 && NumberWithCommas(datass?.mainTotal?.colorstone?.Wt, 3)}</p></div>
-                                    <div className="col-4"><p className="fw-bold">{datass?.mainTotal?.colorstone?.Amount !== 0 && NumberWithCommas(datass?.mainTotal?.colorstone?.Amount, 2)}</p></div>
+                                    <div className="col-4"><p className="fw-bold">{datass?.mainTotal?.colorstone?.Amount !== 0 && NumberWithCommas(datass?.mainTotal?.colorstone?.Amount/headerData?.CurrencyExchRate, 2)}</p></div>
                                 </div>
 
                             </div>
@@ -389,7 +390,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                                         {/* <p className="fw-bold">{NumberWithCommas(totals?.Wt, 3)}</p> */}
                                     </div>
                                     <div className="col-4">
-                                        <p className="fw-bold">{totals?.Amount + datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount !== 0 && NumberWithCommas(totals?.Amount + datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount, 2)}</p>
+                                        <p className="fw-bold">{totals?.Amount + datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount !== 0 && NumberWithCommas((totals?.Amount + datass?.mainTotal?.diamonds?.Amount + datass?.mainTotal?.colorstone?.Amount)/headerData?.CurrencyExchRate, 2)}</p>
                                     </div>
                                 </div>
                             </div>
@@ -409,7 +410,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                         Diamonds / Color Stones imported under Bill Of Entry No. SEE ANNEXURE Dated :
                     </p>
                     <p className="fw-bold ps-3 col-6">
-                        Conversion Rate:
+                        Conversion Rate: {NumberWithCommas(headerData?.CurrencyExchRate, 2)}
                     </p>
                 </div>
                 <div className="d-flex">

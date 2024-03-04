@@ -3,6 +3,10 @@
     margin-bottom: 50px;
 }
 
+.zoom1_5_summary12 .p-1{
+    padding: 3px !important;
+}
+
 .zoom1_5_summary12 {
     zoom: 1.2;
 }

@@ -47,13 +47,35 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
     Eventname: evn,
     ApiVer: ApiVer
   };
+  const header= {
+    "Authorization": "Bearer 40815062023094801060"
+  }
+  const bodies = {
+      // "con":"{\"id\":\"\",\"mode\":\"WEBVALDNEMAIL\"}",
+      // "f":"zen (cartcount)",
+      // "p":"eyJ1c2VyaWQiOiJhYmhpc2VraEBlZy5jb20iLCJGcm9udEVuZF9SZWdObyI6Ijgwa2dpemJpZHV3NWU3Z2cifQ=="
+  }
 
+  const headers = {
+    "Authorization": "Bearer ZRM73P3VMRZV391Q",
+    // "domain": "zen",
+    // "Content-Type": "application/json",
+    "version": "V4",
+    "YearCode": "e3t6ZW59fXt7MjF9fXt7b3JhaWwyNH19e3tvcmFpbDI0fX0=",
+  };
   try {
-    const response = await axios.post(urls, body);
+    // const responses = await axios.post("http://zen/jo/api-lib/store.aspx", bodies, {headers: headers});
+    // console.log(responses);
+    const response = await axios.post(urls, body, {headers: header});
     return response?.data;
   } catch (error) {
     console.error(error);
   }
+  
+
+
+
+
 };
 
 // new api print

@@ -102,6 +102,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   };
 
   const loadData = (data) => {
+    console.log(data);
     let label = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     setAddress(label);
     setJson0Data(data?.BillPrint_Json[0]);
@@ -111,7 +112,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     let finalArr = [];
     let totalMetalWt = 0;
     datas?.resultArray?.map((e, i) => {
-      let primaryMetalWt = 0
+      let primaryMetalWt = 0;
+      let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
       let findMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
       if (findMetal !== undefined) {
         primaryMetalWt = findMetal?.Wt;
@@ -119,6 +121,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       }
       let obj = cloneDeep(e);
       obj.primaryMetalWt = primaryMetalWt;
+      obj.otherMisc = otherMisc;
       finalArr.push(obj);
     })
     settotalMetalWts(totalMetalWt);
@@ -795,7 +798,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                           {dp1lp ? <>
                             <p className="text-center">
                               <span className="fw-bold">
-                                {fixedValues(e?.grosswt, 3)}gm 
+                                {fixedValues(e?.grosswt, 3)}gm
                               </span><span className="">Gross</span>
                             </p>
                           </> : <>
@@ -961,7 +964,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </div>
                       <div className="otherAmountDetailPrint1 border-end  position-relative pt-1">
                         <div className="paddingBottomTotalDetailPrint1">
-                          <div>
+                          <div>{console.log()}
                             {detailtPrintR ? (
                               <p className="text-end">
                                 {e?.OtherCharges !== 0 &&
@@ -1008,7 +1011,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                         <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end">
                           <p className="text-end fw-bold">
                             {
-                              dp1lp ?
+                              (dp1lp || detailtPrintR) ?
                                 (e?.totalOther !== 0 && NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)) :
                                 (e?.totalOther !== 0 && NumberWithCommas(e?.OtherCharges + e?.MiscAmount, 2))
                             }
@@ -1121,7 +1124,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </div>
                       <div className="totalAmountDetailPrint1 border-end  border-bottom d-flex align-tems-center justify-content-end lightGrey">
                         <p className="d-flex align-items-center">
-                        {!dp1lp &&   <span
+                          {!dp1lp && <span
                             dangerouslySetInnerHTML={{
                               __html: json0Data?.Currencysymbol,
                             }}
@@ -1293,7 +1296,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <p className="fw-bold p-1">GOLD IN 24KT</p>
                       <p className="p-1">
                         {" "}
-                        {fixedValues(finalD?.mainTotal?.convertednetwt, 3)} gm
+                        {detailtPrintR ? NumberWithCommas(json0Data?.MetalRate24K, 2) : fixedValues(finalD?.mainTotal?.convertednetwt, 3)} gm
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
@@ -1492,12 +1495,12 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
             </div>
             <div className="fs_dp4 text-secondary">
-                ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
-                IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
-                TRANSACTIONS
-              </div>
+              ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
+              IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
+              TRANSACTIONS
+            </div>
           </div>{" "}
-        
+
         </div>
       ) : (
         <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

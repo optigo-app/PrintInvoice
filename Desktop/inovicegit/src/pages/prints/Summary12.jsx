@@ -59,7 +59,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
         colorStoneAmount: 0
     });
 
-    const [saleReturn, setSaleReturn]=  useState(atob(evn)?.toLowerCase() === "sale return" ? true : false);
+    const [saleReturn, setSaleReturn] = useState(atob(evn)?.toLowerCase() === "sale return" ? true : false);
     const [loader, setLoader] = useState(true);
     const [taxes, setTaxes] = useState([]);
     const [msg, setMsg] = useState("");
@@ -277,7 +277,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
             // const key2Value = obj?.Tunch * obj?.NetWt / 100;
             const key3Value = diaWt;
             const key4Value = obj?.grosswt;
-            const key5Value = obj?.NetWt+obj?.LossWt;
+            const key5Value = obj?.NetWt + obj?.LossWt;
             const key6Value = obj?.MetalAmount;
             const key7Value = obj?.Tunch;
             // const key8Value = +((obj?.Tunch * obj?.NetWt / 100).toFixed(3));
@@ -355,7 +355,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
         }
 
         sendData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleChange = (e, name) => {
@@ -417,7 +417,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                         <div>
                             <div className="d-flex justify-content-between border-bottom p-2 border mt-2 no_break">
                                 <div className="invoice_text_sum4">
-                                    <h2> INVOICE# : <span>{billPrintJson?.InvoiceNo}</span></h2>
+                                    <h2 className='text-uppercase'> Estimate# : <span>{billPrintJson?.InvoiceNo}</span></h2>
                                 </div>
                                 <div className="invoice_text_sum4">
                                     <h2> DATE : <span>{billPrintJson?.EntryDate}</span></h2>
@@ -439,11 +439,11 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     <p> Gold Rate: <span>{NumberWithCommas(billPrintJson?.MetalRate24K, 2)}</span></p>
                                 </div>
                             </div>
-                            <div className="sum4_table">
+                            <div className="sum12_table">
                                 <div className='d-flex border-bottom no_break'>
                                     <div className='p-1 fw-bold ps-2 border-start border-end align-middle text-center sr_sum4'>SR#</div>
-                                    <div className='p-1 fw-bold border-end align-middle text-center design_sum4'>DESIGN</div>
-                                    <div className='p-1 fw-bold border-end align-middle text-center remark_sum4'>Remark</div>
+                                    <div className='p-1 fw-bold border-end align-middle text-center design_sum12'>DESIGN</div>
+                                    {/* <div className='p-1 fw-bold border-end align-middle text-center remark_sum4'>Remark</div> */}
                                     <div className='p-1 fw-bold border-end align-middle text-center dia_wt_ctw_sum4'>DIA WT (ctw)</div>
                                     <div className='p-1 fw-bold border-end align-middle text-center dia_rate_sum4'><p>DIA </p> <p>RATE</p></div>
                                     <div className='p-1 fw-bold border-end align-middle text-center dia_amt_sum4'><p>DIA </p><p>AMT</p></div>
@@ -461,15 +461,18 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
 
                                     return <div className="d-flex border-bottom no_break" key={i}>
                                         <div className='p-1 ps-2 sr_sum4 border-start border-end sr_sum4'> <p> {NumberWithCommas(e?.SrNo)} </p> </div>
-                                        <div className='p-1 design_sum4 border-end'>
-                                            <p className="fw-bold">{(e?.designno)}</p>
-                                            <p className='fw-bold'> {e?.SrJobno} </p>
-                                            <p className="fw-bold">{e?.Categoryname}</p>
-                                            {image && <img src={e?.DesignImage} alt="" onError={e => handleImageError(e)} />}
-                                            <p className='fw-bold'>{e?.MetalTypePurity}</p>
+                                        <div className='p-1 design_sum12 border-end'>
+                                            <div className="d-flex flex-wrap">
+                                                <p className="fw-bold pe-2">{(e?.designno)}</p>
+                                                <p className='fw-bold pe-2'> {e?.SrJobno} </p>
+                                                <p className='fw-bold'>{e?.MetalTypePurity}</p>
+                                            </div>
+                                            {/* <p className="fw-bold">{e?.Categoryname}</p> */}
+                                            {image && <img src={e?.DesignImage} className='imgWidth' alt="" onError={e => handleImageError(e)} />}
+
                                             {e?.HUID !== "" && <p className='fw-bold'> HUID No. : {e?.HUID}</p>}
                                         </div>
-                                        <div className="p-1 remark_sum4 border-end text-end remark_sum4"> <p> {e?.CertRemark} </p> </div>
+                                        {/* <div className="p-1 remark_sum4 border-end text-end remark_sum4"> <p> {e?.CertRemark} </p> </div> */}
                                         <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
                                             return <p key={indd}>{fixedValues(ele?.totalWeight, 3)}</p>
                                         })}</div>
@@ -500,8 +503,8 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     </div>
                                 })}
                                 <div className="total_sec_sum4 d-flex border-bottom mb-1 no_break">
-                                    <div className="p-1 ps-2 total_sum4 border-start border-end bg_total_sum4 fw-bold text-center">Total</div>
-                                    <div className="p-1 remark_sum4 border-end text-end bg_total_sum4 fw-bold remark_sum4"> <p>  </p> </div>
+                                    <div className="p-1 ps-2 total_sum12 border-start border-end bg_total_sum4 fw-bold text-center">Total</div>
+                                    {/* <div className="p-1 remark_sum4 border-end text-end bg_total_sum4 fw-bold remark_sum4"> <p>  </p> </div> */}
                                     <div className="p-1 dia_wt_ctw_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {fixedValues(total.diaWt, 3)} </p> </div>
                                     <div className="p-1 dia_rate_sum4 border-end text-end bg_total_sum4 fw-bold "> <p>  </p> </div>
                                     <div className="p-1 dia_amt_sum4 border-end text-end bg_total_sum4 fw-bold "> <p> {NumberWithCommas(total.diaAmt, 2)} </p> </div>
@@ -589,7 +592,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                                 <div className="d-flex w-100">
                                                     <div className="w-50 fw-bold ps-2">*(G+D) WT</div>
                                                     {/* <div className="w-50 text-end pe-2">{fixedValues(totalSummary?.gDWt, 3)} gm	</div> */}
-                                                    <div className="w-50 text-end pe-2">{fixedValues(((total.diaWt/5)+total.nwt), 3)} gm	</div>
+                                                    <div className="w-50 text-end pe-2">{fixedValues(((total.diaWt / 5) + total.nwt), 3)} gm	</div>
                                                 </div>
                                                 <div className="d-flex w-100">
                                                     <div className="w-50 fw-bold ps-2">NET WT </div>
@@ -710,7 +713,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     </div>
                                     <div className="w-50 height_65_sum4 d-flex justify-content-center align-items-end">
                                         <p className="fw-bold font_15_sum4">
-                                            for,Orail Design
+                                            for,   {billPrintJson?.companyname}
                                         </p>
                                     </div>
                                 </div>

@@ -1,7 +1,7 @@
 .exportprint2 *{
     font-size: 9px;
     line-height: 120%;
-    word-break: normal;
+    word-break: break-all;
     box-sizing: border-box;
 }
 

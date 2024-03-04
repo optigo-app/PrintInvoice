@@ -41,6 +41,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             if (e?.MetalType === "GOLD") {
                 let findGold = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
                 let findobj = resultArr?.findIndex((ele, ind) => ele?.metalRate === findGold?.Rate);
+                      table1Totals.grosswt += e?.grosswt;
                 if (findobj === -1) {
                     let obj = cloneDeep(e);
                     if (findGold !== undefined) {
@@ -48,18 +49,18 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         obj.metalAmounts = findGold?.Amount;
                         obj.metalPcs = findGold?.Pcs;
                         obj.metalWeight = findGold?.Wt;
-                        table1Totals.metalAmounts = findGold?.Amount;
-                        table1Totals.metalWeight = findGold?.Wt;
+                        table1Totals.metalAmounts += findGold?.Amount;
+                        table1Totals.metalWeight += findGold?.Wt;
                     }
-                    table1Totals.Quantity = obj?.Quantity;
-                    table1Totals.grosswt = obj?.grosswt;
-                    table1Totals.NetWt = obj?.NetWt;
+                    table1Totals.Quantity += e?.Quantity;
+                    // table1Totals.grosswt += e?.grosswt;
+                    table1Totals.NetWt += e?.NetWt;
                     resultArr.push(obj);
                 } else {
                     resultArr[findobj].NetWt += e?.NetWt;
-                    resultArr[findobj].grossWt += e?.grossWt;
+                    resultArr[findobj].grosswt += e?.grosswt;
                     table1Totals.Quantity += e?.Quantity;
-                    table1Totals.grosswt += e?.grosswt;
+                    // table1Totals.grosswt += e?.grosswt;
                     table1Totals.NetWt += e?.NetWt;
                     resultArr[findobj].totals.metal.Amount += e?.totals?.metal?.Amount;
                     if (findGold !== undefined) {
@@ -69,7 +70,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         resultArr[findobj].PureNetWt += e?.PureNetWt;
                         resultArr[findobj].Quantity += e?.Quantity;
                         table1Totals.metalAmounts += findGold?.Amount;
-                        table1Totals.metalWeight = findGold?.Wt;
+                        table1Totals.metalWeight += findGold?.Wt;
                         resultArr[findobj].totals.diamonds.Wt += e?.totals?.diamonds?.Wt;
                         resultArr[findobj].totals.diamonds.Pcs += e?.totals?.diamonds?.Pcs;
                         resultArr[findobj].totals.diamonds.Amount += e?.totals?.diamonds?.Amount;
@@ -450,7 +451,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className={`${style?.smallstudding} border-end border-black`}>
                             <div className="d-grid h-100">
                                 <div className="d-flex border-black border-bottom d-flex justify-content-center align-items-center">
-                                    <p className="fw-semibold  text-center">Studding Value $</p>
+                                    <p className="fw-semibold  text-center">Studding Value {headerData?.Currencysymbol}</p>
                                 </div>
                                 <div className="d-flex">
                                     <div className="col-4 d-flex justify-content-center align-items-center border-end border-black"><p className="fw-semibold text-center">Type</p></div>
@@ -482,12 +483,12 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <p className="fw-semibold text-center">CS</p>
                                         </div>
                                         <div className="col-4 border-end border-black">
-                                            <p className="fw-semibold text-center border-bottom border-black">{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}</p>
-                                            <p className="fw-semibold text-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}</p>
+                                            <p className="fw-semibold text-center border-bottom border-black">{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p>
+                                            <p className="fw-semibold text-center">{NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}</p>
                                         </div>
                                         <div className="col-4">
-                                            <p className="fw-semibold text-center border-bottom border-black">{NumberWithCommas(data?.mainTotal?.diamonds?.Amount / headerData?.CurrencyExchRate, 2)}</p>
-                                            <p className="fw-semibold text-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount / headerData?.CurrencyExchRate, 2)}</p>
+                                            <p className="fw-semibold text-center border-bottom border-black">{NumberWithCommas(e?.totals?.diamonds?.Amount / headerData?.CurrencyExchRate, 2)}</p>
+                                            <p className="fw-semibold text-center">{NumberWithCommas(e?.totals?.colorstone?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                         </div>
                                     </div>
                                 </div>

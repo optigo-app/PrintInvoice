@@ -55,6 +55,11 @@
     font-size: 12px;
 }
 
+.sum12_table div, .sum12_table * {
+    line-height: 120% !important;
+    font-size: 11px !important;
+}
+
 .sr_sum4 {
     /* min-width: 40.5px;
     width: 40.5px; */
@@ -67,6 +72,11 @@
     width: 10%;
     /* min-width: 95px; */
     /* width: 95px; */
+}
+
+.design_sum12{
+    min-width: 20%;
+    width: 20%;
 }
 
 .remark_sum4 {
@@ -120,6 +130,12 @@
     /* width: 135.5px; */
     width: 15%;
     min-width: 15%;
+}
+
+.total_sum12 {
+    /* width: 135.5px; */
+    width: 25%;
+    min-width: 25%;
 }
 
 .bg_total_sum4 {
