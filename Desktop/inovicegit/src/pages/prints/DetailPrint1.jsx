@@ -102,7 +102,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
   };
 
   const loadData = (data) => {
-    console.log(data);
+    // console.log(data);
     let label = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     setAddress(label);
     setJson0Data(data?.BillPrint_Json[0]);
@@ -111,6 +111,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
     let finalArr = [];
     let totalMetalWt = 0;
+  
     datas?.resultArray?.map((e, i) => {
       let primaryMetalWt = 0;
       let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
@@ -964,7 +965,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </div>
                       <div className="otherAmountDetailPrint1 border-end  position-relative pt-1">
                         <div className="paddingBottomTotalDetailPrint1">
-                          <div>{console.log()}
+                          <div>
                             {detailtPrintR ? (
                               <p className="text-end">
                                 {e?.OtherCharges !== 0 &&
@@ -1296,7 +1297,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <p className="fw-bold p-1">GOLD IN 24KT</p>
                       <p className="p-1">
                         {" "}
-                        {detailtPrintR ? NumberWithCommas(json0Data?.MetalRate24K, 2) : fixedValues(finalD?.mainTotal?.convertednetwt, 3)} gm
+                        {detailtPrintR ? NumberWithCommas(summary?.gold24Kt, 3) : fixedValues(finalD?.mainTotal?.convertednetwt, 3)} gm
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">

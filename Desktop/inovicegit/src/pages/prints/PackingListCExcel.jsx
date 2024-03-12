@@ -22,8 +22,12 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
         s_lbWt: 0,
         d_bugPcs: 0,
         d_bugWt: 0,
+        d_bug_slc_Pcs: 0,
+        d_bug_slc_Wt: 0,
         d_prsPcs: 0,
         d_prsWt: 0,
+        d_prs_SlcPcs: 0,
+        d_prs_SlcWt: 0,
     })
 
     const [datas, setDatas] = useState({});
@@ -42,8 +46,12 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
             s_lbWt: 0,
             d_bugPcs: 0,
             d_bugWt: 0,
+            d_bug_slc_Pcs: 0,
+            d_bug_slc_Wt: 0,
             d_prsPcs: 0,
             d_prsWt: 0,
+            d_prs_SlcPcs: 0,
+            d_prs_SlcWt: 0,
         }
         for (const e of datas?.resultArray || []) {
             let goldRate = 0;
@@ -59,21 +67,33 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
             let s_lbPWt = 0;
             let d_bugPcs = 0;
             let d_bugWt = 0;
+            let d_bug_slc_Pcs = 0;
+            let d_bug_slc_Wt = 0;
             let d_prsPcs = 0;
             let d_prsWt = 0;
+            let d_prs_SlcPcs = 0;
+            let d_prs_SlcWt = 0;
             e?.diamonds?.forEach((ele, ind) => {
-                if ((e?.QualityName)?.toLowerCase()?.includes("s-lc") && e?.ShapeName?.toLowerCase()?.includes("rnd")) {
+                if ((ele?.QualityName)?.toLowerCase()?.includes("s-lc") && ele?.ShapeName?.toLowerCase()?.includes("rnd")) {
                     ds_lcPcs += ele?.Pcs;
                     ds_lcWt += ele?.Wt;
-                } else if ((e?.QualityName)?.toLowerCase()?.includes("s-lb") && e?.ShapeName?.toLowerCase()?.includes("rnd")) {
+                    console.log(ele);
+                } else if ((ele?.QualityName)?.toLowerCase()?.includes("s-lb") && ele?.ShapeName?.toLowerCase()?.includes("rnd")) {
                     s_lbPcs += ele?.Pcs;
                     s_lbPWt += ele?.Wt;
-                } else if ((e?.QualityName)?.toLowerCase()?.includes("s-lb") && e?.ShapeName?.toLowerCase()?.includes("bug")) {
+                    console.log(ele);
+                } else if ((ele?.QualityName)?.toLowerCase()?.includes("s-lb") && ele?.ShapeName?.toLowerCase()?.includes("bug")) {
                     d_bugPcs += ele?.Pcs;
                     d_bugWt += ele?.Wt;
-                } else if ((e?.QualityName)?.toLowerCase()?.includes("s-lb") && e?.ShapeName?.toLowerCase()?.includes("prs")) {
+                } else if ((ele?.QualityName)?.toLowerCase()?.includes("s-lc") && ele?.ShapeName?.toLowerCase()?.includes("bug")) {
+                    d_bug_slc_Pcs += ele?.Pcs;
+                    d_bug_slc_Wt += ele?.Wt;
+                } else if ((ele?.QualityName)?.toLowerCase()?.includes("s-lb") && ele?.ShapeName?.toLowerCase()?.includes("prs")) {
                     d_prsPcs += ele?.Pcs;
                     d_prsWt += ele?.Wt;
+                } else if ((ele?.QualityName)?.toLowerCase()?.includes("s-lc") && ele?.ShapeName?.toLowerCase()?.includes("prs")) {
+                    d_prs_SlcPcs += ele?.Pcs;
+                    d_prs_SlcWt += ele?.Wt;
                 }
             });
 
@@ -83,8 +103,12 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
             totals.s_lbWt += s_lbPWt;
             totals.d_bugPcs += d_bugPcs;
             totals.d_bugWt += d_bugWt;
+            totals.d_bug_slc_Pcs += d_bug_slc_Pcs;
+            totals.d_bug_slc_Wt += d_bug_slc_Wt;
             totals.d_prsPcs += d_prsPcs;
             totals.d_prsWt += d_prsWt;
+            totals.d_prs_SlcPcs += d_prs_SlcPcs;
+            totals.d_prs_SlcWt += d_prs_SlcWt;
 
             let obj = {
                 jobNo: e?.SrJobno,
@@ -104,11 +128,15 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                 goldRate: goldRate,
                 d_prsPcs: d_prsPcs,
                 d_prsWt: d_prsWt,
+                d_prs_SlcPcs: d_prs_SlcPcs,
+                d_prs_SlcWt: d_prs_SlcWt,
                 goldAmount: goldAmount,
                 totalPcs: e?.totals?.diamonds?.Pcs,
                 totalCts: e?.totals?.diamonds?.Wt,
                 d_bugPcs: d_bugPcs,
                 d_bugWt: d_bugWt,
+                d_bug_slc_Pcs: d_bug_slc_Pcs,
+                d_bug_slc_Wt: d_bug_slc_Wt,
                 diaAmt: e?.totals?.diamonds?.Amount,
                 size: e?.Size,
                 remark: e?.lineid,
@@ -197,16 +225,20 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>Gold amt</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>Total pcs</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>Total Cts</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D S-LC (pcs)</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D S-LC (CW)	</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D S-LB (pcs)</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>S-LB (CW)</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (S-LC) Pcs</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (S-LC) CW	</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (S-LB) Pcs</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (S-LB) CW</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D WT pcs +11</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D WT CW +11</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG(S-LB)pcs</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG (S-LB) Pcs</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG (S-LB) CW</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR PCS</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR CW</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG (S-LC) Pcs</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG (S-LC) CW</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR (S-LB) PCS</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR (S-LB) CW</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR (S-LC) PCS</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR (S-LC) CW</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D.RATE(-2 DIA)</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D.RATE +2-11</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D.RATE +11</th>
@@ -224,9 +256,9 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{i + 1}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.jobNo}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.designNo}</td>
-                                <td style={{ padding: "10px", border: "0.5px solid #000", }} align='center'height={e?.showImage ? 150 : 35}>&nbsp;{e?.showImage && <img src={e?.image} alt=' ' width={148} height={148} />}</td>
+                                <td style={{ padding: "10px", border: "0.5px solid #000", }} align='center' height={e?.showImage ? 150 : 35}>&nbsp;{e?.showImage && <img src={e?.image} alt=' ' width={135} height={135} />}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.category}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{NumberWithCommas(e?.grosswt, 3)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000" }} align='center'> &nbsp;{NumberWithCommas(e?.grosswt, 3)}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{NumberWithCommas(e?.netwt, 3)}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{NumberWithCommas(e?.colorStoneWt, 3)}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.goldRate, 2)}</td>
@@ -241,8 +273,12 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.000</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bugPcs, 0)}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bugWt, 3)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bug_slc_Pcs, 0)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bug_slc_Wt, 3)}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_prsPcs, 0)}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_prsWt, 3)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_prs_SlcPcs, 0)}</td>
+                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_prs_SlcWt, 3)}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
@@ -254,69 +290,39 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
                             </tr>
                         })}
                         <tr>
-                            <td width={10} height={40}></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center' colSpan={2}> <b>TOTAL</b></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.grosswt, 3)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.netwtWithLossWt, 3)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.colorstone?.Wt, 3)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.diamonds?.Pcs, 0)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.diamonds?.Wt, 3)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.s_lcPcs, 0)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.s_lcWt, 3)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.s_lbPcs, 0)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.s_lbWt, 3)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.d_bugPcs, 0)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.d_bugWt, 3)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.d_prsPcs, 0)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(total?.d_prsWt, 3)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'></td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center' height={40}> </td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'> </td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center' colSpan={3}> <b>TOTAL</b></td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.grosswt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.netwtWithLossWt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.colorstone?.Wt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'> </td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.metal?.Amount, 2)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.diamonds?.Pcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.diamonds?.Wt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.s_lcPcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.s_lcWt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.s_lbPcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.s_lbWt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'></td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'></td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_bugPcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_bugWt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_bug_slc_Pcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_bug_slc_Wt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_prsPcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_prsWt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_prs_SlcPcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_prs_SlcWt, 3)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'></td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'></td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'></td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'></td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'></td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.diamonds?.Amount, 2)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'></td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'></td>
                         </tr>
-                        {/* <tr>
-                            <td width={10} ></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} ></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", }} > </td>
-                        </tr> */}
                     </tbody>
                 </table>
             </div>

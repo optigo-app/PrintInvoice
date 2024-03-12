@@ -51,3 +51,16 @@
     position: relative;
     border-left: 1px solid #000;
 }
+
+.bagPrint4C *{
+    font-family: Helvetica Neue !important;
+}
+
+.bagPrint4CHead *{
+    line-height: 120%;
+}
+
+.bagPrint4CInstruction *{
+    line-height: 120%;
+    font-size: 8px !important;
+}

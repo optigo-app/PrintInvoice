@@ -48,6 +48,35 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             resultArray.push(obj);
         });
         datas.resultArray = resultArray;
+
+        let resultArr = [];
+        datas.resultArray?.forEach((e, i) => {
+            if(e.GroupJob === ""){
+                resultArr.push(e);
+            }else{
+                let findObj = resultArr?.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob);
+                if(findObj === -1){
+                    resultArr.push(e);
+                }else{
+                    if(e?.GroupJob === e?.SrJobno){
+                        resultArr[findObj].MetalType = e?.MetalType;
+                        resultArr[findObj].MetalPurity = e?.MetalPurity;
+                        resultArr[findObj].Categoryname = e?.Categoryname;
+                        resultArr[findObj].SubCategoryname = e?.SubCategoryname;
+                        resultArr[findObj].designno = e?.designno;
+                        resultArr[findObj].SrJobno = e?.SrJobno;
+                    }
+                    resultArr[findObj].NetWt += e?.NetWt;
+                    resultArr[findObj].totals.metal.Amount += e?.totals?.metal?.Amount;
+                    if(resultArr[findObj].NetWt  !== 0 ){
+                        resultArr[findObj].metal[0].Rate = resultArr[findObj].totals.metal.Amount/resultArr[findObj].NetWt;
+                    }
+                    resultArr[findObj].Quantity += e?.Quantity;
+                    resultArr[findObj].TotalAmount += e?.TotalAmount;
+                }
+            }
+        })
+        datas.resultArray = resultArr;
         setData(datas);
         console.log(datas);
         let documentDetails = data?.BillPrint_Json[0]?.DocumentDetail.split("#@#");

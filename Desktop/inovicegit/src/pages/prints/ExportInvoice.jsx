@@ -59,9 +59,11 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 } else {
                     resultArr[findobj].NetWt += e?.NetWt;
                     resultArr[findobj].grosswt += e?.grosswt;
+                    resultArr[findobj].TotalAmount += e?.TotalAmount;
                     table1Totals.Quantity += e?.Quantity;
                     // table1Totals.grosswt += e?.grosswt;
                     table1Totals.NetWt += e?.NetWt;
+                    resultArr[findobj].totals.metal.Amount += e?.totals?.metal?.Amount;
                     resultArr[findobj].totals.metal.Amount += e?.totals?.metal?.Amount;
                     if (findGold !== undefined) {
                         resultArr[findobj].metalAmounts += findGold?.Amount;
@@ -386,10 +388,10 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className={`${style?.kt} border-black border-start border-end h-100 `}>
+                        <div className={`${style?.kt} border-black border-start border-end h-100 border-top`}>
                             <p className='fw-semibold text-center border-black border-bottom p-1'>Total</p>
                         </div>
-                        <div className={`${style?.pcs} border-black border-end h-100 `}
+                        <div className={`${style?.pcs} border-black border-end h-100 border-top`}
                         // style={{ width: "6.99%", minWidth: "6.99%", }}
                         >
                             <p className='fw-semibold text-center border-black border-bottom p-1'>{NumberWithCommas(table1Total?.Quantity, 0)}</p>
@@ -397,17 +399,17 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className={`${style?.grossWt} border-black border-end h-100 `}
                             style={{ width: "10.01%", minWidth: "10.01%", }}
                         >
-                            <p className='fw-semibold text-center border-black border-bottom p-1'>{NumberWithCommas(table1Total?.grosswt, 3)}</p>
+                            <p className='fw-semibold text-center border-black border-bottom p-1 border-top'>{NumberWithCommas(table1Total?.grosswt, 3)}</p>
                         </div>
                         <div className={`${style?.NetWt} border-black h-100 `}
                         //  style={{ width: "9.99%", minWidth: "9.99%", }}
                         >
-                            <p className='fw-semibold text-center border-black border-bottom p-1'>{NumberWithCommas(table1Total?.NetWt, 3)}</p>
+                            <p className='fw-semibold text-center border-black border-bottom p-1 border-top'>{NumberWithCommas(table1Total?.NetWt, 3)}</p>
                         </div>
                         <div className={`${style?.Rate} border-black border-end h-100 `}
                         // style={{ width: "16.9%", minWidth: "16.9%", }}
                         >
-                            <p className='fw-semibold p-1 text-center border-black border-bottom border-start text-uppercase'>GOLD VALUE</p>
+                            <p className='fw-semibold p-1 text-center border-black border-bottom border-start text-uppercase border-top'>GOLD VALUE</p>
                             <p className='fw-semibold p-1 text-center border-black border-bottom border-start text-uppercase'>Studding Value</p>
                             <p className='fw-semibold p-1 text-center border-black border-bottom border-start text-uppercase'>making value</p>
                             <p className='fw-semibold p-1 text-center border-black border-bottom border-start text-uppercase'>fob {headerData?.CurrencyCode}</p>
@@ -417,7 +419,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className={`${style?.value} border-black h-100 `}
                         // style={{ width: "10.2%", minWidth: "10.2%", }}
                         >
-                            <p className='fw-semibold text-center border-black border-bottom p-1'>{NumberWithCommas(table1Total?.metalAmounts / headerData?.CurrencyExchRate, 2)}</p>
+                            <p className='fw-semibold text-center border-black border-bottom p-1 border-top'>{NumberWithCommas(table1Total?.metalAmounts / headerData?.CurrencyExchRate, 2)}</p>
                             <p className='fw-semibold text-center border-black border-bottom p-1'>{NumberWithCommas((data?.mainTotal?.diamonds?.Amount + data?.mainTotal?.colorstone?.Amount + data?.mainTotal?.misc?.Amount) / headerData?.CurrencyExchRate, 2)}</p>
                             <p className='fw-semibold text-center border-black border-bottom p-1'>{NumberWithCommas(data?.mainTotal?.total_Making_Amount / headerData?.CurrencyExchRate, 2)}</p>
                             <p className='fw-semibold text-center border-black border-bottom p-1'>{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p>
@@ -499,7 +501,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                     {/* table total */}
                     <div className={`border-bottom d-flex border-black no_break ${style?.exportPrinttable}`}>
-                        <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-bold text-center"></p></div>
+                        <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-bold text-center">Total</p></div>
                         <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-bold text-center">{NumberWithCommas(table1Total?.grosswt, 3)}</p></div>
                         <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-bold text-center">{NumberWithCommas(table1Total?.NetWt, 3)}</p></div>
                         <div className={`${style?.smallgold} border-end border-black d-flex align-items-center justify-content-center`}><p className="fw-bold text-center">{NumberWithCommas(table1Total?.metalWeight, 3)}</p></div>
@@ -521,13 +523,13 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <p className="fw-bold text-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}</p>
                                     </div>
                                     <div className="col-4 ">
-                                        <p className="fw-bold text-center border-bottom border-black">{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</p>
-                                        <p className="fw-bold text-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</p>
+                                        <p className="fw-bold text-center border-bottom border-black">{NumberWithCommas(data?.mainTotal?.diamonds?.Amount/ headerData?.CurrencyExchRate, 2)}</p>
+                                        <p className="fw-bold text-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount/ headerData?.CurrencyExchRate, 2)}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className={`${style?.smallgold} d-flex align-items-center justify-content-center`}><p className="fw-bold text-center">{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p></div>
+                        <div className={`${style?.smallgold} d-flex align-items-center justify-content-center`}><p className="fw-bold text-center">{NumberWithCommas(data?.mainTotal?.total_amount/ headerData?.CurrencyExchRate, 2)}</p></div>
                     </div>
                     {/* signature */}
                     <div className="pt-2 no_break">

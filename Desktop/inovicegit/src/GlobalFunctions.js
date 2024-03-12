@@ -51,31 +51,27 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
     "Authorization": "Bearer 40815062023094801060"
   }
   const bodies = {
-      // "con":"{\"id\":\"\",\"mode\":\"WEBVALDNEMAIL\"}",
-      // "f":"zen (cartcount)",
-      // "p":"eyJ1c2VyaWQiOiJhYmhpc2VraEBlZy5jb20iLCJGcm9udEVuZF9SZWdObyI6Ijgwa2dpemJpZHV3NWU3Z2cifQ=="
+    "con":"{\"id\":\"\",\"mode\":\"store_init\"}",
+    "p":"",  
+    "f":"formname (init)"
   }
 
   const headers = {
-    "Authorization": "Bearer ZRM73P3VMRZV391Q",
-    // "domain": "zen",
+    "Authorization": "Bearer optigo_json_api",
+    "domain": "zen",
     // "Content-Type": "application/json",
-    "version": "V4",
-    "YearCode": "e3t6ZW59fXt7MjF9fXt7b3JhaWwyNH19e3tvcmFpbDI0fX0=",
+    "version": "v4",
+    "YearCode": "",
   };
   try {
-    // const responses = await axios.post("http://zen/jo/api-lib/store.aspx", bodies, {headers: headers});
+    // const responses = await axios.post("http://zen/api/", bodies, {headers: headers});
     // console.log(responses);
-    const response = await axios.post(urls, body, {headers: header});
+    const response = await axios.post(urls, body);
     return response?.data;
   } catch (error) {
     console.error(error);
   }
   
-
-
-
-
 };
 
 // new api print
@@ -201,30 +197,7 @@ export const taxGenrator2 = (headerData, totalAmount) => {
   return blankArr;
 };
 
-//number with commas function
-// export const NumberWithCommas = (value, val) => {
-//   const formattedNumber = parseFloat(+value)?.toLocaleString(undefined, {
-//     minimumFractionDigits: val,
-//     maximumFractionDigits: val,
-//   });
-//   return formattedNumber;
-// };
 export const NumberWithCommas = (value, val) => {
-  // const roundedValue = Number(+value).toFixed(val || 2);
-  // const stringValue = roundedValue.toString();
-  // const [integerPart, decimalPart] = stringValue.split('.');
-  // let formattedString = integerPart
-  //   .split('')
-  //   .reverse()
-  //   .map((char, index) => (index > 0 && index % 2 === 0 ? ',' + char : char))
-  //   .reverse()
-  //   .join('');
-  // if (decimalPart !== undefined && val !== 0) {
-  //   formattedString += '.' + decimalPart.padEnd(val || 2, '0'); // Use val or default to 2 if val is not provided
-  // }
-  // formattedString = formattedString.replace(/^,+/, '');
-  // return formattedString
-
     const roundedValue = Number(value).toFixed(val || 2); 
     const stringValue = roundedValue.toString();
     const [integerPart, decimalPart] = stringValue.split('.');

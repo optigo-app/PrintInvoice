@@ -28,7 +28,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
     });
 
     const loadData = (data) => {
-        console.log(data);
+        // console.log(data);
         // setData(arr);
         let datas = OrganizeDataPrint(
             data?.BillPrint_Json[0],
@@ -306,7 +306,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 {/* {NumberWithCommas(e?.total?.LossPer, 2)} */}
                                 <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{e?.total?.totalWt !== 0 && NumberWithCommas(e?.total?.totalWt, 3)}</p></div>
                                 <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
-                                <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{e?.total?.metalAmount !== 0 && NumberWithCommas(e?.total?.metalAmount, 2)}</p></div>
+                                <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{e?.total?.metalAmount !== 0 && NumberWithCommas(e?.total?.metalAmount/headerData?.CurrencyExchRate, 2)}</p></div>
                                 <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'>{e?.total?.findingAmount !== 0 && NumberWithCommas(e?.total?.findingAmount, 2)}</p></div>
                             </div>
                             <div className={`${style?.studding} border-end border-black d-flex`}>
@@ -335,7 +335,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
                     <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{datass?.mainTotal?.netwtWithLossWt !== 0 && NumberWithCommas(datass?.mainTotal?.netwtWithLossWt, 3)}</p></div>
                     <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'></p></div>
-                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{datass?.mainTotal?.MetalAmount !== 0 && NumberWithCommas(datass?.mainTotal?.MetalAmount, 2)}</p></div>
+                    <div className={`${style?.grs} p-1 border-end border-black`}><p className='fw-bold text-end'>{datass?.mainTotal?.MetalAmount !== 0 && NumberWithCommas(datass?.mainTotal?.MetalAmount/ headerData?.CurrencyExchRate, 2)}</p></div>
                     <div className={`${style?.grs} p-1`}><p className='fw-bold text-end'>{datass?.mainTotal?.finding?.Amount !== 0 && NumberWithCommas(datass?.mainTotal?.finding?.Amount, 2)}</p></div>
                 </div>
                 <div className={`${style?.studding} border-end border-black d-flex`}>
