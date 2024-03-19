@@ -371,7 +371,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                                    : 
                                                    <>
                                                       {
-                                                        
                                                         elem?.Sizename === "F TOTAL" ? 
                                                         <div
                                                         className="record_line_4A border_bottom4A"
@@ -401,7 +400,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                                       lineHeight: "8px",
                                                       }}  
                                                   >
-                                                    {console.log(elem)}
                                                   <div className="finding height_23_4A truncatefind4A" style={{fontSize:"6.8pt"}}>
                                                     {elem?.ConcatedFullShapeQualityColorCode}
                                                   </div>
