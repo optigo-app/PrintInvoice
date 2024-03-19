@@ -3,17 +3,21 @@
 }
 
 .container * {
-    font-size: 8px;
+    font-size: 11px;
     line-height: 120%;
 }
 
+.packingListRow *{
+    word-break: break-all;
+}
+
 .img{
-    width: 75px;
-    height: 75px;
-    min-width: 75px;
-    min-height: 75px;
+    width: 100%;
+    max-width: 75px;
+    max-height: 75px;
     object-fit: contain;
     object-position: center;
+    margin: 0 auto;
 }
 
 .srNo{
@@ -48,8 +52,8 @@
 }
 
 .min_height{
-    min-height: 10px;
-    height: 10px;
+    min-height: 15px;
+    /* height: 15px; */
 }
 
 .total{
@@ -75,5 +79,14 @@
 @media print{
     .container{
         max-width: 100%;
+    }
+
+    .container * {
+        font-size: 8px;
+    }
+
+    .min_height{
+        min-height: 10px;
+        /* height: 10px; */
     }
 }

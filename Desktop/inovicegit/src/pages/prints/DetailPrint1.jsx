@@ -111,7 +111,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
     let finalArr = [];
     let totalMetalWt = 0;
-  
+    // console.log(datas);
     datas?.resultArray?.map((e, i) => {
       let primaryMetalWt = 0;
       let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
@@ -173,9 +173,9 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
         return a.Colorname.localeCompare(b.Colorname); // If QualityName is same, sort by Colorname
       }
     });
-    if (findRND?.length > 7) {
-      let arr = findRND.slice(0, 7);
-      let anotherArr = [...findRND.slice(7), remaingDia].flat();
+    if (findRND?.length > 6) {
+      let arr = findRND.slice(0, 6);
+      let anotherArr = [...findRND.slice(6), remaingDia].flat();
       let obj = { ...anotherArr[0] };
       anotherArr?.reduce((acc, cobj) => {
         obj.Pcs += cobj?.Pcs;
@@ -186,10 +186,14 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
       resultArr = [...arr, obj].flat();
     } else {
       let arr = [...findRND].flat();
-      let smallArr = [...remaingDia.slice(0, 7 - findRND?.length)].flat();
-      let largeArr = [...remaingDia.slice(7 - findRND?.length)].flat();
+      let smallArr = [...remaingDia.slice(0, 6 - findRND?.length)].flat();
+      let largeArr = [...remaingDia.slice(6 - findRND?.length)].flat();
       let finalArr = [...arr, ...smallArr].flat();
+
       let obj = { ...largeArr[0] };
+      obj.Pcs = 0;
+      obj.Wt = 0;
+      obj.Amount = 0;
       largeArr?.reduce((acc, cobj) => {
         obj.Pcs += cobj?.Pcs;
         obj.Wt += cobj?.Wt;
@@ -1225,7 +1229,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                   <div className="col-3 text-end">
                     <p className="fw-bold">
-                      {NumberWithCommas(total?.metalAmount, 2)}
+                      {NumberWithCommas(finalD?.mainTotal?.MetalAmount, 2)}
                     </p>
                   </div>
                 </div>
@@ -1316,7 +1320,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold p-1">NET WT</p>
-                      <p className="p-1"> {fixedValues(total?.netWt, 3)} gm</p>
+                      <p className="p-1"> {fixedValues(finalD?.mainTotal?.metal?.IsPrimaryMetal, 3)} gm</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold p-1">DIAMOND WT</p>
@@ -1349,7 +1353,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <p className="fw-bold p-1">GOLD</p>
                       <p className="p-1">
                         {" "}
-                        {NumberWithCommas(summary?.metalAmount, 2)}
+                        {NumberWithCommas(finalD?.mainTotal?.MetalAmount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
@@ -1402,26 +1406,6 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <p className="fw-bold text-center border-bottom  w-100 lightGrey">
                     Diamond Detail
                   </p>
-
-                  {/* {calculatedData?.length > 0 &&
-                    calculatedData?.map((e, i) => {
-                      return (
-                        <React.Fragment key={i}>
-                          {e?.ShapeName === "OTHER" &&
-                            e?.totalPcs === 0 &&
-                            e?.totalWt === 0 ? (
-                            ""
-                          ) : (
-                            <div className="d-flex justify-content-between ps-1 pe-1 align-items-center">
-                              <p className="fw-bold">{e?.ShapeName}</p>
-                              <p>
-                                {e?.totalPcs}/{e?.totalWt?.toFixed(3)}
-                              </p>
-                            </div>
-                          )}
-                        </React.Fragment>
-                      );
-                    })} */}
                   <div>
                     {diamondDetails?.map((e, i) => {
                       return e?.Wt !== undefined && <React.Fragment key={i}>
@@ -1495,7 +1479,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
               </div>
             </div>
-            <div className="fs_dp4 text-secondary">
+            <div className="fs_dp4 text-secondary pt-3">
               ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
               IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
               TRANSACTIONS

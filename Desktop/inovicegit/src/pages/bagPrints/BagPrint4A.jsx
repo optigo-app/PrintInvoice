@@ -259,6 +259,7 @@ const BagPrint4A = ({ queries, headers }) => {
                   </div>
                 )
             )}
+            {console.log(data)}
             {data?.length > 0 &&
               data?.map((e, i) => {
                 return (

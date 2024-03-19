@@ -4,6 +4,10 @@
   word-break: normal;
 }
 
+.addressFont{
+  font-size: 12px;
+}
+
 .sr {
   width: 3%;
   min-width: 3%;

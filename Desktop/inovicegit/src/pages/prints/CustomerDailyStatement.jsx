@@ -26,7 +26,7 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
                 if (obj?.MaKingCharge_Unit !== resultArr[findBrandName]?.MaKingCharge_Unit) {
                     resultArr[findBrandName].MaKingCharge_Unit = "MIX";
                 } else {
-                    resultArr[findBrandName].MaKingCharge_Unit += obj?.MaKingCharge_Unit;
+                    // resultArr[findBrandName].MaKingCharge_Unit += obj?.MaKingCharge_Unit;
                 }
                 if (obj?.Tunch === resultArr[findBrandName]?.Tunch) {
                     resultArr[findBrandName].Tunch = "MIX";
@@ -35,12 +35,11 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
                 resultArr[findBrandName].Wastage += obj?.Wastage;
                 resultArr[findBrandName].totals.colorstone.Wt += obj?.totals.colorstone.Wt;
 
-                
-
             }
         });
-        datas.resultArray = resultArr
+        datas.resultArray = resultArr;
         // console.log(resultArr);
+        console.log(datas);
         setData(datas);
     }
 
@@ -88,7 +87,7 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
                 <p>Date: <span className="ps-3 fw-bold">{headerData?.EntryDate}</span></p>
             </div>
             {/* table */}
-            <div className="d-flex border-black border lightGrey">
+            {/* <div className="d-flex border-black border lightGrey">
                 <div className={`${style?.bill} border-end border-black d-flex height_inherit align-items-center`}><p className="fw-bold w-100 text-center">Bill#</p></div>
                 <div className={`${style?.items_sec}`}>
                     <div className="d-flex">
@@ -126,9 +125,222 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
+            <table border="1" style={{ fontSize: "13px", borderCollapse: "collapse", border: "1px solid #1B1919", }}>
+                <tbody>
+                    <tr style={{ backgroundColor: "#F1F1F1" }}>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.bill}`} rowSpan={2} >
+                            <div>Bill#</div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div>Item</div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>Pcs</div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>LB</div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>
+                                Rate
+                                Gm/Ct
+                            </div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>Per</div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>TAX(%)</div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>
+                                Gross
+                                Gold/Ct Wt
+                            </div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>Beads</div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>Moti</div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>
+                                Label
+                                net/CT Wt
+                            </div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>
+                                Stone
+                                Less
+                            </div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>
+                                Final Wt/
+                                Ct Wt
+                            </div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>%</div>
+                        </td>
+                        <td style={{ textAlign: "center", borderRight: "1px solid", fontWeight: 700 }} className={`${style?.items_sec1}`} rowSpan={2} >
+                            <div style={{}}>Wastage</div>
+                        </td>
+                        <td style={{ textAlign: "center", fontWeight: 700 }} className={`${style?.bill}`} colSpan="2">
+                            <div>Final</div>
+                        </td>
+                    </tr>
+
+                    <tr style={{ borderBottom: "1px solid", backgroundColor: "#F1F1F1" }}>
+                        <td style={{ borderRight: "1px solid", borderTop: "1px solid", fontWeight: 400 }}>
+                            <div> Fine</div>
+                        </td>
+                        <td style={{ borderRight: "1px solid", borderTop: "1px solid", fontWeight: 400 }}>
+                            <div> Cash</div>
+                        </td>
+                    </tr>
+
+                    {data?.resultArray?.map((e, i) => {
+                        return <tr key={i}>
+                            {i === 0 && <td style={{ borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.bill}`} rowSpan={data?.resultArray?.length}>
+                                <div>{headerData?.InvoiceNo}</div>
+                            </td>}
+                            <td style={{ borderRight: "1px solid", borderBottom: "1px solid", }} className={`${style?.items_sec1}`} >
+                                <div>{e?.BrandName}</div>
+                            </td>
+                            <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                                <div style={{}}>{NumberWithCommas(e?.Quantity, 0)}</div>
+                            </td>
+                            <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                                <div style={{}}>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</div>
+                            </td>
+                            {i === 0 && <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} rowSpan={data?.resultArray?.length}>
+                                <div style={{}}>
+                                    Rate
+                                    Gm/Ct
+                                </div>
+                            </td>}
+                            {i === 0 && <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} rowSpan={data?.resultArray?.length}>
+                                <div style={{}}></div>
+                            </td>}
+                            {i === 0 && <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} rowSpan={data?.resultArray?.length}>
+                                {data?.allTaxes?.map((e, i) => {
+                                    return <p key={i}>{e?.name} @ {e?.per}</p>
+                                })}
+
+                                <div style={{}}></div>
+                            </td>}
+                            <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                                <div style={{}}>
+                                    {NumberWithCommas(e?.grosswt, 3)}
+                                </div>
+                            </td>
+                            <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                                <div style={{}}>Beads</div>
+                            </td>
+                            <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                                <div style={{}}>Moti</div>
+                            </td>
+                            <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                                <div style={{}}>
+                                    Label
+                                    net/CT Wt
+                                </div>
+                            </td>
+                            <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                                <div style={{}}>
+                                    {NumberWithCommas(e?.DiamondCTWwithLoss, 3)}
+                                </div>
+                            </td>
+                            <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                                <div style={{}}>
+                                    {NumberWithCommas(e?.MetalDiaWt, 3)}
+                                </div>
+                            </td>
+                            <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                                <div style={{}}>{NumberWithCommas(e?.MetalPriceRatio, 3)}</div>
+                            </td>
+                            <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                                <div style={{}}>{NumberWithCommas(e?.Wastage, 3)}</div>
+                            </td>
+                            <td style={{ borderRight: "1px solid", borderTop: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`}>
+                                <div style={{ width: "50px", textAlign: "end" }}> </div>
+                            </td>
+                            <td style={{ borderRight: "1px solid", borderTop: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`}>
+                                <div style={{ width: "50px", textAlign: "end" }}>{NumberWithCommas(e?.TotalAmount, 2)}</div>
+                            </td>
+                        </tr>
+                    })}
+                    <tr style={{ backgroundColor: "#F1F1F1", fontWeight: 700 }}>
+                        <td style={{ borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.bill}`} rowSpan={data?.resultArray?.length}>
+                            <div>Total</div>
+                        </td>
+                        <td style={{ borderRight: "1px solid", borderBottom: "1px solid", }} className={`${style?.items_sec1}`} >
+                            <div></div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                            <div style={{}}></div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                            <div style={{}}></div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} rowSpan={data?.resultArray?.length}>
+                            <div style={{}}>
+
+                            </div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} rowSpan={data?.resultArray?.length}>
+                            <div style={{}}></div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} rowSpan={data?.resultArray?.length}>
+                            <div style={{}}></div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                            <div style={{}}>
+
+                            </div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                            <div style={{}}></div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                            <div style={{}}></div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                            <div style={{}}>
+
+                            </div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                            <div style={{}}>
+
+                            </div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                            <div style={{}}>
+
+                            </div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                            <div style={{}}></div>
+                        </td>
+                        <td style={{ textAlign: "end", borderRight: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`} >
+                            <div style={{}}></div>
+                        </td>
+                        <td style={{ borderRight: "1px solid", borderTop: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`}>
+                            <div style={{ width: "50px", textAlign: "end" }}> </div>
+                        </td>
+                        <td style={{ borderRight: "1px solid", borderTop: "1px solid", borderBottom: "1px solid" }} className={`${style?.items_sec1}`}>
+                            <div style={{ width: "50px", textAlign: "end" }}>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             {/* data */}
-            <div className="d-flex border-black border-start border-end border-bottom">
+            {/* <div className="d-flex border-black border-start border-end border-bottom">
                 <div className={`${style?.bill} d-flex justify-content-center flex-column border-end border-black`}>
                     <p className="fw-bold lh-1">{headerData?.InvoiceNo}</p>
                     <p className='lh-1'>Jewellery Sale</p>
@@ -180,17 +392,17 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
                                         })}
                                     </div>
                                     <div className={`${style?.gross_sec_7}  height_inherit border-end border-black`}>
-                                    {data?.resultArray?.map((e, i) => {
+                                        {data?.resultArray?.map((e, i) => {
                                             // return <p className='text-end' key={i}> {e?.MaKingCharge_Unit !== "MIX" ? NumberWithCommas(e?.MaKingCharge_Unit, 2) : e?.MaKingCharge_Unit}</p>
                                         })}
-                                        </div>
+                                    </div>
                                     <div className={`${style?.gross_sec_7}  height_inherit border-end border-black`}>
-                                    {data?.resultArray?.map((e, i) => {
+                                        {data?.resultArray?.map((e, i) => {
                                             return <p className='text-end' key={i}> {e?.MaKingCharge_Unit !== "MIX" ? NumberWithCommas(e?.MaKingCharge_Unit, 2) : e?.MaKingCharge_Unit}</p>
                                         })}
                                     </div>
                                     <div className={`${style?.gross_sec_7}  height_inherit border-end border-black`}>
-                                    {data?.resultArray?.map((e, i) => {
+                                        {data?.resultArray?.map((e, i) => {
                                             return <p className='text-end' key={i}> {NumberWithCommas(e?.Wastage, 2)}</p>
                                         })}
                                     </div>
@@ -205,9 +417,9 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             {/* total */}
-            <div className="d-flex border-black border-start border-end border-bottom lightGrey">
+            {/* <div className="d-flex border-black border-start border-end border-bottom lightGrey">
                 <div className={`${style?.bill} d-flex justify-content-center flex-column border-end border-black`}>
                     <p className="fw-bold lh-1">Total</p>
                 </div>
@@ -249,7 +461,7 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
     )
 }

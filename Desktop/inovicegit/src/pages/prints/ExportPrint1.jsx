@@ -11,13 +11,16 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [metalArr, setMetalArr] = useState([]);
     const [grossWt, setGrossWt] = useState(0);
     const [totalAmount, setTotalAmount] = useState(0);
+    const [unitCost, setUnitCost] = useState(0); 
 
     const loadData = (data) => {
         let arr = [];
         let metalArrs = [];
         let gross = 0;
         let totalAmt = 0;
+        let unitcosts = 0;
         data?.BillPrint_Json1.forEach((e, i) => {
+            unitcosts += e?.UnitCost;
             let findIndex = arr.findIndex((ele, ind) => ele?.designno === e?.designno);
             gross += e?.grosswt;
             totalAmt += e?.TotalAmount
@@ -34,7 +37,8 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
             if(findRecord === -1){
                 let obj = {...e};
                 metalArrs.push(obj);
-                obj.pureWt =  e?.NetWt*e?.Tunch/100;
+                // obj.pureWt =  e?.NetWt*e?.Tunch/100;
+                obj.pureWt =  e?.PureNetWt-e?.LossWt;
                 obj.metalTotalWt = obj?.pureWt + e?.LossWt;
             }else{
                 let pureWt = e?.NetWt*e?.Tunch/100;
@@ -45,7 +49,10 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 metalArrs[findRecord].PureNetWt += e?.PureNetWt;
             }
         });
+        setUnitCost(unitcosts);
         setData(arr);
+        console.log(arr);
+        console.log(data);
         setJson0Data(data?.BillPrint_Json[0]);
         setMetalArr(metalArrs);
         setGrossWt(gross);
@@ -92,43 +99,43 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
             {/* company address */}
             <div className="d-flex border border-black">
-                <div className="col-6  border-black border-end p-2">
-                    <p className='fs-6'>{json0Data?.CompanyFullName}</p>
-                    <p className='fs-6'>{json0Data?.CompanyAddress}</p>
-                    <p className='fs-6'>{json0Data?.CompanyAddress2},{json0Data?.CompanyCity}-{json0Data?.CompanyPinCode}</p>
-                    <p className='fs-6'>T {json0Data?.CompanyTellNo}</p>
+                <div className="col-6  border-black border-end p-1">
+                    <p className='fs-6 lh-2'>{json0Data?.CompanyFullName}</p>
+                    <p className='fs-6 lh-2'>{json0Data?.CompanyAddress}</p>
+                    <p className='fs-6 lh-2'>{json0Data?.CompanyAddress2},{json0Data?.CompanyCity}-{json0Data?.CompanyPinCode}</p>
+                    <p className='fs-6 lh-1'>T {json0Data?.CompanyTellNo}</p>
                 </div>
                 <div className="col-6">
-                    <div className=" border-black border-bottom p-2">
+                    <div className=" border-black border-bottom p-1">
                         <p>Invoice No :- {json0Data?.InvoiceNo}</p>
                         <p>Date :- {json0Data?.EntryDate}</p>
                     </div>
                     <div className="d-flex">
-                        <div className="col-6 p-2  border-black border-end">
-                            <p>Country of origin of goods (Company's Country)</p>
+                        <div className="col-6 p-1  border-black border-end">
+                            <p className='lh-1'>Country of origin of goods (Company's Country)</p>
                         </div>
-                        <div className="col-6 p-2">
-                            <p>Country of Final Destination (Customer's Country)</p>
+                        <div className="col-6 p-1">
+                            <p className='lh-1'>Country of Final Destination (Customer's Country)</p>
                         </div>
                     </div>
                 </div>
             </div>
             {/* customer address */}
             <div className="d-flex  border-black border-start border-end border-bottom">
-                <div className="col-6 p-2  border-black border-end">
-                    <p>To,</p>
-                    <p className='fs-6'>{json0Data?.customerfirmname}</p>
-                    <p>{json0Data?.customerAddress1}</p>
-                    <p>{json0Data?.customerAddress2}</p>
-                    <p>{json0Data?.customercity}{json0Data?.customerpincode}</p>
-                    <p>{json0Data?.customeremail1}</p>
-                    <p>{json0Data?.vat_cst_pan}</p>
-                    <p>{json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</p>
+                <div className="col-6 p-1  border-black border-end">
+                    <p className='lh-1'>To,</p>
+                    <p className='fs-6 fw-bold lh-1'>{json0Data?.customerfirmname}</p>
+                    <p className='lh-1'>{json0Data?.customerAddress1}</p>
+                    <p className='lh-1'>{json0Data?.customerAddress2}</p>
+                    <p className='lh-1'>{json0Data?.customercity}{json0Data?.customerpincode}</p>
+                    <p className='lh-1'>{json0Data?.customeremail1}</p>
+                    <p className='lh-1'>{json0Data?.vat_cst_pan}</p>
+                    <p className='lh-1'>{json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</p>
                 </div>
-                <div className="col-6 p-2">
-                    <p>Other Refernce(s)</p>
-                    <p>Attn:-</p>
-                    <p>Buyer's Order No.& Date</p>
+                <div className="col-6 p-1">
+                    <p className='lh-1'>Other Refernce(s)</p>
+                    <p className='lh-1'>Attn:-</p>
+                    <p className='lh-1'>Buyer's Order No.& Date</p>
                 </div>
             </div>
             {/* title */}
@@ -154,9 +161,9 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     <div className={`${style.designExport1}  border-black border-end`}><p className=''>{e?.designno}</p></div>
                     <div className={`${style.QuantityPcsExport1}  border-black border-end`}><p className=''>{e?.quantityPcs} Pcs</p></div>
                     <div className={`${style.HSNCODEExport1}  border-black border-end`}><p className=''>{json0Data?.HSN_No}</p></div>
-                    <div className={`${style.GrossWtExport1}  border-black border-end`}><p className='text-end '>{e?.grosswt}</p></div>
-                    <div className={`${style.RateExport1}  border-black border-end`}><p className='text-end '>{e?.TotalAmount}</p></div>
-                    <div className={`${style.AmountExport1} `}><p className='text-end'>{(e?.TotalAmount).toFixed(2)}</p></div>
+                    <div className={`${style.GrossWtExport1}  border-black border-end`}><p className='text-end '>{NumberWithCommas(e?.grosswt, 3)}</p></div>
+                    <div className={`${style.RateExport1}  border-black border-end`}><p className='text-end '>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+                    <div className={`${style.AmountExport1} `}><p className='text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                 </div>
             })}
             {/* RMk */}
@@ -173,7 +180,7 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                     {metalArr.length > 0 && metalArr.map((e, i) => {
                         return <div className=" border-black border-start border-end border-bottom d-flex" key={i}>
                         <div className="col-2 p-1 border-black border-end">{e?.MetalPurity}</div>
-                        <div className="col-2 p-1 text-end border-black border-end">{NumberWithCommas(e?.NetWt, 3)}</div>
+                        <div className="col-2 p-1 text-end border-black border-end">{NumberWithCommas(e?.NetWt-e?.LossWt, 3)}</div>
                         <div className="col-2 p-1 text-end border-black border-end">{NumberWithCommas(e?.pureWt, 3)}</div>
                         <div className="col-2 p-1 text-end border-black border-end">{NumberWithCommas(e?.LossPer, 2)}%</div>
                         <div className="col-2 p-1 text-end border-black border-end">{NumberWithCommas(e?.LossWt, 3)}	</div>
@@ -184,12 +191,12 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="col-5">
                     <div className=" border-black border d-flex">
                         <div className="col-4 d-flex align-items-center justify-content-center p-1  border-black border-end">
-                            <p>{NumberWithCommas(grossWt)}</p>
+                            <p>{NumberWithCommas(grossWt, 3)}</p>
                         </div>
                         <div className="col-8">
                             <div className={`d-flex  border-black border-bottom ${style?.minHeight_24_8ExportPrint1}`}>
                                 <div className="col-6 p-1  border-black border-end fw-bold"><p>FOB</p></div>
-                                <div className="col-6 p-1 text-end"><p className='fw-bold'>{NumberWithCommas(totalAmount, 2)}</p></div>
+                                <div className="col-6 p-1 text-end"><p className='fw-bold'>{NumberWithCommas(totalAmount, 0)}</p></div>
                             </div>
                             <div className={`d-flex  border-black border-bottom ${style?.minHeight_24_8ExportPrint1}`}>
                                 <div className="col-6 p-1  border-black border-end"><p></p></div>
@@ -197,7 +204,7 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
                             </div>
                             <div className={`d-flex ${style?.minHeight_24_8ExportPrint1}`}>
                                 <div className="col-6 p-1  border-black border-end fw-bold"><p>CFR</p></div>
-                                <div className="col-6 p-1 text-end fw-bold"><p>{NumberWithCommas(totalAmount, 2)}</p></div>
+                                <div className="col-6 p-1 text-end fw-bold"><p>{NumberWithCommas(unitCost, 0)}</p></div>
                             </div>
                         </div>
                     </div>

@@ -120,7 +120,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
               <div className='headlabel_dp6'>{result?.header?.PrintHeadLabel}</div>
               <div className='d-flex flex-column justify-content-center align-items-center p-1 fs_dp6'>
                 <div><img src={result?.header?.PrintLogo} alt="#companylogo" className='printlogo_dp6' /></div>
-                <div className='fw-bold'>{result?.header?.CompanyFullName}</div>
+                <div className='fw-bold fs-6'>{result?.header?.CompanyFullName}</div>
                 <div>{result?.header?.CompanyAddress}</div>
                 <div>{result?.header?.CompanyAddress2}</div>
                 <div>{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode}, {result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
@@ -135,6 +135,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <div>To,</div>
                   <div className='fw-bold'>{result?.header?.customerfirmname}</div>
                   <div>{result?.header?.customerAddress1}</div>
+                  <div>{result?.header?.customerAddress3}</div>
                   <div>{result?.header?.customerAddress2}</div>
                   <div>{result?.header?.customercity}{result?.header?.customerpincode}</div>
                   <div>{result?.header?.customeremail1}</div>
