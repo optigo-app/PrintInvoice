@@ -23,16 +23,19 @@ const BagPrint4C = ({ queries, headers }) => {
         }
         const fetchData = async () => {
             try {
+                console.log(queries.printname);
                 const responseData = [];
                 const objs = {
                     jobno: resultString,
                     custid: queries.custid,
-                    printname: queries.printname,
+                    printname: "BagPrint4A",
+                    // printname: queries.printname,
                     appuserid: queries.appuserid,
                     url: queries.url,
                     headers: headers,
                 };
                 const allDatas = await GetData(objs);
+                console.log(allDatas);
                 let datas = organizeData(allDatas?.rd, allDatas?.rd1);
                 // eslint-disable-next-line array-callback-return
                 datas?.map((a) => {
@@ -126,6 +129,7 @@ const BagPrint4C = ({ queries, headers }) => {
                     });
                 });
                 setData(responseData);
+                console.log(responseData);
             } catch (error) {
                 console.log(error);
             }
@@ -240,7 +244,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div className="title4A border_bottom4A d_flex4A">
+                                                                                <div className="title4A border_bottom4A d_flex4A bagPrint4CRecord">
                                                                                     <div className="code4A border_right4A code4A_text d-flex align-items-center">
                                                                                         CODE
                                                                                     </div>
@@ -260,15 +264,16 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                                         WT
                                                                                     </div>
                                                                                 </div>
-                                                                                <div className="height_23_4A border_bottom4A d_flex4A">
+                                                                                <div className="height_23_4A border_bottom4A d_flex4A bagPrint4CRecord">
                                                                                     <div
                                                                                         className="code4A border_right4A code4A_text"
-                                                                                        style={{ width: "94pt" }}
+                                                                                        // style={{ width: "124.45pt" }}
                                                                                     >
-                                                                                        <div className="code_4A_change  height_23_4A code4A_text height_11_Print4a" style={{ width: "89.99pt" }}>
+                                                                                        <div className="code_4A_change  height_23_4A code4A_text height_11_Print4a">
                                                                                             {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                                                                         </div>
                                                                                     </div>
+                                                                                    <div className="size4AS border_right4A code4A_text d-flex align-items-center"></div>
                                                                                     <div className="pcs4A border_right4A code4A_text"></div>
                                                                                     <div className="wt4A border_right4A code4A_text"></div>
                                                                                     <div className="pcs4A border_right4A code4A_text"></div>
@@ -278,9 +283,12 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                                     {ele?.data.map((elem, index) => {
                                                                                         return elem?.MasterManagement_DiamondStoneTypeid ===
                                                                                             5 ? (
-                                                                                            <div className="record_line_4A border_bottom4A" key={index} >
-                                                                                                <div className="code4A border_right4A code4A_text" style={{ width: "94pt", lineHeight: "8px", }} >
-                                                                                                    <div className="finding height_23_4A"> {elem?.Shapename} {elem?.Quality} {elem?.ColorName} </div>
+                                                                                            <div className="record_line_4A border_bottom4A bagPrint4CRecord" key={index} >
+                                                                                                {console.log(elem)}
+                                                                                                <div className="code4A border_right4A code4A_text" style={{ width: "95pt", lineHeight: "8px", }} >
+                                                                                                    <div className="finding height_23_4A"> {elem?.ConcatedFullShapeQualityColorCode}
+                                                                                                     {/* {elem?.Quality} {elem?.ColorName}  */}
+                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div className="pcs4A border_right4A code4A_text">{NumberWithCommas(elem?.ActualPcs, 0)}</div>
                                                                                                 <div className="wt4A border_right4A code4A_text">{fixedValues(elem?.ActualWeight, 3)}</div>
@@ -289,7 +297,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                                             </div>
                                                                                         ) : (
                                                                                             <div
-                                                                                                className="record_line_4A border_bottom4A"
+                                                                                                className="record_line_4A border_bottom4A bagPrint4CRecord"
                                                                                                 key={index}
                                                                                             >
                                                                                                 <div className="code4A border_right4A code4A_text">
@@ -310,7 +318,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                                             { length: ele?.length },
                                                                                             (_, index) => (
                                                                                                 <div
-                                                                                                    className="record_line_4A border_bottom4A"
+                                                                                                    className="record_line_4A border_bottom4A bagPrint4CRecord"
                                                                                                     key={index}
                                                                                                 >
                                                                                                     <div className="code4A border_right4A code4A_text"></div>
@@ -450,7 +458,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className="title4A border_bottom4A d_flex4A">
+                                                            <div className="title4A border_bottom4A d_flex4A bagPrint4CRecord">
                                                                 <div className="code4A border_right4A code4A_text d-flex align-items-center">
                                                                     CODE
                                                                 </div>
@@ -470,12 +478,12 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                     WT
                                                                 </div>
                                                             </div>
-                                                            <div className="height_23_4A border_bottom4A d_flex4A">
+                                                            <div className="height_23_4A border_bottom4A d_flex4A bagPrint4CRecord">
                                                                 <div
                                                                     className="code4A border_right4A code4A_text"
-                                                                    style={{ width: "94pt" }}
+                                                                    style={{ width: "95pt" }}
                                                                 >
-                                                                    <div className="code_4A_change height_23_4A code4A_text height_11_Print4a" style={{ width: "90.6pt" }}>
+                                                                    <div className="code_4A_change height_23_4A code4A_text height_11_Print4a" style={{ width: "89.6pt" }}>
                                                                         {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                                                     </div>
                                                                 </div>
@@ -520,7 +528,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                         { length: 14 },
                                                                         (_, index) => (
                                                                             <div
-                                                                                className="record_line_4A border_bottom4A"
+                                                                                className="record_line_4A border_bottom4A bagPrint4CRecord"
                                                                                 key={index}
                                                                             >
                                                                                 <div className="code4A border_right4A code4A_text"></div>

@@ -30,7 +30,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       Rate: 0,
       Amount: 0,
       FineWt: 0,
-      IsPrimaryMetal:0,
+      IsPrimaryMetal: 0,
     },
     finding: {
       Wt: 0,
@@ -50,13 +50,13 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       Rate: 0,
       Amount: 0,
     },
-    diamond_colorstone_misc:{
+    diamond_colorstone_misc: {
       Wt: 0,
       Pcs: 0,
       Rate: 0,
       Amount: 0,
     },
-    diamond_colorstone_misc_2_new:{
+    diamond_colorstone_misc_2_new: {
       Wt: 0,
       Pcs: 0,
       Rate: 0,
@@ -94,7 +94,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
     total_TotalDiaSetcost: 0,
     total_MakingAmount_Setting_Amount: 0,
     total_otherCharge_Diamond_Handling: 0,
-    
+
   };
 
 
@@ -176,7 +176,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
         otherChargesMiscHallStamp: 0,
         makingAmount_settingAmount: 0,
       };
-      
+
       let other_details = otherAmountDetail(j1?.OtherAmtDetail);
       maintotal.total_labour.labour_rate += j1?.MaKingCharge_Unit;
       maintotal.total_labour.labour_amount += j1?.MakingAmount;
@@ -210,7 +210,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       //json2
       json2?.length > 0 &&
         json2?.forEach((j2, i) => {
-          
+
           if (j1?.SrJobno === j2?.StockBarcode) {
             //for diamond
             if (j2?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -253,7 +253,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
             //for metal
             if (j2?.MasterManagement_DiamondStoneTypeid === 4) {
               metalList.push(j2);
-              
+
               jobwise_totals.metal.Wt += j2?.Wt;
               jobwise_totals.metal.Pcs += j2?.Pcs;
               jobwise_totals.metal.Rate += j2?.Rate;
@@ -266,7 +266,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               maintotal.metal.Pcs += j2?.Pcs;
               maintotal.metal.Rate += j2?.Rate;
               maintotal.metal.Amount += j2?.Amount;
-              if(j2?.IsPrimaryMetal === 1){
+              if (j2?.IsPrimaryMetal === 1) {
                 maintotal.metal.IsPrimaryMetal += j2?.Wt;
               }
             }
@@ -338,7 +338,6 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
             //ending of comparing of job no block
           }
         });
-
       diamond_colorstone_misc?.forEach((e) => {
         maintotal.total_diamond_colorstone_misc_amount += +e?.Amount;
         maintotal.diamond_colorstone_misc.Amount += +e?.Amount;

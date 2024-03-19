@@ -16,6 +16,7 @@ import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import style2 from "../../assets/css/headers/header1.module.css";
+import { split } from 'lodash';
 
 const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [loader, setLoader] = useState(true);
@@ -25,6 +26,10 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [headerData, setHeaderData] = useState({});
     const [address, setAddress] = useState([]);
     const [footer, setFooter] = useState(null);
+    const [extra, setExtra] = useState({
+        json1: [],
+        json2: [],
+    });
     const toWords = new ToWords();
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
@@ -39,7 +44,41 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
             data?.BillPrint_Json2
         );
         let resultArr = [];
+        console.log(datas);
+        let extraChargesJson1 = [];
+        let extraChargesJson2 = [];
         datas.resultArray.forEach((e, i) => {
+            let otherChares = e?.OtherAmtDetail?.split("#@#");
+            let otherChares1 = [];
+            if (otherChares?.length !== 1 && otherChares[0] !== "") {
+                otherChares?.forEach((ele, ind) => {
+                    otherChares1?.push(ele?.split("#-#"));
+                })
+            };
+
+            otherChares1?.forEach((ele, ind) => {
+                // console.log(extraChargesJson1);
+                let findRecord = extraChargesJson1?.findIndex((elem, index) => elem?.label === ele[0]);
+                if (findRecord === -1) {
+                    extraChargesJson1?.push({ label: ele[0], value: ele[1] });
+                } else {
+                    extraChargesJson1[findRecord].value = +extraChargesJson1[findRecord].value + +ele[1];
+                }
+            });
+
+            e?.misc?.forEach((ele, ind) => {
+                if (ele?.IsHSCOE !== 0) {
+                    let findRecord = extraChargesJson2?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
+                    if (findRecord === -1) {
+                        extraChargesJson2?.push(ele);
+                    } else {
+                        extraChargesJson2[findRecord].Pcs += ele?.Pcs;
+                        extraChargesJson2[findRecord].Wt += ele?.Wt;
+                        extraChargesJson2[findRecord].Amount += ele?.Amount;
+                    }
+                }
+            });
+
             let findPMetal = e?.metal.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
             let findRec = resultArr.findIndex((el, inde) => {
                 if (e?.MetalTypePurity === el?.MetalTypePurity) {
@@ -136,6 +175,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                 resultArr[findRec].totals.stone_misc.length += e?.totals.stone_misc.length;
             }
         });
+        setExtra({ ...extra, json1: extraChargesJson1, json2: extraChargesJson2 });
         datas.resultArray = resultArr;
         setData(datas);
     };
@@ -168,7 +208,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
         <Loader />
     ) : msg === "" ? (
         <div
-            className={`container container-fluid max_width_container mt-1 ${style?.taxinvoice5} pad_60_allPrint`}
+            className={`container container-fluid max_width_container mt-1 ${style?.invoicePrint6} pad_60_allPrint`}
         >
             {/* buttons */}
             <div
@@ -186,14 +226,14 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
             {/* header */}
             <div className={`${style2.headline} headerTitle`}>{headerData?.PrintHeadLabel}</div>
             <div className={`d-flex justify-content-between align-items-center border-bottom mb-3 py-3`}>
-                <div className={`${style2.companyhead} p-2`}>
-                    <div className={style2.lines} style={{ fontWeight: "bold" }}>
+                <div className={`${style2.companyhead} p-2`} style={{}}>
+                    <div className={style2.lines} style={{ fontWeight: "bold", fontSize: "16px" }}>
                         {headerData?.CompanyFullName}
                     </div>
-                    <div className={style2.lines}>{headerData?.CompanyAddress}</div>
-                    <div className={style2.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
-                    <div className={style2.lines}>T  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
-                    <div className={style2.lines}>
+                    <div className={style2.lines} style={{ fontSize: "12px" }}>{headerData?.CompanyAddress}</div>
+                    <div className={style2.lines} style={{ fontSize: "12px" }}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+                    <div className={style2.lines} style={{ fontSize: "12px" }}>T  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
+                    <div className={style2.lines} style={{ fontSize: "12px" }}>
                         {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
                     </div>
                 </div>
@@ -201,70 +241,71 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
             </div>
             {/* bill no */}
             <div className="d-flex justify-content-end py-1">
-                <div className="col-4 border border-black">
-                    <p>
-                        <span className="fw-semibold px-2">BILL NO </span>{" "}
-                        {headerData?.InvoiceNo}
+                <div className="col-3 border border-black border-2">
+                    <p style={{ fontSize: "12px", display: "flex" }}>
+                        <p className="fw-semibold px-2" style={{ minWidth: "60px" }}>BILL NO </p>{" "}
+                        <p>{headerData?.InvoiceNo}</p>
                     </p>
-                    <p>
-                        <span className="fw-semibold px-2">DATE </span>{" "}
-                        {headerData?.EntryDate}
+                    <p style={{ fontSize: "12px", display: "flex" }}>
+                        <p className="fw-semibold px-2" style={{ minWidth: "60px" }}>DATE </p>{" "}
+                        <p>{headerData?.EntryDate}</p>
                     </p>
-                    <p>
-                        <span className="fw-semibold px-2">HSN </span> {headerData?.HSN_No}
+                    <p style={{ fontSize: "12px", display: "flex" }}>
+                        <p className="fw-semibold px-2" style={{ minWidth: "60px" }}>HSN </p>
+                        <p>{headerData?.HSN_No}</p>
                     </p>
                 </div>
             </div>
             {/* sub header */}
-            <div className="d-flex border border-black mb-1 align-items-center">
-                <div className="col-8 p-2 border-end border-black">
-                    <p className="fw-semibold">{headerData?.lblBillTo} {headerData?.customerfirmname}</p>
-                    <p>{headerData?.customerAddress1}</p>
-                    <p>{headerData?.customerregion}</p>
-                    <p>
+            <div className="d-flex border border-black mb-1 align-items-center border-2">
+                <div className="col-8 p-2">
+                    <p className="fw-semibold" style={{fontSize: "14px"}}>To, {headerData?.customerfirmname}</p>
+                    <p className='fw-light ps-3' style={{ fontSize: "12px", lineHeight: "140% ", }}>{headerData?.customerstreet}</p>
+                    <p className='fw-light ps-3' style={{ fontSize: "12px", lineHeight: "140% ", }}>{headerData?.customerregion}</p>
+                    <p className='fw-light ps-3' style={{ fontSize: "12px", lineHeight: "140% ", }}>
                         {headerData?.customercity}
                         {headerData?.customerpincode}
                     </p>
-                    <p>STATE NAME : {headerData?.customerstate}</p>
-                    <p>{headerData?.vat_cst_pan}</p>
+                    <p className='fw-light  ps-3' style={{ fontSize: "12px", lineHeight: "140% ", }}>STATE NAME : {headerData?.customerstate}</p>
+                    {/* <p className='fw-light lh-1 ps-3' style={{ fontSize: "12px", lineHeight: "140% ", }}>{headerData?.vat_cst_pan}</p> */}
                 </div>
                 <div className="col-4 p-2">
-                    <p>
-                        <span className="fw-semibold pe-2">GSTIN : </span>{" "}
-                        {headerData?.CustGstNo}
+                    <p style={{ fontSize: "12px", display: "flex", }}>
+                        <span className="fw-semibold pe-2" style={{ minWidth: "80px" }}>GSTIN : </span>{" "}
+                        <span style={{ minWidth: "80px" }}>{headerData?.CustGstNo}</span>
                     </p>
-                    <p>
-                        <span className="fw-semibold pe-2">STATE CODE : </span>{" "}
-                        {headerData?.Cust_CST_STATE_No}
+                    <p style={{ fontSize: "12px", display: "flex", }}>
+                        <span className="fw-semibold pe-2" style={{ minWidth: "80px" }}>STATE CODE : </span>{" "}
+                        <span style={{ minWidth: "80px" }}>{headerData?.Cust_CST_STATE_No}</span>
                     </p>
-                    <p>
-                        <span className="fw-semibold pe-2">PAN NO : </span>{" "}
-                        {headerData?.CustPanno}
+                    <p style={{ fontSize: "12px", display: "flex", }}>
+                        <span className="fw-semibold pe-2" style={{ minWidth: "80px" }}>PAN NO : </span>{" "}
+                        <span style={{ minWidth: "80px" }}>{headerData?.CustPanno}</span>
                     </p>
                 </div>
             </div>
             {/* table header */}
-            <div className="d-flex border border-black">
-                <div className="col-3 border-end border-black">
+            <div className="d-flex border border-black border-2">
+                <div className="col-3 border-end border-black border-2">
                     <p className="fw-bold text-center">DESCRIPTION</p>
                 </div>
                 <div className="col-9 d-flex">
                     <div className="col-4">
-                        <p className="fw-bold text-center px-1">DETAIL</p>
+                        <p className="fw-bold pe-1 ps-2">DETAIL</p>
                     </div>
                     <div className="col-8 d-flex">
                         <div className="col-4"><p className="fw-bold text-end px-1">WEIGHT</p></div>
                         <div className="col-4"><p className="fw-bold text-end px-1">RATE</p></div>
-                        <div className="col-4"><p className="fw-bold text-end px-1">AMOUNT</p></div>
+                        <div className="col-4"><p className="fw-bold text-end ps-1 pe-2">AMOUNT</p></div>
                     </div>
                 </div>
             </div>
             {/* table data */}
-            <div className="d-flex border-start border-end border-bottom border-black">
-                <div className="col-3 border-end d-flex justify-content-center align-items-center pb-4 border-black">
+            <div className="d-flex border-start border-end border-bottom border-black border-2">
+                <div className="col-3 border-end d-flex justify-content-center  pb-4 border-black border-2 pt-5">
                     <p className="text-center">GOLD BAR</p>
                 </div>
-                <div className="col-9 d-flex pb-4">
+                <div className="col-9 d-flex pb-4 px-1">
                     <div className="col-4">
                         {
                             data?.resultArray.map((e, i) => {
@@ -272,7 +313,17 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                             })
                         }
                         <p className={`px-1 ${style?.min_height_24}`} >LABOUR</p>
-                        <p className={`px-1 ${style?.min_height_24}`} >OTHER</p>
+                        {
+                            extra?.json1?.map((e, i) => {
+                                return <p className={`px-1 ${style?.min_height_24}`} key={i}>{e?.label}</p>
+                            })
+                        }
+                        {
+                            extra?.json2?.map((e, i) => {
+                                return <p className={`px-1 ${style?.min_height_24}`} key={i}>{e?.ShapeName}</p>
+                            })
+                        }
+                        {/* <p className={`px-1 ${style?.min_height_24}`} >OTHER</p> */}
 
                     </div>
                     <div className="col-8 d-flex">
@@ -282,8 +333,8 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     return <p className="text-end px-1" key={i}>{NumberWithCommas(e?.MetalDiaWt, 3)}</p>
                                 })
                             }
-                            <p className={`text-end px-1 ${style?.min_height_24}`} ></p>
-                            <p className={`text-end px-1 ${style?.min_height_24}`} ></p>
+                            {/* <p className={`text-end px-1 ${style?.min_height_24}`} ></p>
+                            <p className={`text-end px-1 ${style?.min_height_24}`} ></p> */}
                         </div>
                         <div className="col-4">
                             {
@@ -291,8 +342,8 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                                     return <p className="text-end px-1" key={i}>{NumberWithCommas(e?.metalrate, 2)}</p>
                                 })
                             }
-                            <p className={`px-1 text-end ${style?.min_height_24}`} ></p>
-                            <p className={`px-1 text-end ${style?.min_height_24}`} ></p>
+                             <p className={`text-end px-1 ${style?.min_height_24}`} >{NumberWithCommas(data?.mainTotal?.total_labour?.labour_rate/data?.mainTotal?.netwt, 2)}</p>
+                            {/* <p className={`px-1 text-end ${style?.min_height_24}`} ></p> */}
                         </div>
                         <div className="col-4">
                             {
@@ -301,17 +352,28 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                                 })
                             }
                             <p className={`text-end px-1 ${style?.min_height_24}`} >{NumberWithCommas(data?.mainTotal?.total_labour?.labour_amount, 2)}</p>
-                            <p className={`text-end px-1 ${style?.min_height_24}`} >{NumberWithCommas(data?.mainTotal?.total_other, 2)}</p>
+
+                            {
+                                extra?.json1?.map((e, i) => {
+                                    return <p className={`text-end px-1 ${style?.min_height_24}`} key={i}>{NumberWithCommas(+e?.value, 2)}</p>
+                                })
+                            }
+                            {
+                                extra?.json2?.map((e, i) => {
+                                    return <p className={`text-end px-1 ${style?.min_height_24}`} key={i}>{e?.Amount !== 0 && NumberWithCommas(e?.Amount, 2)}</p>
+                                })
+                            }
+                            {/* <p className={`text-end px-1 ${style?.min_height_24}`} >{NumberWithCommas(data?.mainTotal?.total_other, 2)}</p> */}
                         </div>
                     </div>
                 </div>
             </div>
             {/* table total */}
-            <div className="d-flex border-start border-end border-bottom mb-1 border-black">
-                <div className="col-3 border-end d-flex justify-content-center align-items-center pb-4 border-black">
+            <div className="d-flex border-start border-end border-bottom mb-1 border-black border-2">
+                <div className="col-3 border-end d-flex justify-content-center align-items-center pb-4 border-black border-2">
                     <p className="text-center"></p>
                 </div>
-                <div className="col-9 d-flex justify-content-between">
+                <div className="col-9 d-flex justify-content-between px-1 align-items-center">
                     <p className="px-1 fw-bold">Total</p>
                     <p className="text-end px-1 fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost, 2)}</p>
                 </div>
@@ -321,61 +383,65 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
                 <div className="col-4">
                     <p><span className="fw-bold"> Note:</span> {headerData?.PrintRemark}</p>
                 </div>
-                <div className="col-5 border border-black">
-                    {data?.mainTotal?.total_discount_amount !== 0 && <div className="d-flex justify-content-between px-1 pt-1">
-                        <p>Discount	</p>
-                        <p>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>
-                    </div>}
-                    <div className="d-flex justify-content-between px-1">
-                        <p className='fw-bold'>Total Amount	</p>
-                        <p className='fw-bold'>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p>
+                <div className="col-5 border border-black border-2">
+                    <div style={{ minHeight: "126px" }}>
+                        {data?.mainTotal?.total_discount_amount !== 0 && <div className="d-flex justify-content-between px-1 pt-1">
+                            <p className='ps-1'>Discount	</p>
+                            <p className='pe-1'>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>
+                        </div>}
+                        <div className="d-flex justify-content-between px-1">
+                            <p className='fw-bold ps-1'>Total Amount	</p>
+                            <p className='fw-bold pe-1'>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p>
+                        </div>
+                        {
+                            data?.allTaxes.map((e, i) => {
+                                return <div className="d-flex justify-content-between px-1" key={i}>
+                                    <p className='ps-1'>{e?.name} @ {e?.per}	</p>
+                                    <p className='pe-1'>{NumberWithCommas(+e?.amount, 2)}</p>
+                                </div>
+                            })
+                        }
+                        {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between px-1">
+                            <p className='ps-1'>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
+                            <p className='pe-1'>{NumberWithCommas(headerData?.AddLess, 2)}</p>
+                        </div>}
                     </div>
-                    {
-                        data?.allTaxes.map((e, i) => {
-                            return <div className="d-flex justify-content-between px-1" key={i}>
-                                <p>{e?.name} @ {e?.per}	</p>
-                                <p>{NumberWithCommas(+e?.amount, 2)}</p>
-                            </div>
-                        })
-                    }
-                  {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between px-1">
-                        <p>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
-                        <p>{NumberWithCommas(headerData?.AddLess, 2)}</p>
-                    </div>}
-                    <div className="d-flex justify-content-between px-1 border-top border-black">
-                        <p className='fw-bold'>Grand Total</p>
-                        <p className='fw-bold'>{NumberWithCommas(data?.finalAmount, 2)}</p>
+                    <div className="d-flex justify-content-between px-1 border-top border-black border-2">
+                        <p className='fw-bold ps-1'>Grand Total</p>
+                        <p className='fw-bold pe-1'>{NumberWithCommas(data?.finalAmount, 2)}</p>
                     </div>
                 </div>
             </div>
             {/* in words */}
-            <div className="my-2 border p-1 border-black">
+            <div className="my-2 border p-1 border-black border-2">
                 <p className="fw-bold">Rs.{toWords.convert(+fixedValues(data?.finalAmount, 2))} Only.</p>
             </div>
             {/* note */}
-            <div className="my-2 border p-1 border-black">
-                <p className="fw-bold">NOTE :
-                    1.I/We hereby certify that my/our registration certificate under the Goods And Service Tax Act 2017. Is in force on the date on which the sale of the goods specified in the tax invoice has been effected by me/us & it shall accounted for in the turnover of sales while filing of return & the due tax.If any payable on the sale has been paid or shall be paids.
-                    2.Returns of goods are subject to Terms & Conditions as mentioned in www.orail.com.
-                    3.The support is limited to working hours.
-                    4.Any case disapprency to jurdisory of state of gujarat.</p>
+            <div className="my-2 border p-1 border-black border-2">
+                <p className="fw-bold">NOTE : </p>
+                <div dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}></div>
             </div>
             {/* company details */}
-            <div className="my-2 border p-1 border-black">
+            <div className="my-2 border p-1 border-black border-2">
                 <p className="fw-bold">COMPANY DETAILS :</p>
                 <p>GSTIN. : {headerData?.Company_VAT_GST_No.split("GSTIN-")[1]}</p>
                 <p>STATE CODE. : {headerData?.Company_CST_STATE_No}</p>
                 <p>PAN NO. : {headerData?.Pannumber}</p>
-                <p>Kindly make your payment by the name of "{headerData?.accountname}"</p>
+                <p>Kindly make your payment by the name of "<span className='fw-bold'>{headerData?.accountname}</span>"</p>
                 <p>Payable at {headerData?.customercity} ({headerData?.CompanyState}) by cheque or DD</p>
-                <p>Bank Detail : Bank Account No {headerData?.accountnumber}</p>
+                <p>Bank Detail : Bank Account No <span className='fw-bold'>{headerData?.accountnumber}</span></p>
                 <p>Bank Name : {headerData?.bankname}, {headerData?.bankaddress}</p>
                 <p>RTGS/NEFT IFSC : {headerData?.rtgs_neft_ifsc}</p>
             </div>
             {/* signs */}
-            <div className="my-2 border d-flex border-black">
-                <div className={`col-6 ${style?.min_height_100} p-1 text-center border-end border-black`}><p className='fw-bold'>AUTHORISED, {headerData?.customerfirmname}</p></div>
-                <div className={`col-6 ${style?.min_height_100} p-1 text-center`}><p className='fw-bold'>AUTHORISED, {headerData?.CompanyFullName}</p></div>
+            <div className="my-2 d-flex">
+                <div className={`col-6 pe-1`}>
+                    <div className={` border border-black border-2 ${style?.min_height_130} p-1 text-center border-end border-black`}><p className='fw-bold'>AUTHORISED, {headerData?.customerfirmname}</p></div>
+                </div>
+                <div className={`col-6 ps-1`}>
+                    <div className={` border border-black border-2 ${style?.min_height_130} p-1 text-center border-end border-black`}><p className='fw-bold'>AUTHORISED, {headerData?.CompanyFullName}</p></div>
+                </div>
+                {/* <div className={`col-6 border border-black border-2 ${style?.min_height_100} p-1 text-center`}><p className='fw-bold'>AUTHORISED, {headerData?.CompanyFullName}</p></div> */}
             </div>
             {/* footer */}
             {/* <div className="d-flex border mt-1 border-black">

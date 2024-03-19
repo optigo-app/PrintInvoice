@@ -91,9 +91,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
             diaTotal.Wt += ele?.Wt;
             diaTotal.Amount += ele?.Amount;
             diaTotal.Pcs += ele?.Pcs;
-            totals.diaTotal.Amount += ele.Amount;
-            totals.diaTotal.Pcs += ele.Pcs;
-            totals.diaTotal.Wt += ele.Wt;
+
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
             colorStones.push(ele);
             csTotal.Wt += ele?.Wt;
@@ -109,7 +107,9 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
           }
         }
       });
-
+      totals.diaTotal.Amount += diaTotal.Amount;
+      totals.diaTotal.Pcs += diaTotal.Pcs;
+      totals.diaTotal.Wt += diaTotal.Wt;
       totals.gold24kt += e?.convertednetwt;
 
       totals.csTotal.Amount += csTotal.Amount;
@@ -198,8 +198,10 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
     setData(resultArr);
     setTotal(totals);
 
+    console.log(resultArr);
+
     let brokr = (data?.BillPrint_Json[0]?.Brokerage.split("@-@"));
-    brokr = brokr.map(ele=> ele?.split('#-#'));
+    brokr = brokr.map(ele => ele?.split('#-#'));
     setBrokarage(brokr);
   };
 
@@ -318,7 +320,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
       </div>
       {/* table Header */}
       <div className={`${style?.detailPrint5Table}`}>
-        <div className="d-flex border">
+        <div className="d-flex border lightGrey">
           <div
             className={`${style?.srNo} border-end d-flex justify-content-center align-items-center fw-bold`}
           >
@@ -412,7 +414,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
         {/* table data */}
         {data.map((e, i) => {
           return (
-            <>
+            <React.Fragment key={i}>
               <div
                 className="d-flex border-bottom border-start border-end"
                 key={i}
@@ -488,7 +490,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                   })}
 
                   <div
-                    className={`position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height_15}`}
+                    className={`position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height_15} lightGrey`}
                   >
                     <div className="d-flex w-100">
                       <div className="col-2 text-end"></div>
@@ -545,7 +547,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                   )}
                   <div
-                    className={`position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height_15}`}
+                    className={`position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height_15} lightGrey`}
                   >
                     <div className="d-flex w-100">
                       <div className={`${style?.w_20} text-end`}></div>
@@ -595,7 +597,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                   })}
 
                   <div
-                    className={`position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height_15}`}
+                    className={`position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height_15} lightGrey`}
                   >
                     <div className="d-flex w-100">
                       <div className={`col-2 text-end`}></div>
@@ -630,7 +632,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                   </div>
                   <div
-                    className={`position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height_15}`}
+                    className={`position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height_15} lightGrey`}
                   >
                     <div className="d-flex w-100 justify-content-end">
                       <p className={` text-end fw-bold`}>
@@ -658,7 +660,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                   </div>
                   <div
-                    className={`position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height_15}`}
+                    className={`position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height_15} lightGrey`}
                   >
                     <div className="d-flex w-100">
                       <div className={`col-6 text-end`}>
@@ -684,7 +686,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                   </div>
                   <div
-                    className={`position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height_15}`}
+                    className={`position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height_15} lightGrey`}
                   >
                     <div className="w-100 ">
                       <p className={`text-end fw-bold`}>
@@ -732,7 +734,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                 </div>
               )}
-            </>
+            </React.Fragment>
           );
         })}
 
@@ -778,15 +780,15 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
               </p>
             )}
             {headerData?.BankReceived !== 0 && <p className="text-end">
-            {NumberWithCommas(headerData?.BankReceived, 2)} 
+              {NumberWithCommas(headerData?.BankReceived, 2)}
             </p>}
             {headerData?.CashReceived !== 0 && <p className="text-end">
-            {NumberWithCommas(headerData?.CashReceived, 2)}
+              {NumberWithCommas(headerData?.CashReceived, 2)}
             </p>}
           </div>
         </div>
         {/* table total */}
-        <div className="d-flex border-bottom border-start border-end">
+        <div className="d-flex border-bottom border-start border-end lightGrey">
           <div className={`${style?.total} border-end`}>
             <p className="text-center fw-bold">TOTAL</p>
           </div>
@@ -882,7 +884,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
             <div className="d-flex">
               <div className="col-8 border-bottom border-start border-end">
                 <h6
-                  className={`fw-bold text-center border-bottom ${style?.min_height_15} d-flex justify-content-center align-items-center`}
+                  className={`fw-bold text-center border-bottom ${style?.min_height_15} d-flex justify-content-center align-items-center lightGrey`}
                 >
                   SUMMARY
                 </h6>
@@ -919,7 +921,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </p>
                     </div>
                     <div
-                      className={`d-flex justify-content-between position-absolute left-0 bottom-0 ${style?.min_height_15} border-top w-100`}
+                      className={`d-flex justify-content-between position-absolute left-0 bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0`}
+                      style={{minHeight: "16px"}}
                     >
                       <p></p>
                       <p></p>
@@ -955,17 +958,17 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </p>
                     </div>
                     <div
-                      className={`d-flex justify-content-between position-absolute left-0 bottom-0 ${style?.min_height_15} border-top w-100 pe-2`}
+                      className={`d-flex justify-content-between position-absolute left-0 bottom-0 ${style?.min_height_15} border-top w-100 lightGrey end-0 ps-1 pe-1`}
                     >
                       <p className="fw-bold">TOTAL</p>
-                      <p>{NumberWithCommas(total?.TotalAmount, 2)}</p>
+                      <p className="">{NumberWithCommas(total?.TotalAmount, 2)}</p>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="col-4 border-end border-bottom position-relative pb-3">
                 <h6
-                  className={`${style?.min_height_15} border-bottom text-center fw-bold`}
+                  className={`${style?.min_height_15} border-bottom text-center fw-bold lightGrey`}
                 >
                   Diamond Details
                 </h6>
@@ -1000,49 +1003,49 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
             </div>
           </div>
-          <div className="col-2 border-bottom  h-100">
+          <div className="col-2 border-bottom  h-100 border-end">
             <h6
-              className={`fw-bold text-center border-bottom ${style?.min_height_15}`}
+              className={`fw-bold text-center border-bottom ${style?.min_height_15} lightGrey`}
             >
               OTHER DETAILS
             </h6>
             <div>
               {brokarage.map((e, i) => {
                 return <div className="d-flex justify-content-between px-1" key={i}>
-                <p className="fw-bold">{e[0]} </p>
-                <p>{NumberWithCommas(e[1], 2)}</p>
-              </div>
+                  <p className="fw-bold">{e[0]} </p>
+                  <p>{e[1] && NumberWithCommas(e[1], 2)}</p>
+                </div>
               })}
               <div className="d-flex justify-content-between px-1">
                 <p className="fw-bold">RATE IN 24KT </p>
                 <p>{NumberWithCommas(headerData?.MetalRate24K, 2)}</p>
               </div>
-       
+
             </div>
           </div>
-          <div className="col-2 border-bottom h-100 border-start">
-            <h6
-              className={`fw-bold text-center border-bottom ${style?.min_height_15}`}
-            >
+          <div className={`col-2 border-bottom h-100 border-start `}>
+          {headerData?.PrintRemark !== "" && <>  <h6 className={`fw-bold text-center border-bottom ${style?.min_height_15} lightGrey`} >
               REMARK
             </h6>
             <div className={`${style?.min_height_15}`}>
               <p className="px-1">{headerData?.PrintRemark}</p>
-            </div>
+            </div></>}
           </div>
           <div className="col-2 d-flex">
             <div
               className={`d-flex border-start border-end border-bottom ${style?.height_createBy} w-100 h-100`}
             >
               <div className="col-6 d-flex align-items-end h-100 justify-content-center border-end">
-                <p className="pb-1">Created By </p>
+                <p className="pb-1"><i>Created By</i> </p>
               </div>
               <div className="col-6 d-flex align-items-end h-100 justify-content-center">
-                <p className="pb-1">Checked By </p>
+                <p className="pb-1"><i>Checked By</i> </p>
               </div>
             </div>
           </div>
         </div>
+        {/* pre generated text */}
+        <pre className="pre pt-3">**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS </pre>
       </div>
     </div>
   ) : (

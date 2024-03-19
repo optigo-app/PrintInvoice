@@ -87,7 +87,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
             if (obj.GroupJob === "") {
                 resultArr.push(obj);
             } else {
-                let findIndex = resultArr.find((ele, ind) => ele?.GroupJob === e?.GroupJob);
+                let findIndex = resultArr.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob);
                 if (findIndex === -1) {
                     resultArr.push(obj);
                 } else {

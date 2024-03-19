@@ -120,6 +120,15 @@
     width: 53pt;
     /* font-size: 9pt; */
 }
+
+.bagPrint4CRecord .code4A{
+    width: 64.63pt;
+}
+
+.bagPrint4CRecord .size4AS {
+    width: 30.2825pt;
+}
+
 .truncatefind4A {
     white-space: nowrap; /* Prevents text from wrapping */
     overflow: hidden; /* Hides the overflowing text */

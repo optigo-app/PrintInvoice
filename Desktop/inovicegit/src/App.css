@@ -303,6 +303,22 @@ body .border_left{
   display: none;
 } 
 
+.invoiceprint9Header .target_header *{
+  font-size: 12px !important;
+}
+
+.invoiceprint9Header .target_header:first-child {
+  display: none;
+}
+
+.invoiceprint9Header .target_header > div:first-child > div:first-child{
+  font-size: 16px !important;
+}
+
+html .footer_secInvoicePrint8 .target_footer *{
+  font-size: 15px !important;
+}
+
 .word_break{
   word-break: break-all !important;
 }
@@ -328,6 +344,11 @@ body .border_left{
 
 .print_sec_sum4 {
   display: none !important;
+}
+
+
+.invoiceprint9 .target_footer *{
+  font-size: 12px !important;
 }
 }
 

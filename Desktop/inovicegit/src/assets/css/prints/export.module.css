@@ -2,7 +2,7 @@
     max-width: 762px;
     padding: 0;
     margin: 0 auto;
-    zoom: 2;
+    zoom: 1.5;
 }
 
 .withImageExport{
@@ -14,135 +14,158 @@
     line-height: 120%;
     word-break: break-word;
 }
+
+.exportPrintContainer .btn_white{
+    font-size: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    color: #000;
+    position: relative;
+    padding: 3px 4px 3px 3.5px;
+    border: 1px solid #C9C9C9;
+    background: linear-gradient(to bottom, #FFF, #EBEBEB);
+    border-radius: 5px;
+    box-shadow: inset 0px 1px 0px #F0F0F0, 0px 4px 0px 0px #DBDBDB, 0px 2px 3px #999;
+}
+
 .rowExport {
     /* padding: 1px; */
 }
 
 .srNoExport{
-    width: 15px;    
-    min-width: 15px;
+    width: 3%;    
+    min-width: 3%;
 }
 
 .itemExport{
-    width: 38px;    
-    min-width: 38px;
+    width: 5%;    
+    min-width: 5%;
 }
 
 .ktColExport{
-    width: 16px;    
-    min-width: 16px;
+    width: 4%;    
+    min-width: 4%;
 }
 
 .qtyExport{
-    width: 28px;    
-    min-width: 28px;
+    width: 4%;    
+    min-width: 4%;
 }
 
 .grossExport{
-    width: 35px;    
-    min-width: 35px;
+    width: 4%;    
+    min-width: 4%;
 }
 
 .netExport{
-    width: 30px;    
-    min-width: 30px;
+    width: 4%;    
+    min-width: 4%;
 }
 
 .wastageExport{
-    width: 30px;    
-    min-width: 30px;
+    width: 4%;    
+    min-width: 4%;
 }
 
 .totalGoldExport{
-    width: 36px;    
-    min-width: 36px;
+    width: 4%;    
+    min-width: 4%;
 }
 
 .goldGmExport{
-    width: 35px;    
-    min-width: 35px;
+    width: 5%;    
+    min-width: 5%;
 }
 
 .goldValueExport{
-    width: 36px;
-    min-width: 36px;
+    width: 4%;
+    min-width: 4%;
 }
 
-.diaShapeExport{
-    width: 35px;    
-    min-width: 35px;
-}
 
+
+.diamondSec{
+    width: 24%;
+    min-width: 24%;
+}
 .diamondColorExport{
-    width: 44px;    
-    min-width: 44px;
+    width: 20%;    
+    min-width: 20%;
+}
+.diaShapeExport{
+    width: 16%;    
+    min-width: 16%;
 }
 
 .diaPcsExport{
-    width: 19px;    
-    min-width: 19px;
+    width: 16%;    
+    min-width: 16%;
 }
-
-
  .diaCtsExport{
-    width: 29px;    
-    min-width: 29px;
+    width: 16%;    
+    min-width: 16%;
 }
-
 .diaRateExport{
-    width: 29px;
-    min-width: 29px;
+    width: 16%;
+    min-width: 16%;
 }
-
 .diaValueExport{
-    width: 33px;    
-    min-width: 33px;
+    width: 16%;    
+    min-width: 16%;
 }
 
+
+.c2CsSec{
+    width: 15%;
+    min-width: 15%;
+}
 .c2csPcsExport{
-    width: 19px;    
-    min-width: 19px;
+    width: 22%;    
+    min-width: 22%;
 }
 
  .c2csCtsExport{
-    width: 22px;    
-    min-width: 22px;
+    width: 26%;    
+    min-width: 26%;
 }
 
 .c2csRateExport{
-    width: 29px;    
-    min-width: 29px;
+    width: 26%;    
+    min-width: 26%;
 }
 
 .c2csValueExport{
-    width: 27px;    
-    min-width: 27px;
+    width: 26%;    
+    min-width: 26%;
 }
 
+
+
 .totalCtsExport{
-    width: 28px;    
-    min-width: 28px;
+    width:  3.25%;    
+    min-width:  3.25%;
 }
 
 .totalValExport{
-    width: 38px;    
-    min-width: 38px;
+    width: 4.5%;    
+    min-width: 4.5%;
 }
 
 .enamelWtExport{
-    width: 30px;    
-    min-width: 30px;
+    width:  3.25%;    
+    min-width:  3.25%;
 }
 
 .labourValueExport{
-    width: 39px;    
-    min-width: 39px;
+    width: 4.5%;    
+    min-width: 4.5%;
 }
 
 .totalFobExport{
-    width: 40px;    
-    min-width: 40px;
+    width: 4.5%;    
+    min-width: 4.5%;
 }
+
 
 @media print {
     .exportPrintContainer{

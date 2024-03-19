@@ -45,9 +45,19 @@
     min-width: calc(100% / 7);
 }
 
+/* .items_sec{
+    width: 88%;
+    min-width: 88%;
+} */
+
 .items_sec{
     width: 88%;
     min-width: 88%;
+}
+
+.items_sec1{
+    width: 6.5%;
+    min-width: 6.5%;
 }
 
 @media print{

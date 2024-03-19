@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import style from "../../assets/css/prints/estimationPrint.module.css"
-import { NumberWithCommas, apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { cloneDeep } from 'lodash';
@@ -22,13 +22,10 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn }) => {
     const loadData = (data) => {
         setHeaderData(data?.BillPrint_Json[0]);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-        // console.log(data);
-        // console.log(datas);
         let organizeDiamonds = [];
         data?.BillPrint_Json2?.forEach((j2, ind) => {
             if (j2?.MasterManagement_DiamondStoneTypeid === 1) {
                 let findDiamonds = organizeDiamonds?.findIndex((ele, ind) => ele?.ShapeName === j2?.ShapeName && ele?.QualityName === j2?.QualityName && ele?.Colorname === j2?.Colorname && j2?.ShapeName === "RND");
-
                 if (findDiamonds === -1) {
                     if (j2?.ShapeName === "RND") {
                         let labels = "not";
@@ -56,10 +53,83 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn }) => {
                     organizeDiamonds[findDiamonds].Amount += j2?.Amount;
                 }
             }
-
-
+        });
+        organizeDiamonds?.sort((a, b) => {
+            if (a?.shapeColorQuality === "OTHER") {
+                return 1
+            } if (b?.shapeColorQuality === "OTHER") {
+                return -1
+            } else {
+                return 0
+            }
         })
+        let blankArr = [];
+        let diamondSettingAmounts = 0;
+        let colorStoneSettingAmounts = 0;
+        let findingSettingAmounts = 0;
+        datas?.resultArray?.forEach((e, i) => {
+            let diamonds = [];
+            let finding = [];
+            let colorStone = [];
+            let diamondSettingAmount = 0;
+            let findingSettingAmount = 0;
+            let colorStoneSettingAmount = 0;
+            e?.diamonds?.forEach((ele, ind) => {
+                let findIndex = diamonds?.findIndex((elem, index) => elem?.SettingRate === ele?.SettingRate);
+                diamondSettingAmount += ele?.SettingAmount;
+                if (findIndex === -1) {
+                    diamonds?.push(ele);
+                } else {
+                    diamonds[findIndex].Amount += ele?.Amount;
+                    diamonds[findIndex].Pcs += ele?.Pcs;
+                    diamonds[findIndex].Wt += ele?.Wt;
+                    diamonds[findIndex].SettingAmount += ele?.SettingAmount;
+                }
+            });
+            e?.finding?.forEach((ele, ind) => {
+                let findFinding = finding?.findIndex((elem, index) => elem?.SettingRate === ele?.SettingRate);
+                findingSettingAmount += ele?.SettingAmount;
+                if (findFinding === -1) {
+                    finding?.push(ele);
+                } else {
+                    finding[findFinding].Amount += ele?.Amount;
+                    finding[findFinding].Pcs += ele?.Pcs;
+                    finding[findFinding].Wt += ele?.Wt;
+                    finding[findFinding].SettingAmount += ele?.SettingAmount;
+                }
+            });
+            e?.colorstone?.forEach((ele, ind) => {
+                let findColorStone = colorStone?.findIndex((elem, index) => elem?.SettingRate === ele?.SettingRate);
+                colorStoneSettingAmount += ele?.SettingAmount;
+                if (findColorStone === -1) {
+                    colorStone?.push(ele);
+                } else {
+                    colorStone[findColorStone].Amount += ele?.Amount;
+                    colorStone[findColorStone].Pcs += ele?.Pcs;
+                    colorStone[findColorStone].Wt += ele?.Wt;
+                    colorStone[findColorStone].SettingAmount += ele?.SettingAmount;
+                }
+            });
+            diamondSettingAmounts += diamondSettingAmount;
+            colorStoneSettingAmounts += colorStoneSettingAmount;
+            findingSettingAmounts += findingSettingAmount;
+            let obj = cloneDeep(e);
+            obj.settingDiamonds = diamonds;
+            obj.settingcolorStone = colorStone;
+            obj.settingFinding = finding;
+            obj.diamondSettingAmount = diamondSettingAmount;
+            obj.findingSettingAmount = findingSettingAmount;
+            obj.colorStoneSettingAmount = colorStoneSettingAmount;
+            blankArr?.push(obj);
+        });
+        let mainTotal = cloneDeep(datas?.mainTotal);
+        mainTotal.diamondSettingAmounts = diamondSettingAmounts;
+        mainTotal.colorStoneSettingAmounts = colorStoneSettingAmounts;
+        mainTotal.findingSettingAmounts = findingSettingAmounts
+        datas.resultArray = blankArr;
+        datas.mainTotal = mainTotal;
         datas.organizeDiamonds = organizeDiamonds;
+        // console.log(datas);
         setData(datas);
     }
 
@@ -91,7 +161,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn }) => {
     return (
         loader ? <Loader /> : msg === "" ? <div className={`container max_width_container pad_60_allPrint mt-2 ${style?.estimationPrint} px-1`}>
             {/* print button */}
-            <div className={`d-flex justify-content-center mb-4 align-items-center ${style?.print_sec_sum4} pt-4 pb-4 `}>
+            <div className={`d-flex justify-content-end mb-4 align-items-center ${style?.print_sec_sum4} pt-4 pb-4 `}>
                 <div className="form-check d-flex align-items-center">
                     <input
                         className="border-dark me-2"
@@ -119,26 +189,26 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
             <div className="mt-1 d-flex border">
                 <div className="col-7 p-2 border-end">
-                    <p> To, </p>
-                    <p className="fw-bold">{headerData?.customerfirmname} <span className='fw-normal'>({headerData?.Customercode})</span> </p>
+                    <p className='lh-1'> To, </p>
+                    <p className="fw-bold lh-1">{headerData?.customerfirmname} <span className='fw-normal'>({headerData?.Customercode})</span> </p>
                 </div>
                 <div className="col-5 p-2">
                     <div className="d-flex">
-                        <div className="col-3"> <p className='fw-bold pe-2'>BILL NO</p></div>
-                        <div className="col-6"><p>{headerData?.InvoiceNo}</p></div>
+                        <div className="col-3"> <p className='fw-bold pe-2 lh-1'>BILL NO</p></div>
+                        <div className="col-6"><p className='BILL lh-1'>{headerData?.InvoiceNo}</p></div>
                     </div>
                     <div className="d-flex">
-                        <div className="col-3"> <p className='fw-bold pe-2'>DATE</p></div>
-                        <div className="col-6"><p>{headerData?.EntryDate}</p></div>
+                        <div className="col-3"> <p className='fw-bold pe-2 lh-1'>DATE</p></div>
+                        <div className="col-6"><p className='BILL lh-1'>{headerData?.EntryDate}</p></div>
                     </div>
                     <div className="d-flex">
-                        <div className="col-3"> <p className='fw-bold pe-2'>{headerData?.HSN_No_Label}</p></div>
-                        <div className="col-6"><p>{headerData?.HSN_No}</p></div>
+                        <div className="col-3"> <p className='fw-bold pe-2 lh-1'>{headerData?.HSN_No_Label}</p></div>
+                        <div className="col-6"><p className='BILL lh-1'>{headerData?.HSN_No}</p></div>
                     </div>
                 </div>
             </div>
             {/* table header */}
-            <div className="d-flex border-start border-end border-bottom">
+            <div className="d-flex border-start border-end border-bottom lightGrey">
                 <div className={`${style?.Sr} border-end d-flex align-items-center justify-content-center`}><p className='p-1 fw-bold  text-center'>Sr</p></div>
                 <div className={`${style?.Design} border-end d-flex align-items-center justify-content-center`}><p className='p-1 fw-bold  text-center'>Design</p></div>
                 <div className={`${style?.Diamond} border-end`}>
@@ -175,7 +245,17 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn }) => {
             {data?.resultArray?.map((e, i) => {
                 return <div className="d-flex border-start border-end border-bottom" key={i}>
                     <div className={`${style?.Sr} border-end d-flex align-items-center justify-content-center`}><p className='p-1  text-center'>{i + 1}</p></div>
-                    <div className={`${style?.Design} border-end d-flex align-items-center justify-content-center`}><p className='p-1'>{e?.designno}</p></div>
+                    <div className={`${style?.Design} border-end `}>
+                        <div className='d-flex align-items-center justify-content-between'>
+                            <p className='p-1 '>{e?.designno}</p>
+                            <p className="p-1">{e?.SrJobno}</p>
+                        </div>
+                        <div>
+                            {checkBox?.image && <img src={e?.DesignImage} alt="" onError={eve => handleImageError(eve)} className='imgWidth' />}
+                        </div>
+                        <p className='text-center'><span className="fw-bold">{NumberWithCommas(e?.grosswt, 3)} gm </span>Gross</p>
+
+                    </div>
                     <div className={`${style?.Diamond} border-end`}>
                         <div className="d-flex flex-column justify-content-between h-100">
                             {e?.diamonds?.map((ele, ind) => {
@@ -201,7 +281,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <div className="d-flex lightGrey border-top">
                                     <div className="col-2"><p className='p-1 fw-bold '></p></div>
                                     <div className="col-2"><p className='p-1 fw-bold'></p></div>
-                                    <div className="col-2"><p className='p-1 fw-bold text-end'>{NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)}</p></div>
+                                    <div className="col-2"><p className='p-1 fw-bold text-end'>{e?.totals?.diamonds?.Pcs !== 0 && NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)}</p></div>
                                     <div className="col-2"><p className='p-1 fw-bold text-end'>{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p></div>
                                     <div className="col-2"><p className='p-1 fw-bold text-end'></p></div>
                                     <div className="col-2"><p className='p-1 fw-bold text-end'>{NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</p></div>
@@ -211,13 +291,35 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     <div className={`${style?.Making} border-end`}>
                         <div className="d-flex flex-column justify-content-between h-100">
-                            <div className="d-flex">
-                                <div className="col-6"><p className='p-1 text-end'>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}	</p></div>
-                                <div className="col-6"><p className='p-1 text-end'>{NumberWithCommas(e?.MakingAmount, 2)}</p></div>
+                            <div>
+                                <div className="d-flex pt-1">
+                                    <div className="col-6"><p className='px-1 lh-1 text-end'>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}	</p></div>
+                                    <div className="col-6"><p className='px-1 lh-1 text-end'>{NumberWithCommas(e?.MakingAmount, 2)}</p></div>
+                                </div>
+                                {e?.settingDiamonds?.map((ele, ind) => {
+                                    return ele?.SettingRate !== 0 && <div className="d-flex" key={ind}>
+                                        <div className="col-6"><p className='px-1 lh-1 text-end'>{NumberWithCommas(ele?.SettingRate, 2)} </p></div>
+                                        <div className="col-6"><p className='px-1 lh-1 text-end'>{NumberWithCommas(ele?.SettingAmount, 2)}</p></div>
+                                    </div>
+                                })}
+                                {e?.settingcolorStone?.map((ele, ind) => {
+                                    return ele?.SettingRate !== 0 && <div className="d-flex" key={ind}>
+                                        <div className="col-6"><p className='px-1 lh-1 text-end'>{NumberWithCommas(ele?.SettingRate, 2)} </p></div>
+                                        <div className="col-6"><p className='px-1 lh-1 text-end'>{NumberWithCommas(ele?.SettingAmount, 2)}</p></div>
+                                    </div>
+                                })}
+                                {e?.settingFinding?.map((ele, ind) => {
+                                    return ele?.SettingRate !== 0 && <div className="d-flex" key={ind}>
+                                        <div className="col-6"><p className='px-1 lh-1 text-end'>{NumberWithCommas(ele?.SettingRate, 2)} </p></div>
+                                        <div className="col-6"><p className='px-1 lh-1 text-end'>{NumberWithCommas(ele?.SettingAmount, 2)}</p></div>
+                                    </div>
+                                })}
                             </div>
+
+
                             <div className="d-flex lightGrey border-top">
                                 <div className="col-6"><p className='p-1 fw-bold text-end'></p></div>
-                                <div className="col-6"><p className='p-1 fw-bold text-end'>{NumberWithCommas(e?.MakingAmount, 2)}</p></div>
+                                <div className="col-6"><p className='p-1 fw-bold text-end'>{NumberWithCommas(e?.MakingAmount + e?.diamondSettingAmount + e?.colorStoneSettingAmount, 2)}</p></div>
                             </div>
                         </div>
                     </div>
@@ -273,7 +375,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
                 <div className={`${style?.Making} border-end d-flex`}>
                     <div className="col-6"><p className='p-1 fw-bold text-end'></p></div>
-                    <div className="col-6"><p className='p-1 fw-bold text-end'>{NumberWithCommas(data?.mainTotal?.total_Making_Amount, 2)}</p></div>
+                    <div className="col-6"><p className='p-1 fw-bold text-end'>{NumberWithCommas(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamondSettingAmounts + data?.mainTotal?.colorStoneSettingAmounts, 2)}</p></div>
                 </div>
                 <div className={`${style?.Product} border-end`}>
                     <p className='p-1  text-end  fw-bold'>{NumberWithCommas(data?.mainTotal?.total_csamount, 2)}</p>
