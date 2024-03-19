@@ -17,6 +17,7 @@ const BagPrint4C = ({ queries, headers }) => {
     const location = useLocation();
     const queryParams = queryString.parse(location.search);
     const resultString = GetUniquejob(queryParams?.str_srjobno);
+    
     useEffect(() => {
         if (Object.keys(queryParams)?.length !== 0) {
             atob(queryParams?.imagepath);
@@ -34,6 +35,7 @@ const BagPrint4C = ({ queries, headers }) => {
                 };
                 const allDatas = await GetData(objs);
                 let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+                console.log(datas);
                 // eslint-disable-next-line array-callback-return
                 datas?.map((a) => {
                     let chunkData = [];
@@ -140,7 +142,6 @@ const BagPrint4C = ({ queries, headers }) => {
             }, 5000);
         }
     }, [data]);
-
     return (
         <>
             {data.length === 0 ? (
@@ -276,11 +277,13 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                                 </div>
                                                                                 <div className="record_line_1">
                                                                                     {ele?.data.map((elem, index) => {
+                                                                                        console.log(elem);
                                                                                         return elem?.MasterManagement_DiamondStoneTypeid ===
                                                                                             5 ? (
                                                                                             <div className="record_line_4A border_bottom4A" key={index} >
                                                                                                 <div className="code4A border_right4A code4A_text" style={{ width: "94pt", lineHeight: "8px", }} >
-                                                                                                    <div className="finding height_23_4A"> {elem?.Shapename} {elem?.Quality} {elem?.ColorName} </div>
+                                                                                                    {/* <div className="finding height_23_4A"> {elem?.Shapename} {elem?.Quality} {elem?.ColorName} </div> */}
+                                                                                                    <div className="finding height_23_4A"> {elem?.ConcatedFullShapeQualityColorCode} </div>
                                                                                                 </div>
                                                                                                 <div className="pcs4A border_right4A code4A_text">{NumberWithCommas(elem?.ActualPcs, 0)}</div>
                                                                                                 <div className="wt4A border_right4A code4A_text">{fixedValues(elem?.ActualWeight, 3)}</div>

@@ -202,7 +202,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                     checked={imgFlag}
                     onChange={handleCheckbox}
                   />
-                  <label htmlFor="imghideshow" className="me-3">
+                  <label htmlFor="imghideshow" className="me-3 user-select-none">
                     Image Show
                   </label>
                   <button
@@ -495,19 +495,19 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                   </div>
                                   <div
                                     className="theadsubcol1_dp10 end_dp10"
-                                    style={{ width: "14.66%" }}
+                                    style={{ width: "8.66%" }}
                                   >
                                     {el?.Pcs}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10">
                                     {el?.Wt?.toFixed(3)}
                                   </div>
-                                  <div className="theadsubcol1_dp10 end_dp10">
+                                  <div className="theadsubcol1_dp10 end_dp10" style={{width:'19.66%'}}>
                                     {formatAmount(el?.Rate)}
                                   </div>
                                   <div
                                     className="theadsubcol1_dp10 fw-bold end_dp10"
-                                    style={{ width: "18.66%",paddingRight:'1.5px' }}
+                                    style={{ width: "21.66%",paddingRight:'1.5px' }}
                                   >
                                     {formatAmount(el?.Amount)}
                                   </div>
@@ -521,7 +521,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <div className="d-flex w-100" key={imet}>
                                   <div
                                     className="theadsubcol2_dp10 d-flex justify-content-start border-end h-100 ps-1 border-end-0"
-                                    style={{ width: "37%" }}
+                                    style={{ width: "32%" }}
                                   >
                                     {el?.ShapeName} {el?.QualityName}
                                   </div>
@@ -596,7 +596,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                               </div>
                             </div>
                           </div>
-                          <div className="tbcol8dp10 end_dp10 fw-bold p-1">
+                          <div className="tbcol8dp10 end_dp10 fw-bold p-1 pad_top_dp10">
                             {formatAmount(e?.TotalAmount + e?.DiscountAmt)}
                           </div>
                         </div>

@@ -31,7 +31,9 @@ const BagPrint4A = ({ queries, headers }) => {
           url: queries.url,
           headers: headers,
         };
+        console.log(objs);
         const allDatas = await GetData(objs);
+        console.log(allDatas);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
         // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
@@ -398,6 +400,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                                       lineHeight: "8px",
                                                       }}  
                                                   >
+                                                    {console.log(elem)}
                                                   <div className="finding height_23_4A truncatefind4A" style={{fontSize:"6.8pt"}}>
                                                     {elem?.ConcatedFullShapeQualityColorCode}
                                                   </div>
