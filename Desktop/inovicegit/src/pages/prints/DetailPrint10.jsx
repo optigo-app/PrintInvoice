@@ -657,7 +657,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                   >
                     <div
                       className="centerdp10 brR_dp10"
-                      style={{ width: "12%" }}
+                      style={{ width: "11%" }}
                     >
                       Total
                     </div>

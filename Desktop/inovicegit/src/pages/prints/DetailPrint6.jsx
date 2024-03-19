@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "../../assets/css/prints/detailprint6.css";
 import { ToWords } from "to-words";
 import { apiCall, formatAmount, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
-import { cloneDeep, toLower } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
 const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
@@ -133,7 +133,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
             <div className='d-flex border fs_dp6'>
               <div className='p-1 w-25 border-end'>    
                   <div>To,</div>
-                  <div className='fw-bold'>{result?.header?.customerfirmname}</div>
+                  <div className='fw-bold' style={{fontSize:'14px'}}>{result?.header?.customerfirmname}</div>
                   <div>{result?.header?.customerAddress1}</div>
                   <div>{result?.header?.customerAddress3}</div>
                   <div>{result?.header?.customerAddress2}</div>
@@ -144,7 +144,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
               <div className='p-1 w-25 border-end'>             	
                   <div>Ship To,</div>
-                  <div className='fw-bold'>{result?.header?.customerfirmname}</div>
+                  <div className='fw-bold' style={{fontSize:'14px'}}>{result?.header?.customerfirmname}</div>
                   <div>{result?.header?.CustName}</div>
                   <div>{result?.header?.customercity}, {result?.header?.customerstate}</div>
                   <div>{result?.header?.customercountry}{result?.header?.customerpincode}</div>

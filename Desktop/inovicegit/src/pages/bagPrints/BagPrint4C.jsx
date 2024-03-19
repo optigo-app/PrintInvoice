@@ -170,7 +170,9 @@ const BagPrint4C = ({ queries, headers }) => {
                                     </div>
                                 )
                         )}
-                        {data?.length > 0 &&
+                        
+                        {
+                            data?.length > 0 &&
                             data?.map((e, i) => {
                                 return (
                                     <React.Fragment key={i}>
@@ -665,7 +667,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                 LAB {e?.data?.MasterManagement_labname}
                                                             </div>
                                                             <div className="sales_Rep_letter_4A">
-                                                                {/* PO {e?.data?.PO} */}
+                                                                 {e?.data?.PO} 
                                                             </div>
                                                         </div>
                                                         <div className=" border_right4A  loc4A d_flex_4a ">
