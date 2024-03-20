@@ -74,7 +74,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn }) => {
         <div className="d-flex justify-content-between align-items-center fs_dp3">
           <div className="w-25">
             <div className="ps-2">To,</div>
-            <div className="fw-bold ps-2">{result?.header?.Customercode}</div>
+            <div className="fw-bold ps-2 fs14_dp3">{result?.header?.Customercode}</div>
           </div>
           <div className="w-25">
             <div className="d-flex w-100">
@@ -95,7 +95,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn }) => {
       {/* table */}
       <div>
         {/* table head */}
-        <div className="d-flex theaddp3 fw-bold fs_dp3">
+        <div className="d-flex theaddp3 fw-bold fs_dp3 border-black border-top border-bottom-secondary ">
           <div className="col1_dp3 border-secondary border-end center_dp3">
             Sr
           </div>
@@ -160,8 +160,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn }) => {
           {
             result?.resultArray?.map((e, i) => {
               return(
-                <div className="fs_dp3" key={i}>
-                <div className="d-flex border-secondary border-start border-end border-bottom w-100">
+                <div className="fs_dp3 " key={i}>
+                <div className="d-flex border-black border-start border-end border-bottom-secondary w-100">
                   <div className="col1_dp3 border-secondary border-end center_top_dp3">
                     {i + 1}
                   </div>
@@ -233,7 +233,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <div className="col8_dp3 end_top_dp3">{formatAmount(e?.TotalAmount)}</div>
                 </div>
                 {/* table row wise total */}
-                <div className="d-flex border-secondary border-start border-end border-bottom w-100 bgc_dp3 fw-bold">
+                <div className="d-flex border-black border-start border-end border-bottom-secondary w-100 bgc_dp3 fw-bold">
                   <div className="col1_dp3 border-secondary border-end center_top_dp3">
                     
                   </div>
@@ -283,7 +283,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn }) => {
         
         </div>
         {/* tax total */}
-        <div className="d-flex justify-content-end align-items-start border border-top-0 border-secondary fs_dp3">
+        <div className="d-flex justify-content-end align-items-start border-black border-start border-end border-top-0 border-bottom-secondary fs_dp3">
           <div style={{width:'15%'}}>
             {
               result?.allTaxes
@@ -303,7 +303,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn }) => {
           </div>
         </div>
         {/* table total */}
-        <div className="d-flex border-secondary border-start border-end border-bottom w-100 fs_dp3 fw-bold bgc_dp3">
+        <div className="d-flex border-black border-start border-end border-bottom w-100 fs_dp3 fw-bold bgc_dp3">
             <div className="col1_dp3 border-secondary border-end center_top_dp3">
               
             </div>
