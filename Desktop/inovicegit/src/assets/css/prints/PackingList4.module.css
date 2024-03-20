@@ -53,14 +53,26 @@
     min-width: 6%;
 }
 
-.w_20{
+.w_20 {
     width: 20%;
     min-width: 20%;
 }
 
-.taxes{
+.taxes {
     width: 94%;
     min-width: 94%;
+}
+
+.font_12 * {
+    font-size: 12px;
+}
+
+.font_14 * {
+    font-size: 14px;
+}
+
+.font_1_12 * {
+    font-size: 12px;
 }
 
 @media print {
@@ -70,5 +82,10 @@
 
     .pad_top {
         padding-top: 15px;
+    }
+
+
+    .font_1_12 * {
+        font-size: 8px;
     }
 }
