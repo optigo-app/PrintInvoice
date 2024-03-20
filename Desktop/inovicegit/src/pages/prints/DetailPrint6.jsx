@@ -81,6 +81,39 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
         }
       }
     })
+    
+    datas?.resultArray?.forEach((ee) => {
+      let group_obj = {
+          pcs: 0,
+          wt: 0,
+          rate: 0,
+          amount: 0
+      }
+      let d_c_m = [];
+      ee?.diamond_colorstone_misc?.forEach((e) => {
+          let findRecord = d_c_m?.findIndex((el) => 
+          el?.MasterManagement_DiamondStoneTypeName === e?.MasterManagement_DiamondStoneTypeName &&
+          el?.ShapeName === e?.ShapeName &&
+          el?.QualityName === e?.QualityName &&
+          el?.Colorname === e?.Colorname &&
+          el?.SizeName === e?.SizeName)
+          if(findRecord === -1){
+            let obj = {...e};
+            obj.jwt = e?.Wt;
+            obj.jpcs = e?.Pcs;
+            obj.jrate = e?.Rate;
+            obj.jamount = e?.Amount;
+            d_c_m?.push(obj);
+          }else{  
+            d_c_m[findRecord].jwt += e?.Wt;
+            d_c_m[findRecord].jpcs += e?.Pcs;
+            d_c_m[findRecord].jrate += e?.Rate;
+            d_c_m[findRecord].jamount += e?.Amount;
+          }
+      })
+      ee.diamond_colorstone_misc = d_c_m;
+    })
+
     setMcompany(obj);
     setAllTotal(TOT);
   }
@@ -90,7 +123,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
       setImgFlag(true);
     }
   };
-  console.log(result?.header);
+  
   return (
       <>
       {
@@ -248,10 +281,10 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6' >{el?.QualityName}</div>
                                 <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6' >{el?.Colorname}</div>
                                 <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6' >{el?.SizeName}</div>
-                                <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?.Pcs}</div>
-                                <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?.Wt?.toFixed(3)}</div>
+                                <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?.jpcs}</div>
+                                <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?.jwt?.toFixed(3)}</div>
                                 <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount(el?.Rate)}</div>
-                                <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount(el?.Amount)}</div>
+                                <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount(el?.jamount)}</div>
                               </div>
                             )
                           })
