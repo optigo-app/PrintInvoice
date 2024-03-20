@@ -12,11 +12,12 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [alltotal, setAllTotal] = useState(0);
+  const [imgFlag, setImgFlag] = useState(true);
+
   const [mcompany, setMcompany] = useState({
     m_Pcs: 0,
     m_Wt:0,
   })
-  const [imgFlag, setImgFlag] = useState(true);
 
   useEffect(() => {
     const sendData = async () => {
@@ -44,16 +45,19 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
   }, []);
 
   const loadData = (data) => {
+
     const copydata = cloneDeep(data);
 
     let address = copydata?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     copydata.BillPrint_Json[0].address = address;
+
     const datas = OrganizeDataPrint(
       copydata?.BillPrint_Json[0],
       copydata?.BillPrint_Json1,
       copydata?.BillPrint_Json2
     );
     setResult(datas);
+
     let TOT = 0;
     datas?.resultArray?.forEach((e) => {
       e?.metal?.forEach((e) => {
@@ -81,14 +85,18 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
         }
       }
     })
-    
+    datas?.resultArray?.forEach((e) => {
+      let jobwise_dia_Wt = 0;
+      let obj = {...e};
+      obj?.diamond_colorstone_misc?.forEach((el) => {
+        if(el?.MasterManagement_DiamondStoneTypeid === 1){
+            jobwise_dia_Wt += el?.Wt;
+           
+          }
+      })
+      obj.jobwise_dia_wt_certificate = jobwise_dia_Wt;
+    })
     datas?.resultArray?.forEach((ee) => {
-      let group_obj = {
-          pcs: 0,
-          wt: 0,
-          rate: 0,
-          amount: 0
-      }
       let d_c_m = [];
       ee?.diamond_colorstone_misc?.forEach((e) => {
           let findRecord = d_c_m?.findIndex((el) => 
@@ -113,10 +121,12 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
       })
       ee.diamond_colorstone_misc = d_c_m;
     })
-
+    
     setMcompany(obj);
     setAllTotal(TOT);
+
   }
+
   const handleImgShow = (e) => {
     if (imgFlag) setImgFlag(false);
     else {
@@ -274,6 +284,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
                               </div>
                         {
                           e?.diamond_colorstone_misc?.map((el, i) => {
+                            console.log(e);
                             return(
                               <div className='d-flex border-bottom w-100' key={i}>
                                 <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6' >{el?.MasterManagement_DiamondStoneTypeName}</div>
@@ -282,7 +293,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6' >{el?.Colorname}</div>
                                 <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6' >{el?.SizeName}</div>
                                 <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?.jpcs}</div>
-                                <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?.jwt?.toFixed(3)}</div>
+                                <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{(el?.ShapeName?.includes('Certification') && el?.MasterManagement_DiamondStoneTypeid === 3) ? (e?.jobwise_dia_wt_certificate?.toFixed(3)) :  el?.jwt?.toFixed(3)}</div>
                                 <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount(el?.Rate)}</div>
                                 <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount(el?.jamount)}</div>
                               </div>
