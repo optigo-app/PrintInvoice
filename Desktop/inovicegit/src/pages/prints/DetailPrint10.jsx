@@ -38,7 +38,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
           setMsg(data?.Message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     sendData();
@@ -693,7 +693,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                       {/* <div className="theadsubcol2_dp10"></div> */}
                       <div
                         className="theadsubcol2_dp10 end_dp10 pe-1"
-                        style={{ width: "46%" }}
+                        style={{ width: "45%" }}
                       >
                         {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
                       </div>
@@ -715,7 +715,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                         {formatAmount(result?.mainTotal?.colorstone?.Amount)}
                       </div>
                     </div>
-                    <div className="col6dp10 end_dp10 pe-1 d-flex align-items-center brR_dp10">
+                    <div className="col6dp10 end_dp10  d-flex align-items-center brR_dp10" style={{width:'5%', paddingRight:'1px'}}>
                       {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
                     </div>
                     <div className="col7dp10 end_dp10 pe-1 d-flex align-items-center brR_dp10">
