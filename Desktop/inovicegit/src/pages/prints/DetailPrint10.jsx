@@ -373,13 +373,13 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className="col3dp10">
                       <div className="h-50 centerdp10 fw-bold w-100">Stone</div>
                       <div className="d-flex justify-content-between align-items-center h-50 bt_dp10 w-100">
-                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10" style={{width:'21.66%'}}>
                           Code
                         </div>
-                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10 ">
                           Size
                         </div>
-                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10" style={{width:'11.66%'}}>
                           Pcs
                         </div>
                         <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
@@ -431,7 +431,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                             {i + 1}
                           </div>
                           <div className="tbcol2dp10 d-flex flex-column justify-content-between">
-                            <div className="d-flex justify-content-between px-1 ">
+                            <div className="d-flex justify-content-between px-1 flex-wrap">
                               <div className="fsgdp10">{e?.designno}</div>
                               <div className="fsgdp10">{e?.SrJobno}</div>
                             </div>
@@ -466,6 +466,9 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                             )}
                             <div className="centerdp10 fw-bold fsgdp10">
                               PO: {e?.PO}
+                            </div>
+                            <div className="centerdp10 fw-bold fsgdp10">
+                                {e?.lineid}
                             </div>
                             <div className="centerdp10 fsgdp10">
                               Tunch : &nbsp;
@@ -532,7 +535,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                   <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
                                     {el?.Rate?.toFixed(2)}
                                   </div>
-                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
+                                  <div className={`theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10 ${el?.IsPrimaryMetal === 1 ? '' : 'fw-bold' }`}>
                                     {el?.Amount?.toFixed(2)}
                                   </div>
                                 </div>
@@ -553,7 +556,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                             {e?.colorstone?.map((el, ics) => {
                               return (
                                 <div className="d-flex" key={ics}>
-                                  <div className="theadsubcol1_dp10" style={{wordBreak:'break-word', paddingLeft:'2px'}}>
+                                  <div className="theadsubcol1_dp10" style={{wordBreak:'break-word', paddingLeft:'2px', width:'21.66%'}}>
                                     {el?.ShapeName +
                                       " " +
                                       el?.QualityName +
@@ -563,7 +566,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                   <div className="theadsubcol1_dp10 text-center">
                                     {el?.SizeName}
                                   </div>
-                                  <div className="theadsubcol1_dp10 end_dp10">
+                                  <div className="theadsubcol1_dp10 end_dp10" style={{width:'11.66%'}}>
                                     {el?.Pcs}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10">
@@ -692,7 +695,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                         className="theadsubcol2_dp10 end_dp10 pe-1"
                         style={{ width: "46%" }}
                       >
-                        {formatAmount(result?.mainTotal?.metal?.Amount)}
+                        {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
                       </div>
                     </div>
                     <div className="col3dp10 d-flex align-items-center brR_dp10">
@@ -770,7 +773,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">GOLD</div>
                             <div className="w-50 end_dp10">
-                              {formatAmount(result?.mainTotal?.metal?.Amount)}
+                              {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
                             </div>
                           </div>
                           <div className="d-flex justify-content-between px-1">

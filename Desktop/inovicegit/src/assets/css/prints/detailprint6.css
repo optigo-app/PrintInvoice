@@ -113,7 +113,8 @@
     width: 12%;
 }
 .col3_dp6_tb{
-    width: 7.5%;
+    /* width: 7.5%; */
+    width: 52% !important;
 }
 .col4_dp6_tb{
     width: 7.5%;
@@ -166,6 +167,12 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+
+}
+.end_center_dp6{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 
 }
 @media print {

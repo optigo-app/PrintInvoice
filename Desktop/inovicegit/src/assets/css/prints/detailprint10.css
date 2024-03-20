@@ -134,7 +134,7 @@
     border-right:1px solid #BDBDBD;
 }
 .col2dp10{
-    width: 9%;
+    width: 10%;
     height: 100%;
     border-right:1px solid #BDBDBD;
 }
@@ -149,7 +149,7 @@
     border-right:1px solid #BDBDBD;
 }
 .col6dp10{
-    width: 5%;
+    width: 4%;
     height: 100%;
     border-right:1px solid #BDBDBD;
 }
@@ -188,37 +188,39 @@
 .tbcol1dp10{
     width: 2%;
     border-right:1px solid #BDBDBD;
-    padding-top: 10px;
+    /* padding-top: 10px; */
 }
 .tbcol2dp10{
-    width: 9%;
+    width: 10%;
     border-right:1px solid #BDBDBD;
-    padding-top: 10px;
+    /* padding-top: 10px; */
 }
 .tbcol3dp10{
     width: 26%;
     border-right:1px solid #BDBDBD;
-    padding-top: 10px;
+    /* padding-top: 10px; */
 }
 .tbcol4dp10{
     width: 19%;
     border-right:1px solid #BDBDBD;
-    padding-top: 10px;
+    /* padding-top: 10px; */
 }
 .tbcol6dp10{
-    width: 5%;
+    width: 4%;
     border-right:1px solid #BDBDBD;
-    padding-top: 10px !important;
+    padding: 0px !important;
+    padding-right: 1px !important;
+    /* padding-top: 10px !important; */
 }
 .tbcol7dp10{
     width: 9%;
     border-right:1px solid #BDBDBD;
-    padding-top: 10px;
+    /* padding-top: 10px; */
 }
 .tbcol8dp10{
     width: 6%;
     /* border-right:1px solid #989898; */
-    padding-top: 10px !important;
+    /* padding-top: 10px !important; */
 }
 
 
@@ -261,7 +263,7 @@
 }
 .pad_top_dp10{
     padding: 0px !important;
-    padding-top: 10px !important;
+    /* padding-top: 10px !important; */
 }
 @media print {
     .fsgdp10{

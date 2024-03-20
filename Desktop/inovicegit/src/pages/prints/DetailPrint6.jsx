@@ -90,7 +90,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
       setImgFlag(true);
     }
   };
-
+  console.log(result?.header);
   return (
       <>
       {
@@ -121,8 +121,8 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
               <div className='d-flex flex-column justify-content-center align-items-center p-1 fs_dp6'>
                 <div><img src={result?.header?.PrintLogo} alt="#companylogo" className='printlogo_dp6' /></div>
                 <div className='fw-bold fs-6'>{result?.header?.CompanyFullName}</div>
-                <div>{result?.header?.CompanyAddress}</div>
-                <div>{result?.header?.CompanyAddress2}</div>
+                <div>{result?.header?.CompanyAddress?.split(",")[0]}</div>
+                <div>{result?.header?.CompanyAddress2?.split(",")[0]}</div>
                 <div>{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode}, {result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
                 <div>T {result?.header?.CompanyTellNo} | TOLL FREE {result?.header?.CompanyTollFreeNo}</div>
                 <div>{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE}-{result?.header?.Company_CST_STATE_No} | PAN-{result?.header?.Com_pannumber}</div>
@@ -173,7 +173,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
               <div className='fw-bold d-flex mt-2 border'>
                 <div className='col1_dp6 d-flex justify-content-center align-items-center border-end'>Sr#</div>
                 <div className='col2_dp6 d-flex justify-content-center align-items-center border-end'>Design</div>
-                <div className='col3_dp6 d-flex flex-column justify-content-center align-items-center border-end'>
+                <div className='col3_dp6 d-flex flex-column justify-content-center align-items-center border-end' style={{width:'52%'}}>
                   <div className='border-bottom d-flex justify-content-center align-items-center w-100 p-1'>Material Description</div>
                   <div className='d-flex w-100'>
                     <div className='col3_dp6_1 d-flex justify-content-center align-items-center border-end p-1'>Material</div>
@@ -187,7 +187,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className='col3_dp6_9 d-flex justify-content-center align-items-center p-1'>Amount</div>
                   </div>
                 </div>
-                <div className='col4_dp6 d-flex justify-content-center align-items-center border-end'>Qty</div>
+                <div className='col4_dp6 d-flex justify-content-center align-items-center border-end' style={{width:'3%'}}>Qty</div>
                 <div className='col5_dp6 d-flex justify-content-center align-items-center border-end'>Other</div>
                 <div className='col6_dp6 d-flex flex-column justify-content-center align-items-center border-end'><div className='d-flex justify-content-center align-items-center border-bottom w-100 h-50'>Labour</div>
                 <div className='d-flex w-100 h-50'><div className='w-50 border-end d-flex justify-content-center align-items-center'>Rate</div><div className='w-50 d-flex justify-content-center align-items-center'>Amt</div></div>
@@ -211,7 +211,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
                         { e?.HUID === '' ? '' : <div className='d-flex justify-content-center align-items-center'>HUID: {e?.HUID}</div> } 
                         <div className='d-flex justify-content-center align-items-center fw-bold'>{e?.grosswt?.toFixed(3)} Gross</div>
                       </div>
-                      <div className='col3_dp6_tb border-end w-50 d-grid'>
+                      <div className='col3_dp6_tb border-end d-grid' style={{width:'52% !important'}}>
                               <div className='d-flex border-bottom w-100'>
                                 <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6' >{e?.MetalType}</div>
                                 <div className='border-end col3_dp6_2' ></div>
@@ -258,7 +258,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
                         }
                         
                       </div>
-                      <div className='col12_dp6_tb border-end end_dp6 pad_end_dp6'>{e?.Quantity}</div>
+                      <div className='col12_dp6_tb border-end end_dp6 pad_end_dp6' style={{width:'3%'}}>{e?.Quantity}</div>
                       <div className='col13_dp6_tb border-end end_dp6 pad_end_dp6'>{formatAmount((e?.TotalDiamondHandling + e?.OtherCharges)) }</div>
                       <div className='col14_dp6_tb border-end end_dp6 pad_end_dp6'>{formatAmount(e?.MaKingCharge_Unit)}</div>
                       <div className='col15_dp6_tb border-end end_dp6 pad_end_dp6'>{formatAmount((e?.MakingAmount + e?.TotalDiaSetcost))}</div>
@@ -304,7 +304,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
               </div>
               <div className='d-flex border-start border-end border-bottom pbia_dp6'>
-                <div className='border-end col1_dp6 '>Total</div>
+                <div className='border-end col1_dp6 end_center_dp6'>Total</div>
                 <div className='border-end col2_dp6' style={{width:'34%'}}></div>
                 <div className='border-end p-1' style={{width:'21%'}}>
                       <div>Qty: {result?.mainTotal?.total_Quantity}</div>
@@ -322,7 +322,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
               <div className='d-flex border border-top-0 pbia_dp6'>
                 <div className='border-end col1_dp6 center_dp6' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></div>
-                <div className='fw-bold p-1'>{toWords?.convert(((result?.finalAmount + result?.header?.FreightCharges)))}</div>
+                <div className='fw-bold p-1'>{toWords?.convert(+((result?.finalAmount + result?.header?.FreightCharges)?.toFixed(2)))}</div>
               </div>
               <div className='p-1 border border-top-0 pbia_dp6 fs_dp6' dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
               <div className='border p-1 border-top-0 pbia_dp6'><b className='fs_dp6'>REMARKS:</b>&nbsp; {result?.header?.PrintRemark}</div>
