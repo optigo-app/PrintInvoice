@@ -67,6 +67,22 @@
     min-width: calc(20% / 3);
 }
 
+.font_11 *, .font_11{
+    font-size: 11px;
+}
+
+.font_12 *, .font_12{
+    font-size: 12px;
+}
+
+.font_14 *, .font_14{
+    font-size: 14px;
+}
+
+.font_18 *, .font_18{
+    font-size: 18px;
+}
+
 
 @media print {
     .Packinglist6 {
