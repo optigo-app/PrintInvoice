@@ -110,7 +110,15 @@
     height: 30%;
     width: 70%;
 }
-
+.fs14_dp3{
+    font-size: 14px !important;
+}
+.border-bottom-secondary {
+    border-bottom: 1px solid #6c757d !important; /* Replace #6c757d with your desired secondary color */
+}
+.border-color-secondary {
+    border-color: 1px solid #BDBDBD !important; /* Replace #6c757d with your desired secondary color */
+}
 @media print {
     .containerdp3 {
         max-width: 1200px;
@@ -147,5 +155,8 @@
         padding-left: 10px;
         border: 1px solid #989898;
         font-size: 12px;
+    }
+    .fs14_dp3{
+        font-size: 11px !important;
     }
 }

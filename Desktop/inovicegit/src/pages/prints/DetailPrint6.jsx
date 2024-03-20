@@ -87,14 +87,14 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
     })
     datas?.resultArray?.forEach((e) => {
       let jobwise_dia_Wt = 0;
-      let obj = {...e};
-      obj?.diamond_colorstone_misc?.forEach((el) => {
+      e?.diamond_colorstone_misc?.forEach((el) => {
         if(el?.MasterManagement_DiamondStoneTypeid === 1){
+          console.log(el?.Wt);
             jobwise_dia_Wt += el?.Wt;
            
           }
       })
-      obj.jobwise_dia_wt_certificate = jobwise_dia_Wt;
+      e.jobwise_dia_wt_certificate = jobwise_dia_Wt;
     })
     datas?.resultArray?.forEach((ee) => {
       let d_c_m = [];
@@ -284,7 +284,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
                               </div>
                         {
                           e?.diamond_colorstone_misc?.map((el, i) => {
-                            console.log(e);
+                            
                             return(
                               <div className='d-flex border-bottom w-100' key={i}>
                                 <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6' >{el?.MasterManagement_DiamondStoneTypeName}</div>
