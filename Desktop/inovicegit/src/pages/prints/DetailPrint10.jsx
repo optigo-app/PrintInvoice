@@ -203,10 +203,10 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                     onChange={handleCheckbox}
                   />
                   <label htmlFor="imghideshow" className="me-3 user-select-none">
-                    Image Show
+                    With Image
                   </label>
                   <button
-                    className="btn_white blue mb-0 hidedp10 m-0"
+                    className="btn_white blue mb-0 hidedp10 m-0 p-2"
                     onClick={(e) => handlePrint(e)}
                   >
                     Print
@@ -292,19 +292,19 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                     })}
                   </div>
                   <div className="subdiv3dp10 fsgdp10 border-end">
-                    <div className="d-flex justify-content-between px-1">
-                      <div className="w-50 fw-bold">BILL NO</div>
-                      <div className="w-50">{result?.header?.InvoiceNo}</div>
+                    <div className="d-flex justify-content-start px-1">
+                      <div className="w-25 fw-bold">BILL NO</div>
+                      <div className="w-25">{result?.header?.InvoiceNo}</div>
                     </div>
-                    <div className="d-flex justify-content-between px-1">
-                      <div className="w-50 fw-bold">DATE</div>
-                      <div className="w-50">{result?.header?.EntryDate}</div>
+                    <div className="d-flex justify-content-start px-1">
+                      <div className="w-25 fw-bold">DATE</div>
+                      <div className="w-25">{result?.header?.EntryDate}</div>
                     </div>
-                    <div className="d-flex justify-content-between px-1">
-                      <div className="w-50 fw-bold">
+                    <div className="d-flex justify-content-start px-1">
+                      <div className="w-25 fw-bold">
                         {result?.header?.HSN_No_Label}
                       </div>
-                      <div className="w-50">{result?.header?.HSN_No}</div>
+                      <div className="w-25">{result?.header?.HSN_No}</div>
                     </div>
                     <div className="d-flex justify-content-end mt-5 px-2 fw-bold">
                       Gold Rate {result?.header?.MetalRate24K?.toFixed(2)} Per
@@ -527,7 +527,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                   </div>
                                   <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
                                     {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
-                                    {el?.Wt}
+                                    {el?.Wt?.toFixed(3)}
                                   </div>
                                   <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
                                     {el?.Rate?.toFixed(2)}
@@ -604,7 +604,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                     })}
                   </div>
                   {/* final total */}
-                  <div className="d-flex justify-content-end align-items-center brb_dp10">
+                  <div className="d-flex justify-content-end align-items-center brb_dp10 tbrowdp10 pt-1">
                     <div style={{ width: "13%" }}>
                       <div className="d-flex justify-content-between">
                         <div className="w-50 end_dp10">Net Amount</div>
@@ -652,7 +652,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                   </div>
                   {/* all table row total */}
                   <div
-                    className="d-flex grandtotaldp10 brb_dp10 brbb_dp10"
+                    className="d-flex grandtotaldp10 brb_dp10 brbb_dp10 tbrowdp10"
                     style={{ backgroundColor: "#F5F5F5" }}
                   >
                     <div

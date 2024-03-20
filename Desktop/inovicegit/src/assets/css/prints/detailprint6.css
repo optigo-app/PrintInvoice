@@ -159,9 +159,17 @@
 .design_img_dp6{
     width: 53%;
 }
+.fs_14_dp6{
+    font-size: 14px;
+}
+.center_start_dp6{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 
-
+}
 @media print {
+    
     .d_none_dp6{
         display: none !important;
     }
@@ -192,5 +200,8 @@
     }
     .pbia_dp6{
         page-break-inside: avoid !important;
+    }
+    .fs_14_dp6{
+        font-size: 11px !important;
     }
 }
