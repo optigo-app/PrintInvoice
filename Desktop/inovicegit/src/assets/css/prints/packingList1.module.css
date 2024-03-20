@@ -3,7 +3,7 @@
 }
 
 .container * {
-    font-size: 11px;
+    font-size: 12px;
     line-height: 120%;
 }
 
@@ -21,10 +21,14 @@
 }
 
 .srNo{
-    width: 5%;    
-    min-width: 5%;
+    width: 4%;    
+    min-width: 4%;
 }
-.diamond, .metal, .stone{
+.diamond{
+    width: 21%;    
+    min-width: 21%;
+}
+.metal, .stone{
     width: 20%;    
     min-width: 20%;
 }
@@ -57,8 +61,8 @@
 }
 
 .total{
-    width: 13%;
-    min-width: 13%;
+    width: 12%;
+    min-width: 12%;
 }
 
 .discount{
@@ -76,6 +80,19 @@
     min-width: 5%;
 }
 
+.font_14 *{
+    font-size: 14px;
+}
+
+.font_12{
+    font-size: 12px;
+}
+
+.font_11{
+    font-size: 11px;
+}
+
+
 @media print{
     .container{
         max-width: 100%;
@@ -88,5 +105,16 @@
     .min_height{
         min-height: 10px;
         /* height: 10px; */
+    }
+    .font_14 *{
+        font-size: 14px;
+    }
+    
+    .font_12{
+        font-size: 12px;
+    }
+    
+    .font_11{
+        font-size: 11px;
     }
 }

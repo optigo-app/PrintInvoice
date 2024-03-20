@@ -232,16 +232,16 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         ref={targetRef}
         className={`max_width_container itemWisePrintContainer mt-2 mx-auto px-1`}
       >
-        <div className="itemWisePrintHead">
+        <div className={`itemWisePrintHead  ${(atob(printName)?.toLowerCase() === "item wise print1" || atob(printName)?.toLowerCase() === "item wise print2") && "itemWisePrint1Font_tab_15"}`}>
           {/* Heading */}
-          <div className={`bgLightPink p-1 border `}>
+          <div className={`bgLightPink p-1 border`}>
             {/* <p className="fw-bold">{atob(printName).toUpperCase()}</p> */}
             <p className="fw-bold">{json0Data?.PrintHeadLabel}</p>
           </div>
           {/* Address */}
           <div className="border-start border-end border-bottom p-2 d-flex justify-content-between">
             <div className="col-6">
-              <p className="fw-bold" style={{ lineHeight: "150%" }}>TO, {json0Data?.customerfirmname}</p>
+              <p className={`fw-bold`} style={{ lineHeight: "150%" }}>TO, {json0Data?.customerfirmname}</p>
               <p className="ps-3 pe-2" style={{ lineHeight: "150%" }}>{json0Data?.customerregion}</p>
               <p className="ps-3 pe-2" style={{ lineHeight: "150%" }}>
                 {json0Data?.customercity}-{json0Data?.PinCode}
