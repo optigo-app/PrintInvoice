@@ -187,7 +187,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                     {e?.data?.rd?.["serialjobno"]}
                                   </p>
                                   <p className="fontsize17">
-                                    {e?.data?.rd?.["Designcode1"]}
+                                    {e?.data?.rd?.["Designcode"]}
                                   </p>
                                   <p className="fontsize17">
                                     {e?.data?.rd?.["MetalType"]}{" "}
@@ -452,7 +452,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                                 <span className="fs17125">{e?.data?.rd?.["serialjobno"]}</span>
                               </p>
                               <p className=" bold pr_3 fs17125" >
-                                <span className="fs17125"> {e?.data?.rd?.["Designcode1"]}</span>
+                                <span className="fs17125"> {e?.data?.rd?.["Designcode"]}</span>
                               </p>
                               <p className=" bold  pl_3 pr_3 fs17125" >
                                 <span className="fs17125">{e?.data?.rd?.["MetalType"]}{" "}
@@ -693,7 +693,7 @@ const PrintDesign17 = ({ queries, headers }) => {
                               {e?.data?.rd?.["serialjobno"]}
                             </p>
                             <p className="fontsize17">
-                              {e?.data?.rd?.["Designcode1"]}
+                              {e?.data?.rd?.["Designcode"]}
                             </p>
                             <p className="fontsize17">
                               {e?.data?.rd?.["MetalType"]}{" "}

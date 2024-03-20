@@ -178,6 +178,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
         fineWtByMetalWtCalculation: 0,
         otherChargesMiscHallStamp: 0,
         makingAmount_settingAmount: 0,
+        jobwise_dia_wt_certificate:0
       };
 
       let other_details = otherAmountDetail(j1?.OtherAmtDetail);
@@ -401,6 +402,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       obj.fineWtByMetalWtCalculation = jobwise_totals.fineWtByMetalWtCalculation;
       maintotal.total_MakingAmount_Setting_Amount += jobwise_totals.makingAmount_settingAmount;
       maintotal.total_fineWtByMetalWtCalculation += jobwise_totals.fineWtByMetalWtCalculation;
+      obj.jobwise_dia_wt_certificate = 0
 
       resultArray.push(obj);
     });
