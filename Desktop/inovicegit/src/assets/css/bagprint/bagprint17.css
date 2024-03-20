@@ -374,13 +374,15 @@ p.w_33.bold,
 }
 
 .side_1_17 {
-  width: 61mm;
+  /* width: 61mm; */
+  width: 72mm;
 }
 
 .side_2_17 {
-  width: 35mm;
+  /* width: 35mm; */
+  width: 28mm;
   height: 47mm;
-  /* width: 30mm; */
+  
 }
 
 table {
@@ -1995,8 +1997,10 @@ table {
   box-sizing: border-box;
 }
 #img17duplicate{
-      height: 120px !important;
-      width: 123px !important;
+      /* height: 120px !important;
+      width: 123px !important; */
+      height: 85px !important;
+      width:  85px !important;
   }
 
   .separatedfs17old{

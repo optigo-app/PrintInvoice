@@ -12,7 +12,7 @@ import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 
 const PrintDesign17 = ({ queries, headers }) => {
   const location = useLocation();
-  const queryParams = queryString.parse(location.search);
+  const queryParams = queryString?.parse(location.search);
   const resultString = GetUniquejob(queryParams?.str_srjobno);
   const [data, setData] = useState([]);
   const chunkSize = 14;
