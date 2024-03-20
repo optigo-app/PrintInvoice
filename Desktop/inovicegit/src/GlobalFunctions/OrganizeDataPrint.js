@@ -1,8 +1,10 @@
 import { CapitalizeWords, otherAmountDetail, taxGenrator } from "../GlobalFunctions";
 import { numberToWords } from "number-to-words";
 import { cloneDeep } from 'lodash';
+import { ToWords } from "to-words";
+import { deepClone } from "@mui/x-data-grid/utils/utils";
 export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
-
+  const toWords = new ToWords();
   let header = cloneDeep(header2);
   let json1 = cloneDeep(json1_1);
   let json2 = cloneDeep(json2_1);
@@ -31,6 +33,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       Amount: 0,
       FineWt: 0,
       IsPrimaryMetal: 0,
+      IsPrimaryMetal_Amount: 0,
     },
     finding: {
       Wt: 0,
@@ -268,6 +271,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               maintotal.metal.Amount += j2?.Amount;
               if (j2?.IsPrimaryMetal === 1) {
                 maintotal.metal.IsPrimaryMetal += j2?.Wt;
+                maintotal.metal.IsPrimaryMetal_Amount += j2?.Amount;
               }
             }
             //for misc
@@ -443,6 +447,12 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
   allTax?.forEach((e) => {
     totalAmount += (+e?.amount);
   })
+  
+  allTax?.forEach((e) => {
+    let amtwords = toWords?.convert(+((+e?.amount)?.toFixed(2)));
+    e.amountInWords = amtwords;
+  })
+  
   totalAmount = (+totalAmount)?.toFixed(2);
   totalAmount = (+totalAmount) + (+header?.AddLess);
   // totalAmount = (+totalAmount) + (+header?.AddLess) + (+header?.FreightCharges);

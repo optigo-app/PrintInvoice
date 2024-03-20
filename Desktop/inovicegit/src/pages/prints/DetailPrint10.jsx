@@ -431,7 +431,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                             {i + 1}
                           </div>
                           <div className="tbcol2dp10 d-flex flex-column justify-content-between">
-                            <div className="d-flex justify-content-between px-1 ">
+                            <div className="d-flex justify-content-between px-1 flex-wrap">
                               <div className="fsgdp10">{e?.designno}</div>
                               <div className="fsgdp10">{e?.SrJobno}</div>
                             </div>
@@ -532,7 +532,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                   <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
                                     {el?.Rate?.toFixed(2)}
                                   </div>
-                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
+                                  <div className={`theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10 ${el?.IsPrimaryMetal === 1 ? '' : 'fw-bold' }`}>
                                     {el?.Amount?.toFixed(2)}
                                   </div>
                                 </div>
@@ -692,7 +692,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                         className="theadsubcol2_dp10 end_dp10 pe-1"
                         style={{ width: "46%" }}
                       >
-                        {formatAmount(result?.mainTotal?.metal?.Amount)}
+                        {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
                       </div>
                     </div>
                     <div className="col3dp10 d-flex align-items-center brR_dp10">
@@ -770,7 +770,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">GOLD</div>
                             <div className="w-50 end_dp10">
-                              {formatAmount(result?.mainTotal?.metal?.Amount)}
+                              {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
                             </div>
                           </div>
                           <div className="d-flex justify-content-between px-1">
