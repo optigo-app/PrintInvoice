@@ -1125,7 +1125,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 json2Data.map((e, i) => {
                   return (
                     <div
-                      className="d-flex border-bottom recordEstimatePrint overflow-hidden border_color_estimates"
+                      className={`d-flex border-bottom recordEstimatePrint overflow-hidden border_color_estimates word_break_estimatePrint`}
                       key={i}
                     >
                       <div className="srNoEstimatePrint border-end p_1Estimate border_color_estimates">
@@ -1673,12 +1673,12 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
               </div>
             </div>
             {/* total */}
-            <div className="d-flex recordEstimatePrint overflow-hidden border-end border-start border-bottom  border-black">
+            <div className="d-flex recordEstimatePrint overflow-hidden border-end border-start border-bottom  border-black totalBgEstimatePrint">
               <div className="totalEstimatePrint border-end totalBgEstimatePrint border_color_estimates">
                 <p className="text-center fw-bold h-100">Total</p>
               </div>
               <div className="diamondEstimatePrint border-end border_color_estimates">
-                <div className="d-flex totalBgEstimatePrint w-100">
+                <div className="d-flex  w-100">
                   <div className="width20EstimatePrint p_1Estimate h-100">
                     <p></p>
                   </div>
@@ -1775,7 +1775,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
                 </div>
               </div>
               <div className="labourEstimatePrint border-end border_color_estimates">
-                <div className="d-flex totalBgEstimatePrint w-100 h-100 justify-content-end">
+                <div className="d-flex  w-100 h-100 justify-content-end">
                   <div className="p_1Estimate fw-bold">
                     <p>{total?.labourAmount !== 0 && NumberWithCommas(total?.labourAmount, 2)}</p>
                   </div>

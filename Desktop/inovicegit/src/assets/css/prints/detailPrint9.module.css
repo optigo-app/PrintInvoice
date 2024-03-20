@@ -69,3 +69,7 @@
 .min_height_12{
   min-height: 12px;
 }
+
+.word_break *{
+  word-break: break-all;
+}

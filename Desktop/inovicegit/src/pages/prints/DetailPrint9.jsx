@@ -37,7 +37,6 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
   })
 
   const loadData = (data) => {
-    console.log(data);
     setHeaderData(data?.BillPrint_Json[0]);
     let footers = FooterComponent("2", data?.BillPrint_Json[0]);
     setFooter(footers);
@@ -50,12 +49,19 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-    console.log(datas);
     let resultArr = [];
     let categories = [];
     let netWts = 0;
     datas?.resultArray.forEach((e, i) => {
-      let otherDetailsCharges = e?.TotalDiamondHandling + e?.OtherCharges
+      let otherDetailsCharges = e?.TotalDiamondHandling + e?.OtherCharges;
+      if (e?.metal?.length <= 1) {
+        netWts += e?.NetWt + e?.LossWt;
+      } else {
+        let findMetal = e?.metal?.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
+        if (findMetal !== -1) {
+          netWts += e?.metal[findMetal]?.Wt;
+        }
+      }
       if (e?.GroupJobid === 0) {
         e?.misc?.forEach((ele, ind) => {
           if (ele?.IsHSCOE !== 0) {
@@ -64,11 +70,30 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
         });
         let obj = cloneDeep(e);
         obj.otherDetailsCharges = otherDetailsCharges;
-        resultArr.push(e);
+        let findIndex = e?.metal?.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
+        let primaryMetalAmount = 0;
+        let primaryMetalWt = 0
+        if (findIndex !== -1) {
+          primaryMetalAmount = e?.metal[findIndex]?.Amount;
+          primaryMetalWt = e?.metal[findIndex]?.Wt;
+        }
+        obj.primaryMetalAmount = primaryMetalAmount;
+        obj.primaryMetalWt = primaryMetalWt;
+        resultArr.push(obj);
       } else {
         let findRecord = resultArr.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob);
         if (findRecord === -1) {
-          resultArr.push(e);
+          let primaryMetalAmount = 0;
+          let primaryMetalWt = 0
+          let findIndex = e?.metal?.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
+          if (findIndex !== -1) {
+            primaryMetalAmount = e?.metal[findIndex]?.Amount;
+            primaryMetalWt = e?.metal[findIndex]?.Wt;
+          }
+          let obj = cloneDeep(e);
+          obj.primaryMetalAmount = primaryMetalAmount;
+          obj.primaryMetalWt = primaryMetalWt;
+          resultArr.push(obj);
         } else {
           if (resultArr[findRecord]?.GroupJob !== resultArr[findRecord]?.SrJobno) {
             resultArr[findRecord].designno = e?.designno;
@@ -96,7 +121,15 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
           resultArr[findRecord].OtherCharges += e?.OtherCharges;
           resultArr[findRecord].MiscAmount += e?.MiscAmount;
           resultArr[findRecord].TotalDiamondHandling += e?.TotalDiamondHandling;
-
+          let primaryMetalAmount = 0;
+          let primaryMetalWt = 0
+          let findIndex = e?.metal?.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
+          if (findIndex !== -1) {
+            primaryMetalAmount = e?.metal[findIndex]?.Amount;
+            primaryMetalWt = e?.metal[findIndex]?.Wt;
+          }
+          resultArr[findRecord].primaryMetalAmount += primaryMetalAmount;
+          resultArr[findRecord].primaryMetalWt = primaryMetalWt;
           // other amount
           let otherAmts = [];
           let otherAmtsDts = [...resultArr[findRecord]?.other_details, ...e?.other_details].flat();
@@ -170,7 +203,8 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
       } else {
         categories[findCategory].value += e?.Quantity
       }
-    })
+    });
+    setNetWt(netWts);
     datas.resultArray = resultArr;
     datas.afterReceive = datas?.finalAmount - data?.BillPrint_Json[0]?.BankReceived - data?.BillPrint_Json[0]?.CashReceived;
 
@@ -318,7 +352,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
         <div className="col-6 border-end p-2 d-flex">
           <div className="col-6">
-          {checkBox?.WithHeader &&  <>
+            {checkBox?.WithHeader && <>
               <p className={`${style?.addressFont}`}> Ship To,</p>
               <p className="fw-bold" style={{ fontSize: "14px" }}>{headerData?.customerfirmname}</p>
               {custAddress.map((e, i) => {
@@ -327,7 +361,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
             </>}
           </div>
           <div className="col-6 d-flex justify-content-end align-items-end">
-           { checkBox?.WithHeader && <p className={`fw-bold ${style?.addressFont}  pb-5`}>
+            {checkBox?.WithHeader && <p className={`fw-bold ${style?.addressFont}  pb-5`}>
               <span className={`pe-2 ${style?.addressFont}`}>Bill No</span>
               {headerData?.InvoiceNo}
             </p>
@@ -486,7 +520,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
       {/* table data */}
       {data?.resultArray.map((e, i) => {
         return <div key={i}>
-          <div className="d-flex border-start border-end border-bottom">
+          <div className={`d-flex border-start border-end border-bottom ${style?.word_break}`}>
             <div
               className={`${style?.sr} pad_1 border-end d-flex align-items-center justify-content-center`}
             >
@@ -609,22 +643,22 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
             <div
               className={`${style?.metal} border-end position-relative ${style?.pad_bot_15}`}
-            >{console.log(e?.metal)}
+            >
               <div className="d-flex">
                 <div className="col-2">
-                {e?.metal.map((ele, ind) => {
-                    return  <p key={ind} className="pad_1">{ele?.ShapeName} {ele?.QualityName}</p>
+                  {e?.metal.map((ele, ind) => {
+                    return <p key={ind} className="pad_1">{ele?.ShapeName} {ele?.QualityName}</p>
                   })}
                 </div>
                 <div className="col-2">
-                {e?.metal.map((ele, ind) => {
-                    return  <p key={ind} className="text-end pad_1">{ind === 0 ? NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3) : NumberWithCommas(ele?.Wt, 3)}</p>
+                  {e?.metal.map((ele, ind) => {
+                    return <p key={ind} className="text-end pad_1">{ind === 0 ? NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3) : NumberWithCommas(ele?.Wt, 3)}</p>
                   })}
                   {/* <p className="text-end pad_1">{NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}</p> */}
                 </div>
                 <div className="col-2">
-                {e?.metal.map((ele, ind) => {
-                    return  <p key={ind} className="text-end pad_1">{checkBox?.WithNetWt && (ind === 0 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(ele?.Wt, 3))}</p>
+                  {e?.metal.map((ele, ind) => {
+                    return <p key={ind} className="text-end pad_1">{checkBox?.WithNetWt && (e?.metal?.length === 1 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(ele?.Wt, 3))}</p>
                   })}
                   {/* <p className="text-end pad_1">{checkBox?.WithNetWt && NumberWithCommas(e?.NetWt + e?.LossWt, 3)}</p> */}
                 </div>
@@ -635,12 +669,12 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
                 <div className="col-2">
                   {e?.metal.map((ele, ind) => {
-                    return ele?.IsPrimaryMetal === 1 && <p key={ind} className="text-end pad_1">{NumberWithCommas(ele?.Rate, 2)}</p>
+                    return <p key={ind} className="text-end pad_1">{NumberWithCommas(ele?.Rate, 2)}</p>
                   })}
                 </div>
                 <div className="col-2">
                   {e?.metal.map((ele, ind) => {
-                    return ele?.IsPrimaryMetal === 1 && <p className="text-end pad_1 fw-bold" key={ind}>{NumberWithCommas(e?.totals?.metal?.Amount, 2)}</p>
+                    return <p className="text-end pad_1 fw-bold" key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
                   })}
                 </div>
               </div>
@@ -655,7 +689,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <p className="text-end pad_1">{NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}</p>
                 </div>
                 <div className="col-2">
-                  <p className="text-end pad_1 fw-bold">{checkBox?.WithNetWt && NumberWithCommas(e?.NetWt + e?.LossWt, 3)}</p>
+                  <p className="text-end pad_1 fw-bold">{checkBox?.WithNetWt && (e?.metal?.length <= 1 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(e?.primaryMetalWt, 3))}</p>
                 </div>
                 <div className="col-2">
                   <p className="text-end pad_1"></p>
@@ -664,7 +698,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <p className="text-end pad_1"></p>
                 </div>
                 <div className="col-2">
-                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.totals?.metal?.Amount, 2)}</p>
+                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.primaryMetalAmount, 2)}</p>
                 </div>
               </div>
             </div>
@@ -836,7 +870,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
               <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.netwt + (data?.mainTotal?.diamonds?.Wt / 5), 3)}</p>
             </div>
             <div className="col-2">
-              <p className="text-end pad_1 fw-bold">{checkBox?.WithNetWt && NumberWithCommas(data?.mainTotal?.netwt + data?.mainTotal?.lossWt, 3)}</p>
+              <p className="text-end pad_1 fw-bold">{checkBox?.WithNetWt && NumberWithCommas(netWt, 3)}</p>
             </div>
             <div className="col-2">
               <p className="text-end pad_1 fw-bold"></p>
@@ -845,7 +879,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
               <p className="text-end pad_1 fw-bold"></p>
             </div>
             <div className="col-2">
-              <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.metal?.Amount, 2)}</p>
+              <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.MetalAmount, 2)}</p>
             </div>
           </div>
         </div>
@@ -905,7 +939,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
               <div className="d-flex justify-content-between pad_1" style={{ minHeight: "11.59px" }}>
                 <p className="fw-bold">{checkBox?.WithNetWt && "NET WT"} </p>
-                <p>{checkBox?.WithNetWt && <>{NumberWithCommas(data?.mainTotal?.netwt + data?.mainTotal?.lossWt, 3)}gm</>} </p>
+                <p>{checkBox?.WithNetWt && <>{NumberWithCommas(netWt, 3)}gm</>} </p>
               </div>
               <div className="d-flex justify-content-between pad_1">
                 <p className="fw-bold">DIAMOND WT </p>
@@ -941,7 +975,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <p className="fw-bold">OTHER</p>
                 <p>{NumberWithCommas(data?.mainTotal?.total_otherCharge_Diamond_Handling, 2)}</p>
               </div>
-              { <div className="d-flex justify-content-between pad_1">
+              {<div className="d-flex justify-content-between pad_1">
                 <p className="fw-bold">{headerData?.AddLess >= 0 ? "ADD" : "LESS"}</p>
                 <p>{NumberWithCommas(headerData?.AddLess, 2)}</p>
               </div>}

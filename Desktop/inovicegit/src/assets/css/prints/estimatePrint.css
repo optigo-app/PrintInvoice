@@ -183,7 +183,7 @@
 }
 
 .height_28_5_estimatePrint {
-    height: 14.5px;
+    min-height: 14.5px;
 }
 .height_29_5_estimatePrint {
     height: 14.5px;
@@ -217,6 +217,10 @@
 /* .word_break_estimate *{
     word-break: break-all;
 } */
+
+.word_break_estimatePrint *{
+    word-break: break-all;
+}
 
 @media print {
     .recordEstimatePrint {
