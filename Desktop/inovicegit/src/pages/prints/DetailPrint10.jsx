@@ -467,6 +467,9 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                             <div className="centerdp10 fw-bold fsgdp10">
                               PO: {e?.PO}
                             </div>
+                            <div className="centerdp10 fw-bold fsgdp10">
+                                {e?.lineid}
+                            </div>
                             <div className="centerdp10 fsgdp10">
                               Tunch : &nbsp;
                               <b className="fsgdp10">{e?.Tunch?.toFixed(3)}</b>
