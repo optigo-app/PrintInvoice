@@ -28,6 +28,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [header, setHeader] = useState(null);
   const [custAddress, setCustAddress] = useState([]);
   const [category, setCategory] = useState([]);
+  const [netWt, setNetWt] = useState(0);
   const [checkBox, setCheckBox] = useState({
     WithHeader: true,
     WithNetWt: true,
@@ -52,6 +53,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
     console.log(datas);
     let resultArr = [];
     let categories = [];
+    let netWts = 0;
     datas?.resultArray.forEach((e, i) => {
       let otherDetailsCharges = e?.TotalDiamondHandling + e?.OtherCharges
       if (e?.GroupJobid === 0) {
@@ -116,7 +118,6 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
             let findDiamond = diamonds.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
               elem?.SizeName === ele?.SizeName && elem?.QualityName === ele?.QualityName &&
               elem?.Colorname === ele?.Colorname && elem?.Rate === ele?.Rate);
-            console.log(findDiamond, resultArr[findRecord]?.SrJobno, ele?.Wt, ele?.DesignNo);
             if (findDiamond === -1) {
               diamonds.push(ele);
             } else {
@@ -608,16 +609,24 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
             <div
               className={`${style?.metal} border-end position-relative ${style?.pad_bot_15}`}
-            >
+            >{console.log(e?.metal)}
               <div className="d-flex">
                 <div className="col-2">
-                  <p className="pad_1">{e?.MetalTypePurity}</p>
+                {e?.metal.map((ele, ind) => {
+                    return  <p key={ind} className="pad_1">{ele?.ShapeName} {ele?.QualityName}</p>
+                  })}
                 </div>
                 <div className="col-2">
-                  <p className="text-end pad_1">{NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}</p>
+                {e?.metal.map((ele, ind) => {
+                    return  <p key={ind} className="text-end pad_1">{ind === 0 ? NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3) : NumberWithCommas(ele?.Wt, 3)}</p>
+                  })}
+                  {/* <p className="text-end pad_1">{NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}</p> */}
                 </div>
                 <div className="col-2">
-                  <p className="text-end pad_1">{checkBox?.WithNetWt && NumberWithCommas(e?.NetWt + e?.LossWt, 3)}</p>
+                {e?.metal.map((ele, ind) => {
+                    return  <p key={ind} className="text-end pad_1">{checkBox?.WithNetWt && (ind === 0 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(ele?.Wt, 3))}</p>
+                  })}
+                  {/* <p className="text-end pad_1">{checkBox?.WithNetWt && NumberWithCommas(e?.NetWt + e?.LossWt, 3)}</p> */}
                 </div>
                 <div className="col-2">
                   <p className="text-end pad_1">
@@ -914,7 +923,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
             <div className={`col-6 pad_1 ${style?.pad_bot_12} position-relative`}>
               <div className="d-flex justify-content-between pad_1">
                 <p className="fw-bold">GOLD</p>
-                <p>{NumberWithCommas(data?.mainTotal?.metal?.Amount, 2)}</p>
+                <p>{NumberWithCommas(data?.mainTotal?.MetalAmount, 2)}</p>
               </div>
               <div className="d-flex justify-content-between pad_1">
                 <p className="fw-bold">DIAMOND</p>
@@ -932,8 +941,8 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <p className="fw-bold">OTHER</p>
                 <p>{NumberWithCommas(data?.mainTotal?.total_otherCharge_Diamond_Handling, 2)}</p>
               </div>
-              {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between pad_1">
-                <p className="fw-bold">{headerData?.AddLess > 0 ? "ADD" : "LESS"}</p>
+              { <div className="d-flex justify-content-between pad_1">
+                <p className="fw-bold">{headerData?.AddLess >= 0 ? "ADD" : "LESS"}</p>
                 <p>{NumberWithCommas(headerData?.AddLess, 2)}</p>
               </div>}
               <div className={`d-flex justify-content-between pad_1 position-absolute left-0 bottom-0 w-100 lightGrey ${style?.min_height_12} px-1`}>
