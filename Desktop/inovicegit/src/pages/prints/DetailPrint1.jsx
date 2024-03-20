@@ -129,6 +129,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     datas.resultArray = finalArr;
     // console.log(datas);
     setFinalD(datas);
+    console.log(datas);
     let brok = otherAmountDetail(data?.BillPrint_Json[0]?.Brokerage);
     setBrokarage(brok);
     let diamondDetail = [];
@@ -803,8 +804,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                           {dp1lp ? <>
                             <p className="text-center">
                               <span className="fw-bold">
-                                {fixedValues(e?.grosswt, 3)}gm
-                              </span><span className="">Gross</span>
+                                {fixedValues(e?.grosswt, 3)} gm 
+                              </span><span className=""> Gross</span>
                             </p>
                           </> : <>
                             <p className="text-center">
@@ -1325,7 +1326,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold p-1">DIAMOND WT</p>
                       <p className="p-1">
-                        {NumberWithCommas(finalD?.mainTotal?.diamonds?.Pcs, 0)} / {NumberWithCommas(finalD?.mainTotal?.diamonds?.Wt, 3)}
+                        {NumberWithCommas(finalD?.mainTotal?.diamonds?.Pcs, 0)} / {NumberWithCommas(finalD?.mainTotal?.diamonds?.Wt, 3)} cts
                         {/* {NumberWithCommas(summary?.diamondpcs, 0)} /{" "} {fixedValues(summary?.diamondWt, 3)} cts */}
                       </p>
                     </div>
