@@ -373,13 +373,13 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <div className="col3dp10">
                       <div className="h-50 centerdp10 fw-bold w-100">Stone</div>
                       <div className="d-flex justify-content-between align-items-center h-50 bt_dp10 w-100">
-                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10" style={{width:'21.66%'}}>
                           Code
                         </div>
-                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10 ">
                           Size
                         </div>
-                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10" style={{width:'11.66%'}}>
                           Pcs
                         </div>
                         <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
@@ -553,7 +553,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                             {e?.colorstone?.map((el, ics) => {
                               return (
                                 <div className="d-flex" key={ics}>
-                                  <div className="theadsubcol1_dp10" style={{wordBreak:'break-word', paddingLeft:'2px'}}>
+                                  <div className="theadsubcol1_dp10" style={{wordBreak:'break-word', paddingLeft:'2px', width:'21.66%'}}>
                                     {el?.ShapeName +
                                       " " +
                                       el?.QualityName +
@@ -563,7 +563,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
                                   <div className="theadsubcol1_dp10 text-center">
                                     {el?.SizeName}
                                   </div>
-                                  <div className="theadsubcol1_dp10 end_dp10">
+                                  <div className="theadsubcol1_dp10 end_dp10" style={{width:'11.66%'}}>
                                     {el?.Pcs}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10">
