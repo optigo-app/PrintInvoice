@@ -78,7 +78,7 @@
 
 
 .col3_dp6_1{
-    width: 15%;
+    width: 13%;
 }
 .col3_dp6_2{
     width: 15%;
@@ -99,7 +99,7 @@
     width: 12%;
 }
 .col3_dp6_8{
-    width: 9%;
+    width: 11%;
 }
 .col3_dp6_9{
     width: 13%;
@@ -157,11 +157,19 @@
 
 
 .design_img_dp6{
-    width: 50%;
+    width: 53%;
 }
+.fs_14_dp6{
+    font-size: 14px;
+}
+.center_start_dp6{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 
-
+}
 @media print {
+    
     .d_none_dp6{
         display: none !important;
     }
@@ -192,5 +200,8 @@
     }
     .pbia_dp6{
         page-break-inside: avoid !important;
+    }
+    .fs_14_dp6{
+        font-size: 11px !important;
     }
 }

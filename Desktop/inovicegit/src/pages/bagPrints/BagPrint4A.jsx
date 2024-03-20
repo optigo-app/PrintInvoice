@@ -32,7 +32,6 @@ const BagPrint4A = ({ queries, headers }) => {
           headers: headers,
         };
         const allDatas = await GetData(objs);
-        console.log(allDatas);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
         // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
@@ -258,7 +257,6 @@ const BagPrint4A = ({ queries, headers }) => {
                   </div>
                 )
             )}
-            {console.log(data)}
             {data?.length > 0 &&
               data?.map((e, i) => {
                 return (
@@ -370,7 +368,6 @@ const BagPrint4A = ({ queries, headers }) => {
                                                    : 
                                                    <>
                                                       {
-                                                        
                                                         elem?.Sizename === "F TOTAL" ? 
                                                         <div
                                                         className="record_line_4A border_bottom4A"

@@ -17,25 +17,24 @@ const BagPrint4C = ({ queries, headers }) => {
     const location = useLocation();
     const queryParams = queryString.parse(location.search);
     const resultString = GetUniquejob(queryParams?.str_srjobno);
+    
     useEffect(() => {
         if (Object.keys(queryParams)?.length !== 0) {
             atob(queryParams?.imagepath);
         }
         const fetchData = async () => {
             try {
-                console.log(queries.printname);
                 const responseData = [];
                 const objs = {
                     jobno: resultString,
                     custid: queries.custid,
-                    printname: "BagPrint4A",
-                    // printname: queries.printname,
+                    // printname: "BagPrint4A",
+                    printname: queries.printname,
                     appuserid: queries.appuserid,
                     url: queries.url,
                     headers: headers,
                 };
                 const allDatas = await GetData(objs);
-                console.log(allDatas);
                 let datas = organizeData(allDatas?.rd, allDatas?.rd1);
                 // eslint-disable-next-line array-callback-return
                 datas?.map((a) => {
@@ -72,28 +71,28 @@ const BagPrint4C = ({ queries, headers }) => {
                             length++;
                         }
                         if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-                            dia.ActualPcs = dia.ActualPcs + e.ActualPcs;
-                            dia.ActualWeight = dia.ActualWeight + e.ActualWeight;
+                            dia.ActualPcs = dia?.ActualPcs + e?.ActualPcs;
+                            dia.ActualWeight = dia.ActualWeight + e?.ActualWeight;
                         } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-                            clr.ActualPcs = clr.ActualPcs + e.ActualPcs;
-                            clr.ActualWeight = clr.ActualWeight + e.ActualWeight;
+                            clr.ActualPcs = clr.ActualPcs + e?.ActualPcs;
+                            clr.ActualWeight = clr.ActualWeight + e?.ActualWeight;
                         } else if (e?.MasterManagement_DiamondStoneTypeid === 5) {
-                            f.ActualPcs = f.ActualPcs + e.ActualPcs;
-                            f.ActualWeight = f.ActualWeight + e.ActualWeight;
+                            f.ActualPcs = f.ActualPcs + e?.ActualPcs;
+                            f.ActualWeight = f.ActualWeight + e?.ActualWeight;
                         } else if (e?.MasterManagement_DiamondStoneTypeid === 7) {
-                            misc.ActualPcs = misc.ActualPcs + e.ActualPcs;
-                            misc.ActualWeight = misc.ActualWeight + e.ActualWeight;
+                            misc.ActualPcs = misc.ActualPcs + e?.ActualPcs;
+                            misc.ActualWeight = misc.ActualWeight + e?.ActualWeight;
                         }
                     });
                     let blankArr = a?.rd1?.filter((e, i) => e?.MasterManagement_DiamondStoneTypeid !== 0);
-                   blankArr.sort((a, b) => {
-                    if (a.MasterManagement_DiamondStoneTypeid === b.MasterManagement_DiamondStoneTypeid) {
+                   blankArr?.sort((a, b) => {
+                    if (a?.MasterManagement_DiamondStoneTypeid === b?.MasterManagement_DiamondStoneTypeid) {
                         return 0;
                     }
-                    if (a.MasterManagement_DiamondStoneTypeid === 5) {
+                    if (a?.MasterManagement_DiamondStoneTypeid === 5) {
                         return 1;
                     }
-                    if (b.MasterManagement_DiamondStoneTypeid === 5) {
+                    if (b?.MasterManagement_DiamondStoneTypeid === 5) {
                         return -1;
                     }
                     return 0;
@@ -116,7 +115,7 @@ const BagPrint4C = ({ queries, headers }) => {
                         chunkData.push({ data: chunks, length: len });
                     }
                     responseData.push({
-                        data: obj.rd,
+                        data: obj?.rd,
                         additional: {
                             length: length,
                             clr: clr,
@@ -129,7 +128,6 @@ const BagPrint4C = ({ queries, headers }) => {
                     });
                 });
                 setData(responseData);
-                console.log(responseData);
             } catch (error) {
                 console.log(error);
             }
@@ -144,7 +142,6 @@ const BagPrint4C = ({ queries, headers }) => {
             }, 5000);
         }
     }, [data]);
-
     return (
         <>
             {data.length === 0 ? (
@@ -173,7 +170,9 @@ const BagPrint4C = ({ queries, headers }) => {
                                     </div>
                                 )
                         )}
-                        {data?.length > 0 &&
+                        
+                        {
+                            data?.length > 0 &&
                             data?.map((e, i) => {
                                 return (
                                     <React.Fragment key={i}>
@@ -283,12 +282,10 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                                     {ele?.data.map((elem, index) => {
                                                                                         return elem?.MasterManagement_DiamondStoneTypeid ===
                                                                                             5 ? (
-                                                                                            <div className="record_line_4A border_bottom4A bagPrint4CRecord" key={index} >
-                                                                                                {console.log(elem)}
-                                                                                                <div className="code4A border_right4A code4A_text" style={{ width: "95pt", lineHeight: "8px", }} >
-                                                                                                    <div className="finding height_23_4A"> {elem?.ConcatedFullShapeQualityColorCode}
-                                                                                                     {/* {elem?.Quality} {elem?.ColorName}  */}
-                                                                                                     </div>
+                                                                                            <div className="record_line_4A border_bottom4A" key={index} >
+                                                                                                <div className="code4A border_right4A code4A_text" style={{ width: "94pt", lineHeight: "8px", }} >
+                                                                                                    {/* <div className="finding height_23_4A"> {elem?.Shapename} {elem?.Quality} {elem?.ColorName} </div> */}
+                                                                                                    <div className="finding height_23_4A"> {elem?.ConcatedFullShapeQualityColorCode} </div>
                                                                                                 </div>
                                                                                                 <div className="pcs4A border_right4A code4A_text">{NumberWithCommas(elem?.ActualPcs, 0)}</div>
                                                                                                 <div className="wt4A border_right4A code4A_text">{fixedValues(elem?.ActualWeight, 3)}</div>
@@ -670,7 +667,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                 LAB {e?.data?.MasterManagement_labname}
                                                             </div>
                                                             <div className="sales_Rep_letter_4A">
-                                                                PO {e?.data?.PO}
+                                                                 {e?.data?.PO} 
                                                             </div>
                                                         </div>
                                                         <div className=" border_right4A  loc4A d_flex_4a ">

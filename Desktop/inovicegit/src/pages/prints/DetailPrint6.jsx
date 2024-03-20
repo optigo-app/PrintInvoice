@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "../../assets/css/prints/detailprint6.css";
 import { ToWords } from "to-words";
 import { apiCall, formatAmount, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
-import { cloneDeep, toLower } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
 const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
@@ -133,7 +133,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
             <div className='d-flex border fs_dp6'>
               <div className='p-1 w-25 border-end'>    
                   <div>To,</div>
-                  <div className='fw-bold'>{result?.header?.customerfirmname}</div>
+                  <div className='fw-bold fs_14_dp6' >{result?.header?.customerfirmname}</div>
                   <div>{result?.header?.customerAddress1}</div>
                   <div>{result?.header?.customerAddress3}</div>
                   <div>{result?.header?.customerAddress2}</div>
@@ -144,7 +144,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
               <div className='p-1 w-25 border-end'>             	
                   <div>Ship To,</div>
-                  <div className='fw-bold'>{result?.header?.customerfirmname}</div>
+                  <div className='fw-bold fs_14_dp6'>{result?.header?.customerfirmname}</div>
                   <div>{result?.header?.CustName}</div>
                   <div>{result?.header?.customercity}, {result?.header?.customerstate}</div>
                   <div>{result?.header?.customercountry}{result?.header?.customerpincode}</div>
@@ -213,10 +213,10 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
                       </div>
                       <div className='col3_dp6_tb border-end w-50 d-grid'>
                               <div className='d-flex border-bottom w-100'>
-                                <div className='border-end col3_dp6_1 pad_st_dp6' >{e?.MetalType}</div>
+                                <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6' >{e?.MetalType}</div>
                                 <div className='border-end col3_dp6_2' ></div>
-                                <div className='border-end col3_dp6_3 pad_st_dp6' >{e?.MetalPurity}</div>
-                                <div className='border-end col3_dp6_4 pad_st_dp6' >{e?.MetalColor}</div>
+                                <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6' >{e?.MetalPurity}</div>
+                                <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6' >{e?.MetalColor}</div>
                                 <div className='border-end col3_dp6_5' ></div>
                                 <div className='border-end col3_dp6_6' ></div>
                                 <div className='border-end col3_dp6_7 end_dp6' >{e?.MetalDiaWt?.toFixed(3)}</div>
@@ -243,11 +243,11 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
                           e?.diamond_colorstone_misc?.map((el, i) => {
                             return(
                               <div className='d-flex border-bottom w-100' key={i}>
-                                <div className='border-end col3_dp6_1 pad_st_dp6' >{el?.MasterManagement_DiamondStoneTypeName}</div>
-                                <div className='border-end col3_dp6_2 pad_st_dp6' >{el?.ShapeName}</div>
-                                <div className='border-end col3_dp6_3 pad_st_dp6' >{el?.QualityName}</div>
-                                <div className='border-end col3_dp6_4 pad_st_dp6' >{el?.Colorname}</div>
-                                <div className='border-end col3_dp6_5 pad_st_dp6' >{el?.SizeName}</div>
+                                <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6' >{el?.MasterManagement_DiamondStoneTypeName}</div>
+                                <div className='border-end col3_dp6_2 pad_st_dp6 center_start_dp6' >{el?.ShapeName}</div>
+                                <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6' >{el?.QualityName}</div>
+                                <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6' >{el?.Colorname}</div>
+                                <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6' >{el?.SizeName}</div>
                                 <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?.Pcs}</div>
                                 <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?.Wt?.toFixed(3)}</div>
                                 <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount(el?.Rate)}</div>
@@ -322,7 +322,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
               <div className='d-flex border border-top-0 pbia_dp6'>
                 <div className='border-end col1_dp6 center_dp6' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></div>
-                <div className='fw-bold p-1'>{toWords?.convert((result?.finalAmount + result?.header?.FreightCharges))}</div>
+                <div className='fw-bold p-1'>{toWords?.convert(((result?.finalAmount + result?.header?.FreightCharges)))}</div>
               </div>
               <div className='p-1 border border-top-0 pbia_dp6 fs_dp6' dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
               <div className='border p-1 border-top-0 pbia_dp6'><b className='fs_dp6'>REMARKS:</b>&nbsp; {result?.header?.PrintRemark}</div>

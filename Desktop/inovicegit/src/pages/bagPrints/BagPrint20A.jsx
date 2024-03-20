@@ -37,6 +37,7 @@ const BagPrint20A = ({ queries, headers }) => {
 
         const allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+        console.log(datas);
         // eslint-disable-next-line array-callback-return
         datas?.map((a) => {
           
