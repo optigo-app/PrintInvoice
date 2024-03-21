@@ -184,7 +184,11 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                         {headerData?.CINNO.length !== 0 && <p className="pb-1">CIN: {headerData?.CINNO}</p>}
                     </div>
                     <div className="col-3 p-2 text-end">
-                        <img src={headerData?.PrintLogo} alt="" className={`w-100 ${style?.imageLogoInovicePrint4} d-block ms-auto`} />
+                    {isImageWorking && (headerData?.PrintLogo !== "" && 
+                      <img src={headerData?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                        {/* <img src={headerData?.PrintLogo} alt="" className={`w-100 ${style?.imageLogoInovicePrint4} d-block ms-auto`} /> */}
                     </div>
                 </div>
                 {/* Customer Address */}

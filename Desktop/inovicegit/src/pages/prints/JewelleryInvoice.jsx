@@ -161,7 +161,11 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             <p>{json0Data?.vat_cst_pan} | {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</p>
           </div>
           <div className="col-3 pt-2 pb-2">
-            <img src={json0Data?.PrintLogo} alt="logo" className="w-75 d-block ms-auto " />
+          {isImageWorking && (json0Data?.PrintLogo !== "" && 
+                      <img src={json0Data?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+            {/* <img src={json0Data?.PrintLogo} alt="logo" className="w-75 d-block ms-auto " /> */}
           </div>
         </div>
         <div className="d-flex border mb-2">

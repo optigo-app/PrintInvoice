@@ -241,7 +241,13 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
                     </div>
                 </div>
-                <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /></div>
+                <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
+                {isImageWorking && (headerData?.PrintLogo !== "" && 
+                      <img src={headerData?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                        {/* <img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /> */}
+                    </div>
             </div>
             {/* bill no */}
             <div className="d-flex justify-content-end py-1">

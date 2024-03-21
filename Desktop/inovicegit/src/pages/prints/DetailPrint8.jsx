@@ -153,7 +153,11 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
       {/* header */}
       <div className="text-center pt-4">
-        <img src={headerData?.PrintLogo} alt="" className="imgWidth" />
+      {isImageWorking && (headerData?.PrintLogo !== "" && 
+                      <img src={headerData?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+        {/* <img src={headerData?.PrintLogo} alt="" className="imgWidth" /> */}
         <p className="fw-bold"> {headerData?.CompanyFullName}</p>
         <p>{headerData?.CompanyAddress}</p>
         <p>{headerData?.CompanyAddress2}</p>
@@ -195,7 +199,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <p> Ship To,</p>
           <p className="fw-bold">{headerData?.customerfirmname}</p>
           <p>{headerData?.CustName}</p>
-          {custAddress.map((e, i) => {
+          {custAddress?.map((e, i) => {
             return <p key={i}>{e}</p>;
           })}
         </div>

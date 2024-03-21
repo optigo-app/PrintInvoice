@@ -163,7 +163,13 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div>
               <div className='headlabel_dp6'>{result?.header?.PrintHeadLabel}</div>
               <div className='d-flex flex-column justify-content-center align-items-center p-1 fs_dp6'>
-                <div><img src={result?.header?.PrintLogo} alt="#companylogo" className='printlogo_dp6' /></div>
+                <div>
+                {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                      <img src={result?.header?.PrintLogo} alt="" 
+                      className='w-25 h-auto my-0 mx-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                  {/* <img src={result?.header?.PrintLogo} alt="#companylogo" className='printlogo_dp6' /> */}
+                  </div>
                 <div className='fw-bold fs-6'>{result?.header?.CompanyFullName}</div>
                 <div>{result?.header?.CompanyAddress?.split(",")[0]}</div>
                 <div>{result?.header?.CompanyAddress2?.split(",")[0]}</div>

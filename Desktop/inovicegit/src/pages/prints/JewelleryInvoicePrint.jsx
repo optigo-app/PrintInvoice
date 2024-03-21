@@ -431,11 +431,15 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                       </div>
                     </div>
                     <div className="headJLImg">
-                      <img
+                    {isImageWorking && (headerData?.PrintLogo !== "" && 
+                      <img src={headerData?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                      {/* <img
                         src={headerData?.PrintLogo}
                         alt="#"
                         id="JLImg"
-                      />
+                      /> */}
                     </div>
                   </div>
                   <div className="dynamicHeadJLmain">

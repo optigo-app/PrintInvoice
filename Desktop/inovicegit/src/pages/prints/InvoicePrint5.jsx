@@ -211,7 +211,13 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="lhiv5">{result?.header?.Com_CINNO}</div>
                       <div className="lhiv5">{result?.header?.Com_GoldDealershipRefNo}</div>
                     </div>
-                    <div className="w-25 d-flex justify-content-end align-items-center"><img src={result?.header?.PrintLogo} className="printlogoiv5" alt="#" /></div>
+                    <div className="w-25 d-flex justify-content-end align-items-center">
+                    {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                      <img src={result?.header?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                      {/* <img src={result?.header?.PrintLogo} className="printlogoiv5" alt="#" /> */}
+                      </div>
                   </div>
                   
                 </div>

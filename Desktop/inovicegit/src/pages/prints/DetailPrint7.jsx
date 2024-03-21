@@ -411,11 +411,15 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                     </div>
                     <div className="d-flex justify-content-end w-25 fsgdp7">
-                      <img
+                      {/* <img
                         src={result?.header?.PrintLogo}
                         alt="#companylogo"
                         className="headimgdp7"
-                      />
+                      /> */}
+                        {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                      <img src={result?.header?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
                     </div>
                   </div>
                 </div>

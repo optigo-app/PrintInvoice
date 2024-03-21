@@ -515,11 +515,15 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <div className="pclprint pad_60_allPrint">
                 <div className="pclheader">
                   <div className="orailpcl">
-                    <img
+                  {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                      <img src={result?.header?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                    {/* <img
                       src={result?.header?.PrintLogo}
                       alt="orail"
                       id="orailpcl"
-                    />
+                    /> */}
                   </div>
                   <div className="addresspcl fspcl">
                     {result?.header?.CompanyAddress?.split(",")[0]}{" "}

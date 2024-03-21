@@ -381,7 +381,11 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* Print Logo */}
                 <div className="pt-2">
-                    <img src={json0Data?.PrintLogo} alt="" className={`logoimg  d-block mx-auto`} />
+                {isImageWorking && (json0Data?.PrintLogo !== "" && 
+                      <img src={json0Data?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                    {/* <img src={json0Data?.PrintLogo} alt="" className={`logoimg  d-block mx-auto`} /> */}
                     <p className={`text-center pt-1 fw-bold ${style?.font_12}`}>    {json0Data?.CompanyAddress} {json0Data?.CompanyAddress2}{" "}
                         {json0Data?.CompanyCity} - {json0Data?.CompanyPinCode}</p>
                     {json0Data?.PrintHeadLabel !== "" && <p className={`fw-bold text-center pt-1 pb-2  `} style={{ fontSize: '18px' }}>{json0Data?.PrintHeadLabel}</p>}

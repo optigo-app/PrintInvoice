@@ -205,11 +205,15 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
               ></div>
             </div>
             <div>
-              <img
+            {isImageWorking && (json0Data?.PrintLogo !== "" && 
+                      <img src={json0Data?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+              {/* <img
                 src={json0Data?.PrintLogo}
                 alt=""
                 className={`${style?.image}`}
-              />
+              /> */}
             </div>
           </div>
         ) : (
