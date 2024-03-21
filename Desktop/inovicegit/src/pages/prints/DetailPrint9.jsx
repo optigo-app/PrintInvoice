@@ -327,11 +327,15 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           style={{ width: "30%" }}
           className="d-flex justify-content-end align-item-center h-100"
         >
-          <img
+          {isImageWorking && (headerData?.PrintLogo !== "" && 
+                      <img src={headerData?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+          {/* <img
             src={headerData?.PrintLogo}
             alt=""
             className={style2?.headerImg}
-          />
+          /> */}
         </div>
       </div>}
 

@@ -75,7 +75,11 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
             {/* company details */}
             <div className='text-center'>
-                <img src={headerData?.PrintLogo} alt="" className='logoimg mb-1' />
+            {isImageWorking && (headerData?.PrintLogo !== "" && 
+                      <img src={headerData?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                {/* <img src={headerData?.PrintLogo} alt="" className='logoimg mb-1' /> */}
                 <p className={`fw-bold pb-1 ${style?.font_12}`}>{headerData?.CompanyAddress} {headerData?.CompanyAddress2} {headerData?.CompanyCity}-{headerData?.CompanyPinCode}</p>
                 <p className={`fw-bold pb-1 ${style?.font_18}`}>{headerData?.PrintHeadLabel}</p>
                 <p className={`fw-bold ${style?.font_11}`}> ({headerData?.PrintRemark})</p>

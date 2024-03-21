@@ -174,15 +174,15 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div>{e?.designno}</div>
                       <div>{e?.SrJobno}</div>
                     </div>
-                    {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                    {/* {isImageWorking && (result?.header?.PrintLogo !== "" && 
                       <img src={result?.header?.PrintLogo} alt="" 
                       className='w-25 h-auto ms-auto d-block object-fit-contain'
-                      onError={handleImageErrors} height={120} width={150} />)}
-                    {/* {
+                      onError={handleImageErrors} height={120} width={150} />)} */}
+                    {
                       imgFlag ? <div className="center_dp3">
                       <img src={e?.DesignImage} alt="#designimg" onError={(e) => handleImageError(e)} className="designimg_dp3" />
                     </div> : ''
-                    } */}
+                    }
                    { e?.HUID === '' ? '' : <div className="center_dp3">HUID: {e?.HUID}</div> } 
                   </div>
                   <div className="col3_dp3 border-secondary border-end">

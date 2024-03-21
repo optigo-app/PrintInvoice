@@ -33,7 +33,6 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     });
 
     const loadData = (data) => {
-        console.log(data);
         setJson0Data(data?.BillPrint_Json[0]);
         let arr = [];
         data?.BillPrint_Json1.forEach((e, i) => {

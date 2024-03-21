@@ -37,7 +37,10 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   });
 
   const [metalList, setMetalList] = useState([]);
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const loadData = (data) => {
     let goldRateFind = [];
     // console.log(data);
@@ -328,7 +331,11 @@ console.log(json0Data)
             <p>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}</p>
           </div>
           <div className='px-1 py-2'>
-            <img src={json0Data?.PrintLogo} alt="" className='w-25 h-auto ms-auto d-block' />
+          {isImageWorking && (json0Data?.PrintLogo !== "" && 
+                      <img src={json0Data?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+            {/* <img src={json0Data?.PrintLogo} alt="" className='w-25 h-auto ms-auto d-block' /> */}
           </div>
         </div>
         {/* address */}

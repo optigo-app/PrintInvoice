@@ -243,7 +243,11 @@ const HallmarkItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer 
                         <p>{json0Data?.Company_VAT_GST_No} | {json0Data?.Cust_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}</p>
                     </div>
                     <div className='px-1 py-2 position-relative'>
-                        <img src={json0Data?.PrintLogo} alt="" className={`w-25 h-auto ms-auto d-block ${style?.logoImage}`}  />
+                    {isImageWorking && (json0Data?.PrintLogo !== "" && 
+                      <img src={json0Data?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                        {/* <img src={json0Data?.PrintLogo} alt="" className={`w-25 h-auto ms-auto d-block ${style?.logoImage}`}  /> */}
                     </div>
                 </div>
                 {/* address */}

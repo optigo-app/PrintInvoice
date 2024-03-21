@@ -291,7 +291,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className="col-5 border-end p-2">
           <p>Ship To,</p>
           <p className="fw-semibold">{headerData?.customerfirmname}</p>
-          {address.map((e, i) => {
+          {address?.map((e, i) => {
             return <p key={i}>{e}</p>;
           })}
         </div>

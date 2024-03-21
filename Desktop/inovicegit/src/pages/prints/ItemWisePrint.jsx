@@ -221,7 +221,6 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     totals.totalAmt = (totals.totalAmt)?.toFixed(2);
     setTotal(totals);
     setData(resultArr);
-    console.log(data);
   };
 
   useEffect(() => {

@@ -576,7 +576,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </p>
               </div>
               <div className="col-6">
-              {isImageWorking && (json0Data?.PrintLogo !== "" && 
+                  {isImageWorking && (json0Data?.PrintLogo !== "" && 
                       <img src={json0Data?.PrintLogo} alt="" 
                       className='w-25 h-auto ms-auto d-block object-fit-contain'
                       onError={handleImageErrors} height={120} width={150} />)}
