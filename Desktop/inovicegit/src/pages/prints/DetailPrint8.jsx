@@ -56,7 +56,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
     });
     datas.resultArray = [...arr];
     setData(datas);
-    // console.log(datas);
+    console.log(datas);
   };
 
   const checkid = (data, keyValueGold, keyValueDiaCsM) => {
@@ -67,7 +67,11 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
         datas = data?.[keyValueGold];
         break;
       case 3:
+        datas = data?.[keyValueGold];
+        break;
       case 2:
+        datas = data?.[keyValueGold];
+        break;
       case 1:
         datas = data?.[keyValueDiaCsM];
         break;
@@ -345,9 +349,8 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {e?.materials.map((ele, ind) => {
                   return (
                     <div
-                      className={`d-flex ${
-                        ind !== e?.materials.length - 1 && "border-bottom"
-                      }`}
+                      className={`d-flex ${ind !== e?.materials.length - 1 && "border-bottom"
+                        }`}
                       key={ind}
                     >
                       <div
@@ -356,13 +359,15 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
                         {setTitle(ele)}
                       </div>
                       <div className={`${style?.Shape} pad_1 py-1 border-end`}>
-                        {checkid(ele, "", "ShapeName")}
+                        {/* {checkid(ele, "", "ShapeName")} */}
+                        {ele?.MasterManagement_DiamondStoneTypeid !== 4 && ele?.ShapeName}
                       </div>
                       <div className={`${style?.Qlty} pad_1 py-1 border-end`}>
-                        {checkid(ele, "QualityName", "")}
+                        {/* {checkid(ele, "QualityName", "")} */}
+                        {ele?.QualityName !== "-" && ele?.QualityName}
                       </div>
                       <div className={`${style?.Color} pad_1 py-1 border-end`}>
-                        {checkid(ele, "Colorname", "")}
+                        {ele?.Colorname !== "-" && ele?.Colorname}
                       </div>
                       <div className={`${style?.Size} pad_1 py-1 border-end`}>
                         {checkid(ele, "", "SizeName")}
@@ -380,10 +385,10 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
                       <div
                         className={`${style?.Rate} pad_1 py-1 border-end text-end`}
                       >
-                        {NumberWithCommas(ele?.Rate, 2)}
+                        {ele?.Rate !== 0 && NumberWithCommas(ele?.Rate, 2)}
                       </div>
                       <div className={`${style?.Amount} pad_1 py-1 text-end`}>
-                        {NumberWithCommas(ele?.Amount, 2)}
+                        {ele?.Amount !== 0 && NumberWithCommas(ele?.Amount, 2)}
                       </div>
                     </div>
                   );
@@ -401,7 +406,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
               className={`${style?.other} border-end d-flex justify-content-end align-items-center`}
             >
               <p className="pad_1 text-end">
-                {NumberWithCommas(e?.OtherCharges, 2)}
+                {NumberWithCommas(e?.OtherCharges + e?.TotalDiamondHandling, 2)}
               </p>
             </div>
             <div className={`${style?.labour} border-end d-flex`}>
@@ -409,7 +414,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
                 {NumberWithCommas(e?.MaKingCharge_Unit, 2)}
               </div>
               <div className="col-6 d-flex justify-content-end align-items-center pad_1">
-                {NumberWithCommas(e?.MakingAmount, 2)}
+                {NumberWithCommas(e?.MakingAmount + e?.MiscAmount, 2)}
               </div>
             </div>
             <div
@@ -496,7 +501,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn }) => {
         <div
           className={`${style?.ct} border-end d-flex justify-content-end align-items-center`}
         >
-          <p className="text-end pad_1 fw-bold">68,305.27 </p>
+          <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.metal?.Amount + data?.mainTotal?.diamonds?.Amount + data?.mainTotal?.colorstone?.Amount)} </p>
         </div>
         <div
           className={`${style?.mt} border-end d-flex justify-content-end align-items-center`}

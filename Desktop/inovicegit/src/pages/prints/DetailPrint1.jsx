@@ -515,7 +515,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             {/* buttons */}
             <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4">
               {!detailPrintK && (
-                <div className="form-check d-flex align-items-center">
+                <div className="form-check d-flex align-items-center detailPrint1L_font_13">
                   <input
                     className="border-dark me-2"
                     type="checkbox"
@@ -526,7 +526,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <label className="pt-1">With Brokarage</label>
                 </div>
               )}
-              <div className="form-check d-flex align-items-center">
+              <div className="form-check d-flex align-items-center detailPrint1L_font_13">
                 <input
                   className="border-dark me-2"
                   type="checkbox"
@@ -536,7 +536,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 />
                 <label className="pt-1">With Image</label>
               </div>
-              <div className="form-check">
+              <div className="form-check detailPrint1L_font_14">
                 <input
                   type="button"
                   className="btn_white blue mt-0"
@@ -1298,40 +1298,40 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="d-flex border-end ">
                   <div className="border-start col-6 border-end  position-relative summaryPadBotDetailPrint1 d-flex flex-column">
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">GOLD IN 24KT</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">GOLD IN 24KT</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {detailtPrintR ? NumberWithCommas(summary?.gold24Kt, 3) : fixedValues(finalD?.mainTotal?.convertednetwt, 3)} gm
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">GROSS WT</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">GROSS WT</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {fixedValues(summary?.grossWt, 3)} gm
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">*(G+D) WT</p>
-                      {/* <p className='p-1'> {fixedValues(summary?.gDWt, 3)} gm</p> */}
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">*(G+D) WT</p>
+                      {/* <p classNamxe= pt-1'p-1'> {fixedValues(summary?.gDWt, 3)} gm</p> */}
+                      <p className="px-1 pt-1">
                         {NumberWithCommas(finalD?.mainTotal?.netwt + (finalD?.mainTotal?.diamonds?.Wt / 5), 3)} gm
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">NET WT</p>
-                      <p className="p-1"> {fixedValues(finalD?.mainTotal?.metal?.IsPrimaryMetal, 3)} gm</p>
+                      <p className="fw-bold px-1 pt-1">NET WT</p>
+                      <p className="px-1 pt-1"> {fixedValues(finalD?.mainTotal?.metal?.IsPrimaryMetal, 3)} gm</p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">DIAMOND WT</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">DIAMOND WT</p>
+                      <p className="px-1 pt-1">
                         {NumberWithCommas(finalD?.mainTotal?.diamonds?.Pcs, 0)} / {NumberWithCommas(finalD?.mainTotal?.diamonds?.Wt, 3)} cts
                         {/* {NumberWithCommas(summary?.diamondpcs, 0)} /{" "} {fixedValues(summary?.diamondWt, 3)} cts */}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">STONE WT</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">STONE WT</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {NumberWithCommas(summary?.stonePcs, 0)} /{" "}
                         {fixedValues(summary?.stoneWt, 3)} cts
@@ -1339,61 +1339,61 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     {json0Data?.Privilege_discount !== 0 && (
                       <div className="d-flex justify-content-between">
-                        <p className="fw-bold p-1">Privilege Discount</p>
-                        <p className="p-1">- {json0Data?.Privilege_discount}</p>
+                        <p className="fw-bold px-1 pt-1">Privilege Discount</p>
+                        <p className="px-1 pt-1">- {json0Data?.Privilege_discount}</p>
                       </div>
                     )}
                     <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom bottom-0 totalLineDetailPrint1 lightGrey">
-                      <p className="fw-bold p-1"> </p>
-                      <p className="p-1"> </p>
+                      <p className="fw-bold px-1 pt-1"> </p>
+                      <p className="px-1 pt-1"> </p>
                     </div>
                   </div>
                   <div className="col-6 position-relative summaryPadBotDetailPrint1  d-flex flex-column">
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">GOLD</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">GOLD</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {NumberWithCommas(finalD?.mainTotal?.MetalAmount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">DIAMOND</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">DIAMOND</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {NumberWithCommas(finalD?.mainTotal?.diamonds?.Amount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">CST</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">CST</p>
+                      <p className="px-1 pt-1">
                         {NumberWithCommas(finalD?.mainTotal?.colorstone?.Amount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">MAKING</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">MAKING</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {/* {NumberWithCommas(summary?.makingAmount, 2)} */}
                         {NumberWithCommas(total?.labourAmount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">OTHER</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">OTHER</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {NumberWithCommas(summary?.otherCharges, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">LESS</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">LESS</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {NumberWithCommas(summary?.addLess, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom  bottom-0 totalLineDetailPrint1 lightGrey">
                       <p className="fw-bold p-1">TOTAL</p>
-                      <p className="p-1">
+                      <p className="px-1 p-1">
                         {NumberWithCommas(total?.withDiscountTaxAmount, 2)}
                       </p>
                     </div>

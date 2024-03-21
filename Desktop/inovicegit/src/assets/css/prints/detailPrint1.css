@@ -112,7 +112,7 @@
 }
 
 .totalLineDetailPrint1 {
-    min-height: 18px;
+    min-height: 21px;
 }
 
 .createdByDetailPrint1 {
@@ -126,7 +126,10 @@
 .totalMinHeightDetailPrint1 {
     min-height: 18px;
 }
-
+.containerDetailPrint1 .detailPrint1L_font_13 *,
+.containerDetailPrint1 .detailPrint1L_font_13 {
+    font-size: 13px;
+}
 .containerDetailPrint1 .detailPrint1L_font_14 *,
 .containerDetailPrint1 .detailPrint1L_font_14 {
     font-size: 14px;
@@ -147,12 +150,17 @@
     font-size: 12px;
 }
 
+
+
 @media print {
     .containerDetailPrint1 {
         zoom: unset;
         margin: 0;
     }
 
+    .totalLineDetailPrint1 {
+        min-height: 18px;
+    }
     .recordDetailPrint1 {
         page-break-inside: avoid;
     }
