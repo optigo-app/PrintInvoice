@@ -9,10 +9,12 @@
 .headlinepRetailPrint {
     background-color: #939292;
     color: white;
-    font-size: 25px;
+    font-size: 20px;
     line-height: 120%;
     letter-spacing: 1px;
     min-height: 31px;
+    padding-top: 3px;
+    padding-bottom: 6px;
 }
 
 .line_height_110 {
@@ -23,6 +25,21 @@
     min-height: 44px;
 }
 
+.ft_12_retailPrint, .ft_12_retailPrint *{
+    font-size: 12px;
+}
+
+.word_break_normal_retail_print *{
+    word-break: normal;
+}
+
+.ft_13_retailPrint, .ft_13_retailPrint *{
+    font-size: 13px;
+}
+
+.ft_17_retailPrint, .ft_17_retailPrint *{
+    font-size: 17px;
+}
 
 .srNoRetailPrint {
     width: 5%;
