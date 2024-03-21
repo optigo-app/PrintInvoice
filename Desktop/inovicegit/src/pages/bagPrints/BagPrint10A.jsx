@@ -928,7 +928,7 @@ const BagPrint10A = ({ queries, headers }) => {
                             <div className="entryheader10A">
                               <div
                                 className="entry10AHeadD"
-                                style={{ fontWeight: "normal" }}
+                                style={{ fontWeight: "normal", height:'142px' }}
                               >
                                 <div
                                   className="rmcode10aD"
@@ -939,7 +939,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     paddingLeft: "3px",
                                   }}
                                 >
-                                  GRD{" "}
+                                  MLT.
                                 </div>
                                 <div
                                   className="rmcode10aD"
@@ -950,7 +950,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     paddingLeft: "3px",
                                   }}
                                 >
-                                  FIL
+                                  TP.
                                 </div>
                                 <div
                                   className="rmcode10aD"
@@ -961,7 +961,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     paddingLeft: "3px",
                                   }}
                                 >
-                                  PPL
+                                  FLG.
                                 </div>
                                 <div
                                   className="rmcode10aD"
@@ -972,7 +972,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     paddingLeft: "3px",
                                   }}
                                 >
-                                  SET.
+                                  CNC
                                 </div>
                                 <div
                                   className="rmcode10aD"
@@ -983,7 +983,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     paddingLeft: "3px",
                                   }}
                                 >
-                                  ASM
+                                  FIL.
                                 </div>
                                 <div
                                   className="rmcode10aD"
@@ -994,7 +994,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     paddingLeft: "3px",
                                   }}
                                 >
-                                  FPL
+                                  HM.
                                 </div>
                                 <div
                                   className="rmcode10aD"
@@ -1005,7 +1005,7 @@ const BagPrint10A = ({ queries, headers }) => {
                                     paddingLeft: "3px",
                                   }}
                                 >
-                                  PLT
+                                  TNG.
                                 </div>
                                 <div
                                   className="rmcode10aD"
@@ -1016,9 +1016,9 @@ const BagPrint10A = ({ queries, headers }) => {
                                     paddingLeft: "3px",
                                   }}
                                 >
-                                  ENM
+                                  PLH.
                                 </div>
-                                <div
+                                {/* <div
                                   className="rmcode10aD"
                                   style={{
                                     borderBottom: "1px solid #989898",
@@ -1029,15 +1029,15 @@ const BagPrint10A = ({ queries, headers }) => {
                                   }}
                                 >
                                   F.G.
-                                </div>
+                                </div> */}
                               </div>
                               {
                                 <div>
-                                  {Array.from({ length: 9 }, (_, index) => (
+                                  {Array.from({ length: 8 }, (_, index) => (
                                     <div
                                       className="entry10AHeadEntry"
                                       key={index}
-                                      style={{ fontWeight: "normal" }}
+                                      style={{ fontWeight: "normal", height:'17.8px' }}
                                     >
                                       <div
                                         className="rmcode10aDE"
@@ -1071,15 +1071,15 @@ const BagPrint10A = ({ queries, headers }) => {
                               <div className="ins10Afooter">
                                 <p style={{ fontSize: "12px" }}>SLS. INS.{}</p>
                               </div>
-                              <div className="ins10Afooter">
+                              <div className="ins10Afooter" style={{borderBottom:'0px'}}>
                                 <p style={{ fontSize: "12px" }}>PRD. INS.{}</p>
                               </div>
-                              <div
+                              {/* <div
                                 className="ins10Afooter"
                                 style={{ borderBottom: "0px" }}
                               >
                                 <p style={{ fontSize: "12px" }}>QC. INS.{}</p>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           <div className="barcode10AD">

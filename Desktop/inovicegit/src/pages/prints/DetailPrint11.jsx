@@ -283,7 +283,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
     }
     sendData();
   }, []);
-
+console.log(json0Data)
   return (
     loader ? <Loader /> : msg === "" ? <>
       <div className='container containerDetailP11 mt-5 pad_60_allPrint'>
