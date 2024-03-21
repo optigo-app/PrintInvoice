@@ -5,7 +5,7 @@ import { apiCall, formatAmount, handleImageError, handlePrint, isObjectEmpty } f
 import { cloneDeep } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
-const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
+const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const toWords = new ToWords();
   const [result, setResult] = useState(null);
@@ -22,7 +22,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -37,7 +37,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
           setMsg(data?.Message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     sendData();
@@ -89,7 +89,6 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
       let jobwise_dia_Wt = 0;
       e?.diamond_colorstone_misc?.forEach((el) => {
         if(el?.MasterManagement_DiamondStoneTypeid === 1){
-          console.log(el?.Wt);
             jobwise_dia_Wt += el?.Wt;
            
           }
@@ -133,7 +132,6 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
       setImgFlag(true);
     }
   };
-  
   return (
       <>
       {
@@ -199,16 +197,16 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <div className='fw-bold'>Delivery Mode</div>
               </div>
               <div className='p-1 w-25'>
-                  <div>E Way Bill No:	</div>
+                  <div className='w-100 d-flex'><div className='w-50'>E Way Bill No:</div> <div className='w-50'>{result?.header?.E_Way_Bill_No}</div>	</div>
                   <div className='w-100 d-flex'><div className='w-50'>PAN:</div>	<div className='w-50'>{result?.header?.CustPanno}</div></div>
-                  <div>Advance Receipt No:	</div>
-                  <div>Name of Trasporter:	</div>
-                  <div>Vehical No:	</div>
-                  <div>freight terms:	</div>
-                  <div>E reference No:	</div>
-                  <div>Credit Days:	</div>
-                  <div>Output Types:	</div>
-                  <div>Product Types:	</div>
+                  <div className='w-100 d-flex'><div className='w-50'>Advance Receipt No:</div><div className='w-50'>{result?.header?.Advance_Receipt_No}</div></div>
+                  <div className='w-100 d-flex'><div className='w-50'>Name of Trasporter:</div><div className='w-50'>{result?.header?.Name_Of_Transporter}</div></div>
+                  <div className='w-100 d-flex'><div className='w-50'>Vehical No:</div>	<div className='w-50'>{result?.header?.Vehicle_Number}</div></div>
+                  <div className='w-100 d-flex'><div className='w-50'>freight terms:</div>	<div className='w-50'>{result?.header?.Freight_Terms}</div></div>
+                  <div className='w-100 d-flex'><div className='w-50'>E reference No:</div>	<div className='w-50'>{result?.header?.E_Reference_No}</div></div>
+                  <div className='w-100 d-flex'><div className='w-50'>Credit Days:</div>	<div className='w-50'>{result?.header?.Credit_Days}</div></div>
+                  <div className='w-100 d-flex'><div className='w-50'>Output Types:	</div><div className='w-50'>{result?.header?.Output_Type}</div></div>
+                  <div className='w-100 d-flex'><div className='w-50'>Product Types:</div>	<div className='w-50'>{result?.header?.Product_Type}</div></div>
                   <div className='w-100 d-flex'><div className='w-50'>{result?.header?.HSN_No_Label}:</div>	<div className='w-50'>{result?.header?.HSN_No}</div></div>
               </div>
             </div>
