@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
-const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn }) => {
+const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [image, setImage] = useState(false);
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
@@ -194,7 +194,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === '200') {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

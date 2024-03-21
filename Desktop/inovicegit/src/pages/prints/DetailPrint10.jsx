@@ -18,6 +18,8 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+
 
   useEffect(() => {
     const sendData = async () => {
@@ -185,6 +187,9 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
   };
 
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   return (
     <>
       {loader ? (
@@ -244,11 +249,15 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                     </div>
                     <div className="d-flex justify-content-end pe-2 pt-2">
-                      <img
+                    {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                      <img src={result?.header?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                      {/* <img
                         src={result?.header?.PrintLogo}
                         alt="#companylogo"
                         className="imgHWdp10"
-                      />
+                      /> */}
                     </div>
                   </div>
                 </div>

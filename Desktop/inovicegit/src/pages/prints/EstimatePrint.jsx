@@ -16,7 +16,7 @@ import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 
-const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
+const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [image, setImage] = useState(true);
   const [json1Data, setJson1Data] = useState({});
   const [json2Data, setJson2Data] = useState([]);
@@ -923,7 +923,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

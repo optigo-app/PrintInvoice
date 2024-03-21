@@ -3,7 +3,7 @@ import "../../assets/css/prints/detailprint3.css";
 import { apiCall, formatAmount, handleImageError, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn }) => {
+const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -11,7 +11,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

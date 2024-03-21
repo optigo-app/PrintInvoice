@@ -13,7 +13,7 @@ import {
 } from "../../GlobalFunctions";
 import { cloneDeep } from "lodash";
 
-const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
+const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const toWords = new ToWords();
 
@@ -253,7 +253,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

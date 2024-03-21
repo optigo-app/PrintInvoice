@@ -18,7 +18,7 @@ import { ToWords } from "to-words";
 import style2 from "../../assets/css/headers/header1.module.css";
 import { cloneDeep } from "lodash";
 
-const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
+const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
   const [data, setData] = useState({});
@@ -216,7 +216,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
