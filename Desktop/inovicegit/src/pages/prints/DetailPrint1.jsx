@@ -515,7 +515,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             {/* buttons */}
             <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4">
               {!detailPrintK && (
-                <div className="form-check d-flex align-items-center">
+                <div className="form-check d-flex align-items-center detailPrint1L_font_13">
                   <input
                     className="border-dark me-2"
                     type="checkbox"
@@ -526,7 +526,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                   <label className="pt-1">With Brokarage</label>
                 </div>
               )}
-              <div className="form-check d-flex align-items-center">
+              <div className="form-check d-flex align-items-center detailPrint1L_font_13">
                 <input
                   className="border-dark me-2"
                   type="checkbox"
@@ -536,7 +536,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 />
                 <label className="pt-1">With Image</label>
               </div>
-              <div className="form-check">
+              <div className="form-check detailPrint1L_font_14">
                 <input
                   type="button"
                   className="btn_white blue mt-0"
@@ -547,25 +547,25 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             </div>
             {/* header line*/}
             <div className="jewelleryPackingList mb-2 mt-2 recordDetailPrint1">
-              <h1 className="fs-4 p-2 fw-bold text-white">
+              <h1 className={`p-2 fw-bold text-white`}>
                 {json0Data?.PrintHeadLabel}
               </h1>
             </div>
             {/* header */}
             <div className="d-flex align-items-center pb-2 border-bottom  recordDetailPrint1">
               <div className="col-6">
-                <h2 className="fw-bold fs-5">{json0Data?.CompanyFullName}</h2>
-                <p className="lhDetailPrint1">{json0Data?.CompanyAddress}</p>
-                <p className="lhDetailPrint1">{json0Data?.CompanyAddress2}</p>
-                <p className="lhDetailPrint1">
+                <h2 className="fw-bold detailPrint1L_font_16 pb-1">{json0Data?.CompanyFullName}</h2>
+                <p className="lhDetailPrint1 pb-1">{json0Data?.CompanyAddress}</p>
+                <p className="lhDetailPrint1 pb-1">{json0Data?.CompanyAddress2}</p>
+                <p className="lhDetailPrint1 pb-1">
                   {json0Data?.CompanyCity}-{json0Data?.CompanyPinCode},{" "}
                   {json0Data?.CompanyState}({json0Data?.CompanyCountry})
                 </p>
-                <p className="lhDetailPrint1">T {json0Data?.CompanyTellNo}</p>
-                <p className="lhDetailPrint1">
+                <p className="lhDetailPrint1 pb-1">T {json0Data?.CompanyTellNo}</p>
+                <p className="lhDetailPrint1 pb-1" pb-1>
                   {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
                 </p>
-                <p className="lhDetailPrint1">
+                <p className="lhDetailPrint1 pb-1">
                   {json0Data?.Company_VAT_GST_No} |{" "}
                   {json0Data?.Company_CST_STATE}-
                   {json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}
@@ -582,67 +582,66 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             {/* address */}
             <div className="d-flex border-start border-end  border-bottom mb-1 recordDetailPrint1">
               <div className="col-4 border-end  p-1">
-                <p className="lhDetailPrint1">{json0Data?.lblBillTo}</p>
-                <p className="lhDetailPrint1 fw-bold">
+                <p className="lhDetailPrint1 pb-1">{json0Data?.lblBillTo}</p>
+                <p className="lhDetailPrint1 fw-bold detailPrint1L_font_14 pb-1">
                   {json0Data?.customerfirmname}
                 </p>
-                <p className="lhDetailPrint1">{json0Data?.customerAddress2}</p>
-                <p className="lhDetailPrint1">{json0Data?.customerAddress1}</p>
-                <p className="lhDetailPrint1">{json0Data?.customerAddress3}</p>
-                <p className="lhDetailPrint1">
+                <p className="lhDetailPrint1 pb-1">{json0Data?.customerAddress2}</p>
+                <p className="lhDetailPrint1 pb-1">{json0Data?.customerAddress1}</p>
+                <p className="lhDetailPrint1 pb-1">{json0Data?.customerAddress3}</p>
+                <p className="lhDetailPrint1 pb-1">
                   {json0Data?.customercity}
                   {json0Data?.customerpincode}
                 </p>
-                <p className="lhDetailPrint1">{json0Data?.customeremail1}</p>
-                <p className="lhDetailPrint1">{json0Data?.vat_cst_pan}</p>
-                <p className="lhDetailPrint1">
+                <p className="lhDetailPrint1 pb-1">{json0Data?.customeremail1}</p>
+                <p className="lhDetailPrint1 pb-1">{json0Data?.vat_cst_pan}</p>
+                <p className="lhDetailPrint1 pb-1">
                   {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}
                 </p>
               </div>
               <div className="col-4 border-end  p-1">
-                <p className="lhDetailPrint1">Ship To,</p>
-                <p className="lhDetailPrint1 fw-bold">
+                <p className="lhDetailPrint1 pb-1">Ship To,</p>
+                <p className="lhDetailPrint1 fw-bold detailPrint1L_font_14 pb-1">
                   {json0Data?.customerfirmname}
                 </p>
                 {
                   dp1lp ? <>
                     {address?.map((e, i) => {
-                      return <p className="lhDetailPrint1" key={i}>{e}</p>
+                      return <p className="lhDetailPrint1 pb-1" key={i}>{e}</p>
                     })}
-                  </> : <><p className="lhDetailPrint1">{json0Data?.CustName}</p>
-                    <p className="lhDetailPrint1">{json0Data?.customerstreet}</p>
-                    <p className="lhDetailPrint1">
+                  </> : <><p className="lhDetailPrint1 pb-1">{json0Data?.CustName}</p>
+                    <p className="lhDetailPrint1 pb-1">{json0Data?.customerstreet}</p>
+                    <p className="lhDetailPrint1 pb-1">
                       {json0Data?.customercity} {json0Data?.State}
                     </p>
-                    <p className="lhDetailPrint1">
+                    <p className="lhDetailPrint1 pb-1">
                       {json0Data?.CompanyCountry}-{json0Data?.PinCode}
                     </p>
-                    <p className="lhDetailPrint1">
+                    <p className="lhDetailPrint1 pb-1">
                       Mobile No : {json0Data?.customermobileno}
                     </p></>
                 }
 
               </div>
-              <div className="col-4 p-1">
-                <div className="d-flex">
+              <div className="col-4 p-1 ps-2">
+                <div className="d-flex pb-1 pt-1">
                   <p className="fw-bold col-2 me-2">BILL NO </p>
                   <p className="col-10">{json0Data?.InvoiceNo}</p>
                 </div>
-                <div className="d-flex">
+                <div className="d-flex pb-1">
                   <p className="fw-bold col-2 me-2">DATE </p>
                   <p className="col-10">{json0Data?.EntryDate}</p>
                 </div>
-                <div className="d-flex">
+                <div className="d-flex pb-1">
                   <p className="fw-bold col-2 me-2">HSN </p>
                   <p className="col-10">{json0Data?.HSN_No}</p>
                 </div>
               </div>
             </div>
             {/* table header*/}
-            <div className="d-flex w-100 border-top  recordDetailPrint1 lightGrey">
+            <div className="d-flex w-100 border-top  recordDetailPrint1 lightGrey detailPrint1L_font_11">
               <div className="srNoDetailprint11 border-end border-start  border-bottom d-flex justify-content-center align-items-center flex-column">
-                <p className="fw-bold">Sr. </p>
-                <p className="fw-bold">No. </p>
+                <p className="fw-bold">Sr </p>
               </div>
               <div className="designDetalPrint1 border-end  p-1 border-bottom d-flex justify-content-center align-items-center">
                 <p className="fw-bold p-1">Design</p>
@@ -754,7 +753,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
             {
               finalD?.resultArray?.map((e, i) => {
                 return (
-                  <div key={i} className="recordDetailPrint1">
+                  <div key={i} className="recordDetailPrint1 detailPrint1L_font_11">
                     <div className="d-flex w-100">
                       <div className="srNoDetailprint11 border-end border-start border-bottom pt-1">
                         <p className="p-1 text-center">{NumberWithCommas(i + 1)}</p>
@@ -1147,7 +1146,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               })
             }
             {/* cgst */}
-            <div className="d-flex w-100 border-bottom  border-start recordDetailPrint1">
+            <div className="d-flex w-100 border-bottom  border-start recordDetailPrint1 detailPrint1L_font_11">
               <div className="cgstDetailPrint1 text-end border-end  ">
                 <p>Total Discount</p>
                 {json0Data?.Privilege_discount !== 0 && (
@@ -1179,7 +1178,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
             </div>
             {/* total */}
-            <div className="d-flex w-100 recordDetailPrint1 lightGrey">
+            <div className="d-flex w-100 recordDetailPrint1 lightGrey detailPrint1L_font_11">
               <div className="designDetalPrint1Total border-end  border-bottom border-start d-table">
                 <p className="fw-bold text-center d-table-cell align-middle">
                   Total
@@ -1291,7 +1290,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
               </div>
             </div>
             {/* summary */}
-            <div className="d-flex w-100 pt-1 recordDetailPrint1">
+            <div className="d-flex w-100 pt-1 recordDetailPrint1 detailPrint1L_font_11">
               <div className="col-4 pe-1">
                 <p className="border-start  fw-bold text-center border-bottom  w-100 border-end border-top lightGrey">
                   SUMMARY
@@ -1299,40 +1298,40 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className="d-flex border-end ">
                   <div className="border-start col-6 border-end  position-relative summaryPadBotDetailPrint1 d-flex flex-column">
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">GOLD IN 24KT</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">GOLD IN 24KT</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {detailtPrintR ? NumberWithCommas(summary?.gold24Kt, 3) : fixedValues(finalD?.mainTotal?.convertednetwt, 3)} gm
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">GROSS WT</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">GROSS WT</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {fixedValues(summary?.grossWt, 3)} gm
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">*(G+D) WT</p>
-                      {/* <p className='p-1'> {fixedValues(summary?.gDWt, 3)} gm</p> */}
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">*(G+D) WT</p>
+                      {/* <p classNamxe= pt-1'p-1'> {fixedValues(summary?.gDWt, 3)} gm</p> */}
+                      <p className="px-1 pt-1">
                         {NumberWithCommas(finalD?.mainTotal?.netwt + (finalD?.mainTotal?.diamonds?.Wt / 5), 3)} gm
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">NET WT</p>
-                      <p className="p-1"> {fixedValues(finalD?.mainTotal?.metal?.IsPrimaryMetal, 3)} gm</p>
+                      <p className="fw-bold px-1 pt-1">NET WT</p>
+                      <p className="px-1 pt-1"> {fixedValues(finalD?.mainTotal?.metal?.IsPrimaryMetal, 3)} gm</p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">DIAMOND WT</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">DIAMOND WT</p>
+                      <p className="px-1 pt-1">
                         {NumberWithCommas(finalD?.mainTotal?.diamonds?.Pcs, 0)} / {NumberWithCommas(finalD?.mainTotal?.diamonds?.Wt, 3)} cts
                         {/* {NumberWithCommas(summary?.diamondpcs, 0)} /{" "} {fixedValues(summary?.diamondWt, 3)} cts */}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">STONE WT</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">STONE WT</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {NumberWithCommas(summary?.stonePcs, 0)} /{" "}
                         {fixedValues(summary?.stoneWt, 3)} cts
@@ -1340,61 +1339,61 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     {json0Data?.Privilege_discount !== 0 && (
                       <div className="d-flex justify-content-between">
-                        <p className="fw-bold p-1">Privilege Discount</p>
-                        <p className="p-1">- {json0Data?.Privilege_discount}</p>
+                        <p className="fw-bold px-1 pt-1">Privilege Discount</p>
+                        <p className="px-1 pt-1">- {json0Data?.Privilege_discount}</p>
                       </div>
                     )}
                     <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom bottom-0 totalLineDetailPrint1 lightGrey">
-                      <p className="fw-bold p-1"> </p>
-                      <p className="p-1"> </p>
+                      <p className="fw-bold px-1 pt-1"> </p>
+                      <p className="px-1 pt-1"> </p>
                     </div>
                   </div>
                   <div className="col-6 position-relative summaryPadBotDetailPrint1  d-flex flex-column">
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">GOLD</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">GOLD</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {NumberWithCommas(finalD?.mainTotal?.MetalAmount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">DIAMOND</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">DIAMOND</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {NumberWithCommas(finalD?.mainTotal?.diamonds?.Amount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">CST</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">CST</p>
+                      <p className="px-1 pt-1">
                         {NumberWithCommas(finalD?.mainTotal?.colorstone?.Amount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">MAKING</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">MAKING</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {/* {NumberWithCommas(summary?.makingAmount, 2)} */}
                         {NumberWithCommas(total?.labourAmount, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">OTHER</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">OTHER</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {NumberWithCommas(summary?.otherCharges, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p className="fw-bold p-1">LESS</p>
-                      <p className="p-1">
+                      <p className="fw-bold px-1 pt-1">LESS</p>
+                      <p className="px-1 pt-1">
                         {" "}
                         {NumberWithCommas(summary?.addLess, 2)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between border-top  position-absolute w-100 border-bottom  bottom-0 totalLineDetailPrint1 lightGrey">
                       <p className="fw-bold p-1">TOTAL</p>
-                      <p className="p-1">
+                      <p className="px-1 p-1">
                         {NumberWithCommas(total?.withDiscountTaxAmount, 2)}
                       </p>
                     </div>
@@ -1480,7 +1479,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
                 </div>
               </div>
             </div>
-            <div className="fs_dp4 text-secondary pt-3">
+            <div className="fs_dp4 text-secondary pt-3 detailPrint1L_font_12">
               ** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US
               IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF
               TRANSACTIONS

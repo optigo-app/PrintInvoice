@@ -255,7 +255,7 @@
 }
 
 .itemWisePrint1Font_tab_14 * {
-    font-size: 11px !important;
+    font-size: 12px !important;
 }
 
 .itemWisePrint2Font_tab_14 * {
@@ -265,7 +265,14 @@
 .itemWisePrintFont_tab_14 *{
     font-size: 8px !important;
 }
+.itemWisePrint1Font_14_category *{
+    font-size: 14px !important;
+    word-break: break-all !important;
+}
 
+.itemWisePrint1Font_13_total *{
+    font-size: 13px !important;
+}
 @media print {
     .itemWisePrintContainer {
         zoom: unset;

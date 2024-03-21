@@ -4,10 +4,11 @@
     padding: 0 5px !important;
 }
 
-.containerDetailPrint1 p, .containerDetailPrint1 p span {
+.containerDetailPrint1 p,
+.containerDetailPrint1 p span {
     word-break: break-all;
     /* font-size: 8px; */
-    font-size: 10px;
+    font-size: 12px;
     line-height: 100%;
 }
 
@@ -76,7 +77,8 @@
     min-width: 5%;
 }
 
-.metalGoldDetailPrint1, .metalTotalDetailPrint1 {
+.metalGoldDetailPrint1,
+.metalTotalDetailPrint1 {
     width: 20%;
     min-width: 20%;
 }
@@ -110,7 +112,7 @@
 }
 
 .totalLineDetailPrint1 {
-    min-height: 18px;
+    min-height: 21px;
 }
 
 .createdByDetailPrint1 {
@@ -124,6 +126,31 @@
 .totalMinHeightDetailPrint1 {
     min-height: 18px;
 }
+.containerDetailPrint1 .detailPrint1L_font_13 *,
+.containerDetailPrint1 .detailPrint1L_font_13 {
+    font-size: 13px;
+}
+.containerDetailPrint1 .detailPrint1L_font_14 *,
+.containerDetailPrint1 .detailPrint1L_font_14 {
+    font-size: 14px;
+}
+
+.containerDetailPrint1 .detailPrint1L_font_16 *,
+.containerDetailPrint1 .detailPrint1L_font_16 {
+    font-size: 16px;
+}
+
+.containerDetailPrint1 .detailPrint1L_font_11 *,
+.containerDetailPrint1 .detailPrint1L_font_11 {
+    font-size: 11px;
+}
+
+.containerDetailPrint1 .detailPrint1L_font_12 *,
+.containerDetailPrint1 .detailPrint1L_font_12 {
+    font-size: 12px;
+}
+
+
 
 @media print {
     .containerDetailPrint1 {
@@ -131,16 +158,26 @@
         margin: 0;
     }
 
+    .totalLineDetailPrint1 {
+        min-height: 18px;
+    }
     .recordDetailPrint1 {
         page-break-inside: avoid;
     }
 
-    .containerDetailPrint1 p, .containerDetailPrint1 p span {
+    .containerDetailPrint1 p,
+    .containerDetailPrint1 p span {
         font-size: 7px;
     }
 
     .print_sec_sum4 {
         display: none !important;
     }
-    
+
+    .containerDetailPrint1 .detailPrint1L_font_11 *,
+    .containerDetailPrint1 .detailPrint1L_font_11 {
+        font-size: 7px;
+    }
+
+
 }

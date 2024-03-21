@@ -47,6 +47,10 @@
     min-width: 7%;
 }
 
+.min_height_9_6{
+    min-height: 13.7px;
+}
+
 .taxes{
     width: 93%;
     min-width: 93%;
@@ -83,9 +87,21 @@
     font-size: 18px;
 }
 
+.font_1_12 *, .font_1_12{
+    font-size: 12px;
+}
+
 
 @media print {
     .Packinglist6 {
         zoom: unset;
     }
+
+    .font_1_12 *, .font_1_12{
+        font-size: 8px;
+    }
+    .min_height_9_6{
+        min-height: 9.6px;
+    }
+    
 }
