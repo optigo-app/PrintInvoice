@@ -23,6 +23,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [imageLoading, setImageLoading] = useState(true);
   const [msg, setMsg] = useState("");
   const [diamondDetailss, setDiamondDetailss] = useState({});
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const [dia, setDia] = useState([]);
   // const [changePrint, setChangeprint] = useState(atob(printName).toLowerCase() === "estimate print change" ? true : false);
   const [total, setTotal] = useState({

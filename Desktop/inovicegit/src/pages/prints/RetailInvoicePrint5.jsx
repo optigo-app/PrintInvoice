@@ -15,7 +15,7 @@ import {
     FooterComponent,
     fixedValues,
 } from "../../GlobalFunctions";
-const RetailInvoicePrint5 = ({ urls, token, invoiceNo, printName, evn }) => {
+const RetailInvoicePrint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [msg, setMsg] = useState("");
     const [loader, setLoader] = useState(true);
     const toWords = new ToWords();
@@ -26,7 +26,10 @@ const RetailInvoicePrint5 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [footer, setFooter] = useState(null);
     const [nri, setNri] = useState("");
     const [foreignPassport, setForeignPassport] = useState("");
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
         setHeader(head);
@@ -177,7 +180,7 @@ const RetailInvoicePrint5 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

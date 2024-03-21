@@ -3,7 +3,7 @@ import "../../assets/css/prints/summary4.css";
 import { apiCall, handleImageError, handlePrint, isObjectEmpty, taxGenrator, fixedValues, NumberWithCommas } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
-const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
+const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [jsonData, setJsonData] = useState({});
     const [billPrintJson, setBillprintJson] = useState({});
     const [BillPrintJson1, setBillPrintJson1] = useState([]);
@@ -54,7 +54,10 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
     });
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const findMaterialWise = (findElement, elementNo, arr) => {
         let resultArr = arr.filter((e, i) => {
             return e[findElement] === elementNo
@@ -317,7 +320,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

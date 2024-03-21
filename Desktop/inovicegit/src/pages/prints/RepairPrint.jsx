@@ -6,12 +6,15 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 
-const RepairPrint = ({ token, invoiceNo, printName, urls, evn }) => {
+const RepairPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [importedComponent, setImportedComponent] = useState(null);
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
   const [evns, setEvns] = useState(atob(evn).toLowerCase());
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const importComponent = async (printData, data) => {
     try {
       const module = await import(`../prints/eventWisePrints/${printData?.evname}`);
@@ -35,7 +38,7 @@ const RepairPrint = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

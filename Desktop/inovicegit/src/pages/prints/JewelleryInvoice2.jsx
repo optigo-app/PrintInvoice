@@ -6,18 +6,21 @@ import { apiCall, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import "../../assets/css/prints/jewelleryinvoice2.css";
 import { formatAmount } from "./../../GlobalFunctions";
 import { ToWords } from "to-words";
-const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn }) => {
+const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [metWise, setMetWise] = useState([]);
   const [totobj, setTotObj] = useState();
   const toWords = new ToWords();
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

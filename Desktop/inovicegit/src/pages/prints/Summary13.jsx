@@ -6,7 +6,7 @@ import Loader from '../../components/Loader';
 import { usePDF } from 'react-to-pdf';
 import html2pdf from 'html2pdf.js';
 import '../../assets/css/prints/summary12.css';
-const Summary13 = ({ urls, token, invoiceNo, printName, evn }) => {
+const Summary13 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
 
     const [billPrintJson, setBillprintJson] = useState({});
@@ -50,6 +50,10 @@ const Summary13 = ({ urls, token, invoiceNo, printName, evn }) => {
         MetalAmount: 0,
         fineWt: 0
     });
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const [lastDiamondTable, setLastDiamondTable] = useState([]);
     const [lastColorStoneTable, setLastColorStoneTable] = useState([]);
     const [lastDiamondTableTotal, setLastDiamondTableTotal] = useState({
@@ -339,7 +343,7 @@ const Summary13 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

@@ -15,7 +15,7 @@ import {
 import footer2 from "../../assets/css/footers/footer2.module.css";
 import { cloneDeep, replace } from 'lodash';
 
-const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn }) => {
+const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const toWords = new ToWords();
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
@@ -25,6 +25,10 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [headerData, setHeaderData] = useState({});
     const [data, setData] = useState({});
     const [documentDetail, setDocumentDetail] = useState([]);
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
         let docs = data?.BillPrint_Json[0]?.DocumentDetail?.split("#@#");
@@ -78,7 +82,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

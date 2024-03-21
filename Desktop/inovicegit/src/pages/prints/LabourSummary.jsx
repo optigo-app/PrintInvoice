@@ -6,7 +6,7 @@ import { cloneDeep } from "lodash";
 import { formatAmount } from './../../GlobalFunctions';
 import Loader from './../../components/Loader';
 
-const LabourSummary = ({ token, invoiceNo, printName, urls, evn }) => {
+const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const [result, setResult] = useState();
   const [msg, setMsg] = useState("");
@@ -14,12 +14,15 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn }) => {
   const [header, setHeaderComp] = useState(null);
   const [footer, setFooterComp] = useState(null);
   const [qualityTypes, setQualityTypes] = useState('');
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   useEffect(() => {
 
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

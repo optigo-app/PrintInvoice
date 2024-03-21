@@ -3,7 +3,7 @@ import "../../assets/css/prints/miscPrint1.css";
 import { apiCall, fixedValues, handlePrint, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { usePDF } from 'react-to-pdf';
-const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
+const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
     const [primary, setPrimary] = useState({});
     const [jsonData, setJsonData] = useState([]);
@@ -12,7 +12,10 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [msg, setMsg] = useState("");
     const [materialNames, setMaterialNames] = useState([]);
     const [totalItems, setTotalItems] = useState([]);
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (datas) => {
         setPrimary(datas?.BillPrint_Json[0]);
         let resultData = [];
@@ -135,7 +138,7 @@ const MiscPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

@@ -84,6 +84,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
 
   const [diamondDetails, setDiamondDetails] = useState([]);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
 
   const handleChange = (e) => {
     const { name, checked } = e?.target;
@@ -572,11 +576,15 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </p>
               </div>
               <div className="col-6">
-                <img
+              {isImageWorking && (json0Data?.PrintLogo !== "" && 
+                      <img src={json0Data?.PrintLogo} alt="" 
+                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} />)}
+                {/* <img
                   src={json0Data?.PrintLogo}
                   alt=""
                   className="w-25 d-block ms-auto"
-                />
+                /> */}
               </div>
             </div>
             {/* address */}

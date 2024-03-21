@@ -12,7 +12,7 @@ import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 import { taxGenrator } from "./../../GlobalFunctions";
 
-const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
+const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState();
   // eslint-disable-next-line no-unused-vars
   const [json1, setJson1] = useState();
@@ -26,7 +26,10 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [taxTotal, setTaxTotal] = useState([]);
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   async function loadData(data) {
     try {
       setHeaderData(data?.BillPrint_Json[0]);
@@ -249,7 +252,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

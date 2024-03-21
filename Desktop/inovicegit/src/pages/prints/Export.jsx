@@ -5,11 +5,15 @@ import { useState } from "react";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 
-const Export = ({ urls, token, invoiceNo, printName, evn }) => {
+const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [json0Data, setJson0Data] = useState({});
     const [data, setData] = useState([]);
     const [msg, setMsg] = useState("");
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const [total, setTotal] = useState({
         qtyPcsPair: 0,
         grossWt: 0,
@@ -142,7 +146,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

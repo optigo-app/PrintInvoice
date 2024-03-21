@@ -27,7 +27,10 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         netBalanceAmount: 0,
     });
     const [tax, setTax] = useState([]);
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         console.log(data);
         setJson0Data(data?.BillPrint_Json[0]);

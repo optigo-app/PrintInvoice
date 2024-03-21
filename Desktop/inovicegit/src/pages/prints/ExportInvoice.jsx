@@ -102,7 +102,10 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         datas.resultArray = resultArr;
         setData(datas);
     };
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     useEffect(() => {
         const sendData = async () => {
             try {

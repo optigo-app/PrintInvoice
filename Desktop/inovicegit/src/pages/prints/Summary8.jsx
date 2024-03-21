@@ -13,14 +13,17 @@ import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import style2 from "../../assets/css/headers/header1.module.css";
 import footerStyle from "../../assets/css/footers/footer2.module.css";
 
-const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
+const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [data, setData] = useState({});
     const [summary, setSummary] = useState([]);
     const [headerData, setHeaderData] = useState({});
     const toWords = new ToWords();
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         setHeaderData(data?.BillPrint_Json[0]);
         let datas = OrganizeDataPrint(
@@ -64,7 +67,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === "200") {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

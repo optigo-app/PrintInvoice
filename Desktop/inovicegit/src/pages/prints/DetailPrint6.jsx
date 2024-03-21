@@ -18,7 +18,10 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     m_Pcs: 0,
     m_Wt:0,
   })
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   useEffect(() => {
     const sendData = async () => {
       try {

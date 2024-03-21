@@ -16,7 +16,7 @@ import BarcodePrintGenerator from "../../components/barcodes/BarcodePrintGenerat
 import style2 from "../../assets/css/headers/header1.module.css";
 import footerStyle from "../../assets/css/footers/footer2.module.css";
 
-const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
+const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
   const [data, setData] = useState([]);
@@ -31,6 +31,10 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
     totals: 0,
     discounttotals: 0
   });
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const [discount, setDiscount] = useState(0);
   const [taxes, setTaxes] = useState([]);
   const [pnm, setPnm] = useState(atob(printName).toLowerCase());
@@ -377,7 +381,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

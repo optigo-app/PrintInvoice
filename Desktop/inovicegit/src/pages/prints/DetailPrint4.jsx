@@ -16,6 +16,10 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   useEffect(() => {
     const sendData = async () => {
       try {

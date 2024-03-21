@@ -214,6 +214,10 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
     sendData();
   }, []);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   return (
     <>{loader ? <Loader /> : msg === "" ? <div className="container containerDetailPrint1 containerDetailPrint12 pt-4 pad_60_allPrint">
       {/* buttons */}

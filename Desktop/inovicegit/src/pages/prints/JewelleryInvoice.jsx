@@ -6,14 +6,17 @@ import Loader from '../../components/Loader';
 import numberToWords from 'number-to-words';
 import { ToWords } from 'to-words';
 
-const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
+const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
   const [data, setData] = useState([]);
   const [taxes, setTaxes] = useState([]);
   const [msg, setMsg] = useState("");
   const toWords = new ToWords();
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const [total, setTotal] = useState({
     grossWt: 0,
     netWt: 0,
@@ -109,7 +112,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === '200') {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

@@ -4,7 +4,7 @@ import { apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, Num
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/packingList1.module.css";
 
-const PackingList1 = ({ urls, token, invoiceNo, printName, evn }) => {
+const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
@@ -33,6 +33,10 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn }) => {
         TotalAmount: 0,
         amountAfterDiscount: 0,
     });
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const [taxes, setTaxes] = useState([]);
 
     const loadData = (data) => {
@@ -347,7 +351,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

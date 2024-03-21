@@ -11,7 +11,7 @@ import convertor from "number-to-words";
 import Button from "./../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 
-const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
+const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState({});
   // eslint-disable-next-line no-unused-vars
   const [dynamicList1, setDynamicList1] = useState([]);
@@ -26,6 +26,10 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   const [groupedArr, setGroupedArr] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   async function loadData(data) {
     try {
 
@@ -357,7 +361,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

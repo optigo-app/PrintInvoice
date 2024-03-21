@@ -13,6 +13,10 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     const [checkBox, setCheckbox] = useState({
         image: false,
     });
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
 
     const loadData = (data) => {
         // console.log(data);

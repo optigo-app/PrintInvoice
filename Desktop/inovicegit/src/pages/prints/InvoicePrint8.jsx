@@ -31,6 +31,10 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         other1: [],
         other2: [],
     });
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const [metal, setMetal] = useState([]);
     const [data, setData] = useState({});
     const [finding, setFinding] = useState([]);

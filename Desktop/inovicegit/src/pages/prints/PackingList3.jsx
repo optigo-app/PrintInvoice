@@ -13,7 +13,7 @@ import {
 import { taxGenrator } from "./../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 
-const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
+const PackingList3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState({});
   const [imgShow, setImgShow] = useState(true);
   const [dynamicList1, setDynamicList1] = useState([]);
@@ -33,7 +33,10 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [taxTotal, setTaxTotal] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const totalObj = {
     totdiapcs: 0,
     totdiawt: 0,
@@ -88,7 +91,7 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

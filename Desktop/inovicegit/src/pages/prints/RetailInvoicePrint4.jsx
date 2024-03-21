@@ -15,7 +15,7 @@ import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 import { ToWords } from 'to-words';
 
-const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn }) => {
+const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState({});
   const [data, setdata] = useState([]);
   const [msg, setMsg] = useState("");
@@ -34,6 +34,10 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn }) => {
     afterTax: 0,
     netBalAmount: 0
   });
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const [taxes, setTaxes] = useState([]);
   const [bank, setBank] = useState([]);
   async function loadData(data) {
@@ -156,7 +160,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

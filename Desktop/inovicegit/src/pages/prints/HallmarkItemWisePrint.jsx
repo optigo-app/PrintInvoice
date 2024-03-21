@@ -6,7 +6,7 @@ import { usePDF } from "react-to-pdf";
 import Loader from "../../components/Loader";
 import style from "../../assets/css/prints/hallmarkItemwisePrint1.module.css"
 
-const HallmarkItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
+const HallmarkItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
     const [styles, setStyles] = useState({
         metaltype: "",
@@ -45,6 +45,10 @@ const HallmarkItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         pkgWt: 0,
         TotalAmount: 0
     });
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const [taxes, setTaxes] = useState([]);
     const loadData = (data) => {
         setjson0Data(data?.BillPrint_Json[0]);
@@ -168,7 +172,7 @@ const HallmarkItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

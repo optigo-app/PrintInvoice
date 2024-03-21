@@ -6,7 +6,7 @@ import Loader from '../../components/Loader';
 import { usePDF } from 'react-to-pdf';
 import html2pdf from 'html2pdf.js';
 import '../../assets/css/prints/summary12.css';
-const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
+const Summary12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
 
     const [billPrintJson, setBillprintJson] = useState({});
@@ -29,6 +29,10 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
         afterTaxAmt: 0,
         metalAmount: 0
     });
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const [header, setHeader] = useState(true);
     const [image, setimage] = useState(true);
     const [summary, setSummary] = useState(false);
@@ -335,7 +339,7 @@ const Summary12 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

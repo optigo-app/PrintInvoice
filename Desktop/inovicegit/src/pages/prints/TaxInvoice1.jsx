@@ -15,7 +15,7 @@ import {
 import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
 
-const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
+const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [image, setimage] = useState(false);
   const [BillPrint_Json, setBillPrint_Json] = useState({});
   const [BillPrint_Jso1, setBillPrint_Json1] = useState([]);
@@ -27,7 +27,10 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
   const toWords = new ToWords();
   const [taxes, setTaxes] = useState([]);
   const [bank, setBank] = useState([]);
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const handleChange = (e) => {
     image ? setimage(false) : setimage(true);
   };
@@ -414,7 +417,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

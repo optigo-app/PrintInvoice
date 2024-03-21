@@ -17,7 +17,7 @@ import { ToWords } from "to-words";
 import headerStyle from "../../assets/css/headers/header1.module.css";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 
-const Summary6 = ({ urls, token, invoiceNo, printName, evn }) => {
+const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [data, setData] = useState({});
@@ -27,7 +27,10 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [footer, setFooter] = useState(null);
     const [summary, setSummary] = useState([]);
     const toWords = new ToWords();
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
         setHeader(head);
@@ -56,7 +59,7 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === "200") {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

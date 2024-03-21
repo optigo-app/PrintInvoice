@@ -23,7 +23,10 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
     const [data, setData] = useState({});
     const [label, setlabel] = useState([]);
     const [headerData, setHeaderData] = useState({});
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
         let footers = FooterComponent("2", data?.BillPrint_Json[0]);

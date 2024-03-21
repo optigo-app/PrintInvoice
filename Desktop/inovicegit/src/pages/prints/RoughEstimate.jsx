@@ -6,7 +6,7 @@ import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 import { apiCall, isObjectEmpty, NumberWithCommas, taxGenrator } from "./../../GlobalFunctions";
 
-const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
+const RoughEstimate = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [json, setJson] = useState({});
   // eslint-disable-next-line no-unused-vars
   const [json1, setJson1] = useState([]);
@@ -29,7 +29,10 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
   const [totalUnitCost, setTotalUnitCost] = useState(0);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const organizeData = (arr, arr1, arr2) => {
     let FineArr = [];
 
@@ -328,7 +331,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

@@ -4,7 +4,7 @@ import { NumberWithCommas, apiCall, handlePrint } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { handleImageError } from '../../GlobalFunctions/HandleImageError';
 
-const ExportPrint = ({ urls, token, invoiceNo, printName, evn }) => {
+const ExportPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [invoice, setInvoice] = useState("");
     const [customerCode, setCustomerCode] = useState("")
@@ -13,7 +13,10 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn }) => {
         invoiceNo: false,
         customerCode: false
     })
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         // console.log(data);
         setInvoice(data?.BillPrint_Json[0]?.InvoiceNo);
@@ -41,7 +44,7 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 loadData(data?.Data);
                 setLoader(false);
             } catch (error) {

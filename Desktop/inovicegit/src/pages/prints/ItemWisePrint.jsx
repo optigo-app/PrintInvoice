@@ -6,13 +6,17 @@ import { ToWords } from 'to-words';
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 
-const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
+const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
   const [loader, setLoader] = useState(true);
   const toWords = new ToWords();
   const [json0Data, setjson0Data] = useState({});
   const [msg, setMsg] = useState("");
   const [data, setData] = useState([]);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const [total, setTotal] = useState({
     count: 0,
     gwt: 0,
@@ -223,7 +227,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === '200') {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

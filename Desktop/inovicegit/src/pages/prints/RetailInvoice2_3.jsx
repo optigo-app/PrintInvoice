@@ -6,7 +6,7 @@ import Footer2 from '../../components/footers/Footer2';
 import { handleImageError } from '../../GlobalFunctions/HandleImageError';
 
 
-const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
+const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
@@ -33,7 +33,10 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
         balanceAmount: 0
     });
     const [styles, setStyles] = useState({});
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const [debitCard, setDebitCard] = useState([]);
 
     const loadData = (data) => {
@@ -145,7 +148,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

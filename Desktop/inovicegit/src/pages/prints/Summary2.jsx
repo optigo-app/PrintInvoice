@@ -13,7 +13,7 @@ import {
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
 
-const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
+const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [categoryNameWise, setCategoryNameWise] = useState([]);
   // eslint-disable-next-line no-unused-vars
@@ -38,11 +38,14 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [hsnetwt, sethsnetwt] = useState(true);
   const [hsimg, sethsimg] = useState(true);
   const [hsbrand, sethsbrand] = useState(false);
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

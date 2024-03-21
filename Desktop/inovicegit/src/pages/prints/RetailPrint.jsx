@@ -4,7 +4,7 @@ import "../../assets/css/prints/retailPrint.css";
 import Loader from '../../components/Loader';
 import { ToWords } from 'to-words';
 
-const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
+const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [jsonData1, setJsonData1] = useState({});
     const [dataFill, setDataFill] = useState([]);
     const [total, setTotal] = useState({});
@@ -29,7 +29,10 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
     });
 
     const toWords = new ToWords();
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         setJsonData1(data?.BillPrint_Json[0]);
         let resultArr = [];
@@ -258,7 +261,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

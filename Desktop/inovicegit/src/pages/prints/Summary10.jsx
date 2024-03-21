@@ -4,7 +4,7 @@ import { apiCall, formatAmount, handlePrint, isObjectEmpty, numberToWord } from 
 import "../../assets/css/prints/summary10.css";
 import { cloneDeep } from 'lodash';
 import Loader from './../../components/Loader';
-const Summary10 = ({ urls, token, invoiceNo, printName, evn }) => {
+const Summary10 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
@@ -14,7 +14,7 @@ const Summary10 = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -35,6 +35,10 @@ const Summary10 = ({ urls, token, invoiceNo, printName, evn }) => {
     sendData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const loadData = (data) => {
     let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
     data.BillPrint_Json[0].address = address;

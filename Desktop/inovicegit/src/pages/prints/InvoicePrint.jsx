@@ -7,14 +7,17 @@ import { cloneDeep } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { ToWords } from "to-words";
 
-const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
+const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const toWords = new ToWords();
   const [loader, setLoader] = useState(true);
   const [json0, setJson0] = useState({});
   const [data, setData] = useState([]);
   const [msg, setMsg] = useState("");
   const [datass, setDatas] = useState({});
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const findOtherName = (arr, ele) => {
     let findIndex = arr.findIndex((e, i) => e?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid && e?.Rate === ele?.Rate);
     if (findIndex === -1) {
@@ -123,7 +126,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === '200') {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

@@ -14,7 +14,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { ToWords } from "to-words";
 import footerStyle from "../../assets/css/footers/footer2.module.css";
 
-const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
+const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
   const [data, setData] = useState([]);
@@ -24,7 +24,10 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [total, setTotal] = useState({});
   const [grandTotal, setGrandTotal] = useState(0);
   const toWords = new ToWords();
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const loadData = (data) => {
     setHeaderData(data?.BillPrint_Json[0]);
     let footers = FooterComponent("2", data?.BillPrint_Json[0]);
@@ -103,7 +106,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

@@ -6,7 +6,7 @@ import { ExportToExcel, NumberWithCommas, apiCall, isObjectEmpty, otherAmountDet
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import style from "../../assets/css/prints/exporttojsondownloadA.module.css";
 
-const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
+const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
@@ -17,7 +17,10 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
         colorStones: 0,
         miscs: 0
     })
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         let json0Data = data?.BillPrint_Json[0];
         let diaLength = 0;
@@ -193,7 +196,7 @@ const ExcelToJsonDownloadJ1 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

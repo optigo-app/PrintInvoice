@@ -5,12 +5,16 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { apiCall, fixedValues, handleImageError, isObjectEmpty, NumberWithCommas } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
-const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
+const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [data, setData] = useState([]);
     const [header, setHeader] = useState({});
     const [total, setTotal] = useState({});
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         setHeader(data?.BillPrint_Json[0]);
         let blankedArr = [];
@@ -317,7 +321,7 @@ const ExcelToJsonDownloads = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

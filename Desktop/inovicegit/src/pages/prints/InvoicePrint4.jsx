@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import Loader from "../../components/Loader";
 import Button from "../../GlobalFunctions/Button";
 import "../../assets/css/prints/invoiceprint4.css";
-const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn }) => {
+const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [header, setHeader] = useState(null);
   const [headerData, setHeaderData] = useState({});
   const [subheader, setSubHeader] = useState(null);
@@ -31,6 +31,10 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn }) => {
   // eslint-disable-next-line no-unused-vars
   const [totDiscount, setTotDiscount] = useState(0);
   const [msg, setMsg] = useState("");
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const organizeData = (headerdata, json1, json2) => {
     let resultArr = [];
     let groupedAmtTotal = 0;
@@ -89,6 +93,7 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn }) => {
         Amount: 0,
       },
     };
+    
     json1?.forEach((e, i) => {
       let diamondlist = [];
       let colorstonelist = [];
@@ -416,7 +421,7 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

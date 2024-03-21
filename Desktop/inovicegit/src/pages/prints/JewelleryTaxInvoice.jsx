@@ -12,13 +12,17 @@ import style from "../../assets/css/prints/jewelleryTaxInvoice.module.css";
 import style1 from "../../assets/css/prints/jewelleryTaxInvoice.module.css";
 import style2 from "../../assets/css/headers/header1.module.css";
 
-const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
+const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [data, setData] = useState([]);
   const [tax, settax] = useState([]);
   const [memo, setMemo] = useState(atob(evn)?.toLowerCase() === "memo" ? true : false);
   const [estimate, setEstimate] = useState(atob(evn)?.toLowerCase() === "product estimate" ? true : false);
   const [summary, setSummary] = useState([]);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const [totalAmount, settotalAmount] = useState({
     before: 0,
     after: 0,
@@ -156,7 +160,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

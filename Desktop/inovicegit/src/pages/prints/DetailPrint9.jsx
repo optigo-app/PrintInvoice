@@ -35,7 +35,10 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     WithSummary: true,
     WithDiamondRate: true,
   })
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const loadData = (data) => {
     setHeaderData(data?.BillPrint_Json[0]);
     let footers = FooterComponent("2", data?.BillPrint_Json[0]);

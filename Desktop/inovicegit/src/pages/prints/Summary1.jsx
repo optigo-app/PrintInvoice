@@ -16,7 +16,7 @@ import convertor from "number-to-words";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 
-const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
+const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState({});
   const [subHeaderData, setSubHeaderData] = useState({});
   const [footerComponent, setFooterComponent] = useState(null);
@@ -39,7 +39,10 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [headerComp, setHeaderComp] = useState(null);
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const organizeData = (headerDatas, arr1, arr2) => {
     let totgrosswt = 0;
     let totnetlosswt = 0;
@@ -287,7 +290,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

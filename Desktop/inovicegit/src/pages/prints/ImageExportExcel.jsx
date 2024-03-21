@@ -4,10 +4,13 @@ import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import Loader from '../../components/Loader';
 
-const ImageExportExcel = ({ urls, token, invoiceNo, printName, evn }) => {
+const ImageExportExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const loadData = (data) => {
     // console.log(data);
     let imagePaths = [];
@@ -48,7 +51,7 @@ const ImageExportExcel = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === '200') {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

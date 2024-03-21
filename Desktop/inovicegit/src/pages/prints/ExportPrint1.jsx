@@ -3,7 +3,7 @@ import style from "../../assets/css/prints/exportPrint1.module.css";
 import { NumberWithCommas, apiCall, fixedValues, handlePrint, isObjectEmpty, numberToWord } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
-const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
+const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [data, setData] = useState([]);
     const [json0Data, setJson0Data] = useState({});
@@ -12,7 +12,10 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     const [grossWt, setGrossWt] = useState(0);
     const [totalAmount, setTotalAmount] = useState(0);
     const [unitCost, setUnitCost] = useState(0); 
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         let arr = [];
         let metalArrs = [];
@@ -62,7 +65,7 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

@@ -10,7 +10,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/invoiceprint5.css";
 
-const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
+const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [grandTotal, setGrandTotal] = useState(0);
   const [classip, setClassip] = useState({
     col1: "",
@@ -27,7 +27,10 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
   });
   const [result, setResult] = useState(null);
   const [metaltypewise, setMetaltypewise] = useState([]);
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [footerComp, setFooterComp] = useState(null);
@@ -68,7 +71,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

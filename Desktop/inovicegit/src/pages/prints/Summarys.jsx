@@ -4,7 +4,7 @@ import { HeaderComponent, NumberWithCommas, apiCall, fixedValues, handleImageErr
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/summarys.module.css";
 
-const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
+const Summary2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [headerData, setHeaderData] = useState({});
     const [headerComp, setHeaderComp] = useState(null);
@@ -21,6 +21,10 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
         totalAmount: checkBox?.netwt ? style?.amtTotalDetail : style?.amtTotalDetail1,
         amtDetailPurity: checkBox?.netwt ? style?.amtDetailPurity : style?.amtDetailPurity
     });
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const [total, setTotal] = useState({
         grosswt: 0,
         NetWt: 0,
@@ -123,7 +127,7 @@ const Summary2 = ({ token, invoiceNo, printName, urls, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

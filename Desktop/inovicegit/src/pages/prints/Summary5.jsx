@@ -12,7 +12,7 @@ import Loader from "../../components/Loader";
 import "../../assets/css/prints/summary5.css";
 import * as lsh from "lodash";
 
-const Summary5 = ({ urls, token, invoiceNo, printName, evn }) => {
+const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -25,10 +25,14 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn }) => {
     rRate:0,
     amtAmount:0
   })
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

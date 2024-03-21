@@ -24,6 +24,10 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [header, setHeader] = useState(null);
     const [footer, setFooter] = useState(null);
     const [headerData, setHeaderData] = useState({});
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const [total, setTotal] = useState({
         metalWt: 0,
         metalAmount: 0

@@ -5,7 +5,7 @@ import Loader from '../../components/Loader';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { cloneDeep } from 'lodash';
 
-const EstimationPrint = ({ token, invoiceNo, printName, urls, evn }) => {
+const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [data, setData] = useState({});
@@ -13,7 +13,10 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn }) => {
     const [checkBox, setCheckBox] = useState({
         image: false,
     });
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const handleChange = (e) => {
         const { name, checked } = e?.target;
         setCheckBox({ ...checkBox, [name]: checked });
@@ -136,7 +139,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

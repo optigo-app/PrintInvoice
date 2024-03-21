@@ -47,6 +47,10 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [otherAmt, setOtherAmt] = useState(0);
   const [discountAmt, setDiscountAmt] = useState(0);
   const [brokarage, setBrokarage] = useState([]);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
 
   const loadData = (data) => {
     // console.log(data);

@@ -14,7 +14,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { ToWords } from "to-words";
 import style2 from "../../assets/css/headers/header1.module.css";
 
-const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn }) => {
+const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
   const [data, setData] = useState([]);
@@ -24,7 +24,10 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn }) => {
   const [headerData, setHeaderData] = useState({});
   const [image, setImage] = useState(true);
   const toWords = new ToWords();
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const loadData = (data) => {
     // console.log(data);
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
@@ -56,7 +59,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

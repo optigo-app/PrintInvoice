@@ -5,7 +5,7 @@ import { ToWords } from 'to-words';
 import { NumberWithCommas, apiCall, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
-const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
+const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const [loader, setLoader] = useState(true);
     const [headerData, setHeaderData] = useState({});
@@ -16,11 +16,14 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn }) => {
     const loadData = (data) => {
         setHeaderData(data?.BillPrint_Json[0])
     }
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+    const handleImageErrors = () => {
+      setIsImageWorking(false);
+    };
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

@@ -58,7 +58,10 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setData(datas);
     console.log(datas);
   };
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const checkid = (data, keyValueGold, keyValueDiaCsM) => {
     let id = data?.MasterManagement_DiamondStoneTypeid;
     let datas = "";

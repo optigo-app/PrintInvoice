@@ -4,7 +4,7 @@ import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/invoiceprint4clone.module.css";
 import { ToWords } from 'to-words';
 
-const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
+const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
@@ -24,7 +24,10 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
 
     const [taxes, setTaxes] = useState([]);
     const toWords = new ToWords();
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const resultAray = (arr, record) => {
         let findIndex = arr.findIndex(ele => ele?.QualityName === record?.QualityName && ele?.MasterManagement_DiamondStoneTypeid === record?.MasterManagement_DiamondStoneTypeid);
         if (findIndex === -1) {
@@ -128,7 +131,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

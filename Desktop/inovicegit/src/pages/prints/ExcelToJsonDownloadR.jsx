@@ -8,13 +8,16 @@ import style from "../../assets/css/prints/exporttojsondownloadR.module.css";
 import { OrganizeDataPrint } from "./../../GlobalFunctions/OrganizeDataPrint";
 import lodash from 'lodash';
 
-const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn }) => {
+const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [header, setHeader] = useState({});
     const [data, setData] = useState([]);
     const [botTable, setBotTable] = useState([]);
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         let datas = OrganizeDataPrint(
             data?.BillPrint_Json[0],
@@ -184,7 +187,7 @@ const ExcelToJsonDownloadR = ({ token, invoiceNo, printName, urls, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

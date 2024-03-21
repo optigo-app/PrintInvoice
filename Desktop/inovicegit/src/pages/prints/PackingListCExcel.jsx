@@ -5,7 +5,7 @@ import style from "../../assets/css/prints/PackingListCExcel.module.css"
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 
-const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
+const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
@@ -14,7 +14,10 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
     const [checkBox, setCheckbox] = useState({
         image: false,
     });
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+    const handleImageErrors = () => {
+      setIsImageWorking(false);
+    };
     const [total, setTotal] = useState({
         s_lcPcs: 0,
         s_lcWt: 0,
@@ -172,7 +175,7 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === "200") {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

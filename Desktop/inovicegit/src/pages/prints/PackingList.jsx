@@ -11,7 +11,7 @@ import {
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "./../../GlobalFunctions/OrganizeDataPrint";
 
-const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
+const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState({});
   const [dynamicList1, setDynamicList1] = useState([]);
   const [dynamicList2, setDynamicList2] = useState([]);
@@ -53,6 +53,10 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
     totgrosswt: 0,
     totnetwt: 0,
     totlbramt: 0,
+  };
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
   };
   let diamondList = [];
   let colorStoneList = [];
@@ -377,7 +381,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

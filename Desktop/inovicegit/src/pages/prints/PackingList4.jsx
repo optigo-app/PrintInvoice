@@ -12,7 +12,7 @@ import {
 import { taxGenrator } from "./../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { cloneDeep, findIndex } from 'lodash';
-const PackingList4 = ({ urls, token, invoiceNo, printName, evn }) => {
+const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [headerData, setHeaderData] = useState({});
     const [msg, setMsg] = useState("");
     const [data, setData] = useState([]);
@@ -21,6 +21,10 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn }) => {
         netWt: 0,
         metalAmount: 0
     })
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         setHeaderData(data?.BillPrint_Json[0]);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
@@ -60,7 +64,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === "200") {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

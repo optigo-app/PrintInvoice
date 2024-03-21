@@ -18,7 +18,7 @@ import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import style2 from "../../assets/css/headers/header1.module.css";
 import { split } from 'lodash';
 
-const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
+const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [data, setData] = useState({});
@@ -30,6 +30,10 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
         json1: [],
         json2: [],
     });
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const toWords = new ToWords();
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
@@ -183,7 +187,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === "200") {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

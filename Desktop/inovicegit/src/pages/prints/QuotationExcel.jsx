@@ -12,7 +12,7 @@ import {
 import ReactdTMLTableToExcel from "react-html-table-to-excel";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 
-const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
+const QuotationExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
   const [header, setdeader] = useState({});
@@ -32,6 +32,10 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
     qty: 0,
     totalAmount: 0,
   });
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   const [tax, setTax] = useState([]);
 
   const loadData = (data) => {
@@ -294,7 +298,7 @@ const QuotationExcel = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

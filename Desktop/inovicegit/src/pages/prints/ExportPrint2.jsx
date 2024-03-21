@@ -7,7 +7,7 @@ import lodash from 'lodash';
 import footer1 from "../../assets/css/footers/footer1.module.css";
 
 
-const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
+const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [data, setData] = useState([]);
     const [headerData, setHeaderData] = useState({});
@@ -26,7 +26,10 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
         csList: [],
         findList: []
     });
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         // console.log(data);
         // setData(arr);
@@ -150,7 +153,7 @@ const ExportPrint2 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

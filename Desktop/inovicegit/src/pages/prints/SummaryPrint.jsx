@@ -5,7 +5,7 @@ import * as lsh from "lodash";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import "../../assets/css/prints/summaryprint.css";
 
-const SummaryPrint = ({ urls, token, invoiceNo, printName, evn }) => {
+const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   
   
     const [result, setResult] = useState(null);
@@ -13,11 +13,14 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn }) => {
     const [mainTotal, setMainTotal] = useState(null);
     const [msg, setMsg] = useState("");
     const [loader, setLoader] = useState(true);
-  
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     useEffect(() => {
       const sendData = async () => {
         try {
-          const data = await apiCall(token, invoiceNo, printName, urls, evn);
+          const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
           if (data?.Status === "200") {
             let isEmpty = isObjectEmpty(data?.Data);
             if (!isEmpty) {

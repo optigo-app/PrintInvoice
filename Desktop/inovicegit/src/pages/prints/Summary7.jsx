@@ -5,18 +5,21 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/summary7s.css";
 import { ToWords } from "to-words";
-const Summary7 = ({ urls, token, invoiceNo, printName, evn }) => {
+const Summary7 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
   const toWords = new ToWords();
 
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

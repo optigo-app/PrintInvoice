@@ -4,7 +4,7 @@ import { apiCall, formatAmount, handlePrint, isObjectEmpty } from "../../GlobalF
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/summary3.css";
 
-const Summary3 = ({ urls, token, invoiceNo, printName, evn }) => {
+const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -21,11 +21,14 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn }) => {
     col10:'col10s3',
     col11:'col11s3',
   })
-
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

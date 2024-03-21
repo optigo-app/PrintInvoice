@@ -11,14 +11,17 @@ import style from "../../assets/css/prints/PackingList2.module.css";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
 
-const PackingList2 = ({ urls, token, invoiceNo, printName, evn }) => {
+const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [data, setData] = useState({});
     const [summary, setSummary] = useState([]);
     const [headerData, setHeaderData] = useState({});
     const toWords = new ToWords();
-
+    const [isImageWorking, setIsImageWorking] = useState(true);
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
     const loadData = (data) => {
         console.log(data);
         setHeaderData(data?.BillPrint_Json[0]);
@@ -34,7 +37,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === "200") {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {
