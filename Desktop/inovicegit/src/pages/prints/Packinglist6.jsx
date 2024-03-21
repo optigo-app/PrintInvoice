@@ -122,7 +122,11 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* header */}
                 <div>
-                    <img src={headerData?.PrintLogo} alt="" className="logoimg d-block mx-auto" />
+                    {/* <img src={headerData?.PrintLogo} alt="" className="logoimg d-block mx-auto" /> */}
+                    {isImageWorking && (headerData?.PrintLogo !== "" && 
+                      <img src={headerData?.PrintLogo} alt="" 
+                      className="logoimg d-block mx-auto"
+                      onError={handleImageErrors} height={120} width={150} />)}
                     <p className={`fw-bold text-center pt-1 ${style?.font_12}`}>{headerData?.CompanyAddress} {headerData?.CompanyAddress2} {headerData?.CompanyCity}-{headerData?.CompanyPinCode}</p>
                     {headerData?.PrintHeadLabel !== "" && <p className={` ${style?.font_18} fw-bold`}>{headerData?.PrintHeadLabel}</p>}
                     {headerData?.PrintRemark !== '' && <p className={`fw-bold text-center pt-2 ${style?.font_11}`}>{headerData?.PrintRemark}</p>}

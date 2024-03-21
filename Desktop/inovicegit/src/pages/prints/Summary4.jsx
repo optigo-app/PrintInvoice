@@ -55,9 +55,9 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
     const findMaterialWise = (findElement, elementNo, arr) => {
         let resultArr = arr.filter((e, i) => {
             return e[findElement] === elementNo
@@ -390,7 +390,11 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <p className='address_para_sum4 lh-1 pb-1'>{billPrintJson?.Company_VAT_GST_No} | {billPrintJson?.Cust_CST_STATE}-{billPrintJson?.Company_CST_STATE_No} | PAN-EDJHF236D </p>
                 </div>
                 <div className="logo_sec_sum4">
-                    <img src={billPrintJson?.PrintLogo} alt="Logo" />
+                    {/* <img src={billPrintJson?.PrintLogo} alt="Logo" /> */}
+                    {isImageWorking && (billPrintJson?.PrintLogo !== "" &&
+                        <img src={billPrintJson?.PrintLogo} alt=""
+                            //   className={`${style2.headerImg}`}
+                            onError={handleImageErrors} />)}
                 </div>
             </div>}
             <div className="">

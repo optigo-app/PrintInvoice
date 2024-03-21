@@ -28,9 +28,9 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [summary, setSummary] = useState([]);
     const toWords = new ToWords();
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
         setHeader(head);
@@ -103,7 +103,14 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="d-flex justify-content-end align-item-center col-6"><img src={headerData?.PrintLogo} alt="" className={`${headerStyle.headerImg} w-100 object-fit-contain`} style={{ maxWidth: "153.11px", maxHeight: "100px" }} /></div>
+                                <div className="d-flex justify-content-end align-item-center col-6">
+                                    {/* <img src={headerData?.PrintLogo} alt="" className={`${headerStyle.headerImg} w-100 object-fit-contain`} style={{ maxWidth: "153.11px", maxHeight: "100px" }} /> */}
+                                    {isImageWorking && (headerData?.PrintLogo !== "" &&
+                                        <img src={headerData?.PrintLogo} alt=""
+                                            className={`${headerStyle.headerImg} w-100 object-fit-contain`}
+                                            style={{ maxWidth: "153.11px", maxHeight: "100px" }}
+                                            onError={handleImageErrors} />)}
+                                </div>
                             </div>
                         </th>
                     </tr>

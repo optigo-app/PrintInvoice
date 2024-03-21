@@ -45,7 +45,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let resultArr = [];
     datas?.resultArray.forEach((e, i) => {
       if (e?.GroupJob === "") {
-        let obj = {...e};
+        let obj = { ...e };
         obj.srjobno = e?.SrJobno.split("/");
         resultArr.push(obj);
       } else {
@@ -54,7 +54,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             elem?.GroupJob === e?.GroupJob && elem?.GroupJob !== ""
         );
         if (findRecord === -1) {
-          let obj = {...e};
+          let obj = { ...e };
           obj.srjobno = e?.SrJobno.split("/");
           resultArr.push(obj);
         } else {
@@ -159,7 +159,13 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
 
         </div>
-        <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /></div>
+        <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
+          {isImageWorking && (headerData?.PrintLogo !== "" &&
+            <img src={headerData?.PrintLogo} alt=""
+              className={`${style2.headerImg}`}
+              onError={handleImageErrors} />)}
+          {/* <img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /> */}
+        </div>
       </div>
       {/* sub header */}
       <div className="d-flex border mb-1">
@@ -192,11 +198,11 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <span className="col-6">: {headerData?.EntryDate}</span>
           </p>
           <p className="d-flex">
-            <span className="col-6 fw-semibold pe-2">{headerData?.HSN_No_Label} </span> 
+            <span className="col-6 fw-semibold pe-2">{headerData?.HSN_No_Label} </span>
             <span className="col-6">: {headerData?.HSN_No}</span>
           </p>
           <p className="d-flex">
-            <span className="col-6 fw-semibold pe-2">TERMS </span> 
+            <span className="col-6 fw-semibold pe-2">TERMS </span>
             <span className="col-6">: {headerData?.DueDays}</span>
           </p>
         </div>
@@ -374,10 +380,10 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
         </div>
       </div>
-            {/* remarks */}
-            <div className="border-start border-end border-bottom p-2">
-          <p className="fw-bold">REMARKS : </p>
-         <p> {headerData?.PrintRemark}</p>
+      {/* remarks */}
+      <div className="border-start border-end border-bottom p-2">
+        <p className="fw-bold">REMARKS : </p>
+        <p> {headerData?.PrintRemark}</p>
       </div>
       {/* declaration */}
       <div
@@ -388,7 +394,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       {/* footer */}
       <div className="d-flex border-start border-end border-bottom">
-      <div className="col-4 border-end p-2 d-flex flex-column justify-content-between">
+        <div className="col-4 border-end p-2 d-flex flex-column justify-content-between">
           <p className="fw-bold">Signature</p>
           <p>
             <span className="fw-bold">{headerData?.CustName}</span>

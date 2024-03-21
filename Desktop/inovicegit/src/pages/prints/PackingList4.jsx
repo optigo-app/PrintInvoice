@@ -22,9 +22,9 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         metalAmount: 0
     })
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
     const loadData = (data) => {
         setHeaderData(data?.BillPrint_Json[0]);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
@@ -106,7 +106,12 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 </div>
                                 {/* company details */}
                                 <div className={`text-center ${style?.font_12}`}>
-                                    <img src={headerData?.PrintLogo} alt="" className='imgWidth' style={{ maxWidth: "115px" }} />
+                                    {/* <img src={headerData?.PrintLogo} alt="" className='imgWidth' style={{ maxWidth: "115px" }} /> */}
+                                    {isImageWorking && (headerData?.PrintLogo !== "" &&
+                                        <img src={headerData?.PrintLogo} alt=""
+                                        className='imgWidth' style={{ maxWidth: "115px" }} 
+                                            onError={handleImageErrors}  />)}
+
                                     <p className="fw-medium fw-bold">{headerData?.CompanyAddress} {headerData?.CompanyAddress2} {headerData?.CompanyCity}-{headerData?.CompanyPinCode}</p>
                                     <p className=" fw-bold" style={{ fontSize: "18px" }}>{headerData?.PrintHeadLabel}</p>
                                     <p className="fw-medium fw-bold" style={{ fontSize: "11px" }}>({headerData?.PrintRemark})</p>
@@ -552,24 +557,24 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </div>
                                 </div>
                                 {/* taxes */}
-                                    <div className={`d-flex border-start border-end border-bottom border-black no_break ${style?.font_1_12}`}>
-                                        <div className={`${style?.taxes}`}>
-                                            {data?.mainTotal?.total_discount_amount > 0 && <p className="text-end">Total Discount </p>}
-                                            {data?.allTaxes?.map((e, i) => {
-                                                return <p className="text-end" key={i}>{e?.name} @ {e?.per} </p>
-                                            })}
-                                            {headerData?.AddLess !== 0 && <p className='text-end'>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>}
-                                            <p className="text-end">Grand Total	</p>
-                                        </div>
-                                        <div className={`${style?.amount}`}>
-                                            {data?.mainTotal?.total_discount_amount > 0 && <p className="text-end">{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)} </p>}
-                                            {data?.allTaxes?.map((e, i) => {
-                                                return <p className="text-end" key={i}>{NumberWithCommas(+e?.amount, 2)} </p>
-                                            })}
-                                            {headerData?.AddLess !== 0 && <p className='text-end'>{NumberWithCommas(headerData?.AddLess, 2)}</p>}
-                                            <p className="text-end">{NumberWithCommas(data?.finalAmount, 2)}</p>
-                                        </div>
+                                <div className={`d-flex border-start border-end border-bottom border-black no_break ${style?.font_1_12}`}>
+                                    <div className={`${style?.taxes}`}>
+                                        {data?.mainTotal?.total_discount_amount > 0 && <p className="text-end">Total Discount </p>}
+                                        {data?.allTaxes?.map((e, i) => {
+                                            return <p className="text-end" key={i}>{e?.name} @ {e?.per} </p>
+                                        })}
+                                        {headerData?.AddLess !== 0 && <p className='text-end'>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>}
+                                        <p className="text-end">Grand Total	</p>
                                     </div>
+                                    <div className={`${style?.amount}`}>
+                                        {data?.mainTotal?.total_discount_amount > 0 && <p className="text-end">{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)} </p>}
+                                        {data?.allTaxes?.map((e, i) => {
+                                            return <p className="text-end" key={i}>{NumberWithCommas(+e?.amount, 2)} </p>
+                                        })}
+                                        {headerData?.AddLess !== 0 && <p className='text-end'>{NumberWithCommas(headerData?.AddLess, 2)}</p>}
+                                        <p className="text-end">{NumberWithCommas(data?.finalAmount, 2)}</p>
+                                    </div>
+                                </div>
                             </div>
                         </>
                     ) : (

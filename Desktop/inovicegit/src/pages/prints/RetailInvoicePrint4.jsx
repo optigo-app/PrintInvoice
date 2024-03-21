@@ -231,11 +231,15 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     </div>
                   </div>
                   <div className="col-2 d-flex align-items-center justify-content-center">
-                    <img
+                    {/* <img
                       src={headerData?.PrintLogo}
                       alt="#"
                       className={`w-100 d-block ms-auto ${style?.imgJewelleryRetailinovicePrint3}`}
-                    />
+                    /> */}
+                      {isImageWorking && (headerData?.PrintLogo !== "" && 
+                      <img src={headerData?.PrintLogo} alt="" 
+                      className={`w-100 d-block ms-auto ${style?.imgJewelleryRetailinovicePrint3}`}
+                      onError={handleImageErrors} height={120} width={150} />)}
                   </div>
                 </div>
                 {/* header data */}

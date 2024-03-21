@@ -132,7 +132,13 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
 
         </div>
-        <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /></div>
+        <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
+        {isImageWorking && (headerData?.PrintLogo !== "" &&
+            <img src={headerData?.PrintLogo} alt="" 
+              className={`${style2.headerImg}`}
+              onError={handleImageErrors}  />)}
+          {/* <img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /> */}
+          </div>
       </div>
 
       {/* sub header */}

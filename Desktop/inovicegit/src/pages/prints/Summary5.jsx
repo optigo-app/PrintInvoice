@@ -20,10 +20,10 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [imagess5, setimagess5] = useState(true);
   const [headers5, setheaders5] = useState(true);
   const [miscTotal, setMiscTotal] = useState({
-    pcPcs:0,
-    wtWt:0,
-    rRate:0,
-    amtAmount:0
+    pcPcs: 0,
+    wtWt: 0,
+    rRate: 0,
+    amtAmount: 0
   })
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
@@ -68,13 +68,13 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     let cateWise = [];
     let miscobj = {
-      wtWt:0,
-      pcPcs:0,
-      rRate:0,
-      amtAmount:0
+      wtWt: 0,
+      pcPcs: 0,
+      rRate: 0,
+      amtAmount: 0
     }
     datas?.resultArray?.forEach((e) => {
-      
+
       let findRecord = cateWise?.findIndex(
         (el) => el?.Categoryname === e?.Categoryname
       );
@@ -83,10 +83,10 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       } else {
         cateWise[findRecord].Quantity += e?.Quantity;
       }
-      
+
       e?.misc?.forEach((a) => {
-        if(a?.ShapeName === 'Stamping' || a?.ShapeName === 'Hallmark'){}
-        else{
+        if (a?.ShapeName === 'Stamping' || a?.ShapeName === 'Hallmark') { }
+        else {
           miscobj.wtWt += a?.Wt;
           miscobj.pcPcs += a?.Pcs;
           miscobj.amtAmount += a?.Amount;
@@ -210,11 +210,15 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </div>
                     </div>
                     <div className="d-flex justify-content-end">
-                      <img
+                      {/* <img
                         src={result?.header?.PrintLogo}
                         alt="#companylogo"
                         className="logos5"
-                      />
+                      /> */}
+                      {isImageWorking && (result?.header?.PrintLogo !== "" &&
+                        <img src={result?.header?.PrintLogo} alt="#companylogo"
+                          className="logos5"
+                          onError={handleImageErrors} />)}
                     </div>
                   </div>
                 ) : (
@@ -277,11 +281,11 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="colh6s5 border-end">
                       <div className="w-100 centers5 border-bottom">MISC</div>
                       <div className="d-flex w-100">
-                        <div className="subcolhs5 centers5 border-end" style={{width:"27.33%"}}>PCS</div>
+                        <div className="subcolhs5 centers5 border-end" style={{ width: "27.33%" }}>PCS</div>
                         <div className="subcolhs5 centers5 border-end">
                           RATE
                         </div>
-                        <div className="subcolhs5 centers5" style={{width:"39.33%"}}>AMNT</div>
+                        <div className="subcolhs5 centers5" style={{ width: "39.33%" }}>AMNT</div>
                       </div>
                     </div>
                     <div className="colh7s5 border-end">
@@ -290,9 +294,9 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </div>
                       <div className="d-flex w-100">
                         <div className="w-25 centers5 border-end">WT</div>
-                        <div className=" centers5 border-end" style={{width:"20%"}}>PCS</div>
+                        <div className=" centers5 border-end" style={{ width: "20%" }}>PCS</div>
                         <div className="w-25 centers5 border-end">RATE</div>
-                        <div className="centers5" style={{width:"30%"}}>AMNT</div>
+                        <div className="centers5" style={{ width: "30%" }}>AMNT</div>
                       </div>
                     </div>
                     <div className="colh8s5 border-end">
@@ -357,21 +361,21 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <div className="col6s5 border-end ends5 pb10s5">
                             <div>
                               {e?.misc?.map((e, i) => {
-                                return <div className="ends5" key={i}>{ (e?.ShapeName === 'Hallmark' || e?.ShapeName === 'Stamping') ? '' : e?.Pcs}</div>;
+                                return <div className="ends5" key={i}>{(e?.ShapeName === 'Hallmark' || e?.ShapeName === 'Stamping') ? '' : e?.Pcs}</div>;
                               })}
                             </div>
                           </div>
                           <div className="col7s5 border-end ends5 pb10s5">
                             <div>
                               {e?.misc?.map((e, i) => {
-                                return <div className="ends5" key={i}>{ (e?.ShapeName === 'Hallmark' || e?.ShapeName === 'Stamping') ? '' : formatAmount(e?.Rate)}</div>;
+                                return <div className="ends5" key={i}>{(e?.ShapeName === 'Hallmark' || e?.ShapeName === 'Stamping') ? '' : formatAmount(e?.Rate)}</div>;
                               })}
                             </div>
                           </div>
                           <div className="col8s5 border-end ends5 pb10s5">
-                          <div>
+                            <div>
                               {e?.misc?.map((e, i) => {
-                                return <div className="ends5" key={i}>{ (e?.ShapeName === 'Hallmark' || e?.ShapeName === 'Stamping') ? '' : formatAmount(e?.Amount)}</div>;
+                                return <div className="ends5" key={i}>{(e?.ShapeName === 'Hallmark' || e?.ShapeName === 'Stamping') ? '' : formatAmount(e?.Amount)}</div>;
                               })}
                             </div>
                           </div>
@@ -495,7 +499,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">
                     <div>Gold in 24K : 0.000</div>
                     <div> -,C,CD,KUNDAN</div>
-                    <div className="d-flex"><div className="px-1">TOTAL IN {result?.header?.CurrencyCode}</div> <div className="px-1" dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></div>{" "} : <div className="px-1">{formatAmount((result?.mainTotal?.total_amount + result?.header?.TotalGSTAmount + result?.header?.AddLess))} </div></div>
+                    <div className="d-flex"><div className="px-1">TOTAL IN {result?.header?.CurrencyCode}</div> <div className="px-1" dangerouslySetInnerHTML={{ __html: result?.header?.Currencysymbol }}></div>{" "} : <div className="px-1">{formatAmount((result?.mainTotal?.total_amount + result?.header?.TotalGSTAmount + result?.header?.AddLess))} </div></div>
                   </div>
                   {/* amount in words */}
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">

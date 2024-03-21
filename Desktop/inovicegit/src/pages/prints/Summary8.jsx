@@ -21,9 +21,9 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [headerData, setHeaderData] = useState({});
     const toWords = new ToWords();
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
     const loadData = (data) => {
         setHeaderData(data?.BillPrint_Json[0]);
         let datas = OrganizeDataPrint(
@@ -108,7 +108,16 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             {/* header */}
             <div className={`${style2.headline} headerTitle`}>{headerData?.PrintHeadLabel}</div>
             <div className={style2.companyDetails}>
-                <div style={{ width: "43%" }} className="d-flex align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} style={{ maxWidth: "145px"}}/></div>
+                <div style={{ width: "43%" }} className="d-flex align-item-center h-100">
+
+                    {/* <img src={headerData?.PrintLogo} alt="" className={style2.headerImg} style={{ maxWidth: "145px" }} /> */}
+                    {isImageWorking && (headerData?.PrintLogo !== "" &&
+                        <img  src={headerData?.PrintLogo}alt=""
+                        className={style2.headerImg} 
+                        style={{ maxWidth: "145px" }}
+                            onError={handleImageErrors} />)}
+
+                </div>
                 <div className={`${style2.companyhead} p-2`} style={{ width: "57%" }}>
                     <div className={style2.lines} style={{ fontWeight: "bold" }}>
                         {headerData?.CompanyFullName}

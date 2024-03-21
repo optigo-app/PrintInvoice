@@ -893,7 +893,12 @@ const PackingList3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </div>
                     </div>
                     <div className="headpcl3Img">
-                      <img src={headerData?.PrintLogo} alt="#" id="pcl3Img" />
+                      {/* <img src={headerData?.PrintLogo} alt="#" id="pcl3Img" /> */}
+
+                      {isImageWorking && (headerData?.PrintLogo !== "" && 
+                      <img src={headerData?.PrintLogo} alt="#" id="pcl3Img" 
+                      // className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors}  />)}
                     </div>
                   </div>
                   <div className="dynamicHeadpcl3main">

@@ -77,12 +77,12 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     );
     let cateWise = [];
     datas?.resultArray?.forEach(e => {
-        let findRecord = cateWise?.findIndex((el) => el?.Categoryname === e?.Categoryname);
-        if(findRecord === -1){
-          cateWise.push(e);
-        }else{
-          cateWise[findRecord].Quantity += e?.Quantity;
-        }
+      let findRecord = cateWise?.findIndex((el) => el?.Categoryname === e?.Categoryname);
+      if (findRecord === -1) {
+        cateWise.push(e);
+      } else {
+        cateWise[findRecord].Quantity += e?.Quantity;
+      }
     });
     setCategoryNameWise(cateWise);
     setResult(datas);
@@ -196,11 +196,15 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                   </div>
                   <div className="subdiv1s2 w-25 d-flex justify-content-end">
-                    <img
+                    {/* <img
                       src={result?.header?.PrintLogo}
                       className="printlogos2"
                       alt="comapanylogo"
-                    />
+                    /> */}
+                    {isImageWorking && (result?.header?.PrintLogo !== "" &&
+                      <img src={result?.header?.PrintLogo} alt=""
+                      className="printlogos2"
+                        onError={handleImageErrors} />)}
                   </div>
                 </div>
                 {/* sub headers */}
@@ -271,7 +275,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`${classIs.col8} border-end centers2`}>
                       G WT
                     </div>
-                    { hsnetwt ? <div className={`${classIs.col9} border-end centers2`}> NWT </div> : '' } 
+                    {hsnetwt ? <div className={`${classIs.col9} border-end centers2`}> NWT </div> : ''}
                     <div className={`${classIs.col10} border-end centers2`}>
                       MAKING
                     </div>
@@ -284,7 +288,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`${classIs.col13} border-end centers2`}>
                       GOLD AMT
                     </div>
-                    <div className={`${classIs.col14} centers2`} style={{width:`${hsnetwt ? '' : '14%'}`}}>AMOUNT</div>
+                    <div className={`${classIs.col14} centers2`} style={{ width: `${hsnetwt ? '' : '14%'}` }}>AMOUNT</div>
                   </div>
                   {/* table body */}
                   <div>
@@ -293,9 +297,9 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className="d-flex border border-top-0 trows2 pbias2" key={i}>
                           <div className={`${classIs.col1} border-end d-flex justify-content-center align-items-start`}>{e?.SrNo}</div>
                           <div className={`${classIs.col2} border-end d-flex flex-column justify-content-between ps-1`}>
-                            <div className="fw-bold d-flex justify-content-between px-1"><div>{e?.designno}</div> { hsbrand ? <div>{e?.BrandName}</div> : '' } </div>
+                            <div className="fw-bold d-flex justify-content-between px-1"><div>{e?.designno}</div> {hsbrand ? <div>{e?.BrandName}</div> : ''} </div>
                             <div className="fw-bold">{e?.SrJobno}</div>
-                            { hsimg ? <div className="centers2"><img src={e?.DesignImage} alt="designimage" className="desImgs2" onError={(e) => handleImageError(e)} /></div> : '' } 
+                            {hsimg ? <div className="centers2"><img src={e?.DesignImage} alt="designimage" className="desImgs2" onError={(e) => handleImageError(e)} /></div> : ''}
                             <div className="centers2">{e?.HUID}</div>
                             <div className="centers2 fw-bold">Tunch : {e?.Tunch?.toFixed(3)}</div>
                           </div>
@@ -303,7 +307,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <div className={`${classIs.col4} border-end `}>
                             {
                               e?.diamonds?.map((el) => {
-                                return(
+                                return (
                                   <div className="toplefts2 ps-1">{el?.ShapeName}</div>
                                 )
                               })
@@ -312,7 +316,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <div className={`${classIs.col5} border-end `}>
                             {
                               e?.diamonds?.map((el) => {
-                                return(
+                                return (
                                   <div className="tops2 pe-1">{el?.Wt?.toFixed(3)}</div>
                                 )
                               })
@@ -321,7 +325,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <div className={`${classIs.col6} border-end`}>
                             {
                               e?.diamonds?.map((el) => {
-                                return(
+                                return (
                                   <div className="tops2 pe-1">{formatAmount(el?.Rate)}</div>
                                 )
                               })
@@ -330,25 +334,25 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <div className={`${classIs.col7} border-end`}>
                             {
                               e?.diamonds?.map((el) => {
-                                return(
+                                return (
                                   <div className="tops2 pe-1">{formatAmount(el?.Amount)}</div>
                                 )
                               })
                             }
                           </div>
                           <div className={`${classIs.col8} border-end tops2 pe-1`}>{e?.grosswt?.toFixed(3)}</div>
-                           { hsnetwt ? <div className={`${classIs.col9} border-end tops2 pe-1`}>{e?.NetWt?.toFixed(3)}</div> : '' } 
+                          {hsnetwt ? <div className={`${classIs.col9} border-end tops2 pe-1`}>{e?.NetWt?.toFixed(3)}</div> : ''}
                           <div className={`${classIs.col10} border-end tops2 pe-1`}>{formatAmount(e?.Making_Amount_Other_Charges)}</div>
                           <div className={`${classIs.col11} border-end tops2 pe-1`}>{formatAmount(e?.CsAmount)}</div>
                           <div className={`${classIs.col12} border-end tops2 pe-1`}>{e?.convertednetwt?.toFixed(3)}</div>
                           <div className={`${classIs.col13} border-end tops2 pe-1`}>{formatAmount(e?.MetalAmount)}</div>
-                          <div className={`${classIs.col14} tops2 pe-1`} style={{width:`${hsnetwt ? '' : '14%'}`}}>{formatAmount(e?.TotalAmount)}</div>
+                          <div className={`${classIs.col14} tops2 pe-1`} style={{ width: `${hsnetwt ? '' : '14%'}` }}>{formatAmount(e?.TotalAmount)}</div>
                         </div>
                       );
                     })}
                   </div>
                   {/* table total */}
-                  <div className="d-flex fw-bold border border-top-0 theads2 pbias2" style={{backgroundColor:"#F2F2F2", height:"40px"}}>
+                  <div className="d-flex fw-bold border border-top-0 theads2 pbias2" style={{ backgroundColor: "#F2F2F2", height: "40px" }}>
                     <div className={`${classIs.col1} border-end centers2`}></div>
                     <div className={`${classIs.col2} border-end starts2 ps-1`}>TOTAL</div>
                     <div className={`${classIs.col3} border-end centers2`}></div>
@@ -357,26 +361,26 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`${classIs.col6} border-end centers2`}></div>
                     <div className={`${classIs.col7} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.diamonds?.Amount)}</div>
                     <div className={`${classIs.col8} border-end ends2 pe-1`}>{result?.mainTotal?.grosswt?.toFixed(3)}</div>
-                    { hsnetwt ? <div className={`${classIs.col9} border-end ends2 pe-1`}>{result?.mainTotal?.netwt?.toFixed(3)}</div> : '' } 
+                    {hsnetwt ? <div className={`${classIs.col9} border-end ends2 pe-1`}>{result?.mainTotal?.netwt?.toFixed(3)}</div> : ''}
                     <div className={`${classIs.col10} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.total_Making_Amount_Other_Charges)}</div>
                     <div className={`${classIs.col11} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.total_csamount)}</div>
                     <div className={`${classIs.col12} border-end ends2 pe-1`}>{result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
                     <div className={`${classIs.col13} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.MetalAmount)}</div>
-                    <div className={`${classIs.col14} ends2 pe-1`} style={{width:`${hsnetwt ? '' : '14%'}`}}>{formatAmount(result?.mainTotal?.total_amount)}</div>
+                    <div className={`${classIs.col14} ends2 pe-1`} style={{ width: `${hsnetwt ? '' : '14%'}` }}>{formatAmount(result?.mainTotal?.total_amount)}</div>
                   </div>
                 </div>
                 {/* tax part */}
                 <div className="w-100 d-flex justify-content-end pbias2">
-                    <div className=" p-2 border border-top-0 boxwtaxs2">
-                      {
-                        result?.allTaxes?.map((e, i) => {
-                          return(
-                            <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-end">{e?.name} @ {e?.per}</div><div className="w-50 d-flex justify-content-end">{e?.amount}</div></div>
-                          )
-                        })
-                      }
-                      <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-end">{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className="w-50 d-flex justify-content-end fw-bold">{result?.header?.AddLess}</div></div>
-                    </div>
+                  <div className=" p-2 border border-top-0 boxwtaxs2">
+                    {
+                      result?.allTaxes?.map((e, i) => {
+                        return (
+                          <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-end">{e?.name} @ {e?.per}</div><div className="w-50 d-flex justify-content-end">{e?.amount}</div></div>
+                        )
+                      })
+                    }
+                    <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-end">{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className="w-50 d-flex justify-content-end fw-bold">{result?.header?.AddLess}</div></div>
+                  </div>
                 </div>
                 {/* grand total */}
                 <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2">
@@ -390,34 +394,34 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* summary */}
                 <div className="border mt-2 pbias2">
-                      <div className="fw-bold bgcs2 p-1 d-flex flex-wrap" >Summary Detail</div>
-                      <div className="d-flex flex-wrap p-1" style={{height:"50px"}}>
-                      {
-                        categoryNameWise?.map((e, i) => {
-                          return(
-                            <div className="w-25" key={i}>
-                                <div>{e?.Categoryname}	 : 	<b>{e?.Quantity}</b></div>
-                            </div>
-                          )
-                        })
-                      }
-                      </div>
-                      
+                  <div className="fw-bold bgcs2 p-1 d-flex flex-wrap" >Summary Detail</div>
+                  <div className="d-flex flex-wrap p-1" style={{ height: "50px" }}>
+                    {
+                      categoryNameWise?.map((e, i) => {
+                        return (
+                          <div className="w-25" key={i}>
+                            <div>{e?.Categoryname}	 : 	<b>{e?.Quantity}</b></div>
+                          </div>
+                        )
+                      })
+                    }
+                  </div>
+
                 </div>
                 {/* notes  */}
                 <div className="border mt-2 pbias2">
-                      <div className="fw-bold pt-3">NOTE:</div>
-                      <div dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
+                  <div className="fw-bold pt-3">NOTE:</div>
+                  <div dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }}></div>
                 </div>
                 {/* remarks */}
-                <div  className="py-1 pbias2"><b className="fsgs2">REMARKS:</b> {result?.header?.PrintRemark}</div>
+                <div className="py-1 pbias2"><b className="fsgs2">REMARKS:</b> {result?.header?.PrintRemark}</div>
                 {/* footer */}
                 <div className="fw-bold py-1 pbias2">TERMS INCLUDED : </div>
-                <div className="d-flex border mt-1 fw-bold pbias2" style={{height:"5rem"}}>
+                <div className="d-flex border mt-1 fw-bold pbias2" style={{ height: "5rem" }}>
                   <div className="w-50 d-flex justify-content-center align-items-end border-end">RECEIVER'S SIGNATURE & SEAL</div>
                   <div className="w-50 d-flex justify-content-center align-items-end">for,Classmate corporation Pvt Ltd</div>
                 </div>
-                
+
               </div>
             </>
           ) : (

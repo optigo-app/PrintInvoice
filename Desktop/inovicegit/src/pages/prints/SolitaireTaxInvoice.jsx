@@ -136,7 +136,10 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 {/* header */}
                 <div className="d-flex border p-2 justify-content-between align-items-center">
                     <p className="fw-bold" style={{ fontSize: "22px" }}>{headerData?.PrintHeadLabel}</p>
-                    <img src={headerData?.PrintLogo} alt='logo' className='logoimg' />
+                    {/* <img src={headerData?.PrintLogo} alt='logo' className='logoimg' /> */}
+                    {isImageWorking && (headerData?.PrintLogo !== "" && 
+                      <img src={headerData?.PrintLogo} alt='logo' className='logoimg' 
+                      onError={handleImageErrors} height={120} width={150} />)}
                 </div>
                 {/* sub header */}
                 <div className="d-flex border-start border-end border-bottom p-2 justify-content-between">

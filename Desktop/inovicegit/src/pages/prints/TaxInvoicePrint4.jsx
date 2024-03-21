@@ -119,13 +119,20 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
           </div>
           <div className={style2.lines}>
-          CIN-{headerData?.Com_CINNO}
+            CIN-{headerData?.Com_CINNO}
           </div>
           <div className={style2.lines}>
-          {headerData?.Com_GoldDealershipRefNo}
+            {headerData?.Com_GoldDealershipRefNo}
           </div>
         </div>
-        <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100"><img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /></div>
+        <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
+
+          {isImageWorking && (headerData?.PrintLogo !== "" &&
+            <img src={headerData?.PrintLogo} alt="" 
+              className={`${style2.headerImg}`}
+              onError={handleImageErrors}  />)}
+          {/* <img src={headerData?.PrintLogo} alt="" /> */}
+          </div>
       </div>
       {/* sub header */}
       <div className="d-flex border mb-1">
@@ -150,21 +157,21 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
         <div className="col-4 p-2">
           <p className="d-flex">
             <p className="fw-semibold pe-2 col-5">BILL NO </p>{" "}
-           <p className="col-7">:{headerData?.InvoiceNo}</p>
+            <p className="col-7">:{headerData?.InvoiceNo}</p>
           </p>
           <p className="d-flex">
             <p className="fw-semibold pe-2 col-5">DATE </p>{" "}
-           <p className="col-7">:{headerData?.EntryDate}</p>
+            <p className="col-7">:{headerData?.EntryDate}</p>
           </p>
           <p className="d-flex">
-            <p className="fw-semibold pe-2 col-5">{headerData?.HSN_No_Label} </p> 
+            <p className="fw-semibold pe-2 col-5">{headerData?.HSN_No_Label} </p>
             <p className="col-7">:{headerData?.HSN_No}</p>
           </p>
           <p className="d-flex">
-            <p className="fw-semibold pe-2 col-5">Reverse Charge	 </p> 
+            <p className="fw-semibold pe-2 col-5">Reverse Charge	 </p>
             <p className="col-7">:{headerData?.RevChar}</p>
           </p>
-          
+
         </div>
       </div>
       {/* table Header */}
@@ -368,8 +375,8 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
               )}
             </div>
             <div className={`${style?.amounts} p-1 text-end`}>
-            <p>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>
-            <p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost-data?.mainTotal?.total_discount_amount, 2)}</p>
+              <p>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>
+              <p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost - data?.mainTotal?.total_discount_amount, 2)}</p>
               {data?.allTaxes.map((e, i) => {
                 return <p key={i}>{e?.amount}</p>;
               })}
@@ -405,25 +412,25 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
       {/* {footer} */}
       <div className={`${footerStyle.container} no_break`}>
-      <div
-        className={footerStyle.block1f3}
-        style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
-      >
-        <div className={`${footerStyle.linesf3} fw-normal`}><span className="fw-bold">Sales Person Name :</span> {headerData?.SalPerName}</div>
-        <div className={`${footerStyle.linesf3} fw-normal d-flex`}><span className="fw-bold pe-2">Transaction Id:</span> <div dangerouslySetInnerHTML={{__html: headerData?.TransactionId}}></div></div>
+        <div
+          className={footerStyle.block1f3}
+          style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+        >
+          <div className={`${footerStyle.linesf3} fw-normal`}><span className="fw-bold">Sales Person Name :</span> {headerData?.SalPerName}</div>
+          <div className={`${footerStyle.linesf3} fw-normal d-flex`}><span className="fw-bold pe-2">Transaction Id:</span> <div dangerouslySetInnerHTML={{ __html: headerData?.TransactionId }}></div></div>
+        </div>
+        <div
+          className={footerStyle.block2f3}
+          style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+        >
+          <div className={`${footerStyle.linesf3} fw-normal`}>Customer Signature</div>
+          <div className={footerStyle.linesf3}>{headerData?.customerfirmname}</div>
+        </div>
+        <div className={footerStyle.block2f3} style={{ width: "33.33%" }}>
+          <div className={`${footerStyle.linesf3} fw-normal`}>Auth. Signatory</div>
+          <div className={footerStyle.linesf3}>{headerData?.CompanyFullName}</div>
+        </div>
       </div>
-      <div
-        className={footerStyle.block2f3}
-        style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
-      >
-        <div className={`${footerStyle.linesf3} fw-normal`}>Customer Signature</div>
-        <div className={footerStyle.linesf3}>{headerData?.customerfirmname}</div>
-      </div>
-      <div className={footerStyle.block2f3} style={{ width: "33.33%" }}>
-        <div className={`${footerStyle.linesf3} fw-normal`}>Auth. Signatory</div>
-        <div className={footerStyle.linesf3}>{headerData?.CompanyFullName}</div>
-      </div>
-    </div>
     </div>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
