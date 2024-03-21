@@ -6,7 +6,7 @@ import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/estimatePrint1.module.css";
 import { ToWords } from 'to-words';
 
-const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
+const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
     const toWords = new ToWords();
     const [image, setImage] = useState(true);
@@ -164,7 +164,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

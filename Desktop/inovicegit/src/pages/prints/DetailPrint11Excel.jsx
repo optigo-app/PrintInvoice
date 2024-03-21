@@ -3,7 +3,7 @@ import { NumberWithCommas, apiCall, checkImageExists, fixedValues, handleGlobalI
 import Loader from '../../components/Loader';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import defaultImg from "../../assets/img/default.jpg";
-const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
+const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
   const [json1Data, setJson1Data] = useState([]);
@@ -437,7 +437,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === '200') {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

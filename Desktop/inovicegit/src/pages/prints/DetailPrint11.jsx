@@ -3,7 +3,7 @@ import "../../assets/css/prints/detailPrint11.css";
 import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty, taxGenrator } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 
-const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
+const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
@@ -263,7 +263,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === '200') {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

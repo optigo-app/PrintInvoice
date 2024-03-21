@@ -9,7 +9,7 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import Loader from "./../../components/Loader";
-const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
+const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [diamondWise, setDiamondWise] = useState([]);
@@ -19,7 +19,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
