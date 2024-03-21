@@ -8,6 +8,14 @@
     line-height: 120%;
 }
 
+.font_16 *, .font_16{
+    font-size: 16px;
+}
+
+.font_13 *, .font_13{
+    font-size: 13px !important;
+}
+
 .discription_retailInvoice_2_3{
     width: 10%;
 }
@@ -63,6 +71,7 @@
 .pad_end_retail_invoice_2_3{
     padding-right: 29%;
 }
+
 
 @media print{
     .print_sec_sum4, .printBtn_sec {

@@ -87,7 +87,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         })
 
         console.log( obj.diamondSettingAmt,  obj.colorStoneSettingAmt);
-        if (atob(printName).toLowerCase() === "item wise print1") {
+        if (atob(printName).toLowerCase() === "item wise print1" || atob(printName).toLowerCase() === "item wise print2") {
           let makingAmount = e?.MaKingCharge_Unit?.toString()?.split(".");
           if (makingAmount?.length === 1) {
             makingAmount = +(makingAmount + "000")
@@ -265,7 +265,8 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         ref={targetRef}
         className={`max_width_container itemWisePrintContainer mt-2 mx-auto px-1`}
       >
-        <div className={`itemWisePrintHead  ${(atob(printName)?.toLowerCase() === "item wise print1" || atob(printName)?.toLowerCase() === "item wise print2") && "itemWisePrint1Font_tab_15"}`}>
+        <div className={`itemWisePrintHead  itemWisePrint1Font_tab_15 
+        `}>
           {/* Heading */}
           <div className={`bgLightPink p-1 border`}>
             {/* <p className="fw-bold">{atob(printName).toUpperCase()}</p> */}
@@ -275,6 +276,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
           <div className="border-start border-end border-bottom p-2 d-flex justify-content-between">
             <div className="col-6">
               <p className={`fw-bold`} style={{ lineHeight: "150%" }}>TO, {json0Data?.customerfirmname}</p>
+              <p className="ps-3 pe-2" style={{ lineHeight: "150%" }}>{json0Data?.customerstreet}</p>
               <p className="ps-3 pe-2" style={{ lineHeight: "150%" }}>{json0Data?.customerregion}</p>
               <p className="ps-3 pe-2" style={{ lineHeight: "150%" }}>
                 {json0Data?.customercity}-{json0Data?.PinCode}
@@ -312,13 +314,13 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         {/* Table Heading */}
         <div className={`bgLightPink d-flex border-start border-end border-bottom main_pad_item_wise_print 
         ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_tab_14"}
-        ${atob(printName).toLowerCase() === "item wise print" && "itemWisePrintFont_tab_14"}
-        ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint2Font_tab_14"}`}>
-          <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'metaltypeItemWisePrint' : 'metaltypeItemWisePrint1'} border-end
+        ${atob(printName).toLowerCase() === "item wise print" && "itemWisePrint1Font_tab_14"}
+        ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrintHead"}`}>
+          <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'metaltypeItemWisePrint ' : 'metaltypeItemWisePrint1'} border-end
           ${atob(printName).toLowerCase() === "item wise print2" && 'metaltypeItemWisePrint2'}`}>
             <p className="fw-bold" style={{ wordBreak: "normal" }}>METAL TYPE</p>
           </div>
-          <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'categoryItemWisePrint' : 'categoryItemWisePrint1'} border-end`}>
+          <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'categoryItemWisePrint ' : 'categoryItemWisePrint1'} border-end`}>
             <p className="fw-bold" style={{ wordBreak: "normal" }}>CATEGORY</p>
           </div>
           <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'pkgItemWisePrint' : 'pkgItemWisePrint1'} border-end`}>
@@ -384,7 +386,9 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
             <p className="fw-bold" style={{ wordBreak: "normal" }}>WASTAGE</p>
           </div>
           <div className={`${atob(printName).toLowerCase() === "item wise print1" ? 'makingItemWisePrint1' : 'makingItemWisePrint'}  border-end`}>
-            <p className="fw-bold" style={{ wordBreak: "normal" }}>MAKING KG</p>
+            <p className="fw-bold" style={{ wordBreak: "normal" }}>
+              {atob(printName).toLowerCase() === "item wise print" ? "MAKING %" : "MAKING KG"}
+            </p>
           </div>
           <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'labourItemWisePrint' : 'labourItemWisePrint1'} border-end`}>
             <p className="fw-bold" style={{ wordBreak: "normal" }}>LABOR AMT</p>
@@ -400,10 +404,10 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         {data.length > 0 &&
           data.map((e, i) => {
             return (
-              <div className={`d-flex border-start border-end border-bottom ${atob(printName).toLowerCase() === "item wise print" ? 'main_pad_item_wise_print_row' : 'main_pad_item_wise_print_row1'}   
+              <div className={`d-flex border-start border-end border-bottom ${atob(printName).toLowerCase() === "item wise print" ? 'main_pad_item_wise_print_row itemWisePrint1Font_14_category' : 'main_pad_item_wise_print_row1'}   
               ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_tab_14"}
               ${atob(printName).toLowerCase() === "item wise print" && "itemWisePrintFont_tab_14"}
-              ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint2Font_tab_14"}`} key={i}>
+              ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint1Font_14_category"}`} key={i}>
                 <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'metaltypeItemWisePrint' : 'metaltypeItemWisePrint1'} border-end
                 ${atob(printName).toLowerCase() === "item wise print2" && 'metaltypeItemWisePrint2'}
                 ${atob(printName)?.toLowerCase() === "item wise print1" && "itemWisePrint1Font_14_category"}`}>
@@ -506,7 +510,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
                 <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'percentageItemWiseprint' : 'percentageItemWiseprint1'} border-end
                 ${atob(printName).toLowerCase() === "item wise print2" && 'percentageItemWiseprint2'}`}>
                   <p className="text-end">
-                    {e?.MetalPriceRatio !== 0 && <>{atob(printName).toLowerCase() === "item wise print2" ? (e?.MetalPriceRatio + e?.Wastage).toFixed(3) : e?.MetalPriceRatio.toFixed(3)}</>}
+                    {e?.MetalPriceRatio !== 0 && <>{e?.MetalPriceRatio.toFixed(3)}</>}
                   </p>
                 </div>
 
@@ -517,7 +521,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
                   </p>
                 </div>
                 <div className={`${atob(printName).toLowerCase() === "item wise print1" ? 'makingItemWisePrint1' : 'makingItemWisePrint'} border-end`}>
-                  <p className="text-end">{NumberWithCommas(e?.MaKingCharge_Unit, atob(printName).toLowerCase() === "item wise print1" ? 3 : 2)}</p>
+                  <p className="text-end">{(atob(printName).toLowerCase() !== "item wise print") && NumberWithCommas(e?.MaKingCharge_Unit, 3)}</p>
                 </div>
                 <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'labourItemWisePrint' : 'labourItemWisePrint1'} border-end`}>
                   <p className="text-end">
@@ -540,12 +544,12 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
             );
           })}
         {/* Tax */}
-        <div className={`bgLightPink d-flex border-start border-end border-bottom ${atob(printName).toLowerCase() === "item wise print" ? 'main_pad_item_wise_print_row' : 'main_pad_item_wise_print_row1'}
+        <div className={`bgLightPink d-flex border-start border-end border-bottom ${atob(printName).toLowerCase() === "item wise print" ? 'main_pad_item_wise_print_row ' : 'main_pad_item_wise_print_row1'}
         ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_13_total"}
-        ${atob(printName).toLowerCase() === "item wise print" && "itemWisePrintFont_tab_14"}
-        ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint2Font_tab_14"}`}>
+        ${atob(printName).toLowerCase() === "item wise print" && "itemWisePrint1Font_13_total"}
+        ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint1Font_13_total"}`}>
           <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'cgstTotalItemWiseRow' : (atob(printName)?.toLowerCase() === "item wise print1" ? 'cgstTotalItemWiseRow11' : 'cgstTotalItemWiseRow1')}  border-end pe-0 py-0
-           ${atob(printName)?.toLowerCase() === "item wise print2" && 'cgstTotalItemWiseRow2'}
+           ${atob(printName)?.toLowerCase() === "item wise print2" && 'cgstTotalItemWiseRow2 '}
           `}>
             <p className="fw-bold text-end pe-1 border-bottom " style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }}>TOTAL DISOCUNT</p>
             <p className="fw-bold text-end pe-1 border-bottom " style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }}>AMOUNT</p>
@@ -569,8 +573,8 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         {/* Total */}
         <div className={`d-flex border-start border-end border-bottom ${atob(printName).toLowerCase() === "item wise print" ? 'main_pad_item_wise_print_row' : 'main_pad_item_wise_print_row1'} lightGrey
         ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_13_total"}
-        ${atob(printName).toLowerCase() === "item wise print" && "itemWisePrintFont_tab_14"}
-        ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint2Font_tab_14"}`}>
+        ${atob(printName).toLowerCase() === "item wise print" && "itemWisePrint1Font_13_total"}
+        ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint1Font_13_total"}`}>
           <div className={`${atob(printName).toLowerCase() === "item wise print" ? 'metaltypeItemWisePrint' : 'metaltypeItemWisePrint1'} border-end d-flex justify-content-center align-items-center
            ${atob(printName).toLowerCase() === "item wise print2" && 'metaltypeItemWisePrint2'}`}>
             <p className="fw-bold">Total</p>
@@ -656,14 +660,25 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn }) => {
         </div>
         {/* Amount In Words */}
         <div className={`d-flex border-start border-end border-bottom p-1 amountInWordsItemWise ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_tab_15"}
-        ${atob(printName).toLowerCase() === "item wise print" && "itemWisePrintFont_tab_14"}
-        ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint2Font_tab_14"}`} >
+        ${atob(printName).toLowerCase() === "item wise print" && "itemWisePrint1Font_16_total"}
+        ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint1Font_16_total"}`} >
           <p className="min_width_max">Amount in Words : </p>
-          <p className="fw-bold ps-1"> {toWords?.convert(+fixedValues(total.totalAmt, 2))}</p>
+          <p className={`fw-bold ps-1 ${atob(printName)?.toLowerCase() === "item wise print2" && "itemWisePrint1Font_tab_15"} 
+          ${atob(printName)?.toLowerCase() === "item wise print" && "itemWisePrint1Font_tab_15"}`}> {toWords?.convert(+fixedValues(total.totalAmt, 2))}</p>
         </div>
         <div className={`d-flex border-start border-end border-bottom p-1 amountInWordsItemWise ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_tab_15"}
-        ${atob(printName).toLowerCase() === "item wise print" && "itemWisePrintFont_tab_14"}
-        ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint2Font_tab_14"}`}>
+        ${atob(printName).toLowerCase() === "item wise print" && "itemWisePrint1Font_16_total"}
+        ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint1Font_16_total"}`}>
+          <p className="pe-1">
+         <span className="fw-bold">Remark : </span>
+          </p>
+          <p>
+            {json0Data?.PrintRemark}
+          </p>
+        </div>
+        <div className={`d-flex border-start border-end border-bottom p-1 amountInWordsItemWise ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_tab_15"}
+        ${atob(printName).toLowerCase() === "item wise print" && "itemWisePrint1Font_16_total"}
+        ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint1Font_16_total"}`}>
           <p className="pe-3">
             Order Due Days : <span className="fw-bold">{NumberWithCommas(json0Data?.DueDays, 0)}</span>
           </p>

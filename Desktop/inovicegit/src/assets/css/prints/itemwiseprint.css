@@ -224,12 +224,12 @@
     width: 8.6%;
 }
 
-.cgstAmountItemWiseRow1111{
+.cgstAmountItemWiseRow1111 {
     min-width: 8.1%;
     width: 8.1%;
 }
 
-.cgstAmountItemWiseRow1222{
+.cgstAmountItemWiseRow1222 {
     min-width: 8.19%;
     width: 8.19%;
 }
@@ -246,33 +246,51 @@
     font-size: 8px;
 }
 
-.itemWisePrintHead * {
+.itemWisePrintHead *,
+.itemWisePrintHead {
     font-size: 12px !important;
 }
 
-.itemWisePrint1Font_tab_15 * {
+.itemWisePrint1Font_tab_15 *,
+html .itemWisePrint1Font_tab_15 {
     font-size: 15px !important;
 }
 
-.itemWisePrint1Font_tab_14 * {
+.itemWisePrint1Font_tab_14 *,
+.itemWisePrint1Font_tab_14 {
     font-size: 12px !important;
 }
 
-.itemWisePrint2Font_tab_14 * {
+.itemWisePrint2Font_tab_14 *,
+.itemWisePrint2Font_tab_14 {
     font-size: 10px !important;
 }
 
-.itemWisePrintFont_tab_14 *{
+.itemWisePrintFont_tab_14 *,
+.itemWisePrintFont_tab_14 {
     font-size: 8px !important;
 }
-.itemWisePrint1Font_14_category *{
+
+.itemWisePrint1Font_14_category *,
+.itemWisePrint1Font_14_category {
     font-size: 14px !important;
     word-break: break-all !important;
 }
 
-.itemWisePrint1Font_13_total *{
+.itemWisePrint1Font_13_total *,
+.itemWisePrint1Font_13_total {
     font-size: 13px !important;
 }
+
+.itemWisePrint1Font_16_total *,
+.itemWisePrint1Font_16_total {
+    font-size: 16px !important;
+}
+
+.main_pad_item_wise_print .p-1 {
+    padding: 2px !important;
+}
+
 @media print {
     .itemWisePrintContainer {
         zoom: unset;
@@ -285,4 +303,26 @@
     .print_sec_sum4 {
         display: none !important;
     }
+
+
+    .itemWisePrintHead *,
+    .itemWisePrintHead,
+    .itemWisePrint1Font_tab_15 *,
+    html .itemWisePrint1Font_tab_15,
+    .itemWisePrint1Font_tab_14 *,
+    .itemWisePrint1Font_tab_14,
+    .itemWisePrint2Font_tab_14 *,
+    .itemWisePrint2Font_tab_14,
+    .itemWisePrintFont_tab_14 *,
+    .itemWisePrintFont_tab_14,
+    .itemWisePrint1Font_14_category *,
+    .itemWisePrint1Font_14_category,
+    .itemWisePrint1Font_13_total *,
+    .itemWisePrint1Font_13_total,
+    .itemWisePrint1Font_16_total *,
+    .itemWisePrint1Font_16_total {
+        font-size: 8px !important;
+    }
+
+
 }

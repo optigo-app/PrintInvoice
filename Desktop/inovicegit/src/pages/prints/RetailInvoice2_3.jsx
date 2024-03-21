@@ -185,13 +185,13 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                     <input type="button" className="btn_white blue me-0" value="Print" onClick={(e) => handlePrint(e)} />
                 </div>
                 {/* Header */}
-                <div>
+                <div className={`retailInvoice_2_3`}>
                     {headerComp}
                 </div>
                 <div className={`${style?.containerretailInvoice2_font}`}>
                     {/* Invoice Details */}
-                    <div className="d-flex justify-content-between pt-2">
-                        <div className="col-3 border-2 border-black border p-2 d-flex">
+                    <div className={`d-flex justify-content-between pt-2 ${style?.font_13}`}>
+                        <div className="col-3 border-black border p-2 d-flex">
                             <div className="col-6">
                                 <p className="fw-bold mb-0">BILL NO: </p>
                             </div>
@@ -199,7 +199,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <p className="mb-0">{json0Data?.InvoiceNo}</p>
                             </div>
                         </div>
-                        <div className="col-3 border-2 border-black border p-2 d-flex">
+                        <div className="col-3 border-black border p-2 d-flex">
                             <div className="col-6">
                                 <p className="fw-bold mb-0">HSN: </p>
                             </div>
@@ -207,7 +207,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <p className="mb-0">{json0Data?.HSN_No}</p>
                             </div>
                         </div>
-                        <div className="col-3 border-2 border-black border p-2 d-flex">
+                        <div className="col-3 border-black border p-2 d-flex">
                             <div className="col-6">
                                 <p className="fw-bold mb-0">Date: </p>
                             </div>
@@ -218,7 +218,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     {/* Customer Details */}
                     <div className="d-flex pt-2 w-100">
-                        <div className="border-2 border-black border p-2 w-100">
+                        <div className="border-black border p-2 w-100">
                             <div className="d-flex w-100">
                                 <div className='pe-4'><p className="fw-bold mb-0">To, </p></div>
                                 <div>
@@ -232,14 +232,14 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                     </div>
                     {/* Retailer product Issued */}
                     <div className="d-flex pt-2 w-100">
-                        <div className="border-2 border-black border p-2 w-100">
+                        <div className="border-black border p-2 w-100">
                             <p className="fw-bold mb-0">Retailer product Issued</p>
                         </div>
                     </div>
                     {/* table */}
                     <div className="pt-2">
                         {/* table header */}
-                        <div className="border-2 border-black border p-2 w-100 d-flex">
+                        <div className="border-black border p-2 w-100 d-flex">
                             <div className={`${styles?.discription}`}><p>Product Description</p></div>
                             <div className={`${styles?.kt}`}><p className='text-center'>KT</p></div>
                             <div className={`${styles?.kt}`}><p className='text-center'>Qty</p></div>
@@ -257,7 +257,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                         </div>
                         {/* table data */}
                         {data.length > 0 && data.map((e, i) => {
-                            return <div className={`border-2 border-black border-start border-end p-2 w-100 d-flex`} key={i}>
+                            return <div className={`border-black border-start border-end p-2 w-100 d-flex`} key={i}>
                                 <div className={`${styles?.discription}`}><p>{e?.designno} {e?.SrJobno}</p><p>{e?.MetalPurity} {e?.Categoryname}</p></div>
                                 <div className={`${styles?.kt}`}><p className=''>{e?.metalQuality}</p></div>
                                 <div className={`${styles?.kt}`}><p className='text-end'>{NumberWithCommas(e?.Qty, 0)}</p></div>
@@ -274,7 +274,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 <div className={`${styles?.scheme}`}><p className='text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                             </div>
                         })}
-                        <div className={`border-2 border-black border-start border-end p-2 w-100 d-flex border-bottom`}>
+                        <div className={`border-black border-start border-end p-2 w-100 d-flex border-bottom`}>
                             <div className={`${styles?.discription} fw-bold`}><p>Total</p></div>
                             <div className={`${styles?.kt}`}><p className=''></p></div>
                             <div className={`${styles?.kt}`}><p className='text-end'>{NumberWithCommas(total?.Qty, 0)}</p></div>
@@ -290,34 +290,34 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                             <div className={`${styles?.scheme}`}><p className='text-end'>{NumberWithCommas(total?.DiscountAmt, 2)}</p></div>
                             <div className={`${styles?.scheme}`}><p className='text-end'>{NumberWithCommas(total?.TotalAmount, 2)}</p></div>
                         </div>
-                        <div className="border-2 border-black border-start border-end border-bottom p-2 w-100 d-flex justify-content-end">
+                        <div className="border-black border-start border-end border-bottom p-2 w-100 d-flex justify-content-end">
                             <div className={`${style?.pad_end_retail_invoice_2_3}`}><p>Product Total Value</p></div>
                             <div><p>{NumberWithCommas(total?.TotalAmount, 2)}</p></div>
                         </div>
-                        <div className="border-2 border-black border-start border-end border-bottom w-100 d-flex">
-                            <div className="col-6 border-2 border-black border-end">
+                        <div className="border-black border-start border-end border-bottom w-100 d-flex">
+                            <div className="col-6 border-black border-end">
                                 <p className="fw-bold p-2">Payment Details</p>
-                                <div className="d-flex p-2 border-2 border-black border-bottom">
+                                <div className="d-flex p-2 border-black border-bottom">
                                     <div className="col-4"><p>Payment Mode</p></div>
                                     <div className="col-2"><p>Doc no.</p></div>
                                     <div className="col-4"><p>Customer Name</p></div>
                                     <div className="col-2 text-end"><p>Amount(Rs)</p></div>
                                 </div>
-                                <div className="d-flex p-2 border-2 border-black border-bottom justify-content-between">
+                                <div className="d-flex p-2 border-black border-bottom justify-content-between">
                                     <div className="col-4"><p>Cash</p></div>
                                     <div className="col-2"><p></p></div>
                                     <div className="col-4"><p></p></div>
                                     <div className="col-2 text-end"><p>{NumberWithCommas(json0Data?.CashReceived, 2)}</p></div>
                                 </div>
                                 {debitCard.length > 0 && debitCard.map((e, i) => {
-                                    return <div className="d-flex p-2 border-2 border-black border-bottom justify-content-between" key={i}>
+                                    return <div className="d-flex p-2 border-black border-bottom justify-content-between" key={i}>
                                         <div className="col-4"><p>{e?.label}</p></div>
                                         <div className="col-2"><p></p></div>
                                         <div className="col-4"><p></p></div>
                                         <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(e?.amount, 2)}</p></div>
                                     </div>
                                 })}
-                                <div className="d-flex p-2 border-2 border-black border-bottom justify-content-between">
+                                <div className="d-flex p-2 border-black border-bottom justify-content-between">
                                     <div className="col-4"><p className='fw-bold'>Total Amount Paid</p></div>
                                     <div className="col-2"><p className='fw-bold'></p></div>
                                     <div className="col-4"><p className='fw-bold'></p></div>
@@ -331,29 +331,29 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 </div>
                             </div>
                             <div className="col-6">
-                                <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
+                                <div className="d-flex border-black border-bottom justify-content-between p-2">
                                     <p>Total Value</p>
                                     <p>{NumberWithCommas(total?.TotalAmount, 2)}</p>
                                 </div>
                                 {tax.length > 0 && tax.map((e, i) => {
-                                    return <div className="d-flex border-2 border-black border-bottom justify-content-between p-2" key={i}>
+                                    return <div className="d-flex border-black border-bottom justify-content-between p-2" key={i}>
                                         <p>{e?.name} @ {e?.per}</p>
                                         <p>{e?.amount}</p>
                                     </div>
                                 })}
-                                {json0Data?.AddLess !== 0 && <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
+                                {json0Data?.AddLess !== 0 && <div className="d-flex border-black border-bottom justify-content-between p-2">
                                     <p>{json0Data?.AddLess > 0 ? `Add` : `Less`} :- Other Discount</p>
                                     <p>{NumberWithCommas(json0Data?.AddLess, 2)}</p>
                                 </div>}
-                                <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
+                                <div className="d-flex border-black border-bottom justify-content-between p-2">
                                     <p>Value after Disocunt</p>
                                     <p>{NumberWithCommas(amount?.valueAfterDiscount, 2)}</p>
                                 </div>
-                                <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
+                                <div className="d-flex border-black border-bottom justify-content-between p-2">
                                     <p>Net Invoice Value</p>
                                     <p>{NumberWithCommas(amount?.netInvoiceValue, 2)}</p>
                                 </div>
-                                <div className="d-flex border-2 border-black border-bottom justify-content-between p-2">
+                                <div className="d-flex border-black border-bottom justify-content-between p-2">
                                     <p>Total Amount to be Paid</p>
                                     <p>{NumberWithCommas(amount?.netInvoiceValue, 2)}</p>
                                 </div>
@@ -362,7 +362,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="border-2 border-black border-start border-end border-bottom w-100 p-2">
+                        <div className="border-black border-start border-end border-bottom w-100 p-2">
                             <p className="fw-bold pb-3">TERMS AND CONDITIONS:-</p>
                             <div dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }} className='pb-3'></div>
                         </div>
