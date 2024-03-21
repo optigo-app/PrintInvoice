@@ -15,7 +15,7 @@ import { ToWords } from "to-words";
 import style2 from "../../assets/css/headers/header1.module.css";
 import footerStyle from "../../assets/css/footers/footer2.module.css";
 
-const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
+const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [msg, setMsg] = useState("");
   const [data, setData] = useState([]);
@@ -56,7 +56,7 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

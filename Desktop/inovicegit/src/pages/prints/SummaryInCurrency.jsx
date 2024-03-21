@@ -12,7 +12,7 @@ import Loader from "../../components/Loader";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import lodash from 'lodash';
 
-const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn }) => {
+const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
     const [data, setData] = useState({});
@@ -39,7 +39,7 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === "200") {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {

@@ -7,7 +7,7 @@ import { HeaderComponent } from "./../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { findIndex } from "lodash";
-const TaxInvoice = ({ token, invoiceNo, printName, urls, evn }) => {
+const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [image, setimage] = useState(false);
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
@@ -116,7 +116,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
         if (data?.Status === '200') {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {

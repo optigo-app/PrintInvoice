@@ -6,7 +6,7 @@ import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/summary11.module.css"
 import footer1 from "../../assets/css/footers/footer1.module.css";
 
-const Summary11 = ({ urls, token, invoiceNo, printName, evn }) => {
+const Summary11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const [loader, setLoader] = useState(true);
     const [msg, setMsg] = useState("");
@@ -102,7 +102,7 @@ const Summary11 = ({ urls, token, invoiceNo, printName, evn }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
-                const data = await apiCall(token, invoiceNo, printName, urls, evn);
+                const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
                 if (data?.Status === '200') {
                     let isEmpty = isObjectEmpty(data?.Data);
                     if (!isEmpty) {
