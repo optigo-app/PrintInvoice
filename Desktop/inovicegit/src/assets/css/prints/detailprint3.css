@@ -10,14 +10,14 @@
 }
 .headlabeldp3{
     height: 30px;
-    background-color: #f7f6f6;
+    background-color: #F5F5F5;
     color: black;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding-left: 10px;
     border: 1px solid #989898;
-    font-size: 15px;
+    font-size: 14px;
 }
 .end_dp3{
     display: flex;
@@ -109,6 +109,8 @@
 .designimg_dp3{
     height: 30%;
     width: 70%;
+    max-width: 75px;
+    max-height: 75px;
 }
 .fs14_dp3{
     font-size: 14px !important;

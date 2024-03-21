@@ -51,6 +51,7 @@ export const printConditions = [
   {printName: 'Labour Bill', etpType: 'print', componentName: 'JewelleryInvoicePrint'},
   {printName: 'labour bill', etpType: 'print', componentName: 'JewelleryInvoicePrint'},
   {printName: 'labour summary print', etpType: 'print', componentName: 'LabourSummary'},
+  {printName: 'labour summary', etpType: 'print', componentName: 'LabourSummary'},
   {printName: 'misc print 1', etpType: 'print', componentName: 'MiscPrint1'},
   {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
   {printName: 'packing list 1', etpType: 'print', componentName: 'PackingList1'},

@@ -12,7 +12,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import "../../assets/css/prints/detailprint10.css";
 import Loader from "../../components/Loader";
 
-const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
+const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [diamondWise, setDiamondWise] = useState([]);
   const [msg, setMsg] = useState("");
@@ -22,7 +22,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn);
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
 
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
