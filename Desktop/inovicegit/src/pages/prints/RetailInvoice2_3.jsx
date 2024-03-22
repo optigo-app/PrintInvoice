@@ -98,7 +98,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             // totals.NetWt += e?.NetWt;
             totals.NetWt += netWtLoss;
             totals.grosswt += e?.grosswt;
-            totals.UnitCost += (e?.UnitCost - secondaryMetalAmt-findingAmount);
+            totals.UnitCost += (e?.UnitCost - secondaryMetalAmt - findingAmount);
             totals.DiscountAmt += e?.DiscountAmt;
             totals.TotalAmount += e?.TotalAmount;
 
@@ -271,7 +271,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                     {/* Retailer product Issued */}
                     <div className="d-flex pt-2 w-100">
                         <div className="border-black border p-2 w-100">
-                            <p className={`fw-bold mb-0 ${style?.font_13}`}>Retailer product Issued</p>
+                            <p className={`fw-bold mb-0 ${style?.font_13}`}>{json0Data?.RetailInvoiceMsg}</p>
                         </div>
                     </div>
                     {/* table */}
@@ -341,16 +341,22 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                                     <div className="col-4"><p>Customer Name</p></div>
                                     <div className="col-2 text-end"><p>Amount(Rs)</p></div>
                                 </div>
-                                <div className="d-flex py-1 px-2 border-black border-bottom justify-content-between">
+                                {(json0Data?.CashReceived === 0 && debitCard.length === 0) && <div className="d-flex justify-content-between px-2 border-bottom border-black">
+                                    <div className="col-4"><p>NA</p></div>
+                                    <div className="col-2"><p>{ }</p></div>
+                                    <div className="col-4"><p></p></div>
+                                    <div className="col-2 text-end"><p>NA</p></div>
+                                </div>}
+                                {json0Data?.CashReceived !== 0 && <div className="d-flex py-1 px-2 border-black border-bottom justify-content-between">
                                     <div className="col-4"><p>{json0Data?.CashReceived !== 0 ? "Cash" : "NA"}</p></div>
                                     <div className="col-2"><p>{json0Data?.CashReceived === 0 && "NA"}</p></div>
                                     <div className="col-4"><p></p></div>
                                     <div className="col-2 text-end"><p>{json0Data?.CashReceived !== 0 ? NumberWithCommas(json0Data?.CashReceived, 2) : "NA"}</p></div>
-                                </div>
+                                </div>}
                                 {debitCard.length > 0 && debitCard.map((e, i) => {
-                                    return <div className="d-flex py-1 px-2border-black border-bottom justify-content-between" key={i}>
+                                    return <div className="d-flex py-1 px-2 border-black border-bottom justify-content-between px-2" key={i}>
                                         <div className="col-4"><p>{e?.label}</p></div>
-                                        <div className="col-2"><p></p></div>
+                                        <div className="col-2"><p>{e?.id}</p></div>
                                         <div className="col-4"><p></p></div>
                                         <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(e?.amount, 2)}</p></div>
                                     </div>
@@ -365,7 +371,8 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                                     <div className="col-4"><p className='fw-bold'>Balance Amount</p></div>
                                     <div className="col-2"><p className='fw-bold'></p></div>
                                     <div className="col-4"><p className='fw-bold'></p></div>
-                                    <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(amount?.balanceAmount, 2)}</p></div>
+                                    {/* <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(amount?.balanceAmount, 2)}</p></div> */}
+                                    <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(json0Data?.LedgerBal, 2)}</p></div>
                                 </div>
                             </div>
                             <div className="col-6">
@@ -381,7 +388,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                                 })}
                                 {json0Data?.AddLess !== 0 && <div className="d-flex border-black border-bottom justify-content-between py-1 px-2">
                                     <p>{json0Data?.AddLess > 0 ? `Add` : `Less`} :- Other Discount</p>
-                                    <p>{NumberWithCommas( Math.abs(json0Data?.AddLess), 2)}</p>
+                                    <p>{NumberWithCommas(Math.abs(json0Data?.AddLess), 2)}</p>
                                 </div>}
                                 <div className="d-flex border-black border-bottom justify-content-between py-1 px-2">
                                     <p>Value after Disocunt</p>

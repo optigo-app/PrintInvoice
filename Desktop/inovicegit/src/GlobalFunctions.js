@@ -198,6 +198,8 @@ export const taxGenrator2 = (headerData, totalAmount) => {
 };
 
 export const NumberWithCommas = (value, val) => {
+  let value1 = value?.toString()?.split("-");
+  if(value1?.length ===1){
     const roundedValue = Number(value).toFixed(val || 2); 
     const stringValue = roundedValue.toString();
     const [integerPart, decimalPart] = stringValue.split('.');
@@ -212,6 +214,23 @@ export const NumberWithCommas = (value, val) => {
     }
     formattedString = formattedString.replace(/^,+/, '');
     return formattedString;
+  }
+else{
+  const roundedValue = Number(+value1[1]).toFixed(val || 2); 
+  const stringValue = roundedValue.toString();
+  const [integerPart, decimalPart] = stringValue.split('.');
+  let formattedString = integerPart
+    .split('')
+    .reverse()
+    .map((char, index) => (index > 0 && index % 2 === 0 ? ',' + char : char))
+    .reverse()
+    .join('');
+  if (decimalPart !== undefined && val && val !== 0) {
+    formattedString += '.' + decimalPart.padEnd(val || 2, '0'); 
+  }
+  formattedString = formattedString.replace(/^,+/, '');
+  return "-"+formattedString;
+}
 };
 
 
@@ -302,6 +321,7 @@ export const ReceiveInBank = (BankPayDet) => {
       obj.BankName = val[0];
       obj.label = val[1];
       obj.amount = +val[2];
+      obj.id = val?.[3];
       blankArr.push(obj);
     });
     return blankArr;

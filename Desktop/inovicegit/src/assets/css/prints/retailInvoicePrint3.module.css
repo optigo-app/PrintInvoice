@@ -2,6 +2,10 @@
     font-size: 14px;
 }
 
+.font_13, .font_13 *{
+    font-size: 13px;
+}
+
 .Variant, .Price,
 .Discount,
 .Product{
