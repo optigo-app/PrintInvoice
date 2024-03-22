@@ -131,7 +131,8 @@
         display: none !important;
     }
     .fs_dp3{
-        font-size: 7px;
+        font-size: 10px;
+        line-height: 11px;
     }
     .summary_dp3_head{
         height: 12px;
@@ -144,8 +145,10 @@
         height: 88px;
     }
     .designimg_dp3{
-        height: 20%;
-        width: 60%;
+        height: 20px !important;
+        width: 20px !important;
+        /* height: 20%;
+        width: 40%; */
     }
     .headlabeldp3{
         height: 30px;
@@ -159,6 +162,12 @@
         font-size: 12px;
     }
     .fs14_dp3{
-        font-size: 11px !important;
+        font-size: 14px !important;
+    }
+    .header_dp3{
+        height: 30px !important;
+    }
+    .dp3_pgia{
+        page-break-inside: avoid !important;
     }
 }
