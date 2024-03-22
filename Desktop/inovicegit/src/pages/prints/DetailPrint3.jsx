@@ -200,7 +200,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     {
                       imgFlag ? <div className="center_dp3">
-                      <img src={e?.DesignImage} alt="#designimg" onError={(e) => handleImageError(e)} className="designimg_dp3" />
+                      <img src={e?.DesignImage} alt="#designimg" onError={(e) => handleImageError(e)}  className="designimg_dp3 m-3 p-1" />
                     </div> : ''
                     }
                    { e?.HUID === '' ? '' : <div className="center_dp3">HUID: {e?.HUID}</div> } 
@@ -223,7 +223,6 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="col4_dp3 border-secondary border-end">
                     <div>
-                      {console.log(result)}
                     {
                       e?.metal?.map((el, ind) => {
                         
@@ -334,8 +333,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className="d-flex justify-content-end align-items-start border-black border-start border-end border-top-0 border-bottom-secondary fs_dp3 dp3_pgia">
           <div style={{width:'15%'}}>
             {
-              result?.allTaxes
-              ?.map((el, ind) => {
+              result?.allTaxes?.map((el, ind) => {
                 return(
                     <div className="d-flex" key={ind}>
                       <div className="w-50 end_top_dp3">{el?.name + " @ " + el?.per}</div>
@@ -396,40 +394,40 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
       </div>
       {/* summary & footer */}
-      <div className="d-flex justify-content-between align-items-start fs_dp3 ">
+      <div className="d-flex justify-content-between align-items-start fs_dp3 dp3_pgia " style={{marginTop:'2px'}}>
         <div className="d-flex" style={{width:'50%'}}>
           <div className="border-bottom border-secondary" style={{width:'65%'}}>
-            <div className="summary_dp3_head border-secondary border border-top-0 fw-bold">SUMMARY</div>
-            <div className="d-flex w-100">
+            <div className="summary_dp3_head border-secondary border border-top fw-bold ">SUMMARY</div>
+            <div className="d-flex w-100 ">
               <div className="w-50">
-                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold">GOLD IN 24KT</div><div className="border-secondary border-end pad_e_dp3">{result?.mainTotal?.convertednetwt?.toFixed(3)} gm</div></div>
-                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold">GROSS WT</div><div className="border-secondary border-end pad_e_dp3">{result?.mainTotal?.grosswt?.toFixed(3)} gm</div></div>
-                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold">G+D WT</div><div className="border-secondary border-end pad_e_dp3">{mdwt?.toFixed(3)} gm</div></div>
-                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold">NET WT</div><div className="border-secondary border-end pad_e_dp3">{result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} gm</div></div>
-                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold">DIAMOND WT</div><div className="border-secondary border-end pad_e_dp3">{result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts</div></div>
-                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold">STONE WT</div><div className="border-secondary border-end pad_e_dp3"> {result?.mainTotal?.colorstone?.Wt?.toFixed(3)} cts</div></div>
+                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">GOLD IN 24KT</div><div className="border-secondary border-end pad_e_dp3 pe-2">{result?.mainTotal?.convertednetwt?.toFixed(3)} gm</div></div>
+                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">GROSS WT</div><div className="border-secondary border-end pad_e_dp3 pe-2">{result?.mainTotal?.grosswt?.toFixed(3)} gm</div></div>
+                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">G+D WT</div><div className="border-secondary border-end pad_e_dp3 pe-2">{mdwt?.toFixed(3)} gm</div></div>
+                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">NET WT</div><div className="border-secondary border-end pad_e_dp3 pe-2">{result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} gm</div></div>
+                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">DIAMOND WT</div><div className="border-secondary border-end pad_e_dp3 pe-2">{result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts</div></div>
+                <div className="d-flex justify-content-between"><div className="border-secondary border-start pad_s_dp3 fw-bold ps-2">STONE WT</div><div className="border-secondary border-end pad_e_dp3 pe-2"> {result?.mainTotal?.colorstone?.Wt?.toFixed(3)} cts</div></div>
                 <div className="summary_dp3_head border-secondary border border-start border-bottom-0"></div>
               </div>
               <div className="w-50">
-                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold">GOLD</div><div className="border-secondary border-end pad_e_dp3">{formatAmount(result?.mainTotal?.MetalAmount)}</div></div>
-                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold">DIAMOND</div><div className="border-secondary border-end pad_e_dp3">{formatAmount(result?.mainTotal?.diamonds?.Amount)} </div></div>
-                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold">CST</div><div className="border-secondary border-end pad_e_dp3">{formatAmount(result?.mainTotal?.colorstone?.Amount)}</div></div>
-                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold">MAKING</div><div className="border-secondary border-end pad_e_dp3">{formatAmount(result?.mainTotal?.total_MakingAmount_Setting_Amount)}</div></div>
-                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold">OTHER</div><div className="border-secondary border-end pad_e_dp3">{formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}</div></div>
-                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold">ADD/LESS</div><div className="border-secondary border-end pad_e_dp3">{result?.header?.AddLess}</div></div>
+                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">GOLD</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount(result?.mainTotal?.MetalAmount)}</div></div>
+                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">DIAMOND</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount(result?.mainTotal?.diamonds?.Amount)} </div></div>
+                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">CST</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount(result?.mainTotal?.colorstone?.Amount)}</div></div>
+                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">MAKING</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</div></div>
+                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">OTHER</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}</div></div>
+                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">ADD/LESS</div><div className="border-secondary border-end pad_e_dp3 pe-2">{result?.header?.AddLess}</div></div>
                 <div className="d-flex justify-content-between  border-secondary border border-bottom-0 border-start-0 bgc_dp3">
-                  <div className="pad_s_dp3 fw-bold">TOTAL</div>
-                  <div className="pad_e_dp3">{formatAmount(result?.finalAmount)}</div>
+                  <div className="pad_s_dp3 fw-bold ps-2">TOTAL</div>
+                  <div className="pad_e_dp3 pe-2">{formatAmount(result?.finalAmount)}</div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="" style={{width:'35%'}}>
+          <div className="border-secondary border-top" style={{width:'35%'}}>
             <div className="summary_dp3_head border-secondary border border-start-0 border-top-0 fw-bold">Remark</div>
-            <div className="border-secondary border-bottom border-end pad_s_dp3">{result?.header?.PrintRemark}</div>
+            <div className="border-secondary border-bottom border-end pad_s_dp3 ps-2">{result?.header?.PrintRemark}</div>
           </div>
         </div>
-        <div className="check_dp3 border-secondary border border-bottom d-flex justify-content-center align-items-end border-top-0" style={{width:'15%'}}>
+        <div className="check_dp3 border-secondary border border-bottom d-flex justify-content-center align-items-end border-top" style={{width:'15%'}}>
           Checked By
         </div>
       </div>
