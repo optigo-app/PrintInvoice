@@ -8,10 +8,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
-  const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+
+ 
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -99,7 +97,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       {/* table */}
       <div>
         {/* table head */}
-        <div className="d-flex theaddp3 fw-bold fs_dp3 border-black border-top border-bottom-secondary ">
+        <div className="d-flex theaddp3 fw-bold fs_dp3 border-black border-top border-bottom-secondary header_dp3">
           <div className="col1_dp3 border-secondary border-end center_dp3">
             Sr
           </div>
@@ -165,7 +163,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             result?.resultArray?.map((e, i) => {
               return(
                 <div className="fs_dp3 " key={i}>
-                <div className="d-flex border-black border-start border-end border-bottom-secondary w-100">
+                <div className="d-flex border-black border-start border-end border-bottom-secondary w-100 dp3_pgia">
                   <div className="col1_dp3 border-secondary border-end center_top_dp3">
                     {i + 1}
                   </div>
@@ -174,10 +172,6 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div>{e?.designno}</div>
                       <div>{e?.SrJobno}</div>
                     </div>
-                    {/* {isImageWorking && (result?.header?.PrintLogo !== "" && 
-                      <img src={result?.header?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain'
-                      onError={handleImageErrors} height={120} width={150} />)} */}
                     {
                       imgFlag ? <div className="center_dp3">
                       <img src={e?.DesignImage} alt="#designimg" onError={(e) => handleImageError(e)} className="designimg_dp3" />
@@ -205,13 +199,19 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div>
                     {
                       e?.metal?.map((el, ind) => {
+                        console.log(el);
                         return(
-                      <div className="d-flex border-secondary border-bottom" key={ind}>
-                        <div className="w-25 start_dp3">{e?.MetalTypePurity}</div>
-                        <div className="w-25 end_dp3">{e?.grosswt?.toFixed(3)}</div>
-                        <div className="w-25 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
-                        <div className="w-25 end_dp3 fw-bold">{formatAmount(el?.Amount)}</div>
-                      </div>
+                          <>
+                          {
+                            el?.IsPrimaryMetal === 1 ? <div className="d-flex border-secondary border-bottom" key={ind}>
+                            <div className="w-25 start_dp3">{e?.MetalTypePurity}</div>
+                            <div className="w-25 end_dp3">{e?.grosswt?.toFixed(3)}</div>
+                            <div className="w-25 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
+                            <div className="w-25 end_dp3 fw-bold">{formatAmount(el?.Amount)}</div>
+                          </div> : ''
+                          }
+                          
+                          </>
                         )
                       })
                     }
@@ -219,7 +219,12 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="col5_dp3 border-secondary border-end">
                     <div>
-                      {
+                            <div className="d-flex">
+                              <div className="col_w_dp3 start_dp3">{(e?.totals?.colorstone?.Amount === 0.00 && e?.totals?.colorstone?.Wt?.toFixed(3) === '0.000') ? '' : 'COLORSTONE'}</div>
+                              <div className="col_w_dp3 end_dp3">{e?.totals?.colorstone?.Wt?.toFixed(3) === '0.000' ? '' : e?.totals?.colorstone?.Wt?.toFixed(3)}</div>
+                              <div className="col_w_dp3 end_dp3">{e?.totals?.colorstone?.Amount === 0.00 ? '' : formatAmount(e?.totals?.colorstone?.Amount)}</div>
+                            </div>
+                      {/* {
                         e?.colorstone?.map((el, ind) => {
                           return(
                             <div className="d-flex" key={ind}>
@@ -229,14 +234,15 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           )
                         })
-                      }
+                      } */}
                     
                     </div>
                   </div>
                   <div className="col6_dp3 border-secondary border-end end_top_dp3">{formatAmount(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount)}</div>
                   <div className="col7_dp3 border-secondary border-end">
                     <div className="d-flex"><div className="w-50 end_top_dp3">{formatAmount(e?.MaKingCharge_Unit)}</div>
-                    <div className="w-50 end_top_dp3">{formatAmount(e?.totals?.makingAmount_settingAmount)}</div></div>
+                    {/* <div className="w-50 end_top_dp3">{formatAmount(e?.totals?.makingAmount_settingAmount)}</div></div> */}
+                    <div className="w-50 end_top_dp3">{formatAmount(e?.MakingAmount)}</div></div>
                   </div>
                   <div className="col8_dp3 end_top_dp3">{formatAmount(e?.TotalAmount)}</div>
                 </div>
@@ -291,7 +297,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         
         </div>
         {/* tax total */}
-        <div className="d-flex justify-content-end align-items-start border-black border-start border-end border-top-0 border-bottom-secondary fs_dp3">
+        <div className="d-flex justify-content-end align-items-start border-black border-start border-end border-top-0 border-bottom-secondary fs_dp3 dp3_pgia">
           <div style={{width:'15%'}}>
             {
               result?.allTaxes
@@ -311,7 +317,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
         </div>
         {/* table total */}
-        <div className="d-flex border-black border-start border-end border-bottom w-100 fs_dp3 fw-bold bgc_dp3">
+        <div className="d-flex border-black border-start border-end border-bottom w-100 fs_dp3 fw-bold bgc_dp3 dp3_pgia">
             <div className="col1_dp3 border-secondary border-end center_top_dp3">
               
             </div>
