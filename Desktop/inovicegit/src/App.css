@@ -336,6 +336,10 @@ html .footer_secInvoicePrint8 .target_footer *{
   font-size: 12px;
 }
 
+.retailInvoice_2_3_footer_Font_12 .target_footer, .retailInvoice_2_3_footer_Font_12 .target_footer > div{
+  border-color: #000 !important;
+}
+
 @media print {
   .hide-on-print {
     display: none;
