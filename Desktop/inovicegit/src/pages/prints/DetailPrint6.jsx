@@ -426,12 +426,12 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className='col13_dp6_tb border-end end_dp6 pad_end_dp6 fw-bold' style={{width:'3%'}}>{result?.mainTotal?.total_Quantity}</div>
                       <div className='col14_dp6_tb border-end end_dp6 pad_end_dp6 fw-bold' style={{width:'8%'}}>{formatAmount((result?.mainTotal?.total_diamondHandling + result?.mainTotal?.total_other_charges))}</div>
-                      <div className='col15_dp6_tb border-end end_dp6 pad_end_dp6 fw-bold' style={{width:'12%'}}>{formatAmount(result?.mainTotal?.total_MakingAmount_Setting_Amount)}</div>
+                      <div className='col15_dp6_tb border-end end_dp6 pad_end_dp6 fw-bold' style={{width:'12%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</div>
                       <div className='col16_dp6_tb end_dp6 pad_end_dp6 fw-bold' style={{width:'10%'}}>₹ {formatAmount((result?.finalAmount + result?.header?.FreightCharges))}</div>
               </div>
               <div className='d-flex border border-top-0 pbia_dp6'>
                 <div className='border-end col1_dp6 center_dp6' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></div>
-                <div className='fw-bold p-1'>{toWords?.convert(+((result?.finalAmount + result?.header?.FreightCharges)?.toFixed(2)))}</div>
+                <div className='fw-bold p-1'>{toWords?.convert(+((result?.finalAmount + result?.header?.FreightCharges)?.toFixed(2)))} Only</div>
               </div>
               <div className='p-1 border border-top-0 pbia_dp6 fs_dp6' dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
               <div className='border p-1 border-top-0 pbia_dp6'><b className='fs_dp6'>REMARKS:</b>&nbsp; {result?.header?.PrintRemark}</div>

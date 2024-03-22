@@ -364,7 +364,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="d-flex justify-content-between align-items-center h-50 bt_dp10 w-100">
                         <div
                           className="theadsubcol2_dp10 bright_dp10 h-100 centerdp10"
-                          style={{ width: "40%" }}
+                          style={{ width: "30%" }}
                         >
                           Quality
                         </div>
@@ -374,7 +374,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="theadsubcol2_dp10 centerdp10 bright_dp10 h-100">
                           Rate
                         </div>
-                        <div className="theadsubcol2_dp10 centerdp10 h-100">
+                        <div className="theadsubcol2_dp10 centerdp10 h-100" style={{width:'25%'}}>
                           Amount
                         </div>
                       </div>
@@ -518,8 +518,8 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {formatAmount(el?.Rate)}
                                   </div>
                                   <div
-                                    className="theadsubcol1_dp10 fw-bold end_dp10"
-                                    style={{ width: "21.66%",paddingRight:'1.5px' }}
+                                    className="theadsubcol1_dp10 fw-bold end_dp10 pr_dp10"
+                                    style={{ width: "21.66%" }}
                                   >
                                     {formatAmount(el?.Amount)}
                                   </div>
@@ -533,7 +533,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className="d-flex w-100" key={imet}>
                                   <div
                                     className="theadsubcol2_dp10 d-flex justify-content-start border-end h-100 ps-1 border-end-0"
-                                    style={{ width: "32%" }}
+                                    style={{ width: "30%", wordBreak:'break-word' }}
                                   >
                                     {el?.ShapeName} {el?.QualityName}
                                   </div>
@@ -544,7 +544,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10">
                                     {el?.Rate?.toFixed(2)}
                                   </div>
-                                  <div className={`theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10 ${el?.IsPrimaryMetal === 1 ? '' : 'fw-bold' }`}>
+                                  <div className={`theadsubcol2_dp10 centerdp10 border-end h-100 pe-1 border-end-0 end_dp10 pr_dp10 ${el?.IsPrimaryMetal === 1 ? '' : 'fw-bold' }`} style={{width:'25%'}}>
                                     {el?.Amount?.toFixed(2)}
                                   </div>
                                 </div>
@@ -584,14 +584,14 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="theadsubcol1_dp10 end_dp10">
                                     {el?.Rate?.toFixed(2)}
                                   </div>
-                                  <div className="theadsubcol1_dp10 end_dp10 fw-bold" style={{paddingRight:'1.5px'}}>
+                                  <div className="theadsubcol1_dp10 end_dp10 fw-bold pr_dp10">
                                     {el?.Amount?.toFixed(2)}
                                   </div>
                                 </div>
                               );
                             })}
                           </div>
-                          <div className="tbcol6dp10 end_dp10 p-1">
+                          <div className="tbcol6dp10 end_dp10 p-1 pr_dp10">
                             {formatAmount(
                               e?.OtherCharges +
                                 e?.MiscAmount +
@@ -600,16 +600,16 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                           <div className="tbcol7dp10 ">
                             <div className="d-flex">
-                              <div className="w-50 end_dp10 ">
+                              <div className="w-50 end_dp10 pr_dp10">
                                 {formatAmount(e?.MaKingCharge_Unit)}
                               </div>
-                              <div className="w-50 end_dp10">
+                              <div className="w-50 end_dp10  pr_dp10">
                                 {formatAmount( (e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost) )}
                               </div>
                             </div>
                           </div>
-                          <div className="tbcol8dp10 end_dp10 fw-bold p-1 pad_top_dp10">
-                            {formatAmount(e?.TotalAmount + e?.DiscountAmt)}
+                          <div className="tbcol8dp10 end_dp10 fw-bold p-1 pad_top_dp10 pr_dp10">
+                            {formatAmount((e?.TotalAmount + e?.DiscountAmt))}
                           </div>
                         </div>
                       );
@@ -620,7 +620,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div style={{ width: "13%" }}>
                       <div className="d-flex justify-content-between">
                         <div className="w-50 end_dp10">Net Amount</div>
-                        <div className="w-50 end_dp10 pe-2">
+                        <div className="w-50 end_dp10 pr_dp10">
                           {(
                             +result?.mainTotal?.total_amount?.toFixed(2) +
                             +result?.mainTotal?.total_discount_amount?.toFixed(
@@ -631,7 +631,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="d-flex justify-content-between">
                         <div className="w-50 end_dp10">Total Discount</div>
-                        <div className="w-50 end_dp10 pe-2">
+                        <div className="w-50 end_dp10 pr_dp10">
                           {result?.mainTotal?.total_discount_amount?.toFixed(2)}
                         </div>
                       </div>
@@ -645,7 +645,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               <div className="w-50 end_dp10">
                                 {e?.name} {e?.per}
                               </div>
-                              <div className="w-50 end_dp10 pe-2">
+                              <div className="w-50 end_dp10 pr_dp10">
                                 {e?.amount}
                               </div>
                             </div>
@@ -655,7 +655,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="w-50 end_dp10">
                             {result?.header?.AddLess > 0 ? "Add" : "Less"}
                           </div>
-                          <div className="w-50 end_dp10 pe-2">
+                          <div className="w-50 end_dp10 pr_dp10">
                             {result?.header?.AddLess}
                           </div>
                         </div>
@@ -669,7 +669,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   >
                     <div
                       className="centerdp10 brR_dp10"
-                      style={{ width: "11%" }}
+                      style={{ width: "12.5%" }}
                     >
                       Total
                     </div>
@@ -684,7 +684,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       {/* <div className="theadsubcol1_dp10"></div> */}
                       <div
-                        className="theadsubcol1_dp10 end_dp10 pe-1"
+                        className="theadsubcol1_dp10 end_dp10 pr_dp10"
                         style={{ width: "33.332%" }}
                       >
                         {formatAmount(result?.mainTotal?.diamonds?.Amount)}
@@ -695,13 +695,13 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         className="theadsubcol2_dp10"
                         style={{ width: "40%" }}
                       ></div>
-                      <div className="theadsubcol2_dp10 end_dp10">
+                      <div className="theadsubcol2_dp10 pr_dp10">
                         {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
                         {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
                       </div>
                       {/* <div className="theadsubcol2_dp10"></div> */}
                       <div
-                        className="theadsubcol2_dp10 end_dp10 pe-1"
+                        className="theadsubcol2_dp10 end_dp10 pr_dp10"
                         style={{ width: "45%" }}
                       >
                         {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
@@ -718,19 +718,19 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       {/* <div className="theadsubcol1_dp10"></div> */}
                       <div
-                        className="theadsubcol1_dp10 end_dp10 pe-1"
+                        className="theadsubcol1_dp10 end_dp10 pr_dp10"
                         style={{ width: "33.32%" }}
                       >
                         {formatAmount(result?.mainTotal?.colorstone?.Amount)}
                       </div>
                     </div>
-                    <div className="col6dp10 end_dp10  d-flex align-items-center brR_dp10" style={{width:'5%', paddingRight:'1px'}}>
+                    <div className="col6dp10 end_dp10  d-flex align-items-center brR_dp10 pr_dp10" style={{width:'5%', paddingRight:'1px'}}>
                       {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
                     </div>
-                    <div className="col7dp10 end_dp10 pe-1 d-flex align-items-center brR_dp10">
+                    <div className="col7dp10 end_dp10  d-flex align-items-center brR_dp10 pr_dp10">
                       {formatAmount( result?.mainTotal?.total_labour?.labour_amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost )}
                     </div>
-                    <div className="col8dp10 end_dp10  d-flex align-items-center">
+                    <div className="col8dp10 end_dp10  d-flex align-items-center pr_dp10">
                       {formatAmount(result?.finalAmount)}
                     </div>
                   </div>
@@ -805,7 +805,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="w-50 fw-bold">MAKING </div>
                             <div className="w-50 end_dp10">
                               {formatAmount(
-                                result?.mainTotal?.total_MakingAmount_Setting_Amount
+                                 (result?.mainTotal?.total_labour?.labour_amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost )
                               )}
                             </div>
                           </div>
