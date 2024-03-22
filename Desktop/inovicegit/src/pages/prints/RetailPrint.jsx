@@ -3,6 +3,7 @@ import { CapitalizeWords, NumberWithCommas, apiCall, fixedValues, handleImageErr
 import "../../assets/css/prints/retailPrint.css";
 import Loader from '../../components/Loader';
 import { ToWords } from 'to-words';
+import { cloneDeep, find } from 'lodash';
 
 const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [jsonData1, setJsonData1] = useState({});
@@ -30,9 +31,9 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const toWords = new ToWords();
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
     const loadData = (data) => {
         setJsonData1(data?.BillPrint_Json[0]);
         let resultArr = [];
@@ -54,6 +55,9 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         data?.BillPrint_Json1.forEach((e, i) => {
             let materialArray = [];
             let SettingAmount = 0;
+            let netWtLossWt = 0;
+            let metalWt = 0;
+            let count = 0;
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (ele?.MasterManagement_DiamondStoneTypeid !== 5) {
                     if (ele?.StockBarcode === e?.SrJobno) {
@@ -63,12 +67,19 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
                                 // totalObj.materialWeight += ele?.Wt;
                                 SettingAmount += ele?.SettingAmount;
+                                netWtLossWt += ele?.Wt;
+                               
                             }
                             else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                                 SettingAmount += ele?.SettingAmount;
                             }
                         } else {
+                            count++
                             // totalObj.goldWeight += ele?.Wt;
+                            if (ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.IsPrimaryMetal === 1) {
+                                metalWt += ele?.Wt;
+                             
+                            }
                         }
 
                         totalObj.rate += ele?.Rate;
@@ -77,6 +88,12 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 }
             });
+            console.log(count, metalWt, e?.SrJobno);
+            if (count === 1)    {
+                netWtLossWt = (netWtLossWt / 5) + e?.NetWt + e?.LossWt;
+            } else {
+                netWtLossWt = metalWt;
+            }
             totalObj.addLess = data.BillPrint_Json[0].AddLess;
             totalObj.amount = +((totalObj.amount).toFixed(2));
             totalObj.totalAmount += (e?.TotalAmount);
@@ -87,13 +104,16 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             // totalObj.grandTotal = +((totalObj.totalAmount + totalObj.sgstAmount + totalObj.cgstAmount + totalObj.addLess).toFixed(2));
             let obj = { ...e };
             obj.materials = materialArray;
-            obj.SettingAmount = SettingAmount
+            obj.SettingAmount = SettingAmount;
+            obj.netWtLossWt = netWtLossWt;
+            totalObj.goldWeight += netWtLossWt;
             resultArr.push(obj);
         });
         let blankArr = [];
         resultArr.forEach((e, i) => {
             if (e?.GroupJob !== "") {
-                let findIndex = blankArr.findIndex((ele, ind) => ele?.MetalTypePurity === e?.MetalTypePurity && ele?.GroupJob !== "");
+                // let findIndex = blankArr.findIndex((ele, ind) => ele?.MetalTypePurity === e?.MetalTypePurity && ele?.GroupJob !== "" && ele?.GroupJob === e?.GroupJob);
+                let findIndex = blankArr.findIndex((ele, ind) => ele?.GroupJob !== "" && ele?.GroupJob === e?.GroupJob);
                 if (findIndex === -1) {
                     let materials = [];
                     e?.materials.forEach((ele, ind) => {
@@ -125,6 +145,8 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         blankArr[findIndex].designno = e?.designno;
                         blankArr[findIndex].SrJobno = e?.SrJobno;
                         blankArr[findIndex].Tunch = e?.Tunch;
+                        blankArr[findIndex].NetWt += e?.NetWt;
+                        blankArr[findIndex].LossWt += e?.LossWt;
                         blankArr[findIndex].HUID = e?.HUID;
                         let materials = [];
                         blankArr[findIndex].materials.forEach((ele, ind) => {
@@ -179,6 +201,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             }
                         });
                         blankArr[findIndex].materials = materials;
+                        blankArr[findIndex].netWtLossWt += e?.netWtLossWt;
                     }
                 }
 
@@ -210,23 +233,33 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         totalObj.grandTotal += totalObj.totalAmount + totalObj.addLess;
         totalObj.totalAmount = (totalObj.totalAmount).toFixed(2);
         totalObj.textInNumbers = toWords.convert(totalObj.grandTotal);
-
+        let resulArr = [];
 
         blankArr?.forEach((e, i) => {
+            let netWtLossWt = 0;
             let count = 0;
             e?.materials?.forEach((ele, ind) => {
                 if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
                     count = count + 1;
                     if (count === 1 && ele?.IsPrimaryMetal === 1) {
-                        totalObj.goldWeight += ele?.Wt
+                        // totalObj.goldWeight += ele?.Wt
                     }
                 } else {
                     totalObj.materialWeight += ele?.Wt
+                    if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+                        netWtLossWt += ele?.Wt;
+                    }
                 }
-            })
+            });
+
+            netWtLossWt = (netWtLossWt / 5) + e?.NetWt + e?.LossWt;
+            let obj = cloneDeep(e);
+            // console.log(netWtLossWt);
+            // obj.netWtLossWt = netWtLossWt;
+            resulArr?.push(obj);
         });
 
-        blankArr?.sort((a, b) => {
+        resulArr?.sort((a, b) => {
             let nameA = a?.designno?.toLowerCase() + a?.SrJobno?.toLowerCase();
             let nameB = b?.designno?.toLowerCase() + b?.SrJobno?.toLowerCase();
 
@@ -239,10 +272,10 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
             return 0;
         });
-        console.log(blankArr);
+        console.log(resulArr);
         console.log(data);
         setTotal(totalObj);
-        setDataFill(blankArr);
+        setDataFill(resulArr);
     }
 
     const handleChange = (e) => {
@@ -317,10 +350,10 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="col-6">
                         {/* <img src={jsonData1?.PrintLogo} alt="" className='retailPrintLogo d-block ms-auto' /> */}
 
-                        {isImageWorking && (jsonData1?.PrintLogo !== "" && 
-                      <img src={jsonData1?.PrintLogo} alt="" 
-                      className='retailPrintLogo d-block ms-auto' 
-                      onError={handleImageErrors} height={120} width={150} />)}
+                        {isImageWorking && (jsonData1?.PrintLogo !== "" &&
+                            <img src={jsonData1?.PrintLogo} alt=""
+                                className='retailPrintLogo d-block ms-auto'
+                                onError={handleImageErrors} height={120} width={150} />)}
                     </div>
                 </div>
                 {/* bill to */}
@@ -432,7 +465,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <p className='text-end'>{ele?.MasterManagement_DiamondStoneTypeid !== 4 && NumberWithCommas(ele?.Pcs, 0)}</p>
                                         </div>
                                         <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
-                                            <p className='text-end'>{fixedValues(ele?.Wt, 3)}</p>
+                                            <p className='text-end'>{ele?.MasterManagement_DiamondStoneTypeid === 4 ? NumberWithCommas(e?.netWtLossWt, 3) : NumberWithCommas(ele?.Wt, 3)}</p>
                                         </div>
                                         {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
                                             <p className='text-end'>{NumberWithCommas(ele?.Rate, 2)}</p>
@@ -530,7 +563,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div dangerouslySetInnerHTML={{ __html: jsonData1?.Declaration }} className='pt-2'></div>
                 </div>
                 <div className='note border-start border-end border-bottom p-1 no_break'>
-                        <p><span className="fw-bold">REMARKS : </span>{jsonData1?.PrintRemark}</p>
+                    <p><span className="fw-bold">REMARKS : </span>{jsonData1?.PrintRemark}</p>
                 </div>
                 {/* bank detail */}
                 <div className="word_break_normal_retail_print d-flex border-start border-end border-bottom no_break ft_12_retailPrint">

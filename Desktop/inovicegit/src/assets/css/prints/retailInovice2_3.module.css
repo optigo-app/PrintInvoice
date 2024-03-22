@@ -16,6 +16,10 @@
     font-size: 13px !important;
 }
 
+.font_12 *, .font_12{
+    font-size: 12px !important;
+}
+
 .discription_retailInvoice_2_3{
     width: 10%;
 }
