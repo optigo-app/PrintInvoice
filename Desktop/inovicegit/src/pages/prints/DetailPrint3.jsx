@@ -56,10 +56,10 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             let findRecord = diamond_grouping?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName)
             if(findRecord === -1){
               let obj = {...el};
-              obj.wt = el?.Wt;
-              obj.rate = el?.Rate;
-              obj.amount = el?.Amount;
-              diamond_grouping.push(el);
+              obj.wt = obj?.Wt;
+              obj.rate = obj?.Rate;
+              obj.amount = obj?.Amount;
+              diamond_grouping.push(obj);
             }else{
               diamond_grouping[findRecord].wt += el?.Wt;
               diamond_grouping[findRecord].rate += el?.Rate;
@@ -212,8 +212,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           return(
                                   <div className="d-flex" key={ind}>
                                       <div className="col_w_dp3 start_dp3">{el?.QualityName}</div>
-                                      <div className="col_w_dp3 end_dp3">{el?.Wt?.toFixed(3)}</div>
-                                      <div className="col_w_dp3 end_dp3">{formatAmount(el?.Amount)}</div>
+                                      <div className="col_w_dp3 end_dp3">{el?.wt?.toFixed(3)}</div>
+                                      <div className="col_w_dp3 end_dp3">{formatAmount(el?.amount)}</div>
                                   </div>  
                                 )
                         })
