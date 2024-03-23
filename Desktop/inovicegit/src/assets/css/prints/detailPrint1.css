@@ -150,7 +150,21 @@
     font-size: 12px;
 }
 
+.paddingLeftDetailPrint1{
+    padding-left: 2px !important;
+}
 
+.paddingRightDetailPrint1{
+    padding-right: 2px !important;
+}
+
+.paddingLeftDetailPrint1l{
+    padding-left: 4px !important;
+}
+
+.paddingRightDetailPrint1l{
+    padding-right: 4px !important;
+}
 
 @media print {
     .containerDetailPrint1 {

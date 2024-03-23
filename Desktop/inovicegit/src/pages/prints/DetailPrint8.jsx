@@ -147,7 +147,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
       {/* Title */}
       <div className="bgGrey text-white py-1 px-2">
-        <h4 className=" fw-bold min_height_title d-flex align-items-center">
+        <h4 className=" fw-bold min_height_title d-flex align-items-center text-white" style={{fontSize: '20px'}}>
           {headerData?.PrintHeadLabel}
         </h4>
       </div>
@@ -155,10 +155,10 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       <div className="text-center pt-4">
       {isImageWorking && (headerData?.PrintLogo !== "" && 
                       <img src={headerData?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain'
-                      onError={handleImageErrors} height={120} width={150} />)}
+                      className='w-100 h-auto mx-auto d-block object-fit-contain'
+                      onError={handleImageErrors} style={{maxHeight: "75px", maxWidth: "114.75px"}} />)}
         {/* <img src={headerData?.PrintLogo} alt="" className="imgWidth" /> */}
-        <p className="fw-bold"> {headerData?.CompanyFullName}</p>
+        <p className="fw-bold" style={{fontSize: "16px"}}> {headerData?.CompanyFullName}</p>
         <p>{headerData?.CompanyAddress}</p>
         <p>{headerData?.CompanyAddress2}</p>
         <p>

@@ -32,11 +32,13 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         DiscountAmt: 0,
         TotalAmount: 0,
         amountAfterDiscount: 0,
+        netWtLoss: 0,
+        metalAmount: 0,
     });
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
     const [taxes, setTaxes] = useState([]);
 
     const loadData = (data) => {
@@ -64,6 +66,8 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let MakingAmount = 0;
         let DiscountAmt = 0;
         let TotalAmount = 0;
+        let netWtLosss = 0;
+        let metalAmounts = 0;
         data?.BillPrint_Json1.forEach((e, i) => {
             let obj = { ...e };
             let object = {
@@ -73,6 +77,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 rate: 0,
                 amount: 0
             }
+            metalAmounts+= e?.MetalAmount;
             let srJob = e?.SrJobno?.split("/");
             if (srJob?.length > 1) {
                 srJob = srJob[1]
@@ -109,14 +114,19 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             MakingAmount += e?.MakingAmount;
             DiscountAmt += e?.DiscountAmt;
             TotalAmount += e?.TotalAmount
+            let SettingAmount = 0;
+            let netWtLoss = 0;
+            let count = 0;
+            let metalWt = 0;
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (ele?.StockBarcode === e?.SrJobno) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-                        if (i === 0) {
-                            diamondTotal.Wt += ele?.Wt;
-                            diamondTotal.Pcs += ele?.Pcs;
-                            diamondTotal.Amount += ele?.Amount;
-                        }
+                        // if (i === 0) {
+                        diamondTotal.Wt += ele?.Wt;
+                        diamondTotal.Pcs += ele?.Pcs;
+                        diamondTotal.Amount += ele?.Amount;
+                        netWtLoss += ele?.Wt;
+                        // }
                         if (ele?.IsCenterStone === 1) {
                             ele.MasterManagement_DiamondStoneTypeName = "CENTER STONE";
                         }
@@ -124,6 +134,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         rowWiseDiamondTotal.Wt += ele?.Wt;
                         rowWiseDiamondTotal.Pcs += ele?.Pcs;
                         rowWiseDiamondTotal.Amount += ele?.Amount;
+                        SettingAmount += ele?.SettingAmount;
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                         colors.push(ele);
                         rowWiseColorStoneTotal.Wt += ele?.Wt;
@@ -134,7 +145,12 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             colorStone.Pcs += ele?.Pcs;
                             colorStone.Amount += ele?.Amount;
                         }
+                        SettingAmount += ele?.SettingAmount;
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+                        if (ele?.IsPrimaryMetal === 1) {
+                            metalWt += ele?.Wt;
+                        }
+                        count++;
                         metals.push(ele);
                         metalRate += ele?.Rate;
                         object.rate += ele?.Rate;
@@ -158,11 +174,18 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 }
             });
+            if (count === 1) {
+                netWtLoss = e?.NetWt + e?.LossWt;
+            } else if (count > 1) {
+                netWtLoss = metalWt;
+            }
+            netWtLosss += netWtLoss;
             obj.metalRate = metalRate;
             obj.metalAmount = metalAmount;
             obj.diamonds = diamonds;
             obj.colors = colors;
             obj.metals = metals;
+            obj.netWtLoss = netWtLoss;
             obj.otherTotal = otherTotal;
             obj.otherCharge = otherCharge;
             obj.otherChargess = otherChargess;
@@ -170,6 +193,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.rowWiseDiamondTotal = rowWiseDiamondTotal;
             obj.rowWiseColorStoneTotal = rowWiseColorStoneTotal;
             obj.rowWiseMetalTotal = rowWiseMetalTotal;
+            obj.SettingAmount = SettingAmount;
             newArr.push(obj);
             if (e?.GroupJob !== "") {
                 let findRecord = metalArr.findIndex(elem => elem.groupjob === e?.GroupJob);
@@ -186,7 +210,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let taxValue = taxGenrator(data?.BillPrint_Json[0], TotalAmount);
         let taxess = taxValue?.reduce((acc, cObj) => acc + +cObj?.amount, 0) + data?.BillPrint_Json[0]?.AddLess;
 
-        setTotal({ ...total, diamondTotal: diamondTotal, colorStone: colorStone, metalTotal: metalTotal, otherAmount: otherAmount, MakingAmount: MakingAmount, DiscountAmt: DiscountAmt, TotalAmount: TotalAmount, amountAfterDiscount: TotalAmount + taxess });
+        setTotal({ ...total,netWtLoss: netWtLosss,metalAmount: metalAmounts, diamondTotal: diamondTotal, colorStone: colorStone, metalTotal: metalTotal, otherAmount: otherAmount, MakingAmount: MakingAmount, DiscountAmt: DiscountAmt, TotalAmount: TotalAmount, amountAfterDiscount: TotalAmount + taxess });
         // let finalArr = [];
         // newArr.forEach((e, i) => {
         //     let findRecord = finalArr.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob && e?.GroupJob !== "");
@@ -381,10 +405,10 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* Print Logo */}
                 <div className="pt-2">
-                {isImageWorking && (json0Data?.PrintLogo !== "" && 
-                      <img src={json0Data?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain'
-                      onError={handleImageErrors} height={120} width={150} />)}
+                    {isImageWorking && (json0Data?.PrintLogo !== "" &&
+                        <img src={json0Data?.PrintLogo} alt=""
+                            className='w-25 h-auto ms-auto d-block object-fit-contain'
+                            onError={handleImageErrors} height={120} width={150} />)}
                     {/* <img src={json0Data?.PrintLogo} alt="" className={`logoimg  d-block mx-auto`} /> */}
                     <p className={`text-center pt-1 fw-bold ${style?.font_12}`}>    {json0Data?.CompanyAddress} {json0Data?.CompanyAddress2}{" "}
                         {json0Data?.CompanyCity} - {json0Data?.CompanyPinCode}</p>
@@ -392,18 +416,18 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {json0Data?.PrintRemark !== "" && <p className={`fw-bold text-center ${style?.font_11}`}>({json0Data?.PrintRemark})</p>}
                 </div>
                 {/* Party */}
-                <div className={`pt-4 d-flex justify-content-between aling-items-between`}>
+                <div className={`pt-4 d-flex justify-content-between align-items-between`}>
                     <div className={'col-6'}>
                         <p className={` ${style?.font_14}`}><span className="fw-bold">Party:</span> {json0Data?.customerfirmname}</p>
                     </div>
-                    <div className={`text-end  ${style?.font_12}`} style={{width: "180px", minWidth: "180px"}}>
+                    <div className={`text-end  ${style?.font_12}`} style={{ width: "180px", minWidth: "180px" }}>
                         <div className='d-flex justify-content-end pb-1'>
-                            <p style={{width: "90px"}}>Invoice No :</p>
-                            <p className='text-end fw-bold' style={{width: "90px"}}>{json0Data?.InvoiceNo}</p>
+                            <p style={{ width: "90px" }}>Invoice No :</p>
+                            <p className='text-end fw-bold' style={{ width: "90px" }}>{json0Data?.InvoiceNo}</p>
                         </div>
                         <div className='d-flex justify-content-end pb-2'>
-                            <p style={{width: "90px"}}>Date :</p>
-                            <p className='text-end fw-bold' style={{width: "90px"}}>{json0Data?.EntryDate}</p>
+                            <p style={{ width: "90px" }}>Date :</p>
+                            <p className='text-end fw-bold' style={{ width: "90px" }}>{json0Data?.EntryDate}</p>
                         </div>
                     </div>
                 </div>
@@ -519,13 +543,13 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             {e?.diamonds.map((el, indd) => {
                                                 return <p key={indd}>{NumberWithCommas(el?.Wt, 3)}</p>
                                             })}
-                                            <p className={`position-absolute w-100 border-top bottom-0 lightGrey fw-bold ${style?.min_height}`}>{NumberWithCommas(e?.rowWiseDiamondTotal.Wt, 3)}</p>
+                                            <p className={`position-absolute w-100 border-top bottom-0 lightGrey fw-bold ${style?.min_height}`}>{e?.rowWiseDiamondTotal.Wt !== 0 && NumberWithCommas(e?.rowWiseDiamondTotal.Wt, 3)}</p>
                                         </div>
                                         <div className={`col-2 text-end border-end pb-3 position-relative h-100 `}>
                                             {e?.diamonds.map((el, indd) => {
                                                 return <p key={indd}>{NumberWithCommas(el?.Pcs, 0)}</p>
                                             })}
-                                            <p className={`position-absolute w-100 border-top bottom-0 lightGrey fw-bold ${style?.min_height}`}>{NumberWithCommas(e?.rowWiseDiamondTotal.Pcs, 0)}</p>
+                                            <p className={`position-absolute w-100 border-top bottom-0 lightGrey fw-bold ${style?.min_height}`}>{e?.rowWiseDiamondTotal.Pcs !== 0 && NumberWithCommas(e?.rowWiseDiamondTotal.Pcs, 0)}</p>
                                         </div>
                                         <div className={`col-2 text-end border-end pb-3 position-relative h-100`}>
                                             {e?.diamonds.map((el, indd) => {
@@ -535,9 +559,9 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                         <div className={`col-2 text-end pb-3 position-relative h-100`}>
                                             {e?.diamonds.map((el, indd) => {
-                                                return <p key={indd}>{NumberWithCommas(el?.Amount, 2)}</p>
+                                                return <p key={indd}>{NumberWithCommas(el?.Amount / json0Data?.CurrencyExchRate, 2)}</p>
                                             })}
-                                            <p className={`position-absolute w-100 border-top bottom-0 lightGrey fw-bold ${style?.min_height}`}>{NumberWithCommas(e?.rowWiseDiamondTotal.Amount, 3)}</p>
+                                            <p className={`position-absolute w-100 border-top bottom-0 lightGrey fw-bold ${style?.min_height}`}>{e?.rowWiseDiamondTotal.Amount !== 0 && NumberWithCommas(e?.rowWiseDiamondTotal.Amount / json0Data?.CurrencyExchRate, 2)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -545,7 +569,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className="d-flex w-100">
                                         <div className={`${style?.wid_20} border-end position-relative h-100 pb-3`}>
                                             {e?.metals.map((el, indd) => {
-                                                return <p key={indd}>{indd === 0 && el?.kt}</p>
+                                                return <p key={indd}>{indd === 0 && e?.MetalTypePurity}</p>
                                             })}
                                             <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}></p>
                                         </div>
@@ -553,13 +577,14 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             {e?.metals.map((el, indd) => {
                                                 return <p key={indd}>{indd === 0 && NumberWithCommas(e?.grosswt, 3)}</p>
                                             })}
-                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{NumberWithCommas(e?.rowWiseMetalTotal.grossWt, 3)}</p>
+                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{e?.rowWiseMetalTotal.grossWt !== 0 && NumberWithCommas(e?.rowWiseMetalTotal.grossWt, 3)}</p>
                                         </div>
                                         <div className={`${style?.wid_20} text-end border-end position-relative h-100`}>
-                                            {e?.metals.map((el, indd) => {
+                                            {/* {e?.metals.map((el, indd) => {
                                                 return <p key={indd}>{indd === 0 && NumberWithCommas(e?.NetWt + e?.LossWt, 3)}</p>
-                                            })}
-                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{NumberWithCommas(e?.rowWiseMetalTotal.NetWt + e?.LossWt, 3)}</p>
+                                            })} */}
+                                            <p>{NumberWithCommas(e?.netWtLoss, 3)}</p>
+                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{(e?.netWtLoss !== 0) && NumberWithCommas(e?.netWtLoss, 3)}</p>
                                         </div>
                                         <div className={`${style?.wid_20} text-end border-end position-relative h-100`}>
                                             {e?.metals.map((el, indd) => {
@@ -569,9 +594,9 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                         <div className={`${style?.wid_20} text-end position-relative h-100`}>
                                             {e?.metals.map((el, indd) => {
-                                                return <p key={indd}>{indd === 0 && NumberWithCommas(el?.Amount, 2)}</p>
+                                                return <p key={indd}>{indd === 0 && NumberWithCommas(el?.Amount / json0Data?.CurrencyExchRate, 2)}</p>
                                             })}
-                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{NumberWithCommas(e?.rowWiseMetalTotal.Amount, 2)}</p>
+                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{e?.rowWiseMetalTotal.Amount !== 0 && NumberWithCommas(e?.rowWiseMetalTotal.Amount / json0Data?.CurrencyExchRate, 2)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -587,13 +612,13 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             {e?.colors.map((el, indd) => {
                                                 return <p key={indd}>{NumberWithCommas(el?.Wt, 2)}</p>
                                             })}
-                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{NumberWithCommas(e?.rowWiseColorStoneTotal.Wt, 2)}</p>
+                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{e?.rowWiseColorStoneTotal.Wt !== 0 && NumberWithCommas(e?.rowWiseColorStoneTotal.Wt, 2)}</p>
                                         </div>
                                         <div className={`${style?.wid_20} text-end border-end position-relative h-100 pb-3`}>
                                             {e?.colors.map((el, indd) => {
                                                 return <p key={indd}>{NumberWithCommas(el?.Pcs, 0)}</p>
                                             })}
-                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{NumberWithCommas(e?.rowWiseColorStoneTotal.Pcs, 0)}</p>
+                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{e?.rowWiseColorStoneTotal.Pcs !== 0 && NumberWithCommas(e?.rowWiseColorStoneTotal.Pcs, 0)}</p>
                                         </div>
                                         <div className={`${style?.wid_20} text-end border-end position-relative h-100 pb-3`}>
                                             {e?.colors.map((el, indd) => {
@@ -603,9 +628,9 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                         <div className={`${style?.wid_20} text-end position-relative h-100 pb-3`}>
                                             {e?.colors.map((el, indd) => {
-                                                return <p key={indd}>{NumberWithCommas(el?.Amount, 2)}</p>
+                                                return <p key={indd}>{NumberWithCommas(el?.Amount / json0Data?.CurrencyExchRate, 2)}</p>
                                             })}
-                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{NumberWithCommas(e?.rowWiseColorStoneTotal.Amount, 2)}</p>
+                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{e?.rowWiseColorStoneTotal.Amount !== 0 && NumberWithCommas(e?.rowWiseColorStoneTotal.Amount / json0Data?.CurrencyExchRate, 2)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -616,8 +641,9 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}></p>
                                         </div>
                                         <div className={` col-6 text-end position-relative h-100 pb-3`}>
-                                            <p>{NumberWithCommas(e?.MakingAmount, 2)}</p>
-                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{NumberWithCommas(e?.MakingAmount, 2)}</p>
+                                            <p>{NumberWithCommas(e?.MakingAmount + e?.SettingAmount / json0Data?.CurrencyExchRate, 2)}</p>
+
+                                            <p className={`position-absolute fw-bold w-100 border-top bottom-0 lightGrey ${style?.min_height}`}>{NumberWithCommas(e?.MakingAmount + e?.SettingAmount / json0Data?.CurrencyExchRate, 2)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -643,7 +669,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`}>{NumberWithCommas(ele?.Amount, 2)}</p>
                                             })}
                                             {e?.MiscAmount !== 0 && <p className={`${style?.min_height}`}>{NumberWithCommas(e?.MiscAmount, 2)}</p>}
-                                            {e?.TotalDiamondHandling !== 0 && <p className={`${style?.min_height}`}>{e?.TotalDiamondHandling}</p>}
+                                            {e?.TotalDiamondHandling !== 0 && <p className={`${style?.min_height}`}>{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>}
                                             <p className={`position-absolute w-100 border-top bottom-0 fw-bold lightGrey fw-bold ${style?.min_height}`}>{NumberWithCommas(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount, 2)}</p>
                                         </div>
                                     </div>
@@ -765,10 +791,10 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p></p>
                                 </div>
                                 <div className={`col-2 text-end border-end`}>
-                                    <p className=''>{NumberWithCommas(total?.diamondTotal?.Wt, 3)}</p>
+                                    <p className=''>{NumberWithCommas(total?.diamondTotal?.Wt, 2)}</p>
                                 </div>
                                 <div className={`col-2 text-end border-end`}>
-                                    <p className=''>{NumberWithCommas(total?.diamondTotal?.Pcs, 3)}</p>
+                                    <p className=''>{NumberWithCommas(total?.diamondTotal?.Pcs, 0)}</p>
                                 </div>
                                 <div className={`col-2 text-end border-end`}>
                                     <p></p>
@@ -787,13 +813,13 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p>{NumberWithCommas(total?.metalTotal?.grossWt, 3)}</p>
                                 </div>
                                 <div className={`${style?.wid_20} text-end border-end`}>
-                                    <p>{NumberWithCommas(total?.metalTotal?.NetWt, 3)}</p>
+                                    <p>{NumberWithCommas(total?.netWtLoss, 3)}</p>
                                 </div>
                                 <div className={`${style?.wid_20} text-end border-end`}>
                                     <p></p>
                                 </div>
                                 <div className={`${style?.wid_20} text-end`}>
-                                    <p>{NumberWithCommas(total?.metalTotal?.Amount, 2)}</p>
+                                    <p>{NumberWithCommas(total?.metalAmount, 2)}</p>
                                 </div>
                             </div>
                         </div>

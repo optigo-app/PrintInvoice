@@ -34,6 +34,9 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     WithNetWt: true,
     WithSummary: true,
     WithDiamondRate: true,
+  });
+  const [total, setTotal] = useState({
+    FineWt: 0,
   })
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
@@ -55,6 +58,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let resultArr = [];
     let categories = [];
     let netWts = 0;
+    let FineWts = 0;
     datas?.resultArray.forEach((e, i) => {
       let otherDetailsCharges = e?.TotalDiamondHandling + e?.OtherCharges;
       if (e?.metal?.length <= 1) {
@@ -72,6 +76,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           }
         });
         let obj = cloneDeep(e);
+        obj.FineWt = 0;
         obj.otherDetailsCharges = otherDetailsCharges;
         let findIndex = e?.metal?.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
         let primaryMetalAmount = 0;
@@ -79,6 +84,8 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         if (findIndex !== -1) {
           primaryMetalAmount = e?.metal[findIndex]?.Amount;
           primaryMetalWt = e?.metal[findIndex]?.Wt;
+          obj.FineWt = e?.metal[findIndex]?.FineWt;
+          FineWts += e?.metal[findIndex]?.FineWt;
         }
         obj.primaryMetalAmount = primaryMetalAmount;
         obj.primaryMetalWt = primaryMetalWt;
@@ -88,14 +95,18 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         if (findRecord === -1) {
           let primaryMetalAmount = 0;
           let primaryMetalWt = 0
+          let FineWt = 0;
           let findIndex = e?.metal?.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
           if (findIndex !== -1) {
             primaryMetalAmount = e?.metal[findIndex]?.Amount;
             primaryMetalWt = e?.metal[findIndex]?.Wt;
+            FineWt = e?.metal[findIndex]?.FineWt;
+            FineWts+= e?.metal[findIndex]?.FineWt;
           }
           let obj = cloneDeep(e);
           obj.primaryMetalAmount = primaryMetalAmount;
           obj.primaryMetalWt = primaryMetalWt;
+          obj.FineWt = FineWt;
           resultArr.push(obj);
         } else {
           if (resultArr[findRecord]?.GroupJob !== resultArr[findRecord]?.SrJobno) {
@@ -127,12 +138,16 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           let primaryMetalAmount = 0;
           let primaryMetalWt = 0
           let findIndex = e?.metal?.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
+          let FineWt = 0;
           if (findIndex !== -1) {
             primaryMetalAmount = e?.metal[findIndex]?.Amount;
             primaryMetalWt = e?.metal[findIndex]?.Wt;
+            FineWt = e?.metal[findIndex]?.FineWt;
+            FineWts+= e?.metal[findIndex]?.FineWt;
           }
           resultArr[findRecord].primaryMetalAmount += primaryMetalAmount;
           resultArr[findRecord].primaryMetalWt = primaryMetalWt;
+          resultArr[findRecord].FineWt += FineWt;
           // other amount
           let otherAmts = [];
           let otherAmtsDts = [...resultArr[findRecord]?.other_details, ...e?.other_details].flat();
@@ -210,7 +225,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setNetWt(netWts);
     datas.resultArray = resultArr;
     datas.afterReceive = datas?.finalAmount - data?.BillPrint_Json[0]?.BankReceived - data?.BillPrint_Json[0]?.CashReceived;
-
+    setTotal({...total, FineWt: FineWts});
     setCategory(categories);
     console.log(datas);
     setData(datas);
@@ -327,10 +342,10 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           style={{ width: "30%" }}
           className="d-flex justify-content-end align-item-center h-100"
         >
-          {isImageWorking && (headerData?.PrintLogo !== "" && 
-                      <img src={headerData?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain'
-                      onError={handleImageErrors} height={120} width={150} />)}
+          {isImageWorking && (headerData?.PrintLogo !== "" &&
+            <img src={headerData?.PrintLogo} alt=""
+              className='w-25 h-auto ms-auto d-block object-fit-contain'
+              onError={handleImageErrors} height={120} width={150} />)}
           {/* <img
             src={headerData?.PrintLogo}
             alt=""
@@ -714,15 +729,15 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             >
               <div className="d-flex h-100">
                 <div className="col-6 border-end">
-                  <p className="text-end pad_1"></p>
+                  <p className="text-end pad_1 fw-bold">{e?.FineWt !== 0 && NumberWithCommas(e?.FineWt, 3)}</p>
                 </div>
                 <div className="col-6">
-                  <p className="text-end pad_1">{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.TotalAmount, 2)}</p>
                 </div>
               </div>
               <div className="d-flex position-absolute bottom-0 left-0 w-100 border-top lightGrey">
                 <div className="col-6 border-end">
-                  <p className="text-end pad_1 fw-bold"></p>
+                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.FineWt, 3)}</p>
                 </div>
                 <div className="col-6">
                   <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.TotalAmount, 2)}</p>
@@ -893,7 +908,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className={`${style?.totalAmount}`}>
           <div className="d-flex lightGrey">
             <div className="col-6 border-end">
-              <p className="text-end border-end pad_1">0.000</p>
+              <p className="text-end border-end pad_1 fw-bold">{NumberWithCommas(total?.FineWt, 3)}</p>
             </div>
             <div className="col-6">
               <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost, 2)}</p>
