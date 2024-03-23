@@ -169,7 +169,7 @@
     width: 16.66%;
 }
 .theadsubcol2_dp10{
-    width: 23%;
+    width: 25%;
 }
 
 /* table body one row columns */
@@ -264,6 +264,9 @@
 .pad_top_dp10{
     padding: 0px !important;
     /* padding-top: 10px !important; */
+}
+.pr_dp10{
+    padding-right: 2px !important;
 }
 @media print {
     .fsgdp10{
