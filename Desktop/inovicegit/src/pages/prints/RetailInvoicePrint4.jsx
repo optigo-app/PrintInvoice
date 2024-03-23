@@ -70,6 +70,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 materials.push(ele);
               } else {
                 materials[findIndex].Wt += ele?.Wt;
+                materials[findIndex].Rate = (ele?.Rate + materials[findIndex].Rate) / 2;
               }
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -81,16 +82,17 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 materials[findIndex].Wt += ele?.Wt;
               }
             }
-            if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+            if (ele?.MasterManagement_DiamondStoneTypeid === 3 && ele?.IsHSCOE === 0) {
               totals.stoneWt += ele?.Wt;
-              let findIndex = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === 3 && ((elem?.IsHSCOE === ele?.IsHSCOE) || (elem?.IsHSCOE !== 0 && ele?.IsHSCOE !== 0)));
-              if (findIndex === -1) {
-                materials.push(ele);
-                console.log(ele?.Wt, ele?.StockBarcode, ele?.IsHSCOE);
-              } else {
-                materials[findIndex].Wt += ele?.Wt;
-                console.log(ele?.Wt, ele?.StockBarcode, ele?.IsHSCOE);
-              }
+              // let findIndex = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === 3 && elem?.IsHSCOE === 0 && ele?.IsHSCOE === 0);
+              materials.push(ele);
+              // if (findIndex === -1) {
+              //   materials.push(ele);
+              //   console.log(ele?.Wt, ele?.StockBarcode, ele?.IsHSCOE);
+              // } else {
+              //   materials[findIndex].Wt += ele?.Wt;
+              //   console.log(ele?.Wt, ele?.StockBarcode, ele?.IsHSCOE);
+              // }
             }
           }
         });
@@ -414,7 +416,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                             <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
                             <div className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && fixedValues(ele?.Wt, 3)}</p></div>
                             <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.MetalDiaWt, 3)}</p></div>
-                            <div className={`col-2 d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{NumberWithCommas(e?.MetalDiaWt, 3)}</p></div>
+                            <div className={`col-2 d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{NumberWithCommas(ele?.Rate, 2)}</p></div>
                           </div>
                         }) : <div className="d-flex">
                           <div className={` border-end`}><p className="p-1 lh-1"></p></div>

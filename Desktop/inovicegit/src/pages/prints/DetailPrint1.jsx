@@ -35,6 +35,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
 
   const [dp1lp, setdp1lp] = useState((atob(printName).toLowerCase() === "detail print1 (l)" || atob(printName).toLowerCase() === "detail print1 (p)") ? true : false);
+  const [dpp, setdpp] = useState(atob(printName).toLowerCase() === "detail print1 (p)" ? true : false);
 
   const [brokarage, setBrokarage] = useState([]);
   const [msg, setMsg] = useState("");
@@ -905,7 +906,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <p className="col-2  text-end paddingRightDetailPrint1">
                                     {NumberWithCommas(ele?.Rate, 2)}
                                   </p>
-                                  <p className={`col-3 text-end ${ind > 0 && "fw-bold" }`}>
+                                  <p className={`col-3 text-end ${ind > 0 && "fw-bold"}`}>
                                     {NumberWithCommas(ele?.Amount, 2)}
                                   </p>
                                 </div>
@@ -1020,7 +1021,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <p>{ele?.value}</p>
                                   </div>} */}
                                 {
-                                  dp1lp ? <>
+                                  dp1lp ? (dpp ? <>
 
                                     {e?.OtherCharges !== 0 && <div
                                       className="d-flex justify-content-between"
@@ -1045,20 +1046,44 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                     }
                                   </> : <>
+
                                     {e?.OtherCharges !== 0 && <div
                                       className="d-flex justify-content-between"
                                       style={{ fontSize: "10.5px" }}
                                     >
-                                      <p className="paddingRightDetailPrint1">Charges</p>
-                                      <p className="">{NumberWithCommas(e?.OtherCharges, 2)}</p>
+                                      <p className="paddingRightDetailPrint1"></p>
+                                      <p className="">{NumberWithCommas(e?.OtherCharges+e?.MiscAmount+e?.TotalDiamondHandling, 2)}</p>
                                     </div>}
-                                    {e?.MiscAmount !== 0 && <div
+                                    {/* {e?.MiscAmount !== 0 && <div
                                       className="d-flex justify-content-between"
                                       style={{ fontSize: "10.5px" }}
                                     >
                                       <p className="paddingRightDetailPrint1">Misc Charges</p>
                                       <p className="">{NumberWithCommas(e?.MiscAmount, 2)}</p>
                                     </div>}
+                                    {e?.TotalDiamondHandling !== 0 && <div
+                                      className="d-flex justify-content-between"
+                                      style={{ fontSize: "10.5px" }}
+                                    >
+                                      <p className="paddingRightDetailPrint1">Handling</p>
+                                      <p className="">{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>
+                                    </div>
+                                    } */}
+                                  </>) : <>
+                                    {e?.OtherCharges !== 0 && <div
+                                      className="d-flex justify-content-between"
+                                      style={{ fontSize: "10.5px" }}
+                                    >
+                                      <p className="paddingRightDetailPrint1"></p>
+                                      <p className="">{NumberWithCommas(e?.OtherCharges + e?.MiscAmount, 2)}</p>
+                                    </div>}
+                                    {/* {e?.MiscAmount !== 0 && <div
+                                      className="d-flex justify-content-between"
+                                      style={{ fontSize: "10.5px" }}
+                                    >
+                                      <p className="paddingRightDetailPrint1">Misc Charges</p>
+                                      <p className="">{NumberWithCommas(e?.MiscAmount, 2)}</p>
+                                    </div>} */}
                                   </>
                                 }
                               </>
@@ -1128,14 +1153,14 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div>
                             <p className="text-end fw-bold">
                               {e?.UnitCost !== 0 &&
-                                NumberWithCommas(e?.UnitCost, 2)}
+                                NumberWithCommas(e?.TotalAmount, 2)}
                             </p>
                           </div>
                         </div>
                         <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end start-0">
                           <p className="text-end fw-bold  paddingRightDetailPrint1 paddingRightDetailPrint1">
                             {e?.UnitCost !== 0 &&
-                              NumberWithCommas(e?.UnitCost, 2)}
+                              NumberWithCommas(e?.TotalAmount, 2)}
                           </p>
                         </div>
                       </div>
