@@ -868,7 +868,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               );
                             })}
-                          <div className="d-flex border-bottom position-absolute bottom-0 w-100  border-top totalMinHeightDetailPrint1 lightGrey">
+                          <div className="d-flex border-bottom position-absolute bottom-0 w-100  border-top totalMinHeightDetailPrint1 lightGrey start-0">
                             <p className="col-2 paddingRightDetailPrint1 "></p>
                             <p className="col-2 paddingRightDetailPrint1 "></p>
                             <p className="col-2 paddingRightDetailPrint1 text-end fw-bold d-flex align-items-center justify-content-end">
@@ -919,7 +919,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.JobRemark}
                             </p>
                           </div>}
-                          <div className="d-flex position-absolute bottom-0 w-100  totalMinHeightDetailPrint1 border-top border-bottom lightGrey">
+                          <div className="d-flex position-absolute bottom-0 w-100  totalMinHeightDetailPrint1 border-top border-bottom lightGrey start-0">
                             <p className="col-3  paddingRightDetailPrint1"></p>
                             <p className="col-2 text-end fw-bold d-flex justify-content-end align-items-center paddingRightDetailPrint1">
                               {e?.totals?.metal?.Wt !== 0 &&
@@ -930,7 +930,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.NetWt !== 0 && (dp1lp ? fixedValues(e?.primaryMetalWt, 3) : fixedValues(e?.NetWt + e?.LossWt, 3))}
                             </p>
                             <p className="col-2 text-end paddingRightDetailPrint1"></p>
-                            <p className="col-3 text-end fw-bold d-flex justify-content-end align-items-center  paddingRightDetailPrint1l ">
+                            <p className="col-3 text-end fw-bold d-flex justify-content-end align-items-center  paddingRightDetailPrint1 ">
                               {e?.totals?.metal.Amount !== 0 &&
                                 NumberWithCommas(e?.metal[0].Amount, 2)}
                             </p>
@@ -968,10 +968,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                               );
                             })}
-                          <div className="d-flex border-bottom position-absolute bottom-0 w-100  border-top totalMinHeightDetailPrint1 lightGrey paddingRightDetailPrint1l">
+                          <div className="d-flex border-bottom position-absolute bottom-0 w-100  border-top totalMinHeightDetailPrint1 lightGrey paddingRightDetailPrint1 paddingLeftDetailPrint1 start-0">
                             <p className=" col-2  paddingRightDetailPrint1"></p>
                             <p className=" col-2  paddingRightDetailPrint1"></p>
-                            <p className=" col-2  paddingRightDetailPrint1text-end fw-bold d-flex align-items-center justify-content-end">
+                            <p className=" col-2  paddingRightDetailPrint1 text-end fw-bold d-flex align-items-center justify-content-end">
                               {e?.totals?.colorstone?.Pcs !== 0 &&
                                 e?.totals?.colorstone?.Pcs}
                             </p>
@@ -1065,7 +1065,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             )}
                           </div>
                         </div>
-                        <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end paddingRightDetailPrint1l">
+                        <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end paddingRightDetailPrint1 start-0">
                           <p className="text-end fw-bold  ">
                             {
                               (dp1lp || detailtPrintR) ?
@@ -1100,7 +1100,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                         </div>
-                        <div className="position-absolute bottom-0 w-100 border-bottom  border-top totalMinHeightDetailPrint1 d-flex lightGrey d-flex align-items-center justify-content-end paddingRightDetailPrint1l">
+                        <div className="position-absolute bottom-0 w-100 border-bottom  border-top totalMinHeightDetailPrint1 d-flex lightGrey d-flex align-items-center justify-content-end paddingRightDetailPrint1 start-0">
                           <div className="col-5">
                             <p className="text-end fw-bold">
                               {/* {e?.MaKingCharge_Unit !== 0 &&
@@ -1108,7 +1108,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </p>
                           </div>
                           <div className="col-7">
-                            <p className="text-end fw-bold  paddingRightDetailPrint1">
+                            <p className="text-end fw-bold  ">
                               {e?.MakingAmount +
                                 e?.TotalCsSetcost +
                                 e?.TotalDiaSetcost !==
@@ -1132,8 +1132,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </p>
                           </div>
                         </div>
-                        <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end">
-                          <p className="text-end fw-bold  paddingRightDetailPrint1 paddingRightDetailPrint1l">
+                        <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end start-0">
+                          <p className="text-end fw-bold  paddingRightDetailPrint1 paddingRightDetailPrint1">
                             {e?.UnitCost !== 0 &&
                               NumberWithCommas(e?.UnitCost, 2)}
                           </p>
@@ -1199,7 +1199,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             }
             {/* cgst */}
             <div className="d-flex w-100 border-bottom  border-start recordDetailPrint1 detailPrint1L_font_11">
-              <div className="cgstDetailPrint1 text-end border-end  paddingLeftDetailPrint1 paddingRightDetailPrint1">
+              <div className="cgstDetailPrint1 text-end border-end  paddingLeftDetailPrint1 paddingRightDetailPrint1 py-1">
                 <p className="">Total Discount</p>
                 {json0Data?.Privilege_discount !== 0 && (
                   <p className="">Privilege Card Discount</p>
@@ -1216,7 +1216,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <p className="">{json0Data?.AddLess < 0 ? "Less" : "Add"}</p>
                 )}
               </div>
-              <div className="cgstTotalDetailPrint1 text-end border-end  paddingLeftDetailPrint1 paddingRightDetailPrint1 ">
+              <div className="cgstTotalDetailPrint1 text-end border-end  paddingLeftDetailPrint1 paddingRightDetailPrint1 py-1">
                 <p>{(total?.discountTotalAmount).toFixed(2)}</p>
                 {json0Data?.Privilege_discount !== 0 && (
                   <p>- {json0Data?.Privilege_discount}</p>
@@ -1262,24 +1262,24 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="metalTotalDetailPrint1 border-end  position-relative border-bottom d-flex flex-column justify-content-center paddingLeftDetailPrint1 paddingRightDetailPrint1">
+              <div className="metalTotalDetailPrint1 border-end  position-relative border-bottom d-flex flex-column justify-content-center  ">
                 <div className="d-flex">
-                  <div className="col-3">
+                  <div className="col-3 paddingRightDetailPrint1">
                     <p className=""></p>
                   </div>
-                  <div className="col-2">
+                  <div className="col-2 text-end paddingRightDetailPrint1">
                     <p className="fw-bold">{NumberWithCommas(finalD?.mainTotal?.netwt + (finalD?.mainTotal?.diamonds?.Wt / 5), 3)}</p>
                   </div>
-                  <div className="col-2 text-end">
+                  <div className="col-2 text-end paddingRightDetailPrint1">
                     <p className="fw-bold">
                       {dp1lp ? NumberWithCommas(totalMetalWts, 3) : NumberWithCommas(finalD?.mainTotal?.metal?.Wt, 3)}
                       {/* {NumberWithCommas(finalD?.mainTotal?.netwt, 3)} */}
                     </p>
                   </div>
-                  <div className="col-2 text-end">
+                  <div className="col-2 text-end paddingRightDetailPrint1">
                     <p className=""></p>
                   </div>
-                  <div className="col-3 text-end">
+                  <div className="col-3 text-end paddingRightDetailPrint1">
                     <p className="fw-bold">
                       {NumberWithCommas(finalD?.mainTotal?.MetalAmount, 2)}
                     </p>
@@ -1288,23 +1288,23 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               <div className="stoneDetailsPrint1 border-end  position-relative border-bottom d-flex flex-column justify-content-center paddingLeftDetailPrint1 paddingRightDetailPrint1">
                 <div className="d-flex">
-                  <div className="col-2">
+                  <div className="col-2 paddingRightDetailPrint1">
                     <p className=""></p>
                   </div>
-                  <div className="col-2">
+                  <div className="col-2 paddingRightDetailPrint1">
                     <p className=""></p>
                   </div>
-                  <div className="col-2 text-end d-flex justify-content-end align-items-center h-100 ">
+                  <div className="col-2 text-end d-flex justify-content-end align-items-center h-100  paddingRightDetailPrint1">
                     <p className="fw-bold">
                       {NumberWithCommas(total?.colorStonePcs, 0)}
                     </p>
                   </div>
-                  <div className="col-2 text-end d-flex justify-content-end align-items-center h-100 ">
+                  <div className="col-2 text-end d-flex justify-content-end align-items-center h-100  paddingRightDetailPrint1">
                     <p className="fw-bold">
                       {fixedValues(total?.colorStoneWt, 3)}
                     </p>
                   </div>
-                  <div className="col-2 text-end d-flex justify-content-end align-items-center h-100 ">
+                  <div className="col-2 text-end d-flex justify-content-end align-items-center h-100  paddingRightDetailPrint1">
                     <p className="fw-bold"></p>
                   </div>
                   <div className="col-2 text-end d-flex justify-content-end align-items-center h-100 ">

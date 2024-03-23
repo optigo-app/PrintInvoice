@@ -41,6 +41,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
   };
   const [taxes, setTaxes] = useState([]);
   const [bank, setBank] = useState([]);
+  const [document, setDocument] = useState([]);
   async function loadData(data) {
     try {
       setHeaderData(data?.BillPrint_Json[0]);
@@ -82,11 +83,13 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
               totals.stoneWt += ele?.Wt;
-              let findIndex = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === 3);
+              let findIndex = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === 3 && ((elem?.IsHSCOE === ele?.IsHSCOE) || (elem?.IsHSCOE !== 0 && ele?.IsHSCOE !== 0)));
               if (findIndex === -1) {
                 materials.push(ele);
+                console.log(ele?.Wt, ele?.StockBarcode, ele?.IsHSCOE);
               } else {
                 materials[findIndex].Wt += ele?.Wt;
+                console.log(ele?.Wt, ele?.StockBarcode, ele?.IsHSCOE);
               }
             }
           }
@@ -154,8 +157,8 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         }
       });
       resultArr?.sort((a, b) => {
-        let nameA = a?.designno?.tolowerCase();
-        let nameB = b?.designno?.tolowerCase();
+        let nameA = a?.designno?.toUpperCase();
+        let nameB = b?.designno?.toUpperCase();
         if (nameA > nameB) {
           return 1
         } else if (nameA < nameB) {
@@ -164,7 +167,8 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
           return 0
         }
       });
-      let documentDetail = GovernMentDocuments(headerData?.DocumentDetail)
+      let documentDetail = GovernMentDocuments(headerData?.DocumentDetail);
+      setDocument(documentDetail);
       setdata(resultArr);
       setLoader(false);
     } catch (error) {
@@ -298,43 +302,71 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                   </div>
                   <div className="col-4 p-2 position-relative">
                     <div className="d-flex">
-                      <div className="col-4">
+                      <div className="col-6">
                         <b className="JL13">INVOICE NO</b>
                       </div>
-                      <div className="col-8">
+                      <div className="col-6">
                         {headerData?.InvoiceNo}
                       </div>
                     </div>
                     <div className="d-flex">
-                      <div className="col-4">
+                      <div className="col-6">
                         <b className="JL13">DATE</b>
                       </div>
-                      <div className="col-8">
+                      <div className="col-6">
                         {headerData?.EntryDate}
                       </div>
                     </div>
                     <div className="d-flex">
-                      <div className="col-4">
+                      <div className="col-6">
                         <b className="JL13">HSN</b>
                       </div>
-                      <div className="col-8">
+                      <div className="col-6">
                         {headerData?.HSN_No}
                       </div>
                     </div>
-                    {headerData?.aadharno !== "" && <div className="d-flex">
+                    <div className="d-flex">
+                      <div className="col-6">
+                        <b className="JL13">Reverse Charge</b>
+                      </div>
+                      <div className="col-6 d-flex">
+                        <div className="d-flex pe-1">
+                          <input type="checkbox" name="" id="" className="me-1" />
+                          <p className="pe-1">Yes</p>
+                        </div>
+                        <div className="d-flex">
+                          <input type="checkbox" name="" id="" className="me-1" />
+                          <p className="pe-1">No</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {
+                      document?.map((e, i) => {
+                        return <div className="d-flex" key={i}>
+                          <div className="col-6">
+                            <b className="JL13">{e?.label}</b>
+                          </div>
+                          <div className="col-6">
+                            {e?.value}
+                          </div>
+                        </div>
+                      })
+                    }
+                    {/* {headerData?.aadharno !== "" && <div className="d-flex">
                       <div className="col-4">
                         <b className="JL13">AADHAR CARD</b>
                       </div>
                       <div className="col-8">
                         {headerData?.aadharno}
                       </div>
-                    </div>}
-                    <div className="d-flex  position-absolute w-100 pb-2 bottom-0">
+                    </div>} */}
+                    {/* <div className="d-flex  position-absolute w-100 pb-2 bottom-0">
                       <div className="d-flex">
                         <b className="JL13 fs-5 pe-2">24K Gold Rate</b>
                         <b className="fs-5"> {NumberWithCommas(headerData?.MetalRate24K, 2)}</b>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 {/* Table Heading */}
@@ -378,7 +410,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
                           return <div className={`d-flex ${ind !== e?.materials.length - 1 && 'border-bottom'}`} key={ind}>
                             <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.ShapeName : ele?.MasterManagement_DiamondStoneTypeName}</p></div>
-                            <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.QualityName}</p></div>
+                            <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.QualityName}{((ind === 0 && e?.Tunch !== 0) && ` / ${e?.Tunch}%`)}</p></div>
                             <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
                             <div className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && fixedValues(ele?.Wt, 3)}</p></div>
                             <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.MetalDiaWt, 3)}</p></div>
