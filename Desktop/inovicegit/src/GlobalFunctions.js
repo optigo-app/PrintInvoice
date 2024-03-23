@@ -147,6 +147,7 @@ export const taxGenrator = (headerData, totalAmount) => {
     };
     blankArr.push(obj);
   }
+
   return blankArr;
 };
 
