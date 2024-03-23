@@ -457,7 +457,9 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
   
   allTax?.forEach((e) => {
     let amtwords = toWords?.convert(+((+e?.amount)?.toFixed(2)));
-    e.amountInWords = amtwords;
+    let amtInWords = CapitalizeWords(amtwords)
+    // e.amountInWords = amtwords;
+    e.amountInWords = `TOTAL ${e.name} IN WORDS: ${amtInWords}`;
   })
   
   totalAmount = (+totalAmount)?.toFixed(2);

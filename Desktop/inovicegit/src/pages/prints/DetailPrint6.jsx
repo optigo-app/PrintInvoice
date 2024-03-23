@@ -77,18 +77,28 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       m_Wt:0
     }
     datas?.json2?.forEach((e) => {
+
       if(e?.MasterManagement_DiamondStoneTypeid === 3){
-        if(e?.ShapeName === "Hallmark" || e?.ShapeName === "Stamping") return ''
-        else{
-          if(e?.Supplier === "Company"){
-            if(e?.ShapeName?.includes("Certification") && e?.Wt === 0) return ''
-            else{
+        if(e?.Supplier === 'Company'){
+          if(e?.ShapeName === "Hallmark" || e?.ShapeName === "Stamping") return ''
+          else{
               obj.m_Pcs += e?.Pcs;
-              obj.m_Wt += e?.Wt;
-            }
+              obj.m_Wt += e?.Wt;      
           }
         }
       }
+      // if(e?.MasterManagement_DiamondStoneTypeid === 3){
+      //   if(e?.ShapeName === "Hallmark" || e?.ShapeName === "Stamping") return ''
+      //   else{
+      //     if(e?.Supplier === "Company"){
+      //       if(e?.ShapeName?.includes("Certification") && e?.Wt === 0) return ''
+      //       else{
+      //         obj.m_Pcs += e?.Pcs;
+      //         obj.m_Wt += e?.Wt;
+      //       }
+      //     }
+      //   }
+      // }
     })
     datas?.resultArray?.forEach((e) => {
       let jobwise_dia_Wt = 0;
@@ -125,18 +135,75 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       })
       ee.diamond_colorstone_misc = d_c_m;
     })
-    
+    // datas?.resultArray?.forEach((e) => {
+    //   let arr = [];
+    //   let findIndex = e?.misc?.reduce((acc, cObj) => cObj?.IsHSCOE === 0 ? acc+1 : acc, 0);
+    //   if(findIndex !== 0){
+    //     e?.misc?.forEach((a) => {
+    //       if(a?.IsHSCOE !== 1 && a?.IsHSCOE !== 2){
+    //         arr?.push(a)
+    //       }
+    //     })
+    //   }
+    //     e.misc = arr;
+    //   // e?.misc?.forEach((el) => {
+    //   //     if(el?.IsHSCOE)
+    //   // })
+    // })
+    // datas?.resultArray?.forEach((e) => {
+    //   if(e?.misc?.length === 1){
+    //     if(e?.misc[0]?.ShapeName?.includes('Certification')){
+    //       e.misc  = [];
+    //     }
+    //   }else{
+    //     console.log(e?.misc, e?.SrJobno);
+    //   }
+    // })
+
+    datas?.resultArray?.forEach((e) => {
+      let arr = [];
+      // console.log("hello");
+      e?.misc?.forEach((a) => {
+        if(a?.IsHSCOE === 0 || a?.IsHSCOE === 3){
+          // console.log(a);
+          arr?.push(a);
+        }
+        // if(a?.IsHSCOE === 0){
+        //     if(a?.IsHSCOE === 1 || a?.IsHSCOE === 2){
+        //         return ''
+        //     }else if(a?.IsHSCOE === 0 || a?.IsHSCOE === 3){
+        //       arr?.push(a);
+        //     }
+        // }
+      })
+      if(arr?.length === 1){
+        if(arr[0]?.IsHSCOE === 3){
+            arr = [];
+        }
+      }
+      // let arr2 = [];
+      // arr?.forEach((a) => {
+      //   if(a?.IsHSCOE !== 0){
+      //       return ''
+      //   }else{
+      //     arr2.push(a);
+      //   }
+      // })
+
+      e.misc = arr;
+    })
+
     setMcompany(obj);
     setAllTotal(TOT);
 
   }
-
   const handleImgShow = (e) => {
     if (imgFlag) setImgFlag(false);
     else {
       setImgFlag(true);
     }
   };
+console.log(result)
   return (
       <>
       {
@@ -202,10 +269,12 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div>{result?.header?.customercountry}{result?.header?.customerpincode}</div>
                   <div>Mobile No : {result?.header?.customermobileno}</div>
               </div>
+
               <div className='p-1 w-25 border-end'>
-                  <div className='d-flex justify-content-between pe-3'><div className='fw-bold'>INVOICE NO</div><div>{result?.header?.InvoiceNo}</div></div>
-                  <div className='d-flex justify-content-between pe-3'><div className='fw-bold'>DATE</div><div>{result?.header?.EntryDate}</div></div>
-                  <div className='fw-bold'>Delivery Mode</div>
+                  <div className='d-flex justify-content-start pe-2'><div className='fw-bold w-50 w_50_dp6'>INVOICE NO</div><div className='w-50 start_dp6'>{result?.header?.InvoiceNo}</div></div>
+                  <div className='d-flex justify-content-start pe-2'><div className='fw-bold w-50 w_50_dp6'>DATE</div><div className='w-50 start_dp6'>{result?.header?.EntryDate}</div></div>
+                  <div className='d-flex justify-content-start pe-2'><div className='fw-bold w-50 w_50_dp6'>Delivery Mode</div><div className='w-50 start_dp6'>{result?.header?.Delivery_Mode}</div></div>
+                  {/* <div className='fw-bold'>Delivery Mode</div> */}
               </div>
               <div className='p-1 w-25'>
                   <div className='w-100 d-flex'><div className='w-50'>E Way Bill No:</div> <div className='w-50'>{result?.header?.E_Way_Bill_No}</div>	</div>
@@ -240,7 +309,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
                 <div className='col4_dp6 d-flex justify-content-center align-items-center border-end' style={{width:'3%'}}>Qty</div>
-                <div className='col5_dp6 d-flex justify-content-center align-items-center border-end'>Other</div>
+                <div className='col5_dp6 d-flex justify-content-center align-items-center border-end'>Other <br /> Amt.</div>
                 <div className='col6_dp6 d-flex flex-column justify-content-center align-items-center border-end'><div className='d-flex justify-content-center align-items-center border-bottom w-100 h-50'>Labour</div>
                 <div className='d-flex w-100 h-50'><div className='w-50 border-end d-flex justify-content-center align-items-center'>Rate</div><div className='w-50 d-flex justify-content-center align-items-center'>Amt</div></div>
                 </div>
@@ -259,12 +328,13 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className='w-50 center_dp6'>{e?.SrJobno}</div>
                         </div>
                         { imgFlag ? <div className='d-flex justify-content-center align-items-center'><img src={e?.DesignImage} alt="#designimg" className='design_img_dp6' onError={(e) => handleImageError(e)} /></div> : '' } 
-                        <div className='d-flex justify-content-center align-items-center fs_dp6'>PO: <b className='fs_dp6'>{e?.PO}</b></div>
-                        { e?.HUID === '' ? '' : <div className='d-flex justify-content-center align-items-center'>HUID: {e?.HUID}</div> } 
+                        <div className='d-flex justify-content-center align-items-center fs_dp6 pb-2'>PO: <b className='fs_dp6'>{e?.PO}</b></div>
+                        { e?.HUID === '' ? '' : <div className='d-flex justify-content-center align-items-center pt-1'>HUID: {e?.HUID}</div> } 
                         <div className='d-flex justify-content-center align-items-center fw-bold'>{e?.grosswt?.toFixed(3)} Gross</div>
                       </div>
                       <div className='col3_dp6_tb border-end d-grid' style={{width:'52% !important'}}>
-                              {/* <div className='d-flex border-bottom w-100'>
+                              {/* <div className='d-flex border-bottom w-100'>import { findIndex } from 'lodash';
+
                                 <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6' >{e?.MetalType}</div>
                                 <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6 d-flex flex-column justify-content-between' >
                                 {
@@ -320,22 +390,24 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {
                                 e?.metal?.map((a, i) => {
                                   return(
+                                    <>
                                     <div className='d-flex justify-content-between align-items-center h-100 border-bottom' key={i}>
-                                      <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6 h-100'>{(a?.MasterManagement_DiamondStoneTypeid === 4 &&  i === 0 )? 'GOLD' : ''}</div>
-                                      <div className='border-end col3_dp6_2 pad_st_dp6 center_start_dp6 h-100'>{a?.ShapeName === 'GOLD' ? '' : a?.ShapeName}</div>
+                                      <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6 h-100'>{a?.IsPrimaryMetal === 1 ? a?.ShapeName : ''}</div>
+                                      <div className='border-end col3_dp6_2 pad_st_dp6 center_start_dp6 h-100'>{a?.IsPrimaryMetal === 1 ? '' : a?.ShapeName}</div>
                                       <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6 h-100'>{a?.QualityName}</div>
-                                      <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6 h-100' style={{wordBreak:'break-word'}}>{a?.Colorname}</div>
+                                      <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6 h-100' style={{wordBreak:'break-word'}}>{a?.IsPrimaryMetal === 1 ?  a?.Colorname : ''}</div>
                                       <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6 h-100'>{a?.SizeName}</div>
                                       <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6 h-100'>{a?.Pcs}</div>
                                       <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6 h-100'>{a?.Wt?.toFixed(3)}</div>
-                                      <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6 h-100' >{formatAmount(a?.Rate)}</div>
-                                      <div className='col3_dp6_9 end_dp6 pad_end_dp6 h-100'>{formatAmount(a?.Amount)}</div>
+                                      <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6 h-100' >{a?.IsPrimaryMetal === 1 ? formatAmount(a?.Rate) : ''}</div>
+                                      <div className='col3_dp6_9 end_dp6 pad_end_dp6 h-100'>{a?.IsPrimaryMetal === 1 ? formatAmount(a?.Amount) : '' }</div>
                                     </div>
+                                    </>
                                   )
                                 })
                               }
                         {
-                          e?.diamond_colorstone_misc?.map((el, i) => {
+                          e?.diamonds?.map((el, i) => {
                             return(
                               <div className='d-flex border-bottom w-100' key={i}>
                                 <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6' >{el?.MasterManagement_DiamondStoneTypeName}</div>
@@ -343,10 +415,44 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6' >{el?.QualityName}</div>
                                 <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6' >{el?.Colorname}</div>
                                 <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6' >{el?.SizeName}</div>
-                                <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?.jpcs}</div>
+                                <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?.Pcs}</div>
                                 <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{(el?.ShapeName?.includes('Certification') && el?.MasterManagement_DiamondStoneTypeid === 3) ? (e?.jobwise_dia_wt_certificate?.toFixed(3)) :  el?.jwt?.toFixed(3)}</div>
                                 <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount(el?.Rate)}</div>
-                                <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount(el?.jamount)}</div>
+                                <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount(el?.Amount)}</div>
+                              </div>
+                            )
+                          })
+                        }
+                        {
+                          e?.colorstone?.map((el, i) => {
+                            return(
+                              <div className='d-flex border-bottom w-100' key={i}>
+                                <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6' >{el?.MasterManagement_DiamondStoneTypeName}</div>
+                                <div className='border-end col3_dp6_2 pad_st_dp6 center_start_dp6' >{el?.ShapeName}</div>
+                                <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6' >{el?.QualityName}</div>
+                                <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6' >{el?.Colorname}</div>
+                                <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6' >{el?.SizeName}</div>
+                                <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?.Pcs}</div>
+                                <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?.Wt?.toFixed(3)}</div>
+                                <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount(el?.Rate)}</div>
+                                <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount(el?.Amount)}</div>
+                              </div>
+                            )
+                          })
+                        }
+                        {
+                          e?.misc?.map((el, i) => {
+                            return(
+                              <div className='d-flex border-bottom w-100' key={i}>
+                                <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6' >{el?.MasterManagement_DiamondStoneTypeName}</div>
+                                <div className='border-end col3_dp6_2 pad_st_dp6 center_start_dp6' >{el?.ShapeName}</div>
+                                <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6' >{el?.QualityName}</div>
+                                <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6' >{el?.Colorname}</div>
+                                <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6' >{el?.SizeName}</div>
+                                <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?.Pcs}</div>
+                                <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?.Wt?.toFixed(3)}</div>
+                                <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount(el?.Rate)}</div>
+                                <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount(el?.Amount)}</div>
                               </div>
                             )
                           })
@@ -386,7 +492,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     result?.allTaxes?.map((e,i) => {
                       return(
                           <div className='d-flex w-100' key={i}>
-                            <div className=' end_dp6 pad_end_dp6 border-end' style={{width:'53%'}}>{e?.name}</div>
+                            <div className=' end_dp6 pad_end_dp6 border-end' style={{width:'53%'}}>{e?.name} @ {e?.per}</div>
                             <div className=' end_dp6 pad_end_dp6' style={{width:'47%'}}>{e?.amount}</div>
                           </div>
                           )
@@ -399,7 +505,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               <div className='d-flex border border-top-0 pbia_dp6'>
-              <div className='col1_dp6_tb d-flex justify-content-center align-items-center  border-end' style={{width:'3%'}}>Total</div>
+              <div className='col1_dp6_tb d-flex justify-content-center align-items-end  border-end' style={{width:'3%'}}>Total</div>
                       <div className='col2_dp6_tb border-end' style={{width:'34%'}}>
                         {/* <div className='d-flex w-100 '>
                           <div className='w-50 center_dp6'></div>
@@ -430,7 +536,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className='col16_dp6_tb end_dp6 pad_end_dp6 fw-bold' style={{width:'10%'}}>₹ {formatAmount((result?.finalAmount + result?.header?.FreightCharges))}</div>
               </div>
               <div className='d-flex border border-top-0 pbia_dp6'>
-                <div className='border-end col1_dp6 center_dp6' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></div>
+                <div className='border-end col1_dp6  ps-1 d-flex justify-content-start align-items-center' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></div>
                 <div className='fw-bold p-1'>{toWords?.convert(+((result?.finalAmount + result?.header?.FreightCharges)?.toFixed(2)))} Only</div>
               </div>
               <div className='p-1 border border-top-0 pbia_dp6 fs_dp6' dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
@@ -443,7 +549,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div>Account Name: {result?.header?.accountname}</div>
                   <div>Account No. : {result?.header?.accountnumber}</div>
                   <div>RTGS/NEFT IFSC: {result?.header?.rtgs_neft_ifsc}</div>
-                  <div>Enquiry No. (E & OE)</div>
+                  <div>Enquiry No. <br /> (E & OE)</div>
                 </div>
                 <div className='w_dp6_f d-flex flex-column justify-content-between border-end p-1 '>
                   <div>Signature</div>
