@@ -432,11 +432,15 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
     brArr = resultArr;
 
   }
-
+  allTax?.forEach((e) => {
+    let amt = +(e?.amount);
+    let cramt = ((amt)/(header?.CurrencyExchRate))
+    e.amount = String(cramt);
+  })
   //alltax
   allTax?.length > 0 &&
     allTax?.forEach((e) => {
-      const [dollars, cents] = e?.amount?.split(".");
+      const [dollars, cents] = (((e?.amount)))?.split(".");
       const dollarsInWords = numberToWords.toWords(parseInt(dollars));
       const centsInWords = cents
         ? numberToWords.toWords(parseInt(cents.padEnd(2, '0')))
@@ -448,7 +452,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       ]
         .filter(Boolean)
         .join(" ");
-      let amtInWords = CapitalizeWords(amountInWords)
+      let amtInWords = CapitalizeWords((amountInWords))
       e.amountInWords = `TOTAL ${e.name} IN WORDS: ${amtInWords}`;
     });
   allTax?.forEach((e) => {
@@ -457,7 +461,9 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
   
   allTax?.forEach((e) => {
     let amtwords = toWords?.convert(+((+e?.amount)?.toFixed(2)));
-    e.amountInWords = amtwords;
+    let amtInWords = CapitalizeWords(amtwords)
+    // e.amountInWords = amtwords;
+    e.amountInWords = `TOTAL ${e.name} IN WORDS: ${amtInWords}`;
   })
   
   totalAmount = (+totalAmount)?.toFixed(2);
