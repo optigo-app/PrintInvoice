@@ -5,6 +5,7 @@ import {
   apiCall,
   CapitalizeWords,
   fixedValues,
+  GovernMentDocuments,
   handleImageError,
   isObjectEmpty,
   NumberWithCommas,
@@ -45,6 +46,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
       setHeaderData(data?.BillPrint_Json[0]);
       let blankArr = [];
       let totals = { ...total };
+      console.log(data);
       data?.BillPrint_Json1.forEach((e, i) => {
         let obj = { ...e };
         totals.gwt += e?.grosswt;
@@ -151,6 +153,18 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
           resultArr.push(e);
         }
       });
+      resultArr?.sort((a, b) => {
+        let nameA = a?.designno?.tolowerCase();
+        let nameB = b?.designno?.tolowerCase();
+        if (nameA > nameB) {
+          return 1
+        } else if (nameA < nameB) {
+          return -1
+        } else {
+          return 0
+        }
+      });
+      let documentDetail = GovernMentDocuments(headerData?.DocumentDetail)
       setdata(resultArr);
       setLoader(false);
     } catch (error) {
@@ -236,10 +250,10 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                       alt="#"
                       className={`w-100 d-block ms-auto ${style?.imgJewelleryRetailinovicePrint3}`}
                     /> */}
-                      {isImageWorking && (headerData?.PrintLogo !== "" && 
-                      <img src={headerData?.PrintLogo} alt="" 
-                      className={`w-100 d-block ms-auto ${style?.imgJewelleryRetailinovicePrint3}`}
-                      onError={handleImageErrors} height={120} width={150} />)}
+                    {isImageWorking && (headerData?.PrintLogo !== "" &&
+                      <img src={headerData?.PrintLogo} alt=""
+                        className={`w-100 d-block ms-auto ${style?.imgJewelleryRetailinovicePrint3}`}
+                        onError={handleImageErrors} height={120} width={150} />)}
                   </div>
                 </div>
                 {/* header data */}
@@ -276,7 +290,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     </div>
                     <div className="fslhJL">{headerData?.customeremail1}</div>
                     <div className="fslhJL">Phno: {headerData?.customermobileno}</div>
-                    <div className="fslhJL">{headerData?.vat_cst_pan}</div>
+                    <div className="fslhJL">{headerData?.vat_cst_pan} {headerData?.aadharno !== "" && `| Aadhar-${headerData?.aadharno}`}</div>
                     <div className="fslhJL">
                       {headerData?.Cust_CST_STATE}
                       {headerData?.Cust_CST_STATE_No}

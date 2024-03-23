@@ -60,7 +60,9 @@
     min-width: 4.7%;
 }
 
-
+.font_12, .font_12 *{
+    font-size: 12px;
+}
 
 
 
