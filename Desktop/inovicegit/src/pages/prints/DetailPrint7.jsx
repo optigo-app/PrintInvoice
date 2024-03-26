@@ -12,6 +12,7 @@ import {
   
 } from "../../GlobalFunctions";
 import { cloneDeep } from "lodash";
+import { numberToWords } from 'number-to-words';
 
 const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
@@ -37,6 +38,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     Amount: 0,
   });
   const [isImageWorking, setIsImageWorking] = useState(true);
+  const [fineWtTotal, setFineWtTotal] = useState(0);
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -247,7 +249,45 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       })
       datas.resultArray = nvoarray;
       setResult(datas)
+      let finewt_ = 0;
+      datas?.resultArray?.forEach((e) => {
+        finewt_ += ((e?.NetWt * e?.Tunch)/100);
+      })
+
+      datas?.resultArray?.forEach((e) => {
+        let arr = [];
+        // console.log("hello");
+        e?.misc?.forEach((a) => {
+          if(a?.IsHSCOE === 0 || a?.IsHSCOE === 3){
+            // console.log(a);
+            arr?.push(a);
+          }
+          // if(a?.IsHSCOE === 0){
+          //     if(a?.IsHSCOE === 1 || a?.IsHSCOE === 2){
+          //         return ''
+          //     }else if(a?.IsHSCOE === 0 || a?.IsHSCOE === 3){
+          //       arr?.push(a);
+          //     }
+          // }
+        })
+        if(arr?.length === 1){
+          if(arr[0]?.IsHSCOE === 3){
+              arr = [];
+          }
+        }
+        // let arr2 = [];
+        // arr?.forEach((a) => {
+        //   if(a?.IsHSCOE !== 0){
+        //       return ''
+        //   }else{
+        //     arr2.push(a);
+        //   }
+        // })
   
+        e.misc = arr;
+      })
+
+      setFineWtTotal(finewt_);
     } catch (error) {
       console.log(error);
     }
@@ -347,6 +387,19 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setImgFlag(true);
     }
   };
+  function formatAmountInWords(amount) {
+    // Convert the amount to words
+    const amountInWords = numberToWords.toWords(Math.floor(amount));
+
+    // Extract and format the decimal part separately
+    const decimalPart = amount.toString().split('.')[1];
+    const decimalInWords = decimalPart ? `point ${numberToWords.toWords(parseInt(decimalPart))}` : '';
+
+    // Combine the integer and decimal parts in words
+    const amountInWordsFormatted = `${amountInWords} ${decimalInWords}`.trim();
+
+    return amountInWordsFormatted;
+}
   return (
     <>
       {loader ? (
@@ -386,13 +439,15 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {result?.header?.CompanyFullName}
                       </div>
                       <div className="fsgdp7 lhdp7">
-                        {result?.header?.CompanyAddress}
+                        {result?.header?.CompanyAddress?.split(",")[0]} <br />
+                        {result?.header?.CompanyAddress2?.split(",")[0]} 
+
                       </div>
                       <div className="fsgdp7 lhdp7">
                         {result?.header?.CompanyCity}-
                         {result?.header?.CompanyPinCode},
                         {result?.header?.CompanyState}(
-                        {result?.header?.CompanyState})
+                        {result?.header?.CompanyCountry})
                       </div>
                       <div className="fsgdp7 lhdp7">
                         T {result?.header?.CompanyTellNo} | TOLL FREE{" "}
@@ -418,7 +473,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       /> */}
                         {isImageWorking && (result?.header?.PrintLogo !== "" && 
                       <img src={result?.header?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      className='w-25 h-auto ms-auto d-block object-fit-contain headimgdp7'
                       onError={handleImageErrors} height={120} width={150} />)}
                     </div>
                   </div>
@@ -579,7 +634,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div style={{ width: "" }} className=" col7dp7 ">
                             <div className="d-grid h-100">
                             {/* {e?.diamond_colorstone_misc?.map((el, ind) => { */}
-                            {e?.dcm_grp?.map((el, ind) => {
+                            {/* {e?.dcm_grp?.map((el, ind) => {
                                 return (
                                   <div className="d-flex brtdp7" key={ind}>
                                     <div className="w_subcoldp7 dp7cen1 brdp7">
@@ -603,7 +658,137 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                   </div>
                                 );
-                              })}
+                              })} */}
+                              {
+                                e?.metal?.map((el, ind) => {
+                                  console.log(el);
+                                  return(
+                                    <>
+                                    {
+                                      el?.IsPrimaryMetal === 0 ? <div className="d-flex brtdp7" key={ind}>
+                                      <div className="w_subcoldp7 dp7cen1 brdp7">
+                                        {el?.ShapeName}
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        {/* {el?.dcm_pcs} */}
+                                        {el?.Pcs}
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        {el?.Wt?.toFixed(3)}
+                                        {/* {el?.ShapeName ===
+                                        "Certification_NM award"
+                                          ? e?.certificateWtDia?.toFixed(3)
+                                          : el?.dcm_wt?.toFixed(3)} */}
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        {/* {formatAmount(el?.Rate)} */}
+                                          {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
+                                          : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2">
+                                        {/* {el?.dcm_amt?.toFixed(2)} */}
+                                        {/* {formatAmount(el?.Amount)} */}
+                                      </div>
+                                    </div> : ''
+                                    }
+                                    
+                                  </>
+                                  )
+                                })
+                              }
+                                {
+                                e?.diamonds?.map((el, ind) => {
+                                  return(
+                                    <div className="d-flex brtdp7" key={ind}>
+                                    <div className="w_subcoldp7 dp7cen1 brdp7">
+                                      {el?.ShapeName}
+                                    </div>
+                                    <div className="w_subcoldp7 dp7cen2 brdp7">
+                                      {/* {el?.dcm_pcs} */}
+                                      {el?.Pcs}
+                                    </div>
+                                    <div className="w_subcoldp7 dp7cen2 brdp7">
+                                      {el?.Wt?.toFixed(3)}
+                                      {/* {el?.ShapeName ===
+                                      "Certification_NM award"
+                                        ? e?.certificateWtDia?.toFixed(3)
+                                        : el?.dcm_wt?.toFixed(3)} */}
+                                    </div>
+                                    <div className="w_subcoldp7 dp7cen2 brdp7">
+                                      {formatAmount(el?.Rate)}
+                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
+                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                    </div>
+                                    <div className="w_subcoldp7 dp7cen2">
+                                      {/* {el?.dcm_amt?.toFixed(2)} */}
+                                      {formatAmount(el?.Amount)}
+                                    </div>
+                                  </div>
+                                  )
+                                })
+                              }
+                                 {
+                                e?.colorstone?.map((el, ind) => {
+                                  return(
+                                    <div className="d-flex brtdp7" key={ind}>
+                                    <div className="w_subcoldp7 dp7cen1 brdp7">
+                                      {el?.ShapeName}
+                                    </div>
+                                    <div className="w_subcoldp7 dp7cen2 brdp7">
+                                      {/* {el?.dcm_pcs} */}
+                                      {el?.Pcs}
+                                    </div>
+                                    <div className="w_subcoldp7 dp7cen2 brdp7">
+                                      {el?.Wt?.toFixed(3)}
+                                      {/* {el?.ShapeName ===
+                                      "Certification_NM award"
+                                        ? e?.certificateWtDia?.toFixed(3)
+                                        : el?.dcm_wt?.toFixed(3)} */}
+                                    </div>
+                                    <div className="w_subcoldp7 dp7cen2 brdp7">
+                                      {formatAmount(el?.Rate)}
+                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
+                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                    </div>
+                                    <div className="w_subcoldp7 dp7cen2">
+                                      {/* {el?.dcm_amt?.toFixed(2)} */}
+                                      {formatAmount(el?.Amount)}
+                                    </div>
+                                  </div>
+                                  )
+                                })
+                              }
+                                 {
+                                e?.misc?.map((el, ind) => {
+                                  return(
+                                    <div className="d-flex brtdp7" key={ind}>
+                                    <div className="w_subcoldp7 dp7cen1 brdp7">
+                                      {el?.ShapeName}
+                                    </div>
+                                    <div className="w_subcoldp7 dp7cen2 brdp7">
+                                      {/* {el?.dcm_pcs} */}
+                                      {el?.Pcs}
+                                    </div>
+                                    <div className="w_subcoldp7 dp7cen2 brdp7">
+                                      {el?.Wt?.toFixed(3)}
+                                      {/* {el?.ShapeName ===
+                                      "Certification_NM award"
+                                        ? e?.certificateWtDia?.toFixed(3)
+                                        : el?.dcm_wt?.toFixed(3)} */}
+                                    </div>
+                                    <div className="w_subcoldp7 dp7cen2 brdp7">
+                                      {formatAmount(el?.Rate)}
+                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
+                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                    </div>
+                                    <div className="w_subcoldp7 dp7cen2">
+                                      {/* {el?.dcm_amt?.toFixed(2)} */}
+                                      {formatAmount(el?.Amount)}
+                                    </div>
+                                  </div>
+                                  )
+                                })
+                              }
                               {/* {e?.diamond_colorstone_misc?.map((el, ind) => {
                                 return (
                                   <div className="d-flex brtdp7" key={ind}>
@@ -636,10 +821,15 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             )}
                           </div>
                           <div className="rcol13dp7 dp7cen2 border-end-0">
+                                { console.log(result) }
+                                { ((e?.NetWt * e?.Tunch)/ 100)?.toFixed(3) }
 
-                            {e?.LossWt === 0 ? e?.PureNetWt : ((
+                            {/* { ((
                               (((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100)
-                               + (e?.totals?.finding?.FineWt))?.toFixed(3))}
+                               + (e?.totals?.finding?.FineWt))?.toFixed(3))} */}
+                            {/* {e?.LossWt === 0 ? e?.PureNetWt : ((
+                              (((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100)
+                               + (e?.totals?.finding?.FineWt))?.toFixed(3))} */}
                           </div>
                         </div>
                       );
@@ -664,7 +854,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {otherAMountTotal !== 0 && formatAmount(otherAMountTotal)}
                   </div>
                   <div className="totcol7dp7 dp7cen2">
-                    {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)}
+                    {/* {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)} */}
+                    {fineWtTotal === 0 ? 0 : fineWtTotal?.toFixed(3)}
                   </div>
                 </div>
 
@@ -750,7 +941,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     }}
                   ></div>
                   <div className="ps-2 fw-bold" style={{ width: "97%" }}>
-                    {result?.finalAmount !== 0 && toWords.convert((result?.finalAmount + result?.header?.FreightCharges))}  /-
+                    {/* {result?.finalAmount !== 0 && toWords.convert((result?.finalAmount + result?.header?.FreightCharges))}  /- */}
+                    {result?.finalAmount !== 0 && toWords.convert(+(result?.finalAmount + result?.header?.FreightCharges)?.toFixed(2))}  /-
+                    
                   </div>
                 </div>
 
@@ -792,9 +985,10 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                             <div className="sum_prod_head_col_6 dp7cen2">
                               {/* {e?.fineWtBYNetWtCal?.toFixed(3)} */}
-                              {e?.LossWt === 0 ? e?.PureNetWt : ((
+                              {((e?.NetWt * e?.Tunch)/100)?.toFixed(3)}
+                              {/* {e?.LossWt === 0 ? e?.PureNetWt : ((
                               (((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100)
-                               + (e?.totals?.finding?.FineWt))?.toFixed(3))}
+                               + (e?.totals?.finding?.FineWt))?.toFixed(3))} */}
                             </div>
                           </div>
                         );
@@ -812,7 +1006,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="sum_prod_head_col_5 dp7cen2"></div>
                       <div className="sum_prod_head_col_6 dp7cen2">
-                        {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)}
+                        {/* {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)} */}
+                        {fineWtTotal === 0 ? 0 : fineWtTotal?.toFixed(3)}
                       </div>
                     </div>
                   </div>

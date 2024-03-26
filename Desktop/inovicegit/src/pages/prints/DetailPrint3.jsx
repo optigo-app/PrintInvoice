@@ -4,6 +4,7 @@ import { apiCall, formatAmount, handleImageError, handlePrint, isObjectEmpty } f
 import Loader from "../../components/Loader";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
+
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -213,7 +214,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="d-flex" key={ind}>
                                       <div className="col_w_dp3 start_dp3">{el?.QualityName}</div>
                                       <div className="col_w_dp3 end_dp3">{el?.wt?.toFixed(3)}</div>
-                                      <div className="col_w_dp3 end_dp3">{formatAmount(el?.amount)}</div>
+                                      <div className="col_w_dp3 end_dp3 fw-bold">{formatAmount(el?.amount)}</div>
                                   </div>  
                                 )
                         })
@@ -227,9 +228,9 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       e?.metal?.map((el, ind) => {
                         
                         return(
-                          <>
+                          <div key={ind}>
                           {
-                            el?.IsPrimaryMetal === 1 ? <div className="d-flex border-secondary border-bottom" key={ind}>
+                            el?.IsPrimaryMetal === 1 ? <div className="d-flex border-secondary border-bottom" >
                             <div className="w-25 start_dp3" style={{wordBreak:'break-word', lineHeight:'11px'}}>{e?.MetalTypePurity}</div>
                             {/* <div className="w-25 end_dp3">{e?.grosswt?.toFixed(3)}</div> */}
                             
@@ -241,10 +242,11 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div> : ''
                           }
                           
-                          </>
+                          </div>
                         )
                       })
                     }
+                   { e?.JobRemark === '' ? '' :  <div className="p-1"><b>Remarks :</b> <br />{e?.JobRemark}</div>} 
                     </div>
                   </div>
                   <div className="col5_dp3 border-secondary border-end">
@@ -252,7 +254,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="d-flex">
                               <div className="col_w_dp3 start_dp3">{(e?.totals?.colorstone?.Amount === 0.00 && e?.totals?.colorstone?.Wt?.toFixed(3) === '0.000') ? '' : 'COLORSTONE'}</div>
                               <div className="col_w_dp3 end_dp3">{e?.totals?.colorstone?.Wt?.toFixed(3) === '0.000' ? '' : e?.totals?.colorstone?.Wt?.toFixed(3)}</div>
-                              <div className="col_w_dp3 end_dp3">{e?.totals?.colorstone?.Amount === 0.00 ? '' : formatAmount(e?.totals?.colorstone?.Amount)}</div>
+                              <div className="col_w_dp3 end_dp3 fw-bold">{e?.totals?.colorstone?.Amount === 0.00 ? '' : formatAmount(e?.totals?.colorstone?.Amount)}</div>
                             </div>
                       {/* {
                         e?.colorstone?.map((el, ind) => {
@@ -270,11 +272,11 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="col6_dp3 border-secondary border-end end_top_dp3">{formatAmount(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount)}</div>
                   <div className="col7_dp3 border-secondary border-end">
-                    <div className="d-flex"><div className="w-50 end_top_dp3">{formatAmount(e?.MaKingCharge_Unit)}</div>
+                    <div className="d-flex"><div className="w-50 d-flex justify-content-center align-items-center">{formatAmount(e?.MaKingCharge_Unit)}</div>
                     {/* <div className="w-50 end_top_dp3">{formatAmount(e?.totals?.makingAmount_settingAmount)}</div></div> */}
                     <div className="w-50 end_top_dp3">{formatAmount((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))}</div></div>
                   </div>
-                  <div className="col8_dp3 end_top_dp3">{formatAmount(e?.TotalAmount)}</div>
+                  <div className="col8_dp3 end_top_dp3 fw-bold">{formatAmount(e?.TotalAmount)}</div>
                 </div>
                 {/* table row wise total */}
                 <div className="d-flex border-black border-start border-end border-bottom-secondary w-100 bgc_dp3 fw-bold">
@@ -371,8 +373,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="w-25 start_dp3"></div>
                   <div className="w-25 end_dp3">{mdwt?.toFixed(3)}</div>
                   {/* <div className="w-25 end_dp3">{result?.mainTotal?.netwt?.toFixed(3)}</div> */}
-                  <div className="w-25 end_dp3">{result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
-                  <div className="w-25 end_dp3">{formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}</div>
+                  <div className="w_23_dp3 end_dp3" >{result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
+                  <div className="w_27_dp3 end_dp3" >{formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}</div>
                 </div>
               </div>
             </div>

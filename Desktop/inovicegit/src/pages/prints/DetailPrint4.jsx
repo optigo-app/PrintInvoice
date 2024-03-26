@@ -229,6 +229,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {/* table body */}
                 <div>
                   {result?.resultArray?.map((e, i) => {
+                    console.log(e)
                     return (
                       <div className="fs_dp4" key={i}>
                         <div className="d-flex border-secondary border-start border-end border-bottom w-100">
@@ -361,7 +362,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                           <div className="col6_dp4 border-secondary border-end end_top_dp4">
                             {
-                              formatAmount()
+                              formatAmount(e?.OtherCharges)
                               // e?.OtherCharges +
                               //   // e?.TotalDiamondHandling +
                               //   // e?.MiscAmount
@@ -374,7 +375,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
                               <div className="w-50 end_top_dp4 fs_dp4">
                                 {formatAmount(
-                                  e?.totals?.makingAmount_settingAmount
+                                  e?.MakingAmount
                                 )}
                               </div>
                             </div>

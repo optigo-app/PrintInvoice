@@ -427,7 +427,7 @@
         page-break-inside: avoid;
     }
     .lhdp7{
-        line-height: 15px;
+        line-height: 13px;
         /* height: 20px; */
         /* font-size: 11px !important; */
     }
@@ -445,8 +445,10 @@
         font-size: 11px !important;
     } */
     .headimgdp7{
-        height: 60%;
-        width: 60%;
+        /* height: 60%;
+        width: 60%; */
+        height: 75px !important;
+        width: 75px !important;
     }
     .pheaddp7{
         height: 30px;
