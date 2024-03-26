@@ -90,7 +90,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
 
         let balanceAmount = netInvoiceValue - debitInfo;
 
-        setTotal({ ...total, netWithLossWt: netWithLossWts, netInvoiceValue: netInvoiceValue, TotalAmounttobePaid: debitInfo, balanceAmount: balanceAmount });
+        setTotal({ ...total, netWithLossWt: netWithLossWts, netInvoiceValue: netInvoiceValue, TotalAmounttobePaid: debitInfo+data?.BillPrint_Json[0]?.CashReceived, balanceAmount: balanceAmount });
         datas.resultArray = resultArr;
         console.log(datas);
 

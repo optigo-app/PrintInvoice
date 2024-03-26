@@ -35,7 +35,7 @@ export const CapitalizeWords = (text) => {
   const capitalizedText = capitalizedWordsArray?.join(" ");
   // eslint-disable-next-line no-useless-concat
   // return capitalizedText + " " + "Only";
-  return capitalizedText + " " ;
+  return capitalizedText + " ";
 };
 
 //global function of api calling
@@ -47,13 +47,13 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
     Eventname: evn,
     ApiVer: ApiVer
   };
-  const header= {
+  const header = {
     "Authorization": "Bearer 40815062023094801060"
   }
   const bodies = {
-    "con":"{\"id\":\"\",\"mode\":\"store_init\"}",
-    "p":"",  
-    "f":"formname (init)"
+    "con": "{\"id\":\"\",\"mode\":\"store_init\"}",
+    "p": "",
+    "f": "formname (init)"
   }
 
   const headers = {
@@ -71,7 +71,7 @@ export const apiCall = async (token, invoiceNo, printName, urls, evn, ApiVer) =>
   } catch (error) {
     console.error(error);
   }
-  
+
 };
 
 // new api print
@@ -200,8 +200,8 @@ export const taxGenrator2 = (headerData, totalAmount) => {
 
 export const NumberWithCommas = (value, val) => {
   let value1 = value?.toString()?.split("-");
-  if(value1?.length ===1){
-    const roundedValue = Number(value).toFixed(val || 2); 
+  if (value1?.length === 1) {
+    const roundedValue = Number(value).toFixed(val || 2);
     const stringValue = roundedValue.toString();
     const [integerPart, decimalPart] = stringValue.split('.');
     let formattedString = integerPart
@@ -211,27 +211,33 @@ export const NumberWithCommas = (value, val) => {
       .reverse()
       .join('');
     if (decimalPart !== undefined && val && val !== 0) {
-      formattedString += '.' + decimalPart.padEnd(val || 2, '0'); 
+      formattedString += '.' + decimalPart.padEnd(val || 2, '0');
     }
     formattedString = formattedString.replace(/^,+/, '');
     return formattedString;
   }
-else{
-  const roundedValue = Number(+value1[1]).toFixed(val || 2); 
-  const stringValue = roundedValue.toString();
-  const [integerPart, decimalPart] = stringValue.split('.');
-  let formattedString = integerPart
-    .split('')
-    .reverse()
-    .map((char, index) => (index > 0 && index % 2 === 0 ? ',' + char : char))
-    .reverse()
-    .join('');
-  if (decimalPart !== undefined && val && val !== 0) {
-    formattedString += '.' + decimalPart.padEnd(val || 2, '0'); 
+  else if(value !== null){
+    const roundedValue = Number(+value1[1]).toFixed(val || 2);
+    const stringValue = roundedValue.toString();
+    const [integerPart, decimalPart] = stringValue.split('.');
+    let formattedString = integerPart
+      .split('')
+      .reverse()
+      .map((char, index) => (index > 0 && index % 2 === 0 ? ',' + char : char))
+      .reverse()
+      .join('');
+    if (decimalPart !== undefined && val && val !== 0) {
+      formattedString += '.' + decimalPart.padEnd(val || 2, '0');
+    }
+    formattedString = formattedString.replace(/^,+/, '');
+    return "-" + formattedString;
+  }else{
+    if(val){
+      return 0?.toFixed(val)
+    }else{
+      return 0
+    }
   }
-  formattedString = formattedString.replace(/^,+/, '');
-  return "-"+formattedString;
-}
 };
 
 
@@ -380,6 +386,23 @@ export const ExportToExcel = (data, InvoiceNo) => {
 export const otherAmountDetail = (otherAmtDetail) => {
   if (otherAmtDetail?.length > 0) {
     let blankArr = otherAmtDetail?.split("#@#");
+    let resultArr = [];
+    blankArr.forEach((e, i) => {
+      let obj = {};
+      let arr = e?.split("#-#");
+      obj.label = arr[0];
+      obj.value = arr[1];
+      resultArr.push(obj);
+    });
+    return resultArr;
+  } else {
+    return [];
+  }
+};
+
+export const brokarageDetail = (otherAmtDetail) => {
+  if (otherAmtDetail?.length > 0) {
+    let blankArr = otherAmtDetail?.split("@-@");
     let resultArr = [];
     blankArr.forEach((e, i) => {
       let obj = {};

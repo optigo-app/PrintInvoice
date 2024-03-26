@@ -42,13 +42,14 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
   const [taxes, setTaxes] = useState([]);
   const [bank, setBank] = useState([]);
   const [document, setDocument] = useState([]);
-  async function loadData(data) {
+  function loadData(data) {
     try {
       setHeaderData(data?.BillPrint_Json[0]);
       let blankArr = [];
       let totals = { ...total };
-      console.log(data);
+
       data?.BillPrint_Json1.forEach((e, i) => {
+        console.log(data);
         let obj = { ...e };
         totals.gwt += e?.grosswt;
         // totals.nwt += e?.NetWt;
@@ -59,18 +60,20 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         let materials = [];
         let metalMaking = obj?.MetalAmount + obj?.MakingAmount;
         data?.BillPrint_Json2.forEach((ele, ind) => {
+
           if (e?.SrJobno === ele?.StockBarcode) {
             if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
               materials.unshift(ele)
             };
             if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+              console.log(ele?.StockBarcode);
               totals.diaColorWt += ele?.Wt;
               let findIndex = materials.findIndex(elem => elem?.MasterManagement_DiamondStoneTypeid === 1);
               if (findIndex === -1) {
                 materials.push(ele);
               } else {
                 materials[findIndex].Wt += ele?.Wt;
-                materials[findIndex].Rate = (ele?.Rate + materials[findIndex].Rate) / 2;
+                materials[findIndex].Amount += ele?.Amount;
               }
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
@@ -80,6 +83,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 materials.push(ele);
               } else {
                 materials[findIndex].Wt += ele?.Wt;
+                materials[findIndex].Amount += ele?.Amount;
               }
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 3 && ele?.IsHSCOE === 0) {
@@ -185,6 +189,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
             loadData(data?.Data);
+            console.log(data);
             setLoader(false);
           } else {
             setLoader(false);
@@ -412,11 +417,11 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         {e?.materials.length > 0 ? e?.materials.map((ele, ind) => {
                           return <div className={`d-flex ${ind !== e?.materials.length - 1 && 'border-bottom'}`} key={ind}>
                             <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? ele?.ShapeName : ele?.MasterManagement_DiamondStoneTypeName}</p></div>
-                            <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.QualityName}{((ind === 0 && e?.Tunch !== 0) && ` / ${e?.Tunch}%`)}</p></div>
+                            <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.QualityName}{((ind === 0 && e?.Tunch !== 0) && ` / ${NumberWithCommas(e?.Tunch, 2)}%`)}</p></div>
                             <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.grosswt, 3)}</p></div>
                             <div className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid !== 4 && fixedValues(ele?.Wt, 3)}</p></div>
                             <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 && fixedValues(e?.MetalDiaWt, 3)}</p></div>
-                            <div className={`col-2 d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{NumberWithCommas(ele?.Rate, 2)}</p></div>
+                            <div className={`col-2 d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{ele?.MasterManagement_DiamondStoneTypeid === 4 ? NumberWithCommas(ele?.Rate, 2) : NumberWithCommas(ele?.Amount/ele?.Wt, 2)}</p></div>
                           </div>
                         }) : <div className="d-flex">
                           <div className={` border-end`}><p className="p-1 lh-1"></p></div>

@@ -101,7 +101,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             primaryMetalAmount = e?.metal[findIndex]?.Amount;
             primaryMetalWt = e?.metal[findIndex]?.Wt;
             FineWt = e?.metal[findIndex]?.FineWt;
-            FineWts+= e?.metal[findIndex]?.FineWt;
+            FineWts += e?.metal[findIndex]?.FineWt;
           }
           let obj = cloneDeep(e);
           obj.primaryMetalAmount = primaryMetalAmount;
@@ -143,7 +143,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             primaryMetalAmount = e?.metal[findIndex]?.Amount;
             primaryMetalWt = e?.metal[findIndex]?.Wt;
             FineWt = e?.metal[findIndex]?.FineWt;
-            FineWts+= e?.metal[findIndex]?.FineWt;
+            FineWts += e?.metal[findIndex]?.FineWt;
           }
           resultArr[findRecord].primaryMetalAmount += primaryMetalAmount;
           resultArr[findRecord].primaryMetalWt = primaryMetalWt;
@@ -225,7 +225,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setNetWt(netWts);
     datas.resultArray = resultArr;
     datas.afterReceive = datas?.finalAmount - data?.BillPrint_Json[0]?.BankReceived - data?.BillPrint_Json[0]?.CashReceived;
-    setTotal({...total, FineWt: FineWts});
+    setTotal({ ...total, FineWt: FineWts });
     setCategory(categories);
     console.log(datas);
     setData(datas);
@@ -399,8 +399,8 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>}
 
       {/* table header */}
-      <div className="pt-1">
-        <div className="d-flex border lightGrey">
+      <div className="pt-1 border-start border-end border-top border-black">
+        <div className="d-flex border-bottom lightGrey">
           <div
             className={`${style?.sr} pad_1 border-end d-flex align-items-center justify-content-center`}
           >
@@ -542,205 +542,207 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       {/* table data */}
       {data?.resultArray.map((e, i) => {
         return <div key={i}>
-          <div className={`d-flex border-start border-end border-bottom ${style?.word_break}`}>
-            <div
-              className={`${style?.sr} pad_1 border-end d-flex align-items-center justify-content-center`}
-            >
-              <p className="fw-bold">{i + 1}</p>
-            </div>
-            <div className={`${style?.design} pad_1 border-end`}>
-              <div className="d-flex justify-content-between">
-                <p style={{ wordBreak: "break-all" }}>{e?.designno}</p>
-                <div>
-                  <p>{e?.SrJobno}</p>
-                  <p>{e?.MetalColor} </p>
+          <div className="border-start border-end  border-black">
+            <div className={`d-flex border-bottom ${style?.word_break}`}>
+              <div
+                className={`${style?.sr} pad_1 border-end d-flex align-items-center justify-content-center`}
+              >
+                <p className="fw-bold">{i + 1}</p>
+              </div>
+              <div className={`${style?.design} pad_1 border-end`}>
+                <div className="d-flex justify-content-between">
+                  <p style={{ wordBreak: "break-all" }}>{e?.designno}</p>
+                  <div>
+                    <p>{e?.SrJobno}</p>
+                    <p>{e?.MetalColor} </p>
+                  </div>
+                </div>
+                <img src={e?.DesignImage} alt="" onError={handleImageError} className="imgWidth" />
+                {e?.BrandName !== "" && <p className="text-center">{e?.BrandName}</p>}
+                {e?.HUID !== "" && <p className="text-center">HUID-{e?.HUID}</p>}
+                {e?.CertificateNo !== "" && <p className="text-center">Cert-{e?.CertificateNo}</p>}
+                <p className="text-center">
+                  <span className="fw-bold">{NumberWithCommas(e?.grosswt, 3)} gm </span>Gross
+                </p>
+                {e?.Size !== "" && <p className="text-center">Size:{e?.Size}</p>}
+              </div>
+              <div className={`${style?.diamond} border-end position-relative ${style?.pad_bot_15}`} >
+                {e?.diamonds?.map((ele, ind) => {
+                  return <div className="d-flex" key={ind}>
+                    <div className="w_20">
+                      <p className="pad_1">{ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}</p>
+                    </div>
+                    <div className="w_20">
+                      <p className="pad_1">{ele?.SizeName}</p>
+                    </div>
+                    <div className="w_20">
+                      <p className="text-end pad_1">{NumberWithCommas(ele?.Wt, 3)}</p>
+                    </div>
+                    <div className="w_20">
+                      <p className="text-end pad_1">{checkBox?.WithDiamondRate && NumberWithCommas(ele?.Rate, 2)}</p>
+                    </div>
+                    <div className="w_20">
+                      <p className="text-end pad_1 fw-bold">{NumberWithCommas(ele?.Amount, 2)}</p>
+                    </div>
+                  </div>
+                })}
+                <div className="d-flex position-absolute bottom-0 left-0 w-100 border-top lightGrey">
+                  <div className="w_20">
+                    <p className="text-center pad_1"></p>
+                  </div>
+                  <div className="w_20">
+                    <p className="text-center pad_1"></p>
+                  </div>
+                  <div className="w_20">
+                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p>
+                  </div>
+                  <div className="w_20">
+                    <p className="text-end pad_1"></p>
+                  </div>
+                  <div className="w_20">
+                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</p>
+                  </div>
                 </div>
               </div>
-              <img src={e?.DesignImage} alt="" onError={handleImageError} className="imgWidth" />
-              {e?.BrandName !== "" && <p className="text-center">{e?.BrandName}</p>}
-              {e?.HUID !== "" && <p className="text-center">HUID-{e?.HUID}</p>}
-              {e?.CertificateNo !== "" && <p className="text-center">Cert-{e?.CertificateNo}</p>}
-              <p className="text-center">
-                <span className="fw-bold">{NumberWithCommas(e?.grosswt, 3)} gm </span>Gross
-              </p>
-              {e?.Size !== "" && <p className="text-center">Size:{e?.Size}</p>}
-            </div>
-            <div className={`${style?.diamond} border-end position-relative ${style?.pad_bot_15}`} >
-              {e?.diamonds?.map((ele, ind) => {
-                return <div className="d-flex" key={ind}>
-                  <div className="w_20">
-                    <p className="pad_1">{ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}</p>
+              <div className={`${style?.stone} border-end position-relative ${style?.pad_bot_15}`} >
+                {e?.colorstone.map((ele, ind) => {
+                  return <div className="d-flex" key={ind}>
+                    <div className="col-3">
+                      <p className="pad_1">{ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}</p>
+                    </div>
+                    <div className="col-3">
+                      <p className="pad_1 text-end">{NumberWithCommas(ele?.Wt, 3)}</p>
+                    </div>
+                    <div className="col-3">
+                      <p className="text-end pad_1">{NumberWithCommas(ele?.Rate, 2)}</p>
+                    </div>
+                    <div className="col-3">
+                      <p className="text-end pad_1 fw-bold">{NumberWithCommas(ele?.Amount, 2)}</p>
+                    </div>
                   </div>
-                  <div className="w_20">
-                    <p className="pad_1">{ele?.SizeName}</p>
-                  </div>
-                  <div className="w_20">
-                    <p className="text-end pad_1">{NumberWithCommas(ele?.Wt, 3)}</p>
-                  </div>
-                  <div className="w_20">
-                    <p className="text-end pad_1">{checkBox?.WithDiamondRate && NumberWithCommas(ele?.Rate, 2)}</p>
-                  </div>
-                  <div className="w_20">
-                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(ele?.Amount, 2)}</p>
-                  </div>
-                </div>
-              })}
-              <div className="d-flex position-absolute bottom-0 left-0 w-100 border-top lightGrey">
-                <div className="w_20">
-                  <p className="text-center pad_1"></p>
-                </div>
-                <div className="w_20">
-                  <p className="text-center pad_1"></p>
-                </div>
-                <div className="w_20">
-                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p>
-                </div>
-                <div className="w_20">
-                  <p className="text-end pad_1"></p>
-                </div>
-                <div className="w_20">
-                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</p>
-                </div>
-              </div>
-            </div>
-            <div className={`${style?.stone} border-end position-relative ${style?.pad_bot_15}`} >
-              {e?.colorstone.map((ele, ind) => {
-                return <div className="d-flex" key={ind}>
+                })}
+                <div className="d-flex position-absolute bottom-0 left-0 w-100 border-top lightGrey">
                   <div className="col-3">
-                    <p className="pad_1">{ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}</p>
+                    <p className="text-center pad_1"></p>
                   </div>
                   <div className="col-3">
-                    <p className="pad_1 text-end">{NumberWithCommas(ele?.Wt, 3)}</p>
+                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}</p>
                   </div>
                   <div className="col-3">
-                    <p className="text-end pad_1">{NumberWithCommas(ele?.Rate, 2)}</p>
+                    <p className="text-end pad_1"></p>
                   </div>
                   <div className="col-3">
-                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(ele?.Amount, 2)}</p>
+                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</p>
                   </div>
                 </div>
-              })}
-              <div className="d-flex position-absolute bottom-0 left-0 w-100 border-top lightGrey">
-                <div className="col-3">
-                  <p className="text-center pad_1"></p>
+              </div>
+              <div
+                className={`${style?.labour} border-end position-relative ${style?.pad_bot_15}`}
+              >
+                <div className="d-flex">
+                  <div className="col-6">
+                    <p className="text-end ">{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p>
+                  </div>
+                  <div className="col-6">
+                    <p className="text-end">{NumberWithCommas(e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount, 2)} </p>
+                  </div>
                 </div>
-                <div className="col-3">
-                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}</p>
-                </div>
-                <div className="col-3">
-                  <p className="text-end pad_1"></p>
-                </div>
-                <div className="col-3">
-                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</p>
+                <div className="border-top position-absolute left-0 bottom-0 w-100 lightGrey">
+                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount, 2)} </p>
                 </div>
               </div>
-            </div>
-            <div
-              className={`${style?.labour} border-end position-relative ${style?.pad_bot_15}`}
-            >
-              <div className="d-flex">
-                <div className="col-6">
-                  <p className="text-end ">{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p>
-                </div>
-                <div className="col-6">
-                  <p className="text-end">{NumberWithCommas(e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount, 2)} </p>
-                </div>
-              </div>
-              <div className="border-top position-absolute left-0 bottom-0 w-100 lightGrey">
-                <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount, 2)} </p>
-              </div>
-            </div>
-            <div
-              className={`${style?.other} border-end position-relative ${style?.pad_bot_15}`}
-            >
-              {e?.other_details.map((ele, ind) => {
-                return <div className="d-flex justify-content-between" key={ind}>
-                  <p className="pad_1">{ele?.label}</p>
-                  <p className=" text-end pad_1">{NumberWithCommas(+ele?.value, 2)}</p>
-                </div>
-              })}
-              <div className="border-top position-absolute left-0 bottom-0 w-100 lightGrey">
-                <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)} </p>
-              </div>
-            </div>
-            <div
-              className={`${style?.metal} border-end position-relative ${style?.pad_bot_15}`}
-            >
-              <div className="d-flex">
-                <div className="col-2">
-                  {e?.metal.map((ele, ind) => {
-                    return <p key={ind} className="pad_1">{ele?.ShapeName} {ele?.QualityName}</p>
-                  })}
-                </div>
-                <div className="col-2">
-                  {e?.metal.map((ele, ind) => {
-                    return <p key={ind} className="text-end pad_1">{ind === 0 ? NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3) : NumberWithCommas(ele?.Wt, 3)}</p>
-                  })}
-                  {/* <p className="text-end pad_1">{NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}</p> */}
-                </div>
-                <div className="col-2">
-                  {e?.metal.map((ele, ind) => {
-                    return <p key={ind} className="text-end pad_1">{checkBox?.WithNetWt && (e?.metal?.length === 1 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(ele?.Wt, 3))}</p>
-                  })}
-                  {/* <p className="text-end pad_1">{checkBox?.WithNetWt && NumberWithCommas(e?.NetWt + e?.LossWt, 3)}</p> */}
-                </div>
-                <div className="col-2">
-                  <p className="text-end pad_1">
-                    {(e?.metal[0]?.Rate === 0 || e?.metal?.length === 0) && NumberWithCommas(e?.Tunch, 3)}
-                  </p>
-                </div>
-                <div className="col-2">
-                  {e?.metal.map((ele, ind) => {
-                    return <p key={ind} className="text-end pad_1">{NumberWithCommas(ele?.Rate, 2)}</p>
-                  })}
-                </div>
-                <div className="col-2">
-                  {e?.metal.map((ele, ind) => {
-                    return <p className="text-end pad_1 fw-bold" key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
-                  })}
+              <div
+                className={`${style?.other} border-end position-relative ${style?.pad_bot_15}`}
+              >
+                {e?.other_details.map((ele, ind) => {
+                  return <div className="d-flex justify-content-between" key={ind}>
+                    <p className="pad_1">{ele?.label}</p>
+                    <p className=" text-end pad_1">{NumberWithCommas(+ele?.value, 2)}</p>
+                  </div>
+                })}
+                <div className="border-top position-absolute left-0 bottom-0 w-100 lightGrey">
+                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)} </p>
                 </div>
               </div>
-              <div className="d-flex">
-                <p className="pt-5">{e?.JobRemark}</p>
+              <div
+                className={`${style?.metal} border-end position-relative ${style?.pad_bot_15}`}
+              >
+                <div className="d-flex">
+                  <div className="col-2">
+                    {e?.metal.map((ele, ind) => {
+                      return <p key={ind} className="pad_1">{ele?.ShapeName} {ele?.QualityName}</p>
+                    })}
+                  </div>
+                  <div className="col-2">
+                    {e?.metal.map((ele, ind) => {
+                      return <p key={ind} className="text-end pad_1">{ind === 0 ? NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3) : NumberWithCommas(ele?.Wt, 3)}</p>
+                    })}
+                    {/* <p className="text-end pad_1">{NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}</p> */}
+                  </div>
+                  <div className="col-2">
+                    {e?.metal.map((ele, ind) => {
+                      return <p key={ind} className="text-end pad_1">{checkBox?.WithNetWt && (e?.metal?.length === 1 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(ele?.Wt, 3))}</p>
+                    })}
+                    {/* <p className="text-end pad_1">{checkBox?.WithNetWt && NumberWithCommas(e?.NetWt + e?.LossWt, 3)}</p> */}
+                  </div>
+                  <div className="col-2">
+                    <p className="text-end pad_1">
+                      {(e?.metal[0]?.Rate === 0 || e?.metal?.length === 0) && NumberWithCommas(e?.Tunch, 3)}
+                    </p>
+                  </div>
+                  <div className="col-2">
+                    {e?.metal.map((ele, ind) => {
+                      return <p key={ind} className="text-end pad_1">{NumberWithCommas(ele?.Rate, 2)}</p>
+                    })}
+                  </div>
+                  <div className="col-2">
+                    {e?.metal.map((ele, ind) => {
+                      return <p className="text-end pad_1 fw-bold" key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
+                    })}
+                  </div>
+                </div>
+                <div className="d-flex">
+                  <p className="pt-5">{e?.JobRemark}</p>
+                </div>
+                <div className="d-flex position-absolute bottom-0 left-0 w-100 border-top lightGrey">
+                  <div className="col-2">
+                    <p className="text-center pad_1"></p>
+                  </div>
+                  <div className="col-2">
+                    <p className="text-end pad_1">{NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}</p>
+                  </div>
+                  <div className="col-2">
+                    <p className="text-end pad_1 fw-bold">{checkBox?.WithNetWt && (e?.metal?.length <= 1 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(e?.primaryMetalWt, 3))}</p>
+                  </div>
+                  <div className="col-2">
+                    <p className="text-end pad_1"></p>
+                  </div>
+                  <div className="col-2">
+                    <p className="text-end pad_1"></p>
+                  </div>
+                  <div className="col-2">
+                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.primaryMetalAmount, 2)}</p>
+                  </div>
+                </div>
               </div>
-              <div className="d-flex position-absolute bottom-0 left-0 w-100 border-top lightGrey">
-                <div className="col-2">
-                  <p className="text-center pad_1"></p>
+              <div
+                className={`${style?.totalAmount} position-relative ${style?.pad_bot_15}`}
+              >
+                <div className="d-flex h-100">
+                  <div className="col-6 border-end">
+                    <p className="text-end pad_1 fw-bold">{e?.FineWt !== 0 && NumberWithCommas(e?.FineWt, 3)}</p>
+                  </div>
+                  <div className="col-6">
+                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                  </div>
                 </div>
-                <div className="col-2">
-                  <p className="text-end pad_1">{NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}</p>
-                </div>
-                <div className="col-2">
-                  <p className="text-end pad_1 fw-bold">{checkBox?.WithNetWt && (e?.metal?.length <= 1 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(e?.primaryMetalWt, 3))}</p>
-                </div>
-                <div className="col-2">
-                  <p className="text-end pad_1"></p>
-                </div>
-                <div className="col-2">
-                  <p className="text-end pad_1"></p>
-                </div>
-                <div className="col-2">
-                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.primaryMetalAmount, 2)}</p>
-                </div>
-              </div>
-            </div>
-            <div
-              className={`${style?.totalAmount} position-relative ${style?.pad_bot_15}`}
-            >
-              <div className="d-flex h-100">
-                <div className="col-6 border-end">
-                  <p className="text-end pad_1 fw-bold">{e?.FineWt !== 0 && NumberWithCommas(e?.FineWt, 3)}</p>
-                </div>
-                <div className="col-6">
-                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.TotalAmount, 2)}</p>
-                </div>
-              </div>
-              <div className="d-flex position-absolute bottom-0 left-0 w-100 border-top lightGrey">
-                <div className="col-6 border-end">
-                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.FineWt, 3)}</p>
-                </div>
-                <div className="col-6">
-                  <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                <div className="d-flex position-absolute bottom-0 left-0 w-100 border-top lightGrey">
+                  <div className="col-6 border-end">
+                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.FineWt, 3)}</p>
+                  </div>
+                  <div className="col-6">
+                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -824,120 +826,124 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       })}
 
       {/* table total */}
-      <div className="d-flex border-start border-end border-bottom no_break">
-        <div className={`${style?.sr} pad_1 lightGrey`}>
-          <p className="fw-bold"></p>
-        </div>
-        <div className={`${style?.design} pad_1 border-end lightGrey`}>
-          <p className="fw-bold text-center">TOTAL</p>
-        </div>
-        <div className={`${style?.diamond} border-end`}>
-          <div className="d-flex lightGrey">
-            <div className="w_20">
-              <p className="pad_1 fw-bold"></p>
-            </div>
-            <div className="w_20">
-              <p className="pad_1 fw-bold"></p>
-            </div>
-            <div className="w_20">
-              <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}</p>
-            </div>
-            <div className="w_20">
-              <p className="text-end pad_1 fw-bold"></p>
-            </div>
-            <div className="w_20">
-              <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</p>
+      <div className="border-start border-end border-black">
+        <div className="d-flex border-bottom no_break">
+          <div className={`${style?.sr} pad_1 lightGrey`}>
+            <p className="fw-bold"></p>
+          </div>
+          <div className={`${style?.design} pad_1 border-end lightGrey`}>
+            <p className="fw-bold text-center">TOTAL</p>
+          </div>
+          <div className={`${style?.diamond} border-end`}>
+            <div className="d-flex lightGrey">
+              <div className="w_20">
+                <p className="pad_1 fw-bold"></p>
+              </div>
+              <div className="w_20">
+                <p className="pad_1 fw-bold"></p>
+              </div>
+              <div className="w_20">
+                <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}</p>
+              </div>
+              <div className="w_20">
+                <p className="text-end pad_1 fw-bold"></p>
+              </div>
+              <div className="w_20">
+                <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className={`${style?.stone} border-end`}>
-          <div className="d-flex lightGrey">
-            <div className="col-3">
-              <p className="pad_1 fw-bold"></p>
-            </div>
-            <div className="col-3">
-              <p className="pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}</p>
-            </div>
-            <div className="col-3">
-              <p className="text-end pad_1 fw-bold"></p>
-            </div>
-            <div className="col-3">
-              <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</p>
+          <div className={`${style?.stone} border-end`}>
+            <div className="d-flex lightGrey">
+              <div className="col-3">
+                <p className="pad_1 fw-bold"></p>
+              </div>
+              <div className="col-3">
+                <p className="pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}</p>
+              </div>
+              <div className="col-3">
+                <p className="text-end pad_1 fw-bold"></p>
+              </div>
+              <div className="col-3">
+                <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className={`${style?.labour} border-end`}>
-          <div className="d-flex lightGrey">
-            <div className="col-6">
-              {/* <p className="text-end fw-bold">{NumberWithCommas(data?.mainTotal?.total_labour?.labour_rate, 2)}</p> */}
-              <p className="text-end fw-bold"></p>
-            </div>
-            <div className="col-6">
-              <p className="text-end fw-bold">{NumberWithCommas(data?.mainTotal?.total_MakingAmount_Setting_Amount, 2)} </p>
-            </div>
-          </div>
-        </div>
-        <div className={`${style?.other} border-end`}>
-          <div className="d-flex justify-content-center lightGrey">
-            <p className="w-100 text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.total_other + data?.mainTotal?.total_diamondHandling + data?.mainTotal?.totalMiscAmount, 2)}</p>
-          </div>
-        </div>
-        <div className={`${style?.metal} border-end`}>
-          <div className="d-flex lightGrey">
-            <div className="col-2">
-              <p className="pad_1 fw-bold"></p>
-            </div>
-            <div className="col-2">
-              <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.netwt + (data?.mainTotal?.diamonds?.Wt / 5), 3)}</p>
-            </div>
-            <div className="col-2">
-              <p className="text-end pad_1 fw-bold">{checkBox?.WithNetWt && NumberWithCommas(netWt, 3)}</p>
-            </div>
-            <div className="col-2">
-              <p className="text-end pad_1 fw-bold"></p>
-            </div>
-            <div className="col-2">
-              <p className="text-end pad_1 fw-bold"></p>
-            </div>
-            <div className="col-2">
-              <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.MetalAmount, 2)}</p>
+          <div className={`${style?.labour} border-end`}>
+            <div className="d-flex lightGrey">
+              <div className="col-6">
+                {/* <p className="text-end fw-bold">{NumberWithCommas(data?.mainTotal?.total_labour?.labour_rate, 2)}</p> */}
+                <p className="text-end fw-bold"></p>
+              </div>
+              <div className="col-6">
+                <p className="text-end fw-bold">{NumberWithCommas(data?.mainTotal?.total_MakingAmount_Setting_Amount, 2)} </p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className={`${style?.totalAmount}`}>
-          <div className="d-flex lightGrey">
-            <div className="col-6 border-end">
-              <p className="text-end border-end pad_1 fw-bold">{NumberWithCommas(total?.FineWt, 3)}</p>
+          <div className={`${style?.other} border-end`}>
+            <div className="d-flex justify-content-center lightGrey">
+              <p className="w-100 text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.total_other + data?.mainTotal?.total_diamondHandling + data?.mainTotal?.totalMiscAmount, 2)}</p>
             </div>
-            <div className="col-6">
-              <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost, 2)}</p>
+          </div>
+          <div className={`${style?.metal} border-end`}>
+            <div className="d-flex lightGrey">
+              <div className="col-2">
+                <p className="pad_1 fw-bold"></p>
+              </div>
+              <div className="col-2">
+                <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.netwt + (data?.mainTotal?.diamonds?.Wt / 5), 3)}</p>
+              </div>
+              <div className="col-2">
+                <p className="text-end pad_1 fw-bold">{checkBox?.WithNetWt && NumberWithCommas(netWt, 3)}</p>
+              </div>
+              <div className="col-2">
+                <p className="text-end pad_1 fw-bold"></p>
+              </div>
+              <div className="col-2">
+                <p className="text-end pad_1 fw-bold"></p>
+              </div>
+              <div className="col-2">
+                <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.MetalAmount, 2)}</p>
+              </div>
+            </div>
+          </div>
+          <div className={`${style?.totalAmount}`}>
+            <div className="d-flex lightGrey">
+              <div className="col-6 border-end">
+                <p className="text-end border-end pad_1 fw-bold">{NumberWithCommas(total?.FineWt, 3)}</p>
+              </div>
+              <div className="col-6">
+                <p className="text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost, 2)}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* table taxes */}
-      <div className="d-flex border-start border-end border-bottom no_break pt-1">
-        <div className={`${style?.taxWords}`}>
-          {data?.mainTotal?.total_discount_amount !== 0 && <p className="text-end">Total Discount</p>}
-          {data?.allTaxes.map((e, i) => {
-            return <p className="text-end" key={i}>{e?.name} @ {e?.per}</p>
-          })}
-          {headerData?.AddLess !== 0 && <p className="text-end">{headerData?.AddLess > 0 ? "Add" : "Less"}</p>}
-          <p className="text-end fw-bold">TOTAL</p>
-          <p className="text-end">Recv. in Cash</p>
-          <p className="text-end">Recv. in Bank</p>
-        </div>
-        <div className={`${style?.taxAmount}`}>
-          {data?.mainTotal?.total_discount_amount !== 0 && <p className="text-end">{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>}
-          {data?.allTaxes.map((e, i) => {
-            return <p className="text-end" key={i}>{e?.amount}</p>
-          })}
-          {headerData?.AddLess !== 0 && <p className="text-end">{headerData?.AddLess}</p>}
-          <p className="text-end fw-bold">{NumberWithCommas(data?.finalAmount, 2)}</p>
-          <p className="text-end">{NumberWithCommas(headerData?.CashReceived, 2)}</p>
-          <p className="text-end">{NumberWithCommas(headerData?.BankReceived, 2)}</p>
+      <div className="border-start border-end  borde-bottom">
+        <div className="d-flex border-bottom no_break pt-1">
+          <div className={`${style?.taxWords}`}>
+            {data?.mainTotal?.total_discount_amount !== 0 && <p className="text-end">Total Discount</p>}
+            {data?.allTaxes.map((e, i) => {
+              return <p className="text-end" key={i}>{e?.name} @ {e?.per}</p>
+            })}
+            {headerData?.AddLess !== 0 && <p className="text-end">{headerData?.AddLess > 0 ? "Add" : "Less"}</p>}
+            <p className="text-end fw-bold">TOTAL</p>
+            <p className="text-end">Recv. in Cash</p>
+            <p className="text-end">Recv. in Bank</p>
+          </div>
+          <div className={`${style?.taxAmount}`}>
+            {data?.mainTotal?.total_discount_amount !== 0 && <p className="text-end">{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>}
+            {data?.allTaxes.map((e, i) => {
+              return <p className="text-end" key={i}>{e?.amount}</p>
+            })}
+            {headerData?.AddLess !== 0 && <p className="text-end">{headerData?.AddLess}</p>}
+            <p className="text-end fw-bold">{NumberWithCommas(data?.finalAmount, 2)}</p>
+            <p className="text-end">{NumberWithCommas(headerData?.CashReceived, 2)}</p>
+            <p className="text-end">{NumberWithCommas(headerData?.BankReceived, 2)}</p>
+          </div>
         </div>
       </div>
 

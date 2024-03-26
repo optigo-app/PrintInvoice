@@ -33,6 +33,8 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
         totalAmountPaid: 0,
         balanceAmount: 0
     });
+
+    const [balanceReceived, setBalanceReceived] = useState(0);
     const [styles, setStyles] = useState({});
     const [isImageWorking, setIsImageWorking] = useState(true);
     const handleImageErrors = () => {
@@ -48,6 +50,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
         let head = HeaderComponent(headerData?.HeaderNo, headerData);
         setHeaderComp(head);
         let resultArr = [];
+        let discountAmt = 0;
         data?.BillPrint_Json1.forEach((e, i) => {
             let diaWt = 0;
             let csWt = 0;
@@ -59,17 +62,18 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             let metalWt = 0;
             let count = 0;
             let secondaryMetalAmt = 0
-
+            discountAmt+= e?.DiscountAmt;
             let findingAmount = 0;
 
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (e?.SrJobno === ele?.StockBarcode) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
                         metalQuality = ele?.QualityName;
-                        metalRate = ele?.Rate;
+                        
                         count++;
                         if (ele?.IsPrimaryMetal === 1) {
                             metalWt += ele?.Wt;
+                            metalRate = ele?.Rate;
                         } else {
                             secondaryMetalAmt += ele?.Amount
                         }
@@ -81,7 +85,8 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                     }
                     else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
                         miscWt += ele?.Wt;
-                    } else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
+                    }  
+                    if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
                         findingAmount += ele?.SettingAmount;
                     }
                 }
@@ -96,9 +101,10 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             totals.csWt += csWt;
             totals.miscWt += miscWt;
             // totals.NetWt += e?.NetWt;
+            console.log(e?.TotalAmount,secondaryMetalAmt, findingAmount, e?.SrJobno);
             totals.NetWt += netWtLoss;
             totals.grosswt += e?.grosswt;
-            totals.UnitCost += (e?.UnitCost - secondaryMetalAmt - findingAmount);
+            totals.UnitCost += (e?.TotalAmount - secondaryMetalAmt - findingAmount);
             totals.DiscountAmt += e?.DiscountAmt;
             totals.TotalAmount += e?.TotalAmount;
 
@@ -148,14 +154,16 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             //     }
             // }
         });
+        console.log(discountAmt);
         resultArr?.sort((a, b) => {
             let nameA = a?.designno?.toLowerCase() + a?.SrJobno?.toLowerCase();
             let nameB = b?.designno?.toLowerCase() + b?.SrJobno?.toLowerCase();
-
             if (nameA < nameB) return -1;
             if (nameA > nameB) return 1;
             return 0;
         })
+
+
         setData(resultArr);
         setTotal(totals);
         let taxValue = taxGenrator(headerData, totals?.TotalAmount);
@@ -172,6 +180,8 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             acc += +(current.amount);
             return acc;
         }, 0);
+        let balanRece = data?.BillPrint_Json[0]?.CashReceived+debitCardinfo?.reduce((acc, cObj) => acc+cObj?.amount, 0);
+        setBalanceReceived(balanRece);
         summaryAmounts.valueAfterDiscount = valueAfterDiscounts;
         summaryAmounts.netInvoiceValue = netInvoiceValue;
         summaryAmounts.totalAmountPaid = debitInfo;
@@ -230,26 +240,26 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                     {/* Invoice Details */}
                     <div className={`d-flex justify-content-between pt-1 ${style?.font_13}`}>
                         <div className="col-3 border-black border p-2 d-flex">
-                            <div className="col-6">
+                            <div className="col-4">
                                 <p className="fw-bold mb-0">BILL NO: </p>
                             </div>
-                            <div className="col-6">
+                            <div className="col-8">
                                 <p className="mb-0">{json0Data?.InvoiceNo}</p>
                             </div>
                         </div>
                         <div className="col-3 border-black border p-2 d-flex">
-                            <div className="col-6">
+                            <div className="col-4">
                                 <p className="fw-bold mb-0">HSN: </p>
                             </div>
-                            <div className="col-6">
+                            <div className="col-8">
                                 <p className="mb-0">{json0Data?.HSN_No}</p>
                             </div>
                         </div>
                         <div className="col-3 border-black border p-2 d-flex">
-                            <div className="col-6">
+                            <div className="col-4">
                                 <p className="fw-bold mb-0">Date: </p>
                             </div>
-                            <div className="col-6">
+                            <div className="col-8">
                                 <p className="mb-0">{json0Data?.EntryDate}</p>
                             </div>
                         </div>
@@ -297,7 +307,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                         {data.length > 0 && data.map((e, i) => {
                             return <div className={`border-black border-start border-end p-2 w-100 d-flex ${style?.font_13}`} key={i}>
                                 <div className={`${styles?.discription}`}><p>{e?.designno} {e?.SrJobno}</p><p>{e?.MetalPurity} {e?.Categoryname}</p></div>
-                                <div className={`${styles?.kt}`}><p className=''>{e?.metalQuality}</p></div>
+                                <div className={`${styles?.kt}`}><p className=''>{e?.MetalPurity}</p></div>
                                 <div className={`${styles?.kt}`}><p className='text-center'>{NumberWithCommas(e?.Quantity, 0)}</p></div>
                                 <div className={`${styles?.gwt}`}><p className='text-center'>{NumberWithCommas(e?.grosswt, 3)}</p></div>
                                 <div className={`${styles?.diaWt}`}><p className='text-center'>{NumberWithCommas(e?.diaWt, 3)}</p></div>
@@ -315,17 +325,17 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                         <div className={`border-black border-start border-end p-2 w-100 d-flex border-bottom ${style?.font_13}`}>
                             <div className={`${styles?.discription} fw-bold`}><p>Total</p></div>
                             <div className={`${styles?.kt}`}><p className=''></p></div>
-                            <div className={`${styles?.kt}`}><p className='text-end'>{NumberWithCommas(total?.Qty, 0)}</p></div>
-                            <div className={`${styles?.gwt}`}><p className='text-end'>{NumberWithCommas(total?.grosswt, 3)}</p></div>
-                            <div className={`${styles?.diaWt}`}><p className='text-end'>{NumberWithCommas(total?.diaWt, 3)}</p></div>
-                            <div className={`${styles?.dwt}`}><p className='text-end'>{NumberWithCommas(total?.csWt, 3)}</p></div>
-                            <div className={`${styles?.dwt}`}><p className='text-end'>{NumberWithCommas(total?.miscWt, 3)}</p></div>
-                            {!retailInvoice3 && <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'></p></div>}
-                            <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(total?.NetWt, 3)}</p></div>
-                            <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-end'>{NumberWithCommas(total?.UnitCost, 2)}</p></div>
+                            <div className={`${styles?.kt}`}><p className='text-center'>{NumberWithCommas(total?.Qty, 0)}</p></div>
+                            <div className={`${styles?.gwt}`}><p className='text-center'>{NumberWithCommas(total?.grosswt, 3)}</p></div>
+                            <div className={`${styles?.diaWt}`}><p className='text-center'>{NumberWithCommas(total?.diaWt, 3)}</p></div>
+                            <div className={`${styles?.dwt}`}><p className='text-center'>{NumberWithCommas(total?.csWt, 3)}</p></div>
+                            <div className={`${styles?.dwt}`}><p className='text-center'>{NumberWithCommas(total?.miscWt, 3)}</p></div>
+                            {!retailInvoice3 && <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-center'></p></div>}
+                            <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-center'>{NumberWithCommas(total?.NetWt, 3)}</p></div>
+                            <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-center'>{NumberWithCommas(total?.UnitCost, 2)}</p></div>
                             <div className={`${style?.image_retailInvoice_2_3}`}></div>
-                            <div className={`${styles?.scheme}`}><p className='text-end'></p></div>
-                            <div className={`${styles?.scheme}`}><p className='text-end'>{NumberWithCommas(total?.DiscountAmt, 2)}</p></div>
+                            <div className={`${styles?.scheme}`}><p className='text-center'></p></div>
+                            <div className={`${styles?.scheme}`}><p className='text-center'>{NumberWithCommas(total?.DiscountAmt, 2)}</p></div>
                             <div className={`${styles?.scheme}`}><p className='text-end'>{NumberWithCommas(total?.TotalAmount, 2)}</p></div>
                         </div>
                         <div className={`border-black border-start border-end border-bottom py-1 px-2 w-100 d-flex justify-content-end ${style?.font_13}`}>
@@ -347,32 +357,34 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                                     <div className="col-4"><p></p></div>
                                     <div className="col-2 text-end"><p>NA</p></div>
                                 </div>}
+                                {debitCard.length > 0 && debitCard.map((e, i) => {
+                                    return <div className="d-flex py-1 px-2 border-black border-bottom justify-content-between px-2" key={i}>
+                                        <div className="col-4"><p>{e?.label}</p></div>
+                                        <div className="col-2"><p>{e?.id}</p></div>
+                                        <div className="col-4"><p></p></div>
+                                        <div className="col-2 text-end"><p className=''>{NumberWithCommas(e?.amount, 2)}</p></div>
+                                    </div>
+                                })}
                                 {json0Data?.CashReceived !== 0 && <div className="d-flex py-1 px-2 border-black border-bottom justify-content-between">
                                     <div className="col-4"><p>{json0Data?.CashReceived !== 0 ? "Cash" : "NA"}</p></div>
                                     <div className="col-2"><p>{json0Data?.CashReceived === 0 && "NA"}</p></div>
                                     <div className="col-4"><p></p></div>
                                     <div className="col-2 text-end"><p>{json0Data?.CashReceived !== 0 ? NumberWithCommas(json0Data?.CashReceived, 2) : "NA"}</p></div>
                                 </div>}
-                                {debitCard.length > 0 && debitCard.map((e, i) => {
-                                    return <div className="d-flex py-1 px-2 border-black border-bottom justify-content-between px-2" key={i}>
-                                        <div className="col-4"><p>{e?.label}</p></div>
-                                        <div className="col-2"><p>{e?.id}</p></div>
-                                        <div className="col-4"><p></p></div>
-                                        <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(e?.amount, 2)}</p></div>
-                                    </div>
-                                })}
+                           
                                 <div className="d-flex py-1 px-2 border-black border-bottom justify-content-between">
                                     <div className="col-4"><p className='fw-bold'>Total Amount Paid</p></div>
                                     <div className="col-2"><p className='fw-bold'></p></div>
                                     <div className="col-4"><p className='fw-bold'></p></div>
-                                    <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(amount?.totalAmountPaid, 2)}</p></div>
+                                    <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(balanceReceived, 2)}</p></div>
+                                    {/* <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(amount?.totalAmountPaid, 2)}</p></div> */}
                                 </div>
                                 <div className="d-flex py-1 px-2 justify-content-between">
                                     <div className="col-4"><p className='fw-bold'>Balance Amount</p></div>
                                     <div className="col-2"><p className='fw-bold'></p></div>
                                     <div className="col-4"><p className='fw-bold'></p></div>
                                     {/* <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(amount?.balanceAmount, 2)}</p></div> */}
-                                    <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(json0Data?.LedgerBal, 2)}</p></div>
+                                    <div className="col-2 text-end"><p className='fw-bold'>{NumberWithCommas(amount?.netInvoiceValue-balanceReceived, 2)}</p></div>
                                 </div>
                             </div>
                             <div className="col-6">
