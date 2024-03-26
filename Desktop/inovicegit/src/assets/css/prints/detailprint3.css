@@ -121,6 +121,12 @@
 .border-color-secondary {
     border-color: 1px solid #BDBDBD !important; /* Replace #6c757d with your desired secondary color */
 }
+.w_23_dp3{
+    width: 23% !important;
+}
+.w_27_dp3{
+    width: 27% !important;
+}
 @media print {
     .containerdp3 {
         max-width: 1200px;
