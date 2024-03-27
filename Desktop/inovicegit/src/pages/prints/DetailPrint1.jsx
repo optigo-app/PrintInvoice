@@ -1024,7 +1024,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             ) : (
                               <>
                                 {
-                                  dp1lp ? (dpp ? <>
+                                  dp1lp ? (dpp ?
+                                   <>
 
                                     {
                                       e?.other_details?.map((ele, ind) => {
@@ -1059,7 +1060,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     }
                                   </> : <>
 
-                                    {e?.OtherCharges !== 0 && <div
+                                    {(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) !== 0 && <div
                                       className="d-flex justify-content-between"
                                       style={{ fontSize: "10.5px" }}
                                     >
@@ -1144,14 +1145,14 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div>
                             <p className="text-end fw-bold">
                               {e?.UnitCost !== 0 &&
-                                NumberWithCommas(e?.TotalAmount, 2)}
+                                NumberWithCommas(e?.UnitCost, 2)}
                             </p>
                           </div>
                         </div>
                         <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end start-0">
                           <p className="text-end fw-bold  paddingRightDetailPrint1 paddingRightDetailPrint1">
                             {e?.UnitCost !== 0 &&
-                              NumberWithCommas(e?.TotalAmount, 2)}
+                              NumberWithCommas(e?.UnitCost, 2)}
                           </p>
                         </div>
                       </div>
@@ -1161,10 +1162,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <p className=" p-1"></p>
                       </div>
                       <div className="designDetalPrint1 border-end  p-1 border-bottom"></div>
-                      <div className="diamondDetailPrint1 border-end  position-relative border-bottom">
+                      <div className="diamondDetailPrint1 border-end  position-relative border-bottom lightGrey">
                         <div className="d-grid"></div>
                       </div>
-                      <div className="metalGoldDetailPrint1 border-end  position-relative border-bottom"></div>
+                      <div className="metalGoldDetailPrint1 border-end  position-relative border-bottom lightGrey"></div>
                       <div className="stoneDetailsPrint1 border-end position-relative border-bottom pt-1 lightGrey">
                         <div className="d-grid">
                           {e?.Discount !== 0 && (
@@ -1177,10 +1178,10 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           )}
                         </div>
                       </div>
-                      <div className="otherAmountDetailPrint1 border-end  border-bottom">
+                      <div className="otherAmountDetailPrint1 border-end  border-bottom lightGrey">
                         <p className="d-flex align-items-center justify-content-end"></p>
                       </div>
-                      <div className="labourAmountDetailPrint1 border-end  lightGrey border-bottom pt-1">
+                      <div className="labourAmountDetailPrint1 border-end  lightGrey border-bottom pt-1 ">
                         <div className="d-grid h-100">
                           <div className="d-flex">
                             <div className="col-5">
