@@ -110,7 +110,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         cateWise2.push(obj);
       });
       datas.mainTotal.total_fineWtByMetalWtCalculation = fine_wt_calculation;
-      cateWise2.sort((a, b) => a.GrossWt - b.GrossWt);
+      cateWise2.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
       
       let othamttot = 0;
 
@@ -132,7 +132,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       datas?.resultArray?.forEach((e) => {
         othamttot += e?.OtherCharges + e?.TotalDiamondHandling;
       });
-
+    //  let arr3 =  cateWise2?.sort((a,b) => a?.DesignNo - b?.DesignNo);
+    //  console.log(arr3);
       setOtherAmountTotal(othamttot);
       setCategoryWise(cateWise2);
       // setResult(datas);
@@ -205,9 +206,13 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         Wt_gm: 0,
         Amount: 0,
         AmtAmount: 0,
+        Wt:0
       }
 
       arrnew?.forEach((e) => {
+        misc_sum_total.Wt += e?.Wt;
+        misc_sum_total.Pcs += e?.Pcs;
+        misc_sum_total.Amount += e?.Amount;
         if(e?.MasterManagement_DiamondStoneTypeid === 2){
           misc_sum_total.wtWeight_Ctw += e?.wtWeight;
         }else{
@@ -216,10 +221,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           misc_sum_total.pcPcs += e?.pcPcs;
           misc_sum_total.AmtAmount += e?.AmtAmount;
 
-          misc_sum_total.Wt += e?.Wt;
-          misc_sum_total.Pcs += e?.Pcs;
-          misc_sum_total.Amount += e?.Amount;
       })
+      
+      arrnew.sort((a, b) => a.ShapeName.localeCompare(b.ShapeName));
       //product summary wise stop
       setMiscWise(arrnew);
       setMiscWise_total(misc_sum_total);
@@ -661,7 +665,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               })} */}
                               {
                                 e?.metal?.map((el, ind) => {
-                                  console.log(el);
                                   return(
                                     <>
                                     {
@@ -821,7 +824,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             )}
                           </div>
                           <div className="rcol13dp7 dp7cen2 border-end-0">
-                                { console.log(result) }
                                 { ((e?.NetWt * e?.Tunch)/ 100)?.toFixed(3) }
 
                             {/* { ((
@@ -942,7 +944,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   ></div>
                   <div className="ps-2 fw-bold" style={{ width: "97%" }}>
                     {/* {result?.finalAmount !== 0 && toWords.convert((result?.finalAmount + result?.header?.FreightCharges))}  /- */}
-                    {result?.finalAmount !== 0 && toWords.convert(+(result?.finalAmount + result?.header?.FreightCharges)?.toFixed(2))}  /-
+                    {result?.finalAmount !== 0 && toWords.convert(+(result?.finalAmount + result?.header?.FreightCharges)?.toFixed(2))}  Only
                     
                   </div>
                 </div>
@@ -1045,7 +1047,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.ShapeName}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                              {e?.pcPcs}
+                              {e?.Pcs}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
                               {e?.Rate?.toFixed(2)}
@@ -1085,7 +1087,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         Total
                       </div>
                       <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                        {miscWise_total?.pcPcs}
+                        {miscWise_total?.Pcs}
                       </div>
                       <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
                       <div className="summary_container_dp7_misc_head_col_4 dp7cen2 d-flex flex-column">
