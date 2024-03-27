@@ -416,7 +416,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">CST</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount(result?.mainTotal?.colorstone?.Amount)}</div></div>
                 <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">MAKING</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</div></div>
                 <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">OTHER</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}</div></div>
-                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">ADD/LESS</div><div className="border-secondary border-end pad_e_dp3 pe-2">{result?.header?.AddLess}</div></div>
+                <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">ADD/LESS</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount(result?.header?.AddLess)}</div></div>
                 <div className="d-flex justify-content-between  border-secondary border border-bottom-0 border-start-0 bgc_dp3">
                   <div className="pad_s_dp3 fw-bold ps-2">TOTAL</div>
                   <div className="pad_e_dp3 pe-2">{formatAmount(result?.finalAmount)}</div>
