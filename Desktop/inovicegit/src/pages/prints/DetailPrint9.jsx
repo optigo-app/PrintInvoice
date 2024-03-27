@@ -570,7 +570,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {e?.diamonds?.map((ele, ind) => {
                   return <div className="d-flex" key={ind}>
                     <div className="w_20">
-                      <p className="pad_1">{ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}</p>
+                      <p className="pad_1">{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname} </p>
                     </div>
                     <div className="w_20">
                       <p className="pad_1">{ele?.SizeName}</p>
@@ -697,19 +697,20 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="col-2">
                     {e?.metal.map((ele, ind) => {
-                      return <p className="text-end pad_1 fw-bold" key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
+                      return <p className="text-end pad_1 fw-bold" key={ind}>{ele?.IsPrimaryMetal === 1 ? NumberWithCommas(e?.primaryMetalAmount, 2) : NumberWithCommas(ele?.Amount, 2)}</p>
                     })}
                   </div>
                 </div>
-                <div className="d-flex">
-                  <p className="pt-5">{e?.JobRemark}</p>
-                </div>
+                {e?.JobRemark !== "" && <div className="pad_1">
+                  <p className="">REMARK: </p>
+                  <p className="fw-bold">{e?.JobRemark}</p>
+                </div>}
                 <div className="d-flex position-absolute bottom-0 left-0 w-100 border-top lightGrey">
                   <div className="col-2">
                     <p className="text-center pad_1"></p>
                   </div>
                   <div className="col-2">
-                    <p className="text-end pad_1">{NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}</p>
+                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.NetWt + (e?.totals?.diamonds?.Wt / 5), 3)}</p>
                   </div>
                   <div className="col-2">
                     <p className="text-end pad_1 fw-bold">{checkBox?.WithNetWt && (e?.metal?.length <= 1 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(e?.primaryMetalWt, 3))}</p>
@@ -733,7 +734,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <p className="text-end pad_1 fw-bold">{e?.FineWt !== 0 && NumberWithCommas(e?.FineWt, 3)}</p>
                   </div>
                   <div className="col-6">
-                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.UnitCost, 2)}</p>
                   </div>
                 </div>
                 <div className="d-flex position-absolute bottom-0 left-0 w-100 border-top lightGrey">
@@ -741,7 +742,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.FineWt, 3)}</p>
                   </div>
                   <div className="col-6">
-                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                    <p className="text-end pad_1 fw-bold">{NumberWithCommas(e?.UnitCost, 2)}</p>
                   </div>
                 </div>
               </div>
@@ -826,7 +827,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       })}
 
       {/* table total */}
-      <div className="border-start border-end border-black">
+      <div className={`border-start border-end border-black ${style?.word_break}`}>
         <div className="d-flex border-bottom no_break">
           <div className={`${style?.sr} pad_1 lightGrey`}>
             <p className="fw-bold"></p>
@@ -834,8 +835,8 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div className={`${style?.design} pad_1 border-end lightGrey`}>
             <p className="fw-bold text-center">TOTAL</p>
           </div>
-          <div className={`${style?.diamond} border-end`}>
-            <div className="d-flex lightGrey">
+          <div className={`${style?.diamond} border-end lightGrey`}>
+            <div className="d-flex ">
               <div className="w_20">
                 <p className="pad_1 fw-bold"></p>
               </div>
@@ -853,8 +854,8 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
           </div>
-          <div className={`${style?.stone} border-end`}>
-            <div className="d-flex lightGrey">
+          <div className={`${style?.stone} border-end lightGrey`}>
+            <div className="d-flex ">
               <div className="col-3">
                 <p className="pad_1 fw-bold"></p>
               </div>
@@ -870,19 +871,19 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
           </div>
 
-          <div className={`${style?.labour} border-end`}>
-            <div className="d-flex lightGrey">
+          <div className={`${style?.labour} border-end lightGrey`}>
+            <div className="d-flex ">
               <div className="col-6">
                 {/* <p className="text-end fw-bold">{NumberWithCommas(data?.mainTotal?.total_labour?.labour_rate, 2)}</p> */}
                 <p className="text-end fw-bold"></p>
               </div>
               <div className="col-6">
-                <p className="text-end fw-bold">{NumberWithCommas(data?.mainTotal?.total_MakingAmount_Setting_Amount, 2)} </p>
+                <p className="text-end fw-bold">{NumberWithCommas(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount, 2)} </p>
               </div>
             </div>
           </div>
-          <div className={`${style?.other} border-end`}>
-            <div className="d-flex justify-content-center lightGrey">
+          <div className={`${style?.other} border-end lightGrey`}>
+            <div className="d-flex justify-content-center ">
               <p className="w-100 text-end pad_1 fw-bold">{NumberWithCommas(data?.mainTotal?.total_other + data?.mainTotal?.total_diamondHandling + data?.mainTotal?.totalMiscAmount, 2)}</p>
             </div>
           </div>
@@ -922,7 +923,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
 
       {/* table taxes */}
-      <div className="border-start border-end  borde-bottom">
+      <div className="border-start border-end  border-black">
         <div className="d-flex border-bottom no_break pt-1">
           <div className={`${style?.taxWords}`}>
             {data?.mainTotal?.total_discount_amount !== 0 && <p className="text-end">Total Discount</p>}
@@ -997,7 +998,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               <div className="d-flex justify-content-between pad_1">
                 <p className="fw-bold">MAKING</p>
-                <p>{NumberWithCommas(data?.mainTotal?.total_MakingAmount_Setting_Amount, 2)}</p>
+                <p>{NumberWithCommas(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount, 2)}</p>
               </div>
               <div className="d-flex justify-content-between pad_1">
                 <p className="fw-bold">OTHER</p>
