@@ -55,18 +55,18 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       );
 
       //certification wt added
-      datas?.resultArray?.forEach((e) => {
-        datas?.json2?.forEach((el) => {
-          if (e?.SrJobno === el?.StockBarcode) {
-            if (
-              el?.ShapeName === "Certification_NM award" &&
-              el?.MasterManagement_DiamondStoneTypeid === 3
-            ) {
-              el.Wt = e?.certificateWtDia;
-            }
-          }
-        });
-      });
+      // datas?.resultArray?.forEach((e) => {
+      //   datas?.json2?.forEach((el) => {
+      //     if (e?.SrJobno === el?.StockBarcode) {
+      //       if (
+      //         el?.ShapeName === "Certification_NM award" &&
+      //         el?.MasterManagement_DiamondStoneTypeid === 3
+      //       ) {
+      //         el.Wt = e?.certificateWtDia;
+      //       }
+      //     }
+      //   });
+      // });
 
       let blankArr = [];
       //category wise data setting
@@ -96,6 +96,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let cateWise2 = [];
       let fine_wt_calculation = 0;
       blankArr?.forEach((e) => {
+        
         let obj = { ...e };
         let netwtwithloss = (e?.netwt + e?.LossWt)
         let fineWtBYNetWtCal = 0;
@@ -135,11 +136,34 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     //  let arr3 =  cateWise2?.sort((a,b) => a?.DesignNo - b?.DesignNo);
     //  console.log(arr3);
       setOtherAmountTotal(othamttot);
-      setCategoryWise(cateWise2);
+      // setCategoryWise(cateWise2);
       // setResult(datas);
       setLoader(false);
 
+      let cgwise = [];
 
+      datas?.resultArray?.forEach((e) => {
+        let findIndex = cgwise?.findIndex((el) => el?.Categoryname === e?.Categoryname && el?.Wastage === e?.Wastage);
+        if(findIndex === -1){
+          let obj = {...e};
+          obj.cg_netwt = ((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal);
+          obj.cg_grosswt = e?.grosswt;
+          obj.cg_wastage = e?.Wastage;
+          obj.cg_tunch = e?.Tunch;
+          obj.cg_wastage = e?.Wastage;
+          obj.cg_finewt = ((e?.NetWt * e?.Tunch )/ 100);
+          cgwise.push(obj);
+        }else{
+          cgwise[findIndex].cg_netwt += ((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal);
+          cgwise[findIndex].cg_grosswt += e?.grosswt;
+          cgwise[findIndex].cg_wastage += e?.Wastage;
+          cgwise[findIndex].cg_tunch += e?.Tunch;
+          cgwise[findIndex].cg_wastage += e?.Wastage;
+          cgwise[findIndex].cg_finewt += ((e?.NetWt * e?.Tunch )/ 100);
+        }
+      })
+      cgwise.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
+      setCategoryWise(cgwise);
       //product summary wise start
       let miscs = [];
       let colorstones = [];
@@ -724,7 +748,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2">
                                       {/* {el?.dcm_amt?.toFixed(2)} */}
-                                      {formatAmount(el?.Amount)}
+                                      {formatAmount((el?.Amount/(result?.header?.CurrencyExchRate)))}
                                     </div>
                                   </div>
                                   )
@@ -755,7 +779,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2">
                                       {/* {el?.dcm_amt?.toFixed(2)} */}
-                                      {formatAmount(el?.Amount)}
+                                      {formatAmount((el?.Amount/(result?.header?.CurrencyExchRate)))}
                                     </div>
                                   </div>
                                   )
@@ -786,7 +810,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2">
                                       {/* {el?.dcm_amt?.toFixed(2)} */}
-                                      {formatAmount(el?.Amount)}
+                                      {formatAmount((el?.Amount/(result?.header?.CurrencyExchRate)))}
                                     </div>
                                   </div>
                                   )
@@ -820,7 +844,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                           <div className="rcol12dp7 dp7cen2 bldp7">
                             {formatAmount(
-                              e?.OtherCharges + e?.TotalDiamondHandling
+                              ((e?.OtherCharges + e?.TotalDiamondHandling)/(result?.header?.CurrencyExchRate))
                             )}
                           </div>
                           <div className="rcol13dp7 dp7cen2 border-end-0">
@@ -846,14 +870,15 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {result?.mainTotal?.grosswt !== 0 && result?.mainTotal?.grosswt?.toFixed(3)}
                   </div>
                   <div className="totcol3dp7 dp7cen2">
-                    {result?.mainTotal?.netwtWithLossWt !== 0 && result?.mainTotal?.netwtWithLossWt?.toFixed(3)}
+                    {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
+                    {/* {result?.mainTotal?.netwtWithLossWt !== 0 && result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
                   </div>
                   <div className="totcol4dp7"></div>
                   <div className="totcol5dp7 dp7cen2">
-                    {result?.mainTotal?.total_diamond_colorstone_misc_amount !== 0 && formatAmount(result?.mainTotal?.total_diamond_colorstone_misc_amount)}
+                    {result?.mainTotal?.total_diamond_colorstone_misc_amount !== 0 && formatAmount((result?.mainTotal?.total_diamond_colorstone_misc_amount/(result?.header?.CurrencyExchRate)))}
                   </div>
                   <div className="totcol6dp7 dp7cen2">
-                    {otherAMountTotal !== 0 && formatAmount(otherAMountTotal)}
+                    {otherAMountTotal !== 0 && formatAmount((otherAMountTotal/(result?.header?.CurrencyExchRate) ))}
                   </div>
                   <div className="totcol7dp7 dp7cen2">
                     {/* {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)} */}
@@ -863,7 +888,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                 {/* table total */}
                 <div className="w-100 brtdp7 dp7cen2 bradp7 fsgdp7">
-                  {result?.mainTotal?.total_amount !== 0 && formatAmount(result?.mainTotal?.total_amount)}
+                  {result?.mainTotal?.total_amount !== 0 && formatAmount((result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)))}
                 </div>
 
                 {/* Courier info and Charges */}
@@ -878,7 +903,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     <div style={{ width: "37%" }} className="px-1  dp7cen2  ">
                       {" "}
-                      {formatAmount(result?.header?.FreightCharges)}
+                      {formatAmount((result?.header?.FreightCharges/(result?.header?.CurrencyExchRate)))}
                     </div>
                   </div>
                 </div>
@@ -894,7 +919,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="taxdp7d2 dp7cen2">
                         {e?.name} @ {e?.per}
                       </div>
-                      <div className="taxdp7d3 dp7cen2">{e?.amount}</div>
+                      <div className="taxdp7d3 dp7cen2">{formatAmount(e?.amount)}</div>
                     </div>
                   );
                 })}
@@ -904,7 +929,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     Sales Rounded Off
                   </div>
                   <div className="taxdp7d3 dp7cen2">
-                    {result?.header?.AddLess}
+                    {formatAmount(result?.header?.AddLess/(result?.header?.CurrencyExchRate))}
                   </div>
                 </div>
 
@@ -930,7 +955,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       }}
                     ></div>
                     <div className="ps-1">
-                      {(result?.finalAmount + result?.heder?.FreightCharges) !== 0 && formatAmount((result?.finalAmount + result?.header?.FreightCharges))}
+                      {(result?.finalAmount + result?.header?.FreightCharges) !== 0 && formatAmount(((result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)) + result?.allTaxesTotal + (result?.header?.FreightCharges/result?.header?.CurrencyExchRate)  + (result?.header?.AddLess/result?.header?.CurrencyExchRate)))}
                     </div>
                   </div>
                 </div>
@@ -944,7 +969,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   ></div>
                   <div className="ps-2 fw-bold" style={{ width: "97%" }}>
                     {/* {result?.finalAmount !== 0 && toWords.convert((result?.finalAmount + result?.header?.FreightCharges))}  /- */}
-                    {result?.finalAmount !== 0 && toWords.convert(+(result?.finalAmount + result?.header?.FreightCharges)?.toFixed(2))}  Only
+                    {result?.finalAmount !== 0 && toWords.convert(+((result?.mainTotal?.total_amount/result?.header?.CurrencyExchRate) + ((result?.header?.FreightCharges/result?.header?.CurrencyExchRate) + result?.allTaxesTotal + (result?.header?.AddLess/result?.header?.CurrencyExchRate)))?.toFixed(2))}  Only
                     
                   </div>
                 </div>
@@ -977,17 +1002,19 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.Quantity}
                             </div>
                             <div className="sum_prod_head_col_3 dp7cen2">
-                              {e?.GrossWt?.toFixed(3)}
+                              {e?.cg_grosswt?.toFixed(3)}
                             </div>
                             <div className="sum_prod_head_col_4 dp7cen2">
-                              {e?.netwtwithloss?.toFixed(3)}
+                              {e?.cg_netwt?.toFixed(3)}
                             </div>
                             <div className="sum_prod_head_col_5 dp7cen2">
-                              {e?.Wastage?.toFixed(3)}
+                              {e?.cg_wastage?.toFixed(3)}
                             </div>
                             <div className="sum_prod_head_col_6 dp7cen2">
                               {/* {e?.fineWtBYNetWtCal?.toFixed(3)} */}
-                              {((e?.NetWt * e?.Tunch)/100)?.toFixed(3)}
+                              {/* {((e?.NetWt * e?.Tunch)/100)?.toFixed(3)} */}
+                              {/* {((e?.cg_netwt * e?.Tunch)/100)?.toFixed(3)} */}
+                              {e?.cg_finewt?.toFixed(3)}
                               {/* {e?.LossWt === 0 ? e?.PureNetWt : ((
                               (((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100)
                                + (e?.totals?.finding?.FineWt))?.toFixed(3))} */}
@@ -1004,12 +1031,13 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {result?.mainTotal?.grosswt !== 0 && result?.mainTotal?.grosswt?.toFixed(3)}
                       </div>
                       <div className="sum_prod_head_col_4 dp7cen2">
-                        {result?.mainTotal?.netwtWithLossWt !== 0 && result?.mainTotal?.netwtWithLossWt?.toFixed(3)}
+                        {/* {result?.mainTotal?.netwtWithLossWt !== 0 && result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
+                        {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
                       </div>
                       <div className="sum_prod_head_col_5 dp7cen2"></div>
                       <div className="sum_prod_head_col_6 dp7cen2">
                         {/* {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)} */}
-                        {fineWtTotal === 0 ? 0 : fineWtTotal?.toFixed(3)}
+                        {fineWtTotal === 0 ? 0 : (fineWtTotal)?.toFixed(3)}
                       </div>
                     </div>
                   </div>
@@ -1076,7 +1104,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="w-100 dp7cen2"></div>
                     </div>
                     <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                      {formatAmount(otherAMountTotal)}
+                      {formatAmount((otherAMountTotal/result?.header?.CurrencyExchRate))}
                       {/* {(result?.mainTotal?.total_other + result?.header?.FreightCharges)?.toFixed(2)} */}
                     </div>
                   </div>
@@ -1105,7 +1133,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
                         {formatAmount(
-                          miscWise_total?.AmtAmount + otherAMountTotal
+                          (miscWise_total?.AmtAmount + (otherAMountTotal/result?.header?.CurrencyExchRate))
                         )}
                       </div>
                     </div>
