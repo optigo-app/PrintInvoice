@@ -499,12 +499,21 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
   //   if (b.shapeColorQuality === "OTHER") return -1; // "OTHER" values go to the end
   //   return a.shapeColorQuality.localeCompare(b.shapeColorQuality); // Sort alphabetically
   // });
+  let allTaxTotal = 0;
+
+const allTaxes = allTax?.map((e) => {
+      let obj = {...e};
+      obj.amountInNumber = +e?.amount;
+      allTaxTotal += +e?.amount;
+      return obj;
+  })
 
   const finalObject = {
     resultArray: resultArray,
     mainTotal: maintotal,
     finalAmount: +totalAmount,
-    allTaxes: allTax,
+    allTaxes: allTaxes,
+    allTaxesTotal : allTaxTotal,
     header: headerObj,
     json1: json1,
     json2: json2,

@@ -62,7 +62,6 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       copydata?.BillPrint_Json1,
       copydata?.BillPrint_Json2
     );
-    setResult(datas);
 
     let TOT = 0;
     datas?.resultArray?.forEach((e) => {
@@ -194,6 +193,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       e.misc = arr;
     })
+    
     let obj2 = {
       Wt:0,
       Pcs:0
@@ -204,9 +204,22 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           obj2.Pcs += el?.Pcs;
       })
     })
+
+    datas?.resultArray?.forEach((e) => {
+      let diaArr = [];
+        e?.diamonds?.forEach((a) => {
+
+          let findRecord = diaArr?.findIndex((el) => el?.ShapeName === a?.ShapeName)
+          
+        })
+    })
+
+
     setMiscObj(obj2)
     setMcompany(obj);
     setAllTotal(TOT);
+    setResult(datas);
+
 
   }
   const handleImgShow = (e) => {
@@ -215,6 +228,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setImgFlag(true);
     }
   };
+  console.log(result);
   return (
       <>
       {
@@ -341,7 +355,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         { imgFlag ? <div className='d-flex justify-content-center align-items-center'><img src={e?.DesignImage} alt="#designimg" className='design_img_dp6' onError={(e) => handleImageError(e)} /></div> : '' } 
                         <div className='d-flex justify-content-center align-items-center fs_dp6 pb-2'>PO: <b className='fs_dp6'>{e?.PO}</b></div>
                         { e?.HUID === '' ? '' : <div className='d-flex justify-content-center align-items-center pt-1'>HUID: {e?.HUID}</div> } 
-                        <div className='d-flex justify-content-center align-items-center fw-bold'>{e?.grosswt?.toFixed(3)} Gross</div>
+                        <div className='d-flex justify-content-center align-items-center fw-bold'>{e?.grosswt?.toFixed(3)} gm Gross</div>
                       </div>
                       <div className='col3_dp6_tb border-end d-grid' style={{width:'52% !important'}}>
                               {/* <div className='d-flex border-bottom w-100'>import { findIndex } from 'lodash';
@@ -408,7 +422,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6 h-100'>{a?.QualityName}</div>
                                       <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6 h-100' style={{wordBreak:'break-word'}}>{a?.IsPrimaryMetal === 1 ?  a?.Colorname : ''}</div>
                                       {/* <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6 h-100'>{a?.SizeName}</div> */}
-                                      <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6 h-100'></div>
+                                      <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6 h-100'>{a?.IsPrimaryMetal === 1 ? '' : a?.SizeName}</div>
                                       {/* <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6 h-100'>{a?.Pcs}</div> */}
                                       <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6 h-100'></div>
                                       <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6 h-100'>{a?.Wt?.toFixed(3)}</div>
@@ -553,7 +567,12 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate)
                           )))}
                         </div>
-                      <div className='col16_dp6_tb end_dp6 pad_end_dp6 fw-bold' style={{width:'10%'}}><div dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}} className='pe-1'></div> {formatAmount((((result?.finalAmount)/(result?.header?.CurrencyExchRate) + result?.header?.FreightCharges)))}</div>
+                      <div className='col16_dp6_tb end_dp6 pad_end_dp6 fw-bold' style={{width:'10%'}}>
+                      <div dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}} className='pe-1'>
+                        {/* </div> {formatAmount(((((result?.finalAmount))/(result?.header?.CurrencyExchRate) + result?.header?.FreightCharges + (result?.allTaxesTotal) )))}</div> */}
+                        {/* {console.log((result?.header?.AddLess/result?.header?.CurrencyExchRate))} */}
+                        {/* {console.log(((result?.mainTotal?.total_amount)/(result?.header?.CurrencyExchRate) + result?.header?.FreightCharges + result?.allTaxesTotal + (result?.header?.AddLess/result?.header?.CurrencyExchRate)))} */}
+                        </div> {formatAmount(((result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate) + result?.header?.FreightCharges + (result?.allTaxesTotal) + ((result?.header?.AddLess)/(result?.header?.CurrencyExchRate)) ) ))}</div>
               </div>
               <div className='d-flex border border-top-0 pbia_dp6'>
                 <div className='border-end col1_dp6  ps-1 d-flex justify-content-start align-items-center' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></div>
