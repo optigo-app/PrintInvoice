@@ -207,13 +207,71 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
     datas?.resultArray?.forEach((e) => {
       let diaArr = [];
+      let colorArr = [];
+      let miscArr = [];
+      
         e?.diamonds?.forEach((a) => {
 
-          let findRecord = diaArr?.findIndex((el) => el?.ShapeName === a?.ShapeName)
-          
+          let findRecord = diaArr?.findIndex((el) => el?.ShapeName === a?.ShapeName && el?.QualityName === a?.QualityName && el?.Colorname === a?.Colorname && el?.SizeName === a?.SizeName );
+          if(findRecord === -1){
+            let obj = {...a};
+            obj._Wt = a?.Wt;
+            obj._Pcs = a?.Pcs;
+            obj._Rate = a?.Rate;
+            obj._Amount = a?.Amount;
+            diaArr.push(obj);
+          }else{
+            diaArr[findRecord]._Wt += a?.Wt;
+            diaArr[findRecord]._Pcs += a?.Pcs;
+            // diaArr[findRecord]._Rate += a?.Rate;
+            diaArr[findRecord]._Rate += a?.Rate;
+            diaArr[findRecord]._Amount += a?.Amount;
+          }
         })
-    })
 
+        e.diamonds = diaArr;
+
+        e?.colorstone?.forEach((a) => {
+
+          let findRecord = colorArr?.findIndex((el) => el?.ShapeName === a?.ShapeName && el?.QualityName === a?.QualityName && el?.Colorname === a?.Colorname && el?.SizeName === a?.SizeName);
+          if(findRecord === -1){
+            let obj = {...a};
+            obj._Wt = a?.Wt;
+            obj._Pcs = a?.Pcs;
+            obj._Rate = a?.Rate;
+            obj._Amount = a?.Amount;
+            colorArr.push(obj);
+          }else{
+            colorArr[findRecord]._Wt += a?.Wt;
+            colorArr[findRecord]._Pcs += a?.Pcs;
+            colorArr[findRecord]._Rate += a?.Rate;
+            colorArr[findRecord]._Amount += a?.Amount;
+          }
+        })
+
+        e.colorstone = colorArr;
+        
+        e?.misc?.forEach((a) => {
+
+          let findRecord = miscArr?.findIndex((el) => el?.ShapeName === a?.ShapeName && el?.QualityName === a?.QualityName && el?.Colorname === a?.Colorname && el?.SizeName === a?.SizeName);
+          if(findRecord === -1){
+            let obj = {...a};
+            obj._Wt = a?.Wt;
+            obj._Pcs = a?.Pcs;
+            obj._Rate = a?.Rate;
+            obj._Amount = a?.Amount;
+            miscArr.push(obj);
+          }else{
+            miscArr[findRecord]._Wt += a?.Wt;
+            miscArr[findRecord]._Pcs += a?.Pcs;
+            miscArr[findRecord]._Rate += a?.Rate;
+            miscArr[findRecord]._Amount += a?.Amount;
+          }
+        })
+
+        e.misc = miscArr;
+
+    })
 
     setMiscObj(obj2)
     setMcompany(obj);
@@ -228,7 +286,6 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setImgFlag(true);
     }
   };
-  console.log(result);
   return (
       <>
       {
@@ -442,11 +499,12 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6' >{el?.QualityName}</div>
                                 <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6' >{el?.Colorname}</div>
                                 <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6' >{el?.SizeName}</div>
-                                <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?.Pcs}</div>
+                                <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?._Pcs}</div>
                                 {/* <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{(el?.ShapeName?.includes('Certification') && el?.MasterManagement_DiamondStoneTypeid === 3) ? (e?.jobwise_dia_wt_certificate?.toFixed(3)) :  el?.jwt?.toFixed(3)}</div> */}
-                                <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?.Wt?.toFixed(3)}</div>
-                                <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount((el?.Rate))}</div>
-                                <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount((el?.Amount/(result?.header?.CurrencyExchRate)))}</div>
+                                <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?._Wt?.toFixed(3)}</div>
+                                {/* <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount((el?.Rate))}</div> */}
+                                <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount(((el?._Amount / (el?._Wt === 0 ? 1 : el?._Wt))))}</div>
+                                <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount((el?._Amount/(result?.header?.CurrencyExchRate)))}</div>
                               </div>
                             )
                           })
@@ -460,10 +518,10 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6' >{el?.QualityName}</div>
                                 <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6' >{el?.Colorname}</div>
                                 <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6' >{el?.SizeName}</div>
-                                <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?.Pcs}</div>
-                                <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?.Wt?.toFixed(3)}</div>
-                                <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount((el?.Rate))}</div>
-                                <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount((el?.Amount/(result?.header?.CurrencyExchRate)))}</div>
+                                <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?._Pcs}</div>
+                                <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?._Wt?.toFixed(3)}</div>
+                                <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount(((el?._Amount / (el?._Wt === 0 ? 1 : el?._Wt))))}</div>
+                                <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount((el?._Amount/(result?.header?.CurrencyExchRate)))}</div>
                               </div>
                             )
                           })
@@ -477,10 +535,10 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='border-end col3_dp6_3 pad_st_dp6 center_start_dp6' >{el?.QualityName}</div>
                                 <div className='border-end col3_dp6_4 pad_st_dp6 center_start_dp6' >{el?.Colorname}</div>
                                 <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6' >{el?.SizeName}</div>
-                                <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?.Pcs}</div>
-                                <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?.Wt?.toFixed(3)}</div>
-                                <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount((el?.Rate))}</div>
-                                <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount((el?.Amount/(result?.header?.CurrencyExchRate)))}</div>
+                                <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?._Pcs}</div>
+                                <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?._Wt?.toFixed(3)}</div>
+                                <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount(((el?._Amount / (el?._Wt === 0 ? 1 : el?._Wt))))}</div>
+                                <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount((el?._Amount/(result?.header?.CurrencyExchRate)))}</div>
                               </div>
                             )
                           })
