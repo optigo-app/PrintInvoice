@@ -20,6 +20,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
+  
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -63,6 +64,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setImgFlag(true);
     }
   };
+
   return (
     <>
       {loader ? (

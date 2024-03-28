@@ -176,6 +176,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
     // })
   }
+  console.log(result);
   return (
     <>
       {loader ? (
@@ -208,7 +209,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="lhiv5">T {result?.header?.CompanyTellNo} | TOLL FREE {result?.header?.CompanyTollFreeNo} </div>
                       <div className="lhiv5">{result?.header?.CompanyEmail}</div>
                       <div className="lhiv5">{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE}-{result?.header?.Company_CST_STATE_No} | PAN-{result?.header?.Pannumber}</div>
-                      <div className="lhiv5">{result?.header?.Com_CINNO}</div>
+                      <div className="lhiv5">CIN - {result?.header?.Com_CINNO}</div>
                       <div className="lhiv5">{result?.header?.Com_GoldDealershipRefNo}</div>
                     </div>
                     <div className="w-25 d-flex justify-content-end align-items-center">
