@@ -16,6 +16,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
+  const [mdwt, setMdwt] = useState(0);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -54,7 +55,29 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+
+    let diawise = [];
+    datas?.json2?.forEach((e) => {
+      let findRecord = diawise?.findIndex((a) => a?.QualityName === e?.QualityName && a?.Colorname === e?.Colorname)
+      if(findRecord === -1){
+        let obj = {...e};
+        obj.dpcs = e?.Pcs;
+        obj.dwt = e?.Wt;
+        obj.damount = e?.Amount;
+        diawise.push(obj);
+      }else{
+        diawise[findRecord].dpcs += e?.Pcs;
+        diawise[findRecord].dwt += e?.Wt;
+        diawise[findRecord].damount += e?.Amount;
+      }
+    })
     // console.log(datas);
+    setDiamondWise(diawise);
+    let mdtot = 0;
+    datas?.resultArray?.forEach((e) => {
+        mdtot += (((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)
+    })
+    setMdwt(mdtot)
     setResult(datas);
     setLoader(false);
   };
@@ -64,7 +87,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setImgFlag(true);
     }
   };
-
+console.log(result);
   return (
     <>
       {loader ? (
@@ -231,7 +254,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {/* table body */}
                 <div>
                   {result?.resultArray?.map((e, i) => {
-                    console.log(e)
                     return (
                       <div className="fs_dp4" key={i}>
                         <div className="d-flex border-secondary border-start border-end border-bottom w-100">
@@ -299,7 +321,29 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                           <div className="col4_dp4 border-secondary border-end">
                             <div>
-                              {e?.metal?.map((el, ind) => {
+                            {
+                      e?.metal?.map((el, ind) => {
+                        
+                        return(
+                          <div key={ind}>
+                          {
+                            el?.IsPrimaryMetal === 1 ? <div className="d-flex border-secondary border-bottom" >
+                            <div className="w-25 start_dp3" style={{wordBreak:'break-word', lineHeight:'11px'}}>{e?.MetalTypePurity}</div>
+                            {/* <div className="w-25 end_dp3">{e?.grosswt?.toFixed(3)}</div> */}
+                            
+                            <div className="w-25 end_dp3">{(((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)?.toFixed(3)}</div>
+                            {/* <div className="w-25 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
+                            {/* <div className="w-25 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
+                            <div className="w-25 end_dp3">{e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
+                            <div className="w-25 d-flex justify-content-end align-items-center fw-bold">{formatAmount(el?.Amount)}</div>
+                          </div> : ''
+                          }
+                          
+                          </div>
+                        )
+                      })
+                    }
+                              {/* {e?.metal?.map((el, ind) => {
                                 return (
                                   <div
                                     className="d-flex border-secondary border-bottom fs_dp4"
@@ -325,7 +369,10 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                   </div>
                                 );
-                              })}
+                              })} */}
+                              {e?.JobRemark === '' ? '' : <div className="ms-2">                                	
+                                    Remark: <br /><b>{e?.JobRemark}</b>
+                                </div>}
                             </div>
                           </div>
                           <div className="col5_dp4 border-secondary border-end">
@@ -618,14 +665,17 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="d-flex fs_dp4">
                         <div className="dia_col_w_dp4 start_dp4"></div>
                         <div className="dia_col_w_dp4 end_dp4">
+                          {/* {result?.mainTotal?.metal?.Wt?.toFixed(3)} */}
+                          {mdwt?.toFixed(3)}
                         </div>
                         <div className="dia_col_w_dp4 end_dp4">
-                          {result?.mainTotal?.metal?.Wt?.toFixed(3)}
+                          {/* {result?.mainTotal?.metal?.Wt?.toFixed(3)} */}
+                          {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
                         </div>
                         <div className="dia_col_w_dp4 end_dp4" style={{width:'10%'}}>
                         </div>
                         <div className="dia_col_w_dp4 end_dp4" style={{width:'30%'}}>
-                          {formatAmount(result?.mainTotal?.metal?.Amount)}
+                          {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
                         </div>
                       </div>
                     </div>
@@ -657,6 +707,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
                   <div className="col6_dp4 border-secondary border-end end_top_dp4 fs_dp4">
+                    {formatAmount((result?.mainTotal?.total_other_charges + result?.mainTotal?.total_diamondHandling))}
                     {/* {formatAmount(
                               e?.OtherCharges +
                                 e?.TotalDiamondHandling +
@@ -666,9 +717,10 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col7_dp4 border-secondary border-end">
                     <div className="d-flex fs_dp4">
                       <div className="w-100 end_top_dp4">
-                        {formatAmount(
+                      {formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}
+                        {/* {formatAmount(
                           result?.mainTotal?.total_MakingAmount_Setting_Amount
-                        )}
+                        )} */}
                       </div>
                     </div>
                   </div>
@@ -694,7 +746,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             GOLD IN 24KT
                           </div>
                           <div className="border-secondary border-end pad_e_dp4">
-                            cts
+                            {result?.mainTotal?.convertednetwt?.toFixed(3)} gm
                           </div>
                         </div>
                         <div className="d-flex justify-content-between">
@@ -702,7 +754,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             GROSS WT
                           </div>
                           <div className="border-secondary border-end pad_e_dp4">
-                            {result?.mainTotal?.grosswt?.toFixed(3)} cts
+                            {result?.mainTotal?.grosswt?.toFixed(3)} gm
                           </div>
                         </div>
                         <div className="d-flex justify-content-between">
@@ -710,7 +762,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             G+D WT
                           </div>
                           <div className="border-secondary border-end pad_e_dp4">
-                            cts
+                            {mdwt?.toFixed(3)} gm
                           </div>
                         </div>
                         <div className="d-flex justify-content-between">
@@ -718,7 +770,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             NET WT
                           </div>
                           <div className="border-secondary border-end pad_e_dp4">
-                            {result?.mainTotal?.netwt?.toFixed(3)} cts
+                            {/* {result?.mainTotal?.netwt?.toFixed(3)} gm */}
+                            {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} gm
                           </div>
                         </div>
                         <div className="d-flex justify-content-between">
@@ -796,14 +849,24 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div style={{width:'20%'}}>
                     <div className="summary_dp4_head border-secondary border border-top-0 fw-bold border-start-0">Diamond Details</div>
                     <div>
-                      {
+                      {/* {
                         Array.from({length:6}, (_,index) => (
                           <div key={index} className="border-end border-secondary">1</div>
                         ))
+                      } */}
+                      {
+                        diamondWise?.map((e, i) => {
+                          return(
+                            <div key={i}>
+                              <div>{e?.dpcs}</div>
+                              <div>{e?.dwt}</div>
+                              </div>
+                          )
+                        })
                       }
-                      <div className="d-flex justify-content-between w-100 border-secondary border-end border-bottom border-top">
-                        <div className="pad_s_dp4 fw-bold">DIAMOND</div>
-                        <div className="pad_e_dp4">{result?.mainTotal?.diamonds?.Pcs} / {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</div>
+                      <div className="d-flex justify-content-between w-100 border-secondary border-end border-bottom-0 border-top">
+                        {/* <div className="pad_s_dp4 fw-bold">DIAMOND</div> */}
+                        {/* <div className="pad_e_dp4">{result?.mainTotal?.diamonds?.Pcs} / {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</div> */}
                       </div>
                     </div>
                   </div>
