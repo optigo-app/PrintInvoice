@@ -131,8 +131,8 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     });
 
-    
-    
+    metwise?.sort((a, b) => a?.MetalPurity.localeCompare(b?.MetalPurity))
+    console.log(metwise);
     setMetaltypewise(metwise);
 
     setResult(datas);
@@ -332,7 +332,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div
                             className={`${classip?.col1}  border-end centerip5`}
                           >
-                            {e?.SrNo}
+                            {i + 1}
                           </div>
                           <div
                             className={`${classip?.col2}  border-end startip5 px-1`}
