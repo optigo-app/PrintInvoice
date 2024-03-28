@@ -6,7 +6,11 @@
 .img{
     max-height: 75px;
     object-fit: contain;
-    object-fit-position: center;
+    object-position: center;
+}
+
+.word_break *{
+    word-break: break-all;
 }
 
 @media print{
