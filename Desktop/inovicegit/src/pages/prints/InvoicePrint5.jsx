@@ -214,8 +214,8 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="w-25 d-flex justify-content-end align-items-center">
                     {isImageWorking && (result?.header?.PrintLogo !== "" && 
                       <img src={result?.header?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain'
-                      onError={handleImageErrors} height={120} width={150} />)}
+                      className='w-100 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} style={{maxWidth: "116px"}} />)}
                       {/* <img src={result?.header?.PrintLogo} className="printlogoiv5" alt="#" /> */}
                       </div>
                   </div>

@@ -163,8 +163,8 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
           <div className="col-3 pt-2 pb-2">
           {isImageWorking && (json0Data?.PrintLogo !== "" && 
                       <img src={json0Data?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain'
-                      onError={handleImageErrors} height={120} width={150} />)}
+                      className='w-100 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
             {/* <img src={json0Data?.PrintLogo} alt="logo" className="w-75 d-block ms-auto " /> */}
           </div>
         </div>
