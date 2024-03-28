@@ -186,7 +186,8 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                     <div className="col-3 p-2 text-end">
                     {isImageWorking && (headerData?.PrintLogo !== "" && 
                       <img src={headerData?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      className='w-100 h-auto ms-auto mt-3 d-block object-fit-contain'
+                      style={{maxWidth:'116px'}}
                       onError={handleImageErrors} height={120} width={150} />)}
                         {/* <img src={headerData?.PrintLogo} alt="" className={`w-100 ${style?.imageLogoInovicePrint4} d-block ms-auto`} /> */}
                     </div>

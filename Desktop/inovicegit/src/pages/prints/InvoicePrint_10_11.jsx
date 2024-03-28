@@ -444,7 +444,8 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
         {isImageWorking && (headerData?.PrintLogo !== "" && 
                       <img src={headerData?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      className='w-100 h-auto ms-auto d-block object-fit-contain'
+                      style={{maxWidth:'116px'}}
                       onError={handleImageErrors} height={120} width={150} />)}
             {/* <img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /> */}
           </div>
