@@ -38,3 +38,7 @@
     width: 18%;
     min-width: 18%;
 }
+
+.declaration span{
+    line-height: 150%;
+}

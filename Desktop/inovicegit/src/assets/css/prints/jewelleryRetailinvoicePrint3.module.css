@@ -1,9 +1,9 @@
-.jewelelryRetailInvoiceContainer{
+.jewelelryRetailInvoiceContainer {
     max-width: 900px !important;
     padding-bottom: 60px;
 }
 
-.imgJewelleryRetailinovicePrint3{
+.imgJewelleryRetailinovicePrint3 {
     height: auto !important;
     max-width: 115.75px;
     max-height: 100px;
@@ -11,80 +11,91 @@
     object-position: right;
 }
 
-.jewelelryRetailInvoiceContainer *{
+.jewelelryRetailInvoiceContainer * {
     font-size: 12px;
     line-height: 120%;
 }
 
-.imageJewelleryC{
+.imageJewelleryC {
     max-width: 105px;
     max-height: 105px;
 }
 
-.w_20JewerryRetailInvoicePrint{
+.w_20JewerryRetailInvoicePrint {
     width: 20%;
 }
 
-.srNoJewerryRetailInvoicePrint{
+.srNoJewerryRetailInvoicePrint {
     width: 5%;
 }
 
-.productJewerryRetailInvoicePrint{
+.productJewerryRetailInvoicePrint {
     width: 20%;
 }
-.materialJewerryRetailInvoicePrint{
+
+.materialJewerryRetailInvoicePrint {
     width: 65%;
 }
-.metalMakingJewerryRetailInvoicePrint{
-    width: 10%;
-}
-.othersJewerryRetailInvoicePrint{
+
+.metalMakingJewerryRetailInvoicePrint {
     width: 10%;
 }
 
-.totalJewerryRetailInvoicePrint{
+.othersJewerryRetailInvoicePrint {
     width: 10%;
 }
 
-.wordsJewellry{
+.totalJewerryRetailInvoicePrint {
+    width: 10%;
+}
+
+.wordsJewellry {
     width: 64.05%;
-    min-height: 145px; 
+    min-height: 145px;
 }
 
-.wordsJewerryRetailInvoicePrint{
+.wordsJewerryRetailInvoicePrint {
     background-color: #ffcccc;
     flex: 1 1;
-    border: 1px solid #000; 
+    border: 1px solid #000;
 }
 
-.RemarkJewelleryInvoicePrintC{
+.RemarkJewelleryInvoicePrintC {
     flex: 0 0;
 }
 
-.discountJewerryRetailInvoicePrint{
+.discountJewerryRetailInvoicePrint {
     width: 35.9%;
 }
 
-.minHeight20RetailinvoicePrint3{
+.minHeight20RetailinvoicePrint3 {
     min-height: 20px;
 }
 
-.right_jewelleryinvoicePrintc{
+.right_jewelleryinvoicePrintc {
     right: -20%;
 }
 
-.declarationUlJewelleryRetailInvoicePrntc h3 sub span{
+.declarationUlJewelleryRetailInvoicePrntc h3 sub span {
     display: block;
     padding-bottom: 5px;
 }
 
-@media print{
-    .jewelelryRetailInvoiceContainer{
+.retailinvoicePrint3 span {
+    line-height: 150%;
+}
+
+@media print {
+    .jewelelryRetailInvoiceContainer {
         max-width: 100% !important;
         padding-bottom: 0;
     }
 
-        .print_sec_sum4 {
-            display: none !important;
-          }
+    .print_sec_sum4 {
+        display: none !important;
+    }
+
+    .jewelelryRetailInvoiceContainer * {
+        font-size: 10px;
+    }
 }

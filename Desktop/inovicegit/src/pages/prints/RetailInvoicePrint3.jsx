@@ -46,6 +46,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         let resultArr = [];
         let netWithLossWts = 0;
         let netInvoiceValue = data?.BillPrint_Json[0]?.AddLess;
+        let secondaryAmounts = 0;
         datas?.resultArray?.forEach((e, i) => {
             let obj = cloneDeep(e);
             let secondaryAmount = 0;
@@ -72,10 +73,11 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             obj.netWithLossWt = netWithLossWt;
             netWithLossWts += netWithLossWt;
             obj.secondaryAmount = e?.UnitCost - secondaryAmount;
+            secondaryAmounts += obj.secondaryAmount;
             resultArr?.push(obj);
             netInvoiceValue += e?.TotalAmount;
         });
-
+        datas.mainTotal.secondaryAmounts = secondaryAmounts;
         datas?.allTaxes?.forEach((e, i) => {
             // console.log(+e?.amount);
             netInvoiceValue += +e?.amount
@@ -90,7 +92,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
 
         let balanceAmount = netInvoiceValue - debitInfo;
 
-        setTotal({ ...total, netWithLossWt: netWithLossWts, netInvoiceValue: netInvoiceValue, TotalAmounttobePaid: debitInfo+data?.BillPrint_Json[0]?.CashReceived, balanceAmount: balanceAmount });
+        setTotal({ ...total, netWithLossWt: netWithLossWts, netInvoiceValue: netInvoiceValue, TotalAmounttobePaid: debitInfo + data?.BillPrint_Json[0]?.CashReceived, balanceAmount: balanceAmount });
         datas.resultArray = resultArr;
         console.log(datas);
 
@@ -135,7 +137,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     <p className="fs-5 text-white fw-bold">{headerData?.PrintHeadLabel}</p>
                 </div>
                 <div className='px-2 pb-2 border-bottom'>
-                    <p className="fw-bold pt-1" style={{fontSize: "19px"}}>{headerData?.CompanyFullName}</p>
+                    <p className="fw-bold pt-1" style={{ fontSize: "19px" }}>{headerData?.CompanyFullName}</p>
                     <p className={`${style?.font_13}`}>{headerData?.CompanyAddress}</p>
                     <p className={`${style?.font_13}`}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode}, {headerData?.CompanyState}({headerData?.CompanyCountry})</p>
                     <p className={`${style?.font_13}`}>T {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</p>
@@ -214,7 +216,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         <div className={`${style?.Stone}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)} </p></div>
                         <div className={`${style?.Misc}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.misc?.Wt, 3)}</p></div>
                         <div className={`${style?.Net}`}> <p className='text-center'>{NumberWithCommas(total?.netWithLossWt, 3)}</p></div>
-                        <div className={`${style?.Price}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.MetalAmount, 2)}</p></div>
+                        <div className={`${style?.Price}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.secondaryAmounts, 2)}</p></div>
                         <div className={`${style?.Discount}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p></div>
                         <div className={`${style?.Product}`}> <p className='text-end'>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p></div>
                     </div>

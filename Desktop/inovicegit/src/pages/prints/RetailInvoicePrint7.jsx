@@ -14,6 +14,7 @@ import {
     taxGenrator,
     FooterComponent,
     fixedValues,
+    ReceiveInBank,
 } from "../../GlobalFunctions";
 
 const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
@@ -25,15 +26,17 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
     const [headerData, setHeaderData] = useState({});
     const [header, setHeader] = useState(null);
     const [footer, setFooter] = useState(null);
+    const [bank, setBank] = useState([]);
     const [document, setDocument] = useState({
         aadharcard: "",
         nri: "",
         passport: "",
     });
+
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
         setHeader(head);
@@ -54,14 +57,14 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
 
         let resultArr = [];
         datas.resultArray?.forEach((e, i) => {
-            if(e.GroupJob === ""){
+            if (e.GroupJob === "") {
                 resultArr.push(e);
-            }else{
-                let findObj = resultArr?.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob);
-                if(findObj === -1){
+            } else {
+                let findObj = resultArr?.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob && ele?.metalRate === e?.metalRate);
+                if (findObj === -1) {
                     resultArr.push(e);
-                }else{
-                    if(e?.GroupJob === e?.SrJobno){
+                } else {
+                    if (e?.GroupJob === e?.SrJobno) {
                         resultArr[findObj].MetalType = e?.MetalType;
                         resultArr[findObj].MetalPurity = e?.MetalPurity;
                         resultArr[findObj].Categoryname = e?.Categoryname;
@@ -71,11 +74,12 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     }
                     resultArr[findObj].NetWt += e?.NetWt;
                     resultArr[findObj].totals.metal.Amount += e?.totals?.metal?.Amount;
-                    if(resultArr[findObj].NetWt  !== 0 ){
-                        resultArr[findObj].metal[0].Rate = resultArr[findObj].totals.metal.Amount/resultArr[findObj].NetWt;
+                    if (resultArr[findObj].NetWt !== 0) {
+                        resultArr[findObj].metal[0].Rate = resultArr[findObj].totals.metal.Amount / resultArr[findObj].NetWt;
                     }
                     resultArr[findObj].Quantity += e?.Quantity;
                     resultArr[findObj].TotalAmount += e?.TotalAmount;
+                    resultArr[findObj].UnitCost += e?.UnitCost;
                 }
             }
         })
@@ -98,6 +102,8 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 documents.passport = data[1];
             }
         });
+        let banks = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
+        setBank(banks);
         setDocument(documents);
     }
 
@@ -124,7 +130,6 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         }
         sendData();
     }, []);
-
     return (
         loader ? <Loader /> : msg === "" ? <>
             <div className={`container max_width_container ${style?.retailInvoicePrint7} pad_60_allPrint px-1 mt-1`}>
@@ -135,20 +140,22 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     </div>
                 </div>
                 {/* header */}
-                {header}
+                <div className="retailInvoicePrint7Header">
+                    {header}
+                </div>
                 {/* sub header */}
                 <div className="border d-flex">
                     <div className="col-7 border-end p-2">
                         <p>{headerData?.lblBillTo}</p>
-                        <p className='fw-bold'>{headerData?.CustName}</p>
+                        <p className='fw-bold' style={{ fontSize: "14px" }}>{headerData?.CustName}</p>
                         <p>{headerData?.customerAddress1}</p>
                         <p>{headerData?.customerAddress2}</p>
-                        <p>{headerData?.customercity}{headerData?.customerpincode}</p>
+                        <p>{headerData?.customercity1}{headerData?.customerpincode}</p>
                         <p>{headerData?.customercountry}</p>
                         <p>{headerData?.customeremail1}</p>
                         <p>Phno:{headerData?.customermobileno}</p>
-                        <p>{headerData?.vat_cst_pan}</p>
-                        <p>{headerData?.Cust_CST_STATE} {headerData?.Cust_CST_STATE_No}</p>
+                        <p>{headerData?.vat_cst_pan} {document?.aadharcard !== "" && ` | Aadhar-${document?.aadharcard}`}</p>
+                        {headerData?.Cust_CST_STATE_No !== "" && <p>{headerData?.Cust_CST_STATE} {headerData?.Cust_CST_STATE_No} </p>}
                     </div>
                     <div className="col-5 p-2">
                         <div className="d-flex">
@@ -167,18 +174,18 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                             <div className="col-6"> <p className='fw-bold'>Reverse Charge </p> </div>
                             <div className="col-6 d-flex"> <input type="checkbox" /> <p className='px-1'> Yes</p> <input type="checkbox" /> <p className='px-1'> No</p> </div>
                         </div>
-                        <div className="d-flex">
+                        {document?.aadharcard !== "" && <div className="d-flex">
                             <div className="col-6"> <p className='fw-bold'>AADHAR CARD </p> </div>
                             <div className="col-6 d-flex">  <p className='px-1'>{document?.aadharcard}</p>  </div>
-                        </div>
-                        <div className="d-flex">
+                        </div>}
+                        {document?.nri !== "" && <div className="d-flex">
                             <div className="col-6"> <p className='fw-bold'>NRI ID </p> </div>
                             <div className="col-6 d-flex">  <p className='px-1'>{document?.nri}</p>  </div>
-                        </div>
-                        <div className="d-flex">
+                        </div>}
+                        {document?.passport !== "" && <div className="d-flex">
                             <div className="col-6"> <p className='fw-bold'>FOREIGN PASSPORT</p> </div>
                             <div className="col-6 d-flex">  <p className='px-1'>{document?.passport}</p>  </div>
-                        </div>
+                        </div>}
                     </div>
                 </div>
                 {/* table header */}
@@ -203,37 +210,37 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 {/* table body */}
                 {data?.resultArray?.map((e, i) => {
                     return <div className=" d-flex border-start border-end border-bottom no_break" key={i}>
-                        <div className={`${style?.Sr} p-1 d-flex justify-content-center align-items-center border-end`}><p className=" text-center">{NumberWithCommas(i + 1, 0)}</p></div>
-                        <div className={`${style?.Product} p-1 border-end`}>
-                            <p className="">{e?.SubCategoryname}  {e?.Categoryname} </p>
+                        <div className={`${style?.Sr} p-1 d-flex justify-content-center align-items-center border-end d-flex align-items-center`}><p className=" text-center">{NumberWithCommas(i + 1, 0)}</p></div>
+                        <div className={`${style?.Product} p-1 border-end d-flex  flex-column justify-content-center`}>
+                            <p className="" style={{ wordBreak: "normal" }}>{e?.SubCategoryname}  {e?.Categoryname} </p>
                             <p className="">{e?.designno} | {e?.SrJobno}</p>
                             {/* <p className="text-center">HUID-{e?.HUID}</p> */}
                         </div>
                         <div className={`${style?.Material} border-end`}>
                             <div className="d-grid h-100">
                                 <div className="d-flex" >
-                                    <p className="  col-3 border-end p-1">{e?.MetalType}</p>
-                                    <div className="col-3 border-end p-1"> <p>{e?.MetalPurity}</p> </div>
-                                    <p className="  col-3 text-end border-end p-1">{NumberWithCommas(e?.Quantity, 0)}</p>
-                                    <p className="  col-3 text-end p-1">{NumberWithCommas(e?.metalRate, 2)}</p>
+                                    <p className="  col-3 border-end p-1 d-flex align-items-center">{e?.MetalType}</p>
+                                    <div className="col-3 border-end p-1 d-flex align-items-center"> <p>{e?.MetalPurity}</p> </div>
+                                    <p className="  col-3 text-center border-end p-1 d-flex justify-content-center align-items-center">{NumberWithCommas(e?.Quantity, 0)}</p>
+                                    <p className="  col-3 text-end p-1 d-flex align-items-center justify-content-end">{NumberWithCommas(e?.metalRate, 2)}</p>
                                 </div>
                             </div>
                         </div>
-                        <div className={`${style?.Total} p-1 text-end`}><p className="">{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+                        <div className={`${style?.Total} p-1 text-end d-flex align-items-center justify-content-end`}><p className="">{NumberWithCommas(e?.UnitCost, 2)}</p></div>
                     </div>
                 })
                 }
                 {/* table total */}
                 <div className=" d-flex border-start border-end border-bottom no_break">
                     <div className={`${style?.Sr} p-1 d-flex justify-content-center align-items-center border-end`}></div>
-                    <div className={`${style?.Product} p-1 border-end`}><p className="fw-bold fs-6">TOTAL</p></div>
+                    <div className={`${style?.Product} p-1 border-end d-flex align-items-center`}><p className="fw-bold" style={{ fontSize: "17px" }}>TOTAL</p></div>
                     <div className={`${style?.Material} border-end d-flex `}>
-                        <p className="   col-3 border-end p-1"></p>
-                        <p className="   col-3 border-end p-1"></p>
-                        <p className="   col-3 text-end border-end p-1 fw-bold"></p>
-                        <div className=" col-3 text-end p-1 fw-bold"> <p></p> </div>
+                        <p className="col-3 border-end p-1"></p>
+                        <p className="col-3 border-end p-1"></p>
+                        <p className="col-3 text-end border-end p-1 fw-bold"></p>
+                        <div className="col-3 text-end p-1 fw-bold"> <p></p> </div>
                     </div>
-                    <div className={`${style?.Total} p-1 text-end`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost / headerData?.CurrencyRate, 2)}</p></div>
+                    <div className={`${style?.Total} p-1 text-end d-flex justify-content-end align-items-center`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost / headerData?.CurrencyRate, 2)}</p></div>
                 </div>
                 {/* in words */}
                 <div className="d-flex border-start border-end border-bottom no_break">
@@ -243,7 +250,7 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                             <p className='px-1'>In Words Indian Rupees</p>
                             <p className='px-1 fw-bold'>{toWords?.convert(+fixedValues(data?.finalAmount / headerData?.CurrencyRate, 2))} Only</p>
                         </div>
-                        <div><p className='px-1'>Old Gold Purchase Description : <span className="fw-bold">{headerData?.PrintRemark}</span>	</p></div>
+                        <div><p className='px-1'>Old Gold Purchase Description : <span className="fw-bold">{headerData?.Remark}</span>	</p></div>
                     </div>
                     <div className={`${style?.taxes} border-end`}>
                         {/* <p className="text-end px-1">Discount</p> */}
@@ -255,7 +262,13 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         {/* <p className="text-end px-1">Total Amt. after Tax</p> */}
                         <p className="text-end px-1">Old Silver</p>
                         <p className="text-end px-1">Recv.in Cash</p>
-                        <p className="text-end px-1">Recv.in Bank</p>
+                        {/* <p className="text-end px-1">Recv.in Bank</p> */}
+                        {
+                            bank?.map((e, i) => {
+                                console.log(e);
+                                return <p className="text-end px-1">Receive In Bank{e?.label !== "" && `(${e?.label})`}</p>
+                            })
+                        }
                         <p className="text-end px-1">Net Bal. Amount</p>
                         <p className="text-end mt-1 border-top p-1 fw-bold">GRAND TOTAL</p>
                     </div>
@@ -269,17 +282,25 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         {/* <p className='text-end px-1'>{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyRate, 2)}</p> */}
                         <p className='text-end px-1'>{NumberWithCommas(headerData?.OldGoldAmount, 2)}</p>
                         <p className='text-end px-1'>{NumberWithCommas(headerData?.CashReceived, 2)}</p>
-                        <p className='text-end px-1'>{NumberWithCommas(headerData?.BankReceived, 2)}</p>
-                        <p className='text-end px-1'>{NumberWithCommas(data?.finalAmount / headerData?.CurrencyRate, 2)}</p>
-                        <p className="text-end mt-1 border-top p-1 fw-bold"><span dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}} className='pe-1'></span>{NumberWithCommas(data?.finalAmount / headerData?.CurrencyRate, 2)}</p>
+                        {
+                            bank?.map((e, i) => {
+                                console.log(e);
+                                return <p className="text-end px-1">{NumberWithCommas(e?.amount, 2)}</p>
+                            })
+                        }
+                        {/* <p className='text-end px-1'>{NumberWithCommas(headerData?.BankReceived, 2)}</p> */}
+                        <p className='text-end px-1'>{NumberWithCommas((data?.finalAmount / headerData?.CurrencyRate) - bank?.reduce((acc, cObj) => acc + +cObj?.amount, 0), 2)}</p>
+                        <p className="text-end mt-1 border-top p-1 fw-bold"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }} className='pe-1'></span>{NumberWithCommas(data?.finalAmount / headerData?.CurrencyRate, 2)}</p>
                     </div>
                 </div>
                 {/* declaration */}
                 <div className="border-start border-end border-bottom p-2 no_break">
-                    <div dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}></div>
+                    <div dangerouslySetInnerHTML={{ __html: headerData?.Declaration }} className={`${style?.declaration}`}></div>
                 </div>
                 {/* bank details */}
-                {footer}
+                <div className='retailinvoicePrint7Footer'>
+                    {footer}
+                </div>
             </div>
             {/* <SampleDetailPrint11 /> */}
         </> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
