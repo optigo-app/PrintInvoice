@@ -94,4 +94,8 @@
     .print_sec_sum4 {
         display: none !important;
     }
+
+    .jewelelryRetailInvoiceContainer * {
+        font-size: 10px;
+    }
 }

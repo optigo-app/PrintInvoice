@@ -4,6 +4,10 @@
   word-break: normal;
 }
 
+.companyDetails *{
+  font-size: 12px;
+}
+
 .font_13 *{
   font-size: 13px;
 }

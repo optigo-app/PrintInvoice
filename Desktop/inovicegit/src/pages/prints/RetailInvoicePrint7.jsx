@@ -32,6 +32,7 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         nri: "",
         passport: "",
     });
+
     const [isImageWorking, setIsImageWorking] = useState(true);
     const handleImageErrors = () => {
         setIsImageWorking(false);
@@ -129,7 +130,6 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         }
         sendData();
     }, []);
-
     return (
         loader ? <Loader /> : msg === "" ? <>
             <div className={`container max_width_container ${style?.retailInvoicePrint7} pad_60_allPrint px-1 mt-1`}>
@@ -154,8 +154,8 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         <p>{headerData?.customercountry}</p>
                         <p>{headerData?.customeremail1}</p>
                         <p>Phno:{headerData?.customermobileno}</p>
-                        <p>{headerData?.vat_cst_pan}</p>
-                        {headerData?.Cust_CST_STATE_No !== "" && <p>{headerData?.Cust_CST_STATE} {headerData?.Cust_CST_STATE_No}</p>}
+                        <p>{headerData?.vat_cst_pan} {document?.aadharcard !== "" && ` | Aadhar-${document?.aadharcard}`}</p>
+                        {headerData?.Cust_CST_STATE_No !== "" && <p>{headerData?.Cust_CST_STATE} {headerData?.Cust_CST_STATE_No} </p>}
                     </div>
                     <div className="col-5 p-2">
                         <div className="d-flex">
@@ -210,37 +210,37 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 {/* table body */}
                 {data?.resultArray?.map((e, i) => {
                     return <div className=" d-flex border-start border-end border-bottom no_break" key={i}>
-                        <div className={`${style?.Sr} p-1 d-flex justify-content-center align-items-center border-end`}><p className=" text-center">{NumberWithCommas(i + 1, 0)}</p></div>
-                        <div className={`${style?.Product} p-1 border-end`}>
-                            <p className="" style={{wordBreak: "normal"}}>{e?.SubCategoryname}  {e?.Categoryname} </p>
+                        <div className={`${style?.Sr} p-1 d-flex justify-content-center align-items-center border-end d-flex align-items-center`}><p className=" text-center">{NumberWithCommas(i + 1, 0)}</p></div>
+                        <div className={`${style?.Product} p-1 border-end d-flex  flex-column justify-content-center`}>
+                            <p className="" style={{ wordBreak: "normal" }}>{e?.SubCategoryname}  {e?.Categoryname} </p>
                             <p className="">{e?.designno} | {e?.SrJobno}</p>
                             {/* <p className="text-center">HUID-{e?.HUID}</p> */}
                         </div>
                         <div className={`${style?.Material} border-end`}>
                             <div className="d-grid h-100">
                                 <div className="d-flex" >
-                                    <p className="  col-3 border-end p-1">{e?.MetalType}</p>
-                                    <div className="col-3 border-end p-1"> <p>{e?.MetalPurity}</p> </div>
-                                    <p className="  col-3 text-end border-end p-1">{NumberWithCommas(e?.Quantity, 0)}</p>
-                                    <p className="  col-3 text-end p-1">{NumberWithCommas(e?.metalRate, 2)}</p>
+                                    <p className="  col-3 border-end p-1 d-flex align-items-center">{e?.MetalType}</p>
+                                    <div className="col-3 border-end p-1 d-flex align-items-center"> <p>{e?.MetalPurity}</p> </div>
+                                    <p className="  col-3 text-center border-end p-1 d-flex justify-content-center align-items-center">{NumberWithCommas(e?.Quantity, 0)}</p>
+                                    <p className="  col-3 text-end p-1 d-flex align-items-center justify-content-end">{NumberWithCommas(e?.metalRate, 2)}</p>
                                 </div>
                             </div>
                         </div>
-                        <div className={`${style?.Total} p-1 text-end`}><p className="">{NumberWithCommas(e?.UnitCost, 2)}</p></div>
+                        <div className={`${style?.Total} p-1 text-end d-flex align-items-center justify-content-end`}><p className="">{NumberWithCommas(e?.UnitCost, 2)}</p></div>
                     </div>
                 })
                 }
                 {/* table total */}
                 <div className=" d-flex border-start border-end border-bottom no_break">
                     <div className={`${style?.Sr} p-1 d-flex justify-content-center align-items-center border-end`}></div>
-                    <div className={`${style?.Product} p-1 border-end`}><p className="fw-bold" style={{ fontSize: "17px" }}>TOTAL</p></div>
+                    <div className={`${style?.Product} p-1 border-end d-flex align-items-center`}><p className="fw-bold" style={{ fontSize: "17px" }}>TOTAL</p></div>
                     <div className={`${style?.Material} border-end d-flex `}>
-                        <p className="   col-3 border-end p-1"></p>
-                        <p className="   col-3 border-end p-1"></p>
-                        <p className="   col-3 text-end border-end p-1 fw-bold"></p>
-                        <div className=" col-3 text-end p-1 fw-bold"> <p></p> </div>
+                        <p className="col-3 border-end p-1"></p>
+                        <p className="col-3 border-end p-1"></p>
+                        <p className="col-3 text-end border-end p-1 fw-bold"></p>
+                        <div className="col-3 text-end p-1 fw-bold"> <p></p> </div>
                     </div>
-                    <div className={`${style?.Total} p-1 text-end`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost / headerData?.CurrencyRate, 2)}</p></div>
+                    <div className={`${style?.Total} p-1 text-end d-flex justify-content-end align-items-center`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost / headerData?.CurrencyRate, 2)}</p></div>
                 </div>
                 {/* in words */}
                 <div className="d-flex border-start border-end border-bottom no_break">
