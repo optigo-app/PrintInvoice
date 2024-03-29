@@ -30,7 +30,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [isImageWorking, setIsImageWorking] = useState(true);
 
   const [diamond_s, setDiamond_s] = useState([]);
-  const [colorstone_S, setColorStone_s] = useState([]);
+  const [colorstone_s, setColorStone_s] = useState([]);
   const [metal_s, setMetal_s] = useState([]);
 
   const handleImageErrors = () => {
@@ -526,10 +526,9 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         // e.metal = met;
 
       })
-      console.log(diamonds, colorstones, metals);
-      let mainarr = [...metals, ...diamonds, ...colorstones];
+      // let mainarr = [...metals, ...diamonds, ...colorstones];
       setDiamond_s(diamonds);
-      setColorStone_s(colorstone);
+      setColorStone_s(colorstones);
       setMetal_s(metals);
       // setGroupedArr(mainarr);
       setResult(datas);
@@ -639,16 +638,16 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   {
                     metal_s?.map((e, i) => {
                       return(
-                        <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
+                        <div key={i} className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
                         <div style={{width:'30%'}} className="ps-2">
-                          {/* {
-                            e?.metal?.map((e) => e?.ShapeName + " " + e?.QualityName)
-                          } */}
+                          {
+                           (e?.ShapeName + " " + e?.QualityName)
+                          }
                         </div>
-                        <div style={{width:'10%'}}>{e?.wt}</div>
-                        <div style={{width:'10%'}}>{(e?.amount)/((e?.wt === 0 ? 1 : e?.wt))}</div>
-                        <div style={{width:'10%'}}>{e?.amount}</div>
+                        <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
+                        <div style={{width:'10%'}}>{formatAmount((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)))}</div>
+                        <div style={{width:'10%'}}>{formatAmount((e?.amount / result?.header?.CurrencyExchRate))}</div>
                         </div>
                       )
                     })
@@ -656,70 +655,59 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   {
                     diamond_s?.map((e, i) => {
                       return(
-                        <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
-                        <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
-                        <div style={{width:'30%'}} className="ps-2">
-                          {/* {
-                            e?.metal?.map((e) => e?.ShapeName + " " + e?.QualityName)
-                          } */}
-                        </div>
-                        <div style={{width:'10%'}}>WEIGHT</div>
-                        <div style={{width:'10%'}}>RATE</div>
-                        <div style={{width:'10%'}}>AMOUNT</div>
+                        <div key={i} className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
+                        <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center">{
+                          i === 0 ? `${descArr} JEWELLERY` : ''
+                        }</div>
+                        <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
+                        <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
+                        <div style={{width:'10%'}}>{formatAmount((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)))}</div>
+                        <div style={{width:'10%'}}>{formatAmount(e?.amount)}</div>
                         </div>
                       )
                     })
                   }
                   {
-                    colorstone_S?.map((e, i) => {
+                    colorstone_s?.map((e, i) => {
                       return(
-                        <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
+                        <div key={i} className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
-                        <div style={{width:'30%'}} className="ps-2">
-                          {/* {
-                            e?.metal?.map((e) => e?.ShapeName + " " + e?.QualityName)
-                          } */}
-                        </div>
-                        <div style={{width:'10%'}}>WEIGHT</div>
-                        <div style={{width:'10%'}}>RATE</div>
-                        <div style={{width:'10%'}}>AMOUNT</div>
+                        <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
+                        <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
+                        <div style={{width:'10%'}}>{formatAmount((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)))}</div>
+                        <div style={{width:'10%'}}>{formatAmount(e?.amount)}</div>
                         </div>
                       )
                     })
                   }
                    <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
-                        <div style={{width:'30%'}} className="ps-2">
-                          {/* {
-                            e?.metal?.map((e) => e?.ShapeName + " " + e?.QualityName)
-                          } */}
-                        </div>
-                        <div style={{width:'10%'}}>WEIGHT</div>
-                        <div style={{width:'10%'}}>RATE</div>
-                        <div style={{width:'10%'}}>AMOUNT</div>
+                        <div style={{width:'30%'}} className="ps-2">MISC</div>
+                        <div style={{width:'10%'}}></div>
+                        <div style={{width:'10%'}}></div>
+                        <div style={{width:'10%'}}>{formatAmount(result?.mainTotal?.misc?.Amount)}</div>
                         </div>
                         <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
-                        <div style={{width:'30%'}} className="ps-2">
-                          {/* {
-                            e?.metal?.map((e) => e?.ShapeName + " " + e?.QualityName)
-                          } */}
-                        </div>
-                        <div style={{width:'10%'}}>WEIGHT</div>
-                        <div style={{width:'10%'}}>RATE</div>
-                        <div style={{width:'10%'}}>AMOUNT</div>
+                        <div style={{width:'30%'}} className="ps-2">LABOUR</div>
+                        <div style={{width:'10%'}}></div>
+                        <div style={{width:'10%'}}></div>
+                        <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost))}</div>
                         </div>
                         <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
-                        <div style={{width:'30%'}} className="ps-2">
-                          {/* {
-                            e?.metal?.map((e) => e?.ShapeName + " " + e?.QualityName)
-                          } */}
+                        <div style={{width:'30%'}} className="ps-2">OTHER</div>
+                        <div style={{width:'10%'}}></div>
+                        <div style={{width:'10%'}}></div>
+                        <div style={{width:'10%'}}>{formatAmount(result?.mainTotal?.total_other)}</div>
                         </div>
-                        <div style={{width:'10%'}}>WEIGHT</div>
-                        <div style={{width:'10%'}}>RATE</div>
-                        <div style={{width:'10%'}}>AMOUNT</div>
-                        </div>
+                 </div>
+                 <div className="d-flex w-100 fw-bold border-top-0" style={{border:'2px solid #d8d7d7', fontSize:'14px'}}>
+                  <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
+                  <div style={{width:'30%'}} className="ps-2">TOTAL</div>
+                  <div style={{width:'10%'}}></div>
+                  <div style={{width:'10%'}}></div>
+                  <div style={{width:'10%'}}>{formatAmount(result?.mainTotal?.total_unitcost)}</div>
                  </div>
                 </div>
                 <div className="summaryinvp3">
