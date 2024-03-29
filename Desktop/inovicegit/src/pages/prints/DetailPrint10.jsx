@@ -646,7 +646,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {e?.name} {e?.per}
                               </div>
                               <div className="w-50 end_dp10 pr_dp10">
-                                {e?.amount}
+                                {formatAmount(e?.amountInNumber)}
                               </div>
                             </div>
                           );

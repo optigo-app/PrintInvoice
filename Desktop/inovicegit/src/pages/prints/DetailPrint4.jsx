@@ -56,23 +56,196 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json2
     );
 
-    let diawise = [];
+    let diaObj = {
+      ShapeName: "OTHERS",
+      wtWt: 0,
+      wtWts: 0,
+      pcPcs: 0,
+      pcPcss: 0,
+      rRate: 0,
+      rRates: 0,
+      amtAmount: 0,
+      amtAmounts: 0,
+    };
+    let diaonlyrndarr1 = [];
+    let diaonlyrndarr2 = [];
+    let diaonlyrndarr3 = [];
+    let diaonlyrndarr4 = [];
+    let diarndotherarr5 = [];
+    let diaonlyrndarr6 = [];
+
     datas?.json2?.forEach((e) => {
-      let findRecord = diawise?.findIndex((a) => a?.QualityName === e?.QualityName && a?.Colorname === e?.Colorname)
-      if(findRecord === -1){
-        let obj = {...e};
-        obj.dpcs = e?.Pcs;
-        obj.dwt = e?.Wt;
-        obj.damount = e?.Amount;
-        diawise.push(obj);
-      }else{
-        diawise[findRecord].dpcs += e?.Pcs;
-        diawise[findRecord].dwt += e?.Wt;
-        diawise[findRecord].damount += e?.Amount;
+      if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+        if (e.ShapeName?.toLowerCase() === "rnd") {
+          diaonlyrndarr1.push(e);
+        } else {
+          diaonlyrndarr2.push(e);
+        }
       }
+    });
+  
+    diaonlyrndarr1.forEach((e) => {
+      let findRecord = diaonlyrndarr3.findIndex(
+        (a) =>
+          e?.StockBarcode === a?.StockBarcode &&
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+  
+      if (findRecord === -1) {
+        let obj = { ...e };
+        obj.wtWt = e?.Wt;
+        obj.pcPcs = e?.Pcs;
+        obj.rRate = e?.Rate;
+        obj.amtAmount = e?.Amount;
+        diaonlyrndarr3.push(obj);
+      } else {
+        diaonlyrndarr3[findRecord].wtWt += e?.Wt;
+        diaonlyrndarr3[findRecord].pcPcs += e?.Pcs;
+        diaonlyrndarr3[findRecord].rRate += e?.Rate;
+        diaonlyrndarr3[findRecord].amtAmount += e?.Amount;
+      }
+    });
+  
+    diaonlyrndarr2.forEach((e) => {
+      let findRecord = diaonlyrndarr4.findIndex(
+        (a) =>
+          e?.StockBarcode === a?.StockBarcode &&
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+  
+      if (findRecord === -1) {
+        let obj = { ...e };
+        obj.wtWt = e?.Wt;
+        obj.wtWts = e?.Wt;
+        obj.pcPcs = e?.Pcs;
+        obj.pcPcss = e?.Pcs;
+        obj.rRate = e?.Rate;
+        obj.rRates = e?.Rate;
+        obj.amtAmount = e?.Amount;
+        obj.amtAmounts = e?.Amount;
+        diaonlyrndarr4.push(obj);
+      } else {
+        diaonlyrndarr4[findRecord].wtWt += e?.Wt;
+        diaonlyrndarr4[findRecord].wtWts += e?.Wt;
+        diaonlyrndarr4[findRecord].pcPcs += e?.Pcs;
+        diaonlyrndarr4[findRecord].pcPcss += e?.Pcs;
+        diaonlyrndarr4[findRecord].rRate += e?.Rate;
+        diaonlyrndarr4[findRecord].rRates += e?.Rate;
+        diaonlyrndarr4[findRecord].amtAmount += e?.Amount;
+        diaonlyrndarr4[findRecord].amtAmounts += e?.Amount;
+      }
+    });
+  
+    diaonlyrndarr4.forEach((e) => {
+      diaObj.wtWt += e?.wtWt;
+      diaObj.wtWts += e?.wtWts;
+      diaObj.pcPcs += e?.pcPcs;
+      diaObj.pcPcss += e?.pcPcss;
+      diaObj.rRate += e?.rRate;
+      diaObj.rRates += e?.rRates;
+      diaObj.amtAmount += e?.amtAmount;
+      diaObj.amtAmounts += e?.amtAmounts;
+    });
+    
+    diaonlyrndarr3?.forEach((e) => {
+      let find_record = diaonlyrndarr6?.findIndex(
+        (a) =>
+          e?.ShapeName === a?.ShapeName &&
+          e?.QualityName === a?.QualityName &&
+          e?.Colorname === a?.Colorname
+      );
+      if (find_record === -1) {
+        let obj = { ...e };
+        obj.wtWts = e?.wtWt;
+        obj.pcPcss = e?.pcPcs;
+        obj.rRates = e?.rRate;
+        obj.amtAmounts = e?.amtAmount;
+        diaonlyrndarr6.push(obj);
+      }else{
+        diaonlyrndarr6[find_record].wtWts += e?.wtWt;
+        diaonlyrndarr6[find_record].pcPcss += e?.pcPcs;
+        diaonlyrndarr6[find_record].rRates += e?.rRate;
+        diaonlyrndarr6[find_record].amtAmounts += e?.amtAmount;
+      }
+    });
+  
+    diarndotherarr5 = [...diaonlyrndarr6, diaObj];
+    setDiamondWise(diarndotherarr5);
+
+    datas?.resultArray?.forEach((e) => {
+      let diaqc = [];
+      e?.diamonds?.forEach((a) => {
+        let findrecord = diaqc?.findIndex((el) => el?.QualityName === a?.QualityName && el?.Colorname === a?.Colorname)
+        if(findrecord === -1){
+          let obj = {...a};
+          obj._pcs = a?.Pcs;
+          obj._wt = a?.Wt;
+          obj._amount = a?.Amount;
+          diaqc.push(obj);
+        }else{
+          diaqc[findrecord]._pcs += a?.Pcs;
+          diaqc[findrecord]._wt += a?.Wt;
+          diaqc[findrecord]._amount += a?.Amount;
+        }
+      })
+      e.diamonds = diaqc;
+      let csqc = [];
+      e?.colorstone?.forEach((a) => {
+        let findrecord = csqc?.findIndex((el) => el?.QualityName === a?.QualityName && el?.Colorname === a?.Colorname)
+        if(findrecord === -1){
+          let obj = {...a};
+          obj._pcs = a?.Pcs;
+          obj._wt = a?.Wt;
+          obj._amount = a?.Amount;
+          csqc.push(obj);
+        }else{
+          csqc[findrecord]._pcs += a?.Pcs;
+          csqc[findrecord]._wt += a?.Wt;
+          csqc[findrecord]._amount += a?.Amount;
+        }
+      })
+      e.colorstone = csqc;
     })
-    // console.log(datas);
-    setDiamondWise(diawise);
+
+    datas?.resultArray?.forEach((e) => {
+      let arr = [];
+      // console.log("hello");
+      e?.misc?.forEach((a) => {
+        if(a?.IsHSCOE === 0 || a?.IsHSCOE === 3){
+          // console.log(a);
+          arr?.push(a);
+        }
+        // if(a?.IsHSCOE === 0){
+        //     if(a?.IsHSCOE === 1 || a?.IsHSCOE === 2){
+        //         return ''
+        //     }else if(a?.IsHSCOE === 0 || a?.IsHSCOE === 3){
+        //       arr?.push(a);
+        //     }
+        // }
+      })
+      if(arr?.length === 1){
+        if(arr[0]?.IsHSCOE === 0){
+          
+        }else{
+          arr = [];
+        }
+      }
+      // let arr2 = [];
+      // arr?.forEach((a) => {
+      //   if(a?.IsHSCOE !== 0){
+      //       return ''
+      //   }else{
+      //     arr2.push(a);
+      //   }
+      // })
+
+      e.misc = arr;
+    })
+
     let mdtot = 0;
     datas?.resultArray?.forEach((e) => {
         mdtot += (((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)
@@ -87,6 +260,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setImgFlag(true);
     }
   };
+ 
 console.log(result);
   return (
     <>
@@ -300,19 +474,19 @@ console.log(result);
                                       className="dia_col_w_dp4 end_dp4"
                                       style={{ width: "10%" }}
                                     >
-                                      {el?.Pcs}
+                                      {el?._pcs}
                                     </div>
                                     <div
                                       className="dia_col_w_dp4 end_dp4"
                                       style={{ width: "15%" }}
                                     >
-                                      {el?.Wt?.toFixed(3)}
+                                      {el?._wt?.toFixed(3)}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
                                       {formatAmount(el?.Rate)}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
-                                      {formatAmount(el?.Amount)}
+                                      {formatAmount(el?._amount)}
                                     </div>
                                   </div>
                                 );
@@ -328,14 +502,15 @@ console.log(result);
                           <div key={ind}>
                           {
                             el?.IsPrimaryMetal === 1 ? <div className="d-flex border-secondary border-bottom" >
-                            <div className="w-25 start_dp3" style={{wordBreak:'break-word', lineHeight:'11px'}}>{e?.MetalTypePurity}</div>
-                            {/* <div className="w-25 end_dp3">{e?.grosswt?.toFixed(3)}</div> */}
+                            <div className="dia_col_w_dp4 start_dp3 d-flex align-items-center" style={{wordBreak:'break-word', lineHeight:'11px'}}>{e?.MetalTypePurity}</div>
+                            {/* <div className="dia_col_w_dp4 end_dp3">{e?.grosswt?.toFixed(3)}</div> */}
                             
-                            <div className="w-25 end_dp3">{(((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)?.toFixed(3)}</div>
-                            {/* <div className="w-25 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
-                            {/* <div className="w-25 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
-                            <div className="w-25 end_dp3">{e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
-                            <div className="w-25 d-flex justify-content-end align-items-center fw-bold">{formatAmount(el?.Amount)}</div>
+                            <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{(((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)?.toFixed(3)}</div>
+                            {/* <div className="dia_col_w_dp4 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
+                            {/* <div className="dia_col_w_dp4 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
+                            <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
+                            <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center ">{formatAmount(el?.Rate)}</div>
+                            <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center fw-bold">{formatAmount(el?.Amount)}</div>
                           </div> : ''
                           }
                           
@@ -390,6 +565,37 @@ console.log(result);
                                       className="dia_col_w_dp4 end_dp4"
                                       style={{ width: "10%" }}
                                     >
+                                      {el?._pcs}
+                                    </div>
+                                    <div
+                                      className="dia_col_w_dp4 end_dp4"
+                                      style={{ width: "15%" }}
+                                    >
+                                      {el?._wt?.toFixed(3)}
+                                    </div>
+                                    <div className="dia_col_w_dp4 end_dp4">
+                                      {formatAmount(el?.Rate)}
+                                    </div>
+                                    <div className="dia_col_w_dp4 end_dp4">
+                                      {formatAmount(el?._amount)}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                              {
+                                e?.misc?.map((el, i) => {
+                                  return(
+                                    <div className="d-flex fs_dp4" key={i}>
+                                    <div
+                                      className="dia_col_w_dp4 start_dp4"
+                                      style={{ width: "35%", wordBreak:'break-word' }}
+                                    >
+                                      {el?.ShapeName}
+                                    </div>
+                                    <div
+                                      className="dia_col_w_dp4 end_dp4"
+                                      style={{ width: "10%" }}
+                                    >
                                       {el?.Pcs}
                                     </div>
                                     <div
@@ -405,17 +611,21 @@ console.log(result);
                                       {formatAmount(el?.Amount)}
                                     </div>
                                   </div>
-                                );
-                              })}
+                                  )
+                                })
+                              }
                             </div>
                           </div>
                           <div className="col6_dp4 border-secondary border-end end_top_dp4">
-                            {
+                          {formatAmount(
+                              ((e?.OtherCharges + e?.TotalDiamondHandling)/(result?.header?.CurrencyExchRate))
+                            )}
+                            {/* {
                               formatAmount(e?.OtherCharges)
                               // e?.OtherCharges +
                               //   // e?.TotalDiamondHandling +
                               //   // e?.MiscAmount
-                            }
+                            } */}
                           </div>
                           <div className="col7_dp4 border-secondary border-end fs_dp4">
                             <div className="d-flex">
@@ -423,9 +633,10 @@ console.log(result);
                                 {formatAmount(e?.MaKingCharge_Unit)}
                               </div>
                               <div className="w-50 end_top_dp4 fs_dp4">
-                                {formatAmount(
+                              {formatAmount((((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate))))}
+                                {/* {formatAmount(
                                   e?.MakingAmount
-                                )}
+                                )} */}
                               </div>
                             </div>
                           </div>
@@ -452,18 +663,18 @@ console.log(result);
                                   className="dia_col_w_dp4 start_dp4"
                                   style={{ width: "10%" }}
                                 >
-                                  {e?.totals?.diamonds?.Pcs}
+                                  {e?.totals?.diamonds?.Pcs === 0 ? '' : e?.totals?.diamonds?.Pcs}
                                 </div>
                                 <div
                                   className="dia_col_w_dp4 end_dp4"
                                   style={{ width: "15%" }}
                                 >
-                                  {e?.totals?.diamonds?.Wt?.toFixed(3)}
+                                  {e?.totals?.diamonds?.Wt === 0 ? '' : e?.totals?.diamonds?.Wt?.toFixed(3)}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4">
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4">
-                                  {formatAmount(e?.totals?.diamonds?.Amount)}
+                                  {e?.totals?.diamonds?.Amount === 0 ? '' : formatAmount(e?.totals?.diamonds?.Amount)}
                                 </div>
                               </div>
                             </div>
@@ -473,13 +684,14 @@ console.log(result);
                               <div className="d-flex fs_dp4">
                                 <div className="dia_col_w_dp4 start_dp4"></div>
                                 <div className="dia_col_w_dp4 end_dp4">
-                                  {e?.totals?.metal?.Wt?.toFixed(3)}
+                                  {/* {e?.totals?.metal?.Wt?.toFixed(3)} */}
+                                  {(((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)?.toFixed(3)}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4">
-                                  {e?.totals?.metal?.Wt?.toFixed(3)}
+                                  {e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4">
-                                  {formatAmount(e?.totals?.metal?.Rate)}
+                                  {/* {formatAmount(e?.totals?.metal?.Rate)} */}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4">
                                   {formatAmount(e?.totals?.metal?.Amount)}
@@ -498,27 +710,31 @@ console.log(result);
                                   className="dia_col_w_dp4 end_dp4"
                                   style={{ width: "10%" }}
                                 >
-                                  {e?.totals?.colorstone?.Pcs}
+                                  {/* {(e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)} */}
+                                  { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)}
                                 </div>
                                 <div
                                   className="dia_col_w_dp4 end_dp4"
                                   style={{ width: "15%" }}
                                 >
-                                  {e?.totals?.colorstone?.Wt?.toFixed(3)}
+                                  { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt)?.toFixed(3)}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4"></div>
                                 <div className="dia_col_w_dp4 end_dp4">
-                                  {formatAmount(e?.totals?.colorstone?.Amount)}
+                                  {(e?.totals?.colorstone?.Amount + e?.totals?.misc?.withouthscode1_2_amount) === 0 ? '' : formatAmount((e?.totals?.colorstone?.Amount + e?.totals?.misc?.withouthscode1_2_amount ))}
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div className="col6_dp4 border-secondary border-end end_top_dp4 fs_dp4">
-                            {formatAmount(
+                          {formatAmount(
+                              ((e?.OtherCharges + e?.TotalDiamondHandling)/(result?.header?.CurrencyExchRate))
+                            )}
+                            {/* {formatAmount(
                               e?.OtherCharges +
                                 e?.TotalDiamondHandling +
                                 e?.MiscAmount
-                            )}
+                            )} */}
                           </div>
                           <div className="col7_dp4 border-secondary border-end">
                             <div className="d-flex fs_dp4">
@@ -570,7 +786,7 @@ console.log(result);
                             <div className="col5_dp4 border-secondary border-end">
                               <div>
                                 <div className="d-flex end_dp4">
-                                  Discount {e?.Discount} On Amount
+                                  Discount {formatAmount(e?.Discount)}% @ Total Amount
                                 </div>
                               </div>
                             </div>
@@ -604,7 +820,7 @@ console.log(result);
                     <div className="d-flex lh_dp4">
                       <div className="w-50 end_top_dp4 ">Total Discount</div>
                       <div className="w-50 end_top_dp4">
-                        {formatAmount(result?.mainTotal?.total_discount)}
+                        {formatAmount(result?.mainTotal?.total_discount_amount)}
                       </div>
                     </div>
                     {result?.allTaxes?.map((el, ind) => {
@@ -613,7 +829,7 @@ console.log(result);
                           <div className="w-50 end_top_dp4">
                             {el?.name + " @ " + el?.per}
                           </div>
-                          <div className="w-50 end_top_dp4">{el?.amount}</div>
+                          <div className="w-50 end_top_dp4">{formatAmount(el?.amountInNumber)}</div>
                         </div>
                       );
                     })}
@@ -856,10 +1072,11 @@ console.log(result);
                       } */}
                       {
                         diamondWise?.map((e, i) => {
+
                           return(
-                            <div key={i}>
-                              <div>{e?.dpcs}</div>
-                              <div>{e?.dwt}</div>
+                            <div key={i} className="d-flex justify-content-between px-1 border-secondary border-end">
+                              { e?.ShapeName === "OTHERS" ? <div className="fw-bold">{e?.ShapeName}</div> : <div className="fw-bold">{e?.QualityName + " " + e?.Colorname}</div> } 
+                              <div>{e?.pcPcs} / {e?.wtWt?.toFixed(3)} cts</div>
                               </div>
                           )
                         })
@@ -874,7 +1091,18 @@ console.log(result);
                     <div>
                       <div className="summary_dp4_head border-secondary border border-top-0 fw-bold border-start-0">OTHER DETAILS</div>
                       <div>
-                      <div className="d-flex justify-content-between w-100 border-secondary border-end border-bottom">
+                      
+                      {result?.header?.BrokerageDetails?.map((e, i) => {
+                            return (
+                              <div className="d-flex fsgdp10 d-flex justify-content-between w-100 border-secondary border-end border-bottom" key={i}>
+                                <div className="w-50 fw-bold start_dp10 pad_s_dp4">
+                                  {e?.label}
+                                </div>
+                                <div className="w-50 end_dp10 d-flex justify-content-end pad_e_dp4">{e?.value}</div>
+                              </div>
+                            );
+                          })}
+                          <div className="d-flex justify-content-between w-100 border-secondary border-end border-bottom">
                         <div className="pad_s_dp4 fw-bold">RATE IN 24KT</div>
                         <div className="pad_e_dp4">{formatAmount(result?.header?.MetalRate24K)}</div>
                       </div>
@@ -888,6 +1116,7 @@ console.log(result);
                     <div className="border-secondary border-bottom border-end-0 pad_s_dp4">
                       {result?.header?.PrintRemark}
                     </div>
+                    
                   </div>
                 </div>
                 <div className="check_dp4 border-secondary border border-bottom d-flex justify-content-center align-items-end border-top-0" style={{ width: "20%" }}>
