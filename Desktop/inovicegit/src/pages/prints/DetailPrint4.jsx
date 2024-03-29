@@ -40,7 +40,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           setMsg(data?.Message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     sendData();
@@ -483,7 +483,7 @@ console.log(result);
                                       {el?._wt?.toFixed(3)}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
-                                      {formatAmount(el?.Rate)}
+                                    {formatAmount((el?._amount / (el?._wt === 0 ? 1 : el?._wt)))}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
                                       {formatAmount(el?._amount)}
@@ -509,7 +509,7 @@ console.log(result);
                             {/* <div className="dia_col_w_dp4 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
                             {/* <div className="dia_col_w_dp4 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
                             <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
-                            <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center ">{formatAmount(el?.Rate)}</div>
+                            <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center ">{formatAmount((el?.Amount / (e?.NetWt === 0 ? 1 : e?.NetWt)))}</div>
                             <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center fw-bold">{formatAmount(el?.Amount)}</div>
                           </div> : ''
                           }
@@ -574,7 +574,7 @@ console.log(result);
                                       {el?._wt?.toFixed(3)}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
-                                      {formatAmount(el?.Rate)}
+                                    {formatAmount(((el?._amount)/(el?._wt === 0 ? 1 : el?._wt)))}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
                                       {formatAmount(el?._amount)}
@@ -605,7 +605,7 @@ console.log(result);
                                       {el?.Wt?.toFixed(3)}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
-                                      {formatAmount(el?.Rate)}
+                                    {formatAmount((el?.Amount / (el?.Wt === 0 ? 1 : el?.Wt)))}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
                                       {formatAmount(el?.Amount)}
@@ -618,7 +618,7 @@ console.log(result);
                           </div>
                           <div className="col6_dp4 border-secondary border-end end_top_dp4">
                           {formatAmount(
-                              ((e?.OtherCharges + e?.TotalDiamondHandling)/(result?.header?.CurrencyExchRate))
+                              ((e?.OtherCharges + e?.TotalDiamondHandling))
                             )}
                             {/* {
                               formatAmount(e?.OtherCharges)
@@ -629,11 +629,11 @@ console.log(result);
                           </div>
                           <div className="col7_dp4 border-secondary border-end fs_dp4">
                             <div className="d-flex">
-                              <div className="w-50 end_top_dp4 fs_dp4">
+                              <div className=" end_top_dp4 fs_dp4" style={{width:'35%'}}>
                                 {formatAmount(e?.MaKingCharge_Unit)}
                               </div>
-                              <div className="w-50 end_top_dp4 fs_dp4">
-                              {formatAmount((((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate))))}
+                              <div className=" end_top_dp4 fs_dp4" style={{width:'65%'}}>
+                              {formatAmount((((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))))}
                                 {/* {formatAmount(
                                   e?.MakingAmount
                                 )} */}
@@ -728,7 +728,7 @@ console.log(result);
                           </div>
                           <div className="col6_dp4 border-secondary border-end end_top_dp4 fs_dp4">
                           {formatAmount(
-                              ((e?.OtherCharges + e?.TotalDiamondHandling)/(result?.header?.CurrencyExchRate))
+                              ((e?.OtherCharges + e?.TotalDiamondHandling))
                             )}
                             {/* {formatAmount(
                               e?.OtherCharges +
@@ -738,11 +738,9 @@ console.log(result);
                           </div>
                           <div className="col7_dp4 border-secondary border-end">
                             <div className="d-flex fs_dp4">
-                              <div className="w-50 end_top_dp4"></div>
-                              <div className="w-50 end_top_dp4">
-                                {formatAmount(
-                                  e?.totals?.makingAmount_settingAmount
-                                )}
+                              {/* <div className="w-50 end_top_dp4"></div> */}
+                              <div className="end_top_dp4 w-100">
+                              {formatAmount((((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))))}
                               </div>
                             </div>
                           </div>
@@ -829,7 +827,7 @@ console.log(result);
                           <div className="w-50 end_top_dp4">
                             {el?.name + " @ " + el?.per}
                           </div>
-                          <div className="w-50 end_top_dp4">{formatAmount(el?.amountInNumber)}</div>
+                          <div className="w-50 end_top_dp4">{formatAmount((el?.amountInNumber * result?.header?.CurrencyExchRate))}</div>
                         </div>
                       );
                     })}
@@ -941,7 +939,7 @@ console.log(result);
                     </div>
                   </div>
                   <div className="col8_dp4 end_top_dp4 fs_dp4">
-                    {formatAmount(result?.finalAmount)}
+                    {formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}
                   </div>
                 </div>
               </div>
@@ -1025,26 +1023,24 @@ console.log(result);
                           <div className="pad_s_dp4 fw-bold">CST</div>
                           <div className="border-secondary border-end pad_e_dp4">
                             {formatAmount(
-                              result?.mainTotal?.colorstone?.Amount
+                              (result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.Amount)
                             )}
                           </div>
                         </div>
                         <div className="d-flex justify-content-between">
                           <div className="pad_s_dp4 fw-bold">MAKING</div>
                           <div className="border-secondary border-end pad_e_dp4">
-                            {formatAmount(
-                              result?.mainTotal
-                                ?.total_MakingAmount_Setting_Amount
-                            )}
+                          {formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}
                           </div>
                         </div>
                         <div className="d-flex justify-content-between">
                           <div className="pad_s_dp4 fw-bold">OTHER</div>
                           <div className="border-secondary border-end pad_e_dp4">
-                            {formatAmount(
+                          {formatAmount((result?.mainTotal?.total_other_charges + result?.mainTotal?.total_diamondHandling))}
+                            {/* {formatAmount(
                               result?.mainTotal
                                 ?.total_otherCharge_Diamond_Handling
-                            )}
+                            )} */}
                           </div>
                         </div>
                         <div className="d-flex justify-content-between">
@@ -1056,7 +1052,7 @@ console.log(result);
                         <div className="summary_dp4_head d-flex justify-content-between  border-secondary border border-bottom-0 border-start-0 bgc_dp4">
                           <div className="pad_s_dp4 fw-bold">TOTAL</div>
                           <div className="pad_e_dp4">
-                            {formatAmount(result?.finalAmount)}
+                          {formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}
                           </div>
                         </div>
                       </div>

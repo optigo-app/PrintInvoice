@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/invoiceprint3.css";
-import { apiCall, isObjectEmpty, numberToWord, NumberWithCommas } from "../../GlobalFunctions";
+import { apiCall, formatAmount, isObjectEmpty, numberToWord, NumberWithCommas } from "../../GlobalFunctions";
 import { taxGenrator } from "./../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import Button from "../../GlobalFunctions/Button";
+import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 
 const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState();
@@ -13,6 +14,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [json2, setJson2] = useState();
   // eslint-disable-next-line no-unused-vars
   const [resultArray, setResultArray] = useState();
+  const [result, setResult] = useState();
   const [grandTotal, setGrandTotal] = useState(0);
   const [totDiscount, setTotDiscount] = useState(0);
   const [inWords, setInWords] = useState("");
@@ -400,7 +402,15 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-
+      let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+      data.BillPrint_Json[0].address = address;
+ 
+      const datas = OrganizeDataPrint(
+        data?.BillPrint_Json[0],
+        data?.BillPrint_Json1,
+        data?.BillPrint_Json2
+      );
+      setResult(datas);
       setLoader(false);
     } catch (error) {
       console.log(error);
@@ -476,16 +486,16 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   <div>
                     <div className="winvp3 text-end">
-                      <p className=" fsinvp3 text-end">
-                        <span className="fw-bold">GStTIN:</span> {headerData?.vat_cst_pan?.split("|")?.[0]}
+                      <p className=" fsinvp3 text-start w-100">
+                        <span className="fw-bold w-50">GSTIN : </span> <span className="w-50">{result?.header?.CustGstNo}</span>
                       </p>
                     </div>
-                    {/* <p className="fsinvp3 text-end">
-                    <span className="fw-bold">PAN:</span> {headerData?.vat_cst_pan?.split("|")?.[1]}
-                    </p> */}
+                    <p className="fsinvp3 text-start w-100">
+                      <span className="fw-bold w-50">PAN : </span> <span className="w-50">{result?.header?.CustPanno}</span>
+                    </p>
                     <div className="text-end winvp3">
-                      <p className="fsinvp3">
-                        <span className="fw-bold">{headerData?.Cust_CST_STATE}</span> {headerData?.Cust_CST_STATE_No}
+                      <p className="fsinvp3 text-start w-100">
+                        <span className="fw-bold w-50" >{headerData?.Cust_CST_STATE} : </span> <span className="w-50">{headerData?.Cust_CST_STATE_No}</span>
                       </p>
                     </div>
                   </div>
@@ -532,9 +542,9 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               <p className="wp3tbinvp3 fsinvp3 text-end">
                                 {e?.Wt?.toFixed(3)}
                               </p>
-                              <p className="wp3tbinvp3 fsinvp3 text-end">{NumberWithCommas(e?.Rate, 2)}</p>
+                              <p className="wp3tbinvp3 fsinvp3 text-end">{formatAmount(e?.Rate)}</p>
                               <p className="wp3tbinvp3 fsinvp3 text-end">
-                                {NumberWithCommas(e?.Amount, 2)}
+                                {formatAmount(e?.Amount)}
                               </p>
                             </div>
                           );
@@ -558,7 +568,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               ""
                             ) : (
                               <p className="wp3tbinvp3 fsinvp3 text-end">
-                                {NumberWithCommas(e?.Amount, 2)}
+                                {formatAmount(e?.Amount)}
                               </p>
                             )}
                           </div>
@@ -567,7 +577,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="tbodyinvp3 brtopinvp3">
                         <p className="wp1tbinvp3 fw-bold fsinvp3 " style={{ width: "20%" }}>TOTAL</p>
                         <p className="wp3tbinvp3 fw-bold fsinvp3 text-end" style={{ width: "20%" }}>
-                          {NumberWithCommas(mainTotal?.totAmount?.TotalAmount, 2)}
+                          {formatAmount(mainTotal?.totAmount?.TotalAmount)}
                         </p>
                       </div>
                     </div>
@@ -578,17 +588,17 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {totDiscount !== 0 && <div className="d-flex justify-content-between px-1">
                       <p className="w-50 text-start fsinvp3">Discount</p>
                       <p className="w-50 text-end fsinvp3">
-                        {NumberWithCommas(totDiscount, 2)}
+                        {formatAmount(totDiscount)}
                       </p>
                     </div>}
-                    <div className="d-flex justify-content-between px-1">
+                    <div className="d-flex justify-content-between px-1 fw-bold">
                       <p className="fsinvp3">Total Amount</p>
                       <p className="w-50 text-end fsinvp3">
-                        {NumberWithCommas(mainTotal?.totAmount?.TotalAmount, 2)}
+                        {formatAmount(mainTotal?.totAmount?.TotalAmount)}
                       </p>
                     </div>
-                    {taxTotal?.length > 0 &&
-                      taxTotal?.map((e, i) => {
+                    {result?.allTaxes?.length > 0 &&
+                      result?.allTaxes?.map((e, i) => {
                         return (
                           <div
                             className="d-flex justify-content-between px-1"
@@ -597,7 +607,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className="fsinvp3">
                               {e?.name} {e?.per}
                             </div>
-                            <div className="fsinvp3">{NumberWithCommas(e?.amount, 2)}</div>
+                            <div className="fsinvp3">{formatAmount(e?.amountInNumber)}</div>
                           </div>
                         );
                       })}
@@ -607,7 +617,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         {headerData?.AddLess > 0 ? "Add" : "Less"}
                       </p>
                       <p className="w-50 text-end fsinvp3">
-                        {headerData?.AddLess}
+                        {formatAmount(headerData?.AddLess)}
                       </p>
                     </div>}
                     <div
@@ -616,7 +626,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     >
                       <p className="fw-bold fsinvp3">Grand Total</p>
                       <p className="fw-bold w-50 text-end fsinvp3">
-                        {NumberWithCommas(grandTotal, 2)}
+                        {formatAmount(grandTotal)}
                       </p>
                     </div>
                   </div>
