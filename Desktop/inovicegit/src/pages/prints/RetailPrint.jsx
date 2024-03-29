@@ -58,6 +58,10 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let netWtLossWt = 0;
             let metalWt = 0;
             let count = 0;
+            let metal = [];
+            let diamonds = [];
+            let colorStones = [];
+            let miscs = [];
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (ele?.MasterManagement_DiamondStoneTypeid !== 5) {
                     if (ele?.StockBarcode === e?.SrJobno) {
@@ -68,17 +72,44 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 // totalObj.materialWeight += ele?.Wt;
                                 SettingAmount += ele?.SettingAmount;
                                 netWtLossWt += ele?.Wt;
-                               
+                                let findDiamonds = diamonds?.findIndex((elem, ind) => elem?.ShapeName === ele?.ShapeName);
+                                if (findDiamonds === -1) {
+                                    diamonds?.push(ele);
+                                } else {
+                                    diamonds[findDiamonds].Wt += ele?.Wt;
+                                    diamonds[findDiamonds].Amount += ele?.Amount;
+                                    diamonds[findDiamonds].Pcs += ele?.Pcs;
+                                }
+
                             }
                             else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                                 SettingAmount += ele?.SettingAmount;
+                                let findColorStones = colorStones?.findIndex((elem, ind) => elem?.ShapeName === ele?.ShapeName);
+                                if (findColorStones === -1) {
+                                    colorStones?.push(ele);
+                                } else {
+                                    colorStones[findColorStones].Wt += ele?.Wt;
+                                    colorStones[findColorStones].Amount += ele?.Amount;
+                                    colorStones[findColorStones].Pcs += ele?.Pcs;
+                                }
+                            } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+                                if (ele?.IsHSCOE !== 0) {
+                                    let findMisc = miscs?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
+                                    if (findMisc === -1) {
+                                        miscs?.push(ele);
+                                    } else {
+                                        miscs[findMisc].Wt += ele?.Wt;
+                                        miscs[findMisc].Rate += ele?.Rate;
+                                        miscs[findMisc].Amount += ele?.Amount;
+                                    }
+                                }
                             }
                         } else {
                             count++
                             // totalObj.goldWeight += ele?.Wt;
                             if (ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.IsPrimaryMetal === 1) {
                                 metalWt += ele?.Wt;
-                             
+                                metal?.push(ele);
                             }
                         }
 
@@ -88,8 +119,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 }
             });
-            console.log(count, metalWt, e?.SrJobno);
-            if (count === 1)    {
+            if (count === 1) {
                 netWtLossWt = (netWtLossWt / 5) + e?.NetWt + e?.LossWt;
             } else {
                 netWtLossWt = metalWt;
@@ -106,6 +136,10 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.materials = materialArray;
             obj.SettingAmount = SettingAmount;
             obj.netWtLossWt = netWtLossWt;
+            obj.metal = metal;
+            obj.diamonds = diamonds;
+            obj.colorStones = colorStones;
+            obj.miscs = miscs;
             totalObj.goldWeight += netWtLossWt;
             resultArr.push(obj);
         });
@@ -203,6 +237,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         blankArr[findIndex].materials = materials;
                         blankArr[findIndex].netWtLossWt += e?.netWtLossWt;
                     }
+                    
                 }
 
             } else {

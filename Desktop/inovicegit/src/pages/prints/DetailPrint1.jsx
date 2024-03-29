@@ -581,9 +581,9 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             {/* header line*/}
             <div className="jewelleryPackingList mb-2 mt-2 recordDetailPrint1">
-              <h1 className={`p-2 fw-bold text-white`}>
+              <p className={`p-2 fw-bold text-white`} style={{fontSize: "20px"}}>
                 {json0Data?.PrintHeadLabel}
-              </h1>
+              </p>
             </div>
             {/* header */}
             <div className="d-flex align-items-center pb-2 border-bottom  recordDetailPrint1">
@@ -1096,7 +1096,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="d-grid h-100 paddingBottomTotalDetailPrint1">
                           <div className="d-flex ">
                             <div className="col-5 ">
-                              <p className="text-end">
+                              <p className="text-center">
                                 {e?.MaKingCharge_Unit !== 0 &&
                                   NumberWithCommas(e?.MaKingCharge_Unit, 2)}
                               </p>

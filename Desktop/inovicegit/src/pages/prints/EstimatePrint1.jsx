@@ -224,10 +224,10 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <p>{json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}</p>
                 </div>
                 <div className="col-5 p-2">
-                    <p><span className="fw-bold">INVOICE NO </span>{json0Data?.InvoiceNo}  </p>
-                    <p><span className="fw-bold">DATE </span>{json0Data?.DueDate} </p>
+                    <div className='d-flex'><p className="fw-bold col-6">INVOICE NO </p><p className='col-6'>{json0Data?.InvoiceNo}</p>  </div>
+                    <div className='d-flex'><p className="fw-bold col-6">DATE </p><p className='col-6'>{json0Data?.DueDate}</p> </div>
                     {document.map((e, i) => {
-                        return <p key={i}><span className="fw-bold">{e?.label} </span>{e?.value}  </p>
+                        return <div key={i} className='d-flex '><p className="fw-bold col-6">{e?.label} </p><p className='col-6'>{e?.value}</p>  </div>
                     })}
                 </div>
             </div>
