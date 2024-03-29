@@ -402,4 +402,8 @@ html .footer_secInvoicePrint8 .target_footer * {
   .invoiceprint9 .target_footer * {
     font-size: 12px !important;
   }
+
+  .retailPrint2 .p-1{
+    padding: 1px !important;
+  }
 }

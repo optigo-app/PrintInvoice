@@ -15,6 +15,8 @@ import {
     FooterComponent,
     fixedValues,
 } from "../../GlobalFunctions";
+import style1 from "../../assets/css/headers/header1.module.css";
+import ImageComponent from "../../components/ImageComponent ";
 
 const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [msg, setMsg] = useState("");
@@ -31,9 +33,10 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         passport: "",
     });
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const [logoStyle, setlogoStyle] = useState({ maxWidth: "120px", maxHeight: "95px", minHeight: "95px" });
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
         setHeader(head);
@@ -116,9 +119,33 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                 </div>
                 {/* header */}
-                {header}
+                {/* {header} */}
+                <div className={`${style1.headline} headerTitle target_header`}>{headerData?.PrintHeadLabel}</div>
+                <div className={`${style1.companyDetails} ${style?.target_header}`}>
+                    <div className={`${style1.companyhead} p-2 ${style?.headerPara}`}>
+                        <div className={style1.lines} style={{ fontWeight: "bold", fontSize: "16px" }}>
+                            {headerData?.CompanyFullName}
+                        </div>
+                        <div className={style1.lines}>{headerData?.CompanyAddress}</div>
+                        <div className={style1.lines}>{headerData?.CompanyAddress2}</div>
+                        <div className={style1.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+                        {/* <div className={style.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
+                        <div className={style1.lines}>Tell No:  {headerData?.CompanyTellNo}</div>
+                        <div className={style1.lines}>
+                            {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
+                        </div>
+                        <div className={style1.lines}>
+                            {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
+                            {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
+                        </div>
+                    </div>
+                    <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
+                        <ImageComponent imageUrl={headerData?.PrintLogo} styles={logoStyle} />
+                        {/* <img src={data?.PrintLogo} alt="" className={style.headerImg} /> */}
+                    </div>
+                </div>
                 {/* sub header */}
-                <div className="d-flex border">
+                <div className={`d-flex border ${style?.subHeader}`}>
                     <div className="col-4 border-end p-2">
                         <p>{headerData?.lblBillTo} {headerData?.customerfirmname}</p>
                         <p>Address: {headerData?.customerAddress1}</p>
@@ -164,7 +191,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`d-flex justify-content-center align-items-center ${style?.Product} border-end`}><p className='p-1 fw-bold text-center'>Product Design	</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.Design} border-end`}><p className='p-1 fw-bold text-center'>Design No	</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.QR} border-end`}><p className='p-1 fw-bold text-center'>QR Code	</p></div>
-                    <div className={`d-flex justify-content-center align-items-center ${style?.Certificate} border-end`}><p className='p-1 fw-bold text-center text-break'>Certificate No IGI & BIS</p></div>
+                    <div className={`d-flex justify-content-center align-items-center ${style?.Certificate} border-end`}><p className='p-1 fw-bold text-center ' style={{wordBreak: "normal"}}>Certificate No IGI & BIS</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.Metal} border-end`}><p className='p-1 fw-bold text-center'>Metal Details	</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.Gross} border-end`}><p className='p-1 fw-bold text-center'>Gross Wt	</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.Less} border-end`}><p className='p-1 fw-bold text-center'>Less Wt	</p></div>
@@ -181,7 +208,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* table body */}
                 {
                     data?.resultArray?.map((e, i) => {
-                        return <div className="d-flex border-start border-end border-bottom no_break" key={i}>
+                        return <div className={`d-flex border-start border-end border-bottom no_break ${style?.word_break}`} key={i}>
                             <div className={`d-flex justify-content-center align-items-center ${style?.Sr} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(i + 1)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.Item} border-end`}><p className='p-1 text-center text-break'>{e?.Categoryname}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.Product} border-end`}><p className='p-1 text-center'><img className='imgWidth' src={e?.DesignImage} alt="" onError={handleImageError} />	</p></div>
@@ -204,7 +231,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className={`d-flex justify-content-center align-items-center ${style?.DiaPcs} border-end`}>
                                 <p className='p-1 text-center'>{NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)} </p>
                             </div>
-                            <div className={`d-flex justify-content-center align-items-center ${style?.DiaWt} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}	</p></div>
+                            <div className={`d-flex justify-content-center align-items-center ${style?.DiaWt} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.totals?.diamonds?.Wt, 2)}	</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.MRP} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.discountPer} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.Discount, 2)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.DisAmt} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.DiscountAmt, 2)}</p></div>
@@ -213,7 +240,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     })
                 }
                 {/* table total */}
-                <div className="d-flex border-start border-end border-bottom no_break">
+                <div className={`d-flex border-start border-end border-bottom no_break ${style?.word_break}`}>
                     <div className={`d-flex justify-content-center align-items-center ${style?.Sr} border-end`}><p className='p-1 text-center'>		</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.Item} border-end`}><p className='p-1 text-center fw-bold'>TOTAL		</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.Product} border-end`}><p className='p-1 text-center'></p></div>
@@ -248,14 +275,21 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p>RTGS/NEFT IFSC:{headerData?.rtgs_neft_ifsc}</p>
                     </div>
                     <div className="col-4 p-2">
-                        {
-                            data?.allTaxes?.map((e, i) => {
-                                return <p className='d-flex justify-content-between' key={i}><span>{e?.name} @ {e?.per} </span><span> {NumberWithCommas(e?.amount, 2)}</span></p>
-                            })
-                        }
-                        {headerData?.AddLess !== 0 && <p className='d-flex justify-content-between'><span>{headerData?.AddLess > 0 ? "Add" : "Less"} </span><span> {NumberWithCommas(headerData?.AddLess, 2)}</span></p>}
-                        <p className='fw-bold d-flex justify-content-between'><span>Bill Amt    </span><span> {NumberWithCommas(data?.finalAmount, 2)}</span></p>
-                        <p className='fw-bold d-flex justify-content-between'><span>Grand Total </span><span> {NumberWithCommas(data?.finalAmount, 2)}</span></p>
+                        <div className="d-flex justify-content-between flex-column h-100">
+                            <div>
+                                {
+                                    data?.allTaxes?.map((e, i) => {
+                                        return <p className='d-flex justify-content-between' key={i}><span>{e?.name} @ {e?.per} </span><span> {NumberWithCommas(e?.amount, 2)}</span></p>
+                                    })
+                                }
+                                {headerData?.AddLess !== 0 && <p className='d-flex justify-content-between'><span>{headerData?.AddLess > 0 ? "Add" : "Less"} </span><span> {NumberWithCommas(headerData?.AddLess, 2)}</span></p>}
+                                <p className='fw-bold d-flex justify-content-between'><span>Bill Amt    </span><span> {NumberWithCommas(data?.finalAmount, 2)}</span></p>
+
+                            </div>
+                            <div>
+                                <p className='fw-bold d-flex justify-content-between'><span>Grand Total </span><span> {NumberWithCommas(data?.finalAmount, 2)}</span></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {/* signature */}
