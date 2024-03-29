@@ -778,6 +778,7 @@ useEffect(() => {
                     position:'relative'
                   }}
                 >
+                    
                   {/* <div className="w-50 d-flex flex-column justify-content-between position-relative d-flex">
                     <div className="w-100 h-100 position-relative">
                       <div className="discHeadinvp3">DESCRIPTION</div>
@@ -794,11 +795,9 @@ useEffect(() => {
                  </div>
                  {/* <div className="w-100" style={{borderBottom:'2px solid #d8d7d7'}}> */}
                  <div className="w-100 border-bottom" >
-                  
-                  
-                  
-                        
-                  
+                 <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "100px"}}>
+                  <input type="text"  style={{width:'170px',}} className="d-flex justify-content-center align-items-center ms-5 position-absolute" value={descText} onChange={(e) => setDescText(e.target.value)} />
+                  </div>
                   {
                     metal_s?.map((e, i) => {
                       return(
@@ -817,8 +816,8 @@ useEffect(() => {
                     })
                   }
                  {/* <div className="d-flex justify-content-start align-items-center border-start border-end"><input type="text" width={"200px"} style={{width:'280px'}} className="d-flex justify-content-center align-items-center ms-5" value={ diamond_s?.length > 0 ? `DIAMOND STUDDED JEWELLERY` : `GOLD JEWELLERY`} /></div> */}
-                 <div className="d-flex justify-content-start align-items-center border-start border-end"><input type="text" width={"200px"} style={{width:'280px'}} className="d-flex justify-content-center align-items-center ms-5 position-absolute" value={descText} onChange={(e) => setDescText(e.target.value)} /></div>
-                  {
+              
+                  {/* {
                     diamond_s?.map((e, i) => {
                       return(
                         <div key={i} className="d-flex w-100  fsinvp3 border-start border-end" >
@@ -844,7 +843,7 @@ useEffect(() => {
                         </div>
                       )
                     })
-                  }
+                  } */}
                    {/* <div className="d-flex w-100  fsinvp3 border-start border-end" >
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                         <div style={{width:'30%'}} className="ps-2">MISC</div>
