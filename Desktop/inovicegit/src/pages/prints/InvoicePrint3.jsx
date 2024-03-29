@@ -28,6 +28,11 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
+
+  const [diamond_s, setDiamond_s] = useState([]);
+  const [colorstone_S, setColorStone_s] = useState([]);
+  const [metal_s, setMetal_s] = useState([]);
+
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -229,13 +234,16 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     // eslint-disable-next-line array-callback-return
     json2.map((ele) => {
-      if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+      if (ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.IsPrimaryMetal === 1) {
         if (arr?.length === 0) {
+          // let obj = {...ele};
+          // obj._wt = ele?.Wt;
+          // obj._amount = ele?.Amount;
           arr.push(ele);
         } else {
-          let findIndex = arr.findIndex(
+          let findIndex = arr?.findIndex(
             (e) =>
-              e?.ShapeName === ele?.ShapeName &&
+              // e?.ShapeName === ele?.ShapeName &&
               e?.Rate === ele?.Rate &&
               e?.QualityName === ele?.QualityName
           );
@@ -262,7 +270,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         if (arr.length === 0) {
           arr.push(ele);
         } else {
-          let findIndex = arr.findIndex((e) => e?.Rate === ele?.Rate);
+          let findIndex = arr.findIndex((e) => e?.QualityName === ele?.QualityName && e?.Colorname === ele?.Colorname && e?.SizeName === ele?.SizeName);
           if (findIndex === -1) {
             arr.push(ele);
           } else {
@@ -274,7 +282,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         if (arr.length === 0) {
           arr.push(ele);
         } else {
-          let findIndex = arr.findIndex((e) => e?.Rate === ele?.Rate);
+          let findIndex = arr.findIndex((e) => e?.QualityName === ele?.QualityName && e?.Colorname === ele?.Colorname && e?.SizeName === ele?.SizeName);
           if (findIndex === -1) {
             arr.push(ele);
           } else {
@@ -337,8 +345,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         }
       }
     });
-
-    setGroupedArr(arr);
+  
+    // setGroupedArr(arr);
 
     setMainTotal(mainTotal);
 
@@ -390,7 +398,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const groupNamesArray = Object?.keys(groupedData);
     const sentence = groupNamesArray?.join(", ");
-    setDescArr(sentence);
+    console.log(sentence);
+    // setDescArr(sentence);
   };
   async function loadData(data) {
     try {
@@ -410,6 +419,119 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
+      let sen = '';
+      let metal = datas?.json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 4)
+      if(metal.length > 0){
+        sen = 'GOLD';
+      }
+      let sen2 = '';
+      let diamond = datas?.json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 1)
+      if(diamond.length > 0){
+        sen2 = 'DIAMOND'
+      }
+      let sen3 = '';
+      let colorstone = datas?.json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 2)
+      if(colorstone.length > 0){
+        sen3 = 'COLORSTONE'
+      }
+      let sen4 = '';
+      let misc = datas?.json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 3)
+      if(misc.length > 0){
+        sen4 = 'CZ STUDDED'
+      }
+      let result1 = [(sen === '' ? 'GOLD' : 'GOLD'), sen2, sen3, sen4]?.join(", ");
+      console.log(result1);
+      setDescArr(result1);
+
+      
+      
+      let diamonds = [];
+      let colorstones = [];
+      let metals = [];
+      datas?.resultArray?.forEach((e) => {
+        // let dia = [];
+        e?.diamonds?.forEach((el) => {
+          let findRecord = diamonds?.findIndex((a) => a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.SizeName === el?.SizeName)
+          if(findRecord === -1){
+            let obj = {...el};
+            obj.wt = obj?.Wt;
+            obj.rate = obj?.Rate;
+            obj.amount = obj?.Amount;
+            diamonds.push(obj);
+          }else{
+            diamonds[findRecord].wt += el?.Wt;
+            diamonds[findRecord].rate += el?.Rate;
+            diamonds[findRecord].amount += el?.Amount;
+          }
+        })
+        
+        // e.diamonds = dia;
+        // diamonds = dia;
+
+        // let cls = [];
+        e?.colorstone?.forEach((el) => {
+          let findRecord = colorstones?.findIndex((a) => a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.SizeName === el?.SizeName)
+          if(findRecord === -1){
+            let obj = {...el};
+            obj.wt = obj?.Wt;
+            obj.rate = obj?.Rate;
+            obj.amount = obj?.Amount;
+            colorstones.push(obj);
+          }else{
+            colorstones[findRecord].wt += el?.Wt;
+            colorstones[findRecord].rate += el?.Rate;
+            colorstones[findRecord].amount += el?.Amount;
+          }
+        })
+        
+        // e.colorstone = cls;
+
+        // let miscs = [];
+        // e?.misc?.forEach((el) => {
+        //   let findRecord = cls?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName)
+        //   if(findRecord === -1){
+        //     let obj = {...el};
+        //     obj.wt = obj?.Wt;
+        //     obj.rate = obj?.Rate;
+        //     obj.amount = obj?.Amount;
+        //     miscs.push(obj);
+        //   }else{
+        //     miscs[findRecord].wt += el?.Wt;
+        //     miscs[findRecord].rate += el?.Rate;
+        //     miscs[findRecord].amount += el?.Amount;
+        //   }
+        // })
+
+        // e.misc = miscs;
+
+        // let met = [];
+        e?.metal?.forEach((el) => {
+          if(el?.IsPrimaryMetal === 1){
+
+            let findRecord = metals?.findIndex((a) => a?.QualityName === el?.QualityName && a?.Rate === el?.Rate)
+            if(findRecord === -1){
+            let obj = {...el};
+            obj.wt = obj?.Wt;
+            obj.rate = obj?.Rate;
+            obj.amount = obj?.Amount;
+            metals.push(obj);
+          }else{
+            metals[findRecord].wt += el?.Wt;
+            metals[findRecord].rate += el?.Rate;
+            metals[findRecord].amount += el?.Amount;
+          }
+        }
+        })
+        
+        // e.metal = met;
+
+      })
+      console.log(diamonds, colorstones, metals);
+      let mainarr = [...metals, ...diamonds, ...colorstones];
+      setDiamond_s(diamonds);
+      setColorStone_s(colorstone);
+      setMetal_s(metals);
+      // setGroupedArr(mainarr);
       setResult(datas);
       setLoader(false);
     } catch (error) {
@@ -484,104 +606,121 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       Mobile : {headerData?.customermobileno}
                     </p>
                   </div>
-                  <div>
-                    <div className="winvp3 text-end">
-                      <p className=" fsinvp3 text-start w-100">
-                        <span className="fw-bold w-50">GSTIN : </span> <span className="w-50">{result?.header?.CustGstNo}</span>
-                      </p>
-                    </div>
-                    <p className="fsinvp3 text-start w-100">
-                      <span className="fw-bold w-50">PAN : </span> <span className="w-50">{result?.header?.CustPanno}</span>
-                    </p>
-                    <div className="text-end winvp3">
-                      <p className="fsinvp3 text-start w-100">
-                        <span className="fw-bold w-50" >{headerData?.Cust_CST_STATE} : </span> <span className="w-50">{headerData?.Cust_CST_STATE_No}</span>
-                      </p>
-                    </div>
+                  {console.log(result)}
+                  <div className="w-25 fsinvp3">
+                      <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center" style={{width:'33%'}}>GSTIN : </div><div className="d-flex justify-content-start align-items-center" style={{width:'67%'}}>{result?.header?.CustGstNo}</div></div>
+                      <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center" style={{width:'33%'}}>{result?.header?.Cust_CST_STATE} : </div><div className="w-50" style={{width:'67%'}}>{result?.header?.Cust_CST_STATE_No}</div></div>
+                      <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center" style={{width:'33%'}}>PAN NO : </div><div className="w-50" style={{width:'67%'}}>{result?.header?.CustPanno}</div></div>
                   </div>
                 </div>
                 <div
-                  className="d-flex"
-                  style={{
-                    borderBottom: "2px solid #d8d7d7",
-                    borderLeft: "2px solid #d8d7d7",
-                  }}
+                  // className="d-flex"
+                  // style={{
+                  //   borderBottom: "2px solid #d8d7d7",
+                  //   borderLeft: "2px solid #d8d7d7",
+                  // }}
                 >
-                  <div className="w-50 d-flex flex-column justify-content-between position-relative d-flex">
+                  {/* <div className="w-50 d-flex flex-column justify-content-between position-relative d-flex">
                     <div className="w-100 h-100 position-relative">
                       <div className="discHeadinvp3">DESCRIPTION</div>
-                      <div className="w-100 descriptioninovicePrint3 px-2">{descArr}</div>
+                      <div className="w-100 descriptioninovicePrint3 px-2">{descArr} JEWELLERY.</div>
                     </div>
                     <div className="empdivinvp3"></div>
-                  </div>
-                  <div className="tableinvp3">
-                    <div className="theadinvp3">
-                      <p
-                        className="wp1invp3 fsinvp3"
-                        style={{
-                          justifyContent: "flex-start",
-                          paddingLeft: "3px",
-                        }}
-                      >
-                        DETAIL
-                      </p>
-                      <p className="wp3invp3 fsinvp3 text-end">WEIGHT</p>
-                      <p className="wp3invp3 fsinvp3 text-end">RATE</p>
-                      <p className="wp3invp3 fsinvp3 text-end">AMOUNT</p>
-                    </div>
-                    <div className="tablebodyinvp3">
-                      {
-                        groupedArr?.map((e, i) => {
-                          return (
-                            <div className={`tbodyinvp3 pb-2 ${i === 0 && `pt-2`}`} key={i}>
-                              <p className="wp1tbinvp3 fsinvp3">
-                                {e?.MasterManagement_DiamondStoneTypeid === 4
-                                  ? e?.ShapeName + " " + e?.QualityName
-                                  : e?.MasterManagement_DiamondStoneTypeName}
-                              </p>
-                              <p className="wp3tbinvp3 fsinvp3 text-end">
-                                {e?.Wt?.toFixed(3)}
-                              </p>
-                              <p className="wp3tbinvp3 fsinvp3 text-end">{formatAmount(e?.Rate)}</p>
-                              <p className="wp3tbinvp3 fsinvp3 text-end">
-                                {formatAmount(e?.Amount)}
-                              </p>
-                            </div>
-                          );
-                        })
-                      }
-                      {LOM?.map((e, i) => {
-                        return (
-                          <div className="tbodyinvp3 pb-2" key={i}>
-                            {e?.ShapeName === "MISC" && e?.Amount === 0 ? (
-                              ""
-                            ) : (
-                              <p className="wp1tbinvp3 fsinvp3">
-                                {e?.ShapeName}
-                              </p>
-                            )}
-                            <p className="wp3tbinvp3 fsinvp3 text-end">
-                              {e?.Wt?.toFixed(3)}
-                            </p>
-                            <p className="wp3tbinvp3 fsinvp3 text-end">{e?.Rate}</p>
-                            {e?.ShapeName === "MISC" && e?.Amount === 0 ? (
-                              ""
-                            ) : (
-                              <p className="wp3tbinvp3 fsinvp3 text-end">
-                                {formatAmount(e?.Amount)}
-                              </p>
-                            )}
-                          </div>
-                        );
-                      })}
-                      <div className="tbodyinvp3 brtopinvp3">
-                        <p className="wp1tbinvp3 fw-bold fsinvp3 " style={{ width: "20%" }}>TOTAL</p>
-                        <p className="wp3tbinvp3 fw-bold fsinvp3 text-end" style={{ width: "20%" }}>
-                          {formatAmount(mainTotal?.totAmount?.TotalAmount)}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  </div> */}
+                 <div className="d-flex w-100 fw-bold mt-1" style={{border:'2px solid #d8d7d7'}}>
+                  <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center">DESCRIPTION</div>
+                  <div style={{width:'30%'}} className="ps-2">DETAIL</div>
+                  <div style={{width:'10%'}}>WEIGHT</div>
+                  <div style={{width:'10%'}}>RATE</div>
+                  <div style={{width:'10%'}}>AMOUNT</div>
+                 </div>
+                 <div className="w-100" style={{borderBottom:'2px solid #d8d7d7'}}>
+                
+                  {
+                    metal_s?.map((e, i) => {
+                      return(
+                        <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
+                        <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
+                        <div style={{width:'30%'}} className="ps-2">
+                          {/* {
+                            e?.metal?.map((e) => e?.ShapeName + " " + e?.QualityName)
+                          } */}
+                        </div>
+                        <div style={{width:'10%'}}>{e?.wt}</div>
+                        <div style={{width:'10%'}}>{(e?.amount)/((e?.wt === 0 ? 1 : e?.wt))}</div>
+                        <div style={{width:'10%'}}>{e?.amount}</div>
+                        </div>
+                      )
+                    })
+                  }
+                  {
+                    diamond_s?.map((e, i) => {
+                      return(
+                        <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
+                        <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
+                        <div style={{width:'30%'}} className="ps-2">
+                          {/* {
+                            e?.metal?.map((e) => e?.ShapeName + " " + e?.QualityName)
+                          } */}
+                        </div>
+                        <div style={{width:'10%'}}>WEIGHT</div>
+                        <div style={{width:'10%'}}>RATE</div>
+                        <div style={{width:'10%'}}>AMOUNT</div>
+                        </div>
+                      )
+                    })
+                  }
+                  {
+                    colorstone_S?.map((e, i) => {
+                      return(
+                        <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
+                        <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
+                        <div style={{width:'30%'}} className="ps-2">
+                          {/* {
+                            e?.metal?.map((e) => e?.ShapeName + " " + e?.QualityName)
+                          } */}
+                        </div>
+                        <div style={{width:'10%'}}>WEIGHT</div>
+                        <div style={{width:'10%'}}>RATE</div>
+                        <div style={{width:'10%'}}>AMOUNT</div>
+                        </div>
+                      )
+                    })
+                  }
+                   <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
+                        <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
+                        <div style={{width:'30%'}} className="ps-2">
+                          {/* {
+                            e?.metal?.map((e) => e?.ShapeName + " " + e?.QualityName)
+                          } */}
+                        </div>
+                        <div style={{width:'10%'}}>WEIGHT</div>
+                        <div style={{width:'10%'}}>RATE</div>
+                        <div style={{width:'10%'}}>AMOUNT</div>
+                        </div>
+                        <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
+                        <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
+                        <div style={{width:'30%'}} className="ps-2">
+                          {/* {
+                            e?.metal?.map((e) => e?.ShapeName + " " + e?.QualityName)
+                          } */}
+                        </div>
+                        <div style={{width:'10%'}}>WEIGHT</div>
+                        <div style={{width:'10%'}}>RATE</div>
+                        <div style={{width:'10%'}}>AMOUNT</div>
+                        </div>
+                        <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
+                        <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
+                        <div style={{width:'30%'}} className="ps-2">
+                          {/* {
+                            e?.metal?.map((e) => e?.ShapeName + " " + e?.QualityName)
+                          } */}
+                        </div>
+                        <div style={{width:'10%'}}>WEIGHT</div>
+                        <div style={{width:'10%'}}>RATE</div>
+                        <div style={{width:'10%'}}>AMOUNT</div>
+                        </div>
+                 </div>
                 </div>
                 <div className="summaryinvp3">
                   <div className="totalinvp3">
