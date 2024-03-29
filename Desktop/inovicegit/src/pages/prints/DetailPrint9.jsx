@@ -542,7 +542,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       {/* table data */}
       {data?.resultArray.map((e, i) => {
-        return <div key={i}>
+        return <div key={i} className="no_break">
           <div className="border-start border-end  border-black">
             <div className={`d-flex border-bottom ${style?.word_break}`}>
               <div
@@ -828,7 +828,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       })}
 
       {/* table total */}
-      <div className={`border-start border-end border-black ${style?.word_break} lightGrey`}>
+      <div className={`no_break border-start border-end border-black ${style?.word_break} lightGrey`}>
         <div className="d-flex border-bottom no_break border-black">
           <div className={`${style?.sr} pad_1 lightGrey d-flex align-items-center justify-content-center`}>
             <p className="fw-bold"></p>
@@ -911,7 +911,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
 
       {/* table taxes */}
-      <div className="border-start border-end  border-black">
+      <div className="border-start border-end  border-black no_break">
         <div className="d-flex no_break pt-1 mb-2">
           <div className={`${style?.taxWords}`}>
             {data?.mainTotal?.total_discount_amount !== 0 && <p className="text-end">Total Discount</p>}
@@ -937,9 +937,9 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
 
       {/* table summary */}
-      <div className="d-flex position-relative">
-        {checkBox?.WithSummary ? <div className="col-4 border-start border-end border-bottom">
-          <h4 className="lightGrey fw-bold text-center">SUMMARY</h4>
+      <div className={`d-flex position-relative no_break`}>
+        {checkBox?.WithSummary ? <div className="col-4 border-top border-start border-end border-bottom">
+          <h4 className="lightGrey fw-bold text-center border-bottom">SUMMARY</h4>
           <div className="d-flex h-100">
             <div className={`col-6 border-end pad_1 ${style?.pad_bot_12} position-relative`}>
               <div className="d-flex justify-content-between pad_1">
@@ -1002,10 +1002,10 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
           </div>
-        </div> : <div className="col-4"></div>}
-        <div className="col-5 d-flex">
+        </div> : <div className="border-top col-4"></div>}
+        <div className="col-5 border-top d-flex">
           <div className="col-5 border-start border-end border-bottom">
-            <h4 className="lightGrey fw-bold text-center">Summary Detail</h4>
+            <h4 className="lightGrey fw-bold text-center border-bottom">Summary Detail</h4>
             {category.map((e, i) => {
               return <div className="d-flex justify-content-between" key={i}>
                 <p className="fw-bold">{e?.label}</p>
@@ -1024,7 +1024,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
           </div>
         </div>
-        <div className="col-3 ps-1">
+        <div className={`col-3 border-top ps-1 ${style?.word_break}`}>
           <div className="border-start border-end border-bottom d-flex">
             <div className="col-4 border-end d-flex align-items-center">
               <p className="fw-bold p-1">Grand Total </p>

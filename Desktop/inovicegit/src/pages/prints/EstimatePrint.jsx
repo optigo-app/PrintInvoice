@@ -223,6 +223,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         rate: 0,
         amount: 0,
       };
+      let primaryMetalAmount = 0;
       totals.gold24Kt += e?.convertednetwt;
       data?.BillPrint_Json2.forEach((ele, ind) => {
         if (e?.SrJobno === ele?.StockBarcode) {
@@ -231,6 +232,9 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               if (ele?.QualityName === "24K") {
               }
               totals.goldAmount += ele?.Amount;
+            }
+            if(ele?.IsPrimaryMetal === 1){
+              primaryMetalAmount += ele?.Amount;
             }
             ele.Weight = e?.NetWt + e?.DiamondCTWwithLoss / 5;
             metalsTotal.weightWithDiamondLoss = ele.Weight;
@@ -361,7 +365,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           // accumulator.weight += currentObject.Wt;
           accumulator.pcs += currentObject.Pcs;
           accumulator.rate += currentObject.Rate;
-          totals.finalMetalsTotal.amount += currentObject.Amount;
+          // totals.finalMetalsTotal.amount += currentObject.Amount;
           totals.finalMetalsTotal.pcs += currentObject.Pcs;
           totals.finalMetalsTotal.rate += currentObject.Rate;
           return accumulator;
@@ -403,6 +407,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       obj.finding = finding;
       obj.miscsList = miscsList;
       obj.anotherFinding = anotherFinding;
+      obj.primaryMetalAmount = primaryMetalAmount;
+      totals.finalMetalsTotal.amount += primaryMetalAmount
       obj.colorStones = colorStones;
       obj.diamondTotal = diamondTotal;
       obj.metalsTotal = metalsTotal;
@@ -513,6 +519,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               finalArr[findRecord].Size = obj?.Size;
             }
           }
+          finalArr[findRecord].primaryMetalAmount += obj?.primaryMetalAmount;
           finalArr[findRecord].otherChargesTotal += obj?.otherChargesTotal;
           finalArr[findRecord].WtSpecial += obj?.WtSpecial;
           finalArr[findRecord].totalSetttingAmount += obj?.totalSetttingAmount;
@@ -1231,7 +1238,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                         <div
                           className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates ${e?.diamonds.length === 0 &&
-                            "border-top height_29_5_estimatePrint border_color_estimates"
+                            "border-top height_28_5_estimatePrint border_color_estimates"
                             }`}
                         >
                           <div className="width20EstimatePrint p_1Estimate">
@@ -1344,7 +1351,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                         <div
                           className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top border_color_estimates ${e?.metals.length === 0 &&
-                            "border-top height_29_5_estimatePrint"
+                            "border-top height_28_5_estimatePrint"
                             }`}
                         >
                           <div className="width200EstimatePrint p_1Estimate">
@@ -1367,7 +1374,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </div>
                           <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold">
-                              {NumberWithCommas(e?.metalsTotal?.amount, 2)}
+                              {NumberWithCommas(e?.primaryMetalAmount, 2)}
                             </p>
                           </div>
                         </div>
@@ -1449,7 +1456,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             })}
                         </div>
                         <div
-                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top height_29_5_estimatePrint border_color_estimates `}
+                          className={`d-flex totalBgEstimatePrint position-absolute bottom-0 height_28_5_estimatePrint w-100 border-top height_28_5_estimatePrint border_color_estimates `}
                         >
                           <div className="width20EstimatePrint p_1Estimate">
                             <p></p>
@@ -1600,7 +1607,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </p>
                           </div>
                         </div>
-                        <div className="totalBgEstimatePrint position-absolute bottom-0  height_29_5_estimatePrint w-100 d-flex align-items-center justify-content-end pe-1 border-top border_color_estimates" style={{ height: "14.5px" }}>
+                        <div className="totalBgEstimatePrint position-absolute bottom-0  height_28_5_estimatePrint w-100 d-flex align-items-center justify-content-end pe-1 border-top border_color_estimates" >
                           <div className="text-end p_1Estimate">
                             <p className="fw-bold">
                               {/* <span
@@ -1856,7 +1863,8 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="w-50 h-100 pb-2">
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">GOLD</p>
-                        <p>{NumberWithCommas(total?.goldAmount, 2)}</p>
+                        <p>{NumberWithCommas(total?.finalMetalsTotal?.amount, 2)}</p>
+                        {/* <p>{NumberWithCommas(total?.goldAmount, 2)}</p> */}
                       </div>
                       <div className="d-flex justify-content-between px-1">
                         <p className="fw-bold">DIAMOND</p>

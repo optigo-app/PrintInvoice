@@ -259,7 +259,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             {/* table data */}
             {data.map((e, i) => {
-                return <div className="border-start border-bottom border-end d-flex no_break" key={i}>
+                return <div className={`border-start border-bottom border-end d-flex no_break ${style?.word_break}`} key={i}>
                     <div className="col-3 d-flex">
                         <div className="col-3 p-1 border-end d-flex align-items-center justify-content-center"><p className="">{i + 1}</p></div>
                         <div className="col-6 p-1 border-end">
@@ -316,7 +316,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
             })}
             {/* table total */}
-            <div className="border-start border-bottom border-end d-flex no_break">
+            <div className={`border-start border-bottom border-end d-flex no_break ${style?.word_break}`}>
                 <div className="col-3 d-flex">
                     <div className="col-3 p-1 border-end d-flex align-items-center justify-content-center"></div>
                     <div className="col-6 p-1 border-end d-flex align-items-center">
@@ -418,7 +418,6 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <p className='fw-bold'>{json0Data?.CompanyFullName}</p>
                 </div>
             </div>
-
         </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>}
     </>
     )
