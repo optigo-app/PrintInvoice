@@ -78,7 +78,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    border: 1px solid #8e8e8e;
+    border: 1px solid #DDDDDD;
     min-height: 115px;
 }
 
@@ -195,10 +195,10 @@
 .theadJL {
     height: 70px;
     width: 100%;
-    border-top: 1px solid #8e8e8e;
-    border-left: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
-    border-bottom: 1px solid #8e8e8e;
+    border-top: 1px solid #DDDDDD;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -207,11 +207,11 @@
 .trowJL {
     width: 100%;
     min-height: 40px;
-    border-left: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #8e8e8e;
+    border-bottom: 1px solid #DDDDDD;
 }
 
 
@@ -220,7 +220,7 @@
     justify-content: center;
     align-items: center;
     width: 5%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
 }
 
 .tc2JL {
@@ -229,7 +229,7 @@
     justify-content: center;
     align-items: flex-start;
     width: 15%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
     padding-left: 2px;
 }
 
@@ -239,7 +239,7 @@
     justify-content: space-between;
     align-items: center;
     width: 20%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
 }
 
 .tc4JL {
@@ -248,7 +248,7 @@
     justify-content: space-between;
     align-items: center;
     width: 20%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
 }
 
 .tc5JL {
@@ -257,7 +257,7 @@
     justify-content: space-between;
     align-items: center;
     width: 20%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
 }
 
 .tc6JL {
@@ -265,7 +265,7 @@
     justify-content: flex-end;
     align-items: center;
     width: 7%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
     padding-right: 2px;
 }
 
@@ -274,7 +274,7 @@
     justify-content: flex-end;
     align-items: center;
     width: 7%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
     padding-right: 2px;
 }
 
@@ -283,7 +283,7 @@
     justify-content: flex-end;
     align-items: center;
     width: 7%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
     padding-right: 2px;
 }
 
@@ -293,7 +293,7 @@
     justify-content: center;
     align-items: center;
     height: 50%;
-    border-bottom: 1px solid #8e8e8e;
+    border-bottom: 1px solid #DDDDDD;
 }
 
 .tc4JL1 {
@@ -302,7 +302,7 @@
     justify-content: center;
     align-items: center;
     height: 50%;
-    border-bottom: 1px solid #8e8e8e;
+    border-bottom: 1px solid #DDDDDD;
 }
 
 .tc4JL2 {
@@ -319,7 +319,7 @@
     justify-content: center;
     align-items: center;
     height: 50%;
-    border-bottom: 1px solid #8e8e8e;
+    border-bottom: 1px solid #DDDDDD;
 }
 
 .tc5JL2 {
@@ -331,16 +331,16 @@
 }
 
 .brrJL {
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
 }
 
 .totalrowJL {
     height: 40px;
     width: 100%;
-    border-top: 1px solid #8e8e8e;
-    border-left: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
-    border-bottom: 1px solid #8e8e8e;
+    border-top: 1px solid #DDDDDD;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -348,8 +348,8 @@
 
 .footerJL {
     width: 100%;
-    border-left: 1px solid #8e8e8e;
-    border-bottom: 1px solid #8e8e8e;
+    border-left: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
 }
 
 .footerTotJL {
@@ -363,27 +363,27 @@
 }
 
 .brrJL {
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
 }
 
 .brJL {
-    border-bottom: 1px solid #8e8e8e;
-    border-left: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
+    border-bottom: 1px solid #DDDDDD;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
 }
 
 .grandTotalJL {
     height: 50px;
 
-    border-left: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
 }
 
 .noteJL {
     min-height: 25px;
-    border-bottom: 1px solid #8e8e8e;
-    border-left: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
+    border-bottom: 1px solid #DDDDDD;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
     width: 100%;
     padding-bottom: 1rem !important;
 }
