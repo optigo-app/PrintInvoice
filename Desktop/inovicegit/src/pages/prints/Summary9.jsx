@@ -39,6 +39,10 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     });
     const [miscs, setMiscs] = useState({
         list: [],
+        total: {
+            Wt: 0,
+            Amount: 0,
+        },
     });
     const [isImageWorking, setIsImageWorking] = useState(true);
     const handleImageErrors = () => {
@@ -46,6 +50,10 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     };
     const [colorStones, setColorStones] = useState({
         list: [],
+        total: {
+            Wt: 0,
+            Amount: 0,
+        },
     });
 
 
@@ -63,7 +71,15 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let colorStone = [];
         let csLists = { ...colorStones };
         let misc = [];
-        let miscLists = { ...miscs }
+        let miscLists = { ...miscs };
+        let miscTotal = {
+            Wt: 0,
+            Amount: 0,
+        };
+        let colorStoneTotal = {
+            Wt: 0,
+            Amount: 0,
+        };
         let headers = HeaderComponent("1", data?.BillPrint_Json[0]);
         setHeader(headers);
         datas.resultArray.forEach((e, i) => {
@@ -101,11 +117,15 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         data?.BillPrint_Json2.forEach((ele, ind) => {
             if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                 let findColor = colorStone.findIndex((elem, index) => elem?.Rate === ele?.Rate);
+                colorStoneTotal.Wt += ele?.Wt;
+                colorStoneTotal.Amount += ele?.Amount;
                 if (findColor === -1) {
                     colorStone.push(ele);
                 }
             } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
                 let findMiscs = misc.findIndex((elem, index) => elem?.Rate === ele?.Rate);
+                miscTotal.Wt += ele?.Wt;
+                miscTotal.Amount += ele?.Amount;
                 if (findMiscs === -1) {
                     misc.push(ele);
                 }
@@ -117,7 +137,9 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setSummary(summaries);
         setData(datas);
         csLists.list = colorStone;
+        csLists.total =colorStoneTotal;
         miscLists.list = misc;
+        miscLists.total = miscTotal;
         setMiscs(miscLists);
         setColorStones(csLists);
     };
@@ -439,10 +461,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             {/* note */}
             <div className="my-1 border p-1 no_break">
                 <p className="fw-bold">NOTE :</p>
-                1.I/We hereby certify that my/our registration certificate under the Goods And Service Tax Act 2017. Is in force on the date on which the sale of the goods specified in the tax invoice has been effected by me/us & it shall accounted for in the turnover of sales while filing of return & the due tax.If any payable on the sale has been paid or shall be paids.
-                2.Returns of goods are subject to Terms & Conditions as mentioned in www.orail.com.
-                3.The support is limited to working hours.
-                4.Any case disapprency to jurdisory of state of gujarat.
+                <div dangerouslySetInnerHTML={{__html: headerData?.Declaration}}></div>
             </div>
             {/* print remark */}
             <div className='no_break'>
@@ -460,7 +479,8 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                 </div>
             </div>
-            {checkBox?.summary && <>
+            {checkBox?.summary &&
+             <>
                 {/* metal table */}
                 <div className="d-flex border no_break">
                     <div className={`${style?.metalCol} p-1 fw-bold text-center border-end`}>Metal Type</div>
@@ -510,7 +530,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </div>
                         })}
                         <div className="border-start border-end border-bottom d-flex lightGrey no_break">
-                            <div className='col-3 text-end p-1 border-end fw-bold'> Total</div>
+                            <div className='col-3 text-end p-1 border-end fw-bold'> Total</div>{console.log(miscs)}
                             <div className='col-3 text-center p-1 border-end fw-bold'>{NumberWithCommas(miscs?.total?.Wt, 3)}</div>
                             <div className='col-3 text-center p-1 border-end fw-bold'></div>
                             <div className='col-3 text-center p-1 fw-bold'>{NumberWithCommas(miscs?.total?.Amount, 2)}</div>
@@ -539,7 +559,8 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                     </div>
                 </div>
-            </>}
+            </>
+}
         </div>
     ) : (
         <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

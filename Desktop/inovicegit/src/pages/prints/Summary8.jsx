@@ -4,7 +4,8 @@ import {
     apiCall,
     isObjectEmpty,
     NumberWithCommas,
-    handlePrint
+    handlePrint,
+    ReceiveInBank
 } from "../../GlobalFunctions";
 
 import style from '../../assets/css/prints/summary8.module.css';
@@ -19,6 +20,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [msg, setMsg] = useState("");
     const [data, setData] = useState({});
     const [summary, setSummary] = useState([]);
+    const [bank, setBank] = useState([]);
     const [headerData, setHeaderData] = useState({});
     const toWords = new ToWords();
     const [isImageWorking, setIsImageWorking] = useState(true);
@@ -76,6 +78,10 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         datas?.resultArray.sort((acc, cobj) => acc.Categoryname.localeCompare(cobj.Categoryname));
         setData(datas);
         console.log(datas);
+
+        let bankDetail = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
+        console.log(bankDetail);
+        setBank(bankDetail);
     };
 
     useEffect(() => {
@@ -148,8 +154,9 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                     <div className={`${style2.lines} ${style?.lines}`}>
                         {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
-                        {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
-                    </div>
+                        {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No}                     </div>
+                        <div className={`${style2.lines} ${style?.lines}`}>
+                        PAN-{headerData?.Pannumber} </div>
                 </div>
             </div>
             {/* title */}
@@ -192,7 +199,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
             {/* table data */}
             {data?.resultArray.map((e, i) => {
-                return <div className={`d-flex border-start border-end border-bottom border-black ${style?.font_13}`}>
+                return <div className={`d-flex border-start border-end border-bottom border-black no_break ${style?.font_13}`}>
                     <div className={`${style?.Category} p-1 border-black border-end`}><p>{e?.Categoryname}</p></div>
                     <div className={`${style?.Metal} p-1 border-black border-end`}><p>{e?.MetalTypePurity}</p></div>
                     <div className={`${style?.Hsn} p-1 border-black border-end`}><p>{headerData?.HSN_No}</p></div>
@@ -206,7 +213,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             })
             }
             {/* table total */}
-            <div className={`d-flex border border-black my-1 lightGrey ${style?.font_13}`}>
+            <div className={`d-flex border border-black my-1 lightGrey no_break ${style?.font_13}`}>
                 <div className={`${style?.Category} p-1 border-black border-end fw-bold`}><p>TOTAL</p></div>
                 <div className={`${style?.Metal} p-1 border-black border-end`}><p></p></div>
                 <div className={`${style?.Hsn} p-1 border-black border-end`}><p></p></div>
@@ -218,7 +225,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className={`${style?.Total} p-1 text-end fw-bold`}><p>{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p></div>
             </div>
             {/* table taxes */}
-            <div className={`border border-black my-1 lightGrey ${style?.font_13}`}>
+            <div className={`border border-black my-1 lightGrey no_break ${style?.font_13}`}>
                 {data?.allTaxes?.map((e, i) => {
                     return <div className="d-flex border-black border-bottom" key={i}>
                         <div className={`${style?.tax} p-1 border-black border-end fw-semibold text-end`}><p>{e?.name} @ {e?.per} </p></div>
@@ -236,9 +243,23 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
             </div>
             {/* bank details */}
-            <div className={`d-flex no_break border-black p-0 h-100 py-0 align-items-start mb-0 border position-relative ${style?.font_13}`}>
+            <div className={`d-flex no_break border-black p-0 no_break h-100 py-0 align-items-start mb-0 border position-relative ${style?.font_13}`}>
                 <div className={`col-4 border-black p-2`} style={{ width: "33.33%" }} >
                     <div className={footerStyle.linesf3}>Payment Details</div>
+                    <div className="d-flex pt-1">
+                        <p className='lh-1'>Cash:</p>
+                        <p className='ps-1 fw-bold lh-1'>{headerData?.CashReceived}</p>
+                    </div>
+                    {
+                        bank?.map((ele, ind) => {
+                            return <div className="d-flex">
+                                <p className='lh-1'>{ele?.label}</p>
+                                <p className='lh-1'>{ele?.id && ele?.id}</p>
+                                <p className='pe-1 lh-1'> : </p>
+                                <p className='fw-bold lh-1'>{NumberWithCommas(ele?.amount, 2)}</p>
+                            </div>
+                        })
+                    }
                 </div>
                 <div className={`col-4 border-black`} style={{ width: "33.33%" }}>
                     {summary?.map((e, i) => {
@@ -272,7 +293,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="position-absolute h-100" style={{width: "1px", background: "#000", top: "0", right: "33.33%"}}></div>
             </div>
             {/* footer */}
-            <div className={`my-1 border border-black d-flex ${style?.font_13}`}>
+            <div className={`my-1 border border-black d-flex no_break ${style?.font_13}`}>
                 <div className="col-6 d-flex flex-column justify-content-between p-2 border-end border-black" style={{ minHeight: "200px" }}>
                     <p> Signature</p>
                     <p className='fw-bold'>{headerData?.customerfirmname}</p>
@@ -290,4 +311,4 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     );
 }
 
-export default Summary8
+export default Summary8;
