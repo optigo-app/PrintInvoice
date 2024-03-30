@@ -71,7 +71,6 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
               }
           })
           e.diamonds = diamondsgrp;
-
           let colorstonegrp = [];
           e?.colorstone?.forEach((el) => {
             let obj = deepClone(el);
@@ -454,11 +453,11 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                   <div className="headJL">
                     <div className="headJLContent">
                       <div className="fslhJL">
-                        <h5>
+                        <div className="jip_26">
                           <b style={{ fontSize: "13px", color: "black" }}>
                             {headerData?.CompanyFullName}
                           </b>
-                        </h5>
+                        </div>
                       </div>
                       <div className="fslhJL">{headerData?.CompanyAddress}</div>
                       <div className="fslhJL">
@@ -477,8 +476,6 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                       </div>
                       <div className="fslhJL">
                         {result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE} - {result?.header?.Company_CST_STATE_No} | PAN - {result?.header?.Com_pannumber}
-                        {/* {headerData?.Company_VAT_GST_No} |{" "}
-                        {headerData?.Cust_CST_STATE}-{headerData?.vat_cst_pan} */}
                       </div>
                     </div>
                     <div className="headJLImg">
@@ -486,15 +483,11 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                       <img src={headerData?.PrintLogo} alt="" 
                       className='w-100 h-auto ms-auto d-block object-fit-contain'
                       onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
-                      {/* <img
-                        src={headerData?.PrintLogo}
-                        alt="#"
-                        id="JLImg"
-                      /> */}
+                     
                     </div>
                   </div>
-                  <div className="dynamicHeadJLmain">
-                    <div className="dynamicHeadJL1">
+                  <div className="dynamicHeadJLmain fs_jip" >
+                    <div className="dynamicHeadJL1 p-1">
                       <div className="fslhJL">{headerData?.lblBillTo}</div>
                       <div className="fslhJL">
                         <b className="JL13">{headerData?.customerfirmname}</b>
@@ -526,12 +519,9 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                       </div>
                       <div className="fslhJL">{headerData?.customeremail1}</div>
                       <div className="fslhJL">{headerData?.vat_cst_pan}</div>
-                      <div className="fslhJL">
-                        {headerData?.Cust_CST_STATE}{" "}
-                        {headerData?.Cust_CST_STATE_No}
-                      </div>
+                      
                     </div>
-                    <div className="dynamicHeadJL2">
+                    <div className="dynamicHeadJL2 fs_jip p-1">
                       <div className="fslhJL">Ship to</div>
                       <div className="fslhJL">
                         <b className="JL13">{headerData?.customerfirmname}</b>
@@ -547,7 +537,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                         }
                       </div>
                     </div>
-                    <div className="dynamicHeadJL3">
+                    <div className="dynamicHeadJL3 fs_jip p-1">
                       <div className="billnoJL">
                         <div className="JLbillnow fslhJL ">
                           <b className="JL13">BILL NO</b>
@@ -574,10 +564,11 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                       </div>
                     </div>
                   </div>
+
                   <div className="tableJL">
-                    <div className="theadJL fw-bold">
+                    <div className="theadJL fw-bold fs_jip">
                       <div className="tc1JL h-100">Sr#</div>
-                      <div className="tc2JL h-100">Description</div>
+                      <div className="tc2JL h-100 d-flex justify-content-center">Description</div>
                       <div className="tc5JL h-100">
                         <div className="tc5JL1">Gold</div>
                         <div className="tc5JL2">
@@ -628,7 +619,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                       {result?.resultArray.length > 0 &&
                         result?.resultArray?.map((e, i) => {
                           return (
-                            <div className="trowJL no_break fsJL" key={i}>
+                            <div className="trowJL no_break fs_jip" key={i}>
                               <div className="tc1JL">{i + 1}</div>
                               <div className="tc2JL">
                                 <div>{e?.Categoryname}</div>
@@ -675,9 +666,9 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                                   </div>
                                 )}
                               </div>
-                              <div className="tc5JL">
-                                {e?.colorStones?.length > 0 ? (
-                                  e?.colorStones?.map((el, i) => {
+                              <div className="tc5JL fs_jip">
+                                {e?.colorstone?.length > 0 ? (
+                                  e?.colorstone?.map((el, i) => {
                                     return (
                                       <div className="tc4JL2 h-100" key={i}>
                                         <div className="d-flex justify-content-start ps-1 align-items-center w-50 h-100 brrJL">
@@ -721,11 +712,11 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                         })}
                     </div>
                     <div
-                      className="totalrowJL fw-bold fsJL no_break"
+                      className="totalrowJL fw-bold fsJL no_break fs_jip"
                       style={{ borderTop: "0px" }}
                     >
                       <div className="tc1JL h-100"></div>
-                      <div className="tc2JL fs-6 h-100">TOTAL</div>
+                      <div className="tc2JL fs-6 h-100 ">TOTAL</div>
                       <div className="tc3JL h-100">
                         <div className="tc4JL2 h-100">
                           <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL"></div>
@@ -759,7 +750,6 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                       </div>
                       <div className="tc7JL d-flex justify-content-end pe-1 h-100">
                         {/* {mainTotal?.totallabourAmount?.toFixed(2)} */}
-                        {console.log(result)}
                         {formatAmount(((
                           (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate)
                           )))}
@@ -772,9 +762,9 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                         {formatAmount(result?.mainTotal?.total_amount)}
                       </div>
                     </div>
-                    <div className="footerJL fsJL d-flex justify-content-between align-items-end no_break ">
+                    <div className="footerJL fsJL d-flex justify-content-between align-items-end no_break fs_jip">
                       <div className="inWordsJL">
-                        <div className="fw-bold py-1 px-1">
+                        <div className=" py-1 px-1">
                           In Words Indian Rupees
                         </div>
                         {/* <div className="fw-bold py-2 px-1">{inWords}</div> */}
@@ -803,7 +793,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                             })}
                           </div>
 
-                          <div className="d-flex justify-content-between px-1">
+                          <div className="d-flex justify-content-between px-1 pb-1 fs_jip">
                             <div className="w-50 d-flex justify-content-end align-items-center pe-1 brrJL">
                               { result?.header?.AddLess > 0 ? 'Add' : 'Less' }
                             </div>
@@ -814,16 +804,14 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                         </div>
                         <div className="d-flex justify-content-between px-1 grandTotalJL">
                           <div
-                            className="fw-bold w-50 d-flex align-items-center justify-content-end  pe-1 brrJL"
-                            style={{ fontSize: "15px" }}
+                            className="fw-bold w-50 d-flex align-items-center justify-content-end  pe-1 brrJL tot_jip"
                           >
                             Grand Total
                           </div>
                           <div
-                            className="fw-bold w-50 d-flex align-items-center justify-content-end pe-1"
-                            style={{ fontSize: "15px" }}
+                            className="fw-bold w-50 d-flex align-items-center justify-content-end pe-1 tot_jip"
                           >
-                             {formatAmount((result?.mainTotal?.total_amount + result?.allTaxesTotal))}
+                             {formatAmount((result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess))}
                           </div>
                         </div>
                       </div>
@@ -835,7 +823,28 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                         __html: headerData?.Declaration,
                       }}
                     ></div>
-                    <div
+                    <div className="border mt-1 fs_jip d-flex align-items-start position-relative">
+                      <div style={{width:'33.33%'}} className="p-1 ">
+                        <div className="fw-bold">Bank Detail</div>
+                        <div>Bank Name : {result?.header?.bankname}</div>
+                        <div>Branch : {result?.header?.bankaddress}</div>
+                        <div>Account Name : {result?.header?.accountname}</div>
+                        <div>Account No : {result?.header?.accountnumber}</div>
+                        <div>RTGS/NEFT IFSC : {result?.header?.rtgs_neft_ifsc}</div>
+                      </div>
+                      <div style={{width:'33.33%', minHeight:'80px'}} className="p-1 d-flex justify-content-between align-items-start flex-column h-100">
+                        <div className="mt-1">Signature</div>
+                        <div className="fw-bold mb-2">{result?.header?.customerfirmname}</div>
+                      </div>
+                      <div style={{width:'33.33%', minHeight:'80px'}} className="p-1 d-flex justify-content-between align-items-start flex-column h-100">
+                        <div className="mt-1">Signature</div>
+                        <div className="fw-bold mb-2">{headerData?.CompanyFullName}</div>
+                      </div>
+
+                      <div className="position-absolute top-0 h-100" style={{width: "1px", background: "#DDDD", left: "33.33%"}}></div>
+                      <div className="position-absolute top-0 h-100" style={{width: "1px", background: "#DDDD", right: "33.33%"}}></div>
+                    </div>
+                    {/* <div
                       className="dynamicHeadJLmain no_break"
                       style={{ marginTop:"2px", marginBottom:"2rem" }}
                     >
@@ -868,7 +877,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                         <div>Signature</div>
                         <div className="fw-bold">{headerData?.CompanyFullName}</div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
