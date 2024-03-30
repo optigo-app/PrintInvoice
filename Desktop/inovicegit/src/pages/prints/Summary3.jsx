@@ -269,14 +269,18 @@ console.log(result);
                             result?.allTaxes?.map((e, i) => {
                                 return(
                                     <div className="d-flex justify-content-between w-100 border-black border-bottom" key={i}>
-                                        <div className="border-black border-end taxws3 px-1">{e?.name} @ {e?.per}</div><div className="taxwamts3 border-black border-start rs3 px-1">{e?.amount}</div>
+                                        <div className="border-black border-end taxws3 px-1">{e?.name} @ {e?.per}</div><div className="taxwamts3 border-black border-start rs3 px-1">{e?.amount * result?.header?.CurrencyExchRate}</div>
                                     </div>
                                 )
                             })
                         }
                     </div>
-                    <div className="fsgs3 w-100 d-flex justify-content-between align-items-center border-black border border-top-0 border-bottom fw-bold bgcs3 "><div className="taxws3 border-end border-black px-1">ADD / LESS</div><div className="taxwamts3 border-black border-start px-1 rs3">{result?.header?.AddLess}</div></div>
-                    <div className="fsgs3 w-100 d-flex justify-content-between align-items-center border-black border border-top-0 border-bottom fw-bold bgcs3 "><div className="taxws3 border-end border-black px-1">GRAND TOTAL</div><div className="taxwamts3 border-black border-start px-1 rs3">{formatAmount(result?.finalAmount)}</div></div>
+                    <div className="fsgs3 w-100 d-flex justify-content-between align-items-center border-black border border-top-0 border-bottom fw-bold bgcs3 ">
+                      <div className="taxws3 border-end border-black px-1">ADD / LESS</div>
+                      <div className="taxwamts3 border-black border-start px-1 rs3">{result?.header?.AddLess}</div></div>
+                    <div className="fsgs3 w-100 d-flex justify-content-between align-items-center border-black border border-top-0 border-bottom fw-bold bgcs3 ">
+                      <div className="taxws3 border-end border-black px-1">GRAND TOTAL</div>
+                      <div className="taxwamts3 border-black border-start px-1 rs3">{formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate ) + result?.header?.AddLess))}</div></div>
               </div>
             </>
           ) : (
