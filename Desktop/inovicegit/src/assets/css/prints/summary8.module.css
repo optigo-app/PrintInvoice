@@ -16,6 +16,17 @@
     min-width: 87.4%;
 }
 
+.lines{
+    font-size: 12px;
+}
+
+.font_13, .font_13 *{
+    font-size: 13px;
+}
+
+.font_14, .font_14 *{
+    font-size: 14px;
+}
 
 @medila print{
     .print_sec_sum4{

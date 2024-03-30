@@ -1,16 +1,23 @@
 .detailPrint2 *{
     word-break: normal;
-    font-size: 9px;
+    font-size: 12px;
 }
-
 
 .print_sec_sum4 {
     right: 15px;
 }
 
+.data p{
+    word-break: break-all;
+}
+
 .sr {
     width: 5%;
     min-width: 5%;
+}
+
+.pad_1 p{
+    padding: 2px;
 }
 
 .design {
@@ -63,4 +70,9 @@
     .print_sec_sum4 {
         display: none !important;
     }
+
+    .detailPrint2 *{
+        font-size: 9px;
+    }
+    
 }
