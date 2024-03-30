@@ -4,6 +4,7 @@ import {
   HeaderComponent,
   NumberWithCommas,
   apiCall,
+  formatAmount,
   isObjectEmpty,
   numberToWord,
   taxGenrator,
@@ -12,12 +13,15 @@ import { useEffect } from "react";
 import Loader from "../../components/Loader";
 import Button from "../../GlobalFunctions/Button";
 import "../../assets/css/prints/invoiceprint4.css";
+import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+
 const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [header, setHeader] = useState(null);
   const [headerData, setHeaderData] = useState({});
   const [subheader, setSubHeader] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [resultArray, setResultArray] = useState();
+  const [result, setResult] = useState();
   const [mainTotal, setMainTotal] = useState({});
   const [descArr, setDescArr] = useState("");
   const [inWords, setInWords] = useState("");
@@ -32,6 +36,12 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [totDiscount, setTotDiscount] = useState(0);
   const [msg, setMsg] = useState("");
   const [isImageWorking, setIsImageWorking] = useState(true);
+
+  const [diamond_s, setDiamond_s] = useState([]);
+  const [colorstone_s, setColorStone_s] = useState([]);
+  const [metal_s, setMetal_s] = useState([]);
+  const [descText, setDescText] = useState();
+
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -235,12 +245,15 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     // eslint-disable-next-line array-callback-return
     json2.map((ele) => {
       if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+        if(ele?.IsPrimaryMetal === 1){
+
+        
         if (arr?.length === 0) {
           arr.push(ele);
         } else {
           let findIndex = arr.findIndex(
             (e) =>
-              e?.ShapeName === ele?.ShapeName &&
+              // e?.ShapeName === ele?.ShapeName &&
               e?.Rate === ele?.Rate &&
               e?.QualityName === ele?.QualityName
           );
@@ -251,19 +264,22 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             arr[findIndex].Amount += ele?.Amount;
           }
         }
-      } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
-        if (arr.length === 0) {
-          arr.push(ele);
-        } else {
-          let findIndex = arr.findIndex((e) => e?.Rate === ele?.Rate);
-          if (findIndex === -1) {
-            arr.push(ele);
-          } else {
-            arr[findIndex].Wt += ele?.Wt;
-            arr[findIndex].Amount += ele?.Amount;
-          }
-        }
-      } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+      }
+      } 
+      // else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+      //   if (arr.length === 0) {
+      //     arr.push(ele);
+      //   } else {
+      //     let findIndex = arr.findIndex((e) => e?.Rate === ele?.Rate);
+      //     if (findIndex === -1) {
+      //       arr.push(ele);
+      //     } else {
+      //       arr[findIndex].Wt += ele?.Wt;
+      //       arr[findIndex].Amount += ele?.Amount;
+      //     }
+      //   }
+      // }
+       else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
         if (arr.length === 0) {
           arr.push(ele);
         } else {
@@ -400,7 +416,7 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const groupNamesArray = Object.keys(groupedData);
     const sentence = groupNamesArray?.join(", ");
-    setDescArr(sentence);
+    // setDescArr(sentence);
   };
 
   async function loadData(data) {
@@ -412,11 +428,140 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         data?.BillPrint_Json2
       );
 
+
+
       setLoader(false);
+
+
+      let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+      data.BillPrint_Json[0].address = address;
+ 
+      const datas = OrganizeDataPrint(
+        data?.BillPrint_Json[0],
+        data?.BillPrint_Json1,
+        data?.BillPrint_Json2
+      );
+
+      let sen = '';
+      let metal = datas?.json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 4)
+      if(metal.length > 0){
+        sen = 'GOLD';
+      }
+      let sen2 = '';
+      let diamond = datas?.json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 1)
+      if(diamond.length > 0){
+        sen2 = 'DIAMOND'
+      }
+      let sen3 = '';
+      let colorstone = datas?.json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 2)
+      if(colorstone.length > 0){
+        sen3 = 'COLORSTONE'
+      }
+      let sen4 = '';
+      let misc = datas?.json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 3)
+      if(misc.length > 0){
+        sen4 = 'CZ STUDDED'
+      }
+      let result1 = [(sen === '' ? 'GOLD' : 'GOLD'), sen2, sen3, sen4]?.join(", ");
+      setDescArr(result1);
+
+      let diamonds = [];
+      let colorstones = [];
+      let metals = [];
+      datas?.resultArray?.forEach((e) => {
+        // let dia = [];
+        e?.diamonds?.forEach((el) => {
+          let findRecord = diamonds?.findIndex((a) => a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.ShapeName === el?.ShapeName)
+          if(findRecord === -1){
+            let obj = {...el};
+            obj.wt = obj?.Wt;
+            obj.rate = obj?.Rate;
+            obj.amount = obj?.Amount;
+            diamonds.push(obj);
+          }else{
+            diamonds[findRecord].wt += el?.Wt;
+            diamonds[findRecord].rate += el?.Rate;
+            diamonds[findRecord].amount += el?.Amount;
+          }
+        })
+        
+        // e.diamonds = dia;
+        // diamonds = dia;
+
+        // let cls = [];
+        e?.colorstone?.forEach((el) => {
+          let findRecord = colorstones?.findIndex((a) => a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.ShapeName === el?.ShapeName)
+          if(findRecord === -1){
+            let obj = {...el};
+            obj.wt = obj?.Wt;
+            obj.rate = obj?.Rate;
+            obj.amount = obj?.Amount;
+            colorstones.push(obj);
+          }else{
+            colorstones[findRecord].wt += el?.Wt;
+            colorstones[findRecord].rate += el?.Rate;
+            colorstones[findRecord].amount += el?.Amount;
+          }
+        })
+        
+        // e.colorstone = cls;
+
+        // let miscs = [];
+        // e?.misc?.forEach((el) => {
+        //   let findRecord = cls?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName)
+        //   if(findRecord === -1){
+        //     let obj = {...el};
+        //     obj.wt = obj?.Wt;
+        //     obj.rate = obj?.Rate;
+        //     obj.amount = obj?.Amount;
+        //     miscs.push(obj);
+        //   }else{
+        //     miscs[findRecord].wt += el?.Wt;
+        //     miscs[findRecord].rate += el?.Rate;
+        //     miscs[findRecord].amount += el?.Amount;
+        //   }
+        // })
+
+        // e.misc = miscs;
+
+        // let met = [];
+        e?.metal?.forEach((el) => {
+          if(el?.IsPrimaryMetal === 1){
+
+            let findRecord = metals?.findIndex((a) => a?.QualityName === el?.QualityName && a?.Rate === el?.Rate)
+            if(findRecord === -1){
+            let obj = {...el};
+            obj.wt = obj?.Wt;
+            obj.rate = obj?.Rate;
+            obj.amount = obj?.Amount;
+            metals.push(obj);
+          }else{
+            metals[findRecord].wt += el?.Wt;
+            metals[findRecord].rate += el?.Rate;
+            metals[findRecord].amount += el?.Amount;
+          }
+        }
+        })
+        // e.metal = met;
+      })
+      // let mainarr = [...metals, ...diamonds, ...colorstones];
+      setDiamond_s(diamonds);
+      setColorStone_s(colorstones);
+      setMetal_s(metals);
+      setResult(datas);
+
     } catch (error) {
       console.log(error);
     }
   }
+useEffect(() => {
+  if(diamond_s?.length > 0){
+    setDescText('DIAMOND STUDDED JEWELLERY')
+  }else{
+    setDescText('GOLD JEWELLERY')
+  }
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [descArr])
 
   useEffect(() => {
     const sendData = async () => {
@@ -517,10 +662,16 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {headerData?.DueDate}
                           </div>
                         </div>
+                        <div className="d-flex justify-content-end align-items-center w-100">
+                          <div className="linesinvp4 fw-bold">MSME</div>
+                          <div className="linesinvp4 w-50 d-flex justify-content-end align-items-center">
+                            {headerData?.MSME}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <div
                       className="d-flex"
                       style={{
@@ -619,14 +770,118 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                       </div>
                     </div>
+                  </div> */}
+                   <div
+                  // className="d-flex"
+                  style={{
+                    fontSize:'12px',
+                    position:'relative'
+                  }}
+                >
+                    
+                  {/* <div className="w-50 d-flex flex-column justify-content-between position-relative d-flex">
+                    <div className="w-100 h-100 position-relative">
+                      <div className="discHeadinvp3">DESCRIPTION</div>
+                      <div className="w-100 descriptioninovicePrint3 px-2">{descArr} JEWELLERY.</div>
+                    </div>
+                    <div className="empdivinvp3"></div>
+                  </div> */}
+                 <div className="d-flex w-100 fw-bold mt-1 border">
+                  <div style={{width:'40%'}} className="d-flex justify-content-center border-end">DESCRIPTION</div>
+                  <div style={{width:'30%'}} className="ps-2">DETAIL</div>
+                  <div style={{width:'10%'}}>WEIGHT</div>
+                  <div style={{width:'10%'}}>RATE</div>
+                  <div style={{width:'10%'}}>AMOUNT</div>
+                 </div>
+                 {/* <div className="w-100" style={{borderBottom:'2px solid #d8d7d7'}}> */}
+                 <div className="w-100 border-bottom" >
+                 <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "100px"}}>
+                  <input type="text"  style={{width:'170px',}} className="d-flex justify-content-center align-items-center ms-5 position-absolute" value={descText} onChange={(e) => setDescText(e.target.value)} />
                   </div>
-
+                  {
+                    metal_s?.map((e, i) => {
+                      return(
+                        <div key={i} className="d-flex w-100  fsinvp3 border-start border-end" >
+                        <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
+                        <div style={{width:'30%'}} className="ps-2">
+                          {
+                           (e?.ShapeName + " " + e?.QualityName)
+                          }
+                        </div>
+                        <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
+                        <div style={{width:'10%'}}>{formatAmount((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)))}</div>
+                        <div style={{width:'10%'}}>{formatAmount((e?.amount / result?.header?.CurrencyExchRate))}</div>
+                        </div>
+                      )
+                    })
+                  }
+                 {/* <div className="d-flex justify-content-start align-items-center border-start border-end"><input type="text" width={"200px"} style={{width:'280px'}} className="d-flex justify-content-center align-items-center ms-5" value={ diamond_s?.length > 0 ? `DIAMOND STUDDED JEWELLERY` : `GOLD JEWELLERY`} /></div> */}
+              
+                  {/* {
+                    diamond_s?.map((e, i) => {
+                      return(
+                        <div key={i} className="d-flex w-100  fsinvp3 border-start border-end" >
+                        <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
+                        <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
+                        <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
+                        <div style={{width:'10%'}}>{formatAmount((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)))}</div>
+                        <div style={{width:'10%'}}>{formatAmount(e?.amount)}</div>
+                        </div>
+                      )
+                    })
+                  }
+                  
+                  {
+                    colorstone_s?.map((e, i) => {
+                      return(
+                        <div key={i} className="d-flex w-100  fsinvp3 border-start border-end" >
+                        <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
+                        <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
+                        <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
+                        <div style={{width:'10%'}}>{formatAmount((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)))}</div>
+                        <div style={{width:'10%'}}>{formatAmount(e?.amount)}</div>
+                        </div>
+                      )
+                    })
+                  } */}
+                   {/* <div className="d-flex w-100  fsinvp3 border-start border-end" >
+                        <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
+                        <div style={{width:'30%'}} className="ps-2">MISC</div>
+                        <div style={{width:'10%'}}></div>
+                        <div style={{width:'10%'}}></div>
+                        <div style={{width:'10%'}}>{formatAmount(result?.mainTotal?.misc?.Amount)}</div>
+                        </div> */}
+                        <div className="d-flex w-100  fsinvp3 border-start border-end" >
+                        <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
+                        <div style={{width:'30%'}} className="ps-2">LABOUR</div>
+                        <div style={{width:'10%'}}></div>
+                        <div style={{width:'10%'}}></div>
+                        {/* <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost))}</div> */}
+                        {console.log(result)}
+                        <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.miscAmount))}</div>
+                        </div>
+                        <div className="d-flex w-100  fsinvp3 border-start border-end">
+                        <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
+                        <div style={{width:'30%'}} className="ps-2">OTHER</div>
+                        <div style={{width:'10%'}}></div>
+                        <div style={{width:'10%'}}></div>
+                        <div style={{width:'10%'}}>{formatAmount(result?.mainTotal?.total_other)}</div>
+                        </div>
+                 </div>
+                 <div className="d-flex w-100 fw-bold border-top-0 border" style={{ fontSize:'14px'}}>
+                  <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
+                  <div style={{width:'30%'}} className="ps-2">TOTAL</div>
+                  <div style={{width:'10%'}}></div>
+                  <div style={{width:'10%'}}></div>
+                  <div style={{width:'10%'}}>{formatAmount(result?.mainTotal?.total_unitcost)}</div>
+                 </div>
+                </div>
                   <div className="summaryinvp4">
                     <div style={{ width: "60%", height: "100%" }}></div>
                     <div style={{ width: "40%" }}>
                       <div style={{ borderLeft: "1px solid #e8e8e8" }}>
                         <div className="d-flex justify-content-between align-items-center ps-1">
-                          {taxTotal?.map((e, i) => {
+                          {result?.allTaxes?.map((e, i) => {
                             return (
                               <div
                                 className="d-flex justify-content-between align-items-center w-100"
@@ -639,7 +894,7 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   {e?.name} {e?.per}
                                 </div>
                                 <div className="w-50 d-flex justify-content-end align-items-center pe-1">
-                                  {e?.amount}
+                                  {formatAmount(e?.amount)}
                                 </div>
                               </div>
                             );
@@ -654,7 +909,7 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               {headerData?.AddLess > 0 ? "Add" : "Less"}
                             </div>
                             <div className="w-50 d-flex justify-content-end align-items-center pe-1">
-                              {headerData?.AddLess}
+                              {formatAmount(headerData?.AddLess)}
                             </div>
                           </div>
                         )}
@@ -668,7 +923,7 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       >
                         <div className="w-50" style={{fontSize:"13px"}}>GRAND TOTAL</div>
                         <div className="w-50 d-flex justify-content-end align-items-center pe-1" style={{fontSize:"13px"}}>
-                          {NumberWithCommas(grandTotal, 2)}
+                          {formatAmount(grandTotal)}
                         </div>
                       </div>
                     </div>
