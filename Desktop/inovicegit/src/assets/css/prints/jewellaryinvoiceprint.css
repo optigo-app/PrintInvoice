@@ -12,7 +12,7 @@
 }
 
 .fsJL {
-    font-size: 11px;
+    font-size: 12px;
     line-height: 120%;
 }
 
@@ -49,7 +49,7 @@
     width: 80%;
     line-height: 120%;
     font-size: 12px;
-    height: 118px;
+    /* height: 118px; */
     line-height: 15px;
     padding-top: 4px;
     padding-left: 4px;
@@ -60,14 +60,14 @@
     justify-content: center;
     align-items: center;
 }
-.fslhJL {
+/* .fslhJL {
     display: flex;
     align-items: center;
     width: 100%;
     height: 20px !important;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 120%;
-}
+} */
 
 #JLImg {
     height: 105px;
@@ -78,8 +78,8 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    border: 1px solid #8e8e8e;
-    min-height: 115px;
+    border: 1px solid #DDDDDD;
+    /* min-height: 115px; */
 }
 
 .dynamicHeadJL1 {
@@ -163,7 +163,10 @@
     font-size: 13px;
     line-height: 120%;
 }
-
+.jip_26{
+    height: 26px !important;
+    padding-top: 4px !important;
+}
 .billnoJL {
     display: flex;
     justify-content: space-between;
@@ -174,14 +177,14 @@
     width: 55pt;
 }
 
-.fslhJL {
+/* .fslhJL {
     display: flex;
     align-items: center;
     width: 100%;
     height: 15px !important;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 120%;
-}
+} */
 
 .billno3pdlJL {
     padding-left: 20px;
@@ -195,10 +198,10 @@
 .theadJL {
     height: 70px;
     width: 100%;
-    border-top: 1px solid #8e8e8e;
-    border-left: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
-    border-bottom: 1px solid #8e8e8e;
+    border-top: 1px solid #DDDDDD;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -207,11 +210,11 @@
 .trowJL {
     width: 100%;
     min-height: 40px;
-    border-left: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #8e8e8e;
+    border-bottom: 1px solid #DDDDDD;
 }
 
 
@@ -220,7 +223,7 @@
     justify-content: center;
     align-items: center;
     width: 5%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
 }
 
 .tc2JL {
@@ -229,7 +232,7 @@
     justify-content: center;
     align-items: flex-start;
     width: 15%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
     padding-left: 2px;
 }
 
@@ -239,7 +242,7 @@
     justify-content: space-between;
     align-items: center;
     width: 20%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
 }
 
 .tc4JL {
@@ -248,7 +251,7 @@
     justify-content: space-between;
     align-items: center;
     width: 20%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
 }
 
 .tc5JL {
@@ -257,7 +260,7 @@
     justify-content: space-between;
     align-items: center;
     width: 20%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
 }
 
 .tc6JL {
@@ -265,7 +268,7 @@
     justify-content: flex-end;
     align-items: center;
     width: 7%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
     padding-right: 2px;
 }
 
@@ -274,7 +277,7 @@
     justify-content: flex-end;
     align-items: center;
     width: 7%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
     padding-right: 2px;
 }
 
@@ -283,7 +286,7 @@
     justify-content: flex-end;
     align-items: center;
     width: 7%;
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
     padding-right: 2px;
 }
 
@@ -293,7 +296,7 @@
     justify-content: center;
     align-items: center;
     height: 50%;
-    border-bottom: 1px solid #8e8e8e;
+    border-bottom: 1px solid #DDDDDD;
 }
 
 .tc4JL1 {
@@ -302,7 +305,7 @@
     justify-content: center;
     align-items: center;
     height: 50%;
-    border-bottom: 1px solid #8e8e8e;
+    border-bottom: 1px solid #DDDDDD;
 }
 
 .tc4JL2 {
@@ -319,7 +322,7 @@
     justify-content: center;
     align-items: center;
     height: 50%;
-    border-bottom: 1px solid #8e8e8e;
+    border-bottom: 1px solid #DDDDDD;
 }
 
 .tc5JL2 {
@@ -331,16 +334,16 @@
 }
 
 .brrJL {
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
 }
 
 .totalrowJL {
     height: 40px;
     width: 100%;
-    border-top: 1px solid #8e8e8e;
-    border-left: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
-    border-bottom: 1px solid #8e8e8e;
+    border-top: 1px solid #DDDDDD;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -348,8 +351,8 @@
 
 .footerJL {
     width: 100%;
-    border-left: 1px solid #8e8e8e;
-    border-bottom: 1px solid #8e8e8e;
+    border-left: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
 }
 
 .footerTotJL {
@@ -363,27 +366,27 @@
 }
 
 .brrJL {
-    border-right: 1px solid #8e8e8e;
+    border-right: 1px solid #DDDDDD;
 }
 
 .brJL {
-    border-bottom: 1px solid #8e8e8e;
-    border-left: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
+    border-bottom: 1px solid #DDDDDD;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
 }
 
 .grandTotalJL {
     height: 50px;
 
-    border-left: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
 }
 
 .noteJL {
     min-height: 25px;
-    border-bottom: 1px solid #8e8e8e;
-    border-left: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
+    border-bottom: 1px solid #DDDDDD;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
     width: 100%;
     padding-bottom: 1rem !important;
 }
@@ -395,8 +398,16 @@
     align-items: center;
 }
 
-
-
+.fs_jip{
+    font-size: 12px !important;
+    line-height: 12px !important;
+}
+.noteJL.fw-bold.p-1.no_break span {
+    line-height: 170%;
+}
+.tot_jip{
+    font-size: 15px;
+}
 @media print {
     .trowJL {
         page-break-inside: avoid;
@@ -410,4 +421,15 @@
           .btnpcl{
             display: none !important;
           }
+          .jip_26{
+            height: 20px !important;
+            padding-top: 2px !important;
+        }
+        .fs_jip{
+            font-size: 9px !important;
+            line-height: 9px !important;
+        }
+        .tot_jip{
+            font-size: 12px;
+        }
 }

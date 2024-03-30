@@ -70,6 +70,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       labour_rate: 0,
       labour_amount: 0,
     },
+    total_primarymetal_netwt:0,
     total_other_charges: 0,
     total_diamond_colorstone_misc_amount: 0,
     total_other: 0,
@@ -215,8 +216,8 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       maintotal.total_TotalCsSetcost += j1?.TotalCsSetcost;
       maintotal.total_TotalDiaSetcost += j1?.TotalDiaSetcost;
       maintotal.total_otherCharge_Diamond_Handling += j1?.TotalDiamondHandling + j1?.OtherCharges + j1?.MiscAmount;
-
-
+      
+      
 
       //json2
       json2?.length > 0 &&
