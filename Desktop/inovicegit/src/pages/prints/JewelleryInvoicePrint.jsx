@@ -4,12 +4,15 @@ import {
   apiCall,
   CapitalizeWords,
   isObjectEmpty,
-  NumberWithCommas,
+  formatAmount,
   taxGenrator,
 } from "../../GlobalFunctions";
 import convertor from "number-to-words";
 import Button from "./../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
+import { OrganizeDataPrint } from './../../GlobalFunctions/OrganizeDataPrint';
+import { deepClone } from "@mui/x-data-grid/utils/utils";
+import { ToWords } from "to-words";
 
 const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState({});
@@ -18,6 +21,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
   // eslint-disable-next-line no-unused-vars
   const [dynamicList2, setDynamicList2] = useState([]);
   const [resultArray, setResultArray] = useState([]);
+  const [result, setResult] = useState();
   const [mainTotal, setMainTotal] = useState({});
   const [grandTot, setGrandTot] = useState(0);
   const [taxTotal, setTaxTotal] = useState([]);
@@ -27,6 +31,9 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
+
+  const toWords = new ToWords();
+
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -43,6 +50,46 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
+      const datas = OrganizeDataPrint( data?.BillPrint_Json[0],
+        data?.BillPrint_Json1,
+        data?.BillPrint_Json2 );
+        
+
+        datas?.resultArray?.forEach((e) => {
+          let diamondsgrp = [];
+          e?.diamonds?.forEach((el) => {
+            let obj = deepClone(el);
+              let findrec = diamondsgrp?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.SizeName === el?.SizeName)
+              if(findrec === -1){
+                diamondsgrp.push(obj);
+              }else{
+                diamondsgrp[findrec].Pcs += el?.Pcs;
+                diamondsgrp[findrec].Wt += el?.Wt;
+                diamondsgrp[findrec].Rate += el?.Rate;
+                diamondsgrp[findrec].Amount += el?.Amount;
+              }
+          })
+          e.diamonds = diamondsgrp;
+
+          let colorstonegrp = [];
+          e?.colorstone?.forEach((el) => {
+            let obj = deepClone(el);
+              let findrec = colorstonegrp?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.SizeName === el?.SizeName)
+              if(findrec === -1){
+                colorstonegrp.push(obj);
+              }else{
+                colorstonegrp[findrec].Pcs += el?.Pcs;
+                colorstonegrp[findrec].Wt += el?.Wt;
+                colorstonegrp[findrec].Rate += el?.Rate;
+                colorstonegrp[findrec].Amount += el?.Amount;
+              }
+          })
+          e.colorstone = colorstonegrp;
+        })
+
+
+        setResult(datas);
+
       setLoader(false);
     } catch (error) {
       console.log(error);
@@ -574,11 +621,11 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                       </div>
                     </div>
                     <div className="tbodyJL ">
-                      {resultArray.length > 0 &&
-                        resultArray?.map((e, i) => {
+                      {result?.resultArray.length > 0 &&
+                        result?.resultArray?.map((e, i) => {
                           return (
                             <div className="trowJL no_break fsJL" key={i}>
-                              <div className="tc1JL">{e?.SrNo}</div>
+                              <div className="tc1JL">{i + 1}</div>
                               <div className="tc2JL">
                                 <div>{e?.Categoryname}</div>
                                 <div className="d-flex">
@@ -588,13 +635,13 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                               </div>
                               <div className="tc3JL">
                                 <div className="tc4JL2 h-100">
-                                  <div className="d-flex justify-content-start align-items-center w-50 h-100  brrJL ps-1">
+                                  <div className="d-flex justify-content-start align-items-center w-50 h-100  brrJL ps-1" style={{wordBreak:'break-word'}}>
                                     {e?.MetalPurity} / {e?.MetalType}{" "}
                                     {e?.MetalColor}
                                   </div>
                                   <div className="d-flex justify-content-end align-items-center w-50 h-100  pe-1">
                                     {e?.grosswt?.toFixed(3)}/
-                                    {e?.NetWt?.toFixed(3)}
+                                    {((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}
                                   </div>
                                 </div>
                               </div>
@@ -651,16 +698,16 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                                 )}
                               </div>
                               <div className="tc6JL">
-                                {NumberWithCommas(e?.OtherCharges, 2)}
+                                {formatAmount(e?.OtherCharges)}
                               </div>
                               <div className="tc7JL">
-                                {NumberWithCommas(e?.MakingAmount, 2)}
+                                {formatAmount(e?.MakingAmount)}
                               </div>
                               <div
                                 className="tc8JL"
                                 style={{ borderRight: "0px" }}
                               >
-                                {NumberWithCommas(e?.UnitCost, 2)}
+                                {formatAmount(e?.UnitCost)}
                               </div>
                             </div>
                           );
@@ -676,8 +723,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                         <div className="tc4JL2 h-100">
                           <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL"></div>
                           <div className="d-flex justify-content-end pe-1 align-items-center w-50 h-100">
-                            {mainTotal?.totalgrosswt?.grosswt?.toFixed(3)}/
-                            {mainTotal?.totalnetwt?.netwt?.toFixed(3)}
+                            {result?.mainTotal?.grosswt?.toFixed(3)}/{result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
                           </div>
                         </div>
                       </div>
@@ -685,8 +731,8 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                         <div className="tc4JL2 h-100">
                           <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL"></div>
                           <div className="d-flex justify-content-end pe-1 align-items-center w-50 h-100">
-                            {mainTotal?.diamonds?.Pcs}/
-                            {mainTotal?.diamonds?.Wt?.toFixed(3)}
+                            {result?.mainTotal?.diamonds?.Pcs}/
+                            {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                           </div>
                         </div>
                       </div>
@@ -694,25 +740,28 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                         <div className="tc5JL2 h-100">
                           <div className="d-flex justify-content-center align-items-center w-50 h-100 brrJL"></div>
                           <div className="d-flex justify-content-end pe-1 align-items-center w-50 h-100">
-                            {mainTotal?.colorstone?.Pcs}/
-                            {mainTotal?.colorstone?.Wt?.toFixed(3)}
+                            {result?.mainTotal?.colorstone?.Pcs}/
+                            {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
                           </div>
                         </div>
                       </div>
                       <div className="tc6JL d-flex justify-content-end pe-1 h-100">
                         {/* {mainTotal?.totalOtherAmount?.toFixed(2)} */}
-                        {NumberWithCommas(mainTotal?.totalOtherAmount, 2)}
+                        {formatAmount(result?.mainTotal?.total_other)}
                       </div>
                       <div className="tc7JL d-flex justify-content-end pe-1 h-100">
                         {/* {mainTotal?.totallabourAmount?.toFixed(2)} */}
-                        {NumberWithCommas(mainTotal?.totallabourAmount, 2)}
+                        {console.log(result)}
+                        {formatAmount(((
+                          (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate)
+                          )))}
                       </div>
                       <div
                         className="tc8JL d-flex justify-content-end pe-1 h-100"
-                        style={{ borderRight: "0px" , fontSize:"10px"}}
+                        style={{ borderRight: "0px" }}
                       >
                         {/* {mainTotal?.totalunitCost?.toFixed(2)} */}
-                        {NumberWithCommas(mainTotal?.totalunitCost, 2)}
+                        {formatAmount(result?.mainTotal?.total_amount)}
                       </div>
                     </div>
                     <div className="footerJL fsJL d-flex justify-content-between align-items-end no_break ">
@@ -720,22 +769,26 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                         <div className="fw-bold py-1 px-1">
                           In Words Indian Rupees
                         </div>
-                        <div className="fw-bold py-2 px-1">{inWords}</div>
+                        {/* <div className="fw-bold py-2 px-1">{inWords}</div> */}
+                        <div className="fw-bold py-2 px-1">
+                        { toWords?.convert(+((((result?.finalAmount)/(result?.header?.CurrencyExchRate)) +  result?.header?.FreightCharges)?.toFixed(2)))} Only
+                        </div>
                       </div>
                       <div className="footerTotJL">
                         <div className="brJL">
                           <div className="d-flex flex-column justify-content-between px-1">
-                            {taxTotal?.map((e, i) => {
+                            {result?.allTaxes?.map((e, i) => {
                               return (
                                 <div
                                   className="d-flex justify-content-between px-1"
                                   key={i}
+                                  
                                 >
-                                  <div className="w-50 d-flex justify-content-end align-items-center pe-1 brrJL">
+                                  <div className="w-50 d-flex justify-content-end align-items-center pe-1 brrJL" style={{lineHeight:'19px'}}>
                                     {e?.name} {e?.per}
                                   </div>
-                                  <div className="w-50 d-flex justify-content-end align-items-center ">
-                                    {NumberWithCommas(e?.amount, 2)}
+                                  <div className="w-50 d-flex justify-content-end align-items-center " style={{lineHeight:'19px'}}>
+                                    {formatAmount(e?.amount)}
                                   </div>
                                 </div>
                               );
@@ -744,10 +797,10 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
 
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 d-flex justify-content-end align-items-center pe-1 brrJL">
-                              Less
+                              { result?.header?.AddLess > 0 ? 'Add' : 'Less' }
                             </div>
                             <div className="w-50 d-flex justify-content-end align-items-center pe-1 ">
-                              {headerData?.AddLess?.toFixed(2)}
+                              {formatAmount(result?.header?.AddLess)}
                             </div>
                           </div>
                         </div>
@@ -762,7 +815,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                             className="fw-bold w-50 d-flex align-items-center justify-content-end pe-1"
                             style={{ fontSize: "15px" }}
                           >
-                             {NumberWithCommas(grandTot, 2)}
+                             {formatAmount((result?.mainTotal?.total_amount + result?.allTaxesTotal))}
                           </div>
                         </div>
                       </div>
@@ -795,7 +848,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                           Account Number : {headerData?.accountnumber}
                         </div>
                         <div className="fslhJL">
-                          RTGS/NEFT IFSC:{headerData?.customerAddress3}
+                          RTGS/NEFT IFSC:{headerData?.rtgs_neft_ifsc}
                         </div>
                         <div className="fslhJL"></div>
                       </div>

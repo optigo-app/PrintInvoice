@@ -168,6 +168,7 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       });
     }
   }, [printName]);
+  
 console.log(result);
 
   return (
