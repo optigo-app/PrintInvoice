@@ -4,6 +4,10 @@
     word-break: normal;
 }
 
+.font_16{
+    font-size: 16px !important;
+}
+
 .sr{
     width: 6%;
     min-width: 6%;
@@ -50,6 +54,40 @@
     right: 5%;
     top: 15px;
 }
+
+.font_size_19{
+    font-size: 19px !important;
+}
+
+.font_size_18, .font_size_18 *{
+    font-size: 18px !important;
+}
+
+.font_size_15, .font_size_15 *{
+    font-size: 15px !important;
+}
+
+.font_size_10, .font_size_10 *{
+    font-size: 10px !important;
+}
+
+.font_size_12, .font_size_12 *{
+    font-size: 12px !important;
+}
+
+.font_size_12_5, .font_size_12_5 *{
+    font-size: 12.5px !important;
+}
+
+.font_size_13, .font_size_13 *{
+    font-size: 13px !important;
+}
+
+.font_size_14, .font_size_14 *{
+    font-size: 14px !important;
+}
+
+
 
 @media print{
     .print_sec_sum4{

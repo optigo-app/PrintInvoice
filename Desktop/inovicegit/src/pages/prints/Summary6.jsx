@@ -16,6 +16,7 @@ import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
 import headerStyle from "../../assets/css/headers/header1.module.css";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
+import { cloneDeep } from 'lodash';
 
 const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
@@ -45,6 +46,8 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         );
         setData(datas);
         let summaryItems = [];
+        let resultArray = [];
+        let metalNetWts = 0;
         datas?.resultArray?.forEach((e, i) => {
             let findRecord = summaryItems.findIndex((ele, ind) => ele?.Categoryname === e?.Categoryname && ele?.SubCategoryname === e?.SubCategoryname);
             if (findRecord === -1) {
@@ -52,7 +55,15 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             } else {
                 summaryItems[findRecord].Quantity += e?.Quantity;
             }
-        })
+            let obj = cloneDeep(e);
+            let metalNetWt = obj?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc + cObj?.Wt : acc, 0);
+            obj.metalNetWt = metalNetWt;
+            metalNetWts += metalNetWt;
+            resultArray?.push(obj);
+        });
+        datas.mainTotal.metalNetWt = metalNetWts;
+        datas.resultArray = resultArray;
+        console.log(datas);
         setSummary(summaryItems);
     };
 
@@ -88,17 +99,17 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <thead>
                     <tr>
                         <th className='d-flex flex-wrap pe-0 pb-0 ps-0 pt-2'>
-                            <div className={`${headerStyle.headline} headerTitle w-100`}>{headerData?.PrintHeadLabel}</div>
+                            <div className={`${headerStyle.headline} headerTitle w-100 ${style?.font_16} ps-2 py-3`}>{headerData?.PrintHeadLabel}</div>
                             <div className="d-flex justify-content-between w-100 align-items-center">
                                 <div className={`${headerStyle.companyDetails} col-6`} style={{ minHeight: "unset" }}>
                                     <div className={`${headerStyle.companyhead} p-2`}>
-                                        <div className={`${headerStyle.lines} fs-5`} style={{ fontWeight: "bold" }}>
+                                        <div className={`${headerStyle.lines} fs-5 ${style?.font_size_19}`} style={{ fontWeight: "bold", }}>
                                             {headerData?.CompanyFullName}
                                         </div>
-                                        <div className={`${headerStyle.lines} fw-normal`}>{headerData?.CompanyAddress}</div>
-                                        <div className={`${headerStyle.lines} fw-normal`}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
-                                        <div className={`${headerStyle.lines} fw-normal`}>T {headerData?.CompanyTellNo} {headerData?.CompanyTollFreeNo}</div>
-                                        <div className={`${headerStyle.lines} fw-normal`}>
+                                        <div className={`${headerStyle.lines} fw-normal ${style?.font_size_12_5}`}>{headerData?.CompanyAddress}</div>
+                                        <div className={`${headerStyle.lines} fw-normal ${style?.font_size_12_5}`}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+                                        <div className={`${headerStyle.lines} fw-normal ${style?.font_size_12_5}`}>T {headerData?.CompanyTellNo} {headerData?.CompanyTollFreeNo}</div>
+                                        <div className={`${headerStyle.lines} fw-normal ${style?.font_size_12_5}`}>
                                             {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
                                         </div>
                                     </div>
@@ -108,7 +119,7 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     {isImageWorking && (headerData?.PrintLogo !== "" &&
                                         <img src={headerData?.PrintLogo} alt=""
                                             className={`${headerStyle.headerImg} w-100 object-fit-contain`}
-                                            style={{ maxWidth: "153.11px", maxHeight: "100px" }}
+                                            style={{ maxWidth: "116px", maxHeight: "100px" }}
                                             onError={handleImageErrors} />)}
                                 </div>
                             </div>
@@ -116,7 +127,6 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </tr>
                     <tr></tr>
                 </thead>
-
                 <tbody>
                     <tr>
                         <td className='border-0 pb-0'>
@@ -130,13 +140,13 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <tr>
                         <td className='pt-0 ps-0 pe-0'>
                             {/* bill info */}
-                            <div className="border d-flex justify-content-between">
+                            <div className={`border d-flex justify-content-between ${style?.font_size_18}`}>
                                 <div className="col-6">
                                     <p><span className="fw-bold px-2">##: </span>{headerData?.InvoiceNo}</p>
                                 </div>
                                 <div className="col-3 px-2">
                                     <p> <span className="fw-bold">DATE : </span> 	{headerData?.EntryDate}  </p>
-                                    <p> <span className="fw-bold"> {headerData?.HSN_No_Label} :</span>	{headerData?.HSN_No}  </p>
+                                    <p> <span className="fw-bold pe-4"> {headerData?.HSN_No_Label} :</span>	{headerData?.HSN_No}  </p>
                                 </div>
                             </div>
                         </td>
@@ -146,11 +156,12 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {/* customer details */}
                             <div className="border-start border-end border-bottom d-flex px-2 pb-2 pt-1">
                                 <div className="col-6">
-                                    <p className="fw-bold fs-6">{headerData?.customerfirmname} </p>
-                                    <p>{headerData?.customerregion}</p>
-                                    <p>{headerData?.customercity} </p>
-                                    <p>{headerData?.customermobileno}</p>
-                                    <p>GSTIN-{headerData?.CustGstNo} | {headerData?.Cust_CST_STATE}-{headerData?.Cust_CST_STATE_No} | PAN-{headerData?.CustPanno}</p></div>
+                                    <p className="fw-bold fs-5">{headerData?.customerfirmname} </p>
+                                    <p className={`${style?.font_size_13}`}>{headerData?.customerstreet}</p>
+                                    <p className={`${style?.font_size_13}`}>{headerData?.customerregion}</p>
+                                    <p className={`${style?.font_size_13}`}>{headerData?.customercity} </p>
+                                    <p className={`${style?.font_size_13}`}>{headerData?.customermobileno}</p>
+                                    <p className={`${style?.font_size_13}`}>{headerData?.vat_cst_pan?.replaceAll("|", " ")}</p></div>
                                 <div className="col-6"></div>
                             </div>
                         </td>
@@ -187,7 +198,7 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {/* table data */}
                     {
                         data?.resultArray.map((e, i) => {
-                            return <tr key={i}>
+                            return <tr key={i} className={`${style?.font_size_10}`}>
                                 <td className='p-0 border'>
                                     <div className="d-flex " key={i}>
                                         <div className={`${style?.sr} border-end d-flex align-items-center justify-content-center`}>{i + 1}
@@ -205,7 +216,7 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                         <div className={`${style?.gwt} border-end p-1 d-flex align-items-center justify-content-end`}>{NumberWithCommas(e?.grosswt, 3)}
                                         </div>
-                                        <div className={`${style?.nwt} border-end p-1 d-flex align-items-center justify-content-end`}>{NumberWithCommas(e?.NetWt + e?.LossWt, 3)}
+                                        <div className={`${style?.nwt} border-end p-1 d-flex align-items-center justify-content-end`}>{NumberWithCommas(e?.metalNetWt, 3)}
                                         </div>
                                         <div className={`${style?.dpcs} border-end p-1 d-flex align-items-center justify-content-end`}>{NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)}
                                         </div>
@@ -215,9 +226,9 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                         <div className={`${style?.cswt} border-end p-1 d-flex align-items-center justify-content-end`}>{NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}
                                         </div>
-                                        <div className={`${style?.order} border-end p-1 d-flex align-items-center justify-content-end`}>0.00
+                                        <div className={`${style?.order} border-end p-1 d-flex align-items-center justify-content-end`}>{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)}
                                         </div>
-                                        <div className={`${style?.total} p-1 d-flex align-items-center justify-content-end`}>{NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)}
+                                        <div className={`${style?.total} p-1 d-flex align-items-center justify-content-end`}><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span> {NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)}
                                         </div>
                                     </div>
                                 </td>
@@ -227,7 +238,7 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {/* table total */}
 
                     <tr>
-                        <td className='p-0 border'>
+                        <td className={`p-0 border ${style?.font_size_13}`}>
                             <div className="d-flex">
                                 <div className={`${style?.sr} text-center`}>
                                 </div>
@@ -238,7 +249,7 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 </div>
                                 <div className={`${style?.gwt} border-end p-1 d-flex align-items-center justify-content-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.grosswt, 3)}
                                 </div>
-                                <div className={`${style?.nwt} border-end p-1 d-flex align-items-center justify-content-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.netwtWithLossWt, 3)}
+                                <div className={`${style?.nwt} border-end p-1 d-flex align-items-center justify-content-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.metalNetWt, 3)}
                                 </div>
                                 <div className={`${style?.dpcs} border-end p-1 d-flex align-items-center justify-content-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)}
                                 </div>
@@ -248,7 +259,7 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 </div>
                                 <div className={`${style?.cswt} border-end p-1 d-flex align-items-center justify-content-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}
                                 </div>
-                                <div className={`${style?.order} border-end p-1 d-flex align-items-center justify-content-end fw-bold`}>00.00
+                                <div className={`${style?.order} border-end p-1 d-flex align-items-center justify-content-end fw-bold`}>{NumberWithCommas(data?.mainTotal?.total_otherCharge_Diamond_Handling, 2)}
                                 </div>
                                 <div className={`${style?.total} p-1 d-flex align-items-center justify-content-end fw-bold`}><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span> {NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}
                                 </div>
@@ -259,7 +270,7 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <tr>
                         <td className='p-0 border'>
                             <div className="">
-                                <div className="d-flex border-bottom p-1">
+                                <div className={`d-flex border-bottom p-1 ${style?.font_size_13}`}>
                                     <div className={`${style?.taxWords} text-center border-end`}>
                                     </div>
                                     <div className={`${style?.tax} p-1`}>
@@ -272,16 +283,16 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         {
                                             headerData?.AddLess !== 0 && <div className="d-flex justify-content-between fw-bold">
                                                 <p>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
-                                                <p>{headerData?.AddLess}</p>
+                                                <p>{NumberWithCommas(headerData?.AddLess, 2)}</p>
                                             </div>
                                         }
                                     </div>
                                 </div>
                                 <div className="d-flex p-1">
-                                    <div className={`${style?.taxWords} border-end d-flex align-items-center fw-bold`}>
+                                    <div className={`${style?.taxWords} border-end d-flex align-items-center fw-bold ${style?.font_size_12}`}>
                                         <p>  {toWords.convert(+fixedValues(data?.finalAmount, 2))} Only	</p>
                                     </div>
-                                    <div className={`${style?.tax} p-1`}>
+                                    <div className={`${style?.tax} p-1 ${style?.font_size_14}`}>
                                         <div className="d-flex justify-content-end fw-bold">
                                             <p>Grand Total :</p>
                                             <p> <span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span> {NumberWithCommas(data?.finalAmount, 2)}/-  </p>
@@ -295,24 +306,24 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <tr>
                         <td className='p-0 border my-1'>
                             <div>
-                                <p className="lightGrey fw-bold p-1 border-bottom"> Summary Detail </p>
+                                <p className={`lightGrey fw-bold p-1 border-bottom ${style?.font_size_15}`}> Summary Detail </p>
                                 <div className={`${style?.d_grid} flex-wrap p-1 d-grid`}>
 
                                     {summary.map((e, i) => {
-                                        return <div className='d-flex' key={i}>
+                                        return <div className={`d-flex ${style?.font_size_12_5}`} key={i}>
                                             <div className="col-7">{e?.Categoryname} | {e?.SubCategoryname}</div>
                                             <div className="col-1">:</div>
-                                            <div className="col-4">{e?.Quantity}</div>
+                                            <div className="col-4 fw-bold">{e?.Quantity}</div>
                                         </div>
                                     })}
                                 </div>
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td className='p-0'>
-                            {headerData?.PrintRemark !== "" && <p><span className="fw-bold">REMARKS IF ANY :</span> {headerData?.PrintRemark}</p>}
-                            <pre className='preText pt-1'>**  THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</pre>
+                    <tr className=''>
+                        <td className='p-0 pt-1 border-0'>
+                            {headerData?.PrintRemark !== "" && <p className={`${style?.font_size_14}`}><span className="fw-bold">REMARKS IF ANY :</span> {headerData?.PrintRemark}</p>}
+                            <p className={`preText pt-1 border-0 ${style?.font_size_12}`} style={{ letterSpacing: "0px" }}><span className='pe-2'>** </span> THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</p>
                         </td>
                     </tr>
                 </tbody>
