@@ -14,9 +14,9 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         image: false,
     });
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
 
     const loadData = (data) => {
         // console.log(data);
@@ -26,10 +26,9 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         datas?.resultArray?.forEach((e, i) => {
             let obj = cloneDeep(e);
             let diamonds = [];
+            // elem?.ShapeName === ele?.ShapeName && ele?.Colorname === elem?.Colorname && 
             obj?.diamonds?.forEach((ele, ind) => {
-                let findDiamond = diamonds?.findIndex((elem, index) =>
-                    // elem?.ShapeName === ele?.ShapeName && ele?.Colorname === elem?.Colorname && 
-                    ele?.QualityName === elem?.QualityName && ele?.Rate === elem?.Rate);
+                let findDiamond = diamonds?.findIndex((elem, index) => ele?.QualityName === elem?.QualityName);
                 if (findDiamond === -1) {
                     diamonds.push(ele);
                 } else {
@@ -43,6 +42,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             resultArr?.push(obj);
         })
         datas.resultArray = resultArr;
+        console.log(datas);
         setData(datas);
     }
 
@@ -103,7 +103,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
             </div>
             <div className={`container max_width_container pad_60_allPrint ${style?.detailPrint2} pt-2`} >
-                <h4 className='lightGrey min_height_label px-2'>{headerData?.PrintHeadLabel}</h4>
+                <h4 className='lightGrey min_height_label px-2 fw-bold d-flex align-items-center' style={{ fontSize: "14px" }}>{headerData?.PrintHeadLabel}</h4>
                 <div className="d-flex pt-2 justify-content-between">
                     <div className='col-6'>
                         <p>To</p>
@@ -195,14 +195,14 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                             return <div className="d-flex" key={ind}>
                                                 <div className='col-3'><p className=''>{ele?.QualityName}</p></div>
                                                 <div className='col-3 text-end'><p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p></div>
-                                                <div className='col-3 text-end'><p className='text-end'>{NumberWithCommas(ele?.Rate, 2)}</p></div>
+                                                <div className='col-3 text-end'><p className='text-end'>{NumberWithCommas(ele?.Amount/ele?.Wt, 2)}</p></div>
                                                 <div className='col-3 text-end'><p className='text-end'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                                             </div>
                                         })}
                                     </div>
                                     <div className="border-top d-flex lightGrey" style={{ minHeight: "13.5px" }}>
                                         <p className="text-center col-3 fw-semibold"></p>
-                                        <p className="text-end col-3 fw-semibold">{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p>
+                                        <p className="text-end col-3 fw-semibold">{e?.totals?.diamonds?.Wt !== 0 && NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p>
                                         <p className="text-end col-3 fw-semibold"></p>
                                         <p className="text-end col-3 fw-semibold">{NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</p>
                                     </div>
@@ -244,17 +244,17 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         })}
                                     </div>
                                     <div className="border-top lightGrey">
-                                        <p className='text-end fw-semibold' style={{ minHeight: "13.5px" }}>{e?.totals?.colorstone?.Amount !== 0 && NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</p>
+                                        <p className='text-end fw-semibold' style={{ minHeight: "13.5px" }}>{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</p>
                                     </div>
                                 </div>
                             </div>
                             <div className={`${style?.other} border-bottom  border-end text-end`}>
                                 <div className="d-flex h-100 flex-column justify-content-between">
                                     <div>
-                                        <p className='text-end'>{NumberWithCommas(e?.OtherCharges, 2)}</p>
+                                        <p className='text-end'>{NumberWithCommas(e?.OtherCharges + e?.MiscAmount, 2)}</p>
                                     </div>
                                     <div className='border-top lightGrey'>
-                                        <p className='text-end fw-semibold'> {NumberWithCommas(e?.OtherCharges, 2)}</p>
+                                        <p className='text-end fw-semibold'> {NumberWithCommas(e?.OtherCharges + e?.MiscAmount, 2)}</p>
                                     </div>
                                 </div>
                             </div>
@@ -264,7 +264,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         <p className='text-end'>{NumberWithCommas(e?.MakingAmount, 2)}</p>
                                     </div>
                                     <div className='border-top lightGrey'>
-                                        <p className='text-end fw-semibold'> {NumberWithCommas(e?.MakingAmount, 2)}</p>
+                                        <p className='text-end fw-semibold'> {NumberWithCommas(e?.MakingAmount-e?.TotalDiaSetcost, 2)}</p>
                                     </div>
                                 </div>
                             </div>
@@ -310,7 +310,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className={`${style?.metal}  border-end d-flex`}>
                             <div className='col-3'><p className=' fw-semibold'></p></div>
-                            <div className='col-3'><p className=' text-end fw-semibold'>{NumberWithCommas((data?.mainTotal?.diamonds?.Wt/5) + data?.mainTotal?.netwt, 3 )}</p></div>
+                            <div className='col-3'><p className=' text-end fw-semibold'>{NumberWithCommas((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.netwt, 3)}</p></div>
                             <div className='col-3'><p className=' text-end fw-semibold'>{NumberWithCommas(data?.mainTotal?.metal?.Wt, 3)}</p></div>
                             <div className='col-3'><p className=' text-end fw-semibold'>{NumberWithCommas(data?.mainTotal?.metal?.Amount, 2)}</p></div>
                         </div>
@@ -344,7 +344,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                                 <div className="d-flex px-1 justify-content-between">
                                     <p className='fw-bold'>G+D WT</p>
-                                    <p>{NumberWithCommas((data?.mainTotal?.diamonds?.Wt/5) + data?.mainTotal?.netwt, 3 )} gm	</p>
+                                    <p>{NumberWithCommas((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.netwt, 3)} gm	</p>
                                 </div>
                                 <div className="d-flex px-1 justify-content-between">
                                     <p className='fw-bold'>NET WT</p>
