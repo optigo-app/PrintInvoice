@@ -3,6 +3,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { apiCall, formatAmount, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/summary3.css";
+import { cloneDeep } from "lodash";
 
 const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
@@ -58,6 +59,78 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+    
+    // datas?.resultArray?.forEach((a) => {
+    //   console.log(a);
+    //   let findrecord = puritywise?.findIndex((el) => el?.Tunch === a?.Tunch && el?.Categoryname === a?.Categoryname && el?.totals?.metal?.Rate === a?.totals?.metal?.Rate);
+    //   if(findrecord === -1){
+    //     let obj = {...a};
+    //     obj._grosswt = a?.grosswt;
+    //     obj._Quantity = a?.Quantity;
+    //     obj._NetWt = a?.NetWt;
+    //     obj._LossWt= a?.LossWt;
+    //     obj._Wastage = a?.Wastage;
+    //     obj._convertednetwt = a?.convertednetwt;
+    //     obj._TotalAmount = a?.TotalAmount;
+    //     obj._totalcswt = a?.totals?.colorstone?.Wt;
+    //     obj._totalmiscwt = a?.totals?.misc?.Wt;
+    //     // obj.Tunch = a?.Tunch;
+    //     puritywise.push(obj);
+    //   }else{
+    //     // puritywise[findrecord].Tunch = a?.Tunch;
+    //     puritywise[findrecord]._grosswt += a?.grosswt;
+    //     puritywise[findrecord]._Quantity += a?.Quantity;
+    //     puritywise[findrecord]._NetWt += a?.NetWt;
+    //     puritywise[findrecord]._LossWt += a?.LossWt;
+    //     puritywise[findrecord]._Wastage += a?.Wastage;
+    //     puritywise[findrecord]._convertednetwt += a?.convertednetwt;
+    //     puritywise[findrecord]._TotalAmount += a?.TotalAmount;
+    //     puritywise[findrecord]._totalcswt += a?.totals?.colorstone?.Wt;
+    //     puritywise[findrecord]._totalmiscwt += a?.totals?.misc?.Wt;
+    //   }
+    // })
+    // // console.log(puritywise);
+    // datas.resultArray = puritywise;
+    let p_wise2 = [];
+    datas?.resultArray?.forEach((e) => {
+
+      let metalrate = e?.metal?.reduce((acc, cob) => cob.IsPrimaryMetal === 1 ? acc + cob.Rate : acc, 0);
+      let obj = cloneDeep(e);
+      obj.metalrate = metalrate;
+
+      // eslint-disable-next-line array-callback-return
+      let findIN = p_wise2?.findIndex((a, ind) => { 
+        
+        if(a?.Tunch === obj?.Tunch && a?.Categoryname === obj.Categoryname && a?.metalrate === obj?.metalrate){
+          return ind
+        }
+      })
+      if(findIN === -1){
+        p_wise2.push(obj);
+      }else{
+        p_wise2[findIN].grosswt += obj?.grosswt;
+        p_wise2[findIN].NetWt += obj?.NetWt;
+        p_wise2[findIN].LossWt += obj?.LossWt;
+        p_wise2[findIN].Quantity += obj?.Quantity;
+        p_wise2[findIN].totals.colorstone.Wt += obj?.totals?.colorstone?.Wt;
+        p_wise2[findIN].totals.misc.Wt += obj?.totals?.misc?.Wt;
+        p_wise2[findIN].convertednetwt += obj?.convertednetwt;
+        p_wise2[findIN].TotalAmount += obj?.TotalAmount;
+      }
+    })
+    datas.resultArray = p_wise2;
+    datas?.resultArray?.sort((a, b) => a?.Categoryname?.localeCompare(b?.Categoryname));
+
+    // let allarr2 = [];
+    // datas?.json1?.forEach((a) => {
+    //     console.log(a);
+
+    //     datas?.json2?.forEach((a) => {
+    //       console.log(a);
+    //     })
+    //   })
+
+
     setResult(datas);
   }
   useEffect(() => {
@@ -93,6 +166,7 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       });
     }
   }, [printName]);
+console.log(result);
 
   return (
     <>
@@ -109,16 +183,16 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     >
                       Print
                     </button></div>
-                <div className="headtexts3">ESTIMATE</div>
+                <div className="headtexts3">{result?.header?.PrintHeadLabel}</div>
                 <div className="d-flex mt-4 justify-content-between w-100 align-items-center px-3">
                   <div className="fsgs3">
-                    Name : <b className="fsgs3">Dar Be Gold Jewelers</b>
+                    Name : <b className="fsgs3">{result?.header?.customerfirmname}</b>
                   </div>
                   <div className="fsgs3">
-                    Invoice No : <b className="fsgs3">SK17382022</b>
+                    Invoice No : <b className="fsgs3">{result?.header?.InvoiceNo}</b>
                   </div>
                   <div className="fsgs3">
-                    Date : <b className="fsgs3">03 Jan 2024</b>
+                    Date : <b className="fsgs3">{result?.header?.EntryDate}</b>
                   </div>
                 </div>
                 {/* table */}
@@ -155,11 +229,14 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className={`${classIs.col2} centers3 border-end border-black  rs3 pe-1`}>{e?.Quantity}</div>
                                 <div className={`${classIs.col3} centers3 border-end border-black  rs3 pe-1`}>{e?.grosswt?.toFixed(3)}</div>
                                 <div className={`${classIs.col4} centers3 border-end border-black  rs3 pe-1`}>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
-                                <div className={`${classIs.col5} centers3 border-end border-black  rs3 pe-1`}>{e?.Tunch?.toFixed(3)} </div>
+                                <div className={`${classIs.col5} centers3 border-end border-black  rs3 pe-1`}>{(e?.Tunch - e?.Wastage)?.toFixed(3)} </div>
                                 <div className={`${classIs.col6} centers3 border-end border-black  rs3 pe-1`}>{e?.Wastage?.toFixed(3)}</div>
                                 <div className={`${classIs.col7} centers3 border-end border-black  rs3 pe-1`}>{((e?.totals?.colorstone?.Wt)/5)?.toFixed(3)}</div>
+                                {/* <div className={`${classIs.col7} centers3 border-end border-black  rs3 pe-1`}>{((e?._totalmiscwt))?.toFixed(3)}</div> */}
                                 <div className={`${classIs.col8} centers3 border-end border-black  rs3 pe-1`}> {  atob(printName) === "summary 3" ? <>{e?.totals?.colorstone?.Wt?.toFixed(3)}</> : <>{e?.totals?.colorstone?.Wt?.toFixed(3)}</> } </div>
-                                <div className={`${classIs.col9} centers3 border-end border-black  rs3 pe-1`}>{formatAmount(e?.totals?.metal?.Rate)}</div>
+                                {/* <div className={`${classIs.col8} centers3 border-end border-black  rs3 pe-1`}> {  atob(printName) === "summary 3" ? <>{e?._totalcswt?.toFixed(3)}</> : <>{e?._totalcswt?.toFixed(3)}</> } </div> */}
+                                {/* <div className={`${classIs.col9} centers3 border-end border-black  rs3 pe-1`}>{formatAmount(e?.totals?.metal?.Rate)}</div> */}
+                                <div className={`${classIs.col9} centers3 border-end border-black  rs3 pe-1`}>{formatAmount(e?.metalrate)}</div>
                                 <div className={`${classIs.col10} centers3 border-end border-black  rs3 pe-1`}>{e?.convertednetwt?.toFixed(3)}</div>
                                 <div className={`${classIs.col11} centers3 border-end border-black  rs3 pe-1`}>{formatAmount(e?.TotalAmount)}</div>      
                             </div>
@@ -174,8 +251,9 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className={`${classIs.col3} centers3 border-end border-black  rs3 pe-1`}>{result?.mainTotal?.grosswt?.toFixed(3)}</div>
                                 <div className={`${classIs.col4} centers3 border-end border-black  rs3 pe-1`}>{result?.mainTotal?.netwtWithLossWt?.toFixed(3)}</div>
                                 <div className={`${classIs.col5} centers3 border-end border-black `}> </div>
-                                <div className={`${classIs.col6} centers3 border-end border-black   rs3 pe-1`}>{result?.mainTotal?.total_Wastage?.toFixed(3)}</div>
-                                <div className={`${classIs.col7} centers3 border-end border-black  rs3 pe-1`}>Stone (gm)</div>
+                                {/* <div className={`${classIs.col6} centers3 border-end border-black   rs3 pe-1`}>{result?.mainTotal?.total_Wastage?.toFixed(3)}</div> */}
+                                <div className={`${classIs.col6} centers3 border-end border-black   rs3 pe-1`}></div>
+                                <div className={`${classIs.col7} centers3 border-end border-black  rs3 pe-1`}>{result?.mainTotal?.misc?.Wt?.toFixed(3)}</div>
                                 <div className={`${classIs.col8} centers3 border-end border-black  rs3 pe-1`}> {  atob(printName) === "summary 3" ? <>{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</> : <>{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</> } </div>
                                 <div className={`${classIs.col9} centers3 border-end border-black  `}></div>
                                 <div className={`${classIs.col10} centers3 border-end border-black   rs3 pe-1`}>{result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
