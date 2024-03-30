@@ -95,8 +95,10 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     datas?.resultArray?.forEach((e) => {
 
       let metalrate = e?.metal?.reduce((acc, cob) => cob.IsPrimaryMetal === 1 ? acc + cob.Rate : acc, 0);
+      let primarymetalwt = e?.metal?.reduce((acc, cob) => cob.IsPrimaryMetal === 1 ? acc + cob.Wt : acc, 0);
       let obj = cloneDeep(e);
       obj.metalrate = metalrate;
+      obj.primarymetalwt = primarymetalwt;
 
       // eslint-disable-next-line array-callback-return
       let findIN = p_wise2?.findIndex((a, ind) => { 
@@ -110,6 +112,7 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }else{
         p_wise2[findIN].grosswt += obj?.grosswt;
         p_wise2[findIN].NetWt += obj?.NetWt;
+        p_wise2[findIN].primarymetalwt += obj?.primarymetalwt;
         p_wise2[findIN].LossWt += obj?.LossWt;
         p_wise2[findIN].Quantity += obj?.Quantity;
         p_wise2[findIN].totals.colorstone.Wt += obj?.totals?.colorstone?.Wt;
@@ -119,17 +122,16 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }
     })
     datas.resultArray = p_wise2;
+    
     datas?.resultArray?.sort((a, b) => a?.Categoryname?.localeCompare(b?.Categoryname));
-
-    // let allarr2 = [];
-    // datas?.json1?.forEach((a) => {
-    //     console.log(a);
-
-    //     datas?.json2?.forEach((a) => {
-    //       console.log(a);
-    //     })
-    //   })
-
+    
+    let primaryMetalWt = 0;
+    
+    datas?.resultArray?.forEach((e) => {
+      primaryMetalWt += e?.primarymetalwt;
+    })
+    
+    datas.mainTotal.netwtWithLossWt = primaryMetalWt;
 
     setResult(datas);
   }
@@ -228,7 +230,8 @@ console.log(result);
                                 <div className={`${classIs.col1} centers3 border-end border-black  lefts3 ps-1`}>{e?.Categoryname}</div>
                                 <div className={`${classIs.col2} centers3 border-end border-black  rs3 pe-1`}>{e?.Quantity}</div>
                                 <div className={`${classIs.col3} centers3 border-end border-black  rs3 pe-1`}>{e?.grosswt?.toFixed(3)}</div>
-                                <div className={`${classIs.col4} centers3 border-end border-black  rs3 pe-1`}>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
+                                {/* <div className={`${classIs.col4} centers3 border-end border-black  rs3 pe-1`}>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
+                                <div className={`${classIs.col4} centers3 border-end border-black  rs3 pe-1`}>{(e?.primarymetalwt + e?.LossWt)?.toFixed(3)}</div>
                                 <div className={`${classIs.col5} centers3 border-end border-black  rs3 pe-1`}>{(e?.Tunch - e?.Wastage)?.toFixed(3)} </div>
                                 <div className={`${classIs.col6} centers3 border-end border-black  rs3 pe-1`}>{e?.Wastage?.toFixed(3)}</div>
                                 <div className={`${classIs.col7} centers3 border-end border-black  rs3 pe-1`}>{((e?.totals?.colorstone?.Wt)/5)?.toFixed(3)}</div>
