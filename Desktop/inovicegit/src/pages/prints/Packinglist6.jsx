@@ -146,7 +146,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                 </div>
                 {/* table header */}
-                <div className={`border-bottom ${style?.font_1_12} mb-1`}>
+                <div className={`border-bottom ${style?.font_1_12} mb-1 lightGrey ${style?.rowWisePad}`}>
                     <div className="d-flex  border-start border-end border-top border-black">
                         <div className={`${style?.srNo} border-end d-flex justify-content-center align-items-center`}><p className="fw-bold">Sr. No.</p></div>
                         <div className={`${style?.Jewelcode} border-end d-flex justify-content-center align-items-center`}><p className="fw-bold">Jewelcode	</p></div>
@@ -198,7 +198,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* table data */}
                 {data?.resultArray?.map((e, i) => {
                     return <React.Fragment key={i}>
-                        <div className={`border-start border-end border-black no_break ${style?.font_1_12} ${i === 0 && "border-top"}`}>
+                        <div className={`border-start border-end border-black no_break ${style?.font_1_12} ${style?.rowWisePad} ${i === 0 && "border-top"}`}>
                             <div className="d-flex border-bottom">
                                 <div className={`${style?.srNo} border-end d-flex justify-content-center align-items-center`}><p className="pt-1">{i + 1}</p></div>
                                 <div className={`${style?.Jewelcode} border-end`}>
@@ -360,7 +360,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 </div>
                                 <div className={`${style?.Price} d-flex justify-content-between flex-column`}>
                                     <div className="pt-1">
-                                        <p className="text-end">{NumberWithCommas(e?.UnitCost, 2)}</p>
+                                        <p className="text-end fw-bold">{NumberWithCommas(e?.UnitCost, 2)}</p>
                                     </div>
                                     <div className="border-top lightGrey">
                                         <p className={`${style?.min_height_9_6} text-end fw-bold`}>{NumberWithCommas(e?.UnitCost, 2)}</p>
@@ -368,7 +368,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className={`border-bottom  no_break ${style?.font_1_12}`}>
+                        <div className={`border-bottom ${style?.rowWisePad} no_break ${style?.font_1_12}`}>
                             {e?.Discount !== 0 && <div className="d-flex  border-start border-end border-black">
                                 <div className={`${style?.srNo} border-end d-flex justify-content-center align-items-center pt-1`}><p className="fw-bold px_1"></p></div>
                                 <div className={`${style?.Jewelcode} border-end d-flex justify-content-center align-items-center pt-1`}><p className="fw-bold px_1"></p></div>
@@ -384,37 +384,37 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </React.Fragment>
                 })}
                 {/* table total */}
-                <div className={`border-bottom lightGrey no_break ${style?.font_1_12}`}>
+                <div className={`border-bottom lightGrey no_break ${style?.font_1_12} ${style?.rowWisePad}`}>
                     <div className="d-flex  border-start border-end border-black">
                         <div className={`${style?.total} border-end d-flex justify-content-center align-items-center`}><p className="fw-bold px_1">Total</p></div>
                         <div className={`${style?.Metal} border-end d-flex`}>
                             <p className={`fw-bold border-end text-center ${style?.w_20} px_1`}></p>
-                            <p className={`fw-bold border-end text-end ${style?.w_20} px_1`}>{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</p>
-                            <p className={`fw-bold border-end text-end ${style?.w_20} px_1`}>{NumberWithCommas(total?.metalWt, 3)}</p>
+                            <p className={`fw-bold border-end text-end ${style?.w_20} px_1 d-flex justify-content-end align-items-center`}>{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</p>
+                            <p className={`fw-bold border-end text-end ${style?.w_20} px_1 d-flex justify-content-end align-items-center`}>{NumberWithCommas(total?.metalWt, 3)}</p>
                             <p className={`fw-bold border-end text-end ${style?.w_20} px_1`}></p>
-                            <p className={`fw-bold text-end ${style?.w_20} px_1`}>{NumberWithCommas(total?.metalAmount, 2)}</p>
+                            <p className={`fw-bold text-end ${style?.w_20} px_1 d-flex justify-content-end align-items-center`}>{NumberWithCommas(total?.metalAmount, 2)}</p>
                         </div>
                         <div className={`${style?.Stone} border-end d-flex`}>
                             <p className="fw-bold col-3 border-end px_1"></p>
-                            <p className="fw-bold col-3 border-end text-end px_1">{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}</p>
+                            <p className="fw-bold col-3 border-end text-end px_1 d-flex justify-content-end align-items-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}</p>
                             <p className="fw-bold col-3 border-end text-end px_1"></p>
-                            <p className="fw-bold col-3 text-end px_1">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</p>
+                            <p className="fw-bold col-3 text-end px_1 d-flex justify-content-end align-items-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</p>
                         </div>
                         <div className={`${style?.Labour} border-end d-flex`}>
                             <p className="fw-bold text-end col-6 border-end px_1"></p>
-                            <p className="fw-bold text-end col-6 px_1">{NumberWithCommas(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount, 2)}</p>
+                            <p className="fw-bold text-end col-6 px_1 d-flex justify-content-end align-items-center">{NumberWithCommas(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount, 2)}</p>
                         </div>
                         <div className={`${style?.Other} border-end d-flex`}>
                             <p className="fw-bold text-center col-4 border-end"></p>
                             <p className="fw-bold text-center col-4 border-end"></p>
-                            <p className="fw-bold text-end col-4 px_1">{NumberWithCommas(data?.mainTotal?.total_other_charges + data?.mainTotal?.total_diamondHandling+data?.mainTotal?.totalMiscAmount, 2)}	</p>
+                            <p className="fw-bold text-end col-4 px_1 d-flex justify-content-end align-items-center">{NumberWithCommas(data?.mainTotal?.total_other_charges + data?.mainTotal?.total_diamondHandling+data?.mainTotal?.totalMiscAmount, 2)}	</p>
                         </div>
-                        <div className={`${style?.Price}`}><p className="fw-bold text-end px_1">{NumberWithCommas(data?.mainTotal?.total_amount, 2)}
+                        <div className={`${style?.Price} d-flex justify-content-end align-items-center`}><p className="fw-bold text-end px_1">{NumberWithCommas(data?.mainTotal?.total_amount, 2)}
                         </p></div>
                     </div>
                 </div>
                 {/* table taxes */}
-                <div className={`border-start border-end border-bottom border-black d-flex no_break ${style?.font_1_12}`}>
+                <div className={`border-start border-end border-bottom border-black d-flex no_break ${style?.font_1_12} ${style?.rowWisePad}`}>
                     <div className={`${style?.taxes} border-end px_1`}>
                         {data?.mainTotal?.total_discount_amount !== 0 && <p className="text-end">Total Discount</p>}
                         {data?.allTaxes?.map((e, i) => {

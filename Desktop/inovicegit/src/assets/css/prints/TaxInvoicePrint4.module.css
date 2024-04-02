@@ -9,6 +9,14 @@
   min-width: 5%;
 }
 
+.font_14, .font_14 *{
+  font-size: 14px;
+}
+
+.font_16, .font_16 *{
+  font-size: 16px;
+}
+
 .Description {
   width: 13%;
   min-width: 13%;

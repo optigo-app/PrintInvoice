@@ -1,5 +1,5 @@
 .taxinvoice3 * {
-  font-size: 13px;
+  font-size: 12px;
   line-height: 120%;
 }
 
@@ -13,6 +13,10 @@
 .Item{
     width: 10%;
     min-width: 10%;
+}
+
+.font_14, .font_14 *{
+  font-size: 14px;
 }
 
 .Gold,
@@ -41,6 +45,10 @@
 @media print{
   .print_sec_sum4{
     display: none !important;
+  }
+
+  .taxinvoice3 *{
+    font-size: 9px;
   }
 }
 

@@ -26,6 +26,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         totalTax: 0,
         IgstAmount: 0,
         metalWeight: 0,
+        taxInPer: 0
     });
     const loadData = (data) => {
         setHeaderData(data?.BillPrint_Json[0]);
@@ -41,7 +42,7 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             if (e?.MetalType === "GOLD") {
                 let findGold = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
                 let findobj = resultArr?.findIndex((ele, ind) => ele?.metalRate === findGold?.Rate);
-                      table1Totals.grosswt += e?.grosswt;
+                table1Totals.grosswt += e?.grosswt;
                 if (findobj === -1) {
                     let obj = cloneDeep(e);
                     if (findGold !== undefined) {
@@ -103,9 +104,9 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setData(datas);
     };
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
     useEffect(() => {
         const sendData = async () => {
             try {
@@ -334,8 +335,8 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {/* table total */}
                     <div className={`d-flex border_left ${style?.exportPrinttable}`}>
                         <div className={`${style?.small}`}>
-                            <div className="d-flex pb-4  no_break">
-                                <div className="col-5  border-black border-top h-100">
+                            {/* <div className="d-flex pb-4  no_break">
+                                <div className="col-5 border-black border-top h-100">
                                     <p className="fw-semibold border-start border-bottom border-black px-2 py-1">Item</p>
                                     {
                                         category?.data?.map((e, i) => {
@@ -362,6 +363,24 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     }
                                     <p className="fw-semibold border-end border-bottom border-black border-top px-2 py-1" style={{ maxHeight: "24.36px" }}>{NumberWithCommas(category?.Quantity, 0)}</p>
                                 </div>
+                            </div> */}
+                            <div className='pb-4 pe-2 pt-1'>
+                            <table className='w-100'>
+                                <tbody>
+                                <tr className=" no_break">
+                                    <td className='col-5 border-black border-top h-100 fw-semibold border-start border-bottom px-2 py-1'>Item</td>
+                                    <td className='col-3 border-black border-top h-100 fw-semibold border-start border-bottom px-2 py-1'>KT</td>
+                                    <td className='col-3 border-black border h-100 fw-semibold  px-2 py-1'>QTY</td>
+                                </tr>
+                                {category?.data?.map((e, i) => {
+                                    return <tr className="no_break" key={i}>
+                                    <td className='col-5 border-black h-100 fw-semibold border-start border-bottom px-2 py-1'>{e?.Categoryname}</td>
+                                    <td className='col-3 border-black h-100 fw-semibold border-start border-bottom px-2 py-1'>{e?.MetalPurity}</td>
+                                    <td className='col-3 border-black h-100 fw-semibold border-start border-bottom border-end px-2 py-1'>{NumberWithCommas(e?.Quantity, 0)}</td>
+                                </tr>
+                                })}
+                                </tbody>
+                            </table>
                             </div>
                             <div className="d-flex border border-black  no_break">
                                 <div className={`${style?.w_20} border-end border-black d-flex justify-content-center align-items-center`}><p className="fw-semibold text-center p-1">Total {headerData?.CurrencyCode}</p></div>
@@ -526,13 +545,13 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <p className="fw-bold text-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}</p>
                                     </div>
                                     <div className="col-4 ">
-                                        <p className="fw-bold text-center border-bottom border-black">{NumberWithCommas(data?.mainTotal?.diamonds?.Amount/ headerData?.CurrencyExchRate, 2)}</p>
-                                        <p className="fw-bold text-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount/ headerData?.CurrencyExchRate, 2)}</p>
+                                        <p className="fw-bold text-center border-bottom border-black">{NumberWithCommas(data?.mainTotal?.diamonds?.Amount / headerData?.CurrencyExchRate, 2)}</p>
+                                        <p className="fw-bold text-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className={`${style?.smallgold} d-flex align-items-center justify-content-center`}><p className="fw-bold text-center">{NumberWithCommas(data?.mainTotal?.total_amount/ headerData?.CurrencyExchRate, 2)}</p></div>
+                        <div className={`${style?.smallgold} d-flex align-items-center justify-content-center`}><p className="fw-bold text-center">{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p></div>
                     </div>
                     {/* signature */}
                     <div className="pt-2 no_break">

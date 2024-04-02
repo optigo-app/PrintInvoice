@@ -13,6 +13,7 @@ import style from "../../assets/css/prints/TaxInvoice5.module.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { ToWords } from "to-words";
 import style2 from "../../assets/css/headers/header1.module.css";
+import { cloneDeep } from "lodash";
 
 const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
@@ -26,6 +27,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [pnm, setPnm] = useState(atob(printName).toLowerCase());
   const toWords = new ToWords();
   const [isImageWorking, setIsImageWorking] = useState(true);
+  // const [taxIn5, setTaxIn5] = useState(atob(printName)?.toLowerCase() === "tax invoice 5" ? true : false)
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -43,9 +45,17 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json2
     );
     let resultArr = [];
+    let primaryWts = 0;
     datas?.resultArray.forEach((e, i) => {
       if (e?.GroupJob === "") {
-        let obj = { ...e };
+        let obj = cloneDeep(e);
+        obj.primaryWt = 0;
+        if (obj?.metal?.length <= 1) {
+          obj.primaryWt = e?.NetWt + e?.LossWt;
+        } else {
+          obj.primaryWt = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc + cObj?.Wt : acc, 0);
+        }
+        primaryWts += obj?.primaryWt;
         obj.srjobno = e?.SrJobno.split("/");
         resultArr.push(obj);
       } else {
@@ -54,16 +64,32 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             elem?.GroupJob === e?.GroupJob && elem?.GroupJob !== ""
         );
         if (findRecord === -1) {
-          let obj = { ...e };
+          let obj = cloneDeep(e);
           obj.srjobno = e?.SrJobno.split("/");
+          obj.primaryWt = 0;
+          if (obj?.metal?.length <= 1) {
+            obj.primaryWt = e?.NetWt + e?.LossWt;
+          } else {
+            obj.primaryWt = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc + cObj?.Wt : acc, 0);
+          }
+          primaryWts += obj?.primaryWt;
           resultArr.push(obj);
         } else {
+          let obj = cloneDeep(e);
+          obj.primaryWt = 0;
+          if (obj?.metal?.length <= 1) {
+            obj.primaryWt = e?.NetWt + e?.LossWt;
+          } else {
+            obj.primaryWt = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc + cObj?.Wt : acc, 0);
+          }
           if (e?.GroupJob === e?.SrJobno) {
             resultArr[findRecord].MetalPurity = e?.MetalPurity;
             resultArr[findRecord].JewelCodePrefix = e?.JewelCodePrefix;
             resultArr[findRecord].designno = e?.designno;
             resultArr[findRecord].SrJobno = e?.SrJobno;
           }
+          resultArr[findRecord].primaryWt += obj.primaryWt;
+          primaryWts += obj?.primaryWt;
           resultArr[findRecord].grosswt += e?.grosswt;
           resultArr[findRecord].NetWt += e?.NetWt;
           resultArr[findRecord].totals.diamonds.Wt += e?.totals?.diamonds?.Wt;
@@ -73,6 +99,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }
       }
     });
+    datas.mainTotal.primaryWts = primaryWts;
     datas.resultArray = resultArr;
     datas?.resultArray.sort((a, b) => {
       var nameA = a.SrJobno.toUpperCase(); // Convert names to uppercase for case-insensitive comparison
@@ -123,7 +150,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       <div
         className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
       >
-        <div className="form-check pe-3 pt-2">
+        {/* {!taxIn5 && <div className="form-check pe-3 pt-2">
           <input
             className="form-check-input border-dark"
             type="checkbox"
@@ -131,7 +158,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             onChange={(e) => setImage(!image)}
           />
           <label className="form-check-label">With Image</label>
-        </div>
+        </div>} */}
         <div className="form-check ps-3">
           <input
             type="button"
@@ -142,22 +169,21 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
       {/* header */}
-      <div className={`${style2.headline} headerTitle`}>{headerData?.PrintHeadLabel}</div>
+      <div className={`text-decoration-underline px-2 pb-1`} style={{ fontSize: "24px", fontWeight: "700" }}>{headerData?.PrintHeadLabel}</div>
       <div className={style2.companyDetails}>
-        <div className={`${style2.companyhead} p-2`}>
-          <div className={style2.lines} style={{ fontWeight: "bold" }}>
+        <div className={`${style2.companyhead} p-2 `}>
+          <div className={`${style2.lines} ${style?.font_16}`} style={{ fontWeight: "bold" }}>
             {headerData?.CompanyFullName}
           </div>
           <div className={style2.lines}>{headerData?.CompanyAddress}</div>
           <div className={style2.lines}>{headerData?.CompanyAddress2}</div>
           <div className={style2.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
-          <div className={`${style2.lines} fw-bold`}>
+          <div className={`${style2.lines} fw-bold ${style?.font_16}`} >
             {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
           </div>
-          <div className={style2.lines}>
+          <div className={`${style2.lines} ${style?.font_16}`}>
             CIN-{headerData?.CINNO}
           </div>
-
         </div>
         <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
           {isImageWorking && (headerData?.PrintLogo !== "" &&
@@ -169,9 +195,9 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
       {/* sub header */}
       <div className="d-flex border mb-1">
-        <div className="col-4 border-end p-2">
+        <div className="col-5 border-end p-2">
           <p>{headerData?.lblBillTo}</p>
-          <p className="fw-semibold">{headerData?.CustName}</p>
+          <p className={`fw-semibold ${style?.font_16}`}>{headerData?.CustName}</p>
           <p>{headerData?.customerAddress1}</p>
           <p>{headerData?.customerAddress2}</p>
           <p>
@@ -183,12 +209,12 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
         <div className="col-4 border-end p-2">
           <p>Ship To,</p>
-          <p className="fw-semibold">{headerData?.CustName}</p>
+          <p className={`fw-semibold ${style?.font_16}`}>{headerData?.CustName}</p>
           {address.map((e, i) => {
             return <p key={i}>{e}</p>;
           })}
         </div>
-        <div className="col-4 p-2">
+        <div className="col-3 p-2">
           <p className="d-flex">
             <span className="col-6 fw-semibold pe-2">INVOICE NO	 </span>{" "}
             <span className="col-6">: {headerData?.InvoiceNo}</span>
@@ -203,41 +229,41 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </p>
           <p className="d-flex">
             <span className="col-6 fw-semibold pe-2">TERMS </span>
-            <span className="col-6">: {headerData?.DueDays}</span>
+            <span className="col-6">: {headerData?.DueDays} Days</span>
           </p>
         </div>
       </div>
       {/* table Header */}
       <div className="d-flex mt-1 border">
-        <div className={`${style?.Sr} border-end`}>
+        <div className={`${style?.Sr}  py-1 border-end`}>
           <p className="text-center fw-bold">Sr. No. </p>
         </div>
-        <div className={`${style?.Jewel} border-end`}>
+        <div className={`${style?.Jewel}  py-1 border-end`}>
           <p className="text-center fw-bold">Jewel Code </p>
         </div>
-        <div className={`${style?.KT} border-end`}>
+        <div className={`${style?.KT}  py-1 border-end`}>
           <p className="text-center fw-bold">KT </p>
         </div>
         {pnm === "tax invoice 6" && (
-          <div className={`${style?.Diamond} border-end`}>
+          <div className={`${style?.Diamond}  py-1 border-end`}>
             <p className="text-center fw-bold">HSN </p>
           </div>
         )}
-        <div className={`${style?.Gross} border-end`}>
+        <div className={`${style?.Gross}  py-1 border-end`}>
           <p className="text-center fw-bold">Gross Wt <span className="fw-normal">(in gm)</span> </p>
         </div>
-        <div className={`${style?.Net} border-end`}>
+        <div className={`${style?.Net}  py-1 border-end`}>
           <p className="text-center fw-bold">Net Wt <span className="fw-normal">(in gm)</span> </p>
         </div>
         {pnm !== "tax invoice 6" && (
-          <div className={`${style?.Diamond} border-end`}>
+          <div className={`${style?.Diamond}  py-1 border-end`}>
             <p className="text-center fw-bold">Diamond <span className="fw-normal">(in ct)</span> </p>
           </div>
         )}
-        <div className={`${style?.Stone} border-end`}>
+        <div className={`${style?.Stone}  py-1 border-end`}>
           <p className="text-center fw-bold">Stone <span className="fw-normal">(in ct)</span> </p>
         </div>
-        <div className={`${style?.Price}`}>
+        <div className={`${style?.Price} py-1 `}>
           <p className="text-center fw-bold">Price</p>
         </div>
       </div>
@@ -248,19 +274,19 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className={`${style?.Sr} border-end`}>
               <p className="text-center p-1">{i + 1}</p>
             </div>
-            <div className={`${style?.Jewel} border-end`}>
+            <div className={`${style?.Jewel} border-end ${style?.word_break}`}>
               <p className="p-1">
                 {e?.JewelCodePrefix}
                 {e?.Category_Prefix}
                 {e?.srjobno[1]}
               </p>
             </div>
-            <div className={`${style?.KT} border-end`}>
+            <div className={`${style?.KT} border-end text-center`}>
               <p className="p-1">{e?.MetalPurity} </p>
             </div>
             {pnm === "tax invoice 6" && (
               <div className={`${style?.Diamond} border-end`}>
-                <p className="text-end p-1">{headerData?.HSN_No}</p>
+                <p className="p-1">{headerData?.HSN_No}</p>
               </div>
             )}
             <div className={`${style?.Gross} border-end`}>
@@ -268,7 +294,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             <div className={`${style?.Net} border-end`}>
               <p className="text-end p-1">
-                {NumberWithCommas(e?.NetWt + e?.LossWt, 3)}
+                {NumberWithCommas(e?.primaryWt, 3)}
               </p>
             </div>
             {pnm !== "tax invoice 6" && (
@@ -291,7 +317,6 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
         );
       })}
-
       {/* table total */}
       <div className="d-flex border-start border-end border-bottom">
         <div className={`${style?.Sr} border-end`}>
@@ -315,10 +340,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
         <div className={`${style?.Net} border-end`}>
           <p className="text-end p-1 fw-bold">
-            {NumberWithCommas(
-              data?.mainTotal?.netwt + data?.mainTotal?.lossWt,
-              3
-            )}
+            {NumberWithCommas(data?.mainTotal?.primaryWts, 3)}
           </p>
         </div>
         {pnm !== "tax invoice 6" && <div className={`${style?.Diamond} border-end`}>
@@ -342,7 +364,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div
           className={`${style?.words} border-end p-1 d-flex justify-content-end flex-column`}
         >
-          <p>In Words Indian Rupees</p>
+          <p>In Words (Indian Rupees)</p>
           <p className="fw-bold">
             {toWords.convert(+fixedValues(data?.finalAmount, 2))} Only
           </p>
@@ -350,23 +372,23 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className={`${style?.grandTotal}`}>
           <div className="d-flex">
             <div className={`${style?.grandTotalWord} text-end border-end p-1`}>
-              {data?.allTaxes.map((e, i) => {
+              {data?.allTaxes?.map((e, i) => {
                 return (
-                  <p key={i}>
+                  <p key={i} className={`${style?.font_12}`}>
                     {e?.name} @ {e?.per}
                   </p>
                 );
               })}
               {headerData?.AddLess !== 0 && (
-                <p>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
+                <p className={`${style?.font_12}`}>{headerData?.AddLess > 0 ? "Add" : "Less"}</p>
               )}
             </div>
             <div className={`${style?.grandTotalValue} p-1 text-end`}>
               {data?.allTaxes.map((e, i) => {
-                return <p key={i}>{e?.amount}</p>;
+                return <p key={i} className={`${style?.font_12}`}>{e?.amount}</p>;
               })}
               {headerData?.AddLess !== 0 && (
-                <p>{NumberWithCommas(headerData?.AddLess, 2)}</p>
+                <p className={`${style?.font_12}`}>{NumberWithCommas(headerData?.AddLess, 2)}</p>
               )}
             </div>
           </div>
@@ -390,12 +412,10 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         className="border-start border-end border-bottom p-2"
         dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
       ></div>
-
-
       {/* footer */}
       <div className="d-flex border-start border-end border-bottom">
         <div className="col-4 border-end p-2 d-flex flex-column justify-content-between">
-          <p className="fw-bold">Signature</p>
+          <p className="">Signature</p>
           <p>
             <span className="fw-bold">{headerData?.CustName}</span>
             <span className={`${style?.sup}`}></span> (With Stamp)
@@ -403,14 +423,29 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
         <div className="col-4 border-end p-2">
           <p className="fw-bold">Bank Detail</p>
-          <p>Bank Name: {headerData?.bankname}</p>
-          <p>Branch: {headerData?.bankaddress}</p>
-          <p>Account Name: {headerData?.accountname}</p>
-          <p>Account No. : {headerData?.accountnumber}</p>
-          <p>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</p>
+          <div className="d-flex">
+            <p className="col-5">Account Name</p>
+            <p className="col-7">: {headerData?.accountname}</p>
+          </div>
+          <div className="d-flex">
+            <p className="col-5">Bank Name</p>
+            <p className="col-7">: {headerData?.bankname}</p>
+          </div>
+          <div className="d-flex">
+            <p className="col-5">Branch </p>
+            <p className="col-7">: {headerData?.bankaddress}</p>
+          </div>
+          <div className="d-flex">
+            <p className="col-5">Account No.  </p>
+            <p className="col-7">: {headerData?.accountnumber}</p>
+          </div>
+          <div className="d-flex">
+            <p className="col-5">RTGS/NEFT IFSC</p>
+            <p className="col-7">: {headerData?.rtgs_neft_ifsc}</p>
+          </div>
         </div>
         <div className="col-4 p-2 d-flex flex-column justify-content-between">
-          <p className="fw-bold">Signature</p>
+          <p className="">Signature</p>
           <p className="fw-bold">{headerData?.CompanyFullName}</p>
         </div>
       </div>

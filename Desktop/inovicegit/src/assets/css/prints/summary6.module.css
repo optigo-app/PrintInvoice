@@ -2,6 +2,8 @@
     font-size: 12px;
     line-height: 120%;
     word-break: normal;
+    font-weight: 500;
+    border-color: #918c8c !important;
 }
 
 .font_16{
@@ -16,6 +18,15 @@
     width: 12%;
     min-width: 12%;
 }
+
+.wordBreak *{
+    word-break: break-all;
+}
+
+.summary6 .bottomLine{
+    border-color: #726f6f !important;
+}
+
 .metal, 
 .gwt,
 .nwt,
@@ -68,7 +79,7 @@
 }
 
 .font_size_10, .font_size_10 *{
-    font-size: 10px !important;
+    font-size: 11px !important;
 }
 
 .font_size_12, .font_size_12 *{

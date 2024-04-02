@@ -1,14 +1,20 @@
 .container{
     max-width: 1168px;
+    /* zoom: 1.3; */
 }
 
 .container * {
-    font-size: 12px;
+    /* font-size: 12px; */
+    font-size: 11px;
     line-height: 120%;
 }
 
 .packingListRow *{
     word-break: break-all;
+}
+
+.rowWisePad p{
+    padding: 2px;
 }
 
 .img{
@@ -92,10 +98,19 @@
     font-size: 11px;
 }
 
+.rowHeader *{
+    font-size: 11px;
+}
+
+.word_break *{
+    word-break: break-all;
+}
+
 
 @media print{
     .container{
         max-width: 100%;
+        zoom: unset;
     }
 
     .container * {
@@ -116,5 +131,8 @@
     
     .font_11{
         font-size: 11px;
+    }
+    .rowHeader *{
+        font-size: 8px;
     }
 }

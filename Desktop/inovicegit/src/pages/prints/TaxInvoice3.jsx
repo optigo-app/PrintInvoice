@@ -13,6 +13,7 @@ import style from "../../assets/css/prints/TaxInvoice3.module.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { ToWords } from "to-words";
 import style2 from "../../assets/css/headers/header1.module.css";
+import { cloneDeep } from "lodash";
 
 const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
@@ -41,7 +42,27 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-    datas?.resultArray.sort((a, b) => {
+    let resultArray = [];
+    let PrimaryWts = 0;
+    let findingSettingAmount = 0;
+    datas?.resultArray?.map((e, i) => {
+      let obj = cloneDeep(e);
+      obj.primaryWt = 0;
+      if (e?.metal?.length <= 1) {
+        obj.primaryWt = e?.NetWt + e?.LossWt;
+      } else {
+        obj.primaryWt = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc + cObj?.Wt : acc, 0);
+      }
+      PrimaryWts += obj?.primaryWt;
+      obj.totals.finding.SettingAmount = obj?.finding?.reduce((acc, cObj) => acc + cObj?.SettingAmount, 0);
+      findingSettingAmount += obj?.totals?.finding?.SettingAmount;
+      resultArray?.push(obj);
+    });
+    datas.mainTotal.finding.SettingAmount = findingSettingAmount;
+    datas.mainTotal.PrimaryWts = PrimaryWts;
+    datas.resultArray = resultArray;
+
+    datas?.resultArray?.sort((a, b) => {
       var nameA = a.designno.toUpperCase(); // Convert names to uppercase for case-insensitive comparison
       var nameB = b.designno.toUpperCase();
 
@@ -53,6 +74,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
       return 0; // Names are equal
     });
+    console.log(datas);
     setData(datas);
   };
 
@@ -112,7 +134,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       <div className={`${style2.headline} headerTitle`}>{headerData?.PrintHeadLabel}</div>
       <div className={style2.companyDetails}>
         <div className={`${style2.companyhead} p-2`}>
-          <div className={style2.lines} style={{ fontWeight: "bold" }}>
+          <div className={style2.lines} style={{ fontWeight: "bold", fontSize: "16px" }}>
             {headerData?.CompanyFullName}
           </div>
           <div className={style2.lines}>{headerData?.CompanyAddress}</div>
@@ -133,19 +155,19 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
         </div>
         <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
-        {isImageWorking && (headerData?.PrintLogo !== "" &&
-            <img src={headerData?.PrintLogo} alt="" 
+          {isImageWorking && (headerData?.PrintLogo !== "" &&
+            <img src={headerData?.PrintLogo} alt=""
               className={`${style2.headerImg}`}
-              onError={handleImageErrors}  />)}
+              onError={handleImageErrors} />)}
           {/* <img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /> */}
-          </div>
+        </div>
       </div>
 
       {/* sub header */}
       <div className="d-flex border mb-1">
         <div className="col-4 border-end p-2">
           <p>{headerData?.lblBillTo}</p>
-          <p className="fw-semibold">{headerData?.customerfirmname}</p>
+          <p className={`fw-semibold ${style?.font_14}`}>{headerData?.customerfirmname}</p>
           <p>{headerData?.customerAddress1}</p>
           <p>{headerData?.customerAddress2}</p>
           <p>
@@ -162,7 +184,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
         <div className="col-4 border-end p-2">
           <p>Ship To,</p>
-          <p className="fw-semibold">{headerData?.customerfirmname}</p>
+          <p className={`fw-semibold ${style?.font_14}`}>{headerData?.customerfirmname}</p>
           {address.map((e, i) => {
             return <p key={i}>{e}</p>;
           })}
@@ -177,19 +199,19 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <span className="col-6">{headerData?.EntryDate}</span>
           </p>
           <p className="d-flex">
-            <span className="fw-semibold pe-2 col-6">{headerData?.HSN_No_Label} </span> 
+            <span className="fw-semibold pe-2 col-6">{headerData?.HSN_No_Label} </span>
             <span className="col-6">{headerData?.HSN_No}</span>
           </p>
           <p className="d-flex">
-            <span className="fw-semibold pe-2 col-6">NAME OF GOODS </span> 
+            <span className="fw-semibold pe-2 col-6">NAME OF GOODS </span>
             <span className="col-6">{headerData?.NameOfGoods}</span>
           </p>
           <p className="d-flex">
-            <span className="fw-semibold pe-2 col-6">PLACE OF SUPPLY </span> 
+            <span className="fw-semibold pe-2 col-6">PLACE OF SUPPLY </span>
             <span className="col-6">{headerData?.customerstate}</span>
           </p>
           <p className="d-flex">
-            <span className="fw-semibold pe-2 col-6">TERMS </span> 
+            <span className="fw-semibold pe-2 col-6">TERMS </span>
             <span className="col-6">{headerData?.DueDays}</span>
           </p>
         </div>
@@ -285,7 +307,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className={`${style?.Gold} d-flex border-end`}>
               <div className="col-6 border-end">
                 <p className="text-end p-1">
-                  {NumberWithCommas(e?.NetWt + e?.LossWt, 3)}{" "}
+                  {NumberWithCommas(e?.primaryWt, 3)}{" "}
                 </p>
               </div>
               <div className="col-6">
@@ -320,12 +342,12 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             <div className={`${style?.Others} border-end p-1`}>
               <p className="text-end">
-                {NumberWithCommas(e?.OtherCharges, 2)}{" "}
+                {NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)}{" "}
               </p>
             </div>
             <div className={`${style?.Labour} border-end p-1`}>
               <p className="text-end">
-                {NumberWithCommas(e?.MakingAmount, 2)}{" "}
+                {NumberWithCommas(e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.totals?.finding?.SettingAmount, 2)}{" "}
               </p>
             </div>
             <div className={`${style?.Total} p-1`}>
@@ -351,10 +373,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className={`${style?.Gold} d-flex border-end`}>
           <div className="col-6 border-end">
             <p className="text-end fw-semibold p-1">
-              {NumberWithCommas(
-                data?.mainTotal?.netwt + data?.mainTotal?.lossWt,
-                3
-              )}
+              {NumberWithCommas(data?.mainTotal?.PrimaryWts, 3)}
             </p>
           </div>
           <div className="col-6">
@@ -391,13 +410,13 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
         <div className={`${style?.Others} border-end p-1`}>
           <p className="text-end fw-semibold">
-            {NumberWithCommas(data?.mainTotal?.total_other, 2)}{" "}
+            {NumberWithCommas(data?.mainTotal?.total_other + data?.mainTotal?.total_diamondHandling + data?.mainTotal?.totalMiscAmount, 2)}{" "}
           </p>
         </div>
         <div className={`${style?.Labour} border-end p-1`}>
           <p className="text-end fw-semibold">
             {" "}
-            {NumberWithCommas(data?.mainTotal?.total_Making_Amount, 2)}
+            {NumberWithCommas(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount + data?.mainTotal?.finding?.SettingAmount, 2)}
           </p>
         </div>
         <div className={`${style?.Total} p-1`}>
@@ -455,7 +474,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
       ></div>
       {/* remarks */}
-      <div className="d-flex border-start border-end border-bottom p-2">
+      <div className={`d-flex border-start border-end p-2 ${style?.font_14}`}>
         <p>
           <span className="fw-bold">REMARKS : </span>
           {headerData?.PrintRemark}
