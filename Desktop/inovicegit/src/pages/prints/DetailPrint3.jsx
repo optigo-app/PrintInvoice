@@ -171,7 +171,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
           </div>
           <div className="col6_dp3 border-secondary border-end center_dp3">
-            Other
+            Other <br /> Amount
           </div>
           <div className="col7_dp3 border-secondary border-end">
             <div className="h-50 center_dp3 w-100">Labour</div>
