@@ -166,7 +166,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col_7_ls border-end d-flex justify-content-end align-items-center pe-1"></div>
                       <div className="col_8_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}	</div>
                       <div className="col_9_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}</div>
-                      <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_MakingAmount_Setting_Amount)}	</div>
+                      <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}	</div>
                       <div className="col_11_ls d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_amount)}</div>
                     </div>
               {
@@ -200,7 +200,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col_7_ls border-end d-flex justify-content-center align-items-center"></div>
                   <div className="col_8_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</div>
                   <div className="col_9_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}	</div>
-                  <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_MakingAmount_Setting_Amount)}	</div>
+                  <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}	</div>
                   <div className="col_11_ls d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_amount)}</div>
               </div>
             </div>

@@ -204,7 +204,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <img src={e?.DesignImage} alt="#designimg" onError={(e) => handleImageError(e)}  className="designimg_dp3 m-3 p-1" />
                     </div> : ''
                     }
-                   { e?.HUID === '' ? '' : <div className="center_dp3">HUID: {e?.HUID}</div> } 
+                   { e?.HUID === '' ? '' : <div className="center_dp3">{e?.HUID}</div> } 
                   </div>
                   <div className="col3_dp3 border-secondary border-end">
                     <div>
@@ -238,7 +238,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             {/* <div className="w-25 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
                             {/* <div className="w-25 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
                             <div className="w-25 end_dp3">{e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
-                            <div className="w-25 end_dp3 fw-bold">{formatAmount(el?.Amount)}</div>
+                            <div className="w-25 end_dp3 fw-bold" >{formatAmount(el?.Amount)}</div>
                           </div> : ''
                           }
                           
@@ -272,7 +272,8 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="col6_dp3 border-secondary border-end end_top_dp3">{formatAmount(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount)}</div>
                   <div className="col7_dp3 border-secondary border-end">
-                    <div className="d-flex"><div className="w-50 d-flex justify-content-center align-items-center">{formatAmount(e?.MaKingCharge_Unit)}</div>
+                    <div className="d-flex">
+                      <div className="w-50 d-flex justify-content-center align-items-center">{formatAmount(e?.MaKingCharge_Unit)}</div>
                     {/* <div className="w-50 end_top_dp3">{formatAmount(e?.totals?.makingAmount_settingAmount)}</div></div> */}
                     <div className="w-50 end_top_dp3">{formatAmount((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))}</div></div>
                   </div>
@@ -302,7 +303,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {/* <div className="w-25 start_dp3"></div> */}
                         <div className="w-50 end_dp3">{(((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)?.toFixed(3)}</div>
                         {/* <div className="w-25 end_dp3">{e?.NetWt?.toFixed(3)}</div> */}
-                        <div className="w-25 end_dp3">{e?.totals?.metal?.IsPrimaryMetal}</div>
+                        <div className="w-25 end_dp3">{e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
                         {/* <div className="w-25 end_dp3">{e?.totals?.metal?.Wt?.toFixed(3) === '0.000' ? '' : e?.totals?.metal?.Wt?.toFixed(3)}</div> */}
                         {/* <div className="w-25 end_dp3">{e?.totals?.metal?.Wt?.toFixed(3) === '0.000' ? '' : e?.totals?.metal?.Wt?.toFixed(3)}</div> */}
                         <div className="w-25 end_dp3">{e?.totals?.metal?.IsPrimaryMetal_Amount === 0.00 ? '' : formatAmount(e?.totals?.metal?.IsPrimaryMetal_Amount)}</div>
@@ -320,10 +321,11 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="col6_dp3 border-secondary border-end end_top_dp3">{(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount) === 0.00 ? '' : formatAmount((e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount))}</div>
                   <div className="col7_dp3 border-secondary border-end">
-                    <div className="d-flex"><div className="w-50 end_top_dp3"></div>
+                    <div className="d-flex">
+                      {/* <div className="w-50 end_top_dp3"></div> */}
                     {/* <div className="w-50 end_top_dp3">{e?.totals?.makingAmount_settingAmount === 0.00 ? '' : formatAmount(e?.totals?.makingAmount_settingAmount)}</div></div> */}
                     {/* <div className="w-50 end_top_dp3">{(e?.MakingAmount + e?.TotalCsSetcost + e?.TotalCsSetcost) === 0.00 ? '' : formatAmount((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalCsSetcost))}</div></div> */}
-                    <div className="w-50 end_top_dp3">{(e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) === 0.00 ? '' : formatAmount((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))}</div></div>
+                    <div className="w-100 end_top_dp3">{(e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) === 0.00 ? '' : formatAmount((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))}</div></div>
                   </div>
                   <div className="col8_dp3 end_top_dp3">{e?.TotalAmount === 0.00 ? '' : formatAmount(e?.TotalAmount)}</div>
                 </div>
@@ -392,8 +394,9 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className="col6_dp3 border-secondary border-end end_top_dp3">{formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}</div>
             {/* <div className="col6_dp3 border-secondary border-end end_top_dp3">{formatAmount((result?.mainTotal?.total_other_charges + result?.mainTotal?.total_diamondHandling))}</div> */}
             <div className="col7_dp3 border-secondary border-end">
-              <div className="d-flex"><div className="w-50 end_top_dp3"></div>
-              <div className="w-50 end_top_dp3">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</div></div>
+              <div className="d-flex">
+                {/* <div className="w-50 end_top_dp3"></div> */}
+              <div className="w-100 end_top_dp3">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</div></div>
             </div>
             <div className="col8_dp3 end_top_dp3">{
             formatAmount((
