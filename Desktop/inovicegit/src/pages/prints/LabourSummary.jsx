@@ -5,6 +5,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { cloneDeep } from "lodash";
 import { formatAmount } from './../../GlobalFunctions';
 import Loader from './../../components/Loader';
+import { ToWords } from "to-words";
 
 const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
@@ -15,6 +16,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [footer, setFooterComp] = useState(null);
   const [qualityTypes, setQualityTypes] = useState('');
   const [isImageWorking, setIsImageWorking] = useState(true);
+  const toWords = new ToWords();
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -94,10 +96,11 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className="fw-bold">{result?.header?.customerfirmname}</div>
             <div>{result?.header?.customerAddress1}</div>
             <div>{result?.header?.customerAddress2}</div>
-            <div>{result?.header?.customercity}{result?.header?.customerpincode}</div>
+            <div>{result?.header?.customercity1}{result?.header?.customerpincode}</div>
             <div>{result?.header?.customeremail1}</div>
             <div>{result?.header?.vat_cst_pan}</div>
-            <div>{result?.header?.Cust_CST_STATE}-{result?.header?.Cust_CST_STATE_No}</div>
+            {console.log(result)}
+            {/* <div>{result?.header?.Cust_CST_STATE}-{result?.header?.Cust_CST_STATE_No}</div> */}
           </div>
           <div className="p-1 w_ls border border-end border-bottom-0 border-top-0">
             <div>Ship To,</div>
@@ -109,13 +112,13 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
           <div className="p-1 w_ls">
             <div className="d-flex">
-              <div className="fw-bold w-50">BILL NO</div> <div className="w-50">{result?.header?.InvoiceNo}</div>
+              <div className="fw-bold w-25">BILL NO</div> <div className="w-50">{result?.header?.InvoiceNo}</div>
             </div>
             <div className="d-flex">
-              <div className="fw-bold w-50">DATE</div> <div className="w-50">{result?.header?.EntryDate}</div>
+              <div className="fw-bold w-25">DATE</div> <div className="w-50">{result?.header?.EntryDate}</div>
             </div>
             <div className="d-flex">
-              <div className="fw-bold w-50">{result?.header?.HSN_No_Label}</div> <div className="w-50">{result?.header?.HSN_No}</div>
+              <div className="fw-bold w-25">{result?.header?.HSN_No_Label}</div> <div className="w-50">{result?.header?.HSN_No}</div>
             </div>
           </div>
         </div>
@@ -156,13 +159,14 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col_1_ls border-end d-flex justify-content-center align-items-center">1</div>
                       <div className="col_2_ls border-end d-flex justify-content-start align-items-center ps-1 p-1" style={{wordBreak:'break-word'}}>Diamond Studed Jewellery</div>
                       <div className="col_3_ls border-end d-flex justify-content-start align-items-center ps-1" style={{wordBreak:'break-word'}}>{qualityTypes}</div>
-                      <div className="col_4_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.netwtWithLossWt?.toFixed(3)}</div>
+                      {/* <div className="col_4_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.netwtWithLossWt?.toFixed(3)}</div> */}
+                      <div className="col_4_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
                       <div className="col_5_ls border-end d-flex justify-content-end align-items-center pe-1">	</div>
                       <div className="col_6_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</div>
                       <div className="col_7_ls border-end d-flex justify-content-end align-items-center pe-1"></div>
                       <div className="col_8_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}	</div>
                       <div className="col_9_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}</div>
-                      <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_MakingAmount_Setting_Amount)}	</div>
+                      <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}	</div>
                       <div className="col_11_ls d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_amount)}</div>
                     </div>
               {
@@ -189,13 +193,14 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col_1_ls border-end d-flex justify-content-center align-items-center"></div>
                   <div className="col_2_ls border-end d-flex justify-content-center align-items-center">TOTAL</div>
                   <div className="col_3_ls border-end d-flex justify-content-center align-items-center"></div>
-                  <div className="col_4_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.netwtWithLossWt?.toFixed(3)}</div>
+                  {/* <div className="col_4_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.netwtWithLossWt?.toFixed(3)}</div> */}
+                  <div className="col_4_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
                   <div className="col_5_ls border-end d-flex justify-content-center align-items-center"></div>
                   <div className="col_6_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</div>
                   <div className="col_7_ls border-end d-flex justify-content-center align-items-center"></div>
                   <div className="col_8_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</div>
                   <div className="col_9_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}	</div>
-                  <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_MakingAmount_Setting_Amount)}	</div>
+                  <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}	</div>
                   <div className="col_11_ls d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_amount)}</div>
               </div>
             </div>
@@ -204,7 +209,9 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="w-100 d-flex">
                 <div className="tax_w_ls d-flex justify-content-end align-items-start border border-top-0 border-end-0 flex-column ps-1">
                   <div>In Words Indian Rupees</div>
-                  <div className="fw-bold">{numberToWord(result?.finalAmount)} Only/-</div>
+                  {/* <div className="fw-bold">{numberToWord(result?.finalAmount)} Only/-</div> */}
+                  {/* <div className="fw-bold">{numberToWord(result?.finalAmount)} Only/-</div> */}
+                  <div className="fw-bold">{toWords.convert(+((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate ) + result?.header?.AddLess))?.toFixed(2))} Only/-</div>
                 </div>
                 <div className="tax_w_ls2">
                   {
@@ -212,7 +219,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       return(
                         <div className="d-flex border-end border-start" key={ind}>
                             <div className="w-50 border-end d-flex justify-content-end align-items-start pe-1">{el?.name} @ {el?.per}</div>
-                            <div className="w-50 d-flex justify-content-end align-items-start pe-1">{el?.amount}</div>
+                            <div className="w-50 d-flex justify-content-end align-items-start pe-1">{(el?.amount * result?.header?.CurrencyExchRate)}</div>
                         </div>
                       )
                     })
@@ -223,7 +230,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="d-flex fw-bold border border-top-0">
                     <div className="w-50 border-end d-flex justify-content-end align-items-start pe-1">GRAND TOTAL</div>
-                    <div className="w-50 d-flex justify-content-end align-items-start pe-1">{formatAmount(result?.finalAmount)}</div>
+                    <div className="w-50 d-flex justify-content-end align-items-start pe-1">{((formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate ) + result?.header?.AddLess))))}</div>
                   </div>
                 </div>
               </div>
@@ -232,7 +239,31 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         {/* Declaration */}
         <div className="border border-top-0 border-bottom-0 p-1" dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
         {/* footer */}
-        <div>{footer}</div>
+        <div className='d-flex border'>
+          <div
+            className='p-1'
+            style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+          >
+          <div className='' style={{fontWeight:"bold"}}>Bank Detail</div>
+          <div className=''>Bank Name: {result?.header?.bankname}</div>
+          <div className=''>Branch: {result?.header?.bankaddress}</div>
+          <div className=''>Account Name: {result?.header?.accountname}</div>
+          <div className=''>Account No. : {result?.header?.accountnumber}</div>
+          <div className=''>RTGS/NEFT IFSC: {result?.header?.rtgs_neft_ifsc}</div>
+        </div>
+          <div
+            className='p-1 d-flex justify-content-between flex-column'
+            style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+          >
+            <div className=''>Signature</div>
+            <div className='fw-bold'>{result?.header?.customerfirmname}</div>
+        </div>
+        <div className='p-1 d-flex justify-content-between flex-column' style={{ width: "33.33%" }}>
+            <div className=''>Signature</div>
+            <div className='fw-bold'>{result?.header?.CompanyFullName}</div>
+        </div>
+    </div>
+        {/* <div>{footer}</div> */}
       </div> : <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">{msg}</p>
       }
       </>
