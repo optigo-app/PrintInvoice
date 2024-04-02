@@ -119,7 +119,7 @@ ol {
 }
 
 .pad_60_allPrint {
-  padding-bottom: 60px !important;
+  padding-bottom: 100px !important;
 }
 
 .pad_20_allPrint {
@@ -370,6 +370,14 @@ html .footer_secInvoicePrint8 .target_footer * {
 
 .retailinvoicePrint7Footer .target_footer *{
   font-size: 12px;
+}
+
+.taxInvoicePrintHeaderSec .target_header:last-child > div:first-child > div:first-child{
+  font-size: 16px;
+}
+
+.taxInvoicePrintHeaderSec .target_header:last-child > div:first-child > div:not(:first-child){
+  font-size: 13px;
 }
 
 @media print {

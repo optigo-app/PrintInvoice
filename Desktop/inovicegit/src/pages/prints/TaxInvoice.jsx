@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { HeaderComponent } from "./../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
-import { findIndex } from "lodash";
+import { cloneDeep, findIndex } from "lodash";
 const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [image, setimage] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -57,6 +57,22 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     setHeaderComp(head);
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
+    let resultArray = [];
+    datas?.resultArray?.forEach((e, i) => {
+      let obj = cloneDeep(e);
+      let primaryWt = 0;
+      let primaryAmount = 0;
+      e?.metal?.forEach((ele, ind) => {
+        if (ele?.IsPrimaryMetal === 1) {
+          primaryWt += ele?.Wt;
+          primaryAmount += ele?.Amount;
+        }
+      });
+      obj.primaryWt = primaryWt
+      obj.primaryAmount = primaryAmount;
+      resultArray?.push(obj);
+    });
+    datas.resultArray = resultArray;
     setData(datas);
     // console.log(datas);
     let diamondArr = [];
@@ -154,7 +170,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 checked={image}
                 onChange={(e) => handleChange(e)}
               />
-              <label className="form-check-label" style={{paddingTop: "1.5px", minHeight: "unset !important"}}>With Image</label>
+              <label className="form-check-label" style={{ paddingTop: "1.5px", minHeight: "unset !important" }}>With Image</label>
             </div>
             <div className="form-check ps-3">
               <input
@@ -165,17 +181,19 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               />
             </div>
           </div>
-          {headerComp}
+          <div className="taxInvoicePrintHeaderSec">
+            {headerComp}
+          </div>
           <div className="d-flex border p-2 justify-content-between">
-            <div className="col-7">
-              <p className={`fw-semibold ${style?.customerFirmName}`}>To, {json0Data?.customerfirmname}</p>
+            <div className={`col-7 ${style?.font_12}`}>
+              <p className={`fw-semibold ${style?.customerFirmName} ${style?.font_15}`}>To, {json0Data?.customerfirmname}</p>
               <p>{json0Data?.customerstreet}</p>
               <p>{json0Data?.customerregion}</p>
               <p>{json0Data?.customercity} -{json0Data?.customerpincode}</p>
               <p>Phno:- {json0Data?.customermobileno}</p>
               <p>{json0Data?.vat_cst_pan} | {json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</p>
             </div>
-            <div className="col-5 d-flex flex-column align-items-end">
+            <div className={`col-5 d-flex flex-column align-items-end ${style?.font_13}`}>
               <div className="d-flex col-8">
                 <div className="col-6"><p className="text-end">INVOICE# :	</p></div>
                 <div className="col-6"><p className="text-end">{json0Data?.InvoiceNo}</p></div>
@@ -192,7 +210,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
           <div className={`${style?.container}`}>
             {/* table header */}
-            <div className="mt-2 d-flex border-top border-start border-end border-black">
+            <div className={`mt-2 d-flex border-top border-start border-end border-black lightGrey ${style?.rowWisePad}`}>
               <div className={`${style?.srno} border-end d-flex align-items-center justify-content-center border-bottom`}><p className={`fw-bold ${style?.pad_1}`}>Sr</p></div>
               <div className={`${style?.design} border-end d-flex align-items-center justify-content-center border-bottom`}><p className={`fw-bold ${style?.pad_1}`}>Design</p></div>
               <div className={`${style?.diamond} border-end border-bottom`}>
@@ -246,7 +264,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             {/* table data */}
             {data?.resultArray?.map((e, i) => {
-              return <div className={`d-flex border-start border-end border-black no_break ${style?.wordBreak}`} key={i}>
+              return <div className={`d-flex border-start border-end border-black no_break ${style?.wordBreak} ${style?.rowWisePad}`} key={i}>
                 <div className={`${style?.srno} border-end d-flex align-items-center justify-content-center border-bottom`}><p className={`${style?.pad_1}`}>{i + 1}</p></div>
                 <div className={`${style?.design} border-end border-bottom`}>
                   <div className="d-flex justify-content-between pb-1 flex-wrap">
@@ -264,7 +282,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {e?.diamonds?.map((ele, ind) => {
                         return <div className="d-flex w-100" key={ind}>
                           <div className="col-2"><p className={`${style?.pad_1}`}>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}	</p></div>
-                          <div className="col-2"><p className={`${style?.pad_1}`}>{ele?.Size}	</p></div>
+                          <div className="col-2"><p className={`${style?.pad_1}`}>{ele?.SizeName}	</p></div>
                           <div className="col-2"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
                           <div className="col-2"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Wt, 3)}	</p></div>
                           <div className="col-2"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Rate, 2)}	</p></div>
@@ -286,19 +304,24 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="d-flex justify-content-between flex-column h-100">
                     <div>
                       {e?.metal?.map((ele, ind) => {
-                        return <div className="d-flex w-100 border-bottom" key={ind}>
+                        return ele?.IsPrimaryMetal === 1 && <div className="d-flex w-100 border-bottom" key={ind}>
                           <div className="col-3"><p className={`${style?.pad_1}`}>{ele?.ShapeName} {ele?.QualityName}</p></div>
-                          <div className="col-3"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Wt, 3)}</p></div>
+                          <div className="col-3"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Wt - e?.LossWt, 3)}</p></div>
                           <div className="col-3"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Rate, 2)}</p></div>
                           <div className="col-3"><p className={`${style?.pad_1} text-end fw-bold`}>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                         </div>
                       })}
+                      {e?.JobRemark !== "" && <div className="d-flex w-100" >
+                        <div className="">
+                          <p className={`${style?.pad_1}`}>Remark: </p>
+                          <p className={`${style?.pad_1} fw-bold`}>{e?.JobRemark}</p></div>
+                      </div>}
                     </div>
                     <div className="d-flex w-100 border-top fw-bold lightGrey">
                       <div className="col-3"><p className={`${style?.pad_1}`}></p></div>
-                      <div className="col-3"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.metal?.Wt, 3)}</p></div>
+                      <div className="col-3"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.primaryWt, 3)}</p></div>
                       <div className="col-3"><p className={`${style?.pad_1} text-end`}></p></div>
-                      <div className="col-3"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.metal?.Amount, 2)}</p></div>
+                      <div className="col-3"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.primaryAmount, 2)}</p></div>
                     </div>
                   </div>
                 </div>
@@ -330,8 +353,8 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
                 <div className={`${style?.otherAmount} border-end border-bottom`}>
                   <div className="d-flex flex-column justify-content-between h-100">
-                    <p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.OtherCharges + e?.MiscAmount, 2)}</p>
-                    <p className={`${style?.pad_1} text-end border-top lightGrey fw-bold`}>{NumberWithCommas(e?.OtherCharges + e?.MiscAmount, 2)}</p>
+                    <p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)}</p>
+                    <p className={`${style?.pad_1} text-end border-top lightGrey fw-bold`}>{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)}</p>
                   </div>
                 </div>
                 <div className={`${style?.labourAmount} border-end border-bottom`}>
@@ -339,12 +362,12 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div>
                       <div className="d-flex w-100">
                         <div className="col-6"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}	</p></div>
-                        <div className="col-6"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.MakingAmount+e?.TotalCsSetcost+e?.TotalDiaSetcost, 2)}</p></div>
+                        <div className="col-6"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost, 2)}</p></div>
                       </div>
                     </div>
                     <div className="d-flex w-100 border-top fw-bold lightGrey">
                       <div className="col-6"><p className={`${style?.pad_1} text-end`}>	</p></div>
-                      <div className="col-6"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.MakingAmount, 2)}</p></div>
+                      <div className="col-6"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost, 2)}</p></div>
                     </div>
                   </div>
                 </div>
@@ -361,7 +384,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             })}
             {/* table tax */}
-            <div className="d-flex border-start border-end border-black no_break">
+            <div className={`d-flex border-start border-end border-black no_break ${style?.wordBreak} ${style?.rowWisePad}`}>
               <div className={`${style?.cgst} border-end border-bottom`}>
                 {data?.allTaxes?.map((e, i) => {
                   return <p className={`${style?.pad_1} text-end`} key={i}>{e?.name} @ {e?.per}	</p>
@@ -374,7 +397,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
             {/* table total */}
-            <div className="d-flex border-start border-end border-black no_break lightGrey">
+            <div className={`d-flex border-start border-end border-black no_break lightGrey fw-bold ${style?.wordBreak} ${style?.rowWisePad}`}>
               <div className={`${style?.srno} border-end d-flex align-items-center justify-content-center border-bottom`}><p className={`${style?.pad_1}`}></p></div>
               <div className={`${style?.design} border-end border-bottom d-flex align-items-center justify-content-center`}>
                 <p className="fw-bold">TOTAL</p>
@@ -389,9 +412,9 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               <div className={`${style?.metal} border-end border-bottom d-flex`}>
                 <div className="col-3"><p className={`${style?.pad_1}`}></p></div>
-                <div className="col-3"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(data?.mainTotal?.metal?.Pcs, 0)}</p></div>
+                <div className="col-3"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(data?.mainTotal?.netwt, 3)}</p></div>
                 <div className="col-3"><p className={`${style?.pad_1} text-end`}></p></div>
-                <div className="col-3"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(data?.mainTotal?.metal?.Amount, 2)}</p></div>
+                <div className="col-3"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(data?.mainTotal?.metal?.IsPrimaryMetal_Amount, 2)}</p></div>
               </div>
               <div className={`${style?.stone} border-end border-bottom d-flex`}>
                 <div className="col-2"><p className={`${style?.pad_1} text-end`}></p></div>
@@ -401,72 +424,75 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="col-2"><p className={`${style?.pad_1} text-end`}></p></div>
                 <div className="col-2"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</p></div>
               </div>
-              <div className={`${style?.otherAmount} border-end border-bottom`}><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(data?.mainTotal?.total_other_charges + data?.mainTotal?.totalMiscAmount, 2)}</p></div>
+              <div className={`${style?.otherAmount} border-end border-bottom`}><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(data?.mainTotal?.total_other_charges + data?.mainTotal?.totalMiscAmount + data?.mainTotal?.total_diamondHandling, 2)}</p></div>
               <div className={`${style?.labourAmount} border-end border-bottom`}>
                 <div className="d-grid h-100 w-100">
                   <div className="d-flex w-100">
                     <div className="col-6"><p className={`${style?.pad_1} text-end`}></p></div>
-                    <div className="col-6"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(data?.mainTotal?.total_Making_Amount, 2)}</p></div>
+                    <div className="col-6"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount, 2)}</p></div>
                   </div>
                 </div>
               </div>
               <div className={`${style?.totalAmount} border-bottom`}><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(data?.finalAmount, 2)}</p></div>
             </div>
             {/* table summary */}
-            <div className="d-flex border-start no_break">
+            <div className={`d-flex border-start no_break ${style?.rowWisePad}`}>
               <div className="col-4 border-end">
                 <div className=" text-center border-bottom border-end">
                   <p className={`lightGrey fw-bold border-bottom ${style?.pad_1}`}>SUMMARY</p>
                   <div className="d-flex">
-                    <div className="col-6 border-end px-1">
+                    <div className="col-6 border-end px-1 position-relative" style={{ paddingBottom: "15px" }}>
                       <div className="d-flex justify-content-between">
-                        <div>GROSS WT	</div>
+                        <div className="fw-bold">GROSS WT	</div>
                         <div className="text-end">{NumberWithCommas(data?.mainTotal?.grosswt, 3)} gm	</div>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <div>WT	</div>
+                        <div className="fw-bold">WT	</div>
                         <div className="text-end">{NumberWithCommas(data?.mainTotal?.metal?.Wt, 3)} gm	</div>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <div> DIAMOND WT	</div>
+                        <div className="fw-bold text-start"> DIAMOND WT	</div>
                         <div className="text-end">{NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)} / {NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)} cts	</div>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <div>STONE WT	</div>
+                        <div className="fw-bold">STONE WT	</div>
                         <div className="text-end">{NumberWithCommas(data?.mainTotal?.colorstone?.Pcs, 0)} / {NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)} cts		</div>
                       </div>
+                      <div className="d-flex justify-content-between position-absolute bottom-0 start-0 w-100 border-top lightGrey px-1" style={{ minHeight: "10.36px" }}>
+
+                      </div>
                     </div>
-                    <div className="col-6 px-1">
+                    <div className="col-6 px-1 position-relative" style={{ paddingBottom: "15px" }}>
                       <div className="d-flex justify-content-between">
-                        <div>GOLD	</div>
-                        <div className="text-end">{NumberWithCommas(data?.mainTotal?.metal?.Amount, 2)} </div>
+                        <div className="fw-bold"v>GOLD	</div>
+                        <div className="text-end">{NumberWithCommas(data?.mainTotal?.metal?.IsPrimaryMetal_Amount, 2)} </div>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <div>DIAMOND	</div>
+                        <div className="fw-bold">DIAMOND	</div>
                         <div className="text-end">{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)} </div>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <div>CST	</div>
+                        <div className="fw-bold">CST	</div>
                         <div className="text-end">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)} </div>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <div>MAKING	</div>
-                        <div className="text-end">{NumberWithCommas(data?.mainTotal?.total_Making_Amount, 2)} </div>
+                        <div className="fw-bold">MAKING	</div>
+                        <div className="text-end">{NumberWithCommas(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount, 2)} </div>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <div>OTHER	</div>
-                        <div className="text-end">{NumberWithCommas(data?.mainTotal?.metal?.Amount, 2)} 	</div>
+                        <div className="fw-bold">OTHER	</div>
+                        <div className="text-end">{NumberWithCommas(data?.mainTotal?.total_other_charges + data?.mainTotal?.totalMiscAmount + data?.mainTotal?.total_diamondHandling, 2)} 	</div>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <div>TAX	</div>
+                        <div className="fw-bold">TAX	</div>
                         <div className="text-end"> 	{NumberWithCommas(tax, 2)}		</div>
                       </div>
                       {json0Data?.AddLess !== 0 && <div className="d-flex justify-content-between">
-                        <div>{json0Data?.AddLess < 0 ? "LESS" : "ADD"}	</div>
+                        <div className="fw-bold">{json0Data?.AddLess < 0 ? "LESS" : "ADD"}	</div>
                         <div className="text-end">{NumberWithCommas(json0Data?.AddLess, 2)}	</div>
                       </div>}
-                      <div className="d-flex justify-content-between">
-                        <div>TOTAL	</div>
+                      <div className="d-flex justify-content-between position-absolute bottom-0 start-0 w-100 border-top lightGrey px-1" style={{ minHeight: "10.36px" }}>
+                        <div className="fw-bold">TOTAL	</div>
                         <div className="text-end">{NumberWithCommas(data?.finalAmount, 2)}	</div>
                       </div>
                     </div>
@@ -477,7 +503,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <p className={`lightGrey fw-bold ${style?.pad_1} text-center border-bottom`}>Diamond Detail </p>
                 {diamonds.map((e, i) => {
                   return <div key={i} className="d-flex justify-content-between px-1">
-                    <p>{e?.others ? "OTHER" : <>{e?.ShapeName} {e?.QualityName} {e?.Colorname}</>}</p>
+                    <p className="fw-bold">{e?.others ? "OTHER" : <>{e?.ShapeName} {e?.QualityName} {e?.Colorname}</>}</p>
                     <p>{NumberWithCommas(e?.Pcs, 0)} / {NumberWithCommas(e?.Wt, 3)} Cts</p>
                   </div>
                 })
@@ -486,9 +512,10 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="col-3 border-bottom border-end border-start">
                 <p className={`fw-bold ${style?.pad_1} text-center border-bottom p-1`}>Summary Detail </p>
                 {category.map((e, i) => {
-                  return <div className="d-flex justify-content-between px-1" key={i}>
-                    <p>{e?.Categoryname}</p>
-                    <p>{NumberWithCommas(e?.Quantity, 0)}</p>
+                  return <div className="d-flex px-1" key={i}>
+                    <p className="col-8">{e?.Categoryname}</p>
+                    <p className="col-1">:</p>
+                    <p className="col-3 fw-bold">{NumberWithCommas(e?.Quantity, 0)}</p>
                   </div>
                 })}
               </div>
@@ -498,16 +525,16 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
             </div>
             {/* note */}
-            <div className="border my-2 no_break">
+            <div className={`border my-2 no_break ${style?.rowWisePad}`}>
               <p className="fw-bold pt-2 px-2" style={{ fontSize: "13px" }}> NOTE :</p>
               <div className="p-2" dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }}></div>
             </div>
             {/* signature */}
-            <div className="border my-2 no_break d-flex">
+            <div className={`border my-2 no_break d-flex ${style?.rowWisePad}`}>
               <div className="text-center pt-5 w-50 border-end fw-bold">RECEIVER'S SIGNATURE & SEAL	</div>
-              <div className="text-center pt-5 w-50 fw-bold">for, ORAIL SERVICE</div>
+              <div className="text-center pt-5 w-50 fw-bold">for, {json0Data?.CompanyFullName}</div>
             </div>
-            <p className="text-secondary">**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</p>
+            <p className={`text-secondary ${style?.rowWisePad}`}>**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</p>
           </div>
         </div> : <p className='text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto'>{msg}</p>
     }</>

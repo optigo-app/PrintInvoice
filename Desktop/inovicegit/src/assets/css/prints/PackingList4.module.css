@@ -4,6 +4,14 @@
     overflow-wrap: break-word;
 }
 
+.rowWisePad p{
+    padding: 2px;
+}
+
+.word_break *{
+    word-break: break-all;
+}
+
 .print_sec_sum4 {
     right: 10px;
     top: 10px;
@@ -72,7 +80,11 @@
 }
 
 .font_1_12 * {
-    font-size: 12px;
+    font-size: 11px;
+}
+
+.min_height_13{
+    min-height: 21.5px;
 }
 
 @media print {
@@ -84,8 +96,14 @@
         padding-top: 15px;
     }
 
-
     .font_1_12 * {
         font-size: 8px;
+    }
+    .min_height_13{
+        min-height: 17.5px;
+    }
+
+    .rowWisePad p{
+        padding: 1px;
     }
 }

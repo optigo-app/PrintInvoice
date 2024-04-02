@@ -89,4 +89,8 @@
   .print_sec_sum4{
     display: none !important;
   }
+
+  .detailprint9 * {
+    font-size: 8px;
+  }
 }

@@ -8,29 +8,42 @@
   width: 7%;
   min-width: 7%;
 }
+
+.taxinvoice5 .font_16,.taxinvoice5 .font_16 *{
+  font-size: 16px;
+}
+
+.taxinvoice5 .font_12,.taxinvoice5  .font_12 *{
+  font-size: 12px;
+}
+
+/* .taxinvoice5 .font_14, .font_14 *{
+  font-size: 14px;
+} */
+
 .Jewel {
-  width: 12%;
-  min-width: 12%;
+  width: 16%;
+  min-width: 16%;
 }
 .KT {
   width: 10%;
   min-width: 10%;
 }
 .Gross {
-  width: 15%;
-  min-width: 15%;
+  width: 14%;
+  min-width: 14%;
 }
 .Net {
-  width: 15%;
-  min-width: 15%;
+  width: 14%;
+  min-width: 14%;
 }
 .Diamond {
-  width: 15%;
-  min-width: 15%;
+  width: 14%;
+  min-width: 14%;
 }
 .Stone {
-  width: 15%;
-  min-width: 15%;
+  width: 14%;
+  min-width: 14%;
 }
 .Price {
   width: 11%;
@@ -55,6 +68,10 @@
 .sup{
     font-size: 11px;
 }
+
+.word_break,.word_break *{
+  word-break: break-all;
+} 
 
 @media print{
   .print_sec_sum4{

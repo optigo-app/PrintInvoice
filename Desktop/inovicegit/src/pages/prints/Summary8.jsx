@@ -14,6 +14,7 @@ import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import style2 from "../../assets/css/headers/header1.module.css";
 import footerStyle from "../../assets/css/footers/footer2.module.css";
 import { cloneDeep } from 'lodash';
+import { CurrencyExchange } from '@mui/icons-material';
 
 const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
@@ -155,7 +156,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`${style2.lines} ${style?.lines}`}>
                         {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
                         {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No}                     </div>
-                        <div className={`${style2.lines} ${style?.lines}`}>
+                    <div className={`${style2.lines} ${style?.lines}`}>
                         PAN-{headerData?.Pannumber} </div>
                 </div>
             </div>
@@ -208,7 +209,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`${style?.Net} p-1 text-end border-black border-end`}><p>{NumberWithCommas(e?.pureNet, 3)}</p></div>
                     <div className={`${style?.Rate} p-1 text-end border-black border-end`}><p>{NumberWithCommas(e?.metalRate, 2)}</p></div>
                     <div className={`${style?.Making} p-1 text-end border-black border-end`}><p>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p></div>
-                    <div className={`${style?.Total} p-1 text-end`}><p>{NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)}</p></div>
+                    <div className={`${style?.Total} p-1 text-end`}><p>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                 </div>
             })
             }
@@ -222,14 +223,14 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className={`${style?.Net} p-1 text-end border-black border-end fw-bold`}><p>{NumberWithCommas(data?.mainTotal?.metal?.IsPrimaryMetal, 3)}</p></div>
                 <div className={`${style?.Rate} p-1 text-end border-black border-end`}><p></p></div>
                 <div className={`${style?.Making} p-1 text-end border-black border-end`}><p></p></div>
-                <div className={`${style?.Total} p-1 text-end fw-bold`}><p>{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p></div>
+                <div className={`${style?.Total} p-1 text-end fw-bold`}><p>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p></div>
             </div>
             {/* table taxes */}
             <div className={`border border-black my-1 lightGrey no_break ${style?.font_13}`}>
                 {data?.allTaxes?.map((e, i) => {
                     return <div className="d-flex border-black border-bottom" key={i}>
                         <div className={`${style?.tax} p-1 border-black border-end fw-semibold text-end`}><p>{e?.name} @ {e?.per} </p></div>
-                        <div className={`${style?.Total} p-1 text-end fw-semibold`}><p>{e?.amount}</p></div>
+                        <div className={`${style?.Total} p-1 text-end fw-semibold`}><p>{NumberWithCommas(+e?.amount * headerData?.CurrencyExchRate, 2)}</p></div>
                     </div>
                 })}
 
@@ -239,7 +240,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>}
                 <div className="d-flex">
                     <div className={`${style?.tax} p-1 border-black border-end fw-semibold text-end`}><p>GRAND TOTAL </p></div>
-                    <div className={`${style?.Total} p-1 text-end fw-semibold`}><p>{NumberWithCommas(data?.finalAmount, 2)}</p></div>
+                    <div className={`${style?.Total} p-1 text-end fw-semibold`}><p>{NumberWithCommas(data?.mainTotal?.total_amount + data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0)+headerData?.AddLess, 2)}</p></div>
                 </div>
             </div>
             {/* bank details */}
@@ -254,7 +255,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         bank?.map((ele, ind) => {
                             return <div className="d-flex">
                                 <p className='lh-1'>{ele?.label}</p>
-                                <p className='lh-1'>{ele?.id && ele?.id}</p>
+                                <p className='lh-1'>{ele?.id && `(${ele?.id})`}</p>
                                 <p className='pe-1 lh-1'> : </p>
                                 <p className='fw-bold lh-1'>{NumberWithCommas(ele?.amount, 2)}</p>
                             </div>
@@ -271,13 +272,13 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="w-100 px-2" >
                         <div className="d-flex">
                             <div className="col-6 fw-normal">Gross Wt:</div>
-                            <div className="col-6 fw-normal">{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</div>
+                            <div className="col-6 fw-normal">{NumberWithCommas(data?.mainTotal?.grosswt, 3)} gm</div>
                         </div>
                     </div>
                     <div className="w-100 px-2" >
                         <div className="d-flex">
                             <div className="col-6 fw-normal">Net Wt:</div>
-                            <div className="col-6 fw-normal">{NumberWithCommas(data?.mainTotal?.netwt, 3)}</div>
+                            <div className="col-6 fw-normal">{NumberWithCommas(data?.mainTotal?.netwt, 3)} gm</div>
                         </div>
                     </div>
                 </div>
@@ -289,8 +290,8 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`${footerStyle.linesf3} px-2`}>Account No. : {headerData?.accountnumber}</div>
                     <div className={`${footerStyle.linesf3} px-2 pb-1`}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
                 </div>
-                <div className="position-absolute h-100" style={{width: "1px", background: "#000", top: "0", left: "33.33%"}}></div>
-                <div className="position-absolute h-100" style={{width: "1px", background: "#000", top: "0", right: "33.33%"}}></div>
+                <div className="position-absolute h-100" style={{ width: "1px", background: "#000", top: "0", left: "33.33%" }}></div>
+                <div className="position-absolute h-100" style={{ width: "1px", background: "#000", top: "0", right: "33.33%" }}></div>
             </div>
             {/* footer */}
             <div className={`my-1 border border-black d-flex no_break ${style?.font_13}`}>

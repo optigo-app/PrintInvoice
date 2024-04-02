@@ -4,8 +4,8 @@
 }
 
 .SR{
-    width: 7%;
-    min-width: 7%;
+    width: 12%;
+    min-width: 12%;
 }
 
 .AMOUNT,
@@ -16,8 +16,8 @@
 }
 
 .DESCRIPTION {
-    width: 54%;
-    min-width: 54%;
+    width: 49%;
+    min-width: 49%;
 }
 
 .REMARKS{

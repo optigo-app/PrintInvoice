@@ -130,6 +130,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           resultArr[findRecord].TotalAmount += e?.TotalAmount;
           resultArr[findRecord].UnitCost += e?.UnitCost;
           resultArr[findRecord].MakingAmount += e?.MakingAmount;
+          resultArr[findRecord].DiscountAmt += e?.DiscountAmt
           // resultArr[findRecord].MaKingCharge_Unit += e?.MaKingCharge_Unit;
           resultArr[findRecord].NetWt += e?.NetWt;
           resultArr[findRecord].LossWt += e?.LossWt;
@@ -610,7 +611,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {e?.colorstone.map((ele, ind) => {
                   return <div className="d-flex" key={ind}>
                     <div className="col-3">
-                      <p className="pad_1">{ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}</p>
+                      <p className="pad_1">{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname} </p>
                     </div>
                     <div className="col-3">
                       <p className="pad_1 text-end">{NumberWithCommas(ele?.Wt, 3)}</p>
@@ -913,7 +914,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       {/* table taxes */}
       <div className="border-start border-end  border-black no_break">
-        <div className="d-flex no_break pt-1 mb-2">
+        <div className="d-flex no_break pt-1 ">
           <div className={`${style?.taxWords}`}>
             {data?.mainTotal?.total_discount_amount !== 0 && <p className="text-end">Total Discount</p>}
             {data?.allTaxes.map((e, i) => {
@@ -925,12 +926,13 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <p className="text-end">Recv. in Bank</p>
           </div>
           <div className={`${style?.taxAmount}`}>
+            {console.log(data)}
             {data?.mainTotal?.total_discount_amount !== 0 && <p className="text-end">{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>}
             {data?.allTaxes.map((e, i) => {
-              return <p className="text-end" key={i}>{e?.amount}</p>
+              return <p className="text-end" key={i}>{NumberWithCommas(e?.amount*headerData?.CurrencyExchRate, 2)}</p>
             })}
             {headerData?.AddLess !== 0 && <p className="text-end">{headerData?.AddLess}</p>}
-            <p className="text-end fw-bold">{NumberWithCommas(data?.finalAmount, 2)}</p>
+            <p className="text-end fw-bold">{NumberWithCommas(data?.mainTotal?.total_amount+data?.allTaxes?.reduce((acc, cObj) => acc+ (+cObj?.amount * headerData?.CurrencyExchRate), 0), 2)}</p>
             <p className="text-end">{NumberWithCommas(headerData?.CashReceived, 2)}</p>
             <p className="text-end">{NumberWithCommas(headerData?.BankReceived, 2)}</p>
           </div>
@@ -967,7 +969,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <p className="fw-bold">STONE WT </p>
                 <p>{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)} cts</p>
               </div>
-              <div className={`d-flex justify-content-between pad_1 position-absolute start-0 w-100 lightGrey border-top ${style?.min_height_12} px-1`} style={{bottom: "12px", minHeight: "14px"}}>
+              <div className={`d-flex justify-content-between pad_1 position-absolute start-0 w-100 border-bottom lightGrey border-top ${style?.min_height_12} px-1`} style={{bottom: "12px", minHeight: "14px"}}>
                 <p className="fw-bold"> </p>
                 <p></p>
               </div>
@@ -997,9 +999,9 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <p className="fw-bold">{headerData?.AddLess >= 0 ? "ADD" : "LESS"}</p>
                 <p>{NumberWithCommas(headerData?.AddLess, 2)}</p>
               </div>}
-              <div className={`d-flex justify-content-between pad_1 position-absolute start-0 w-100 lightGrey border-top ${style?.min_height_12} px-1`} style={{bottom: "12px"}}>
+              <div className={`d-flex justify-content-between pad_1 position-absolute start-0 w-100 lightGrey border-top border-bottom ${style?.min_height_12} px-1`} style={{bottom: "12px"}}>
                 <p className="fw-bold">TOTAL</p>
-                <p>{NumberWithCommas(data?.finalAmount, 2)}</p>
+                <p>{NumberWithCommas(data?.mainTotal?.total_amount+data?.allTaxes?.reduce((acc, cObj) => acc+ (+cObj?.amount * headerData?.CurrencyExchRate), 0), 2)}</p>
               </div>
             </div>
           </div>
@@ -1043,7 +1045,7 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div
                   className={`col-4 ${style?.min_height_30} d-flex justify-content-center align-items-center fw-bold`}
                 >
-                  {NumberWithCommas(data?.afterReceive, 2)}
+                  {NumberWithCommas(data?.mainTotal?.total_amount+data?.allTaxes?.reduce((acc, cObj) => acc+ (+cObj?.amount * headerData?.CurrencyExchRate), 0) -headerData?.CashReceived -headerData?.BankReceived+headerData?.AddLess, 2)}
                 </div>
               </div>
               <div className="d-flex">
