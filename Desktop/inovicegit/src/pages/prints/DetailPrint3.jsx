@@ -321,7 +321,9 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col6_dp3 border-secondary border-end end_top_dp3">{(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount) === 0.00 ? '' : formatAmount((e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount))}</div>
                   <div className="col7_dp3 border-secondary border-end">
                     <div className="d-flex"><div className="w-50 end_top_dp3"></div>
-                    <div className="w-50 end_top_dp3">{e?.totals?.makingAmount_settingAmount === 0.00 ? '' : formatAmount(e?.totals?.makingAmount_settingAmount)}</div></div>
+                    {/* <div className="w-50 end_top_dp3">{e?.totals?.makingAmount_settingAmount === 0.00 ? '' : formatAmount(e?.totals?.makingAmount_settingAmount)}</div></div> */}
+                    {/* <div className="w-50 end_top_dp3">{(e?.MakingAmount + e?.TotalCsSetcost + e?.TotalCsSetcost) === 0.00 ? '' : formatAmount((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalCsSetcost))}</div></div> */}
+                    <div className="w-50 end_top_dp3">{(e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) === 0.00 ? '' : formatAmount((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))}</div></div>
                   </div>
                   <div className="col8_dp3 end_top_dp3">{e?.TotalAmount === 0.00 ? '' : formatAmount(e?.TotalAmount)}</div>
                 </div>
@@ -333,20 +335,20 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
         {/* tax total */}
         <div className="d-flex justify-content-end align-items-start border-black border-start border-end border-top-0 border-bottom-secondary fs_dp3 dp3_pgia">
-          <div style={{width:'15%'}}>
+          <div style={{width:'20%'}}>
             {
               result?.allTaxes?.map((el, ind) => {
                 return(
                     <div className="d-flex" key={ind}>
                       <div className="w-50 end_top_dp3">{el?.name + " @ " + el?.per}</div>
-                      <div className="w-50 end_top_dp3">{el?.amount}</div>
+                      <div className="w-50 end_top_dp3">{formatAmount((el?.amount * result?.header?.CurrencyExchRate))}</div>
                     </div>
                 )
               })
             }
                     <div className="d-flex">
                       <div className="w-50 end_top_dp3">Add/Less</div>
-                      <div className="w-50 end_top_dp3">{result?.header?.AddLess}</div>
+                      <div className="w-50 end_top_dp3">{formatAmount(result?.header?.AddLess)}</div>
                     </div>
           </div>
         </div>
@@ -393,7 +395,9 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="d-flex"><div className="w-50 end_top_dp3"></div>
               <div className="w-50 end_top_dp3">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</div></div>
             </div>
-            <div className="col8_dp3 end_top_dp3">{formatAmount((result?.finalAmount))}</div>
+            <div className="col8_dp3 end_top_dp3">{
+            formatAmount((
+              result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</div>
           </div>
       </div>
       {/* summary & footer */}
@@ -420,7 +424,9 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="d-flex justify-content-between"><div className="pad_s_dp3 fw-bold ps-2">ADD/LESS</div><div className="border-secondary border-end pad_e_dp3 pe-2">{formatAmount(result?.header?.AddLess)}</div></div>
                 <div className="d-flex justify-content-between  border-secondary border border-bottom-0 border-start-0 bgc_dp3">
                   <div className="pad_s_dp3 fw-bold ps-2">TOTAL</div>
-                  <div className="pad_e_dp3 pe-2">{formatAmount(result?.finalAmount)}</div>
+                  {/* <div className="pad_e_dp3 pe-2">{formatAmount(result?.finalAmount)}</div> */}
+                  <div className="pad_e_dp3 pe-2">{formatAmount((
+                    result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</div>
                 </div>
               </div>
             </div>
