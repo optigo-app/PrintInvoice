@@ -204,7 +204,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <img src={e?.DesignImage} alt="#designimg" onError={(e) => handleImageError(e)}  className="designimg_dp3 m-3 p-1" />
                     </div> : ''
                     }
-                   { e?.HUID === '' ? '' : <div className="center_dp3">{e?.HUID}</div> } 
+                   { e?.HUID === '' ? '' : <div className="center_dp3">HUID : {e?.HUID}</div> } 
                   </div>
                   <div className="col3_dp3 border-secondary border-end">
                     <div>
