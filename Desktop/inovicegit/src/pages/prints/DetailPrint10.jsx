@@ -251,8 +251,8 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="d-flex justify-content-end pe-2 pt-2">
                     {isImageWorking && (result?.header?.PrintLogo !== "" && 
                       <img src={result?.header?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain'
-                      onError={handleImageErrors} height={120} width={150} />)}
+                      className='w-100 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
                       {/* <img
                         src={result?.header?.PrintLogo}
                         alt="#companylogo"

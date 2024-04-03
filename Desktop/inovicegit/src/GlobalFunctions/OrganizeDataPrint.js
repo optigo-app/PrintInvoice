@@ -35,24 +35,28 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       IsPrimaryMetal: 0,
       withOutPrimaryMetal:0,
       IsPrimaryMetal_Amount: 0,
+      SettingAmount: 0
     },
     finding: {
       Wt: 0,
       Pcs: 0,
       Rate: 0,
       Amount: 0,
+      SettingAmount: 0
     },
     misc: {
       Wt: 0,
       Pcs: 0,
       Rate: 0,
       Amount: 0,
+      SettingAmount: 0
     },
     stone_misc: {
       Wt: 0,
       Pcs: 0,
       Rate: 0,
       Amount: 0,
+      SettingAmount: 0
     },
     diamond_colorstone_misc: {
       Wt: 0,
@@ -154,7 +158,8 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
           length: 0,
           IsPrimaryMetal:0,
           WithOutPrimaryMetal:0,
-          IsPrimaryMetal_Amount:0
+          IsPrimaryMetal_Amount:0,
+          SettingAmount: 0
         },
         finding: {
           Wt: 0,
@@ -163,6 +168,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
           Amount: 0,
           FineWt: 0,
           length: 0,
+          SettingAmount: 0
         },
         misc: {
           Wt: 0,
@@ -174,6 +180,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
           withouthscode1_2_wt:0,
           withouthscode1_2_pcs:0,
           withouthscode1_2_amount:0,
+          SettingAmount: 0
         },
         stone_misc: {
           Wt: 0,
@@ -328,12 +335,14 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               jobwise_totals.finding.Rate += j2?.Rate;
               jobwise_totals.finding.Amount += j2?.Amount;
               jobwise_totals.finding.FineWt += j2?.FineWt;
+              jobwise_totals.finding.SettingAmount += j2?.SettingAmount;
               jobwise_totals.finding.length += 1;
               maintotal.finding.Wt += j2?.Wt;
               maintotal.finding.total_FineWt += +j2?.FineWt;
               maintotal.finding.Pcs += j2?.Pcs;
               maintotal.finding.Rate += j2?.Rate;
               maintotal.finding.Amount += j2?.Amount;
+              maintotal.finding.SettingAmount += j2?.SettingAmount;
             }
             //for stone and misc
             if (

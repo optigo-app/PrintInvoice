@@ -90,8 +90,20 @@
 .tax_w_ls2{
     width: 30%;
 }
-
-
+.printhead_ls{
+    height: 40px;
+    background-color: #939292;
+    padding-left: 10px;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.fs_ls_2{
+    font-size: 16px;
+}
 @media print{
     .fs_ls{
         font-size: 10px;
@@ -110,5 +122,8 @@
     }
     .container_ls .target_header *{
         font-size: 10px !important;
+    }
+    .ls_pg_Break{
+        page-break-inside: avoid !important;
     }
 }
