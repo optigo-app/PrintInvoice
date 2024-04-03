@@ -86,6 +86,7 @@ const Summary10 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {isImageWorking && (result?.header?.PrintLogo !== "" &&
                       <img src={result?.header?.PrintLogo} alt=""
                         className={` plogo_s10`}
+                        style={{maxWidth:'116px'}}
                         onError={handleImageErrors} />)}
                   </div>
                 </div>
@@ -166,7 +167,7 @@ const Summary10 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         return (
                           <div key={i} className="d-flex lh_s10 fs_s10 p-1 justify-content-between align-items-center border-start border-end w-100" >
                             <div>{el?.name} @ {el?.per}</div>
-                            <div>{el?.amount}</div>
+                            <div>{formatAmount(el?.amount)}</div>
                           </div>
                         )
                       })

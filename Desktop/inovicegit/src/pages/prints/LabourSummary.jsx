@@ -248,7 +248,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       return(
                         <div className="d-flex border-end border-start" key={ind}>
                             <div className="w-50 border-end d-flex justify-content-end align-items-start pe-1">{el?.name} @ {el?.per}</div>
-                            <div className="w-50 d-flex justify-content-end align-items-start pe-1">{(el?.amount * result?.header?.CurrencyExchRate)}</div>
+                            <div className="w-50 d-flex justify-content-end align-items-start pe-1">{(formatAmount(el?.amount * result?.header?.CurrencyExchRate))}</div>
                         </div>
                       )
                     })
