@@ -198,10 +198,16 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       Wt:0,
       Pcs:0
     }
+    console.log(datas);
     datas?.resultArray?.forEach((a) => {
       a?.misc?.forEach((el) => {
-          obj2.Wt += el?.Wt;
-          obj2.Pcs += el?.Pcs;
+        if(el?.Supplier === 'Company'){
+          if(el?.IsHSCOE === 0 || el?.IsHSCOE === 3){
+            console.log("el", el);
+            // obj2.Wt += el?.Wt + el?.ServWt;
+            obj2.Pcs += el?.Pcs;
+          }
+        }
       })
     })
 
@@ -612,7 +618,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div>D: Company : {result?.mainTotal?.diamonds?.Pcs}/{result?.mainTotal?.diamonds?.Wt?.toFixed(3)} Ctw</div>
                       <div>C: Company : {result?.mainTotal?.colorstone?.Pcs}/{result?.mainTotal?.colorstone?.Wt?.toFixed(3)} Ctw</div>
                       {/* <div>M: Company : {mcompany?.m_Pcs}/{mcompany?.m_Wt?.toFixed(3)} Wt</div> */}
-                      <div>M: Company : {miscObj?.Pcs}/{miscObj?.Wt?.toFixed(3)} Wt</div>
+                      <div>M: Company : {miscObj?.Pcs}/{(result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt)?.toFixed(3)} Wt</div>
                       <div>Wt: {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
                       <div>Ctw: { (result?.mainTotal?.diamonds?.Wt + result?.mainTotal?.colorstone?.Wt)?.toFixed(3) }</div>
                         </div>
