@@ -214,7 +214,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                 <div className='col-3'><p className=''>{ele?.QualityName}</p></div>
                                                 <div className='col-3 text-end'><p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p></div>
                                                 <div className='col-3 text-end'><p className='text-end'>{NumberWithCommas(ele?.Amount / ele?.Wt, 2)}</p></div>
-                                                <div className='col-3 text-end'><p className='text-end'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
+                                                <div className='col-3 text-end fw-semibold'><p className='text-end'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                                             </div>
                                         })}
                                     </div>
@@ -234,7 +234,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                 <div className='col-3'><p className=' border-bottom' style={{ minHeight: "14.5px" }}>{ele?.ShapeName} {ele?.QualityName}</p></div>
                                                 <div className='col-3'><p className=' border-bottom text-end' style={{ minHeight: "14.5px" }}>{ind === 0 && NumberWithCommas((e?.NetWt + (e?.totals?.diamonds?.Wt / 5)), 3)}</p></div>
                                                 <div className='col-3'><p className=' border-bottom text-end' style={{ minHeight: "14.5px" }}>{NumberWithCommas(ele?.Wt, 3)}</p></div>
-                                                <div className='col-3'><p className=' border-bottom text-end' style={{ minHeight: "14.5px" }}>{NumberWithCommas(ele?.Amount, 2)}</p></div>
+                                                <div className='col-3'><p className=' border-bottom text-end fw-semibold' style={{ minHeight: "14.5px" }}>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                                             </div>
                                         })}
                                         {e?.JobRemark !== "" && <div>
@@ -288,7 +288,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className={`${style?.total} border-bottom  text-end`}>
                                 <div className="d-flex h-100 flex-column justify-content-between">
                                     <div>
-                                        <p className='text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                                        <p className='text-end fw-semibold'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
                                     </div>
                                     <div className='border-top lightGrey'>
                                         <p className='text-end fw-semibold'> {NumberWithCommas(e?.TotalAmount, 2)}</p>

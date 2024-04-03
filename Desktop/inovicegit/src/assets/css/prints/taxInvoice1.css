@@ -10,9 +10,9 @@
     max-width: 1200px;
 }
 
-.taxInvoicePirnt1 *{
+.taxInvoicePirnt1 *:not(.declarationTaxInvoice1 *){
     line-height: 120%;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .taxinvoice1Head {
@@ -39,8 +39,8 @@
 }
 
 .product_discription_invoice_print_1 {
-    width: 15%;
-    min-width: 15%;
+    width: 14%;
+    min-width: 14%;
 }
 
 .hsn_invoice1,
@@ -76,8 +76,8 @@
 }
 
 .materialInvoicePrint1{
-    width: 47%;
-    min-width: 47%;
+    width: 48%;
+    min-width: 48%;
 }
 
 .hsn_invoice1 {
@@ -95,24 +95,8 @@
 }
 
 .headHeightInvoice1 {
-    height: 34px;
+    min-height: 34px;
 }
-
-.header_textInvoice1 {
-    width: 616px;
-}
-
-.header_textInvoicePrint1{
-    width: 70%;
-}
-
-.header_text_invoice_num {
-    width: 220px;
-}
-
-.header_text_invoice_numPrint1{
-    width: 25%;
-} 
 
 .customer_name_invoice1 {
     line-height: 120%;
@@ -180,9 +164,7 @@
     width: 581px;
 }
 
-.oldGoldInvoicePrint1, .totalNumbersinvoicePrint1{
-    width: 75%;
-}
+
 
 .narration_bank_invoice1 {
     width: 476.48px;
@@ -192,10 +174,6 @@
     width: 160px;
 }
 
-.cgstinvoicePrint1{
-    width: 20.1%;    
-}
-
 .totalSumInvoice1 {
     width: 92px;
 }
@@ -203,22 +181,16 @@
 .total_sum_invoice_print_1, .totalTaxNumberinvoice_print_1{
     width: 100px;
 }
+.oldGoldInvoicePrint1, .totalNumbersinvoicePrint1{
+    width: 70%;
+}
+.cgstinvoicePrint1, .totalTaxinvoicePrint1{
+    width: 22.1%;    
+}
 
-.total_sum_invoiceprint1{
-    width: 9.9%;
+.total_sum_invoiceprint1, .totalTaxNumberinvoiceprint1{
+    width: 12.9%;
 } 
-
-.totalTaxinvoice1 {
-    width: 160px;
-}
-
-.totalTaxinvoicePrint1{
-    width: 20.1%;
-}
-
-.totalTaxNumberinvoiceprint1{
-    width: 9.9%;
-}
 
 .totalTaxNumberinvoice1 {
     width: 92px;
@@ -227,7 +199,6 @@
 .onlineBankinvoice1 {
     width: 301px;
 }
-
 
 .Signatureinvoice1 {
     width: 276px;
@@ -258,14 +229,23 @@
     object-position: center;
 }
 
-@media print {
+.font_size_16_tax_invoice_1, .font_size_16_tax_invoice_1 *{
+    font-size: 16px;
+}
 
+.pad_2_tax_invoice_1 p{
+    padding: 2px;
+}
+
+@media print {
     .table_row_invoice1,
     .print_break_avoid_invoice1 {
         page-break-inside: avoid;
     }
     .taxInvoicePirnt1{
         padding-bottom: 0;
+        padding-top: 5px !important;
+        margin-top: 0 !important;
     }
 
     .print_sec_sum4{

@@ -19,16 +19,39 @@
   font-size: 14px;
 }
 
-.Gold,
+
 .Diamond,
 .ColorStone {
   width: 16%;
   min-width: 16%;
 }
+.Gold{
+  width: 17%;
+  min-width: 17%;
+}
 
-.Purity, .Qty, .Others, .Labour , .Total {
+.Others {
   width: 7.39%;
   min-width: 7.39%;
+}
+
+.Labour {
+  width: 7.78%;
+  min-width: 7.78%;
+}
+
+.Purity{
+  width: 6.39%;
+  min-width: 6.39%;
+}
+
+.Total {
+  width: 9.39%;
+  min-width: 9.39%;
+}
+.Qty{
+  width: 5%;
+  min-width: 5%;
 }
 
 .words{
