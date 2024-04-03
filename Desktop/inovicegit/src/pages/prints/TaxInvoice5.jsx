@@ -102,18 +102,23 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     datas.mainTotal.primaryWts = primaryWts;
     datas.resultArray = resultArr;
     datas?.resultArray.sort((a, b) => {
-      var nameA = a.SrJobno.toUpperCase(); // Convert names to uppercase for case-insensitive comparison
-      var nameB = b.SrJobno.toUpperCase();
+      var nameA = a?.JewelCodePrefix.toUpperCase() + a?.Category_Prefix.toUpperCase() + a?.srjobno[1].toUpperCase();
+      var nameB = b?.JewelCodePrefix.toUpperCase() + b?.Category_Prefix.toUpperCase() + b?.srjobno[1].toUpperCase();
 
-      if (nameA < nameB) {
-        return -1; // A should come before B
-      }
-      if (nameA > nameB) {
-        return 1; // A should come after B
-      }
-      return 0; // Names are equal
+      const prefixA = nameA.match(/[A-Za-z]+/)[0];
+      const prefixB = nameB.match(/[A-Za-z]+/)[0];
+      const numericA = parseInt(nameA.match(/\d+/)[0]);
+      const numericB = parseInt(nameB.match(/\d+/)[0]);
+
+      // Compare prefixes first
+      if (prefixA < prefixB) return -1;
+      if (prefixA > prefixB) return 1;
+
+      // If prefixes are the same, compare numeric parts
+      return numericA - numericB;
     });
     setData(datas);
+    console.log(datas);
   };
 
   useEffect(() => {
@@ -169,7 +174,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
       {/* header */}
-      <div className={`text-decoration-underline px-2 pb-1`} style={{ fontSize: "24px", fontWeight: "700" }}>{headerData?.PrintHeadLabel}</div>
+      <div className={`px-2 pb-1`} style={{ fontSize: "24px", fontWeight: "700", textDecoration: "underline #000 3px" }}>{headerData?.PrintHeadLabel}</div>
       <div className={style2.companyDetails}>
         <div className={`${style2.companyhead} p-2 `}>
           <div className={`${style2.lines} ${style?.font_16}`} style={{ fontWeight: "bold" }}>
@@ -204,7 +209,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {headerData?.customercity1}
             {headerData?.customerpincode}
           </p>
-          <p>{headerData?.Cust_CST_STATE_No_}</p>
+          <p>{headerData?.Cust_CST_STATE_No_?.replaceAll(",", " | ")}</p>
           <p>{headerData?.vat_cst_pan}</p>
         </div>
         <div className="col-4 border-end p-2">
@@ -270,7 +275,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       {/* table data */}
       {data?.resultArray.map((e, i) => {
         return (
-          <div className="d-flex border-start border-end border-bottom" key={i}>
+          <div className="d-flex border-start border-end border-bottom no_break" key={i}>
             <div className={`${style?.Sr} border-end`}>
               <p className="text-center p-1">{i + 1}</p>
             </div>
@@ -282,7 +287,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </p>
             </div>
             <div className={`${style?.KT} border-end text-center`}>
-              <p className="p-1">{e?.MetalPurity} </p>
+              <p className="p-1">{e?.MetalType?.toLowerCase() !== "gold" && e?.MetalType} {e?.MetalPurity} </p>
             </div>
             {pnm === "tax invoice 6" && (
               <div className={`${style?.Diamond} border-end`}>
@@ -311,14 +316,14 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             <div className={`${style?.Price}`}>
               <p className="text-end p-1">
-                {NumberWithCommas(e?.TotalAmount, 2)}{" "}
+                {NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)}{" "}
               </p>
             </div>
           </div>
         );
       })}
       {/* table total */}
-      <div className="d-flex border-start border-end border-bottom">
+      <div className="d-flex border-start border-end border-bottom no_break">
         <div className={`${style?.Sr} border-end`}>
           <p className="text-center p-1"></p>
         </div>
@@ -355,18 +360,18 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
         <div className={`${style?.Price}`}>
           <p className="text-end p-1 fw-bold">
-            {NumberWithCommas(data?.mainTotal?.total_amount, 2)}
+            {NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}
           </p>
         </div>
       </div>
       {/* In Words */}
-      <div className="d-flex border-start border-end border-bottom">
+      <div className="d-flex border-start border-end border-bottom no_break">
         <div
           className={`${style?.words} border-end p-1 d-flex justify-content-end flex-column`}
         >
           <p>In Words (Indian Rupees)</p>
           <p className="fw-bold">
-            {toWords.convert(+fixedValues(data?.finalAmount, 2))} Only
+            {toWords.convert(+fixedValues((data?.mainTotal?.total_amount / headerData?.CurrencyExchRate) + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0) +  + (headerData?.AddLess/ headerData?.CurrencyExchRate), 2))} Only
           </p>
         </div>
         <div className={`${style?.grandTotal}`}>
@@ -385,10 +390,10 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             <div className={`${style?.grandTotalValue} p-1 text-end`}>
               {data?.allTaxes.map((e, i) => {
-                return <p key={i} className={`${style?.font_12}`}>{e?.amount}</p>;
+                return <p key={i} className={`${style?.font_12}`}>{NumberWithCommas(e?.amount, 2)}</p>;
               })}
               {headerData?.AddLess !== 0 && (
-                <p className={`${style?.font_12}`}>{NumberWithCommas(headerData?.AddLess, 2)}</p>
+                <p className={`${style?.font_12}`}>{NumberWithCommas(headerData?.AddLess / headerData?.CurrencyExchRate, 2)}</p>
               )}
             </div>
           </div>
@@ -397,31 +402,31 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <p className="fw-bold">GRAND TOTAL</p>
             </div>
             <div className={`${style?.grandTotalValue} p-1 text-end`}>
-              <p className="fw-bold">{NumberWithCommas(data?.finalAmount, 2)}</p>
+              <p className="fw-bold">{NumberWithCommas((data?.mainTotal?.total_amount / headerData?.CurrencyExchRate) + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0) + (headerData?.AddLess/ headerData?.CurrencyExchRate), 2)}</p>
             </div>
           </div>
         </div>
       </div>
       {/* remarks */}
-      <div className="border-start border-end border-bottom p-2">
+      <div className="border-start border-end border-bottom p-2 no_break">
         <p className="fw-bold">REMARKS : </p>
         <p> {headerData?.PrintRemark}</p>
       </div>
       {/* declaration */}
       <div
-        className="border-start border-end border-bottom p-2"
+        className="border-start border-end border-bottom p-2 no_break"
         dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
       ></div>
       {/* footer */}
-      <div className="d-flex border-start border-end border-bottom">
-        <div className="col-4 border-end p-2 d-flex flex-column justify-content-between">
+      <div className="d-flex border-start border-end border-bottom no_break">
+        <div style={{ width: "30%" }} className="border-end p-2 d-flex flex-column justify-content-between">
           <p className="">Signature</p>
           <p>
             <span className="fw-bold">{headerData?.CustName}</span>
             <span className={`${style?.sup}`}></span> (With Stamp)
           </p>
         </div>
-        <div className="col-4 border-end p-2">
+        <div style={{ width: "40%" }} className="border-end p-2">
           <p className="fw-bold">Bank Detail</p>
           <div className="d-flex">
             <p className="col-5">Account Name</p>
@@ -444,7 +449,7 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <p className="col-7">: {headerData?.rtgs_neft_ifsc}</p>
           </div>
         </div>
-        <div className="col-4 p-2 d-flex flex-column justify-content-between">
+        <div style={{ width: "30%" }} className="p-2 d-flex flex-column justify-content-between">
           <p className="">Signature</p>
           <p className="fw-bold">{headerData?.CompanyFullName}</p>
         </div>

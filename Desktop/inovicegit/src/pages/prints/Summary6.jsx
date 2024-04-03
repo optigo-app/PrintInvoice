@@ -192,7 +192,7 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 </div>
                                 <div className={`${style?.cswt} border-end fw-bold text-uppercase text-center p-1`}>cswt
                                 </div>
-                                <div className={`${style?.order} border-end fw-bold text-uppercase text-center p-1`}>order
+                                <div className={`${style?.order} border-end fw-bold text-uppercase text-center p-1`}>other
                                 </div>
                                 <div className={`${style?.total} fw-bold text-uppercase text-center p-1`}>total
                                 </div>

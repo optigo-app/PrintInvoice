@@ -1,5 +1,5 @@
 .itemWisePrintContainer {
-    /* zoom: 1.1; */
+    zoom: 1.2;
 }
 
 .itemWisePrintfont * {
@@ -18,8 +18,8 @@
 }
 
 .metaltypeItemWisePrint2 {
-    width: 9.8%;
-    min-width: 9.8%;
+    width: 8.8%;
+    min-width: 8.8%;
 }
 
 .categoryItemWisePrint {
@@ -33,8 +33,8 @@
 }
 
 .pkgItemWisePrint {
-    width: 4%;
-    min-width: 4%;
+    width: 3.5%;
+    min-width: 3.5%;
 }
 
 .pkgItemWisePrint1 {
@@ -45,6 +45,11 @@
 .dpcsItemWisePrint {
     width: 3.5%;
     min-width: 3.5%;
+}
+
+.cAmtItemWisePrint {
+    width: 4.5%;
+    min-width: 4.5%;
 }
 
 .gwtItemWisePrint {
@@ -68,23 +73,23 @@
 }
 
 .rateItemWisePrint {
-    width: 3.9%;
-    min-width: 3.9%;
+    width: 4.9%;
+    min-width: 4.9%;
 }
 
 .rateItemWisePrint1 {
-    width: 7.1%;
-    min-width: 7.1%;
+    width: 5.3%;
+    min-width: 5.3%;
 }
 
 .mAmtItemWisePrint {
-    width: 4.6%;
-    min-width: 4.6%;
+    width: 5.1%;
+    min-width: 5.1%;
 }
 
 .mAmtItemWisePrint1 {
-    width: 7.1%;
-    min-width: 7.1%;
+    width: 8.1%;
+    min-width: 8.1%;
 }
 
 .otherAmtItemWisePrint {
@@ -98,8 +103,8 @@
 }
 
 .wastageItemWisePrint {
-    width: 5.5%;
-    min-width: 5.5%;
+    width: 4.5%;
+    min-width: 4.5%;
 }
 
 .wastageItemWisePrint2 {
@@ -113,8 +118,8 @@
 }
 
 .makingItemWisePrint {
-    width: 5.8%;
-    min-width: 5.8%;
+    width: 4.8%;
+    min-width: 4.8%;
 }
 
 .makingItemWisePrint1 {
@@ -258,7 +263,7 @@ html .itemWisePrint1Font_tab_15 {
 
 .itemWisePrint1Font_tab_14 *,
 .itemWisePrint1Font_tab_14 {
-    font-size: 12px !important;
+    font-size: 9px !important;
 }
 
 .itemWisePrint2Font_tab_14 *,
@@ -273,13 +278,16 @@ html .itemWisePrint1Font_tab_15 {
 
 .itemWisePrint1Font_14_category *,
 .itemWisePrint1Font_14_category {
-    font-size: 14px !important;
+    font-size: 9px !important;
     word-break: break-all !important;
+}
+.itemWisePrint1Font_14_category .itemWisePrintCategory{
+    word-break: normal !important;
 }
 
 .itemWisePrint1Font_13_total *,
 .itemWisePrint1Font_13_total {
-    font-size: 13px !important;
+    font-size: 9px !important;
 }
 
 .itemWisePrint1Font_16_total *,
@@ -324,5 +332,17 @@ html .itemWisePrint1Font_tab_15 {
         font-size: 8px !important;
     }
 
+    .itemWisePrintfont1_  .itemWisePrintHead *{
+        font-size: 14px !important;
+    }
+
+    .itemWisePrintfont1_ .itemWisePrint1Font_tab_14, .itemWisePrintfont1_ .itemWisePrint1Font_tab_14 *,.itemWisePrintfont1_ .itemWisePrintFont_tab_14 *,
+    .itemWisePrintfont1_ .itemWisePrintFont_tab_14,  .itemWisePrint1Font_13_total *, .itemWisePrint1Font_13_total, .itemWisePrint1Font_16_total *, .itemWisePrint1Font_16_total{
+        font-size: 9px !important;
+    }
+
+    .itemWisePrintfont1_ .amountInWordsItemWise *, .itemWisePrintfont1_ .amountInWordsItemWise{
+        font-size: 12px !important;
+    }
 
 }

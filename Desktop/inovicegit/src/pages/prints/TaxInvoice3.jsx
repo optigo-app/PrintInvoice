@@ -112,7 +112,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       <div
         className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
       >
-        <div className="form-check pe-3 pt-2">
+        {/* <div className="form-check pe-3 pt-2">
           <input
             className="form-check-input border-dark"
             type="checkbox"
@@ -120,7 +120,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             onChange={(e) => setImage(!image)}
           />
           <label className="form-check-label">With Image</label>
-        </div>
+        </div> */}
         <div className="form-check ps-3">
           <input
             type="button"
@@ -305,12 +305,12 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <p className="text-end">{NumberWithCommas(e?.Quantity, 0)} </p>
             </div>
             <div className={`${style?.Gold} d-flex border-end`}>
-              <div className="col-6 border-end">
+              <div className="col-5 border-end">
                 <p className="text-end p-1">
                   {NumberWithCommas(e?.primaryWt, 3)}{" "}
                 </p>
               </div>
-              <div className="col-6">
+              <div className="col-7">
                 <p className="text-end p-1">
                   {NumberWithCommas(e?.MetalAmount, 2)}{" "}
                 </p>
@@ -371,12 +371,12 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <p className="text-end"> </p>
         </div>
         <div className={`${style?.Gold} d-flex border-end`}>
-          <div className="col-6 border-end">
+          <div className="col-5 border-end">
             <p className="text-end fw-semibold p-1">
               {NumberWithCommas(data?.mainTotal?.PrimaryWts, 3)}
             </p>
           </div>
-          <div className="col-6">
+          <div className="col-7">
             <p className="text-end fw-semibold p-1">
               {NumberWithCommas(data?.mainTotal?.MetalAmount, 2)}{" "}
             </p>
@@ -432,7 +432,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         >
           <p>In Words Indian Rupees</p>
           <p className="fw-bold">
-            {toWords.convert(+fixedValues(data?.finalAmount, 2))} Only
+            {toWords.convert(+fixedValues(data?.mainTotal?.total_amount + data?.allTaxes?.reduce((acc, cObj) => acc+ (+cObj?.amount*headerData?.CurrencyExchRate), 0), 2)+headerData?.AddLess)} Only
           </p>
         </div>
         <div className={`${style?.grandTotal}`}>
@@ -451,7 +451,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             <div className="col-6 p-1 text-end">
               {data?.allTaxes.map((e, i) => {
-                return <p key={i}>{e?.amount}</p>;
+                return <p key={i}>{NumberWithCommas(e?.amount * headerData?.CurrencyExchRate, 2)}</p>;
               })}
               {headerData?.AddLess !== 0 && (
                 <p>{NumberWithCommas(headerData?.AddLess, 2)}</p>
@@ -463,7 +463,7 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <p className="fw-bold">GRAND TOTAL</p>
             </div>
             <div className="col-6 p-1 text-end">
-              <p className="fw-bold">{NumberWithCommas(data?.finalAmount, 2)}</p>
+              <p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_amount + data?.allTaxes?.reduce((acc, cObj) => acc+ (+cObj?.amount*headerData?.CurrencyExchRate), 0)+headerData?.AddLess, 2)}</p>
             </div>
           </div>
         </div>
@@ -480,7 +480,6 @@ const TaxInvoice3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           {headerData?.PrintRemark}
         </p>
       </div>
-
       {footer}
     </div>
   ) : (

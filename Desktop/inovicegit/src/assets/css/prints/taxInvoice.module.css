@@ -1,5 +1,5 @@
 .tax_invoice_container {
-    zoom: 1.5;
+    zoom: 1.2;
 }
 
 .tax_invoice_container *,
@@ -14,11 +14,9 @@
 }
 
 .srno {
-    width: 4%;
-    min-width: 4%;
+    width: 3%;
+    min-width: 3%;
 }
-
-
 
 .design {
     width: 7%;
@@ -31,8 +29,8 @@
 }
 
 .metal {
-    width: 17%;
-    min-width: 17%;
+    width: 19%;
+    min-width: 19%;
 }
 
 .stone {
@@ -41,8 +39,8 @@
 }
 
 .otherAmount {
-    width: 7%;
-    min-width: 7%;
+    width: 6%;
+    min-width: 6%;
 }
 
 .labourAmount {
@@ -69,7 +67,7 @@
 }
 
 .wordBreak * {
-    word-break: break-all;
+    word-break: break-all !important;
 }
 
 .font_13,
@@ -111,9 +109,18 @@
     }
 
     .tax_invoice_container *,
-    .container * {
+    .container *,
+    .font_13,
+    .font_13 *,
+    .font_12,
+    .font_12 *,
+    .font_15,
+    .font_15 * {
         font-size: 8px;
-        line-height: 120%;
-        word-break: normal;
     }
+
+    .tax_invoice_container {
+        zoom: unset;
+    }
+    
 }

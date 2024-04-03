@@ -3,6 +3,7 @@ import convertor from "number-to-words";
 import "../../assets/css/prints/taxInvoice1.css";
 import {
   CapitalizeWords,
+  GovernMentDocuments,
   NumberWithCommas,
   ReceiveInBank,
   apiCall,
@@ -14,6 +15,7 @@ import {
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
+import { cloneDeep } from "lodash";
 
 const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [image, setimage] = useState(false);
@@ -28,6 +30,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [taxes, setTaxes] = useState([]);
   const [bank, setBank] = useState([]);
   const [isImageWorking, setIsImageWorking] = useState(true);
+  const [document, setDocument] = useState([]);
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -80,6 +83,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       discountAmt: 0,
       weightInGram: 0,
       UnitCost: 0,
+      primaryWts: 0
     };
     json1.forEach((e, i) => {
       // totalobj.totalOtherAmount += e?.MetalAmount + e?.OtherCharges;
@@ -131,14 +135,13 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     // totalobj.totalAmountAfterTax = +((totalobj.TotalAmount + totalobj.cgstTax + totalobj.sgstTax - totalobj.discountAmt).toFixed(2));
 
     // tax
-    totalobj.totalAmountAfterTax = 0;
+    totalobj.totalAmountAfterTax = totalobj.TotalAmount + json0[0]?.AddLess;
     let taxValue = taxGenrator(json0[0], totalobj.TotalAmount);
     setTaxes(taxValue);
     taxValue.forEach((e, i) => {
       totalobj.totalAmountAfterTax += +e?.amount;
     });
-    totalobj.totalAmountAfterTax +=
-      json0[0].AddLess - totalobj.discountAmt + totalobj.TotalAmount;
+
     totalobj.totalAmountAfterTax = totalobj.totalAmountAfterTax.toFixed(2);
     // tax end
 
@@ -160,25 +163,23 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     // totalobj.textnumber = CapitalizeWords(convertor.toWords(Math.round(totalobj.netBalanceAmount)));
     totalobj.textnumber =
       toWords.convert(+totalobj.netBalanceAmount?.toFixed(2)) + " Only";
-
- 
     setResultArr(finalArr);
 
     let semiFinalArr = [];
-
     finalArr.forEach((e, i) => {
-      let obj = { ...e };
+      let obj = cloneDeep(e);
+      obj.metalRate = obj?.data?.find((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.IsPrimaryMetal === 1)?.Rate || 0;
       if (obj?.mainData?.GroupJob === "") {
         let findMetals = obj.data?.findIndex(
           (ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4
         );
         if (findMetals !== -1) {
-        //   obj.data[findMetals].materialCharges = obj.data[findMetals]?.Amount;
+          //   obj.data[findMetals].materialCharges = obj.data[findMetals]?.Amount;
         }
         semiFinalArr.push(obj);
       } else {
         let findRec = semiFinalArr.findIndex(
-          (ele, ind) => ele?.mainData?.GroupJob === obj?.mainData?.GroupJob
+          (ele, ind) => ele?.mainData?.GroupJob === obj?.mainData?.GroupJob && ele?.metalRate === obj?.metalRate
         );
         if (findRec === -1) {
           semiFinalArr.push(obj);
@@ -223,8 +224,8 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.mainData.MetalAmount;
           semiFinalArr[findRec].mainData.UnitCost =
             +semiFinalArr[findRec].mainData.UnitCost + +obj.mainData.UnitCost;
-            semiFinalArr[findRec].mainData.OtherCharges += obj.mainData.OtherCharges
-            
+          semiFinalArr[findRec].mainData.OtherCharges += obj.mainData.OtherCharges
+
 
           // semiFinalArr[findRec].data.TotalAmount += obj.data.TotalAmount;
 
@@ -244,7 +245,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   elem.Wt += objj?.Wt;
                   // elem.materialCharges += +((objj.Rate * objj.Wt).toFixed(2));
                   // console.log(objj?.Amount, elem.materialCharges);
-                //   elem.materialCharges += objj?.Amount + elem?.Amount;
+                  //   elem.materialCharges += objj?.Amount + elem?.Amount;
                   // elem.materialCharges = objj?.Amount;
                   newMetal = false;
                   if (
@@ -322,7 +323,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           }
 
           let findMetalRate =
-          semiFinalArr[findRec].mainData.MetalAmount /
+            semiFinalArr[findRec].mainData.MetalAmount /
             (semiFinalArr[findRec].mainData.NetWt +
               semiFinalArr[findRec].mainData.LossWt);
           blankMetals[0].Rate = findMetalRate;
@@ -340,7 +341,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let findMaterial = blankMaterials.findIndex(
               (elem, index) =>
                 elem?.MasterManagement_DiamondStoneTypeid ===
-                  ele?.MasterManagement_DiamondStoneTypeid &&
+                ele?.MasterManagement_DiamondStoneTypeid &&
                 elem?.ShapeName === ele?.ShapeName
               // elem?.Colorname === ele?.Colorname &&
               // elem?.QualityName === ele?.QualityName &&
@@ -377,8 +378,29 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         }
       }
     });
+    let lastArr = [];
+    let primaryWts = 0;
+    semiFinalArr?.forEach((e, i) => {
+      let count = 0;
+      let primaryWt = 0;
+      e?.data?.forEach((ele, ind) => {
+        if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+          count++;
+          if (ele?.IsPrimaryMetal === 1) {
+            primaryWt += ele?.Wt
+          }
+        }
+      });
+      if (count <= 1) {
+        primaryWt = e?.mainData?.NetWt + e?.mainData?.LossWt
+      }
+      let obj = cloneDeep(e);
+      obj.primaryWt = primaryWt;
+      primaryWts += primaryWt
+      lastArr?.push(obj);
+    })
     // console.log(semiFinalArr);
-    semiFinalArr.sort((a, b) => {
+    lastArr.sort((a, b) => {
       const nameA = a.mainData.SrJobno.toUpperCase(); // Convert names to uppercase for case-insensitive comparison
       const nameB = b.mainData.SrJobno.toUpperCase();
 
@@ -390,15 +412,15 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }
       return 0; // Names are equal
     });
-    setResultArr(semiFinalArr);
-
+    setResultArr(lastArr);
+    totalobj.primaryWts = primaryWts;
     semiFinalArr.forEach((e, i) => {
-            totalobj.totalOtherAmount += e?.mainData?.MetalAmount + e?.mainData?.OtherCharges;
-            e.data.forEach((ele, ind) => {
-              if(ele?.MasterManagement_DiamondStoneTypeid !== 4){
-                totalobj.totalOtherAmount += ele.Amount;
-              }
-            })
+      totalobj.totalOtherAmount += e?.mainData?.MetalAmount + e?.mainData?.OtherCharges;
+      e.data.forEach((ele, ind) => {
+        if (ele?.MasterManagement_DiamondStoneTypeid !== 4) {
+          totalobj.totalOtherAmount += ele.Amount;
+        }
+      })
     })
     setTotalAmount(totalobj);
   };
@@ -412,6 +434,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       datas?.BillPrint_Json1,
       datas?.BillPrint_Json
     );
+    setDocument(GovernMentDocuments(datas?.BillPrint_Json[0]?.DocumentDetail));
   };
 
   useEffect(() => {
@@ -444,15 +467,15 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <Loader />
       ) : msg === "" ? (
         <div className="container-fluid taxinvoice1 pt-5 mt-5 taxInvoicePirnt1 pad_60_allPrint">
-          <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4">
-            <div className="form-check pe-3 mb-0 pt-2">
+          <div className="d-flex justify-content-end align-items-center print_sec_sum4 pb-4 font_size_16_tax_invoice_1">
+            <div className="form-check pe-3 mb-0 pt-0">
               <input
                 className="form-check-input border-dark"
                 type="checkbox"
                 checked={image}
                 onChange={(e) => handleChange(e)}
               />
-              <label className="form-check-label h6 mb-0 pt-1">
+              <label className="form-check-label h6 mb-0 pt-1 fw-medium">
                 With Image
               </label>
             </div>
@@ -465,7 +488,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               />
             </div>
           </div>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center pb-2">
             <p className="pe-1">{BillPrint_Json?.Company_VAT_GST_No}</p>
             <p className="ps-1 pe-1">|</p>
             <p className="ps-1 pe-1">
@@ -478,9 +501,9 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           <div className="taxinvoice1Head fw-bold text-center mb-1">
             {BillPrint_Json?.PrintHeadLabel}
           </div>
-          <div className="headerInvoice1 d-flex border mb-1 border-2 border-black">
-            <div className="header_textInvoice1 border-end p-1 header_textInvoicePrint1">
-              <p className="customer_name_invoice1">
+          <div className="headerInvoice1 d-flex border mb-1 border-black w-100">
+            <div className="header_textInvoice1 border-end p-1 header_textInvoicePrint1 col-8">
+              <p className="">
                 Customer Name:{" "}
                 <span className="fw-bold">{BillPrint_Json?.CustName}</span>
               </p>
@@ -499,19 +522,27 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {BillPrint_Json?.Cust_CST_STATE_No}
               </p>
             </div>
-            <div className="header_text_invoice_num header_text_invoice_numPrint1 p-1">
-              <div className="d-flex w-100 justify-content-between">
-                <p className="customer_data_invoice1 fw-bold">INVOICE NO</p>
-                <p>{BillPrint_Json?.InvoiceNo}</p>
+            <div className="header_text_invoice_num header_text_invoice_numPrint1 p-1 col-4">
+              <div className="d-flex w-100 ">
+                <p className="customer_data_invoice1 fw-bold col-8">INVOICE NO</p>
+                <p className="col-4">{BillPrint_Json?.InvoiceNo}</p>
               </div>
-              <div className="d-flex w-100 justify-content-between">
-                <p className="customer_data_invoice1 fw-bold">DATE</p>
-                <p>{BillPrint_Json?.EntryDate}</p>
+              <div className="d-flex w-100 ">
+                <p className="customer_data_invoice1 fw-bold col-8">DATE</p>
+                <p className="col-4">{BillPrint_Json?.EntryDate}</p>
               </div>
+              {
+                document?.map((ele, ind) => {
+                  return <div className="d-flex w-100 " key={ind}>
+                  <p className="customer_data_invoice1 fw-bold col-8">{ele?.label}</p>
+                  <p className="col-4">{ele?.value}</p>
+                </div>
+                })
+              }
             </div>
           </div>
-          <div className="d-flex border-top border-bottom table_invoice1 border-2 border-black">
-            <div className="sr_invoice1 sr_invoicePrint1 d-flex align-items-center justify-content-center fw-bold border-start border-2 border-black">
+          <div className="d-flex border-top border-bottom table_invoice1  ">
+            <div className="sr_invoice1 sr_invoicePrint1 d-flex align-items-center justify-content-center fw-bold border-start  ">
               Sr#
             </div>
             <div className="product_discription_invoice1 product_discription_invoice_print_1 d-flex align-items-center justify-content-center border-start fw-bold border-end">
@@ -552,21 +583,18 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <p>Material</p>
               <p>Charge</p>
             </div>
-            <div className="total_invoice1 total_invoicePrint1 d-flex align-items-center justify-content-center fw-bold border-end border-2 border-black">
+            <div className="total_invoice1 total_invoicePrint1 d-flex align-items-center justify-content-center fw-bold border-end  ">
               Total
             </div>
           </div>
           {resultArr.length > 0 &&
             resultArr.map((e, i) => {
               return (
-                <div
-                  className="d-flex w-100 border-bottom table_row_invoice1 border-2 border-black"
-                  key={i}
-                >
-                  <div className="sr_invoice1 sr_invoicePrint1 min_padding_invoice1 border-start border-2 border-black">
+                <div className="d-flex w-100 border-bottom table_row_invoice1 pad_2_tax_invoice_1" key={i} >
+                  <div className="sr_invoice1 sr_invoicePrint1 min_padding_invoice1 border-start pad_2_tax_invoice_1">
                     {i + 1}
                   </div>
-                  <div className="product_discription_invoice1 product_discription_invoice_print_1 min_padding_invoice1 border-start border-end">
+                  <div className="product_discription_invoice1 product_discription_invoice_print_1 min_padding_invoice1 border-start border-end ">
                     <p>
                       {" "}
                       {e?.mainData?.SubCategoryname} {e?.mainData?.Categoryname}{" "}
@@ -588,7 +616,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </p>
                     )}
                   </div>
-                  <div className="hsn_invoice1 hsn_invoicePrint1 min_padding_invoice1 border-end">
+                  <div className="hsn_invoice1 hsn_invoicePrint1 min_padding_invoice1 border-end pad_2_tax_invoice_1">
                     {BillPrint_Json?.HSN_No}
                   </div>
                   <div className="material_invoice_inner1 border-end materialInvoicePrint1">
@@ -596,34 +624,33 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       e?.data.map((ele, ind) => {
                         return (
                           <div
-                            className={`d-flex ${
-                              ind !== e?.data?.length - 1 && `border-bottom`
-                            } material_inner_invoice1`}
+                            className={`d-flex ${ind !== e?.data?.length - 1 && `border-bottom`
+                              } material_inner_invoice1 pad_2_tax_invoice_1`}
                             key={ind}
                           >
-                            <div className="min_padding_invoice1  border-end justify-content-center col-2">
+                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1">
                               {ele?.ShapeName}
                             </div>
-                            <div className="min_padding_invoice1  border-end justify-content-center col-2">
+                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1">
                               {ind === 0 && ele?.QualityName}
                             </div>
-                            <div className="min_padding_invoice1  border-end justify-content-center col-2">
+                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1">
                               {ind === 0 &&
                                 fixedValues(e?.mainData?.grosswt, 3)}
                             </div>
-                            <div className="min_padding_invoice1  border-end justify-content-center col-2">
-                              {ele?.ShapeName !== "GOLD" &&
+                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1">
+                              {(ele?.ShapeName !== "GOLD" && ele?.Wt !== 0) &&
                                 fixedValues(ele?.Wt, 3)}
                             </div>
-                            <div className="min_padding_invoice1  border-end justify-content-center col-2">
+                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1">
                               {ind === 0 &&
                                 fixedValues(
-                                  e?.mainData?.NetWt + e?.mainData?.LossWt,
+                                  e?.primaryWt,
                                   3
                                 )}
                             </div>
                             <div className="min_padding_invoice1  justify-content-end col-2">
-                            <p className="text-end">  {ele?.MasterManagement_DiamondStoneTypeid === 4 &&
+                              <p className="text-end">  {ele?.MasterManagement_DiamondStoneTypeid === 4 &&
                                 NumberWithCommas(ele?.Rate, 2)}</p>
                             </div>
                           </div>
@@ -644,11 +671,10 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           return (
                             ele?.materialCharges !== 0 && (
                               <div
-                                className={`text-end ${
-                                  (e?.mainData?.OtherCharges !== 0 ||
-                                    ind !== e?.data.length) &&
+                                className={`text-end ${(e?.mainData?.OtherCharges !== 0 ||
+                                  ind !== e?.data.length) &&
                                   `border-bottom`
-                                } material_inner_invoice1 p-1 minHeight20_5_taxInvoice1`}
+                                  } material_inner_invoice1 p-1 minHeight20_5_taxInvoice1`}
                                 key={ind}
                               >
                                 {NumberWithCommas(ele?.materialCharges, 2)}
@@ -663,15 +689,15 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       )}
                     </div>
                   </div>
-                  <div className="d-flex align-items-center justify-content-end total_invoice1 total_invoicePrint1 min_padding_invoice1 border-end border-2 border-black">
+                  <div className="d-flex align-items-center justify-content-end total_invoice1 total_invoicePrint1 min_padding_invoice1 border-end  ">
                     {NumberWithCommas(+e?.mainData?.UnitCost, 2)}
                   </div>
                 </div>
               );
             })}
-          <div className="d-flex headHeightInvoice1 border-bottom print_break_avoid_invoice1 border-2 border-black">
-            <div className="p-1 d-flex align-items-center sr_invoice1 sr_invoicePrint1 border-start border-2 border-black"></div>
-            <div className="p-1 d-flex align-items-center product_discription_invoice1 product_discription_invoice_print_1 border-end border-start total_sec_invoice1 fw-bold">
+          <div className="d-flex headHeightInvoice1 border-bottom print_break_avoid_invoice1 pad_2_tax_invoice_1">
+            <div className="p-1 d-flex align-items-center sr_invoice1 sr_invoicePrint1 border-start  "></div>
+            <div className="p-1 d-flex align-items-center product_discription_invoice1 product_discription_invoice_print_1 border-end border-start total_sec_invoice1 fw-bold pad_2_tax_invoice_1">
               TOTAL
             </div>
             <div className="p-1 d-flex align-items-center hsn_invoice1 hsn_invoicePrint1 border-end"></div>
@@ -687,36 +713,34 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <p>{fixedValues(totalAmount?.weightInGram, 3)} gm</p>
                 </div>
                 <div className="p-1  border-end fw-bold d-block align-items-center d-flex justify-content-center col-2">
-                  {fixedValues(totalAmount?.netWeight, 3)}
+                  {fixedValues(totalAmount?.primaryWts, 3)}
                 </div>
                 <div className="p-1 min_padding_invoice1  fw-bold col-2"></div>
               </div>
             </div>
             <div className="p-1 d-flex align-items-center making_invoice1 making_invoicePrint1 border-end"></div>
-            <div className="p-1 d-flex align-items-center others_invoice1 others_invoicePrint1 border-end fw-bold justify-content-end">
+            <div className="p-1 d-flex align-items-center others_invoice1 others_invoicePrint1 border-end fw-bold justify-content-end pad_2_tax_invoice_1">
               {NumberWithCommas(totalAmount?.totalOtherAmount, 2)}
             </div>
-            <div className="p-1 d-flex align-items-center total_invoice1 total_invoicePrint1 border-end fw-bold justify-content-end border-2 border-black">
+            <div className="p-1 d-flex align-items-center total_invoice1 total_invoicePrint1 border-end fw-bold justify-content-end pad_2_tax_invoice_1">
               {NumberWithCommas(totalAmount?.UnitCost, 2)}
             </div>
           </div>
-          <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 border-2 border-black">
+          <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 pad_2_tax_invoice_1">
             <div className="oldGoldInvoice1 border-end d-grid oldGoldInvoicePrint1">
               <div className="d-flex p-1 border-bottom">
-                <div>
-                  Narration / <span className="fw-bold">Remark:</span>{" "}
-                  <div
-                    dangerouslySetInnerHTML={{ __html: BillPrint_Json?.Remark }}
-                  ></div>
+                <div className="pad_2_tax_invoice_1 d-flex">
+                  Narration<span className="px-1">/</span> <span> Remark:</span>{" "}
+                  <div className="fw-bold" dangerouslySetInnerHTML={{ __html: BillPrint_Json?.Remark }} ></div>
                 </div>
               </div>
-              <div className="d-flex border-bottom p-1 flex-column">
+              <div className="d-flex p-1 flex-column">
                 <p className="pb-1">Old Gold Purchase Description :</p>
-                <p className="fw-bold pb-1">Total Weight :</p>
-                <p>Total Amount : {BillPrint_Json?.OldGoldAmount}</p>
+                {/* <p className="fw-bold pb-1">Total Weight :</p> */}
+                {/* <p>Total Amount : {BillPrint_Json?.OldGoldAmount}</p> */}
               </div>
             </div>
-            <div className="cgst_inovice1 border-end p-1 text-end cgstinvoicePrint1">
+            <div className="cgst_inovice1 border-end text-end cgstinvoicePrint1">
               {totalAmount?.discountAmt !== 0 && <p>Discount</p>}
               <p>Total Amt. before Tax</p>
               {taxes.length > 0 &&
@@ -737,7 +761,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 })}
               <p>Net Bal. Amount</p>
             </div>
-            <div className="total_sum_invoice_print_1 total_sum_invoiceprint1 p-1 text-end">
+            <div className="total_sum_invoice_print_1 total_sum_invoiceprint1 text-end">
               {totalAmount?.discountAmt !== 0 && (
                 <p>{NumberWithCommas(totalAmount?.discountAmt, 2)}</p>
               )}
@@ -770,40 +794,40 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               </p>
             </div>
           </div>
-          <div className="d-flex border-start border-end border-bottom border-2 border-black print_break_avoid_invoice1">
-            <div className="p-1 totalNumbersinvoice1 border-end totalNumbersinvoicePrint1">
+          <div className="d-flex border-start border-end border-bottom   print_break_avoid_invoice1 pad_2_tax_invoice_1">
+            <div className=" totalNumbersinvoice1 border-end totalNumbersinvoicePrint1">
               <p>In Words Indian Rupees</p>
-              <p className="fw-bold">{totalAmount?.textnumber}</p>
+              <p className="fw-bold">{toWords?.convert(+fixedValues(totalAmount?.totalAmountAfterTax, 2))} Only</p>
             </div>
-            <div className="p-1 totalTaxinvoice1 totalTaxinvoicePrint1 border-end text-end align-items-center d-flex justify-content-end fw-bold">
-              GRAND TOTAL
+            <div className=" totalTaxinvoice1 totalTaxinvoicePrint1 border-end text-end align-items-center d-flex justify-content-end fw-bold pad_2_tax_invoice_1">
+           <p>   GRAND TOTAL</p>
             </div>
-            <div className="p-1 d-flex align-items-center justify-content-end totalTaxNumberinvoice_print_1 fw-bold totalTaxNumberinvoiceprint1">
-              ₹{" "}
-              {totalAmount?.netBalanceAmount !== undefined &&
-                NumberWithCommas(totalAmount?.netBalanceAmount, 2)}
+            <div className="d-flex align-items-center justify-content-end totalTaxNumberinvoice_print_1 fw-bold totalTaxNumberinvoiceprint1 pad_2_tax_invoice_1">
+           <p>   ₹{" "}
+              {totalAmount?.totalAmountAfterTax !== undefined &&
+                NumberWithCommas(totalAmount?.totalAmountAfterTax, 2)}</p>
             </div>
           </div>
-          <div className="d-flex border-start border-end border-bottom p-1 print_break_avoid_invoice1 border-2 border-black">
+          <div className="d-flex border-start border-end border-bottom p-1 print_break_avoid_invoice1 declarationTaxInvoice1 pb-4">
             <div
               dangerouslySetInnerHTML={{ __html: BillPrint_Json?.Declaration }}
               className="pt-1"
             ></div>
           </div>
-          <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 border-2 border-black">
-            <div className=" border-end p-1 col-4">
-              <p className="fw-bold">Bank Detail</p>
-              <p>Bank Name: {BillPrint_Json?.bankname}</p>
-              <p>Branch: {BillPrint_Json?.bankaddress}</p>
-              <p>Account Name: {BillPrint_Json?.accountname}</p>
-              <p>Account No. : {BillPrint_Jso1?.accountnumber}</p>
-              <p>RTGS/NEFT IFSC: {BillPrint_Json?.rtgs_neft_ifsc}</p>
+          <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 pad_2_tax_invoice_1">
+            <div className=" border-end p-1 col-6">
+              <p className="fw-bold pb-1">Bank Detail</p>
+              <p className="pb-1">Bank Name: {BillPrint_Json?.bankname}</p>
+              <p className="pb-1">Branch: {BillPrint_Json?.bankaddress}</p>
+              <p className="pb-1">Account Name: {BillPrint_Json?.accountname}</p>
+              <p className="pb-1">Account No. : {BillPrint_Jso1?.accountnumber}</p>
+              <p className="pb-1">RTGS/NEFT IFSC: {BillPrint_Json?.rtgs_neft_ifsc}</p>
             </div>
-            <div className=" border-end d-flex justify-content-between flex-column p-1 col-4">
+            <div className=" border-end d-flex justify-content-between flex-column p-1 col-3">
               <p>Signature</p>
               <p className="fw-bold">{BillPrint_Json?.CustName}</p>
             </div>
-            <div className=" d-flex justify-content-between flex-column p-1 col-4">
+            <div className=" d-flex justify-content-between flex-column p-1 col-3">
               <p>Signature</p>
               <p className="fw-bold">{BillPrint_Json?.CompanyFullName}</p>
             </div>
