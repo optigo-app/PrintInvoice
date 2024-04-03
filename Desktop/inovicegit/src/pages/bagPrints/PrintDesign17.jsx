@@ -185,11 +185,12 @@ const PrintDesign17 = ({ queries, headers }) => {
                                 <div className="header_first">
                                   <p className="fontsize17">
                                     {e?.data?.rd?.["serialjobno"]}
+                                    { e?.data?.rd?.IsQuickRepairing === 1 ? <span style={{color:'red', fontSize:'10px'}}>{e?.data?.rd?.referenceno === null ? '' : e?.data?.rd?.referenceno}</span> : '' } 
                                   </p>
                                   <p className="fontsize17">
                                     {e?.data?.rd?.["Designcode"]}
                                   </p>
-                                  <p className="fontsize17">
+                                  <p className="fontsize17" style={{lineHeight:'12px'}}>
                                     {e?.data?.rd?.["MetalType"]}{" "}
                                     {e?.data?.rd?.["MetalColor"]}{" "}
                                   </p>
@@ -450,12 +451,13 @@ const PrintDesign17 = ({ queries, headers }) => {
                             <div className="printhead d_flex justify_content_between ">
                               <p className=" bold pl_3 fs17125">
                                 <span className="fs17125">{e?.data?.rd?.["serialjobno"]}</span>
+                                { e?.data?.rd?.IsQuickRepairing === 1 ? <span style={{color:'red', fontSize:'10px'}}>({e?.data?.rd?.referenceno === null ? '' : e?.data?.rd?.referenceno})</span> : '' } 
                               </p>
                               <p className=" bold pr_3 fs17125" >
                                 <span className="fs17125"> {e?.data?.rd?.["Designcode"]}</span>
                               </p>
-                              <p className=" bold  pl_3 pr_3 fs17125" >
-                                <span className="fs17125">{e?.data?.rd?.["MetalType"]}{" "}
+                              <p className=" bold  pl_3 pr_3 fs17125" style={{lineHeight:'12px'}}>
+                                <span className="fs17125" style={{lineHeight:'10px'}}>{e?.data?.rd?.["MetalType"]}{" "}
                                 {e?.data?.rd?.["MetalColor"]}{" "}</span>
                               </p>
                             </div>
@@ -691,11 +693,12 @@ const PrintDesign17 = ({ queries, headers }) => {
                           >
                             <p className="fontsize17">
                               {e?.data?.rd?.["serialjobno"]}
+                              { e?.data?.rd?.IsQuickRepairing === 1 ? <span style={{color:'red', fontSize:'10px'}}>{e?.data?.rd?.referenceno === null ? '' : e?.data?.rd?.referenceno}</span> : '' } 
                             </p>
                             <p className="fontsize17">
                               {e?.data?.rd?.["Designcode"]}
                             </p>
-                            <p className="fontsize17">
+                            <p className="fontsize17" style={{lineHeight:'12px'}}>
                               {e?.data?.rd?.["MetalType"]}{" "}
                               {e?.data?.rd?.["MetalColor"]}{" "}
                             </p>
