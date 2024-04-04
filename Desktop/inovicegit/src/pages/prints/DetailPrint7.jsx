@@ -9,13 +9,11 @@ import {
   handleImageError,
   handlePrint,
   isObjectEmpty,
-  
 } from "../../GlobalFunctions";
 import { cloneDeep } from "lodash";
-import { numberToWords } from 'number-to-words';
+import { numberToWords } from "number-to-words";
 
 const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
-
   const toWords = new ToWords();
 
   const [result, setResult] = useState(null);
@@ -27,11 +25,11 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [imgFlag, setImgFlag] = useState(true);
   const [miscWise_total, setMiscWise_total] = useState({
     Pcs: 0,
-    pcPcs:0,
-    wtWeight_Ctw:0,
-    wtWeight_gm:0,
-    AmtAmount:0,
-    Wt:0,
+    pcPcs: 0,
+    wtWeight_Ctw: 0,
+    wtWeight_gm: 0,
+    AmtAmount: 0,
+    Wt: 0,
     Wt_Ctw: 0,
     dia_Wt_gm: 0,
     Wt_gm: 0,
@@ -44,10 +42,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   };
   async function loadData(data) {
     try {
-      
       let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
       data.BillPrint_Json[0].address = address;
- 
+
       const datas = OrganizeDataPrint(
         data?.BillPrint_Json[0],
         data?.BillPrint_Json1,
@@ -72,13 +69,15 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       //category wise data setting
       datas?.resultArray?.forEach((j2) => {
         let recordIs = blankArr?.findIndex(
-          (e) => (e?.Categoryname === j2?.Categoryname && e?.Wastage === j2?.Wastage)
+          (e) =>
+            e?.Categoryname === j2?.Categoryname && e?.Wastage === j2?.Wastage
         );
         if (recordIs === -1) {
-          let obj = {...j2};
+          let obj = { ...j2 };
           obj.GrossWt = j2?.grosswt;
           obj.netwt = j2?.NetWt;
-          obj.fineWtByMetalWtCalculation_finewt =  j2?.fineWtByMetalWtCalculation;
+          obj.fineWtByMetalWtCalculation_finewt =
+            j2?.fineWtByMetalWtCalculation;
           // obj.quantity = j2?.Quantity;
           // obj.wastage = j2?.wastage;
           blankArr.push(obj);
@@ -88,7 +87,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           blankArr[recordIs].Wastage += +j2?.Wastage;
           blankArr[recordIs].PureNetWt += +j2?.PureNetWt;
           blankArr[recordIs].Quantity += +j2?.Quantity;
-          blankArr[recordIs].fineWtByMetalWtCalculation_finewt += +j2?.fineWtByMetalWtCalculation;
+          blankArr[recordIs].fineWtByMetalWtCalculation_finewt +=
+            +j2?.fineWtByMetalWtCalculation;
         }
       });
 
@@ -96,15 +96,16 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let cateWise2 = [];
       let fine_wt_calculation = 0;
       blankArr?.forEach((e) => {
-        
         let obj = { ...e };
-        let netwtwithloss = (e?.netwt + e?.LossWt)
+        let netwtwithloss = e?.netwt + e?.LossWt;
         let fineWtBYNetWtCal = 0;
         fineWtBYNetWtCal += e?.fineWtByMetalWtCalculation_finewt;
-        if(e?.LossWt === 0){
+        if (e?.LossWt === 0) {
           fine_wt_calculation += e?.PureNetWt;
-        }else{
-            fine_wt_calculation += (((((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100) + (e?.totals?.finding?.FineWt)))
+        } else {
+          fine_wt_calculation +=
+            ((e?.NetWt - e?.totals?.finding?.Wt) * e?.Tunch) / 100 +
+            e?.totals?.finding?.FineWt;
         }
         obj.fineWtBYNetWtCal = fineWtBYNetWtCal;
         obj.netwtwithloss = netwtwithloss;
@@ -112,7 +113,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       });
       datas.mainTotal.total_fineWtByMetalWtCalculation = fine_wt_calculation;
       cateWise2.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
-      
+
       let othamttot = 0;
 
       datas?.resultArray?.forEach((e) => {
@@ -133,8 +134,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       datas?.resultArray?.forEach((e) => {
         othamttot += e?.OtherCharges + e?.TotalDiamondHandling;
       });
-    //  let arr3 =  cateWise2?.sort((a,b) => a?.DesignNo - b?.DesignNo);
-    //  console.log(arr3);
+      //  let arr3 =  cateWise2?.sort((a,b) => a?.DesignNo - b?.DesignNo);
+      //  console.log(arr3);
       setOtherAmountTotal(othamttot);
       // setCategoryWise(cateWise2);
       // setResult(datas);
@@ -143,25 +144,31 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let cgwise = [];
 
       datas?.resultArray?.forEach((e) => {
-        let findIndex = cgwise?.findIndex((el) => el?.Categoryname === e?.Categoryname && el?.Wastage === e?.Wastage);
-        if(findIndex === -1){
-          let obj = {...e};
-          obj.cg_netwt = ((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal);
+        let findIndex = cgwise?.findIndex(
+          (el) =>
+            el?.Categoryname === e?.Categoryname && el?.Wastage === e?.Wastage
+        );
+        if (findIndex === -1) {
+          console.log(e);
+          let obj = { ...e };
+          obj.cg_netwt = (e?.NetWt + e?.LossWt - e?.totals?.metal?.WithOutPrimaryMetal);
           obj.cg_grosswt = e?.grosswt;
+          obj.cg_quantity = e?.Quantity;
           obj.cg_wastage = e?.Wastage;
           obj.cg_tunch = e?.Tunch;
-          obj.cg_wastage = e?.Wastage;
-          obj.cg_finewt = ((e?.NetWt * e?.Tunch )/ 100);
+          obj.cg_finewt = (e?.NetWt * e?.Tunch) / 100;
           cgwise.push(obj);
-        }else{
-          cgwise[findIndex].cg_netwt += ((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal);
+        } else {
+          cgwise[findIndex].cg_netwt +=
+            e?.NetWt + e?.LossWt - e?.totals?.metal?.WithOutPrimaryMetal;
           cgwise[findIndex].cg_grosswt += e?.grosswt;
           cgwise[findIndex].cg_wastage += e?.Wastage;
+          cgwise[findIndex].cg_quantity += e?.Quantity;
           cgwise[findIndex].cg_tunch += e?.Tunch;
           cgwise[findIndex].cg_wastage += e?.Wastage;
-          cgwise[findIndex].cg_finewt += ((e?.NetWt * e?.Tunch )/ 100);
+          cgwise[findIndex].cg_finewt += (e?.NetWt * e?.Tunch) / 100;
         }
-      })
+      });
       cgwise.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
       setCategoryWise(cgwise);
       //product summary wise start
@@ -169,8 +176,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let colorstones = [];
       // eslint-disable-next-line array-callback-return
       datas.json2.map((ele, ind) => {
-        if(ele?.ShapeName === 'Stamping' || ele?.ShapeName === 'Hallmark'){}
-        else{
+        if (ele?.ShapeName === "Stamping" || ele?.ShapeName === "Hallmark") {
+        } else {
           if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
             colorstones.push(ele);
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
@@ -178,35 +185,37 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           }
         }
       });
-  
+
       let miscs_filter = [];
       let colrStone_filter = [];
-  
+
       // eslint-disable-next-line array-callback-return
       miscs?.map((ele, ind) => {
         let findMiscs = miscs_filter.findIndex(
-          (elem, index) => (elem?.ShapeName === ele?.ShapeName && elem?.Rate === ele?.Rate)
+          (elem, index) =>
+            elem?.ShapeName === ele?.ShapeName && elem?.Rate === ele?.Rate
         );
         if (findMiscs === -1) {
-          let objj = {...ele};
-          objj.wtWeight = ele?.Wt;
+          let objj = { ...ele };
+          objj.wtWeight = ele?.Wt + ele?.ServWt;
           objj.pcPcs = ele?.Pcs;
           objj.AmtAmount = ele?.Amount;
           miscs_filter.push(objj);
         } else {
-          miscs_filter[findMiscs].wtWeight += ele?.Wt;
+          miscs_filter[findMiscs].wtWeight += ele?.Wt + ele?.ServWt;
           miscs_filter[findMiscs].pcPcs += ele?.Pcs;
           miscs_filter[findMiscs].AmtAmount += ele?.Amount;
         }
       });
-  
+
       // eslint-disable-next-line array-callback-return
       colorstones?.map((ele, ind) => {
         let findcs = colrStone_filter?.findIndex(
-          (elem, index) => (elem?.ShapeName === ele?.ShapeName && elem?.Rate === ele?.Rate)
+          (elem, index) =>
+            elem?.ShapeName === ele?.ShapeName && elem?.Rate === ele?.Rate
         );
         if (findcs === -1) {
-          let objj = {...ele};
+          let objj = { ...ele };
           objj.wtWeight = ele?.Wt;
           objj.pcPcs = ele?.Pcs;
           objj.AmtAmount = ele?.Amount;
@@ -222,31 +231,30 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       let misc_sum_total = {
         Pcs: 0,
-        pcPcs:0,
-        wtWeight_Ctw:0,
-        wtWeight_gm:0,
+        pcPcs: 0,
+        wtWeight_Ctw: 0,
+        wtWeight_gm: 0,
         Wt_Ctw: 0,
         dia_Wt_gm: 0,
         Wt_gm: 0,
         Amount: 0,
         AmtAmount: 0,
-        Wt:0
-      }
+        Wt: 0,
+      };
 
       arrnew?.forEach((e) => {
         misc_sum_total.Wt += e?.Wt;
         misc_sum_total.Pcs += e?.Pcs;
         misc_sum_total.Amount += e?.Amount;
-        if(e?.MasterManagement_DiamondStoneTypeid === 2){
+        if (e?.MasterManagement_DiamondStoneTypeid === 2) {
           misc_sum_total.wtWeight_Ctw += e?.wtWeight;
-        }else{
+        } else {
           misc_sum_total.wtWeight_gm += e?.wtWeight;
         }
-          misc_sum_total.pcPcs += e?.pcPcs;
-          misc_sum_total.AmtAmount += e?.AmtAmount;
+        misc_sum_total.pcPcs += e?.pcPcs;
+        misc_sum_total.AmtAmount += e?.AmtAmount;
+      });
 
-      })
-      
       arrnew.sort((a, b) => a.ShapeName.localeCompare(b.ShapeName));
       //product summary wise stop
       setMiscWise(arrnew);
@@ -255,38 +263,43 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let nvoarray = [];
       datas?.resultArray?.forEach((e) => {
         let grp = [];
-        let obj = {...e};
+        let obj = { ...e };
         e?.diamond_colorstone_misc?.forEach((el) => {
-          let find_red = grp?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.Colorname === el?.Colorname && a?.QualityName === el?.QualityName);
-          if(find_red === -1){
-            let a_obj = {...el};
+          let find_red = grp?.findIndex(
+            (a) =>
+              a?.ShapeName === el?.ShapeName &&
+              a?.Colorname === el?.Colorname &&
+              a?.QualityName === el?.QualityName
+          );
+          if (find_red === -1) {
+            let a_obj = { ...el };
             a_obj.dcm_wt = el?.Wt;
             a_obj.dcm_amt = el?.Amount;
             a_obj.dcm_rate = el?.Rate;
             a_obj.dcm_pcs = el?.Pcs;
             grp.push(a_obj);
-          }else{
-              grp[find_red].dcm_wt += el?.Wt;
-              grp[find_red].dcm_rate += el?.Rate;
-              grp[find_red].dcm_amt += el?.Amount;
-              grp[find_red].dcm_pcs += el?.Pcs;
+          } else {
+            grp[find_red].dcm_wt += el?.Wt;
+            grp[find_red].dcm_rate += el?.Rate;
+            grp[find_red].dcm_amt += el?.Amount;
+            grp[find_red].dcm_pcs += el?.Pcs;
           }
-        })
+        });
         obj.dcm_grp = grp;
         nvoarray.push(obj);
-      })
+      });
       datas.resultArray = nvoarray;
-      setResult(datas)
+      setResult(datas);
       let finewt_ = 0;
       datas?.resultArray?.forEach((e) => {
-        finewt_ += ((e?.NetWt * e?.Tunch)/100);
-      })
+        finewt_ += (e?.NetWt * e?.Tunch) / 100;
+      });
 
       datas?.resultArray?.forEach((e) => {
         let arr = [];
         // console.log("hello");
         e?.misc?.forEach((a) => {
-          if(a?.IsHSCOE === 0 || a?.IsHSCOE === 3){
+          if (a?.IsHSCOE === 0 || a?.IsHSCOE === 3) {
             // console.log(a);
             arr?.push(a);
           }
@@ -297,10 +310,10 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           //       arr?.push(a);
           //     }
           // }
-        })
-        if(arr?.length === 1){
-          if(arr[0]?.IsHSCOE === 3){
-              arr = [];
+        });
+        if (arr?.length === 1) {
+          if (arr[0]?.IsHSCOE === 3) {
+            // arr = [];
           }
         }
         // let arr2 = [];
@@ -311,11 +324,41 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         //     arr2.push(a);
         //   }
         // })
-  
-        e.misc = arr;
-      })
 
+        e.misc = arr;
+      });
+      datas?.resultArray?.forEach((e) => {
+        if(e?.misc?.length === 1 && e?.misc[0]?.IsHSCOE === 3 && e?.misc[0]?.Rate === 0 ){
+          e.misc = [];
+        }
+      })
       setFineWtTotal(finewt_);
+      datas?.resultArray?.forEach((e, i) => {
+        let counts =
+          e?.metal?.reduce( (acc, cObj) => cObj?.IsPrimaryMetal === 0 ? acc+1 : acc , 0 ) + e?.diamonds?.length + e?.colorstone?.length + e?.misc?.length;
+          e.counts = counts;
+      });
+
+      // datas?.resultArray?.forEach((e) => {
+      //   let g_array = [];
+      //   e?.metal?.forEach((a) => {
+      //       g_array.push(a);
+      //   })
+      //   e?.diamonds?.forEach((a) => {
+      //       g_array.push(a);
+      //   })
+      //   e?.colorstone?.forEach((a) => {
+      //       g_array.push(a);
+      //   })
+      //   e?.misc?.forEach((a) => {
+      //       g_array.push(a);
+      //   })
+      //   let obj = {...e};
+      //   obj.g_array = g_array;
+      // })
+      // datas?.resultArray?.forEach((e) => {
+      //       console.log(e?.g_array);
+      // })
     } catch (error) {
       console.log(error);
     }
@@ -324,7 +367,14 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
+        const data = await apiCall(
+          token,
+          invoiceNo,
+          printName,
+          urls,
+          evn,
+          ApiVer
+        );
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -352,7 +402,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   //     let dia_arr = [];
   //     let cls_arr = [];
   //     let misc_arr = [];
-      
+
   //     deep_data?.BillPrint_Json2?.forEach((j2) => {
 
   //         if(j2?.MasterManagement_DiamondStoneTypeid === 1){
@@ -408,7 +458,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   //   setDia_Cls_Misc_Arr(dia_cls_misc_merge);
 
   // }
-  
+
   const handleImgShow = (e) => {
     if (imgFlag) setImgFlag(false);
     else {
@@ -420,14 +470,16 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     const amountInWords = numberToWords.toWords(Math.floor(amount));
 
     // Extract and format the decimal part separately
-    const decimalPart = amount.toString().split('.')[1];
-    const decimalInWords = decimalPart ? `point ${numberToWords.toWords(parseInt(decimalPart))}` : '';
+    const decimalPart = amount.toString().split(".")[1];
+    const decimalInWords = decimalPart
+      ? `point ${numberToWords.toWords(parseInt(decimalPart))}`
+      : "";
 
     // Combine the integer and decimal parts in words
     const amountInWordsFormatted = `${amountInWords} ${decimalInWords}`.trim();
 
     return amountInWordsFormatted;
-}
+  }
   return (
     <>
       {loader ? (
@@ -458,18 +510,23 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
                 {/* table header */}
                 <div>
-                  {result?.header?.PrintHeadLabel === '' ? '' : <div className="pheaddp7 w-100">
-                    {result?.header?.PrintHeadLabel}
-                  </div> } 
+                  {result?.header?.PrintHeadLabel === "" ? (
+                    ""
+                  ) : (
+                    <div className="pheaddp7 w-100">
+                      {result?.header?.PrintHeadLabel}
+                    </div>
+                  )}
                   <div className="d-flex justify-content-between align-items-center p-1 ">
                     <div className="w-75 fsgdp7">
                       <div className="fw-bold fsgdp7_ lhdp7">
                         {result?.header?.CompanyFullName}
                       </div>
                       <div className="fsgdp7 lhdp7">
-                        {result?.header?.CompanyAddress?.split(",")[0]} <br />
-                        {result?.header?.CompanyAddress2?.split(",")[0]} 
-
+                        {/* {result?.header?.CompanyAddress?.split(",")[0]} <br /> */}
+                        {result?.header?.CompanyAddress} <br />
+                        {/* {result?.header?.CompanyAddress2?.split(",")[0]}  */}
+                        {result?.header?.CompanyAddress2}
                       </div>
                       <div className="fsgdp7 lhdp7">
                         {result?.header?.CompanyCity}-
@@ -493,16 +550,28 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {result?.header?.Pannumber}{" "}
                       </div>
                     </div>
-                    <div className="d-flex justify-content-end w-25 fsgdp7">
+                    <div className="d-flex justify-content-end w-25 fsgdp7 pe-2">
                       {/* <img
                         src={result?.header?.PrintLogo}
                         alt="#companylogo"
                         className="headimgdp7"
                       /> */}
-                        {isImageWorking && (result?.header?.PrintLogo !== "" && 
-                      <img src={result?.header?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain headimgdp7'
-                      onError={handleImageErrors} height={120} width={150} />)}
+                      {isImageWorking && result?.header?.PrintLogo !== "" && (
+                        <img
+                          src={result?.header?.PrintLogo}
+                          alt=""
+                          className="w-100 h-auto ms-auto d-block object-fit-contain headimgdp7"
+                          style={{
+                            minHeight: "75px",
+                            maxHeight: "75px",
+                            minWidth: "115px",
+                            maxWidth: "117px",
+                          }}
+                          onError={handleImageErrors}
+                          height={120}
+                          width={150}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -550,6 +619,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       );
                     })}
                   </div>
+                  {console.log(result)}
                   <div className="subheaddiv3 fsgdp7">
                     <div className="fsgdp7 lhdp7 d-flex justify-content-between">
                       <span className="w-50 fw-bold">INVOICE NO</span>
@@ -564,14 +634,18 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </span>
                     </div>
                     <div className="fsgdp7 lhdp7 d-flex justify-content-between">
-                      <span className="w-50 fw-bold">{result?.header?.HSN_No_Label}</span>
+                      <span className="w-50 fw-bold">
+                        {result?.header?.HSN_No_Label}
+                      </span>
                       <span className="w-50 d-flex justify-content-start">
                         {result?.header?.HSN_No}
                       </span>
                     </div>
                     <div className="fsgdp7 lhdp7 d-flex justify-content-between">
                       <span className="w-50 fw-bold">Delivery Mode</span>
-                      <span className="w-50 d-flex justify-content-start"></span>
+                      <span className="w-50 d-flex justify-content-start">
+                        {result?.header?.Delivery_Mode}
+                      </span>
                     </div>
                     <div className="fsgdp7 lhdp7 d-flex justify-content-between">
                       <span className="w-50 fw-bold">Sales Person</span>
@@ -580,8 +654,14 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </span>
                     </div>
                     <div>
-                      <div className="d-flex"><div className="fw-bold w-50">Due Date :</div><div className="w-50">{result?.header?.DueDate}</div></div>
-                      <div className="d-flex"><div className="fw-bold w-50">Terms :</div><div className="w-50">{result?.header?.DueDays}</div></div>
+                      <div className="d-flex">
+                        <div className="fw-bold w-50">Due Date :</div>
+                        <div className="w-50">{result?.header?.DueDate}</div>
+                      </div>
+                      <div className="d-flex">
+                        <div className="fw-bold w-50">Terms :</div>
+                        <div className="w-50">{result?.header?.DueDays}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -600,11 +680,26 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         STONE DESCRIPTION
                       </div>
                       <div className="d-flex subcoldp7 h-50">
-                        <div className="dp7cen w_subcoldp7 brdp7">MIS TYPE</div>
-                        <div className="dp7cen w_subcoldp7 brdp7">PCS</div>
+                        <div
+                          className="dp7cen w_subcoldp7 brdp7"
+                          style={{ width: "25%" }}
+                        >
+                          MIS TYPE
+                        </div>
+                        <div
+                          className="dp7cen w_subcoldp7 brdp7"
+                          style={{ width: "10%" }}
+                        >
+                          PCS
+                        </div>
                         <div className="dp7cen w_subcoldp7 brdp7">WT</div>
                         <div className="dp7cen w_subcoldp7 brdp7">RATE</div>
-                        <div className="dp7cen w_subcoldp7 brdp7">AMOUNT</div>
+                        <div
+                          className="dp7cen w_subcoldp7 brdp7"
+                          style={{ width: "25%" }}
+                        >
+                          AMOUNT
+                        </div>
                       </div>
                     </div>
                     <div className="col8dp7 dp7cen d-flex flex-column">
@@ -615,14 +710,13 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="tbodydp7">
                     {result?.resultArray?.map((e, i) => {
-
                       return (
                         <div
                           className="d-flex brbdp7 hcompdp7 bordersdp7"
                           key={i}
                         >
-                          <div className="rcol1dp7 dp7cen1">{i+1}</div>
-                          <div className="rcol2dp7 d-flex flex-column  justify-content-between  align-items-start p-1">
+                          <div className="rcol1dp7 dp7cen1">{i + 1}</div>
+                          <div className="rcol2dp7 d-flex flex-column  justify-content-center  align-items-start p-1">
                             <div className="d-flex justify-content-between align-items-start w-100">
                               <div>{e?.designno}</div>
                               <div>{e?.SrJobno}</div>
@@ -654,15 +748,15 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             {e?.grosswt?.toFixed(3)}
                           </div>
                           <div className="rcol5dp7 dp7cen2">
-                            {(e?.NetWt + e?.LossWt)?.toFixed(3)}
+                            {((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}
                           </div>
                           <div className="rcol6dp7 dp7cen2">
                             {e?.Wastage?.toFixed(3)}
                           </div>
                           <div style={{ width: "" }} className=" col7dp7 ">
                             <div className="d-grid h-100">
-                            {/* {e?.diamond_colorstone_misc?.map((el, ind) => { */}
-                            {/* {e?.dcm_grp?.map((el, ind) => {
+                              {/* {e?.diamond_colorstone_misc?.map((el, ind) => { */}
+                              {/* {e?.dcm_grp?.map((el, ind) => {
                                 return (
                                   <div className="d-flex brtdp7" key={ind}>
                                     <div className="w_subcoldp7 dp7cen1 brdp7">
@@ -687,135 +781,33 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   </div>
                                 );
                               })} */}
-                              {
-                                e?.metal?.map((el, ind) => {
-                                  return(
-                                    <>
-                                    {
-                                      el?.IsPrimaryMetal === 0 ? <div className="d-flex brtdp7" key={ind}>
-                                      <div className="w_subcoldp7 dp7cen1 brdp7">
-                                        {el?.ShapeName}
-                                      </div>
-                                      <div className="w_subcoldp7 dp7cen2 brdp7">
-                                        {/* {el?.dcm_pcs} */}
-                                        {el?.Pcs}
-                                      </div>
-                                      <div className="w_subcoldp7 dp7cen2 brdp7">
-                                        {el?.Wt?.toFixed(3)}
-                                        {/* {el?.ShapeName ===
-                                        "Certification_NM award"
-                                          ? e?.certificateWtDia?.toFixed(3)
-                                          : el?.dcm_wt?.toFixed(3)} */}
-                                      </div>
-                                      <div className="w_subcoldp7 dp7cen2 brdp7">
-                                        {/* {formatAmount(el?.Rate)} */}
-                                          {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
-                                          : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
-                                      </div>
-                                      <div className="w_subcoldp7 dp7cen2">
-                                        {/* {el?.dcm_amt?.toFixed(2)} */}
-                                        {/* {formatAmount(el?.Amount)} */}
-                                      </div>
-                                    </div> : ''
-                                    }
-                                    
-                                  </>
-                                  )
-                                })
-                              }
+                              {/* {
+                            e?.all_m_d_c_m?.map((el, ind) => {
+                              return(
+                               <React.Fragment key={ind}>
                                 {
-                                e?.diamonds?.map((el, ind) => {
-                                  return(
-                                    <div className="d-flex brtdp7" key={ind}>
-                                    <div className="w_subcoldp7 dp7cen1 brdp7">
+                                  el?.IsPrimaryMetal === 1  && el?.MasterManagement_DiamondStoneTypeid === 4 ?  <div className="d-flex brtdp7" key={ind}>
+                                  <div className="w_subcoldp7 dp7cen1 brdp7">
                                       {el?.ShapeName}
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {/* {el?.dcm_pcs} */}
                                       {el?.Pcs}
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2 brdp7">
                                       {el?.Wt?.toFixed(3)}
-                                      {/* {el?.ShapeName ===
-                                      "Certification_NM award"
-                                        ? e?.certificateWtDia?.toFixed(3)
-                                        : el?.dcm_wt?.toFixed(3)} */}
                                     </div>
                                     <div className="w_subcoldp7 dp7cen2 brdp7">
                                       {formatAmount(el?.Rate)}
-                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
-                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
                                     </div>
-                                    <div className="w_subcoldp7 dp7cen2">
-                                      {/* {el?.dcm_amt?.toFixed(2)} */}
+                                    <div className="w_subcoldp7 dp7cen2" style={{width:'25%'}}>
                                       {formatAmount((el?.Amount/(result?.header?.CurrencyExchRate)))}
                                     </div>
-                                  </div>
-                                  )
-                                })
-                              }
-                                 {
-                                e?.colorstone?.map((el, ind) => {
-                                  return(
-                                    <div className="d-flex brtdp7" key={ind}>
-                                    <div className="w_subcoldp7 dp7cen1 brdp7">
-                                      {el?.ShapeName}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {/* {el?.dcm_pcs} */}
-                                      {el?.Pcs}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {el?.Wt?.toFixed(3)}
-                                      {/* {el?.ShapeName ===
-                                      "Certification_NM award"
-                                        ? e?.certificateWtDia?.toFixed(3)
-                                        : el?.dcm_wt?.toFixed(3)} */}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {formatAmount(el?.Rate)}
-                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
-                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2">
-                                      {/* {el?.dcm_amt?.toFixed(2)} */}
-                                      {formatAmount((el?.Amount/(result?.header?.CurrencyExchRate)))}
-                                    </div>
-                                  </div>
-                                  )
-                                })
-                              }
-                                 {
-                                e?.misc?.map((el, ind) => {
-                                  return(
-                                    <div className="d-flex brtdp7" key={ind}>
-                                    <div className="w_subcoldp7 dp7cen1 brdp7">
-                                      {el?.ShapeName}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {/* {el?.dcm_pcs} */}
-                                      {el?.Pcs}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {el?.Wt?.toFixed(3)}
-                                      {/* {el?.ShapeName ===
-                                      "Certification_NM award"
-                                        ? e?.certificateWtDia?.toFixed(3)
-                                        : el?.dcm_wt?.toFixed(3)} */}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {formatAmount(el?.Rate)}
-                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
-                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2">
-                                      {/* {el?.dcm_amt?.toFixed(2)} */}
-                                      {formatAmount((el?.Amount/(result?.header?.CurrencyExchRate)))}
-                                    </div>
-                                  </div>
-                                  )
-                                })
-                              }
+                                </div> : '' 
+                                }
+                               </React.Fragment>
+                              )
+                            })
+                           } */}
                               {/* {e?.diamond_colorstone_misc?.map((el, ind) => {
                                 return (
                                   <div className="d-flex brtdp7" key={ind}>
@@ -840,15 +832,227 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   </div>
                                 );
                               })} */}
+
+                              {e?.metal?.length > 0 &&
+                                e?.metal?.map((el, ind) => {
+                                  return (
+                                    
+                                      el?.IsPrimaryMetal === 0 &&  <React.Fragment key={ind}>
+                                      
+                                        <div
+                                          className="d-flex brtdp7"
+                                          key={ind}
+                                        >
+                                          <div
+                                            className="w_subcoldp7 dp7cen1 brdp7"
+                                            style={{ width: "25%" }}
+                                          >
+                                            {el?.ShapeName}
+                                          </div>
+                                          <div
+                                            className="w_subcoldp7 dp7cen2 brdp7"
+                                            style={{ width: "10%" }}
+                                          >
+                                            {/* {el?.dcm_pcs} */}
+                                            {el?.Pcs}
+                                          </div>
+                                          <div className="w_subcoldp7 dp7cen2 brdp7">
+                                            {el?.Wt?.toFixed(3)}
+                                            {/* {el?.ShapeName ===
+                                        "Certification_NM award"
+                                          ? e?.certificateWtDia?.toFixed(3)
+                                          : el?.dcm_wt?.toFixed(3)} */}
+                                          </div>
+                                          <div className="w_subcoldp7 dp7cen2 brdp7">
+                                            {/* {formatAmount(el?.Rate)} */}
+                                            {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
+                                          : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                          </div>
+                                          <div
+                                            className="w_subcoldp7 dp7cen2"
+                                            style={{ width: "25%" }}
+                                          >
+                                            {/* {el?.dcm_amt?.toFixed(2)} */}
+                                            {/* {formatAmount(el?.Amount)} */}
+                                          </div>
+                                        </div>
+                                      
+                                    </React.Fragment>
+                                    
+                                  );
+                                })}
+                              {e?.diamonds?.length > 0 &&
+                                e?.diamonds?.map((el, ind) => {
+                                  return (
+                                    <div className="d-flex brtdp7" key={ind}>
+                                      <div
+                                        className="w_subcoldp7 dp7cen1 brdp7"
+                                        style={{ width: "25%" }}
+                                      >
+                                        {el?.ShapeName}
+                                      </div>
+                                      <div
+                                        className="w_subcoldp7 dp7cen2 brdp7"
+                                        style={{ width: "10%" }}
+                                      >
+                                        {/* {el?.dcm_pcs} */}
+                                        {el?.Pcs}
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        {el?.Wt?.toFixed(3)}
+                                        {/* {el?.ShapeName ===
+                                      "Certification_NM award"
+                                        ? e?.certificateWtDia?.toFixed(3)
+                                        : el?.dcm_wt?.toFixed(3)} */}
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        {formatAmount(el?.Rate)}
+                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
+                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                      </div>
+                                      <div
+                                        className="w_subcoldp7 dp7cen2"
+                                        style={{ width: "25%" }}
+                                      >
+                                        {/* {el?.dcm_amt?.toFixed(2)} */}
+                                        {formatAmount(
+                                          el?.Amount /
+                                            result?.header?.CurrencyExchRate
+                                        )}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              {e?.colorstone?.length > 0 &&
+                                e?.colorstone?.map((el, ind) => {
+                                  return (
+                                    <div className="d-flex brtdp7" key={ind}>
+                                      <div
+                                        className="w_subcoldp7 dp7cen1 brdp7"
+                                        style={{ width: "25%" }}
+                                      >
+                                        {el?.ShapeName}
+                                      </div>
+                                      <div
+                                        className="w_subcoldp7 dp7cen2 brdp7"
+                                        style={{ width: "10%" }}
+                                      >
+                                        {/* {el?.dcm_pcs} */}
+                                        {el?.Pcs}
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        {el?.Wt?.toFixed(3)}
+                                        {/* {el?.ShapeName ===
+                                      "Certification_NM award"
+                                        ? e?.certificateWtDia?.toFixed(3)
+                                        : el?.dcm_wt?.toFixed(3)} */}
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        {formatAmount(el?.Rate)}
+                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
+                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                      </div>
+                                      <div
+                                        className="w_subcoldp7 dp7cen2"
+                                        style={{ width: "25%" }}
+                                      >
+                                        {/* {el?.dcm_amt?.toFixed(2)} */}
+                                        {formatAmount(
+                                          el?.Amount /
+                                            result?.header?.CurrencyExchRate
+                                        )}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              {e?.misc?.length > 0 &&
+                                e?.misc?.map((el, ind) => {
+                                  return (
+                                    <div className="d-flex brtdp7" key={ind}>
+                                      <div
+                                        className="w_subcoldp7 dp7cen1 brdp7"
+                                        style={{
+                                          wordBreak: "break-word",
+                                          width: "25%",
+                                        }}
+                                      >
+                                        {el?.ShapeName}
+                                      </div>
+                                      <div
+                                        className="w_subcoldp7 dp7cen2 brdp7"
+                                        style={{ width: "10%" }}
+                                      >
+                                        {/* {el?.dcm_pcs} */}
+                                        {el?.Pcs}
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        {el?.IsHSCOE === 0
+                                          ? el?.Wt?.toFixed(3)
+                                          : el?.ServWt?.toFixed(3)}
+                                        {/* {el?.Wt?.toFixed(3)} */}
+                                        {/* {el?.ShapeName ===
+                                      "Certification_NM award"
+                                        ? e?.certificateWtDia?.toFixed(3)
+                                        : el?.dcm_wt?.toFixed(3)} */}
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        {formatAmount(el?.Rate)}
+                                        {/* {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
+                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))} */}
+                                      </div>
+                                      <div
+                                        className="w_subcoldp7 dp7cen2"
+                                        style={{ width: "25%" }}
+                                      >
+                                        {/* {el?.dcm_amt?.toFixed(2)} */}
+                                        {formatAmount(
+                                          el?.Amount /
+                                            result?.header?.CurrencyExchRate
+                                        )}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                                {e?.counts === 0 &&   <div className="d-flex brtdp7" >
+                                      <div
+                                        className="w_subcoldp7 dp7cen1 brdp7"
+                                        style={{
+                                          wordBreak: "break-word",
+                                          width: "25%",
+                                        }}
+                                      >
+                                        
+                                      </div>
+                                      <div
+                                        className="w_subcoldp7 dp7cen2 brdp7"
+                                        style={{ width: "10%" }}
+                                      >
+                                        
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        
+                                      </div>
+                                      <div className="w_subcoldp7 dp7cen2 brdp7">
+                                        
+                                      </div>
+                                      <div
+                                        className="w_subcoldp7 dp7cen2"
+                                        style={{ width: "25%" }}
+                                      >
+                                        
+                                      </div>
+                                    </div>}
                             </div>
                           </div>
                           <div className="rcol12dp7 dp7cen2 bldp7">
                             {formatAmount(
-                              ((e?.OtherCharges + e?.TotalDiamondHandling)/(result?.header?.CurrencyExchRate))
+                              (e?.OtherCharges + e?.TotalDiamondHandling) /
+                                result?.header?.CurrencyExchRate
                             )}
                           </div>
                           <div className="rcol13dp7 dp7cen2 border-end-0">
-                                { ((e?.NetWt * e?.Tunch)/ 100)?.toFixed(3) }
+                            {/* {(e?.PureNetWt - e?.LossWt)?.toFixed(3)} */}
+                            {((e?.NetWt * e?.Tunch) / 100)?.toFixed(3)}
 
                             {/* { ((
                               (((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100)
@@ -867,7 +1071,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="totaldp7 w-100 brtdp7 border-top-0 border-start border-end fsgdp7">
                   <div className="totcol1dp7"></div>
                   <div className="totcol2dp7 dp7cen2">
-                    {result?.mainTotal?.grosswt !== 0 && result?.mainTotal?.grosswt?.toFixed(3)}
+                    {result?.mainTotal?.grosswt !== 0 &&
+                      result?.mainTotal?.grosswt?.toFixed(3)}
                   </div>
                   <div className="totcol3dp7 dp7cen2">
                     {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
@@ -875,10 +1080,19 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="totcol4dp7"></div>
                   <div className="totcol5dp7 dp7cen2">
-                    {result?.mainTotal?.total_diamond_colorstone_misc_amount !== 0 && formatAmount((result?.mainTotal?.total_diamond_colorstone_misc_amount/(result?.header?.CurrencyExchRate)))}
+                    {result?.mainTotal?.total_diamond_colorstone_misc_amount !==
+                      0 &&
+                      formatAmount(
+                        result?.mainTotal
+                          ?.total_diamond_colorstone_misc_amount /
+                          result?.header?.CurrencyExchRate
+                      )}
                   </div>
                   <div className="totcol6dp7 dp7cen2">
-                    {otherAMountTotal !== 0 && formatAmount((otherAMountTotal/(result?.header?.CurrencyExchRate) ))}
+                    {otherAMountTotal !== 0 &&
+                      formatAmount(
+                        otherAMountTotal / result?.header?.CurrencyExchRate
+                      )}
                   </div>
                   <div className="totcol7dp7 dp7cen2">
                     {/* {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)} */}
@@ -888,7 +1102,11 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                 {/* table total */}
                 <div className="w-100 brtdp7 dp7cen2 bradp7 fsgdp7">
-                  {result?.mainTotal?.total_amount !== 0 && formatAmount((result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)))}
+                  {result?.mainTotal?.total_amount !== 0 &&
+                    formatAmount(
+                      result?.mainTotal?.total_amount /
+                        result?.header?.CurrencyExchRate
+                    )}
                 </div>
 
                 {/* Courier info and Charges */}
@@ -903,7 +1121,10 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     <div style={{ width: "37%" }} className="px-1  dp7cen2  ">
                       {" "}
-                      {formatAmount((result?.header?.FreightCharges/(result?.header?.CurrencyExchRate)))}
+                      {formatAmount(
+                        result?.header?.FreightCharges /
+                          result?.header?.CurrencyExchRate
+                      )}
                     </div>
                   </div>
                 </div>
@@ -919,7 +1140,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="taxdp7d2 dp7cen2">
                         {e?.name} @ {e?.per}
                       </div>
-                      <div className="taxdp7d3 dp7cen2">{formatAmount(e?.amount)}</div>
+                      <div className="taxdp7d3 dp7cen2">
+                        {formatAmount(e?.amount)}
+                      </div>
                     </div>
                   );
                 })}
@@ -929,7 +1152,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     Sales Rounded Off
                   </div>
                   <div className="taxdp7d3 dp7cen2">
-                    {formatAmount(result?.header?.AddLess/(result?.header?.CurrencyExchRate))}
+                    {formatAmount(
+                      result?.header?.AddLess / result?.header?.CurrencyExchRate
+                    )}
                   </div>
                 </div>
 
@@ -955,7 +1180,17 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       }}
                     ></div>
                     <div className="ps-1">
-                      {(result?.finalAmount + result?.header?.FreightCharges) !== 0 && formatAmount(((result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)) + result?.allTaxesTotal + (result?.header?.FreightCharges/result?.header?.CurrencyExchRate)  + (result?.header?.AddLess/result?.header?.CurrencyExchRate)))}
+                      {result?.finalAmount + result?.header?.FreightCharges !==
+                        0 &&
+                        formatAmount(
+                          result?.mainTotal?.total_amount /
+                            result?.header?.CurrencyExchRate +
+                            result?.allTaxesTotal +
+                            result?.header?.FreightCharges /
+                              result?.header?.CurrencyExchRate +
+                            result?.header?.AddLess /
+                              result?.header?.CurrencyExchRate
+                        )}
                     </div>
                   </div>
                 </div>
@@ -969,8 +1204,19 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   ></div>
                   <div className="ps-2 fw-bold" style={{ width: "97%" }}>
                     {/* {result?.finalAmount !== 0 && toWords.convert((result?.finalAmount + result?.header?.FreightCharges))}  /- */}
-                    {result?.finalAmount !== 0 && toWords.convert(+((result?.mainTotal?.total_amount/result?.header?.CurrencyExchRate) + ((result?.header?.FreightCharges/result?.header?.CurrencyExchRate) + result?.allTaxesTotal + (result?.header?.AddLess/result?.header?.CurrencyExchRate)))?.toFixed(2))}  Only
-                    
+                    {result?.finalAmount !== 0 &&
+                      toWords.convert(
+                        +(
+                          result?.mainTotal?.total_amount /
+                            result?.header?.CurrencyExchRate +
+                          (result?.header?.FreightCharges /
+                            result?.header?.CurrencyExchRate +
+                            result?.allTaxesTotal +
+                            result?.header?.AddLess /
+                              result?.header?.CurrencyExchRate)
+                        )?.toFixed(2)
+                      )}{" "}
+                    Only
                   </div>
                 </div>
 
@@ -999,7 +1245,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.Categoryname}
                             </div>
                             <div className="sum_prod_head_col_2 dp7cen2">
-                              {e?.Quantity}
+                              {e?.cg_quantity}
                             </div>
                             <div className="sum_prod_head_col_3 dp7cen2">
                               {e?.cg_grosswt?.toFixed(3)}
@@ -1025,10 +1271,12 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="summary_container_dp7_product_total fw-bold fsgdp7">
                       <div className="sum_prod_head_col_1 dp7cen1">Total</div>
                       <div className="sum_prod_head_col_2 dp7cen2">
-                        {result?.mainTotal?.total_Quantity !== 0 && result?.mainTotal?.total_Quantity}
+                        {result?.mainTotal?.total_Quantity !== 0 &&
+                          result?.mainTotal?.total_Quantity}
                       </div>
                       <div className="sum_prod_head_col_3 dp7cen2">
-                        {result?.mainTotal?.grosswt !== 0 && result?.mainTotal?.grosswt?.toFixed(3)}
+                        {result?.mainTotal?.grosswt !== 0 &&
+                          result?.mainTotal?.grosswt?.toFixed(3)}
                       </div>
                       <div className="sum_prod_head_col_4 dp7cen2">
                         {/* {result?.mainTotal?.netwtWithLossWt !== 0 && result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
@@ -1037,7 +1285,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="sum_prod_head_col_5 dp7cen2"></div>
                       <div className="sum_prod_head_col_6 dp7cen2">
                         {/* {result?.mainTotal?.total_fineWtByMetalWtCalculation !== 0 && result?.mainTotal?.total_fineWtByMetalWtCalculation?.toFixed(3)} */}
-                        {fineWtTotal === 0 ? 0 : (fineWtTotal)?.toFixed(3)}
+                        {fineWtTotal === 0 ? 0 : fineWtTotal?.toFixed(3)}
                       </div>
                     </div>
                   </div>
@@ -1092,23 +1340,27 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         );
                       })}
 
-                  {
-                    otherAMountTotal === 0 ? '' : <div className="summary_container_dp7_misc_total fsgdp7">
-                    <div className="summary_container_dp7_misc_head_col_1 dp7cen1">
-                      Other Charges
-                    </div>
-                    <div className="summary_container_dp7_misc_head_col_2 dp7cen2"></div>
-                    <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
-                    <div className="summary_container_dp7_misc_head_col_4 dp7cen2 d-flex flex-column">
-                      <div className="w-100 dp7cen2"></div>
-                      <div className="w-100 dp7cen2"></div>
-                    </div>
-                    <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                      {formatAmount((otherAMountTotal/result?.header?.CurrencyExchRate))}
-                      {/* {(result?.mainTotal?.total_other + result?.header?.FreightCharges)?.toFixed(2)} */}
-                    </div>
-                  </div>
-                  }  
+                    {otherAMountTotal === 0 ? (
+                      ""
+                    ) : (
+                      <div className="summary_container_dp7_misc_total fsgdp7">
+                        <div className="summary_container_dp7_misc_head_col_1 dp7cen1">
+                          Other Charges
+                        </div>
+                        <div className="summary_container_dp7_misc_head_col_2 dp7cen2"></div>
+                        <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
+                        <div className="summary_container_dp7_misc_head_col_4 dp7cen2 d-flex flex-column">
+                          <div className="w-100 dp7cen2"></div>
+                          <div className="w-100 dp7cen2"></div>
+                        </div>
+                        <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
+                          {formatAmount(
+                            otherAMountTotal / result?.header?.CurrencyExchRate
+                          )}
+                          {/* {(result?.mainTotal?.total_other + result?.header?.FreightCharges)?.toFixed(2)} */}
+                        </div>
+                      </div>
+                    )}
 
                     <div className="summary_container_dp7_misc_total fw-bold">
                       <div className="summary_container_dp7_misc_head_col_1 dp7cen1">
@@ -1119,21 +1371,26 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
                       <div className="summary_container_dp7_misc_head_col_4 dp7cen2 d-flex flex-column">
-                        {
-                          miscWise_total?.wtWeight_Ctw === 0 ? '' : <div className="w-100 dp7cen2">
+                        {miscWise_total?.wtWeight_Ctw === 0 ? (
+                          ""
+                        ) : (
+                          <div className="w-100 dp7cen2">
                             {miscWise_total?.wtWeight_Ctw?.toFixed(3)} Ctw
                           </div>
-                        } 
-                        {
-                          miscWise_total?.wtWeight_gm === 0 ? '' : <div className="w-100 dp7cen2">
-                          {" "}
-                          {miscWise_total?.wtWeight_gm?.toFixed(3)} Gm
+                        )}
+                        {miscWise_total?.wtWeight_gm === 0 ? (
+                          ""
+                        ) : (
+                          <div className="w-100 dp7cen2">
+                            {" "}
+                            {miscWise_total?.wtWeight_gm?.toFixed(3)} Gm
                           </div>
-                        } 
+                        )}
                       </div>
                       <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
                         {formatAmount(
-                          (miscWise_total?.AmtAmount + (otherAMountTotal/result?.header?.CurrencyExchRate))
+                          miscWise_total?.AmtAmount +
+                            otherAMountTotal / result?.header?.CurrencyExchRate
                         )}
                       </div>
                     </div>

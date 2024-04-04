@@ -177,9 +177,10 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         //     }
         // }
       })
+
       if(arr?.length === 1){
-        if(arr[0]?.IsHSCOE === 3){
-            // arr = [];
+        if(arr[0]?.IsHSCOE === 3 && arr[0]?.Rate === 0){
+            arr = [];
         }
       }
       // let arr2 = [];
@@ -480,7 +481,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {
                                 e?.metal?.map((a, i) => {
                                   return(
-                                    <>
+                                    // <React.Fragment key={i}>
                                     <div className='d-flex justify-content-between align-items-center h-100 border-bottom' key={i}>
                                       <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6 h-100'>{a?.IsPrimaryMetal === 1 ? a?.ShapeName : ''}</div>
                                       <div className='border-end col3_dp6_2 pad_st_dp6 center_start_dp6 h-100'>{a?.IsPrimaryMetal === 1 ? '' : a?.ShapeName}</div>
@@ -494,7 +495,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6 h-100' >{a?.IsPrimaryMetal === 1 ? formatAmount((a?.Rate/(result?.header?.CurrencyExchRate))) : ''}</div>
                                       <div className='col3_dp6_9 end_dp6 pad_end_dp6 h-100'>{a?.IsPrimaryMetal === 1 ? formatAmount((a?.Amount/(result?.header?.CurrencyExchRate))) : '' }</div>
                                     </div>
-                                    </>
+                                    // </React.Fragment>
                                   )
                                 })
                               }
