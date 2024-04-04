@@ -179,7 +179,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       })
       if(arr?.length === 1){
         if(arr[0]?.IsHSCOE === 3){
-            arr = [];
+            // arr = [];
         }
       }
       // let arr2 = [];
@@ -198,12 +198,11 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       Wt:0,
       Pcs:0
     }
-    console.log(datas);
     datas?.resultArray?.forEach((a) => {
-      a?.misc?.forEach((el) => {
+      // a?.misc?.forEach((el) => {
+      a?.miscList_duplicate?.forEach((el) => {
         if(el?.Supplier === 'Company'){
           if(el?.IsHSCOE === 0 || el?.IsHSCOE === 3){
-            console.log("el", el);
             // obj2.Wt += el?.Wt + el?.ServWt;
             obj2.Pcs += el?.Pcs;
           }
@@ -320,16 +319,19 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div>
               <div className='headlabel_dp6'>{result?.header?.PrintHeadLabel}</div>
               <div className='d-flex flex-column justify-content-center align-items-center p-1 fs_dp6'>
-                <div>
+                <div className='p-2'>
                 {isImageWorking && (result?.header?.PrintLogo !== "" && 
                       <img src={result?.header?.PrintLogo} alt="" 
-                      className='w-25 h-auto my-0 mx-auto d-block object-fit-contain'
+                      className='w-100 h-auto my-0 mx-auto d-block object-fit-contain'
+                      style={{minHeight:'75px', minWidth:'115px', maxWidth:'117px', maxHeight:'75px'}}
                       onError={handleImageErrors} height={120} width={150} />)}
                   {/* <img src={result?.header?.PrintLogo} alt="#companylogo" className='printlogo_dp6' /> */}
                   </div>
                 <div className='fw-bold fs-6'>{result?.header?.CompanyFullName}</div>
-                <div>{result?.header?.CompanyAddress?.split(",")[0]}</div>
-                <div>{result?.header?.CompanyAddress2?.split(",")[0]}</div>
+                {/* <div>{result?.header?.CompanyAddress?.split(",")[0]}</div> */}
+                <div>{result?.header?.CompanyAddress}</div>
+                {/* <div>{result?.header?.CompanyAddress2?.split(",")[0]}</div> */}
+                <div>{result?.header?.CompanyAddress2}</div>
                 <div>{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode}, {result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
                 <div>T {result?.header?.CompanyTellNo} | TOLL FREE {result?.header?.CompanyTollFreeNo}</div>
                 <div>{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE}-{result?.header?.Company_CST_STATE_No} | PAN-{result?.header?.Com_pannumber}</div>
@@ -534,6 +536,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         }
                         {
                           e?.misc?.map((el, i) => {
+                          // e?.miscList_duplicate?.map((el, i) => {
                             return(
                               <div className='d-flex border-bottom w-100' key={i}>
                                 <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6' >{el?.MasterManagement_DiamondStoneTypeName}</div>
@@ -567,10 +570,10 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               <div className='d-flex justify-content-end pad_end_dp6 border-start border-end p-1 pbia_dp6'>{formatAmount((result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)))}</div>
               <div className='d-flex justify-content-end border'>
-                  <div className='d-flex border-start pbia_dp6' style={{width:'22%'}}>
+                 { result?.header?.FreightCharges === 0 ? '' : <div className='d-flex border-start pbia_dp6' style={{width:'22%'}}>
                     <div className=' end_dp6 pad_end_dp6 border-end p-1' style={{width:'53%'}}>Freight Chagres</div>
                     <div className=' end_dp6 pad_end_dp6 p-1' style={{width:'47%'}}>{formatAmount(result?.header?.FreightCharges)}</div>
-                  </div>
+                  </div> } 
               </div>
               <div className='d-flex border border-top-0 pbia_dp6'>
                 <div style={{width:'78%'}}>

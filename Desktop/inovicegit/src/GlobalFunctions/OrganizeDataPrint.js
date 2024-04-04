@@ -120,6 +120,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       let metalList = [];
       let findingList = [];
       let miscList = [];
+      let miscList_duplicate = [];
       let stone_miscList = [];
       // let blankArrDiamond = [];
       // let blankArrColorstone = [];
@@ -305,6 +306,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
             }
             //for misc
             if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
+              miscList_duplicate.push(j2);
               maintotal.misc.allpcs += j2?.Pcs;
               maintotal.misc.allwt += j2?.Wt;
               maintotal.misc.allservwt += j2?.ServWt;
@@ -424,6 +426,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       obj.colorstone = colorstoneList;
       obj.stone_misc = stone_miscList;
       obj.misc = miscList;
+      obj.miscList_duplicate = miscList_duplicate;
       obj.metal = metalList;
       obj.finding = findingList;
       obj.totals = jobwise_totals;
