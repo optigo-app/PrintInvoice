@@ -185,8 +185,12 @@ const PrintDesign17 = ({ queries, headers }) => {
                                 <div className="header_first">
                                   <p className="fontsize17">
                                     {e?.data?.rd?.["serialjobno"]}&nbsp;
-                                    { e?.data?.rd?.IsQuickRepairing === 1 ? <span style={{color:'red', fontSize:'10px'}}>
-                                      {(e?.data?.rd?.referenceno === null && e?.data?.rd?.referenceno === '' ) ? '' : `(${e?.data?.rd?.referenceno})`}</span> : '' } 
+                                      { (e?.data?.rd?.IsQuickRepairing === 1 && e?.data?.rd?.referenceno !== '') ?
+                                       <span style={{color:'red', fontSize:'10px'}}>
+                                        {(e?.data?.rd?.referenceno === null && e?.data?.rd?.referenceno === '' ) ? '' : `(${e?.data?.rd?.referenceno})`}
+                                      </span> : '' 
+                                    }
+                                    
                                   </p>
                                   <p className="fontsize17">
                                     {e?.data?.rd?.["Designcode"]}
@@ -409,7 +413,8 @@ const PrintDesign17 = ({ queries, headers }) => {
                                   </p>
                                 </div>
                                 <div className="lower17 center_item bold separatedfs17old">
-                                  {e?.data?.rd?.["QuotGrossWeight"]?.toFixed(3)}
+                                  {/* {e?.data?.rd?.["QuotGrossWeight"]?.toFixed(3)} */}
+                                  {e?.data?.rd?.netwt?.toFixed(3)}
                                 </div>
                               </div>
                               <div
@@ -452,8 +457,13 @@ const PrintDesign17 = ({ queries, headers }) => {
                             <div className="printhead d_flex justify_content_between ">
                               <p className=" bold pl_3 fs17125">
                                 <span className="fs17125">{e?.data?.rd?.["serialjobno"]}&nbsp;</span>
-                                { e?.data?.rd?.IsQuickRepairing === 1 ? <span style={{color:'red', fontSize:'10px'}}>
-                                  {(e?.data?.rd?.referenceno === null || e?.data?.rd?.referenceno === '') ? '' : `(${e?.data?.rd?.referenceno})`}</span> : '' } 
+
+                                { (e?.data?.rd?.IsQuickRepairing === 1 && e?.data?.rd?.referenceno !== '') ?
+                                       <span style={{color:'red', fontSize:'10px'}}>
+                                        {(e?.data?.rd?.referenceno === null && e?.data?.rd?.referenceno === '' ) ? '' : `(${e?.data?.rd?.referenceno})`}
+                                      </span> : '' 
+                                    }
+                                  
                               </p>
                               <p className=" bold pr_3 fs17125" >
                                 <span className="fs17125"> {e?.data?.rd?.["Designcode"]}</span>
@@ -657,7 +667,8 @@ const PrintDesign17 = ({ queries, headers }) => {
                               className="lower17 center_item bold"
                               style={{ borderBottom: "1px solid black", fontSize:"9.5px" }}
                             >
-                              {e?.data?.rd?.["QuotGrossWeight"]?.toFixed(3)}
+                              {/* {e?.data?.rd?.["QuotGrossWeight"]?.toFixed(3)} */}
+                              {e?.data?.rd?.netwt?.toFixed(3)}
                             </div>
                           </div>
                           <div className="w_13 border_right">
@@ -695,8 +706,12 @@ const PrintDesign17 = ({ queries, headers }) => {
                           >
                             <p className="fontsize17">
                               {e?.data?.rd?.["serialjobno"]}&nbsp;
-                              { e?.data?.rd?.IsQuickRepairing === 1 ? <span style={{color:'red', fontSize:'10px'}}>
-                                {(e?.data?.rd?.referenceno === null || e?.data?.rd?.referenceno === '') ? '' : `(${e?.data?.rd?.referenceno})`}</span> : '' } 
+                              {
+                               (e?.data?.rd?.IsQuickRepairing === 1 && e?.data?.rd?.referenceno !== '') ?
+                                       <span style={{color:'red', fontSize:'10px'}}>
+                                        {(e?.data?.rd?.referenceno === null && e?.data?.rd?.referenceno === '' ) ? '' : `(${e?.data?.rd?.referenceno})`}
+                                      </span> : '' 
+                              } 
                             </p>
                             <p className="fontsize17">
                               {e?.data?.rd?.["Designcode"]}
