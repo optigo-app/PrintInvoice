@@ -170,7 +170,6 @@ const PrintDesign17 = ({ queries, headers }) => {
                 )
             )}
             {data?.map((e, i) => {
-              console.log(e)
               return (
                 <React.Fragment key={i}>
                   {e?.additional?.chdata?.length > 0 ? (
