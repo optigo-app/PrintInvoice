@@ -42,10 +42,15 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const groupedObjects = {};
     json2.forEach((item) => {
       if (json1.some((srItem) => srItem.SrJobno === item.StockBarcode)) {
-        if (!groupedObjects[item.StockBarcode]) {
-          groupedObjects[item.StockBarcode] = [];
+        if ((item?.MasterManagement_DiamondStoneTypeid === 3 && item?.ISHSCODE !== 0) || (item?.MasterManagement_DiamondStoneTypeid === 5)) {
+
+        } else {
+          if (!groupedObjects[item.StockBarcode]) {
+            groupedObjects[item.StockBarcode] = [];
+          }
+          groupedObjects[item.StockBarcode].push(item);
         }
-        groupedObjects[item.StockBarcode].push(item);
+
       }
     });
     const resultArray = Object.keys(groupedObjects).map((key) => ({
@@ -109,7 +114,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             ) {
               totalobj.diaWt += element.Wt;
             }
-            if (element?.MasterManagement_DiamondStoneTypeid === 3) {
+            else if (element?.MasterManagement_DiamondStoneTypeid === 3) {
               totalobj.weightInGram += element.Wt;
             }
           });
@@ -498,7 +503,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             <p className="pe-1 ps-1">|</p>
             <p className="ps-1">PAN-EDJHF236D</p>
           </div>
-          <div className="taxinvoice1Head fw-bold text-center mb-1">
+          <div className="taxinvoice1Head fw-bold text-center mb-1" style={{ fontSize: "20px" }}>
             {BillPrint_Json?.PrintHeadLabel}
           </div>
           <div className="headerInvoice1 d-flex border mb-1 border-black w-100">
@@ -524,19 +529,19 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
             <div className="header_text_invoice_num header_text_invoice_numPrint1 p-1 col-4">
               <div className="d-flex w-100 ">
-                <p className="customer_data_invoice1 fw-bold col-8">INVOICE NO</p>
-                <p className="col-4">{BillPrint_Json?.InvoiceNo}</p>
+                <p className="customer_data_invoice1 fw-bold col-6">INVOICE NO</p>
+                <p className="col-6">{BillPrint_Json?.InvoiceNo}</p>
               </div>
               <div className="d-flex w-100 ">
-                <p className="customer_data_invoice1 fw-bold col-8">DATE</p>
-                <p className="col-4">{BillPrint_Json?.EntryDate}</p>
+                <p className="customer_data_invoice1 fw-bold col-6">DATE</p>
+                <p className="col-6">{BillPrint_Json?.EntryDate}</p>
               </div>
               {
                 document?.map((ele, ind) => {
                   return <div className="d-flex w-100 " key={ind}>
-                  <p className="customer_data_invoice1 fw-bold col-8">{ele?.label}</p>
-                  <p className="col-4">{ele?.value}</p>
-                </div>
+                    <p className="customer_data_invoice1 fw-bold col-6">{ele?.label}</p>
+                    <p className="col-6">{ele?.value}</p>
+                  </div>
                 })
               }
             </div>
@@ -628,21 +633,21 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               } material_inner_invoice1 pad_2_tax_invoice_1`}
                             key={ind}
                           >
-                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1">
+                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
                               {ele?.ShapeName}
                             </div>
-                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1">
+                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
                               {ind === 0 && ele?.QualityName}
                             </div>
-                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1">
+                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
                               {ind === 0 &&
                                 fixedValues(e?.mainData?.grosswt, 3)}
                             </div>
-                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1">
+                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
                               {(ele?.ShapeName !== "GOLD" && ele?.Wt !== 0) &&
                                 fixedValues(ele?.Wt, 3)}
                             </div>
-                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1">
+                            <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
                               {ind === 0 &&
                                 fixedValues(
                                   e?.primaryWt,
@@ -800,12 +805,12 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <p className="fw-bold">{toWords?.convert(+fixedValues(totalAmount?.totalAmountAfterTax, 2))} Only</p>
             </div>
             <div className=" totalTaxinvoice1 totalTaxinvoicePrint1 border-end text-end align-items-center d-flex justify-content-end fw-bold pad_2_tax_invoice_1">
-           <p>   GRAND TOTAL</p>
+              <p>   GRAND TOTAL</p>
             </div>
             <div className="d-flex align-items-center justify-content-end totalTaxNumberinvoice_print_1 fw-bold totalTaxNumberinvoiceprint1 pad_2_tax_invoice_1">
-           <p>   ₹{" "}
-              {totalAmount?.totalAmountAfterTax !== undefined &&
-                NumberWithCommas(totalAmount?.totalAmountAfterTax, 2)}</p>
+              <p>   ₹{" "}
+                {totalAmount?.totalAmountAfterTax !== undefined &&
+                  NumberWithCommas(totalAmount?.totalAmountAfterTax, 2)}</p>
             </div>
           </div>
           <div className="d-flex border-start border-end border-bottom p-1 print_break_avoid_invoice1 declarationTaxInvoice1 pb-4">

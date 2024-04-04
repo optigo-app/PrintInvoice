@@ -53,9 +53,15 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let discountAmount = 0;
     let otherAmounts = 0;
     let pkgWt = 0;
+    let allArr = [];
     data?.BillPrint_Json1.forEach((e, i) => {
-    
-      totals.fineWts +=  (e?.NetWt * (e?.Tunch)) / 100;
+      let obj = cloneDeep(e);
+      obj.metalRates = data?.BillPrint_Json2?.find((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.IsPrimaryMetal === 1 && ele?.StockBarcode === e?.SrJobno)?.Rate || 0;
+      obj.counts = 1;
+      allArr?.push(obj);
+    })
+    allArr.forEach((e, i) => {
+      totals.fineWts += (e?.NetWt * (e?.Tunch)) / 100;
       pkgWt += e?.PackageWt;
       discountAmount += e?.DiscountAmt;
       let findIndex = arr.findIndex(
@@ -138,6 +144,8 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         arr[findIndex].TotalAmount += e?.TotalAmount;
         arr[findIndex].MetalAmount += e?.MetalAmount;
         arr[findIndex].otherAmt += e?.TotalDiamondHandling + e?.OtherCharges + e?.MiscAmount;
+        arr[findIndex].metalRates += e?.metalRates;
+        arr[findIndex].counts += e?.counts;
         arr[findIndex].srJobArr.push(e?.SrJobno);
       }
     });
@@ -228,8 +236,19 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     //   e.fineWts = (e?.NetWt * (e?.Tunch + e?.Wastage)) / 100;
     //   totals.fineWts +=  (e?.NetWt * (e?.Tunch + e?.Wastage)) / 100;
     // })
+
+    resultArr.sort((a, b) => {
+      const keyA = a?.MetalType + a?.MetalPurity;
+      const keyB = b?.MetalType + b?.MetalPurity;
+
+      // Compare the name values directly
+      if (keyA < keyB) return -1;
+      if (keyA > keyB) return 1;
+      return 0;
+    });
     setTotal(totals);
     setData(resultArr);
+    console.log(resultArr);
   };
 
   useEffect(() => {
@@ -422,7 +441,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               ${atob(printName).toLowerCase() === "item wise print2" && "itemWisePrint1Font_14_category"}`} key={i}>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'metaltypeItemWisePrint' : 'metaltypeItemWisePrint1'} border-end
                 ${atob(printName).toLowerCase() === "item wise print2" && 'metaltypeItemWisePrint2'}
-                ${atob(printName)?.toLowerCase() === "item wise print1" && "itemWisePrint1Font_14_category"}`} style={{wordBreak: "normal"}}>
+                ${atob(printName)?.toLowerCase() === "item wise print1" && "itemWisePrint1Font_14_category"}`} style={{ wordBreak: "normal" }}>
                   <p className="itemWisePrintCategory">
                     {e?.MetalType} {e?.MetalPurity}
                   </p>
@@ -502,7 +521,8 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <p className="text-end">
                     {e?.metalWt !== 0 &&
                       e?.MetalAmount / e?.metalWt !== 0 &&
-                      (e?.MetalAmount / e?.metalWt).toFixed(2)}
+                      NumberWithCommas(e?.metalRates / e?.counts, 2)}
+                    {/* NumberWithCommas(e?.MetalAmount / e?.metalWt, 2)} */}
                   </p>
                 </div>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'mAmtItemWisePrint' : 'mAmtItemWisePrint1'} border-end`}>

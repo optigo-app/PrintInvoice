@@ -1,19 +1,23 @@
 .detailPrint2 *{
     word-break: normal;
-    font-size: 12px;
+    font-size: 10px;
 }
 
-.print_sec_sum4 {
-    right: 15px;
+.print_sec_sum4 *{
+    font-size: 14px !important;
 }
 
 .data p{
     word-break: break-all;
 }
 
+.word_break *{
+    word-break: break-all;
+}
+
 .sr {
-    width: 5%;
-    min-width: 5%;
+    width: 4%;
+    min-width: 4%;
 }
 
 .pad_1 p{
@@ -31,8 +35,8 @@
 }
 
 .metal {
-    width: 23%;
-    min-width: 23%;
+    width: 24%;
+    min-width: 24%;
 }
 
 .stone {
@@ -56,8 +60,8 @@
 }
 
 .totalWord{
-    width: 16%;
-    min-width: 16%;
+    width: 15%;
+    min-width: 15%;
 }
 
 .cgst{
@@ -72,7 +76,7 @@
     }
 
     .detailPrint2 *{
-        font-size: 9px;
+        font-size: 8px;
     }
     
 }

@@ -4,6 +4,8 @@
     line-height: 120%;
 }
 
+
+
 .taxInvoicePirnt1{
     padding-bottom: 60px;
     width: 100%;
@@ -230,7 +232,7 @@
 }
 
 .font_size_16_tax_invoice_1, .font_size_16_tax_invoice_1 *{
-    font-size: 16px;
+    font-size: 16px !important;
 }
 
 .pad_2_tax_invoice_1 p{

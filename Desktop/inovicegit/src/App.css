@@ -346,7 +346,7 @@ html .footer_secInvoicePrint8 .target_footer * {
 }
 
 .retailInvoice_2_3_footer_Font_12 .target_footer * {
-  font-size: 12px;
+  font-size: 12px !important;
 }
 
 .retailInvoice_2_3_footer_Font_12 .target_footer,
@@ -381,6 +381,10 @@ html .footer_secInvoicePrint8 .target_footer * {
 }
 
 @media print {
+
+  .containerretailInvoice2 .retailInvoice_2_3_footer_Font_12 .target_footer * {
+    font-size: 12px !important;
+  }
   .hide-on-print {
     display: none;
   }
