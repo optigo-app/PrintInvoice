@@ -47,6 +47,7 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         let resultArray = [];
         let otherMetalAmounts = 0;
+        // let findingAmounts = 0;
         datas?.resultArray?.map((e, i) => {
             let obj = cloneDeep(e);
             let metalRate = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1)?.Rate || 0;
@@ -54,6 +55,8 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             let diamonds = cloneDeep(e?.diamonds);
             let blankDiamonds = [];
             let otherMetalAmount = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal !== 1 ? acc + cObj?.Amount : acc, 0) + e?.finding?.reduce((acc, cObj) => acc + cObj?.SettingAmount, 0);
+            // let findingAmount = e?.finding?.reduce((acc, cObj) => acc + cObj?.SettingAmount, 0);
+            // console.log(findingAmount);
             diamonds?.forEach((ele, ind) => {
                 let findDiamond = blankDiamonds?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname);
                 if (findDiamond === -1) {
@@ -79,10 +82,13 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             obj.diamonds = blankDiamonds;
             obj.colorstone = blankColorStone;
             obj.otherMetalAmount = otherMetalAmount;
+            // obj.findingAmount = findingAmount
             otherMetalAmounts += otherMetalAmount;
+            // findingAmounts += findingAmount;
             resultArray.push(obj);
         });
         datas.mainTotal.otherMetalAmounts = otherMetalAmounts;
+        // datas.mainTotal.findingAmounts = findingAmounts;
         resultArray.sort((a, b) => {
             // Convert names to lowercase to ensure case-insensitive sorting
             const nameA = a.designno.toLowerCase();
@@ -217,9 +223,9 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                             <div className={`${style?.DESCRIPTION}  border-end p-1`}>
                                 <p className="fw-bold">AMOUNT </p>
                             </div>
-                            <div className={`${style?.AMOUNT} text-end border-end p-1`}><p className="fw-bold">{NumberWithCommas(e?.UnitCost - e?.otherMetalAmount, 2)} </p></div>
+                            <div className={`${style?.AMOUNT} text-end border-end p-1`}><p className="fw-bold">{NumberWithCommas(e?.UnitCost - e?.otherMetalAmount , 2)} </p></div>
                             <div className={`${style?.DISCOUNT}  border-end p-1 text-end`}><p className="fw-bold">{NumberWithCommas(e?.DiscountAmt, 2)}</p></div>
-                            <div className={`${style?.TOTAL}  p-1 text-end`}><p className="fw-bold">{NumberWithCommas(e?.TotalAmount - e?.otherMetalAmount, 2)}</p></div>
+                            <div className={`${style?.TOTAL}  p-1 text-end`}><p className="fw-bold">{NumberWithCommas(e?.TotalAmount - e?.otherMetalAmount , 2)}</p></div>
                         </div>
                     </div>
                 })}
@@ -231,9 +237,9 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     <div className={`${style?.DESCRIPTION}  border-end p-1`}>
                         <p className="fw-bold">TOTAL </p>
                     </div>
-                    <div className={`${style?.AMOUNT} text-end border-end p-1`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost - data?.mainTotal?.otherMetalAmounts, 2)} </p></div>
+                    <div className={`${style?.AMOUNT} text-end border-end p-1`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost - data?.mainTotal?.otherMetalAmounts , 2)} </p></div>
                     <div className={`${style?.DISCOUNT}  border-end p-1 text-end`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p></div>
-                    <div className={`${style?.TOTAL}  p-1 text-end`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_amount - data?.mainTotal?.otherMetalAmounts, 2)}</p></div>
+                    <div className={`${style?.TOTAL}  p-1 text-end`}><p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_amount - data?.mainTotal?.otherMetalAmounts , 2)}</p></div>
                 </div>
                 {/* taxes */}
                 <div className="d-flex border-start border-end border-bottom no_break">
@@ -253,18 +259,18 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     <div className={`${style?.TOTAL}  p-1 text-end`}>
                         {
                             data?.allTaxes?.map((e, i) => {
-                                return <p className="fw-bold" key={i}>{NumberWithCommas(e?.amount, 2)}</p>
+                                return <p className="fw-bold" key={i}>{NumberWithCommas(e?.amount * headerData?.CurrencyExchRate, 2)}</p>
                             })
                         }
                         {/* <p className="fw-bold">{NumberWithCommas(data?.finalAmount - headerData?.AddLess, 2)}</p> */}
-                        <p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_amount - data?.mainTotal?.otherMetalAmounts + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0), 2)}</p>
+                        <p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_amount - data?.mainTotal?.otherMetalAmounts  + data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0), 2)}</p>
                         {headerData?.AddLess !== 0 && <p className="fw-bold">{NumberWithCommas(headerData?.AddLess, 2)}</p>}
                     </div>
                 </div>
                 {/* grand total */}
                 <div className="d-flex border-start border-end border-bottom justify-content-between p-1 lightGrey no_break">
                     <p className="fw-bold">GRAND TOTAL</p>
-                    <p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_amount - data?.mainTotal?.otherMetalAmounts + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0) + headerData?.AddLess, 2)}</p>
+                    <p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_amount - data?.mainTotal?.otherMetalAmounts + data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0) + headerData?.AddLess, 2)}</p>
                 </div>
                 {/* SIGNATURE  */}
                 <div className="my-1 d-flex border no_break">
@@ -280,7 +286,7 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     </div>
                 </div>
                 {/* pre text */}
-                <p className="preText mb-0 no_break " style={{overflow: "unset"}}>**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</p>
+                <p className="preText mb-0 no_break " style={{ overflow: "unset" }}>**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</p>
                 {/* terms and conditions */}
                 <p className="p-2 text-decoration-underline no_break">TERMS AND CONDITIONS</p>
                 {/* declaration */}
@@ -292,8 +298,8 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     <div className="text-center">
                         <div>  <span className="fw-bold">{headerData?.CompanyFullName}.</span>{headerData?.CompanyAddress},{headerData?.CompanyCity} - {headerData?.CompanyPinCode}</div>
                         <div>  Tel. <span className="fw-bold">{headerData?.CompanyTellNo}.</span> | Fax. <span className="fw-bold">{headerData?.FaxNo}</span>
-                        {/* <span className="fw-bold">022-688669565</span> */}
-                         | Email: <span className="fw-bold">{headerData?.CompanyEmail}</span> | Website: <NavLink to={`${headerData?.CompanyWebsite}`} className={"text-decoration-underline"} style={{ color: "blue" }}>{headerData?.CompanyWebsite}</NavLink></div>
+                            {/* <span className="fw-bold">022-688669565</span> */}
+                            | Email: <span className="fw-bold">{headerData?.CompanyEmail}</span> | Website: <NavLink to={`${headerData?.CompanyWebsite}`} className={"text-decoration-underline"} style={{ color: "blue" }}>{headerData?.CompanyWebsite}</NavLink></div>
                         <div>  {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Com_pannumber}</div>
                     </div>
                 </div>

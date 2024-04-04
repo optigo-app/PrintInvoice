@@ -11,7 +11,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
     const [data, setData] = useState({});
     const [headerData, setHeaderData] = useState({});
     const [checkBox, setCheckBox] = useState({
-        image: false,
+        image: true,
     });
     const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {

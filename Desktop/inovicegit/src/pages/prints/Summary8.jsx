@@ -80,7 +80,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setData(datas);
         console.log(datas);
 
-        let bankDetail = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
+        let bankDetail = ReceiveInBank(data?.BillPrint_Json[0]?.InvPayDet);
         console.log(bankDetail);
         setBank(bankDetail);
     };
@@ -155,9 +155,9 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                     <div className={`${style2.lines} ${style?.lines}`}>
                         {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
-                        {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No}                     </div>
+                        {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}             </div>
                     <div className={`${style2.lines} ${style?.lines}`}>
-                        PAN-{headerData?.Pannumber} </div>
+                    </div>
                 </div>
             </div>
             {/* title */}
@@ -168,7 +168,10 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             <div className={`py-1 ${style?.font_13}`}>
                 <div className="d-flex justify-content-between">
                     <div className="col-6 px-1">
-                        <p>{headerData?.lblBillTo}</p>
+                        <p>
+                            {/* {headerData?.lblBillTo} */}
+                            To,
+                            </p>
                         <p className={`fw-bold ${style?.font_14}`}>{headerData?.customerfirmname}</p>
                         <p>{headerData?.customerAddress1}</p>
                         <p>{headerData?.customerAddress2}</p>
@@ -176,8 +179,8 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p>{headerData?.customercity} - {headerData?.PinCode}</p>
                         <p>Tel : {headerData?.customermobileno}</p>
                         <p>{headerData?.customeremail1}</p>
-                        <p>{headerData?.Cust_CST_STATE_No_}</p>
-                        <p>{headerData?.CustGstNo} | PAN-{headerData?.CustPanno}</p>
+                        <p>STATE NAME : {headerData?.State}</p>
+                        <p>{headerData?.CustGstNo} PAN-{headerData?.CustPanno}</p>
                     </div>
                     <div className="col-3 px-1">
                         <p>Date :<span className="fw-bold"> {headerData?.EntryDate}</span></p>
@@ -240,22 +243,22 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>}
                 <div className="d-flex">
                     <div className={`${style?.tax} p-1 border-black border-end fw-semibold text-end`}><p>GRAND TOTAL </p></div>
-                    <div className={`${style?.Total} p-1 text-end fw-semibold`}><p>{NumberWithCommas(data?.mainTotal?.total_amount + data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0)+headerData?.AddLess, 2)}</p></div>
+                    <div className={`${style?.Total} p-1 text-end fw-semibold`}><p>{NumberWithCommas(data?.mainTotal?.total_amount + data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0) + headerData?.AddLess, 2)}</p></div>
                 </div>
             </div>
             {/* bank details */}
             <div className={`d-flex no_break border-black p-0 no_break h-100 py-0 align-items-start mb-0 border position-relative ${style?.font_13}`}>
                 <div className={`col-4 border-black p-2`} style={{ width: "33.33%" }} >
-                    <div className={footerStyle.linesf3}>Payment Details</div>
-                    <div className="d-flex pt-1">
+                    <div className={`${footerStyle.linesf3} fw-bold`}>Payment Details</div>
+                    {/* <div className="d-flex pt-1">
                         <p className='lh-1'>Cash:</p>
                         <p className='ps-1 fw-bold lh-1'>{headerData?.CashReceived}</p>
-                    </div>
+                    </div> */}
                     {
                         bank?.map((ele, ind) => {
                             return <div className="d-flex">
-                                <p className='lh-1'>{ele?.label}</p>
-                                <p className='lh-1'>{ele?.id && `(${ele?.id})`}</p>
+                                <p className='lh-1'>{ele?.BankName}</p>
+                                <p className='lh-1'>{ele?.label && `(${ele?.label})`}</p>
                                 <p className='pe-1 lh-1'> : </p>
                                 <p className='fw-bold lh-1'>{NumberWithCommas(ele?.amount, 2)}</p>
                             </div>

@@ -31,6 +31,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         TotalAmounttobePaid: 0,
         balanceAmount: 0,
     });
+    const [bankDetails, setBankDetails] = useState([]);
     const [debitCard, setDebitCard] = useState([]);
     const handleImageErrors = () => {
         setIsImageWorking(false);
@@ -90,12 +91,15 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         }, 0);
         setDebitCard(debitCardinfo);
 
+        let bankDetails = ReceiveInBank(data?.BillPrint_Json[0]?.InvPayDet);
+        console.log(bankDetails);
+        setBankDetails(bankDetails);
+
         let balanceAmount = netInvoiceValue - debitInfo;
 
         setTotal({ ...total, netWithLossWt: netWithLossWts, netInvoiceValue: netInvoiceValue, TotalAmounttobePaid: debitInfo + data?.BillPrint_Json[0]?.CashReceived, balanceAmount: balanceAmount });
         datas.resultArray = resultArr;
         console.log(datas);
-
         setData(datas);
     }
 
@@ -177,7 +181,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 </div>
                 <div className="border-start border-end border-bottom  border-black">
                     <div className={`px-2 border-bottom d-flex ${style?.font_13}`}>
-                        <div className={`${style?.Variant}`}> <p className=''>Variant No/ Product Description </p></div>
+                        <div className={`${style?.Variant}`} style={{wordBreak: "normal"}}> <p className='' style={{wordBreak: "normal"}}>Variant No/ Product Description </p></div>
                         <div className={`${style?.KT}`}> <p className='text-center'>KT </p></div>
                         <div className={`${style?.Qty}`}> <p className='text-center'>Qty </p></div>
                         <div className={`${style?.Gross}`}> <p className='text-center'>Gross Wt(gms) </p></div>
@@ -192,7 +196,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     {
                         data?.resultArray?.map((e, i) => {
                             return <div className={`d-flex px-2 border-bottom  ${style?.font_13}`} key={i}>
-                                <div className={`${style?.Variant}`}> <p className=''>{e?.designno} / {e?.SrJobno} {e?.MetalPurity} {e?.Categoryname}</p></div>
+                                <div className={`${style?.Variant}`}> <p className='' style={{wordBreak: "normal"}}>{e?.designno} / {e?.SrJobno} {e?.MetalPurity} {e?.Categoryname}</p></div>
                                 <div className={`${style?.KT}`}> <p className='text-center'>{e?.MetalPurity} </p></div>
                                 <div className={`${style?.Qty}`}> <p className='text-center'>{e?.Quantity} </p></div>
                                 <div className={`${style?.Gross}`}> <p className='text-center'>{NumberWithCommas(e?.grosswt, 3)} </p></div>
@@ -206,9 +210,8 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                             </div>
                         })
                     }
-
                     <div className={`d-flex border-bottom px-2 ${style?.font_13}`}>
-                        <div className={`${style?.Variant}`}> <p className=''>Total</p></div>
+                        <div className={`${style?.Variant}`}> <p className='' style={{wordBreak: "normal"}}>Total</p></div>
                         <div className={`${style?.KT}`}> <p className='text-center'> </p></div>
                         <div className={`${style?.Qty}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.total_Quantity, 0)} </p></div>
                         <div className={`${style?.Gross}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</p></div>
@@ -230,40 +233,30 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         <div className="col-6 border-end border-black position-relative">
                             <p className="fw-bold px-2">Payment Details  </p>
                             <div className="d-flex justify-content-between border-bottom px-2 border-black">
-                                <p>Payment Mode</p>
-                                <p>Doc No.</p>
-                                <p>Customer Name</p>
-                                <p>Amount(Rs)</p>
+                                <p className="col-4">Payment Mode</p>
+                                <p className="col-3">Doc No.</p>
+                                <p className="col-3">Customer Name</p>
+                                <p className="col-2 text-end" >Amount(Rs)</p>
                             </div>
                             {(headerData?.CashReceived === 0 && debitCard.length === 0) && <div className="d-flex justify-content-between px-2 border-bottom border-black">
                                 <div className="col-4"><p>NA</p></div>
-                                <div className="col-2"><p>{ }</p></div>
-                                <div className="col-4"><p></p></div>
+                                <div className="col-3"><p>{ }</p></div>
+                                <div className="col-3"><p></p></div>
                                 <div className="col-2 text-end"><p>NA</p></div>
                             </div>}
-                            {headerData?.CashReceived !== 0 && <div className="d-flex justify-content-between px-2 border-bottom border-black">
-                                <div className="col-4"><p>{"Cash"}</p></div>
-                                <div className="col-2"><p>{ }</p></div>
-                                <div className="col-4"><p></p></div>
-                                <div className="col-2 text-end"><p>{NumberWithCommas(headerData?.CashReceived, 2)}</p></div>
-                            </div>}
-                            {debitCard.length > 0 && debitCard.map((e, i) => {
-                                return <div className="d-flex justify-content-between px-2 border-bottom border-black" key={i}>
-                                    <div className="col-4"><p>{e?.label}</p></div>
-                                    <div className="col-2"><p>{e?.id}</p></div>
-                                    <div className="col-4"><p></p></div>
-                                    <div className="col-2 text-end"><p className=''>{NumberWithCommas(e?.amount, 2)}</p></div>
-                                </div>
-                            })}
-                            {/* <div className="d-flex justify-content-between px-2 border-bottom border-black">
-                                <p>NA</p>
-                                <p>NA</p>
-                                <p></p>
-                                <p>NA</p>
-                            </div> */}
+                            {
+                                bankDetails?.map((ele, ind) => {
+                                    return <div className="d-flex justify-content-between px-2 border-bottom border-black" key={ind}>
+                                        <div className="col-4"><p>{ele?.BankName}</p></div>
+                                        <div className="col-3"><p>{ele?.label}</p></div>
+                                        <div className="col-3"><p></p></div>
+                                        <div className="col-2 text-end"><p className=''>{NumberWithCommas(ele?.amount, 2)}</p></div>
+                                    </div>
+                                })
+                            }
                             <div className="d-flex justify-content-between px-2 border-bottom border-black">
                                 <p className='fw-bold'>Total Amount Paid</p>
-                                <p className='fw-bold'>{NumberWithCommas(total?.TotalAmounttobePaid, 2)}</p>
+                                <p className='fw-bold'>{NumberWithCommas(bankDetails?.reduce((acc, cObj) => acc + cObj?.amount, 0), 2)}</p>
                             </div>
                             <div className="d-flex justify-content-between px-2 border-bottom border-black">
                                 <p className='fw-bold'>Balance Amount</p>
@@ -284,7 +277,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                 data?.allTaxes?.map((e, i) => {
                                     return <div className="d-flex justify-content-between border-bottom border-black px-2" key={i}>
                                         <p>{e?.name} @ {e?.per}</p>
-                                        <p>{NumberWithCommas(e?.amount, 2)}</p>
+                                        <p>{NumberWithCommas(e?.amount * headerData?.CurrencyExchRate, 2)}</p>
                                     </div>
                                 })
                             }
@@ -298,14 +291,14 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                             </div>
                             <div className="d-flex justify-content-between border-bottom border-black px-2">
                                 <p>Net Invoice Value</p>
-                                <p>{NumberWithCommas(total?.netInvoiceValue, 2)}</p>
+                                <p>{NumberWithCommas(data?.mainTotal?.total_amount + headerData?.AddLess + data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0), 2)}</p>
                             </div>
                             <div className="d-flex justify-content-between border-bottom border-black px-2">
                                 <p>Total Amount to be paid</p>
                                 <p><span className='pe-1'>Rs.</span> Rs.{NumberWithCommas(headerData?.LedgerBal, 0)}</p>
                             </div>
                             <div className=" border-bottom border-black px-2">
-                                <p> Value In Words :- {toWords?.convert(+fixedValues(total?.netInvoiceValue, 2))} Only</p>
+                                <p style={{wordBreak: "normal"}}> Value In Words :- {toWords?.convert(+fixedValues(data?.mainTotal?.total_amount + headerData?.AddLess + data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0), 2))} Only</p>
                             </div>
                             <div className="pt-5 px-2">
                                 <p className='pt-5'>For {headerData?.CompanyFullName}</p>
