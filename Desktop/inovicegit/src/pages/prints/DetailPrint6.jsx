@@ -177,9 +177,10 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         //     }
         // }
       })
+
       if(arr?.length === 1){
-        if(arr[0]?.IsHSCOE === 3){
-            // arr = [];
+        if(arr[0]?.IsHSCOE === 3 && arr[0]?.Rate === 0){
+            arr = [];
         }
       }
       // let arr2 = [];
@@ -479,8 +480,9 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div> */}
                               {
                                 e?.metal?.map((a, i) => {
+                                  
                                   return(
-                                    <>
+                                    // <React.Fragment key={i}>
                                     <div className='d-flex justify-content-between align-items-center h-100 border-bottom' key={i}>
                                       <div className='border-end col3_dp6_1 pad_st_dp6 center_start_dp6 h-100'>{a?.IsPrimaryMetal === 1 ? a?.ShapeName : ''}</div>
                                       <div className='border-end col3_dp6_2 pad_st_dp6 center_start_dp6 h-100'>{a?.IsPrimaryMetal === 1 ? '' : a?.ShapeName}</div>
@@ -489,12 +491,12 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       {/* <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6 h-100'>{a?.SizeName}</div> */}
                                       <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6 h-100'>{a?.IsPrimaryMetal === 1 ? '' : a?.SizeName}</div>
                                       {/* <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6 h-100'>{a?.Pcs}</div> */}
-                                      <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6 h-100'></div>
+                                      <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6 h-100'>{a?.IsPrimaryMetal === 1 ? '' : a?.Pcs}</div>
                                       <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6 h-100'>{a?.Wt?.toFixed(3)}</div>
                                       <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6 h-100' >{a?.IsPrimaryMetal === 1 ? formatAmount((a?.Rate/(result?.header?.CurrencyExchRate))) : ''}</div>
                                       <div className='col3_dp6_9 end_dp6 pad_end_dp6 h-100'>{a?.IsPrimaryMetal === 1 ? formatAmount((a?.Amount/(result?.header?.CurrencyExchRate))) : '' }</div>
                                     </div>
-                                    </>
+                                    // </React.Fragment>
                                   )
                                 })
                               }
@@ -511,7 +513,10 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {/* <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{(el?.ShapeName?.includes('Certification') && el?.MasterManagement_DiamondStoneTypeid === 3) ? (e?.jobwise_dia_wt_certificate?.toFixed(3)) :  el?.jwt?.toFixed(3)}</div> */}
                                 <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?._Wt?.toFixed(3)}</div>
                                 {/* <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount((el?.Rate))}</div> */}
-                                <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount((((el?._Amount/(result?.header?.CurrencyExchRate)) / (el?._Wt === 0 ? 1 : el?._Wt))))}</div>
+                                <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >
+                                    { el?.isRateOnPcs === 0 ? formatAmount((((el?._Amount/(result?.header?.CurrencyExchRate)) / (el?._Wt === 0 ? 1 : el?._Wt)))) :
+                                    formatAmount((((el?._Amount/(result?.header?.CurrencyExchRate)) / (el?._Wt === 0 ? 1 : el?._Wt))))}
+                                </div>
                                 <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount((el?._Amount/(result?.header?.CurrencyExchRate)))}</div>
                               </div>
                             )
@@ -528,7 +533,10 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='border-end col3_dp6_5 pad_st_dp6 center_start_dp6' >{el?.SizeName}</div>
                                 <div className='border-end col3_dp6_6 end_dp6 pad_end_dp6' >{el?._Pcs}</div>
                                 <div className='border-end col3_dp6_7 end_dp6 pad_end_dp6' >{el?._Wt?.toFixed(3)}</div>
-                                <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount((((el?._Amount/(result?.header?.CurrencyExchRate)) / (el?._Wt === 0 ? 1 : el?._Wt))))}</div>
+                                <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >
+                                    { el?.isRateOnPcs === 0 ? formatAmount((((el?._Amount/(result?.header?.CurrencyExchRate)) / ((el?._Wt === 0 ? 1 : el?._Wt))))) 
+                                    : formatAmount((((el?._Amount/(result?.header?.CurrencyExchRate)) / ((el?._Pcs === 0 ? 1 : el?._Pcs)))))}
+                                </div>
                                 <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount((el?._Amount/(result?.header?.CurrencyExchRate)))}</div>
                               </div>
                             )
