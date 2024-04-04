@@ -515,7 +515,7 @@ const DetailPrint6 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {/* <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >{formatAmount((el?.Rate))}</div> */}
                                 <div className='border-end col3_dp6_8 end_dp6 pad_end_dp6' >
                                     { el?.isRateOnPcs === 0 ? formatAmount((((el?._Amount/(result?.header?.CurrencyExchRate)) / (el?._Wt === 0 ? 1 : el?._Wt)))) :
-                                    formatAmount((((el?._Amount/(result?.header?.CurrencyExchRate)) / (el?._Wt === 0 ? 1 : el?._Wt))))}
+                                    formatAmount((((el?._Amount/(result?.header?.CurrencyExchRate)) / (el?._Pcs === 0 ? 1 : el?._Pcs))))}
                                 </div>
                                 <div className='col3_dp6_9 end_dp6 pad_end_dp6' >{formatAmount((el?._Amount/(result?.header?.CurrencyExchRate)))}</div>
                               </div>
