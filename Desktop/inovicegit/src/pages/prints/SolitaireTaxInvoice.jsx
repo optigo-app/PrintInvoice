@@ -157,13 +157,15 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 {/* sub header */}
                 <div className="d-flex border-start border-end border-bottom p-2 justify-content-between">
                     <div className="col-6">
-                        <p>{headerData?.lblBillTo}</p>
+                        <p>To,
+                            {/* {headerData?.lblBillTo} */}
+                        </p>
                         <p className='fw-bold' style={{ fontSize: "16px" }}>{headerData?.customerfirmname}</p>
                         <p>{headerData?.customerstreet}</p>
                         <p>{headerData?.customerregion}</p>
                         <p>{headerData?.customercity} - {headerData?.PinCode}</p>
                         <p>Tel : {headerData?.customermobileno}</p>
-                        <p>{headerData?.CompanyEmail}</p>
+                        <p>{headerData?.customeremail1}</p>
                     </div>
                     <div className="col-4">
                         <p>Invoice#: <span className="fw-bold">{headerData?.InvoiceNo}</span> Dated <span className="fw-bold"> {headerData?.EntryDate}</span></p>
@@ -191,7 +193,7 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                 <p className="fw-bold">{e?.designno}</p>
                             </div>
                             <div className={`${style?.DESCRIPTION}  border-end p-1`}>
-                                <p className='pb-1'><span className="fw-bold">MOUNTING - </span> ID:  | {e?.Categoryname} Size : {e?.Size} </p>
+                                <p className='pb-1'><span className="fw-bold text-decoration-underline">MOUNTING </span> - ID: {e?.uniqueno} | {e?.Categoryname} Size : {e?.Size} </p>
                                 <p className='pb-1'>{e?.MetalTypePurity} {e?.MetalColor} | {NumberWithCommas(e?.grosswt, 3)} gms GW | {NumberWithCommas(e?.NetWt, 3)} gms NW</p>
                                 {e?.diamonds?.map((ele, ind) => {
                                     return <p key={ind} className='pb-1'>Diamond: {NumberWithCommas(ele?.Pcs, 0)} PCs | {NumberWithCommas(ele?.Wt, 3)} Cts | {ele?.ShapeName} {ele?.Colorname} {ele?.QualityName} </p>
@@ -289,7 +291,7 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 <div className="border-start border-end border-bottom py-1 no_break">
                     <div className="text-center">
                         <div>  <span className="fw-bold">{headerData?.CompanyFullName}.</span>{headerData?.CompanyAddress},{headerData?.CompanyCity} - {headerData?.CompanyPinCode}</div>
-                        <div>  Tel. <span className="fw-bold">{headerData?.CompanyTellNo}.</span> | Fax. 
+                        <div>  Tel. <span className="fw-bold">{headerData?.CompanyTellNo}.</span> | Fax. <span className="fw-bold">{headerData?.FaxNo}</span>
                         {/* <span className="fw-bold">022-688669565</span> */}
                          | Email: <span className="fw-bold">{headerData?.CompanyEmail}</span> | Website: <NavLink to={`${headerData?.CompanyWebsite}`} className={"text-decoration-underline"} style={{ color: "blue" }}>{headerData?.CompanyWebsite}</NavLink></div>
                         <div>  {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Com_pannumber}</div>
