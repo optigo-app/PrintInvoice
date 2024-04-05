@@ -375,7 +375,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                                   <div
                                                       className="code4A border_right4A code4A_text"
                                                       style={{
-                                                      width: "92pt",
+                                                      width: "96pt",
                                                       lineHeight: "8px",
                                                       }}  
                                                   >
@@ -393,7 +393,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                                   <div
                                                       className="code4A border_right4A code4A_text"
                                                       style={{
-                                                      width: "92pt",
+                                                      width: "96pt",
                                                       lineHeight: "8px",
                                                       }}  
                                                   >
@@ -614,10 +614,10 @@ const BagPrint4A = ({ queries, headers }) => {
                             </div>
                             <div className="lab_self_4A border_bottom4A">
                               <div className="priority_sec_4A border_right4A d_flex_4a" style={{height:'20pt'}}>
-                                <div className="sales_Rep_text_4A" style={{height:'10pt'}}>
+                                <div className="sales_Rep_text_4A sales_Rep_text_4A_2" style={{height:'10pt', fontSize:'9px'}}>
                                   LAB {e?.data?.MasterManagement_labname}
                                 </div>
-                                <div className="sales_Rep_letter_4A" style={{height:'10pt', lineHeight:'6px'}}>
+                                <div className="sales_Rep_letter_4A sales_Rep_text_4A_2 start_center_4A" style={{height:'10pt', lineHeight:'6px'}}>
                                   {(e?.data?.PO !== "" && e?.data?.PO !== "-") && `PO ${e?.data?.PO}`}
                                 </div>
                               </div>
@@ -625,7 +625,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <div className="sales_Rep_text_4A" style={{height:'10pt'}}>
                                   SNAP
                                 </div>
-                                <div className="sales_Rep_letter_4A" style={{height:'10pt', lineHeight:'6px'}}>
+                                <div className="sales_Rep_letter_4A start_center_4A" style={{height:'10pt', lineHeight:'6px'}}>
                                   {
                                     e?.data
                                       ?.MasterManagement_ProductImageType
@@ -636,7 +636,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <div className="sales_Rep_text_4A" style={{height:'10pt'}}>
                                   MAKETYPE
                                 </div>
-                                <div className="sales_Rep_letter_4A" style={{height:'10pt', lineHeight:'6px'}}>
+                                <div className="sales_Rep_letter_4A start_center_4A" style={{height:'10pt', lineHeight:'6px'}}>
                                   {e?.data?.mastermanagement_maketypename}
                                 </div>
                               </div>
@@ -1039,18 +1039,18 @@ const BagPrint4A = ({ queries, headers }) => {
                             </div>
                             <div className="lab_self_4A border_bottom4A">
                               <div className="priority_sec_4A border_right4A d_flex_4a" style={{height:'20pt'}}>
-                                <div className="sales_Rep_text_4A" style={{height:'10pt'}}>
+                                <div className="sales_Rep_text_4A sales_Rep_text_4A_2" style={{height:'10pt',fontSize:'9px'}}>
                                   LAB {e?.data?.MasterManagement_labname}
                                 </div>
-                                <div className="sales_Rep_letter_4A" style={{height:'10pt', lineHeight:'6px'}}>
+                                <div className="sales_Rep_letter_4A sales_Rep_text_4A_2 start_center_4A" style={{height:'10pt', lineHeight:'6px'}}>
                                   {(e?.data?.PO !== "" && e?.data?.PO !== "-") && `PO ${e?.data?.PO}`}
                                 </div>
                               </div>
                               <div className=" border_right4A  loc4A d_flex_4a " style={{height:'20pt'}}>
-                                <div className="sales_Rep_text_4A"  style={{height:'10pt'}}>
+                                <div className="sales_Rep_text_4A "  style={{height:'10pt'}}>
                                   SNAP
                                 </div>
-                                <div className="sales_Rep_letter_4A" style={{height:'10pt', lineHeight:'6px'}}>
+                                <div className="sales_Rep_letter_4A start_center_4A" style={{height:'10pt', lineHeight:'6px'}}>
                                   {
                                     e?.data
                                       ?.MasterManagement_ProductImageType
@@ -1061,7 +1061,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <div className="sales_Rep_text_4A" style={{height:'10pt'}}>
                                   MAKETYPE
                                 </div>
-                                <div className="sales_Rep_letter_4A" style={{height:'10pt', lineHeight:'6px'}}>
+                                <div className="sales_Rep_letter_4A start_center_4A" style={{height:'10pt', lineHeight:'6px'}}>
                                   {e?.data?.mastermanagement_maketypename}
                                 </div>
                               </div>

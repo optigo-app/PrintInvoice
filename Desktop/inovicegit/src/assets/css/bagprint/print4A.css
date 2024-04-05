@@ -42,7 +42,9 @@
 }
 
 
-
+.sales_Rep_text_4A_2{
+    font-size: 9px;
+}
 .part_1_4A {
     width: 169.7pt;
     /* border-right: 1px solid #000; */
@@ -187,7 +189,7 @@
     width: 88pt;
     height: 243pt;
     overflow: hidden;
-    border-left: 1px solid black;
+    /* border-left: 1px solid black; */
 }
 
 .part_2_container_4A {
@@ -214,7 +216,7 @@
 }
 
 .img_sec_4A {
-    border-bottom: 1px solid #000;
+    /* border-bottom: 1px solid #000; */
     width: 101%;
 }
 
@@ -250,7 +252,7 @@
 
 .barcodeText4A {
     width: 60pt;
-    border-right: 1px solid black;
+    /* border-right: 1px solid black; */
 }
 
 .barcode_img_4A {
@@ -276,7 +278,7 @@
     overflow: hidden;
 }
 .priority4c {
-    height: 14.95pt;
+    height: 15.7pt;
     /* height: 10.9pt; */
     width: 100%;
     display: flex;
@@ -320,6 +322,14 @@
     font-size: 8pt;
 }
 
+.sales_Rep_text_4A_2{
+    font-size: 9px !important;
+}
+.start_center_4A{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
 .lab_self_4A {
     /* height: 35.3925pt; */
     height: 20.3925pt;
