@@ -39,6 +39,7 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         beforeTax: 0,
         diamondColorStoneWt: 0,
         multiMetalMiscHsCode: 0,
+        otherCharge: 0,
     });
     const [isImageWorking, setIsImageWorking] = useState(true);
     const handleImageErrors = () => {
@@ -80,7 +81,12 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 let miscsWt = 0;
                 let miscsRate = 0;
                 let findingWt = 0;
-
+                let otherCharge = 0;
+                let others = GovernMentDocuments(e?.OtherAmtDetail);
+                if(e?.NetWt+e?.LossWt !== 0 && others?.length >= 4){
+                    otherCharge = +others[3]?.value/(e?.NetWt+e?.LossWt);
+                }
+                totals.otherCharge += +(otherCharge?.toFixed(2));
                 let metalMaking = obj?.MetalAmount + obj?.MakingAmount;
                 data?.BillPrint_Json2.forEach((ele, ind) => {
                     if (e?.SrJobno === ele?.StockBarcode) {
@@ -143,6 +149,7 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 if (miscsWt !== 0 && miscsAmount !== 0) {
                     miscsRate = (miscsAmount / miscsWt);
                 }
+                obj.otherCharge = otherCharge;
                 obj.materials = materials;
                 obj.metalMaking = metalMaking;
                 obj.primaryMetal = primaryMetal;
@@ -173,6 +180,7 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     groupInfo[findGroupinfo].miscsAmount += miscsAmount;
                     groupInfo[findGroupinfo].hallmarkingCount += hallmarkingCount;
                     groupInfo[findGroupinfo].findingWt += findingWt;
+                    groupInfo[findGroupinfo].otherCharge += otherCharge;
                     if (e?.GroupJob === e?.SrJobno) {
                         groupInfo[findGroupinfo].designno = e?.designno;
                         groupInfo[findGroupinfo].DesignImage = e?.DesignImage;
@@ -197,7 +205,8 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         HUID: e?.HUID,
                         SrJobno: e?.GroupJob,
                         hallmarkingCount: hallmarkingCount,
-                        findingWt: findingWt
+                        findingWt: findingWt,
+                        otherCharge: otherCharge,
                     });
                 }
             });
@@ -237,7 +246,8 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         e.colorStoneRate = (findRecord?.colorStoneAmount / findRecord?.colorStoneWt);
                         e.miscsRate = (findRecord?.miscsAmount / findRecord?.miscsWt);
                         e.hallmarkingCount = findRecord?.hallmarkingCount;
-                        e.findingWt = findRecord?.findingWt
+                        e.findingWt = findRecord?.findingWt;
+                        e.otherCharge = findRecord?.otherCharge;
                     }
                 } else {
                     // totals.diamondColorStoneWt += e?.diamondWt + e?.colorStoneWt;
@@ -343,7 +353,7 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             ) : (
                 <>
                     {msg === "" ? (
-                        <> <div className={`container-fluid ${style?.jewelelryRetailInvoiceContainer} pad_60_allPrint position-relative`}>
+                        <> <div className={`container-fluid ${style?.jewelelryRetailInvoiceContainer} max_width_container pad_60_allPrint position-relative ${style?.retailInvoice5Container}`}>
                             <div className={`btnpcl align-items-baseline position-absolute right-0 top-0 m-0 ${style?.right_jewelleryinvoicePrintc} d-flex`}>
                                 <div className="form-check pe-3">
                                     <input className="form-check-input" type="checkbox" checked={image} onChange={handleChangeImage} />
@@ -502,106 +512,104 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                     </div>
                                 </div>
                                 {/* Table Heading */}
-                                <div className="pt-1 no_break">
+                                <div className={`pt-1 no_break ${style?.word_break}`}>
                                     <div className="border d-flex">
-                                        <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-center`}><p className="fw-bold">Sr#</p></div>
-                                        <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 fw-bold d-flex align-items-center justify-content-center`}><p className="fw-bold">Product Description</p></div>
-                                        <div className={`${style?.materialJewerryRetailInvoicePrint} border-end`}
+                                        <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-center text-center`}><p className="fw-bold">Sr#</p></div>
+                                        <div className={`${style?.productDesPrint5} border-end p-1 fw-bold d-flex align-items-center justify-content-center text-center`}><p className="fw-bold">Product Description</p></div>
+                                        <div className={`${style?.materialRetailInvoice5} border-end`}
                                         >
                                             <div className="border-bottom">
                                                 <p className="fw-bold p-1 text-center">Material Description</p>
                                             </div>
                                             <div className="d-flex">
-                                                <div className={`col-2 d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">Material</p></div>
-                                                <div className={`col-2 d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">Carat</p></div>
-                                                <div className={`col-2 d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">GWT</p></div>
-                                                <div className={`col-2 d-flex align-items-center justify-content-center border-end p-1 flex-column`}><p className="fw-bold">STONE/</p><p className="fw-bold">DIA Wt.</p></div>
-                                                <div className={`col-2 d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">NWT</p></div>
-                                                <div className={`col-2 d-flex align-items-center justify-content-center`}><p className="fw-bold p-1">Rate</p></div>
+                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center border-end`}><p className="fw-bold p-1">Material</p></div>
+                                                <div style={{ width: "20%" }} className={` d-flex align-items-center justify-content-center text-center border-end`}><p className="fw-bold p-1">Carat</p></div>
+                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center border-end`}><p className="fw-bold p-1">GWT</p></div>
+                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center border-end p-1 flex-column`}><p className="fw-bold">STONE/DIA Wt.</p></div>
+                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center border-end`}><p className="fw-bold p-1">NWT</p></div>
+                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center`}><p className="fw-bold p-1">Rate</p></div>
                                             </div>
                                         </div>
-                                        <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-center`}>
+                                        <div className={`${style?.metalMakingRetailinvoice5} border-end d-flex align-items-center justify-content-center`}>
                                             <p className="fw-bold"> Making</p>
                                         </div>
-                                        <div className={`${style?.othersJewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-center`}><p className="fw-bold">Others</p></div>
-                                        <div className={`${style?.totalJewerryRetailInvoicePrint} d-flex align-items-center justify-content-center`}><p className="fw-bold">Total</p></div>
+                                        <div className={`${style?.othersRetailInvoice5} border-end d-flex align-items-center justify-content-center`}><p className="fw-bold">Others</p></div>
+                                        <div className={`${style?.totalRetailInvoice5} d-flex align-items-center justify-content-center`}><p className="fw-bold">Total</p></div>
                                     </div>
                                 </div>
                                 {/* data */}
                                 {data.length > 0 && data.map((e, i) => {
                                     return <div className="border-start border-end border-bottom d-flex no_break" key={i}>
                                         <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1 d-flex align-items-center justify-content-center`}><p className="">{i + 1}</p></div>
-                                        <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 `}>
-                                            <p className="" style={{wordBreak: "normal"}}>{e?.SubCategoryname} {e?.Categoryname}</p>
-                                            <p className="">{e?.designno} | {e?.SrJobno}</p>
+                                        <div className={`${style?.productDesPrint5} border-end p-1 `}>
+                                            <p className="" style={{ wordBreak: "normal" }}>{e?.SubCategoryname} {e?.Categoryname}</p>
+                                            <p className="" style={{wordBreak: "normal"}}>{e?.designno} | {e?.SrJobno}</p>
                                             {image && <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' className={`w-75 p-1 ${style?.imageJewelleryC}`} />}
-                                            {e?.HUID !== "" && <p className={`text-center ${!image && 'pt-3'}`}>HUID-{e?.HUID}</p>}
+                                            {e?.HUID !== "" && <p style={{wordBreak: "normal"}} className={`text-center ${!image && 'pt-3'}`}>HUID-{e?.HUID}</p>}
                                         </div>
-                                        <div className={`${style?.materialJewerryRetailInvoicePrint} border-end`}>
+                                        <div className={`${style?.materialRetailInvoice5} border-end`}>
                                             <div className="d-grid h-100">
                                                 {
                                                     e?.primaryMetal?.map((ele, ind) => {
                                                         return <div className={`d-flex border-bottom`} key={ind}>
-                                                            <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.ShapeName}</p></div>
-                                                            <div className={`col-2 border-end d-flex align-items-center`} style={{ wordBreak: "normal" }}><p className="p-1 lh-1" style={{ wordBreak: "normal" }}>
-                                                              {/* {e?.Tunch !== 0 && NumberWithCommas(e?.Tunch, 3)}  */}
-                                                              {ele?.QualityName} {(e?.Tunch !== 0 && ` / ${NumberWithCommas(e?.Tunch, 2)}% ${e?.hallmarkingCount !== 0 ? "Hallmarking" : ""}`)}</p></div>
-                                                            <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{fixedValues(e?.grosswt, 3)}</p></div>
-                                                            <div className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1"></p></div>
-                                                            <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{e?.otherMetals?.length === 0 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(ele?.Wt, 3)}</p></div>
-                                                            <div className={`col-2 d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{NumberWithCommas(ele?.Rate / headerData?.CurrencyExchRate, 2)}</p></div>
+                                                            <div style={{ width: "16%" }} className={`border-end d-flex align-items-center`}><p className="p-1 lh-1">{ele?.ShapeName}</p></div>
+                                                            <div style={{ width: "20%" , wordBreak: "normal" }} className={`border-end d-flex align-items-center`} ><p className="p-1 lh-1" style={{ wordBreak: "normal" }}> {ele?.QualityName} {(e?.Tunch !== 0 && ` / ${NumberWithCommas(e?.Tunch, 2)}% ${e?.hallmarkingCount !== 0 ? "Hallmarking" : ""}`)}</p></div>
+                                                            <div style={{ width: "16%" }} className={`border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{fixedValues(e?.grosswt, 3)}</p></div>
+                                                            <div style={{ width: "16%" }} className={`border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1"></p></div>
+                                                            <div style={{ width: "16%" }} className={`border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{e?.otherMetals?.length === 0 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(ele?.Wt, 3)}</p></div>
+                                                            <div style={{ width: "16%" }} className={`d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{NumberWithCommas(ele?.Rate / headerData?.CurrencyExchRate, 2)}</p></div>
                                                         </div>
                                                     })
                                                 }
                                                 {
                                                     e?.diamondWt !== 0 && <div className={`d-flex border-bottom`} >
-                                                        <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">DIAMOND</p></div>
-                                                        <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
-                                                        <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
-                                                        <div className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{NumberWithCommas(e?.diamondWt, 3)} </p></div>
-                                                        <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
-                                                        <div className={`col-2 d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{NumberWithCommas(e?.diamondRate / headerData?.CurrencyExchRate, 2)}</p></div>
+                                                        <div style={{ width: "16%" }} className={`border-end d-flex align-items-center`}><p className="p-1 lh-1">DIAMOND</p></div>
+                                                        <div style={{ width: "20%" }} className={`border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
+                                                        <div style={{ width: "16%" }} className={`border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                                                        <div style={{ width: "16%" }} className={`border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{NumberWithCommas(e?.diamondWt, 3)} </p></div>
+                                                        <div style={{ width: "16%" }} className={`border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                                                        <div style={{ width: "16%" }} className={`d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{NumberWithCommas(e?.diamondRate / headerData?.CurrencyExchRate, 2)}</p></div>
                                                     </div>
                                                 }
                                                 {
                                                     e?.colorStoneWt !== 0 && <div className={`d-flex border-bottom`} >
-                                                        <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">COLORSTONE</p></div>
-                                                        <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
-                                                        <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
-                                                        <div className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{NumberWithCommas(e?.colorStoneWt, 3)} </p></div>
-                                                        <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
-                                                        <div className={`col-2 d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{NumberWithCommas(e?.colorStoneRate / headerData?.CurrencyExchRate, 2)}</p></div>
+                                                        <div style={{ width: "16%" }} className={`border-end d-flex align-items-center`}><p className="p-1 lh-1">COLORSTONE</p></div>
+                                                        <div style={{ width: "20%" }} className={`border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
+                                                        <div style={{ width: "16%" }} className={`border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                                                        <div style={{ width: "16%" }} className={`border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{NumberWithCommas(e?.colorStoneWt, 3)} </p></div>
+                                                        <div style={{ width: "16%" }} className={`border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                                                        <div style={{ width: "16%" }} className={`d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{NumberWithCommas(e?.colorStoneRate / headerData?.CurrencyExchRate, 2)}</p></div>
                                                     </div>
                                                 }
                                                 {
                                                     e?.miscs?.map((ele, ind) => {
                                                         return <div className={`d-flex border-bottom`} >
-                                                            <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1">MISC</p></div>
-                                                            <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
-                                                            <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
-                                                            <div className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{NumberWithCommas(ele?.Wt, 3)}</p></div>
-                                                            <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
-                                                            <div className={`col-2 d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{NumberWithCommas(ele?.Amount / ele?.Wt, 2)}</p></div>
+                                                            <div style={{ width: "16%" }} className={`border-end d-flex align-items-center`}><p className="p-1 lh-1">MISC</p></div>
+                                                            <div style={{ width: "20%" }} className={`border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
+                                                            <div style={{ width: "16%" }} className={`border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                                                            <div style={{ width: "16%" }} className={`border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{NumberWithCommas(ele?.Wt, 3)}</p></div>
+                                                            <div style={{ width: "16%" }} className={`border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                                                            <div style={{ width: "16%" }} className={`d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1">{NumberWithCommas(ele?.Amount / ele?.Wt, 2)}</p></div>
                                                         </div>
                                                     })
                                                 }
                                                 {
                                                     e?.otherMetals?.length !== 0 && <div className={`d-flex border-bottom`} >
-                                                        <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
-                                                        <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
-                                                        <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
-                                                        <div className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{NumberWithCommas(e?.otherMetals?.reduce((acc, cObj) => acc + cObj?.Wt, 0), 3)}</p></div>
-                                                        <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
-                                                        <div className={`col-2 d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                                                        <div style={{ width: "16%" }} className={`border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
+                                                        <div style={{ width: "20%" }} className={`border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
+                                                        <div style={{ width: "16%" }} className={`border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                                                        <div style={{ width: "16%" }} className={`border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{NumberWithCommas(e?.otherMetals?.reduce((acc, cObj) => acc + cObj?.Wt, 0), 3)}</p></div>
+                                                        <div style={{ width: "16%" }} className={`border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                                                        <div style={{ width: "16%" }} className={`d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
                                                     </div>
                                                 }
                                                 {e?.findingWt !== 0 && <div className={`d-flex border-bottom`} >
-                                                    <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
-                                                    <div className={`col-2 border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
-                                                    <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
-                                                    <div className={`col-2 border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{NumberWithCommas(e?.findingWt, 3)}</p></div>
-                                                    <div className={`col-2 border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
-                                                    <div className={`col-2 d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                                                    <div style={{ width: "16%" }} className={`border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
+                                                    <div style={{ width: "20%" }} className={`border-end d-flex align-items-center`}><p className="p-1 lh-1"></p></div>
+                                                    <div style={{ width: "16%" }} className={`border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                                                    <div style={{ width: "16%" }} className={`border-end p-1 d-flex align-items-center justify-content-end`}><p className=" text-end lh-1">{NumberWithCommas(e?.findingWt, 3)}</p></div>
+                                                    <div style={{ width: "16%" }} className={`border-end d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
+                                                    <div style={{ width: "16%" }} className={`d-flex align-items-center justify-content-end`}><p className=" p-1 text-end lh-1"></p></div>
                                                 </div>}
                                                 {
                                                     (e?.primaryMetal?.length === 0 && e?.diamondWt === 0 && e?.colorStoneWt === 0 && e?.miscsWt === 0 && e?.findingWt !== 0) && <div className="d-flex">
@@ -633,38 +641,38 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         </div>} */}
                                             </div>
                                         </div>
-                                        <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end align-items-center d-flex justify-content-end`}>
+                                        <div className={`${style?.metalMakingRetailinvoice5} border-end align-items-center d-flex justify-content-end`}>
                                             <p className="text-end p-1">{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p>
                                         </div>
-                                        <div className={`${style?.othersJewerryRetailInvoicePrint} border-end align-items-center d-flex justify-content-end`}><p className=" text-end p-1">
+                                        <div className={`${style?.othersRetailInvoice5} border-end align-items-center d-flex justify-content-end`}><p className=" text-end p-1">
                                             {/* {NumberWithCommas(e?.OtherCharges, 2)} */}
-                                            0.00
+                                            {NumberWithCommas(e?.otherCharge, 2)}
                                         </p></div>
-                                        <div className={`${style?.totalJewerryRetailInvoicePrint} align-items-center d-flex justify-content-end`}><p className=" text-end p-1">{NumberWithCommas(e?.UnitCost / headerData?.CurrencyExchRate, 2)}</p></div>
+                                        <div className={`${style?.totalRetailInvoice5} align-items-center d-flex justify-content-end`}><p className=" text-end p-1">{NumberWithCommas(e?.UnitCost / headerData?.CurrencyExchRate, 2)}</p></div>
                                     </div>
                                 })}
                                 {/* total */}
                                 <div className={`${style?.minHeight20RetailinvoicePrint3} border-start border-end border-bottom d-flex no_break`}>
                                     <div className={`${style?.srNoJewerryRetailInvoicePrint} border-end p-1`}><p className="fw-bold"></p></div>
-                                    <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 fw-bold d-flex align-items-center`}>
+                                    <div className={`${style?.productDesPrint5} border-end p-1 fw-bold d-flex align-items-center`}>
                                         <p className="fw-bold" style={{ fontSize: "17px" }}>TOTAL</p>
                                     </div>
-                                    <div className={`${style?.materialJewerryRetailInvoicePrint} border-end d-flex`}>
-                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 lh-1"></p></div>
-                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}></div>
-                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(total?.gwt, 3)} gm</p> </div>
-                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 flex-column d-flex align-items-end justify-content-center`}> <p className="fw-bold pb-1 text-end lh-1">{fixedValues(total?.diamondColorStoneWt, 3)} Ctw</p> <p className="fw-bold text-end lh-1">{fixedValues(total?.multiMetalMiscHsCode, 3)} gm</p></div>
-                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end  d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 text-end lh-1">{fixedValues(total?.nwt, 3)} gm</p></div>
-                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 text-end lh-1"></p></div>
+                                    <div className={`${style?.materialRetailInvoice5} border-end d-flex`}>
+                                        <div style={{ width: "16%" }} className={` border-end d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 lh-1"></p></div>
+                                        <div style={{ width: "20%" }} className={` border-end d-flex align-items-center justify-content-end`}></div>
+                                        <div style={{ width: "16%" }} className={` border-end d-flex align-items-center justify-content-end`}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(total?.gwt, 3)} gm</p> </div>
+                                        <div style={{ width: "16%" }} className={` border-end p-1 flex-column d-flex align-items-end justify-content-center`}> <p className="fw-bold pb-1 text-end lh-1">{fixedValues(total?.diamondColorStoneWt, 3)} Ctw</p> <p className="fw-bold text-end lh-1">{fixedValues(total?.multiMetalMiscHsCode, 3)} gm</p></div>
+                                        <div style={{ width: "16%" }} className={` border-end  d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 text-end lh-1">{fixedValues(total?.nwt, 3)} gm</p></div>
+                                        <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 text-end lh-1"></p></div>
                                     </div>
-                                    <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end flex-column d-flex align-items-center justify-content-end`}>
+                                    <div className={`${style?.metalMakingRetailinvoice5} border-end flex-column d-flex align-items-center justify-content-end`}>
                                         <p className="fw-bold text-end p-1"></p>
                                     </div>
-                                    <div className={`${style?.othersJewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className="fw-bold text-end p-1">
+                                    <div className={`${style?.othersRetailInvoice5} border-end d-flex align-items-center justify-content-end`}><p className="fw-bold text-end p-1">
                                         {/* {NumberWithCommas(total?.others, 2)} */}
-                                        0.00
+                                        {NumberWithCommas(total?.otherCharge, 2)}
                                     </p></div>
-                                    <div className={`${style?.totalJewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}><p className="fw-bold text-end p-1">{NumberWithCommas(total?.total / headerData?.CurrencyExchRate, 2)}</p></div>
+                                    <div className={`${style?.totalRetailInvoice5} d-flex align-items-center justify-content-end`}><p className="fw-bold text-end p-1">{NumberWithCommas(total?.total / headerData?.CurrencyExchRate, 2)}</p></div>
                                 </div>
                                 {/* tax */}
                                 <div className="d-flex border-start border-end border-bottom w-100 no_break">
@@ -723,13 +731,13 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                 {/* bank detail */}
                                 <div className="border-start border-end border-bottom d-flex no_break">
                                     <div className="col-4 p-2 border-end">
-                                        <p className="fw-bold">Bank Detail</p>
-                                        <p>Bank name: {headerData?.bankname}</p>
-                                        <p>Branch: {headerData?.bankaddress}</p>
-                                        <p>{headerData?.PinCode}</p>
-                                        <p>Account Name: {headerData?.accountname}</p>
-                                        <p>Account No: {headerData?.accountnumber}</p>
-                                        <p>RTGS NEFT IFSC: {headerData?.rtgs_neft_ifsc}</p>
+                                        <p className="fw-bold" style={{wordBreak:"normal"}}>Bank Detail</p>
+                                        <p style={{wordBreak:"normal"}}>Bank name: {headerData?.bankname}</p>
+                                        <p style={{wordBreak:"normal"}}>Branch: {headerData?.bankaddress}</p>
+                                        <p style={{wordBreak:"normal"}}>{headerData?.PinCode}</p>
+                                        <p style={{wordBreak:"normal"}}>Account Name: {headerData?.accountname}</p>
+                                        <p style={{wordBreak:"normal"}}>Account No: {headerData?.accountnumber}</p>
+                                        <p style={{wordBreak:"normal"}}>RTGS NEFT IFSC: {headerData?.rtgs_neft_ifsc}</p>
                                     </div>
                                     <div className="col-4 p-2 border-end d-flex justify-content-between flex-column">
                                         <p>Signature</p>

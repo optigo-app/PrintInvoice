@@ -11,7 +11,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     const [headerData, setHeaderData] = useState({});
     const [data, setData] = useState({});
     const [checkBox, setCheckbox] = useState({
-        image: false,
+        image: true,
     });
     const [isImageWorking, setIsImageWorking] = useState(true);
     const handleImageErrors = () => {
@@ -98,29 +98,29 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <>
 
             <div className={`container max_width_container pad_60_allPrint ${style?.detailPrint2} pt-2 px-2`} >
-                            {/* buttons */}
-            <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4 mt-4  w-100`} >
-                <div className="px-1">
-                    <input
-                        type="checkbox"
-                        checked={checkBox?.image}
-                        id="netwts2"
-                        name="image"
-                        value="netwts2"
-                        className="mx-1"
-                        onChange={handleCheck}
-                    />
-                    <label htmlFor="netwts2">With Image</label>
+                {/* buttons */}
+                <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4 mt-4  w-100`} >
+                    <div className="px-1">
+                        <input
+                            type="checkbox"
+                            checked={checkBox?.image}
+                            id="netwts2"
+                            name="image"
+                            value="netwts2"
+                            className="mx-1"
+                            onChange={handleCheck}
+                        />
+                        <label htmlFor="netwts2">With Image</label>
+                    </div>
+                    <div className="form-check ps-3">
+                        <input
+                            type="button"
+                            value="Print"
+                            className="btn_white blue py-1"
+                            onClick={(e) => handlePrint(e)}
+                        />
+                    </div>
                 </div>
-                <div className="form-check ps-3">
-                    <input
-                        type="button"
-                        value="Print"
-                        className="btn_white blue py-1"
-                        onClick={(e) => handlePrint(e)}
-                    />
-                </div>
-            </div>
                 <h4 className='lightGrey min_height_label px-2 fw-bold d-flex align-items-center border border-black' style={{ fontSize: "14px" }}>{headerData?.PrintHeadLabel}</h4>
                 <div className="d-flex pt-2 justify-content-between">
                     <div className='col-6'>
@@ -155,7 +155,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                 </div>
                 {/* table header */}
-                <div className={`d-flex border-start border-end border-top border-black ${style?.pad_1}`}>
+                <div className={`d-flex border-start border-end border-top border-black ${style?.pad_1} lightGrey`}>
                     <div className={`${style?.sr} border-bottom text-center fw-bold border-end d-flex justify-content-center align-items-center`}><p>Sr</p></div>
                     <div className={`${style?.design} border-bottom text-center fw-bold border-end d-flex justify-content-center align-items-center`}><p>Design</p></div>
                     <div className={`${style?.diamond} border-bottom text-center fw-bold border-end`}>
@@ -170,10 +170,10 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className={`${style?.metal} border-bottom text-center fw-bold border-end`}>
                         <p className='border-bottom'>Metal</p>
                         <div className="d-flex">
-                            <div className='' style={{width: "25%"}}><p className='text-center fw-bold border-end'>Quality</p></div>
-                            <div className='' style={{width: "23%"}}><p className='text-center fw-bold border-end'>Wt(M+D)</p></div>
-                            <div className='' style={{width: "23%"}}><p className='text-center fw-bold border-end'>N+L</p></div>
-                            <div className='' style={{width: "31%"}}><p className='text-center fw-bold'>Amount</p></div>
+                            <div className='' style={{ width: "25%" }}><p className='text-center fw-bold border-end'>Quality</p></div>
+                            <div className='' style={{ width: "23%" }}><p className='text-center fw-bold border-end'>Wt(M+D)</p></div>
+                            <div className='' style={{ width: "23%" }}><p className='text-center fw-bold border-end'>N+L</p></div>
+                            <div className='' style={{ width: "31%" }}><p className='text-center fw-bold'>Amount</p></div>
                         </div>
                     </div>
                     <div className={`${style?.stone} border-bottom text-center fw-bold border-end`}>
@@ -200,7 +200,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                             <p>{e?.SrJobno}</p>
                                         </div>
                                         <img src={e?.DesignImage} alt="" width={75} height={75} className={`mx-auto d-block ${!checkBox?.image && 'd-none'}`} onError={handleImageError} />
-                                        <p className="text-center">HUID-{e?.HUID}</p>
+                                        {e?.HUID !== "" && <p className="text-center">HUID-{e?.HUID}</p>}
                                     </div>
                                     <div className="border-top" style={{ minHeight: "13.5px" }}>
                                         <p className="fw-bold text-center">{NumberWithCommas(e?.grosswt, 3)} gm Gross</p>
@@ -232,22 +232,22 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div>
                                         {e?.metal?.map((ele, ind) => {
                                             return ele?.IsPrimaryMetal === 1 && <div className="d-flex border-bottom" key={ind}>
-                                                <div className='' style={{width: "25%"}}><p className=' ' style={{ minHeight: "14.5px", wordBreak: "normal" }}>{ele?.ShapeName} {ele?.QualityName}</p></div>
-                                                <div className='' style={{width: "23%"}}><p className='  text-end' style={{ minHeight: "14.5px" }}>{ind === 0 && NumberWithCommas((e?.NetWt + (e?.totals?.diamonds?.Wt / 5)), 3)}</p></div>
-                                                <div className='' style={{width: "23%"}}><p className='  text-end' style={{ minHeight: "14.5px" }}>{NumberWithCommas(ele?.Wt, 3)}</p></div>
-                                                <div className='' style={{width: "31%"}}><p className='  text-end fw-semibold' style={{ minHeight: "14.5px" }}>{NumberWithCommas(ele?.Amount, 2)}</p></div>
+                                                <div className='' style={{ width: "25%" }}><p className=' ' style={{ minHeight: "14.5px", wordBreak: "normal" }}>{ele?.ShapeName} {ele?.QualityName}</p></div>
+                                                <div className='' style={{ width: "23%" }}><p className='  text-end' style={{ minHeight: "14.5px" }}>{ind === 0 && NumberWithCommas((e?.NetWt + (e?.totals?.diamonds?.Wt / 5)), 3)}</p></div>
+                                                <div className='' style={{ width: "23%" }}><p className='  text-end' style={{ minHeight: "14.5px" }}>{NumberWithCommas(ele?.Wt, 3)}</p></div>
+                                                <div className='' style={{ width: "31%" }}><p className='  text-end fw-semibold' style={{ minHeight: "14.5px" }}>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                                             </div>
                                         })}
-                                        {e?.JobRemark !== "" && <div className='border-bottom'>
+                                        {e?.JobRemark !== "" && <div className=''>
                                             <p className='lh-1 pb-0'>Remark:</p>
                                             <p className='fw-bold'>{e?.JobRemark}</p>
                                         </div>}
                                     </div>
                                     <div className="border-top d-flex lightGrey" >
-                                        <div className='col-3'><p className='fw-semibold'></p></div>
-                                        <div className='col-3'><p className='fw-semibold text-end'>{NumberWithCommas((e?.NetWt + (e?.totals?.diamonds?.Wt / 5)), 3)}</p></div>
-                                        <div className='col-3'><p className='fw-semibold text-end'>{NumberWithCommas(e?.PrimaryMetalWt, 3)}</p></div>
-                                        <div className='col-3'><p className='fw-semibold text-end'>{NumberWithCommas(e?.PrimaryMetalAmount, 2)}</p></div>
+                                        <div style={{ width: "25%" }} className=''><p className='fw-semibold'></p></div>
+                                        <div style={{ width: "23%" }} className=''><p className='fw-semibold text-end'>{NumberWithCommas((e?.NetWt + (e?.totals?.diamonds?.Wt / 5)), 3)}</p></div>
+                                        <div style={{ width: "23%" }} className=''><p className='fw-semibold text-end'>{NumberWithCommas(e?.PrimaryMetalWt, 3)}</p></div>
+                                        <div style={{ width: "31%" }} className=''><p className='fw-semibold text-end'>{NumberWithCommas(e?.PrimaryMetalAmount, 2)}</p></div>
                                     </div>
                                 </div>
                             </div>
@@ -257,7 +257,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         {e?.colorstone?.map((ele, ind) => {
                                             return <div className="d-flex" key={ind}>
                                                 <div className='col-6'><p className=''>COLOR STONE	</p></div>
-                                                <div className='col-6'><p className='text-end'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
+                                                <div className='col-6'><p className='text-end fw-bold'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                                             </div>
                                         })}
                                     </div>
@@ -310,7 +310,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className={`${style?.cgstNumber} text-end`}>
                             {data?.allTaxes?.map((e, i) => {
-                                return <p key={i}>{NumberWithCommas(+e?.amount, 2)}</p>
+                                return <p key={i}>{NumberWithCommas(+e?.amount * headerData?.CurrencyExchRate, 2)}</p>
                             })}
                             {headerData?.AddLess !== 0 && <p>{headerData?.AddLess}</p>}
                         </div>
@@ -328,10 +328,10 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='col-3 text-end'><p className='text-end fw-semibold'>{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</p></div>
                             </div>
                             <div className={`${style?.metal}  border-end d-flex`}>
-                                <div className='' style={{width: "25%"}}><p className=' fw-semibold'></p></div>
-                                <div className='' style={{width: "23%"}}><p className=' text-end fw-semibold'>{NumberWithCommas((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.netwt, 3)}</p></div>
-                                <div className='' style={{width: "23%"}}><p className=' text-end fw-semibold'>{NumberWithCommas(data?.mainTotal?.PrimaryMetalWts, 3)}</p></div>
-                                <div className='' style={{width: "31%"}}><p className=' text-end fw-semibold'>{NumberWithCommas(data?.mainTotal?.PrimaryMetalAmounts, 2)}</p></div>
+                                <div className='' style={{ width: "25%" }}><p className=' fw-semibold'></p></div>
+                                <div className='' style={{ width: "23%" }}><p className=' text-end fw-semibold'>{NumberWithCommas((data?.mainTotal?.diamonds?.Wt / 5) + data?.mainTotal?.netwt, 3)}</p></div>
+                                <div className='' style={{ width: "23%" }}><p className=' text-end fw-semibold'>{NumberWithCommas(data?.mainTotal?.PrimaryMetalWts, 3)}</p></div>
+                                <div className='' style={{ width: "31%" }}><p className=' text-end fw-semibold'>{NumberWithCommas(data?.mainTotal?.PrimaryMetalAmounts, 2)}</p></div>
                             </div>
                             <div className={`${style?.stone}   border-end `}>
                                 <p className='text-end fw-semibold'>{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</p>
@@ -343,14 +343,14 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <p className='text-end fw-semibold'> {NumberWithCommas(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount, 2)}</p>
                             </div>
                             <div className={`${style?.total}   text-end`}>
-                                <p className='text-end fw-semibold'> {NumberWithCommas(data?.finalAmount, 2)}</p>
+                                <p className='text-end fw-semibold'> {NumberWithCommas(data?.mainTotal?.total_amount + headerData?.AddLess + data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0), 2)}</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 {/* table summary */}
-                <div className={`d-flex no_break ${style?.pad_1} ${style?.data}`}>
-                    <div className={`${style?.summary} col-5 border-bottom border-start border-end border-top h-100`}>
+                <div className={`d-flex no_break ${style?.pad_1} ${style?.data} pt-1`}>
+                    <div className={`${style?.summary} col-5 border h-100`}>
                         <p className="fw-bold lightGrey text-center border-bottom">Summary</p>
                         <div className='d-flex'>
                             <div className="col-6 border-end position-relative" style={{ paddingBottom: "22.3px" }} >
@@ -406,16 +406,16 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                                 {headerData?.AddLess !== 0 && <div className="d-flex px-1 justify-content-between">
                                     <p className='fw-bold'>ADD / LESS	</p>
-                                    <p>{NumberWithCommas(headerData?.AddLess)} 	</p>
+                                    <p>{NumberWithCommas(headerData?.AddLess, 2)} 	</p>
                                 </div>}
                                 <div className="d-flex justify-content-between border-top lightGrey px-1 position-absolute w-100 start-0 bottom-0">
                                     <p className='fw-bold'>TOTAL</p>
-                                    <p>{NumberWithCommas(data?.finalAmount, 2)} 	</p>
+                                    <p>{NumberWithCommas(data?.mainTotal?.total_amount + headerData?.AddLess + data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0), 2)} 	</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className={`${style?.remark} col-3 border-start border-end border-bottom h-100 border-top`}>
+                    <div className={`${style?.remark} col-3 border h-100 border-top`}>
                         <p className="fw-bold lightGrey text-center border-bottom">Remark</p>
                         <p style={{ minHeight: "24px" }} className='px-1'>{headerData?.PrintRemark}</p>
                     </div>
