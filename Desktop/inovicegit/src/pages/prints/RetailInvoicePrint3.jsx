@@ -251,18 +251,18 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                     <div className="col-4"><p>{ele?.BankName}</p></div>
                                     <div className="col-3"><p>{ele?.label}</p></div>
                                     <div className="col-3"><p></p></div>
-                                    <div className="col-2 text-end"><p className=''>{NumberWithCommas(ele?.amount, 2)}</p></div>
+                                    <div className="col-2 text-end"><p className='text-break'>{NumberWithCommas(ele?.amount, 2)}</p></div>
                                 </div>
                             })
                         }
                         <div className="d-flex justify-content-between px-1 border-bottom border-black">
                             <p className='fw-bold'>Total Amount Paid</p>
-                            <p className='fw-bold'>{NumberWithCommas(bankDetails?.reduce((acc, cObj) => acc + cObj?.amount, 0), 2)}</p>
+                            <p className='fw-bold text-break'>{NumberWithCommas(bankDetails?.reduce((acc, cObj) => acc + cObj?.amount, 0), 2)}</p>
                         </div>
                         <div className="d-flex justify-content-between px-1 border-bottom border-black">
                             <p className='fw-bold'>Balance Amount</p>
                             {/* <p className='fw-bold'>Rs.{NumberWithCommas(total?.balanceAmount, 2)}</p> */}
-                            <p className='fw-bold'>Rs.{NumberWithCommas(headerData?.LedgerBal, 0)}</p>
+                            <p className='fw-bold text-break'>Rs.{NumberWithCommas(headerData?.LedgerBal, 0)}</p>
                         </div>
                         <div className="pt-5 px-1 position-absolute bottom-0 left-0">
                             <p className=''> Customer Name : {headerData?.CustName}</p>
