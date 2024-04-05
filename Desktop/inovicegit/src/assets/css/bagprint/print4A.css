@@ -44,7 +44,7 @@
 
 
 .part_1_4A {
-    width: 172.7pt;
+    width: 169.7pt;
     /* border-right: 1px solid #000; */
 }
 
@@ -184,7 +184,7 @@
 }
 
 .part_2_4A {
-    width: 85pt;
+    width: 88pt;
     height: 243pt;
     overflow: hidden;
     border-left: 1px solid black;
@@ -307,7 +307,8 @@
 }
 
 .sales_rep_4A {
-    height: 23.895pt;
+    /* height: 23.895pt; */
+    height: 21.895pt;
     display: flex;
 }
 
@@ -375,7 +376,7 @@
 .part_3_container_4A_record {
     display: flex;
     /* height: 12.1pt; */
-    height: 14.1pt;
+    height: 14.3pt;
 }
 .part_3_container_4c_record {
     display: flex;
@@ -413,7 +414,8 @@
 
 .container_print4Apart_1 {
     /* height: 153px; */
-    height: 119px   ;
+    /* height: 119px   ; */
+    height: 115px;
 }
 .container_print4cpart_1 {
     height: 153px;
