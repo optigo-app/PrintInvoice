@@ -129,7 +129,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
 
     return (
         loader ? <Loader /> : msg === "" ? <>
-            <div className={`container max_width_container  ${style?.retailInvoicePrint3} pad_60_allPrint px-1 mt-1`}>
+            <div className={`container max_width_container  ${style?.retailInvoicePrint3} pad_60_allPrint px-1 mt-5 pt-5`}>
                 {/* buttons */}
                 <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 mt-4">
                     <div className="form-check ps-3">
