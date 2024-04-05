@@ -218,8 +218,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                             <div className={style1.lines}>{json0Data?.CompanyAddress}</div>
                             <div className={style1.lines}>{json0Data?.CompanyAddress2}</div>
                             <div className={style1.lines}>{json0Data?.CompanyCity}-{json0Data?.CompanyPinCode},{json0Data?.CompanyState}({json0Data?.CompanyCountry})</div>
-                            {/* <div className={style1.lines}>Tell No: {json0Data?.CompanyTellNo}</div> */}
-                            <div className={style1.lines}>Tell No:  {json0Data?.CompanyTellNo}</div>
+                            <div className={style1.lines}>T {json0Data?.CompanyTellNo}{json0Data?.CompanyTollFreeNo !== "" && ` | TOLL FREE ${json0Data?.CompanyTollFreeNo}`}</div>
                             <div className={style1.lines}>
                                 {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
                             </div>
