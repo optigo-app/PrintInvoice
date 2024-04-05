@@ -219,8 +219,10 @@
 }
 
 .img_sec_4A img {
-    width: 100% !important;
-    height: 100% !important;
+    /* width: 100%;
+    height: 100%; */
+    /* width: 100% !important;
+    height: 100% !important;   05-04-2024 */
 }
 
 .barcode_sticker_4A {
@@ -266,7 +268,15 @@
 }
 
 .priority4A {
-    height: 14.595pt;
+    /* height: 14.595pt; */
+    height: 10.9pt;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+}
+.priority4c {
+    height: 14.95pt;
+    /* height: 10.9pt; */
     width: 100%;
     display: flex;
     overflow: hidden;
@@ -309,7 +319,14 @@
 }
 
 .lab_self_4A {
-    height: 35.3925pt;
+    /* height: 35.3925pt; */
+    height: 20.3925pt;
+    display: flex;
+}
+.lab_self_4c {
+    /* height: 28.3925pt; */
+    height: 34pt;
+    /* height: 20.3925pt; */
     display: flex;
 }
 
@@ -323,6 +340,15 @@
 .img_sec_container_4A {
     border-bottom: 1px solid #000;
     width: 101%;
+    /* height: 115.4pt; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.img_sec_container_4c {
+    border-bottom: 1px solid #000;
+    width: 101%;
     height: 115.4pt;
     display: flex;
     align-items: center;
@@ -332,7 +358,13 @@
 
 .part_3_container_4A {
     display: flex;
+    /* height: 156pt; */
+    height: 185pt;
+}
+.part_3_container_4c {
+    display: flex;
     height: 156pt;
+    /* height: 185pt; */
 }
 
 .part_3_container_4A_sec {
@@ -341,13 +373,23 @@
 
 .part_3_container_4A_record {
     display: flex;
+    /* height: 12.1pt; */
+    height: 14.1pt;
+}
+.part_3_container_4c_record {
+    display: flex;
     height: 12.1pt;
+    /* height: 14.1pt; */
 }
 
 .dept_4A {
     width: 28pt;
 }
-
+.center_4A_d{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .issue_4A,
 .receive_4A {
     width: 43pt;
@@ -369,7 +411,12 @@
 }
 
 .container_print4Apart_1 {
+    /* height: 153px; */
+    height: 119px   ;
+}
+.container_print4cpart_1 {
     height: 153px;
+    /* height: 119px   ; */
 }
 
 .barcode_img_container_4A {
@@ -412,6 +459,10 @@
 }
 
 #img4A {
+    /* height: 142px;
+    width: 118px; */
+}
+#img4c {
     height: 142px;
     width: 118px;
 }
