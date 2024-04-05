@@ -340,7 +340,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                                     />
                                                                                 </div>
                                                                                 <div className="barcode_sticker_4AB border-black">
-                                                                                    <div className="barcodeText4AB">
+                                                                                    <div className="barcodeText4AB_4C">
                                                                                         <div className="BARCODE_TEXT_4A border_right4A">
                                                                                             <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
                                                                                                 DIAMOND
@@ -550,7 +550,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                 />
                                                             </div>
                                                             <div className="barcode_sticker_4AB border-black">
-                                                                <div className="barcodeText4AB">
+                                                                <div className="barcodeText4AB_4C">
                                                                     <div className="BARCODE_TEXT_4A border_right4A">
                                                                         <div className="diamond_4A border_bottom4A diamond_text_4A dflex4Ak">
                                                                             DIAMOND

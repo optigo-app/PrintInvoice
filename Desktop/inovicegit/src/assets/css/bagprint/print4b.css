@@ -31,6 +31,11 @@
     height: 130pt;
     border-right: 1px solid black;
 }
+.barcodeText4AB_4C{
+    width: 60pt;
+    height: 130pt;
+    /* border-right: 1px solid black; */
+}
 .barcode_sticker_4AB{
     display: flex;
     height: 130pt;
@@ -76,7 +81,7 @@
 
 .priority4b{
     
-        height: 14.95pt;
+        height: 15.95pt;
         /* height: 10.9pt; */
         width: 100%;
         display: flex;
@@ -94,14 +99,14 @@
     /* height: 185pt; */
 }
 .container_print4bpart_1 {
-    height: 153px;
+    height: 155px;
     /* height: 119px   ; */
 }
 
 .img_sec_container_4b {
     border-bottom: 1px solid #000;
     width: 101%;
-    height: 115.4pt;
+    height: 116pt;
     display: flex;
     align-items: center;
     justify-content: center;
