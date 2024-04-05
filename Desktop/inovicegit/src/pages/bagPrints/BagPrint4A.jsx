@@ -541,7 +541,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                 <div className="part_3_4A">
                                   <div className="cast_ins" style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start'}}>
                                    <div style={{width:'12%', height:'38px'}}>CAST INS.:</div>
-                                    <div className="red_4A" style={{width:'87%', height:'38px'}}>
+                                    <div className="red_4A" style={{width:'87%', height:'38px', wordBreak:'break-word'}}>
                                       {checkInstruction(e?.data?.officeuse)}{" "}
                                       {e?.data?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.ProductInstruction) : checkInstruction(e?.data?.QuoteRemark)}
                                     </div>
@@ -969,7 +969,7 @@ const BagPrint4A = ({ queries, headers }) => {
                           <div className="part_3_4A">
                             <div className="cast_ins" style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start'}}>
                               <div style={{width:'12%', height:'38px'}}>CAST INS :</div>
-                              <div className="red_4A" style={{width:'87%', height:'38px'}}>
+                              <div className="red_4A" style={{width:'87%', height:'38px', wordBreak:'break-word'}}>
                               {checkInstruction(e?.data?.officeuse)}{" "}
                                 {e?.data?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.ProductInstruction) : checkInstruction(e?.data?.QuoteRemark)}
                               </div>
