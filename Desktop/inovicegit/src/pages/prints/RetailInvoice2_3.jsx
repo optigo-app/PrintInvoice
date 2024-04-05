@@ -200,7 +200,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
     return (
         loader ? <Loader /> : msg === "" ? <>
-            <div className={`container ${style?.containerretailInvoice2} pad_60_allPrint px-1 containerretailInvoice2`}>
+            <div className={`container ${style?.containerretailInvoice2} pad_60_allPrint px-1 containerretailInvoice2 pt-1`}>
                 {/* Print Button */}
                 <div className={`${style?.printBtn_sec} text-end container pt-4 pb-4 px-0`}>
                     <input type="button" className="btn_white blue me-0" value="Print" onClick={(e) => handlePrint(e)} />
@@ -218,8 +218,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                             <div className={style1.lines}>{json0Data?.CompanyAddress}</div>
                             <div className={style1.lines}>{json0Data?.CompanyAddress2}</div>
                             <div className={style1.lines}>{json0Data?.CompanyCity}-{json0Data?.CompanyPinCode},{json0Data?.CompanyState}({json0Data?.CompanyCountry})</div>
-                            {/* <div className={style1.lines}>Tell No: {json0Data?.CompanyTellNo}</div> */}
-                            <div className={style1.lines}>Tell No:  {json0Data?.CompanyTellNo}</div>
+                            <div className={style1.lines}>T {json0Data?.CompanyTellNo}{json0Data?.CompanyTollFreeNo !== "" && ` | TOLL FREE ${json0Data?.CompanyTollFreeNo}`}</div>
                             <div className={style1.lines}>
                                 {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
                             </div>
@@ -403,10 +402,17 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                                     <p>Net Invoice Value</p>
                                     <p>{NumberWithCommas(amount?.netInvoiceValue, 2)}</p>
                                 </div>
-                                <div className="d-flex border-black border-bottom justify-content-between p-1">
+                                <div className="d-flex justify-content-between p-1">
                                     <p>Total Amount to be Paid</p>
                                     <p>{NumberWithCommas(amount?.netInvoiceValue, 2)}</p>
                                 </div>
+
+                            </div>
+                        </div>
+                        <div className={`border-black border-bottom border-start w-100 d-flex ${style?.font_13_head}`}>
+                            <div className="col-6">
+                            </div>
+                            <div className="col-6 border-black border-end">
                                 <div className="d-flex justify-content-between p-1">
                                     <p style={{ wordBreak: "normal" }}>Value In Words :- Rupees {numberToWord(+fixedValues(amount?.netInvoiceValue, 2))} Only</p>
                                 </div>
