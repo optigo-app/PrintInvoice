@@ -221,13 +221,13 @@ const BagPrint4A = ({ queries, headers }) => {
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => {
-    if (data.length !== 0) {
-      setTimeout(() => {
-        window.print();
-      }, 5000);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data.length !== 0) {
+  //     setTimeout(() => {
+  //       window.print();
+  //     }, 5000);
+  //   }
+  // }, [data]);
   
   return (
     <>
@@ -483,13 +483,13 @@ const BagPrint4A = ({ queries, headers }) => {
                                   </div>
                                 </div>
                                 <div className="part_2_4A">
-                                  <div className="img_sec_4A" style={{height:"98px", width:"117px"}}>
+                                  <div className="img_sec_4A" style={{height:"117px", width:"117px"}}>
                                     <img
                                       src={e?.additional?.img}
                                       alt=""
                                       onError={(e) => handleImageError(e)}
                                       loading="eager"
-                                      height="118px"
+                                      height="117px"
                                       width="117px"
                                     />
                                   </div>
@@ -540,12 +540,12 @@ const BagPrint4A = ({ queries, headers }) => {
                                   </div>
                                 </div>
                                 <div className="part_3_4A">
-                                  <div className="cast_ins">
-                                    CAST INS.:
-                                    <span className="red_4A">
+                                  <div className="cast_ins" style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start'}}>
+                                   <div style={{width:'12%', height:'38px'}}>CAST INS.:</div>
+                                    <div className="red_4A" style={{width:'87%', height:'38px'}}>
                                       {checkInstruction(e?.data?.officeuse)}{" "}
                                       {e?.data?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.ProductInstruction) : checkInstruction(e?.data?.QuoteRemark)}
-                                    </span>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -614,53 +614,53 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                             </div>
                             <div className="lab_self_4A border_bottom4A">
-                              <div className="priority_sec_4A border_right4A d_flex_4a">
-                                <div className="sales_Rep_text_4A">
+                              <div className="priority_sec_4A border_right4A d_flex_4a" style={{height:'20pt'}}>
+                                <div className="sales_Rep_text_4A" style={{height:'10pt'}}>
                                   LAB {e?.data?.MasterManagement_labname}
                                 </div>
-                                <div className="sales_Rep_letter_4A">
+                                <div className="sales_Rep_letter_4A" style={{height:'10pt', lineHeight:'6px'}}>
                                   {(e?.data?.PO !== "" && e?.data?.PO !== "-") && `PO ${e?.data?.PO}`}
                                 </div>
                               </div>
-                              <div className=" border_right4A  loc4A d_flex_4a ">
-                                <div className="sales_Rep_text_4A">
+                              <div className=" border_right4A  loc4A d_flex_4a "  style={{height:'20pt'}}>
+                                <div className="sales_Rep_text_4A" style={{height:'10pt'}}>
                                   SNAP
                                 </div>
-                                <div className="sales_Rep_letter_4A">
+                                <div className="sales_Rep_letter_4A" style={{height:'10pt', lineHeight:'6px'}}>
                                   {
                                     e?.data
                                       ?.MasterManagement_ProductImageType
                                   }
                                 </div>
                               </div>
-                              <div className=" border_right4A  qc4A d_flex_4a ">
-                                <div className="sales_Rep_text_4A">
+                              <div className=" border_right4A  qc4A d_flex_4a "  style={{height:'20pt'}}>
+                                <div className="sales_Rep_text_4A" style={{height:'10pt'}}>
                                   MAKETYPE
                                 </div>
-                                <div className="sales_Rep_letter_4A">
+                                <div className="sales_Rep_letter_4A" style={{height:'10pt', lineHeight:'6px'}}>
                                   {e?.data?.mastermanagement_maketypename}
                                 </div>
                               </div>
                             </div>
                             <div className="priority4A border_bottom4A">
-                              <div className="border_right4A priority_text_4A priority_sec_4A ">
+                              <div className="border_right4A priority_text_4A priority_sec_4A center_4A_d">
                                 TR NO.
                               </div>
-                              <div className="border_right4A priority_text_4A loc4A ">
+                              <div className="border_right4A priority_text_4A loc4A center_4A_d">
                                 TR NO.
                               </div>
-                              <div className="border_right4A priority_text_4A qc4A ">
+                              <div className="border_right4A priority_text_4A qc4A center_4A_d">
                                 TR NO.
                               </div>
                             </div>
                             <div className="priority4A border_bottom4A">
-                              <div className="border_right4A priority_text_4A priority_sec_4A ">
+                              <div className="border_right4A priority_text_4A priority_sec_4A center_4A_d">
                                 TR WT
                               </div>
-                              <div className="border_right4A priority_text_4A loc4A ">
+                              <div className="border_right4A priority_text_4A loc4A center_4A_d">
                                 TR WT
                               </div>
-                              <div className="border_right4A priority_text_4A qc4A ">
+                              <div className="border_right4A priority_text_4A qc4A center_4A_d">
                                 TR WT
                               </div>
                             </div>
@@ -913,12 +913,14 @@ const BagPrint4A = ({ queries, headers }) => {
                             </div>
                           </div>
                           <div className="part_2_4A">
-                            <div className="img_sec_4A" style={{height:"98px", width:"117px"}}>
+                            <div className="img_sec_4A" style={{height:"117px", width:"117px"}}>
                               <img
                                 src={e?.additional?.img}
                                 alt=""
                                 onError={(e) => handleImageError(e)}
                                 loading="eager"
+                                height="117px"
+                                width="117px"
                               />
                             </div>
                             <div className="barcode_sticker_4A border-black border-top">
@@ -968,12 +970,12 @@ const BagPrint4A = ({ queries, headers }) => {
                             </div>
                           </div>
                           <div className="part_3_4A">
-                            <div className="cast_ins">
-                              CAST INS :
-                              <span className="red_4A">
+                            <div className="cast_ins" style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start'}}>
+                              <div style={{width:'12%', height:'38px'}}>CAST INS :</div>
+                              <div className="red_4A" style={{width:'87%', height:'38px'}}>
                               {checkInstruction(e?.data?.officeuse)}{" "}
                                 {e?.data?.ProductInstruction?.length > 0 ? checkInstruction(e?.data?.ProductInstruction) : checkInstruction(e?.data?.QuoteRemark)}
-                              </span>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1039,59 +1041,59 @@ const BagPrint4A = ({ queries, headers }) => {
                               </div>
                             </div>
                             <div className="lab_self_4A border_bottom4A">
-                              <div className="priority_sec_4A border_right4A d_flex_4a">
-                                <div className="sales_Rep_text_4A">
+                              <div className="priority_sec_4A border_right4A d_flex_4a" style={{height:'20pt'}}>
+                                <div className="sales_Rep_text_4A" style={{height:'10pt'}}>
                                   LAB {e?.data?.MasterManagement_labname}
                                 </div>
-                                <div className="sales_Rep_letter_4A">
+                                <div className="sales_Rep_letter_4A" style={{height:'10pt', lineHeight:'6px'}}>
                                   {(e?.data?.PO !== "" && e?.data?.PO !== "-") && `PO ${e?.data?.PO}`}
                                 </div>
                               </div>
-                              <div className=" border_right4A  loc4A d_flex_4a ">
-                                <div className="sales_Rep_text_4A">
+                              <div className=" border_right4A  loc4A d_flex_4a " style={{height:'20pt'}}>
+                                <div className="sales_Rep_text_4A"  style={{height:'10pt'}}>
                                   SNAP
                                 </div>
-                                <div className="sales_Rep_letter_4A">
+                                <div className="sales_Rep_letter_4A" style={{height:'10pt', lineHeight:'6px'}}>
                                   {
                                     e?.data
                                       ?.MasterManagement_ProductImageType
                                   }
                                 </div>
                               </div>
-                              <div className=" border_right4A  qc4A d_flex_4a ">
-                                <div className="sales_Rep_text_4A">
+                              <div className=" border_right4A  qc4A d_flex_4a " style={{height:'20pt'}}>
+                                <div className="sales_Rep_text_4A" style={{height:'10pt'}}>
                                   MAKETYPE
                                 </div>
-                                <div className="sales_Rep_letter_4A">
+                                <div className="sales_Rep_letter_4A" style={{height:'10pt', lineHeight:'6px'}}>
                                   {e?.data?.mastermanagement_maketypename}
                                 </div>
                               </div>
                             </div>
                             <div className="priority4A border_bottom4A">
-                              <div className="border_right4A priority_text_4A priority_sec_4A ">
+                              <div className="border_right4A priority_text_4A priority_sec_4A center_4A_d">
                                 TR NO.
                               </div>
-                              <div className="border_right4A priority_text_4A loc4A ">
+                              <div className="border_right4A priority_text_4A loc4A center_4A_d">
                                 TR NO.
                               </div>
-                              <div className="border_right4A priority_text_4A qc4A ">
+                              <div className="border_right4A priority_text_4A qc4A center_4A_d">
                                 TR NO.
                               </div>
                             </div>
                             <div className="priority4A border_bottom4A">
-                              <div className="border_right4A priority_text_4A priority_sec_4A ">
+                              <div className="border_right4A priority_text_4A priority_sec_4A center_4A_d">
                                 TR WT
                               </div>
-                              <div className="border_right4A priority_text_4A loc4A ">
+                              <div className="border_right4A priority_text_4A loc4A center_4A_d">
                                 TR WT
                               </div>
-                              <div className="border_right4A priority_text_4A qc4A ">
+                              <div className="border_right4A priority_text_4A qc4A center_4A_d">
                                 TR WT
                               </div>
                             </div>
                           </div>
                           <div className="part_2_container_4A container_print4Apart_1">
-                            <div className="img_sec_container_4A border-bottom border-black">
+                            <div className="img_sec_container_4A border-bottom border-black" style={{height:'117px', width:'117px'}}>
                               <img
                                 src={e?.additional?.img}
                                 alt=""

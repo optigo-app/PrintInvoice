@@ -9,6 +9,10 @@
     display: block;
     margin-left: auto;
 }
+#img4b {
+    height: 142px;
+    width: 118px;
+}
 .size4AB{
     width: 30pt;
 }
@@ -16,6 +20,11 @@
     width: 85pt;
     height: 243pt;
     overflow: hidden;
+}
+.lab_self_4b{
+    height: 34pt;
+    /* height: 20.3925pt; */
+    display: flex;
 }
 .barcodeText4AB{
     width: 60pt;
@@ -63,4 +72,38 @@
 .bagPrint4CInstruction *{
     line-height: 120%;
     font-size: 8px !important;
+}
+
+.priority4b{
+    
+        height: 14.95pt;
+        /* height: 10.9pt; */
+        width: 100%;
+        display: flex;
+        overflow: hidden;
+    
+}
+.part_3_container_4b_record{
+    display: flex;
+    height: 12.1pt;
+    /* height: 14.1pt; */
+}
+.part_3_container_4b {
+    display: flex;
+    height: 156pt;
+    /* height: 185pt; */
+}
+.container_print4bpart_1 {
+    height: 153px;
+    /* height: 119px   ; */
+}
+
+.img_sec_container_4b {
+    border-bottom: 1px solid #000;
+    width: 101%;
+    height: 115.4pt;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }

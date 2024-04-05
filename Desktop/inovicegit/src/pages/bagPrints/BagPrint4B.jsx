@@ -585,7 +585,7 @@ const BagPrint4B = ({ queries, headers }) => {
                     }
                     <div className="container4A container4B" key={i + "a"}>
                         <div className="print4Apart_1 print4bpart_1">
-                          <div className="part_1_container_4A container_print4Apart_1">
+                          <div className="part_1_container_4A container_print4bpart_1">
                             <div className="title4A jobDiaGold4A border_bottom4A">
                               <div className="jobDiaGoldText4A ps-1">
                                 {e?.data?.serialjobno}
@@ -597,7 +597,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 {e?.data?.MetalType} {e?.data?.MetalColorCo}
                               </div>
                             </div>
-                            <div className="priority4A border_bottom4A">
+                            <div className="priority4b border_bottom4A">
                               <div className="border_right4A priority_text_4A priority_sec_4A ">
                                 PRIORITY
                               </div>
@@ -643,7 +643,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 </div>
                               </div>
                             </div>
-                            <div className="lab_self_4A border_bottom4A">
+                            <div className="lab_self_4b border_bottom4A">
                               <div className="priority_sec_4A border_right4A d_flex_4a">
                                 <div className="sales_Rep_text_4A">
                                   LAB {e?.data?.MasterManagement_labname}
@@ -672,7 +672,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 </div>
                               </div>
                             </div>
-                            <div className="priority4A border_bottom4A">
+                            <div className="priority4b border_bottom4A">
                               <div className="border_right4A priority_text_4A priority_sec_4A ">
                                 TR NO.
                               </div>
@@ -683,7 +683,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 TR NO.
                               </div>
                             </div>
-                            <div className="priority4A border_bottom4A">
+                            <div className="priority4b border_bottom4A">
                               <div className="border_right4A priority_text_4A priority_sec_4A ">
                                 TR WT
                               </div>
@@ -695,20 +695,20 @@ const BagPrint4B = ({ queries, headers }) => {
                               </div>
                             </div>
                           </div>
-                          <div className="part_2_container_4A container_print4Apart_1">
-                            <div className="img_sec_container_4A border-bottom border-black">
+                          <div className="part_2_container_4A container_print4bpart_1">
+                            <div className="img_sec_container_4b border-bottom border-black">
                               <img
                                 src={e?.additional?.img}
                                 alt=""
                                 onError={(e) => handleImageError(e)}
                                 loading="eager"
-                                id="img4A"
+                                id="img4b"
                               />
                             </div>
                           </div>
-                          <div className="part_3_container_4A">
+                          <div className="part_3_container_4b">
                             <div className="part_3_container_4A_sec">
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className="dept_4A border_right4A d-flex align-items-center justify-content-center">
                                   DEPT
                                 </div>
@@ -729,7 +729,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 </div>
                               </div>
                               
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className="dept_4A border_right4A d-flex align-items-center px-1">
                                   FIL.
                                 </div>
@@ -739,7 +739,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className="dept_4A border_right4A d-flex align-items-center px-1">
                                   PPL.
                                 </div>
@@ -749,7 +749,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
                                   SET.
                                 </div>
@@ -759,7 +759,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
                                   CUT.
                                 </div>
@@ -769,7 +769,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
                                   Fin.W
                                 </div>
@@ -779,7 +779,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
                                   F.PoI.
                                 </div>
@@ -789,7 +789,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
                                   Fit.
                                 </div>
@@ -799,7 +799,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center px-1">
                                   FP.
                                 </div>
@@ -809,7 +809,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center">
 
                                 </div>
@@ -819,7 +819,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center">
 
                                 </div>
@@ -829,7 +829,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center">
 
                                 </div>
@@ -839,8 +839,8 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record ">
-                                <div className=" dept_4A border_right4A d-flex align-items-center">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
+                                <div className=" dept_4A border_right4A d-flex align-items-center ">
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
                                 <div className="receive_4A border_right4A"></div>
@@ -848,7 +848,7 @@ const BagPrint4B = ({ queries, headers }) => {
                                 <div className="pcs_4A border_right4A"></div>
                                 <div className="worker_4A border_right_4A"></div>
                               </div>
-                              <div className="part_3_container_4A_record border_bottom4A">
+                              <div className="part_3_container_4A_record border_bottom4A part_3_container_4b_record">
                                 <div className=" dept_4A border_right4A d-flex align-items-center">
                                 </div>
                                 <div className="issue_4A border_right4A"></div>
