@@ -82,7 +82,19 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
         let bankDetail = ReceiveInBank(data?.BillPrint_Json[0]?.InvPayDet);
         console.log(bankDetail);
-        setBank(bankDetail);
+        let blankBank = [];
+        bankDetail?.forEach((ele, ind) => {
+            let obj = cloneDeep(ele);
+            if(ele?.BankName?.toLowerCase() === "discount"){
+                if(obj?.label === ""){
+                    obj.BankName = "Cash";
+                }else{
+                    obj.BankName = "Cheque";
+                }
+            }
+            blankBank?.push(obj);
+        });
+        setBank(blankBank);
     };
 
     useEffect(() => {
@@ -179,7 +191,7 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p>{headerData?.customercity} - {headerData?.PinCode}</p>
                         <p>Tel : {headerData?.customermobileno}</p>
                         <p>{headerData?.customeremail1}</p>
-                        <p>STATE NAME : {headerData?.State}</p>
+                        <p>STATE NAME : {headerData?.State}{headerData?.Cust_CST_STATE_No !== "" && `, STATE CODE-${headerData?.Cust_CST_STATE_No}`}</p>
                         <p>{headerData?.CustGstNo} PAN-{headerData?.CustPanno}</p>
                     </div>
                     <div className="col-3 px-1">

@@ -3,6 +3,10 @@
     padding-bottom: 60px;
 }
 
+.retailInvoice5Container{
+    max-width: 1200px !important;
+}
+
 .imgJewelleryRetailinovicePrint3 {
     height: auto !important;
     max-width: 115.75px;
@@ -25,6 +29,10 @@
     width: 20%;
 }
 
+.productDesPrint5 {
+    width: 13%;
+}
+
 .srNoJewerryRetailInvoicePrint {
     width: 5%;
 }
@@ -37,16 +45,36 @@
     width: 65%;
 }
 
+.materialRetailInvoice5 {
+    width: 59%;
+}
+
 .metalMakingJewerryRetailInvoicePrint {
     width: 10%;
+}
+
+.metalMakingRetailinvoice5 {
+    width: 7%;
 }
 
 .othersJewerryRetailInvoicePrint {
     width: 10%;
 }
 
+.othersRetailInvoice5 {
+    width: 6%;
+}
+
 .totalJewerryRetailInvoicePrint {
     width: 10%;
+}
+
+.totalRetailInvoice5 {
+    width: 10%;
+}
+
+.word_break *, .word_break{
+    word-break: normal;
 }
 
 .wordsJewellry {
@@ -97,5 +125,9 @@
 
     .jewelelryRetailInvoiceContainer * {
         font-size: 10px;
+    }
+
+    .retailInvoice5Container *, .RetailInvoiceprint4 *, .RetailInvoiceprint6 *{
+        font-size: 9px;
     }
 }
