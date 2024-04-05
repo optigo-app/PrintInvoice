@@ -489,8 +489,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                       alt=""
                                       onError={(e) => handleImageError(e)}
                                       loading="eager"
-                                      height="117px"
-                                      width="117px"
+                                      style={{height:'100%', width:'100%', objectFit:'contain'}}
                                     />
                                   </div>
                                   <div className="barcode_sticker_4A border-black border-top">
@@ -666,15 +665,14 @@ const BagPrint4A = ({ queries, headers }) => {
                             </div>
                           </div>
                           <div className="part_2_container_4A container_print4Apart_1">
-                            <div className="img_sec_container_4A border-bottom border-black">
+                            <div className="img_sec_container_4A border-bottom border-black" style={{height:'117px', width:'117px', boxSizing:'border-box'}}>
                               <img
                                 src={e?.additional?.img}
                                 alt=""
                                 onError={(e) => handleImageError(e)}
                                 loading="eager"
                                 id="img4A"
-                                height="118px"
-                                width="117px"
+                                style={{height:'100%', width:'100%', objectFit:'contain'}}
                               />
                             </div>
                           </div>
@@ -913,14 +911,13 @@ const BagPrint4A = ({ queries, headers }) => {
                             </div>
                           </div>
                           <div className="part_2_4A">
-                            <div className="img_sec_4A" style={{height:"117px", width:"117px"}}>
+                            <div className="img_sec_4A" style={{height:"117px", width:"117px", boxSizing:'border-box'}}>
                               <img
                                 src={e?.additional?.img}
                                 alt=""
                                 onError={(e) => handleImageError(e)}
                                 loading="eager"
-                                height="117px"
-                                width="117px"
+                                style={{height:'100%', width:'100%', objectFit:'contain'}}
                               />
                             </div>
                             <div className="barcode_sticker_4A border-black border-top">
@@ -1093,15 +1090,14 @@ const BagPrint4A = ({ queries, headers }) => {
                             </div>
                           </div>
                           <div className="part_2_container_4A container_print4Apart_1">
-                            <div className="img_sec_container_4A border-bottom border-black" style={{height:'117px', width:'117px'}}>
+                            <div className="img_sec_container_4A border-bottom border-black" style={{height:'117px', width:'117px', boxSizing:'border-box'}}>
                               <img
                                 src={e?.additional?.img}
                                 alt=""
                                 onError={(e) => handleImageError(e)}
                                 loading="eager"
                                 id="img4A"
-                                height="118px"
-                                width="117px"
+                                style={{height:'100%', width:'100%', objectFit:'contain'}}
                               />
                             </div>
                           </div>
