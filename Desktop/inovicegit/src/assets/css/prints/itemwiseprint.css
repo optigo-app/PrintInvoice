@@ -281,6 +281,11 @@ html .itemWisePrint1Font_tab_15 {
     font-size: 9px !important;
     word-break: break-all !important;
 }
+
+.breakNormalItemWIse *, .breakNormalItemWIse{
+    word-break: normal !important;
+}
+
 .itemWisePrint1Font_14_category .itemWisePrintCategory{
     word-break: normal !important;
 }

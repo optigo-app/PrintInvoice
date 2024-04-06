@@ -196,7 +196,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     {
                         data?.resultArray?.map((e, i) => {
                             return <div className={`d-flex px-1 border-bottom no_break ${style?.font_13}`} key={i}>
-                                <div className={`${style?.Variant}`}> <p className='' style={{ wordBreak: "normal" }}>{e?.designno} / {e?.SrJobno} {e?.MetalPurity} {e?.Categoryname}</p></div>
+                                <div className={`${style?.Variant}`}> <p className='' style={{ wordBreak: "normal" }}>{e?.designno} / {e?.SrJobno}</p><p> {e?.MetalPurity} {e?.Categoryname}</p></div>
                                 <div className={`${style?.KT}`}> <p className='text-center'>{e?.MetalPurity} </p></div>
                                 <div className={`${style?.Qty}`}> <p className='text-center'>{e?.Quantity} </p></div>
                                 <div className={`${style?.Gross}`}> <p className='text-center'>{NumberWithCommas(e?.grosswt, 3)} </p></div>
@@ -210,7 +210,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                             </div>
                         })
                     }
-                    <div className={`d-flex border-bottom px-1 no_break ${style?.font_13}`}>
+                    <div className={`d-flex border-bottom border-black px-1 no_break ${style?.font_13}`}>
                         <div className={`${style?.Variant}`}> <p className='' style={{ wordBreak: "normal" }}>Total</p></div>
                         <div className={`${style?.KT}`}> <p className='text-center'> </p></div>
                         <div className={`${style?.Qty}`}> <p className='text-center'>{NumberWithCommas(data?.mainTotal?.total_Quantity, 0)} </p></div>
@@ -270,7 +270,7 @@ const RetailInvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         </div>
                     </div>
                     <div className="col-6 ">
-                        <div className="d-flex justify-content-between  px-1">
+                        <div className="d-flex justify-content-between border-bottom border-black px-1">
                             <p>Total Value</p>
                             <p>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p>
                         </div>

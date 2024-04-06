@@ -79,7 +79,7 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         {/* data */}
         <div className={`d-flex flex-wrap pt-2 pad_60_allPrint`}>
             {data && data.map((e, i) => {
-                return <div className={`col-3 px-2 my-3 ${style?.contain}`} key={i}>
+                return <div className={`col-3 px-2 my-3 no_break ${style?.contain}`} key={i}>
                     <div className="border rounded border-black">
                         <img src={e?.DesignImage} alt="" className={`w-100 pt-2 object-fit-contain ${style?.img}`} onError={handleImageError} />
                         <div className="p-1 border-top border-black">

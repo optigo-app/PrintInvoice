@@ -522,12 +522,12 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                                 <p className="fw-bold p-1 text-center">Material Description</p>
                                             </div>
                                             <div className="d-flex">
-                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center border-end`}><p className="fw-bold p-1">Material</p></div>
-                                                <div style={{ width: "20%" }} className={` d-flex align-items-center justify-content-center text-center border-end`}><p className="fw-bold p-1">Carat</p></div>
-                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center border-end`}><p className="fw-bold p-1">GWT</p></div>
-                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center border-end p-1 flex-column`}><p className="fw-bold">STONE/DIA Wt.</p></div>
-                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center border-end`}><p className="fw-bold p-1">NWT</p></div>
-                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center`}><p className="fw-bold p-1">Rate</p></div>
+                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center border-end`}><p className="text-center fw-bold p-1">Material</p></div>
+                                                <div style={{ width: "20%" }} className={` d-flex align-items-center justify-content-center text-center border-end`}><p className="text-center fw-bold p-1">Carat</p></div>
+                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center border-end`}><p className="text-center fw-bold p-1">GWT</p></div>
+                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center border-end p-1 flex-column`}><p className="text-center fw-bold">STONE/DIA Wt.</p></div>
+                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center border-end`}><p className="text-center fw-bold p-1">NWT</p></div>
+                                                <div style={{ width: "16%" }} className={` d-flex align-items-center justify-content-center text-center`}><p className="text-center fw-bold p-1">Rate</p></div>
                                             </div>
                                         </div>
                                         <div className={`${style?.metalMakingRetailinvoice5} border-end d-flex align-items-center justify-content-center`}>

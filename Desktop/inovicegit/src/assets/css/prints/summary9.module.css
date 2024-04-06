@@ -59,7 +59,7 @@
     min-width: calc(100% / 7);
 }
 
-.shapeName {
+.shapeName, .shapeName * {
     word-break: break-all;
 }
 
@@ -92,13 +92,37 @@
     min-height: 22.39px;
 }
 
+.line1Stones, .line2Stones, .line3Stones{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 1px;
+    background: #dee2e6;
+}
+
+.line1Stones{
+    left: calc(25% - 1px);
+}
+
+.line2Stones{
+    left: calc(50% - 1px);
+}
+
+.line3Stones{
+    left: calc(75% - 1px);
+}
+
+.pad_2{
+    padding: 2px;
+}
+
 @media print {
     .print_sec_sum4 {
         display: none !important;
     }
 
     .summary9 * {
-        font-size: 10px;
+        font-size: 8px;
     }
 
     .heightPad {
