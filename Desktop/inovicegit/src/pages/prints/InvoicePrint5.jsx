@@ -132,7 +132,6 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     });
 
     metwise?.sort((a, b) => a?.MetalPurity.localeCompare(b?.MetalPurity))
-    console.log(metwise);
     setMetaltypewise(metwise);
 
     setResult(datas);
@@ -176,7 +175,6 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       
     // })
   }
-  console.log(result);
   return (
     <>
       {loader ? (
@@ -207,7 +205,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="lhiv5">{result?.header?.CompanyAddress2}</div>
                       <div className="lhiv5">{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode},{result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
                       <div className="lhiv5">T {result?.header?.CompanyTellNo} | TOLL FREE {result?.header?.CompanyTollFreeNo} </div>
-                      <div className="lhiv5">{result?.header?.CompanyEmail}</div>
+                      <div className="lhiv5">{result?.header?.CompanyEmail} {result?.header?.CompanyWebsite}</div>
                       <div className="lhiv5">{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE}-{result?.header?.Company_CST_STATE_No} | PAN-{result?.header?.Pannumber}</div>
                       <div className="lhiv5">CIN - {result?.header?.Com_CINNO}</div>
                       <div className="lhiv5">{result?.header?.Com_GoldDealershipRefNo}</div>
@@ -458,13 +456,29 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {formatAmount(result?.mainTotal?.total_unitcost)}
                       </div>
                     </div>
+                    <div className="d-flex ">
+                      <div className="w-50 px-1 border-end endip5">
+                        Discount
+                      </div>
+                      <div className="w-50 px-1 endip5">
+                        {formatAmount((result?.mainTotal?.total_discount_amount/result?.header?.CurrencyExchRate))}
+                      </div>
+                    </div>
+                    <div className="d-flex ">
+                      <div className="w-50 px-1 border-end endip5">
+                        Value After Discount
+                      </div>
+                      <div className="w-50 px-1 endip5">
+                      {formatAmount((result?.mainTotal?.total_unitcost - result?.mainTotal?.total_discount_amount))}
+                      </div>
+                    </div>
                     {result?.allTaxes?.map((e, i) => {
                       return (
                         <div className="d-flex" key={i}>
                           <div className="w-50 px-1 border-end endip5">
                             {e?.name} @ {e?.per}
                           </div>
-                          <div className="w-50 px-1 endip5">{e?.amount}</div>
+                          <div className="w-50 px-1 endip5">{formatAmount(e?.amount)}</div>
                         </div>
                       );
                     })}
@@ -489,7 +503,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           }}
                         ></div>
                         <div className="px-1">
-                          {formatAmount((result?.mainTotal?.total_unitcost + result?.header?.TotalGSTAmount + result?.header?.AddLess))}
+                          {formatAmount((result?.mainTotal?.total_unitcost + result?.allTaxesTotal + result?.header?.AddLess))}
                         </div>
                       </div>
                     </div>
@@ -516,7 +530,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {/* bank details footer */}
                 <div className="mt-1 fsgip5 d-flex border texpartivp5">
                     <div className="border-end fwi5 p-1">
-                      <div>Bank Details :</div>
+                      <div className="fw-bold">Bank Details :</div>
                       <div>Bank Name:{result?.header?.bankname}</div>
                       <div>Branch: {result?.header?.bankaddress}</div>
                       <div>Account Name:{result?.header?.accountname}</div>
