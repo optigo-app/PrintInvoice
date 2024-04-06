@@ -360,7 +360,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                                     <div
                                                         className="record_line_4A border_bottom4A"
                                                     >
-                                                      <div className="code4A border_right4A code4A_text w-100 fw-bold d-flex justify-content-center align-items-center" style={{height:"15px"}}>
+                                                      <div className="code4A border_right4A code4A_text w-100 fw-bold d-flex justify-content-center align-items-center" style={{height:"16px"}}>
                                                         {elem?.Shapename}
                                                       </div>
                                                   </div>
@@ -420,7 +420,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                           <div
                                           className="record_line_4A border_bottom4A"
                                         >
-                                          <div className="code4A border_right4A code4A_text w-100 fw-bold d-flex justify-content-center align-items-center" style={{height:"15px"}}>
+                                          <div className="code4A border_right4A code4A_text w-100 fw-bold d-flex justify-content-center align-items-center" style={{height:"17px"}}>
                                             {elem?.Shapename}
                                           </div>
                                         </div>
@@ -665,7 +665,7 @@ const BagPrint4A = ({ queries, headers }) => {
                             </div>
                           </div>
                           <div className="part_2_container_4A container_print4Apart_1">
-                            <div className="img_sec_container_4A border-bottom border-black" style={{height:'118px', width:'117px', boxSizing:'border-box'}}>
+                            <div className="img_sec_container_4A border-bottom border-black" style={{height:'117px', width:'117px', boxSizing:'border-box'}}>
                               <img
                                 src={e?.additional?.img}
                                 alt=""
@@ -1090,7 +1090,7 @@ const BagPrint4A = ({ queries, headers }) => {
                             </div>
                           </div>
                           <div className="part_2_container_4A container_print4Apart_1">
-                            <div className="img_sec_container_4A border-bottom border-black" style={{height:'118px', width:'117px', boxSizing:'border-box'}}>
+                            <div className="img_sec_container_4A border-bottom border-black" style={{height:'117px', width:'117px', boxSizing:'border-box'}}>
                               <img
                                 src={e?.additional?.img}
                                 alt=""
