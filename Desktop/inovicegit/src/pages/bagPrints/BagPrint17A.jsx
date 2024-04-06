@@ -12,6 +12,7 @@ import { organizeData } from './../../GlobalFunctions/OrganizeBagPrintData';
 import { GetUniquejob } from "../../GlobalFunctions/GetUniqueJob";
 import { checkInstruction } from "./../../GlobalFunctions"
 const BagPrint17A = ({ queries, headers }) => {
+  
   const [data, setData] = useState([]);
   const location = useLocation();
   const queryParams = queryString.parse(location?.search);
