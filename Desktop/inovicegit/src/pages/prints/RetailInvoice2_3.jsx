@@ -312,7 +312,7 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
                                 {!retailInvoice3 && <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-center'>{NumberWithCommas(e?.metalRate, 2)}</p></div>}
                                 <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-center'>{NumberWithCommas(e?.netWtLoss, 3)}</p></div>
                                 <div className={`${style?.metalRate_retailInvoice_2_3}`}><p className='text-center'>{NumberWithCommas(e?.UnitCost - e?.findingAmount - e?.secondaryMetalAmt, 2)}</p></div>
-                                {!retailInvoice3 && <div className={`${style?.image_retailInvoice_2_3}`}><img src={e?.DesignImage} alt="" className={`${style?.img_retailInvoice_2_3} w-100 px-2`} onError={handleImageError} /></div>}
+                                {!retailInvoice3 && <div className={`${style?.image_retailInvoice_2_3} `}><img src={e?.DesignImage} alt="" className={`${style?.img_retailInvoice_2_3} w-100 mx-auto d-block`} style={{maxWidth: "50px", maxHeight: "50px"}} onError={handleImageError} /></div>}
                                 {!retailInvoice3 && <div className={`${styles?.scheme}`}><p className='text-center'>{e?.Discount !== 0 ? <> {NumberWithCommas(e?.Discount, 2)}% On Total Amount</> : "-"}</p></div>}
                                 <div className={`${styles?.scheme}`}><p className='text-center'>{NumberWithCommas(e?.DiscountAmt, 2)}</p></div>
                                 <div className={`${styles?.scheme}`}><p className='text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>

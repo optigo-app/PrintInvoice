@@ -546,7 +546,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                         <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 `}>
                                             <p className="" style={{wordBreak: "normal"}}>{e?.SubCategoryname} {e?.Categoryname}</p>
                                             <p className="" style={{wordBreak: "normal"}}>{e?.designno} | {e?.SrJobno}</p>
-                                            {image && <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' className={`w-75 p-1 ${style?.imageJewelleryC}`} />}
+                                            {image && <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' className={`w-100 mx-auto d-block p-1 ${style?.imageJewelleryC}`} style={{maxWidth: "75px", maxHeight: "75px"}}/>}
                                             {e?.HUID !== "" && <p style={{wordBreak: "normal"}} className={`text-center ${!image && 'pt-3'}`}>HUID-{e?.HUID}</p>}
                                         </div>
                                         <div className={`${style?.materialJewerryRetailInvoicePrint} border-end`}>
