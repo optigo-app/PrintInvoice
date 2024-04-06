@@ -154,8 +154,8 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         <p>{headerData?.customercountry}</p>
                         <p>{headerData?.customeremail1}</p>
                         <p>Phno:{headerData?.customermobileno}</p>
-                        <p>{headerData?.vat_cst_pan} {document?.aadharcard !== "" && ` | Aadhar-${document?.aadharcard}`}</p>
-                        {headerData?.Cust_CST_STATE_No !== "" && <p>{headerData?.Cust_CST_STATE} {headerData?.Cust_CST_STATE_No} </p>}
+                        <p>{headerData?.vat_cst_pan} {document?.aadharcard !== "" && ` | Aadhar-${headerData?.aadharno}`}</p>
+                        {headerData?.Cust_CST_STATE_No !== "" && <p>{headerData?.Cust_CST_STATE}-{headerData?.Cust_CST_STATE_No} </p>}
                     </div>
                     <div className="col-5 p-2">
                         <div className="d-flex">

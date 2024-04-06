@@ -386,8 +386,12 @@ const RetailInvoiceprint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                         </div>
                                         {/* <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-EDJHF236D</div> */}
                                         <div className="fslhJL">
-                                            {headerData?.Company_VAT_GST_No} |
-                                            {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | {headerData?.vat_cst_pan}
+                                            {/* {headerData?.Company_VAT_GST_No} |
+                                            {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | {headerData?.vat_cst_pan} */}
+
+                                            {headerData?.Company_VAT_GST_No} 
+                                            {(headerData?.Company_CST_STATE_No !== "" && headerData?.Cust_CST_STATE !== "") && `| ${headerData?.Cust_CST_STATE}-${headerData?.Company_CST_STATE_No}`}
+                                            { headerData?.Com_pannumber !== "" && ` | PAN-${headerData?.Com_pannumber}`}
                                         </div>
                                     </div>
                                     <div className="col-2 d-flex align-items-center justify-content-center">
@@ -438,7 +442,7 @@ const RetailInvoiceprint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                         <div className="fslhJL">Phno: {headerData?.customermobileno}</div>
                                         <div className="fslhJL">{headerData?.vat_cst_pan} {headerData?.aadharno !== "" && `| Aadhar-${headerData?.aadharno}`}</div>
                                         <div className="fslhJL">
-                                            {headerData?.Cust_CST_STATE}
+                                            {headerData?.Cust_CST_STATE}-
                                             {headerData?.Cust_CST_STATE_No}
                                         </div>
                                     </div>
@@ -657,12 +661,12 @@ const RetailInvoiceprint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                         <p className="fw-bold" style={{ fontSize: "17px" }}>TOTAL</p>
                                     </div>
                                     <div className={`${style?.materialJewerryRetailInvoicePrint} border-end d-flex`}>
-                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 lh-1"></p></div>
-                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}></div>
-                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(total?.gwt, 3)} gm</p> </div>
-                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 flex-column d-flex align-items-end justify-content-center`}> <p className="fw-bold pb-1 text-end lh-1">{fixedValues(total?.diamondColorStoneWt, 3)} Ctw</p> <p className="fw-bold text-end lh-1">{fixedValues(total?.multiMetalMiscHsCode, 3)} gm</p></div>
-                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end  d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 text-end lh-1">{fixedValues(total?.nwt, 3)} gm</p></div>
-                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`}><p className="fw-bold p-1 text-end lh-1"></p></div>
+                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`} style={{width: "calc( 100% / 6)"}}><p className="fw-bold p-1 lh-1"></p></div>
+                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`} style={{width: "calc( 100% / 6)"}}></div>
+                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-end`} style={{width: "calc( 100% / 6)"}}> <p className="fw-bold p-1 lh-1 text-end">{fixedValues(total?.gwt, 3)} gm</p> </div>
+                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end p-1 flex-column d-flex align-items-end justify-content-center`} style={{width: "calc( 100% / 6)"}}> <p className="fw-bold pb-1 text-end lh-1">{fixedValues(total?.diamondColorStoneWt, 3)} Ctw</p> <p className="fw-bold text-end lh-1">{fixedValues(total?.multiMetalMiscHsCode, 3)} gm</p></div>
+                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} border-end  d-flex align-items-center justify-content-end`} style={{width: "calc( 100% / 6)"}}><p className="fw-bold p-1 text-end lh-1">{fixedValues(total?.nwt, 3)} gm</p></div>
+                                        <div className={`${style?.w_20JewerryRetailInvoicePrint} d-flex align-items-center justify-content-end`} style={{width: "calc( 100% / 6)"}}><p className="fw-bold p-1 text-end lh-1"></p></div>
                                     </div>
                                     <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end flex-column d-flex align-items-center justify-content-end`}>
                                         <p className="fw-bold text-end p-1"></p>
@@ -675,7 +679,7 @@ const RetailInvoiceprint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                 </div>
                                 {/* tax */}
                                 <div className="d-flex border-start border-end border-bottom w-100 no_break">
-                                    <div className={`d-flex justify-content-between flex-column border-end ${style?.wordsJewellry}`}>
+                                    <div className={`d-flex justify-content-between flex-column border-end ${style?.wordsJewellryRetailInvoice4}`}>
                                         <div className={`${style?.wordsJewerryRetailInvoicePrint}p-2 d-flex align-items-center pt-5`}>
                                             <div className="p-2 pt-4">
                                                 <p>In Words Indian Rupees</p>
@@ -686,8 +690,8 @@ const RetailInvoiceprint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                             <div className="d-flex ">Old Gold Purchase Description : <div dangerouslySetInnerHTML={{ __html: headerData?.Remark }} className="fw-bold ps-1"></div></div>
                                         </div>
                                     </div>
-                                    <div className={`${style?.discountJewerryRetailInvoicePrint} d-flex`}>
-                                        <div className="col-7 border-end">
+                                    <div className={`${style?.discountJewerryRetailInvoicePrint456} d-flex`}>
+                                        <div className={`${style?.wordsJewellryRetailInvoice4Taxes} border-end`} style={{    width: "51.2%"}}>
                                             <p className="pb-1 px-1 text-end">Discount</p>
                                             <p className="pb-1 px-1 text-end">Total Amt before Tax</p>
                                             {taxes.length > 0 && taxes.map((e, i) => {
@@ -704,7 +708,7 @@ const RetailInvoiceprint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                             <p className="pb-1 px-1 text-end">Net Bal. Amount</p>
                                             <p className="fw-bold p-1 border-top text-end">GRAND TOTAL</p>
                                         </div>
-                                        <div className="col-5">
+                                        <div className={`${style?.wordsJewellryRetailInvoice4TaxesNumbers} `} style={{    width: "48.8%"}}>
                                             <p className="text-end pb-1 px-1">{NumberWithCommas(total?.discount, 2)}</p>
                                             <p className="text-end pb-1 px-1">{NumberWithCommas(total?.beforeTax / headerData?.CurrencyExchRate, 2)}</p>
                                             {taxes.length > 0 && taxes.map((e, i) => {
@@ -733,7 +737,7 @@ const RetailInvoiceprint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                         <p className="fw-bold">Bank Detail</p>
                                         <p>Bank name: {headerData?.bankname}</p>
                                         <p>Branch: {headerData?.bankaddress}</p>
-                                        <p>{headerData?.PinCode}</p>
+                                        {/* <p>{headerData?.PinCode}</p> */}
                                         <p>Account Name: {headerData?.accountname}</p>
                                         <p>Account No: {headerData?.accountnumber}</p>
                                         <p>RTGS NEFT IFSC: {headerData?.rtgs_neft_ifsc}</p>
