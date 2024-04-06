@@ -4,8 +4,9 @@ import { apiCall, formatAmount, handlePrint, isObjectEmpty, numberToWord } from 
 import "../../assets/css/prints/summary10.css";
 import { cloneDeep } from 'lodash';
 import Loader from './../../components/Loader';
+import { ToWords } from "to-words";
 const Summary10 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
-
+  const toWords = new ToWords();
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -180,7 +181,8 @@ const Summary10 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* grand total */}
                 <div className="tablehead_S10 d-flex justify-content-between align-items-center border border-top-0 px-1">
-                  <div className="fw-bold fs_s10 left_s10"> {numberToWord(result?.finalAmount)} Only</div>
+                  {/* <div className="fw-bold fs_s10 left_s10"> {numberToWord(result?.finalAmount)} Only</div> */}
+                  <div className="fw-bold fs_s10 left_s10"> {toWords?.convert(+((((result?.mainTotal?.total_amount)/(result?.header?.CurrencyExchRate)) +   (result?.allTaxesTotal) + ((result?.header?.AddLess)/(result?.header?.CurrencyExchRate)))?.toFixed(2)))} Only</div>
                   <div className="d-flex fw-bold fs_s10 h-100  border-start right_s10 tax_w_s10_2">
                     <div>Grand Total : &nbsp;</div><div></div><div>{formatAmount(result?.finalAmount)} /-</div>
                   </div>
