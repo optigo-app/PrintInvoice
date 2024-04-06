@@ -2,10 +2,12 @@ import axios from "axios";
 
 export const GetData = async (job) => {
     try {
-
         let p_tag = { "SerialJobno": `${job?.jobno}`, "customerid": `${job?.custid}`, "BagPrintName": `${job?.printname}` };
+
         let jsonString = JSON.stringify(p_tag);
+
         let base64String = btoa(jsonString);
+
         let Body = {
             "con": `{\"id\":\"\",\"mode\":\"${job?.printname}\",\"appuserid\":\"${job?.appuserid}\"}`,
             "p": `${base64String}`,

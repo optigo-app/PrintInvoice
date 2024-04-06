@@ -221,13 +221,13 @@ const BagPrint4A = ({ queries, headers }) => {
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // useEffect(() => {
-  //   if (data.length !== 0) {
-  //     setTimeout(() => {
-  //       window.print();
-  //     }, 5000);
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data.length !== 0) {
+      setTimeout(() => {
+        window.print();
+      }, 5000);
+    }
+  }, [data]);
   
   return (
     <>
@@ -360,7 +360,7 @@ const BagPrint4A = ({ queries, headers }) => {
                                                     <div
                                                         className="record_line_4A border_bottom4A"
                                                     >
-                                                      <div className="code4A border_right4A code4A_text w-100 fw-bold d-flex justify-content-center align-items-center" style={{height:"16px"}}>
+                                                      <div className="code4A border_right4A code4A_text w-100 fw-bold d-flex justify-content-center align-items-center" style={{height:"17px"}}>
                                                         {elem?.Shapename}
                                                       </div>
                                                   </div>

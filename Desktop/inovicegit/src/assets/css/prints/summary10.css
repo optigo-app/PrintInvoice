@@ -48,11 +48,14 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    background-color: #6d6d6d77;
+    background-color: #939292;
+    font-size: 16 !important;
+    color: white;
 }
 .plogo_s10{
-    height: 30%;
-    width: 30%;
+    width: 100%;
+    /* height: 30%;
+    width: 30%; */
 }
 
 
@@ -89,6 +92,12 @@
 .tax_w_s10_2{
     width: 19.15%;
 }
+.fs_s10_cust{
+    font-size: 20px !important;
+}
+.fs_s10_com{
+    font-size: 16px !important;
+}
 @media print{
     .hideBtn_s10{
         display: none !important;
@@ -114,7 +123,13 @@
         width: 19.00%;
     }
     .plogo_s10{
-        height: 20%;
-        width: 20%;
+        height: 100%;
+        width: 100%;
+    }
+    .fs_s10_cust{
+        font-size: 13px !important;
+    }
+    .fs_s10_com{
+        font-size: 11px !important;
     }
 }
