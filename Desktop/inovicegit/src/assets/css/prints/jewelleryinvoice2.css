@@ -86,7 +86,7 @@
     }
     .container_ji2{
         max-width: 1200px;
-        margin: 0 auto;
+        margin: 10rem auto !important;
         padding: 10px;
     }
     .h30_ji2{
@@ -96,13 +96,13 @@
         height: 30px;
     }
     .fs_ji2{
-        font-size: 9px !important;
+        font-size: 7px !important;
     }
     .lh_ji2{
-        line-height: 13px !important;
+        line-height: 9px !important;
     }
     .fs_2_ji2{
-        font-size: 14px;
-        line-height: 20px;
+        font-size: 11px;
+        line-height: 15px;
     }
 }

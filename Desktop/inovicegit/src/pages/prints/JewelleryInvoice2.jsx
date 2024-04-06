@@ -73,6 +73,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       }
       finalArr.push(obj);
     });
+    
     datas.resultArray = finalArr;
 
     // datas?.resultArray?.forEach((e) => {
@@ -219,35 +220,21 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                     Print
                   </button></div>
               <div>
-                <div className="headlabel_ji2">
-                  {result?.header?.PrintHeadLabel}
-                </div>
-                <div className="fs_ji2 lh_ji2 pb-2">
-                  <div className="fw-bold fs_2_ji2">
-                    {result?.header?.CompanyFullName}
-                  </div>
+                <div className="headlabel_ji2"> {result?.header?.PrintHeadLabel} </div>
+                <div className="fs_ji2 lh_ji2 pb-2"> <div className="fw-bold fs_2_ji2"> {result?.header?.CompanyFullName} </div>
                   <div>{result?.header?.CompanyAddress}</div>
-                  <div>{result?.header?.CompanyAddress2}</div>
+                   <div>{result?.header?.CompanyAddress2}</div>
                   <div>
-                    {result?.header?.CompanyCity}-
-                    {result?.header?.CompanyPinCode},{" "}
-                    {result?.header?.CompanyState}(
-                    {result?.header?.CompanyCountry})
+                    {result?.header?.CompanyCity}- {result?.header?.CompanyPinCode},{" "} {result?.header?.CompanyState}( {result?.header?.CompanyCountry})
                   </div>
                   <div>
-                    T {result?.header?.CompanyTellNo} | TOLL FREE{" "}
-                    {result?.header?.CompanyTollFreeNo}
+                    T {result?.header?.CompanyTellNo} | TOLL FREE{" "} {result?.header?.CompanyTollFreeNo}
                   </div>
                   <div>
-                    {result?.header?.CompanyEmail} |{" "}
-                    {result?.header?.CompanyWebsite}
+                    {result?.header?.CompanyEmail} |{" "} {result?.header?.CompanyWebsite}
                   </div>
                   <div>
-                    {result?.header?.Company_VAT_GST_No} |{" "}
-                    {result?.header?.Company_CST_STATE}-
-                    {result?.header?.Company_CST_STATE_No} |{" "}
-                    {result?.header?.Com_pannumber}
-                  </div>
+                    {result?.header?.Company_VAT_GST_No} |{" "} {result?.header?.Company_CST_STATE}- {result?.header?.Company_CST_STATE_No} |{" "} PAN - {" "} {result?.header?.Com_pannumber} </div>
                   <div>CIN - {result?.header?.CINNO}</div>
                 </div>
               </div>
@@ -258,14 +245,12 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                   <div>{result?.header?.customerAddress1}</div>
                   <div>{result?.header?.customerAddress2}</div>
                   <div>
-                    {result?.header?.customercity}
-                    {result?.header?.customerpincode}
+                    {result?.header?.customercity} {result?.header?.customerpincode}
                   </div>
                   <div>{result?.header?.customeremail1}</div>
                   <div>{result?.header?.Cust_CST_STATE_No_}</div>
                   <div>
-                    GSTIN - {result?.header?.CustGstNo} | PAN -{" "}
-                    {result?.header?.CustPanno}
+                    GSTIN - {result?.header?.CustGstNo} | PAN -{" "} {result?.header?.CustPanno}
                   </div>
                   <div>
                     <b>Place Of Supply :</b> {result?.header?.customerstate}
@@ -273,34 +258,20 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                 </div>
                 <div className="w33_ji2 border-end p-1 fs_ji2 lh_ji2">
                   <div>Ship To,</div>
-                  <div className="fw-bold">
-                    {result?.header?.customerfirmname}
-                  </div>
-                  <div>{result?.header?.CustName}</div>
-                  <div>
-                    {result?.header?.customercity},{" "}
-                    {result?.header?.customerstate}
-                  </div>
-                  <div>
-                    {result?.header?.customercountry}
-                    {result?.header?.customerpincode}
-                  </div>
+                  <div className="fw-bold"> {result?.header?.customerfirmname} </div> <div>{result?.header?.CustName}</div> 
+                  <div> {result?.header?.customercity},{" "} {result?.header?.customerstate} </div>
+                  <div> {result?.header?.customercountry} {result?.header?.customerpincode} </div>
                   <div>{result?.header?.customermobileno}</div>
                 </div>
                 <div className="w33_ji2 p-1 fs_ji2 lh_ji2">
                   <div className="d-flex">
-                    <div className="w-25 fw-bold">VOUCHER</div>
-                    <div className="w-50">{result?.header?.InvoiceNo}</div>
+                    <div className="w-25 fw-bold">VOUCHER</div> <div className="w-50">{result?.header?.InvoiceNo}</div>
                   </div>
                   <div className="d-flex">
-                    <div className="w-25 fw-bold">DATE</div>
-                    <div className="w-50">{result?.header?.EntryDate}</div>
+                    <div className="w-25 fw-bold">DATE</div> <div className="w-50">{result?.header?.EntryDate}</div>
                   </div>
                   <div className="d-flex">
-                    <div className="w-25 fw-bold">
-                      {result?.header?.HSN_No_Label}
-                    </div>
-                    <div className="w-50">{result?.header?.HSN_No}</div>
+                    <div className="w-25 fw-bold"> {result?.header?.HSN_No_Label} </div> <div className="w-50">{result?.header?.HSN_No}</div>
                   </div>
                 </div>
               </div>
@@ -330,87 +301,23 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                         <div className="col1_ji2 border-end center_ji2 d-flex justify-content-center align-items-start pt-2">
                           {i + 1}
                         </div>
-                        <div className="col2_ji2 border-end pad_start_ji2">
-                          {" "}
-                          New Jewellery <br /> <b>{e?.grosswt_d?.toFixed(3)}</b> gm Gross
-                        </div>
-                        <div
-                          className="col3_ji2 border-end "
-                          style={{ width: "42%" }}
-                        >
+                        <div className="col2_ji2 border-end pad_start_ji2"> {" "} New Jewellery <br /> <b>{e?.grosswt_d?.toFixed(3)}</b> gm Gross </div>
+                        <div className="col3_ji2 border-end " style={{ width: "42%" }} >
                           <div className="d-flex border-bottom">
-                            <div
-                              className="border-end pad_start_ji2"
-                              style={{ width: "26%" }}
-                            >
-                              {e?.MetalTypePurity}
-                            </div>
-                            <div
-                              className="border-end pad_end_ji2 endc_ji2"
-                              style={{ width: "14.4%" }}
-                            ></div>
-                            <div
-                              className="border-end pad_end_ji2 endc_ji2"
-                              style={{ width: "16.6%" }}
-                            >
-                              {(e?.NetWt_d + e?.LossWt_d)?.toFixed(3)}
-                              {/* {e?.metal?.map((a, i) => {
-                                return <div key={i}>{a?.Wt?.toFixed(3)}</div>;
-                              })} */}
-                            </div>
-                            <div
-                              className="border-end pad_end_ji2 endc_ji2"
-                              style={{ width: "17%" }}
-                            >
-                              { formatAmount( (e?.MetalAmount)/(e?.NetWt_d + e?.LossWt_d)) }
-                              {/* {e?.metal?.map((a, i) => {
-                                return (
-                                  <div key={i}>{formatAmount(a?.Rate)}</div>
-                                );
-                              })} */}
-                            </div>
-                            <div
-                              className="pad_end_ji2 endc_ji2"
-                              style={{ width: "26%" }}
-                            >
-                              {formatAmount(e?.MetalAmount)}
-                            </div>
+                            <div className="border-end pad_start_ji2" style={{ width: "26%" }} > {e?.MetalTypePurity} </div>
+                            <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} ></div>
+                            <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {(e?.NetWt_d + e?.LossWt_d)?.toFixed(3)} </div>
+                            <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > { formatAmount( (e?.MetalAmount)/(e?.NetWt_d + e?.LossWt_d)) } </div>
+                            <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(e?.MetalAmount)} </div>
                           </div>
                           {e?.diamond_colorstone_misc?.map((el, ind) => {
                             return (
                               <div className="d-flex border-bottom fs_ji2 lh_ji2" key={ind}>
-                                <div
-                                  className="border-end pad_start_ji2"
-                                  style={{ width: "26%" }}
-                                >
-                                  {el?.MasterManagement_DiamondStoneTypeName} <span>{ el?.MasterManagement_DiamondStoneTypeid === 1 ? el?.QualityName : ''}</span>
-                                </div>
-                                <div
-                                  className="border-end pad_end_ji2 endc_ji2"
-                                  style={{ width: "14.4%" }}
-                                >
-                                  {el?.Pcs}
-                                </div>
-                                <div
-                                  className="border-end pad_end_ji2 endc_ji2"
-                                  style={{ width: "16.6%" }}
-                                >
-                                  {el?.a_wt?.toFixed(3)}
-                                </div>
-                                <div
-                                  className="border-end pad_end_ji2 endc_ji2"
-                                  style={{ width: "17%" }}
-                                >
-                                  {formatAmount(el?.a_rate)}
-                                  {/* {console.log(((+el?.a_amount)/(+el?.a_wt)))} */}
-                                  {/* {el?.a_wt === 0 ? '' :  formatAmount((+el?.a_amount)/(+el?.a_wt))} */}
-                                </div>
-                                <div
-                                  className="pad_end_ji2 endc_ji2"
-                                  style={{ width: "26%" }}
-                                >
-                                  {formatAmount(el?.a_amount)}
-                                </div>
+                                <div className="border-end pad_start_ji2" style={{ width: "26%" }} > {el?.MasterManagement_DiamondStoneTypeName} <span>{ el?.MasterManagement_DiamondStoneTypeid === 1 ? el?.QualityName : ''}</span> </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > {el?.a_pcs} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {el?.a_wt?.toFixed(3)} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount(el?.a_rate)} </div>
+                                <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(el?.a_amount)} </div>
                               </div>
                             );
                           })}
@@ -419,9 +326,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                           {formatAmount(e?.TotalDiaSetcost + e?.MakingAmount)}
                         </div>
                         <div className="col9_ji2 border-end pad_end_ji2 endc_ji2">
-                          {formatAmount(
-                            e?.TotalDiamondHandling + e?.OtherCharges
-                          )}
+                          {formatAmount( e?.TotalDiamondHandling + e?.OtherCharges )}
                         </div>
                         <div className="col10_ji2 pad_end_ji2 endc_ji2">
                           {formatAmount(e?.TotalAmount)}
@@ -438,18 +343,20 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                   <div className="col3_ji2 border-end"></div>
                   <div className="col4_ji2 border-end endc_ji2 pad_end_ji2">
                     {/* {result?.mainTotal?.diamond_colorstone_misc?.Pcs} */}
-                    {totobj?.pcs}
+                    {/* {totobj?.pcs} */}
+                    {result?.mainTotal?.metal?.Pcs + result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.Pcs  }
                   </div>
                   <div className="col5_ji2 border-end center_ji2">
                     {/* {result?.mainTotal?.diamond_colorstone_misc?.Wt?.toFixed(3)} Ctw <br /> 43.476 gm */}
-                    {totobj?.wt?.toFixed(3)} Ctw <br /> 43.476 gm
+                    {/* {totobj?.wt?.toFixed(3)} Ctw <br /> 43.476 gm */}
                   </div>
                   <div className="col6_ji2 border-end"></div>
                   <div className="col7_ji2 border-end endc_ji2 pad_end_ji2">
                     {formatAmount((result?.mainTotal?.diamonds?.Amount + result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.Amount + result?.mainTotal?.MetalAmount))}
                   </div>
                   <div className="col8_ji2 border-end endc_ji2 pad_end_ji2">
-                    {formatAmount(result?.mainTotal?.total_MakingAmount_Setting_Amount)}
+                    {/* {formatAmount(result?.mainTotal?.total_MakingAmount_Setting_Amount)} */}
+                    {formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost))}
                   </div>
                   <div className="col9_ji2 border-end endc_ji2 pad_end_ji2">
                     { formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling)) }
@@ -462,23 +369,25 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
               <div className="d-flex border border-top-0">
                 <div className="border-end p-1 d-flex flex-column justify-content-end fs_ji2 lh_ji2 " style={{width:'70%'}}>
                    In Words Indian Rupees <br />
-                  <b>{toWords?.convert((result?.finalAmount))} Only /-</b>
+                  <b>{toWords?.convert(+((result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess)?.toFixed(2)))} Only /-</b>
                 </div>
                 <div  style={{width:'30%'}}>
-                   {result?.mainTotal?.total_discount_amount > 0 ?<div className="fs_ji2 lh_ji2 d-flex"><div className="w-50 border-end endc_ji2 pe-2">Discount</div><div className="w-50 endc_ji2 pad_end_ji2">{result?.mainTotal?.total_discount_amount?.toFixed(2)}</div></div> : '' } 
+                   {result?.mainTotal?.total_discount_amount > 0 ?<div className="fs_ji2 lh_ji2 d-flex"><div className="w-50 border-end endc_ji2 pe-2">Discount</div><div className="w-50 endc_ji2 pad_end_ji2">{formatAmount(result?.mainTotal?.total_discount_amount)}</div></div> : '' } 
                   <div className="d-flex fw-bold fs_ji2 lh_ji2"><div className="w-50 border-end pe-2 endc_ji2">Amount</div><div className="w-50 endc_ji2 pad_end_ji2">{formatAmount(result?.mainTotal?.total_amount)}</div></div>
                   {
                     result?.allTaxes?.map((e, i) => {
                       return(
                         <div className="d-flex fs_ji2 lh_ji2" key={i}>
                           <div className="w-50 border-end endc_ji2 pe-2">{e?.name} @ {e?.per}</div>
-                          <div className="w-50 endc_ji2 pad_end_ji2">{e?.amount}</div>
+                          <div className="w-50 endc_ji2 pad_end_ji2">{formatAmount(e?.amount)}</div>
                         </div>
                       )
                     })
                   }
+                  {console.log(result)}
                   <div className="d-flex fs_ji2 lh_ji2"><div className="w-50 border-end endc_ji2 pe-2">{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className="w-50 endc_ji2 pad_end_ji2">{result?.header?.AddLess}</div></div>
-                  <div className="d-flex fs_ji2 lh_ji2 border-top fw-bold"><div className="w-50 border-end p-1 endc_ji2 pad_end_ji2">Grand Total</div><div className="w-50 p-1 endc_ji2 pad_end_ji2">{formatAmount(result?.finalAmount)}</div></div>
+                  {/* <div className="d-flex fs_ji2 lh_ji2 border-top fw-bold"><div className="w-50 border-end p-1 endc_ji2 pad_end_ji2">Grand Total</div><div className="w-50 p-1 endc_ji2 pad_end_ji2">{formatAmount(result?.finalAmount)}</div></div> */}
+                  <div className="d-flex fs_ji2 lh_ji2 border-top fw-bold"><div className="w-50 border-end p-1 endc_ji2 pad_end_ji2">Grand Total</div><div className="w-50 p-1 endc_ji2 pad_end_ji2">{formatAmount((result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess))}</div></div>
                 </div>
               </div>
                <div className="fw-bold p-1 fs_ji2 lh_ji2 border border-top-0"><div className="fw-bold">Declaration :</div><div dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div></div>
