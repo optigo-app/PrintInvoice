@@ -389,8 +389,9 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                         </div>
                                         {/* <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-EDJHF236D</div> */}
                                         <div className="fslhJL">
-                                            {headerData?.Company_VAT_GST_No} |
-                                            {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | {headerData?.vat_cst_pan}
+                                            {headerData?.Company_VAT_GST_No} 
+                                            {(headerData?.Company_CST_STATE_No !== "" && headerData?.Cust_CST_STATE !== "") && `| ${headerData?.Cust_CST_STATE}-${headerData?.Company_CST_STATE_No}`}
+                                            { headerData?.Com_pannumber !== "" && ` | PAN-${headerData?.Com_pannumber}`}
                                         </div>
                                     </div>
                                     <div className="col-2 d-flex align-items-center justify-content-center">
@@ -441,7 +442,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                         <div className="fslhJL">Phno: {headerData?.customermobileno}</div>
                                         <div className="fslhJL">{headerData?.vat_cst_pan} {headerData?.aadharno !== "" && `| Aadhar-${headerData?.aadharno}`}</div>
                                         <div className="fslhJL">
-                                            {headerData?.Cust_CST_STATE}
+                                            {headerData?.Cust_CST_STATE}-
                                             {headerData?.Cust_CST_STATE_No}
                                         </div>
                                     </div>

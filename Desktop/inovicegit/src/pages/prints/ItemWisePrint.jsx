@@ -136,12 +136,14 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         arr[findIndex].fineWts += (e?.NetWt * (e?.Tunch + e?.Wastage)) / 100;
         arr[findIndex].diamondSettingAmt += diamondSettingAmt;
         arr[findIndex].Tunch += e?.Tunch;
+        arr[findIndex].Wastage += e?.Wastage;
         arr[findIndex].colorStoneSettingAmt += colorStoneSettingAmt;
         arr[findIndex].grosswt += e?.grosswt;
         arr[findIndex].NetWt += e?.NetWt;
         arr[findIndex].MakingAmount += e?.MakingAmount;
         arr[findIndex].OtherCharges += e?.OtherCharges;
         arr[findIndex].TotalAmount += e?.TotalAmount;
+        arr[findIndex].UnitCost += e?.UnitCost;
         arr[findIndex].MetalAmount += e?.MetalAmount;
         arr[findIndex].otherAmt += e?.TotalDiamondHandling + e?.OtherCharges + e?.MiscAmount;
         arr[findIndex].metalRates += e?.metalRates;
@@ -248,7 +250,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     });
     setTotal(totals);
     setData(resultArr);
-    console.log(resultArr);
+    console.log(data);
   };
 
   useEffect(() => {
@@ -442,14 +444,14 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'metaltypeItemWisePrint' : 'metaltypeItemWisePrint1'} border-end
                 ${atob(printName).toLowerCase() === "item wise print2" && 'metaltypeItemWisePrint2'}
                 ${atob(printName)?.toLowerCase() === "item wise print1" && "itemWisePrint1Font_14_category"}`} style={{ wordBreak: "normal" }}>
-                  <p className="itemWisePrintCategory">
+                  <p className="itemWisePrintCategory breakNormalItemWIse" >
                     {e?.MetalType} {e?.MetalPurity}
                   </p>
                 </div>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'categoryItemWisePrint' : 'categoryItemWisePrint1'} border-end 
                 ${atob(printName)?.toLowerCase() === "item wise print1" && `itemWisePrint1Font_14_category`}`}>
                   <p style={{ wordBreak: "normal" }}>
-                    {e?.Collectionname}-<span className="fw-bold" style={{ wordBreak: "normal" }}>{e?.Categoryname}</span>
+                    {e?.Collectionname}-<span className="fw-bold breakNormalItemWIse" style={{ wordBreak: "normal" }}>{e?.Categoryname}</span>
                   </p>
                 </div>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'pkgItemWisePrint' : 'pkgItemWisePrint1'} border-end`}>
