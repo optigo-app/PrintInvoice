@@ -142,6 +142,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         arr[findIndex].NetWt += e?.NetWt;
         arr[findIndex].MakingAmount += e?.MakingAmount;
         arr[findIndex].OtherCharges += e?.OtherCharges;
+        arr[findIndex].DiscountAmt += e?.DiscountAmt;
         arr[findIndex].TotalAmount += e?.TotalAmount;
         arr[findIndex].UnitCost += e?.UnitCost;
         arr[findIndex].MetalAmount += e?.MetalAmount;
@@ -565,7 +566,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'totalAmt' : 'totalAmt1'}`}>
                   <p className="text-end">
-                    {e?.TotalAmount !== 0 && (NumberWithCommas(e?.TotalAmount, 2))}
+                    {e?.TotalAmount !== 0 && (NumberWithCommas(e?.TotalAmount + e?.DiscountAmt, 2))}
                   </p>
                 </div>
               </div>

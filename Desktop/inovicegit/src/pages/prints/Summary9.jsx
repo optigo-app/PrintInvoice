@@ -129,11 +129,14 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
 
         });
+        let csMiscWt = 0;
+        let MiscWt = 0;
         data?.BillPrint_Json2.forEach((ele, ind) => {
             if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                 let findColor = colorStone.findIndex((elem, index) => elem?.Rate === ele?.Rate);
                 colorStoneTotal.Wt += ele?.Wt;
                 colorStoneTotal.Amount += ele?.Amount;
+                csMiscWt += ele?.Wt;
                 if (findColor === -1) {
                     colorStone.push(ele);
                 }
@@ -148,12 +151,21 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     misc[findMiscs].Pcs += ele?.Pcs;
                     misc[findMiscs].Amount += ele?.Amount;
                 }
+                if(ele?.IsHSCOE === 0){
+                    csMiscWt += ele?.Wt;
+                    MiscWt += ele?.Wt;
+                }else{
+                    csMiscWt += ele?.ServWt;
+                    MiscWt += ele?.ServWt;
+                }
             }
         });
         setGoldList(goldLists);
         metalLists.list = metals;
         setMetalList(metalLists);
         datas.resultArray = resultArray;
+        datas.mainTotal.csMiscWt = csMiscWt;
+        datas.mainTotal.MiscWt = MiscWt;
         setSummary(summaries);
         setData(datas);
         csLists.list = colorStone;
@@ -365,7 +377,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p className={`${style?.shapeName} ${style?.pad_2}`}>{ele?.ShapeName}</p>
                                 </div>
                                 <div className="col-3 text-end">
-                                    <p className={`${style?.shapeName} ${style?.pad_2}`}>{NumberWithCommas(ele?.Pcs, 0)}/{NumberWithCommas(ele?.Wt, 3)}</p>
+                                    <p className={`${style?.shapeName} ${style?.pad_2}`}>{NumberWithCommas(ele?.Pcs, 0)}/{ele?.IsHSCOE === 0 ? NumberWithCommas(ele?.Wt, 3) : NumberWithCommas(ele?.ServWt, 3)}</p>
                                 </div>
                                 <div className="col-3 text-end">
                                     <p className={`${style?.shapeName} ${style?.pad_2}`}>{NumberWithCommas(ele?.Rate, 2)}</p>
@@ -427,7 +439,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className={`${style?.tableTotal} text-center border-end p-1 fw-bold`}>TOTAL</div>
                 <div className={`${style?.STONE}   border-end d-flex`}>
                     <div className="col-3  p-1 border-end"></div>
-                    <div className="col-3  p-1 border-end text-end fw-bold">{NumberWithCommas(data?.mainTotal?.colorstone?.Pcs + data?.mainTotal?.misc?.Pcs, 0)}/{NumberWithCommas(data?.mainTotal?.colorstone?.Wt + data?.mainTotal?.misc?.Wt, 3)}</div>
+                    <div className="col-3  p-1 border-end text-end fw-bold">{NumberWithCommas(data?.mainTotal?.colorstone?.Pcs + data?.mainTotal?.misc?.Pcs, 0)}/{NumberWithCommas(data?.mainTotal?.csMiscWt, 3)}</div>
                     <div className="col-3  p-1 border-end text-end fw-bold"></div>
                     <div className="col-3  p-1 text-end fw-bold">{NumberWithCommas(data?.mainTotal?.stone_misc?.Amount, 2)}</div>
                 </div>
@@ -506,7 +518,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">MINA/KUNDAN	</p>
-                                    <p>{NumberWithCommas(data?.mainTotal?.misc?.Pcs, 0)} / {NumberWithCommas(data?.mainTotal?.misc?.Wt, 3)} gm	</p>
+                                    <p>{NumberWithCommas(data?.mainTotal?.misc?.Pcs, 0)} / {NumberWithCommas(data?.mainTotal?.MiscWt, 3)} gm	</p>
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <p className="fw-bold">STONE WT</p>
