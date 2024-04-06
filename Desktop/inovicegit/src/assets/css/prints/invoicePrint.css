@@ -1,6 +1,10 @@
-.inoviceprintContainer *{
+.inoviceprintContainer *:not(.declarationInvoicePrint *){
     font-size: 12px;
     line-height: 120%;
+}
+
+.declarationInvoicePrint *{
+    line-height: 135%;
 }
 
 .minHieght150InvoicePrint{

@@ -509,12 +509,12 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 )}
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'gwtItemWisePrint' : 'gwtItemWisePrint1'} border-end`}>
                   <p className="text-end">
-                    {e?.grosswt !== 0 && (e?.grosswt).toFixed(3)}
+                    {e?.grosswt !== 0 && NumberWithCommas(e?.grosswt, 3)}
                   </p>
                 </div>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'gwtItemWisePrint' : 'gwtItemWisePrint1'} border-end`}>
                   <p className="text-end">
-                    {e?.NetWt !== 0 && (e?.NetWt).toFixed(3)}
+                    {e?.NetWt !== 0 && NumberWithCommas(e?.NetWt, 3)}
                   </p>
                 </div>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'rateItemWisePrint' : 'rateItemWisePrint1'} border-end`}>
@@ -527,24 +527,24 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'mAmtItemWisePrint' : 'mAmtItemWisePrint1'} border-end`}>
                   <p className="text-end">
-                    {e?.MetalAmount !== 0 && (e?.MetalAmount).toFixed(2)}
+                    {e?.MetalAmount !== 0 && NumberWithCommas(e?.MetalAmount, 2)}
                   </p>
                 </div>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'otherAmtItemWisePrint' : 'otherAmtItemWisePrint1'} border-end`}>
                   <p className="text-end">
-                    {e?.otherAmt !== 0 && (e?.otherAmt).toFixed(2)}
+                    {e?.otherAmt !== 0 && NumberWithCommas(e?.otherAmt, 2)}
                   </p>
                 </div>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'percentageItemWiseprint' : 'percentageItemWiseprint1'} border-end
                 ${atob(printName).toLowerCase() === "item wise print2" && 'percentageItemWiseprint2'}`}>
                   <p className="text-end">
-                    {e?.MetalPriceRatio !== 0 && <>{e?.MetalPriceRatio.toFixed(3)}</>}
+                    {e?.MetalPriceRatio !== 0 && <>{NumberWithCommas(e?.MetalPriceRatio, 3)}</>}
                   </p>
                 </div>
                 <div className={`${atob(printName).toLowerCase() === "item wise print1" ? 'wastageItemWisePrint' : 'wastageItemWisePrint'} border-end
                           ${atob(printName).toLowerCase() === "item wise print2" && 'wastageItemWisePrint2'}`}>
                   <p className="text-end">
-                    {e?.Wastage !== 0 ? e?.Wastage.toFixed(3) : ""}
+                    {e?.Wastage !== 0 ? NumberWithCommas(e?.Wastage, 3) : ""}
                   </p>
                 </div>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'makingItemWisePrint' : 'makingItemWisePrint1'} border-end`}>
@@ -591,7 +591,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {taxes.length > 0 && taxes.map((e, i) => {
               return <p className="fw-bold text-end  border-bottom  pe-1" style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }} key={i}>{e?.amount}</p>
             })}
-            {json0Data?.AddLess !== 0 && <p className="fw-bold text-end   pe-1" style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }}>{(json0Data?.AddLess)?.toFixed(2)}</p>}
+            {json0Data?.AddLess !== 0 && <p className="fw-bold text-end   pe-1" style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }}>{NumberWithCommas(json0Data?.AddLess, 2)}</p>}
           </div>
         </div>
         {/* Total */}
@@ -641,10 +641,10 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </>
           )}
           <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'gwtItemWisePrint' : 'gwtItemWisePrint1'} border-end`}>
-            <p className="fw-bold text-end">{(total?.gwt).toFixed(3)}</p>
+            <p className="fw-bold text-end">{NumberWithCommas(total?.gwt, 3)}</p>
           </div>
           <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'gwtItemWisePrint' : 'gwtItemWisePrint1'} border-end`}>
-            <p className="fw-bold text-end">{(total?.nwt).toFixed(3)}</p>
+            <p className="fw-bold text-end">{NumberWithCommas(total?.nwt, 3)}</p>
           </div>
 
           <div className={`${(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 'rateItemWisePrint' : 'rateItemWisePrint1'} border-end`}>

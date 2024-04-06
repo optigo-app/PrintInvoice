@@ -521,12 +521,12 @@ const RetailInvoiceprint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                                 <p className="fw-bold p-1 text-center">Material Description</p>
                                             </div>
                                             <div className="d-flex">
-                                                <div className={`col-2 d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">Material</p></div>
-                                                <div className={`col-2 d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">Carat</p></div>
-                                                <div className={`col-2 d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">GWT</p></div>
-                                                <div className={`col-2 d-flex align-items-center justify-content-center border-end p-1 flex-column`}><p className="fw-bold">STONE/</p><p className="fw-bold">DIA Wt.</p></div>
-                                                <div className={`col-2 d-flex align-items-center justify-content-center border-end`}><p className="fw-bold p-1">NWT</p></div>
-                                                <div className={`col-2 d-flex align-items-center justify-content-center`}><p className="fw-bold p-1">Rate</p></div>
+                                                <div className={`col-2 d-flex align-items-center text-center justify-content-center border-end`}><p className="text-center fw-bold p-1">Material</p></div>
+                                                <div className={`col-2 d-flex align-items-center text-center justify-content-center border-end`}><p className="text-center fw-bold p-1">Carat</p></div>
+                                                <div className={`col-2 d-flex align-items-center text-center justify-content-center border-end`}><p className="text-center fw-bold p-1">GWT</p></div>
+                                                <div className={`col-2 d-flex align-items-center text-center justify-content-center border-end p-1 flex-column`}><p className="text-center fw-bold" style={{wordBreak: "normal"}}>STONE/DIA Wt.</p></div>
+                                                <div className={`col-2 d-flex align-items-center text-center justify-content-center border-end`}><p className="text-center fw-bold p-1">NWT</p></div>
+                                                <div className={`col-2 d-flex align-items-center text-center justify-content-center`}><p className="text-center fw-bold p-1">Rate</p></div>
                                             </div>
                                         </div>
                                         <div className={`${style?.metalMakingJewerryRetailInvoicePrint} border-end d-flex align-items-center justify-content-center`}>
@@ -543,7 +543,7 @@ const RetailInvoiceprint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                         <div className={`${style?.productJewerryRetailInvoicePrint} border-end p-1 `}>
                                             <p className="" style={{wordBreak: "normal"}}>{e?.SubCategoryname} {e?.Categoryname}</p>
                                             <p className="" style={{wordBreak: "normal"}}>{e?.designno} | {e?.SrJobno}</p>
-                                            {image && <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' className={`w-75 p-1 ${style?.imageJewelleryC}`} />}
+                                            {image && <img src={e?.DesignImage} alt="" onError={handleImageError} lazy='eagar' className={`w-100 p-1 ${style?.imageJewelleryC} mx-auto d-block`} style={{maxWidth: "75px", maxHeight: "75px"}} />}
                                             {e?.HUID !== "" && <p style={{wordBreak: "normal"}} className={`text-center ${!image && 'pt-3'}`}>HUID-{e?.HUID}</p>}
                                         </div>
                                         <div className={`${style?.materialJewerryRetailInvoicePrint} border-end`}>
