@@ -297,45 +297,46 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         let m1 = [];
         let m2 = [];
         console.log("hello");
-        e?.misc?.forEach((a) => {
-            if(a?.IsHSCOE === 0){
-              m1.push(a);
-            }else{
-              m2.push(a);
-            }
-            // else if(a?.IsHSCOE === 3){
-            //   m2?.push(a);
-            // }
-        })
-        m1?.forEach((e) => {
-          mobj1.Wt += e?.Wt;
-          mobj1.Rate = e?.Rate;
-          mobj1.Pcs += e?.Pcs;
-          mobj1.Amount += e?.Amount;
-        })
-        m2?.forEach((e) => {
-          mobj2.Wt += e?.Wt;
-          mobj2.Rate = e?.Rate;
-          mobj2.Pcs += e?.Pcs;
-          mobj2.Amount += e?.Amount;
-        })
-        let m3 = [];
-        m1?.forEach((a) => {
-          mobj1.Wt += a?.Wt;
-          mobj1.Pcs += a?.Pcs;
-          mobj1.Rate = a?.Rate;
-          mobj1.Amount += a?.Amount;
-        })
-        m3.push(mobj1);
-        let m4 = [];
-        m2?.forEach((a) => {
-          mobj2.Wt += a?.Wt;
-          mobj2.Pcs += a?.Pcs;
-          mobj2.Rate = a?.Rate;
-          mobj2.Amount += a?.Amount;
-        })
-        m4.push(mobj2);
-        e.misc = [...m3, ...m4];
+        // e?.misc?.forEach((a) => {
+        //     if(a?.IsHSCOE === 0){
+        //       m1.push(a);
+        //     }else{
+        //       m2.push(a);
+        //     }
+        //     // else if(a?.IsHSCOE === 3){
+        //     //   m2?.push(a);
+        //     // }
+        // })
+        // m1?.forEach((e) => {
+        //   mobj1.Wt += e?.Wt;
+        //   mobj1.Rate = e?.Rate;
+        //   mobj1.Pcs += e?.Pcs;
+        //   mobj1.Amount += e?.Amount;
+        // })
+        // m2?.forEach((e) => {
+        //   mobj2.Wt += e?.Wt;
+        //   mobj2.Rate = e?.Rate;
+        //   mobj2.Pcs += e?.Pcs;
+        //   mobj2.Amount += e?.Amount;
+        // })
+        // let m3 = [];
+        // m1?.forEach((a) => {
+        //   mobj1.Wt += a?.Wt;
+        //   mobj1.Pcs += a?.Pcs;
+        //   mobj1.Rate = a?.Rate;
+        //   mobj1.Amount += a?.Amount;
+        // })
+        // m3.push(mobj1);
+        // let m4 = [];
+        // m2?.forEach((a) => {
+        //   mobj2.Wt += a?.Wt;
+        //   mobj2.Pcs += a?.Pcs;
+        //   mobj2.Rate = a?.Rate;
+        //   mobj2.Amount += a?.Amount;
+        // })
+        // m4.push(mobj2);
+        // console.log(m4);
+        // e.misc = [...m3, ...m4];
 
       })
 
@@ -511,11 +512,12 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                             );
                           })}
                           {e?.misc?.map((el, ind) => {
+                            console.log(el);
                             return (
                               <div className="d-flex border-bottom fs_ji2 lh_ji2" key={ind}>
-                                <div className="border-end pad_start_ji2" style={{ width: "26%" }} >  <span>MISC</span> </div>
+                                <div className="border-end pad_start_ji2" style={{ width: "26%" }} >  <span>MISC {el?.IsHSCOE}</span> </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > {el?.Pcs} </div>
-                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {el?.Wt?.toFixed(3)} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {el?.IsHSCOE === 0 ? el?.Wt?.toFixed(3) : el?.ServWt} </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount(el?.Rate)} </div>
                                 <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(el?.Amount)} </div>
                               </div>
