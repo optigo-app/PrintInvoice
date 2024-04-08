@@ -3,6 +3,7 @@
     line-height: 120%;
     word-break: normal;
 }
+
 .Sr, .qty, .totalt{
     width: 5%;
     min-width: 5%;
@@ -15,6 +16,12 @@
     width: 50%;
     min-width: 50%;
 }
+
+.min_height_title{
+    min-height: 35px;
+    max-height: 35px;
+}
+
 .other, .wtt{
     width: 7%;
     min-width: 7%;
@@ -62,6 +69,10 @@
 
 .font_12, .font_12 *{
     font-size: 12px;
+}
+
+.font_14, .font_14 *{
+    font-size: 14px;
 }
 
 
