@@ -390,7 +390,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                         {/* <div className='fslhpcl3'>{headerData?.Company_VAT_GST_No} | {headerData?.Cust_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-EDJHF236D</div> */}
                                         <div className="fslhJL">
                                             {headerData?.Company_VAT_GST_No} 
-                                            {(headerData?.Company_CST_STATE_No !== "" && headerData?.Cust_CST_STATE !== "") && `| ${headerData?.Cust_CST_STATE}-${headerData?.Company_CST_STATE_No}`}
+                                            {(headerData?.Company_CST_STATE_No !== "" && headerData?.Company_CST_STATE !== "") && `| ${headerData?.Company_CST_STATE}-${headerData?.Company_CST_STATE_No}`}
                                             { headerData?.Com_pannumber !== "" && ` | PAN-${headerData?.Com_pannumber}`}
                                         </div>
                                     </div>
