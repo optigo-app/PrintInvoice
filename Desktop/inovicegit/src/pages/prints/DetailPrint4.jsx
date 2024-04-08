@@ -262,29 +262,32 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let b = cloneDeep(a);
       let find_record = finalArr.findIndex((el) => el?.GroupJob === b?.GroupJob);
       if(find_record === -1){
-        finalArr.push(a);
+        finalArr.push(b);
       }else{
         if(finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno){
+          console.log(b);
             finalArr[find_record].designno = b?.designno;
-            finalArr[find_record].HUID = b?.HUID;
-            finalArr[find_record].grosswt += b?.grosswt;
-            finalArr[find_record].NetWt += b?.NetWt;
-            finalArr[find_record].LossWt += b?.LossWt;
-            finalArr[find_record].TotalAmount += b?.TotalAmount;
-            finalArr[find_record].UnitCost += b?.UnitCost;
-            finalArr[find_record].MakingAmount += b?.MakingAmount;
-            finalArr[find_record].OtherCharges += b?.OtherCharges;
-            finalArr[find_record].Quantity += b?.Quantity;
-            finalArr[find_record].Wastage += b?.Wastage;
-            finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
-            finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
-            finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
-            finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+            finalArr[find_record].HUID = b?.HUID; 
         }
+        finalArr[find_record].grosswt += b?.grosswt;
+        finalArr[find_record].NetWt += b?.NetWt;
+        finalArr[find_record].LossWt += b?.LossWt;
+        finalArr[find_record].TotalAmount += b?.TotalAmount;
+        finalArr[find_record].UnitCost += b?.UnitCost;
+        finalArr[find_record].MakingAmount += b?.MakingAmount;
+        finalArr[find_record].OtherCharges += b?.OtherCharges;
+        finalArr[find_record].Quantity += b?.Quantity;
+        finalArr[find_record].Wastage += b?.Wastage;
+        finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
+        finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
+        finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
+        finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
       }
     }
     })
+    console.log("after group job",finalArr);
 
+    datas.resultArray = finalArr;
 
     setResult(datas);
     setLoader(false);
@@ -496,7 +499,7 @@ console.log(result);
                           </div>
                           <div className="col3_dp4 border-secondary border-end">
                             <div>
-                              {e?.diamonds?.map((el, ind) => {
+                              {e?.diamonds_d?.map((el, ind) => {
                                 return (
                                   <div className="d-flex fs_dp4" key={ind}>
                                     <div
@@ -531,7 +534,7 @@ console.log(result);
                           <div className="col4_dp4 border-secondary border-end">
                             <div>
                             {
-                      e?.metal?.map((el, ind) => {
+                      e?.metal_d?.map((el, ind) => {
                         
                         return(
                           <div key={ind}>
@@ -587,7 +590,7 @@ console.log(result);
                           </div>
                           <div className="col5_dp4 border-secondary border-end">
                             <div>
-                              {e?.colorstone?.map((el, ind) => {
+                              {e?.colorstone_d?.map((el, ind) => {
                                 return (
                                   <div className="d-flex fs_dp4" key={ind}>
                                     <div
@@ -618,7 +621,7 @@ console.log(result);
                                 );
                               })}
                               {
-                                e?.misc?.map((el, i) => {
+                                e?.misc_d?.map((el, i) => {
                                   return(
                                     <div className="d-flex fs_dp4" key={i}>
                                     <div
@@ -662,7 +665,7 @@ console.log(result);
                               //   // e?.MiscAmount
                             } */}
                           </div>
-                          <div className="col7_dp4 border-secondary border-end fs_dp4">
+                          <div className="col7_dp4 border-secondary border-end fs_dp4"> 
                             <div className="d-flex">
                               <div className=" end_top_dp4 fs_dp4" style={{width:'35%'}}>
                                 {formatAmount(e?.MaKingCharge_Unit)}
