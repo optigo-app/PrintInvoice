@@ -10,7 +10,7 @@ import {
 import style from '../../assets/css/prints/SummaryInCurrency.module.css';
 import Loader from "../../components/Loader";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
-import lodash from 'lodash';
+import lodash, { cloneDeep } from 'lodash';
 
 const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [loader, setLoader] = useState(true);
@@ -28,7 +28,26 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
+        let resultArr = [];
+        datas?.resultArray?.forEach((e, i) => {
+            let obj = cloneDeep(e);
+            let diamonds = [];
+            e?.diamonds?.forEach((ele, ind) => {
+                let findDiamond = diamonds?.findIndex(elem => elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
+                if (findDiamond === -1) {
+                    diamonds?.push(ele);
+                } else {
+                    diamonds[findDiamond].Amount += ele?.Amount;
+                    diamonds[findDiamond].Wt += ele?.Wt;
+                    diamonds[findDiamond].Pcs += ele?.Pcs;
+                }
+            });
+            obj.diamonds = diamonds;
+            resultArr?.push(obj);
+        });
+        datas.resultArray = resultArr;
         setData(datas);
+        console.log(datas);
     };
 
     const handleChange = (e) => {
