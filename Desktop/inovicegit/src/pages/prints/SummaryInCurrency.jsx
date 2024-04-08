@@ -43,6 +43,7 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                 }
             });
             obj.diamonds = diamonds;
+            obj.metalAmounts = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc + cObj?.Amount : acc, 0);
             resultArr?.push(obj);
         });
         datas.resultArray = resultArr;
@@ -85,10 +86,10 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
     return loader ? (
         <Loader />
     ) : msg === "" ? (
-        <div className={`container container-fluid max_width_container mt-1 ${style?.summaryInCurrency} pad_60_allPrint`}>
+        <div className={`container container-fluid max_width_container mt-1 ${style?.summaryInCurrency} pad_60_allPrint px-1`}>
             {/* buttons */}
-            <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`} >
-                <div className="form-check d-flex align-items-center">
+            <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4 ${style?.font_16}`} >
+                <div className="form-check d-flex align-items-center pt-1">
                     <input className="border-dark me-2" type="checkbox" checked={checkBox?.image} onChange={e => handleChange(e)} name='image' />
                     <label className="">
                         With Image
@@ -104,24 +105,28 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                 </div>
             </div>
             {/* header */}
-            <div className="border d-flex justify-content-between p-2">
+            <div className={`border d-flex justify-content-between p-2 ${style?.font_18}`}>
                 <p>ESTIMATE# : <span className="fw-bold">{headerData?.InvoiceNo}</span></p>
                 <div>
-                    <p>DATE : <span className="fw-bold">{headerData?.EntryDate}</span></p>
-                    {headerData?.HSN_No_Label !== "" && <p>{headerData?.HSN_No_Label} : <span className="fw-bold">{headerData?.HSN_No}</span></p>}
+                    <p className='text-end pb-1'>DATE : <span className="fw-bold">{headerData?.EntryDate}</span></p>
+                    {headerData?.HSN_No_Label !== "" && <p className='text-end pt-1'>{headerData?.HSN_No_Label} : <span className="fw-bold">{headerData?.HSN_No}</span></p>}
                 </div>
             </div>
-            <div className="border-start border-end border-bottom d-flex justify-content-between p-2">
-                <div>
-                    <p>{headerData?.lblBillTo}</p>
-                    <p className='fw-bold'>{headerData?.CustName}</p>
-                    <p>{headerData?.customerstreet}</p>
-                    <p>{headerData?.customerregion}</p>
-                    <p>{headerData?.customercity}{headerData?.customerpincode}</p>
-                    <p>Phno:-{headerData?.customermobileno}</p>
+            <div className={`border-start border-end border-bottom d-flex justify-content-between p-2 ${style?.font_15}`}>
+                <div className='d-flex'>
+                    <div className='pe-2'>
+                        <p className='fw-bold'>TO, </p>
+                    </div>
+                    <div>
+                        <p className='fw-bold'>{headerData?.CustName}</p>
+                        <p>{headerData?.customerstreet}</p>
+                        <p>{headerData?.customerregion}</p>
+                        <p>{headerData?.customercity}{headerData?.customerpincode}</p>
+                        <p>Phno:-{headerData?.customermobileno}</p>
+                    </div>
                 </div>
                 <div>
-                    <p><span className="fw-bold">HKD {headerData?.MetalRate24K}</span></p>
+                    <p><span className="fw-bold">{headerData?.CurrencyCode} {headerData?.MetalRate24K}</span></p>
                 </div>
             </div>
             {/* table header */}
@@ -131,19 +136,19 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                 <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.PURITY} border-end`}>PURITY</div>
                 <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.QLTY} border-end`}>QLTY</div>
                 <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.DIAWT} border-end`}>DIA WT</div>
-                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.DIARATE} border-end`}>DIA RATE (IN HKD)</div>
-                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.DIAAMT} border-end`}>DIA AMT (IN HKD)</div>
+                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.DIARATE} border-end`}>DIA RATE (IN {headerData?.CurrencyCode})</div>
+                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.DIAAMT} border-end`}>DIA AMT (IN {headerData?.CurrencyCode})</div>
                 <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.GWT} border-end`}>G WT</div>
                 <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.NWT} border-end`}>NWT</div>
-                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.MAKING} border-end`}>MAKING (IN HKD)</div>
-                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.CSAMT} border-end`}>CSAMT (IN HKD)</div>
+                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.MAKING} border-end`}>MAKING (IN {headerData?.CurrencyCode})</div>
+                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.CSAMT} border-end`}>CSAMT (IN {headerData?.CurrencyCode})</div>
                 <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.GOLDFINE} border-end`}>GOLD FINE</div>
-                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.GOLDAMT} border-end`}>GOLD AMT (IN HKD)</div>
-                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.AMOUNT}`}>AMOUNT (IN HKD)</div>
+                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.GOLDAMT} border-end`}>GOLD AMT (IN {headerData?.CurrencyCode})</div>
+                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.AMOUNT}`}>AMOUNT (IN {headerData?.CurrencyCode})</div>
             </div>
             {/* table body */}
             {data.resultArray.map((e, i) => {
-                return <div className="border-start border-end border-bottom d-flex" key={i}>
+                return <div className="no_break border-start border-end border-bottom d-flex" key={i}>
                     <div className={`text-center p-1 ${style?.SR} border-end`}>{i + 1}</div>
                     <div className={`fw-bold p-1 ${style?.DESIGN} border-end`}>
                         <p>{e?.designno} ({e?.BrandName})</p>
@@ -154,69 +159,70 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                     <div className={`p-1 ${style?.QLTY} border-end`}>
                         {
                             e?.diamonds.map((ele, ind) => {
-                                return <p key={ind}>{ele?.QualityName}</p>
+                                return <p key={ind} className={`${style?.word_break}`}>{ele?.QualityName}</p>
                             })
                         }
                     </div>
                     <div className={`text-end p-1 ${style?.DIAWT} border-end`}>
                         {
                             e?.diamonds.map((ele, ind) => {
-                                return <p key={ind}>{NumberWithCommas(ele?.Wt, 3)}</p>
+                                return <p key={ind} className={`${style?.word_break}`}>{NumberWithCommas(ele?.Wt, 3)}</p>
                             })
                         }</div>
                     <div className={`text-end p-1 ${style?.DIARATE} border-end`}>
                         {
                             e?.diamonds.map((ele, ind) => {
-                                return <p key={ind}>{NumberWithCommas(ele?.Rate, 2)}</p>
+                                return <p key={ind} className={`${style?.word_break}`}>{NumberWithCommas(ele?.Rate, 2)}</p>
                             })
                         }
                     </div>
                     <div className={`text-end p-1 ${style?.DIAAMT} border-end`}>
                         {
                             e?.diamonds.map((ele, ind) => {
-                                return <p key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
+                                return <p key={ind} className={`${style?.word_break}`}>{NumberWithCommas(ele?.Amount, 2)}</p>
                             })
                         }
                     </div>
-                    <div className={`text-end p-1 ${style?.GWT} border-end`}>
+                    <div className={`text-end p-1 ${style?.GWT} border-end ${style?.word_break}`}>
                         {NumberWithCommas(e?.grosswt, 3)}
                     </div>
-                    <div className={`text-end p-1 ${style?.NWT} border-end`}>
+                    <div className={`text-end p-1 ${style?.NWT} border-end ${style?.word_break}`}>
                         {NumberWithCommas(e?.NetWt, 3)}
                     </div>
-                    <div className={`text-end p-1 ${style?.MAKING} border-end`}>
-                        {NumberWithCommas(e?.MakingAmount, 3)}
+                    <div className={`text-end p-1 ${style?.MAKING} border-end ${style?.word_break}`}>
+                        {NumberWithCommas(e?.MakingAmount + e?.TotalDiamondHandling + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.OtherCharges + e?.MiscAmount, 2)}
                     </div>
-                    <div className={`text-end p-1 ${style?.CSAMT} border-end`}>{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</div>
-                    <div className={`text-end p-1 ${style?.GOLDFINE} border-end`}>{NumberWithCommas(e?.totals?.metal?.FineWt, 3)}</div>
-                    <div className={`text-end p-1 ${style?.GOLDAMT} border-end`}>{NumberWithCommas(e?.totals?.metal?.Amount / headerData?.CurrencyExchRate, 2)}</div>
-                    <div className={`text-end p-1 ${style?.AMOUNT}`}>{NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)}</div>
+                    <div className={`text-end p-1 ${style?.CSAMT} border-end ${style?.word_break}`}>{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</div>
+                    <div className={`text-end p-1 ${style?.GOLDFINE} border-end ${style?.word_break}`}>{NumberWithCommas(e?.totals?.metal?.FineWt, 3)}</div>
+                    <div className={`text-end p-1 ${style?.GOLDAMT} border-end ${style?.word_break}`}>{NumberWithCommas(e?.metalAmounts / headerData?.CurrencyExchRate, 2)}</div>
+                    <div className={`text-end p-1 ${style?.AMOUNT} ${style?.word_break}`}>{NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)}</div>
                 </div>
             })}
             {/* table total */}
-            <div className="border-start border-end border-bottom d-flex lightGrey">
+            <div className={`no_break border-start border-end border-bottom d-flex lightGrey ${style?.word_break}`}>
                 <div className={`fw-bold p-1 ${style?.total} border-end`}>
                     <p className='fw-bold text-center'>Total</p>
                 </div>
-                <div className={`text-end fw-bold p-1 ${style?.DIAWT} border-end`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}</div>
+                <div className={`text-end fw-bold p-1 ${style?.DIAWT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}</div>
                 <div className={`text-end fw-bold p-1 ${style?.DIARATE} border-end`}></div>
-                <div className={`text-end fw-bold p-1 ${style?.DIAAMT} border-end`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</div>
-                <div className={`text-end fw-bold p-1 ${style?.GWT} border-end`}>{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</div>
-                <div className={`text-end fw-bold p-1 ${style?.NWT} border-end`}>{NumberWithCommas(data?.mainTotal?.netwt, 3)}</div>
-                <div className={`text-end fw-bold p-1 ${style?.MAKING} border-end`}>{NumberWithCommas(data?.mainTotal?.total_Making_Amount, 2)}</div>
-                <div className={`text-end fw-bold p-1 ${style?.CSAMT} border-end`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</div>
-                <div className={`text-end fw-bold p-1 ${style?.GOLDFINE} border-end`}>{NumberWithCommas(data?.mainTotal?.metal?.FineWt, 3)}</div>
-                <div className={`text-end fw-bold p-1 ${style?.GOLDAMT} border-end`}>{NumberWithCommas(data?.mainTotal?.metal?.Amount, 2)}</div>
-                <div className={`text-end fw-bold p-1 ${style?.AMOUNT}`}>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</div>
+                <div className={`text-end fw-bold p-1 ${style?.DIAAMT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</div>
+                <div className={`text-end fw-bold p-1 ${style?.GWT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</div>
+                <div className={`text-end fw-bold p-1 ${style?.NWT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.netwt, 3)}</div>
+                <div className={`text-end fw-bold p-1 ${style?.MAKING} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.total_Making_Amount
+                    +data?.mainTotal?.diamonds?.SettingAmount+data?.mainTotal?.colorstone?.SettingAmount+data?.mainTotal?.total_otherCharge_Diamond_Handling, 2)}</div>
+                <div className={`text-end fw-bold p-1 ${style?.CSAMT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</div>
+                <div className={`text-end fw-bold p-1 ${style?.GOLDFINE} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.metal?.FineWt, 3)}</div>
+                <div className={`text-end fw-bold p-1 ${style?.GOLDAMT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.MetalAmount, 2)}</div>
+                <div className={`text-end fw-bold p-1 ${style?.AMOUNT} ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</div>
             </div>
             {/* gold in 24 k */}
-            <div className="my-1 d-flex justify-content-between p-1 lightGrey border">
-                <p>  Gold in 24K : <span className="fw-bold">{headerData?.MetalRate24K}</span></p>
-                <p className='fw-bold'>	TOTAL IN HKD :   {NumberWithCommas(data?.finalAmount, 2)}  </p>
+            <div className={`no_break my-1 d-flex justify-content-between p-1 lightGrey border ${style?.font_14}`}>
+                <p>  Gold in 24K : <span className="fw-bold">{NumberWithCommas(data?.mainTotal?.convertednetwt, 3)}</span></p>
+                <p className='fw-bold'>	TOTAL IN {headerData?.CurrencyCode} :   {NumberWithCommas(data?.finalAmount, 2)}  </p>
             </div>
             {/* total currency */}
-            <div className="my-1 text-end p-1  border">
-                <p className='fw-bold'>	TOTAL IN Hong Kong Dollar :   HK$ {NumberWithCommas(data?.finalAmount, 2)}    </p>
+            <div className={`no_break my-1 text-end p-1 border ${style?.font_14}`}>
+                <p className='fw-bold'>	TOTAL IN {headerData?.Currencyname} :    <span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span> {NumberWithCommas(data?.finalAmount, 2)}    </p>
             </div>
         </div>
     ) : (
