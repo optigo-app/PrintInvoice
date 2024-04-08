@@ -694,7 +694,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         ${(atob(printName).toLowerCase() === "item wise print") && "itemWisePrint1Font_16_total"}
         ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_16_total"}`} >
           <p className="min_width_max">Amount in Words : </p>
-          <p className={`fw-bold ps-1 ${atob(printName)?.toLowerCase() === "item wise print2" && "itemWisePrint1Font_tab_15"} 
+          <p className={`fw-bold ps-1 ${(atob(printName)?.toLowerCase() === "item wise print2"|| atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_tab_15"} 
           ${(atob(printName)?.toLowerCase() === "item wise print") && "itemWisePrint1Font_tab_15"}`}> {toWords?.convert(+fixedValues(total.totalAmt, 2))} Only</p>
         </div>
         {/* ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_tab_15"} */}
