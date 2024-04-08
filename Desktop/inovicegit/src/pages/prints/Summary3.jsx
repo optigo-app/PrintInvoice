@@ -194,11 +194,12 @@ console.log(result);
                     Name : <b className="fsgs3">{result?.header?.customerfirmname}</b>
                   </div>
                   <div className="fsgs3">
-                    Invoice No : <b className="fsgs3">{result?.header?.InvoiceNo}</b>
-                  </div>
-                  <div className="fsgs3">
                     Date : <b className="fsgs3">{result?.header?.EntryDate}</b>
                   </div>
+                  <div className="fsgs3">
+                    Invoice No : <b className="fsgs3">{result?.header?.InvoiceNo}</b>
+                  </div>
+                  
                 </div>
                 {/* table */}
                 <div className="mt-3 tables3 fsgs3">
@@ -234,7 +235,8 @@ console.log(result);
                                 <div className={`${classIs.col2} centers3 border-end border-black  rs3 pe-1`}>{e?.Quantity}</div>
                                 <div className={`${classIs.col3} centers3 border-end border-black  rs3 pe-1`}>{e?.grosswt?.toFixed(3)}</div>
                                 {/* <div className={`${classIs.col4} centers3 border-end border-black  rs3 pe-1`}>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
-                                <div className={`${classIs.col4} centers3 border-end border-black  rs3 pe-1`}>{(e?.primarymetalwt + e?.LossWt)?.toFixed(3)}</div>
+                                {/* <div className={`${classIs.col4} centers3 border-end border-black  rs3 pe-1`}>{(e?.primarymetalwt + e?.LossWt)?.toFixed(3)}</div> */}
+                                <div className={`${classIs.col4} centers3 border-end border-black  rs3 pe-1`}>{(e?.primarymetalwt )?.toFixed(3)}</div>
                                 <div className={`${classIs.col5} centers3 border-end border-black  rs3 pe-1`}>{(e?.Tunch - e?.Wastage)?.toFixed(3)} </div>
                                 <div className={`${classIs.col6} centers3 border-end border-black  rs3 pe-1`}>{e?.Wastage?.toFixed(3)}</div>
                                 <div className={`${classIs.col7} centers3 border-end border-black  rs3 pe-1`}>{((e?.totals?.colorstone?.Wt)/5)?.toFixed(3)}</div>
