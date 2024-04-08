@@ -148,7 +148,7 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
             </div>
             {/* table body */}
             {data.resultArray.map((e, i) => {
-                return <div className="border-start border-end border-bottom d-flex" key={i}>
+                return <div className="no_break border-start border-end border-bottom d-flex" key={i}>
                     <div className={`text-center p-1 ${style?.SR} border-end`}>{i + 1}</div>
                     <div className={`fw-bold p-1 ${style?.DESIGN} border-end`}>
                         <p>{e?.designno} ({e?.BrandName})</p>
@@ -199,7 +199,7 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                 </div>
             })}
             {/* table total */}
-            <div className={`border-start border-end border-bottom d-flex lightGrey ${style?.word_break}`}>
+            <div className={`no_break border-start border-end border-bottom d-flex lightGrey ${style?.word_break}`}>
                 <div className={`fw-bold p-1 ${style?.total} border-end`}>
                     <p className='fw-bold text-center'>Total</p>
                 </div>
@@ -216,12 +216,12 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                 <div className={`text-end fw-bold p-1 ${style?.AMOUNT} ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</div>
             </div>
             {/* gold in 24 k */}
-            <div className={`my-1 d-flex justify-content-between p-1 lightGrey border ${style?.font_14}`}>
-                <p>  Gold in 24K : <span className="fw-bold">{headerData?.MetalRate24K}</span></p>
+            <div className={`no_break my-1 d-flex justify-content-between p-1 lightGrey border ${style?.font_14}`}>
+                <p>  Gold in 24K : <span className="fw-bold">{NumberWithCommas(data?.mainTotal?.convertednetwt, 3)}</span></p>
                 <p className='fw-bold'>	TOTAL IN {headerData?.CurrencyCode} :   {NumberWithCommas(data?.finalAmount, 2)}  </p>
             </div>
             {/* total currency */}
-            <div className={`my-1 text-end p-1 border ${style?.font_14}`}>
+            <div className={`no_break my-1 text-end p-1 border ${style?.font_14}`}>
                 <p className='fw-bold'>	TOTAL IN {headerData?.Currencyname} :    <span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span> {NumberWithCommas(data?.finalAmount, 2)}    </p>
             </div>
         </div>
