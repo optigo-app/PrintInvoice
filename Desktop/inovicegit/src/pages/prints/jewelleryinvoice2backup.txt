@@ -52,6 +52,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       copydata?.BillPrint_Json2
     );
     // console.log(datas);
+    setResult(datas);
 
     let metwise = [];
 
@@ -110,7 +111,6 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
     //   }
     // })
     datas?.resultArray?.forEach((e) => {
-      e.misc = [];
       let findRecord = metwise?.findIndex(
         (a) => a?.MetalTypePurity === e?.MetalTypePurity 
         // && a?.metalRate === e?.metalRate
@@ -149,7 +149,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         metwise[findRecord].TotalAmount_d += e?.TotalAmount;
         metwise[findRecord].TotalAmount += e?.TotalAmount;
         metwise[findRecord].MiscAmount_d += e?.MiscAmount;
-        // metwise[findRecord].MiscAmount += e?.MiscAmount;
+        metwise[findRecord].MiscAmount += e?.MiscAmount;
         metwise[findRecord].MakingAmount_d += e?.MakingAmount;
         metwise[findRecord].MakingAmount += e?.MakingAmount;
         metwise[findRecord].MetalAmount_d += e?.MetalAmount;
@@ -170,7 +170,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         metwise[findRecord].colorstone = [...metwise[findRecord].colorstone, ...e?.colorstone].flat()
         metwise[findRecord].metal = [...metwise[findRecord].metal, ...e?.metal].flat()
         // metwise[findRecord].misc = [...metwise[findRecord].misc, ...e?.misc].flat()
-        metwise[findRecord].misc = [...metwise[findRecord].misc, ...e?.misc].flat()
+        // metwise[findRecord].misc = [...metwise[findRecord].misc, ...e?.misc].flat()
         metwise[findRecord].finding = [...metwise[findRecord].finding, ...e?.finding].flat()
         metwise[findRecord].totals.finding._Wt += e?.totals?.finding?.Wt;
         metwise[findRecord].totals.finding._Pcs += e?.totals?.finding?.Pcs;
@@ -356,11 +356,11 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
 
 
 
-      // metwise?.sort((a, b) => {
-      //   const qualityA = parseInt(a?.MetalPurity);
-      //   const qualityB = parseInt(b?.MetalPurity);
-      //   return qualityA - qualityB;
-      // });
+      metwise?.sort((a, b) => {
+        const qualityA = parseInt(a?.MetalPurity);
+        const qualityB = parseInt(b?.MetalPurity);
+        return qualityA - qualityB;
+      });
     //   console.log(metwise);
       let tot_obj = {
         pcs:0,
@@ -368,31 +368,19 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         rate:0,
         amount:0
       }
-      // metwise?.forEach((e) => {
-      //   e?.diamond_colorstone_misc?.forEach((el) => {
-      //     tot_obj.pcs += el?.a_pcs;
-      //     tot_obj.wt += el?.a_wt;
-      //     tot_obj.rate += el?.a_rate;
-      //     tot_obj.amount += el?.a_amount;
-      //   })
-      // })
-      // datas?.resultArray?.forEach((e) => {
-      //   datas?.json2?.forEach((el) => {
-      //     if(el?.MasterManagement_DiamondStoneTypeid === 3 && e?.SrJobno === el?.StockBarcode){
-      //       e?.misc?.push(el);
-      //     }
-      //   })
-      // })
-
-
-
-
+      metwise?.forEach((e) => {
+        e?.diamond_colorstone_misc?.forEach((el) => {
+          tot_obj.pcs += el?.a_pcs;
+          tot_obj.wt += el?.a_wt;
+          tot_obj.rate += el?.a_rate;
+          tot_obj.amount += el?.a_amount;
+        })
+      })
 
       setTotObj(tot_obj);
       setMetWise(metwise);
-      setResult(datas);
-
   };
+
   return (
     <>
       {loader ? (
