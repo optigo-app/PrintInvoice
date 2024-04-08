@@ -129,6 +129,13 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         obj.NetWt_d = e?.NetWt;
         obj.LossWt_d = e?.LossWt;
         obj.total_MakingAmount_Setting_Amount_d = e?.total_MakingAmount_Setting_Amount;
+        obj.totals.metal._Wt = e?.totals?.metal?.Wt;
+        obj.totals.metal._IsPrimaryMetal = e?.totals?.metal?.IsPrimaryMetal;
+        obj.totals.metal._WithOutPrimaryMetal = e?.totals?.metal?.WithOutPrimaryMetal;
+        obj.totals.finding._Wt = e?.totals?.finding?.Wt;
+        obj.totals.finding._Pcs = e?.totals?.finding?.Pcs;
+        obj.totals.finding._Rate = e?.totals?.finding?.Rate;
+        obj.totals.finding._Amount = e?.totals?.finding?.Amount;
         metwise.push(obj);
       } else {
         metwise[findRecord].OtherCharges_d += e?.OtherCharges;
@@ -152,33 +159,192 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         metwise[findRecord].NetWt_d += e?.NetWt;
         // metwise[findRecord].NetWt += e?.NetWt;
         metwise[findRecord].LossWt_d += e?.LossWt;
+        metwise[findRecord].totals.metal._Wt += e?.totals?.metal?.Wt;
+        metwise[findRecord].totals.metal._IsPrimaryMetal += e?.totals?.metal?.IsPrimaryMetal;
+        metwise[findRecord].totals.metal._WithOutPrimaryMetal += e?.totals?.metal?.WithOutPrimaryMetal;
         // metwise[findRecord].LossWt += e?.LossWt;
         // metwise[findRecord].total_MakingAmount_Setting_Amount += e?.total_MakingAmount_Setting_Amount;
         metwise[findRecord].total_MakingAmount_Setting_Amount_d += e?.total_MakingAmount_Setting_Amount;
         metwise[findRecord].diamond_colorstone_misc = [...metwise[findRecord].diamond_colorstone_misc, ...e?.diamond_colorstone_misc].flat()
+        metwise[findRecord].diamonds = [...metwise[findRecord].diamonds, ...e?.diamonds].flat()
+        metwise[findRecord].colorstone = [...metwise[findRecord].colorstone, ...e?.colorstone].flat()
+        metwise[findRecord].metal = [...metwise[findRecord].metal, ...e?.metal].flat()
+        metwise[findRecord].misc = [...metwise[findRecord].misc, ...e?.misc].flat()
+        metwise[findRecord].finding = [...metwise[findRecord].finding, ...e?.finding].flat()
+        metwise[findRecord].totals.finding._Wt += e?.totals?.finding?.Wt;
+        metwise[findRecord].totals.finding._Pcs += e?.totals?.finding?.Pcs;
+        metwise[findRecord].totals.finding._Rate = e?.totals?.finding?.Rate;
+        metwise[findRecord].totals.finding._Amount += e?.totals?.finding?.Amount;
       }
     });
+
     metwise?.forEach((e) => {
         let metwise2 = [];
-        e?.diamond_colorstone_misc?.forEach((a) => {
-          // console.log(a);
-          let find_Record = metwise2?.findIndex((el) => el?.MasterManagement_DiamondStoneTypeid === 1 && el?.QualityName === a?.QualityName);
-          if(find_Record === -1){
-            let obj = {...a};
-            obj.a_wt = a?.Wt;
-            obj.a_pcs = a?.Pcs;
-            obj.a_rate = a?.Rate;
-            obj.a_amount = a?.Amount;
-            metwise2.push(obj);
-          }else{
-              metwise2[find_Record].a_wt += a?.Wt;
-              metwise2[find_Record].a_pcs += a?.Pcs;
-              // metwise2[find_Record].a_rate += a?.Rate;
-              metwise2[find_Record].a_amount += a?.Amount;
-          }
+        // e?.diamond_colorstone_misc?.forEach((a) => {
+        //   // console.log(a);
+        //   let find_Record = metwise2?.findIndex((el) => el?.MasterManagement_DiamondStoneTypeid === 1 && el?.QualityName === a?.QualityName);
+        //   if(find_Record === -1){
+        //     let obj = {...a};
+        //     obj.a_wt = a?.Wt;
+        //     obj.a_pcs = a?.Pcs;
+        //     obj.a_rate = a?.Rate;
+        //     obj.a_amount = a?.Amount;
+        //     metwise2.push(obj);
+        //   }else{
+        //       metwise2[find_Record].a_wt += a?.Wt;
+        //       metwise2[find_Record].a_pcs += a?.Pcs;
+        //       // metwise2[find_Record].a_rate += a?.Rate;
+        //       metwise2[find_Record].a_amount += a?.Amount;
+        //   }
+        // })
+        // e.diamond_colorstone_misc = metwise2;
+        let diaq = [];
+        e?.diamonds?.forEach((a) => {
+            let findDiarc = diaq?.findIndex((el) => el?.QualityName === a?.QualityName);
+            if(findDiarc === -1){
+              let obj = {...a};
+              obj._wt = a?.Wt;
+              obj._pcs = a?.Pcs;
+              obj._rate = a?.Rate;
+              obj._amount = a?.Amount;
+              diaq.push(obj);
+            }else{
+              diaq[findDiarc]._wt += a?.Wt;
+              diaq[findDiarc]._pcs += a?.Pcs;
+              diaq[findDiarc]._rate += a?.Rate;
+              diaq[findDiarc]._amount += a?.Amount;
+            }
         })
-        e.diamond_colorstone_misc = metwise2;
+        e.diamonds = diaq;
+        let clrq = [];
+        let clrq1 = [];
+        let clrq2 = [];
+        let csobj1 = {
+          Wt : 0,
+          Pcs: 0,
+          Rate : 0,
+          Amount : 0,
+          rate:0
+        }
+        let csobj2 = {
+          Wt : 0,
+          Pcs: 0,
+          Rate : 0,
+          Amount : 0,
+          rate:0
+        }
+       
+        e?.colorstone?.forEach((a) => {
+          if(a?.isRateOnPcs === 1){
+              clrq1.push(a);
+          }else{
+              clrq2.push(a);
+          }
+          // let findDiarc = clrq?.findIndex((el) => el?.QualityName === a?.QualityName);
+            // if(findDiarc === -1){
+            //   let obj = {...a};
+            //   obj._wt = a?.Wt;
+            //   obj._pcs = a?.Pcs;
+            //   obj._rate = a?.Rate;
+            //   obj._amount = a?.Amount;
+            //   clrq.push(obj);
+            // }else{
+            //   clrq[findDiarc]._wt += a?.Wt;
+            //   clrq[findDiarc]._pcs += a?.Pcs;
+            //   clrq[findDiarc]._rate += a?.Rate;
+            //   clrq[findDiarc]._amount += a?.Amount;
+            // }
+        })
+        clrq1?.forEach((e) => {
+          csobj1.Wt += e?.Wt;
+          csobj1.Pcs += e?.Pcs;
+          csobj1.Rate = e?.Rate;
+          csobj1.Amount += e?.Amount;
+        })
+        clrq1 = [];
+        if(csobj1?.Wt === 0 && csobj1?.Pcs === 0 && csobj1?.Rate === 0 && csobj1?.Amount === 0){
+          return
+        }else{
+          clrq1.push(csobj1);
+        }
+        clrq2?.forEach((e) => {
+          csobj2.Wt += e?.Wt;
+          csobj2.Pcs += e?.Pcs;
+          csobj2.Rate = e?.Rate;
+          csobj2.Amount += e?.Amount;
+        })
+        clrq2 = [];
+        if(csobj2?.Wt === 0 && csobj2?.Pcs === 0 && csobj2?.Rate === 0 && csobj2?.Amount === 0){
+          return
+        }else{
+          clrq2.push(csobj2);
+        }
+        e.colorstone = [...clrq1, ...clrq2];
+        
+        
+        let mobj1 = {
+          Wt:0,
+          Rate:0,
+          Pcs: 0,
+          Amount : 0
+        }
+        let mobj2 = {
+          Wt:0,
+          Rate:0,
+          Pcs: 0,
+          Amount : 0
+        }
+        let m1 = [];
+        let m2 = [];
+        console.log("hello");
+        e?.misc?.forEach((a) => {
+            if(a?.IsHSCOE === 0){
+              m1.push(a);
+            }else{
+              m2.push(a);
+            }
+            // else if(a?.IsHSCOE === 3){
+            //   m2?.push(a);
+            // }
+        })
+        m1?.forEach((e) => {
+          mobj1.Wt += e?.Wt;
+          mobj1.Rate = e?.Rate;
+          mobj1.Pcs += e?.Pcs;
+          mobj1.Amount += e?.Amount;
+        })
+        m2?.forEach((e) => {
+          mobj2.Wt += e?.Wt;
+          mobj2.Rate = e?.Rate;
+          mobj2.Pcs += e?.Pcs;
+          mobj2.Amount += e?.Amount;
+        })
+        let m3 = [];
+        m1?.forEach((a) => {
+          mobj1.Wt += a?.Wt;
+          mobj1.Pcs += a?.Pcs;
+          mobj1.Rate = a?.Rate;
+          mobj1.Amount += a?.Amount;
+        })
+        m3.push(mobj1);
+        let m4 = [];
+        m2?.forEach((a) => {
+          mobj2.Wt += a?.Wt;
+          mobj2.Pcs += a?.Pcs;
+          mobj2.Rate = a?.Rate;
+          mobj2.Amount += a?.Amount;
+        })
+        m4.push(mobj2);
+        e.misc = [...m3, ...m4];
+
       })
+
+
+
+
+
+
+
       metwise?.sort((a, b) => {
         const qualityA = parseInt(a?.MetalPurity);
         const qualityB = parseInt(b?.MetalPurity);
@@ -199,7 +365,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
           tot_obj.amount += el?.a_amount;
         })
       })
-    
+
       setTotObj(tot_obj);
       // console.log(metwise);
       setMetWise(metwise);
@@ -306,21 +472,76 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                           <div className="d-flex border-bottom">
                             <div className="border-end pad_start_ji2" style={{ width: "26%" }} > {e?.MetalTypePurity} </div>
                             <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} ></div>
-                            <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {(e?.NetWt_d + e?.LossWt_d)?.toFixed(3)} </div>
-                            <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > { formatAmount( (e?.MetalAmount)/(e?.NetWt_d + e?.LossWt_d)) } </div>
+                            <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {(e?.totals?.metal?._IsPrimaryMetal)?.toFixed(3)} </div>
+                            <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > { formatAmount( (e?.MetalAmount)/(e?.totals?.metal?._IsPrimaryMetal)) } </div>
                             <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(e?.MetalAmount)} </div>
                           </div>
-                          {e?.diamond_colorstone_misc?.map((el, ind) => {
+                          {/* {e?.metal?.map((el, ind) => {
                             return (
                               <div className="d-flex border-bottom fs_ji2 lh_ji2" key={ind}>
-                                <div className="border-end pad_start_ji2" style={{ width: "26%" }} > {el?.MasterManagement_DiamondStoneTypeName} <span>{ el?.MasterManagement_DiamondStoneTypeid === 1 ? el?.QualityName : ''}</span> </div>
+                                <div className="border-end pad_start_ji2" style={{ width: "26%" }} > {el?.MasterManagement_DiamondStoneTypeName} <span>{ el?.MasterManagement_DiamondStoneTypeid === 4 ? el?.QualityName : ''}</span> </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > {el?.a_pcs} </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {el?.a_wt?.toFixed(3)} </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount(el?.a_rate)} </div>
                                 <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(el?.a_amount)} </div>
                               </div>
                             );
+                          })} */}
+                          {e?.diamonds?.map((el, ind) => {
+                            return (
+                              <div className="d-flex border-bottom fs_ji2 lh_ji2" key={ind}>
+                                <div className="border-end pad_start_ji2" style={{ width: "26%" }} > {el?.MasterManagement_DiamondStoneTypeName} <span>{ el?.MasterManagement_DiamondStoneTypeid === 1 ? el?.QualityName : ''}</span> </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > {el?._pcs} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {el?._wt?.toFixed(3)} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount((el?._amount/el?._wt))} </div>
+                                <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(el?._amount)} </div>
+                              </div>
+                            );
                           })}
+                          {e?.colorstone?.map((el, ind) => {
+                            return (
+                              <div className="d-flex border-bottom fs_ji2 lh_ji2" key={ind}>
+                                {/* <div className="border-end pad_start_ji2" style={{ width: "26%" }} > {el?.MasterManagement_DiamondStoneTypeName} <span></span> </div> */}
+                                <div className="border-end pad_start_ji2" style={{ width: "26%" }} > COLORSTONE <span></span> </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > {el?.Pcs} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {el?.Wt?.toFixed(3)} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount(el?.Rate)} </div>
+                                <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(el?.Amount)} </div>
+                              </div>
+                            );
+                          })}
+                          {e?.misc?.map((el, ind) => {
+                            return (
+                              <div className="d-flex border-bottom fs_ji2 lh_ji2" key={ind}>
+                                <div className="border-end pad_start_ji2" style={{ width: "26%" }} >  <span>MISC</span> </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > {el?.Pcs} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {el?.Wt?.toFixed(3)} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount(el?.Rate)} </div>
+                                <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(el?.Amount)} </div>
+                              </div>
+                            );
+                          })}
+                              <div className="d-flex border-bottom fs_ji2 lh_ji2">
+                                <div className="border-end pad_start_ji2" style={{ width: "26%" }} >  </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {e?.totals?.metal?._WithOutPrimaryMetal === 0 ? '' : e?.totals?.metal?._WithOutPrimaryMetal}  </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} >  </div>
+                                <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} >   </div>
+                            </div>
+                            {
+                              e?.totals?.finding?._Wt === 0 &&
+                              e?.totals?.finding?._Pcs === 0 &&
+                              e?.totals?.finding?._Rate === 0 &&
+                              e?.totals?.finding?._Amount === 0 ? '' : <div className="d-flex border-bottom fs_ji2 lh_ji2">
+                              <div className="border-end pad_start_ji2" style={{ width: "26%" }} > </div>
+                              <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > {e?.totals?.finding?._Pcs === 0 ? '' : e?.totals?.finding?._Pcs} </div>
+                              <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {e?.totals?.finding?._Wt === 0 ? '' : e?.totals?.finding?._Wt} </div>
+                              <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {e?.totals?.finding?._Rate === 0 ? '' : e?.totals?.finding?._Rate} </div>
+                              <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {e?.totals?.finding?._Amount === 0 ? '' : e?.totals?.finding?._Amount} </div>
+                          </div>
+
+                            }
+                        
                         </div>
                         <div className="col8_ji2 border-end pad_end_ji2 endc_ji2">
                           {formatAmount(e?.TotalDiaSetcost + e?.MakingAmount)}
@@ -424,3 +645,4 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
 };
 
 export default JewelleryInvoice2;
+;
