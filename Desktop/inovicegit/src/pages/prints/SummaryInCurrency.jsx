@@ -43,6 +43,7 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                 }
             });
             obj.diamonds = diamonds;
+            obj.metalAmounts = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc + cObj?.Amount : acc, 0);
             resultArr?.push(obj);
         });
         datas.resultArray = resultArr;
@@ -114,14 +115,14 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
             <div className={`border-start border-end border-bottom d-flex justify-content-between p-2 ${style?.font_15}`}>
                 <div className='d-flex'>
                     <div className='pe-2'>
-                    <p className='fw-bold'>TO, </p>
+                        <p className='fw-bold'>TO, </p>
                     </div>
                     <div>
-                    <p className='fw-bold'>{headerData?.CustName}</p>
-                    <p>{headerData?.customerstreet}</p>
-                    <p>{headerData?.customerregion}</p>
-                    <p>{headerData?.customercity}{headerData?.customerpincode}</p>
-                    <p>Phno:-{headerData?.customermobileno}</p>
+                        <p className='fw-bold'>{headerData?.CustName}</p>
+                        <p>{headerData?.customerstreet}</p>
+                        <p>{headerData?.customerregion}</p>
+                        <p>{headerData?.customercity}{headerData?.customerpincode}</p>
+                        <p>Phno:-{headerData?.customermobileno}</p>
                     </div>
                 </div>
                 <div>
@@ -189,11 +190,11 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                         {NumberWithCommas(e?.NetWt, 3)}
                     </div>
                     <div className={`text-end p-1 ${style?.MAKING} border-end ${style?.word_break}`}>
-                        {NumberWithCommas(e?.MakingAmount, 3)}
+                        {NumberWithCommas(e?.MakingAmount + e?.TotalDiamondHandling + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.OtherCharges + e?.MiscAmount, 2)}
                     </div>
                     <div className={`text-end p-1 ${style?.CSAMT} border-end ${style?.word_break}`}>{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</div>
                     <div className={`text-end p-1 ${style?.GOLDFINE} border-end ${style?.word_break}`}>{NumberWithCommas(e?.totals?.metal?.FineWt, 3)}</div>
-                    <div className={`text-end p-1 ${style?.GOLDAMT} border-end ${style?.word_break}`}>{NumberWithCommas(e?.totals?.metal?.Amount / headerData?.CurrencyExchRate, 2)}</div>
+                    <div className={`text-end p-1 ${style?.GOLDAMT} border-end ${style?.word_break}`}>{NumberWithCommas(e?.metalAmounts / headerData?.CurrencyExchRate, 2)}</div>
                     <div className={`text-end p-1 ${style?.AMOUNT} ${style?.word_break}`}>{NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)}</div>
                 </div>
             })}
@@ -207,10 +208,11 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                 <div className={`text-end fw-bold p-1 ${style?.DIAAMT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</div>
                 <div className={`text-end fw-bold p-1 ${style?.GWT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</div>
                 <div className={`text-end fw-bold p-1 ${style?.NWT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.netwt, 3)}</div>
-                <div className={`text-end fw-bold p-1 ${style?.MAKING} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.total_Making_Amount, 2)}</div>
+                <div className={`text-end fw-bold p-1 ${style?.MAKING} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.total_Making_Amount
+                    +data?.mainTotal?.diamonds?.SettingAmount+data?.mainTotal?.colorstone?.SettingAmount+data?.mainTotal?.total_otherCharge_Diamond_Handling, 2)}</div>
                 <div className={`text-end fw-bold p-1 ${style?.CSAMT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</div>
                 <div className={`text-end fw-bold p-1 ${style?.GOLDFINE} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.metal?.FineWt, 3)}</div>
-                <div className={`text-end fw-bold p-1 ${style?.GOLDAMT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.metal?.Amount, 2)}</div>
+                <div className={`text-end fw-bold p-1 ${style?.GOLDAMT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.MetalAmount, 2)}</div>
                 <div className={`text-end fw-bold p-1 ${style?.AMOUNT} ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</div>
             </div>
             {/* gold in 24 k */}
@@ -220,7 +222,7 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
             </div>
             {/* total currency */}
             <div className={`my-1 text-end p-1 border ${style?.font_14}`}>
-                <p className='fw-bold'>	TOTAL IN {headerData?.Currencyname} :    <span dangerouslySetInnerHTML={{__html: headerData?.Currencysymbol}}></span> {NumberWithCommas(data?.finalAmount, 2)}    </p>
+                <p className='fw-bold'>	TOTAL IN {headerData?.Currencyname} :    <span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span> {NumberWithCommas(data?.finalAmount, 2)}    </p>
             </div>
         </div>
     ) : (
