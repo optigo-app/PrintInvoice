@@ -681,7 +681,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                 </div>
                                 {/* tax */}
                                 <div className="d-flex border-start border-end border-bottom w-100 no_break">
-                                    <div className={`d-flex justify-content-between flex-column border-end ${style?.wordsJewellry}`}>
+                                    <div className={`d-flex justify-content-between flex-column border-end ${style?.wordsJewellryRetailInvoice4}`}>
                                         <div className={`${style?.wordsJewerryRetailInvoicePrint}p-2 d-flex align-items-center pt-5`}>
                                             <div className="p-2 pt-4">
                                                 <p>In Words Indian Rupees</p>
@@ -692,8 +692,8 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                             <div className="d-flex ">Old Gold Purchase Description : <div dangerouslySetInnerHTML={{ __html: headerData?.Remark }} className="fw-bold ps-1"></div></div>
                                         </div>
                                     </div>
-                                    <div className={`${style?.discountJewerryRetailInvoicePrint} d-flex`}>
-                                        <div className="col-7 border-end">
+                                    <div className={`${style?.discountJewerryRetailInvoicePrint456} d-flex`}>
+                                        <div className={`${style?.wordsJewellryRetailInvoice4Taxes} border-end`}>
                                             <p className="pb-1 px-1 text-end">Discount</p>
                                             <p className="pb-1 px-1 text-end">Total Amt before Tax</p>
                                             {taxes.length > 0 && taxes.map((e, i) => {
@@ -710,7 +710,7 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                             <p className="pb-1 px-1 text-end">Net Bal. Amount</p>
                                             <p className="fw-bold p-1 border-top text-end">GRAND TOTAL</p>
                                         </div>
-                                        <div className="col-5">
+                                        <div className={`${style?.wordsJewellryRetailInvoice4TaxesNumbers}`}>
                                             <p className="text-end pb-1 px-1">{NumberWithCommas(total?.discount, 2)}</p>
                                             <p className="text-end pb-1 px-1">{NumberWithCommas(total?.beforeTax / headerData?.CurrencyExchRate, 2)}</p>
                                             {taxes.length > 0 && taxes.map((e, i) => {
@@ -738,8 +738,8 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                     <div className="col-4 p-2 border-end">
                                         <p className="fw-bold">Bank Detail</p>
                                         <p>Bank name: {headerData?.bankname}</p>
-                                        <p>Branch: {headerData?.bankaddress}</p>
-                                        <p>{headerData?.PinCode}</p>
+                                        <p style={{wordBreak: "normal"}}>Branch: {headerData?.bankaddress}</p>
+                                        {/* <p>{headerData?.PinCode}</p> */}
                                         <p>Account Name: {headerData?.accountname}</p>
                                         <p>Account No: {headerData?.accountnumber}</p>
                                         <p>RTGS NEFT IFSC: {headerData?.rtgs_neft_ifsc}</p>

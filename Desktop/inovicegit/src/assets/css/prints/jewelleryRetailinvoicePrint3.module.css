@@ -82,6 +82,31 @@
     min-height: 145px;
 }
 
+.wordsJewellryRetailInvoice4 {
+    width: 66%;
+    min-height: 145px;
+}
+
+.discountJewerryRetailInvoicePrint456 {
+    width: 34%;
+}
+
+.wordsJewellryRetailInvoice4Taxes{
+    width: 51%;
+}
+
+.wordsJewellryRetailInvoice4TaxesNumbers{
+    width: 49%;
+}
+
+.wordsJewellryRetailInvoice5{
+    width: 67.45%;
+}
+.discountJewerryRetailInvoicePrint564{
+    width: 32.55%;
+}
+
+
 .wordsJewerryRetailInvoicePrint {
     background-color: #ffcccc;
     flex: 1 1;
