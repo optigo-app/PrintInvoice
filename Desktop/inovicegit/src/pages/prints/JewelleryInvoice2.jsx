@@ -390,7 +390,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                   <div className="d-flex fs_ji2 lh_ji2 border-top fw-bold"><div className="w-50 border-end p-1 endc_ji2 pad_end_ji2">Grand Total</div><div className="w-50 p-1 endc_ji2 pad_end_ji2">{formatAmount((result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess))}</div></div>
                 </div>
               </div>
-               <div className="fw-bold p-1 fs_ji2 lh_ji2 border border-top-0"><div className="fw-bold">Declaration :</div><div dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div></div>
+               <div className="fw-bold p-1 fs_ji2 lh_ji2 border border-top-0"><div className="fw-bold">Declaration :</div><div className="fs_jivp2_dec" dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div></div>
                <div className="fs_ji2 lh_ji2 p-1 border border-top-0"><b>REMARKS : &nbsp;&nbsp;</b>{result?.header?.PrintRemark}</div>
                <div className='d-flex border border-top-0 fs_ji2 lh_ji2'>
                 <div className='w33_ji2 border-end p-1'>

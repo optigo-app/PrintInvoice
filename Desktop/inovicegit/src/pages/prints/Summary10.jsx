@@ -130,14 +130,13 @@ const Summary10 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* table body */}
                 <div>
-                  {console.log(result)}
                   {
                     result?.resultArray?.map((e, i) => {
                       return (
 
                         <div className="d-flex border border-top-0 fs_s10 " key={i}>
                           <div className="center_s10 col1_s10 border-end">{i + 1}</div>
-                          <div className="center_s10 col2_s10 border-end" style={{wordBreak:'break-word'}}><div className="lh_s10 fs_s10 p-1"><div className="border-bottom center_s10 fw-bold">{e?.designno}</div><div className="center_s10">{e?.SrJobno}</div></div></div>
+                          <div className="center_s10 col2_s10 border-end" style={{wordBreak:'break-word'}}><div className="lh_s10 fs_s10 p-1"><div className=" center_s10 fw-bold" style={{borderBottom:'1px solid black'}}>{e?.designno}</div><div className="center_s10">{e?.SrJobno}</div></div></div>
                           <div className="left_s10 pad_l_s10 col3_s10 border-end" style={{wordBreak:'break-word'}}>{e?.MetalTypePurity}</div>
                           <div className="right_s10 pad_r_s10 col3_s10 border-end">{e?.grosswt?.toFixed(3)}</div>
                           <div className="right_s10 pad_r_s10 col3_s10 border-end">{((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}</div>
@@ -213,7 +212,7 @@ const Summary10 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <div className="fs_s10 lh_s10 p-1">
                 <span className="fw-bold">REMARKS IF ANY : </span> {result?.header?.PrintRemark}
               </div>
-              <div className="text-secondary fs_s10 lh_s10 pt-2 hideBtn_s10">**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
+              <div className="text-secondary fs_s10 lh_s10 pt-2 ">**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
             </div> : <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto"> {msg} </p>
           }
         </>

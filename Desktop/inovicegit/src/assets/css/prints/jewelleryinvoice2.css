@@ -96,7 +96,7 @@
         height: 30px;
     }
     .fs_ji2{
-        font-size: 7px !important;
+        font-size: 9px !important;
     }
     .lh_ji2{
         line-height: 9px !important;
@@ -104,5 +104,9 @@
     .fs_2_ji2{
         font-size: 11px;
         line-height: 15px;
+    }
+    .fs_jivp2_dec *{
+        font-size: 9px !important;
+        line-height: 11px !important;
     }
 }

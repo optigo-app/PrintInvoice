@@ -174,6 +174,8 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     //   })
       
     // })
+  console.log(metwise);
+
   }
   return (
     <>

@@ -9,6 +9,7 @@ import {
   isObjectEmpty,
 } from "../../GlobalFunctions";
 import Loader from "./../../components/Loader";
+import cloneDeep from "lodash/cloneDeep";
 const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   // eslint-disable-next-line no-unused-vars
@@ -251,6 +252,40 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         mdtot += (((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)
     })
     setMdwt(mdtot)
+
+    let finalArr = [];
+
+    datas?.resultArray?.forEach((a) => {
+      if(a?.GroupJob === ''){
+        finalArr.push(a);
+    }else{
+      let b = cloneDeep(a);
+      let find_record = finalArr.findIndex((el) => el?.GroupJob === b?.GroupJob);
+      if(find_record === -1){
+        finalArr.push(a);
+      }else{
+        if(finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno){
+            finalArr[find_record].designno = b?.designno;
+            finalArr[find_record].HUID = b?.HUID;
+            finalArr[find_record].grosswt += b?.grosswt;
+            finalArr[find_record].NetWt += b?.NetWt;
+            finalArr[find_record].LossWt += b?.LossWt;
+            finalArr[find_record].TotalAmount += b?.TotalAmount;
+            finalArr[find_record].UnitCost += b?.UnitCost;
+            finalArr[find_record].MakingAmount += b?.MakingAmount;
+            finalArr[find_record].OtherCharges += b?.OtherCharges;
+            finalArr[find_record].Quantity += b?.Quantity;
+            finalArr[find_record].Wastage += b?.Wastage;
+            finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
+            finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
+            finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
+            finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+        }
+      }
+    }
+    })
+
+
     setResult(datas);
     setLoader(false);
   };
