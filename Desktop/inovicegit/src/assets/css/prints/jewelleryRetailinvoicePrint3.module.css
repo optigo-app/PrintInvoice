@@ -129,6 +129,10 @@
     right: -20%;
 }
 
+.right_retailInvoicePrintsBtn {
+    right: -170px;
+}
+
 .declarationUlJewelleryRetailInvoicePrntc h3 sub span {
     display: block;
     padding-bottom: 5px;

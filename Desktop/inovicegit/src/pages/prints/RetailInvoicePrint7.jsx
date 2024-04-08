@@ -247,7 +247,7 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     <div className={`${style?.inwords} border-end d-flex flex-column justify-content-between py-1`}>
                         <div></div>
                         <div>
-                            <p className='px-1'>In Words Indian Rupees</p>
+                            <p className='px-1'>In Words  {headerData?.Currencyname}</p>
                             <p className='px-1 fw-bold'>{toWords?.convert(+fixedValues(data?.finalAmount / headerData?.CurrencyRate, 2))} Only</p>
                         </div>
                         <div><p className='px-1'>Old Gold Purchase Description : <span className="fw-bold">{headerData?.Remark}</span>	</p></div>

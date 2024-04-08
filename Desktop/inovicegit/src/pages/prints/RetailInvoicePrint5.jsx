@@ -354,7 +354,7 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 <>
                     {msg === "" ? (
                         <> <div className={`container-fluid ${style?.jewelelryRetailInvoiceContainer} max_width_container pad_60_allPrint position-relative ${style?.retailInvoice5Container}`}>
-                            <div className={`btnpcl align-items-baseline position-absolute right-0 top-0 m-0 ${style?.right_jewelleryinvoicePrintc} d-flex`}>
+                            <div className={`btnpcl align-items-baseline position-absolute right-0 top-0 m-0 ${style?.right_retailInvoicePrintsBtn} d-flex`}>
                                 <div className="form-check pe-3">
                                     <input className="form-check-input" type="checkbox" checked={image} onChange={handleChangeImage} />
                                     <label className="form-check-label pt-1" htmlFor="flexCheckDefault">
@@ -683,7 +683,7 @@ const RetailInvoiceprint5 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                     <div className={`d-flex justify-content-between flex-column border-end ${style?.wordsJewellryRetailInvoice5}`}>
                                         <div className={`${style?.wordsJewerryRetailInvoicePrint}p-2 d-flex align-items-center pt-5`}>
                                             <div className="p-2 pt-4">
-                                                <p>In Words Indian Rupees</p>
+                                                <p>In Words  {headerData?.Currencyname}</p>
                                                 <p className="fw-bold">{toWords.convert(+(total?.afterTax / headerData?.CurrencyExchRate)?.toFixed(2))} Only</p>
                                             </div>
                                         </div>

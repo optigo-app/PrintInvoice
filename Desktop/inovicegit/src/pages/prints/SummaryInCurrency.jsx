@@ -36,9 +36,9 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
         setCheckbox({ ...checkBox, [name]: checked });
     }
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
     useEffect(() => {
         const sendData = async () => {
             try {
@@ -66,27 +66,13 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
     return loader ? (
         <Loader />
     ) : msg === "" ? (
-        <div
-            className={`container container-fluid max_width_container mt-1 ${style?.summaryInCurrency} pad_60_allPrint`}
-        >
+        <div className={`container container-fluid max_width_container mt-1 ${style?.summaryInCurrency} pad_60_allPrint`}>
             {/* buttons */}
             <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`} >
-                <div className="form-check d-flex align-items-center">
-                    <input className="border-dark me-2" type="checkbox" checked={checkBox?.header} onChange={e => handleChange(e)} name='header' />
-                    <label className="">
-                        With Header
-                    </label>
-                </div>
                 <div className="form-check d-flex align-items-center">
                     <input className="border-dark me-2" type="checkbox" checked={checkBox?.image} onChange={e => handleChange(e)} name='image' />
                     <label className="">
                         With Image
-                    </label>
-                </div>
-                <div className="form-check d-flex align-items-center">
-                    <input className="border-dark me-2" type="checkbox" checked={checkBox?.summary} onChange={e => handleChange(e)} name='summary' />
-                    <label className="">
-                        With Summary
                     </label>
                 </div>
                 <div className={`form-check ps-3 ${style?.printBtn}`}>
@@ -143,7 +129,7 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                     <div className={`fw-bold p-1 ${style?.DESIGN} border-end`}>
                         <p>{e?.designno} ({e?.BrandName})</p>
                         <p>{e?.SrJobno}</p>
-                        <img src={e?.DesignImage} alt="" className='imgWidth w-100' onError={handleImageError} />
+                        {checkBox?.image && <img src={e?.DesignImage} alt="" className='imgWidth w-100' onError={handleImageError} />}
                     </div>
                     <div className={`p-1 ${style?.PURITY} border-end`}>{e?.MetalTypePurity}</div>
                     <div className={`p-1 ${style?.QLTY} border-end`}>

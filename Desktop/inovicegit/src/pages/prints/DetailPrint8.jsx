@@ -84,6 +84,8 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     return datas;
   };
 
+  const [imgFlag, setImgFlag] = useState(true);
+
   const setTitle = (data) => {
     let arr = ["Diamond", "ColorStone", "Misc"];
     let datas = "";
@@ -101,6 +103,10 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
     return datas;
   };
+
+  const handleImgShow = (eve) => {
+    setImgFlag(!imgFlag);
+  }
 
   useEffect(() => {
     const sendData = async () => {
@@ -136,6 +142,16 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       <div
         className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
       >
+        <input
+          type="checkbox"
+          checked={imgFlag}
+          id="showImg"
+          onChange={handleImgShow}
+          className="mx-2"
+        />
+        <label htmlFor="showImg" className="me-2 user-select-none">
+          With Image
+        </label>
         <div className="form-check ps-3">
           <input
             type="button"
@@ -146,42 +162,42 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
       {/* Title */}
-      <div className="bgGrey text-white py-1 px-2">
-        <h4 className=" fw-bold min_height_title d-flex align-items-center text-white" style={{fontSize: '20px'}}>
+      <div className={`bgGrey text-white px-2 ${style?.min_height_title}`}>
+        <h4 className=" fw-bold min_height_title d-flex align-items-center text-white" style={{ fontSize: '20px', lineHeight: "100%" }}>
           {headerData?.PrintHeadLabel}
         </h4>
       </div>
       {/* header */}
-      <div className="text-center pt-4">
-      {isImageWorking && (headerData?.PrintLogo !== "" && 
-                      <img src={headerData?.PrintLogo} alt="" 
-                      className='w-100 h-auto mx-auto d-block object-fit-contain'
-                      onError={handleImageErrors} style={{maxHeight: "75px", maxWidth: "114.75px"}} />)}
+      <div className="text-center pt-3">
+        {isImageWorking && (headerData?.PrintLogo !== "" &&
+          <img src={headerData?.PrintLogo} alt=""
+            className='w-100 h-auto mx-auto d-block object-fit-contain'
+            onError={handleImageErrors} style={{ maxHeight: "75px", maxWidth: "115.55px" }} />)}
         {/* <img src={headerData?.PrintLogo} alt="" className="imgWidth" /> */}
-        <p className="fw-bold" style={{fontSize: "16px"}}> {headerData?.CompanyFullName}</p>
-        <p>{headerData?.CompanyAddress}</p>
-        <p>{headerData?.CompanyAddress2}</p>
-        <p>
+        <p className="fw-bold py-1" style={{ fontSize: "16px" }}> {headerData?.CompanyFullName}</p>
+        <p className={`pb-1 ${style?.font_12}`}>{headerData?.CompanyAddress}</p>
+        <p className={`pb-1 ${style?.font_12}`}>{headerData?.CompanyAddress2}</p>
+        <p className={`pb-1 ${style?.font_12}`}>
           {headerData?.CompanyCity}-{headerData?.CompanyPinCode},{" "}
           {headerData?.CompanyState}({headerData?.CompanyCountry})
         </p>
-        <p>
+        <p className={`pb-1 ${style?.font_12}`}>
           T {headerData?.CompanyTellNo} | TOLL FREE{" "}
           {headerData?.CompanyTollFreeNo}
         </p>
-        <p>
+        <p className={`pb-1 ${style?.font_12}`}>
           {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-
           {headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
         </p>
-        <p>CIN: {headerData?.CINNO} | MSME: {headerData?.MSME}</p>
+        <p className={`pb-1 ${style?.font_12}`}>CIN: {headerData?.CINNO} | MSME: {headerData?.MSME}</p>
         <p className="fw-bold pb-2">{headerData?.InvoiceBillType}</p>
       </div>
 
       {/* sub header */}
-      <div className="d-flex border">
+      <div className={`d-flex border ${style?.font_12}`}>
         <div className="col-3 border-end p-2">
           <p>To,</p>
-          <p className="fw-bold">{headerData?.customerfirmname}</p>
+          <p className={`fw-bold ${style?.font_14}`}>{headerData?.customerfirmname}</p>
           <p>{headerData?.customerAddress1}</p>
           <p>{headerData?.customerAddress3}</p>
           <p>{headerData?.customerAddress2}</p>
@@ -197,35 +213,35 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
         <div className="col-3 border-end p-2">
           <p> Ship To,</p>
-          <p className="fw-bold">{headerData?.customerfirmname}</p>
+          <p className={`fw-bold ${style?.font_14}`}>{headerData?.customerfirmname}</p>
           <p>{headerData?.CustName}</p>
           {custAddress?.map((e, i) => {
             return <p key={i}>{e}</p>;
           })}
         </div>
         <div className="col-3 border-end p-2">
-          <p>
-            <span className="fw-bold">INVOICE NO</span> {headerData?.InvoiceNo}
-          </p>
-          <p>
-            <span className="fw-bold">DATE</span> {headerData?.EntryDate}
-          </p>
-          <p>
-            <span className="fw-bold">Delivery Mode</span>{" "}
-          </p>
+          <div className="d-flex">
+            <p className="fw-bold col-6">INVOICE NO</p><p className="col-6"> {headerData?.InvoiceNo}</p>
+          </div>
+          <div className="d-flex">
+            <p className="fw-bold col-6">DATE</p> <p className="col-6">  {headerData?.EntryDate}</p>
+          </div>
+          <div className="d-flex">
+            <p className="fw-bold col-6">Delivery Mode</p><p className="col-6"> {headerData?.Delivery_Mode}</p>
+          </div>
         </div>
         <div className="col-3 p-2">
-          <p>E Way Bill No: </p>
-          <p>PAN: {headerData?.CustPanno}</p>
-          <p>Advance Receipt No: </p>
-          <p>Name of Trasporter: </p>
-          <p>Vehical No: </p>
-          <p>freight terms: </p>
-          <p>E reference No: </p>
-          <p>Credit Days: </p>
-          <p>Output Types: </p>
-          <p>Product Types: </p>
-          <p>HSN CODE: {headerData?.HSN_No}</p>
+          <div className="d-flex"><p className="col-6">E Way Bill No:      </p>  <p className="col-6">{headerData?.E_Way_Bill_No}</p></div>
+          <div className="d-flex"><p className="col-6">PAN:                </p>  <p className="col-6">{headerData?.CustPanno}</p></div>
+          <div className="d-flex"><p className="col-6">Advance Receipt No: </p>  <p className="col-6">{headerData?.Advance_Receipt_No}</p></div>
+          <div className="d-flex"><p className="col-6">Name of Trasporter: </p>  <p className="col-6">{headerData?.Name_Of_Transporter}</p></div>
+          <div className="d-flex"><p className="col-6">Vehical No:         </p>  <p className="col-6">{headerData?.Vehicle_Number}</p></div>
+          <div className="d-flex"><p className="col-6">freight terms:      </p>  <p className="col-6">{headerData?.Freight_Terms}</p></div>
+          <div className="d-flex"><p className="col-6">E reference No:     </p>  <p className="col-6">{headerData?.E_Reference_No}</p></div>
+          <div className="d-flex"><p className="col-6">Credit Days:        </p>  <p className="col-6">{headerData?.Credit_Days}</p></div>
+          <div className="d-flex"><p className="col-6">Output Types:       </p>  <p className="col-6">{headerData?.Output_Type}</p></div>
+          <div className="d-flex"><p className="col-6">Product Types:      </p>  <p className="col-6">{headerData?.Product_Type}</p></div>
+          <div className="d-flex"><p className="col-6">HSN CODE:           </p>  <p className="col-6">{headerData?.HSN_No}</p></div>
         </div>
       </div>
 
@@ -337,12 +353,12 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className={`${style?.design} border-end`}>
               <p className="pad_1"> {e?.designno} </p>
               <p className="text-end pad_1">{e?.SrJobno}</p>
-              <img
+              {imgFlag && <img
                 src={e?.DesignImage}
                 alt=""
                 className="imgWidth"
                 onError={handleImageError}
-              />
+              />}
               <p className="text-center">PO:{e?.PO}</p>
               <p className="text-center">HUID-{e?.HUID}</p>
               <p className="text-center">
