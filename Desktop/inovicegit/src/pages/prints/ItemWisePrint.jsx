@@ -415,8 +415,8 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <p className="fw-bold" style={{ wordBreak: "normal" }}>%</p>
           </div>
 
-          {/* ${atob(printName).toLowerCase() === "item wise print1" ? 'wastageItemWisePrint' : 'wastageItemWisePrint'}   */}
           <div className={`
+          ${atob(printName).toLowerCase() === "item wise print" ? 'wastageItemWisePrint' : 'wastageItemWisePrint'}  
           border-end
           ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && 'wastageItemWisePrint2'}`}>
             <p className="fw-bold" style={{ wordBreak: "normal" }}>WASTAGE</p>
@@ -543,16 +543,14 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'percentageItemWiseprint' : 'percentageItemWiseprint1'} border-end
                 ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && 'percentageItemWiseprint2'}`}>
                   <p className="text-end">
-                    {e?.MetalPriceRatio !== 0 && <>{NumberWithCommas(e?.MetalPriceRatio, 3)}</>}
+                    {(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 
+                    (e?.MetalPriceRatio !== 0 && NumberWithCommas(e?.MetalPriceRatio, 3)) :
+                    (e?.MetalPriceRatio+e?.Wastage !== 0 && NumberWithCommas(e?.MetalPriceRatio+e?.Wastage, 3))
+                    }
                   </p>
                 </div>
-                {/* ${atob(printName).toLowerCase() === "item wise print1" ? 'wastageItemWisePrint' : 'wastageItemWisePrint'}  */}
-                <div className={`
-                border-end
-                          ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && 'wastageItemWisePrint2'}`}>
-                  <p className="text-end">
-                    {e?.Wastage !== 0 ? NumberWithCommas(e?.Wastage, 3) : ""}
-                  </p>
+                <div className={` ${atob(printName).toLowerCase() === "item wise print" && 'wastageItemWisePrint'} border-end ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && 'wastageItemWisePrint2'}`}>
+                  <p className="text-end"> {(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") && <>{e?.Wastage !== 0 ? NumberWithCommas(e?.Wastage, 3) : ""}</>} </p>
                 </div>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'makingItemWisePrint' : 'makingItemWisePrint1'} border-end`}>
                   <p className="text-end">{(atob(printName).toLowerCase() !== "item wise print" && atob(printName).toLowerCase() !== "item wise print1") && NumberWithCommas(e?.MaKingCharge_Unit, 3)}</p>
@@ -696,7 +694,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         ${(atob(printName).toLowerCase() === "item wise print") && "itemWisePrint1Font_16_total"}
         ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_16_total"}`} >
           <p className="min_width_max">Amount in Words : </p>
-          <p className={`fw-bold ps-1 ${atob(printName)?.toLowerCase() === "item wise print2" && "itemWisePrint1Font_tab_15"} 
+          <p className={`fw-bold ps-1 ${(atob(printName)?.toLowerCase() === "item wise print2"|| atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_tab_15"} 
           ${(atob(printName)?.toLowerCase() === "item wise print") && "itemWisePrint1Font_tab_15"}`}> {toWords?.convert(+fixedValues(total.totalAmt, 2))} Only</p>
         </div>
         {/* ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_tab_15"} */}
