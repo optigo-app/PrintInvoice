@@ -12,9 +12,11 @@ import {
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
+import { ToWords } from "to-words";
 
 const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
+  const toWords = new ToWords();
   const [categoryNameWise, setCategoryNameWise] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [classIs, setClassIs] = useState({
@@ -203,7 +205,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     /> */}
                     {isImageWorking && (result?.header?.PrintLogo !== "" &&
                       <img src={result?.header?.PrintLogo} alt=""
-                      className="printlogos2"
+                        className="printlogos2"
                         onError={handleImageErrors} />)}
                   </div>
                 </div>
@@ -237,9 +239,13 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </div>
                       <div>Phno:-{result?.header?.customermobileno}</div>
                       <div>
-                        {result?.header?.vat_cst_pan} |{" "}
-                        {result?.header?.Cust_CST_STATE}-
-                        {result?.header?.Cust_CST_STATE_No}
+                        {console.log(result)}
+                        GSTIN - {result?.header?.CustGstNo} | 
+                        {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} |
+                        PAN - {result?.header?.CustPanno}
+                        {/* {result?.header?.Cust_CST_STATE}-
+                        {result?.header?.Cust_CST_STATE_No} 
+                        {result?.header?.vat_cst_pan} */}
                       </div>
                     </div>
                   </div>
@@ -389,13 +395,13 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* in words */}
                 <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2">
-                  <div className="fw-bold">{numberToWord(result?.finalAmount)}</div>
+                  <div className="fw-bold">{numberToWord((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal))}</div>
                   <div className="fw-bold">TOTAL  :   HKD 85725.00 </div>
                 </div>
                 {/* summary */}
                 <div className="border mt-2 pbias2">
                   <div className="fw-bold bgcs2 p-1 d-flex flex-wrap" >Summary Detail</div>
-                  <div className="d-flex flex-wrap p-1" style={{ height: "50px" }}>
+                  <div className="d-flex flex-wrap p-1" style={{ minHeight: "50px" }}>
                     {
                       categoryNameWise?.map((e, i) => {
                         return (
