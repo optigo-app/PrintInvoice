@@ -1205,17 +1205,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="ps-2 fw-bold" style={{ width: "97%" }}>
                     {/* {result?.finalAmount !== 0 && toWords.convert((result?.finalAmount + result?.header?.FreightCharges))}  /- */}
                     {result?.finalAmount !== 0 &&
-                      toWords.convert(
-                        +(
-                          result?.mainTotal?.total_amount /
-                            result?.header?.CurrencyExchRate +
-                          (result?.header?.FreightCharges /
-                            result?.header?.CurrencyExchRate +
-                            result?.allTaxesTotal +
-                            result?.header?.AddLess /
-                              result?.header?.CurrencyExchRate)
-                        )?.toFixed(2)
-                      )}{" "}
+                      toWords.convert( +( result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate + (result?.header?.FreightCharges / result?.header?.CurrencyExchRate + result?.allTaxesTotal + result?.header?.AddLess / result?.header?.CurrencyExchRate) )?.toFixed(2) )}{" "}
                     Only
                   </div>
                 </div>

@@ -173,7 +173,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         diaonlyrndarr6[find_record].amtAmounts += e?.amtAmount;
       }
     });
-  
+    console.log(diaonlyrndarr6);
     diarndotherarr5 = [...diaonlyrndarr6, diaObj];
     setDiamondWise(diarndotherarr5);
 
@@ -278,16 +278,41 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         finalArr[find_record].OtherCharges += b?.OtherCharges;
         finalArr[find_record].Quantity += b?.Quantity;
         finalArr[find_record].Wastage += b?.Wastage;
-        finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
-        finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
-        finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
-        finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+        // finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
+        finalArr[find_record].diamonds = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
+        // finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
+        finalArr[find_record].colorstone = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
+        // finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
+        finalArr[find_record].metal = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
+        finalArr[find_record].misc = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+        // finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
       }
     }
     })
-    console.log("after group job",finalArr);
+    // console.log("after group job",finalArr);
 
     datas.resultArray = finalArr;
+
+    datas?.resultArray?.forEach((e) => {
+      let dia = [];
+      e?.diamonds?.forEach((el) => {
+        let findrecord = dia?.findIndex((a) => el?.ShapeName === a?.ShapeName && el?.QualityName === a?.QualityName && el?.Colorname === a?.Colorname);
+        if(findrecord === -1){
+          let obj = {...el};
+          obj.dpcs = el?._pcs;
+          obj.dwt = el?.Wt;
+          obj.Rate = el?.Rate;
+          obj.damt = el?.Amount;
+          dia.push(obj);
+        }else{
+          dia[findrecord].dwt += el?.Wt;
+          dia[findrecord].dpcs += el?._pcs;
+          dia[findrecord].Rate = el?.Rate;
+          dia[findrecord].damt += el?.Amount;
+        }
+      })
+      e.diamonds = dia;
+    })
 
     setResult(datas);
     setLoader(false);
@@ -499,32 +524,17 @@ console.log(result);
                           </div>
                           <div className="col3_dp4 border-secondary border-end">
                             <div>
-                              {e?.diamonds_d?.map((el, ind) => {
+                              {e?.diamonds?.map((el, ind) => {
                                 return (
                                   <div className="d-flex fs_dp4" key={ind}>
-                                    <div
-                                      className="dia_col_w_dp4 start_dp4"
-                                      style={{ width: "35%" }}
-                                    >
-                                      {el?.QualityName}
-                                    </div>
-                                    <div
-                                      className="dia_col_w_dp4 end_dp4"
-                                      style={{ width: "10%" }}
-                                    >
-                                      {el?._pcs}
-                                    </div>
-                                    <div
-                                      className="dia_col_w_dp4 end_dp4"
-                                      style={{ width: "15%" }}
-                                    >
-                                      {el?._wt?.toFixed(3)}
+                                    <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%" }} > {el?.QualityName} {el?.Colorname} </div>
+                                    <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} > {el?.dpcs} </div>
+                                    <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} > {el?.dwt?.toFixed(3)} </div>
+                                    <div className="dia_col_w_dp4 end_dp4">
+                                    {formatAmount((el?.damt / (el?.dwt === 0 ? 1 : el?.dwt)))}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
-                                    {formatAmount((el?._amount / (el?._wt === 0 ? 1 : el?._wt)))}
-                                    </div>
-                                    <div className="dia_col_w_dp4 end_dp4">
-                                      {formatAmount(el?._amount)}
+                                      {formatAmount(el?.damt)}
                                     </div>
                                   </div>
                                 );
@@ -534,7 +544,7 @@ console.log(result);
                           <div className="col4_dp4 border-secondary border-end">
                             <div>
                             {
-                      e?.metal_d?.map((el, ind) => {
+                      e?.metal?.map((el, ind) => {
                         
                         return(
                           <div key={ind}>
@@ -590,7 +600,7 @@ console.log(result);
                           </div>
                           <div className="col5_dp4 border-secondary border-end">
                             <div>
-                              {e?.colorstone_d?.map((el, ind) => {
+                              {e?.colorstone?.map((el, ind) => {
                                 return (
                                   <div className="d-flex fs_dp4" key={ind}>
                                     <div
@@ -621,7 +631,7 @@ console.log(result);
                                 );
                               })}
                               {
-                                e?.misc_d?.map((el, i) => {
+                                e?.misc?.map((el, i) => {
                                   return(
                                     <div className="d-flex fs_dp4" key={i}>
                                     <div
@@ -698,7 +708,7 @@ console.log(result);
                                   style={{ width: "35%" }}
                                 ></div>
                                 <div
-                                  className="dia_col_w_dp4 start_dp4"
+                                  className="dia_col_w_dp4 end_dp4"
                                   style={{ width: "10%" }}
                                 >
                                   {e?.totals?.diamonds?.Pcs === 0 ? '' : e?.totals?.diamonds?.Pcs}
@@ -872,7 +882,7 @@ console.log(result);
                     <div className="d-flex lh_dp4">
                       <div className="w-50 end_top_dp4">Add/Less</div>
                       <div className="w-50 end_top_dp4">
-                        {result?.header?.AddLess}
+                        {formatAmount(result?.header?.AddLess)}
                       </div>
                     </div>
                   </div>
@@ -943,17 +953,17 @@ console.log(result);
                           className="dia_col_w_dp4 end_dp4"
                           style={{ width: "10%" }}
                         >
-                          {result?.mainTotal?.colorstone?.Pcs}
+                          {(result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.Pcs )}
                         </div>
                         <div
                           className="dia_col_w_dp4 end_dp4"
                           style={{ width: "15%" }}
                         >
-                          {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
+                          {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt)?.toFixed(3)}
                         </div>
                         <div className="dia_col_w_dp4 end_dp4"></div>
                         <div className="dia_col_w_dp4 end_dp4">
-                          {formatAmount(result?.mainTotal?.colorstone?.Amount)}
+                          {formatAmount((result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.Amount))}
                         </div>
                       </div>
                     </div>
@@ -1039,7 +1049,7 @@ console.log(result);
                             STONE WT
                           </div>
                           <div className="border-secondary border-end pad_e_dp4">
-                          { result?.mainTotal?.colorstone?.Pcs } / {result?.mainTotal?.colorstone?.Wt?.toFixed(3)} cts
+                          { (result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.Pcs) } / {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt )?.toFixed(3)} cts
                           </div>
                         </div>
                         <div className="summary_dp4_head border-secondary border border-start border-bottom-0"></div>
@@ -1060,9 +1070,7 @@ console.log(result);
                         <div className="d-flex justify-content-between">
                           <div className="pad_s_dp4 fw-bold">CST</div>
                           <div className="border-secondary border-end pad_e_dp4">
-                            {formatAmount(
-                              (result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.Amount)
-                            )}
+                            {formatAmount( (result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.Amount) )}
                           </div>
                         </div>
                         <div className="d-flex justify-content-between">
@@ -1084,7 +1092,7 @@ console.log(result);
                         <div className="d-flex justify-content-between">
                           <div className="pad_s_dp4 fw-bold">ADD/LESS</div>
                           <div className="border-secondary border-end pad_e_dp4">
-                            {result?.header?.AddLess}
+                            {formatAmount(result?.header?.AddLess)}
                           </div>
                         </div>
                         <div className="summary_dp4_head d-flex justify-content-between  border-secondary border border-bottom-0 border-start-0 bgc_dp4">
@@ -1106,7 +1114,7 @@ console.log(result);
                       } */}
                       {
                         diamondWise?.map((e, i) => {
-
+                          console.log(e);
                           return(
                             <div key={i} className="d-flex justify-content-between px-1 border-secondary border-end">
                               { e?.ShapeName === "OTHERS" ? <div className="fw-bold">{e?.ShapeName}</div> : <div className="fw-bold">{e?.QualityName + " " + e?.Colorname}</div> } 
@@ -1128,7 +1136,7 @@ console.log(result);
                       
                       {result?.header?.BrokerageDetails?.map((e, i) => {
                             return (
-                              <div className="d-flex fsgdp10 d-flex justify-content-between w-100 border-secondary border-end border-bottom" key={i}>
+                              <div className="d-flex fsgdp10 d-flex justify-content-between w-100 border-secondary border-end border-bottom " key={i}>
                                 <div className="w-50 fw-bold start_dp10 pad_s_dp4">
                                   {e?.label}
                                 </div>
@@ -1136,7 +1144,7 @@ console.log(result);
                               </div>
                             );
                           })}
-                          <div className="d-flex justify-content-between w-100 border-secondary border-end border-bottom">
+                          <div className="d-flex justify-content-between w-100 border-secondary border-end border-bottom border-start">
                         <div className="pad_s_dp4 fw-bold">RATE IN 24KT</div>
                         <div className="pad_e_dp4">{formatAmount(result?.header?.MetalRate24K)}</div>
                       </div>
