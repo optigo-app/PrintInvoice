@@ -69,7 +69,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           // console.log(ele);
           findings.Wt += ele?.Wt 
           findings.SizeName += +ele?.SizeName;
-          sizeWt += (ele?.SizeName* ele?.Wt);
+          sizeWt += (+ele?.SizeName* ele?.Wt);
         }
       });
       // console.log(findings);

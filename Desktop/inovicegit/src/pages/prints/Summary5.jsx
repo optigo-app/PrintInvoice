@@ -21,6 +21,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [netwts5, setnetwts5] = useState(true);
   const [imagess5, setimagess5] = useState(true);
   const [headers5, setheaders5] = useState(true);
+  const [showDiaQuality, setShowDiaQuality] = useState([]);
   const [miscTotal, setMiscTotal] = useState({
     pcPcs: 0,
     wtWt: 0,
@@ -75,6 +76,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       rRate: 0,
       amtAmount: 0
     }
+    let miscquc = [];
     datas?.resultArray?.forEach((e) => {
 
       let findRecord = cateWise?.findIndex( (el) => el?.Categoryname === e?.Categoryname );
@@ -127,8 +129,17 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
       e.colorstone = clr;
 
+      e?.misc?.forEach((el) => {
+        if(el.QualityName !== ''){
+          miscquc.push(el?.QualityName)
+        }
+      })
+
 
     });
+    let newMisc = new Set(miscquc);
+    let newMiscArray = [...newMisc];
+    setShowDiaQuality(newMiscArray);
     setMiscTotal(miscobj);
     // setCategoryNameWise(cateWise);
     setResult(datas);
@@ -466,7 +477,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   {/* grand total */}
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">
                     <div>Gold in 24K : {result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
-                    <div> -,C,CD,KUNDAN</div>
+                    <div className="d-flex">{showDiaQuality?.map((e,i) => (<div key={i}>{e}, </div>))}</div>
                     <div className="d-flex">
                       {/* <div className="px-1">TOTAL IN {result?.header?.CurrencyCode}</div> */}
                      <div>TOTAL IN HK$ </div>

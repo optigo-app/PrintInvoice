@@ -173,7 +173,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         diaonlyrndarr6[find_record].amtAmounts += e?.amtAmount;
       }
     });
-    console.log(diaonlyrndarr6);
     diarndotherarr5 = [...diaonlyrndarr6, diaObj];
     setDiamondWise(diarndotherarr5);
 
@@ -202,11 +201,13 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           obj._pcs = a?.Pcs;
           obj._wt = a?.Wt;
           obj._amount = a?.Amount;
+          obj.Rate = a?.Rate;
           csqc.push(obj);
         }else{
           csqc[findrecord]._pcs += a?.Pcs;
           csqc[findrecord]._wt += a?.Wt;
           csqc[findrecord]._amount += a?.Amount;
+          csqc[findrecord].Rate += a?.Rate;
         }
       })
       e.colorstone = csqc;
@@ -278,6 +279,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         finalArr[find_record].OtherCharges += b?.OtherCharges;
         finalArr[find_record].Quantity += b?.Quantity;
         finalArr[find_record].Wastage += b?.Wastage;
+        finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
+        finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
         // finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
         finalArr[find_record].diamonds = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
         // finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
@@ -300,18 +303,76 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         if(findrecord === -1){
           let obj = {...el};
           obj.dpcs = el?._pcs;
-          obj.dwt = el?.Wt;
+          obj.dwt = el?._wt;
           obj.Rate = el?.Rate;
-          obj.damt = el?.Amount;
+          obj.damt = el?._amount;
           dia.push(obj);
         }else{
-          dia[findrecord].dwt += el?.Wt;
+          dia[findrecord].dwt += el?._wt;
           dia[findrecord].dpcs += el?._pcs;
           dia[findrecord].Rate = el?.Rate;
-          dia[findrecord].damt += el?.Amount;
+          dia[findrecord].damt += el?._amount;
         }
       })
       e.diamonds = dia;
+
+      let metarr = [];
+      e?.metal?.forEach((a) => {
+        let findrec = metarr?.findIndex((el) => el?.ShapeName === a?.ShapeName)  
+        if(findrec === -1){
+          console.log(a);
+          let obj = {...a};
+          obj.metamt = a?.Amount;
+          metarr.push(obj);
+        }else{
+          metarr[findrec].metamt += a?.Amount;
+        }
+      })
+
+      e.metal = metarr;
+
+      let clrarr = [];
+      e?.colorstone?.forEach((e) => {
+        let findrec = clrarr?.findIndex((a) => a?.ShapeName === e?.ShapeName && a?.QualityName === e?.QualityName && a?.Colorname === e?.Colorname)
+        if(findrec === -1){
+          let obj = {...e};
+          obj.csamt = e?._amount;
+          obj.cswt = e?._wt;
+          obj.cspcs = e?._pcs;
+          obj.Rate = e?.Rate;
+          clrarr.push(obj);
+        }else{
+          clrarr[findrec].csamt += e?._amount;
+          clrarr[findrec].cswt += e?._wt;
+          clrarr[findrec].cspcs += e?._pcs;
+          clrarr[findrec].Rate = e?.Rate;
+        }
+      })
+
+      e.colorstone = clrarr;
+
+
+      let miscarr = [];
+      e?.colorstone?.forEach((e) => {
+        let findrec = miscarr?.findIndex((a) => a?.ShapeName === e?.ShapeName && a?.QualityName === e?.QualityName && a?.Colorname === e?.Colorname)
+        if(findrec === -1){
+          let obj = {...e};
+          obj.csamt = e?._amount;
+          obj.cswt = e?._wt;
+          obj.cspcs = e?._pcs;
+          obj.Rate = e?.Rate;
+          miscarr.push(obj);
+        }else{
+          miscarr[findrec].csamt += e?._amount;
+          miscarr[findrec].cswt += e?._wt;
+          miscarr[findrec].cspcs += e?._pcs;
+          miscarr[findrec].Rate = e?.Rate;
+        }
+      })
+
+      e.misc = miscarr;
+
+
     })
 
     setResult(datas);
@@ -533,7 +594,7 @@ console.log(result);
                                     <div className="dia_col_w_dp4 end_dp4">
                                     {formatAmount((el?.damt / (el?.dwt === 0 ? 1 : el?.dwt)))}
                                     </div>
-                                    <div className="dia_col_w_dp4 end_dp4">
+                                    <div className="dia_col_w_dp4 end_dp4 fw-bold">
                                       {formatAmount(el?.damt)}
                                     </div>
                                   </div>
@@ -557,8 +618,8 @@ console.log(result);
                             {/* <div className="dia_col_w_dp4 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
                             {/* <div className="dia_col_w_dp4 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
                             <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
-                            <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center ">{formatAmount((el?.Amount / (e?.NetWt === 0 ? 1 : e?.NetWt)))}</div>
-                            <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center fw-bold">{formatAmount(el?.Amount)}</div>
+                            <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center ">{formatAmount((el?.metamt / (e?.NetWt === 0 ? 1 : e?.NetWt)))}</div>
+                            <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center fw-bold">{formatAmount(el?.metamt)}</div>
                           </div> : ''
                           }
                           
@@ -603,29 +664,21 @@ console.log(result);
                               {e?.colorstone?.map((el, ind) => {
                                 return (
                                   <div className="d-flex fs_dp4" key={ind}>
-                                    <div
-                                      className="dia_col_w_dp4 start_dp4"
-                                      style={{ width: "35%" }}
-                                    >
+                                    <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%" }} >
                                       {el?.QualityName}
                                     </div>
-                                    <div
-                                      className="dia_col_w_dp4 end_dp4"
-                                      style={{ width: "10%" }}
-                                    >
-                                      {el?._pcs}
+                                    <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} >
+                                      {el?.cspcs}
                                     </div>
-                                    <div
-                                      className="dia_col_w_dp4 end_dp4"
-                                      style={{ width: "15%" }}
-                                    >
-                                      {el?._wt?.toFixed(3)}
+                                    <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
+                                      {el?.cswt?.toFixed(3)}
                                     </div>
+                                    {console.log(el)}
                                     <div className="dia_col_w_dp4 end_dp4">
-                                    {formatAmount(((el?._amount)/(el?._wt === 0 ? 1 : el?._wt)))}
+                                      {formatAmount(((el?.csamt)/(el?.cswt === 0 ? 1 : el?.cswt)))}
                                     </div>
-                                    <div className="dia_col_w_dp4 end_dp4">
-                                      {formatAmount(el?._amount)}
+                                    <div className="dia_col_w_dp4 end_dp4 fw-bold">
+                                      {formatAmount(el?.csamt)}
                                     </div>
                                   </div>
                                 );
@@ -634,22 +687,11 @@ console.log(result);
                                 e?.misc?.map((el, i) => {
                                   return(
                                     <div className="d-flex fs_dp4" key={i}>
-                                    <div
-                                      className="dia_col_w_dp4 start_dp4"
-                                      style={{ width: "35%", wordBreak:'break-word' }}
-                                    >
-                                      {el?.ShapeName}
-                                    </div>
-                                    <div
-                                      className="dia_col_w_dp4 end_dp4"
-                                      style={{ width: "10%" }}
-                                    >
+                                    <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%", wordBreak:'break-word' }} > {el?.ShapeName} </div>
+                                    <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} >
                                       {el?.Pcs}
                                     </div>
-                                    <div
-                                      className="dia_col_w_dp4 end_dp4"
-                                      style={{ width: "15%" }}
-                                    >
+                                    <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
                                       {el?.Wt?.toFixed(3)}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
