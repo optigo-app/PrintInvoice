@@ -12,6 +12,8 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
   const [loader, setLoader] = useState(true);
   const [metWise, setMetWise] = useState([]);
   const [totobj, setTotObj] = useState();
+  const [totalCtw, setTotalCtw] = useState(0);
+  const [totalGm, setTotalgm] =   useState(0);
   const toWords = new ToWords();
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
@@ -171,6 +173,8 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         metwise[findRecord].metal = [...metwise[findRecord].metal, ...e?.metal].flat()
         // metwise[findRecord].misc = [...metwise[findRecord].misc, ...e?.misc].flat()
         metwise[findRecord].misc = [...metwise[findRecord].misc, ...e?.misc].flat()
+        metwise[findRecord].israteonpcsMISC0 = [...metwise[findRecord].israteonpcsMISC0, ...e?.israteonpcsMISC0];
+        metwise[findRecord].israteonpcsMISC1 = [...metwise[findRecord].israteonpcsMISC1, ...e?.israteonpcsMISC1];
         metwise[findRecord].finding = [...metwise[findRecord].finding, ...e?.finding].flat()
         metwise[findRecord].totals.finding._Wt += e?.totals?.finding?.Wt;
         metwise[findRecord].totals.finding._Pcs += e?.totals?.finding?.Pcs;
@@ -178,7 +182,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         metwise[findRecord].totals.finding._Amount += e?.totals?.finding?.Amount;
       }
     });
-
+    
     metwise?.forEach((e) => {
       // console.log(e);
         let metwise2 = [];
@@ -349,11 +353,58 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         // e.misc = [...m1, ...m2];
         // console.log(mobj1, mobj2);
 
+        
       })
-
-
-
-
+      
+    metwise?.forEach((el) => {
+      let arr = [];
+      let sarr = [];
+      let obj1 = {
+        Wt:0,
+        Pcs:0,
+        Rate:0,
+        Amount:0,
+        ServWt:0,
+        // rate:0
+      }
+      let obj2 = {
+        Wt:0,
+        Pcs:0,
+        Rate:0,
+        Amount:0,
+        ServWt:0,
+        // rate:0
+      }
+      el?.israteonpcsMISC0?.forEach((a) => {
+        obj1.Amount += a?.Amount;
+        obj1.Pcs += a?.Pcs;
+        obj1.Rate = a?.Rate;
+        obj1.Wt += a?.Wt;
+        obj1.ServWt += a?.ServWt;
+        // obj1.rate += a?.Rate;
+      })
+      el?.israteonpcsMISC1?.forEach((a) => {
+        obj2.Amount += a?.Amount;
+        obj2.Pcs += a?.Pcs;
+        obj2.Rate = a?.Rate;
+        obj2.Wt += a?.Wt;
+        obj2.ServWt += a?.ServWt;
+        // obj2.rate += a?.Rate;
+      })
+      if(obj1?.Wt === 0 && obj1?.ServWt && obj1?.Pcs === 0 && obj1?.Rate === 0 && obj1?.Amount === 0){
+        console.log(obj1);
+          return 
+      }else{
+        arr.push(obj1);
+      }
+      if(obj2?.Wt === 0 && obj2?.ServWt && obj2?.Pcs === 0 && obj2?.Rate === 0 && obj2?.Amount === 0){
+          return 
+      }else{
+        sarr.push(obj2);
+      }
+      el.israteonpcsMISC0 = arr;
+      el.israteonpcsMISC1 = sarr;
+    })
 
 
       // metwise?.sort((a, b) => {
@@ -383,16 +434,76 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       //     }
       //   })
       // })
+      // metwise?.forEach((el) => {
+        
+      //   el?.israteonpcsMISC0?.forEach((a) => {
+      //     let b = Object.values(a)
+      //     let c = b.every((e) => e === 0);
+      //     console.log(c);
+
+      //     if(c){
+      //       delete a;
+      //     }
+
+      //   })
+      // })
+      metwise?.forEach((el) => {
+        el?.israteonpcsMISC0?.forEach((a, index) => { // Add index parameter for splice
+            let b = Object.values(a)
+            let c = b.every((e) => e === 0);
+    
+            if (c) {
+                // Delete the element from the array if all values are 0
+                el?.israteonpcsMISC0.splice(index, 1); // Remove the element at the current index
+            }
+        })
+        el?.israteonpcsMISC1?.forEach((a, index) => { // Add index parameter for splice
+            let b = Object.values(a)
+            let c = b.every((e) => e === 0);
+    
+            if (c) {
+                // Delete the element from the array if all values are 0
+                el?.israteonpcsMISC1.splice(index, 1); // Remove the element at the current index
+            }
+        })
+    })
 
 
+    let ctw = 0;
+    let gmm = 0;
+
+    metwise?.forEach((e) => {
+      e?.diamonds?.forEach((el) => {
+        ctw += el?.Wt;
+      })
+      e?.colorstone?.forEach((el) => {
+        ctw += el?.Wt;
+      })
+      // gmm += e?.totals?.misc?.Wt;
+      // // e?.misc?.forEach((el) => {
+      // //   gmm += el?.Wt;
+      // // })
+      // e?.misc?.forEach((el) => {
+      //   gmm +=  el?.ServWt;
+      // })
+      // e?.metal?.forEach((el) => {
+      //   gmm += el?.Wt;
+      // })
+      // gmm += e?.totals?.finding?._Wt;
+      // e?.finding?.forEach((el) => {
+      //   gmm += el?.Wt;
+      // })
+    })
 
 
-
+      setTotalCtw(ctw);
+      setTotalgm(gmm);
       setTotObj(tot_obj);
       setMetWise(metwise);
       setResult(datas);
 
   };
+
   return (
     <>
       {loader ? (
@@ -461,6 +572,12 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                   <div className="d-flex">
                     <div className="w-25 fw-bold"> {result?.header?.HSN_No_Label} </div> <div className="w-50">{result?.header?.HSN_No}</div>
                   </div>
+                  <div className="d-flex">
+                    <div className="w-25 fw-bold"> DUE DATE </div> <div className="w-50">{result?.header?.DueDate}</div>
+                  </div>
+                  <div className="d-flex">
+                    <div className="w-25 fw-bold"> DUE DAYS </div> <div className="w-50">{result?.header?.DueDays}</div>
+                  </div>
                 </div>
               </div>
               <div>
@@ -521,6 +638,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                             );
                           })}
                           {e?.colorstone?.map((el, ind) => {
+                            
                             return (
                               <div className="d-flex border-bottom fs_ji2 lh_ji2" key={ind}>
                                 {/* <div className="border-end pad_start_ji2" style={{ width: "26%" }} > {el?.MasterManagement_DiamondStoneTypeName} <span></span> </div> */}
@@ -532,12 +650,26 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                               </div>
                             );
                           })}
-                          {e?.misc?.map((el, ind) => {
+
+                          
+                           {e?.israteonpcsMISC0?.map((el, ind) => {
+                            
                             return (
                               <div className="d-flex border-bottom fs_ji2 lh_ji2" key={ind}>
                                 <div className="border-end pad_start_ji2" style={{ width: "26%" }} >  <span>MISC {el?.IsHSCOE}</span> </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > {el?.Pcs} </div>
-                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {el?.Wt?.toFixed(3)} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {(el?.Wt + el?.ServWt)?.toFixed(3)} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount(el?.Rate)} </div>
+                                <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(el?.Amount)} </div>
+                              </div>
+                            );
+                          })}
+                          {e?.israteonpcsMISC1?.map((el, ind) => {
+                            return (
+                              <div className="d-flex border-bottom fs_ji2 lh_ji2" key={ind}>
+                                <div className="border-end pad_start_ji2" style={{ width: "26%" }} >  <span>MISC {el?.IsHSCOE}</span> </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > {el?.Pcs} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {(el?.Wt + el?.ServWt)?.toFixed(3)} </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount(el?.Rate)} </div>
                                 <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(el?.Amount)} </div>
                               </div>
@@ -590,6 +722,10 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                     {result?.mainTotal?.metal?.Pcs + result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.Pcs  }
                   </div>
                   <div className="col5_ji2 border-end center_ji2">
+                    {console.log(result)}
+                     {(result?.mainTotal?.diamonds?.Wt + result?.mainTotal?.colorstone?.Wt)} ctw <br />
+                     {((result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt + result?.mainTotal?.metal?.Wt + result?.mainTotal?.finding?.Wt)?.toFixed(3))} gm
+                     {/* {(totalCtw)} ctw <br /> {((totalGm))} gm */}
                     {/* {result?.mainTotal?.diamond_colorstone_misc?.Wt?.toFixed(3)} Ctw <br /> 43.476 gm */}
                     {/* {totobj?.wt?.toFixed(3)} Ctw <br /> 43.476 gm */}
                   </div>
