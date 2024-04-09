@@ -598,7 +598,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         {/* Tax */}
         <div className={`no_break bgLightPink d-flex border-start border-end border-bottom ${(atob(printName).toLowerCase() === "item wise print") ? 'main_pad_item_wise_print_row ' : 'main_pad_item_wise_print_row1'}
         ${(atob(printName).toLowerCase() === "item wise print") && "itemWisePrint1Font_13_total"}
-        ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_13_total"}`}>
+        ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_13_total itemWisePrintFont_11"}`}>
           <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'cgstTotalItemWiseRow' : (atob(printName)?.toLowerCase() === "item wise print1" ? 'cgstTotalItemWiseRow11' : 'cgstTotalItemWiseRow1')}  border-end pe-0 py-0 ps-0
            ${atob(printName)?.toLowerCase() === "item wise print2" && 'cgstTotalItemWiseRow2 '}
           `}>
@@ -624,7 +624,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         {/* ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_13_total"} */}
         <div className={`no_break d-flex border-start border-end border-bottom ${(atob(printName).toLowerCase() === "item wise print") ? 'main_pad_item_wise_print_row' : 'main_pad_item_wise_print_row1'} lightGrey
         ${(atob(printName).toLowerCase() === "item wise print") && "itemWisePrint1Font_13_total"}
-        ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_13_total"}`}>
+        ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_13_total itemWisePrintFont_11"}`}>
           <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'metaltypeItemWisePrint' : 'metaltypeItemWisePrint1'} border-end d-flex justify-content-center align-items-center
            ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && 'metaltypeItemWisePrint2'}`}>
             <p className="fw-bold">Total</p>
