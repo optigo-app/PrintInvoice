@@ -39,7 +39,21 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const loadData = (data) => {
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         let resultArray = [];
-
+        let totalObj = {
+            pcs: datas?.mainTotal?.diamonds?.Pcs+datas?.mainTotal?.colorstone?.Pcs+datas?.mainTotal?.misc?.Pcs,
+            materialWeight: 0,
+            rate: 0,
+            amount: 0,
+            making: 0,
+            others: 0,
+            totalAmount: 0,
+            sgstAmount: 0,
+            cgstAmount: 0,
+            addLess: 0,
+            grandTotal: 0,
+            textInNumbers: "",
+            goldWeight: 0
+        }
         datas?.resultArray?.forEach((e, i) => {
             let obj = cloneDeep(e);
             let netWtLossWt = 0;
@@ -66,7 +80,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             });
             let colorstone = [];
             e?.colorstone?.forEach((ele, ind) => {
-                let findColorStones = colorstone?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
+                let findColorStones = colorstone?.findIndex((elem, index) => elem?.isRateOnPcs === ele?.isRateOnPcs);
                 if (findColorStones === -1) {
                     colorstone?.push(ele);
                 } else {
@@ -77,6 +91,22 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             });
             let misc = [];
             e?.misc?.forEach((ele, ind) => {
+                // let findMiscs = misc?.findIndex((elem, index) => {
+                //     // elem?.ShapeName === ele?.ShapeName && elem?.ISHSCODE === ele?.ISHSCODE);
+                //     if(elem?.IsHSCOE === 0 && ele?.IsHSCOE === 0){
+                //         if(elem?.ShapeName === ele?.ShapeName){
+                //             return ind
+                //         }else{
+                //             return -1
+                //         }
+                //     }else{
+                //         if(elem?.IsHSCOE === 3 && ele?.IsHSCOE === 3){
+                //             return ind
+                //         }else{
+                //             return null
+                //         }
+                //     }
+                // });
                 let findMiscs = misc?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.ISHSCODE === ele?.ISHSCODE);
                 if (findMiscs === -1) {
                     misc?.push(ele);
@@ -177,21 +207,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
         setJsonData1(data?.BillPrint_Json[0]);
         let resultArr = [];
-        let totalObj = {
-            pcs: 0,
-            materialWeight: 0,
-            rate: 0,
-            amount: 0,
-            making: 0,
-            others: 0,
-            totalAmount: 0,
-            sgstAmount: 0,
-            cgstAmount: 0,
-            addLess: 0,
-            grandTotal: 0,
-            textInNumbers: "",
-            goldWeight: 0
-        }
+
         let taxValue = taxGenrator(data?.BillPrint_Json[0], totalObj.totalAmount);
         setTaxes(taxValue);
         taxValue.forEach((e, i) => {
@@ -399,17 +415,17 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     e?.metal?.map((ele, ind) => {
                                         return <div className={`d-flex border-bottom`} key={ind}>
                                             <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
-                                                <p>{ele?.ShapeName}</p>
+                                                <p>{ele?.IsPrimaryMetal === 1 && ele?.ShapeName}</p>
                                             </div>
                                             <div className={`${styles.Qty} border-end p-1 d-flex align-items-center`}>
-                                                <p>{ele?.QualityName}</p>
+                                                <p>{ele?.IsPrimaryMetal === 1 && ele?.QualityName}</p>
                                             </div>
                                             <div className={`${styles.Pcs} border-end p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'></p>
                                             </div>
                                             <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
                                                 {/* <p className='text-end'>{NumberWithCommas(e?.netWtLossWt, 3)}</p> */}
-                                                <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
+                                                <p className='text-end'>{ind === 0 ? NumberWithCommas(e?.NetWt  - e?.totals?.finding?.Wt, 3) : NumberWithCommas(ele?.Wt, 3)}</p>
                                             </div>
                                             {/* {e?.designno === "1942" && console.log(e)} */}
                                             <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
@@ -461,7 +477,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
                                             </div>
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{ele?.Wt !== 0 ? NumberWithCommas((ele?.Amount / jsonData1?.CurrencyExchRate) / ele?.Wt, 2) : "0.00"}</p>
+                                                <p className='text-end'>{ele?.Wt !== 0 ? NumberWithCommas(ele?.Amount  / (ele?.Wt * jsonData1?.CurrencyExchRate), 2) : "0.00"}</p>
                                             </div>}
                                             {pName !== 'retail1 print' && <div className={`${styles.Amount} p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{NumberWithCommas((ele?.Amount / jsonData1?.CurrencyExchRate), 2)}</p>
