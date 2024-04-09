@@ -12,6 +12,8 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
   const [loader, setLoader] = useState(true);
   const [metWise, setMetWise] = useState([]);
   const [totobj, setTotObj] = useState();
+  const [totalCtw, setTotalCtw] = useState(0);
+  const [totalGm, setTotalgm] =   useState(0);
   const toWords = new ToWords();
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
@@ -467,7 +469,35 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
     })
 
 
+    let ctw = 0;
+    let gmm = 0;
 
+    metwise?.forEach((e) => {
+      e?.diamonds?.forEach((el) => {
+        ctw += el?.Wt;
+      })
+      e?.colorstone?.forEach((el) => {
+        ctw += el?.Wt;
+      })
+      // gmm += e?.totals?.misc?.Wt;
+      // // e?.misc?.forEach((el) => {
+      // //   gmm += el?.Wt;
+      // // })
+      // e?.misc?.forEach((el) => {
+      //   gmm +=  el?.ServWt;
+      // })
+      // e?.metal?.forEach((el) => {
+      //   gmm += el?.Wt;
+      // })
+      // gmm += e?.totals?.finding?._Wt;
+      // e?.finding?.forEach((el) => {
+      //   gmm += el?.Wt;
+      // })
+    })
+
+
+      setTotalCtw(ctw);
+      setTotalgm(gmm);
       setTotObj(tot_obj);
       setMetWise(metwise);
       setResult(datas);
@@ -686,6 +716,10 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                     {result?.mainTotal?.metal?.Pcs + result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.Pcs  }
                   </div>
                   <div className="col5_ji2 border-end center_ji2">
+                    {console.log(result)}
+                     {(result?.mainTotal?.diamonds?.Wt + result?.mainTotal?.colorstone?.Wt)} ctw <br />
+                     {((result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt + result?.mainTotal?.metal?.Wt + result?.mainTotal?.finding?.Wt)?.toFixed(3))} gm
+                     {/* {(totalCtw)} ctw <br /> {((totalGm))} gm */}
                     {/* {result?.mainTotal?.diamond_colorstone_misc?.Wt?.toFixed(3)} Ctw <br /> 43.476 gm */}
                     {/* {totobj?.wt?.toFixed(3)} Ctw <br /> 43.476 gm */}
                   </div>
