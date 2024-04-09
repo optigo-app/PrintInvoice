@@ -11,7 +11,7 @@ import {
 import style from '../../assets/css/prints/summary9.module.css';
 import Loader from "../../components/Loader";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
-import lodash from 'lodash';
+import lodash, { cloneDeep } from 'lodash';
 import style1 from "../../assets/css/headers/header1.module.css";
 import ImageComponent from "../../components/ImageComponent ";
 
@@ -88,17 +88,19 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         data?.BillPrint_Json1?.forEach((e, i) => {
             let findNewMetal = newMetalList?.findIndex((ele, ind) => ele?.MetalTypePurity === e?.MetalTypePurity && ele?.Wastage === e?.Wastage);
             if(findNewMetal === -1){
-                newMetalList?.push(e);
+                let obj = cloneDeep(e);
+                obj.PureNetWt = ((e?.NetWt *e?.Tunch)/100)
+                newMetalList?.push(obj);
             }else{
                 newMetalList[findNewMetal].grosswt += e.grosswt;
                 newMetalList[findNewMetal].NetWt += e.NetWt;
                 newMetalList[findNewMetal].Tunch = (newMetalList[findNewMetal].Tunch + e.Tunch) / 2;
-                newMetalList[findNewMetal].PureNetWt += e.PureNetWt;
+                newMetalList[findNewMetal].PureNetWt += ((e?.NetWt *e?.Tunch)/100);
                 newMetalList[findNewMetal].MetalAmount += e.MetalAmount;
             }
             metalLists.total.grosswt += e.grosswt;
             metalLists.total.NetWt += e.NetWt;
-            metalLists.total.PureNetWt += e.PureNetWt;
+            metalLists.total.PureNetWt += ((e?.NetWt *e?.Tunch)/100);
             metalLists.total.Tunch += e.Tunch;
             metalLists.total.Amount += e.MetalAmount;
         })

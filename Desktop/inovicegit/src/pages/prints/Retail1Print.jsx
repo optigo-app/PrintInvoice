@@ -15,6 +15,9 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [msg, setMsg] = useState("");
     const [taxes, setTaxes] = useState([]);
     const [finalD, setFinalD] = useState({});
+    const [totalss, setTotalss] = useState({
+        totalWt: 0,
+    })
     let pName = atob(printName).toLowerCase();
 
     const getStyles = (retailPrint1, retailPrint, value) => {
@@ -39,9 +42,25 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const loadData = (data) => {
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         let resultArray = [];
-
+        let totalObj = {
+            pcs: datas?.mainTotal?.diamonds?.Pcs + datas?.mainTotal?.colorstone?.Pcs + datas?.mainTotal?.misc?.Pcs,
+            materialWeight: 0,
+            rate: 0,
+            amount: 0,
+            making: 0,
+            others: 0,
+            totalAmount: 0,
+            sgstAmount: 0,
+            cgstAmount: 0,
+            addLess: 0,
+            grandTotal: 0,
+            textInNumbers: "",
+            goldWeight: 0
+        }
+        let totalWt = 0;
         datas?.resultArray?.forEach((e, i) => {
             let obj = cloneDeep(e);
+            totalWt += (e?.NetWt - e?.totals?.finding?.Wt) + e?.totals?.diamonds?.Wt + e?.totals?.misc?.Wt;
             let netWtLossWt = 0;
             if (e?.metal?.length === 1) {
                 netWtLossWt = e?.NetWt + e?.LossWt;
@@ -65,8 +84,23 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 }
             });
             let colorstone = [];
+            let isRateOnPcs = {
+                Pcs: 0,
+                Amount: 0
+            }
+            let isRateOnWt = {
+                Wt: 0,
+                Amount: 0
+            }
             e?.colorstone?.forEach((ele, ind) => {
-                let findColorStones = colorstone?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
+                if (ele?.isRateOnPcs === 0) {
+                    isRateOnWt.Wt += ele?.Wt;
+                    isRateOnWt.Amount += ele?.Amount;
+                } else {
+                    isRateOnPcs.Pcs += ele?.Pcs;
+                    isRateOnPcs.Amount += ele?.Amount;
+                }
+                let findColorStones = colorstone?.findIndex((elem, index) => elem?.isRateOnPcs === ele?.isRateOnPcs);
                 if (findColorStones === -1) {
                     colorstone?.push(ele);
                 } else {
@@ -75,8 +109,31 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     colorstone[findColorStones].Amount += ele?.Amount;
                 }
             });
+            if (isRateOnPcs?.Pcs !== 0) {
+                totalWt += isRateOnPcs?.Amount / isRateOnPcs?.Pcs;
+            }
+            if (isRateOnWt?.Wt !== 0) {
+                totalWt += isRateOnWt?.Amount / isRateOnWt?.Wt;
+            }
+
             let misc = [];
             e?.misc?.forEach((ele, ind) => {
+                // let findMiscs = misc?.findIndex((elem, index) => {
+                //     // elem?.ShapeName === ele?.ShapeName && elem?.ISHSCODE === ele?.ISHSCODE);
+                //     if(elem?.IsHSCOE === 0 && ele?.IsHSCOE === 0){
+                //         if(elem?.ShapeName === ele?.ShapeName){
+                //             return ind
+                //         }else{
+                //             return -1
+                //         }
+                //     }else{
+                //         if(elem?.IsHSCOE === 3 && ele?.IsHSCOE === 3){
+                //             return ind
+                //         }else{
+                //             return null
+                //         }
+                //     }
+                // });
                 let findMiscs = misc?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.ISHSCODE === ele?.ISHSCODE);
                 if (findMiscs === -1) {
                     misc?.push(ele);
@@ -172,26 +229,13 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             // }
         });
 
+        setTotalss({ ...totalss, totalWt: totalWt });
+
         datas.resultArray = resultArray;
         setFinalD(datas);
 
         setJsonData1(data?.BillPrint_Json[0]);
-        let resultArr = [];
-        let totalObj = {
-            pcs: 0,
-            materialWeight: 0,
-            rate: 0,
-            amount: 0,
-            making: 0,
-            others: 0,
-            totalAmount: 0,
-            sgstAmount: 0,
-            cgstAmount: 0,
-            addLess: 0,
-            grandTotal: 0,
-            textInNumbers: "",
-            goldWeight: 0
-        }
+
         let taxValue = taxGenrator(data?.BillPrint_Json[0], totalObj.totalAmount);
         setTaxes(taxValue);
         taxValue.forEach((e, i) => {
@@ -212,11 +256,10 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
             return 0;
         });
+
         console.log(datas);
-        console.log(data);
         setTotal(totalObj);
         setDataFill(datas);
-        console.log(datas);
     }
 
     const handleChange = (e) => {
@@ -380,7 +423,6 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* data */}
                 {dataFill?.resultArray?.map((e, i) => {
-                    console.log(e);
                     return <div className="d-flex border-bottom border-start border-end no_break ft_12_retailPrint" key={i}>
                         <div className="srNoRetailPrint border-end p-1 d-flex justify-content-center align-items-center">
                             <p className='fw-bold'>{NumberWithCommas(i + 1, 0)}</p>
@@ -399,17 +441,17 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     e?.metal?.map((ele, ind) => {
                                         return <div className={`d-flex border-bottom`} key={ind}>
                                             <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
-                                                <p>{ele?.ShapeName}</p>
+                                                <p>{ele?.IsPrimaryMetal === 1 && ele?.ShapeName}</p>
                                             </div>
                                             <div className={`${styles.Qty} border-end p-1 d-flex align-items-center`}>
-                                                <p>{ele?.QualityName}</p>
+                                                <p>{ele?.IsPrimaryMetal === 1 && ele?.QualityName}</p>
                                             </div>
                                             <div className={`${styles.Pcs} border-end p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'></p>
+                                                <p className='text-end'>{ }</p>
                                             </div>
                                             <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
                                                 {/* <p className='text-end'>{NumberWithCommas(e?.netWtLossWt, 3)}</p> */}
-                                                <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
+                                                <p className='text-end'>{ind === 0 ? NumberWithCommas(e?.NetWt - e?.totals?.finding?.Wt, 3) : NumberWithCommas(ele?.Wt, 3)}</p>
                                             </div>
                                             {/* {e?.designno === "1942" && console.log(e)} */}
                                             <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
@@ -461,7 +503,9 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
                                             </div>
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{ele?.Wt !== 0 ? NumberWithCommas((ele?.Amount / jsonData1?.CurrencyExchRate) / ele?.Wt, 2) : "0.00"}</p>
+                                                <p className='text-end'>{ele?.isRateOnPcs === 0 ?
+                                                    (ele?.Wt !== 0 ? NumberWithCommas(ele?.Amount / (ele?.Wt * jsonData1?.CurrencyExchRate), 2) : "0.00") :
+                                                    (ele?.Pcs !== 0 ? NumberWithCommas(ele?.Amount / (ele?.Pcs * jsonData1?.CurrencyExchRate), 2) : "0.00")}</p>
                                             </div>}
                                             {pName !== 'retail1 print' && <div className={`${styles.Amount} p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{NumberWithCommas((ele?.Amount / jsonData1?.CurrencyExchRate), 2)}</p>
@@ -471,7 +515,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 }
                                 {
                                     e?.misc?.map((ele, ind) => {
-                                        return ele?.Wt !== 0 && <div className={`d-flex border-bottom`} key={ind}>
+                                        return (ele?.Wt !== 0 || ele?.ServWt !== 0) && <div className={`d-flex border-bottom`} key={ind}>
                                             <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.MasterManagement_DiamondStoneTypeName}</p>
                                             </div>
@@ -482,7 +526,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p>
                                             </div>
                                             <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
+                                                <p className='text-end'>{ele?.IsHSCOE === 0 ? NumberWithCommas(ele?.Wt, 3) : NumberWithCommas(ele?.ServWt, 3)}</p>
                                             </div>
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{ele?.Wt !== 0 ? NumberWithCommas((ele?.Amount / ele?.Wt), 2) : "0.00"}</p>
@@ -493,7 +537,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                     })
                                 }
-                                  {
+                                {
                                     e?.finding?.map((ele, ind) => {
                                         return <div className={`d-flex border-bottom`} key={ind}>
                                             <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
@@ -517,7 +561,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                     })
                                 }
-                                
+
                             </div>
                         </div>
                         <div className={`makingRetailPrint border-end p-1 d-flex ${pName === "retail print 1" ? `flex-column align-items-end justify-content-center` : `align-items-center justify-content-end `}`}>
@@ -552,8 +596,8 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <p className='fw-bold text-end'>{NumberWithCommas(total?.pcs, 0)}</p>
                             </div>
                             <div className={`${styles.Wt} border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}>
-                                <p className='fw-bold lh-1 text-end'>{fixedValues(total?.materialWeight, 3)} Ctw</p>
-                                <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight, 3)} gm</p>
+                                <p className='fw-bold lh-1 text-end'>{fixedValues(totalss?.totalWt, 3)} </p>
+                                {/* <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight, 3)} gm</p> */}
                             </div>
                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end min_height_44_retail_print_1 ft_12_retailPrint`}>
                                 <p className='fw-bold text-end'>
@@ -568,13 +612,15 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                     </div>
                     <div className="makingRetailPrint border-end p-1 d-flex align-items-center justify-content-end ft_12_retailPrint">
-                        <p className='fw-bold text-end'>{NumberWithCommas(total?.making, 2)}</p>
+                        <p className='fw-bold text-end'>
+                            {/* {NumberWithCommas(total?.making, 2)} */}
+                        </p>
                     </div>
                     <div className="othersRetailPrint border-end p-1 d-flex align-items-center justify-content-end ft_12_retailPrint">
-                        <p className='fw-bold text-end'>{NumberWithCommas(total?.others, 2)}</p>
+                        <p className='fw-bold text-end'>{NumberWithCommas(dataFill?.mainTotal?.total_otherCharge_Diamond_Handling, 2)}</p>
                     </div>
                     <div className="totalRetailPrint p-1 d-flex align-items-center justify-content-end ft_12_retailPrint">
-                        <p className='fw-bold text-end'>{NumberWithCommas(total?.totalAmount, 2)}</p>
+                        <p className='fw-bold text-end'>{NumberWithCommas(dataFill?.mainTotal?.total_amount, 2)}</p>
                     </div>
                 </div>
                 {/* grand total */}
@@ -582,23 +628,23 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {/* <div className="totalInWordsRetailPrint p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end"> */}
                     <div className="col-8 p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end">
                         <p className='ft_12_retailPrint'>In Words Indian Rupees</p>
-                        <p className='fw-bold ft_12_retailPrint'>{total?.textInNumbers} Only</p>
+                        <p className='fw-bold ft_12_retailPrint'>{toWords?.convert(+fixedValues(dataFill?.mainTotal?.total_amount + taxes?.reduce((acc, cObj) => acc + (+cObj?.amount * jsonData1?.CurrencyExchRate), 0) + jsonData1?.AddLess, 2))} Only</p>
                     </div>
                     {/* <div className="cgstRetailPrint p-1 text-end p-1 border-end"> */}
                     <div className="col-2 py-1 text-end border-end ft_12_retailPrint">
                         {taxes.length > 0 && taxes.map((e, i) => {
                             return <p key={i} className='pb-1 px-1'>{e?.name} @ {e?.per}</p>
                         })}
-                        <p className='ft_12_retailPrint px-1'>Add</p>
+                        {jsonData1?.AddLess !== 0 && <p className='ft_12_retailPrint px-1'>{jsonData1?.AddLess > 0 ? "Add" : "Less"}</p>}
                         <p className='fw-bold py-1 border-top ft_12_retailPrint px-1'>GRAND TOTAL</p>
                     </div>
                     {/* <div className="totalRetailPrint p-1 text-end p-1"> */}
                     <div className="col-2  py-1 text-end ft_12_retailPrint">
                         {taxes.length > 0 && taxes.map((e, i) => {
-                            return <p key={i} className='pb-1 px-1'>{NumberWithCommas(+e?.amount, 2)}</p>
+                            return <p key={i} className='pb-1 px-1'>{NumberWithCommas(+e?.amount * jsonData1?.CurrencyExchRate, 2)}</p>
                         })}
-                        <p className='ft_12_retailPrint px-1'>{total?.addLess}</p>
-                        <p className='fw-bold py-1 border-top ft_12_retailPrint px-1'>₹{NumberWithCommas(total?.grandTotal, 2)}</p>
+                        {jsonData1?.AddLess !== 0 && <p className='ft_12_retailPrint px-1'>{NumberWithCommas(jsonData1?.AddLess, 2)}</p>}
+                        <p className='fw-bold py-1 border-top ft_12_retailPrint px-1'><span dangerouslySetInnerHTML={{__html: jsonData1?.Currencysymbol}}></span>{NumberWithCommas(dataFill?.mainTotal?.total_amount + taxes?.reduce((acc, cObj) => acc + (+cObj?.amount * jsonData1?.CurrencyExchRate), 0) + jsonData1?.AddLess, 2)}</p>
                     </div>
                 </div>
                 {/* note */}
