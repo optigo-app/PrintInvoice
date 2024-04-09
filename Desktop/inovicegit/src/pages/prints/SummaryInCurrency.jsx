@@ -18,7 +18,7 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
     const [data, setData] = useState({});
     const [headerData, setHeaderData] = useState({});
     const [checkBox, setCheckbox] = useState({
-        image: false,
+        image: true,
     });
 
     const loadData = (data) => {
@@ -193,7 +193,7 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                         {NumberWithCommas(e?.MakingAmount + e?.TotalDiamondHandling + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.OtherCharges + e?.MiscAmount, 2)}
                     </div>
                     <div className={`text-end p-1 ${style?.CSAMT} border-end ${style?.word_break}`}>{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</div>
-                    <div className={`text-end p-1 ${style?.GOLDFINE} border-end ${style?.word_break}`}>{NumberWithCommas(e?.totals?.metal?.FineWt, 3)}</div>
+                    <div className={`text-end p-1 ${style?.GOLDFINE} border-end ${style?.word_break}`}>{NumberWithCommas(e?.convertednetwt, 2)}</div>
                     <div className={`text-end p-1 ${style?.GOLDAMT} border-end ${style?.word_break}`}>{NumberWithCommas(e?.metalAmounts / headerData?.CurrencyExchRate, 2)}</div>
                     <div className={`text-end p-1 ${style?.AMOUNT} ${style?.word_break}`}>{NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)}</div>
                 </div>
@@ -211,7 +211,7 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                 <div className={`text-end fw-bold p-1 ${style?.MAKING} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.total_Making_Amount
                     +data?.mainTotal?.diamonds?.SettingAmount+data?.mainTotal?.colorstone?.SettingAmount+data?.mainTotal?.total_otherCharge_Diamond_Handling, 2)}</div>
                 <div className={`text-end fw-bold p-1 ${style?.CSAMT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</div>
-                <div className={`text-end fw-bold p-1 ${style?.GOLDFINE} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.metal?.FineWt, 3)}</div>
+                <div className={`text-end fw-bold p-1 ${style?.GOLDFINE} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.convertednetwt, 2)}</div>
                 <div className={`text-end fw-bold p-1 ${style?.GOLDAMT} border-end ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.MetalAmount, 2)}</div>
                 <div className={`text-end fw-bold p-1 ${style?.AMOUNT} ${style?.word_break}`}>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</div>
             </div>

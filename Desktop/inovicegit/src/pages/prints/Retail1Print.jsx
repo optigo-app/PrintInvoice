@@ -471,7 +471,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 }
                                 {
                                     e?.misc?.map((ele, ind) => {
-                                        return ele?.Wt !== 0 && <div className={`d-flex border-bottom`} key={ind}>
+                                        return (ele?.Wt !== 0 || ele?.ServWt !== 0) && <div className={`d-flex border-bottom`} key={ind}>
                                             <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.MasterManagement_DiamondStoneTypeName}</p>
                                             </div>
@@ -482,7 +482,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p>
                                             </div>
                                             <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
+                                                <p className='text-end'>{ele?.IsHSCOE === 0 ? NumberWithCommas(ele?.Wt, 3) : NumberWithCommas(ele?.ServWt, 3)}</p>
                                             </div>
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{ele?.Wt !== 0 ? NumberWithCommas((ele?.Amount / ele?.Wt), 2) : "0.00"}</p>
