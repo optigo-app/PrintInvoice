@@ -11,8 +11,10 @@ import {
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/summary5.css";
 import * as lsh from "lodash";
+import { ToWords } from "to-words";
 
 const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
+  const toWords = new ToWords();
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -47,7 +49,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           setMsg(data?.Message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     sendData();
@@ -75,15 +77,25 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }
     datas?.resultArray?.forEach((e) => {
 
-      let findRecord = cateWise?.findIndex(
-        (el) => el?.Categoryname === e?.Categoryname
-      );
+      let findRecord = cateWise?.findIndex( (el) => el?.Categoryname === e?.Categoryname );
       if (findRecord === -1) {
         cateWise.push(e);
       } else {
         cateWise[findRecord].Quantity += e?.Quantity;
       }
+      let hs0and3 = [];
+      
 
+       let anomisc =  e?.misc?.filter((el) => el?.IsHSCOE === 0 || el?.IsHSCOE === 3)
+        e.misc = anomisc;
+
+
+        if(e?.misc?.length === 1 && e?.misc[0]?.IsHSCOE === 3){
+          e.misc = [];
+        }
+
+
+        
       e?.misc?.forEach((a) => {
         if (a?.ShapeName === 'Stamping' || a?.ShapeName === 'Hallmark') { }
         else {
@@ -93,6 +105,28 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           miscobj.rRate += a?.Rate;
         }
       })
+
+      let clr = [];
+
+      e?.colorstone?.forEach((a) => {
+        let findrec = clr?.findIndex((el) => el?.ShapeName === a?.ShapeName && el?.QualityName === a?.QualityName && el?.Colorname === a?.Colorname)
+        if(findrec === -1){
+          let obj = {...a};
+          obj.cspcs = a?.Pcs;
+          obj.cswt = a?.Wt;
+          obj.Rate = a?.Rate;
+          obj.csamt = a?.Amount;
+          clr.push(obj);
+        }else{
+          clr[findrec].cspcs += a?.Pcs;
+          clr[findrec].cswt += a?.Wt;
+          clr[findrec].Rate += a?.Rate;
+          clr[findrec].csamt += a?.Amount;
+        }
+      })
+
+      e.colorstone = clr;
+
 
     });
     setMiscTotal(miscobj);
@@ -135,79 +169,30 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <div className="containers5 mb-5 pb-5">
                 {/* hide show and print button */}
                 <div className="d-flex justify-content-end align-items-center HSs5 fsgs5 mb-5 ">
-                  <div className="mx-4">
-                    <input
-                      type="checkbox"
-                      id="netwt"
-                      value="netwts5"
-                      checked={netwts5}
-                      onChange={(e) => handleHideShowS5(e)}
-                    />
-                    <label htmlFor="netwt" className="mx-2 user-select-none">
-                      With NetWt
-                    </label>
+                  <div className="mx-4"> <input type="checkbox" id="netwt" value="netwts5" checked={netwts5} onChange={(e) => handleHideShowS5(e)} />
+                    <label htmlFor="netwt" className="mx-2 user-select-none"> With NetWt </label>
+                  </div>
+                  <div className="mx-4"> <input type="checkbox" id="images5" value="images5" checked={imagess5} onChange={(e) => handleHideShowS5(e)} /> <label htmlFor="images5" className="mx-2 user-select-none"> With Images </label>
+                  </div>
+                  <div className="mx-4"> <input type="checkbox" id="headers5" value="headers5" checked={headers5} onChange={(e) => handleHideShowS5(e)} />
+                    <label htmlFor="headers5" className="mx-2 user-select-none"> With Header </label>
                   </div>
                   <div className="mx-4">
-                    <input
-                      type="checkbox"
-                      id="images5"
-                      value="images5"
-                      checked={imagess5}
-                      onChange={(e) => handleHideShowS5(e)}
-                    />
-                    <label htmlFor="images5" className="mx-2 user-select-none">
-                      With Images
-                    </label>
-                  </div>
-                  <div className="mx-4">
-                    <input
-                      type="checkbox"
-                      id="headers5"
-                      value="headers5"
-                      checked={headers5}
-                      onChange={(e) => handleHideShowS5(e)}
-                    />
-                    <label htmlFor="headers5" className="mx-2 user-select-none">
-                      With Header
-                    </label>
-                  </div>
-                  <div className="mx-4">
-                    <button
-                      className="btn_white blue m-0 "
-                      onClick={(e) => handlePrint(e)}
-                    >
-                      Print
-                    </button>
+                    <button className="btn_white blue m-0 " onClick={(e) => handlePrint(e)} > Print </button>
                   </div>
                 </div>
                 {/* company detail | header */}
                 {headers5 ? (
                   <div className="fsgs5 d-flex justify-content-between border-bottom p-1 fsgs5">
                     <div>
-                      <div className="fw-bold fs-5">
-                        {result?.header?.CompanyFullName}
-                      </div>
+                      <div className="fw-bold fs-5"> {result?.header?.CompanyFullName} </div>
                       <div>{result?.header?.CompanyAddress}</div>
-                      <div>
-                        {result?.header?.CompanyCity}-
-                        {result?.header?.CompanyPinCode}-
-                        {result?.header?.CompanyState}(
-                        {result?.header?.CompanyCountry})
+                      <div> {result?.header?.CompanyCity}- {result?.header?.CompanyPinCode}- {result?.header?.CompanyState}( {result?.header?.CompanyCountry})
                       </div>
-                      <div>
-                        T-{result?.header?.CompanyTellNo} | Toll Free{" "}
-                        {result?.header?.CompanyTollFreeNo}
+                      <div> T-{result?.header?.CompanyTellNo} | Toll Free{" "} {result?.header?.CompanyTollFreeNo}
                       </div>
-                      <div>
-                        {result?.header?.CompanyEmail} |{" "}
-                        {result?.header?.CompanyWebsite}
-                      </div>
-                      <div>
-                        {result?.header?.Company_VAT_GST_No} |{" "}
-                        {result?.header?.Company_CST_STATE}-
-                        {result?.header?.Company_CST_STATE_No} | PAN-
-                        {result?.header?.Pannumber}
-                      </div>
+                      <div> {result?.header?.CompanyEmail} |{" "} {result?.header?.CompanyWebsite} </div>
+                      <div> {result?.header?.Company_VAT_GST_No} |{" "} {result?.header?.Company_CST_STATE}- {result?.header?.Company_CST_STATE_No} | PAN- {result?.header?.Pannumber} </div>
                     </div>
                     <div className="d-flex justify-content-end">
                       {/* <img
@@ -226,43 +211,24 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 )}
                 {/* invoice number details */}
                 <div className="mt-2 border  d-flex justify-content-between p-1 fsgs5">
-                  <div className="fsgs5">
-                    {" "}
-                    TAX INVOICE# :{" "}
-                    <b className="fsgs5">{result?.header?.InvoiceNo}</b>
+                  <div className="fsgs5"> {" "} TAX INVOICE# :{" "} <b className="fsgs5">{result?.header?.InvoiceNo}</b>
                   </div>
                   <div className=" fsgs5">
-                    <div>
-                      {" "}
-                      DATE :{" "}
-                      <b className="fsgs5">{result?.header?.EntryDate}</b>{" "}
+                    <div> {" "} DATE :{" "} <b className="fsgs5">{result?.header?.EntryDate}</b>{" "}
                     </div>
-                    <div className="fsgs5">
-                      {" "}
-                      {result?.header?.HSN_No_Label}&nbsp;&nbsp; :{" "}
-                      <b className="fsgs5">{result?.header?.HSN_No}</b>
-                    </div>
+                    <div className="fsgs5"> {" "} {result?.header?.HSN_No_Label}&nbsp;&nbsp; :{" "} <b className="fsgs5">{result?.header?.HSN_No}</b> </div>
                   </div>
                 </div>
                 {/* sub header */}
                 <div className="p-1 d-flex border fsgs5">
                   <div className="me-2 fw-bold">TO,</div>
                   <div>
-                    <div className="fw-bold">
-                      {result?.header?.customerfirmname}
-                    </div>
-                    <div>{result?.header?.customerstreet}</div>
+                    <div className="fw-bold"> {result?.header?.customerfirmname} </div>
+                     <div>{result?.header?.customerstreet}</div>
                     <div>{result?.header?.customerregion}</div>
-                    <div>
-                      {result?.header?.customercity}
-                      {result?.header?.customerpincode}
-                    </div>
+                    <div> {result?.header?.customercity} {result?.header?.customerpincode} </div>
                     <div>Phno. {result?.header?.customermobileno}</div>
-                    <div>
-                      {result?.header?.vat_cst_pan} |{" "}
-                      {result?.header?.Cust_CST_STATE}-
-                      {result?.header?.Cust_CST_STATE_No}
-                    </div>
+                    <div> {result?.header?.vat_cst_pan} |{" "} {result?.header?.Cust_CST_STATE}- {result?.header?.Cust_CST_STATE_No} </div>
                   </div>
                 </div>
                 {/* table */}
@@ -361,21 +327,21 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <div className="col6s5 border-end ends5 pb10s5">
                             <div>
                               {e?.misc?.map((e, i) => {
-                                return <div className="ends5" key={i}>{(e?.ShapeName === 'Hallmark' || e?.ShapeName === 'Stamping') ? '' : e?.Pcs}</div>;
+                                return <div className="ends5" key={i}>{e?.Pcs}</div>;
                               })}
                             </div>
                           </div>
                           <div className="col7s5 border-end ends5 pb10s5">
                             <div>
                               {e?.misc?.map((e, i) => {
-                                return <div className="ends5" key={i}>{(e?.ShapeName === 'Hallmark' || e?.ShapeName === 'Stamping') ? '' : formatAmount(e?.Rate)}</div>;
+                                return <div className="ends5" key={i}>{formatAmount(e?.Amount)}</div>;
                               })}
                             </div>
                           </div>
                           <div className="col8s5 border-end ends5 pb10s5">
                             <div>
                               {e?.misc?.map((e, i) => {
-                                return <div className="ends5" key={i}>{(e?.ShapeName === 'Hallmark' || e?.ShapeName === 'Stamping') ? '' : formatAmount(e?.Amount)}</div>;
+                                return <div className="ends5" key={i}>{formatAmount(e?.Amount)}</div>;
                               })}
                             </div>
                           </div>
@@ -389,7 +355,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <div className="col10s5 border-end ends5 pb10s5">
                             <div>
                               {e?.colorstone?.map((e, i) => {
-                                return <div className="ends5" key={i}>{e?.Pcs}</div>;
+                                return <div className="ends5" key={i}>{e?.cspcs}</div>;
                               })}
                             </div>
                           </div>
@@ -411,13 +377,15 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {formatAmount(e?.MaKingCharge_Unit)}
                           </div>
                           <div className="col14s5 border-end ends5 pb10s5">
-                            {formatAmount((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost))}
+                            {/* {formatAmount((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))} */}
+                            {formatAmount((((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate))))}
                           </div>
                           <div className="col15s5 border-end ends5 pb10s5">
                             {formatAmount(e?.Wastage)}
                           </div>
                           <div className="col16s5 border-end ends5 pb10s5">
-                            {formatAmount((e?.OtherCharges + e?.TotalDiamondHandling))}
+                            {/* {formatAmount((e?.OtherCharges + e?.TotalDiamondHandling))} */}
+                            {formatAmount(((e?.OtherCharges + e?.TotalDiamondHandling ) / (result?.header?.CurrencyExchRate)))}
                           </div>
                           <div className="col17s5 ends5 pb10s5">
                             {formatAmount(e?.TotalAmount)}
@@ -483,7 +451,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div>
                               {e?.name} @ {e?.per}
                             </div>
-                            <div>{e?.amount}</div>
+                            <div>{(+e?.amount) * result?.header?.CurrencyExchRate}</div>
                           </div>
                         );
                       })}
@@ -497,14 +465,20 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   {/* grand total */}
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">
-                    <div>Gold in 24K : 0.000</div>
+                    <div>Gold in 24K : {result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
                     <div> -,C,CD,KUNDAN</div>
-                    <div className="d-flex"><div className="px-1">TOTAL IN {result?.header?.CurrencyCode}</div> <div className="px-1" dangerouslySetInnerHTML={{ __html: result?.header?.Currencysymbol }}></div>{" "} : <div className="px-1">{formatAmount((result?.mainTotal?.total_amount + result?.header?.TotalGSTAmount + result?.header?.AddLess))} </div></div>
+                    <div className="d-flex">
+                      {/* <div className="px-1">TOTAL IN {result?.header?.CurrencyCode}</div> */}
+                     <div>TOTAL IN HK$ </div>
+                     {/* <div className="px-1" dangerouslySetInnerHTML={{ __html: result?.header?.Currencysymbol }}></div> */}
+                     &nbsp;{" "}:{" "} &nbsp;<div className="px-1">{formatAmount((result?.mainTotal?.total_amount + result?.header?.TotalGSTAmount + result?.header?.AddLess))} </div></div>
                   </div>
                   {/* amount in words */}
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">
-                    <div>{numberToWord((result?.finalAmount)?.toFixed(2))} Only /-</div>
-                    <div>TOTAL : {result?.header?.CurrencyCode} {formatAmount((result?.finalAmount))}</div>
+                    {/* <div>{numberToWord((result?.finalAmount)?.toFixed(2))} Only /-</div> */}
+                    <div>{toWords.convert(+(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)?.toFixed(2))} Only /-</div>
+                    {/* <div>TOTAL : {result?.header?.CurrencyCode}  */}
+                    <div>TOTAL :  HKD  {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.header?.TotalGSTAmount))}</div>
                   </div>
                 </div>
                 {/* description */}

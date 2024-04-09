@@ -86,6 +86,29 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         cateWise[findRecord].Quantity += e?.Quantity;
       }
     });
+
+    datas?.resultArray?.forEach((el) => {
+      let dia = [];
+      el?.diamonds?.forEach((a) => {
+          let findrecord = dia?.findIndex((ele) => ele?.ShapeName === a?.ShapeName && ele?.QualityName === a?.QualityName && ele?.Colorname === a?.Colorname && ele?.Rate === a?.Rate)
+          if(findrecord === -1){
+            let obj = {...a};
+            obj.dwt = a?.Wt;
+            obj.dpcs = a?.Pcs;
+            obj.Rate = a?.Rate;
+            obj.damt = a?.Amount;
+            dia.push(obj);
+          }else{
+            dia[findrecord].dwt += a?.Wt;
+            dia[findrecord].dpcs += a?.Pcs;
+            dia[findrecord].Rate = a?.Rate;
+            dia[findrecord].damt += a?.Amount;
+          }
+      })
+
+      el.diamonds = dia;
+    })
+
     setCategoryNameWise(cateWise);
     setResult(datas);
   }
@@ -314,7 +337,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {
                               e?.diamonds?.map((el) => {
                                 return (
-                                  <div className="toplefts2 ps-1">{el?.ShapeName}</div>
+                                  <div className="toplefts2 ps-1">{el?.QualityName}</div>
                                 )
                               })
                             }
@@ -323,7 +346,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {
                               e?.diamonds?.map((el) => {
                                 return (
-                                  <div className="tops2 pe-1">{el?.Wt?.toFixed(3)}</div>
+                                  <div className="tops2 pe-1">{el?.dwt?.toFixed(3)}</div>
                                 )
                               })
                             }
@@ -332,7 +355,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {
                               e?.diamonds?.map((el) => {
                                 return (
-                                  <div className="tops2 pe-1">{formatAmount(el?.Rate)}</div>
+                                  <div className="tops2 pe-1">{formatAmount((el?.damt / el?.dwt))}</div>
                                 )
                               })
                             }
@@ -341,15 +364,15 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {
                               e?.diamonds?.map((el) => {
                                 return (
-                                  <div className="tops2 pe-1">{formatAmount(el?.Amount)}</div>
+                                  <div className="tops2 pe-1">{formatAmount(el?.damt)}</div>
                                 )
                               })
                             }
                           </div>
                           <div className={`${classIs.col8} border-end tops2 pe-1`}>{e?.grosswt?.toFixed(3)}</div>
                           {hsnetwt ? <div className={`${classIs.col9} border-end tops2 pe-1`}>{e?.NetWt?.toFixed(3)}</div> : ''}
-                          <div className={`${classIs.col10} border-end tops2 pe-1`}>{formatAmount(e?.Making_Amount_Other_Charges)}</div>
-                          <div className={`${classIs.col11} border-end tops2 pe-1`}>{formatAmount(e?.CsAmount)}</div>
+                          <div className={`${classIs.col10} border-end tops2 pe-1`}>{formatAmount((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.OtherCharges + e?.TotalDiamondHandling + e?.totals?.finding?.SettingAmount))}</div>
+                          <div className={`${classIs.col11} border-end tops2 pe-1`}>{formatAmount(e?.totals?.colorstone?.Amount)}</div>
                           <div className={`${classIs.col12} border-end tops2 pe-1`}>{e?.convertednetwt?.toFixed(3)}</div>
                           <div className={`${classIs.col13} border-end tops2 pe-1`}>{formatAmount(e?.MetalAmount)}</div>
                           <div className={`${classIs.col14} tops2 pe-1`} style={{ width: `${hsnetwt ? '' : '14%'}` }}>{formatAmount(e?.TotalAmount)}</div>
@@ -368,7 +391,13 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`${classIs.col7} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.diamonds?.Amount)}</div>
                     <div className={`${classIs.col8} border-end ends2 pe-1`}>{result?.mainTotal?.grosswt?.toFixed(3)}</div>
                     {hsnetwt ? <div className={`${classIs.col9} border-end ends2 pe-1`}>{result?.mainTotal?.netwt?.toFixed(3)}</div> : ''}
-                    <div className={`${classIs.col10} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.total_Making_Amount_Other_Charges)}</div>
+                    <div className={`${classIs.col10} border-end ends2 pe-1`}>
+                      {formatAmount((result?.mainTotal?.diamonds?.SettingAmount + 
+                        result?.mainTotal?.colorstone?.SettingAmount + 
+                        result?.mainTotal?.total_other + 
+                        result?.mainTotal?.total_diamondHandling + 
+                        result?.mainTotal?.total_Making_Amount + 
+                        result?.mainTotal?.finding?.SettingAmount))}</div>
                     <div className={`${classIs.col11} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.total_csamount)}</div>
                     <div className={`${classIs.col12} border-end ends2 pe-1`}>{result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
                     <div className={`${classIs.col13} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.MetalAmount)}</div>
@@ -390,13 +419,13 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* grand total */}
                 <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2">
-                  <div>Gold in 24K : <b className="fsgs2">0.000</b></div>
-                  <div className="fw-bold">TOTAL IN HK$ : {formatAmount(result?.finalAmount)}</div>
+                  <div>Gold in 24K : <b className="fsgs2">{result?.mainTotal?.convertednetwt?.toFixed(3)}</b></div>
+                  <div className="fw-bold">TOTAL IN HK$ : {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal))}</div>
                 </div>
                 {/* in words */}
                 <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2">
-                  <div className="fw-bold">{numberToWord((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal))}</div>
-                  <div className="fw-bold">TOTAL  :   HKD 85725.00 </div>
+                  <div className="fw-bold">{toWords.convert(+(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)?.toFixed(2))}</div>
+                  <div className="fw-bold">TOTAL  :   HKD {formatAmount(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)} </div>
                 </div>
                 {/* summary */}
                 <div className="border mt-2 pbias2">
@@ -417,7 +446,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* notes  */}
                 <div className="border mt-2 pbias2">
                   <div className="fw-bold pt-3">NOTE:</div>
-                  <div dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }}></div>
+                  <div className="p-1" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }}></div>
                 </div>
                 {/* remarks */}
                 <div className="py-1 pbias2"><b className="fsgs2">REMARKS:</b> {result?.header?.PrintRemark}</div>
