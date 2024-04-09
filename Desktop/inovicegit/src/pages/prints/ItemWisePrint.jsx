@@ -369,8 +369,8 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         {/* Table Heading */}
         {/* ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_tab_14"} */}
         <div className={`bgLightPink d-flex border-start border-end border-bottom main_pad_item_wise_print 
-        ${(atob(printName).toLowerCase() === "item wise print") && "itemWisePrint1Font_tab_14"}
-        ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrintHead"}`}>
+        ${(atob(printName).toLowerCase() === "item wise print") && "itemWisePrint1Font_tab_14 "}
+        ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrintHead itemWisePrintFont_11"}`}>
           <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'metaltypeItemWisePrint ' : 'metaltypeItemWisePrint1'} border-end
           ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && 'metaltypeItemWisePrint2'}`}>
             <p className="fw-bold" style={{ wordBreak: "normal" }}>METAL TYPE</p>
@@ -464,11 +464,11 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               // ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_tab_14"}
               <div className={`no_break d-flex border-start border-end border-bottom ${(atob(printName).toLowerCase() === "item wise print") ? 'main_pad_item_wise_print_row itemWisePrint1Font_14_category' : 'main_pad_item_wise_print_row1'}   
               ${(atob(printName).toLowerCase() === "item wise print") && "itemWisePrintFont_tab_14"}
-              ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_14_category"}`} key={i}>
-                <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'metaltypeItemWisePrint' : 'metaltypeItemWisePrint1'} border-end
+              ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_14_category itemWisePrintFont_11"}`} key={i}>
+                <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'metaltypeItemWisePrint' : 'metaltypeItemWisePrint1'} border-end breakNormalItemWIse
                 ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && 'metaltypeItemWisePrint2'}
-                ${atob(printName)?.toLowerCase() === "item wise print1" && "itemWisePrint1Font_14_category"}`} style={{ wordBreak: "normal" }}>
-                  <p className="itemWisePrintCategory breakNormalItemWIse" >
+                ${atob(printName)?.toLowerCase() === "item wise print1" && "itemWisePrint1Font_14_category"} `} >
+                  <p className={`itemWisePrintCategory  `} >
                     {e?.MetalType} {e?.MetalPurity}
                   </p>
                 </div>
@@ -598,7 +598,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         {/* Tax */}
         <div className={`no_break bgLightPink d-flex border-start border-end border-bottom ${(atob(printName).toLowerCase() === "item wise print") ? 'main_pad_item_wise_print_row ' : 'main_pad_item_wise_print_row1'}
         ${(atob(printName).toLowerCase() === "item wise print") && "itemWisePrint1Font_13_total"}
-        ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_13_total"}`}>
+        ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_13_total itemWisePrintFont_11"}`}>
           <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'cgstTotalItemWiseRow' : (atob(printName)?.toLowerCase() === "item wise print1" ? 'cgstTotalItemWiseRow11' : 'cgstTotalItemWiseRow1')}  border-end pe-0 py-0 ps-0
            ${atob(printName)?.toLowerCase() === "item wise print2" && 'cgstTotalItemWiseRow2 '}
           `}>
@@ -612,19 +612,19 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'cgstAmountItemWiseRow' : 'cgstAmountItemWiseRow1'} py-0 px-0
           ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "cgstAmountItemWiseRow1222"}
           `}>
-            <p className="fw-bold text-end border-bottom  pe-1" style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }}>{NumberWithCommas(disocunt, 2)}</p>
-            <p className="fw-bold text-end border-bottom  pe-1" style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }}>{NumberWithCommas(totalAmount, 2)}</p>
+            <p className="fw-bold text-end border-bottom  " style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }}>{NumberWithCommas(disocunt, 2)}</p>
+            <p className="fw-bold text-end border-bottom  " style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }}>{NumberWithCommas(totalAmount, 2)}</p>
             {taxes.length > 0 && taxes.map((e, i) => {
-              return <p className="fw-bold text-end  border-bottom  pe-1" style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }} key={i}>{e?.amount}</p>
+              return <p className="fw-bold text-end  border-bottom " style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }} key={i}>{e?.amount}</p>
             })}
-            {json0Data?.AddLess !== 0 && <p className="fw-bold text-end   pe-1" style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }}>{NumberWithCommas(json0Data?.AddLess, 2)}</p>}
+            {json0Data?.AddLess !== 0 && <p className="fw-bold text-end  " style={{ paddingTop: "2.5px", paddingBottom: "2.5px" }}>{NumberWithCommas(json0Data?.AddLess, 2)}</p>}
           </div>
         </div>
         {/* Total */}
         {/* ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_13_total"} */}
         <div className={`no_break d-flex border-start border-end border-bottom ${(atob(printName).toLowerCase() === "item wise print") ? 'main_pad_item_wise_print_row' : 'main_pad_item_wise_print_row1'} lightGrey
         ${(atob(printName).toLowerCase() === "item wise print") && "itemWisePrint1Font_13_total"}
-        ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_13_total"}`}>
+        ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_13_total itemWisePrintFont_11"}`}>
           <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'metaltypeItemWisePrint' : 'metaltypeItemWisePrint1'} border-end d-flex justify-content-center align-items-center
            ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && 'metaltypeItemWisePrint2'}`}>
             <p className="fw-bold">Total</p>

@@ -409,7 +409,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     return (
         <>{loader ? <Loader /> : msg === "" ? <>
-            <div className={`container max_width_container pad_60_allPrint ${style?.container}`}>
+            <div className={`container max_width_container pad_60_allPrint ${style?.container} px-1`}>
                 {/* print Button */}
                 <div className={`printBtn_sec text-end  pt-4 `} >
                     <input type="button" className="btn_white blue"style={{fontSize: "12px"}} value="Print" onClick={(e) => handlePrint(e)} />
@@ -447,23 +447,23 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`d-flex border-bottom lightGrey`}>
                         <div className={`${style?.pad_1} fw-bold ${style?.srNo} border-end`}>
                             <div className="d-grid h-100">
-                                <p className='d-flex justify-content-center align-items-center'>Sr. No.</p>
+                                <p className='d-flex justify-content-center align-items-center text-center' style={{wordBreak: "normal"}}>Sr. No.</p>
                             </div>
                         </div>
                         <div className={`${style?.pad_1} fw-bold ${style?.design} border-end`}>
                             <div className="d-grid h-100">
-                                <p className='d-flex justify-content-center align-items-center'>Jewelcode</p>
+                                <p className='d-flex justify-content-center align-items-center text-center'>Jewelcode</p>
                             </div>
                         </div>
                         <div className={` fw-bold ${style?.diamond} border-end d-flex flex-wrap`}>
                             <div className="d-grid h-100 w-100">
-                                <p className="d-flex w-100 fw-bold justify-content-center">Diamond</p>
+                                <p className="d-flex w-100 fw-bold justify-content-center text-center">Diamond</p>
                                 <div className="d-flex w-100 border-top">
-                                    <p className={`col-2 text-center border-end`}>Shape</p>
-                                    <p className={`col-2 text-center border-end`}>Size</p>
-                                    <p className={`col-2 text-center border-end`}>Wt</p>
-                                    <p className={`col-2 text-center border-end`}>Pcs</p>
-                                    <p className={`col-2 text-center border-end`}>Rate</p>
+                                    <p className={`col-2 text-center border-end text-center`}>Shape</p>
+                                    <p className={`col-2 text-center border-end text-center`}>Size</p>
+                                    <p className={`col-2 text-center border-end text-center`}>Wt</p>
+                                    <p className={`col-2 text-center border-end text-center`}>Pcs</p>
+                                    <p className={`col-2 text-center border-end text-center`}>Rate</p>
                                     <p className={`col-2 text-center`}>Amount</p>
                                 </div>
                             </div>

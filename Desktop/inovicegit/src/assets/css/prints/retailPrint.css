@@ -2,7 +2,7 @@
     max-width: 1120px !important;
 }
 
-.containerRetailPrint{
+.containerRetailPrint {
     font-size: 14px;
 }
 
@@ -21,23 +21,26 @@
     line-height: 110%;
 }
 
-.min_height_44_retail_print_1{
+.min_height_44_retail_print_1 {
     min-height: 44px;
 }
 
-.ft_12_retailPrint, .ft_12_retailPrint *{
+.ft_12_retailPrint,
+.ft_12_retailPrint * {
     font-size: 12px;
 }
 
-.word_break_normal_retail_print *{
+.word_break_normal_retail_print * {
     word-break: normal;
 }
 
-.ft_13_retailPrint, .ft_13_retailPrint *{
+.ft_13_retailPrint,
+.ft_13_retailPrint * {
     font-size: 13px;
 }
 
-.ft_17_retailPrint, .ft_17_retailPrint *{
+.ft_17_retailPrint,
+.ft_17_retailPrint * {
     font-size: 17px;
 }
 
@@ -57,11 +60,9 @@
 }
 
 .materialDescriptionRetailPrint {
-    width: 50%;
-    min-width: 50%;
+    width: 48%;
+    min-width: 48%;
 }
-
-
 
 .materialRetailPrint,
 .wtRetailPrint,
@@ -72,8 +73,7 @@
 }
 
 .qtyRetailPrint,
-.pcsRetailPrint
- {
+.pcsRetailPrint {
     width: 14%;
     min-width: 14%;
 }
@@ -86,48 +86,57 @@
 }
 
 .qtyRetailPrintNoRate,
-.pcsRetailPrintNoRate{
+.pcsRetailPrintNoRate {
     width: 17.6%;
     min-width: 17.6%;
 }
 
 
-.materialRetailPrint1,
-.wtRetailPrint1,
-.rateRetailPrint1{
+.materialRetailPrint1 {
     width: 22%;
     min-width: 22%;
 }
 
-.qtyRetailPrint1,
-.pcsRetailPrint1
- {
-    width: 17%;
-    min-width: 17%;
+.wtRetailPrint1,
+.rateRetailPrint1 {
+    width: 24%;
+    min-width: 24%;
 }
 
-.materialRetailPrint1NoRate{
+.qtyRetailPrint1,
+.pcsRetailPrint1 {
+    width: 15%;
+    min-width: 15%;
+}
+
+.materialRetailPrint1NoRate {
     width: 28.5%;
     min-width: 28.5%;
 }
 
-.wtRetailPrint1NoRate{
+.wtRetailPrint1NoRate {
     width: 24.5%;
     min-width: 24.5%;
 }
 
 .qtyRetailPrint1NoRate,
-.pcsRetailPrint1NoRate{
+.pcsRetailPrint1NoRate {
     width: 23.5%;
     min-width: 23.5%;
 }
 
 
-.makingRetailPrint, .totalRetailPrint, .othersRetailPrint {
+.makingRetailPrint,
+.totalRetailPrint,
+.othersRetailPrint {
     width: 10%;
     min-width: 10%;
 }
 
+.totalRetail1Print {
+    width: 12%;
+    min-width: 12%;
+}
 
 .totalInWordsRetailPrint {
     width: 727px;
@@ -145,22 +154,38 @@
     object-fit: contain;
 }
 
-.product_image_retailPrint{
+.product_image_retailPrint {
     max-height: 100px;
     object-fit: contain;
 }
 
-.printBtnRetailPrint{
+.printBtnRetailPrint {
     right: -10%;
     margin-top: -25px;
 }
 
-.ratePara{
+.ratePara {
     font-size: 15px;
 }
 
-@media print{
-    .print_sec_sum4{
+.retail1PrintInWords {
+    width: 68%;
+    min-width: 68%;
+}
+
+.retail1PrintInNumbers {
+    width: 20%;
+    min-width: 20%;
+}
+
+.retail1PrintInNumbers1{
+    width: 12.1%;
+    min-width: 12.1%;
+}
+
+
+@media print {
+    .print_sec_sum4 {
         display: none !important;
     }
 }
