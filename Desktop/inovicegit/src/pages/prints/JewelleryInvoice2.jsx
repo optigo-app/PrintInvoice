@@ -572,6 +572,12 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                   <div className="d-flex">
                     <div className="w-25 fw-bold"> {result?.header?.HSN_No_Label} </div> <div className="w-50">{result?.header?.HSN_No}</div>
                   </div>
+                  <div className="d-flex">
+                    <div className="w-25 fw-bold"> DUE DATE </div> <div className="w-50">{result?.header?.DueDate}</div>
+                  </div>
+                  <div className="d-flex">
+                    <div className="w-25 fw-bold"> DUE DAYS </div> <div className="w-50">{result?.header?.DueDays}</div>
+                  </div>
                 </div>
               </div>
               <div>
