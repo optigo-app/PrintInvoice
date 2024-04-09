@@ -32,6 +32,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         Pcs: getStyles("pcsRetailPrint1", "pcsRetailPrint", true),
         Wt: getStyles("wtRetailPrint1", "wtRetailPrint", true),
         Amount: getStyles("", "amountRetailPrint", true),
+        total: getStyles("totalRetail1Print", "totalRetailPrint", true)
     });
 
     const toWords = new ToWords();
@@ -417,7 +418,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="othersRetailPrint border-end d-flex justify-content-center align-items-center">
                         <p className='fw-bold'>Others</p>
                     </div>
-                    <div className="totalRetailPrint d-flex justify-content-center align-items-center">
+                    <div className={`${styles?.total} d-flex justify-content-center align-items-center`}>
                         <p className='fw-bold'>Total</p>
                     </div>
                 </div>
@@ -572,7 +573,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className="othersRetailPrint border-end p-1 d-flex align-items-center justify-content-end">
                             <p className='text-end'>{NumberWithCommas((e?.OtherCharges + e?.TotalDiamondHandling) / jsonData1?.CurrencyExchRate, 2)}</p>
                         </div>
-                        <div className="totalRetailPrint p-1 d-flex align-items-center justify-content-end">
+                        <div className={`${styles?.total} p-1 d-flex align-items-center justify-content-end`}>
                             <p className='text-end'>{NumberWithCommas(e?.TotalAmount / jsonData1?.CurrencyExchRate, 2)}</p>
                         </div>
                     </div>
@@ -619,19 +620,19 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="othersRetailPrint border-end p-1 d-flex align-items-center justify-content-end ft_12_retailPrint">
                         <p className='fw-bold text-end'>{NumberWithCommas(dataFill?.mainTotal?.total_otherCharge_Diamond_Handling, 2)}</p>
                     </div>
-                    <div className="totalRetailPrint p-1 d-flex align-items-center justify-content-end ft_12_retailPrint">
+                    <div className={`${styles?.total} p-1 d-flex align-items-center justify-content-end ft_12_retailPrint`}>
                         <p className='fw-bold text-end'>{NumberWithCommas(dataFill?.mainTotal?.total_amount, 2)}</p>
                     </div>
                 </div>
                 {/* grand total */}
                 <div className="d-flex border-start border-end border-bottom no_break">
                     {/* <div className="totalInWordsRetailPrint p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end"> */}
-                    <div className="col-8 p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end">
+                    <div className="retail1PrintInWords p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end">
                         <p className='ft_12_retailPrint'>In Words Indian Rupees</p>
                         <p className='fw-bold ft_12_retailPrint'>{toWords?.convert(+fixedValues(dataFill?.mainTotal?.total_amount + taxes?.reduce((acc, cObj) => acc + (+cObj?.amount * jsonData1?.CurrencyExchRate), 0) + jsonData1?.AddLess, 2))} Only</p>
                     </div>
                     {/* <div className="cgstRetailPrint p-1 text-end p-1 border-end"> */}
-                    <div className="col-2 py-1 text-end border-end ft_12_retailPrint">
+                    <div className="retail1PrintInNumbers py-1 text-end border-end ft_12_retailPrint">
                         {taxes.length > 0 && taxes.map((e, i) => {
                             return <p key={i} className='pb-1 px-1'>{e?.name} @ {e?.per}</p>
                         })}
@@ -639,7 +640,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className='fw-bold py-1 border-top ft_12_retailPrint px-1'>GRAND TOTAL</p>
                     </div>
                     {/* <div className="totalRetailPrint p-1 text-end p-1"> */}
-                    <div className="col-2  py-1 text-end ft_12_retailPrint">
+                    <div className="retail1PrintInNumbers1 py-1 text-end ft_12_retailPrint">
                         {taxes.length > 0 && taxes.map((e, i) => {
                             return <p key={i} className='pb-1 px-1'>{NumberWithCommas(+e?.amount * jsonData1?.CurrencyExchRate, 2)}</p>
                         })}

@@ -210,8 +210,8 @@
 }
 
 .cgstTotalItemWiseRow2 {
-    min-width: 91.81%;
-    width: 91.81%;
+    min-width: 91.9%;
+    width: 91.9%;
 }
 
 .cgstTotalItemWiseRow11 {
@@ -239,7 +239,7 @@
     width: 8.19%;
 }
 
-.main_pad_item_wise_print_row1>div {
+.main_pad_item_wise_print_row1>div, .cgstAmountItemWiseRow1 p {
     padding: 3px;
 }
 
@@ -282,10 +282,6 @@ html .itemWisePrint1Font_tab_15 {
     word-break: break-all !important;
 }
 
-.breakNormalItemWIse *, .breakNormalItemWIse{
-    word-break: normal !important;
-}
-
 .itemWisePrint1Font_14_category .itemWisePrintCategory{
     word-break: normal !important;
 }
@@ -302,6 +298,16 @@ html .itemWisePrint1Font_tab_15 {
 
 .main_pad_item_wise_print .p-1 {
     padding: 2px !important;
+}
+
+.itemWisePrintFont_11 *,
+.itemWisePrintFont_11 {
+    font-size: 11px !important;
+    word-break: break-all !important;
+}
+
+.itemWisePrintfont .breakNormalItemWIse *, .itemWisePrintfont .breakNormalItemWIse{
+    word-break: normal !important;
 }
 
 @media print {
