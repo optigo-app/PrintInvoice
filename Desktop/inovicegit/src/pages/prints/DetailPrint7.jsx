@@ -45,12 +45,37 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
       data.BillPrint_Json[0].address = address;
 
+     
+
+
       const datas = OrganizeDataPrint(
         data?.BillPrint_Json[0],
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-
+        
+   let mainArr =   datas?.resultArray?.map((e) => {
+        let obj = cloneDeep(e);
+        let findings = {
+          Wt: 0,
+          SizeName: 0
+        };
+      let sizeWt =0
+      datas?.json2?.forEach((ele, ind) => {
+        if (ele?.MasterManagement_DiamondStoneTypeid === 5 && ele?.StockBarcode === e?.SrJobno) {
+          findings.Wt += ele?.Wt 
+          findings.SizeName += +ele?.SizeName;
+          sizeWt += (+ele?.SizeName* ele?.Wt);
+        }
+      });
+      // console.log(findings);
+      let fineWtss = (((e?.NetWt-findings?.Wt)*e?.Tunch)/100) + ((sizeWt)/100);
+      // console.log((((e?.NetWt-findings?.Wt)*e?.Tunch)/100), ((findings?.Wt*findings?.SizeName)/100));
+      obj.fineWtss = fineWtss;
+      return obj
+      // totals.fineWts += fineWtss;
+    })
+    datas.resultArray = mainArr; 
       //certification wt added
       // datas?.resultArray?.forEach((e) => {
       //   datas?.json2?.forEach((el) => {
@@ -87,31 +112,33 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           blankArr[recordIs].Wastage += +j2?.Wastage;
           blankArr[recordIs].PureNetWt += +j2?.PureNetWt;
           blankArr[recordIs].Quantity += +j2?.Quantity;
-          blankArr[recordIs].fineWtByMetalWtCalculation_finewt +=
-            +j2?.fineWtByMetalWtCalculation;
+          blankArr[recordIs].fineWtss += +j2?.fineWtss;
+          // blankArr[recordIs].fineWtByMetalWtCalculation_finewt +=
+          //   +j2?.fineWtByMetalWtCalculation;
         }
       });
 
       //cate wise data and finewt
       let cateWise2 = [];
-      let fine_wt_calculation = 0;
+      // let fine_wt_calculation = 0;
       blankArr?.forEach((e) => {
         let obj = { ...e };
         let netwtwithloss = e?.netwt + e?.LossWt;
-        let fineWtBYNetWtCal = 0;
-        fineWtBYNetWtCal += e?.fineWtByMetalWtCalculation_finewt;
-        if (e?.LossWt === 0) {
-          fine_wt_calculation += e?.PureNetWt;
-        } else {
-          fine_wt_calculation +=
-            ((e?.NetWt - e?.totals?.finding?.Wt) * e?.Tunch) / 100 +
-            e?.totals?.finding?.FineWt;
-        }
-        obj.fineWtBYNetWtCal = fineWtBYNetWtCal;
+        // let fineWtBYNetWtCal = 0;
+        // fineWtBYNetWtCal += e?.fineWtByMetalWtCalculation_finewt;
+        // if (e?.LossWt === 0) {
+        //   fine_wt_calculation += e?.PureNetWt;
+        // } else {
+        //   fine_wt_calculation +=
+        //     ((e?.NetWt - e?.totals?.finding?.Wt) * e?.Tunch) / 100 +
+        //     e?.totals?.finding?.FineWt;
+        // }
+        
+        // obj.fineWtBYNetWtCal = fineWtBYNetWtCal;
         obj.netwtwithloss = netwtwithloss;
         cateWise2.push(obj);
       });
-      datas.mainTotal.total_fineWtByMetalWtCalculation = fine_wt_calculation;
+      // datas.mainTotal.total_fineWtByMetalWtCalculation = fine_wt_calculation;
       cateWise2.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
 
       let othamttot = 0;
@@ -149,14 +176,14 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             el?.Categoryname === e?.Categoryname && el?.Wastage === e?.Wastage
         );
         if (findIndex === -1) {
-          console.log(e);
           let obj = { ...e };
           obj.cg_netwt = (e?.NetWt + e?.LossWt - e?.totals?.metal?.WithOutPrimaryMetal);
           obj.cg_grosswt = e?.grosswt;
           obj.cg_quantity = e?.Quantity;
           obj.cg_wastage = e?.Wastage;
           obj.cg_tunch = e?.Tunch;
-          obj.cg_finewt = (e?.NetWt * e?.Tunch) / 100;
+          // obj.cg_finewt = (e?.NetWt * e?.Tunch) / 100;
+          obj.cg_finewt = e?.fineWtss;
           cgwise.push(obj);
         } else {
           cgwise[findIndex].cg_netwt +=
@@ -166,7 +193,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           cgwise[findIndex].cg_quantity += e?.Quantity;
           cgwise[findIndex].cg_tunch += e?.Tunch;
           cgwise[findIndex].cg_wastage += e?.Wastage;
-          cgwise[findIndex].cg_finewt += (e?.NetWt * e?.Tunch) / 100;
+          // cgwise[findIndex].cg_finewt += (e?.NetWt * e?.Tunch) / 100;
+          cgwise[findIndex].cg_finewt += e?.fineWtss;
         }
       });
       cgwise.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
@@ -292,7 +320,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setResult(datas);
       let finewt_ = 0;
       datas?.resultArray?.forEach((e) => {
-        finewt_ += (e?.NetWt * e?.Tunch) / 100;
+        // finewt_ += (e?.NetWt * e?.Tunch) / 100;
+        finewt_ += e?.fineWtss;
       });
 
       datas?.resultArray?.forEach((e) => {
@@ -458,7 +487,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   //   setDia_Cls_Misc_Arr(dia_cls_misc_merge);
 
   // }
-
+  console.log(result);
   const handleImgShow = (e) => {
     if (imgFlag) setImgFlag(false);
     else {
@@ -1051,8 +1080,9 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             )}
                           </div>
                           <div className="rcol13dp7 dp7cen2 border-end-0">
+                            {e?.fineWtss?.toFixed(3)}
                             {/* {(e?.PureNetWt - e?.LossWt)?.toFixed(3)} */}
-                            {((e?.NetWt * e?.Tunch) / 100)?.toFixed(3)}
+                            {/* {((e?.NetWt * e?.Tunch) / 100)?.toFixed(3)} */}
 
                             {/* { ((
                               (((e?.NetWt - e?.totals?.finding?.Wt) * (e?.Tunch))/100)
@@ -1436,3 +1466,4 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 };
 
 export default DetailPrint7;
+
