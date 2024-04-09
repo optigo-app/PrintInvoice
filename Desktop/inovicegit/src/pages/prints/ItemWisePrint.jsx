@@ -54,14 +54,34 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let otherAmounts = 0;
     let pkgWt = 0;
     let allArr = [];
+    let metals = [];
     data?.BillPrint_Json1.forEach((e, i) => {
       let obj = cloneDeep(e);
       obj.metalRates = data?.BillPrint_Json2?.find((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.IsPrimaryMetal === 1 && ele?.StockBarcode === e?.SrJobno)?.Rate || 0;
       obj.counts = 1;
+      let findings = {
+        Wt: 0,
+        SizeName: 0
+      };
+      let sizeWt =0
+      data?.BillPrint_Json2?.forEach((ele, ind) => {
+        if (ele?.MasterManagement_DiamondStoneTypeid === 5 && ele?.StockBarcode === e?.SrJobno) {
+          // console.log(ele);
+          findings.Wt += ele?.Wt 
+          findings.SizeName += +ele?.SizeName;
+          sizeWt += (ele?.SizeName* ele?.Wt);
+        }
+      });
+      // console.log(findings);
+      let fineWtss = (((e?.NetWt-findings?.Wt)*e?.Tunch)/100) + ((sizeWt)/100);
+      // console.log((((e?.NetWt-findings?.Wt)*e?.Tunch)/100), ((findings?.Wt*findings?.SizeName)/100));
+
+      obj.fineWtss = fineWtss;
+      totals.fineWts += fineWtss;
       allArr?.push(obj);
-    })
+    });
     allArr.forEach((e, i) => {
-      totals.fineWts += (e?.NetWt * (e?.Tunch)) / 100;
+      // totals.fineWts += (e?.NetWt * (e?.Tunch)) / 100;
       pkgWt += e?.PackageWt;
       discountAmount += e?.DiscountAmt;
       let findIndex = arr.findIndex(
@@ -149,6 +169,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         arr[findIndex].otherAmt += e?.TotalDiamondHandling + e?.OtherCharges + e?.MiscAmount;
         arr[findIndex].metalRates += e?.metalRates;
         arr[findIndex].counts += e?.counts;
+        arr[findIndex].fineWtss += e?.fineWtss;
         arr[findIndex].srJobArr.push(e?.SrJobno);
       }
     });
@@ -543,9 +564,9 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'percentageItemWiseprint' : 'percentageItemWiseprint1'} border-end
                 ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && 'percentageItemWiseprint2'}`}>
                   <p className="text-end">
-                    {(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ? 
-                    (e?.MetalPriceRatio !== 0 && NumberWithCommas(e?.MetalPriceRatio, 3)) :
-                    (e?.MetalPriceRatio+e?.Wastage !== 0 && NumberWithCommas(e?.MetalPriceRatio+e?.Wastage, 3))
+                    {(atob(printName).toLowerCase() === "item wise print" || atob(printName).toLowerCase() === "item wise print1") ?
+                      (e?.MetalPriceRatio !== 0 && NumberWithCommas(e?.MetalPriceRatio, 3)) :
+                      (e?.MetalPriceRatio + e?.Wastage !== 0 && NumberWithCommas(e?.MetalPriceRatio + e?.Wastage, 3))
                     }
                   </p>
                 </div>
@@ -563,7 +584,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'fineAmt' : 'fineAmt1'} border-end`}>
                   <p className="text-end">
                     {/* {e?.FineWt !== 0 && e?.FineWt} */}
-                    {NumberWithCommas(e?.fineWts, 3)}
+                    {NumberWithCommas(e?.fineWtss, 3)}
                   </p>
                 </div>
                 <div className={`${(atob(printName).toLowerCase() === "item wise print") ? 'totalAmt' : 'totalAmt1'}`}>
@@ -694,7 +715,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         ${(atob(printName).toLowerCase() === "item wise print") && "itemWisePrint1Font_16_total"}
         ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_16_total"}`} >
           <p className="min_width_max">Amount in Words : </p>
-          <p className={`fw-bold ps-1 ${(atob(printName)?.toLowerCase() === "item wise print2"|| atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_tab_15"} 
+          <p className={`fw-bold ps-1 ${(atob(printName)?.toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_tab_15"} 
           ${(atob(printName)?.toLowerCase() === "item wise print") && "itemWisePrint1Font_tab_15"}`}> {toWords?.convert(+fixedValues(total.totalAmt, 2))} Only</p>
         </div>
         {/* ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_tab_15"} */}
