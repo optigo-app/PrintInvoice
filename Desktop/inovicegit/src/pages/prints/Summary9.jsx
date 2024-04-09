@@ -490,7 +490,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className="lightGrey p-1 fw-bold text-center">Summary Detail</p>
                         <div className="d-grid p-2" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
                             {summary.map((e, i) => {
-                                return <div className="d-flex" key={i}><div className="col-9">{e?.Categoryname} | {e?.SubCategoryname} </div><div className="col-1">:</div><div className="col-2">{NumberWithCommas(e?.Quantity, 0)}</div></div>
+                                return <div className="d-flex" key={i}><div className="col-9">{e?.Categoryname} | {e?.SubCategoryname} </div><div className="col-1 px-1 text-center">:</div><div className="col-2">{NumberWithCommas(e?.Quantity, 0)}</div></div>
                             })}
                         </div>
                     </div>
