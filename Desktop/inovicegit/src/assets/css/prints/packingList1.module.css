@@ -110,6 +110,9 @@
     word-break: break-all;
 }
 
+.no_word_break *{
+    word-break: normal;
+}
 
 @media print{
     .container{

@@ -461,7 +461,6 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         {data.length > 0 &&
           data.map((e, i) => {
             return (
-              // ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_tab_14"}
               <div className={`no_break d-flex border-start border-end border-bottom ${(atob(printName).toLowerCase() === "item wise print") ? 'main_pad_item_wise_print_row itemWisePrint1Font_14_category' : 'main_pad_item_wise_print_row1'}   
               ${(atob(printName).toLowerCase() === "item wise print") && "itemWisePrintFont_tab_14"}
               ${(atob(printName).toLowerCase() === "item wise print2" || atob(printName).toLowerCase() === "item wise print1") && "itemWisePrint1Font_14_category itemWisePrintFont_11"}`} key={i}>
