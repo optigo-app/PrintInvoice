@@ -45,6 +45,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         total: {
             Wt: 0,
             Amount: 0,
+            ServWt: 0
         },
     });
     const [isImageWorking, setIsImageWorking] = useState(true);
@@ -67,6 +68,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             data?.BillPrint_Json2
         );
         let resultArray = [];
+        let newMetalList = [];
         let summaries = [];
         let metalLists = { ...metalList };
         let metals = [];
@@ -77,15 +79,56 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let miscTotal = {
             Wt: 0,
             Amount: 0,
+            ServWt: 0
         };
         let colorStoneTotal = {
             Wt: 0,
             Amount: 0,
         };
+        data?.BillPrint_Json1?.forEach((e, i) => {
+            let findNewMetal = newMetalList?.findIndex((ele, ind) => ele?.MetalTypePurity === e?.MetalTypePurity && ele?.Wastage === e?.Wastage);
+            if(findNewMetal === -1){
+                newMetalList?.push(e);
+            }else{
+                newMetalList[findNewMetal].grosswt += e.grosswt;
+                newMetalList[findNewMetal].NetWt += e.NetWt;
+                newMetalList[findNewMetal].Tunch = (newMetalList[findNewMetal].Tunch + e.Tunch) / 2;
+                newMetalList[findNewMetal].PureNetWt += e.PureNetWt;
+                newMetalList[findNewMetal].MetalAmount += e.MetalAmount;
+            }
+            metalLists.total.grosswt += e.grosswt;
+            metalLists.total.NetWt += e.NetWt;
+            metalLists.total.PureNetWt += e.PureNetWt;
+            metalLists.total.Tunch += e.Tunch;
+            metalLists.total.Amount += e.MetalAmount;
+        })
+
+        console.log(newMetalList);
+
         let headers = HeaderComponent("1", data?.BillPrint_Json[0]);
         setHeader(headers);
         let goldLists = [];
         datas.resultArray.forEach((e, i) => {
+
+            let findMetals = metals.findIndex((ele, ind) => ele?.MetalTypePurity === e?.MetalTypePurity && ele?.Wastage === e?.Wastage);
+            // metalLists.total.grosswt += e.grosswt;
+            // metalLists.total.NetWt += e.NetWt;
+            // metalLists.total.PureNetWt += e.PureNetWt;
+            // metalLists.total.Tunch += e.Tunch;
+            // metalLists.total.Amount += e.totals.metal.Amount;
+            if (findMetals === -1) {
+                console.log(e?.grosswt, e, findMetals);
+                metals.push(e);
+            } else {
+                // metals[findMetals].grosswt += e.grosswt;
+                // metals[findMetals].NetWt += e.NetWt;
+                // metals[findMetals].Tunch = (metals[findMetals].Tunch + e.Tunch) / 2;
+                // metals[findMetals].PureNetWt += e.PureNetWt;
+                // metals[findMetals].totals.metal.Amount += e.totals.metal.Amount;
+            }
+
+      
+
             let findGoldLists = goldLists?.findIndex((ele, ind) => ele?.MetalPurity === e?.MetalPurity);
             if (findGoldLists === -1) {
                 goldLists?.push(e)
@@ -94,22 +137,6 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 goldLists[findGoldLists].NetWt += e?.NetWt;
                 goldLists[findGoldLists].PureNetWt += e?.PureNetWt;
                 goldLists[findGoldLists].metal[0].Amount += e?.metal[0]?.Amount;
-            }
-
-            let findMetals = metals.findIndex((ele, ind) => ele?.MetalTypePurity === e?.MetalTypePurity && ele?.Wastage === e?.Wastage);
-            metalLists.total.grosswt += e.grosswt;
-            metalLists.total.NetWt += e.NetWt;
-            metalLists.total.PureNetWt += e.PureNetWt;
-            metalLists.total.Tunch += e.Tunch;
-            metalLists.total.Amount += e.totals.metal.Amount;
-            if (findMetals === -1) {
-                metals.push(e);
-            } else {
-                metals[findMetals].grosswt += e.grosswt;
-                metals[findMetals].NetWt += e.NetWt;
-                metals[findMetals].Tunch = (metals[findMetals].Tunch + e.Tunch) / 2;
-                metals[findMetals].PureNetWt += e.PureNetWt;
-                metals[findMetals].totals.metal.Amount += e.totals.metal.Amount;
             }
 
             let findMetalrate = e?.metal.findIndex((ele, ind) => ele?.IsPrimaryMetal === 1);
@@ -129,6 +156,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
 
         });
+        metalLists.list = newMetalList;
         let csMiscWt = 0;
         let MiscWt = 0;
         data?.BillPrint_Json2.forEach((ele, ind) => {
@@ -143,11 +171,13 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
                 let findMiscs = misc.findIndex((elem, index) => elem?.Rate === ele?.Rate);
                 miscTotal.Wt += ele?.Wt;
+                miscTotal.ServWt += ele?.ServWt;
                 miscTotal.Amount += ele?.Amount;
                 if (findMiscs === -1) {
                     misc.push(ele);
                 } else {
                     misc[findMiscs].Wt += ele?.Wt;
+                    misc[findMiscs].ServWt += ele?.ServWt;
                     misc[findMiscs].Pcs += ele?.Pcs;
                     misc[findMiscs].Amount += ele?.Amount;
                 }
@@ -161,7 +191,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
         });
         setGoldList(goldLists);
-        metalLists.list = metals;
+
         setMetalList(metalLists);
         datas.resultArray = resultArray;
         datas.mainTotal.csMiscWt = csMiscWt;
@@ -626,7 +656,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(e?.Tunch, 3)}</div>
                             <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(e?.PureNetWt, 3)}</div>
                             <div className={`${style?.metalCol} p-1 text-end border-end`}>{NumberWithCommas(headerData?.MetalRate24K, 2)}</div>
-                            <div className={`${style?.metalCol} p-1 text-end`}>{NumberWithCommas(e?.totals?.metal?.Amount, 2)}</div>
+                            <div className={`${style?.metalCol} p-1 text-end`}>{NumberWithCommas(e?.MetalAmount, 2)}</div>
                         </div>
                     })}
                     {/* metal table total */}
@@ -651,14 +681,14 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {miscs.list.map((ele, ind) => {
                                 return <div className="border-start border-end border-bottom d-flex no_break" key={ind}>
                                     <div className='col-3 text-center p-1 border-end'>{ele?.MasterManagement_DiamondStoneTypeName}</div>
-                                    <div className='col-3 text-center p-1 border-end'>{NumberWithCommas(ele?.Wt, 3)}</div>
+                                    <div className='col-3 text-center p-1 border-end'>{NumberWithCommas(ele?.Wt+ele?.ServWt, 3)}</div>
                                     <div className='col-3 text-center p-1 border-end'>{NumberWithCommas(ele?.Rate, 2)}</div>
                                     <div className='col-3 text-center p-1'>{NumberWithCommas(ele?.Amount, 2)}</div>
                                 </div>
                             })}
                             <div className="border-start border-end border-bottom d-flex lightGrey no_break">
                                 <div className='col-3 text-end p-1 border-end fw-bold'> Total</div>
-                                <div className='col-3 text-center p-1 border-end fw-bold'>{NumberWithCommas(miscs?.total?.Wt, 3)}</div>
+                                <div className='col-3 text-center p-1 border-end fw-bold'>{NumberWithCommas(miscs?.total?.Wt+miscs?.total?.ServWt, 3)}</div>
                                 <div className='col-3 text-center p-1 border-end fw-bold'></div>
                                 <div className='col-3 text-center p-1 fw-bold'>{NumberWithCommas(miscs?.total?.Amount, 2)}</div>
                             </div>

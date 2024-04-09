@@ -54,6 +54,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let otherAmounts = 0;
     let pkgWt = 0;
     let allArr = [];
+    let metals = [];
     data?.BillPrint_Json1.forEach((e, i) => {
       let obj = cloneDeep(e);
       obj.metalRates = data?.BillPrint_Json2?.find((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.IsPrimaryMetal === 1 && ele?.StockBarcode === e?.SrJobno)?.Rate || 0;

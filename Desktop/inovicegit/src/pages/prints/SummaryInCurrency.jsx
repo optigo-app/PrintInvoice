@@ -126,7 +126,7 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                     </div>
                 </div>
                 <div>
-                    <p><span className="fw-bold">{headerData?.CurrencyCode} {headerData?.MetalRate24K}</span></p>
+                    <p><span className="fw-bold">HKD {headerData?.MetalRate24K}</span></p>
                 </div>
             </div>
             {/* table header */}
@@ -136,15 +136,15 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
                 <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.PURITY} border-end`}>PURITY</div>
                 <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.QLTY} border-end`}>QLTY</div>
                 <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.DIAWT} border-end`}>DIA WT</div>
-                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.DIARATE} border-end`}>DIA RATE (IN {headerData?.CurrencyCode})</div>
-                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.DIAAMT} border-end`}>DIA AMT (IN {headerData?.CurrencyCode})</div>
+                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.DIARATE} border-end`}>DIA RATE (IN HKD)</div>
+                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.DIAAMT} border-end`}>DIA AMT (IN HKD)</div>
                 <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.GWT} border-end`}>G WT</div>
                 <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.NWT} border-end`}>NWT</div>
-                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.MAKING} border-end`}>MAKING (IN {headerData?.CurrencyCode})</div>
-                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.CSAMT} border-end`}>CSAMT (IN {headerData?.CurrencyCode})</div>
+                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.MAKING} border-end`}>MAKING (IN HKD)</div>
+                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.CSAMT} border-end`}>CSAMT (IN HKD)</div>
                 <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.GOLDFINE} border-end`}>GOLD FINE</div>
-                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.GOLDAMT} border-end`}>GOLD AMT (IN {headerData?.CurrencyCode})</div>
-                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.AMOUNT}`}>AMOUNT (IN {headerData?.CurrencyCode})</div>
+                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.GOLDAMT} border-end`}>GOLD AMT (IN HKD)</div>
+                <div className={`d-flex justify-content-center align-items-center fw-bold text-center p-1 ${style?.AMOUNT}`}>AMOUNT (IN HKD)</div>
             </div>
             {/* table body */}
             {data.resultArray.map((e, i) => {
@@ -218,11 +218,11 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
             {/* gold in 24 k */}
             <div className={`no_break my-1 d-flex justify-content-between p-1 lightGrey border ${style?.font_14}`}>
                 <p>  Gold in 24K : <span className="fw-bold">{NumberWithCommas(data?.mainTotal?.convertednetwt, 3)}</span></p>
-                <p className='fw-bold'>	TOTAL IN {headerData?.CurrencyCode} :   {NumberWithCommas(data?.finalAmount, 2)}  </p>
+                <p className='fw-bold'>	TOTAL IN HKD :   {NumberWithCommas(data?.finalAmount, 2)}  </p>
             </div>
             {/* total currency */}
             <div className={`no_break my-1 text-end p-1 border ${style?.font_14}`}>
-                <p className='fw-bold'>	TOTAL IN {headerData?.Currencyname} :    <span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span> {NumberWithCommas(data?.finalAmount, 2)}    </p>
+                <p className='fw-bold'>	TOTAL IN Hong Kong Dollar :    HK$ {NumberWithCommas(data?.finalAmount, 2)}    </p>
             </div>
         </div>
     ) : (
