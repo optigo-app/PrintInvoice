@@ -135,6 +135,8 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       // let colorstoneMetalPurityWise = [];
       let diamondWtMetalPurityWise = 0;
       let colorstoneWtMetalPurityWise = 0;
+      let israteonpcsMISC0 = [];
+      let israteonpcsMISC1 = [];
       let jobwise_totals = {
         diamonds: {
           Wt: 0,
@@ -311,6 +313,11 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
             //for misc
             if (j2?.MasterManagement_DiamondStoneTypeid === 3) {
               all_m_d_c_m.push(j2)
+              if(j2?.isRateOnPcs === 0){
+                israteonpcsMISC0.push(j2);
+              }else{
+                israteonpcsMISC1.push(j2);
+              }
               miscList_duplicate.push(j2);
               maintotal.misc.allpcs += j2?.Pcs;
               maintotal.misc.allwt += j2?.Wt;
@@ -410,7 +417,8 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       // });
 
       let obj = { ...j1 };
-
+      obj.israteonpcsMISC0 = israteonpcsMISC0;
+      obj.israteonpcsMISC1 = israteonpcsMISC1;
       diamond_colorstone_misc?.forEach((e) => {
         if (e?.ShapeName === "Certification_NM award") {
           jobnodup.push(e);
