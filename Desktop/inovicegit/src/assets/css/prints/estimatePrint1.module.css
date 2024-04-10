@@ -1,4 +1,4 @@
-.estimate1Container *{
+.estimate1Container *:not(.remark *){
     font-size: 14px;
     word-break: normal;
 }
@@ -13,8 +13,27 @@
     word-break: break-all;
 }
 
+.word_breaks *{
+    word-break: break-all !important;
+}
+
+.estimate1Container .font_16,.estimate1Container .font_16 *{
+    font-size: 16px;
+}
+
+.estimate1Container .font_12, .estimate1Container .font_12 *{
+    font-size: 12px;
+}
+
+.estimate1Container .font_112, .estimate1Container .font_112 *{
+    font-size: 12px;
+}
+
 @media print{
     .print_sec_sum4{
         display: none !important;
+    }
+    .estimate1Container .font_12, .estimate1Container .font_12 *{
+        font-size: 9px;
     }
 }
