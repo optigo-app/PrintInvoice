@@ -279,7 +279,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className="d-flex" >
                                         <div className={`${style?.w_20} border-end`}>
                                             {e?.metal.map((ele, ind) => {
-                                                return ele?.IsPrimaryMetal === 1 && <p className="" key={ind} style={{wordBreak: "normal"}}>{ele?.ShapeName} {ele?.QualityName}</p>
+                                                return ele?.IsPrimaryMetal === 1 && <p className="" key={ind} style={{ wordBreak: "normal" }}>{ele?.ShapeName} {ele?.QualityName}</p>
                                             })}
                                         </div>
                                         <div className={`${style?.w_20} border-end`}>
@@ -353,9 +353,9 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <div className='w-50 border-end'>
                                             {e?.MiscAmount !== 0 && <p className={`${style?.min_height}`}>other</p>}
                                             {e?.other_details.map((ele, ind) => {
-                                                return <p className={`${style?.min_height}`} style={{wordBreak: "normal"}} key={ind}>{ele?.label}</p>
+                                                return <p className={`${style?.min_height}`} style={{ wordBreak: "normal" }} key={ind}>{ele?.label}</p>
                                             })}
-                                            {e?.TotalDiamondHandling !== 0 && <p style={{wordBreak: "normal"}}>Charges Handling</p>}
+                                            {e?.TotalDiamondHandling !== 0 && <p style={{ wordBreak: "normal" }}>Charges Handling</p>}
                                         </div>
                                         <div className='w-50'>
                                             {e?.MiscAmount !== 0 && <p className={`${style?.min_height}`}>{NumberWithCommas(e?.MiscAmount, 2)}</p>}
@@ -619,7 +619,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className={`${style?.Price} text-end`}>
                     {data?.mainTotal?.total_discount_amount !== 0 && <p>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>}
                     {data?.allTaxes?.map((ele, ind) => {
-                        return <p key={ind}>{ele?.amount}</p>
+                        return <p key={ind}>{+ele?.amount * headerData?.CurrencyExchRate}</p>
                     })}
                     {headerData?.AddLess !== 0 && <p>{NumberWithCommas(headerData?.AddLess, 2)} </p>}
                     <p>{NumberWithCommas(data?.finalAmount, 2)}</p>

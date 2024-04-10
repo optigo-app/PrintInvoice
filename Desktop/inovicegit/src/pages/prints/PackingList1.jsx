@@ -115,7 +115,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
             metalTotal.grossWt += e?.grosswt;
             metalTotal.NetWt += e?.NetWt;
-  
+
             MakingAmount += e?.MakingAmount;
             DiscountAmt += e?.DiscountAmt;
             TotalAmount += e?.TotalAmount
@@ -215,7 +215,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
         });
         let taxValue = taxGenrator(data?.BillPrint_Json[0], TotalAmount);
-        let taxess = taxValue?.reduce((acc, cObj) => acc + +cObj?.amount, 0) + data?.BillPrint_Json[0]?.AddLess;
+        let taxess = taxValue?.reduce((acc, cObj) => acc + (+cObj?.amount*data?.BillPrint_Json[0]?.CurrencyExchRate), 0) + data?.BillPrint_Json[0]?.AddLess;
 
         setTotal({
             ...total, netWtLoss: netWtLosss, metalAmount: metalAmounts, diamondTotal: diamondTotal,
@@ -412,7 +412,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             <div className={`container max_width_container pad_60_allPrint ${style?.container} px-1`}>
                 {/* print Button */}
                 <div className={`printBtn_sec text-end  pt-4 `} >
-                    <input type="button" className="btn_white blue"style={{fontSize: "12px"}} value="Print" onClick={(e) => handlePrint(e)} />
+                    <input type="button" className="btn_white blue" style={{ fontSize: "12px" }} value="Print" onClick={(e) => handlePrint(e)} />
                 </div>
                 {/* Print Logo */}
                 <div className="pt-2">
@@ -447,7 +447,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`d-flex border-bottom lightGrey`}>
                         <div className={`${style?.pad_1} fw-bold ${style?.srNo} border-end`}>
                             <div className="d-grid h-100">
-                                <p className='d-flex justify-content-center align-items-center text-center' style={{wordBreak: "normal"}}>Sr. No.</p>
+                                <p className='d-flex justify-content-center align-items-center text-center' style={{ wordBreak: "normal" }}>Sr. No.</p>
                             </div>
                         </div>
                         <div className={`${style?.pad_1} fw-bold ${style?.design} border-end`}>
@@ -642,13 +642,13 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className="d-flex w-100">
                                         <div className={` col-6 border-end position-relative h-100 pb-3`}>
                                             {e?.otherCharge?.map((ele, ind) => {
-                                                return +ele?.value !== 0 && <p key={ind} className={`${style?.min_height}`} style={{wordBreak: "normal"}}>{ele?.label}</p>
+                                                return +ele?.value !== 0 && <p key={ind} className={`${style?.min_height}`} style={{ wordBreak: "normal" }}>{ele?.label}</p>
                                             })}
                                             {e?.otherChargess?.map((ele, ind) => {
-                                                return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`} style={{wordBreak: "normal"}}>{ele?.ShapeName}</p>
+                                                return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`} style={{ wordBreak: "normal" }}>{ele?.ShapeName}</p>
                                             })}
                                             {e?.MiscAmount !== 0 && <p className={`${style?.min_height}`}>Other</p>}
-                                            {e?.TotalDiamondHandling !== 0 && <p className={`${style?.min_height}`} style={{wordBreak: "normal"}}>Charges Handling</p>}
+                                            {e?.TotalDiamondHandling !== 0 && <p className={`${style?.min_height}`} style={{ wordBreak: "normal" }}>Charges Handling</p>}
                                         </div>
                                         <div className={` col-6 text-end position-relative h-100 pb-3`}>
                                             {e?.otherCharge?.map((ele, ind) => {
@@ -677,7 +677,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className={`${style?.pad_1} ${style?.srNo} border-end text-center`}>
                                 </div>
                                 <div className={` ${style?.pad_1}  ${style?.design} border-end`}>
-                                        {e?.HUID !== "" && <p className='text-center'>HUID-{e?.HUID}</p>}
+                                    {e?.HUID !== "" && <p className='text-center'>HUID-{e?.HUID}</p>}
                                 </div>
                                 <div className={` lightGrey ${style?.diamond} border-end d-flex flex-wrap`}>
                                     <div className="d-flex w-100 ">
@@ -971,7 +971,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className={`${style?.pad_1} text-end w-100`}>
                                 <p>{NumberWithCommas(total?.DiscountAmt, 2)}</p>
                                 {taxes?.map((e, i) => {
-                                    return <p className='' key={i}>{NumberWithCommas(e?.amount, 2)}</p>
+                                    return <p className='' key={i}>{NumberWithCommas(+e?.amount * json0Data?.CurrencyExchRate, 2)}</p>
                                 })}
                                 {json0Data?.AddLess !== 0 && <p className=''>{NumberWithCommas(json0Data?.AddLess, 2)}</p>}
                                 <p>{NumberWithCommas(total?.amountAfterDiscount, 2)}</p>

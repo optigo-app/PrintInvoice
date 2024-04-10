@@ -49,9 +49,17 @@
     overflow-wrap: break-word;
 }
 
+.estimationPrint .font_12 *, .estimationPrint .font_12{
+    font-size: 12px;
+}
 
+.estimationPrint .font_11 *, .estimationPrint .font_11{
+    font-size: 11px;
+}
 
-
+.estimationPrint *:not(.border-black){
+    border-color: #BDBDBD;
+}
 
 @media print {
     .print_sec_sum4 {
