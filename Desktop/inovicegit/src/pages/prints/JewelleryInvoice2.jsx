@@ -501,6 +501,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       setTotObj(tot_obj);
       setMetWise(metwise);
       setResult(datas);
+      console.log(metwise);
 
   };
 
@@ -638,7 +639,6 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                             );
                           })}
                           {e?.colorstone?.map((el, ind) => {
-                              console.log(el);
                             return (
                               <div className="d-flex border-bottom fs_ji2 lh_ji2" key={ind}>
                                 {/* <div className="border-end pad_start_ji2" style={{ width: "26%" }} > {el?.MasterManagement_DiamondStoneTypeName} <span></span> </div> */}
