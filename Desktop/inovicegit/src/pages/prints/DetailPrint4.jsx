@@ -266,7 +266,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         finalArr.push(b);
       }else{
         if(finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno){
-          console.log(b);
             finalArr[find_record].designno = b?.designno;
             finalArr[find_record].HUID = b?.HUID; 
         }
@@ -288,6 +287,16 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         // finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
         finalArr[find_record].metal = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
         finalArr[find_record].misc = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
+        finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+        finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
+        finalArr[find_record].totals.diamonds.Amount += b?.totals?.diamonds?.Amount;
+        finalArr[find_record].totals.colorstone.Wt += b?.totals?.colorstone?.Wt;
+        finalArr[find_record].totals.colorstone.Pcs += b?.totals?.colorstone?.Pcs;
+        finalArr[find_record].totals.colorstone.Amount += b?.totals?.colorstone?.Amount;
+        finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
+        finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
+        finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
+        console.log(finalArr[find_record].totals?.misc);
         // finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
       }
     }
@@ -320,7 +329,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       e?.metal?.forEach((a) => {
         let findrec = metarr?.findIndex((el) => el?.ShapeName === a?.ShapeName)  
         if(findrec === -1){
-          console.log(a);
           let obj = {...a};
           obj.metamt = a?.Amount;
           metarr.push(obj);
@@ -353,19 +361,19 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
 
       let miscarr = [];
-      e?.colorstone?.forEach((e) => {
+      e?.misc?.forEach((e) => {
         let findrec = miscarr?.findIndex((a) => a?.ShapeName === e?.ShapeName && a?.QualityName === e?.QualityName && a?.Colorname === e?.Colorname)
         if(findrec === -1){
           let obj = {...e};
-          obj.csamt = e?._amount;
-          obj.cswt = e?._wt;
-          obj.cspcs = e?._pcs;
+          obj.msamt = e?.Amount;
+          obj.mswt = e?.Wt;
+          obj.mspcs = e?.Pcs;
           obj.Rate = e?.Rate;
           miscarr.push(obj);
         }else{
-          miscarr[findrec].csamt += e?._amount;
-          miscarr[findrec].cswt += e?._wt;
-          miscarr[findrec].cspcs += e?._pcs;
+          miscarr[findrec].msamt += e?.Amount;
+          miscarr[findrec].mswt += e?.Wt;
+          miscarr[findrec].mspcs += e?.Pcs;
           miscarr[findrec].Rate = e?.Rate;
         }
       })
@@ -374,7 +382,11 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
 
     })
-
+    datas?.resultArray?.forEach((a) => {
+      let obj = {...a};
+        console.log(a);
+      
+    })
     setResult(datas);
     setLoader(false);
   };
@@ -385,7 +397,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
   };
  
-console.log(result);
   return (
     <>
       {loader ? (
@@ -665,7 +676,7 @@ console.log(result);
                                 return (
                                   <div className="d-flex fs_dp4" key={ind}>
                                     <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%" }} >
-                                      {el?.QualityName}
+                                      {el?.QualityName} {el?.Colorname}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} >
                                       {el?.cspcs}
@@ -673,7 +684,6 @@ console.log(result);
                                     <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
                                       {el?.cswt?.toFixed(3)}
                                     </div>
-                                    {console.log(el)}
                                     <div className="dia_col_w_dp4 end_dp4">
                                       {formatAmount(((el?.csamt)/(el?.cswt === 0 ? 1 : el?.cswt)))}
                                     </div>
@@ -687,18 +697,18 @@ console.log(result);
                                 e?.misc?.map((el, i) => {
                                   return(
                                     <div className="d-flex fs_dp4" key={i}>
-                                    <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%", wordBreak:'break-word' }} > {el?.ShapeName} </div>
+                                    <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%", wordBreak:'break-word' }} >M: {el?.ShapeName} </div>
                                     <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} >
-                                      {el?.Pcs}
+                                      {el?.mspcs}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
-                                      {el?.Wt?.toFixed(3)}
+                                      {el?.mswt?.toFixed(3)}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
-                                    {formatAmount((el?.Amount / (el?.Wt === 0 ? 1 : el?.Wt)))}
+                                    {formatAmount((el?.msamt / (el?.mswt === 0 ? 1 : el?.mswt)))}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
-                                      {formatAmount(el?.Amount)}
+                                      {formatAmount(el?.msamt)}
                                     </div>
                                   </div>
                                   )
@@ -801,17 +811,20 @@ console.log(result);
                                   style={{ width: "10%" }}
                                 >
                                   {/* {(e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)} */}
-                                  { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)}
+                                  {/* { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)} */}
+                                  { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs)}
                                 </div>
                                 <div
                                   className="dia_col_w_dp4 end_dp4"
                                   style={{ width: "15%" }}
                                 >
-                                  { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt)?.toFixed(3)}
+                                  {/* { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt)?.toFixed(3)} */}
+                                  { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt)?.toFixed(3)}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4"></div>
                                 <div className="dia_col_w_dp4 end_dp4">
-                                  {(e?.totals?.colorstone?.Amount + e?.totals?.misc?.withouthscode1_2_amount) === 0 ? '' : formatAmount((e?.totals?.colorstone?.Amount + e?.totals?.misc?.withouthscode1_2_amount ))}
+                                  {/* {(e?.totals?.colorstone?.Amount + e?.totals?.misc?.withouthscode1_2_amount) === 0 ? '' : formatAmount((e?.totals?.colorstone?.Amount + e?.totals?.misc?.withouthscode1_2_amount ))} */}
+                                  {(e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount) === 0 ? '' : formatAmount((e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount ))}
                                 </div>
                               </div>
                             </div>
@@ -1156,7 +1169,6 @@ console.log(result);
                       } */}
                       {
                         diamondWise?.map((e, i) => {
-                          console.log(e);
                           return(
                             <div key={i} className="d-flex justify-content-between px-1 border-secondary border-end">
                               { e?.ShapeName === "OTHERS" ? <div className="fw-bold">{e?.ShapeName}</div> : <div className="fw-bold">{e?.QualityName + " " + e?.Colorname}</div> } 
@@ -1178,7 +1190,7 @@ console.log(result);
                       
                       {result?.header?.BrokerageDetails?.map((e, i) => {
                             return (
-                              <div className="d-flex fsgdp10 d-flex justify-content-between w-100 border-secondary border-end border-bottom " key={i}>
+                              <div className="d-flex fsgdp10 d-flex justify-content-between w-100 border-secondary border-end" key={i}>
                                 <div className="w-50 fw-bold start_dp10 pad_s_dp4">
                                   {e?.label}
                                 </div>
