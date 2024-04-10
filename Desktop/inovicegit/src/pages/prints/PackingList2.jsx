@@ -227,7 +227,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 </div>
                                 <img src={e?.DesignImage} alt="" className='w-100 imgWidth mt-2' onError={handleImageError} />
                             </div>
-                            <div className={`${style?.Diamond} border-end position-relative ${style?.pb_21}`}>
+                            <div className={`${style?.Diamond} border-end`}>
                                 <div className="d-grid h-100">
                                     <div className="d-flex">
                                         <div className={`${style?.w_20} border-end`} >
@@ -256,26 +256,9 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             })}
                                         </div>
                                     </div>
-                                    <div className={`d-flex position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height} lightGrey`}>
-                                        <div className={`${style?.w_20} border-end`}>
-                                            <p className=" fw-bold"></p>
-                                        </div>
-                                        <div className={`${style?.w_20} border-end`}>
-                                            <p className=" fw-bold"></p>
-                                        </div>
-                                        <div className={`${style?.w_20} border-end`}>
-                                            <p className="text-end fw-bold">{e?.totals?.diamonds?.Wt !== 0 && NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p>
-                                        </div>
-                                        <div className={`${style?.w_20} border-end`}>
-                                            <p className="text-end fw-bold"></p>
-                                        </div>
-                                        <div className={`${style?.w_20}`}>
-                                            <p className="text-end fw-bold">{e?.totals?.diamonds?.Amount !== 0 && NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</p>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                            <div className={`${style?.Metal} border-end position-relative ${style?.pb_21}`}>
+                            <div className={`${style?.Metal} border-end`}>
                                 <div className="d-grid h-100">
                                     <div className="d-flex" >
                                         <div className={`${style?.w_20} border-end`}>
@@ -304,33 +287,9 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             })}
                                         </div>
                                     </div>
-                                    <div className={`d-flex position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height} lightGrey`}>
-                                        <div className={`${style?.w_20} border-end`}>
-                                            <p className=" fw-bold"></p>
-                                        </div>
-                                        <div className={`${style?.w_20} border-end`}>
-                                            <p className=" fw-bold">{e?.grosswt !== 0 && NumberWithCommas(e?.grosswt, 3)}</p>
-                                        </div>
-                                        <div className={`${style?.w_20} border-end`}>
-                                            <p className="text-end fw-bold">{e?.NetWt + e?.LossWt !== 0 && NumberWithCommas(e?.NetWt + e?.LossWt, 3)}</p>
-                                        </div>
-                                        <div className={`${style?.w_20} border-end`}>
-                                            <p className="text-end fw-bold"></p>
-                                        </div>
-                                        <div className={`${style?.w_20}`}>
-                                            <p className="text-end fw-bold">{e?.totals?.metal?.Amount !== 0 && NumberWithCommas(e?.totals?.metal?.Amount, 2)}</p>
-                                        </div>
-                                    </div>
-                                    {/* {e?.JobRemark !== "" && <div className="d-flex" >
-                                    <div>
-                                        <p></p>  Remark:
-                                        <p className="fw-bold">{e?.JobRemark}</p>
-                                    </div>
-                                </div>} */}
-
                                 </div>
                             </div>
-                            <div className={`${style?.Stone} border-end position-relative ${style?.pb_21}`}>
+                            <div className={`${style?.Stone} border-end`}>
                                 <div className="d-grid h-100">
                                     <div className="d-flex">
                                         <div className={`col-3 border-end`} >
@@ -354,23 +313,9 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             })}
                                         </div>
                                     </div>
-                                    <div className={`d-flex position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height} lightGrey`}>
-                                        <div className={`col-3 border-end`}>
-                                            <p className=""></p>
-                                        </div>
-                                        <div className={`col-3 border-end`}>
-                                            <p className=" fw-bold">{e?.totals?.colorstone?.Wt !== 0 && NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}</p>
-                                        </div>
-                                        <div className={`col-3 border-end`}>
-                                            <p className="text-end"></p>
-                                        </div>
-                                        <div className={`col-3`}>
-                                            <p className="text-end fw-bold">{e?.totals?.colorstone?.Amount !== 0 && NumberWithCommas(e?.totals?.colorstone?.Amount, 3)}</p>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                            <div className={`${style?.Labour} border-end position-relative ${style?.pb_21}`}>
+                            <div className={`${style?.Labour} border-end`}>
                                 <div className="d-grid h-100">
                                     <div className="d-flex">
                                         <div className='w-50 border-end'>
@@ -384,17 +329,9 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             </p>
                                         </div>
                                     </div>
-                                    <div className={`d-flex position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height} lightGrey`}>
-                                        <div className={`w-50 border-end`}>
-                                            <p className="fw-bold"></p>
-                                        </div>
-                                        <div className={`w-50`}>
-                                            <p className="text-end fw-bold">  {NumberWithCommas(e?.MakingAmount, 2)}</p>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                            <div className={`${style?.Other} border-end position-relative ${style?.pb_21}`}>
+                            <div className={`${style?.Other} border-end ${style?.no_word_break}`}>
                                 <div className="d-grid h-100">
                                     <div className="d-flex">
                                         <div className='w-50 border-end'>
@@ -412,21 +349,106 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             {e?.TotalDiamondHandling !== 0 && <p className='text-end'>{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>}
                                         </div>
                                     </div>
-                                    <div className={`d-flex position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height} lightGrey`}>
-                                        <div className={`w-50 border-end`}>
-                                            <p className=""></p>
+                                </div>
+                            </div>
+                            <div className={`${style?.Price} `}>
+                                <p className="text-end fw-bold">{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                            </div>
+                        </div>
+                        <div className={`d-flex border-bottom `}>
+                            <div className={`${style?.Sr} border-end`}></div>
+                            <div className={`${style?.Jewelcode} border-end p-1`}>
+                            </div>
+                            <div className={`${style?.Diamond} border-end lightGrey`}>
+                                <div className="d-grid h-100">
+                                    <div className={`d-flex w-100`}>
+                                        <div className={`${style?.w_20} border-end`}>
+                                            <p className=" fw-bold"></p>
                                         </div>
-                                        <div className={`w-50`}>
-                                            <p className="text-end fw-bold">{NumberWithCommas(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount, 2)}</p>
+                                        <div className={`${style?.w_20} border-end`}>
+                                            <p className=" fw-bold"></p>
+                                        </div>
+                                        <div className={`${style?.w_20} border-end`}>
+                                            <p className="text-end fw-bold">{e?.totals?.diamonds?.Wt !== 0 && NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p>
+                                        </div>
+                                        <div className={`${style?.w_20} border-end`}>
+                                            <p className="text-end fw-bold"></p>
+                                        </div>
+                                        <div className={`${style?.w_20}`}>
+                                            <p className="text-end fw-bold">{e?.totals?.diamonds?.Amount !== 0 && NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className={`${style?.Price} position-relative ${style?.pb_21} `}>
-                                <p className="text-end fw-bold">{NumberWithCommas(e?.TotalAmount, 2)}</p>
-                                <div className={` position-absolute bottom-0 left-0 w-100 border-top ${style?.min_height} lightGrey`}>
+                            <div className={`${style?.Metal} border-end lightGrey`}>
+                                <div className="d-grid h-100">
+                                    <div className={`d-flex w-100`}>
+                                        <div className={`${style?.w_20} border-end`}>
+                                            <p className=" fw-bold"></p>
+                                        </div>
+                                        <div className={`${style?.w_20} border-end`}>
+                                            <p className=" fw-bold">{e?.grosswt !== 0 && NumberWithCommas(e?.grosswt, 3)}</p>
+                                        </div>
+                                        <div className={`${style?.w_20} border-end`}>
+                                            <p className="text-end fw-bold">{e?.NetWt + e?.LossWt !== 0 && NumberWithCommas(e?.NetWt + e?.LossWt, 3)}</p>
+                                        </div>
+                                        <div className={`${style?.w_20} border-end`}>
+                                            <p className="text-end fw-bold"></p>
+                                        </div>
+                                        <div className={`${style?.w_20}`}>
+                                            <p className="text-end fw-bold">{e?.totals?.metal?.Amount !== 0 && NumberWithCommas(e?.totals?.metal?.Amount, 2)}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={`${style?.Stone} border-end lightGrey`}>
+                                <div className="d-grid h-100">
+                                    <div className={`d-flex w-100`}>
+                                        <div className={`col-3 border-end`}>
+                                            <p className=""></p>
+                                        </div>
+                                        <div className={`col-3 border-end`}>
+                                            <p className=" fw-bold">{e?.totals?.colorstone?.Wt !== 0 && NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}</p>
+                                        </div>
+                                        <div className={`col-3 border-end`}>
+                                            <p className="text-end"></p>
+                                        </div>
+                                        <div className={`col-3`}>
+                                            <p className="text-end fw-bold">{e?.totals?.colorstone?.Amount !== 0 && NumberWithCommas(e?.totals?.colorstone?.Amount, 3)}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={`${style?.Labour} border-end lightGrey`}>
+                                <div className="d-grid h-100">
+                                    <div className={`d-flex w-100`}>
+                                        <div className={`w-50 border-end`}>
+                                            <p className="fw-bold"></p>
+                                        </div>
+                                        <div className={`w-50`}>
+                                            <p className="text-end fw-bold">  {NumberWithCommas(e?.MakingAmount, 2)}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={`${style?.Other} border-end lightGrey`}>
+                                     <div className="d-grid h-100">
+                                <div className={`d-flex w-100`}>
+                                    <div className={`w-50 border-end`}>
+                                        <p className=""></p>
+                                    </div>
+                                    <div className={`w-50`}>
+                                        <p className="text-end fw-bold">{NumberWithCommas(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount, 2)}</p>
+                                    </div>
+                                </div>
+                                    </div>
+                            </div>
+                            <div className={`${style?.Price} lightGrey`}>
+                                     <div className="d-grid h-100">
+                                <div className={`w-100 `}>
                                     <p className="text-end fw-bold">{NumberWithCommas(e?.UnitCost, 2)}</p>
                                 </div>
+                                    </div>
                             </div>
                         </div>
                         {/* discount */}
@@ -559,7 +581,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                         <div className='w-50 d-flex align-items-center justify-content-end'>
                             <p className="text-end fw-bold">
-                                {NumberWithCommas(data?.mainTotal?.total_other + data?.mainTotal?.total_otherChargesMiscHallStamp + data?.mainTotal?.totalMiscAmount + data?.mainTotal?.total_diamondHandling , 2)}
+                                {NumberWithCommas(data?.mainTotal?.total_other + data?.mainTotal?.total_otherChargesMiscHallStamp + data?.mainTotal?.totalMiscAmount + data?.mainTotal?.total_diamondHandling, 2)}
                             </p>
                         </div>
                     </div>
