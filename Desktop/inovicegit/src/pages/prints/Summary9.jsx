@@ -169,6 +169,10 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 csMiscWt += ele?.Wt;
                 if (findColor === -1) {
                     colorStone.push(ele);
+                }else{
+                    colorStone[findColor].Wt += ele?.Wt;
+                    colorStone[findColor].Pcs += ele?.Pcs;
+                    colorStone[findColor].Amount += ele?.Amount;
                 }
             } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
                 let findMiscs = misc.findIndex((elem, index) => elem?.Rate === ele?.Rate);
@@ -462,7 +466,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`${style?.shapeName} ${style?.GOLDRate} border-end p-1 text-end`}>{NumberWithCommas(e?.metalrate, 2)}</div>
                     <div className={`${style?.shapeName} ${style?.PUREWT} border-end p-1 text-end`}>{NumberWithCommas(e?.PureNetWt, 3)}</div>
                     <div className={`${style?.shapeName} ${style?.TOTALMISC} border-end p-1 text-end`}>{NumberWithCommas(e?.MiscAmount, 2)}</div>
-                    <div className={`${style?.shapeName} ${style?.GOLDAMOUNT} border-end p-1 text-end`}>{NumberWithCommas(e?.totals?.metal?.Amount, 2)}</div>
+                    <div className={`${style?.shapeName} ${style?.GOLDAMOUNT} border-end p-1 text-end`}>{NumberWithCommas(e?.MetalAmount, 2)}</div>
                     <div className={`${style?.shapeName} ${style?.TOTALAMT} p-1 text-end`}>{NumberWithCommas(e?.TotalAmount, 2)}</div>
                 </div>
             })}
