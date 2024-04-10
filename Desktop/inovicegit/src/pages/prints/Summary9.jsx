@@ -105,7 +105,6 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             metalLists.total.Amount += e.MetalAmount;
         })
 
-        console.log(newMetalList);
 
         let headers = HeaderComponent("1", data?.BillPrint_Json[0]);
         setHeader(headers);
@@ -119,7 +118,6 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             // metalLists.total.Tunch += e.Tunch;
             // metalLists.total.Amount += e.totals.metal.Amount;
             if (findMetals === -1) {
-                console.log(e?.grosswt, e, findMetals);
                 metals.push(e);
             } else {
                 // metals[findMetals].grosswt += e.grosswt;
@@ -285,7 +283,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className={style1.lines}>{headerData?.CompanyAddress2}</div>
                         <div className={style1.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
                         {/* <div className={style1.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
-                        <div className={style1.lines}>Tell No:  {headerData?.CompanyTellNo}</div>
+                        <div className={style1.lines}>Tell No:  {headerData?.CompanyTellNo}  {headerData?.CompanyTollFreeNo !== "" && ` | TOLL FREE ${headerData?.CompanyTollFreeNo}`}</div>
                         <div className={style1.lines}>
                             {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
                         </div>
@@ -496,7 +494,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className="lightGrey p-1 fw-bold text-center">Summary Detail</p>
                         <div className="d-grid p-2" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
                             {summary.map((e, i) => {
-                                return <div className="d-flex" key={i}><div className="col-9">{e?.Categoryname} | {e?.SubCategoryname} </div><div className="col-1 px-1 text-center">:</div><div className="col-2">{NumberWithCommas(e?.Quantity, 0)}</div></div>
+                                return <div className="d-flex" key={i}><div className="col-9">{e?.Categoryname} | {e?.SubCategoryname} </div><div className="col-1 px-1 text-center">:</div><div className="col-2 fw-bold">{NumberWithCommas(e?.Quantity, 0)}</div></div>
                             })}
                         </div>
                     </div>
