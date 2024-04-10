@@ -1274,7 +1274,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.cg_netwt?.toFixed(3)}
                             </div>
                             <div className="sum_prod_head_col_5 dp7cen2">
-                              {e?.cg_wastage?.toFixed(3)}
+                              {e?.Wastage?.toFixed(3)}
                             </div>
                             <div className="sum_prod_head_col_6 dp7cen2">
                               {/* {e?.fineWtBYNetWtCal?.toFixed(3)} */}
@@ -1335,15 +1335,12 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {miscWise?.length > 0 &&
                       miscWise?.map((e, i) => {
                         return (
-                          <div
-                            className="summary_container_dp7_misc_body fsgdp7"
-                            key={i}
-                          >
+                          <div className="summary_container_dp7_misc_body fsgdp7" key={i} >
                             <div className="summary_container_dp7_misc_head_col_1 dp7cen1">
                               {e?.ShapeName}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                              {e?.Pcs}
+                              {e?.pcPcs}
                             </div>
                             <div className="summary_container_dp7_misc_head_col_3 dp7cen2">
                               {e?.Rate?.toFixed(2)}
@@ -1387,31 +1384,20 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         Total
                       </div>
                       <div className="summary_container_dp7_misc_head_col_2 dp7cen2">
-                        {miscWise_total?.Pcs}
+                        {miscWise_total?.pcPcs}
                       </div>
                       <div className="summary_container_dp7_misc_head_col_3 dp7cen1"></div>
                       <div className="summary_container_dp7_misc_head_col_4 dp7cen2 d-flex flex-column">
-                        {miscWise_total?.wtWeight_Ctw === 0 ? (
-                          ""
-                        ) : (
+                        {miscWise_total?.wtWeight_Ctw === 0 ? ( "" ) : (
                           <div className="w-100 dp7cen2">
                             {miscWise_total?.wtWeight_Ctw?.toFixed(3)} Ctw
                           </div>
                         )}
-                        {miscWise_total?.wtWeight_gm === 0 ? (
-                          ""
-                        ) : (
-                          <div className="w-100 dp7cen2">
-                            {" "}
-                            {miscWise_total?.wtWeight_gm?.toFixed(3)} Gm
-                          </div>
+                        {miscWise_total?.wtWeight_gm === 0 ? ( "" ) : (
+                          <div className="w-100 dp7cen2"> {" "} {miscWise_total?.wtWeight_gm?.toFixed(3)} Gm </div>
                         )}
                       </div>
-                      <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0">
-                        {formatAmount(
-                          miscWise_total?.AmtAmount +
-                            otherAMountTotal / result?.header?.CurrencyExchRate
-                        )}
+                      <div className="summary_container_dp7_misc_head_col_5 dp7cen2 border-end-0"> {formatAmount( miscWise_total?.AmtAmount + otherAMountTotal / result?.header?.CurrencyExchRate )}
                       </div>
                     </div>
                   </div>

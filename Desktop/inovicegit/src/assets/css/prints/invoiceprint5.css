@@ -46,9 +46,14 @@
 }
 
 .lhiv5 {
-    line-height: 14px;
+    /* line-height: 14px; */
+    line-height: 18px;
 }
-
+.fsh_inv5{
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: bold;
+}
 .printlogoiv5 {
     height: 80%;
     width: 50%;
@@ -148,10 +153,12 @@
 /* tax department */
 .wordsip5 {
     width: 79.7%;
+    /* width: 65.9%; */
 }
 
 .taxip5 {
     width: 21.3%;
+    /* width: 34.1%; */
 }
 
 .fwi5 {
