@@ -642,13 +642,13 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className="d-flex w-100">
                                         <div className={` col-6 border-end position-relative h-100 pb-3`}>
                                             {e?.otherCharge?.map((ele, ind) => {
-                                                return +ele?.value !== 0 && <p key={ind} className={`${style?.min_height}`}>{ele?.label}</p>
+                                                return +ele?.value !== 0 && <p key={ind} className={`${style?.min_height}`} style={{wordBreak: "normal"}}>{ele?.label}</p>
                                             })}
                                             {e?.otherChargess?.map((ele, ind) => {
-                                                return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`}>{ele?.ShapeName}</p>
+                                                return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`} style={{wordBreak: "normal"}}>{ele?.ShapeName}</p>
                                             })}
                                             {e?.MiscAmount !== 0 && <p className={`${style?.min_height}`}>Other</p>}
-                                            {e?.TotalDiamondHandling !== 0 && <p className={`${style?.min_height}`}>Charges Handling</p>}
+                                            {e?.TotalDiamondHandling !== 0 && <p className={`${style?.min_height}`} style={{wordBreak: "normal"}}>Charges Handling</p>}
                                         </div>
                                         <div className={` col-6 text-end position-relative h-100 pb-3`}>
                                             {e?.otherCharge?.map((ele, ind) => {
