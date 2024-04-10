@@ -77,7 +77,10 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
             let diamondSettingAmount = 0;
             let findingSettingAmount = 0;
             let colorStoneSettingAmount = 0;
-            e?.diamonds?.forEach((ele, ind) => {
+            console.log(e?.diamonds);
+
+            let blankDiamonds = cloneDeep(e?.diamonds);
+            blankDiamonds?.forEach((ele, ind) => {
                 let findIndex = diamonds?.findIndex((elem, index) => elem?.SettingRate === ele?.SettingRate);
                 diamondSettingAmount += ele?.SettingAmount;
                 if (findIndex === -1) {
@@ -89,6 +92,22 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                     diamonds[findIndex].SettingAmount += ele?.SettingAmount;
                 }
             });
+
+            let impDiamonds = cloneDeep(e?.diamonds);
+            let blankDia = [];
+            impDiamonds?.forEach((ele, ind) => {
+                let findDia = blankDia?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && 
+                elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && 
+                elem?.SizeName === ele?.SizeName);
+                if(findDia === -1){
+                    blankDia?.push(ele);
+                }else{
+                    blankDia[findDia].Wt += ele?.Wt;
+                    blankDia[findDia].Pcs += ele?.Pcs;
+                    blankDia[findDia].Amount += ele?.Amount;
+                }
+            })
+
             e?.finding?.forEach((ele, ind) => {
                 let findFinding = finding?.findIndex((elem, index) => elem?.SettingRate === ele?.SettingRate);
                 findingSettingAmount += ele?.SettingAmount;
@@ -117,6 +136,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
             colorStoneSettingAmounts += colorStoneSettingAmount;
             findingSettingAmounts += findingSettingAmount;
             let obj = cloneDeep(e);
+            obj.diamonds = blankDia;
             obj.settingDiamonds = diamonds;
             obj.settingcolorStone = colorStone;
             obj.settingFinding = finding;
@@ -270,7 +290,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                         <div className="col-2"><p className='p-1 text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
                                         <div className="col-2"><p className='p-1 text-end'>{NumberWithCommas(ele?.Wt, 3)}</p></div>
                                         <div className="col-2"><p className='p-1 text-end'>{NumberWithCommas(ele?.Rate, 2)}</p></div>
-                                        <div className="col-2"><p className='p-1 text-end'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
+                                        <div className="col-2"><p className='p-1 text-end fw-bold'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                                     </div>
                                 })}
                                 {e?.diamonds?.length === 0 && <div className="d-flex ">
@@ -339,8 +359,8 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                         </div>
                         <div className={`${style?.Total}`}>
                             <div className="d-flex justify-content-between h-100 flex-column">
-                                <p className='p-1  text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
-                                <p className='p-1  text-end lightGrey fw-bold border-top'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                                <p className='p-1 text-end fw-bold'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                                <p className='p-1 text-end lightGrey fw-bold border-top'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
                             </div>
                         </div>
                     </div>
