@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/prints/laboursummary.css";
-import { FooterComponent, HeaderComponent, apiCall, handlePrint, isObjectEmpty, numberToWord } from "../../GlobalFunctions";
+import { FooterComponent, HeaderComponent, apiCall, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { cloneDeep } from "lodash";
 import { formatAmount } from './../../GlobalFunctions';
@@ -12,7 +12,9 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState();
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
+  // eslint-disable-next-line no-unused-vars
   const [header, setHeaderComp] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [footer, setFooterComp] = useState(null);
   const [qualityTypes, setQualityTypes] = useState('');
   const [isImageWorking, setIsImageWorking] = useState(true);
