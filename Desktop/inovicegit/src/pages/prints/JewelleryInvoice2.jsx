@@ -230,14 +230,16 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
           Pcs: 0,
           Rate : 0,
           Amount : 0,
-          rate:0
+          rate:0,
+          isRateOnPcs:1
         }
         let csobj2 = {
           Wt : 0,
           Pcs: 0,
           Rate : 0,
           Amount : 0,
-          rate:0
+          rate:0,
+          isRateOnPcs:0
         }
        
         e?.colorstone?.forEach((a) => {
@@ -392,7 +394,6 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         // obj2.rate += a?.Rate;
       })
       if(obj1?.Wt === 0 && obj1?.ServWt && obj1?.Pcs === 0 && obj1?.Rate === 0 && obj1?.Amount === 0){
-        console.log(obj1);
           return 
       }else{
         arr.push(obj1);
@@ -645,7 +646,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                 <div className="border-end pad_start_ji2" style={{ width: "26%" }} > COLORSTONE <span></span> </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > {el?.Pcs} </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {el?.Wt?.toFixed(3)} </div>
-                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount((el?.Amount / (el?.isRateOnPcs === 1 ? el?.Pcs : (el?.Wt === 0 ? 1 : el?.Wt))))} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount((el?.Amount / (el?.isRateOnPcs === 1 ? (el?.Pcs === 0 ? 1 : el?.Pcs) : (el?.Wt === 0 ? 1 : el?.Wt))))} </div>
                                 <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(el?.Amount)} </div>
                               </div>
                             );

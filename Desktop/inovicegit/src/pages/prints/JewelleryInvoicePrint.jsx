@@ -693,10 +693,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                           );
                         })}
                     </div>
-                    <div
-                      className="totalrowJL fw-bold fsJL no_break fs_jip"
-                      style={{ borderTop: "0px" }}
-                    >
+                    <div className="totalrowJL fw-bold fsJL no_break fs_jip" style={{ borderTop: "0px" }} >
                       <div className="tc1JL h-100"></div>
                       <div className="tc2JL fs-6 h-100 ">TOTAL</div>
                       <div className="tc3JL h-100">
@@ -736,10 +733,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                           (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate)
                           )))}
                       </div>
-                      <div
-                        className="tc8JL d-flex justify-content-end pe-1 h-100"
-                        style={{ borderRight: "0px" }}
-                      >
+                      <div className="tc8JL d-flex justify-content-end pe-1 h-100" style={{ borderRight: "0px" }} >
                         {/* {mainTotal?.totalunitCost?.toFixed(2)} */}
                         {formatAmount(result?.mainTotal?.total_amount)}
                       </div>
@@ -759,11 +753,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                           <div className="d-flex flex-column justify-content-between px-1">
                             {result?.allTaxes?.map((e, i) => {
                               return (
-                                <div
-                                  className="d-flex justify-content-between px-1"
-                                  key={i}
-                                  
-                                >
+                                <div className="d-flex justify-content-between px-1" key={i} >
                                   <div className="w-50 d-flex justify-content-end align-items-center pe-1 brrJL" style={{lineHeight:'19px'}}>
                                     {e?.name} {e?.per}
                                   </div>
@@ -785,15 +775,9 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                           </div>
                         </div>
                         <div className="d-flex justify-content-between px-1 grandTotalJL">
-                          <div
-                            className="fw-bold w-50 d-flex align-items-center justify-content-end  pe-1 brrJL tot_jip"
-                          >
-                            Grand Total
-                          </div>
-                          <div
-                            className="fw-bold w-50 d-flex align-items-center justify-content-end pe-1 tot_jip"
-                          >
-                             {formatAmount((result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess))}
+                          <div className="fw-bold w-50 d-flex align-items-center justify-content-end  pe-1 brrJL tot_jip" > Grand Total </div>
+                          <div className="fw-bold w-50 d-flex align-items-center justify-content-end pe-1 tot_jip" >
+                             {formatAmount(((result?.mainTotal?.total_amount/result?.header?.CurrencyExchRate) + result?.allTaxesTotal + result?.header?.AddLess))}
                           </div>
                         </div>
                       </div>
