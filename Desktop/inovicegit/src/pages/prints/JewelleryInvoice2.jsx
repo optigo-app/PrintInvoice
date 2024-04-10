@@ -367,6 +367,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         Rate:0,
         Amount:0,
         ServWt:0,
+        isRateOnPcs:0,
         // rate:0
       }
       let obj2 = {
@@ -375,6 +376,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         Rate:0,
         Amount:0,
         ServWt:0,
+        isRateOnPcs:1,
         // rate:0
       }
       el?.israteonpcsMISC0?.forEach((a) => {
