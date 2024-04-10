@@ -91,7 +91,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         {/* <div>{header}</div> */}
         <div>
           <div className="printhead_ls">{result?.header?.PrintHeadLabel}</div>
-          <div className="d-flex justify-content-between align-items-center fs_ls p-2 lh_ls">
+          <div className="d-flex justify-content-between align-items-center fs_ls p-2 lh_ls fs_ls_head">
             <div>
               <div className="py-2 fw-bold fs_ls_2">{result?.header?.CompanyFullName}</div>
               <div>{result?.header?.CompanyAddress?.split(",")[0]}</div>
@@ -119,7 +119,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div>{result?.header?.customercity1}{result?.header?.customerpincode}</div>
             <div>{result?.header?.customeremail1}</div>
             <div>{result?.header?.vat_cst_pan}</div>
-            {console.log(result)}
+            <div>{result?.header?.Cust_CST_STATE}-{result?.header?.Cust_CST_STATE_No}</div>
             {/* <div>{result?.header?.Cust_CST_STATE}-{result?.header?.Cust_CST_STATE_No}</div> */}
           </div>
           <div className="p-1 w_ls border border-end border-bottom-0 border-top-0">
@@ -187,7 +187,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="col_8_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}	</div>
                       <div className="col_9_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}</div>
                       {/* <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}	</div> */}
-                      <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount((result?.mainTotal?.total_MakingAmount_Setting_Amount))}	</div>
+                      <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}	</div>
                       <div className="col_11_ls d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_amount)}</div>
                     </div>
               {
@@ -228,7 +228,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col_7_ls border-end d-flex justify-content-center align-items-center"></div>
                   <div className="col_8_ls border-end d-flex justify-content-end align-items-center pe-1">{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</div>
                   <div className="col_9_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}	</div>
-                  <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount + result?.mainTotal?.finding?.SettingAmount ))}	</div>
+                  <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount  ))}	</div>
                   {/* <div className="col_10_ls border-end d-flex justify-content-end align-items-center pe-1">{formatAmount((result?.mainTotal?.total_MakingAmount_Setting_Amount))}	</div> */}
                   <div className="col_11_ls d-flex justify-content-end align-items-center pe-1">{formatAmount(result?.mainTotal?.total_amount)}</div>
               </div>
@@ -268,7 +268,7 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         {/* Declaration */}
         <div className="border border-top-0 border-bottom-0 p-1 ls_pg_Break" dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
         {/* footer */}
-        <div className='d-flex border ls_pg_Break lh_ls fs_ls'>
+        <div className='d-flex border ls_pg_Break lh_ls fs_ls fs_ls_head'>
           <div
             className='p-1'
             style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}

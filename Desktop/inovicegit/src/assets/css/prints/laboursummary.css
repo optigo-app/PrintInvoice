@@ -14,6 +14,10 @@
 .fs_ls{
     font-size: 14px;
 }
+.fs_ls_head{
+    font-size: 12px;
+    line-height: 14px;
+}
 .lh_ls{
     line-height: 14px;
 }
