@@ -400,7 +400,7 @@
 
 .fs_jip{
     font-size: 12px !important;
-    line-height: 12px !important;
+    line-height: 14px !important;
 }
 .noteJL.fw-bold.p-1.no_break span {
     line-height: 170%;
@@ -427,7 +427,7 @@
         }
         .fs_jip{
             font-size: 9px !important;
-            line-height: 9px !important;
+            line-height: 11px !important;
         }
         .tot_jip{
             font-size: 12px;
