@@ -168,6 +168,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     // totalobj.textnumber = CapitalizeWords(convertor.toWords(Math.round(totalobj.netBalanceAmount)));
     totalobj.textnumber =
       toWords.convert(+totalobj.netBalanceAmount?.toFixed(2)) + " Only";
+    console.log(finalArr);
     setResultArr(finalArr);
 
     let semiFinalArr = [];
@@ -225,13 +226,10 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           semiFinalArr[findRec].mainData.grosswt += obj.mainData.grosswt;
           semiFinalArr[findRec].mainData.NetWt += obj.mainData.NetWt;
           semiFinalArr[findRec].mainData.LossWt += obj.mainData.LossWt;
-          semiFinalArr[findRec].mainData.MetalAmount +=
-            obj.mainData.MetalAmount;
-          semiFinalArr[findRec].mainData.UnitCost =
-            +semiFinalArr[findRec].mainData.UnitCost + +obj.mainData.UnitCost;
+          semiFinalArr[findRec].mainData.MetalAmount += obj.mainData.MetalAmount;
+          semiFinalArr[findRec].mainData.UnitCost = +semiFinalArr[findRec].mainData.UnitCost + +obj.mainData.UnitCost;
           semiFinalArr[findRec].mainData.OtherCharges += obj.mainData.OtherCharges
-
-
+          semiFinalArr[findRec].mainData.TotalDiamondHandling += obj.mainData.TotalDiamondHandling
           // semiFinalArr[findRec].data.TotalAmount += obj.data.TotalAmount;
 
           // for metals
@@ -420,7 +418,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setResultArr(lastArr);
     totalobj.primaryWts = primaryWts;
     semiFinalArr.forEach((e, i) => {
-      totalobj.totalOtherAmount += e?.mainData?.MetalAmount + e?.mainData?.OtherCharges;
+      totalobj.totalOtherAmount += e?.mainData?.MetalAmount + e?.mainData?.OtherCharges + e?.mainData?.TotalDiamondHandling;
       e.data.forEach((ele, ind) => {
         if (ele?.MasterManagement_DiamondStoneTypeid !== 4) {
           totalobj.totalOtherAmount += ele.Amount;
@@ -596,15 +594,15 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             resultArr.map((e, i) => {
               return (
                 <div className="d-flex w-100 border-bottom table_row_invoice1 pad_2_tax_invoice_1" key={i} >
-                  <div className="sr_invoice1 sr_invoicePrint1 min_padding_invoice1 border-start pad_2_tax_invoice_1">
+                  <div className="sr_invoice1 sr_invoicePrint1 min_padding_invoice1 border-start pad_2_tax_invoice_1 text-center">
                     {i + 1}
                   </div>
                   <div className="product_discription_invoice1 product_discription_invoice_print_1 min_padding_invoice1 border-start border-end ">
-                    <p>
+                    <p style={{ wordBreak: "normal" }}>
                       {" "}
                       {e?.mainData?.SubCategoryname} {e?.mainData?.Categoryname}{" "}
                     </p>
-                    <p>
+                    <p style={{ wordBreak: "normal" }}>
                       {e?.mainData?.designno} | {e?.mainData?.SrJobno}
                     </p>
                     {image && (
@@ -616,7 +614,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       />
                     )}
                     {e?.mainData?.HUID !== "" && (
-                      <p className={`${!image && "pt-3"}`}>
+                      <p className={`${!image && "pt-3"} text-center`}>
                         HUID-{e?.mainData?.HUID}{" "}
                       </p>
                     )}
@@ -689,7 +687,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         })}
                       {e?.mainData?.OtherCharges !== 0 && (
                         <div className="text-end border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1">
-                          {NumberWithCommas(e?.mainData?.OtherCharges, 2)}
+                          {NumberWithCommas(e?.mainData?.OtherCharges + e?.mainData?.TotalDiamondHandling, 2)}
                         </div>
                       )}
                     </div>

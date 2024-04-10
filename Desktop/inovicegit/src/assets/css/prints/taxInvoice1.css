@@ -166,32 +166,22 @@
     width: 581px;
 }
 
-
-
 .narration_bank_invoice1 {
     width: 476.48px;
 }
 
-.cgst_inovice1 {
-    width: 160px;
-}
 
-.totalSumInvoice1 {
-    width: 92px;
-}
 
-.total_sum_invoice_print_1, .totalTaxNumberinvoice_print_1{
-    width: 100px;
-}
+
 .oldGoldInvoicePrint1, .totalNumbersinvoicePrint1{
-    width: 70%;
+    width: 73%;
 }
 .cgstinvoicePrint1, .totalTaxinvoicePrint1{
-    width: 22.1%;    
+    width: 17.1%;    
 }
 
 .total_sum_invoiceprint1, .totalTaxNumberinvoiceprint1{
-    width: 12.9%;
+    width: 9.9%;
 } 
 
 .totalTaxNumberinvoice1 {
@@ -253,4 +243,9 @@
     .print_sec_sum4{
         display: none !important;
     }
+
+    .taxinvoice1, .taxInvoicePirnt1 *:not(.declarationTaxInvoice1 *) {
+        font-size: 9px;
+    }
+    
 }

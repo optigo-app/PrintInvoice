@@ -580,7 +580,6 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <p className='px-1 text-end' style={{wordBreak: "break-all"}}>{NumberWithCommas(total?.netBalanceAmount, 2)}</p>
                         </div>
                     </div>
-
                 </div>
             </div>
             {/* grand total */}

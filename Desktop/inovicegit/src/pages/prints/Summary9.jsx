@@ -169,6 +169,10 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 csMiscWt += ele?.Wt;
                 if (findColor === -1) {
                     colorStone.push(ele);
+                }else{
+                    colorStone[findColor].Wt += ele?.Wt;
+                    colorStone[findColor].Pcs += ele?.Pcs;
+                    colorStone[findColor].Amount += ele?.Amount;
                 }
             } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
                 let findMiscs = misc.findIndex((elem, index) => elem?.Rate === ele?.Rate);
