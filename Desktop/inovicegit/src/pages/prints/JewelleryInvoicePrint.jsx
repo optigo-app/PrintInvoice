@@ -751,7 +751,7 @@ const JewelleryInvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer 
                         </div>
                         {/* <div className="fw-bold py-2 px-1">{inWords}</div> */}
                         <div className="fw-bold py-2 px-1">
-                        { toWords?.convert(+((((result?.finalAmount)/(result?.header?.CurrencyExchRate)) +  result?.header?.FreightCharges)?.toFixed(2)))} Only
+                        { toWords?.convert(+((((result?.mainTotal?.total_amount)/(result?.header?.CurrencyExchRate)) +  result?.header?.AddLess + result?.allTaxesTotal)?.toFixed(2)))} Only
                         </div>
                       </div>
                       <div className="footerTotJL">

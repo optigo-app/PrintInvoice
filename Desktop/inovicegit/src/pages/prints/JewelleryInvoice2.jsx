@@ -501,6 +501,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       setTotObj(tot_obj);
       setMetWise(metwise);
       setResult(datas);
+      console.log(metwise);
 
   };
 
@@ -638,14 +639,13 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                             );
                           })}
                           {e?.colorstone?.map((el, ind) => {
-                            
                             return (
                               <div className="d-flex border-bottom fs_ji2 lh_ji2" key={ind}>
                                 {/* <div className="border-end pad_start_ji2" style={{ width: "26%" }} > {el?.MasterManagement_DiamondStoneTypeName} <span></span> </div> */}
                                 <div className="border-end pad_start_ji2" style={{ width: "26%" }} > COLORSTONE <span></span> </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > {el?.Pcs} </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {el?.Wt?.toFixed(3)} </div>
-                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount(el?.Rate)} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount((el?.Amount / (el?.isRateOnPcs === 1 ? el?.Pcs : (el?.Wt === 0 ? 1 : el?.Wt))))} </div>
                                 <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(el?.Amount)} </div>
                               </div>
                             );
@@ -670,7 +670,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                 <div className="border-end pad_start_ji2" style={{ width: "26%" }} >  <span>MISC {el?.IsHSCOE}</span> </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "14.4%" }} > {el?.Pcs} </div>
                                 <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "16.6%" }} > {(el?.Wt + el?.ServWt)?.toFixed(3)} </div>
-                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount(el?.Rate)} </div>
+                                <div className="border-end pad_end_ji2 endc_ji2" style={{ width: "17%" }} > {formatAmount((el?.Amount / el?.Pcs))} </div>
                                 <div className="pad_end_ji2 endc_ji2" style={{ width: "26%" }} > {formatAmount(el?.Amount)} </div>
                               </div>
                             );

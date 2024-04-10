@@ -115,6 +115,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         metwise[findIndex].NetWt += e?.NetWt;
         metwise[findIndex].UnitCost += e?.UnitCost;
         metwise[findIndex].TotalAmount += e?.TotalAmount;
+        metwise[findIndex].MiscAmount += e?.MiscAmount;
         metwise[findIndex].MakingAmount += e?.MakingAmount;
         metwise[findIndex].Quantity += e?.Quantity;
         metwise[findIndex].OtherCharges += e?.OtherCharges;
@@ -202,7 +203,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="hliv5">{result?.header?.PrintHeadLabel}</div>
                   <div className="fsgip5 d-flex justify-content-between p-2">
                     <div className="w-75">
-                      <div className="fw-bold lhiv5">{result?.header?.CompanyFullName}</div>
+                      <div className=" lhiv5 fsh_inv5">{result?.header?.CompanyFullName}</div>
                       <div className="lhiv5">{result?.header?.CompanyAddress}</div>
                       <div className="lhiv5">{result?.header?.CompanyAddress2}</div>
                       <div className="lhiv5">{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode},{result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
@@ -260,64 +261,35 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div>
                   {/* table head */}
                   <div className="theadip5 border mt-1 fw-bold border-bottom fsgip5 ">
-                    <div
-                      className={`${classip?.col1} h-100 border-end centerip5`}
-                    >
+                    <div className={`${classip?.col1} h-100 border-end centerip5`} >
                       Sr#
                     </div>
-                    <div
-                      className={`${classip?.col2} h-100 border-end centerip5`}
-                    >
+                    <div className={`${classip?.col2} h-100 border-end centerip5`} >
                       Product Description
                     </div>
-                    <div
-                      className={`${classip?.col3} h-100 border-end centerip5`}
-                    >
+                    <div className={`${classip?.col3} h-100 border-end centerip5`} >
                       KT
                     </div>
-                    <div
-                      className={`${classip?.col4} h-100 border-end centerip5`}
-                    >
+                    <div className={`${classip?.col4} h-100 border-end centerip5`} >
                       Qty
                     </div>
-                    <div
-                      className={`${classip?.col5} h-100 border-end centerip5`}
-                      style={{wordBreak:"break-word", textAlign:"center"}}
-                    >
+                    <div className={`${classip?.col5} h-100 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
                       Gross Wt(ctw)
                     </div>
-                    <div
-                      className={`${classip?.col6} h-100 border-end centerip5`}
-                      style={{wordBreak:"break-word", textAlign:"center"}}
-                    >
+                    <div className={`${classip?.col6} h-100 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
                       Dia Wt(ctw)
                     </div>
-                    <div
-                      className={`${classip?.col7} h-100 border-end centerip5`}
-                      style={{wordBreak:"break-word", textAlign:"center"}}
-                    >
+                    <div className={`${classip?.col7} h-100 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
                       Stone Wt(ctw)
                     </div>
-                    <div
-                      className={`${classip?.col8} h-100 border-end centerip5`}
-                      style={{wordBreak:"break-word", textAlign:"center"}}
-                    >
+                    <div className={`${classip?.col8} h-100 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
                       Net Wt(gm)
                     </div>
-                    <div 
-                      className={`${classip?.col9} border-end centerip5`}
-                      style={{wordBreak:"break-word", textAlign:"center"}}
-                    >
+                    <div className={`${classip?.col9} border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
                       Other Charges
                     </div>
-                    <div
-                      className={`${classip?.col10} h-100 border-end centerip5`}
-                    >
-                      Amount
-                    </div>
-                    <div className={`${classip?.col11} h-100 centerip5`} 
-                      style={{wordBreak:"break-word", textAlign:"center"}}
-                    >
+                    <div className={`${classip?.col10} h-100 border-end centerip5`} > Amount </div>
+                    <div className={`${classip?.col11} h-100 centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
                       Product Value
                     </div>
                   </div>
@@ -372,7 +344,8 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div
                             className={`${classip?.col9}  border-end endip5 px-1`}
                           >
-                            {formatAmount((e?.totals?.otherChargesMiscHallStamp + e?.OtherCharges))}
+                            {/* {formatAmount((e?.totals?.otherChargesMiscHallStamp + e?.OtherCharges))} */}
+                            {formatAmount(( e?.MiscAmount + e?.OtherCharges + e?.TotalDiamondHandling))}
                           </div>
                           <div
                             className={`${classip?.col10}  border-end endip5 px-1`}
@@ -426,7 +399,9 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div
                         className={`${classip?.col9}  border-end endip5 px-1`}
                       >
-                        {formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_otherChargesMiscHallStamp))}
+                        {console.log(result)}
+                        {/* {formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_otherChargesMiscHallStamp))} */}
+                        {formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.misc?.Amount))}
                       </div>
                       <div
                         className={`${classip?.col10}  border-end endip5 px-1`}
