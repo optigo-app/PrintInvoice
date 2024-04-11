@@ -1,12 +1,20 @@
-.containerExportPrint1 {
+/* .containerExportPrint1 {
     max-width: 798px;
     margin: 0 auto;
     padding: 0 15px;
-}
+} */
 
-.containerExportPrint1 * {
+.containerExportPrint1 *:not(.Declaration *) {
     font-size: 14px;
     line-height: 120%;
+}
+
+.font_12, .font_12 *{
+    font-size: 12px;
+}
+
+.font_14, .font_14 *{
+    font-size: 14px;
 }
 
 .srNoExport1 {
@@ -59,16 +67,20 @@
     min-width: 15%;
 }
 
-.rowExport1 > div{
+.rowExport1>div {
     padding: 3px;
 }
 
-.minHeight_24_8ExportPrint1{
+.minHeight_24_8ExportPrint1 {
     min-height: 24.8px;
 }
 
-@media print{
+@media print {
     .print_sec_sum4 {
         display: none !important;
-      }
+    }
+
+    .containerExportPrint1 * {
+        font-size: 12px;
+    }
 }
