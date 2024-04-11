@@ -15,6 +15,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [datass, setDatas] = useState({});
   const [isImageWorking, setIsImageWorking] = useState(true);
+  const [metal, setMetal] = useState([]);
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -50,6 +51,74 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   })
 
   const loadData = (data) => {
+
+    let newArr = [];
+    data?.BillPrint_Json1?.forEach((e, i) => {
+      // data?.BillPrint_Json2?.forEach((ele, ind) => {
+      //   if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+      //     if (ele?.IsPrimaryMetal === 1) {
+      //       let findMetal = newArr?.findIndex((elem, index) => ele?.Rate === elem?.Rate && elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName)
+      //       if (findMetal === -1) {
+      //         newArr?.push(ele);
+      //       } else {
+      //         newArr.Pcs += ele?.Pcs;
+      //         newArr.Wt += ele?.Wt;
+      //         newArr.Amount += ele?.Amount;
+      //       }
+      //     }
+      //   }
+      // });
+      let primaryWt = 0;
+      let primaryAmount = e?.MetalAmount;
+      let metalRate = 0;
+      data?.BillPrint_Json2?.forEach((ele, ind) => {
+        if (ele?.StockBarcode === e?.SrJobno) {
+          if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+            if (ele?.IsPrimaryMetal === 1) {
+              primaryWt += ele?.Wt;
+              // primaryAmount += ele?.Amount;
+              metalRate = ele?.Rate;
+            }
+          }
+        }
+      });
+      
+      let obj = cloneDeep(e);
+      obj.primaryWt = primaryWt;
+      obj.primaryAmount = primaryAmount;
+      obj.metalRate = metalRate;
+      let findRecord = newArr?.findIndex((ele, ind) => {
+        console.log(ele?.MetalTypePurity ,obj?.MetalTypePurity, ele?.metalRate, obj?.metalRate, ele?.MetalTypePurity === obj?.MetalTypePurity && ele?.metalRate === obj?.metalRate);
+        if(ele?.MetalTypePurity === obj?.MetalTypePurity && ele?.metalRate === obj?.metalRate){
+          return ind
+        }
+      });
+      if (findRecord === -1) {
+        newArr?.push(obj);
+      } else {
+        newArr[findRecord].primaryWt += obj.primaryWt;
+        newArr[findRecord].primaryAmount += obj.primaryAmount;
+        // newArr[findRecord].primaryWt
+      }
+
+    })
+    newArr.sort((a, b) => {
+      if (a.ShapeName < b.ShapeName) return -1;
+      if (a.ShapeName > b.ShapeName) return 1;
+
+      if (a.QualityName < b.QualityName) return -1;
+      if (a.QualityName > b.QualityName) return 1;
+
+      if (a.Colorname < b.Colorname) return -1;
+      if (a.Colorname > b.Colorname) return 1;
+      return 0; // If both are equal
+    });
+    setMetal(newArr);
+
+
+
+
+
     setJson0(data?.BillPrint_Json[0]);
     let result = [];
     let finding = [];
@@ -122,6 +191,8 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setOther({ ...other, other1: otherchrges1, other2: otherchrges2 });
     setDatas(datas);
     console.log(data);
+
+
   }
 
   useEffect(() => {
@@ -245,7 +316,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               </div>
             </div>
             <div className="minHieght150InvoicePrint">
-              {data?.length > 0 && data?.map((e, i) => {
+              {/* {data?.length > 0 && data?.map((e, i) => {
                 return <div className="d-flex px-2" key={i}>
                   <div className="col-5">
                     <p className="">{e?.MasterManagement_DiamondStoneTypeid === 4 ? (e?.ShapeName + " " + e?.QualityName) : e?.MasterManagement_DiamondStoneTypeName}</p>
@@ -306,7 +377,27 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                   </div>
                 })
-              }
+              } */}
+              {metal?.map((e, i) => {
+                return <div className="d-flex px-2" key={i}>
+                  <div className="col-5">
+                    <p className="">{e?.MetalTypePurity}</p>
+                  </div>
+                  <div className="col-3">
+                    <p className="">{NumberWithCommas(e?.primaryWt, 3)}</p>
+                  </div>
+                  <div className="col-2">
+                    <p className="">
+                      {e?.Wt !== 0 && NumberWithCommas((e?.primaryAmount / json0?.CurrencyExchRate) / e?.primaryWt, 2)}
+                    </p>
+                  </div>
+                  <div className="col-2">
+                    <p className=" text-end">
+                      {NumberWithCommas(e?.primaryAmount / json0?.CurrencyExchRate, 2)}
+                    </p>
+                  </div>
+                </div>
+              })}
             </div>
             <div className="minHieght28InvoicePrint d-flex justify-content-between align-items-center py-1 px-2 border-top border-black border-2">
               <p className='fw-bold text-end'>Total</p>
