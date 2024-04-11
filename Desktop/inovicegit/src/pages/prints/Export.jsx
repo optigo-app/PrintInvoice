@@ -42,12 +42,23 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let metal = [];
             let diamonds = [];
             let colorstones = [];
+            let primaryWt = 0;
+            let primaryAmount = 0;
+            let findingSetAmount = 0
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (e?.SrJobno === ele?.StockBarcode) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-                        diamonds.push(ele);
+                        let findDiamond = diamonds?.findIndex((elem, ind) => elem?.ShapeName === ele?.ShapeName &&
+                            elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname);
+                        if (findDiamond === -1) {
+                            diamonds.push(ele);
+                        } else {
+                            diamonds[findDiamond].Pcs += ele?.Pcs;
+                            diamonds[findDiamond].Wt += ele?.Wt;
+                            diamonds[findDiamond].Amount += ele?.Amount;
+                        }
                     }
-                    if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+                    else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                         if (colorstones?.length === 0) {
                             colorstones.push(ele);
                         } else {
@@ -57,8 +68,15 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             colorstones[0].Rate = (colorstones[0].Rate + ele?.Rate) / 2;
                         }
                     }
-                    if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
+                    else if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
                         metal.push(ele);
+                        if (ele?.IsPrimaryMetal === 1) {
+                            primaryWt += ele?.Wt;
+                            primaryAmount += ele?.Amount;
+                        }
+                    }
+                    else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
+                        findingSetAmount += ele?.SettingAmount;
                     }
                 }
             });
@@ -66,6 +84,9 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.diamonds = diamonds;
             obj.colorstones = colorstones;
             obj.counts = counts;
+            obj.primaryWt = primaryWt;
+            obj.primaryAmount = primaryAmount;
+            obj.findingSetAmount = findingSetAmount;
             arr.push(obj);
         });
         let blankArr = [];
@@ -83,9 +104,29 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 blankArr[findIndex].TotalDiamondHandling += e?.TotalDiamondHandling;
                 blankArr[findIndex].TotalAmount += e?.TotalAmount;
                 blankArr[findIndex].metal = (blankArr[findIndex]?.metal).concat(e?.metal);
-                blankArr[findIndex].diamonds = (blankArr[findIndex]?.diamonds).concat(e?.diamonds);
+
                 blankArr[findIndex].colorstones = (blankArr[findIndex]?.colorstones).concat(e?.colorstones);
                 blankArr[findIndex].counts += 1;
+                blankArr[findIndex].primaryWt += e?.primaryWt;
+                blankArr[findIndex].primaryAmount += e?.primaryAmount;
+                blankArr[findIndex].TotalCsSetcost += e?.TotalCsSetcost;
+                blankArr[findIndex].TotalDiaSetcost += e?.TotalDiaSetcost;
+                blankArr[findIndex].findingSetAmount += e?.findingSetAmount;
+
+                let diamonds = [...blankArr[findIndex].diamonds, ...e?.diamonds]?.flat();
+                let blankDiamonds = [];
+                diamonds?.forEach((ele, ind) => {
+                    let findDiamond = blankDiamonds?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname);
+                    if (findDiamond === -1) {
+                        blankDiamonds?.push(ele);
+                    } else {
+                        blankDiamonds[findDiamond].Pcs += ele?.Pcs;
+                        blankDiamonds[findDiamond].Wt += ele?.Wt;
+                        blankDiamonds[findDiamond].Amount += ele?.Amount;
+                    }
+                })
+                blankArr[findIndex].diamonds = blankDiamonds;
+
             }
         });
         let totals = { ...total };
@@ -98,15 +139,16 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.metalAmount = 0;
             totals.grossWt += e?.grosswt;
             totals.netWt += e?.NetWt;
-            totals.labourVal += e?.MakingAmount;
+            totals.labourVal += e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost;
             totals.fobValue += e?.TotalAmount;
             totals.counts += e?.counts;
+            totals.golSilValue += e?.primaryAmount;
             if (e?.diamonds.length > 0) {
                 e?.diamonds.forEach((ele, ind) => {
                     obj.totalCts += ele.Wt;
                     obj.totalVal += ele?.Amount;
                     totals.diaPcs += ele?.Pcs;
-                    totals.diaCts += ele?.Wt;
+                    totals.diaCts += +(fixedValues(ele?.Wt, 2));
                     totals.diaValue += ele?.Amount;
                     totals.totalCts += ele.Wt;
                     totals.totalVal += ele.Amount;
@@ -127,7 +169,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 e?.metal.forEach((ele, ind) => {
                     obj.metalWt += ele.Wt;
                     obj.metalAmount += ele?.Amount;
-                    totals.golSilValue += ele?.Amount;
+                    // totals.golSilValue += ele?.Amount;
                 });
             }
             resultArr.push(obj);
@@ -205,26 +247,26 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                         {/* table heading */}
                         <div className={`d-flex border-start border-end border-bottom fw-semibold`}>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.srNoExport} ${style.rowExport}`}>Sr No</div>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.itemExport} ${style.rowExport}`}>Item</div>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.ktColExport} ${style.rowExport}`}>KT/Col</div>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.qtyExport} ${style.rowExport}`}>Qty (PCS & PAIR)</div>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.grossExport} ${style.rowExport}`}>Gross Wt</div>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.netExport} ${style.rowExport}`}>Net Wt</div>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.wastageExport} ${style.rowExport}`}>wastage</div>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.totalGoldExport} ${style.rowExport}`}>Total Gold Wt.</div>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.goldGmExport} ${style.rowExport}`}>Gold & sil Rate/gms $</div>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.goldValueExport} ${style.rowExport}`}>Gold & sil Value $</div>
+                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.srNoExport} ${style.rowExport} ${style?.padx_2}`}>Sr No</div>
+                            <div className={`d-flex align-items-center border-end  ${style.itemExport} ${style.rowExport} ${style?.padx_2}`}>Item</div>
+                            <div className={`d-flex  align-items-center border-end  ${style.ktColExport} ${style.rowExport} ${style?.padx_2}`}>KT/Col</div>
+                            <div className={`d-flex justify-content-end align-items-center border-end text-end ${style.qtyExport} ${style.rowExport} ${style?.padx_2}`}>Qty (PCS & PAIR)</div>
+                            <div className={`d-flex justify-content-end align-items-center border-end text-end ${style.grossExport} ${style.rowExport} ${style?.padx_2}`}>Gross Wt</div>
+                            <div className={`d-flex justify-content-end align-items-center border-end text-end ${style.netExport} ${style.rowExport} ${style?.padx_2}`}>Net Wt</div>
+                            <div className={`d-flex justify-content-end align-items-center border-end text-end ${style.wastageExport} ${style.rowExport} ${style?.padx_2}`}>wastage</div>
+                            <div className={`d-flex justify-content-end align-items-center border-end text-end ${style.totalGoldExport} ${style.rowExport} ${style?.padx_2}`}>Total Gold Wt.</div>
+                            <div className={`d-flex justify-content-end align-items-center border-end text-end ${style.goldGmExport} ${style.rowExport} ${style?.padx_2}`}>Gold & sil Rate/gms $</div>
+                            <div className={`d-flex justify-content-center align-items-end flex-column border-end text-end ${style.goldValueExport} ${style.rowExport} ${style?.padx_2}`}><p>Gold & sil </p><p>Value $</p></div>
 
                             <div className={`${style?.diamondSec}`}>
                                 <div className="d-grid h-100">
                                     <div className="d-flex">
-                                        <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.diaShapeExport} ${style.rowExport}`}>Dia shape</div>
-                                        <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.diamondColorExport} ${style.rowExport}`}>e	Diamond Color/Clarity</div>
-                                        <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.diaPcsExport} ${style.rowExport}`}>Dia Pcs</div>
-                                        <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.diaCtsExport} ${style.rowExport}`}>Dia Cts	</div>
-                                        <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.diaRateExport} ${style.rowExport}`}>Dia Rate</div>
-                                        <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.diaValueExport} ${style.rowExport}`}>Dia Value</div>
+                                        <div className={`d-flex align-items-center border-end  ${style?.padx_2} ${style.diaShapeExport} ${style.rowExport}`}>Dia shape</div>
+                                        <div className={`d-flex align-items-center border-end ${style?.padx_2} ${style.diamondColorExport} ${style.rowExport}`}>e	Diamond Color/Clarity</div>
+                                        <div className={`d-flex justify-content-end align-items-center border-end text-end ${style?.padx_2} ${style.diaPcsExport} ${style.rowExport}`}>Dia Pcs</div>
+                                        <div className={`d-flex justify-content-end align-items-center border-end text-end ${style?.padx_2} ${style.diaCtsExport} ${style.rowExport}`}>Dia Cts	</div>
+                                        <div className={`d-flex justify-content-end align-items-center border-end text-end ${style?.padx_2} ${style.diaRateExport} ${style.rowExport}`}>Dia Rate</div>
+                                        <div className={`d-flex justify-content-end align-items-center border-end text-end ${style?.padx_2} ${style.diaValueExport} ${style.rowExport}`}>Dia Value</div>
                                     </div>
                                 </div>
                             </div>
@@ -232,43 +274,46 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className={`${style?.c2CsSec}`}>
                                 <div className="d-grid h-100">
                                     <div className="d-flex">
-                                        <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.c2csPcsExport}`}>cz/cs Pcs</div>
-                                        <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.c2csCtsExport}`}>cz/cs Cts</div>
-                                        <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.c2csRateExport}`}>cz/cs Rate</div>
-                                        <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.c2csValueExport}`}>cz/cs Value</div>
+                                        <div className={`d-flex justify-content-end align-items-center border-end text-end ${style?.padx_2} ${style.c2csPcsExport}`}>cz/cs Pcs</div>
+                                        <div className={`d-flex justify-content-end align-items-center border-end text-end ${style?.padx_2} ${style.c2csCtsExport}`}>cz/cs Cts</div>
+                                        <div className={`d-flex justify-content-end align-items-center border-end text-end ${style?.padx_2} ${style.c2csRateExport}`}>cz/cs Rate</div>
+                                        <div className={`d-flex justify-content-end align-items-center border-end text-end ${style?.padx_2} ${style.c2csValueExport}`}>cz/cs Value</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.totalCtsExport} ${style.rowExport}`}>Total Cts</div>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.totalValExport} ${style.rowExport}`}>Total Val $</div>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.enamelWtExport} ${style.rowExport}`}>enamel wt. gms</div>
-                            <div className={`d-flex justify-content-center align-items-center border-end text-center ${style.labourValueExport} ${style.rowExport}`}>VA/Labor Value</div>
-                            <div className={`d-flex justify-content-center align-items-center text-center ${style.totalFobExport} ${style.rowExport}`}>Total FOB Value $</div>
+                            <div className={`d-flex justify-content-end align-items-center border-end text-end ${style?.padx_2} ${style.totalCtsExport} ${style.rowExport}`}>Total Cts</div>
+                            <div className={`d-flex justify-content-end align-items-center border-end text-end ${style?.padx_2} ${style.totalValExport} ${style.rowExport}`}>Total Val $</div>
+                            <div className={`d-flex justify-content-end align-items-center border-end text-end ${style?.padx_2} ${style.enamelWtExport} ${style.rowExport}`}>enamel wt. gms</div>
+                            <div className={`d-flex justify-content-end align-items-center border-end text-end ${style?.padx_2} ${style.labourValueExport} ${style.rowExport}`}>VA/Labor Value</div>
+                            <div className={`d-flex justify-content-center align-items-end text-end flex-column ${style?.padx_2} ${style.totalFobExport} ${style.rowExport}`}><p>Total FOB </p><p>Value $</p></div>
                         </div>
                         {/* data */}
                         {data && data.map((e, i) => {
                             return <div className={`d-flex border-start border-end border-bottom`} key={i}>
-                                <div className={`border-end ${style.srNoExport} d-flex align-items-center justify-content-center ${style.rowExport} text-center`}>{i + 1}</div>
-                                <div className={`border-end ${style.itemExport} d-flex align-items-center ${style.rowExport}`}>{e?.Categoryname}</div>
-                                <div className={`border-end ${style.ktColExport} d-flex align-items-center ${style.rowExport}`}>{e?.MetalPurity}</div>
-                                <div className={`border-end ${style.qtyExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{NumberWithCommas(e?.counts, 0)}</div>
-                                <div className={`border-end ${style.grossExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{fixedValues(e?.grosswt, 3)}</div>
-                                <div className={`border-end ${style.netExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{fixedValues(e?.NetWt, 3)}</div>
-                                <div className={`border-end ${style.wastageExport} d-flex align-items-center justify-content-end ${style.rowExport}`}></div>
-                                <div className={`border-end ${style.totalGoldExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{fixedValues(e?.NetWt + e?.LossWt, 3)}</div>
-                                <div className={`border-end ${style.goldGmExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{e?.NetWt !== 0 && (NumberWithCommas(e?.metalAmount / e?.NetWt, 2))}</div>
-                                <div className={`border-end ${style.goldValueExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{NumberWithCommas(e?.metalAmount, 2)}</div>
+                                <div className={`border-end ${style.srNoExport} d-flex align-items-center justify-content-center ${style.rowExport} text-center ${style?.padx_2}`}>{i + 1}</div>
+                                <div className={`border-end ${style.itemExport} d-flex align-items-center ${style.rowExport} ${style?.padx_2}`}>{e?.Categoryname}</div>
+                                <div className={`border-end ${style.ktColExport} d-flex align-items-center ${style.rowExport} ${style?.padx_2}`}>{e?.MetalPurity}</div>
+                                <div className={`border-end ${style.qtyExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(e?.counts, 0)}</div>
+                                <div className={`border-end ${style.grossExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{fixedValues(e?.grosswt, 3)}</div>
+                                <div className={`border-end ${style.netExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{fixedValues(e?.NetWt, 3)}</div>
+                                <div className={`border-end ${style.wastageExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}></div>
+                                <div className={`border-end ${style.totalGoldExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{fixedValues(e?.NetWt + e?.LossWt, 3)}</div>
+                                <div className={`border-end ${style.goldGmExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{e?.NetWt !== 0 && (NumberWithCommas(e?.primaryAmount / e?.primaryWt, 2))}</div>
+                                <div className={`border-end ${style.goldValueExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(e?.primaryAmount, 2)}</div>
                                 <div className={`${style?.diamondSec}`}>
                                     <div className="d-grid h-100">
                                         {e?.diamonds.length > 0 ? e?.diamonds.map((ele, ind) => {
                                             return <div className={`d-flex ${ind !== e?.diamonds.length - 1 && `border-bottom`}`} key={ind}>
-                                                <div className={`border-end ${style.diaShapeExport} d-flex align-items-center ${style.rowExport}`}>{ele?.ShapeName}</div>
-                                                <div className={`border-end ${style.diamondColorExport} d-flex align-items-center ${style.rowExport}`}>{ele?.ShapeName}/{ele?.QualityName}-{ele?.Colorname}</div>
-                                                <div className={`border-end ${style.diaPcsExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{ele?.Pcs}</div>
-                                                <div className={`border-end ${style.diaCtsExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{(ele?.Wt)?.toFixed(2)}</div>
-                                                <div className={`border-end ${style.diaRateExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{(ele?.Rate)?.toFixed(2)}</div>
-                                                <div className={`border-end ${style.diaValueExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{(ele?.Amount)?.toFixed(2)}</div>
+                                                <div className={`border-end ${style.diaShapeExport} d-flex align-items-center ${style.rowExport} ${style?.padx_2}`}>{ele?.ShapeName}</div>
+                                                <div className={`border-end ${style.diamondColorExport} d-flex align-items-center ${style.rowExport} ${style?.padx_2}`}>
+                                                    {/* {ele?.ShapeName}/{ele?.QualityName}-{ele?.Colorname} */}
+                                                    {ele?.Colorname}/{ele?.QualityName}
+                                                </div>
+                                                <div className={`border-end ${style.diaPcsExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(ele?.Pcs, 0)}</div>
+                                                <div className={`border-end ${style.diaCtsExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(ele?.Wt, 2)}</div>
+                                                <div className={`border-end ${style.diaRateExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{ele?.Wt !== 0 && NumberWithCommas(ele?.Amount / ele?.Wt, 2)}</div>
+                                                <div className={`border-end ${style.diaValueExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{ele?.Amount !== 0 && NumberWithCommas(ele?.Amount, 2)}</div>
                                             </div>
                                         }) : <div className={`d-flex`}>
                                             <div className={`border-end ${style.diaShapeExport} d-flex align-items-center ${style.rowExport}`}></div>
@@ -284,10 +329,10 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className="d-grid h-100">
                                         {e?.colorstones.length > 0 ? e?.colorstones.map((ele, ind) => {
                                             return <div className={`d-flex ${ind !== e?.colorstones.length - 1 && `border-bottom`}`} key={ind}>
-                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csPcsExport} ${style.rowExport}`}>{ele?.Pcs}</div>
-                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csCtsExport} ${style.rowExport}`}>{(ele?.Wt)?.toFixed(3)}</div>
-                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csRateExport} ${style.rowExport}`}>{(ele?.Rate)?.toFixed(2)}</div>
-                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csValueExport} ${style.rowExport}`}>{(ele?.Amount)?.toFixed(2)}</div>
+                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csPcsExport} ${style.rowExport} ${style?.padx_2}`}>{ele?.Pcs}</div>
+                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csCtsExport} ${style.rowExport} ${style?.padx_2}`}>{(ele?.Wt)?.toFixed(3)}</div>
+                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csRateExport} ${style.rowExport} ${style?.padx_2}`}>{(ele?.Rate)?.toFixed(2)}</div>
+                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csValueExport} ${style.rowExport} ${style?.padx_2}`}>{(ele?.Amount)?.toFixed(2)}</div>
                                             </div>
                                         }) : <div className={`d-flex`}>
                                             <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csPcsExport} ${style.rowExport}`}></div>
@@ -297,11 +342,14 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>}
                                     </div>
                                 </div>
-                                <div className={`d-flex align-items-center justify-content-end border-end ${style.totalCtsExport} ${style.rowExport}`}>{(e?.totalCts)?.toFixed(3)}</div>
-                                <div className={`d-flex align-items-center justify-content-end border-end ${style.totalValExport} ${style.rowExport}`}>{(e?.totalVal)?.toFixed(2)}</div>
-                                <div className={`d-flex align-items-center justify-content-end border-end ${style.enamelWtExport} ${style.rowExport}`}></div>
-                                <div className={`d-flex align-items-center justify-content-end border-end ${style.labourValueExport} ${style.rowExport}`}>{e?.MakingAmount !== 0 && (e?.MakingAmount + e?.MiscAmount + e?.TotalDiamondHandling).toFixed(2)}</div>
-                                <div className={`d-flex align-items-center justify-content-end ${style.totalFobExport} ${style.rowExport}`}>{(e?.TotalAmount).toFixed(2)}</div>
+                                <div className={`d-flex align-items-center justify-content-end border-end ${style.totalCtsExport} ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(e?.totalCts, 3)}</div>
+                                <div className={`d-flex align-items-center justify-content-end border-end ${style.totalValExport} ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(e?.totalVal, 2)}</div>
+                                <div className={`d-flex align-items-center justify-content-end border-end ${style.enamelWtExport} ${style.rowExport} ${style?.padx_2}`}></div>
+                                <div className={`d-flex align-items-center justify-content-end border-end ${style.labourValueExport} ${style.rowExport} ${style?.padx_2}`}>
+                                    {(e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost) !== 0 &&
+                                        NumberWithCommas(e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost, 2)}
+                                </div>
+                                <div className={`d-flex align-items-center justify-content-end ${style.totalFobExport} ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(e?.TotalAmount, 2)}</div>
                             </div>
                         })}
                         {/* total */}
@@ -309,32 +357,32 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className={`border-end ${style.srNoExport} d-flex align-items-center justify-content-end ${style.rowExport}`}></div>
                             <div className={`border-end ${style.itemExport} d-flex align-items-center ${style.rowExport}`}></div>
                             <div className={`border-end ${style.ktColExport} d-flex align-items-center ${style.rowExport}`}></div>
-                            <div className={`border-end ${style.qtyExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}>{total?.counts}</div>
-                            <div className={`border-end ${style.grossExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}>{(total?.grossWt)?.toFixed(3)}</div>
-                            <div className={`border-end ${style.netExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}>{(total?.netWt)?.toFixed(3)}</div>
+                            <div className={`border-end ${style.qtyExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold ${style?.padx_2}`}>{total?.counts}</div>
+                            <div className={`border-end ${style.grossExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold ${style?.padx_2}`}>{NumberWithCommas(total?.grossWt, 3)}</div>
+                            <div className={`border-end ${style.netExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold ${style?.padx_2}`}>{NumberWithCommas(total?.netWt, 3)}</div>
                             <div className={`border-end ${style.wastageExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}></div>
                             <div className={`border-end ${style.totalGoldExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}></div>
                             <div className={`border-end ${style.goldGmExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}></div>
-                            <div className={`border-end ${style.goldValueExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}>{(total?.golSilValue)?.toFixed(2)}</div>
+                            <div className={`border-end ${style.goldValueExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold ${style?.padx_2}`}>{NumberWithCommas(total?.golSilValue, 2)}</div>
                             <div className={`d-flex  ${style?.diamondSec}`}>
                                 <div className={`border-end ${style.diaShapeExport} d-flex align-items-center ${style.rowExport} fw-bold`}></div>
                                 <div className={`border-end ${style.diamondColorExport} d-flex align-items-center ${style.rowExport} fw-bold`}></div>
-                                <div className={`border-end ${style.diaPcsExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}>{total?.diaPcs}</div>
-                                <div className={`border-end ${style.diaCtsExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}>{(total?.diaCts)?.toFixed(3)}</div>
-                                <div className={`border-end ${style.diaRateExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}></div>
-                                <div className={`border-end ${style.diaValueExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold`}>{(total?.diaValue)?.toFixed(2)}</div>
+                                <div className={`border-end ${style.diaPcsExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold ${style?.padx_2}`}>{NumberWithCommas(total?.diaPcs, 0)}</div>
+                                <div className={`border-end ${style.diaCtsExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold ${style?.padx_2}`}>{NumberWithCommas(total?.diaCts, 3)}</div>
+                                <div className={`border-end ${style.diaRateExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold ${style?.padx_2}`}></div>
+                                <div className={`border-end ${style.diaValueExport} d-flex align-items-center justify-content-end ${style.rowExport} fw-bold ${style?.padx_2}`}>{NumberWithCommas(total?.diaValue, 2)}</div>
                             </div>
                             <div className={`d-flex ${style?.c2CsSec}`}>
-                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csPcsExport} ${style.rowExport} fw-bold`}>{(total?.czCsPcs)}</div>
-                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csCtsExport} ${style.rowExport} fw-bold`}>{(total?.czCsCts).toFixed(3)}</div>
+                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csPcsExport} ${style.rowExport} fw-bold ${style?.padx_2}`}>{(NumberWithCommas(total?.czCsPcs, 0))}</div>
+                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csCtsExport} ${style.rowExport} fw-bold ${style?.padx_2}`}>{NumberWithCommas(total?.czCsCts, 3)}</div>
                                 <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csRateExport} ${style.rowExport} fw-bold`}></div>
-                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csValueExport} ${style.rowExport} fw-bold`}>{(total?.czCsValue).toFixed(2)}</div>
+                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csValueExport} ${style.rowExport} fw-bold ${style?.padx_2}`}>{NumberWithCommas(total?.czCsValue, 2)}</div>
                             </div>
-                            <div className={`d-flex align-items-center justify-content-end border-end ${style.totalCtsExport} ${style.rowExport} fw-bold`}>{(total?.totalCts)?.toFixed(3)}</div>
-                            <div className={`d-flex align-items-center justify-content-end border-end ${style.totalValExport} ${style.rowExport} fw-bold`}>{(total?.totalVal)?.toFixed(2)}</div>
+                            <div className={`d-flex align-items-center justify-content-end border-end ${style.totalCtsExport} ${style.rowExport} fw-bold ${style?.padx_2}`}>{NumberWithCommas(total?.totalCts, 3)}</div>
+                            <div className={`d-flex align-items-center justify-content-end border-end ${style.totalValExport} ${style.rowExport} fw-bold ${style?.padx_2}`}>{NumberWithCommas(total?.totalVal, 2)}</div>
                             <div className={`d-flex align-items-center justify-content-end border-end ${style.enamelWtExport} ${style.rowExport} fw-bold`}></div>
-                            <div className={`d-flex align-items-center justify-content-end border-end ${style.labourValueExport} ${style.rowExport} fw-bold`}>{(total?.labourVal)?.toFixed(2)}</div>
-                            <div className={`d-flex align-items-center justify-content-end ${style.totalFobExport} ${style.rowExport} fw-bold`}>{(total?.fobValue)?.toFixed(2)}</div>
+                            <div className={`d-flex align-items-center justify-content-end border-end ${style.labourValueExport} ${style.rowExport} fw-bold ${style?.padx_2}`}>{NumberWithCommas(total?.labourVal, 2)}</div>
+                            <div className={`d-flex align-items-center justify-content-end ${style.totalFobExport} ${style.rowExport} fw-bold ${style?.padx_2}`}>{NumberWithCommas(total?.fobValue, 2)}</div>
                         </div>
                     </div>
                 </div>
