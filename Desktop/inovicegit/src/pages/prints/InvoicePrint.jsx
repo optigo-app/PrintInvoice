@@ -6,6 +6,7 @@ import { json } from 'react-router-dom';
 import { cloneDeep } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { ToWords } from "to-words";
+import { Diamond } from '@mui/icons-material';
 
 const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const toWords = new ToWords();
@@ -16,6 +17,8 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [datass, setDatas] = useState({});
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [metal, setMetal] = useState([]);
+  const [diamond, setDiamond] = useState([]);
+  const [colorstone, setColorstone] = useState([]);
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -53,21 +56,34 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const loadData = (data) => {
 
     let newArr = [];
+    let diamondArr = [];
+    let colorstoneArr = [];
+    data?.BillPrint_Json2?.forEach((ele, ind) => {
+       if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+          let findDiamond = diamondArr?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
+            elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName &&
+            elem?.MaterialTypeName === ele?.MaterialTypeName && elem?.Rate === ele?.Rate);
+          if (findDiamond === -1) {
+            diamondArr?.push(ele);
+          } else {
+            diamondArr[findDiamond].Wt += ele?.Wt;
+            diamondArr[findDiamond].Pcs += ele?.Pcs;
+            diamondArr[findDiamond].Amount += ele?.Amount;
+          }
+        }else if(ele?.MasterManagement_DiamondStoneTypeid === 2){
+          let findColorstone = colorstoneArr?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
+          elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName &&
+          elem?.MaterialTypeName === ele?.MaterialTypeName && elem?.Rate === ele?.Rate);
+        if (findColorstone === -1) {
+          colorstoneArr?.push(ele);
+        } else {
+          colorstoneArr[findColorstone].Wt += ele?.Wt;
+          colorstoneArr[findColorstone].Pcs += ele?.Pcs;
+          colorstoneArr[findColorstone].Amount += ele?.Amount;
+        }
+        }
+    });
     data?.BillPrint_Json1?.forEach((e, i) => {
-      // data?.BillPrint_Json2?.forEach((ele, ind) => {
-      //   if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
-      //     if (ele?.IsPrimaryMetal === 1) {
-      //       let findMetal = newArr?.findIndex((elem, index) => ele?.Rate === elem?.Rate && elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName)
-      //       if (findMetal === -1) {
-      //         newArr?.push(ele);
-      //       } else {
-      //         newArr.Pcs += ele?.Pcs;
-      //         newArr.Wt += ele?.Wt;
-      //         newArr.Amount += ele?.Amount;
-      //       }
-      //     }
-      //   }
-      // });
       let primaryWt = 0;
       let primaryAmount = e?.MetalAmount;
       let metalRate = 0;
@@ -82,14 +98,14 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           }
         }
       });
-      
+
       let obj = cloneDeep(e);
       obj.primaryWt = primaryWt;
       obj.primaryAmount = primaryAmount;
       obj.metalRate = metalRate;
       let findRecord = newArr?.findIndex((ele, ind) => {
-        console.log(ele?.MetalTypePurity ,obj?.MetalTypePurity, ele?.metalRate, obj?.metalRate, ele?.MetalTypePurity === obj?.MetalTypePurity && ele?.metalRate === obj?.metalRate);
-        if(ele?.MetalTypePurity === obj?.MetalTypePurity && ele?.metalRate === obj?.metalRate){
+        console.log(ele?.MetalTypePurity, obj?.MetalTypePurity, ele?.metalRate, obj?.metalRate, ele?.MetalTypePurity === obj?.MetalTypePurity && ele?.metalRate === obj?.metalRate);
+        if (ele?.MetalTypePurity === obj?.MetalTypePurity && ele?.metalRate === obj?.metalRate) {
           return ind
         }
       });
@@ -101,7 +117,9 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         // newArr[findRecord].primaryWt
       }
 
-    })
+    });
+    setDiamond(diamondArr);
+    setColorstone(colorstoneArr)
     newArr.sort((a, b) => {
       if (a.ShapeName < b.ShapeName) return -1;
       if (a.ShapeName > b.ShapeName) return 1;
@@ -114,11 +132,6 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       return 0; // If both are equal
     });
     setMetal(newArr);
-
-
-
-
-
     setJson0(data?.BillPrint_Json[0]);
     let result = [];
     let finding = [];
@@ -191,8 +204,6 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setOther({ ...other, other1: otherchrges1, other2: otherchrges2 });
     setDatas(datas);
     console.log(data);
-
-
   }
 
   useEffect(() => {
@@ -388,7 +399,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   <div className="col-2">
                     <p className="">
-                      {e?.Wt !== 0 && NumberWithCommas((e?.primaryAmount / json0?.CurrencyExchRate) / e?.primaryWt, 2)}
+                      {e?.primaryWt !== 0 && NumberWithCommas((e?.primaryAmount / json0?.CurrencyExchRate) / e?.primaryWt, 2)}
                     </p>
                   </div>
                   <div className="col-2">
@@ -398,6 +409,51 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                 </div>
               })}
+
+              {
+                diamond?.map((e, i) => {
+                  return <div className="d-flex px-2" key={i}>
+                  <div className="col-5">
+                    <p className="">{e?.MasterManagement_DiamondStoneTypeName} {e?.MaterialTypeName}</p>
+                  </div>
+                  <div className="col-3">
+                    <p className="">{NumberWithCommas(e?.Wt, 3)}</p>
+                  </div>
+                  <div className="col-2">
+                    <p className="">
+                      {e?.Wt !== 0 && NumberWithCommas((e?.Amount / json0?.CurrencyExchRate) / e?.Wt, 0)}
+                    </p>
+                  </div>
+                  <div className="col-2">
+                    <p className=" text-end">
+                      {NumberWithCommas(e?.Amount / json0?.CurrencyExchRate, 2)}
+                    </p>
+                  </div>
+                </div>
+                })
+              }
+               {
+                colorstone?.map((e, i) => {
+                  return <div className="d-flex px-2" key={i}>
+                  <div className="col-5">
+                    <p className="">STONE {e?.MaterialTypeName}</p>
+                  </div>
+                  <div className="col-3">
+                    <p className="">{NumberWithCommas(e?.Wt, 3)}</p>
+                  </div>
+                  <div className="col-2">
+                    <p className="">
+                      {e?.Wt !== 0 && NumberWithCommas((e?.Amount / json0?.CurrencyExchRate) / e?.Wt, 0)}
+                    </p>
+                  </div>
+                  <div className="col-2">
+                    <p className=" text-end">
+                      {NumberWithCommas(e?.Amount / json0?.CurrencyExchRate, 2)}
+                    </p>
+                  </div>
+                </div>
+                })
+              }
             </div>
             <div className="minHieght28InvoicePrint d-flex justify-content-between align-items-center py-1 px-2 border-top border-black border-2">
               <p className='fw-bold text-end'>Total</p>
