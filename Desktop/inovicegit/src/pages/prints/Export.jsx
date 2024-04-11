@@ -11,9 +11,9 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [data, setData] = useState([]);
     const [msg, setMsg] = useState("");
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
     const [total, setTotal] = useState({
         qtyPcsPair: 0,
         grossWt: 0,
@@ -33,6 +33,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     });
 
     const loadData = (data) => {
+        console.log(data);
         setJson0Data(data?.BillPrint_Json[0]);
         let arr = [];
         data?.BillPrint_Json1.forEach((e, i) => {
@@ -47,14 +48,13 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         diamonds.push(ele);
                     }
                     if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
-                        console.log(ele?.Wt, ele);
-                        if(colorstones?.length === 0){
-                            colorstones.push(ele); 
-                        }else{
+                        if (colorstones?.length === 0) {
+                            colorstones.push(ele);
+                        } else {
                             colorstones[0].Wt += ele?.Wt;
                             colorstones[0].Pcs += ele?.Pcs;
                             colorstones[0].Amount += ele?.Amount;
-                            colorstones[0].Rate = (colorstones[0].Rate+ele?.Rate)/2;
+                            colorstones[0].Rate = (colorstones[0].Rate + ele?.Rate) / 2;
                         }
                     }
                     if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
@@ -62,7 +62,6 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     }
                 }
             });
-            console.log(colorstones);
             obj.metal = metal;
             obj.diamonds = diamonds;
             obj.colorstones = colorstones;
@@ -80,6 +79,8 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 blankArr[findIndex].NetWt += e?.NetWt;
                 blankArr[findIndex].MetalAmount += e?.MetalAmount;
                 blankArr[findIndex].MakingAmount += e?.MakingAmount;
+                blankArr[findIndex].MiscAmount += e?.MiscAmount;
+                blankArr[findIndex].TotalDiamondHandling += e?.TotalDiamondHandling;
                 blankArr[findIndex].TotalAmount += e?.TotalAmount;
                 blankArr[findIndex].metal = (blankArr[findIndex]?.metal).concat(e?.metal);
                 blankArr[findIndex].diamonds = (blankArr[findIndex]?.diamonds).concat(e?.diamonds);
@@ -140,6 +141,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         });
         setTotal(totals);
         setData(resultArr);
+        console.log(resultArr);
     }
 
     useEffect(() => {
@@ -178,7 +180,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             className={`btn_white blue mt-2 ${style?.btn_white}`}
                             value="Print"
                             onClick={(e) => handlePrint(e)}
-                            style={{padding: "3px 4px"}}
+                            style={{ padding: "3px 4px" }}
                         />
                     </div>
                 </div>
@@ -254,7 +256,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className={`border-end ${style.grossExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{fixedValues(e?.grosswt, 3)}</div>
                                 <div className={`border-end ${style.netExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{fixedValues(e?.NetWt, 3)}</div>
                                 <div className={`border-end ${style.wastageExport} d-flex align-items-center justify-content-end ${style.rowExport}`}></div>
-                                <div className={`border-end ${style.totalGoldExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{fixedValues(e?.NetWt+e?.LossWt, 3)}</div>
+                                <div className={`border-end ${style.totalGoldExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{fixedValues(e?.NetWt + e?.LossWt, 3)}</div>
                                 <div className={`border-end ${style.goldGmExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{e?.NetWt !== 0 && (NumberWithCommas(e?.metalAmount / e?.NetWt, 2))}</div>
                                 <div className={`border-end ${style.goldValueExport} d-flex align-items-center justify-content-end ${style.rowExport}`}>{NumberWithCommas(e?.metalAmount, 2)}</div>
                                 <div className={`${style?.diamondSec}`}>
@@ -298,7 +300,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className={`d-flex align-items-center justify-content-end border-end ${style.totalCtsExport} ${style.rowExport}`}>{(e?.totalCts)?.toFixed(3)}</div>
                                 <div className={`d-flex align-items-center justify-content-end border-end ${style.totalValExport} ${style.rowExport}`}>{(e?.totalVal)?.toFixed(2)}</div>
                                 <div className={`d-flex align-items-center justify-content-end border-end ${style.enamelWtExport} ${style.rowExport}`}></div>
-                                <div className={`d-flex align-items-center justify-content-end border-end ${style.labourValueExport} ${style.rowExport}`}>{e?.MakingAmount !== 0 && (e?.MakingAmount).toFixed(2)}</div>
+                                <div className={`d-flex align-items-center justify-content-end border-end ${style.labourValueExport} ${style.rowExport}`}>{e?.MakingAmount !== 0 && (e?.MakingAmount + e?.MiscAmount + e?.TotalDiamondHandling).toFixed(2)}</div>
                                 <div className={`d-flex align-items-center justify-content-end ${style.totalFobExport} ${style.rowExport}`}>{(e?.TotalAmount).toFixed(2)}</div>
                             </div>
                         })}
