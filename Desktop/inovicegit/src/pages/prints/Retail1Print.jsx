@@ -263,18 +263,18 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setDataFill(datas);
     }
 
-    const handleChange = (e) => {
-        rate ? setRate(false) : setRate(true);
-        let value = rate ? false : true;
-        setStyles({
-            ...styles,
-            Material: getStyles("materialRetailPrint1", "materialRetailPrint", value),
-            Qty: getStyles("qtyRetailPrint1", "qtyRetailPrint", value),
-            Pcs: getStyles("pcsRetailPrint1", "pcsRetailPrint", value),
-            Wt: getStyles("wtRetailPrint1", "wtRetailPrint", value),
-            Amount: getStyles("", "amountRetailPrint", value),
-        })
-    }
+    // const handleChange = (e) => {
+    //     rate ? setRate(false) : setRate(true);
+    //     let value = rate ? false : true;
+    //     setStyles({
+    //         ...styles,
+    //         Material: getStyles("materialRetailPrint1", "materialRetailPrint", value),
+    //         Qty: getStyles("qtyRetailPrint1", "qtyRetailPrint", value),
+    //         Pcs: getStyles("pcsRetailPrint1", "pcsRetailPrint", value),
+    //         Wt: getStyles("wtRetailPrint1", "wtRetailPrint", value),
+    //         Amount: getStyles("", "amountRetailPrint", value),
+    //     })
+    // }
 
     useEffect(() => {
         const sendData = async () => {
@@ -305,12 +305,12 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             {loader ? <Loader /> : msg === "" ? <div className='container containerRetailPrint mt-5 pad_60_allPrint'>
                 {/* print button */}
                 <div className="d-flex w-100 justify-content-end align-items-baseline print_sec_sum4 no_break position-relative">
-                    <div className="form-check pe-3 mb-0">
+                    {/* <div className="form-check pe-3 mb-0">
                         <input className="form-check-input border-dark" type="checkbox" checked={rate} onChange={e => handleChange(e)} />
                         <label className="form-check-label h6 mb-0 ratePara pt-1">
                             With Rate
                         </label>
-                    </div>
+                    </div> */}
                     <div className="printBtn_sec text-end position-absolute printBtnRetailPrint">
                         <input type="button" className="btn_white blue me-0" value="Print" onClick={(e) => handlePrint(e)} />
                     </div>
@@ -342,41 +342,39 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                 </div>
                 {/* bill to */}
-                <div className="d-flex border mt-2 no_break">
-                    <div className="col-4 p-1 border-end">
+                <div className="d-flex border mt-2 no_break justify-content-between">
+                    <div className="py-2 px-1">
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.lblBillTo} </p>
                         <p className='fw-bold line_height_110'>{jsonData1?.customerfirmname}</p>
-                        <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.customerAddress1}</p>
+                        {/* <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.customerAddress1}</p>
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.customerAddress2}</p>
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.customercity}{jsonData1?.customerpincode}</p>
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.customeremail1}</p>
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.vat_cst_pan}</p>
-                        <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.Cust_CST_STATE} {jsonData1?.Cust_CST_STATE_No}</p>
+                        <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.Cust_CST_STATE} {jsonData1?.Cust_CST_STATE_No}</p> */}
                     </div>
-                    <div className="col-4 p-1 border-end">
+                    {/* <div className="col-4 p-1 border-end">
                         <p className='line_height_110 ft_12_retailPrint'>Ship To, </p>
                         <p className='fw-bold'>{jsonData1?.customerfirmname}</p>
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.CustName}</p>
-
-                        {/* <p className=''>{jsonData1?.customerAddress2}</p> */}
                         <p className='line_height_110'>{jsonData1?.customercity}, {jsonData1?.State}</p>
                         <p className='line_height_110'>{jsonData1?.CompanyCountry}{jsonData1?.customerpincode}</p>
                         <p className='line_height_110'>Mobile No. : {jsonData1?.customermobileno1}</p>
-                    </div>
-                    <div className="col-4 p-1 position-relative">
+                    </div> */}
+                    <div className="p-1 position-relative pe-5">
                         <div className="d-flex">
-                            <div className="col-3">
+                            <div className="" style={{minWidth: "60px"}}>
                                 <p className='fw-bold ft_12_retailPrint'>BILL NO</p>
                                 <p className='fw-bold ft_12_retailPrint'>DATE</p>
                                 <p className='fw-bold ft_12_retailPrint'>HSN</p>
                             </div>
-                            <div className="col-9">
+                            <div className="" style={{minWidth: "max-content"}}>
                                 <p className='ft_12_retailPrint'>{jsonData1?.InvoiceNo}</p>
                                 <p className='ft_12_retailPrint'>{jsonData1?.EntryDate}</p>
                                 <p className='ft_12_retailPrint'>{jsonData1?.HSN_No}</p>
                             </div>
                         </div>
-                        <p className='mt-5 position-absolute bottom-0 pb-1 ratePara'>{rate && (jsonData1?.MetalRate24K && (jsonData1?.MetalRate24K).toFixed(2))}</p>
+                        {/* <p className='mt-5 position-absolute bottom-0 pb-1 ratePara'>{rate && (jsonData1?.MetalRate24K && (jsonData1?.MetalRate24K).toFixed(2))}</p> */}
                     </div>
                 </div>
                 {/* table */}
@@ -516,6 +514,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 }
                                 {
                                     e?.misc?.map((ele, ind) => {
+                                        console.log(ele);
                                         return (ele?.Wt !== 0 || ele?.ServWt !== 0) && <div className={`d-flex border-bottom`} key={ind}>
                                             <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.MasterManagement_DiamondStoneTypeName}</p>
