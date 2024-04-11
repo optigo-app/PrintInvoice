@@ -4,7 +4,10 @@
 }
 /* global */
 .containerS2{
-    padding: 10rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    margin-top: 7rem;
 }
 .pbs2{
     padding-bottom: 100px !important;
@@ -42,6 +45,22 @@
 }
 .bgcs2{
     background-color: #F2F2F2;
+}
+.fsh_s2{
+    font-size: 20px !important;
+    line-height: 35px !important;
+}
+.fsh3_s2{
+    font-size: 15px !important;
+    line-height: 20px !important;
+}
+.fsh3_s2_{
+    font-size: 18px !important;
+    line-height: 24px !important;
+}
+.fsh2_s2{
+    font-size: 12px !important;
+    line-height: 14px !important;
 }
 /* header */
 .printlogos2{
@@ -132,12 +151,46 @@
         margin-right: 0.5rem;
     }
     .pbias2{
-        page-break-inside: avoid;
+        page-break-inside: avoid !important;
     }
     .containerS2{
         padding: 1rem;
     }
     .pbs2{
         padding-bottom: 0px !important;
+    }
+    .containerS2{
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
+        margin-top: 0px;
+    }
+    .fsh_s2{
+        font-size: 16px !important;
+        line-height: 26px !important;
+    }
+    .fsh3_s2{
+        font-size: 13px !important;
+        line-height: 18px !important;
+    }
+    .fsh3_s2_{
+        font-size: 15px !important;
+        line-height: 20px !important;
+    }
+    .fsh2_s2{
+        font-size: 9px !important;
+        line-height: 11px !important;
+    }
+    .danger_s2 *{
+        font-size: 9px !important;
+        line-height: 15px !important;
+    }
+    .tabtotal_s2{
+        min-height: 24px !important;
+        max-height: 26px !important;
+    }
+    .boxwtaxs2{
+        padding: 0px !important;
+        padding-right: 4px !important;
     }
 }
