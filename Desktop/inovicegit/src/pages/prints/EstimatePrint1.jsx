@@ -332,11 +332,11 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <p>{json0Data?.customeremail1}</p>
                     <p>Phno:{json0Data?.customermobileno}</p>
                     <p>{json0Data?.vat_cst_pan} | Aadhar-{json0Data?.aadharno}</p>
-                    <p>{json0Data?.Cust_CST_STATE} {json0Data?.Cust_CST_STATE_No}</p>
+                    <p>{json0Data?.Cust_CST_STATE}-{json0Data?.Cust_CST_STATE_No}</p>
                 </div>
                 <div className="col-5 p-2">
                     <div className='d-flex'><p className="fw-bold col-6">INVOICE NO </p><p className='col-6'>{json0Data?.InvoiceNo}</p>  </div>
-                    <div className='d-flex'><p className="fw-bold col-6">DATE </p><p className='col-6'>{json0Data?.DueDate}</p> </div>
+                    <div className='d-flex'><p className="fw-bold col-6">DATE </p><p className='col-6'>{json0Data?.EntryDate}</p> </div>
                     {document.map((e, i) => {
                         return <div key={i} className='d-flex '><p className="fw-bold col-6">{e?.label} </p><p className='col-6'>{e?.value}</p>  </div>
                     })}
