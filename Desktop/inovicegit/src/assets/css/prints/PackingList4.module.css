@@ -4,6 +4,10 @@
     overflow-wrap: break-word;
 }
 
+.pkgList4{
+    max-width:  1470px !important;
+}
+
 .rowWisePad p{
     padding: 2px;
 }
@@ -87,6 +91,10 @@
     min-height: 21.5px;
 }
 
+.pkgList4 table tr td{
+    padding: 0;
+}
+
 @media print {
     .print_sec_sum4 {
         display: none !important;
@@ -106,4 +114,6 @@
     .rowWisePad p{
         padding: 1px;
     }
+
+  
 }
