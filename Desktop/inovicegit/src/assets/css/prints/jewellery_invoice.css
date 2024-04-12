@@ -28,8 +28,13 @@
 }
 
 .othersJewelleryinvoice {
-    min-width: 8.34%;
-    width: 8.34%;
+    min-width: 8%;
+    width: 8%;
+}
+
+.totalJewelleryinvoice {
+    min-width: 9.01%;
+    width: 9.01%;
 }
 
 .inWordsJewelleryinvoice {
@@ -43,13 +48,13 @@
 }
 
 .grandTotalRupeesJewelleryInvoice {
-    min-width: 67%;
-    width: 67%;
+    min-width: 16.01%;
+    width: 16.01%;
 }
 
 .grandTotaltaxJewelleryInvoice {
-    min-width: 32.6%;
-    width: 32.6%;
+    min-width: 9%;
+    width: 9%;
 }
 
 .jewelleryInvoiceFont_14, .jewelleryInvoiceFont_14 *{

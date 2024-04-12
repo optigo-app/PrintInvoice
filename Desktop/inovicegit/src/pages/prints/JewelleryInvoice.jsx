@@ -324,12 +324,12 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                 </p>
               </div>
               <div className='d-flex'>
-                <div className='col-6 border-end border-bottom px-1 py-2 d-flex justify-content-center align-items-center'>
+                <div className='col-7 border-end border-bottom px-1 py-2 d-flex justify-content-center align-items-center'>
                   <p className="fw-bold">
                     Detail
                   </p>
                 </div>
-                <div className='col-6 border-end border-bottom px-1 py-2 d-flex justify-content-center align-items-center'>
+                <div className='col-5 border-end border-bottom px-1 py-2 d-flex justify-content-center align-items-center'>
                   <p className="fw-bold">
                     Wt.
                   </p>
@@ -343,7 +343,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
           <div className='othersJewelleryinvoice p-1 d-flex justify-content-center align-items-center border-top border-end border-bottom'>
             <p className="fw-bold">Labour</p>
           </div>
-          <div className='othersJewelleryinvoice p-1 d-flex justify-content-center align-items-center border-top border-end border-bottom'>
+          <div className='totalJewelleryinvoice p-1 d-flex justify-content-center align-items-center border-top border-end border-bottom'>
             <p className="fw-bold">Total</p>
           </div>
         </div>
@@ -402,7 +402,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             <div className='goldJewellryInvoice'>
               <div className="d-grid h-100">
                 <div className='d-flex'>
-                  <div className='col-6 border-end border-bottom p-1 d-flex justify-content-center flex-column'>
+                  <div className='col-7 border-end border-bottom p-1 d-flex justify-content-center flex-column'>
                     {e?.colorStone.length > 0 && e?.colorStone.map((ele, ind) => {
                       return <p key={ind}>{ele?.ShapeName}/{ele?.QualityName}/{ele?.Colorname}</p>
                     })}
@@ -410,7 +410,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                       e?.colorStone?.length === 0 && <p>-</p>
                     }
                   </div>
-                  <div className='col-6 border-end border-bottom p-1 d-flex justify-content-center align-items-end flex-column'>
+                  <div className='col-5 border-end border-bottom p-1 d-flex justify-content-center align-items-end flex-column'>
                     {e?.colorStone.length > 0 && e?.colorStone.map((ele, ind) => {
                       return <p key={ind}>{NumberWithCommas(ele?.Pcs, 0)}/{NumberWithCommas(ele?.Wt, 3)}</p>
                     })}
@@ -427,7 +427,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             <div className='othersJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom'>
               <p>{NumberWithCommas(e?.setting_making, 2)}	</p>
             </div>
-            <div className='othersJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom'>
+            <div className='totalJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom'>
               <p>{NumberWithCommas(e?.TotalAmount, 2)} </p>
             </div>
           </div>
@@ -468,9 +468,9 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
           <div className='goldJewellryInvoice'>
             <div className="d-grid h-100">
               <div className='d-flex'>
-                <div className='col-6 border-end border-bottom p-1 d-flex align-items-center'>
+                <div className='col-7 border-end border-bottom p-1 d-flex align-items-center'>
                 </div>
-                <div className='col-6 border-end border-bottom p-1 d-flex justify-content-end align-items-center'>
+                <div className='col-5 border-end border-bottom p-1 d-flex justify-content-end align-items-center'>
                   <p className='fw-bold'>  {NumberWithCommas(total?.colorStonePcs, 0)}/{NumberWithCommas(total?.colorStoneWt, 3)}</p>
                 </div>
               </div>
@@ -482,7 +482,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
           <div className='othersJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom'>
             <p className='fw-bold'>{NumberWithCommas(total?.labour, 2)}</p>
           </div>
-          <div className='othersJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom'>
+          <div className='totalJewelleryinvoice p-1 d-flex justify-content-end align-items-center border-end border-bottom'>
             <p className='fw-bold'>{NumberWithCommas(total?.total, 2)}</p>
           </div>
         </div>
@@ -492,8 +492,6 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             <p className="fw-bold"> In Words Indian Rupees </p>
             <p className="fw-bold">{total?.numberInWords} </p>
           </div>
-          <div className="grandTotalJewelleryinvoice d-flex">
-            <div className="d-flex w-100">
               <div className='grandTotalRupeesJewelleryInvoice border-end border-bottom'>
                 <div className="border-bottom p-1 text-end">
                   {taxes.length > 0 && taxes.map((e, i) => {
@@ -519,8 +517,6 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                   <p className='fw-bold'>{NumberWithCommas(total?.afterGst, 2)}</p>
                 </div>
               </div>
-            </div>
-          </div>
         </div>
         {/* Remark */}
         <div className="border-bottom border-start border-end p-1 no_break">
