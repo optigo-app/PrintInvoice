@@ -229,7 +229,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                             return <div className='d-flex pbiarti' key={j}>
                               <div className='tcol1rti ps-2'>{el?.ShapeName} {el?.QualityName}</div>
                               <div className='tcol2rti end_rti pe-1'>{(el?.Wt)?.toFixed(3)}</div>
-                              <div className='tcol3rti end_rti pe-1'>{el?.Rate}</div>
+                              <div className='tcol3rti end_rti pe-1'>{formatAmount(el?.Rate)}</div>
                               <div className='tcol4rti brrightrti end_rti pe-1'>{formatAmount(el?.Amount)}</div>
                             </div>
                           })}
@@ -243,7 +243,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                             return  <div className='d-flex pbiarti' key={k}>
                               <div className='tcol1rti ps-2'>{el?.MasterManagement_DiamondStoneTypeName} </div>
                               <div className='tcol2rti end_rti pe-1'>{(el?.Wt)?.toFixed(3)}</div>
-                              <div className='tcol3rti end_rti pe-1'>{el?.Rate}</div>
+                              <div className='tcol3rti end_rti pe-1'>{formatAmount(el?.Rate)}</div>
                               <div className='tcol4rti brrightrti end_rti pe-1'>{formatAmount(el?.Amount)}</div>
                             </div>
                           })}
@@ -257,7 +257,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                             return  <div className='d-flex pbiarti' key={k}>
                               <div className='tcol1rti ps-2'>{el?.MasterManagement_DiamondStoneTypeName}</div>
                               <div className='tcol2rti end_rti pe-1'>{(el?.Wt)?.toFixed(3)}</div>
-                              <div className='tcol3rti end_rti pe-1'>{(el?.Amount / (el?.isRateOnPcs === 1 ? (el?.Pcs === 0 ? 1 : el?.Pcs) : (el?.Wt === 0 ? 1 : el?.Wt)))}</div>
+                              <div className='tcol3rti end_rti pe-1'>{formatAmount((el?.Amount / (el?.isRateOnPcs === 1 ? (el?.Pcs === 0 ? 1 : el?.Pcs) : (el?.Wt === 0 ? 1 : el?.Wt))))}</div>
                               {/* <div className='tcol3rti end_rti pe-1'>{el?.Rate}</div> */}
                               <div className='tcol4rti brrightrti end_rti pe-1'>{formatAmount(el?.Amount)}</div>
                             </div>
@@ -268,7 +268,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                             <div className='d-flex'>
                               <div className='tcol1rti ps-2'>LABOUR </div>
                               <div className='tcol2rti end_rti pe-1'></div>
-                              <div className='tcol3rti end_rti pe-1'></div>
+                              <div className='tcol3rti end_rti pe-1'>{formatAmount((result?.mainTotal?.total_Making_Amount / ((result?.mainTotal?.netwt + result?.mainTotal?.lossWt))))}</div>
                               <div className='tcol4rti brrightrti end_rti pe-1'>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount + result?.mainTotal?.misc?.Amount + result?.mainTotal?.total_diamondHandling))}</div>
                             </div>  
                     {
