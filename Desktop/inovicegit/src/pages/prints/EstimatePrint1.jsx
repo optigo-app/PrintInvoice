@@ -389,7 +389,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{NumberWithCommas(e?.grosswt, 3)}	</p></div>
                                 <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
                                 <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{NumberWithCommas(e?.netWtlossWt, 3)}</p></div>
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''>{NumberWithCommas(e?.metalRate, 2)}</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''>{e?.netWtlossWt !== 0 && NumberWithCommas((e?.MetalAmount / json0Data?.CurrencyExchRate)/e?.netWtlossWt, 2)}</p></div>
                             </div>
                             {e?.diamonds.map((ele, ind) => {
                                 return <div className="d-flex border-bottom" key={ind}>
