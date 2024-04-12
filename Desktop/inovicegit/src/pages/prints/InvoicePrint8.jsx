@@ -263,101 +263,100 @@ const InvoicePrint8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="col-9 px-1">
                         {
                             metal?.map((e, i) => {
-                                return e?.metalAmount !== 0 && <div className="d-flex" key={i}>
-                                    <p className={` ${style?.Detail}`}>{e?.MetalTypePurity} </p>
-                                    <p className={`text-end ${style?.Gross}`}>{e?.GroupJob !== "" ? (e?.GroupJob === e?.SrJobno && `${NumberWithCommas(e?.grosswt, 3)} Gms`) : `${NumberWithCommas(e?.grosswt, 3)} Gms`} </p>
-                                    <p className={`text-end ${style?.Net}`}>{NumberWithCommas(e?.NetWt + e?.LossWt, 3)} Gms	</p>
-                                    <p className={`text-end ${style?.Pcs}`}></p>
-                                    <p className={`text-end ${style?.Qty}`}> </p>
-                                    <p className={`text-end ${style?.Rate}`}>{NumberWithCommas(e?.metalRate, 2)}</p>
-                                    <p className={`text-end ${style?.Amount}`}>{NumberWithCommas(e?.totals?.metal?.Amount, 2)}</p>
+                                return e?.metalAmount !== 0 && <div className="d-flex no_break" key={i}>
+                                    <p className={`p-1 ${style?.Detail}`}>{e?.MetalTypePurity} </p>
+                                    <p className={`p-1 text-end ${style?.Gross}`}>{e?.GroupJob !== "" ? (e?.GroupJob === e?.SrJobno && `${NumberWithCommas(e?.grosswt, 3)} Gms`) : `${NumberWithCommas(e?.grosswt, 3)} Gms`} </p>
+                                    <p className={`p-1 text-end ${style?.Net}`}>{NumberWithCommas(e?.NetWt + e?.LossWt, 3)} Gms	</p>
+                                    <p className={`p-1 text-end ${style?.Pcs}`}></p>
+                                    <p className={`p-1 text-end ${style?.Qty}`}> </p>
+                                    <p className={`p-1 text-end ${style?.Rate}`}>{NumberWithCommas(e?.metalRate, 2)}</p>
+                                    <p className={`p-1 text-end ${style?.Amount}`}>{NumberWithCommas(e?.totals?.metal?.Amount, 2)}</p>
                                 </div>
                             })
                         }
                         {
                             finding?.map((e, i) => {
-                                return <div className="d-flex" key={i}>
-                                <p className={` ${style?.Detail}`}>{e?.ShapeName} {e?.QualityName} </p>
-                                <p className={`text-end ${style?.Gross}`}> </p>
-                                <p className={`text-end ${style?.Net}`}>{NumberWithCommas(e?.Wt, 3)} Gms	</p>
-                                <p className={`text-end ${style?.Pcs}`}></p>
-                                <p className={`text-end ${style?.Qty}`}> </p>
-                                <p className={`text-end ${style?.Rate}`}>{NumberWithCommas(e?.Rate, 2)}</p>
-                                <p className={`text-end ${style?.Amount}`}>{NumberWithCommas(e?.Amount, 2)}</p>
+                                return <div className="d-flex no_break" key={i}>
+                                <p className={`p-1  ${style?.Detail}`}>{e?.ShapeName} {e?.QualityName} </p>
+                                <p className={`p-1 text-end ${style?.Gross}`}> </p>
+                                <p className={`p-1 text-end ${style?.Net}`}>{NumberWithCommas(e?.Wt, 3)} Gms	</p>
+                                <p className={`p-1 text-end ${style?.Pcs}`}></p>
+                                <p className={`p-1 text-end ${style?.Qty}`}> </p>
+                                <p className={`p-1 text-end ${style?.Rate}`}>{NumberWithCommas(e?.Rate, 2)}</p>
+                                <p className={`p-1 text-end ${style?.Amount}`}>{NumberWithCommas(e?.Amount, 2)}</p>
                             </div>
                             })
                         }
-                        {data?.mainTotal?.diamonds?.Pcs > 0 && <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>DIAMOND</p>
-                            <p className={`text-end ${style?.Gross}`}></p>
-                            <p className={`text-end ${style?.Net}`}>	</p>
-                            <p className={`text-end ${style?.Pcs}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)}</p>
-                            <p className={`text-end ${style?.Qty}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)} Ctw</p>
-                            <p className={`text-end ${style?.Rate}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Rate, 2)} / Wt</p>
-                            <p className={`text-end ${style?.Amount}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</p>
+                        {data?.mainTotal?.diamonds?.Pcs > 0 && <div className="d-flex no_break">
+                            <p className={`p-1  ${style?.Detail}`}>DIAMOND</p>
+                            <p className={`p-1 text-end ${style?.Gross}`}></p>
+                            <p className={`p-1 text-end ${style?.Net}`}>	</p>
+                            <p className={`p-1 text-end ${style?.Pcs}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)}</p>
+                            <p className={`p-1 text-end ${style?.Qty}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)} Ctw</p>
+                            <p className={`p-1 text-end ${style?.Rate}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Rate, 2)} / Wt</p>
+                            <p className={`p-1 text-end ${style?.Amount}`}>{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</p>
                         </div>}
-                        {data?.mainTotal?.colorstone?.Pcs > 0 && <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>COLOR STONE	</p>
-                            <p className={`text-end ${style?.Gross}`}></p>
-                            <p className={`text-end ${style?.Net}`}></p>
-                            <p className={`text-end ${style?.Pcs}`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Pcs, 0)}</p>
-                            <p className={`text-end ${style?.Qty}`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)} Ctw</p>
-                            <p className={`text-end ${style?.Rate}`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Rate, 2)} / Wt</p>
-                            <p className={`text-end ${style?.Amount}`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</p>
+                        {data?.mainTotal?.colorstone?.Pcs > 0 && <div className="d-flex no_break">
+                            <p className={`p-1  ${style?.Detail}`}>COLOR STONE	</p>
+                            <p className={`p-1 text-end ${style?.Gross}`}></p>
+                            <p className={`p-1 text-end ${style?.Net}`}></p>
+                            <p className={`p-1 text-end ${style?.Pcs}`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Pcs, 0)}</p>
+                            <p className={`p-1 text-end ${style?.Qty}`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)} Ctw</p>
+                            <p className={`p-1 text-end ${style?.Rate}`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Rate, 2)} / Wt</p>
+                            <p className={`p-1 text-end ${style?.Amount}`}>{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</p>
                         </div>}
-                        {data?.mainTotal?.colorstone?.Pcs > 0 && <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>OTHER MATERIAL	</p>
-                            <p className={`text-end ${style?.Gross}`}></p>
-                            <p className={`text-end ${style?.Net}`}></p>
-                            <p className={`text-end ${style?.Pcs}`}>{NumberWithCommas(data?.mainTotal?.misc?.Pcs, 0)}</p>
-                            <p className={`text-end ${style?.Qty}`}>{NumberWithCommas(data?.mainTotal?.misc?.Wt, 3)} gms</p>
-                            <p className={`text-end ${style?.Rate}`}>{NumberWithCommas(data?.mainTotal?.misc?.Rate, 2)} / Wt</p>
-                            <p className={`text-end ${style?.Amount}`}>{NumberWithCommas(data?.mainTotal?.misc?.Amount, 2)}</p>
+                        {data?.mainTotal?.colorstone?.Pcs > 0 && <div className="d-flex no_break">
+                            <p className={`p-1  ${style?.Detail}`}>OTHER MATERIAL	</p>
+                            <p className={`p-1 text-end ${style?.Gross}`}></p>
+                            <p className={`p-1 text-end ${style?.Net}`}></p>
+                            <p className={`p-1 text-end ${style?.Pcs}`}>{NumberWithCommas(data?.mainTotal?.misc?.Pcs, 0)}</p>
+                            <p className={`p-1 text-end ${style?.Qty}`}>{NumberWithCommas(data?.mainTotal?.misc?.Wt, 3)} gms</p>
+                            <p className={`p-1 text-end ${style?.Rate}`}>{NumberWithCommas(data?.mainTotal?.misc?.Rate, 2)} / Wt</p>
+                            <p className={`p-1 text-end ${style?.Amount}`}>{NumberWithCommas(data?.mainTotal?.misc?.Amount, 2)}</p>
                         </div>}
-
-                        <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>LABOUR	</p>
-                            <p className={`text-end ${style?.Gross}`}></p>
-                            <p className={`text-end ${style?.Net}`}></p>
-                            <p className={`text-end ${style?.Pcs}`}></p>
-                            <p className={`text-end ${style?.Qty}`}></p>
-                            <p className={`text-end ${style?.Rate}`}>{NumberWithCommas(data?.mainTotal?.misc?.Rate, 2)} </p>
-                            <p className={`text-end ${style?.Amount}`}>{NumberWithCommas(data?.mainTotal?.total_labour?.labour_amount, 2)}</p>
+                        <div className="d-flex no_break">
+                            <p className={`p-1  ${style?.Detail}`}>LABOUR	</p>
+                            <p className={`p-1 text-end ${style?.Gross}`}></p>
+                            <p className={`p-1 text-end ${style?.Net}`}></p>
+                            <p className={`p-1 text-end ${style?.Pcs}`}></p>
+                            <p className={`p-1 text-end ${style?.Qty}`}></p>
+                            <p className={`p-1 text-end ${style?.Rate}`}>{NumberWithCommas(data?.mainTotal?.misc?.Rate, 2)} </p>
+                            <p className={`p-1 text-end ${style?.Amount}`}>{NumberWithCommas(data?.mainTotal?.total_labour?.labour_amount, 2)}</p>
                         </div>
                         {
                             other?.other1?.map((e, i) => {
-                                return <div className="d-flex" key={i}>
-                                    <p className={` ${style?.Detail}`}>{e?.label}	</p>
-                                    <p className={`text-end ${style?.Gross}`}></p>
-                                    <p className={`text-end ${style?.Net}`}></p>
-                                    <p className={`text-end ${style?.Pcs}`}></p>
-                                    <p className={`text-end ${style?.Qty}`}></p>
-                                    <p className={`text-end ${style?.Rate}`}> </p>
-                                    <p className={`text-end ${style?.Amount}`}>{NumberWithCommas(+e?.value, 2)}</p>
+                                return <div className="d-flex no_break" key={i}>
+                                    <p className={`p-1  ${style?.Detail}`}>{e?.label}	</p>
+                                    <p className={`p-1 text-end ${style?.Gross}`}></p>
+                                    <p className={`p-1 text-end ${style?.Net}`}></p>
+                                    <p className={`p-1 text-end ${style?.Pcs}`}></p>
+                                    <p className={`p-1 text-end ${style?.Qty}`}></p>
+                                    <p className={`p-1 text-end ${style?.Rate}`}> </p>
+                                    <p className={`p-1 text-end ${style?.Amount}`}>{NumberWithCommas(+e?.value, 2)}</p>
                                 </div>
                             })
                         }
                         {
                             other?.other2?.map((e, i) => {
-                                return <div className="d-flex" key={i}>
-                                    <p className={` ${style?.Detail}`}>{e?.ShapeName}	</p>
-                                    <p className={`text-end ${style?.Gross}`}></p>
-                                    <p className={`text-end ${style?.Net}`}></p>
-                                    <p className={`text-end ${style?.Pcs}`}></p>
-                                    <p className={`text-end ${style?.Qty}`}></p>
-                                    <p className={`text-end ${style?.Rate}`}> </p>
-                                    <p className={`text-end ${style?.Amount}`}>{NumberWithCommas(e?.Amount, 2)}</p>
+                                return <div className="d-flex no_break no_break" key={i}>
+                                    <p className={`p-1  ${style?.Detail}`}>{e?.ShapeName}	</p>
+                                    <p className={`p-1 text-end ${style?.Gross}`}></p>
+                                    <p className={`p-1 text-end ${style?.Net}`}></p>
+                                    <p className={`p-1 text-end ${style?.Pcs}`}></p>
+                                    <p className={`p-1 text-end ${style?.Qty}`}></p>
+                                    <p className={`p-1 text-end ${style?.Rate}`}> </p>
+                                    <p className={`p-1 text-end ${style?.Amount}`}>{NumberWithCommas(e?.Amount, 2)}</p>
                                 </div>
                             })
                         }
-                        {data?.mainTotal?.total_diamondHandling > 0 && <div className="d-flex">
-                            <p className={` ${style?.Detail}`}>Handling</p>
-                            <p className={`text-end ${style?.Gross}`}></p>
-                            <p className={`text-end ${style?.Net}`}>	</p>
-                            <p className={`text-end ${style?.Pcs}`}></p>
-                            <p className={`text-end ${style?.Qty}`}></p>
-                            <p className={`text-end ${style?.Rate}`}></p>
-                            <p className={`text-end ${style?.Amount}`}>{NumberWithCommas(data?.mainTotal?.total_diamondHandling, 2)}</p>
+                        {data?.mainTotal?.total_diamondHandling > 0 && <div className="d-flex no_break">
+                            <p className={`p-1  ${style?.Detail}`}>Handling</p>
+                            <p className={`p-1 text-end ${style?.Gross}`}></p>
+                            <p className={`p-1 text-end ${style?.Net}`}>	</p>
+                            <p className={`p-1 text-end ${style?.Pcs}`}></p>
+                            <p className={`p-1 text-end ${style?.Qty}`}></p>
+                            <p className={`p-1 text-end ${style?.Rate}`}></p>
+                            <p className={`p-1 text-end ${style?.Amount}`}>{NumberWithCommas(data?.mainTotal?.total_diamondHandling, 2)}</p>
                         </div>}
 
                     </div>

@@ -104,7 +104,6 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       obj.primaryAmount = primaryAmount;
       obj.metalRate = metalRate;
       let findRecord = newArr?.findIndex((ele, ind) => {
-        console.log(ele?.MetalTypePurity, obj?.MetalTypePurity, ele?.metalRate, obj?.metalRate, ele?.MetalTypePurity === obj?.MetalTypePurity && ele?.metalRate === obj?.metalRate);
         if (ele?.MetalTypePurity === obj?.MetalTypePurity && ele?.metalRate === obj?.metalRate) {
           return ind
         }
@@ -421,7 +420,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   <div className="col-2">
                     <p className="">
-                      {e?.Wt !== 0 && NumberWithCommas((e?.Amount / json0?.CurrencyExchRate) / e?.Wt, 0)}
+                      {e?.Wt !== 0 && NumberWithCommas(e?.Rate, 0)}
                     </p>
                   </div>
                   <div className="col-2">
@@ -443,7 +442,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   <div className="col-2">
                     <p className="">
-                      {e?.Wt !== 0 && NumberWithCommas((e?.Amount / json0?.CurrencyExchRate) / e?.Wt, 0)}
+                      {e?.Wt !== 0 && NumberWithCommas(e?.Rate, 0)}
                     </p>
                   </div>
                   <div className="col-2">
