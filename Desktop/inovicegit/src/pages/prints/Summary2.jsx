@@ -182,38 +182,29 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     />
                     <label htmlFor="brandshs2">With Brand</label>
                   </div>
-                  <div>
-                    <button
-                      className="btn_white blue m-0 mx-2 p-1 fsgs2"
-                      onClick={(e) => handlePrint(e)}
-                    >
-                      Print
-                    </button>
-                  </div>
+                  <div> <button className="btn_white blue m-0 mx-2 p-1 fsgs2" onClick={(e) => handlePrint(e)} > Print </button> </div>
                 </div>
                 <div></div>
                 {/* headers */}
                 <div className="headers2 d-flex justify-content-between p-2 border-bottom ">
                   <div className="subdiv1s2 w-75">
-                    <div className="fw-bold  fs-5">
+                    <div className="fw-bold fsh_s2">
                       {result?.header?.CompanyFullName}
                     </div>
-                    <div className="lhs2">{result?.header?.CompanyAddress}</div>
-                    <div className="lhs2">
+                    <div className="lhs2 fsh2_s2">{result?.header?.CompanyAddress}</div>
+                    <div className="lhs2 fsh2_s2">
                       {result?.header?.CompanyAddress2}
                     </div>
-                    <div className="lhs2">
+                    <div className="lhs2 fsh2_s2">
                       {result?.header?.CompanyCity}-
                       {result?.header?.CompanyPinCode},
-                      {result?.header?.CompanyState}(
-                      {result?.header?.CompanyCountry})
+                      {result?.header?.CompanyState}({result?.header?.CompanyCountry})
                     </div>
-                    <div className="lhs2">
-                      T {result?.header?.CompanyTellNo} | TOLL FREE{" "}
-                      {result?.header?.CompanyTollFreeNo}{" "}
+                    <div className="lhs2 fsh2_s2">
+                      T {result?.header?.CompanyTellNo} | TOLL FREE{" "} {result?.header?.CompanyTollFreeNo}{" "}
                     </div>
-                    <div className="lhs2">{result?.header?.CompanyEmail}</div>
-                    <div className="lhs2">
+                    <div className="lhs2 fsh2_s2">{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
+                    <div className="lhs2 fsh2_s2">
                       {result?.header?.Company_VAT_GST_No} |{" "}
                       {result?.header?.Company_CST_STATE}-
                       {result?.header?.Company_CST_STATE_No} | PAN-
@@ -227,31 +218,28 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       alt="comapanylogo"
                     /> */}
                     {isImageWorking && (result?.header?.PrintLogo !== "" &&
-                      <img src={result?.header?.PrintLogo} alt=""
-                        className="printlogos2"
-                        onError={handleImageErrors} />)}
-                  </div>
+                      <img src={result?.header?.PrintLogo} alt="" className="printlogos2" onError={handleImageErrors} />)} </div>
                 </div>
                 {/* sub headers */}
                 <div className="subhead1s2 border mt-2 p-1 d-flex justify-content-between">
-                  <div>
-                    INVOICE#: <b>{result?.header?.InvoiceNo}</b>
+                  <div className="fsh3_s2_">
+                    INVOICE#: <b className="fsh3_s2_">{result?.header?.InvoiceNo}</b>
                   </div>
                   <div className="pe-2">
-                    <div>
-                      DATE : <b>{result?.header?.EntryDate}</b>
+                    <div className="fsh3_s2_">
+                      DATE : <b className="fsh3_s2_">{result?.header?.EntryDate}</b>
                     </div>
-                    <div>
+                    <div className="fsh3_s2_">
                       {result?.header?.HSN_No_Label} :{" "}
-                      <b className="fsgs2">{result?.header?.HSN_No}</b>
+                      <b className="fsgs2 fsh3_s2_">{result?.header?.HSN_No}</b>
                     </div>
                   </div>
                 </div>
                 <div className="subhead2s2 d-flex justify-content-between p-2 border border-top-0">
-                  <div className="d-flex">
-                    <div className="fw-bold pe-2">TO,</div>
+                  <div className="d-flex fsh3_s2">
+                    <div className="fw-bold pe-2 fsh2_s2">TO,</div>
                     <div>
-                      <div className="fw-bold">
+                      <div className="fw-bold fsh3_s2">
                         {result?.header?.customerfirmname}
                       </div>
                       <div>{result?.header?.customerstreet}</div>
@@ -272,14 +260,14 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="fw-bold">
+                  <div className="fw-bold fsh3_s2">
                     {result?.header?.MetalRate24K?.toFixed(2)}
                   </div>
                 </div>
                 {/* table */}
                 <div>
                   {/* table head */}
-                  <div className="d-flex fw-bold border border-top-0 theads2">
+                  <div className="d-flex fw-bold border border-top-0 theads2 fsh2_s2">
                     <div className={`${classIs.col1} border-end centers2`}>
                       SR#
                     </div>
@@ -311,10 +299,10 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`${classIs.col11} border-end centers2`}>
                       CSAMT
                     </div>
-                    <div className={`${classIs.col12} border-end centers2`}>
+                    <div className={`${classIs.col12} border-end centers2`} style={{wordBreak:'break-word', display:'flex', justifyContent:'center', alignItems:'center'}} >
                       GOLD FINE
                     </div>
-                    <div className={`${classIs.col13} border-end centers2`}>
+                    <div className={`${classIs.col13} border-end centers2`} style={{wordBreak:'break-word', display:'flex', justifyContent:'center', alignItems:'center'}}>
                       GOLD AMT
                     </div>
                     <div className={`${classIs.col14} centers2`} style={{ width: `${hsnetwt ? '' : '14%'}` }}>AMOUNT</div>
@@ -323,10 +311,10 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div>
                     {result?.resultArray?.map((e, i) => {
                       return (
-                        <div className="d-flex border border-top-0 trows2 pbias2" key={i}>
-                          <div className={`${classIs.col1} border-end d-flex justify-content-center align-items-start`}>{e?.SrNo}</div>
+                        <div className="d-flex border border-top-0 trows2 pbias2 fsh2_s2" key={i}>
+                          <div className={`${classIs.col1} border-end d-flex justify-content-center align-items-start fsh2_s2`}>{i+1}</div>
                           <div className={`${classIs.col2} border-end d-flex flex-column justify-content-between ps-1`}>
-                            <div className="fw-bold d-flex justify-content-between px-1"><div>{e?.designno}</div> {hsbrand ? <div>{e?.BrandName}</div> : ''} </div>
+                            <div className="fw-bold d-flex justify-content-between px-1"><div className="fsh2_s2">{e?.designno}</div> {hsbrand ? <div className="fsh2_s2">({e?.BrandName})</div> : ''} </div>
                             <div className="fw-bold">{e?.SrJobno}</div>
                             {hsimg ? <div className="centers2"><img src={e?.DesignImage} alt="designimage" className="desImgs2" onError={(e) => handleImageError(e)} /></div> : ''}
                             <div className="centers2">{e?.HUID}</div>
@@ -371,7 +359,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </div>
                           <div className={`${classIs.col8} border-end tops2 pe-1`}>{e?.grosswt?.toFixed(3)}</div>
                           {hsnetwt ? <div className={`${classIs.col9} border-end tops2 pe-1`}>{e?.NetWt?.toFixed(3)}</div> : ''}
-                          <div className={`${classIs.col10} border-end tops2 pe-1`}>{formatAmount((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.OtherCharges + e?.TotalDiamondHandling + e?.totals?.finding?.SettingAmount))}</div>
+                          <div className={`${classIs.col10} border-end tops2 pe-1`}>{formatAmount((e?.MiscAmount + e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.OtherCharges + e?.TotalDiamondHandling + e?.totals?.finding?.SettingAmount))}</div>
                           <div className={`${classIs.col11} border-end tops2 pe-1`}>{formatAmount(e?.totals?.colorstone?.Amount)}</div>
                           <div className={`${classIs.col12} border-end tops2 pe-1`}>{e?.convertednetwt?.toFixed(3)}</div>
                           <div className={`${classIs.col13} border-end tops2 pe-1`}>{formatAmount(e?.MetalAmount)}</div>
@@ -381,7 +369,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     })}
                   </div>
                   {/* table total */}
-                  <div className="d-flex fw-bold border border-top-0 theads2 pbias2" style={{ backgroundColor: "#F2F2F2", height: "40px" }}>
+                  <div className="d-flex fw-bold border border-top-0 theads2 pbias2 fsh2_s2 tabtotal_s2" style={{ backgroundColor: "#F2F2F2", height: "40px" }}>
                     <div className={`${classIs.col1} border-end centers2`}></div>
                     <div className={`${classIs.col2} border-end starts2 ps-1`}>TOTAL</div>
                     <div className={`${classIs.col3} border-end centers2`}></div>
@@ -410,7 +398,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {
                       result?.allTaxes?.map((e, i) => {
                         return (
-                          <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-end">{e?.name} @ {e?.per}</div><div className="w-50 d-flex justify-content-end">{e?.amount}</div></div>
+                          <div className="d-flex justify-content-between " key={i}><div className="w-50 d-flex justify-content-end">{e?.name} @ {e?.per}</div><div className="w-50 d-flex justify-content-end">{e?.amount}</div></div>
                         )
                       })
                     }
@@ -418,24 +406,24 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                 </div>
                 {/* grand total */}
-                <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2">
+                <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2 fsh2_s2">
                   <div>Gold in 24K : <b className="fsgs2">{result?.mainTotal?.convertednetwt?.toFixed(3)}</b></div>
                   <div className="fw-bold">TOTAL IN HK$ : {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal))}</div>
                 </div>
                 {/* in words */}
-                <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2">
+                <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2 fsh2_s2">
                   <div className="fw-bold">{toWords.convert(+(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)?.toFixed(2))}</div>
                   <div className="fw-bold">TOTAL  :   HKD {formatAmount(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)} </div>
                 </div>
                 {/* summary */}
-                <div className="border mt-2 pbias2">
+                <div className="border mt-2 pbias2 fsh2_s2">
                   <div className="fw-bold bgcs2 p-1 d-flex flex-wrap" >Summary Detail</div>
                   <div className="d-flex flex-wrap p-1" style={{ minHeight: "50px" }}>
                     {
                       categoryNameWise?.map((e, i) => {
                         return (
                           <div className="w-25" key={i}>
-                            <div>{e?.Categoryname}	 : 	<b>{e?.Quantity}</b></div>
+                            <div className="fsh2_s2">{e?.Categoryname}	 : 	<b className="fsh2_s2">{e?.Quantity}</b></div>
                           </div>
                         )
                       })
@@ -444,23 +432,23 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                 </div>
                 {/* notes  */}
-                <div className="border mt-2 pbias2">
-                  <div className="fw-bold pt-3">NOTE:</div>
-                  <div className="p-1" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }}></div>
+                <div className="border mt-2 pbias2 fsh2_s2">
+                  <div className="fw-bold p-2 pt-3">NOTE:</div>
+                  <div className="p-1 fsh2_s2 danger_s2" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }}></div>
                 </div>
                 {/* remarks */}
-                <div className="py-1 pbias2"><b className="fsgs2">REMARKS:</b> {result?.header?.PrintRemark}</div>
+                <div className="py-1 pbias2 fsh2_s2"><b className="fsgs2 fsh2_s2">REMARKS:</b> {result?.header?.PrintRemark}</div>
                 {/* footer */}
-                <div className="fw-bold py-1 pbias2">TERMS INCLUDED : </div>
-                <div className="d-flex border mt-1 fw-bold pbias2" style={{ height: "5rem" }}>
-                  <div className="w-50 d-flex justify-content-center align-items-end border-end">RECEIVER'S SIGNATURE & SEAL</div>
-                  <div className="w-50 d-flex justify-content-center align-items-end">for,Classmate corporation Pvt Ltd</div>
+                <div className="fw-bold py-1 pbias2 fsh2_s2">TERMS INCLUDED : </div>
+                <div className="d-flex border mt-1 fw-bold pbias2 fsh2_s2" style={{ height: "5rem" }}>
+                  <div className="w-50 d-flex justify-content-center align-items-end border-end fsh2_s2">RECEIVER'S SIGNATURE & SEAL</div>
+                  <div className="w-50 d-flex justify-content-center align-items-end fsh2_s2">for,Classmate corporation Pvt Ltd</div>
                 </div>
 
               </div>
             </>
           ) : (
-            <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
+            <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto fsh2_s2">
               {msg}
             </p>
           )}
