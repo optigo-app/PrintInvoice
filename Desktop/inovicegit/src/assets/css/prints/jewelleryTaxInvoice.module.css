@@ -1,5 +1,17 @@
-.containerJewellery * {
-    font-size: 14px
+.containerJewellery *:not(.declaration *) {
+    font-size: 12px
+}
+
+.font_13, .font_13 *:not(.declaration *){
+    font-size: 13px;
+}
+
+.font_14, .font_14 *:not(.declaration *){
+    font-size: 14px;
+}
+
+.font_15, .font_15 *:not(.declaration *){
+    font-size: 15px;
 }
 
 /* .srNo, .jobNo, .image, .amount{
@@ -10,13 +22,17 @@
     width: 40%;
 } */
 
+.word_Break *{
+    word-break: normal !important;
+}
+
 .image{
     max-height: 100px;
     object-fit: contain;
 }
 
 .generated{
-    font-size: 9px;
+    font-size: 9px !important;
 }
 
 
