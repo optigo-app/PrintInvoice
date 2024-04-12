@@ -772,36 +772,23 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </div>
                                     {/* diamond */}
                                     <div className="pcltbr1c3 fspcl">
-                                      <div
-                                        className="dcolsthpcl fspcl pt-1"
-                                        style={{ width: "27%" }}
-                                      >
-                                        {
+                                      <div className="dcolsthpcl fspcl pt-1" style={{ width: "27%" }} > {
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div
-                                                className="leftpcl fspcl"
-                                                key={i}
-                                              >
+                                              <div className="leftpcl fspcl" key={i} >
                                                 {ele?.ShapeName}
                                               </div>
                                             );
                                           })
                                         }
                                       </div>
-                                      <div
-                                        className="dcolsthpcl fspcl pt-1"
-                                        style={{ width: "27%" }}
-                                      >
+                                      <div className="dcolsthpcl fspcl pt-1" style={{ width: "27%" }} >
                                         {
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div
-                                                className="leftpcl fspcl"
-                                                key={i}
-                                              >
+                                              <div className="leftpcl fspcl" key={i} >
                                                 {ele?.SizeName}
                                               </div>
                                             );
@@ -809,57 +796,36 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           })
                                         }
                                       </div>
-                                      <div
-                                        className="dcolsthpcl fspcl pt-1"
-                                        style={{ width: "22%" }}
-                                      >
+                                      <div className="dcolsthpcl fspcl pt-1" style={{ width: "22%" }} >
                                         {
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div
-                                                className="rightpcl fspcl"
-                                                key={i}
-                                              >
+                                              <div className="rightpcl fspcl" key={i} >
                                                 {ele?.Wt?.toFixed(3)}
                                               </div>
                                             );
                                           })
                                         }
                                       </div>
-                                      <div
-                                        className="dcolsthpcl fspcl pt-1"
-                                        style={{ width: "22%" }}
-                                      >
+                                      <div className="dcolsthpcl fspcl pt-1" style={{ width: "22%" }} >
                                         {
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div
-                                                className="rightpcl fspcl"
-                                                key={i}
-                                              >
+                                              <div className="rightpcl fspcl" key={i} >
                                                 {formatAmount(ele?.Rate)}
                                               </div>
                                             );
                                           })
                                         }
                                       </div>
-                                      <div
-                                        className="dcolsthpcl fspcl pt-1"
-                                        style={{
-                                          borderRight: "0px",
-                                          width: "27%",
-                                        }}
-                                      >
+                                      <div className="dcolsthpcl fspcl pt-1" style={{ borderRight: "0px", width: "27%" }} >
                                         {
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div
-                                                className="rightpcl fspcl "
-                                                key={i}
-                                              >
+                                              <div className="rightpcl fspcl " key={i} >
                                                 {formatAmount(ele?.Amount)}
                                               </div>
                                             );
@@ -873,84 +839,44 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                       {e?.JobRemark !== "" ? (
                                         <>
                                           <div className="w-100 d-flex" style={{borderBottom:"1px solid #989898"}}>
-                                            <div
-                                              className="dcolsthpcl fspcl"
-                                              style={{ width: "22%" }}
-                                            >
+                                            <div className="dcolsthpcl fspcl" style={{ width: "22%" }} >
                                               {
                                                 // eslint-disable-next-line array-callback-return
                                                 e?.metal?.map((ele, i) => {
                                                   return (
-                                                    <div
-                                                      className="leftpcl fspcl p_2_pcl"
-                                                      key={i}
-                                                    >
+                                                    <div className="leftpcl fspcl p_2_pcl" key={i} >
                                                       {" "}
-                                                      {ele?.ShapeName +
-                                                        " " +
-                                                        ele?.QualityName}{" "}
+                                                      {ele?.ShapeName + " " + ele?.QualityName}{" "}
                                                     </div>
                                                   );
                                                 })
                                               }
                                             </div>
-                                            <div
-                                              className="dcolsthpcl rightpcl fspcl p_2_pcl"
-                                              style={{ width: "18%" }}
-                                            >
+                                            <div className="dcolsthpcl rightpcl fspcl p_2_pcl" style={{ width: "18%" }} >
                                               {e?.grosswt?.toFixed(3)}
                                             </div>
-                                            <div
-                                              className="dcolsthpcl rightpcl fspcl p_2_pcl"
-                                              style={{ width: "18%" }}
-                                            >
-                                              {(
-                                                +e?.NetWt?.toFixed(3) +
-                                                +e?.LossWt?.toFixed(3)
-                                              )?.toFixed(3)}
+                                            <div className="dcolsthpcl rightpcl fspcl p_2_pcl" style={{ width: "18%" }} >
+                                              {( +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3) )?.toFixed(3)}
                                             </div>
-                                            <div
-                                              className="dcolsthpcl fspcl p_2_pcl"
-                                              style={{ width: "20%" }}
-                                            >
+                                            <div className="dcolsthpcl fspcl p_2_pcl" style={{ width: "20%" }} >
                                               {
                                                 // eslint-disable-next-line array-callback-return
                                                 e?.metal?.map((ele, i) => {
                                                   return (
-                                                    <div
-                                                      className="rightpcl fspcl "
-                                                      key={i}
-                                                    >
+                                                    <div className="rightpcl fspcl " key={i} >
                                                       {" "}
-                                                      {formatAmount(
-                                                        ele?.Rate
-                                                      )}{" "}
-                                                      {/* {NumberWithCommas(e?.goldPrice, 2)} */}{" "}
+                                                      {formatAmount( ele?.Rate )}{" "} {/* {NumberWithCommas(e?.goldPrice, 2)} */}{" "}
                                                     </div>
                                                   );
                                                 })
                                               }
                                             </div>
-                                            <div
-                                              className="dcolsthpcl fspcl"
-                                              style={{
-                                                borderRight: "0px",
-                                                width: "22%",
-                                              }}
-                                            >
+                                            <div className="dcolsthpcl fspcl" style={{ borderRight: "0px", width: "22%", }} >
                                               {
                                                 // eslint-disable-next-line array-callback-return
                                                 e?.metal?.map((ele, i) => {
                                                   return (
-                                                    <div
-                                                      className="rightpcl fspcl p_2_pcl"
-                                                      key={i}
-                                                    >
-                                                      {" "}
-                                                      {formatAmount(
-                                                        ele?.Amount
-                                                      )}{" "}
-                                                    </div>
+                                                    <div className="rightpcl fspcl p_2_pcl" key={i} > {" "} {formatAmount( ele?.Amount )}{" "} </div>
                                                   );
                                                 })
                                               }
@@ -962,58 +888,30 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </>
                                       ) : (
                                         <div className="w-100 d-flex h-100">
-                                          <div
-                                            style={{ width: "22%" }}
-                                            className="be_1_pcl pt-1"
-                                          >
+                                          <div style={{ width: "22%" }} className="be_1_pcl pt-1" >
                                             {
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div
-                                                    className="leftpcl fspcl"
-                                                    key={i}
-                                                  >
-                                                    {" "}
-                                                    {ele?.ShapeName +
-                                                      " " +
-                                                      ele?.QualityName}{" "}
+                                                  <div className="leftpcl fspcl" key={i} >
+                                                    {" "} {ele?.ShapeName + " " + ele?.QualityName}{" "}
                                                   </div>
                                                 );
                                               })
                                             }
                                           </div>
-                                          <div
-                                            style={{ width: "18%" }}
-                                            className="be_1_pcl d-flex justify-content-end pt-1"
-                                          >
+                                          <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1" >
                                             {e?.grosswt?.toFixed(3)}
                                           </div>
-                                          <div
-                                            style={{ width: "18%" }}
-                                            className="be_1_pcl d-flex justify-content-end pt-1"
-                                          >
-                                            {(
-                                              +e?.NetWt?.toFixed(3) +
-                                              +e?.LossWt?.toFixed(3)
-                                            )?.toFixed(3)}
+                                          <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1" >
+                                            {( +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3) )?.toFixed(3)}
                                           </div>
-                                          <div
-                                            style={{ width: "20%" }}
-                                            className="be_1_pcl "
-                                          >
-                                            {
+                                          <div style={{ width: "20%" }} className="be_1_pcl " > {
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div
-                                                    className="rightpcl fspcl pt-1"
-                                                    key={i}
-                                                  >
-                                                    {" "}
-                                                    {formatAmount(
-                                                      ele?.Rate
-                                                    )}{" "}
+                                                  <div className="rightpcl fspcl pt-1" key={i} > {" "}
+                                                    {formatAmount( ele?.Rate )}{" "}
                                                     {/* {NumberWithCommas(e?.goldPrice, 2)} */}{" "}
                                                   </div>
                                                 );
@@ -1025,14 +923,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div
-                                                    className="rightpcl fspcl pt-1"
-                                                    key={i}
-                                                  >
-                                                    {" "}
-                                                    {formatAmount(
-                                                      ele?.Amount
-                                                    )}{" "}
+                                                  <div className="rightpcl fspcl pt-1" key={i} >
+                                                    {" "} {formatAmount( ele?.Amount )}{" "}
                                                   </div>
                                                 );
                                               })
@@ -1058,54 +950,36 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                                     {/* colorstone */}
                                     <div className="pcltbr1c5 fspcl">
-                                      <div
-                                        className="shpthcolspcl fspcl pt-1"
-                                        style={{ width: "27%" }}
-                                      >
+                                      <div className="shpthcolspcl fspcl pt-1" style={{ width: "27%" }} >
                                         {
                                           // eslint-disable-next-line array-callback-return
                                           e?.colorstone?.map((ele, i) => {
                                             return (
-                                              <div
-                                                className="leftpcl fspcl"
-                                                key={i}
-                                              >
+                                              <div className="leftpcl fspcl" key={i} >
                                                 {ele?.ShapeName}
                                               </div>
                                             );
                                           })
                                         }
                                       </div>
-                                      <div
-                                        className="shpthcolspcl fspcl pt-1"
-                                        style={{ width: "22%" }}
-                                      >
+                                      <div className="shpthcolspcl fspcl pt-1" style={{ width: "22%" }} >
                                         {
                                           // eslint-disable-next-line array-callback-return
                                           e?.colorstone?.map((ele, i) => {
                                             return (
-                                              <div
-                                                className="rightpcl fspcl"
-                                                key={i}
-                                              >
+                                              <div className="rightpcl fspcl" key={i} >
                                                 {ele?.Wt?.toFixed(3)}
                                               </div>
                                             );
                                           })
                                         }
                                       </div>
-                                      <div
-                                        className="shpthcolspcl fspcl pt-1"
-                                        style={{ width: "23%" }}
-                                      >
+                                      <div className="shpthcolspcl fspcl pt-1" style={{ width: "23%" }} >
                                         {
                                           // eslint-disable-next-line array-callback-return
                                           e?.colorstone?.map((ele, i) => {
                                             return (
-                                              <div
-                                                className="rightpcl fspcl"
-                                                key={i}
-                                              >
+                                              <div className="rightpcl fspcl" key={i} >
                                                 {/* {ele?.Rate?.toFixed(2)} */}
                                                 {formatAmount(ele?.Rate)}
                                               </div>
@@ -1113,23 +987,12 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           })
                                         }
                                       </div>
-                                      <div
-                                        className="shpthcolspcl fspcl pt-1"
-                                        style={{
-                                          borderRight: "0px",
-                                          width: "28%",
-                                        }}
-                                      >
+                                      <div className="shpthcolspcl fspcl pt-1" style={{ borderRight: "0px", width: "28%", }} >
                                         {
                                           // eslint-disable-next-line array-callback-return
                                           e?.colorstone?.map((ele, i) => {
                                             return (
-                                              <div
-                                                className="rightpcl fspcl"
-                                                key={i}
-                                              >
-                                                {formatAmount(ele?.Amount)}
-                                              </div>
+                                              <div className="rightpcl fspcl" key={i} > {formatAmount(ele?.Amount)} </div>
                                             );
                                           })
                                         }
@@ -1140,10 +1003,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                       <div className="lopclcol rightpcl fspcl pt-1">
                                         {formatAmount(e?.MaKingCharge_Unit)}
                                       </div>
-                                      <div
-                                        className="lopclcol rightpcl fspcl pt-1"
-                                        style={{ borderRight: "0px" }}
-                                      >
+                                      <div className="lopclcol rightpcl fspcl pt-1" style={{ borderRight: "0px" }} >
                                         {formatAmount(
                                           e?.MakingAmount +
                                             e?.TotalCsSetcost +
@@ -1178,11 +1038,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         {e?.TotalDiamondHandling > 0 &&
                                           "Handling"}
                                       </div>
-                                      <div
-                                        className="lopclcol fspcl pt-1"
-                                        D
-                                        style={{ borderRight: "0px" }}
-                                      >
+                                      <div className="lopclcol fspcl pt-1" D style={{ borderRight: "0px" }} >
                                         <div className=" d-flex flex-column justify-content-end align-items-end pe-1 fspcl">
                                           {e?.misc_separate?.map((el) => {
                                             return (
@@ -1193,14 +1049,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             );
                                           })}
                                           {
-                                            <div>
-                                              {e?.misc_other_amt_label?.Amount >
-                                                0 &&
-                                                formatAmount(
-                                                  e?.misc_other_amt_label
-                                                    ?.Amount
-                                                )}
-                                            </div>
+                                            <div> {e?.misc_other_amt_label?.Amount > 0 && formatAmount( e?.misc_other_amt_label ?.Amount )} </div>
                                           }
                                           {e?.other_details?.map((el) => {
                                             return (
@@ -1228,36 +1077,15 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                       </div>
                                     </div>
                                     {/* price */}
-                                    <div
-                                      className="pcltbr1c7 rightpcl fwboldpcl fspcl pt-1"
-                                      style={{ borderRight: "0px" }}
-                                    >
+                                    <div className="pcltbr1c7 rightpcl fwboldpcl fspcl pt-1" style={{ borderRight: "0px" }} >
                                       {NumberWithCommas(e?.UnitCost, 2)}
                                     </div>
                                   </div>
-                                  <div
-                                    className="tbodyrowpcltot fspcl"
-                                    style={{ borderTop: "1px solid #989898", backgroundColor:'#F5F5F5 !important' }}
-                                  >
-                                    <div
-                                      className="srpcltotrowtb fspcl"
-                                      style={{
-                                        backgroundColor:'#F5F5F5 !important',
-                                        height: "14px",
-                                      }}
-                                    ></div>
-                                    <div
-                                      className="jwlpcltotrowtb fspcl"
-                                      style={{
-                                        backgroundColor:'#F5F5F5 !important',
-                                        height: "14px",
-                                      }}
-                                    ></div>
+                                  <div className="tbodyrowpcltot fspcl" style={{ borderTop: "1px solid #989898", backgroundColor:'#F5F5F5 !important' }} >
+                                    <div className="srpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "14px", }} ></div>
+                                    <div className="jwlpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "14px", }} ></div>
                                     <div className="diapcltotrowtb fspcl">
-                                      <div
-                                        className="dcolsthpcl"
-                                        style={{ width: "27%" }}
-                                      ></div>
+                                      <div className="dcolsthpcl" style={{ width: "27%" }} ></div>
                                       <div
                                         className="dcolsthpcl"
                                         style={{ width: "27%" }}

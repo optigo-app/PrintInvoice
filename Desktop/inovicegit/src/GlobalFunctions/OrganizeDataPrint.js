@@ -481,9 +481,10 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       let obj = {};
       let arr = e?.split("#-#");
       obj.label = arr[0];
-      obj.value = arr[1];
+      obj.value = +(arr[1]);
       resultArr.push(obj);
     });
+    
     brArr = resultArr;
 
   }
