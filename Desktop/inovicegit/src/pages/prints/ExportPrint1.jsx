@@ -185,7 +185,7 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
             {/* title */}
             <div className="border-black border-start border-end border-bottom p-1">
-                <p className="fw-bold text-center fs-6">{json0Data?.PrintHeadLabel} </p>
+                <p className="fw-bold text-center fs-6">GOLD STUDDED JEWELLERY</p>
             </div>
             {/* table heading */}
             <div className={`d-flex  border-black border-bottom border-start border-end ${style.rowExport1}`}>
@@ -233,8 +233,8 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                     })}
                 </div>
-                <div className="col-5">
-                    <div className=" border-black border d-flex">
+                <div className="col-5 d-flex align-items-end">
+                    <div className="w-100 border-black border d-flex">
                         <div className="col-4 d-flex align-items-center justify-content-center p-1  border-black border-end">
                             <p>{NumberWithCommas(grossWt, 3)}</p>
                         </div>
