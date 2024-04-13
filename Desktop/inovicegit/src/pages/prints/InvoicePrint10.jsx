@@ -87,7 +87,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     let misc1Total1 = 0;
     let misc2Total2 = 0;
     let diamondHandling = 0;
-    let totalPcss = []
+    let totalPcss = [];
+    let jobWiseLabourCalc = 0;
+    let jobWiseMinusFindigWt = 0;
     datas?.resultArray?.map((e, i) => {
       let obj = { ...e };
       let findPcss = totalPcss?.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob);
@@ -113,7 +115,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           primaryWt += ele?.Wt;
         }
       });
-      labour.primaryWt += primaryWt;
+      // labour.primaryWt += primaryWt;
       labour.makingAmount += e?.MakingAmount;
       labour.totalAmount += e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost;
       total2.discount += e?.DiscountAmt
@@ -136,12 +138,20 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           resultArr[findRecord].primaryMetal.Amount += obj?.primaryMetal.Amount;
         }
       }
+
+
+      let findingWt = 0;
       e?.finding?.forEach((ele, ind) => {
         if (ele?.ShapeName !== obj?.primaryMetal?.ShapeName && ele?.QualityName !== obj?.primaryMetal?.QualityName) {
           findings?.push(ele);
           total2.total += (ele?.Amount);
         }
+        if (ele?.Supplier?.toLowerCase() === "customer") {
+          findingWt += ele?.Wt
+        }
       });
+      jobWiseLabourCalc += ((e?.MetalDiaWt - findingWt)*e?.MaKingCharge_Unit);
+      jobWiseMinusFindigWt += (e?.MetalDiaWt - findingWt);
 
       e?.diamonds?.forEach((ele, ind) => {
         let findDiamond = diamonds?.findIndex((elem, index) => elem?.isRateOnPcs === ele?.isRateOnPcs);
@@ -212,6 +222,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           otherCharges[findOther].value = +otherCharges[findOther]?.value + +ele?.value;
         }
       });
+
     });
     let totalPcs = totalPcss?.reduce((acc, cObj) => acc + cObj?.value, 0);
     // total2.total += labour?.totalAmount
@@ -219,6 +230,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       (colorStone2Total2 / data?.BillPrint_Json[0]?.CurrencyExchRate) + (misc1Total1 / data?.BillPrint_Json[0]?.CurrencyExchRate) +
       (misc2Total2 / data?.BillPrint_Json[0]?.CurrencyExchRate) + labour?.totalAmount + diamondHandling;
 
+      labour.primaryWt = jobWiseMinusFindigWt;
     console.log(misc2);
     resultArr.sort((a, b) => {
       const labelA = a.MetalTypePurity.toLowerCase();
@@ -238,7 +250,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       }
     });
     console.log(total2?.diamondHandling);
-    setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount,totalPcs: totalPcs, });
+    setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
     setMainData({
       ...mainData, resultArr: resultArr, findings: findings, diamonds: diamonds, colorStones: colorStones,
       miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling
@@ -611,17 +623,17 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(mainData?.diamondHandling, 2)}</p></div>
             </div>
-            { mainData?.otherCharges?.map((e, i) => {
-                return <div className="d-flex" key={i}>
-                  <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>{e?.label}</p></div>
-                  <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
-                  <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
-                  <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p></p></div>
-                  <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
-                  <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
-                  <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(+e?.value, 2)}</p></div>
-                </div>
-              }) }
+            {mainData?.otherCharges?.map((e, i) => {
+              return <div className="d-flex" key={i}>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>{e?.label}</p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(+e?.value, 2)}</p></div>
+              </div>
+            })}
           </div>
         </div>
         {/* total */}

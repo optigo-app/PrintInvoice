@@ -8,9 +8,9 @@
 }
 
 .printBtn{
-    position: fixed;
+    /* position: fixed;
     right: 40px;
-    top: 20px;
+    top: 20px; */
 }
 
 .font_12 *:not(.Declaration *), .font_12{
@@ -52,6 +52,13 @@
     }
     .InvoicePrint_10_11 *, .font_13 *:not(.Declaration *), .font_13{
         font-size: 11px;
+    }
+    .font_15 *:not(.Declaration *), .font_15, .font_14 *:not(.Declaration *), .font_14{
+        font-size: 13px;
+    }
+
+    .font_17 *:not(.Declaration *), .font_17{
+        font-size: 15px;
     }
 
 }
