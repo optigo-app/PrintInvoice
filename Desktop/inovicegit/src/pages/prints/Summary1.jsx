@@ -5,6 +5,7 @@ import {
   apiCall,
   CapitalizeWords,
   FooterComponent,
+  formatAmount,
   handleImageError,
   HeaderComponent,
   isObjectEmpty,
@@ -12,11 +13,14 @@ import {
   SubheaderComponent,
   taxGenrator,
 } from "../../GlobalFunctions";
-import convertor from "number-to-words";
+import convertor, { toWords } from "number-to-words";
 import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
+import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+import { ToWords } from "to-words";
 
 const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
+  const toWords = new ToWords();
   const [headerData, setHeaderData] = useState({});
   const [subHeaderData, setSubHeaderData] = useState({});
   const [footerComponent, setFooterComponent] = useState(null);
@@ -40,6 +44,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
   const [headerComp, setHeaderComp] = useState(null);
   const [isImageWorking, setIsImageWorking] = useState(true);
+  const [result, setResult] = useState(null);
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -280,7 +285,31 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-      countCategorySubCategory(data?.BillPrint_Json1);
+
+      let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+      data.BillPrint_Json[0].address = address;
+ 
+      const datas = OrganizeDataPrint(
+        data?.BillPrint_Json[0],
+        data?.BillPrint_Json1,
+        data?.BillPrint_Json2
+      );
+      setResult(datas);
+        let suminfo = [];
+      datas?.resultArray?.forEach((e, i) => {
+          let findrec = suminfo?.findIndex((el) => el?.Categoryname === e?.Categoryname && el?.SubCategoryname === e?.SubCategoryname)
+          if(findrec === -1){
+            let obj = {...e};
+            obj.count = e?.Quantity;
+            suminfo.push(obj);
+          }else{
+            suminfo[findrec].count += e?.Quantity;
+          }
+      })
+
+      setSummaryDetail(suminfo)
+
+      // countCategorySubCategory(data?.BillPrint_Json1);
       setLoader(false);
     } catch (error) {
       console.log(error);
@@ -322,33 +351,33 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     return counts;
   };
 
-  const countCategorySubCategory = (data) => {
-    let countArr = findKeyValuePair(data, "Categoryname", "SubCategoryname");
-    Object?.keys(countArr)?.forEach((key) => {
-      const [category, subcategory] = key.split("|");
-      if (!subcategory) {
-        delete countArr[category];
-      }
-    });
+  // const countCategorySubCategory = (data) => {
+  //   let countArr = findKeyValuePair(data, "Categoryname", "SubCategoryname");
+  //   Object?.keys(countArr)?.forEach((key) => {
+  //     const [category, subcategory] = key.split("|");
+  //     if (!subcategory) {
+  //       delete countArr[category];
+  //     }
+  //   });
 
-    const countsArray = Object?.entries(countArr)
-      .filter(([key, value]) => key?.includes("|")) // Filter out single category entries
-      .map(([key, value]) => ({ name: key, value }));
+  //   const countsArray = Object?.entries(countArr)
+  //     .filter(([key, value]) => key?.includes("|")) // Filter out single category entries
+  //     .map(([key, value]) => ({ name: key, value }));
 
-    setSummaryDetail(countsArray);
+  //   setSummaryDetail(countsArray);
 
-    let arr1 = countsArray?.slice(0, 3);
-    let arr2 = countsArray?.slice(3, 6);
-    let arr3 = countsArray?.slice(6, 9);
-    let arr4 = countsArray?.slice(9, 12);
-    let obj = {
-      firstArr: arr1,
-      secondArr: arr2,
-      thirdArr: arr3,
-      fourthArr: arr4,
-    };
-    setSummaryDetail(obj);
-  };
+  //   let arr1 = countsArray?.slice(0, 3);
+  //   let arr2 = countsArray?.slice(3, 6);
+  //   let arr3 = countsArray?.slice(6, 9);
+  //   let arr4 = countsArray?.slice(9, 12);
+  //   let obj = {
+  //     firstArr: arr1,
+  //     secondArr: arr2,
+  //     thirdArr: arr3,
+  //     fourthArr: arr4,
+  //   };
+  //   setSummaryDetail(obj);
+  // };
 
   return (
     <>
@@ -364,8 +393,56 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <div className="summary1PrintSum1 pad_60_allPrint mt-4">
                 <div className="summary1allf">
                   <div>
-                    {headerComp}
-                    {subHeaderData}
+                    {/* {headerComp}
+                    {subHeaderData} */}
+                  </div>
+                  <div>
+                  <div className='headlinerti'>{result?.header?.PrintHeadLabel}</div>
+              <div className='headrti border-bottom fsrtis1'>
+              <div>
+                  <div className='fw-bold custss1fs'>{result?.header?.CompanyFullName}</div>
+                  <div>{result?.header?.CompanyAddress?.split(",")[0]}</div>
+                  <div>{result?.header?.CompanyCity} - {result?.header?.CompanyPinCode}, {result?.header?.CompanyState} ({result?.header?.CompanyCountry})</div>
+                  <div>T {result?.header?.CompanyTellNo} | TOLL FREE {result?.header?.CompanyTollFreeNo}</div>
+                  <div>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
+              </div>
+              <div className='pe-4'>  {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                      <img src={result?.header?.PrintLogo} alt="" 
+                      className='w-100 h-auto my-0 mx-auto d-block object-fit-contain'
+                      style={{minHeight:'75px', minWidth:'115px', maxWidth:'117px', maxHeight:'75px'}}
+                      onError={handleImageErrors} height={120} width={150} />)}</div>
+              </div>
+              <div className="border mt-1 d-flex justify-content-between px-1">
+                <div className="w-75 custss1fs2">
+                  <div className="d-flex ">
+                    <div className="fw-bold">INVOICE# : </div>
+                    <div>&nbsp; {result?.header?.InvoiceNo}</div>
+                  </div>
+                </div>
+                <div className="w-25 custss1fs2">
+                  <div className="w-100">
+                    <div className="d-flex align-items-center w-100">
+                      <div className="w-50 fw-bold d-flex justify-content-end align-items-center pe-2">DATE : </div><div className="w-50">{result?.header?.EntryDate}</div></div>
+                    <div className="d-flex align-items-center w-100"><div className="w-50 fw-bold d-flex justify-content-end align-items-center pe-2">{result?.header?.HSN_No_Label} : </div><div className="w-50">{result?.header?.HSN_No}</div></div>
+                  </div>
+                </div>
+              </div>
+              {console.log(result)}
+              <div className="border border-top-0 p-1 fsrtis1">
+                <div className="fw-bold custss1fs">{result?.header?.customerfirmname}</div>
+                <div className="">{result?.header?.customerstreet}</div>
+                <div className="">{result?.header?.customerregion}</div>
+                <div className="">{result?.header?.customercity}</div>
+                <div className="">{result?.header?.customermobileno}</div>
+                <div className="">GSTIN - {result?.header?.Cust_VAT_GST_No} | {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} | PAN - {result?.header?.CustPanno}</div>
+              </div>
+              <div className='subheadrti pt-3 fsrti'>
+              {/* <div className='subheadrti1 fsrti'>
+                <div className='d-flex'><div className='w-50 fw-bold'>BILL NO</div><div className='w-50'>{result?.header?.InvoiceNo}</div></div>
+                <div className='d-flex'><div className='w-50 fw-bold'>DATE</div><div className='w-50'>{result?.header?.EntryDate}</div></div>
+                <div className='d-flex'><div className='w-50 fw-bold'>{result?.header?.HSN_No_Label}</div><div className='w-50'>{result?.header?.HSN_No}</div></div>
+              </div> */}
+              </div>
                   </div>
                   <div className="tableSectionSum1">
                     <div className="theadsum1">
@@ -381,16 +458,17 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="wthsum1">OTHER</div>
                       <div className="wthsum1 brightsum1">TOTAL</div>
                     </div>
-                    {resultArray?.map((e, i) => {
+                    {result?.resultArray?.map((e, i) => {
                       return (
                         <div key={i}>
                           {i !== 0 && i % 12 === 0 ? (
                             <div>
                               <div className="page_break_after"></div>
-                              <div className="head1sum1">
+                              <div className='headlinerti'>{result?.header?.PrintHeadLabel}</div>
+                              {/* <div className="head1sum1">
                                 {headerData?.PrintHeadLabel}
-                              </div>
-                              <div className="head2sum1">
+                              </div> */}
+                              {/* <div className="head2sum1">
                                 <div className="subhead2sum1">
                                   <div className="headingsum1">
                                     {headerData?.CompanyFullName}
@@ -414,38 +492,35 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   </div>
                                 </div>
                                 <div>
-                                  {/* <img
-                                    src={headerData?.PrintLogo}
-                                    id="sum1Img"
-                                    alt="#summary1"
-                                  /> */}
-
                                   {isImageWorking && (headerData?.PrintLogo !== "" &&
                                     <img   src={headerData?.PrintLogo}
                                     id="sum1Img"
                                     alt="#summary1"
                                       onError={handleImageErrors} />)}
                                 </div>
-                              </div>
+                              </div> */}
+                               <div className='headrti border-bottom fsrtis1'>
+              <div>
+                  <div className='fw-bold custss1fs'>{result?.header?.CompanyFullName}</div>
+                  <div>{result?.header?.CompanyAddress?.split(",")[0]}</div>
+                  <div>{result?.header?.CompanyCity} - {result?.header?.CompanyPinCode}, {result?.header?.CompanyState} ({result?.header?.CompanyCountry})</div>
+                  <div>T {result?.header?.CompanyTellNo} | TOLL FREE {result?.header?.CompanyTollFreeNo}</div>
+                  <div>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
+              </div>
+              <div className='pe-4'>  {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                      <img src={result?.header?.PrintLogo} alt="" 
+                      className='w-100 h-auto my-0 mx-auto d-block object-fit-contain'
+                      style={{minHeight:'75px', minWidth:'115px', maxWidth:'117px', maxHeight:'75px'}}
+                      onError={handleImageErrors} height={120} width={150} />)}</div>
+                               </div>
                               <div className="tbodysum1">
-                                <div className="wtbsum1 srwsum1">{e?.SrNo}</div>
+                                <div className="wtbsum1 srwsum1 " style={{fontSize:'11px'}}>{ i + 1 }</div>
                                 <div className="wtbsum1 designwsum1 d-flex justify-content-around">
                                   <div>
-                                    <img
-                                      src={e?.DesignImage}
-                                      alt="#summary1"
-                                      id="imgDySum1"
-                                      onError={handleImageError}
-                                    />
+                                    <img src={e?.DesignImage} alt="#summary1" id="imgDySum1" onError={handleImageError} />
                                   </div>
                                   <div className="designContentsum1">
-                                    <p
-                                      className="brbdesignsum1"
-                                      style={{
-                                        fontWeight: "bold",
-                                        textAlign: "center",
-                                      }}
-                                    >
+                                    <p className="brbdesignsum1" style={{ fontWeight: "bold", textAlign: "center", }} >
                                       {e?.designno}
                                     </p>
                                     <p className="brbdesignsum1 brbs1">
@@ -475,41 +550,25 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   {e?.totals?.colorstone?.Wt?.toFixed(3)}
                                 </div>
                                 <div className="wtbsum1 alignrightsum1">
-                                  {NumberWithCommas(e?.OtherCharges, 2)}
+                                  {/* {NumberWithCommas(e?.OtherCharges, 2)} */}
+                                  {formatAmount(e?.OtherCharges)}
                                 </div>
                                 <div className="wtbsum1 brightsum1 alignrightsum1">
-                                  <p
-                                    dangerouslySetInnerHTML={{
-                                      __html: headerData?.Currencysymbol,
-                                    }}
-                                  ></p>
-                                  {NumberWithCommas(e?.TotalAmount, 2)}
+                                  <p dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol, }} ></p>
+                                  {/* {NumberWithCommas(e?.TotalAmount, 2)} */}
+                                  {formatAmount(e?.TotalAmount)}
                                 </div>
                               </div>
                             </div>
                           ) : (
                             <div className="tbodysum1">
-                              <div className="wtbsum1 srwsum1" style={{ fontSize: "11px" }}>{e?.SrNo}</div>
+                              <div className="wtbsum1 srwsum1" style={{ fontSize: "11px" }}>{ i + 1 }</div>
                               <div className="wtbsum1 designwsum1 d-flex justify-content-around p-1">
                                 <div>
-                                  <img
-                                    src={e?.DesignImage}
-                                    alt="#summary1"
-                                    id="imgDySum1"
-                                    onError={handleImageError}
-                                  />
+                                  <img src={e?.DesignImage} alt="#summary1" id="imgDySum1" onError={handleImageError} />
                                 </div>
                                 <div className="designContentsum1">
-                                  <p
-                                    className="brbdesignsum1"
-                                    style={{
-                                      fontWeight: "bold",
-                                      textAlign: "center",
-                                      paddingBottom: "4px",
-                                      lineHeight: "8px",
-                                      fontSize: "11px"
-                                    }}
-                                  >
+                                  <p className="brbdesignsum1" style={{ fontWeight: "bold", textAlign: "center", paddingBottom: "4px", lineHeight: "8px", fontSize: "11px" }} >
                                     {e?.designno}
                                   </p>
                                   <p className="brbdesignsum1 brbs1" style={{ fontSize: "11px" }}>
@@ -517,37 +576,35 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   </p>
                                 </div>
                               </div>
-                              <div className="wtbsum1 alignleftsum1">
+                              <div className="wtbsum1 alignleftsum1 ps-1">
                                 {e?.MetalTypePurity}
                               </div>
-                              <div className="wtbsum1 alignrightsum1">
+                              <div className="wtbsum1 alignrightsum1 pe-1">
                                 {e?.grosswt?.toFixed(3)}
                               </div>
-                              <div className="wtbsum1 alignrightsum1">
+                              <div className="wtbsum1 alignrightsum1 pe-1">
                                 {e?.NetWt?.toFixed(3)}
                               </div>
-                              <div className="wtbsum1 alignrightsum1">
+                              <div className="wtbsum1 alignrightsum1 pe-1">
                                 {e?.totals?.diamonds?.Pcs}
                               </div>
-                              <div className="wtbsum1 alignrightsum1">
+                              <div className="wtbsum1 alignrightsum1 pe-1">
                                 {e?.totals?.diamonds?.Wt?.toFixed(3)}
                               </div>
-                              <div className="wtbsum1 alignrightsum1">
+                              <div className="wtbsum1 alignrightsum1 pe-1">
                                 {e?.totals?.colorstone?.Pcs}
                               </div>
-                              <div className="wtbsum1 alignrightsum1">
+                              <div className="wtbsum1 alignrightsum1 pe-1">
                                 {e?.totals?.colorstone?.Wt?.toFixed(3)}
                               </div>
-                              <div className="wtbsum1 alignrightsum1">
-                                {NumberWithCommas(e?.otherMisc, 2)}
+                              <div className="wtbsum1 alignrightsum1 pe-1">
+                                {/* {NumberWithCommas(e?.otherMisc, 2)} */}
+                                { (e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount) === 0.00 ? '' : ( formatAmount((e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount)))}
                               </div>
-                              <div className="wtbsum1 brightsum1 alignrightsum1">
-                                <p
-                                  dangerouslySetInnerHTML={{
-                                    __html: headerData?.Currencysymbol,
-                                  }}
-                                ></p>
-                                {NumberWithCommas(e?.TotalAmount, 2)}
+                              <div className="wtbsum1 brightsum1 alignrightsum1 pe-1">
+                                <p dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol, }} ></p>
+                                {/* {NumberWithCommas(e?.TotalAmount, 2)} */}
+                                {formatAmount(e?.TotalAmount)}
                               </div>
                             </div>
                           )}
@@ -563,65 +620,63 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <b className="totrowfssum1">TOTAL</b>
                         </div>
                         <div className="wtbsum1 htotalrowsum1 alignrightsum1">
-                          <b className="totrowfssum1">
-                            {totalgrosswt?.toFixed(3)}
+                          <b className="totrowfssum1 pe-1">
+                            {result?.mainTotal?.grosswt?.toFixed(3)}
                           </b>
                         </div>
                         <div className="wtbsum1 htotalrowsum1 alignrightsum1">
-                          <b className="totrowfssum1">
-                            {totalnetlosswt?.toFixed(3)}
+                          <b className="totrowfssum1 pe-1">
+                            {/* {totalnetlosswt?.toFixed(3)} */}
+                            {/* {(formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt))} */}
+                            {((result?.mainTotal?.netwt + result?.mainTotal?.lossWt)?.toFixed(3))}
+                            {/* {((result?.mainTotal?.IsPrimaryMetal)?.toFixed(3))} */}
                           </b>
                         </div>
                         <div className="wtbsum1 htotalrowsum1 alignrightsum1">
-                          <b className="totrowfssum1">
-                            {mainObj?.mainTotal?.diamonds?.Pcs}
+                          <b className="totrowfssum1 pe-1">
+                            {result?.mainTotal?.diamonds?.Pcs}
                           </b>
                         </div>
                         <div className="wtbsum1 htotalrowsum1 alignrightsum1">
-                          <b className="totrowfssum1">
-                            {mainObj?.mainTotal?.diamonds?.Wt?.toFixed(3)}
+                          <b className="totrowfssum1 pe-1">
+                            {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                           </b>
                         </div>
                         <div className="wtbsum1 htotalrowsum1 alignrightsum1">
-                          <b className="totrowfssum1">
-                            {mainObj?.mainTotal?.colorstone?.Pcs}
+                          <b className="totrowfssum1 pe-1">
+                            {result?.mainTotal?.colorstone?.Pcs}
                           </b>
                         </div>
                         <div className="wtbsum1 htotalrowsum1 alignrightsum1">
-                          <b className="totrowfssum1">
-                            {mainObj?.mainTotal?.colorstone?.Wt?.toFixed(3)}
+                          <b className="totrowfssum1 pe-1">
+                            {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
                           </b>
                         </div>
                         <div className="wtbsum1 htotalrowsum1 alignrightsum1">
-                          <b className="totrowfssum1">
-                            {NumberWithCommas(totalOtherAmount, 2)}
+                          <b className="totrowfssum1 pe-1">
+                            {/* {NumberWithCommas(totalOtherAmount, 2)} */}
+                            {formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount))}
                           </b>
                         </div>
                         <div className="wtbsum1 brightsum1 htotalrowsum1 alignrightsum1">
-                          <b className="totrowfssum1 d-flex align-items-center">
-                            <p
-                              dangerouslySetInnerHTML={{
-                                __html: headerData?.Currencysymbol,
-                              }}
-                            ></p>
-                            {NumberWithCommas(TotalAmount, 2)}
+                          <b className="totrowfssum1 d-flex align-items-center pe-1">
+                            <p dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol, }} ></p>
+                            {/* {NumberWithCommas(TotalAmount, 2)} */}
+                            &nbsp;{formatAmount(result?.mainTotal?.total_amount)}
                           </b>
                         </div>
                       </div>
                       <div className="totaldesignsum1">
-                        {taxTotal?.length > 0 &&
-                          taxTotal?.map((e, i) => {
+                        {result?.allTaxes?.length > 0 &&
+                          result?.allTaxes?.map((e, i) => {
                             return (
-                              <div
-                                className="d-flex justify-content-between"
-                                style={{ width: "27%" }}
-                                key={i}
-                              >
+                              <div className="d-flex justify-content-between" style={{ width: "27%" }} key={i} >
                                 <div className="w-50 d-flex justify-content-end fs-6" style={{ borderLeft: "1px solid #e8e8e8" }}>
                                   {e?.name} {e?.per}
                                 </div>
-                                <div className="w-50 d-flex justify-content-end fs-6">
-                                  {NumberWithCommas(e?.amount, 2)}
+                                <div className="w-50 d-flex justify-content-end fs-6 pe-1">
+                                  {/* {NumberWithCommas(e?.amount, 2)} */}
+                                  {formatAmount(e?.amount)}
                                 </div>
                               </div>
                             );
@@ -629,79 +684,61 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                         <div className="d-flex justify-content-between wtotsum1">
                           <p className="totgstsum1 gsttotsum1 fw-bold">
-                            {headerData?.AddLess > 0 ? "ADD" : "Less"}
+                            {result?.header?.AddLess > 0 ? "ADD" : "Less"}
                           </p>
-                          <p className="totgstsum1 fw-bold">
-                            {headerData?.AddLess?.toFixed(2)}
+                          <p className="totgstsum1 fw-bold pb-1 pe-1">
+                            {result?.header?.AddLess?.toFixed(2)}
                           </p>
                         </div>
                       </div>
                       <div className="grandtotalsum1">
-                        <div className="amtwordssum1 px-2">{inWords}</div>
+                        {/* <div className="amtwordssum1 px-2">{inWords}</div> */}
+                        <div className="amtwordssum1 px-2">{toWords?.convert(+(result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess)?.toFixed(2))}</div>
                         <div className="amtwordssum1 wtotsum1 d-flex align-items-center justify-content-end wgtsum1">
                           <div className="d-flex justify-content-end w-50 fs-6">
                             Grand Total :
                           </div>
-                          <div className="d-flex justify-content-end w-50 fs-6">
-                            <p
-                              dangerouslySetInnerHTML={{
-                                __html: headerData?.Currencysymbol,
-                              }}
-                            ></p>
-                            {NumberWithCommas(finalAmount, 2)}
+                          <div className="d-flex justify-content-end w-50 fs-6 pe-1">
+                            <p dangerouslySetInnerHTML={{ __html: result?.header?.Currencysymbol, }} ></p>
+                            {/* {NumberWithCommas(finalAmount, 2)} */}
+                            {formatAmount((result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess))}
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="summarysum1">
-                      <div className="summarysum1fs">Summary Detail</div>
+                      <div className="summarysum1fs fw-bold">Summary Detail</div>
                       <div className="summaryDetailsum1">
-                        <div className="wsummarySum1">
-                          {summaryDetail?.firstArr?.map((e, i) => {
+                        {/* <div className="wsummarySum1 d-flex flex-wrap"> */}
+                        <div className=" d-flex flex-wrap p-1">
+                          {summaryDetail?.map((e, i) => {
                             return (
-                              <div key={i} className="d-flex arrSum1">
-                                <div
-                                  className="summwsum1 fs13sum1"
-                                  style={{ width: "60%" }}
-                                >
-                                  {e?.name}
+                              // <div key={i} className="d-flex arrSum1">
+                              <div key={i} className="d-flex arrSum1 w-25 pe-2">
+                                <div className="summwsum1 fs13sum1 fw-normal" style={{ width: "70%", lineHeight:'9px' }} >
+                                  {e?.Categoryname} | {e?.SubCategoryname}
                                 </div>
-                                <div
-                                  className="summwsum1 fs13sum1"
-                                  style={{ width: "20%" }}
-                                >
+                                <div className="summwsum1 fs13sum1" style={{ width: "10%" }} >
                                   :
                                 </div>
-                                <div
-                                  className="summwsum1 fs13sum1"
-                                  style={{ width: "20%" }}
-                                >
-                                  {e?.value}
+                                <div className="summwsum1 fs13sum1" style={{ width: "20%" }} >
+                                  {e?.count}
                                 </div>
                               </div>
                             );
                           })}
                         </div>
-                        <div className="wsummarySum1">
+                        {/* <div className="wsummarySum1">
                           {summaryDetail?.secondArr?.map((e, i) => {
                             return (
                               <div className="d-flex arrSum1" key={i}>
-                                <div
-                                  className="summwsum1 fs13sum1"
-                                  style={{ width: "60%" }}
-                                >
+                                <div className="summwsum1 fs13sum1" style={{ width: "60%" }} >
                                   {e?.name}
                                 </div>
-                                <div
-                                  className="summwsum1 fs13sum1"
-                                  style={{ width: "20%" }}
-                                >
+                                <div className="summwsum1 fs13sum1" style={{ width: "20%" }} >
                                   :
                                 </div>
-                                <div
-                                  className="summwsum1 fs13sum1"
-                                  style={{ width: "20%" }}
-                                >
+                                <div className="summwsum1 fs13sum1" style={{ width: "20%" }} >
                                   {e?.value}
                                 </div>
                               </div>
@@ -712,24 +749,13 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           {summaryDetail?.thirdArr?.map((e, i) => {
                             return (
                               <div className="d-flex arrSum1" key={i}>
-                                <div
-                                  className="summwsum1 fs13sum1"
-                                  style={{ width: "60%" }}
-                                >
+                                <div className="summwsum1 fs13sum1" style={{ width: "60%" }} >
                                   {e?.name}
                                 </div>
-                                <div
-                                  className="summwsum1 fs13sum1"
-                                  style={{ width: "20%" }}
-                                >
+                                <div className="summwsum1 fs13sum1" style={{ width: "20%" }} >
                                   :
                                 </div>
-                                <div
-                                  className="summwsum1 fs13sum1"
-                                  style={{ width: "20%" }}
-                                >
-                                  {e?.value}
-                                </div>
+                                <div className="summwsum1 fs13sum1" style={{ width: "20%" }} > {e?.value} </div>
                               </div>
                             );
                           })}
@@ -738,51 +764,33 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           {summaryDetail?.fourthArr?.map((e, i) => {
                             return (
                               <div className="d-flex arrSum1" key={i}>
-                                <div
-                                  className="summwsum1 fs13sum1"
-                                  style={{ width: "60%" }}
-                                >
+                                <div className="summwsum1 fs13sum1" style={{ width: "60%" }} >
                                   {e?.name}
                                 </div>
-                                <div
-                                  className="summwsum1 fs13sum1"
-                                  style={{ width: "20%" }}
-                                >
+                                <div className="summwsum1 fs13sum1" style={{ width: "20%" }} >
                                   :
                                 </div>
-                                <div
-                                  className="summwsum1 fs13sum1"
-                                  style={{ width: "20%" }}
-                                >
+                                <div className="summwsum1 fs13sum1" style={{ width: "20%" }} >
                                   {e?.value}
                                 </div>
                               </div>
                             );
                           })}
-                        </div>
+                        </div> */}
                       </div>
                     </div>
-                    <div className="notessum1">
+                    <div className="notessum1 p-1">
                       <div className="noteSum1">NOTE :</div>
-                      <div
-                        className="noteDemosum1"
-                        dangerouslySetInnerHTML={{
-                          __html: headerData?.Declaration,
-                        }}
-                      ></div>
+                      <div className="noteDemosum1" dangerouslySetInnerHTML={{ __html: headerData?.Declaration, }} ></div>
                     </div>
                     <div className="remarkSum1">
                       REMARKS IF ANY :
-                      <p
-                        className="remarkValSum1"
-                        dangerouslySetInnerHTML={{
-                          __html: headerData?.PrintRemark,
-                        }}
-                      ></p>
-                    </div>
+                      <p className="remarkValSum1" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark, }} ></p> </div>
                   </div>
-                  <div className="w-100">
-                    {footerComponent}
+                  <div className="w-100 border mt-1 fw-bold d-flex">
+                    {/* {footerComponent} */}
+                    <div className="w-50 border-end minhs1 d-flex justify-content-center align-items-end"> RECEIVER's NAME & SIGNATURE</div>
+                    <div className="w-50 d-flex justify-content-center align-items-end">for,ORAIL SERVICE</div>
                   </div>
                 </div>
               </div>
