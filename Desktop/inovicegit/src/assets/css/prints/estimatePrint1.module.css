@@ -36,4 +36,8 @@
     .estimate1Container .font_12, .estimate1Container .font_12 *{
         font-size: 9px;
     }
+
+    .estimate1Container{
+        padding-top: 150px;
+    }
 }

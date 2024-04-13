@@ -211,6 +211,9 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     dataArr[findData].TotalDiamondHandling += obj?.TotalDiamondHandling;
                     dataArr[findData].DiamondAmount += obj?.DiamondAmount
                     dataArr[findData].grosswt += obj?.grosswt
+                    dataArr[findData].MiscAmount += obj?.MiscAmount;
+                    dataArr[findData].TotalDiaSetcost += obj?.TotalDiaSetcost;
+                    dataArr[findData].TotalCsSetcost += obj?.TotalCsSetcost;
 
                     let metals = [...dataArr[findData]?.metals, ...obj?.metals]?.flat();
                     let blankMetals = []
@@ -389,7 +392,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{NumberWithCommas(e?.grosswt, 3)}	</p></div>
                                 <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
                                 <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{NumberWithCommas(e?.netWtlossWt, 3)}</p></div>
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''>{e?.netWtlossWt !== 0 && NumberWithCommas((e?.MetalAmount / json0Data?.CurrencyExchRate)/e?.netWtlossWt, 2)}</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''>{e?.netWtlossWt !== 0 && NumberWithCommas((e?.MetalAmount / json0Data?.CurrencyExchRate) / e?.netWtlossWt, 2)}</p></div>
                             </div>
                             {e?.diamonds.map((ele, ind) => {
                                 return <div className="d-flex border-bottom" key={ind}>
@@ -502,7 +505,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <p className='px-1 text-end'>Total Amt. before Tax</p>
                         </div>
                         <div className="col-5">
-                            <p className='px-1 text-end' style={{ wordBreak: "break-all" }}>{NumberWithCommas(total?.TotalAmount/json0Data?.CurrencyExchRate, 2)}</p>
+                            <p className='px-1 text-end' style={{ wordBreak: "break-all" }}>{NumberWithCommas(total?.TotalAmount / json0Data?.CurrencyExchRate, 2)}</p>
                         </div>
                     </div>
                     <div className="d-flex">
