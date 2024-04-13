@@ -329,11 +329,11 @@
     padding-bottom: 10px;
 }
 
-.noteDemosum1 {
+.noteDemosum1 *{
     line-height: 20px;
     font-weight: bold;
-    font-size: 15px;
-    padding: 3px;
+    font-size: 12px;
+    padding: 5px;
 }
 
 .addSum1 {
@@ -461,7 +461,9 @@
   .minhs1{
     height: 6rem;
   }
-  
+  .container_summary table td{
+        padding: 0px;
+  }
 @media print {
     .page_break_after {
         page-break-after: always;
@@ -469,7 +471,9 @@
     .summary1PrintSum1{
         page-break-inside: avoid;
     }
-    
+    .pgbia{
+        page-break-inside: avoid;
+    }
         .print_sec_sum4, .btnpcl {
             display: none !important;
           }
@@ -479,5 +483,37 @@
             width: 80px;
             padding-right: 1rem;
         }
+        .minhs1{
+            height: 4rem;
+          }
           
+  .fsrtis1{
+    font-size: 10px;
+  }
+  .custnamefsrti{
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .cmpnamerti{
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 30px;
+  }
+  .custss1fs{
+    font-size: 15px;
+  }
+  .custss1fs2{
+    font-size: 13px;
+  }
+  .summarysum1fs{
+    height: 20px;
+  }
+  .theadsum1{
+    height: 25px;
+  }
+  .grandtotalsum1{
+    height: 25px;
+  }
+
+
 }
