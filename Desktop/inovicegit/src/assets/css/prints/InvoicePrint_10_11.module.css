@@ -1,4 +1,4 @@
-.InvoicePrint_10_11 *{
+.InvoicePrint_10_11 *:not(.Declaration *){
     font-size: 14px;
     word-break: normal;
 }
@@ -13,9 +13,45 @@
     top: 20px;
 }
 
+.font_12 *:not(.Declaration *), .font_12{
+    font-size: 12px;
+}
+
+.font_16 *:not(.Declaration *), .font_16{
+    font-size: 16px;
+}
+
+.font_15 *:not(.Declaration *), .font_15{
+    font-size: 15px;
+}
+
+.font_14 *:not(.Declaration *), .font_14{
+    font-size: 14px;
+}
+
+.font_13 *:not(.Declaration *), .font_13{
+    font-size: 13px;
+}
+
+.font_17 *:not(.Declaration *), .font_17{
+    font-size: 17px;
+}
+
+.footer{
+    align-items: unset !important;
+}
+
+.footers{
+    min-height: unset !important;
+    height: unset !important;
+}
 
 @media print{
     .print_sec_sum4{
         display: none !important;
     }
+    .InvoicePrint_10_11 *, .font_13 *:not(.Declaration *), .font_13{
+        font-size: 11px;
+    }
+
 }

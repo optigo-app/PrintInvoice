@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import style from "../../assets/css/prints/estimationPrint.module.css"
-import { NumberWithCommas, apiCall, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, fixedValues, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { cloneDeep } from 'lodash';
@@ -96,12 +96,12 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
             let impDiamonds = cloneDeep(e?.diamonds);
             let blankDia = [];
             impDiamonds?.forEach((ele, ind) => {
-                let findDia = blankDia?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && 
-                elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && 
-                elem?.SizeName === ele?.SizeName);
-                if(findDia === -1){
+                let findDia = blankDia?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName &&
+                    elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName &&
+                    elem?.SizeName === ele?.SizeName);
+                if (findDia === -1) {
                     blankDia?.push(ele);
-                }else{
+                } else {
                     blankDia[findDia].Wt += ele?.Wt;
                     blankDia[findDia].Pcs += ele?.Pcs;
                     blankDia[findDia].Amount += ele?.Amount;
@@ -289,7 +289,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                         <div className="col-2"><p className='p-1'>{ele?.SizeName}</p></div>
                                         <div className="col-2"><p className='p-1 text-center'>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
                                         <div className="col-2"><p className='p-1 text-end'>{NumberWithCommas(ele?.Wt, 3)}</p></div>
-                                        <div className="col-2"><p className='p-1 text-end'>{NumberWithCommas(ele?.Rate, 0)}</p></div>
+                                        <div className="col-2"><p className='p-1 text-end'>{ele?.Wt !== 0 && NumberWithCommas(Math.round(ele?.Amount / ele?.Wt, 2), 0)}</p></div>
                                         <div className="col-2"><p className='p-1 text-end fw-bold'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                                     </div>
                                 })}
