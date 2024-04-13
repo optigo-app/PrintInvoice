@@ -19,7 +19,8 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
     const [clrwise, setClrwise] = useState([]);
     const [miscwise, setMiscwise] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
-
+    const [total_makingcharge_unit, setTotalMakingChargeUnit] = useState(0);
+    const [total_count, setTotalCount] = useState(0);
     const loadData = (data) => {
       let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
       data.BillPrint_Json[0].address = address;
@@ -29,7 +30,16 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-      
+      let totrate = 0;
+      let count = 0;
+      datas?.resultArray?.forEach((e) => {
+        if(e?.MaKingCharge_Unit !== 0){
+          totrate += e?.MaKingCharge_Unit;
+          count++;
+        }
+      })
+      setTotalCount(count);
+      setTotalMakingChargeUnit(totrate);
       let met = [];
       let dia = [];
       let clr = [];
@@ -268,7 +278,8 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                             <div className='d-flex'>
                               <div className='tcol1rti ps-2'>LABOUR </div>
                               <div className='tcol2rti end_rti pe-1'></div>
-                              <div className='tcol3rti end_rti pe-1'>{formatAmount((result?.mainTotal?.total_Making_Amount / ((result?.mainTotal?.netwt + result?.mainTotal?.lossWt))))}</div>
+                              {/* <div className='tcol3rti end_rti pe-1'>{formatAmount((result?.mainTotal?.total_Making_Amount / ((result?.mainTotal?.netwt + result?.mainTotal?.lossWt))))}</div> */}
+                              <div className='tcol3rti end_rti pe-1'>{formatAmount((total_makingcharge_unit / total_count))}</div>
                               <div className='tcol4rti brrightrti end_rti pe-1'>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount + result?.mainTotal?.misc?.Amount + result?.mainTotal?.total_diamondHandling))}</div>
                             </div>  
                     {
