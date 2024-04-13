@@ -10,6 +10,7 @@ import {
   NumberWithCommas,
 } from "../../GlobalFunctions";
 import { OrganizeDataPrint } from "./../../GlobalFunctions/OrganizeDataPrint";
+import cloneDeep from "lodash/cloneDeep";
 
 const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState({});
@@ -412,44 +413,75 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-    console.log(datas);
 
-    let misc_other = [];
-    datas?.resultArray?.forEach((e, index) => {
-      let misc_other_amt_label = {
-        Amount: 0,
-        label: "Other",
-      };
-      e?.misc?.forEach((el) => {
-        if (
-          !el?.ShapeName?.includes("Certification") &&
-          el?.ShapeName !== "Hallmark" &&
-          el?.ShapeName !== "Stamping"
-        ) {
-          misc_other_amt_label.Amount += el?.Amount;
-        }
-      });
-      datas.resultArray[index].misc_other_amt_label = misc_other_amt_label;
-    });
+    // let misc_other = [];
+    // datas?.resultArray?.forEach((e, index) => {
+    //   let misc_other_amt_label = {
+    //     Amount: 0,
+    //     label: "Other",
+    //   };
+    //   e?.misc?.forEach((el) => {
+    //     if (
+    //       !el?.ShapeName?.includes("Certification") &&
+    //       el?.ShapeName !== "Hallmark" &&
+    //       el?.ShapeName !== "Stamping"
+    //     ) {
+    //       misc_other_amt_label.Amount += el?.Amount;
+    //     }
+    //   });
+    //   datas.resultArray[index].misc_other_amt_label = misc_other_amt_label;
+    // });
 
-    datas?.resultArray?.forEach((e, index) => {
-      let misc_separate = [];
-      e?.misc?.forEach((el) => {
-        if (
-          el?.ShapeName?.includes("Certification") ||
-          el?.ShapeName === "Hallmark" ||
-          el?.ShapeName === "Stamping"
-        ) {
-          misc_separate.push(el);
-        }
-      });
-      datas.resultArray[index].misc_separate = misc_separate;
-    });
+    // datas?.resultArray?.forEach((e, index) => {
+    //   let misc_separate = [];
+    //   e?.misc?.forEach((el) => {
+    //     if (
+    //       el?.ShapeName?.includes("Certification") ||
+    //       el?.ShapeName === "Hallmark" ||
+    //       el?.ShapeName === "Stamping"
+    //     ) {
+    //       misc_separate.push(el);
+    //     }
+    //   });
+    //   datas.resultArray[index].misc_separate = misc_separate;
+    // });
+    
+      datas?.resultArray?.forEach((e) => {
+        let dia = [];
+        e?.diamonds?.forEach((el) => {
+          let obj = cloneDeep(el);
+          let findrec = dia?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.SizeName === el?.SizeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname)
+          if(findrec === -1){
+            dia.push(obj)
+          }else{
+            dia[findrec].Wt += obj?.Wt;
+            dia[findrec].Pcs += obj?.Pcs;
+            dia[findrec].Amount += obj?.Amount;
+          }
+        })
+        e.diamonds = dia;
+
+        let clr = [];
+        e?.colorstone?.forEach((el) => {
+          let obj = cloneDeep(el);
+          let findrec = clr?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.SizeName === el?.SizeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname)
+          if(findrec === -1){
+            clr.push(obj)
+          }else{
+            clr[findrec].Wt += obj?.Wt;
+            clr[findrec].Pcs += obj?.Pcs;
+            clr[findrec].Amount += obj?.Amount;
+          }
+        })
+        e.colorstone = clr;
+
+
+      })
 
     setResult(datas);
     setLoader(false);
   };
-
+console.log(result);
   // dynamicList2?.length > 0 &&
   //   // eslint-disable-next-line array-callback-return
   //   dynamicList2?.map((e, i) => {
@@ -509,17 +541,12 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <>
           {msg === "" ? (
             <>
-              <div className="btnpcl">
-                <Button />
-              </div>
+              <div className="btnpcl"> <Button /> </div>
               <div className="pclprint pad_60_allPrint">
                 <div className="pclheader">
                   <div className="orailpcl">
-                  {isImageWorking && (result?.header?.PrintLogo !== "" && 
-                      <img src={result?.header?.PrintLogo} alt="" 
-                      className='w-100 h-auto ms-auto d-block object-fit-contain'
-                      onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
-                    {/* <img
+                  {isImageWorking && (result?.header?.PrintLogo !== "" && <img src={result?.header?.PrintLogo} alt="" className='w-100 h-auto ms-auto d-block object-fit-contain' onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
+                       {/* <img
                       src={result?.header?.PrintLogo}
                       alt="orail"
                       id="orailpcl"
@@ -535,46 +562,19 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {result?.header?.PrintHeadLabel}
                   </div>
                   <div className="d-flex fw-bold justify-content-center align-items-center">
-                    (
-                    {result?.header?.PrintRemark === "" ? (
-                      ""
-                    ) : (
-                      <b
-                        className="d-flex fspcl"
-                        dangerouslySetInnerHTML={{
-                          __html: result?.header?.PrintRemark?.replace(
-                            /<br\s*\/?>/gi,
-                            " "
-                          ),
-                        }}
-                      ></b>
-                    )}
-                    )
+                    ( {result?.header?.PrintRemark === "" ? ( "" ) : ( <b className="d-flex fspcl" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark?.replace( /<br\s*\/?>/gi, " " ), }} ></b> )} )
                   </div>
                 </div>
                 <div className="pclsubheader">
                   <div className="partynamepcl">
-                    <b className="partypcl fspcl">Party:</b>
-                    <div className="contentpclparty fspcl">
-                      {result?.header?.customerfirmname}
-                    </div>
+                    <b className="partypcl fspcl ">Party:</b> <div className="contentpclparty fspcl"> {result?.header?.customerfirmname} </div>
                   </div>
                   <div className="w-25">
                     <div className="d-flex justify-content-between align-items-center">
-                      <div className="d-flex justify-content-end align-items-center fspcl w-50">
-                        Invoice No:{" "}
-                      </div>
-                      <b className="d-flex justify-content-end align-items-center fspcl w-50">
-                        {result?.header?.InvoiceNo}
-                      </b>
+                      <div className="d-flex justify-content-end align-items-center fspcl w-50"> Invoice No:{" "} </div> <b className="d-flex justify-content-end align-items-center fspcl w-50"> {result?.header?.InvoiceNo} </b>
                     </div>
                     <div className="d-flex align-items-center">
-                      <div className="d-flex justify-content-end align-items-center fspcl w-50">
-                        Date:{" "}
-                      </div>
-                      <b className="d-flex justify-content-end align-items-center fspcl w-50">
-                        {result?.header?.EntryDate}
-                      </b>
+                      <div className="d-flex justify-content-end align-items-center fspcl w-50"> Date:{" "} </div> <b className="d-flex justify-content-end align-items-center fspcl w-50"> {result?.header?.EntryDate} </b>
                     </div>
                   </div>
                 </div>
@@ -585,155 +585,52 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <tr>
                           <td>
                             <div className="pcltablehead border-start border-end border-bottom border-black ">
-                              <div
-                                className="srnopclthead centerpcl fwboldpcl srfslhpcl fspcl"
-                                style={{ wordBreak: "break-word" }}
-                              >
-                                Sr No
-                              </div>
-                              <div className="jewpclthead fwboldpcl fspcl fspcl">
-                                Jewelcode
-                              </div>
+                              <div className="srnopclthead centerpcl fwboldpcl srfslhpcl fspcl" style={{ wordBreak: "break-word" }} > Sr No </div>
+                              <div className="jewpclthead fwboldpcl fspcl fspcl"> Jewelcode </div>
                               <div className="diamheadpcl">
-                                <div className="diamhpclcol1 fwboldpcl fspcl">
-                                  Diamond
-                                </div>
+                                <div className="diamhpclcol1 fwboldpcl fspcl"> Diamond </div>
                                 <div className="diamhpclcol">
-                                  <div
-                                    className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "27%" }}
-                                  >
-                                    Shape
-                                  </div>
-                                  <div
-                                    className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "27%" }}
-                                  >
-                                    Size
-                                  </div>
-                                  <div
-                                    className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "22%" }}
-                                  >
-                                    Wt
-                                  </div>
-                                  <div
-                                    className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "22%" }}
-                                  >
-                                    Rate
-                                  </div>
-                                  <div
-                                    className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ borderRight: "0px", width: "27%" }}
-                                  >
-                                    Amount
-                                  </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} > Shape </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} > Size </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "22%" }} > Wt </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "22%" }} > Rate </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ borderRight: "0px", width: "27%" }} > Amount </div>
                                 </div>
                               </div>
                               <div className="diamheadpcl">
-                                <div className="diamhpclcol1 fwboldpcl fspcl">
-                                  Metal
-                                </div>
+                                <div className="diamhpclcol1 fwboldpcl fspcl"> Metal </div>
                                 <div className="diamhpclcol w-100">
-                                  <div
-                                    className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "22%" }}
-                                  >
-                                    KT
-                                  </div>
-                                  <div
-                                    className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "18%" }}
-                                  >
-                                    Gr Wt
-                                  </div>
-                                  <div
-                                    className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "18%" }}
-                                  >
-                                    N + L
-                                  </div>
-                                  <div
-                                    className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "20%" }}
-                                  >
-                                    Rate
-                                  </div>
-                                  <div
-                                    className="dcolsthpcl centerpcl fwboldpcl fspcl"
-                                    style={{ borderRight: "0px", width: "22%" }}
-                                  >
-                                    Amount
-                                  </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "22%" }} > KT </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "18%" }} > Gr Wt </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "18%" }} > N + L </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ width: "20%" }} > Rate </div>
+                                  <div className="dcolsthpcl centerpcl fwboldpcl fspcl" style={{ borderRight: "0px", width: "22%" }} > Amount </div>
                                 </div>
                               </div>
                               <div className="shptheadpcl">
-                                <div className="shpcolpcl1 fwboldpcl fspcl">
-                                  Stone
-                                </div>
+                                <div className="shpcolpcl1 fwboldpcl fspcl"> Stone </div>
                                 <div className="shpcolpclcol">
-                                  <div
-                                    className="shpthcolspcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "27%" }}
-                                  >
-                                    Shape
-                                  </div>
-                                  <div
-                                    className="shpthcolspcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "22%" }}
-                                  >
-                                    Wt
-                                  </div>
-                                  <div
-                                    className="shpthcolspcl centerpcl fwboldpcl fspcl"
-                                    style={{ width: "23%" }}
-                                  >
-                                    Rate
-                                  </div>
-                                  <div
-                                    className="shpthcolspcl centerpcl fwboldpcl fspcl"
-                                    style={{ borderRight: "0px", width: "28%" }}
-                                  >
-                                    Amount
-                                  </div>
+                                  <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ width: "27%" }} > Shape </div>
+                                  <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ width: "22%" }} > Wt </div>
+                                  <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ width: "23%" }} > Rate </div>
+                                  <div className="shpthcolspcl centerpcl fwboldpcl fspcl" style={{ borderRight: "0px", width: "28%" }} > Amount </div>
                                 </div>
                               </div>
                               <div className="lotheadpcl">
-                                <div className="lbhthpcl fwboldpcl fspcl">
-                                  Labour
-                                </div>
+                                <div className="lbhthpcl fwboldpcl fspcl"> Labour </div>
                                 <div className="lbhthpclcol">
-                                  <div className="lopclcol centerpcl fwboldpcl fspcl">
-                                    Rate
-                                  </div>
-                                  <div
-                                    className="lopclcol centerpcl fwboldpcl fspcl"
-                                    style={{ borderRight: "0px" }}
-                                  >
-                                    Amount
-                                  </div>
+                                  <div className="lopclcol centerpcl fwboldpcl fspcl"> Rate </div>
+                                  <div className="lopclcol centerpcl fwboldpcl fspcl" style={{ borderRight: "0px" }} > Amount </div>
                                 </div>
                               </div>
                               <div className="lotheadpcl">
-                                <div className="lbhthpcl fwboldpcl fspcl">
-                                  Other
-                                </div>
+                                <div className="lbhthpcl fwboldpcl fspcl"> Other </div>
                                 <div className="lbhthpclcol">
-                                  <div className="lopclcol centerpcl fwboldpcl fspcl">
-                                    Code
-                                  </div>
-                                  <div
-                                    className="lopclcol centerpcl fwboldpcl fspcl"
-                                    style={{ borderRight: "0px" }}
-                                  >
-                                    Amount
-                                  </div>
+                                  <div className="lopclcol centerpcl fwboldpcl fspcl"> Code </div>
+                                  <div className="lopclcol centerpcl fwboldpcl fspcl" style={{ borderRight: "0px" }} > Amount </div>
                                 </div>
                               </div>
-                              <div className="pricetheadpcl fwboldpcl fspcl">
-                                Price
-                              </div>
+                              <div className="pricetheadpcl fwboldpcl fspcl"> Price </div>
                             </div>
                           </td>
                         </tr>
@@ -745,30 +642,14 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               <td>
                                 <div className="tablebodypcl border-start border-end border-bottom border-black"  style={{marginTop:"-2px"}}>
                                   <div className="tbodyrowpcl">
-                                    <div className="pcltbr1c1 fspcl">
-                                      {e?.SrNo}
-                                    </div>
+                                    <div className="pcltbr1c1 fspcl"> {i+1} </div>
                                     <div className="pcltbr1c2 fspcl">
-                                      <div className="fspcl w-100 ps-1">
-                                        {e?.JewelCodePrefix +
-                                          e?.SrJobno?.split("/")[1]}
-                                      </div>
+                                      <div className="fspcl w-100 ps-1 text-break"> {e?.JewelCodePrefix + e?.SrJobno?.split("/")[1]} </div>
                                       <div className="designimgpcl fspcl">
-                                        <img
-                                          src={e?.DesignImage}
-                                          alt="packinglist"
-                                          id="designimgpclid"
-                                          onError={(e) => handleImageError(e)}
-                                        />
+                                        <img src={e?.DesignImage} alt="packinglist" id="designimgpclid" onError={(e) => handleImageError(e)} />
                                       </div>
                                       {/* <div className="fspcl">{e?.CertificateNo}</div> */}
-                                      {e?.HUID === "" ? (
-                                        ""
-                                      ) : (
-                                        <div className="fspcl">
-                                          HUID - {e?.HUID}
-                                        </div>
-                                      )}
+                                      {e?.HUID === "" ? ( "" ) : ( <div className="fspcl text-break"> HUID - {e?.HUID} </div> )}
                                     </div>
                                     {/* diamond */}
                                     <div className="pcltbr1c3 fspcl">
@@ -776,9 +657,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div className="leftpcl fspcl" key={i} >
-                                                {ele?.ShapeName}
-                                              </div>
+                                              <div className="leftpcl fspcl text-break" key={i} > {ele?.ShapeName} </div>
                                             );
                                           })
                                         }
@@ -788,9 +667,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div className="leftpcl fspcl" key={i} >
-                                                {ele?.SizeName}
-                                              </div>
+                                              <div className="leftpcl fspcl text-break" key={i} > {ele?.SizeName} </div>
                                             );
                                             // }
                                           })
@@ -801,9 +678,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div className="rightpcl fspcl" key={i} >
-                                                {ele?.Wt?.toFixed(3)}
-                                              </div>
+                                              <div className="rightpcl fspcl" key={i} > {ele?.Wt?.toFixed(3)} </div>
                                             );
                                           })
                                         }
@@ -813,9 +688,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div className="rightpcl fspcl" key={i} >
-                                                {formatAmount(ele?.Rate)}
-                                              </div>
+                                              <div className="rightpcl fspcl" key={i} > {formatAmount(ele?.Rate)} </div>
                                             );
                                           })
                                         }
@@ -825,9 +698,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div className="rightpcl fspcl " key={i} >
-                                                {formatAmount(ele?.Amount)}
-                                              </div>
+                                              <div className="rightpcl fspcl " key={i} > {formatAmount((ele?.Amount/(result?.header?.CurrencyExchRate)))} </div>
                                             );
                                           })
                                         }
@@ -844,29 +715,25 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 // eslint-disable-next-line array-callback-return
                                                 e?.metal?.map((ele, i) => {
                                                   return (
-                                                    <div className="leftpcl fspcl p_2_pcl" key={i} >
-                                                      {" "}
-                                                      {ele?.ShapeName + " " + ele?.QualityName}{" "}
-                                                    </div>
+                                                    <div className="leftpcl fspcl p_2_pcl text-break" key={i} > {" "} {ele?.ShapeName + " " + ele?.QualityName}{" "} </div>
                                                   );
                                                 })
                                               }
                                             </div>
-                                            <div className="dcolsthpcl rightpcl fspcl p_2_pcl" style={{ width: "18%" }} >
+                                            <div className="dcolsthpcl rightpcl fspcl p_2_pcl rightpcl" style={{ width: "18%" }} >
                                               {e?.grosswt?.toFixed(3)}
                                             </div>
                                             <div className="dcolsthpcl rightpcl fspcl p_2_pcl" style={{ width: "18%" }} >
-                                              {( +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3) )?.toFixed(3)}
+                                              {/* {( +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3) )?.toFixed(3)} */}
+                                              {/* {(   (e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3) )} */}
+                                              { (e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3) }
                                             </div>
                                             <div className="dcolsthpcl fspcl p_2_pcl" style={{ width: "20%" }} >
                                               {
                                                 // eslint-disable-next-line array-callback-return
                                                 e?.metal?.map((ele, i) => {
                                                   return (
-                                                    <div className="rightpcl fspcl " key={i} >
-                                                      {" "}
-                                                      {formatAmount( ele?.Rate )}{" "} {/* {NumberWithCommas(e?.goldPrice, 2)} */}{" "}
-                                                    </div>
+                                                    <div className="rightpcl fspcl " key={i} > {" "} {formatAmount( ele?.Rate )}{" "} {/* {NumberWithCommas(e?.goldPrice, 2)} */}{" "} </div>
                                                   );
                                                 })
                                               }
@@ -876,14 +743,14 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 // eslint-disable-next-line array-callback-return
                                                 e?.metal?.map((ele, i) => {
                                                   return (
-                                                    <div className="rightpcl fspcl p_2_pcl" key={i} > {" "} {formatAmount( ele?.Amount )}{" "} </div>
+                                                    <div className="rightpcl fspcl p_2_pcl" key={i} > {" "} {formatAmount( (ele?.Amount/(result?.header?.CurrencyExchRate)) )}{" "} </div>
                                                   );
                                                 })
                                               }
                                             </div>
                                           </div>
-                                          <div className="mt-3">
-                                            Remark: <b> Job remark insert here.</b>
+                                          <div className="mt-3 ps-1">
+                                            Remark: <br /> <b className="text-break"> {e?.JobRemark}</b>
                                           </div>
                                         </>
                                       ) : (
@@ -893,39 +760,35 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div className="leftpcl fspcl" key={i} >
-                                                    {" "} {ele?.ShapeName + " " + ele?.QualityName}{" "}
+                                                  <div className="leftpcl fspcl text-break" key={i} >
+                                                     { ele?.IsPrimaryMetal ===1 && (ele?.ShapeName + " " + ele?.QualityName)}{" "}
                                                   </div>
                                                 );
                                               })
                                             }
                                           </div>
-                                          <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1" >
+                                          <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1 rightpcl" >
                                             {e?.grosswt?.toFixed(3)}
                                           </div>
-                                          <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1" >
-                                            {( +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3) )?.toFixed(3)}
+                                          <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1 rightpcl" >
+                                            {/* {( +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3) )?.toFixed(3)} */}
+                                            {( e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3)}
                                           </div>
                                           <div style={{ width: "20%" }} className="be_1_pcl " > {
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div className="rightpcl fspcl pt-1" key={i} > {" "}
-                                                    {formatAmount( ele?.Rate )}{" "}
-                                                    {/* {NumberWithCommas(e?.goldPrice, 2)} */}{" "}
-                                                  </div>
-                                                );
+                                                  <div className="rightpcl fspcl pt-1" key={i} > { ele?.IsPrimaryMetal ===1 && formatAmount( (ele?.Rate) )}{" "} </div> );
                                               })
                                             }
                                           </div>
+
                                           <div style={{ width: "22%" }}>
                                             {
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div className="rightpcl fspcl pt-1" key={i} >
-                                                    {" "} {formatAmount( ele?.Amount )}{" "}
-                                                  </div>
+                                                  <div className="rightpcl fspcl pt-1" key={i} > {" "} {ele?.IsPrimaryMetal ===1 && formatAmount( (ele?.Amount/(result?.header?.CurrencyExchRate)) )}{" "} </div>
                                                 );
                                               })
                                             }
@@ -955,7 +818,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           // eslint-disable-next-line array-callback-return
                                           e?.colorstone?.map((ele, i) => {
                                             return (
-                                              <div className="leftpcl fspcl" key={i} >
+                                              <div className="leftpcl fspcl text-break" key={i} >
                                                 {ele?.ShapeName}
                                               </div>
                                             );
@@ -981,7 +844,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             return (
                                               <div className="rightpcl fspcl" key={i} >
                                                 {/* {ele?.Rate?.toFixed(2)} */}
-                                                {formatAmount(ele?.Rate)}
+                                                {/* {formatAmount(ele?.Rate)} */}
+                                                {formatAmount(((ele?.Amount/(result?.header?.CurrencyExchRate)) / ele?.Wt))}
                                               </div>
                                             );
                                           })
@@ -992,77 +856,43 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                           // eslint-disable-next-line array-callback-return
                                           e?.colorstone?.map((ele, i) => {
                                             return (
-                                              <div className="rightpcl fspcl" key={i} > {formatAmount(ele?.Amount)} </div>
+                                              <div className="rightpcl fspcl" key={i} > {formatAmount((ele?.Amount/(result?.header?.CurrencyExchRate)))} </div>
                                             );
                                           })
                                         }
                                       </div>
                                     </div>
+
                                     {/* labour */}
                                     <div className="pcltbr1c6 fspcl ">
-                                      <div className="lopclcol rightpcl fspcl pt-1">
-                                        {formatAmount(e?.MaKingCharge_Unit)}
-                                      </div>
-                                      <div className="lopclcol rightpcl fspcl pt-1" style={{ borderRight: "0px" }} >
-                                        {formatAmount(
-                                          e?.MakingAmount +
-                                            e?.TotalCsSetcost +
-                                            e?.TotalDiaSetcost
-                                        )}
-                                      </div>
+                                      <div className="lopclcol rightpcl fspcl pt-1 "> {formatAmount(e?.MaKingCharge_Unit)} </div>
+                                      <div className="lopclcol rightpcl fspcl pt-1" style={{ borderRight: "0px" }} > {formatAmount( ((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost)/(result?.header?.CurrencyExchRate)) )} </div>
                                     </div>
+
                                     {/* othercharge */}
                                     <div className="pcltbr1c6 fspcl">
-                                      <div className="lopclcol fspcl pt-1">
-                                        {e?.misc_separate?.map((el) => {
-                                          return (
-                                            el?.Amount > 0 && (
-                                              <div>{el?.ShapeName}</div>
-                                            )
-                                          );
-                                        })}
-                                        {
-                                          <div>
-                                            {e?.misc_other_amt_label?.Amount >
-                                              0 &&
-                                              e?.misc_other_amt_label?.label}
-                                          </div>
-                                        }
-                                        {e?.other_details?.map((el) => {
-                                          return (
-                                            <div>
-                                              {el?.value > 0 && el?.label}
-                                            </div>
-                                          );
-                                        })}
-                                        {e?.TotalDiamondHandling > 0 &&
-                                          "Handling"}
+                                      <div className="lopclcol fspcl pt-1 ps-1">
+                                      <div>{ e?.MiscAmount === 0 ? '' : 'OTHER' }</div>
+                                      <div>{ e?.TotalDiamondHandling === 0 ? '' : 'HANDLING' }</div>
+                                      <div>
+                                      {
+                                        e?.other_details?.map((e, i) => {
+                                          return <div key={i} className="text-break">{e?.label}</div>
+                                        })
+                                      }
                                       </div>
+                                        </div>
                                       <div className="lopclcol fspcl pt-1" D style={{ borderRight: "0px" }} >
                                         <div className=" d-flex flex-column justify-content-end align-items-end pe-1 fspcl">
-                                          {e?.misc_separate?.map((el) => {
-                                            return (
-                                              <div>
-                                                {el?.Amount > 0 &&
-                                                  formatAmount(el?.Amount)}
-                                              </div>
-                                            );
-                                          })}
-                                          {
-                                            <div> {e?.misc_other_amt_label?.Amount > 0 && formatAmount( e?.misc_other_amt_label ?.Amount )} </div>
-                                          }
-                                          {e?.other_details?.map((el) => {
-                                            return (
-                                              <div>
-                                                {+el?.value > 0 &&
-                                                  formatAmount(+el?.value)}
-                                              </div>
-                                            );
-                                          })}
-                                          {e?.TotalDiamondHandling > 0 &&
-                                            formatAmount(
-                                              e?.TotalDiamondHandling
-                                            )}
+                                        <div>{ e?.MiscAmount === 0 ? '' : formatAmount(e?.MiscAmount) }</div>
+                                        <div>{ e?.TotalDiamondHandling === 0 ? '' : formatAmount(e?.TotalDiamondHandling) }</div>
+                                        <div>
+                                        {
+                                          e?.other_details?.map((e, i) => {
+                                            return <div key={i}>{e?.value}</div>
+                                          })
+                                        }
+                                        </div>
                                         </div>
                                         <div className="rightpcl fspcl d-flex flex-column justify-content-end align-items-end w-100">
                                           {/* {formatAmount(e?.MiscAmount)} */}
@@ -1078,7 +908,8 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </div>
                                     {/* price */}
                                     <div className="pcltbr1c7 rightpcl fwboldpcl fspcl pt-1" style={{ borderRight: "0px" }} >
-                                      {NumberWithCommas(e?.UnitCost, 2)}
+                                      {/* {NumberWithCommas(e?.UnitCost, 2)} */}
+                                      {formatAmount((e?.UnitCost/(result?.header?.CurrencyExchRate)))}
                                     </div>
                                   </div>
                                   <div className="tbodyrowpcltot fspcl" style={{ borderTop: "1px solid #989898", backgroundColor:'#F5F5F5 !important' }} >
@@ -1086,190 +917,74 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className="jwlpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "14px", }} ></div>
                                     <div className="diapcltotrowtb fspcl">
                                       <div className="dcolsthpcl" style={{ width: "27%" }} ></div>
-                                      <div
-                                        className="dcolsthpcl"
-                                        style={{ width: "27%" }}
-                                      ></div>
-                                      <div
-                                        className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                                        style={{ width: "22%" }}
-                                      >
-                                        {e?.totals?.diamonds?.Wt?.toFixed(3)}
+                                      <div className="dcolsthpcl" style={{ width: "27%" }} ></div>
+                                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ width: "22%" }} >
+                                        {e?.totals?.diamonds?.Wt === 0 ? '' : e?.totals?.diamonds?.Wt?.toFixed(3)}
                                       </div>
-                                      <div
-                                        className="dcolsthpcl"
-                                        style={{ width: "22%" }}
-                                      ></div>
-                                      <div
-                                        className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                                        style={{
-                                          borderRight: "0px",
-                                          paddingRight: "0px",
-                                          width: "27%",
-                                        }}
-                                      >
-                                        {formatAmount(
-                                          e?.totals?.diamonds?.Amount
-                                        )}
+                                      <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
+                                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", width: "27%", }} >
+                                        {e?.totals?.diamonds?.Amount === 0 ? '' : formatAmount( (e?.totals?.diamonds?.Amount/(result?.header?.CurrencyExchRate)) )}
                                       </div>
                                     </div>
                                     <div className="diapcltotrowtb">
-                                      <div
-                                        className="dcolsthpcl"
-                                        style={{ width: "22%" }}
-                                      ></div>
-                                      <div
-                                        className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                                        style={{ width: "18%" }}
-                                      >
+                                      <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
+                                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ width: "18%" }} >
                                         {e?.grosswt?.toFixed(3)}
                                       </div>
-                                      <div
-                                        className="dcolsthpcl rightpcl fwboldpcl fspcld-flex justify-content-end align-items-center"
-                                        style={{ width: "18%" }}
-                                      >
-                                        {(
-                                          +e?.NetWt?.toFixed(3) +
-                                          +e?.LossWt?.toFixed(3)
-                                        )?.toFixed(3)}
+                                      <div className="dcolsthpcl rightpcl fwboldpcl fspcld-flex justify-content-end align-items-center" style={{ width: "18%" }} >
+                                        {/* {( +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3) )?.toFixed(3)} */}
+                                        { (e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3) }
+                                        {/* { (e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3) } */}
                                       </div>
-                                      <div
-                                        className="dcolsthpcl"
-                                        style={{ width: "20%" }}
-                                      ></div>
-                                      <div
-                                        className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                                        style={{
-                                          borderRight: "0px",
-                                          paddingRight: "0px",
-                                          width: "22%",
-                                        }}
-                                      >
-                                        {formatAmount(e?.totals?.metal?.Amount)}
+                                      <div className="dcolsthpcl" style={{ width: "20%" }} ></div>
+                                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px",  width: "22%", }} >
+                                        { formatAmount(e?.totals?.metal?.IsPrimaryMetal_Amount)}
                                       </div>
                                     </div>
                                     <div className="stnpcltotrowtb">
-                                      <div
-                                        className="shpthcolspcl"
-                                        style={{ width: "27%" }}
-                                      ></div>
-                                      <div
-                                        className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                                        style={{
-                                          paddingRight: "0px",
-                                          width: "22%",
-                                        }}
-                                      >
-                                        {e?.totals?.colorstone?.Wt?.toFixed(3)}
+                                      <div className="shpthcolspcl" style={{ width: "27%" }} ></div>
+                                      <div className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ paddingRight: "0px", width: "22%", }} >
+                                        {e?.totals?.colorstone?.Wt === 0 ? '' : e?.totals?.colorstone?.Wt?.toFixed(3)}
                                       </div>
-                                      <div
-                                        className="shpthcolspcl"
-                                        style={{ width: "23%" }}
-                                      ></div>
-                                      <div
-                                        className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                                        style={{
-                                          borderRight: "0px",
-                                          paddingRight: "0px",
-                                          width: "28%",
-                                        }}
-                                      >
-                                        {formatAmount(
-                                          e?.totals?.colorstone?.Amount
-                                        )}
+                                      <div className="shpthcolspcl" style={{ width: "23%" }} ></div>
+                                      <div className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center rightpcl" style={{ borderRight: "0px", width: "28%", }} >
+                                        {e?.totals?.colorstone?.Amount === 0 ? '' : formatAmount( (e?.totals?.colorstone?.Amount/(result?.header?.CurrencyExchRate)) )}
                                       </div>
                                     </div>
                                     <div className="lopcltotrowtb">
                                       <div className="lopclcol"></div>
 
-                                      <div
-                                        className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                                        style={{
-                                          borderRight: "0px",
-                                          paddingRight: "0px",
-                                        }}
-                                      >
-                                        {" "}
-                                        {formatAmount(
-                                          e?.MakingAmount +
-                                            e?.TotalCsSetcost +
-                                            e?.TotalDiaSetcost
-                                        )}
+                                      <div className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", }} >
+                                        {e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost === 0 ? '' : formatAmount( ((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost)/(result?.header?.CurrencyExchRate)) )}
+                                        {/* {e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost === 0 ? '' : formatAmount((((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate))))} */}
                                       </div>
                                     </div>
                                     <div className="lopcltotrowtb">
-                                      <div className="lopclcol"></div>
-                                      <div
-                                        className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                                        style={{
-                                          borderRight: "0px",
-                                          paddingRight: "0px",
-                                        }}
-                                      >
-                                        {formatAmount(
-                                          e?.OtherCharges +
-                                            e?.totals?.misc?.Amount +
-                                            e?.TotalDiamondHandling
-                                        )}
+                                      {/* <div className="lopclcol"></div> */}
+                                      <div className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center w-100" style={{ borderRight: "0px" }} >
+                                        {e?.OtherCharges + e?.totals?.misc?.Amount + e?.TotalDiamondHandling === 0 ? '' : formatAmount( e?.OtherCharges + e?.totals?.misc?.Amount + e?.TotalDiamondHandling )}
                                       </div>
                                     </div>
-                                    <div
-                                      className="prpcltotrowtb rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                                      style={{
-                                        borderRight: "0px",
-                                        paddingRight: "0px",
-                                      }}
-                                    >
-                                      {formatAmount(e?.UnitCost)}
+                                    <div className="prpcltotrowtb rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px" }} >
+                                      {formatAmount((e?.UnitCost/(result?.header?.CurrencyExchRate)))}
                                     </div>
                                   </div>
-                                  {e?.DiscountAmt === 0 ? (
-                                    ""
-                                  ) : (
-                                    <div
-                                      className="tbodyrowpcltot fspcl"
-                                      style={{
-                                        borderTop: "1px solid #989898",
-                                        // borderBottom: "1px solid #989898",
-                                      }}
-                                    >
-                                      <div
-                                        className="srpcltotrowtb fspcl"
-                                        style={{
-                                          backgroundColor:'#F5F5F5 !important',
-                                          height: "13px",
-                                        }}
-                                      ></div>
-                                      <div
-                                        className="jwlpcltotrowtb fspcl"
-                                        style={{
-                                          backgroundColor:'#F5F5F5 !important',
-                                          height: "13px",
-                                        }}
-                                      ></div>
+                                  {e?.DiscountAmt === 0 ? ( "" ) : (
+                                    <div className="tbodyrowpcltot fspcl" style={{ borderTop: "1px solid #989898"}} >
+                                      <div className="srpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "13px", }} ></div>
+                                      <div className="jwlpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "13px", }} ></div>
                                       <div className="diapcltotrowtb fspcl"></div>
                                       <div className="diapcltotrowtb"></div>
                                       <div className="stnpcltotrowtb"></div>
-                                      <div
-                                        className="lopcltotrowtb dispcltotrowtb"
-                                        style={{ width: "20%" }}
-                                      >
-                                        <div className="discpclcs fwboldpcl fspcl2">
-                                          Discount {e?.Discount}% @Total Amount
-                                        </div>
-                                        <div
-                                          className="disvalpclcs  fwboldpcl fspcl d-flex justify-content-end"
-                                          style={{ borderRight: "0px" }}
-                                        >
-                                          {formatAmount(e?.DiscountAmt)}
+                                      <div className="lopcltotrowtb dispcltotrowtb" style={{ width: "20%" }} >
+                                        <div className="discpclcs fwboldpcl fspcl2"> Discount {e?.Discount}% @Total Amount </div>
+                                        <div className="disvalpclcs  fwboldpcl fspcl d-flex justify-content-end rightpcl" style={{ borderRight: "0px" }} >
+                                          {formatAmount((e?.DiscountAmt/(result?.header?.CurrencyExchRate)))}
                                         </div>
                                       </div>
 
-                                      <div
-                                        className="prpcltotrowtb rightpcl fwboldpcl fspcl"
-                                        style={{ borderRight: "0px" }}
-                                      >
-                                        {formatAmount(e?.TotalAmount)}
+                                      <div className="prpcltotrowtb rightpcl fwboldpcl fspcl" style={{ borderRight: "0px" }} >
+                                        {formatAmount((e?.TotalAmount/(result?.header?.CurrencyExchRate)))}
                                       </div>
                                     </div>
                                   )}
@@ -1281,129 +996,60 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </tbody>
                     </table>
                   </div>
-                  <div
-                    className="tbodyrowpcltot border-start border-end border-black border-bottom"
-                    style={{ marginTop:'-1.2px' }}
-                  >
+                  <div className="tbodyrowpcltot border-start border-end border-black border-bottom" style={{ marginTop:'-1.2px' }} >
                     <div className="srpcltotrowtb"></div>
                     <div className="jwlpcltotrowtb fspcl">
                       <b className="fspcl">TOTAL</b>
                     </div>
                     <div className="diapcltotrowtb">
-                      <div
-                        className="dcolsthpcl"
-                        style={{ width: "27%", backgroundColor:'#F5F5F5 !important' }}
-                      ></div>
-                      <div
-                        className="dcolsthpcl"
-                        style={{ width: "27%", backgroundColor:'#F5F5F5 !important' }}
-                      ></div>
-                      <div
-                        className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ paddingRight: "0px", width: "22%" }}
-                      >
+                      <div className="dcolsthpcl" style={{ width: "27%", backgroundColor:'#F5F5F5 !important' }} ></div>
+                      <div className="dcolsthpcl" style={{ width: "27%", backgroundColor:'#F5F5F5 !important' }} ></div>
+                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{  width: "22%" }} >
                         {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                       </div>
-                      <div
-                        className="dcolsthpcl"
-                        style={{ width: "22%" }}
-                      ></div>
-                      <div
-                        className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{
-                          borderRight: "0px",
-                          paddingRight: "0px",
-                          width: "27%",
-                        }}
-                      >
-                        {formatAmount(result?.mainTotal?.diamonds?.Amount)}
+                      <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
+                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px",  width: "27%", }} >
+                        {formatAmount(((result?.mainTotal?.diamonds?.Amount)/(result?.header?.CurrencyExchRate)))}
                       </div>
                     </div>
                     <div className="diapcltotrowtb">
-                      <div
-                        className="dcolsthpcl"
-                        style={{ width: "22%" }}
-                      ></div>
-                      <div
-                        className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ paddingRight: "0px", width: "18%" }}
-                      >
+                      <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
+                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{  width: "18%" }} >
                         {result?.mainTotal?.grosswt?.toFixed(3)}
                       </div>
-                      <div
-                        className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ paddingRight: "0px", width: "18%" }}
-                      >
-                        {result?.mainTotal?.netwtWithLossWt?.toFixed(3)}
+                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{  width: "18%" }} >
+                        {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
+                        {(result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt)?.toFixed(3)}
                       </div>
-                      <div
-                        className="dcolsthpcl"
-                        style={{ width: "20%" }}
-                      ></div>
-                      <div
-                        className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{
-                          borderRight: "0px",
-                          paddingRight: "0px",
-                          width: "22%",
-                        }}
-                      >
-                        {formatAmount(result?.mainTotal.metal?.Amount)}
+                      <div className="dcolsthpcl" style={{ width: "20%" }} ></div>
+                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", width: "22%", }} >
+                        {formatAmount(((result?.mainTotal.metal?.IsPrimaryMetal_Amount)/(result?.header?.CurrencyExchRate)))}
                       </div>
                     </div>
                     <div className="stnpcltotrowtb">
-                      <div
-                        className="shpthcolspcl"
-                        style={{ width: "27%" }}
-                      ></div>
-                      <div
-                        className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ paddingRight: "0px", width: "22%" }}
-                      >
+                      <div className="shpthcolspcl" style={{ width: "27%" }} ></div>
+                      <div className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ width: "22%" }} >
                         {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
                       </div>
-                      <div
-                        className="shpthcolspcl"
-                        style={{ width: "23%" }}
-                      ></div>
-                      <div
-                        className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{
-                          borderRight: "0px",
-                          paddingRight: "0px",
-                          width: "28%",
-                        }}
-                      >
-                        {formatAmount(result?.mainTotal.colorstone?.Amount)}
+                      <div className="shpthcolspcl" style={{ width: "23%" }} ></div>
+                      <div className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", width: "28%", }} >
+                        {formatAmount((result?.mainTotal.colorstone?.Amount/(result?.header?.CurrencyExchRate)))}
                       </div>
                     </div>
                     <div className="lopcltotrowtb">
                       <div className="lopclcol"></div>
-                      <div
-                        className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ borderRight: "0px", paddingRight: "0px" }}
-                      >
-                        {formatAmount(
-                          result?.mainTotal?.total_MakingAmount_Setting_Amount
-                        )}
+                      <div className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", }} >
+                        {formatAmount( ((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate)) )}
                       </div>
                     </div>
                     <div className="lopcltotrowtb">
                       <div className="lopclcol"></div>
-                      <div
-                        className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                        style={{ borderRight: "0px", paddingRight: "0px" }}
-                      >
-                        {formatAmount(
-                          result?.mainTotal?.total_otherCharge_Diamond_Handling
-                        )}
+                      <div className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", }} >
+                        {formatAmount( ((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount)/(result?.header?.CurrencyExchRate) ) )}
                       </div>
                     </div>
-                    <div
-                      className="prpcltotrowtb rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center"
-                      style={{ borderRight: "0px", paddingRight: "0px" }}
-                    >
-                      {formatAmount(result?.mainTotal?.total_amount)}
+                    <div className="prpcltotrowtb rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px" }} >
+                      {formatAmount((result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)))}
                     </div>
                   </div>
                   <div className="tablebodypcl  border-start border-end border-bottom border-black">
@@ -1412,7 +1058,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         Total Discount
                       </div>
                       <div className="fspcl w-50 d-flex justify-content-end align-items-center">
-                        {formatAmount(result?.mainTotal?.total_discount_amount)}
+                        {formatAmount((result?.mainTotal?.total_discount_amount/(result?.header?.CurrencyExchRate)))}
                       </div>
                     </div>
                     {result?.allTaxes?.length > 0 &&
@@ -1432,16 +1078,21 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                     <div className="totdispcl">
                       <div className="summaryalignpcl fspcl w-50 d-flex justify-content-end align-items-center">
-                        {headerData?.AddLess?.toFixed(2) > 0 ? "ADD" : "Less"}
+                        {result?.header?.AddLess > 0 ? "ADD" : "Less"}
                       </div>
                       <div className="fspcl">
-                        {result?.header?.AddLess?.toFixed(2)}
+                        {formatAmount((result?.header?.AddLess/(result?.header?.CurrencyExchRate)))}
                       </div>
                     </div>
                     <div className="totdispcl">
                       <div className="summaryalignpcl fspcl">Grand Total</div>
                       <div className="fspcl w-50 d-flex justify-content-end align-items-center">
-                        {formatAmount(result?.finalAmount)}
+                        {/* {formatAmount(result?.finalAmount)} */}
+                        {/* {formatAmount((((result?.mainTotal?.total_amount) + result?.mainTotal?.total_discount_amount + result?.allTaxesTotal + (result?.header?.AddLess/(result?.header?.CurrencyExchRate)))/(result?.header?.CurrencyExchRate)))} */}
+                        {formatAmount(((
+                          (result?.mainTotal?.total_amount + result?.header?.AddLess)/(result?.header?.CurrencyExchRate))
+                          + result?.allTaxesTotal
+                          ))}
                       </div>
                     </div>
                   </div>
