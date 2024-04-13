@@ -8,6 +8,7 @@
     width: 100%;
     margin: 0 auto;
     padding: 0 10px;
+    color: black;
 }
 
 .head1sum1 {
@@ -232,7 +233,7 @@
     align-items: flex-end;
     border: 1px solid #e8e8e8;
     border-top: 0px;
-    height: 65px;
+    /* height: 65px; */
     padding-right: 3px;
 }
 
@@ -270,7 +271,7 @@
 
 .summarysum1 {
     width: 100%;
-    height: 100px;
+    /* height: 100px; */
     border: 1px solid #e8e8e8;
     margin-top: 7px;
 }
@@ -282,7 +283,7 @@
     padding-left: 3px;
     height: 30px;
     line-height: 120%;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: bold;
     border-bottom: 1px solid #e8e8e8;
     background-color: #e0e0e0;
@@ -417,6 +418,50 @@
     font-size: 13px;
 }
 
+
+
+
+.headlinerti{
+    height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #939292;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 5px;
+  }
+  .headrti{
+    padding: 5px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .fsrtis1{
+    font-size: 13px;
+  }
+  .custnamefsrti{
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .cmpnamerti{
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 30px;
+  }
+  .custss1fs{
+    font-size: 20px;
+  }
+  .custss1fs2{
+    font-size: 18px;
+  }
+  .minhs1{
+    height: 6rem;
+  }
+  
 @media print {
     .page_break_after {
         page-break-after: always;
