@@ -285,11 +285,11 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                             <div className="d-flex flex-column justify-content-between h-100">
                                 {e?.diamonds?.map((ele, ind) => {
                                     return <div className="d-flex" key={ind}>
-                                        <div className="col-2"><p className='p-1 '>{ele?.ShapeName} {ele?.Colorname} {ele?.QualityName}</p></div>
+                                        <div className="col-2"><p className='p-1 '>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname} </p></div>
                                         <div className="col-2"><p className='p-1'>{ele?.SizeName}</p></div>
-                                        <div className="col-2"><p className='p-1 text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
+                                        <div className="col-2"><p className='p-1 text-center'>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
                                         <div className="col-2"><p className='p-1 text-end'>{NumberWithCommas(ele?.Wt, 3)}</p></div>
-                                        <div className="col-2"><p className='p-1 text-end'>{NumberWithCommas(ele?.Rate, 2)}</p></div>
+                                        <div className="col-2"><p className='p-1 text-end'>{NumberWithCommas(ele?.Rate, 0)}</p></div>
                                         <div className="col-2"><p className='p-1 text-end fw-bold'>{NumberWithCommas(ele?.Amount, 2)}</p></div>
                                     </div>
                                 })}
@@ -305,7 +305,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                     <div className="d-flex lightGrey border-top">
                                         <div className="col-2"><p className='p-1 fw-bold '></p></div>
                                         <div className="col-2"><p className='p-1 fw-bold'></p></div>
-                                        <div className="col-2"><p className='p-1 fw-bold text-end'>{e?.totals?.diamonds?.Pcs !== 0 && NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)}</p></div>
+                                        <div className="col-2"><p className='p-1 fw-bold text-center'>{e?.totals?.diamonds?.Pcs !== 0 && NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)}</p></div>
                                         <div className="col-2"><p className='p-1 fw-bold text-end'>{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p></div>
                                         <div className="col-2"><p className='p-1 fw-bold text-end'></p></div>
                                         <div className="col-2"><p className='p-1 fw-bold text-end'>{NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</p></div>
@@ -393,7 +393,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                 <div className={`${style?.Diamond} border-end d-flex`}>
                     <div className="col-2"><p className='p-1 fw-bold '></p></div>
                     <div className="col-2"><p className='p-1 fw-bold'></p></div>
-                    <div className="col-2"><p className='p-1 fw-bold text-end'>{NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)}</p></div>
+                    <div className="col-2"><p className='p-1 fw-bold text-center'>{NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)}</p></div>
                     <div className="col-2"><p className='p-1 fw-bold text-end'>{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}</p></div>
                     <div className="col-2"><p className='p-1 fw-bold text-end'></p></div>
                     <div className="col-2"><p className='p-1 fw-bold text-end'>{NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</p></div>
