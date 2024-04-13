@@ -61,15 +61,15 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 obj.PrimaryWt = e?.NetWt;
                 obj.findingWt = findingWt;
                 obj.pureWt = pureWt;
-                obj.LossWt = ((e?.NetWt - findingWt) *e?.LossPer)/100
-                    metalArrs.push(obj);
+                obj.LossWt = ((e?.NetWt - findingWt) * e?.LossPer) / 100
+                metalArrs.push(obj);
                 // obj.pureWt =  e?.NetWt*e?.Tunch/100;
                 // obj.PrimaryWt
                 obj.metalTotalWt = obj?.pureWt + e?.LossWt;
             } else {
                 // let pureWt = e?.NetWt * e?.Tunch / 100;
                 metalArrs[findRecord].NetWt += e?.NetWt;
-                metalArrs[findRecord].LossWt += ((e?.NetWt - findingWt) *e?.LossPer)/100;
+                metalArrs[findRecord].LossWt += ((e?.NetWt - findingWt) * e?.LossPer) / 100;
                 // metalArrs[findRecord].metalTotalWt += pureWt + e?.LossWt;
                 metalArrs[findRecord].pureWt += pureWt;
                 // metalArrs[findRecord].PureNetWt += e?.PureNetWt;
@@ -81,7 +81,7 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             // First sort by Categoryname
             if (a.Categoryname < b.Categoryname) return -1;
             if (a.Categoryname > b.Categoryname) return 1;
-            
+
             // If Categoryname is the same, then sort by MetalPurity
             if (a.MetalPurity < b.MetalPurity) return -1;
             if (a.MetalPurity > b.MetalPurity) return 1;
@@ -89,9 +89,9 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             // If designno is the same, then sort by MetalPurity
             if (a.designno < b.designno) return -1;
             if (a.designno > b.designno) return 1;
-            
+
             return 0; // If both are equal
-          });
+        });
         setUnitCost(unitcosts);
         setData(arr);
         console.log(arr);
@@ -207,7 +207,7 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`${style.QuantityPcsExport1}  border-black border-end`}><p className=''>{e?.quantityPcs} Pcs</p></div>
                     <div className={`${style.HSNCODEExport1}  border-black border-end`}><p className=''>{json0Data?.HSN_No}</p></div>
                     <div className={`${style.GrossWtExport1}  border-black border-end`}><p className='text-end '>{NumberWithCommas(e?.grosswt, 3)}</p></div>
-                    <div className={`${style.RateExport1}  border-black border-end`}><p className='text-end '>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+                    <div className={`${style.RateExport1}  border-black border-end`}><p className='text-end '>{NumberWithCommas(e?.TotalAmount / e?.quantityPcs, 2)}</p></div>
                     <div className={`${style.AmountExport1} `}><p className='text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                 </div>
             })}

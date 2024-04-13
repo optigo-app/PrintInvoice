@@ -59,7 +59,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     otherChares1?.push(ele?.split("#-#"));
                 })
             };
-
+            console.log(otherChares1);
             otherChares1?.forEach((ele, ind) => {
                 // console.log(extraChargesJson1);
                 let findRecord = extraChargesJson1?.findIndex((elem, index) => elem?.label === ele[0]);
@@ -311,7 +311,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
             </div>
             {/* table data */}
-            <div className="d-flex border-start border-end border-bottom border-black border-2">
+            <div className="no_break d-flex border-start border-end border-bottom border-black border-2">
                 <div className="col-3 border-end d-flex justify-content-center  pb-4 border-black border-2 pt-5">
                     <p className="text-center">GOLD BAR</p>
                 </div>
@@ -379,7 +379,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
             </div>
             {/* table total */}
-            <div className="d-flex border-start border-end border-bottom mb-1 border-black border-2">
+            <div className="no_break d-flex border-start border-end border-bottom mb-1 border-black border-2">
                 <div className="col-3 border-end d-flex justify-content-center align-items-center pb-4 border-black border-2">
                     <p className="text-center"></p>
                 </div>
@@ -389,7 +389,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
             </div>
             {/* taxes */}
-            <div className="d-flex  my-2 justify-content-end">
+            <div className="no_break d-flex my-2 justify-content-end">
                 <div className="col-4">
                     <p><span className="fw-bold"> Note:</span> {headerData?.PrintRemark}</p>
                 </div>
@@ -423,16 +423,16 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
             </div>
             {/* in words */}
-            <div className="my-2 border p-1 border-black border-2">
+            <div className="no_break my-2 border p-1 border-black border-2">
                 <p className="fw-bold">Rs.{toWords.convert(+fixedValues(data?.finalAmount, 2))} Only.</p>
             </div>
             {/* note */}
-            <div className="my-2 border p-1 border-black border-2">
+            <div className="no_break my-2 border p-1 border-black border-2">
                 <p className="fw-bold">NOTE : </p>
                 <div dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}></div>
             </div>
             {/* company details */}
-            <div className="my-2 border p-1 border-black border-2">
+            <div className="no_break my-2 border p-1 border-black border-2">
                 <p className="fw-bold">COMPANY DETAILS :</p>
                 <p>GSTIN. : {headerData?.Company_VAT_GST_No.split("GSTIN-")[1]}</p>
                 <p>STATE CODE. : {headerData?.Company_CST_STATE_No}</p>
@@ -444,7 +444,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <p>RTGS/NEFT IFSC : {headerData?.rtgs_neft_ifsc}</p>
             </div>
             {/* signs */}
-            <div className="my-2 d-flex">
+            <div className="no_break my-2 d-flex">
                 <div className={`col-6 pe-1`}>
                     <div className={` border border-black border-2 ${style?.min_height_130} p-1 text-center border-end border-black`}><p className='fw-bold'>AUTHORISED, {headerData?.customerfirmname}</p></div>
                 </div>
