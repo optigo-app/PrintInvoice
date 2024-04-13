@@ -199,6 +199,9 @@ export const taxGenrator2 = (headerData, totalAmount) => {
 };
 
 export const NumberWithCommas = (value, val) => {
+ if(value === undefined){
+  return "0"
+ }else{
   let value1 = value?.toString()?.split("-");
   if (value1?.length === 1) {
     const roundedValue = Number(value)?.toFixed(val || 2);
@@ -238,6 +241,7 @@ export const NumberWithCommas = (value, val) => {
       return 0
     }
   }
+ }
 };
 
 
