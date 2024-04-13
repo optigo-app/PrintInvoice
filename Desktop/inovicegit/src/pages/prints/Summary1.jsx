@@ -541,38 +541,18 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       return (
                         <div key={i} className="pgbia">
                           <div className="tbodysum1 fsrtis1 ">
-                            <div
-                              className="wtbsum1 srwsum1"
-                              style={{ fontSize: "11px" }}
-                            >
+                            <div className="wtbsum1 srwsum1" style={{ fontSize: "11px" }} >
                               {i + 1}
                             </div>
                             <div className="wtbsum1 designwsum1 d-flex justify-content-around p-1">
                               <div>
-                                <img
-                                  src={e?.DesignImage}
-                                  alt="#summary1"
-                                  id="imgDySum1"
-                                  onError={handleImageError}
-                                />
+                                <img src={e?.DesignImage} alt="#summary1" id="imgDySum1" onError={handleImageError} />
                               </div>
                               <div className="designContentsum1">
-                                <p
-                                  className="brbdesignsum1 fsrtis1 text-break"
-                                  style={{
-                                    fontWeight: "bold",
-                                    textAlign: "center",
-                                    paddingBottom: "4px",
-                                    lineHeight: "8px",
-                                    fontSize: "11px",
-                                  }}
-                                >
+                                <p className="brbdesignsum1 fsrtis1 text-break" style={{ fontWeight: "bold", textAlign: "center", paddingBottom: "4px", lineHeight: "8px", fontSize: "11px", }} >
                                   {e?.designno}
                                 </p>
-                                <p
-                                  className="brbdesignsum1 brbs1 fsrtis1"
-                                  style={{ fontSize: "11px" }}
-                                >
+                                <p className="brbdesignsum1 brbs1 fsrtis1" style={{ fontSize: "11px" }} >
                                   {e?.SrJobno}
                                 </p>
                               </div>
@@ -584,8 +564,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               {e?.grosswt?.toFixed(3)}
                             </div>
                             <div className="wtbsum1 alignrightsum1 pe-1">
-                              {/* {(e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3)} */}
-                              {(e?.NetWt + e?.LossWt)?.toFixed(3)}
+                              {(e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3)}
+                              {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
                             </div>
                             <div className="wtbsum1 alignrightsum1 pe-1">
                               {e?.totals?.diamonds?.Pcs}
@@ -601,26 +581,13 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </div>
                             <div className="wtbsum1 alignrightsum1 pe-1">
                               {/* {NumberWithCommas(e?.otherMisc, 2)} */}
-                              {e?.OtherCharges +
-                                e?.TotalDiamondHandling +
-                                e?.MiscAmount ===
-                              0.0
-                                ? ""
-                                : formatAmount(
-                                    e?.OtherCharges +
-                                      e?.TotalDiamondHandling +
-                                      e?.MiscAmount
-                                  )}
+                              {e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount === 0.0 ? "" : 
+                              formatAmount( ((e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount)/(result?.header?.CurrencyExchRate)) )}
                             </div>
                             <div className="wtbsum1 brightsum1 alignrightsum1 pe-1 fsrtis1">
-                              <p
-                                className="fsrtis1"
-                                dangerouslySetInnerHTML={{
-                                  __html: headerData?.Currencysymbol,
-                                }}
-                              ></p>
+                              <p className="fsrtis1" dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol, }} ></p>
                               {/* {NumberWithCommas(e?.TotalAmount, 2)} */}
-                              {formatAmount(e?.TotalAmount)}
+                              {formatAmount((e?.TotalAmount/(result?.header?.CurrencyExchRate)))}
                             </div>
                           </div>
                         </div>
@@ -645,11 +612,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           <b className="totrowfssum1 pe-1 fsrtis1">
                             {/* {totalnetlosswt?.toFixed(3)} */}
                             {/* {(formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt))} */}
-                            {(
-                              result?.mainTotal?.netwt +
-                              result?.mainTotal?.lossWt
-                            )?.toFixed(3)}
-                            {/* {((result?.mainTotal?.IsPrimaryMetal)?.toFixed(3))} */}
+                            {/* {( result?.mainTotal?.netwt + result?.mainTotal?.lossWt )?.toFixed(3)} */}
+                            {((result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt)?.toFixed(3))}
                           </b>
                         </div>
                         <div className="wtbsum1 htotalrowsum1 alignrightsum1">
@@ -675,10 +639,11 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className="wtbsum1 htotalrowsum1 alignrightsum1">
                           <b className="totrowfssum1 pe-1 fsrtis1">
                             {/* {NumberWithCommas(totalOtherAmount, 2)} */}
+                            {console.log(result)}
                             {formatAmount(
-                              result?.mainTotal?.total_other +
+                              ((result?.mainTotal?.total_other +
                                 result?.mainTotal?.total_diamondHandling +
-                                result?.mainTotal?.totalMiscAmount
+                                result?.mainTotal?.totalMiscAmount)/(result?.header?.CurrencyExchRate))
                             )}
                           </b>
                         </div>
@@ -691,7 +656,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             ></p>
                             {/* {NumberWithCommas(TotalAmount, 2)} */}
                             &nbsp;
-                            {formatAmount(result?.mainTotal?.total_amount)}
+                            {formatAmount(((result?.mainTotal?.total_amount)/(result?.header?.CurrencyExchRate)))}
                           </b>
                         </div>
                       </div>
@@ -699,15 +664,8 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         {result?.allTaxes?.length > 0 &&
                           result?.allTaxes?.map((e, i) => {
                             return (
-                              <div
-                                className="d-flex justify-content-between fsrtis1"
-                                style={{ width: "27%" }}
-                                key={i}
-                              >
-                                <div
-                                  className="w-50 d-flex justify-content-end "
-                                  style={{ borderLeft: "1px solid #e8e8e8" }}
-                                >
+                              <div className="d-flex justify-content-between fsrtis1" style={{ width: "27%" }} key={i} >
+                                <div className="w-50 d-flex justify-content-end " style={{ borderLeft: "1px solid #e8e8e8" }} >
                                   {e?.name} {e?.per}
                                 </div>
                                 <div className="w-50 d-flex justify-content-end  pe-1">
@@ -723,7 +681,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {result?.header?.AddLess > 0 ? "ADD" : "Less"}
                           </p>
                           <p className="totgstsum1 fw-bold pb-1 pe-1 fsrtis1">
-                            {result?.header?.AddLess?.toFixed(2)}
+                            {(result?.header?.AddLess/(result?.header?.CurrencyExchRate))?.toFixed(2)}
                           </p>
                         </div>
                       </div>
@@ -732,7 +690,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className="amtwordssum1 px-2 fsrtis1">
                           {toWords?.convert(
                             +(
-                              result?.mainTotal?.total_amount +
+                              (result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)) +
                               result?.allTaxesTotal +
                               result?.header?.AddLess
                             )?.toFixed(2)
@@ -750,7 +708,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             ></p>
                             {/* {NumberWithCommas(finalAmount, 2)} */}
                             {formatAmount(
-                              result?.mainTotal?.total_amount +
+                              (result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)) +
                                 result?.allTaxesTotal +
                                 result?.header?.AddLess
                             )}
