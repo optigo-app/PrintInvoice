@@ -311,9 +311,11 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     {ele?.Colorname}/{ele?.QualityName}
                                                 </div>
                                                 <div className={`border-end ${style.diaPcsExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(ele?.Pcs, 0)}</div>
-                                                <div className={`border-end ${style.diaCtsExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(ele?.Wt, 2)}</div>
-                                                <div className={`border-end ${style.diaRateExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{ele?.Wt !== 0 && NumberWithCommas(+fixedValues(ele?.Amount, 2) / +fixedValues(ele?.Wt, 2), 2)}</div>
-                                                <div className={`border-end ${style.diaValueExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{ele?.Amount !== 0 && NumberWithCommas(ele?.Amount, 2)}</div>
+                                                <div className={`border-end ${style.diaCtsExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(Math.round((ele?.Wt + Number.EPSILON) * 100) / 100, 2)}</div>
+                                                <div className={`border-end ${style.diaRateExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{ele?.Wt !== 0 && NumberWithCommas((Math.round(ele?.Amount * 100) / 100) / (Math.round((ele?.Wt + Number.EPSILON) * 100) / 100), 2)}</div>
+                                                <div className={`border-end ${style.diaValueExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>
+                                                    {ele?.Amount !== 0 && NumberWithCommas(Math.round(ele?.Amount * 100) / 100, 2)}
+                                                    </div>
                                             </div>
                                         }) : <div className={`d-flex`}>
                                             <div className={`border-end ${style.diaShapeExport} d-flex align-items-center ${style.rowExport}`}></div>
@@ -330,9 +332,9 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         {e?.colorstones.length > 0 ? e?.colorstones.map((ele, ind) => {
                                             return <div className={`d-flex ${ind !== e?.colorstones.length - 1 && `border-bottom`}`} key={ind}>
                                                 <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csPcsExport} ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(ele?.Pcs, 0)}</div>
-                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csCtsExport} ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(ele?.Wt, 3)}</div>
-                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csRateExport} ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(+fixedValues(ele?.Amount, 2) / (+fixedValues(ele?.Wt, 3)), 2)}</div>
-                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csValueExport} ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(ele?.Amount, 2)}</div>
+                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csCtsExport} ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(Math.round((ele?.Wt + Number.EPSILON) * 100) / 100, 3)}</div>
+                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csRateExport} ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(Math.round(ele?.Amount * 100) / 100 / (Math.round((ele?.Wt + Number.EPSILON) * 100) / 100), 2)}</div>
+                                                <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csValueExport} ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(Math.round(ele?.Amount * 100) / 100, 2)}</div>
                                             </div>
                                         }) : <div className={`d-flex`}>
                                             <div className={`d-flex align-items-center justify-content-end border-end ${style.c2csPcsExport} ${style.rowExport}`}></div>
