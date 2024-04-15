@@ -94,7 +94,6 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             // resultArray?.push(obj);
             let findObj = resultArray?.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob && e?.GroupJob !== "");
             if (findObj === -1) {
-                console.log(obj);
                 resultArray?.push(obj);
             } else {
                 if (resultArray[findObj]?.GroupJob !== resultArray[findObj]?.SrJobno) {
@@ -156,13 +155,13 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                 resultArray[findObj].diamonds = allDiamonds;
                 resultArray[findObj].colorStone = allColorStone;
-                resultArray[findObj].misc = allMiscs;
+                resultArray[findObj].misc = miscss;
             }
         });
 
         datas.resultArray = resultArray;
         setFinalD(datas);
-
+        console.log(datas);
         setJsonData1(data?.BillPrint_Json[0]);
         let resultArr = [];
         let totalObj = {
@@ -201,12 +200,13 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 SettingAmount += ele?.SettingAmount;
                                 netWtLossWt += ele?.Wt;
                                 let findDiamonds = diamonds?.findIndex((elem, ind) => elem?.QualityName === ele?.QualityName);
+                                console.log(findDiamonds !== -1 && diamonds[findDiamonds]);
                                 if (findDiamonds === -1) {
                                     diamonds?.push(ele);
                                 } else {
-                                    diamonds[findDiamonds].Wt += ele?.Wt;
-                                    diamonds[findDiamonds].Amount += ele?.Amount;
-                                    diamonds[findDiamonds].Pcs += ele?.Pcs;
+                                    // diamonds[findDiamonds].Wt += ele?.Wt;
+                                    // diamonds[findDiamonds].Amount += ele?.Amount;
+                                    // diamonds[findDiamonds].Pcs += ele?.Pcs;
                                 }
 
                             }
@@ -479,13 +479,13 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
             return 0;
         });
-        console.log(resulArr);
-        console.log(data);
+        // console.log(resulArr);
+        // console.log(data);
         setTotal(totalObj);
         setDataFill(resulArr);
 
 
-        console.log(datas);
+
     }
 
     const handleChange = (e) => {
@@ -679,7 +679,6 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 {/* <p className='text-end'>{NumberWithCommas(e?.netWtLossWt, 3)}</p> */}
                                                 <p className='text-end'>{NumberWithCommas(e?.netWtLossWt, 3)}</p>
                                             </div>
-                                            {e?.designno === "1942" && console.log(e)}
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{e?.netWtLossWt !== 0 ? NumberWithCommas(((ele?.Amount / jsonData1?.CurrencyExchRate) / ele?.Wt) / jsonData1?.CurrencyExchRate, 2) : "0.00"}</p>
                                             </div>}
@@ -705,7 +704,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
                                             </div>
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{ele?.Wt !== 0 ? NumberWithCommas(((ele?.Amount / jsonData1?.CurrencyExchRate) / ele?.Wt) , 2) : "0.00"}</p>
+                                                <p className='text-end'>{ele?.Wt !== 0 ? NumberWithCommas(((ele?.Amount / jsonData1?.CurrencyExchRate) / ele?.Wt), 2) : "0.00"}</p>
                                             </div>}
                                             {pName !== 'retail1 print' && <div className={`${styles.Amount} p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{NumberWithCommas(ele?.Amount / jsonData1?.CurrencyExchRate, 2)}</p>
@@ -750,10 +749,11 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p>
                                             </div>
                                             <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{NumberWithCommas(ele?.Wt, 3)}</p>
+                                                <p className='text-end'>{NumberWithCommas(ele?.IsHSCODE === 0 ? ele?.Wt : ele?.ServWt, 3)}</p>
                                             </div>
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{ele?.Wt !== 0 ? NumberWithCommas((ele?.Amount / ele?.Wt) , 2) : "0.00"}</p>
+                                                {/* <p className='text-end'>{(ele?.IsHSCODE === 0 ? (ele?.Wt !== 0 ? NumberWithCommas((ele?.Amount / ele?.Wt), 2) : "0.00") : (ele?.ServWt !== 0 ? NumberWithCommas((ele?.Amount / ele?.ServWt), 2) : "0.00"))}</p> */}
+                                                <p className='text-end'>{ele?.Wt !== 0 && NumberWithCommas((ele?.Amount / ele?.Wt), 2)}</p>
                                             </div>}
                                             {pName !== 'retail1 print' && <div className={`${styles.Amount} p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{NumberWithCommas((ele?.Amount / jsonData1?.CurrencyExchRate) / jsonData1?.CurrencyExchRate, 2)}</p>

@@ -16,6 +16,7 @@ import BarcodePrintGenerator from "../../components/barcodes/BarcodePrintGenerat
 import style2 from "../../assets/css/headers/header1.module.css";
 import footerStyle from "../../assets/css/footers/footer2.module.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+import { cloneDeep } from "lodash";
 
 const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
@@ -91,7 +92,31 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     let jobWiseLabourCalc = 0;
     let jobWiseMinusFindigWt = 0;
     datas?.resultArray?.map((e, i) => {
-      let obj = { ...e };
+      let obj = cloneDeep(e);
+      let findingWt = 0;
+      let findingsWt = 0;
+      let findingsAmount = 0;
+      obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+      e?.finding?.forEach((ele, ind) => {
+        if (ele?.ShapeName !== obj?.primaryMetal?.ShapeName && ele?.QualityName !== obj?.primaryMetal?.QualityName) {
+          console.log(ele);
+          let obb = cloneDeep(ele);
+          if (obj?.primaryMetal) {
+            obb.Rate = obj?.primaryMetal?.Rate;
+            obb.Amount = (ele?.Wt * obb?.Rate);
+            findingsAmount += (ele?.Wt * obb?.Rate)
+          }
+          findingsWt += ele?.Wt;
+          // objj.Rate = 
+          findings?.push(obb);
+          total2.total += (obb?.Amount);
+          findingsWt += ele?.Wt
+        }
+        if (ele?.Supplier?.toLowerCase() === "customer") {
+          findingWt += ele?.Wt
+        }
+      });
+  
       let findPcss = totalPcss?.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob);
       if (findPcss === -1) {
         totalPcss?.push({ GroupJob: e?.GroupJob, value: e?.Quantity });
@@ -105,9 +130,11 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           }
         }
       }
-      obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+
       let primaryWt = 0;
       let count = 0;
+      let netWtFinal = e?.NetWt + e?.LossWt - findingsWt;
+
       diamondHandling += e?.TotalDiamondHandling;
       e?.metal?.forEach((ele, ind) => {
         count += 1;
@@ -118,13 +145,15 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       // labour.primaryWt += primaryWt;
       labour.makingAmount += e?.MakingAmount;
       labour.totalAmount += e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost;
-      total2.discount += e?.DiscountAmt
+      total2.discount += e?.DiscountAmt;
       obj.primaryWt = primaryWt;
+      obj.netWtFinal = netWtFinal;
+      obj.metalAmountFinal = e?.MetalAmount - findingsAmount;
       if (count <= 1) {
         primaryWt = e?.NetWt + e?.LossWt;
       }
       if (obj?.primaryMetal) {
-        total2.total += obj?.primaryMetal?.Amount;
+        total2.total += obj?.metalAmountFinal;
         let findRecord = resultArr?.findIndex((ele, ind) => ele?.primaryMetal?.ShapeName === obj?.primaryMetal?.ShapeName && ele?.primaryMetal?.QualityName === obj?.primaryMetal?.QualityName && ele?.primaryMetal?.Rate === obj?.primaryMetal?.Rate);
         if (findRecord === -1) {
           resultArr?.push(obj);
@@ -136,21 +165,12 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           resultArr[findRecord].primaryMetal.Pcs += obj?.primaryMetal.Pcs;
           resultArr[findRecord].primaryMetal.Wt += obj?.primaryMetal.Wt;
           resultArr[findRecord].primaryMetal.Amount += obj?.primaryMetal.Amount;
+          resultArr[findRecord].netWtFinal += obj?.netWtFinal;
+          resultArr[findRecord].metalAmountFinal += obj?.metalAmountFinal
         }
       }
 
-
-      let findingWt = 0;
-      e?.finding?.forEach((ele, ind) => {
-        if (ele?.ShapeName !== obj?.primaryMetal?.ShapeName && ele?.QualityName !== obj?.primaryMetal?.QualityName) {
-          findings?.push(ele);
-          total2.total += (ele?.Amount);
-        }
-        if (ele?.Supplier?.toLowerCase() === "customer") {
-          findingWt += ele?.Wt
-        }
-      });
-      jobWiseLabourCalc += ((e?.MetalDiaWt - findingWt)*e?.MaKingCharge_Unit);
+      jobWiseLabourCalc += ((e?.MetalDiaWt - findingWt) * e?.MaKingCharge_Unit);
       jobWiseMinusFindigWt += (e?.MetalDiaWt - findingWt);
 
       e?.diamonds?.forEach((ele, ind) => {
@@ -188,7 +208,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         } else {
           misc2Total2 += ele?.Amount;
         }
-        if (ele?.IsHSCOE !== 0 && ele?.ShapeName?.toLowerCase()?.includes("certification")) {
+        if (ele?.IsHSCOE !== 0) {
           let findMisc = miscs?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
           if (findMisc === -1) {
             miscs?.push(ele);
@@ -230,8 +250,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       (colorStone2Total2 / data?.BillPrint_Json[0]?.CurrencyExchRate) + (misc1Total1 / data?.BillPrint_Json[0]?.CurrencyExchRate) +
       (misc2Total2 / data?.BillPrint_Json[0]?.CurrencyExchRate) + labour?.totalAmount + diamondHandling;
 
-      labour.primaryWt = jobWiseMinusFindigWt;
-    console.log(misc2);
+    labour.primaryWt = jobWiseMinusFindigWt;
     resultArr.sort((a, b) => {
       const labelA = a.MetalTypePurity.toLowerCase();
       const labelB = b.MetalTypePurity.toLowerCase();
@@ -249,7 +268,6 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         return labelA.localeCompare(labelB);
       }
     });
-    console.log(total2?.diamondHandling);
     setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
     setMainData({
       ...mainData, resultArr: resultArr, findings: findings, diamonds: diamonds, colorStones: colorStones,
@@ -540,18 +558,18 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
             </div> */}
             {mainData?.resultArr?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-uppercase"><p>{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.grosswt, 3)} Gms</p></div>
-                <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryWt, 3)} Gms</p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.netWtFinal, 3)} Gms</p></div>
                 <div style={{ minWidth: "9%", width: "9%" }} className=" px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryMetal?.Rate, 2)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryMetal?.Amount, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.metalAmountFinal, 2)}</p></div>
               </div>
             })}
             {mainData?.findings?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.ShapeName} {e?.QualityName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-uppercase"><p>{e?.ShapeName} {e?.QualityName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
                 <div style={{ minWidth: "9%", width: "9%" }} className="px-1"><p></p></div>
@@ -562,7 +580,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
             })}
             {mainData?.diamonds?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.MasterManagement_DiamondStoneTypeName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-uppercase"><p>{e?.MasterManagement_DiamondStoneTypeName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "9%", width: "9%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
@@ -573,7 +591,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
             })}
             {mainData?.colorStones?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>{e?.MasterManagement_DiamondStoneTypeName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-uppercase"><p>{e?.MasterManagement_DiamondStoneTypeName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
@@ -583,9 +601,8 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               </div>
             })}
             {mainData?.misc2?.map((e, i) => {
-              console.log(e);
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>OTHER MATERIAL</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-uppercase"><p>OTHER MATERIAL</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "9%", width: "9%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
@@ -595,7 +612,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               </div>
             })}
             <div className="d-flex">
-              <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{mainData?.labour?.label}</p></div>
+              <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-uppercase"><p>{mainData?.labour?.label}</p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
               <div style={{ minWidth: "9%", width: "9%" }} className="px-1 text-end"><p></p></div>
@@ -605,7 +622,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
             </div>
             {mainData?.miscs?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.ShapeName}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-uppercase"><p>{e?.ShapeName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "9%", width: "9%" }} className="px-1 text-end"><p></p></div>
@@ -615,7 +632,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               </div>
             })}
             <div className="d-flex">
-              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>HANDLING</p></div>
+              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-uppercase"><p>HANDLING</p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p></p></div>
@@ -625,7 +642,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
             </div>
             {mainData?.otherCharges?.map((e, i) => {
               return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>{e?.label}</p></div>
+                <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-uppercase"><p>{e?.label}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p></p></div>
