@@ -79,7 +79,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
                         totals.materialWt += ele?.Wt;
                         totals.OtherCharges += ele?.Amount;
-                        let findColorStones = colorstone.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.Rate === ele?.Rate);
+                        let findColorStones = colorstone.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.Rate === ele?.Rate && elem?.IsLess === ele?.IsLess);
                         if (findColorStones === -1) {
                             colorstone.push(ele);
                         } else {
@@ -242,7 +242,6 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         });
 
         let bankDetails = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
-        console.log(bankDetails);
         setBank(bankDetails);
 
         totals.discount = totals?.UnitCost - totals?.TotalAmount;
@@ -271,6 +270,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 return 0
             }
         });
+        console.log(dataArr);
         setData(dataArr);
     }
 
@@ -409,7 +409,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='' style={{ wordBreak: "normal" }}>{ele?.ShapeName}</p></div>
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>	</p></div>
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{NumberWithCommas(ele?.Wt, 3)}</p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{ele?.IsLess === 1 && "Less: "}{NumberWithCommas(ele?.Wt, 3)}</p></div>
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''></p></div>
                                 </div>
@@ -419,7 +419,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='' style={{ wordBreak: "normal" }}>{ele?.ShapeName}</p></div>
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>	</p></div>
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{NumberWithCommas(ele?.Wt, 3)}</p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{ele?.IsLess === 1 && "Less: "}{NumberWithCommas(ele?.Wt, 3)}</p></div>
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''></p></div>
                                 </div>

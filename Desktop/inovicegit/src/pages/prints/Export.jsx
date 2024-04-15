@@ -43,6 +43,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let diamonds = [];
             let colorstones = [];
             let primaryWt = 0;
+            let goldWt = 0;
             let primaryAmount = 0;
             let findingSetAmount = 0
             data?.BillPrint_Json2.forEach((ele, ind) => {
@@ -73,6 +74,8 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         if (ele?.IsPrimaryMetal === 1) {
                             primaryWt += ele?.Wt;
                             primaryAmount += ele?.Amount;
+                            goldWt += ele?.Wt;
+
                         }
                     }
                     else if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
@@ -85,6 +88,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.colorstones = colorstones;
             obj.counts = counts;
             obj.primaryWt = primaryWt;
+            obj.goldWt = goldWt;
             obj.primaryAmount = primaryAmount;
             obj.findingSetAmount = findingSetAmount;
             arr.push(obj);
@@ -104,6 +108,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 blankArr[findIndex].TotalDiamondHandling += e?.TotalDiamondHandling;
                 blankArr[findIndex].TotalAmount += e?.TotalAmount;
                 blankArr[findIndex].metal = (blankArr[findIndex]?.metal).concat(e?.metal);
+                blankArr[findIndex].goldWt += e?.goldWt;
 
                 blankArr[findIndex].colorstones = (blankArr[findIndex]?.colorstones).concat(e?.colorstones);
                 blankArr[findIndex].counts += 1;
@@ -298,7 +303,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className={`border-end ${style.grossExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{fixedValues(e?.grosswt, 3)}</div>
                                 <div className={`border-end ${style.netExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{fixedValues(e?.NetWt, 3)}</div>
                                 <div className={`border-end ${style.wastageExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}></div>
-                                <div className={`border-end ${style.totalGoldExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{fixedValues(e?.NetWt + e?.LossWt, 3)}</div>
+                                <div className={`border-end ${style.totalGoldExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{fixedValues(e?.NetWt, 3)}</div>
                                 <div className={`border-end ${style.goldGmExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{e?.NetWt !== 0 && (NumberWithCommas(e?.primaryAmount / e?.primaryWt, 2))}</div>
                                 <div className={`border-end ${style.goldValueExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(e?.primaryAmount, 2)}</div>
                                 <div className={`${style?.diamondSec}`}>
@@ -315,7 +320,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <div className={`border-end ${style.diaRateExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{ele?.Wt !== 0 && NumberWithCommas((Math.round(ele?.Amount * 100) / 100) / (Math.round((ele?.Wt + Number.EPSILON) * 100) / 100), 2)}</div>
                                                 <div className={`border-end ${style.diaValueExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>
                                                     {ele?.Amount !== 0 && NumberWithCommas(Math.round(ele?.Amount * 100) / 100, 2)}
-                                                    </div>
+                                                </div>
                                             </div>
                                         }) : <div className={`d-flex`}>
                                             <div className={`border-end ${style.diaShapeExport} d-flex align-items-center ${style.rowExport}`}></div>
