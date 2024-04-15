@@ -593,7 +593,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                       );
                     })}
-                  </div></td></tr>
+                      </div></td></tr>
                   <tr>
                     <td>
                     <div className="secondheadsum1 ">

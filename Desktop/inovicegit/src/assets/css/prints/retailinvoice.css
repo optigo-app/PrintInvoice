@@ -1,0 +1,80 @@
+.container_ri{
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 5rem;
+    padding: 1rem;
+    padding-bottom: 5rem;
+    color: black;
+}
+.fs_ri{
+    font-size: 13px;
+    line-height: 15px;
+}
+.center_ri{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.start_jus_ri{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.printheadlabel_ri{
+    height: 40px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #939292;
+    padding-left: 5px;
+}
+.box1_ri{
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid black;
+    width: 25%;
+}
+
+.col1_ri{
+    width: 12%;
+}
+.col2_ri{
+    width: 6%;
+}
+.col3_ri{
+    width: 6%;
+}
+.col4_ri{
+    width: 7%;
+}
+.col5_ri{
+    width: 7%;
+}
+.col6_ri{
+    width: 7%;
+}
+.col7_ri{
+    width: 7%;
+}
+.col8_ri{
+    width: 10%;
+}
+.col9_ri{
+    width: 8%;
+}
+.col10_ri{
+    width: 10%;
+}
+.col11_ri{
+    width: 10%;
+}
+.col12_ri{
+    width: 10%;
+}
+/* 100 */
