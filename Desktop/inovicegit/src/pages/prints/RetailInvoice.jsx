@@ -69,6 +69,10 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             if(e?.IsSolitaireAmount === 1){
                 discountOn.push('Solitaire')
             }
+        }else{
+            if(e?.Discount !== 0){
+                discountOn.push('Total Amount')
+            }
         }
         
         obj.discountOn = discountOn; 
@@ -206,9 +210,14 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className='text-break p-1 col5_ri center_ri'>{e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
                                     <div className='text-break p-1 col6_ri center_ri'>{e?.totals?.colorstone?.Wt?.toFixed(3)}</div>
                                     <div className='text-break p-1 col7_ri center_ri'>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
-                                    <div className='text-break p-1 col8_ri center_ri'>{formatAmount((e?.UnitCost - e?.totals?.finding?.SettingAmount))}</div>
+                                    <div className='text-break p-1 col8_ri center_ri'>{formatAmount((e?.UnitCost - (e?.totals?.finding?.SettingAmount + e?.totals?.metal?.withoutPrimaryMetal_Amount)))}</div>
                                     <div className='p-1 col9_ri center_ri'><img src={e?.DesignImage} alt="#jobimg" onError={(e) => handleImageError(e)} className='img_ri' /></div>
-                                    <div className='text-break p-1 col10_ri center_ri flex-column'><span>{e?.IsCriteriabasedAmount === 0 ? '-' : `${formatAmount(e?.Discount)} % On `  } </span><span>{e?.discountOn?.map((el, ind) => <div key={ind}>{el}</div>)}</span></div>
+                                    {/* <div className='text-break p-1 col10_ri center_ri flex-column'><span>{e?.IsCriteriabasedAmount === 0 ? '-' : `${formatAmount(e?.Discount)} % On `  } </span><span>{e?.discountOn?.map((el, ind) => <div key={ind}>{el}</div>)}</span></div> */}
+                                    <div className='text-break p-1 col10_ri center_ri flex-column'>
+                                        { e?.Discount === 0 ? '-' : <span className='text-break'>
+                                            {e?.discountOn?.map((el, ind) => <div className='text-break' key={ind}>{`${formatAmount(e?.Discount)} % On ${el}`}</div>)}
+                                        </span> }
+                                    </div>
                                     <div className='text-break p-1 col11_ri center_ri'>{formatAmount(e?.DiscountAmt)}</div>
                                     <div className='text-break p-1 col12_ri center_ri'>{formatAmount(e?.TotalAmount)}</div>
                                     </div>
@@ -223,7 +232,7 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className='text-break p-1 col5_ri center_ri'>{result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</div>
                             <div className='text-break p-1 col6_ri center_ri'>{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</div>
                             <div className='text-break p-1 col7_ri center_ri'>{(result?.mainTotal?.netwt + result?.mainTotal?.lossWt)?.toFixed(3)}</div>
-                            <div className='text-break p-1 col8_ri center_ri'>{formatAmount((result?.mainTotal?.total_unitcost - result?.mainTotal?.finding?.SettingAmount))}</div>
+                            <div className='text-break p-1 col8_ri center_ri'>{formatAmount((result?.mainTotal?.total_unitcost - (result?.mainTotal?.finding?.SettingAmount + result?.mainTotal?.metal?.withoutPrimaryMetal_Amount)))}</div>
                             <div className='p-1 col9_ri center_ri'></div>
                             <div className='text-break p-1 col10_ri center_ri'></div>
                             <div className='text-break p-1 col11_ri center_ri'>{formatAmount(result?.mainTotal?.total_discount_amount)}</div>
@@ -265,7 +274,7 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='w-25 p-1'>Balance Amount</div>
                                 <div className='w-25 p-1'></div>
                                 <div className='w-25 p-1'></div>
-                                <div className='w-25 p-1 end_ri'>{formatAmount(result?.header?.maindistotal)}</div>
+                                <div className='w-25 p-1 end_ri'>{formatAmount(result?.header?.LedgerBal)}</div>
                             </div>
                             <div style={{marginTop:'8rem'}} className='p-1'>
                                 <div>For : {result?.header?.CompanyFullName}</div> 
@@ -278,14 +287,14 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             {
                                 result?.allTaxes?.map((e, ins) => {
                                     return <div className='d-flex justify-content-between p-1  border-bottom border-black' key={ins}>
-                                            <div className=''>{e?.name} @ {e?.per}</div><div className=''>{formatAmount(e?.amount)}</div>
+                                            <div className=''>{e?.name} @ {e?.per}</div><div className=''>{formatAmount(((+e?.amount) * result?.header?.CurrencyExchRate))}</div>
                                            </div>
                                 })
                             }
                             <div className='d-flex justify-content-between p-1  border-bottom border-black'><div className=''>Less - Other Discount</div><div className=''>{formatAmount(result?.header?.AddLess)}</div></div>
-                            <div className='d-flex justify-content-between p-1 border-bottom border-black'><div className=''>Net Invoice Value</div><div className=''>{formatAmount(( result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess))}</div></div>
-                            <div className='d-flex justify-content-between p-1 border-bottom border-black'><div className=''>Total Amount to be paid</div><div className=''>{formatAmount(( result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess))}</div></div>
-                            <div className='d-flex justify-content-between p-1 border-bottom border-black'><div className=''>Value In Words : {toWords.convert(+( result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess)?.toFixed(2))} Only</div></div>
+                            <div className='d-flex justify-content-between p-1 border-bottom border-black'><div className=''>Net Invoice Value</div><div className=''>{formatAmount(( result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))}</div></div>
+                            <div className='d-flex justify-content-between p-1 border-bottom border-black'><div className=''>Total Amount to be paid</div><div className=''>{formatAmount(( result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))}</div></div>
+                            <div className='d-flex justify-content-between p-1 border-bottom border-black'><div className='text-break'>Value In Words : {toWords.convert(+( result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess)?.toFixed(2))} Only</div></div>
                             <div style={{marginTop:'8rem'}} className='p-1'>
                                 <div>Customer Name : {result?.header?.CustName}</div> 
                                 <div className='mt-5'>Customer Signature</div>
