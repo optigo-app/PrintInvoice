@@ -3,31 +3,52 @@
   font-size: 12px;
 }
 
+.detailPrint5{
+  zoom: 1.5;
+}
+
 .detailPrint5Table * {
-  font-size: 10px;
+  font-size: 8px;
+}
+
+.detailPrint5 p, .metal > div > div, .diamond > div > div, .stone > div > div, .labour > div > div > div > div > div, .totaltotal > div{
+  padding: 1px;
+}
+
+.wordBreak *, .wordBreak {
+  word-break: break-all;
 }
 
 .srNo {
-  width: 5%;
-  min-width: 5%;
+  width: 3%;
+  min-width: 3%;
 }
 .design {
   width: 10%;
   min-width: 10%;
 }
-.diamond,
-.metal,
-.stone {
-  width: 20%;
-  min-width: 20%;
+.diamond{
+  width: 22%;
+  min-width: 22%;
 }
+
+.metal{
+  width: 22%;
+  min-width: 22%;
+}
+
+.stone{
+  width: 22%;
+  min-width: 22%;
+}
+
 .otherAmount {
-  width: 7%;
-  min-width: 7%;
+  width: 5%;
+  min-width: 5%;
 }
 .labour {
-  width: 11%;
-  min-width: 11%;
+  width: 9%;
+  min-width: 9%;
 }
 .totalAmount {
   width: 7%;
@@ -50,8 +71,8 @@
 }
 
 .total {
-  width: 15%;
-  min-width: 15%;
+  width: 13%;
+  min-width: 13%;
 }
 
 .taxes {
@@ -74,5 +95,9 @@
 
   .detailPrint5Table * {
     font-size: 7px;
+  }
+
+  .detailPrint5{
+    zoom: unset;
   }
 }
