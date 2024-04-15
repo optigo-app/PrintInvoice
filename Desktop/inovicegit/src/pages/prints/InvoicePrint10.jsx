@@ -96,6 +96,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       let findingWt = 0;
       let findingsWt = 0;
       let findingsAmount = 0;
+      let secondaryMetalAmount = 0;
       obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
       e?.finding?.forEach((ele, ind) => {
         if (ele?.ShapeName !== obj?.primaryMetal?.ShapeName && ele?.QualityName !== obj?.primaryMetal?.QualityName) {
@@ -104,19 +105,17 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           if (obj?.primaryMetal) {
             obb.Rate = obj?.primaryMetal?.Rate;
             obb.Amount = (ele?.Wt * obb?.Rate);
-            findingsAmount += (ele?.Wt * obb?.Rate)
+            findingsAmount += (ele?.Wt * obb?.Rate);
           }
           findingsWt += ele?.Wt;
-          // objj.Rate = 
           findings?.push(obb);
           total2.total += (obb?.Amount);
-          findingsWt += ele?.Wt
         }
         if (ele?.Supplier?.toLowerCase() === "customer") {
           findingWt += ele?.Wt
         }
       });
-  
+
       let findPcss = totalPcss?.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob);
       if (findPcss === -1) {
         totalPcss?.push({ GroupJob: e?.GroupJob, value: e?.Quantity });
@@ -133,6 +132,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
 
       let primaryWt = 0;
       let count = 0;
+      console.log(findingsWt);
       let netWtFinal = e?.NetWt + e?.LossWt - findingsWt;
 
       diamondHandling += e?.TotalDiamondHandling;
@@ -140,6 +140,8 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         count += 1;
         if (ele?.IsPrimaryMetal === 1) {
           primaryWt += ele?.Wt;
+        } else {
+          secondaryMetalAmount += ele?.Amount;
         }
       });
       // labour.primaryWt += primaryWt;
@@ -148,7 +150,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       total2.discount += e?.DiscountAmt;
       obj.primaryWt = primaryWt;
       obj.netWtFinal = netWtFinal;
-      obj.metalAmountFinal = e?.MetalAmount - findingsAmount;
+      obj.metalAmountFinal = e?.MetalAmount - findingsAmount + secondaryMetalAmount;
       if (count <= 1) {
         primaryWt = e?.NetWt + e?.LossWt;
       }
@@ -563,7 +565,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.netWtFinal, 3)} Gms</p></div>
                 <div style={{ minWidth: "9%", width: "9%" }} className=" px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryMetal?.Rate, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{e?.netWtFinal !== 0 && NumberWithCommas(e?.metalAmountFinal / e?.netWtFinal, 2)}</p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.metalAmountFinal, 2)}</p></div>
               </div>
             })}
