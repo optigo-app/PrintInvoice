@@ -35,8 +35,21 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let netWtTotal = 0;
         datas?.resultArray?.forEach((e, i) => {
             let obj = cloneDeep(e);
-            obj.OtherMetalLength = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal !== 1 ? acc + 1 : acc, 0);
-            obj.PrimaryWt = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc + cObj?.Wt : acc, 0);
+            let OtherMetalLength = 0;
+            // obj.PrimaryWt = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc + cObj?.Wt : acc, 0);
+            let PrimaryWt = 0;
+            let PrimaryAmount = 0;
+            e?.metal?.forEach((ele, ind) => {
+                if (ele?.IsPrimaryMetal === 1) {
+                    PrimaryWt += ele?.Wt;
+                    PrimaryAmount += ele?.Amount;
+                } else {
+                    OtherMetalLength = OtherMetalLength + 1;
+                }
+            });
+            obj.OtherMetalLength = OtherMetalLength;
+            obj.PrimaryWt = PrimaryWt;
+            obj.PrimaryAmount = PrimaryAmount;
             if (obj?.OtherMetalLength === 0) {
                 netWtTotal += e?.NetWt + e?.LossWt;
             } else {
@@ -154,19 +167,19 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <p className="fw-bold text-center w-100">Metal</p>
                                             </div>
                                             <div className="d-flex">
-                                                <div  style={{width: "18%"}} className={` border-end`}>
+                                                <div style={{ width: "18%" }} className={` border-end`}>
                                                     <p className="fw-bold text-center">Kt</p>
                                                 </div>
-                                                <div  style={{width: "20%"}} className={` border-end`}>
+                                                <div style={{ width: "20%" }} className={` border-end`}>
                                                     <p className="fw-bold text-center">Gr Wt</p>
                                                 </div>
-                                                <div  style={{width: "20%"}} className={` border-end`}>
+                                                <div style={{ width: "20%" }} className={` border-end`}>
                                                     <p className="fw-bold text-center">N+L</p>
                                                 </div>
-                                                <div  style={{width: "20%"}} className={` border-end`}>
+                                                <div style={{ width: "20%" }} className={` border-end`}>
                                                     <p className="fw-bold text-center">Rate</p>
                                                 </div>
-                                                <div  style={{width: "22%"}} className={``}>
+                                                <div style={{ width: "22%" }} className={``}>
                                                     <p className="fw-bold text-center">Amount</p>
                                                 </div>
                                             </div>
@@ -286,35 +299,64 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     </div>
                                                 </div>
                                                 <div className={`${style?.Metal} border-end`}>
-                                                    <div className="d-grid h-100">
+                                                    {e?.JobRemark === "" ? <div className="d-grid h-100">
                                                         <div className="d-flex" >
-                                                            <div style={{width: "18%"}} className={` border-end`}>
+                                                            <div style={{ width: "18%" }} className={` border-end`}>
                                                                 {e?.metal.map((ele, ind) => {
                                                                     return ele?.IsPrimaryMetal === 1 && <p className="" key={ind} style={{ wordBreak: "normal" }}>{ele?.ShapeName} {ele?.QualityName}</p>
                                                                 })}
                                                             </div>
-                                                            <div style={{width: "20%"}} className={` border-end`}>
+                                                            <div style={{ width: "20%" }} className={` border-end`}>
                                                                 {e?.metal.map((ele, ind) => {
                                                                     return ele?.IsPrimaryMetal === 1 && <p className="text-end" key={ind}>{NumberWithCommas(e?.grosswt, 3)}</p>
                                                                 })}
                                                             </div>
-                                                            <div style={{width: "20%"}} className={` border-end`}>
+                                                            <div style={{ width: "20%" }} className={` border-end`}>
                                                                 {e?.metal.map((ele, ind) => {
                                                                     return ele?.IsPrimaryMetal === 1 && <p className="text-end" key={ind}>{e?.OtherMetalLength === 0 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(ele?.Wt, 3)}</p>
                                                                 })}
                                                             </div>
-                                                            <div style={{width: "20%"}} className={` border-end`}>
+                                                            <div style={{ width: "20%" }} className={` border-end`}>
                                                                 {e?.metal.map((ele, ind) => {
                                                                     return ele?.IsPrimaryMetal === 1 && <p className="text-end" key={ind}>{NumberWithCommas(ele?.Rate, 2)}</p>
                                                                 })}
                                                             </div>
-                                                            <div style={{width: "22%"}} className={``}>
+                                                            <div style={{ width: "22%" }} className={``}>
                                                                 {e?.metal.map((ele, ind) => {
                                                                     return ele?.IsPrimaryMetal === 1 && <p className="text-end" key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
                                                                 })}
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> : <div> <div className="d-flex border-bottom" >
+                                                        <div style={{ width: "18%" }} className={` border-end`}>
+                                                            {e?.metal.map((ele, ind) => {
+                                                                return ele?.IsPrimaryMetal === 1 && <p className="" key={ind} style={{ wordBreak: "normal" }}>{ele?.ShapeName} {ele?.QualityName}</p>
+                                                            })}
+                                                        </div>
+                                                        <div style={{ width: "20%" }} className={` border-end`}>
+                                                            {e?.metal.map((ele, ind) => {
+                                                                return ele?.IsPrimaryMetal === 1 && <p className="text-end" key={ind}>{NumberWithCommas(e?.grosswt, 3)}</p>
+                                                            })}
+                                                        </div>
+                                                        <div style={{ width: "20%" }} className={` border-end`}>
+                                                            {e?.metal.map((ele, ind) => {
+                                                                return ele?.IsPrimaryMetal === 1 && <p className="text-end" key={ind}>{e?.OtherMetalLength === 0 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : NumberWithCommas(ele?.Wt, 3)}</p>
+                                                            })}
+                                                        </div>
+                                                        <div style={{ width: "20%" }} className={` border-end`}>
+                                                            {e?.metal.map((ele, ind) => {
+                                                                return ele?.IsPrimaryMetal === 1 && <p className="text-end" key={ind}>{NumberWithCommas(ele?.Rate, 2)}</p>
+                                                            })}
+                                                        </div>
+                                                        <div style={{ width: "22%" }} className={``}>
+                                                            {e?.metal.map((ele, ind) => {
+                                                                return ele?.IsPrimaryMetal === 1 && <p className="text-end" key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
+                                                            })}
+                                                        </div>
+                                                    </div><div className={``}>
+                                                            <p className="">Remark:</p>
+                                                            <p className="fw-bold">{e?.JobRemark}</p>
+                                                        </div></div>}
                                                 </div>
                                                 <div className={`${style?.Stone} border-end`}>
                                                     <div className="d-grid h-100">
@@ -379,7 +421,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     </div>
                                                 </div>
                                                 <div className={`${style?.Price} `}>
-                                                    <p className="text-end fw-bold">{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                                                    <p className="text-end fw-bold">{NumberWithCommas(e?.UnitCost, 2)}</p>
                                                 </div>
                                             </div>
                                             <div className={`d-flex border-top`}>
@@ -410,20 +452,20 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <div className={`${style?.Metal} border-end lightGrey`}>
                                                     <div className="d-grid h-100">
                                                         <div className={`d-flex w-100`}>
-                                                            <div  style={{width: "18%"}} className={`border-end`}>
+                                                            <div style={{ width: "18%" }} className={`border-end`}>
                                                                 <p className=" fw-bold"></p>
                                                             </div>
-                                                            <div  style={{width: "20%"}} className={`border-end`}>
+                                                            <div style={{ width: "20%" }} className={`border-end`}>
                                                                 <p className="text-end fw-bold">{e?.grosswt !== 0 && NumberWithCommas(e?.grosswt, 3)}</p>
                                                             </div>
-                                                            <div  style={{width: "20%"}} className={`border-end`}>
+                                                            <div style={{ width: "20%" }} className={`border-end`}>
                                                                 <p className="text-end fw-bold">{e?.OtherMetalLength === 0 ? (e?.NetWt + e?.LossWt !== 0 && NumberWithCommas(e?.NetWt + e?.LossWt, 3)) : NumberWithCommas(e?.PrimaryWt, 3)}</p>
                                                             </div>
-                                                            <div  style={{width: "20%"}} className={`border-end`}>
+                                                            <div style={{ width: "20%" }} className={`border-end`}>
                                                                 <p className="text-end fw-bold"></p>
                                                             </div>
-                                                            <div  style={{width: "22%"}} className={``}>
-                                                                <p className="text-end fw-bold">{e?.totals?.metal?.Amount !== 0 && NumberWithCommas(e?.totals?.metal?.Amount, 2)}</p>
+                                                            <div style={{ width: "22%" }} className={``}>
+                                                                <p className="text-end fw-bold">{e?.PrimaryAmount !== 0 && NumberWithCommas(e?.PrimaryAmount, 2)}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -516,11 +558,11 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className={`${style?.stone_labour_other} border-end lightGrey`}>
+                                                <div className={`${style?.stone_labour_other} border-end lightGrey fw-bold`}>
                                                     <div className="d-flex w-100">
                                                         <div className={`${style?.discount} border-end`}>
                                                             <p className="text-end">
-                                                                Discount {e?.isdiscountinamount === 1 ? `${NumberWithCommas(e?.DiscountAmt, 2)} On` : ` ${NumberWithCommas(e?.Discount)}% @Total`} Amount
+                                                                Discount {e?.isdiscountinamount === 1 ? `${NumberWithCommas(e?.DiscountAmt, 2)} On` : ` ${NumberWithCommas(e?.Discount, 2)}% @Total`} Amount
                                                             </p>
                                                         </div>
                                                         <div className={`${style?.discount_amount}`}>
@@ -530,7 +572,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className={`${style?.Price} lightGrey`}><p className="text-end">{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+                                                <div className={`${style?.Price} lightGrey fw-bold`}><p className="text-end">{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                                             </div>}
                                         </div>
                                     </div>
@@ -563,19 +605,19 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                     </div>
                                     <div className={`${style?.Metal} border-end d-flex`}>
-                                        <div  style={{width: "18%"}} className={`border-end`}>
+                                        <div style={{ width: "18%" }} className={`border-end`}>
                                             <p className=""></p>
                                         </div>
-                                        <div  style={{width: "20%"}} className={`border-end d-flex align-items-center justify-content-end`}>
+                                        <div style={{ width: "20%" }} className={`border-end d-flex align-items-center justify-content-end`}>
                                             <p className="text-end fw-bold">{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</p>
                                         </div>
-                                        <div  style={{width: "20%"}} className={`border-end d-flex align-items-center justify-content-end`}>
+                                        <div style={{ width: "20%" }} className={`border-end d-flex align-items-center justify-content-end`}>
                                             <p className="text-end fw-bold">{NumberWithCommas(data?.mainTotal?.netWtTotal, 3)}</p>
                                         </div>
-                                        <div  style={{width: "20%"}} className={`border-end d-flex align-items-center justify-content-center`}>
+                                        <div style={{ width: "20%" }} className={`border-end d-flex align-items-center justify-content-center`}>
                                             <p className="text-end"></p>
                                         </div>
-                                        <div  style={{width: "22%"}} className={`d-flex align-items-center justify-content-end`}>
+                                        <div style={{ width: "22%" }} className={`d-flex align-items-center justify-content-end`}>
                                             <p className="text-end fw-bold">{NumberWithCommas(data?.mainTotal?.MetalAmount, 2)}</p>
                                         </div>
                                     </div>
