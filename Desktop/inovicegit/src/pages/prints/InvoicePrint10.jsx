@@ -701,7 +701,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
             }
             <div className="d-flex justify-content-between">
               <p className="fw-bold"> Total Amount </p>
-              <p className="fw-bold"> {NumberWithCommas(totalss?.total - totalss?.discount, 2)}</p>
+              <p className="fw-bold"> {NumberWithCommas(mainDatas?.mainTotal?.total_amount, 2)}</p>
             </div>
             {mainDatas?.allTaxes?.map((e, i) => {
               return (
@@ -731,14 +731,13 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           <div className="col-8 border-end px-1">
             <p className="fw-bold"> IN Words Indian Rupees</p>
             <p className="fw-bold">
-              {toWords.convert(+fixedValues(totalss?.total - totalss?.discount + mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0) + headerData?.AddLess + headerData?.FreightCharges, 2))} Only.
+              {toWords.convert(+fixedValues(mainDatas?.mainTotal?.total_amount+ mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0) + headerData?.AddLess + headerData?.FreightCharges, 2))} Only.
             </p>
           </div>
           <div className="col-4 px-1 d-flex justify-content-between align-items-center">
             <p className="text-end fw-bold">Grand Total </p>
             <p className="text-end fw-bold">
-              {NumberWithCommas(totalss?.total - totalss?.discount +
-                mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0) +
+              {NumberWithCommas(mainDatas?.mainTotal?.total_amount + mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0) +
                 headerData?.AddLess + headerData?.FreightCharges, 2)}
             </p>
           </div>

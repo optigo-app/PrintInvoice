@@ -299,8 +299,8 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {data?.resultArray?.map((e, i) => {
               return <React.Fragment key={i}>
                 <div className={`d-flex border-start border-end border-black no_break ${style?.wordBreak} ${style?.rowWisePad}`} key={i}>
-                  <div className={`${style?.srno} border-end d-flex align-items-center justify-content-center border-bottom`}><p className={`${style?.pad_1}`}>{i + 1}</p></div>
-                  <div className={`${style?.design} border-end border-bottom`}>
+                  <div className={`${style?.srno} border-end d-flex align-items-center justify-content-center`}><p className={`${style?.pad_1}`}>{i + 1}</p></div>
+                  <div className={`${style?.design} border-end`}>
                     <div className="d-flex justify-content-between pb-1 flex-wrap">
                       <p className={`${style?.pad_1}`}>{e?.designno}</p>
                       <p className={`${style?.pad_1}`}>{e?.SrJobno}</p>
@@ -308,7 +308,6 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <img src={e?.DesignImage} alt="" className="imgWidth" onError={handleImageError} />
                     <p className="text-center">Tunch : <span className="fw-bold">{NumberWithCommas(e?.Tunch, 3)}</span></p>
                     <p className="text-center"><span className="fw-bold">{NumberWithCommas(e?.grosswt, 3)} gm</span> Gross</p>
-                    <p className="text-center">Cert# <span className="fw-bold">{e?.CertificateNo}</span></p>
                   </div>
                   <div className={`${style?.diamond} border-end border-bottom`}>
                     <div className="d-flex justify-content-between flex-column h-100">
@@ -324,14 +323,6 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         })}
                       </div>
-                      <div className="d-flex w-100 border-top fw-bold lightGrey">
-                        <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1}`}>	</p></div>
-                        <div style={{ width: "16%" }} className=""><p className={`${style?.pad_1}`}>	</p></div>
-                        <div style={{ width: "12%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)}</p></div>
-                        <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p></div>
-                        <div style={{ width: "16%" }} className=""><p className={`${style?.pad_1} text-end`}></p></div>
-                        <div style={{ width: "22%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</p></div>
-                      </div>
                     </div>
                   </div>
                   <div className={`${style?.metal} border-end border-bottom`}>
@@ -339,7 +330,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div>
                         {e?.metal?.map((ele, ind) => {
                           return ele?.IsPrimaryMetal === 1 && <div className="d-flex w-100 border-bottom" key={ind}>
-                            <div style={{ width: "23%" }} className=""><p className={`${style?.pad_1}`}>{ele?.ShapeName} {ele?.QualityName}</p></div>
+                            <div style={{ width: "23%" }} className=""><p className={`${style?.pad_1}`} style={{wordBreak: "normal"}}>{ele?.ShapeName} {ele?.QualityName}</p></div>
                             <div style={{ width: "23%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Wt - e?.LossWt, 3)}</p></div>
                             <div style={{ width: "23%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Rate, 2)}</p></div>
                             <div style={{ width: "31%" }} className=""><p className={`${style?.pad_1} text-end fw-bold`}>{NumberWithCommas(ele?.Amount, 2)}</p></div>
@@ -350,12 +341,6 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <p className={`${style?.pad_1}`}>Remark: </p>
                             <p className={`${style?.pad_1} fw-bold`}>{e?.JobRemark}</p></div>
                         </div>}
-                      </div>
-                      <div className="d-flex w-100 border-top fw-bold lightGrey">
-                        <div style={{ width: "23%" }} className=""><p className={`${style?.pad_1}`}></p></div>
-                        <div style={{ width: "23%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.primaryWt, 3)}</p></div>
-                        <div style={{ width: "23%" }} className=""><p className={`${style?.pad_1} text-end`}></p></div>
-                        <div style={{ width: "31%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.primaryAmount, 2)}</p></div>
                       </div>
                     </div>
                   </div>
@@ -373,22 +358,11 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         })}
                       </div>
-                      <div>
-                        <div className="d-flex w-100 border-top fw-bold lightGrey" >
-                          <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1}`}></p></div>
-                          <div style={{ width: "16%" }} className=""><p className={`${style?.pad_1}`}></p></div>
-                          <div style={{ width: "12%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.colorstone?.Pcs, 0)}</p></div>
-                          <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}</p></div>
-                          <div style={{ width: "16%" }} className=""><p className={`${style?.pad_1} text-end`}></p></div>
-                          <div style={{ width: "22%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</p></div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                   <div className={`${style?.otherAmount} border-end border-bottom`}>
                     <div className="d-flex flex-column justify-content-between h-100">
                       <p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)}</p>
-                      <p className={`${style?.pad_1} text-end border-top lightGrey fw-bold`}>{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)}</p>
                     </div>
                   </div>
                   <div className={`${style?.labourAmount} border-end border-bottom`}>
@@ -399,10 +373,6 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="col-7"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost, 2)}</p></div>
                         </div>
                       </div>
-                      <div className="d-flex w-100 border-top fw-bold lightGrey">
-                        <div className="col-6"><p className={`${style?.pad_1} text-end`}>	</p></div>
-                        <div className="col-6"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost, 2)}</p></div>
-                      </div>
                     </div>
                   </div>
                   <div className={`${style?.totalAmount} border-bottom`}>
@@ -410,10 +380,55 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div>
                         <p className={`${style?.pad_1} text-end fw-bold`}>{NumberWithCommas(e?.TotalAmount, 2)}</p>
                       </div>
-                      <div className="border-top fw-bold lightGrey">
+                    </div>
+                  </div>
+                </div>
+                <div className={`d-flex border-start border-end border-black no_break ${style?.wordBreak} ${style?.rowWisePad}`} key={i}>
+                  <div className={`${style?.srno} border-end d-flex align-items-center justify-content-center border-bottom`}><p className={`${style?.pad_1}`}></p></div>
+                  <div className={`${style?.design} border-end border-bottom`}>
+                    <p className="text-center">Cert# <span className="fw-bold">{e?.CertificateNo}</span></p>
+                  </div>
+                  <div className={`${style?.diamond} lightGrey border-end border-bottom`}>
+                      <div className="d-flex w-100 border-top fw-bold ">
+                        <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1}`}>	</p></div>
+                        <div style={{ width: "16%" }} className=""><p className={`${style?.pad_1}`}>	</p></div>
+                        <div style={{ width: "12%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)}</p></div>
+                        <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p></div>
+                        <div style={{ width: "16%" }} className=""><p className={`${style?.pad_1} text-end`}></p></div>
+                        <div style={{ width: "22%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</p></div>
+                      </div>
+                  </div>
+                  <div className={`${style?.metal} lightGrey border-end border-bottom`}>
+                      <div className="d-flex w-100 border-top fw-bold ">
+                        <div style={{ width: "23%" }} className=""><p className={`${style?.pad_1}`}></p></div>
+                        <div style={{ width: "23%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.primaryWt, 3)}</p></div>
+                        <div style={{ width: "23%" }} className=""><p className={`${style?.pad_1} text-end`}></p></div>
+                        <div style={{ width: "31%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.primaryAmount, 2)}</p></div>
+                      </div>
+                  </div>
+                  <div className={`${style?.stone} lightGrey border-end border-bottom`}>
+                        <div className="d-flex w-100 border-top fw-bold " >
+                          <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1}`}></p></div>
+                          <div style={{ width: "16%" }} className=""><p className={`${style?.pad_1}`}></p></div>
+                          <div style={{ width: "12%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.colorstone?.Pcs, 0)}</p></div>
+                          <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.colorstone?.Wt, 3)}</p></div>
+                          <div style={{ width: "16%" }} className=""><p className={`${style?.pad_1} text-end`}></p></div>
+                          <div style={{ width: "22%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</p></div>
+                        </div>
+                  </div>
+                  <div className={`${style?.otherAmount} lightGrey border-end border-bottom`}>
+                      <p className={`${style?.pad_1} text-end border-top  fw-bold`}>{NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling, 2)}</p>
+                  </div>
+                  <div className={`${style?.labourAmount} lightGrey border-end border-bottom`}>
+                      <div className="d-flex w-100 border-top fw-bold ">
+                        <div className="col-6"><p className={`${style?.pad_1} text-end`}>	</p></div>
+                        <div className="col-6"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost, 2)}</p></div>
+                      </div>
+                  </div>
+                  <div className={`${style?.totalAmount} lightGrey border-bottom`}>
+                      <div className="border-top fw-bold ">
                         <p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.TotalAmount, 2)}</p>
                       </div>
-                    </div>
                   </div>
                 </div>
               </React.Fragment>
