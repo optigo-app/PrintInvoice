@@ -166,14 +166,14 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       loader ? <Loader /> : msg === "" ?
         <div className={`container pt-5 px-1s ${style.tax_invoice_container} pad_60_allPrint max_width_container px-1`}>
           <div className={`d-flex justify-content-end mb-4 align-items-center ${style?.print_sec_sum4}`}>
-            <div className="form-check pe-3">
+            <div className="form-check pe-3 d-flex align-items-center">
               <input
                 className="form-check-input border-dark"
                 type="checkbox"
                 checked={image}
                 onChange={(e) => handleChange(e)}
               />
-              <label className="form-check-label" style={{ paddingTop: "1.5px", minHeight: "unset !important" }}>With Image</label>
+              <label className="form-check-label ps-1 pt-1" style={{ paddingTop: "1.5px", minHeight: "unset !important" }}>With Image</label>
             </div>
             <div className="form-check ps-3">
               <input
