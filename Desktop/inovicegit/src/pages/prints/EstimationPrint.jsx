@@ -409,7 +409,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                     <p className='p-1  text-end  fw-bold'>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}	</p>
                 </div>
                 <div className={`${style?.Total}`}>
-                    <p className='p-1  text-end  fw-bold'>{NumberWithCommas(data?.finalAmount, 2)}</p>
+                    <p className='p-1  text-end  fw-bold'>{NumberWithCommas(data?.mainTotal?.total_amount+data?.allTaxes?.reduce((acc, cObj) => acc+ (+cObj?.amount * headerData?.CurrencyExchRate), 0)+headerData?.AddLess, 2)}</p>
                 </div>
             </div>
             {/* summary */}
