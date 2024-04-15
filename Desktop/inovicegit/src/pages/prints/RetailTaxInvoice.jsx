@@ -30,16 +30,16 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-      let totrate = 0;
-      let count = 0;
-      datas?.resultArray?.forEach((e) => {
-        if(e?.MaKingCharge_Unit !== 0){
-          totrate += e?.MaKingCharge_Unit;
-          count++;
-        }
-      })
-      setTotalCount(count);
-      setTotalMakingChargeUnit(totrate);
+      // let totrate = 0;
+      // let count = 0;
+      // datas?.resultArray?.forEach((e) => {
+      //   if(e?.MaKingCharge_Unit !== 0){
+      //     totrate += e?.MaKingCharge_Unit;
+      //     count++;
+      //   }
+      // })
+      // setTotalCount(count);
+      // setTotalMakingChargeUnit(totrate);
       let met = [];
       let dia = [];
       let clr = [];
@@ -135,6 +135,100 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       setClrwise(clr);
       setMiscwise(miscc);
       setOthInfo(oth);
+
+      // let lbr_rate = 0;
+      // let finalArr = [];
+      // datas?.resultArray?.forEach((e) => {
+      //   // console.log(e);
+      //   let obj = {...e};
+      //   let findingwt = 0;
+      //   datas?.json2?.forEach((el) => {
+      //     if(e?.SrJobno === el?.StockBarcode){
+            
+      //       // (obj?.MetalDiaWt - )
+      //       if(el?.MasterManagement_DiamondStoneTypeid === 5){
+      //         if((el?.Supplier === 'Customer') || (el?.Supplier === 'customer')){
+      //             findingwt += el?.Wt;
+      //           }
+      //         }
+      //         // console.log(findingwt);
+              
+      //       }
+      //     })
+      //     // let lbr_wt = ((obj?.MetalDiaWt - findingwt) * obj?.MaKingCharge_Unit);
+              
+      //     // obj.lbr_wt = lbr_wt;
+      //     finalArr.push(obj);
+
+      // })
+      
+      // datas.resultArray = finalArr;
+
+      let finalArr = [];
+
+      datas?.resultArray?.forEach((a) => {
+        let findingwt = 0;
+        datas?.json2?.forEach((el) => {
+          if(a?.SrJobno === el?.StockBarcode){
+            if(el?.MasterManagement_DiamondStoneTypeid === 5){
+              if(el?.Supplier === 'customer' || el?.supplier === 'Customer'){
+                findingwt += el?.Wt;
+              }
+            }
+          }
+        })
+        let obj = {...a};
+        obj.findingwt = findingwt;
+        finalArr.push(obj);
+      })
+
+      let finalArr2 = [];
+      finalArr?.forEach((e) => {
+        let obj = {...e};
+        let lbr_wt = 0;
+        // let lbr_wt = ((obj?.MetalDiaWt - obj?.findingwt) * obj?.MaKingCharge_Unit);
+         lbr_wt = ((obj?.MetalDiaWt - obj?.findingwt));
+        
+        obj.lbr_wt = lbr_wt;
+        finalArr2.push(obj);
+      })
+      let finalArr3 = [];
+      finalArr2?.forEach((a) => {
+        let obj = {...a};
+        let lbr_amt = 0;
+          lbr_amt = ((obj?.MetalDiaWt - obj?.findingwt) * obj?.MaKingCharge_Unit);
+          obj.lbr_amt = lbr_amt;
+          finalArr3.push(obj);
+      })
+
+      let tot_lbr_wt =0;
+      let tot_lbr_amt =0;
+
+      finalArr3.forEach((a) => {
+        tot_lbr_wt += a?.lbr_wt;
+        tot_lbr_amt += a?.lbr_amt;
+      })
+
+
+      let finalArr4 = [];
+      finalArr4?.forEach((a) => {
+        let obj = {...a};
+        let lbr_rate = 0;
+        lbr_rate = ((obj?.lbr_amt) / (obj?.lbr_wt));
+        obj.lbr_rate = lbr_rate;
+        finalArr4.push(obj);
+      })
+      datas.resultArray = finalArr4;
+      // let totlbrrate = 0;
+      // datas?.resultArray?.forEach((a) => {
+      //     totlbrrate += a?.lbr_rate;
+      // })
+      let lbr_rate_total = 0;
+
+      lbr_rate_total = (tot_lbr_amt / (tot_lbr_wt === 0 ? 1 : tot_lbr_wt))
+      let rounduplabour =  Math.round(lbr_rate_total)
+      setTotalMakingChargeUnit(rounduplabour);
+
       setResult(datas);
 
     }
@@ -168,7 +262,6 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
         sendData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    console.log(result);
     return (
         <>  {loader ? <Loader /> : msg === "" ? 
         <div className=''>
@@ -279,7 +372,8 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                               <div className='tcol1rti ps-2'>LABOUR </div>
                               <div className='tcol2rti end_rti pe-1'></div>
                               {/* <div className='tcol3rti end_rti pe-1'>{formatAmount((result?.mainTotal?.total_Making_Amount / ((result?.mainTotal?.netwt + result?.mainTotal?.lossWt))))}</div> */}
-                              <div className='tcol3rti end_rti pe-1'>{formatAmount((total_makingcharge_unit / total_count))}</div>
+                              {/* <div className='tcol3rti end_rti pe-1'>{formatAmount((total_makingcharge_unit / total_count))}</div> */}
+                              <div className='tcol3rti end_rti pe-1'>{((total_makingcharge_unit))}</div>
                               <div className='tcol4rti brrightrti end_rti pe-1'>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount + result?.mainTotal?.misc?.Amount + result?.mainTotal?.total_diamondHandling))}</div>
                             </div>  
                     {

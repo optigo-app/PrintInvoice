@@ -35,6 +35,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       IsPrimaryMetal: 0,
       withOutPrimaryMetal:0,
       IsPrimaryMetal_Amount: 0,
+      withoutPrimaryMetal_Amount:0,
       SettingAmount: 0
     },
     finding: {
@@ -166,6 +167,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
           IsPrimaryMetal:0,
           WithOutPrimaryMetal:0,
           IsPrimaryMetal_Amount:0,
+          withoutPrimaryMetal_Amount:0,
           SettingAmount: 0
         },
         finding: {
@@ -308,6 +310,8 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               if(j2?.IsPrimaryMetal !== 1){
                 jobwise_totals.metal.WithOutPrimaryMetal += j2?.Wt;
                 maintotal.metal.withOutPrimaryMetal += j2?.Wt;
+                jobwise_totals.metal.withoutPrimaryMetal_Amount += j2?.Amount;
+                maintotal.metal.withoutPrimaryMetal_Amount += j2?.Amount;
               }
             }
             //for misc
