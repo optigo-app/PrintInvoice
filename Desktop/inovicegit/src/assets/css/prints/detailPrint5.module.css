@@ -3,11 +3,15 @@
   font-size: 12px;
 }
 
+.detailPrint5{
+  zoom: 1.5;
+}
+
 .detailPrint5Table * {
   font-size: 8px;
 }
 
-.detailPrint5 p, .metal > div > div, .diamond > div > div, .stone > div > div, .labour > div > div > div > div > div{
+.detailPrint5 p, .metal > div > div, .diamond > div > div, .stone > div > div, .labour > div > div > div > div > div, .totaltotal > div{
   padding: 1px;
 }
 
@@ -91,5 +95,9 @@
 
   .detailPrint5Table * {
     font-size: 7px;
+  }
+
+  .detailPrint5{
+    zoom: unset;
   }
 }

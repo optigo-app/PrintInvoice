@@ -458,7 +458,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                 <div>
                                     <div className="d-flex justify-content-between  px-2  lightGrey border-top">
                                         <p className="fw-bold">TOTAL</p>
-                                        <p>{NumberWithCommas(data?.finalAmount, 2)}</p>
+                                        <p>{NumberWithCommas(data?.mainTotal?.total_amount+data?.allTaxes?.reduce((acc, cObj) => acc+ (+cObj?.amount * headerData?.CurrencyExchRate), 0)+headerData?.AddLess, 2)}</p>
                                     </div>
                                 </div>
                             </div>

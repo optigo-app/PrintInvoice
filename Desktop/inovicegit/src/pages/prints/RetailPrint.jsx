@@ -681,7 +681,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             </div>
                                             {e?.designno === "1942" && console.log(e)}
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{e?.netWtLossWt !== 0 ? NumberWithCommas(((ele?.Amount / jsonData1?.CurrencyExchRate) / e?.netWtLossWt) / jsonData1?.CurrencyExchRate, 2) : "0.00"}</p>
+                                                <p className='text-end'>{e?.netWtLossWt !== 0 ? NumberWithCommas(((ele?.Amount / jsonData1?.CurrencyExchRate) / ele?.Wt) / jsonData1?.CurrencyExchRate, 2) : "0.00"}</p>
                                             </div>}
                                             {pName !== 'retail1 print' && <div className={`${styles.Amount} p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{NumberWithCommas(ele?.Amount / jsonData1?.CurrencyExchRate, 2)}</p>

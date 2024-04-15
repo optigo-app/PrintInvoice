@@ -203,6 +203,30 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setTotal(totals);
 
     console.log(resultArr);
+    resultArr.sort((a, b) => {
+      const designNoA = a.designno;
+      const designNoB = b.designno;
+  
+      // Convert design numbers to actual numbers for numeric comparison
+      const designNoANumber = parseInt(designNoA);
+      const designNoBNumber = parseInt(designNoB);
+  
+      // If both designnos are numbers, compare them numerically
+      if (!isNaN(designNoANumber) && !isNaN(designNoBNumber)) {
+          return designNoANumber - designNoBNumber;
+      }
+  
+      // If only one designno is a number, it should come before the other
+      if (!isNaN(designNoANumber)) {
+          return -1;
+      }
+      if (!isNaN(designNoBNumber)) {
+          return 1;
+      }
+  
+      // Both designnos are strings, compare them as strings
+      return designNoA.localeCompare(designNoB);
+  });
 
     let brokr = (data?.BillPrint_Json[0]?.Brokerage.split("@-@"));
     brokr = brokr.map(ele => ele?.split('#-#'));
@@ -551,9 +575,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="d-grid h-100 w-100">
                     <div>
                       <p className="text-end">
-                        {" "}
-                        {e?.otherAmt !== 0 &&
-                          NumberWithCommas(e?.otherAmt, 2)}
+                        {NumberWithCommas(e?.otherAmt, 2)}
                       </p>
                     </div>
                   </div>
@@ -655,13 +677,12 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className={`${style?.otherAmount} border-end border-top text-end lightGrey`} >
                     <div className={`d-flex w-100 justify-content-end ${style?.wordBreak}`}>
                       <p className={` text-end fw-bold`}>
-                        {e?.otherAmt !== 0 &&
-                          NumberWithCommas(e?.otherAmt, 2)}
+                          {NumberWithCommas(e?.otherAmt, 2)}
                       </p>
                     </div>
                 </div>
                 <div className={`${style?.labour} border-end text-center ${style?.wordBreak} lightGrey border-top`} >
-                    <div className="d-flex w-100">
+                    <div className={`d-flex w-100 ${style?.totaltotal}`}>
                       <div className={`col-6 text-end`}>
                         {/* {e?.MaKingCharge_Unit !== 0 &&
                         NumberWithCommas(e?.MaKingCharge_Unit, 2)} */}
@@ -737,12 +758,12 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {headerData?.AddLess > 0 ? "Add" : "Less"}
               </p>
             )}
-            {headerData?.BankReceived !== 0 && <p className="text-end">
+            {/* {headerData?.BankReceived !== 0 && <p className="text-end">
               Recv. in Cash
             </p>}
             {headerData?.CashReceived !== 0 && <p className="text-end">
               Recv. in Bank
-            </p>}
+            </p>} */}
           </div>
           <div className={`${style?.totalAmount} `}>
             {discountAmt !== 0 && <p className="text-end">
@@ -760,12 +781,12 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {NumberWithCommas(headerData?.AddLess, 2)}
               </p>
             )}
-            {headerData?.BankReceived !== 0 && <p className="text-end">
+            {/* {headerData?.BankReceived !== 0 && <p className="text-end">
               {NumberWithCommas(headerData?.BankReceived, 2)}
             </p>}
             {headerData?.CashReceived !== 0 && <p className="text-end">
               {NumberWithCommas(headerData?.CashReceived, 2)}
-            </p>}
+            </p>} */}
           </div>
         </div>
         {/* table total */}
@@ -774,7 +795,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <p className="text-center fw-bold">TOTAL</p>
           </div>
           <div className={`${style?.diamond} border-end`}>
-            <div className="d-flex w-100">
+            <div className={`d-flex w-100 ${style?.totaltotal}`}>
               <div className="col-2 text-end"></div>
               <div className="col-2 text-end"></div>
               <div className="col-2 text-end fw-bold">
@@ -794,7 +815,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
 
           <div className={`${style?.metal} border-end`}>
-            <div className="d-flex w-100">
+            <div className={`d-flex w-100 ${style?.totaltotal}`}>
               <div className={`${style?.w_20} text-end`}></div>
               <div className={`${style?.w_20} text-end fw-bold`}>
                 {total?.metalTotal?.Wt !== 0 &&
@@ -813,7 +834,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
 
           <div className={`${style?.stone} border-end`}>
-            <div className="d-flex w-100">
+            <div className={`d-flex w-100 ${style?.totaltotal}`}>
               <div className={`col-2 text-end`}></div>
               <div className={`col-2 text-end`}></div>
               <div className={`col-2 text-end fw-bold`}>
@@ -842,7 +863,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
           </div>
           <div className={`${style?.labour} border-end text-center`}>
-            <div className="d-flex w-100">
+            <div className={`d-flex w-100 ${style?.totaltotal}`}>
               <div className={`col-6 text-end`}></div>
               <div className={`col-6 text-end fw-bold`}>
                 {total?.MakingAmount !== 0 &&
