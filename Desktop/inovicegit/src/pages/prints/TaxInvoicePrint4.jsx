@@ -277,7 +277,7 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             </div>
             <div className={`${style?.StRate} border-end p-1 text-end`}>
               <p className="">
-                {NumberWithCommas(e?.totals?.colorstone?.Rate, 2)}
+                {e?.colorstone?.length !== 0 ? NumberWithCommas(e?.colorstone?.reduce((acc, cObj) => acc+cObj?.Rate, 0) / e?.colorstone?.length, 2): "0.00"}
               </p>
             </div>
             <div className={`${style?.NetWt} border-end p-1 text-end`}>
@@ -288,7 +288,7 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             </div>
             <div className={`${style?.Rate} border-end p-1 text-end`}>
               <p className="">
-                {NumberWithCommas( e?.MaKingCharge_Unit + e?.MetalAmount / e?.NetWt, 2 )}
+                {NumberWithCommas(e?.MaKingCharge_Unit + e?.MetalAmount / e?.NetWt, 2)}
               </p>
             </div>
             <div className={`${style?.Amount} p-1 text-end`}>
