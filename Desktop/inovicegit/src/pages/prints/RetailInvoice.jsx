@@ -143,6 +143,14 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let mainarr = [...invpaydet, ...disarr];
     datas.header.mainarr = mainarr;
 
+    let totalAmt = 0;
+
+    mainarr?.forEach((e) => {
+        totalAmt += (+e?.amount);
+    })
+
+    datas.header.maindistotal = totalAmt;
+
     setResult(datas);
     
   }
@@ -154,14 +162,14 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             loader ? <Loader /> : <>
             {
                 msg === '' ? <div className='container_ri fs_ri'>
-                    <div className='my-2'><Button /></div>
+                    <div className='my-2 d-none_ri'><Button /></div>
                     <div className='printheadlabel_ri'> {result?.header?.PrintHeadLabel} </div>
                     <div className='d-flex justify-content-between align-items-center p-1 mt-1'>
                         <div className='box1_ri'><div className='fw-bold w-25'>BILL NO :</div><div className='w-75 center_ri'>{result?.header?.InvoiceNo}</div></div>
                         <div className='box1_ri'><div className='fw-bold w-25'>{result?.header?.HSN_No_Label} :</div><div className='w-75 center_ri'>{result?.header?.HSN_No}</div></div>
                         <div className='box1_ri'><div className='fw-bold w-25'>DATE :</div><div className='w-75 center_ri'>{result?.header?.EntryDate}</div></div>
                     </div>
-                    <div className='mt-1 border-black border d-flex'>
+                    <div className='mt-1 border-black border d-flex pbia'>
                         <div className='pe-3 p-1 lh-lg'>TO,</div>
                         <div className='p-1 fs_ri'>
                             <div className='fw-bold lh-lg'>{result?.header?.CustName}</div>
@@ -171,8 +179,9 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                     </div>
                     <div className='p-1 border border-black border-top-0 fw-bold'>{result?.header?.RetailInvoiceMsg}</div>
-                    <div className='table_ri border-black border border-top-0 border-bottom-0'>
-                        <div className='thead_ri d-flex fs_ri border-bottom border-black'>
+
+                    <div className='table_ri '>
+                        <div className='thead_ri d-flex fs_ri border border-top-0 border-black '>
                             <div className='text-break p-1 col1_ri center_ri'>Variant No/ Product Description</div>
                             <div className='p-1 col2_ri center_ri'>KT</div>
                             <div className='p-1 col3_ri center_ri'>Qty</div>
@@ -189,7 +198,7 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className='tbody_ri fs_ri'>
                             {
                                 result?.resultArray?.map((e, i) => {
-                                    return <div className='d-flex border-bottom' key={i}>
+                                    return <div className='d-flex pbia brb_clr' key={i} style={{borderLeft:'1px solid black', borderRight:'1px solid black'}}>
                                     <div className='text-break p-1 col1_ri start_jus_ri'>{e?.designno + "/  " + e?.SrJobno }<br />{ e?.MetalPurity + " " + e?.Categoryname}</div>
                                     <div className='p-1 col2_ri center_ri'>{e?.MetalPurity}</div>
                                     <div className='p-1 col3_ri center_ri'>{e?.Quantity}</div>
@@ -198,7 +207,7 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className='text-break p-1 col6_ri center_ri'>{e?.totals?.colorstone?.Wt?.toFixed(3)}</div>
                                     <div className='text-break p-1 col7_ri center_ri'>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
                                     <div className='text-break p-1 col8_ri center_ri'>{formatAmount((e?.UnitCost - e?.totals?.finding?.SettingAmount))}</div>
-                                    <div className='p-1 col9_ri center_ri'><img src={e?.DesignImage} alt="#jobimg" onError={(e) => handleImageError(e)} style={{minWidth:'75px', maxWidth:'75px', maxHeight:'75px'}} /></div>
+                                    <div className='p-1 col9_ri center_ri'><img src={e?.DesignImage} alt="#jobimg" onError={(e) => handleImageError(e)} className='img_ri' /></div>
                                     <div className='text-break p-1 col10_ri center_ri flex-column'><span>{e?.IsCriteriabasedAmount === 0 ? '-' : `${formatAmount(e?.Discount)} % On `  } </span><span>{e?.discountOn?.map((el, ind) => <div key={ind}>{el}</div>)}</span></div>
                                     <div className='text-break p-1 col11_ri center_ri'>{formatAmount(e?.DiscountAmt)}</div>
                                     <div className='text-break p-1 col12_ri center_ri'>{formatAmount(e?.TotalAmount)}</div>
@@ -206,7 +215,7 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 })
                             }
                         </div>
-                        <div className='thead_ri d-flex fs_ri'>
+                        <div className='thead_ri d-flex fs_ri pbia border border-black'>
                             <div className='text-break p-1 col1_ri start_jus_ri'>Total</div>
                             <div className='p-1 col2_ri center_ri'></div>
                             <div className='p-1 col3_ri center_ri'>{result?.mainTotal?.total_Quantity}</div>
@@ -220,29 +229,29 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className='text-break p-1 col11_ri center_ri'>{formatAmount(result?.mainTotal?.total_discount_amount)}</div>
                             <div className='text-break p-1 col12_ri center_ri'>{formatAmount(result?.mainTotal?.total_amount)}</div>
                         </div>
-                        <div className='d-flex justify-content-end align-items-center p-1 border-top border-bottom border-black '>
+                        <div className='d-flex justify-content-end align-items-center p-1 border-black border border-top-0 pbia'>
                             <div className='d-flex justify-content-between align-items-center fs_ri' style={{width:'30%'}}>
                                 <div>Product Total Value</div>
                                 <div>{formatAmount(result?.mainTotal?.total_amount)}</div>
                             </div>
                         </div>
                     </div>
-                    <div className='d-flex w-100 border border-black border-top-0'>
+                    <div className='d-flex w-100 border border-black border-top-0 pbia'>
                         <div className='w-50'>
                             <div className='fw-bold p-1'>Product Details</div>
                             <div className='d-flex  border-bottom border-black'>
                                 <div className='w-25 p-1'>Payment Mode</div>
                                 <div className='w-25 p-1'>Doc No.</div>
                                 <div className='w-25 p-1'>Customer Name</div>
-                                <div className='w-25 p-1'>Amount(Rs)</div>
+                                <div className='w-25 p-1 end_ri'>Amount(Rs)</div>
                             </div>
                             {
-                                result?.header?.mainarr?.map((e, i) => {
-                                    return <div className='d-flex  border-bottom border-black'>
+                                result?.header?.mainarr?.map((e, ind) => {
+                                    return <div className='d-flex  border-bottom border-black' key={ind}>
                                     <div className='w-25 p-1'>{e?.name}</div>
                                     <div className='w-25 p-1'>{e?.docno}</div>
                                     <div className='w-25 p-1'></div>
-                                    <div className='w-25 p-1'>{formatAmount(e?.amount)}</div>
+                                    <div className='w-25 p-1 end_ri'>{formatAmount(e?.amount)}</div>
                                 </div>
                                 })
                             }
@@ -250,13 +259,13 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='w-25 p-1'>Total Amount Paid</div>
                                 <div className='w-25 p-1'></div>
                                 <div className='w-25 p-1'></div>
-                                <div className='w-25 p-1'>{result?.header?.maindistotal}</div>
+                                <div className='w-25 p-1 end_ri'>{formatAmount(result?.header?.maindistotal)}</div>
                             </div>
                             <div className='d-flex  border-bottom border-black fw-bold'>
                                 <div className='w-25 p-1'>Balance Amount</div>
                                 <div className='w-25 p-1'></div>
                                 <div className='w-25 p-1'></div>
-                                <div className='w-25 p-1'>{result?.header?.maindistotal}</div>
+                                <div className='w-25 p-1 end_ri'>{formatAmount(result?.header?.maindistotal)}</div>
                             </div>
                             <div style={{marginTop:'8rem'}} className='p-1'>
                                 <div>For : {result?.header?.CompanyFullName}</div> 
@@ -267,8 +276,8 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className='d-flex justify-content-between border-bottom border-black p-1'><div className=''>Total Value</div><div className=''>{formatAmount(result?.mainTotal?.total_amount)}</div></div>
                             <div className='d-flex justify-content-between  border-bottom border-black p-1'><div className=''>Value after Discount</div><div className=''>{formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess))}</div></div>
                             {
-                                result?.allTaxes?.map((e, i) => {
-                                    return <div className='d-flex justify-content-between p-1  border-bottom border-black'>
+                                result?.allTaxes?.map((e, ins) => {
+                                    return <div className='d-flex justify-content-between p-1  border-bottom border-black' key={ins}>
                                             <div className=''>{e?.name} @ {e?.per}</div><div className=''>{formatAmount(e?.amount)}</div>
                                            </div>
                                 })
@@ -282,9 +291,8 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className='mt-5'>Customer Signature</div>
                             </div>
                         </div>
-                    
                     </div>
-                    <div className='fw-bold border border-black p-1 border-top-0'>
+                    <div className='fw-bold border border-black p-1 border-top-0 pbia note_ri'>
                         <div>NOTE:</div>
                         <div dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
                     </div>

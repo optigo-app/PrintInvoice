@@ -21,6 +21,11 @@
     justify-content: flex-start;
     align-items: center;
 }
+.end_ri{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
 .printheadlabel_ri{
     height: 40px;
     display: flex;
@@ -77,4 +82,38 @@
 .col12_ri{
     width: 10%;
 }
-/* 100 */
+.note_ri *{
+    font-size: 13px;
+    line-height: 18px;
+}
+.brb_clr{
+    border-bottom: 1pt solid rgb(219, 219, 219);
+}
+.img_ri{
+    max-width: 75px;
+    max-height: 75px;
+    
+}
+@media print {
+    .d-none_ri{
+        display: none !important;
+    }
+    .pbia{
+        page-break-inside: avoid !important;
+    }
+    .fs_ri{
+        font-size: 9.5px;
+        line-height: 12px;
+    }
+    .box1_ri{
+        font-size: 11px;
+    }
+    .note_ri *{
+        font-size: 9px;
+        line-height: 12px;
+    }
+    .img_ri{
+        max-width: 65px;
+        max-height: 65px;   
+    }
+}
