@@ -252,7 +252,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
         totals.afterTaxAmount = taxValue.reduce((acc, currVal) => {
             return acc + (+currVal?.amount * data?.BillPrint_Json[0]?.CurrencyExchRate);
-        }, 0) + totals?.TotalAmount + data?.BillPrint_Json[0]?.AddLess;
+        }, 0) + (totals?.TotalAmount / data?.BillPrint_Json[0]?.CurrencyExchRate) + (data?.BillPrint_Json[0]?.AddLess / data?.BillPrint_Json[0]?.CurrencyExchRate);
 
         totals.netBalanceAmount = totals.afterTaxAmount -
             data?.BillPrint_Json[0]?.OldGoldAmount -
@@ -525,7 +525,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <p className='px-1 text-end' >{json0Data?.AddLess > 0 ? "Add" : "Less"}</p>
                         </div>
                         <div className="col-5">
-                            <p className='px-1 text-end' style={{ wordBreak: "break-all" }}>{NumberWithCommas(json0Data?.AddLess, 2)}</p>
+                            <p className='px-1 text-end' style={{ wordBreak: "break-all" }}>{NumberWithCommas(json0Data?.AddLess / json0Data?.CurrencyExchRate, 2)}</p>
                         </div>
                     </div>}
                     <div className="d-flex">
@@ -533,7 +533,9 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <p className='px-1 text-end'>Total Amt. after Tax</p>
                         </div>
                         <div className="col-5">
-                            <p className='px-1 text-end' style={{ wordBreak: "break-all" }}>{NumberWithCommas(total?.afterTaxAmount, 2)}</p>
+                            <p className='px-1 text-end' style={{ wordBreak: "break-all" }}>{NumberWithCommas(
+                                (total?.TotalAmount / json0Data?.CurrencyExchRate) + (json0Data?.AddLess / json0Data?.CurrencyExchRate)
+                                + (tax?.reduce((acc, cObj) => acc + (+cObj?.amount / json0Data?.CurrencyExchRate), 0)), 2)}</p>
                         </div>
                     </div>
                     <div className="d-flex">

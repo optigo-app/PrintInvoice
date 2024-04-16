@@ -362,14 +362,14 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             <div className='goldJewellryInvoice'>
               <div className="d-grid h-100">
                 <div className="d-flex">
-                  <div className='col-5 border-end border-bottom p-1'>
+                  <div className='col-5 border-end border-bottom p-1 d-flex justify-content-center flex-column'>
                     {e?.metal.length > 0 && e?.metal.map((ele, ind) => {
-                      return <p key={ind}>
+                      return ele?.IsPrimaryMetal === 1 && <p key={ind}>
                         {ele?.QualityName}/{ele?.Colorname}
                       </p>
                     })}
                   </div>
-                  <div className='col-7 border-end border-bottom p-1 d-flex justify-content-end align-items-center flex-column'>
+                  <div className='col-7 border-end border-bottom p-1 d-flex justify-content-center align-items-end flex-column'>
                     <p>
                       {NumberWithCommas(e?.grosswt, 3)}/{NumberWithCommas(e?.primaryWt, 3)}
                     </p>
