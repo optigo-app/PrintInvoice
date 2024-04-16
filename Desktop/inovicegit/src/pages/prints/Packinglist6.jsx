@@ -213,38 +213,71 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <div className="d-flex border-bottom border-top">
                                             <div className={`${style?.srNo} border-end d-flex justify-content-center align-items-center`}><p className="pt-1">{i + 1}</p></div>
                                             <div className={`${style?.Jewelcode} border-end`}>
-                                                <div className="d-flex justify-content-between px_1 pt-1">
-                                                    <p className="">{e?.JewelCodePrefix}{e?.jobNos}</p>
+                                                <div className="d-flex justify-content-between px_1 pt-1 flex-wrap">
+                                                    <p className="">{e?.JewelCodePrefix}{e?.Category_Prefix}{e?.jobNos}</p>
                                                     <p className="">{e?.designno}</p>
                                                 </div>
                                                 <img src={e?.DesignImage} alt="" className="imgWidth" onError={handleImageError} />
+                                                <p className="text-center">{e?.lineid}</p>
                                             </div>
-                                            <div className={`${style?.Metal} border-end d-flex`}>
-                                                <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column pt-1`}>
-                                                    <div>
-                                                        <p className={`${style?.min_height_9_6}`}>{e?.metalShapeName} {e?.metalQualityName}</p>
+                                            <div className={`${style?.Metal} border-end`}>
+
+                                                {e?.JobRemark !== "" ? <> <div className="d-flex border-bottom">
+                                                    <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column pt-1`}>
+                                                        <div>
+                                                            <p className={`${style?.min_height_9_6}`} style={{ wordBreak: "normal" }}>{e?.metalShapeName} {e?.metalQualityName}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column`}>
-                                                    <div className="">
-                                                        <p className={`${style?.min_height_9_6} text-end`}>{NumberWithCommas(e?.grosswt, 3)} </p>
+                                                    <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column pt-1`}>
+                                                        <div className="">
+                                                            <p className={`${style?.min_height_9_6} text-end`}>{NumberWithCommas(e?.grosswt, 3)} </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column`}>
-                                                    <div className="pt-1">
-                                                        <p className={`${style?.min_height_9_6} text-end`}>{NumberWithCommas(e?.metalWts, 3)} </p>
+                                                    <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column`}>
+                                                        <div className="pt-1">
+                                                            <p className={`${style?.min_height_9_6} text-end`}>{NumberWithCommas(e?.metalWts, 3)} </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column`}>
-                                                    <div className="pt-1">
-                                                        <p className={`${style?.min_height_9_6} text-end`} >{NumberWithCommas(e?.metalRates, 2)} </p>
+                                                    <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column`}>
+                                                        <div className="pt-1">
+                                                            <p className={`${style?.min_height_9_6} text-end`} >{NumberWithCommas(e?.metalRates, 2)} </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className={`${style?.w_20} d-flex justify-content-between flex-column`}>
-                                                    <div className="pt-1">
-                                                        <p className={`${style?.min_height_9_6} text-end`}>{NumberWithCommas(e?.metalAmounts, 2)} </p>
+                                                    <div className={`${style?.w_20} d-flex justify-content-between flex-column`}>
+                                                        <div className="pt-1">
+                                                            <p className={`${style?.min_height_9_6} text-end`}>{NumberWithCommas(e?.metalAmounts, 2)} </p>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </div><div>
+                                                        <p>REMARK:</p>
+                                                        <p className="fw-bold">{e?.JobRemark}</p>
+                                                    </div></> : <div className="d-flex h-100">
+                                                    <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column pt-1`}>
+                                                        <div>
+                                                            <p className={`${style?.min_height_9_6}`} style={{ wordBreak: "normal" }}>{e?.metalShapeName} {e?.metalQualityName}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column pt-1`}>
+                                                        <div className="">
+                                                            <p className={`${style?.min_height_9_6} text-end`}>{NumberWithCommas(e?.grosswt, 3)} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column`}>
+                                                        <div className="pt-1">
+                                                            <p className={`${style?.min_height_9_6} text-end`}>{NumberWithCommas(e?.metalWts, 3)} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column`}>
+                                                        <div className="pt-1">
+                                                            <p className={`${style?.min_height_9_6} text-end`} >{NumberWithCommas(e?.metalRates, 2)} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div className={`${style?.w_20} d-flex justify-content-between flex-column`}>
+                                                        <div className="pt-1">
+                                                            <p className={`${style?.min_height_9_6} text-end`}>{NumberWithCommas(e?.metalAmounts, 2)} </p>
+                                                        </div>
+                                                    </div>
+                                                </div>}
                                             </div>
                                             <div className={`${style?.Stone} border-end d-flex`}>
                                                 <div className=" col-3 border-end text-end d-flex justify-content-between flex-column">
@@ -298,9 +331,14 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className={`${style?.Other} border-end d-flex`}>
                                                 <div className=" col-4 border-end  d-flex flex-column justify-content-between">
                                                     <div className="pt-1">
-                                                        {e?.MiscAmount !== 0 && <p>Other</p>}
+                                                        {
+                                                            e?.misc?.map((ele, ind) => {
+                                                                return (ele?.IsHSCODE !== 0 && ele?.Amount !== 0) && <p className="" key={ind}>{ele?.ShapeName}</p>
+                                                            })
+                                                        }
+                                                        {/* {e?.MiscAmount !== 0 && <p>Other</p>} */}
                                                         {e?.other_details?.map((ele, ind) => {
-                                                            return <p className="" key={ind}>{ele?.label}</p>
+                                                            return ind <= 2 && <p className="" key={ind}>{ele?.label}</p>
                                                         })}
                                                         {e?.TotalDiamondHandling !== 0 && <p className="" >Handling</p>}
                                                     </div>
@@ -312,9 +350,14 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 </div>
                                                 <div className=" text-center col-4  d-flex flex-column justify-content-between">
                                                     <div className="pt-1">
-                                                        {e?.MiscAmount !== 0 && <p className="text-end">{NumberWithCommas(e?.MiscAmount, 2)}</p>}
+                                                        {/* {e?.MiscAmount !== 0 && <p className="text-end">{NumberWithCommas(e?.MiscAmount, 2)}</p>} */}
+                                                        {
+                                                            e?.misc?.map((ele, ind) => {
+                                                                return (ele?.IsHSCODE !== 0 && ele?.Amount !== 0) && <p className="text-end" key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
+                                                            })
+                                                        }
                                                         {e?.other_details?.map((ele, ind) => {
-                                                            return <p className="text-end" key={ind}>{NumberWithCommas(+ele?.value, 2)}</p>
+                                                            return ind <= 2 && <p className="text-end" key={ind}>{NumberWithCommas(+ele?.value, 2)}</p>
                                                         })}
                                                         {e?.TotalDiamondHandling !== 0 && <p className="text-end" >{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>}
                                                     </div>
@@ -326,7 +369,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        </div>
+                                    </div>
                                     <div className={`border-start border-end border-black no_break ${style?.font_1_12} ${style?.rowWisePad} `}>
                                         <div className="d-flex">
                                             <div className={`${style?.srNo} border-end d-flex justify-content-center align-items-center`}></div>
@@ -381,7 +424,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     <p className={` text-end fw-bold`}></p>
                                                 </div>
                                                 <div className=" text-center col-4  d-flex flex-column justify-content-between">
-                                                    <p className={` text-end fw-bold`}>{NumberWithCommas(e?.OtherCharges + e?.TotalDiamondHandling, 2)}</p>
+                                                    <p className={` text-end fw-bold`}>{NumberWithCommas(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount, 2)}</p>
                                                 </div>
                                             </div>
                                             <div className={`${style?.Price} lightGrey d-flex justify-content-between flex-column`}>
