@@ -306,6 +306,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
         finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
         finalArr[find_record].totals.metal.IsPrimaryMetal_Amount += b?.totals?.metal?.IsPrimaryMetal_Amount;
+        finalArr[find_record].totals.misc.withouthscode1_2_pcs += b?.totals?.misc?.withouthscode1_2_pcs;
+        finalArr[find_record].totals.misc.withouthscode1_2_wt += b?.totals?.misc?.withouthscode1_2_wt;
         // finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
       }
     }
@@ -333,6 +335,9 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }
       })
       e.diamonds = dia;
+
+    
+      
 
       let metarr = [];
       e?.metal?.forEach((a) => {
@@ -439,14 +444,23 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
     datas?.resultArray?.forEach((a) => {
       a?.misc?.forEach((el) => {
+        if(el?.IsHSCOE === 0){
           misc_dp4.misc_dp4_pcs += el?.mspcs;
           misc_dp4.misc_dp4_wt += el?.mswt;
+        }
       })
 
     })
 
-    datas?.resultArray?.forEach((a) => {
-      console.log(a?.misc);
+    datas?.resultArray?.forEach((el) => {
+      
+      let jwttot = 0;
+
+      el?.diamonds?.forEach((a) => {
+        jwttot += a?.dwt;
+      })
+      
+      el.totals.diamonds.Wt = jwttot;
     })
 
     setJobWiseTotal(misc_dp4)
@@ -763,7 +777,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className="d-flex fs_dp4" key={i}>
                                     <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%", wordBreak:'break-word' }} >M: {el?.ShapeName} </div>
                                     <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} >
-                                      {el?.pcPcs}
+                                      {el?.mspcs}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
                                       { el?.ShapeName?.includes("Certification") ? el?.servwt_cert?.toFixed(3) :  el?.mswt?.toFixed(3)}
@@ -771,7 +785,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className="dia_col_w_dp4 end_dp4">
                                       { el?.ShapeName?.includes("Certification") ? formatAmount((el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert))) :  formatAmount((el?.msamt / (el?.mswt === 0 ? 1 : el?.mswt)))}
                                     </div>
-                                    <div className="dia_col_w_dp4 end_dp4">
+                                    <div className="dia_col_w_dp4 end_dp4 fw-bold">
                                       {formatAmount(el?.msamt)}
                                     </div>
                                   </div>
@@ -861,12 +875,14 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} >
                                   {/* {(e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)} */}
                                   {/* { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)} */}
-                                  {/* { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs)} */}
-                                  { (e?.totals?.colorstone?.Pcs + ( e?.misc?.length > 0 && e?.totals?.misc?.withouthscode1_2_pcs + e?.totals?.misc?.onlyHSCODE3_pcs)) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + (e?.misc?.length > 0 &&  e?.totals?.misc?.withouthscode1_2_pcs + e?.totals?.misc?.onlyHSCODE3_pcs))}
+                                  {/* { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)} */}
+                                  {/* { (e?.totals?.colorstone?.Pcs + ( e?.misc?.length > 0 && e?.totals?.misc?.withouthscode1_2_pcs + e?.totals?.misc?.onlyHSCODE3_pcs)) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + (e?.misc?.length > 0 &&  e?.totals?.misc?.withouthscode1_2_pcs + e?.totals?.misc?.onlyHSCODE3_pcs))} */}
+                                  { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs) }
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
+                                  { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt )?.toFixed(3) }
                                   {/* { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt)?.toFixed(3)} */}
-                                  { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.misc?.allservwt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.misc?.allservwt)?.toFixed(3)}
+                                  {/* { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.misc?.allservwt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.misc?.allservwt)?.toFixed(3)} */}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4"></div>
                                 <div className="dia_col_w_dp4 end_dp4">
@@ -1047,7 +1063,9 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
                           {/* {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt)?.toFixed(3)} */}
-                          {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt)?.toFixed(3)}
+                          {/* {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt)?.toFixed(3)} */}
+                          {/* {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.withouthscode1_2_pcs)?.toFixed(3)} */}
+                          {(result?.mainTotal?.colorstone?.Wt + jobWIseTotal?.misc_dp4_wt)?.toFixed(3)}
                         </div>
                         <div className="dia_col_w_dp4 end_dp4"></div>
                         <div className="dia_col_w_dp4 end_dp4">
@@ -1139,7 +1157,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="border-secondary border-end pad_e_dp4">
                           {/* { (result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.Pcs) } / {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt )?.toFixed(3)} cts */}
                           {/* { (result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.onlyHSCODE3_pcs + result?.mainTotal?.misc?.withouthscode1_2_pcs ) } / {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt )?.toFixed(3)} cts */}
-                          { (result?.mainTotal?.colorstone?.Pcs + jobWIseTotal?.misc_dp4_pcs ) } / {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt )?.toFixed(3)} cts
+                          {/* { (result?.mainTotal?.colorstone?.Pcs + jobWIseTotal?.misc_dp4_pcs ) } / {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt )?.toFixed(3)} cts */}
+                          {result?.mainTotal?.colorstone?.Pcs + jobWIseTotal?.misc_dp4_pcs} / {(result?.mainTotal?.colorstone?.Wt + jobWIseTotal?.misc_dp4_wt)?.toFixed(3)} cts
                           </div>
                         </div>
                         <div className="summary_dp4_head border-secondary border border-start border-bottom-0"></div>
