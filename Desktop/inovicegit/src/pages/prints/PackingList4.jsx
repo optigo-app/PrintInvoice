@@ -35,6 +35,23 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let obj = cloneDeep(e);
             let netWtss = 0;
             let metalAmounts = 0;
+            let discountElements = [];
+            if (e?.IsCriteriabasedAmount === 1) {
+                if (e?.IsDiamondAmount === 1) {
+                    discountElements?.push({ label: 'Diamond' })
+                }
+                if (e?.IsStoneAmount === 1) {
+                    discountElements?.push({ label: 'Stone' })
+                } if (e?.IsMetalAmount === 1) {
+                    discountElements?.push({ label: 'Metal' })
+                } if (e?.IsLabourAmount === 1) {
+                    discountElements?.push({ label: 'Labour' })
+                } if (e?.IsSolitaireAmount === 1) {
+                    discountElements?.push({ label: 'Solitaire' })
+                } if (e?.IsMiscAmount === 1) {
+                    discountElements?.push({ label: 'Misc' })
+                }
+            }
             let miscLength = e?.misc?.reduce((acc, cObj) => cObj?.IsHSCOE !== 0 ? acc + 1 : acc, 0);
             if (e?.metal?.length <= 1) {
                 netWts += e?.NetWt + e?.LossWt;
@@ -55,6 +72,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.netWtss = netWtss;
             obj.miscLength = miscLength
             obj.metalAmounts = metalAmounts;
+            obj.discountElements = discountElements;
             resultArr?.push(obj);
         });
         datas.resultArray = resultArr;
@@ -285,7 +303,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                             <div className="d-flex flex-column justify-content-between h-100">
                                                                                 <div>
                                                                                     {/* e?.metal?.length === 1 ? NumberWithCommas(e?.NetWt + e?.LossWt, 3) : ( )*/}
-                                                                                    <p className=' text-end'>{e?.netWtss}</p>
+                                                                                    <p className=' text-end'>{NumberWithCommas(e?.netWtss, 3)}</p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -446,7 +464,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                         </div>
                                                                         <div className={`border-end col-2`}>
                                                                             <div className="d-flex flex-column h-100 justify-content-between">
-                                                                                <p className={` text-end fw-semibold`}>{e?.totals?.diamonds?.Rate > 0 && NumberWithCommas(e?.totals?.diamonds?.Rate, 2)}</p>
+                                                                                <p className={` text-end fw-semibold`}></p>
                                                                             </div>
                                                                         </div>
                                                                         <div className={`col-2`}>
@@ -619,13 +637,9 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                 </div>
                                                                 <div className={`lightGrey border-end border-top ${style?.discountAmt}`}>
                                                                     <p className="fw-bold text-end">Discount {e?.Discount}% @{e?.IsCriteriabasedAmount === 1 ?
-                                                                        `${e?.IsDiamondAmount === 1 ? "Diamond" : ""}
-                                                                   ${e?.IsStoneAmount === 1 ? "Stone" : ""}
-                                                                   ${e?.IsMetalAmount === 1 ? "Metal" : ""}
-                                                                   ${e?.IsLabourAmount === 1 ? "Labour" : ""}
-                                                                   ${e?.IsSolitaireAmount === 1 ? "Solitaire" : ""}   
-                                                                   ${e?.IsMiscAmount === 1 ? "Misc" : ""}   
-                                                                   ` : "Total "}
+                                                                    e?.discountElements?.map((ele, ind) => {
+                                                                        return <React.Fragment key={ind}>{ele?.label} {ind !== (e?.discountElements?.length - 1) ? "," : ""}</React.Fragment>
+                                                                    }) : "Total "}
                                                                         Amount	</p>
                                                                 </div>
                                                                 <div className={`lightGrey border-end border-top ${style?.discountAmtnumber}`}><p className='fw-bold text-end'>{NumberWithCommas(e?.DiscountAmt / headerData?.CurrencyExchRate, 2)}</p></div>
