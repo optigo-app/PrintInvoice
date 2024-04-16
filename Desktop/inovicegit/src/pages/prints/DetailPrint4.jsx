@@ -19,6 +19,10 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [imgFlag, setImgFlag] = useState(true);
   const [mdwt, setMdwt] = useState(0);
   const [isImageWorking, setIsImageWorking] = useState(true);
+
+  const [jobWIseTotal, setJobWiseTotal] = useState(null);
+  const [jobwisemisc, setJobwisemisc] = useState(0);
+
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -56,7 +60,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-
+      
     let diaObj = {
       ShapeName: "OTHERS",
       wtWt: 0,
@@ -230,11 +234,12 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         // }
       })
       if(arr?.length === 1){
-        if(arr[0]?.IsHSCOE === 0){
-          
-        }else{
-          arr = [];
+        if(arr[0]?.IsHSCOE === 3 && arr[0]?.Rate === 0){
+            arr = [];
         }
+        // else{
+        //   arr = [];
+        // }
       }
       // let arr2 = [];
       // arr?.forEach((a) => {
@@ -253,6 +258,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         mdtot += (((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)
     })
     setMdwt(mdtot)
+
+    
 
     let finalArr = [];
 
@@ -296,7 +303,9 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
         finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
         finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
-        console.log(finalArr[find_record].totals?.misc);
+        finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
+        finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
+        finalArr[find_record].totals.metal.IsPrimaryMetal_Amount += b?.totals?.metal?.IsPrimaryMetal_Amount;
         // finalArr[find_record].misc_d = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
       }
     }
@@ -327,13 +336,16 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       let metarr = [];
       e?.metal?.forEach((a) => {
-        let findrec = metarr?.findIndex((el) => el?.ShapeName === a?.ShapeName)  
-        if(findrec === -1){
-          let obj = {...a};
-          obj.metamt = a?.Amount;
-          metarr.push(obj);
-        }else{
-          metarr[findrec].metamt += a?.Amount;
+        if(a?.IsPrimaryMetal === 1){
+
+          let findrec = metarr?.findIndex((el) => el?.ShapeName === a?.ShapeName)  
+          if(findrec === -1){
+            let obj = {...a};
+            obj.metamt = a?.Amount;
+            metarr.push(obj);
+          }else{
+            metarr[findrec].metamt += a?.Amount;
+          }
         }
       })
 
@@ -369,24 +381,75 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           obj.mswt = e?.Wt;
           obj.mspcs = e?.Pcs;
           obj.Rate = e?.Rate;
+          obj.servwt_cert = e?.ServWt;
           miscarr.push(obj);
         }else{
           miscarr[findrec].msamt += e?.Amount;
           miscarr[findrec].mswt += e?.Wt;
           miscarr[findrec].mspcs += e?.Pcs;
           miscarr[findrec].Rate = e?.Rate;
+          miscarr[findrec].servwt_cert = e?.ServWt;
         }
       })
 
       e.misc = miscarr;
 
+    })
+    
+    let finalArr2 =[];
+    datas?.resultArray?.forEach((e) => {
+        let obj = {...e};
+        let discountOn = [];
+        if(e?.IsCriteriabasedAmount === 1){
+            if(e?.IsMetalAmount === 1){
+                discountOn.push('Metal')
+            }
+            if(e?.IsDiamondAmount === 1){
+                discountOn.push('Diamond')
+            }
+            if(e?.IsStoneAmount === 1){
+                discountOn.push('Stone')
+            }
+            if(e?.IsMiscAmount === 1){
+                discountOn.push('Misc')
+            }
+            if(e?.IsLabourAmount === 1){
+                discountOn.push('Labour')
+            }
+            if(e?.IsSolitaireAmount === 1){
+                discountOn.push('Solitaire')
+            }
+        }else{
+            if(e?.Discount !== 0){
+                discountOn.push('Total Amount')
+            }
+        }
+        
+        obj.discountOn = discountOn; 
+        obj.str_discountOn = discountOn?.join(',');
+        
+        finalArr2.push(obj);
+    })
+
+    datas.resultArray = finalArr2;
+
+    let misc_dp4 = {
+      misc_dp4_wt : 0,
+      misc_dp4_pcs : 0,
+    }
+    datas?.resultArray?.forEach((a) => {
+      a?.misc?.forEach((el) => {
+          misc_dp4.misc_dp4_pcs += el?.mspcs;
+          misc_dp4.misc_dp4_wt += el?.mswt;
+      })
 
     })
+
     datas?.resultArray?.forEach((a) => {
-      let obj = {...a};
-        console.log(a);
-      
+      console.log(a?.misc);
     })
+
+    setJobWiseTotal(misc_dp4)
     setResult(datas);
     setLoader(false);
   };
@@ -593,6 +656,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 HUID: {e?.HUID}
                               </div>
                             )}
+                            <div className="w-100 text-break text-center py-1"><b>{e?.grosswt?.toFixed(3)}</b> gm Gross</div>
                           </div>
                           <div className="col3_dp4 border-secondary border-end">
                             <div>
@@ -699,13 +763,13 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className="d-flex fs_dp4" key={i}>
                                     <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%", wordBreak:'break-word' }} >M: {el?.ShapeName} </div>
                                     <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} >
-                                      {el?.mspcs}
+                                      {el?.pcPcs}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
-                                      {el?.mswt?.toFixed(3)}
+                                      { el?.ShapeName?.includes("Certification") ? el?.servwt_cert?.toFixed(3) :  el?.mswt?.toFixed(3)}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
-                                    {formatAmount((el?.msamt / (el?.mswt === 0 ? 1 : el?.mswt)))}
+                                      { el?.ShapeName?.includes("Certification") ? formatAmount((el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert))) :  formatAmount((el?.msamt / (el?.mswt === 0 ? 1 : el?.mswt)))}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
                                       {formatAmount(el?.msamt)}
@@ -740,8 +804,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div>
                             </div>
                           </div>
-                          <div className="col8_dp4 end_top_dp4 fs_dp4">
-                            {formatAmount(e?.TotalAmount)}
+                          <div className="col8_dp4 end_top_dp4 fs_dp4 fw-bold">
+                            {formatAmount((e?.TotalAmount + e?.DiscountAmt))}
                           </div>
                         </div>
                         {/* table row wise total */}
@@ -749,26 +813,17 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="col1_dp4 border-secondary border-end center_top_dp4"></div>
                           <div className="col2_dp4 border-secondary border-end">
                             <div className="fw-bold center_dp4 fs_dp4">
-                              {e?.grosswt?.toFixed(3)} gm Gross
+                              {/* {e?.grosswt?.toFixed(3)} gm Gross */}
                             </div>
                           </div>
                           <div className="col3_dp4 border-secondary border-end">
                             <div>
                               <div className="d-flex">
-                                <div
-                                  className="dia_col_w_dp4 start_dp4"
-                                  style={{ width: "35%" }}
-                                ></div>
-                                <div
-                                  className="dia_col_w_dp4 end_dp4"
-                                  style={{ width: "10%" }}
-                                >
+                                <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%" }} ></div>
+                                <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} >
                                   {e?.totals?.diamonds?.Pcs === 0 ? '' : e?.totals?.diamonds?.Pcs}
                                 </div>
-                                <div
-                                  className="dia_col_w_dp4 end_dp4"
-                                  style={{ width: "15%" }}
-                                >
+                                <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
                                   {e?.totals?.diamonds?.Wt === 0 ? '' : e?.totals?.diamonds?.Wt?.toFixed(3)}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4">
@@ -794,7 +849,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {/* {formatAmount(e?.totals?.metal?.Rate)} */}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4">
-                                  {formatAmount(e?.totals?.metal?.Amount)}
+                                  {formatAmount(e?.totals?.metal?.IsPrimaryMetal_Amount)}
                                 </div>
                               </div>
                             </div>
@@ -802,24 +857,16 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="col5_dp4 border-secondary border-end">
                             <div>
                               <div className="d-flex fs_dp4">
-                                <div
-                                  className="dia_col_w_dp4 start_dp4"
-                                  style={{ width: "35%" }}
-                                ></div>
-                                <div
-                                  className="dia_col_w_dp4 end_dp4"
-                                  style={{ width: "10%" }}
-                                >
+                                <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%" }} ></div>
+                                <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} >
                                   {/* {(e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)} */}
                                   {/* { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)} */}
-                                  { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs)}
+                                  {/* { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs)} */}
+                                  { (e?.totals?.colorstone?.Pcs + ( e?.misc?.length > 0 && e?.totals?.misc?.withouthscode1_2_pcs + e?.totals?.misc?.onlyHSCODE3_pcs)) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + (e?.misc?.length > 0 &&  e?.totals?.misc?.withouthscode1_2_pcs + e?.totals?.misc?.onlyHSCODE3_pcs))}
                                 </div>
-                                <div
-                                  className="dia_col_w_dp4 end_dp4"
-                                  style={{ width: "15%" }}
-                                >
+                                <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
                                   {/* { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt)?.toFixed(3)} */}
-                                  { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt)?.toFixed(3)}
+                                  { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.misc?.allservwt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.misc?.allservwt)?.toFixed(3)}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4"></div>
                                 <div className="dia_col_w_dp4 end_dp4">
@@ -848,6 +895,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                           <div className="col8_dp4 end_top_dp4 fs_dp4">
+                            {/* {formatAmount(e?.TotalAmount + e?.DiscountAmt)} */}
                             {formatAmount(e?.TotalAmount + e?.DiscountAmt)}
                           </div>
                         </div>
@@ -887,7 +935,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="col5_dp4 border-secondary border-end">
                               <div>
                                 <div className="d-flex end_dp4">
-                                  Discount {formatAmount(e?.Discount)}% @ Total Amount
+                                  Discount {formatAmount(e?.Discount)}% @ {e?.str_discountOn}
                                 </div>
                               </div>
                             </div>
@@ -953,20 +1001,11 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col3_dp4 border-secondary border-end">
                     <div>
                       <div className="d-flex fs_dp4">
-                        <div
-                          className="dia_col_w_dp4 start_dp4"
-                          style={{ width: "35%" }}
-                        ></div>
-                        <div
-                          className="dia_col_w_dp4 start_dp4"
-                          style={{ width: "10%" }}
-                        >
+                        <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%" }} ></div>
+                        <div className="dia_col_w_dp4 start_dp4" style={{ width: "10%" }} >
                           {result?.mainTotal?.diamonds?.Pcs}
                         </div>
-                        <div
-                          className="dia_col_w_dp4 end_dp4"
-                          style={{ width: "15%" }}
-                        >
+                        <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
                           {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                         </div>
                         <div className="dia_col_w_dp4 end_dp4">
@@ -1000,21 +1039,15 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col5_dp4 border-secondary border-end">
                     <div>
                       <div className="d-flex fs_dp4">
-                        <div
-                          className="dia_col_w_dp4 start_dp4"
-                          style={{ width: "35%" }}
-                        ></div>
-                        <div
-                          className="dia_col_w_dp4 end_dp4"
-                          style={{ width: "10%" }}
-                        >
-                          {(result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.Pcs )}
+                        <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%" }} ></div>
+                        <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} >
+                          {/* {(result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.Pcs )} */}
+                          {(result?.mainTotal?.colorstone?.Pcs + jobWIseTotal?.misc_dp4_pcs )}
+                          {/* {(result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.onlyHSCODE3_pcs + result?.mainTotal?.misc?.withouthscode1_2_pcs )} */}
                         </div>
-                        <div
-                          className="dia_col_w_dp4 end_dp4"
-                          style={{ width: "15%" }}
-                        >
-                          {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt)?.toFixed(3)}
+                        <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
+                          {/* {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt)?.toFixed(3)} */}
+                          {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt)?.toFixed(3)}
                         </div>
                         <div className="dia_col_w_dp4 end_dp4"></div>
                         <div className="dia_col_w_dp4 end_dp4">
@@ -1104,7 +1137,9 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             STONE WT
                           </div>
                           <div className="border-secondary border-end pad_e_dp4">
-                          { (result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.Pcs) } / {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt )?.toFixed(3)} cts
+                          {/* { (result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.Pcs) } / {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt )?.toFixed(3)} cts */}
+                          {/* { (result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.onlyHSCODE3_pcs + result?.mainTotal?.misc?.withouthscode1_2_pcs ) } / {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt )?.toFixed(3)} cts */}
+                          { (result?.mainTotal?.colorstone?.Pcs + jobWIseTotal?.misc_dp4_pcs ) } / {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt )?.toFixed(3)} cts
                           </div>
                         </div>
                         <div className="summary_dp4_head border-secondary border border-start border-bottom-0"></div>
@@ -1172,7 +1207,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           return(
                             <div key={i} className="d-flex justify-content-between px-1 border-secondary border-end">
                               { e?.ShapeName === "OTHERS" ? <div className="fw-bold">{e?.ShapeName}</div> : <div className="fw-bold">{e?.QualityName + " " + e?.Colorname}</div> } 
-                              <div>{e?.pcPcs} / {e?.wtWt?.toFixed(3)} cts</div>
+                              <div>{e?.pcPcss} / {e?.wtWts?.toFixed(3)} cts</div>
                               </div>
                           )
                         })
@@ -1216,8 +1251,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
                 <div className="check_dp4 border-secondary border border-bottom d-flex justify-content-center align-items-end border-top-0" style={{ width: "20%" }}>
-                  <div className="w-50 border-secondary border-end h-100 center_bottom_dp4">Created By</div>
-                  <div className="w-50 h-100 center_bottom_dp4">Checked By</div>
+                  <div className="w-50 border-secondary border-end h-100 center_bottom_dp4"><i>Created By</i></div>
+                  <div className="w-50 h-100 center_bottom_dp4"><i>Checked By</i></div>
                 </div>
               </div>
               <div className="fs_dp4">

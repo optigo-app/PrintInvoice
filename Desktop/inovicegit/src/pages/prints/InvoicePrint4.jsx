@@ -795,7 +795,8 @@ useEffect(() => {
                  </div>
                  {/* <div className="w-100" style={{borderBottom:'2px solid #d8d7d7'}}> */}
                  <div className="w-100 border-bottom" >
-                 <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "100px"}}>
+                 {/* <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "100px"}}> */}
+                 <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "50%"}}>
                   <input type="text"  style={{width:'170px',}} className="d-flex justify-content-center align-items-center ms-5 position-absolute" value={descText} onChange={(e) => setDescText(e.target.value)} />
                   </div>
                   {

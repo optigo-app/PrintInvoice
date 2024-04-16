@@ -54,6 +54,8 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       allpcs:0,
       allwt:0,
       allservwt:0,
+      onlyHSCODE3_pcs:0,
+      withouthscode1_2_pcs:0,
     },
     stone_misc: {
       Wt: 0,
@@ -189,6 +191,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
           withouthscode1_2_wt:0,
           withouthscode1_2_pcs:0,
           withouthscode1_2_amount:0,
+          onlyHSCODE3_pcs : 0,
           SettingAmount: 0,
           allwt:0,
           allpcs:0,
@@ -326,8 +329,12 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               maintotal.misc.allpcs += j2?.Pcs;
               maintotal.misc.allwt += j2?.Wt;
               maintotal.misc.allservwt += j2?.ServWt;
+              jobwise_totals.misc.allservwt += j2?.ServWt;
 
-
+              if(j2?.IsHSCOE === 3){
+                jobwise_totals.misc.onlyHSCODE3_pcs += j2?.Pcs;
+                maintotal.misc.onlyHSCODE3_pcs += j2?.Pcs;
+              }
               diamond_colorstone_misc_2_new?.push(j2);
               if (j2?.ShapeName === "Hallmark" || j2?.ShapeName === "Stamping") {
               } else {
@@ -335,6 +342,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
                   jobwise_totals.misc.withouthscode1_2_wt += j2?.Wt;
                   jobwise_totals.misc.withouthscode1_2_pcs += j2?.Pcs;
                   jobwise_totals.misc.withouthscode1_2_amount += j2?.Amount;
+                  maintotal.misc.withouthscode1_2_pcs += j2?.Pcs;
                 }
                   diamond_colorstone_misc?.push(j2);
               }
