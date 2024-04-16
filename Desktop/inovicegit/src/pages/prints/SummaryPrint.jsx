@@ -122,8 +122,7 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <div className='w-25'>{result?.header?.HSN_No_Label} :<b>&nbsp;&nbsp;&nbsp;&nbsp;{result?.header?.HSN_No}</b></div>
             </div>
             <div>
-              {/* table head */}
-              <div className='d-flex border border-black mt-2 fw-bold bg_sp'>
+              {/* <div className='d-flex border border-black mt-2 fw-bold bg_sp'>
                 <div className='col1h_ps border-black border-end center_sp'>Category</div>
                 <div className='col2h_ps border-black border-end center_sp'>Pcs</div>
                 <div className='col3h_ps border-black border-end center_sp'>LB</div>
@@ -143,7 +142,6 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className='d-flex'><div className='center_sp border-black border-end' style={{width:"37%"}}>Fine</div><div className='center_sp' style={{width:"64%"}}>Cash</div></div>
                 </div>
               </div>
-              {/* table body */}
               <div>
                 {
                   brandNameData?.length > 0 && 
@@ -179,7 +177,6 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   })
                 }
               
-              {/* table total */}
               <div className='d-flex border border-black border-top-0 fw-bold bg_sp pbia_sp'>
                 <div className='col1h_ps border-black border-end center_sp'>TOTAL</div>
                 <div className='col2h_ps border-black border-end end_sp pad_r_sp'>{mainTotal?.Quantity}</div>
@@ -215,7 +212,84 @@ const SummaryPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <div className='d-flex justify-content-between align-items-center border-start border-end border-black border-bottom bg_sp pbia_sp'>
                   <div className='col1h_ps border-black border-end center_sp fw-bold d-flex align-items-center justify-content-start ps-1'>GRAND TOTAL</div><div className='col17h_ps border-start border-black d-flex align-items-center justify-content-end pe-1 fw-bold'>{formatAmount((result?.finalAmount))}</div>
               </div>
-              </div>
+              </div> */}
+              <table className='w-100'>
+                <thead className='w-100'>
+                  <tr className='d-flex border border-black mt-2  fw-bold bg_sp w-100'>
+                    <th className='col1h_ps border-black border-end center_sp'>Category</th>
+                    <th className='col2h_ps border-black border-end center_sp'>Pcs</th>
+                    <th className='col3h_ps border-black border-end center_sp'>LB</th>
+                    <th className='col4h_ps border-black border-end center_sp ps-2 text-break'>Rate <br /> Gm / Ct</th>
+                    <th className='col5h_ps border-black border-end center_sp'>Per</th>
+                    <th className='col6h_ps border-black border-end center_sp'>TAX(%)</th>
+                    <th className='col7h_ps border-black border-end center_sp'>Gross</th>
+                    <th className='col8h_ps border-black border-end center_sp'>Black Beads</th>
+                    <th className='col9h_ps border-black border-end center_sp'>Stone</th>
+                    <th className='col10h_ps border-black border-end center_sp'>Kundan</th>
+                    <th className='col11h_ps border-black border-end center_sp'>Net Wt</th>
+                    <th className='col12h_ps border-black border-end center_sp'>Final Wt</th>
+                    <th className='col13h_ps border-black border-end center_sp'>%</th>
+                    <th className='col14h_ps border-black border-end center_sp'>Wastage</th>
+                    <th className='col15h_ps p-0'>
+                      <tr className='w-100 center_sp border-black border-bottom'>Final</tr>
+                      <tr className='w-100 d-flex'>
+                        <th className='w-50 center_sp border-black border-end'>Fine</th>
+                        <th className='w-50 center_sp'>Cash</th>
+                      </tr>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className='w-100'>
+                 {
+                  brandNameData?.map((e, i) => {
+                    return <tr className='d-flex border border-black border-top-0    w-100' key={i}>
+                    <td className='col1h_ps border-black border-end center_sp'>Category</td>
+                    <td className='col2h_ps border-black border-end center_sp'>Pcs</td>
+                    <td className='col3h_ps border-black border-end center_sp'>LB</td>
+                    <td className='col4h_ps border-black border-end center_sp ps-2 text-break'>Rate <br /> Gm / Ct</td>
+                    <td className='col5h_ps border-black border-end center_sp'>Per</td>
+                    <td className='col6h_ps border-black border-end center_sp'>TAX(%)</td>
+                    <td className='col7h_ps border-black border-end center_sp'>Gross</td>
+                    <td className='col8h_ps border-black border-end center_sp'>Black Beads</td>
+                    <td className='col9h_ps border-black border-end center_sp'>Stone</td>
+                    <td className='col10h_ps border-black border-end center_sp'>Kundan</td>
+                    <td className='col11h_ps border-black border-end center_sp'>Net Wt</td>
+                    <td className='col12h_ps border-black border-end center_sp'>Final Wt</td>
+                    <td className='col13h_ps border-black border-end center_sp'>%</td>
+                    <td className='col14h_ps border-black border-end center_sp'>Wastage</td>
+                    <td className='col15h_ps p-0'>
+                      <tr className='w-100 h-100 d-flex'>
+                        <td className='w-50 center_sp border-black border-end'>Fine</td>
+                        <td className='w-50 center_sp'>Cash</td>
+                      </tr>
+                    </td>
+                  </tr>
+                  })
+                 }
+                 <tr className='d-flex border border-black border-top-0  fw-bold bg_sp w-100' >
+                    <th className='col1h_ps border-black border-end center_sp'>TOTAL</th>
+                    <th className='col2h_ps border-black border-end center_sp'>Pcs</th>
+                    <th className='col3h_ps border-black border-end center_sp'>LB</th>
+                    <th className='col4h_ps border-black border-end center_sp ps-2 text-break'>Rate <br /> Gm / Ct</th>
+                    <th className='col5h_ps border-black border-end center_sp'>Per</th>
+                    <th className='col6h_ps border-black border-end center_sp'>TAX(%)</th>
+                    <th className='col7h_ps border-black border-end center_sp'>Gross</th>
+                    <th className='col8h_ps border-black border-end center_sp'>Black Beads</th>
+                    <th className='col9h_ps border-black border-end center_sp'>Stone</th>
+                    <th className='col10h_ps border-black border-end center_sp'>Kundan</th>
+                    <th className='col11h_ps border-black border-end center_sp'>Net Wt</th>
+                    <th className='col12h_ps border-black border-end center_sp'>Final Wt</th>
+                    <th className='col13h_ps border-black border-end center_sp'>%</th>
+                    <th className='col14h_ps border-black border-end center_sp'>Wastage</th>
+                    <th className='col15h_ps p-0'>
+                      <tr className='w-100 h-100 d-flex'>
+                        <th className='w-50 center_sp border-black border-end'>Fine</th>
+                        <th className='w-50 center_sp'>Cash</th>
+                      </tr>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
