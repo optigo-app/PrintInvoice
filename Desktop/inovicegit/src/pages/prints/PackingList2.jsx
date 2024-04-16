@@ -35,6 +35,23 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let netWtTotal = 0;
         datas?.resultArray?.forEach((e, i) => {
             let obj = cloneDeep(e);
+            let discountElements = [];
+            if (e?.IsCriteriabasedAmount === 1) {
+                if (e?.IsDiamondAmount === 1) {
+                    discountElements?.push({ label: 'Diamond' })
+                }
+                if (e?.IsStoneAmount === 1) {
+                    discountElements?.push({ label: 'Stone' })
+                } if (e?.IsMetalAmount === 1) {
+                    discountElements?.push({ label: 'Metal' })
+                } if (e?.IsLabourAmount === 1) {
+                    discountElements?.push({ label: 'Labour' })
+                } if (e?.IsSolitaireAmount === 1) {
+                    discountElements?.push({ label: 'Solitaire' })
+                } if (e?.IsMiscAmount === 1) {
+                    discountElements?.push({ label: 'Misc' })
+                }
+            }
             let OtherMetalLength = 0;
             // obj.PrimaryWt = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc + cObj?.Wt : acc, 0);
             let PrimaryWt = 0;
@@ -48,6 +65,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 }
             });
             obj.OtherMetalLength = OtherMetalLength;
+            obj.discountElements = discountElements;
             obj.PrimaryWt = PrimaryWt;
             obj.PrimaryAmount = PrimaryAmount;
             obj.miscLength = e?.misc?.reduce((acc, cObj) => cObj?.IsHSCOE !== 0 ? acc + 1 : acc, 0);
@@ -570,9 +588,14 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <div className={`${style?.stone_labour_other} border-end lightGrey fw-bold`}>
                                                     <div className="d-flex w-100">
                                                         <div className={`${style?.discount} border-end`}>
-                                                            <p className="text-end">
+                                                            {/* <p className="text-end">
                                                                 Discount {e?.isdiscountinamount === 1 ? `${NumberWithCommas(e?.DiscountAmt / headerData?.CurrencyExchRate, 2)} On` : ` ${NumberWithCommas(e?.Discount, 2)}% @Total`} Amount
-                                                            </p>
+                                                            </p> */}
+                                                            <p className="fw-bold text-end">Discount {e?.Discount}% @{e?.IsCriteriabasedAmount === 1 ?
+                                                                e?.discountElements?.map((ele, ind) => {
+                                                                    return <React.Fragment key={ind}>{ele?.label} {ind !== (e?.discountElements?.length - 1) ? "," : ""}</React.Fragment>
+                                                                }) : "Total "}
+                                                                Amount	</p>
                                                         </div>
                                                         <div className={`${style?.discount_amount}`}>
                                                             <p className="text-end">

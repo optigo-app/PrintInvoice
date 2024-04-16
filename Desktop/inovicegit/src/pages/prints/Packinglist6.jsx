@@ -71,6 +71,23 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     metalAmountss += e?.metal[findIndex]?.Amount;
                 }
             }
+            let discountElements = [];
+            if (e?.IsCriteriabasedAmount === 1) {
+                if (e?.IsDiamondAmount === 1) {
+                    discountElements?.push({ label: 'Diamond' })
+                }
+                if (e?.IsStoneAmount === 1) {
+                    discountElements?.push({ label: 'Stone' })
+                } if (e?.IsMetalAmount === 1) {
+                    discountElements?.push({ label: 'Metal' })
+                } if (e?.IsLabourAmount === 1) {
+                    discountElements?.push({ label: 'Labour' })
+                } if (e?.IsSolitaireAmount === 1) {
+                    discountElements?.push({ label: 'Solitaire' })
+                } if (e?.IsMiscAmount === 1) {
+                    discountElements?.push({ label: 'Misc' })
+                }
+            }
             let obj = cloneDeep(e);
             let jobNo = e?.SrJobno?.split("/");
             let jobNos = jobNo?.length > 0 ? jobNo[1] : jobNo[0];
@@ -79,6 +96,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.metalWts = metalWts;
             obj.metalAmounts = metalAmounts;
             obj.metalShapeName = metalShapeName;
+            obj.discountElements = discountElements;
             obj.metalQualityName = metalQualityName;
             obj.miscLength = miscLength
             resultArr?.push(obj);
@@ -447,7 +465,12 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className={`${style?.Stone} lightGrey border-end d-flex`}></div>
                                             <div className={`${style?.Labour} lightGrey border-end d-flex`}></div> */}
                                             <div className={`${style?.discount} border-end lightGrey pt-1`}>
-                                                <p className={`fw-bold text-end px_1 pt-1`}>Discount {e?.Discount}% @Total Amount	</p>
+                                                {/* <p className={`fw-bold text-end px_1 pt-1`}>Discount {e?.Discount}% @Total Amount	</p> */}
+                                                <p className="fw-bold text-end">Discount {e?.Discount}% @{e?.IsCriteriabasedAmount === 1 ?
+                                                    e?.discountElements?.map((ele, ind) => {
+                                                        return <React.Fragment key={ind}>{ele?.label} {ind !== (e?.discountElements?.length - 1) ? "," : ""}</React.Fragment>
+                                                    }) : "Total "}
+                                                    Amount	</p>
                                             </div>
                                             <div className={`${style?.otherAmount} border-end lightGrey`}>
                                                 <p className={`fw-bold text-end px_1 pt-1`}>{NumberWithCommas(e?.DiscountAmt / headerData?.CurrencyExchRate, 2)}</p>

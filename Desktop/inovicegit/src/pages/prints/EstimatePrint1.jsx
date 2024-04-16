@@ -89,7 +89,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         }
                     }
                     else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
-                        if (ele?.IsHSCOE === 0 || ele?.IsHSCOE === 3) {
+                        if (ele?.Rate !== 0) {
                             totals.miscWt += ele?.Wt;
                             totals.OtherCharges += ele?.Amount;
                             misc.push(ele);
@@ -415,7 +415,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                             })}
                             {e?.misc.map((ele, ind) => {
-                                return <div className="d-flex border-bottom" key={ind}>
+                                return ele?.Rate !== 0 && <div className="d-flex border-bottom" key={ind}>
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='' style={{ wordBreak: "normal" }}>{ele?.IsHSCOE === 0 ? ele?.ShapeName : ele?.ShapeName?.replace("Certification_", "")}</p></div>
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>	</p></div>
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
@@ -446,7 +446,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     return <div className="d-flex align-items-center justify-content-end p-1 border-bottom" key={ind}><p className=''>{ele?.Amount !== 0 ? NumberWithCommas(ele?.Amount / json0Data?.CurrencyExchRate, 2) : <>&nbsp;</>}</p> </div>
                                 })}
                                 {e?.misc.map((ele, ind) => {
-                                    return <div className="d-flex align-items-center justify-content-end p-1 border-bottom" key={ind}><p className=''>{ele?.Amount !== 0 ? NumberWithCommas(ele?.Amount / json0Data?.CurrencyExchRate, 2) : <>&nbsp;</>}</p> </div>
+                                    return ele?.Rate !== 0 && <div className="d-flex align-items-center justify-content-end p-1 border-bottom" key={ind}><p className=''>{ele?.Rate !== 0 ? NumberWithCommas(ele?.Rate, 2) : <>&nbsp;</>}</p> </div>
                                 })}
                                 {e?.OtherCharges + e?.TotalDiamondHandling !== 0 && <div className="d-flex align-items-center justify-content-end p-1 border-bottom"><p className=''>{NumberWithCommas((e?.OtherCharges + e?.TotalDiamondHandling) / json0Data?.CurrencyExchRate, 2)}</p> </div>}
                             </div>
