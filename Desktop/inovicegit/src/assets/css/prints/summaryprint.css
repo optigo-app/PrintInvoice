@@ -19,7 +19,8 @@
     align-items: center;
 }
 .bg_sp{
-    background-color: #F2F2F2;
+    /* background-color: #F2F2F2; */
+    background-color: #F1F1F1;
 }
 /* table */
 .col1h_ps{
