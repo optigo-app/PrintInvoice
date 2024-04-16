@@ -264,7 +264,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                     </div>
                                                                 </div>
                                                                 <div className={`border-end ${style?.metal}`}>
-                                                                    <div className="d-flex h-100">
+                                                                    <div className={`d-flex ${e?.JobRemark === "" ? "h-100" : "border-bottom"}`}>
                                                                         <div className={`border-end ${style?.w_20}`}>
                                                                             <div className="d-flex flex-column justify-content-between h-100">
                                                                                 <div>
@@ -308,7 +308,10 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
+                                                                    {e?.JobRemark !== "" &&<div className="">
+                                                                        <p>Remark:</p>
+                                                                        <p className='fw-bold'>{e?.JobRemark}</p>
+                                                                    </div>}
                                                                 </div>
                                                                 <div className={`border-end ${style?.stone}`}>
                                                                     <div className="d-flex h-100">
@@ -485,7 +488,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                     </div>
                                                                 </div>
                                                                 <div className={`lightGrey border-end border-top ${style?.metal}`}>
-                                                                    <div className="d-flex h-100">
+                                                                    <div className={`d-flex h-100`}>
                                                                         <div className={`border-end ${style?.w_20}`}>
                                                                             <div className="d-flex flex-column justify-content-between h-100">
                                                                                 <p className={`fw-semibold`}></p>
@@ -512,7 +515,6 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
                                                                 </div>
                                                                 <div className={`lightGrey border-end border-top ${style?.stone}`}>
                                                                     <div className="d-flex h-100">
