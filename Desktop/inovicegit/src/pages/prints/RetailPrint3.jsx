@@ -294,7 +294,7 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className='fw-bold'>{result?.header?.customerfirmname}</p>
                         <p>Address: {result?.header?.customerAddress1}</p>
                         <p>{result?.header?.customerAddress2}</p>
-                        <p>{result?.header?.customercity1}-{headerData?.PinCode}</p>
+                        <p>{result?.header?.customercity1}-{result?.header?.PinCode}</p>
                         <p>{result?.header?.customeremail1}</p>
                     </div>
                     <div className=" p-2 " style={{width:'30%'}}>
@@ -440,7 +440,8 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                             <p className='p-1 fs_rp_2'>{e?.MetalPurity}</p>
                                                         </td>
                                                         <td className={`border-end border-bottom ${style?.color}`}>
-                                                            <p className='p-1 fs_rp_2'>{e?.MetalColor}</p>
+                                                            {/* <p className='p-1 fs_rp_2'>{e?.MetalColor}</p> */}
+                                                            <p className='p-1 fs_rp_2'></p>
                                                         </td>
                                                         <td className={`border-end border-bottom ${style?.pcs}`}>
                                                             <p className=' p-1 fs_rp_2'></p>
@@ -557,7 +558,7 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                             <p className='fs_rp_2 p-1'>{el?.Colorname}</p>
                                                         </td>
                                                         <td className={` border-end ${style?.pcs}`}>
-                                                            <p className='d-flex justify-content-end align-items-center  text-end fs_rp_2 p-1'></p>
+                                                            <p className='d-flex justify-content-end align-items-center  text-end fs_rp_2 p-1'>{el?.Pcs}</p>
                                                         </td>
                                                         <td className={`text-end border-end   ${style?.nWt}`}>
                                                             <p className='p-1 text-end fs_rp_2'>{el?.Wt?.toFixed(3)}</p>
@@ -701,7 +702,7 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p className='d-flex p-1'></p>
                                 </div>
                                 <div className={`fw-bold w-100 text-end border-end  ${style?.pcs}`}>
-                                    <p className='p-1 w-100 text-end fs_rp_2_bold fs_rp_2'>{result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + misctotPcs + result?.mainTotal?.metal?.Pcs + result?.mainTotal?.finding?.Pcs}</p>
+                                    <p className='p-1 w-100 text-end fs_rp_2_bold fs_rp_2'>{result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + misctotPcs + result?.mainTotal?.metal?.Pcs}</p>
                                 </div>
                                 <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-end border-end fs_rp_2 ${style?.gWt}`}><p className='p-1 fs_rp_2'>{result?.mainTotal?.grosswt?.toFixed(3)}</p></div>
                                 <div className={`fw-bold w-100 text-end border-end  ${style?.nWt}`}>
@@ -711,7 +712,7 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p className='d-flex p-1 justify-content-end'></p>
                                 </div>
                                 <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-center border-end p-1 ${style?.amount}`}>
-                                    <p className='fs_rp_2_bold fs_rp_2'>{formatAmount((result?.mainTotal?.metal?.Amount + result?.mainTotal?.diamonds?.Amount + result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.Amount))}</p>
+                                    <p className='fs_rp_2_bold fs_rp_2'>{formatAmount((result?.mainTotal?.metal?.Amount + result?.mainTotal?.diamonds?.Amount + result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.Amount + result?.mainTotal?.finding?.Amount ))}</p>
                                 </div>
                                 <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-center p-1 border-end ${style?.making}`}><p className='fs_rp_2_bold fs_rp_2'>{formatAmount((((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate))))}</p></div>
                                 <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-center p-1 border-end ${style?.discount}`}><p className='fs_rp_2_bold fs_rp_2'>{formatAmount(result?.mainTotal?.total_discount_amount)}</p></div>
