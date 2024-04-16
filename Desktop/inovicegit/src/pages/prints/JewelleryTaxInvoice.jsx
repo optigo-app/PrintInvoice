@@ -145,9 +145,9 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
     let taxValue = taxGenrator(json0Datas, totalAmountBefore);
     let afterTotal =
       taxValue.reduce((accumulator, currentValue) => {
-        return accumulator + +currentValue.amount;
+        return accumulator + (+currentValue.amount / json0Datas?.CurrencyExchRate);
       }, 0) + totalAmountBefore;
-    let grandTotal = afterTotal + json0Datas?.AddLess + json0Datas?.FreightCharges;
+    let grandTotal = afterTotal + (json0Datas?.AddLess / json0Datas?.CurrencyExchRate) + (json0Datas?.FreightCharges / json0Datas?.CurrencyExchRate);
     let totalAmounts = {
       before: totalAmountBefore,
       after: afterTotal,
@@ -317,7 +317,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
               )}
               {customerDetail?.gst !== "" && (
                 <p className="lh-1 pb-1">
-                  GSTIN <span className="fw-bold">{customerDetail?.gst} </span>
+                  VAT <span className="fw-bold">{customerDetail?.gst} </span>
                   {json0Data?.Cust_CST_STATE !== "" &&
                     json0Data?.Cust_CST_STATE_No !== "" && (
                       <>
@@ -378,7 +378,8 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                   <p className={`${style?.word_Break}`}>
                     Design: <span className="fw-bold">{e?.designno}</span>{" "}
                   </p>
-                  <p className={`${style?.word_Break}`}>{e?.Size}</p>
+                  {e?.Size !== "" && <p className={`${style?.word_Break}`}>{e?.Size}</p>}
+                  {e?.lineid !== "" && <p className={`pt-2 ${style?.word_Break}`}>{e?.lineid}</p>}
                 </div>
                 <div className={`col-5 p-1 border-end ${style?.word_Break}`}>
                   <p className={`${style?.word_Break}`}>
@@ -395,14 +396,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                       <span> | {memo && "MISC: "} {NumberWithCommas(e?.miscWts, 3)} gms</span>
                     )}
                   </p>
-                  {e?.JobRemark !== "" && (
-                    <div>
-                      <p className="text-decoration-underline fw-bold">
-                        REMARKS{" "}
-                      </p>
-                      <p>{e?.JobRemark}</p>
-                    </div>
-                  )}
+
                   {e.materials.length > 0 &&
                     e.materials.map((ele, ind) => {
                       return (
@@ -424,6 +418,15 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         </p>
                       );
                     })}
+
+                  {e?.JobRemark !== "" && (
+                    <div>
+                      <p className="text-decoration-underline fw-bold">
+                        REMARKS{" "}
+                      </p>
+                      <p>{e?.JobRemark}</p>
+                    </div>
+                  )}
                 </div>
                 <div className="col-2 p-1 border-end d-flex justify-content-center align-items-center">
                   <img
@@ -502,7 +505,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                       __html: json0Data?.Currencysymbol,
                     }}
                   ></span>
-                  {NumberWithCommas(+e?.amount, 2)}{" "}
+                  {NumberWithCommas(+e?.amount / json0Data?.CurrencyExchRate, 2)}{" "}
                 </p>
               );
             })}
@@ -516,11 +519,11 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
-              {NumberWithCommas(json0Data?.AddLess, 2)}{" "}
+              {NumberWithCommas(json0Data?.AddLess / json0Data?.CurrencyExchRate, 2)}{" "}
             </p>
             {json0Data?.FreightCharges !== 0 && <p className="text-end fw-bold">  <span
               dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
-            ></span>{NumberWithCommas(json0Data?.FreightCharges, 2)}	</p>}
+            ></span>{NumberWithCommas(json0Data?.FreightCharges / json0Data?.CurrencyExchRate, 2)}	</p>}
           </div>
         </div>
         {/* gran total */}

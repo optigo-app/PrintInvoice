@@ -63,10 +63,10 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       data?.BillPrint_Json2.map((ele, ind) => {
         if (e?.SrJobno === ele?.StockBarcode) {
           if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-            let findDiamonds = diamond?.findIndex((elem , index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname);
-            if(findDiamonds === -1){
+            let findDiamonds = diamond?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname);
+            if (findDiamonds === -1) {
               diamond.push(ele);
-            }else{
+            } else {
               diamond[findDiamonds].Wt += ele?.Wt;
               diamond[findDiamonds].Pcs += ele?.Pcs;
               diamond[findDiamonds].Amount += ele?.Amount;
@@ -89,14 +89,14 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             totals.metalPcs += ele?.Pcs;
             totals.metalWt += ele?.Wt;
             count += 1;
-            if(ele?.IsPrimaryMetal === 1){
+            if (ele?.IsPrimaryMetal === 1) {
               primaryWt += ele?.Wt
             }
           }
         }
       });
-      if(count === 0){
-        primaryWt = e?.NetWt+e?.LossWt;
+      if (count === 0) {
+        primaryWt = e?.NetWt + e?.LossWt;
       }
       obj.primaryWt = primaryWt;
       obj.metal = metal;
@@ -118,9 +118,9 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
     console.log(taxValue);
     setTaxes(taxValue);
     taxValue.forEach((e, i) => {
-      totals.afterGst += +(e?.amount)*data?.BillPrint_Json[0]?.CurrencyExchRate;
+      totals.afterGst += +(e?.amount) * data?.BillPrint_Json[0]?.CurrencyExchRate;
     });
-    totals.afterGst += +(totals.total)+data?.BillPrint_Json[0]?.AddLess;
+    totals.afterGst += +(totals.total) + data?.BillPrint_Json[0]?.AddLess;
     totals.numberInWords = toWords.convert(totals.afterGst);
 
     resultArr.sort((a, b) => {
@@ -362,14 +362,14 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
             <div className='goldJewellryInvoice'>
               <div className="d-grid h-100">
                 <div className="d-flex">
-                  <div className='col-5 border-end border-bottom p-1'>
+                  <div className='col-5 border-end border-bottom p-1 d-flex justify-content-center flex-column'>
                     {e?.metal.length > 0 && e?.metal.map((ele, ind) => {
-                      return <p key={ind}>
+                      return ele?.IsPrimaryMetal === 1 && <p key={ind}>
                         {ele?.QualityName}/{ele?.Colorname}
                       </p>
                     })}
                   </div>
-                  <div className='col-7 border-end border-bottom p-1 d-flex justify-content-end align-items-center flex-column'>
+                  <div className='col-7 border-end border-bottom p-1 d-flex justify-content-center align-items-end flex-column'>
                     <p>
                       {NumberWithCommas(e?.grosswt, 3)}/{NumberWithCommas(e?.primaryWt, 3)}
                     </p>
@@ -437,7 +437,7 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
           <div className="srNoJewelleryinvoice border-start border-end border-bottom p-1 d-flex justify-content-center align-items-center">
           </div>
           <div className="designJewelleryInvoice border-end border-bottom p-1 d-flex align-items-center">
-            <p className='fw-bold text-uppercase' style={{fontSize: "17px"}}>Total</p>
+            <p className='fw-bold text-uppercase' style={{ fontSize: "17px" }}>Total</p>
           </div>
           <div className='goldJewellryInvoice'>
             <div className="d-grid h-100">
@@ -489,34 +489,33 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
         {/* gst */}
         <div className="d-flex border-start border-end borer-bottom no_break">
           <div className="inWordsJewelleryinvoice border-end p-1 d-flex justify-content-end flex-column border-bottom">
-            <p className="fw-bold"> In Words Indian Rupees </p>
-            <p className="fw-bold">{total?.numberInWords} </p>
+            <p className="fw-bold"> In Words {json0Data?.Currencyname} </p>
+            <p className="fw-bold">{toWords?.convert(+(((+total?.total + taxes?.reduce((acc, cObj) => acc + (+cObj?.amount), 0) + json0Data?.AddLess))?.toFixed(2)))} </p>
           </div>
-              <div className='grandTotalRupeesJewelleryInvoice border-end border-bottom'>
-                <div className="border-bottom p-1 text-end">
-                  {taxes.length > 0 && taxes.map((e, i) => {
-                    return <p key={i}>{e?.name} @ {e?.per}</p>
-                  })}
-                  {json0Data?.AddLess !== 0 && <p>{json0Data?.AddLess > 0 ? "Add" : "Less"}</p>}
-                  {/* <p>CGST @ {json0Data?.CGST}%</p> */}
-                  {/* <p>SGST @ {json0Data?.SGST}%</p> */}
-                </div>
-                <div className='p-1 text-end'>
-                  <p className='fw-bold'>GRAND TOTAL</p>
-                </div>
-              </div>
-              <div className='grandTotaltaxJewelleryInvoice'>
-                <div className='border-bottom p-1 text-end'>
-                  {taxes.length > 0 && taxes.map((e, i) => {
-                    console.log(json0Data?.CurrencyExchRate, +e?.amount );
-                    return <p key={i}>{NumberWithCommas(+e?.amount * json0Data?.CurrencyExchRate, 2)}</p>
-                  })}
-                  {json0Data?.AddLess !== 0 && <p>{NumberWithCommas(json0Data?.AddLess, 2)}</p>}
-                </div>
-                <div className='p-1 text-end border-bottom'>
-                  <p className='fw-bold'>{NumberWithCommas(total?.afterGst, 2)}</p>
-                </div>
-              </div>
+          <div className='grandTotalRupeesJewelleryInvoice border-end border-bottom'>
+            <div className="border-bottom p-1 text-end">
+              {taxes.length > 0 && taxes.map((e, i) => {
+                return <p key={i}>{e?.name} @ {e?.per}</p>
+              })}
+              {json0Data?.AddLess !== 0 && <p>{json0Data?.AddLess > 0 ? "Add" : "Less"}</p>}
+              {/* <p>CGST @ {json0Data?.CGST}%</p> */}
+              {/* <p>SGST @ {json0Data?.SGST}%</p> */}
+            </div>
+            <div className='p-1 text-end'>
+              <p className='fw-bold'>GRAND TOTAL</p>
+            </div>
+          </div>
+          <div className='grandTotaltaxJewelleryInvoice'>
+            <div className='border-bottom p-1 text-end'>
+              {taxes.length > 0 && taxes.map((e, i) => {
+                return <p key={i}>{NumberWithCommas(+e?.amount, 2)}</p>
+              })}
+              {json0Data?.AddLess !== 0 && <p>{NumberWithCommas(json0Data?.AddLess, 2)}</p>}
+            </div>
+            <div className='p-1 text-end border-bottom'>
+              <p className='fw-bold'>{NumberWithCommas((+total?.total + taxes?.reduce((acc, cObj) => acc + (+cObj?.amount), 0) + json0Data?.AddLess), 2)}</p>
+            </div>
+          </div>
         </div>
         {/* Remark */}
         <div className="border-bottom border-start border-end p-1 no_break">
