@@ -21,13 +21,24 @@
     top: 10px;
 }
 
+.discountAmt {
+    min-width: 34%;
+    width: 34%;
+}
+
+
+.discountAmtnumber {
+    min-width: 6%;
+    width: 6%;
+}
+
 .pad_top {
     padding-top: 35px;
 }
 
 .srNo {
-    width: 4%;
-    min-width: 4%;
+    width: 2%;
+    min-width: 2%;
 }
 
 .jewelcode {
@@ -56,8 +67,8 @@
 }
 
 .other {
-    width: 8%;
-    min-width: 8%;
+    width: 10%;
+    min-width: 10%;
 }
 
 .amount {
