@@ -109,6 +109,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 blankArr[findIndex].TotalAmount += e?.TotalAmount;
                 blankArr[findIndex].metal = (blankArr[findIndex]?.metal).concat(e?.metal);
                 blankArr[findIndex].goldWt += e?.goldWt;
+                blankArr[findIndex].MetalWeight += e?.MetalWeight
 
                 blankArr[findIndex].colorstones = (blankArr[findIndex]?.colorstones).concat(e?.colorstones);
                 blankArr[findIndex].counts += 1;
@@ -303,7 +304,7 @@ const Export = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className={`border-end ${style.grossExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{fixedValues(e?.grosswt, 3)}</div>
                                 <div className={`border-end ${style.netExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{fixedValues(e?.NetWt, 3)}</div>
                                 <div className={`border-end ${style.wastageExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}></div>
-                                <div className={`border-end ${style.totalGoldExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{fixedValues(e?.NetWt, 3)}</div>
+                                <div className={`border-end ${style.totalGoldExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{fixedValues(e?.MetalWeight, 3)}</div>
                                 <div className={`border-end ${style.goldGmExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{e?.NetWt !== 0 && (NumberWithCommas(e?.primaryAmount / e?.primaryWt, 2))}</div>
                                 <div className={`border-end ${style.goldValueExport} d-flex align-items-center justify-content-end ${style.rowExport} ${style?.padx_2}`}>{NumberWithCommas(e?.primaryAmount, 2)}</div>
                                 <div className={`${style?.diamondSec}`}>

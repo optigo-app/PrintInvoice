@@ -217,12 +217,12 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
         });
         let taxValue = taxGenrator(data?.BillPrint_Json[0], TotalAmount);
-        let taxess = taxValue?.reduce((acc, cObj) => acc + (+cObj?.amount * data?.BillPrint_Json[0]?.CurrencyExchRate), 0) + data?.BillPrint_Json[0]?.AddLess;
+        let taxess = taxValue?.reduce((acc, cObj) => acc + (+cObj?.amount/ data?.BillPrint_Json[0]?.CurrencyExchRate), 0) + data?.BillPrint_Json[0]?.AddLess/ data?.BillPrint_Json[0]?.CurrencyExchRate;
 
         setTotal({
             ...total, netWtLoss: netWtLosss, metalAmount: metalAmounts, diamondTotal: diamondTotal,
             colorStone: colorStone, metalTotal: metalTotal, otherAmount: otherAmount, MakingAmount: MakingAmount,
-            DiscountAmt: DiscountAmt, TotalAmount: TotalAmount, amountAfterDiscount: TotalAmount + taxess, DiaSettignAmount: DiaSettignAmount, clrStoneSettignAmount: clrStoneSettignAmount
+            DiscountAmt: DiscountAmt, TotalAmount: TotalAmount, amountAfterDiscount: (TotalAmount/ data?.BillPrint_Json[0]?.CurrencyExchRate) + taxess, DiaSettignAmount: DiaSettignAmount, clrStoneSettignAmount: clrStoneSettignAmount
         });
         // let finalArr = [];
         // newArr.forEach((e, i) => {
@@ -643,7 +643,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <p>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p>
                                         </div>
                                         <div className={` col-6 text-end position-relative h-100 pb-3`}>
-                                            <p>{NumberWithCommas(e?.MakingAmount + e?.SettingAmount / json0Data?.CurrencyExchRate, 2)}</p>
+                                            <p>{NumberWithCommas((e?.MakingAmount + e?.SettingAmount) / json0Data?.CurrencyExchRate, 2)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -665,9 +665,9 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 return (+ele?.value !== 0 && ind <= 2) && <p key={ind} className={`${style?.min_height}`}>{NumberWithCommas(+ele?.value, 2)}</p>
                                             })}
                                             {e?.otherChargess?.map((ele, ind) => {
-                                                return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`}>{NumberWithCommas(ele?.Amount, 2)}</p>
+                                                return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`}>{NumberWithCommas(ele?.Amount / json0Data?.CurrencyExchRate, 2)}</p>
                                             })}
-                                            {(e?.MiscAmount !== 0 && e?.otherChargess?.length === 0) && <p className={`${style?.min_height}`}>{NumberWithCommas(e?.MiscAmount, 2)}</p>}
+                                            {(e?.MiscAmount !== 0 && e?.otherChargess?.length === 0) && <p className={`${style?.min_height}`}>{NumberWithCommas(e?.MiscAmount / json0Data?.CurrencyExchRate, 2)}</p>}
                                             {e?.TotalDiamondHandling !== 0 && <p className={`${style?.min_height}`}>{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>}
                                         </div>
                                     </div>
@@ -675,7 +675,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className={` fw-bold ${style?.price} d-flex flex-wrap`}>
                                     <div className="d-flex w-100">
                                         <div className={` position-relative h-100 pb-3 text-end w-100`}>
-                                            <p>{NumberWithCommas(e?.UnitCost, 2)} </p>
+                                            <p>{NumberWithCommas(e?.UnitCost / json0Data?.CurrencyExchRate, 2)} </p>
                                         </div>
                                     </div>
 
@@ -756,7 +756,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <p className={`fw-bold w-100 border-top`}></p>
                                         </div>
                                         <div className={` col-6 text-end`}>
-                                            <p className={`fw-bold w-100 border-top`}>{NumberWithCommas(e?.MakingAmount + e?.SettingAmount / json0Data?.CurrencyExchRate, 2)}</p>
+                                            <p className={`fw-bold w-100 border-top`}>{NumberWithCommas((e?.MakingAmount + e?.SettingAmount) / json0Data?.CurrencyExchRate, 2)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -766,14 +766,14 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <p className={`w-100 border-top  fw-bold`}></p>
                                         </div>
                                         <div className={` col-6 text-end`}>
-                                            <p className={`w-100 border-top fw-bold  fw-bold`}>{NumberWithCommas(e?.otherTotals, 2)}</p>
+                                            <p className={`w-100 border-top fw-bold  fw-bold`}>{NumberWithCommas(e?.otherTotals / json0Data?.CurrencyExchRate, 2)}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div className={` lightGrey fw-bold ${style?.price} d-flex flex-wrap`}>
                                     <div className="d-flex w-100">
                                         <div className={`text-end w-100`}>
-                                            <p className={`w-100 border-top  fw-bold`}>{NumberWithCommas(e?.UnitCost, 2)}</p>
+                                            <p className={`w-100 border-top  fw-bold`}>{NumberWithCommas(e?.UnitCost / json0Data?.CurrencyExchRate, 2)}</p>
                                         </div>
                                     </div>
 
@@ -855,13 +855,12 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <p className={` w-100 fw-bold`}>Discount {e?.Discount}% On Amount</p>
                                     </div>
                                     <div className={` ${style?.discountsAmounts} border-end lightGrey text-end`}>
-                                        <p className={` fw-bold`}>{NumberWithCommas(e?.DiscountAmt, 2)}</p>
+                                        <p className={` fw-bold`}>{NumberWithCommas(e?.DiscountAmt / json0Data?.CurrencyExchRate, 2)}</p>
                                     </div>
-
                                     <div className={` fw-bold ${style?.price} d-flex flex-wrap lightGrey`}>
                                         <div className="d-flex w-100">
                                             <div className={`position-relative h-100 text-end w-100`}>
-                                                <p>{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                                                <p>{NumberWithCommas(e?.TotalAmount / json0Data?.CurrencyExchRate, 2)}</p>
                                             </div>
                                         </div>
 
@@ -895,7 +894,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p></p>
                                 </div>
                                 <div className={`col-2 text-end d-flex align-items-center justify-content-end`}>
-                                    <p className=''>{NumberWithCommas(total?.diamondTotal?.Amount, 2)}</p>
+                                    <p className=''>{NumberWithCommas(total?.diamondTotal?.Amount / json0Data?.CurrencyExchRate, 2)}</p>
                                 </div>
                             </div>
                         </div>
@@ -914,7 +913,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p></p>
                                 </div>
                                 <div className={`${style?.wid_20} text-end d-flex align-items-center justify-content-end`}>
-                                    <p>{NumberWithCommas(total?.metalAmount, 2)}</p>
+                                    <p>{NumberWithCommas(total?.metalAmount / json0Data?.CurrencyExchRate, 2)}</p>
                                 </div>
                             </div>
                         </div>
@@ -933,7 +932,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p></p>
                                 </div>
                                 <div className={`${style?.wid_20} text-end d-flex align-items-center justify-content-end`}>
-                                    <p>{NumberWithCommas(total?.colorStone?.Amount, 2)}</p>
+                                    <p>{NumberWithCommas(total?.colorStone?.Amount / json0Data?.CurrencyExchRate, 2)}</p>
                                 </div>
                             </div>
                         </div>
@@ -943,7 +942,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p></p>
                                 </div>
                                 <div className={`${style?.pad_1} col-6 text-end d-flex align-items-center justify-content-end`}>
-                                    <p>{NumberWithCommas(total?.MakingAmount + total?.DiaSettignAmount + total?.clrStoneSettignAmount, 2)}</p>
+                                    <p>{NumberWithCommas((total?.MakingAmount + total?.DiaSettignAmount + total?.clrStoneSettignAmount) / json0Data?.CurrencyExchRate, 2)}</p>
                                 </div>
                             </div>
                         </div>
@@ -953,14 +952,14 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p></p>
                                 </div>
                                 <div className={`${style?.pad_1} col-6 text-end d-flex align-items-center justify-content-end`}>
-                                    <p>{NumberWithCommas(total?.otherAmount, 2)}</p>
+                                    <p>{NumberWithCommas(total?.otherAmount / json0Data?.CurrencyExchRate, 2)}</p>
                                 </div>
                             </div>
                         </div>
                         <div className={`${style?.pad_1} fw-bold ${style?.price} d-flex flex-wrap`}>
                             <div className="d-flex w-100">
                                 <div className={`${style?.pad_1} text-end w-100 d-flex align-items-center justify-content-end`}>
-                                    <p>{NumberWithCommas(total?.TotalAmount, 2)}</p>
+                                    <p>{NumberWithCommas(total?.TotalAmount / json0Data?.CurrencyExchRate, 2)}</p>
                                 </div>
                             </div>
 
@@ -980,11 +979,11 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`${style?.pad_1} ${style?.price} d-flex flex-wrap`}>
                         <div className="d-flex w-100">
                             <div className={`${style?.pad_1} text-end w-100`}>
-                                <p>{NumberWithCommas(total?.DiscountAmt, 2)}</p>
+                                <p>{NumberWithCommas(total?.DiscountAmt / json0Data?.CurrencyExchRate, 2)}</p>
                                 {taxes?.map((e, i) => {
-                                    return <p className='' key={i}>{NumberWithCommas(+e?.amount * json0Data?.CurrencyExchRate, 2)}</p>
+                                    return <p className='' key={i}>{NumberWithCommas(+e?.amount/ json0Data?.CurrencyExchRate, 2)}</p>
                                 })}
-                                {json0Data?.AddLess !== 0 && <p className=''>{NumberWithCommas(json0Data?.AddLess, 2)}</p>}
+                                {json0Data?.AddLess !== 0 && <p className=''>{NumberWithCommas(json0Data?.AddLess / json0Data?.CurrencyExchRate, 2)}</p>}
                                 <p>{NumberWithCommas(total?.amountAfterDiscount, 2)}</p>
                             </div>
                         </div>
