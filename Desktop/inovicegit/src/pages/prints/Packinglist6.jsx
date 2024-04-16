@@ -346,7 +346,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     </div>
                                                 </div>
                                                 <div className="col-4 border-end  d-flex flex-column justify-content-between">
-                                                    <div>
+                                                    <div className=" pt-1">
                                                     {
                                                             e?.misc?.map((ele, ind) => {
                                                                 return (ele?.IsHSCOE === 3 && ele?.Amount !== 0) && <p className="" key={ind}>{e?.CertificateNo}</p>
@@ -431,7 +431,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     <p className={` text-end fw-bold`}></p>
                                                 </div>
                                                 <div className=" text-center col-4  d-flex flex-column justify-content-between">
-                                                    <p className={` text-end fw-bold`}>{NumberWithCommas(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount, 2)}</p>
+                                                    <p className={` text-end fw-bold`}>{NumberWithCommas(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount, 2)}</p>`123`
                                                 </div>
                                             </div>
                                             <div className={`${style?.Price} lightGrey d-flex justify-content-between flex-column`}>
