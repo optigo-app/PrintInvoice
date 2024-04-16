@@ -48,6 +48,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let metalRates = 0;
             let metalWts = 0;
             let metalAmounts = 0;
+            let miscLength = e?.misc?.reduce((acc, cObj) =>cObj?.IsHSCOE !==0 ? acc+1 : acc, 0);
             if (e?.metal?.length <= 1) {
                 if (e?.metal?.length === 1) {
                     metalRates += e?.metal[0]?.Rate;
@@ -79,6 +80,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.metalAmounts = metalAmounts;
             obj.metalShapeName = metalShapeName;
             obj.metalQualityName = metalQualityName;
+            obj.miscLength = miscLength
             resultArr?.push(obj);
         });
         setTotal({ ...total, metalWt: metalWtss, metalAmount: metalAmountss });
@@ -249,7 +251,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                         </div>
                                                     </div>
                                                 </div><div>
-                                                        <p>REMARK:</p>
+                                                        <p>Remark:</p>
                                                         <p className="fw-bold">{e?.JobRemark}</p>
                                                     </div></> : <div className="d-flex h-100">
                                                     <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column pt-1`}>
@@ -333,10 +335,10 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     <div className="pt-1">
                                                         {
                                                             e?.misc?.map((ele, ind) => {
-                                                                return (ele?.IsHSCODE !== 0 && ele?.Amount !== 0) && <p className="" key={ind}>{ele?.ShapeName}</p>
+                                                                return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <p className="" key={ind}>{ele?.ShapeName}</p>
                                                             })
                                                         }
-                                                        {/* {e?.MiscAmount !== 0 && <p>Other</p>} */}
+                                                        {(e?.MiscAmount !== 0 && e?.miscLength === 0) && <p>Other</p>}
                                                         {e?.other_details?.map((ele, ind) => {
                                                             return ind <= 2 && <p className="" key={ind}>{ele?.label}</p>
                                                         })}
@@ -345,15 +347,20 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 </div>
                                                 <div className="col-4 border-end  d-flex flex-column justify-content-between">
                                                     <div>
-                                                        <p className="text-end" ></p>
+                                                    {
+                                                            e?.misc?.map((ele, ind) => {
+                                                                return (ele?.IsHSCOE === 3 && ele?.Amount !== 0) && <p className="" key={ind}>{e?.CertificateNo}</p>
+                                                            })
+                                                        }
+                                                        {/* <p className="text-end" ></p> */}
                                                     </div>
                                                 </div>
                                                 <div className=" text-center col-4  d-flex flex-column justify-content-between">
                                                     <div className="pt-1">
-                                                        {/* {e?.MiscAmount !== 0 && <p className="text-end">{NumberWithCommas(e?.MiscAmount, 2)}</p>} */}
+                                                        {(e?.MiscAmount !== 0 && e?.miscLength === 0) && <p className="text-end">{NumberWithCommas(e?.MiscAmount, 2)}</p>}
                                                         {
                                                             e?.misc?.map((ele, ind) => {
-                                                                return (ele?.IsHSCODE !== 0 && ele?.Amount !== 0) && <p className="text-end" key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
+                                                                return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <p className="text-end" key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
                                                             })
                                                         }
                                                         {e?.other_details?.map((ele, ind) => {

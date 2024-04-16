@@ -73,6 +73,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let clrStoneSettignAmount = 0;
         let DiaSettignAmount = 0;
         data?.BillPrint_Json1.forEach((e, i) => {
+            let otherTotals = e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount;
             otherAmount += e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount;
             let obj = { ...e };
             let object = {
@@ -170,7 +171,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         }
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
                         if (ele?.IsHSCOE !== 0) {
-                            otherAmount += ele?.Amount;
+                            // otherAmount += ele?.Amount;
                             let findOther = otherChargess?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
                             if (findOther === -1) {
                                 otherChargess.push(ele);
@@ -196,6 +197,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.otherTotal = otherTotal;
             obj.otherCharge = otherCharge;
             obj.otherChargess = otherChargess;
+            obj.otherTotals = otherTotals
             obj.OtherCharges += otherChargess.reduce((acc, cObj) => acc + cObj?.Amount, 0);
             obj.rowWiseDiamondTotal = rowWiseDiamondTotal;
             obj.rowWiseColorStoneTotal = rowWiseColorStoneTotal;
@@ -215,7 +217,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
         });
         let taxValue = taxGenrator(data?.BillPrint_Json[0], TotalAmount);
-        let taxess = taxValue?.reduce((acc, cObj) => acc + (+cObj?.amount*data?.BillPrint_Json[0]?.CurrencyExchRate), 0) + data?.BillPrint_Json[0]?.AddLess;
+        let taxess = taxValue?.reduce((acc, cObj) => acc + (+cObj?.amount * data?.BillPrint_Json[0]?.CurrencyExchRate), 0) + data?.BillPrint_Json[0]?.AddLess;
 
         setTotal({
             ...total, netWtLoss: netWtLosss, metalAmount: metalAmounts, diamondTotal: diamondTotal,
@@ -529,10 +531,11 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className="d-grid h-100">
                                         <p className='d-flex ps-1 align-items-center'>
                                             {e?.JewelCodePrefix}
-                                            {/* {e?.designno} */}
+                                            {e?.Category_Prefix}
                                             {e?.srJob}
                                         </p>
                                         <img src={e?.DesignImage} alt="" className={`w-100 ${style?.img} pb-1`} onError={handleImageError} />
+                                        {e?.HUID !== "" && <p className='text-center'>HUID-{e?.HUID}</p>}
                                     </div>
                                 </div>
                                 <div className={` ${style?.diamond} border-end d-flex flex-wrap`}>
@@ -570,34 +573,40 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     </div>
                                 </div>
                                 <div className={` ${style?.metal} border-end d-flex flex-wrap`}>
-                                    <div className="d-flex w-100">
-                                        <div className={`${style?.wid_20} border-end position-relative h-100 pb-3 ${style?.no_word_break}`}>
+                                    <div className={`d-flex w-100 ${e?.JobRemark !== "" && "border-bottom"}`}>
+                                        <div className={`${style?.wid_20} border-end ${style?.no_word_break}`}>
                                             {e?.metals.map((el, indd) => {
                                                 return <p key={indd} className={``}>{indd === 0 && e?.MetalTypePurity}</p>
                                             })}
                                         </div>
-                                        <div className={`${style?.wid_20} text-end border-end position-relative h-100`}>
+                                        <div className={`${style?.wid_20} text-end border-end`}>
                                             {e?.metals.map((el, indd) => {
                                                 return <p key={indd}>{indd === 0 && NumberWithCommas(e?.grosswt, 3)}</p>
                                             })}
                                         </div>
-                                        <div className={`${style?.wid_20} text-end border-end position-relative h-100`}>
+                                        <div className={`${style?.wid_20} text-end border-end`}>
                                             {/* {e?.metals.map((el, indd) => {
                                                 return <p key={indd}>{indd === 0 && NumberWithCommas(e?.NetWt + e?.LossWt, 3)}</p>
                                             })} */}
                                             <p>{NumberWithCommas(e?.netWtLoss, 3)}</p>
                                         </div>
-                                        <div className={`${style?.wid_20} text-end border-end position-relative h-100`}>
+                                        <div className={`${style?.wid_20} text-end border-end`}>
                                             {e?.metals.map((el, indd) => {
                                                 return <p key={indd}>{indd === 0 && NumberWithCommas(el?.Rate, 2)}</p>
                                             })}
                                         </div>
-                                        <div className={`${style?.wid_20} text-end position-relative h-100`}>
+                                        <div className={`${style?.wid_20} text-end`}>
                                             {e?.metals.map((el, indd) => {
                                                 return <p key={indd}>{indd === 0 && NumberWithCommas(el?.Amount / json0Data?.CurrencyExchRate, 2)}</p>
                                             })}
                                         </div>
                                     </div>
+                                    {
+                                        e?.JobRemark !== "" && <div>
+                                            <p>Remark:</p>
+                                            <p className="fw-bold">{e?.JobRemark}</p>
+                                        </div>
+                                    }
                                 </div>
                                 <div className={` ${style?.stone} border-end d-flex flex-wrap`}>
                                     <div className="d-flex w-100">
@@ -641,23 +650,24 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className={` ${style?.other} border-end d-flex flex-wrap`}>
                                     <div className="d-flex w-100">
                                         <div className={` col-6 border-end position-relative h-100 pb-3`}>
-                                            {e?.otherCharge?.map((ele, ind) => {
-                                                return +ele?.value !== 0 && <p key={ind} className={`${style?.min_height}`} style={{ wordBreak: "normal" }}>{ele?.label}</p>
-                                            })}
                                             {e?.otherChargess?.map((ele, ind) => {
-                                                return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`} style={{ wordBreak: "normal" }}>{ele?.ShapeName}</p>
+                                                return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`}>{ele?.ShapeName}</p>
                                             })}
-                                            {e?.MiscAmount !== 0 && <p className={`${style?.min_height}`}>Other</p>}
+                                            {e?.otherCharge?.map((ele, ind) => {
+                                                return (+ele?.value !== 0 && ind <= 2) && <p key={ind} className={`${style?.min_height}`}>{ele?.label}</p>
+                                            })}
+
+                                            {(e?.MiscAmount !== 0 && e?.otherChargess?.length === 0) && <p className={`${style?.min_height}`}>Other</p>}
                                             {e?.TotalDiamondHandling !== 0 && <p className={`${style?.min_height}`} style={{ wordBreak: "normal" }}>Charges Handling</p>}
                                         </div>
                                         <div className={` col-6 text-end position-relative h-100 pb-3`}>
                                             {e?.otherCharge?.map((ele, ind) => {
-                                                return +ele?.value !== 0 && <p key={ind} className={`${style?.min_height}`}>{NumberWithCommas(+ele?.value, 2)}</p>
+                                                return (+ele?.value !== 0 && ind <= 2) && <p key={ind} className={`${style?.min_height}`}>{NumberWithCommas(+ele?.value, 2)}</p>
                                             })}
                                             {e?.otherChargess?.map((ele, ind) => {
                                                 return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`}>{NumberWithCommas(ele?.Amount, 2)}</p>
                                             })}
-                                            {e?.MiscAmount !== 0 && <p className={`${style?.min_height}`}>{NumberWithCommas(e?.MiscAmount, 2)}</p>}
+                                            {(e?.MiscAmount !== 0 && e?.otherChargess?.length === 0) && <p className={`${style?.min_height}`}>{NumberWithCommas(e?.MiscAmount, 2)}</p>}
                                             {e?.TotalDiamondHandling !== 0 && <p className={`${style?.min_height}`}>{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>}
                                         </div>
                                     </div>
@@ -677,7 +687,8 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <div className={`${style?.pad_1} ${style?.srNo} border-end text-center`}>
                                 </div>
                                 <div className={` ${style?.pad_1}  ${style?.design} border-end`}>
-                                    {e?.HUID !== "" && <p className='text-center'>HUID-{e?.HUID}</p>}
+
+                                    {e?.lineid !== "" && <p className='text-center'>{e?.lineid}</p>}
                                 </div>
                                 <div className={` lightGrey ${style?.diamond} border-end d-flex flex-wrap`}>
                                     <div className="d-flex w-100 ">
@@ -755,7 +766,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <p className={`w-100 border-top  fw-bold`}></p>
                                         </div>
                                         <div className={` col-6 text-end`}>
-                                            <p className={`w-100 border-top fw-bold  fw-bold`}>{NumberWithCommas(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount, 2)}</p>
+                                            <p className={`w-100 border-top fw-bold  fw-bold`}>{NumberWithCommas(e?.otherTotals, 2)}</p>
                                         </div>
                                     </div>
                                 </div>
