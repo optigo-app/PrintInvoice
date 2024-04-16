@@ -139,7 +139,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <td>
                                                 <div className={`border-start border-end border-top border-black mb-1 overflow-hidden ${style?.rowWisePad} ${style?.word_break}`}>
                                                     <div className={`d-flex border-bottom lightGrey ${style?.font_1_12}`}>
-                                                        <div className={`border-end ${style?.srNo} d-flex justify-content-center align-items-center`}><p className='fw-semibold text-center' style={{wordBreak: "normal"}}>Sr. No.</p></div>
+                                                        <div className={`border-end ${style?.srNo} d-flex justify-content-center align-items-center`}><p className='fw-semibold text-center' style={{ wordBreak: "normal" }}>Sr. No.</p></div>
                                                         <div className={`border-end ${style?.jewelcode} d-flex justify-content-center align-items-center`}><p className='fw-semibold text-center'>Jewelcode</p></div>
                                                         <div className={`border-end ${style?.diamond}`}>
                                                             <p className='fw-semibold text-center border-bottom'>Diamond</p>
@@ -256,7 +256,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                             <div className="d-flex flex-column h-100 justify-content-between">
                                                                                 <div>
                                                                                     {e?.diamonds?.map((ele, ind) => {
-                                                                                        return <p className="text-end" key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
+                                                                                        return <p className="text-end" key={ind}>{NumberWithCommas(ele?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                                                     })}
                                                                                 </div>
                                                                             </div>
@@ -303,12 +303,12 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                         <div className={`${style?.w_20}`}>
                                                                             <div className="d-flex flex-column justify-content-between h-100">
                                                                                 <div>
-                                                                                    <p className="text-end">{NumberWithCommas(e?.metalAmounts, 2)}</p>
+                                                                                    <p className="text-end">{NumberWithCommas(e?.metalAmounts / headerData?.CurrencyExchRate, 2)}</p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    {e?.JobRemark !== "" &&<div className="">
+                                                                    {e?.JobRemark !== "" && <div className="">
                                                                         <p>Remark:</p>
                                                                         <p className='fw-bold'>{e?.JobRemark}</p>
                                                                     </div>}
@@ -355,7 +355,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                             <div className="d-flex flex-column justify-content-between h-100">
                                                                                 <div>
                                                                                     {e?.colorstone?.map((ele, ind) => {
-                                                                                        return <p className='text-end' key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
+                                                                                        return <p className='text-end' key={ind}>{NumberWithCommas(ele?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                                                     })}
                                                                                 </div>
                                                                             </div>
@@ -375,49 +375,18 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                         <div className={`col-6`}>
                                                                             <div className="d-flex flex-column justify-content-between h-100">
                                                                                 <div>
-                                                                                    <p className='text-end'>{NumberWithCommas(e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount, 2)}</p>
+                                                                                    <p className='text-end'>{NumberWithCommas((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) / headerData?.CurrencyExchRate, 2)}</p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div className={`border-end ${style?.other}`}>
-                                                                    {/* <div className="d-flex h-100">
-                                                                        <div className="col-6">
-                                                                            <div>
-                                                                                {
-                                                                                    e?.misc?.map((ele, ind) => {
-                                                                                        return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <p key={ind}>{ele?.ShapeName}</p>
-                                                                                    })
-                                                                                }
-                                                                                {e?.other_details?.map((ele, ind) => {
-                                                                                    return ind <= 2 && <p className='' key={ind}>{ele?.label}</p>
-                                                                                })}
-                                                                                {e?.TotalDiamondHandling !== 0 && <p className=" min_height_13">Handling</p>}
-                                                                                {(e?.miscLength === 0 && e?.MiscAmount !== 0) && <p>Other</p>}
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="col-6">
-                                                                            <div>
-                                                                                {
-                                                                                    e?.misc?.map((ele, ind) => {
-                                                                                        return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <p key={ind} className='text-end'>{NumberWithCommas(ele?.Amount, 2)}</p>
-                                                                                    })
-                                                                                }
-                                                                                {e?.other_details?.map((ele, ind) => {
-                                                                                    return ind <= 2 && <p className={`text-end ${style?.min_height_13}`} key={ind}>{NumberWithCommas(+ele?.value, 2)}</p>
-                                                                                })}
-                                                                                {e?.TotalDiamondHandling !== 0 && <p className={`text-end ${style?.min_height_13}`}>{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>}
-                                                                                {(e?.miscLength === 0 && e?.MiscAmount !== 0) && <p>{NumberWithCommas(e?.MiscAmount, 2)}</p>}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> */}
-
                                                                     {
                                                                         e?.misc?.map((ele, ind) => {
                                                                             return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <div key={ind} className='d-flex justify-content-between'>
                                                                                 <p className='col-8'>{ele?.ShapeName}</p>
-                                                                                <p className="text-end col-4">{NumberWithCommas(ele?.Amount, 2)}</p>
+                                                                                <p className="text-end col-4">{NumberWithCommas(ele?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                                             </div>
                                                                         })
                                                                     }
@@ -437,14 +406,14 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                                                                     {(e?.miscLength === 0 && e?.MiscAmount !== 0) && <div className='d-flex justify-content-between'>
                                                                         <p className='col-8'>Other</p>
-                                                                        <p className="text-end col-4">{NumberWithCommas(e?.MiscAmount, 2)}</p>
+                                                                        <p className="text-end col-4">{NumberWithCommas(e?.MiscAmount / headerData?.CurrencyExchRate, 2)}</p>
                                                                     </div>
                                                                     }
 
                                                                 </div>
                                                                 <div className={`${style?.amount}`}>
                                                                     <div className="d-flex flex-column justify-content-between h-100">
-                                                                        <p className='text-end fw-semibold'>{NumberWithCommas(e?.UnitCost, 2)}</p>
+                                                                        <p className='text-end fw-semibold'>{NumberWithCommas(e?.UnitCost / headerData?.CurrencyExchRate, 2)}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -482,7 +451,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                         </div>
                                                                         <div className={`col-2`}>
                                                                             <div className="d-flex flex-column h-100 justify-content-between">
-                                                                                <p className={` text-end fw-semibold`}>{e?.totals?.diamonds?.Amount > 0 && NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</p>
+                                                                                <p className={` text-end fw-semibold`}>{e?.totals?.diamonds?.Amount > 0 && NumberWithCommas(e?.totals?.diamonds?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -511,7 +480,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                         </div>
                                                                         <div className={`${style?.w_20}`}>
                                                                             <div className="d-flex flex-column justify-content-between h-100">
-                                                                                <p className={`fw-semibold text-end`}>{e?.metalAmounts > 0 && NumberWithCommas(e?.metalAmounts, 2)}</p>
+                                                                                <p className={`fw-semibold text-end`}>{e?.metalAmounts > 0 && NumberWithCommas(e?.metalAmounts / headerData?.CurrencyExchRate, 2)}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -540,7 +509,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                         </div>
                                                                         <div className={`${style?.w_20}`}>
                                                                             <div className="d-flex flex-column justify-content-between h-100">
-                                                                                <p className={`fw-semibold text-end`}>{e?.totals?.colorstone?.Amount > 0 && NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</p>
+                                                                                <p className={`fw-semibold text-end`}>{e?.totals?.colorstone?.Amount > 0 && NumberWithCommas(e?.totals?.colorstone?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                                             </div>
                                                                         </div>
 
@@ -555,7 +524,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                         </div>
                                                                         <div className={`col-6`}>
                                                                             <div className="d-flex flex-column justify-content-between h-100">
-                                                                                <p className={`fw-semibold text-end`}>{NumberWithCommas(e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount, 2)}</p>
+                                                                                <p className={`fw-semibold text-end`}>{NumberWithCommas((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) / headerData?.CurrencyExchRate, 2)}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -569,14 +538,14 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                         </div>
                                                                         <div className="col-6">
                                                                             <div className="d-flex flex-column justify-content-between h-100">
-                                                                                <p className={`fw-semibold text-end`}>{e?.OtherCharges > 0 && NumberWithCommas(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount, 2)}</p>
+                                                                                <p className={`fw-semibold text-end`}>{(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount) > 0 && NumberWithCommas((e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount) / headerData?.CurrencyExchRate, 2)}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div className={`lightGrey border-top ${style?.amount}`}>
                                                                     <div className="d-flex flex-column justify-content-between h-100">
-                                                                        <p className=' text-end fw-semibold'>{e?.TotalAmount > 0 && NumberWithCommas(e?.UnitCost, 2)}</p>
+                                                                        <p className=' text-end fw-semibold'>{e?.TotalAmount > 0 && NumberWithCommas(e?.UnitCost / headerData?.CurrencyExchRate, 2)}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -659,10 +628,10 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                    ` : "Total "}
                                                                         Amount	</p>
                                                                 </div>
-                                                                <div className={`lightGrey border-end border-top ${style?.discountAmtnumber}`}><p className='fw-bold text-end'>{NumberWithCommas(e?.DiscountAmt, 2)}</p></div>
+                                                                <div className={`lightGrey border-end border-top ${style?.discountAmtnumber}`}><p className='fw-bold text-end'>{NumberWithCommas(e?.DiscountAmt / headerData?.CurrencyExchRate, 2)}</p></div>
                                                                 <div className={`lightGrey border-top ${style?.amount}`}>
                                                                     <div className="d-flex flex-column justify-content-between h-100">
-                                                                        <p className=' text-end fw-semibold'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                                                                        <p className=' text-end fw-semibold'>{NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>}
@@ -699,7 +668,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                     <p className="lightGrey  text-end fw-semibold min_height_13"></p>
                                                                 </div>
                                                                 <div className={`col-2 d-flex align-items-center justify-content-end`}>
-                                                                    <p className="lightGrey  text-end fw-semibold min_height_13">{data?.mainTotal?.diamonds?.Amount > 0 && NumberWithCommas(data?.mainTotal?.diamonds?.Amount, 2)}</p>
+                                                                    <p className="lightGrey  text-end fw-semibold min_height_13">{data?.mainTotal?.diamonds?.Amount > 0 && NumberWithCommas(data?.mainTotal?.diamonds?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -718,7 +687,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                     <p className='  fw-semibold text-end min_height_13'></p>
                                                                 </div>
                                                                 <div className={`${style?.w_20} d-flex align-items-center justify-content-end`}>
-                                                                    <p className='  fw-semibold text-end min_height_13'>{total?.metalAmount > 0 && NumberWithCommas(total?.metalAmount, 2)}</p>
+                                                                    <p className='  fw-semibold text-end min_height_13'>{total?.metalAmount > 0 && NumberWithCommas(total?.metalAmount / headerData?.CurrencyExchRate, 2)}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -737,7 +706,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                     <p className="  fw-semibold text-end min_height_13"></p>
                                                                 </div>
                                                                 <div className={`${style?.w_20} d-flex align-items-center justify-content-end`}>
-                                                                    <p className="  fw-semibold text-end min_height_13">{data?.mainTotal?.colorstone?.Amount > 0 && NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</p>
+                                                                    <p className="  fw-semibold text-end min_height_13">{data?.mainTotal?.colorstone?.Amount > 0 && NumberWithCommas(data?.mainTotal?.colorstone?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                                 </div>
 
                                                             </div>
@@ -748,7 +717,7 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                     <p className="  fw-semibold text-end min_height_13"></p>
                                                                 </div>
                                                                 <div className={`col-6 d-flex align-items-center justify-content-end`}>
-                                                                    <p className="  fw-semibold text-end min_height_13">{(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.totalMiscAmount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount) > 0 && NumberWithCommas(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount, 2)}</p>
+                                                                    <p className="  fw-semibold text-end min_height_13">{(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.totalMiscAmount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount) > 0 && NumberWithCommas((data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount) / headerData?.CurrencyExchRate, 2)}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -758,13 +727,13 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                     <p className="  fw-semibold text-end min_height_13"></p>
                                                                 </div>
                                                                 <div className="col-6 d-flex align-items-center justify-content-end">
-                                                                    <p className="  fw-semibold text-end min_height_13">{data?.mainTotal?.total_otherCharge_Diamond_Handling > 0 && NumberWithCommas(data?.mainTotal?.total_otherCharge_Diamond_Handling, 2)}</p>
+                                                                    <p className="  fw-semibold text-end min_height_13">{data?.mainTotal?.total_otherCharge_Diamond_Handling > 0 && NumberWithCommas(data?.mainTotal?.total_otherCharge_Diamond_Handling / headerData?.CurrencyExchRate, 2)}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className={`${style?.amount}`}>
                                                             <div className="d-flex h-100 d-flex align-items-center justify-content-end">
-                                                                <p className=' text-end fw-semibold'>{data?.mainTotal?.total_amount > 0 && NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p>
+                                                                <p className=' text-end fw-semibold'>{data?.mainTotal?.total_amount > 0 && NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -784,12 +753,12 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                         <p className="text-end">Grand Total	</p>
                                                     </div>
                                                     <div className={`${style?.amount}`}>
-                                                        {data?.mainTotal?.total_discount_amount > 0 && <p className="text-end">{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)} </p>}
+                                                        {data?.mainTotal?.total_discount_amount > 0 && <p className="text-end">{NumberWithCommas(data?.mainTotal?.total_discount_amount / headerData?.CurrencyExchRate, 2)} </p>}
                                                         {data?.allTaxes?.map((e, i) => {
                                                             return <p className="text-end" key={i}>{NumberWithCommas(+e?.amount, 2)} </p>
                                                         })}
-                                                        {headerData?.AddLess !== 0 && <p className='text-end'>{NumberWithCommas(headerData?.AddLess, 2)}</p>}
-                                                        <p className="text-end">{NumberWithCommas(data?.finalAmount, 2)}</p>
+                                                        {headerData?.AddLess !== 0 && <p className='text-end'>{NumberWithCommas(headerData?.AddLess / headerData?.CurrencyExchRate, 2)}</p>}
+                                                        <p className="text-end">{NumberWithCommas((data?.mainTotal?.total_amount / headerData?.CurrencyExchRate) + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0) + headerData?.AddLess / headerData?.CurrencyExchRate, 2)}</p>
                                                     </div>
                                                 </div>
                                             </td>

@@ -48,7 +48,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let metalRates = 0;
             let metalWts = 0;
             let metalAmounts = 0;
-            let miscLength = e?.misc?.reduce((acc, cObj) =>cObj?.IsHSCOE !==0 ? acc+1 : acc, 0);
+            let miscLength = e?.misc?.reduce((acc, cObj) => cObj?.IsHSCOE !== 0 ? acc + 1 : acc, 0);
             if (e?.metal?.length <= 1) {
                 if (e?.metal?.length === 1) {
                     metalRates += e?.metal[0]?.Rate;
@@ -247,7 +247,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     </div>
                                                     <div className={`${style?.w_20} d-flex justify-content-between flex-column`}>
                                                         <div className="pt-1">
-                                                            <p className={`${style?.min_height_9_6} text-end`}>{NumberWithCommas(e?.metalAmounts, 2)} </p>
+                                                            <p className={`${style?.min_height_9_6} text-end`}>{NumberWithCommas(e?.metalAmounts / headerData?.CurrencyExchRate, 2)} </p>
                                                         </div>
                                                     </div>
                                                 </div><div>
@@ -312,7 +312,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     <div className="pt-1">
                                                         {
                                                             e?.colorstone?.map((ele, ind) => {
-                                                                return <p key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
+                                                                return <p key={ind}>{NumberWithCommas(ele?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                             })
                                                         }
                                                     </div>
@@ -326,7 +326,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 </div>
                                                 <div className=" text-end col-6 d-flex flex-column justify-content-between">
                                                     <div className="pt-1">
-                                                        <p>{NumberWithCommas(e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount, 2)}</p>
+                                                        <p>{NumberWithCommas((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) / headerData?.CurrencyExchRate, 2)}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -347,7 +347,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 </div>
                                                 <div className="col-4 border-end  d-flex flex-column justify-content-between">
                                                     <div className=" pt-1">
-                                                    {
+                                                        {
                                                             e?.misc?.map((ele, ind) => {
                                                                 return (ele?.IsHSCOE === 3 && ele?.Amount !== 0) && <p className="" key={ind}>{e?.CertificateNo}</p>
                                                             })
@@ -357,10 +357,10 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 </div>
                                                 <div className=" text-center col-4  d-flex flex-column justify-content-between">
                                                     <div className="pt-1">
-                                                        {(e?.MiscAmount !== 0 && e?.miscLength === 0) && <p className="text-end">{NumberWithCommas(e?.MiscAmount, 2)}</p>}
+                                                        {(e?.MiscAmount !== 0 && e?.miscLength === 0) && <p className="text-end">{NumberWithCommas(e?.MiscAmount / headerData?.CurrencyExchRate, 2)}</p>}
                                                         {
                                                             e?.misc?.map((ele, ind) => {
-                                                                return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <p className="text-end" key={ind}>{NumberWithCommas(ele?.Amount, 2)}</p>
+                                                                return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <p className="text-end" key={ind}>{NumberWithCommas(ele?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                             })
                                                         }
                                                         {e?.other_details?.map((ele, ind) => {
@@ -372,7 +372,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             </div>
                                             <div className={`${style?.Price} d-flex justify-content-between flex-column`}>
                                                 <div className="pt-1">
-                                                    <p className="text-end fw-bold">{NumberWithCommas(e?.UnitCost, 2)}</p>
+                                                    <p className="text-end fw-bold">{NumberWithCommas(e?.UnitCost / headerData?.CurrencyExchRate, 2)}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -398,7 +398,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     <p className={` text-end  fw-bold`}></p>
                                                 </div>
                                                 <div className={`${style?.w_20} d-flex justify-content-between flex-column`}>
-                                                    <p className=" text-end fw-bold">{NumberWithCommas(e?.metalAmounts, 2)}</p>
+                                                    <p className=" text-end fw-bold">{NumberWithCommas((e?.metalAmounts) / headerData?.CurrencyExchRate, 2)}</p>
                                                 </div>
                                             </div>
                                             <div className={`${style?.Stone} lightGrey border-end d-flex`}>
@@ -412,7 +412,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     <p className={` fw-bold`}></p>
                                                 </div>
                                                 <div className=" col-3 text-end d-flex justify-content-between flex-column">
-                                                    <p className={` fw-bold`}> {e?.totals?.colorstone?.Amount !== 0 && NumberWithCommas(e?.totals?.colorstone?.Amount, 2)} </p>
+                                                    <p className={` fw-bold`}> {e?.totals?.colorstone?.Amount !== 0 && NumberWithCommas((e?.totals?.colorstone?.Amount) / headerData?.CurrencyExchRate, 2)} </p>
                                                 </div>
                                             </div>
                                             <div className={`${style?.Labour} lightGrey border-end d-flex`}>
@@ -420,7 +420,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     <p className={` fw-bold`}></p>
                                                 </div>
                                                 <div className=" text-end col-6 d-flex flex-column justify-content-between">
-                                                    <p className={` fw-bold`}>{NumberWithCommas(e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount, 2)}</p>
+                                                    <p className={` fw-bold`}>{NumberWithCommas((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) / headerData?.CurrencyExchRate, 2)}</p>
                                                 </div>
                                             </div>
                                             <div className={`${style?.Other} lightGrey border-end d-flex`}>
@@ -431,11 +431,11 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     <p className={` text-end fw-bold`}></p>
                                                 </div>
                                                 <div className=" text-center col-4  d-flex flex-column justify-content-between">
-                                                    <p className={` text-end fw-bold`}>{NumberWithCommas(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount, 2)}</p>`123`
+                                                    <p className={` text-end fw-bold`}>{NumberWithCommas((e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount) / headerData?.CurrencyExchRate, 2)}</p>
                                                 </div>
                                             </div>
                                             <div className={`${style?.Price} lightGrey d-flex justify-content-between flex-column`}>
-                                                <p className={` text-end fw-bold`}>{NumberWithCommas(e?.UnitCost, 2)}</p>
+                                                <p className={` text-end fw-bold`}>{NumberWithCommas(e?.UnitCost / headerData?.CurrencyExchRate, 2)}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -443,13 +443,16 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         {e?.Discount !== 0 && <div className="d-flex  border-start border-end border-black">
                                             <div className={`${style?.srNo} border-end d-flex justify-content-center align-items-center pt-1`}><p className="fw-bold px_1"></p></div>
                                             <div className={`${style?.Jewelcode} border-end d-flex justify-content-center align-items-center pt-1`}><p className="fw-bold px_1"></p></div>
+                                            {/* <div className={`${style?.Metal} lightGrey border-end d-flex`}></div>
+                                            <div className={`${style?.Stone} lightGrey border-end d-flex`}></div>
+                                            <div className={`${style?.Labour} lightGrey border-end d-flex`}></div> */}
                                             <div className={`${style?.discount} border-end lightGrey pt-1`}>
                                                 <p className={`fw-bold text-end px_1 pt-1`}>Discount {e?.Discount}% @Total Amount	</p>
                                             </div>
                                             <div className={`${style?.otherAmount} border-end lightGrey`}>
-                                                <p className={`fw-bold text-end px_1 pt-1`}>{NumberWithCommas(e?.DiscountAmt, 2)}</p>
+                                                <p className={`fw-bold text-end px_1 pt-1`}>{NumberWithCommas(e?.DiscountAmt / headerData?.CurrencyExchRate, 2)}</p>
                                             </div>
-                                            <div className={`${style?.Price} lightGrey`}><p className="fw-bold text-end px_1 pt-1">{NumberWithCommas(e?.TotalAmount, 2)} </p></div>
+                                            <div className={`${style?.Price} lightGrey`}><p className="fw-bold text-end px_1 pt-1">{NumberWithCommas(e?.TotalAmount / headerData?.CurrencyExchRate, 2)} </p></div>
                                         </div>}
                                     </div>
                                 </td>
@@ -466,24 +469,24 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <p className={`fw-bold border-end text-end ${style?.w_20} px_1 d-flex justify-content-end align-items-center`}>{NumberWithCommas(data?.mainTotal?.grosswt, 3)}</p>
                                             <p className={`fw-bold border-end text-end ${style?.w_20} px_1 d-flex justify-content-end align-items-center`}>{NumberWithCommas(total?.metalWt, 3)}</p>
                                             <p className={`fw-bold border-end text-end ${style?.w_20} px_1`}></p>
-                                            <p className={`fw-bold text-end ${style?.w_20} px_1 d-flex justify-content-end align-items-center`}>{NumberWithCommas(total?.metalAmount, 2)}</p>
+                                            <p className={`fw-bold text-end ${style?.w_20} px_1 d-flex justify-content-end align-items-center`}>{NumberWithCommas(total?.metalAmount / headerData?.CurrencyExchRate, 2)}</p>
                                         </div>
                                         <div className={`${style?.Stone} border-end d-flex`}>
                                             <p className="fw-bold col-3 border-end px_1"></p>
                                             <p className="fw-bold col-3 border-end text-end px_1 d-flex justify-content-end align-items-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)}</p>
                                             <p className="fw-bold col-3 border-end text-end px_1"></p>
-                                            <p className="fw-bold col-3 text-end px_1 d-flex justify-content-end align-items-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount, 2)}</p>
+                                            <p className="fw-bold col-3 text-end px_1 d-flex justify-content-end align-items-center">{NumberWithCommas(data?.mainTotal?.colorstone?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                         </div>
                                         <div className={`${style?.Labour} border-end d-flex`}>
                                             <p className="fw-bold text-end col-6 border-end px_1"></p>
-                                            <p className="fw-bold text-end col-6 px_1 d-flex justify-content-end align-items-center">{NumberWithCommas(data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount, 2)}</p>
+                                            <p className="fw-bold text-end col-6 px_1 d-flex justify-content-end align-items-center">{NumberWithCommas((data?.mainTotal?.total_Making_Amount + data?.mainTotal?.diamonds?.SettingAmount + data?.mainTotal?.colorstone?.SettingAmount) / headerData?.CurrencyExchRate, 2)}</p>
                                         </div>
                                         <div className={`${style?.Other} border-end d-flex`}>
                                             <p className="fw-bold text-center col-4 border-end"></p>
                                             <p className="fw-bold text-center col-4 border-end"></p>
-                                            <p className="fw-bold text-end col-4 px_1 d-flex justify-content-end align-items-center">{NumberWithCommas(data?.mainTotal?.total_other_charges + data?.mainTotal?.total_diamondHandling + data?.mainTotal?.totalMiscAmount, 2)}	</p>
+                                            <p className="fw-bold text-end col-4 px_1 d-flex justify-content-end align-items-center">{NumberWithCommas((data?.mainTotal?.total_other_charges + data?.mainTotal?.total_diamondHandling + data?.mainTotal?.totalMiscAmount) / headerData?.CurrencyExchRate, 2)}	</p>
                                         </div>
-                                        <div className={`${style?.Price} d-flex justify-content-end align-items-center`}><p className="fw-bold text-end px_1">{NumberWithCommas(data?.mainTotal?.total_amount, 2)}
+                                        <div className={`${style?.Price} d-flex justify-content-end align-items-center`}><p className="fw-bold text-end px_1">{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}
                                         </p></div>
                                     </div>
                                 </div>
@@ -502,12 +505,12 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <p className="text-end">Grand Total</p>
                                     </div>
                                     <div className={`${style?.Price} px_1`}>
-                                        {data?.mainTotal?.total_discount_amount !== 0 && <p className="text-end">{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>}
+                                        {data?.mainTotal?.total_discount_amount !== 0 && <p className="text-end">{NumberWithCommas(data?.mainTotal?.total_discount_amount / headerData?.CurrencyExchRate, 2)}</p>}
                                         {data?.allTaxes?.map((e, i) => {
                                             return <p key={i} className="text-end">{NumberWithCommas(+e?.amount, 2)}	</p>
                                         })}
-                                        {headerData?.AddLess !== 0 && <p className="text-end">{headerData?.AddLess}</p>}
-                                        <p className="text-end">{NumberWithCommas(data?.finalAmount, 2)}</p>
+                                        {headerData?.AddLess !== 0 && <p className="text-end">{NumberWithCommas(headerData?.AddLess / headerData?.CurrencyExchRate, 2)}</p>}
+                                        <p className="text-end">{NumberWithCommas((data?.mainTotal?.total_amount / headerData?.CurrencyExchRate) + data?.allTaxes?.reduce((acc, cObj) => acc + +cObj?.amount, 0) + headerData?.AddLess / headerData?.CurrencyExchRate, 2)}</p>
                                     </div>
                                 </div>
                             </td>
