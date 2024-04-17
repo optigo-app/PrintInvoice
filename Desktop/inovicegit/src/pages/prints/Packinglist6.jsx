@@ -55,7 +55,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 if (ele?.IsHSCOE !== 0) {
                     miscLength++
                     if (ele?.IsHSCOE === 1) {
-                        if (ele?.Rate !== 0 && e?.HUID !== "") {
+                        if (ele?.Amount !== 0 && e?.HUID !== "") {
                             console.log("asjkdhjashd");
                             huidShowOrnot = true;
                         }
