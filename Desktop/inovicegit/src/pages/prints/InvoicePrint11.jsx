@@ -73,7 +73,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     setFooter(footers);
     let custAddress = data?.BillPrint_Json[0]?.Printlable.split("\n");
     setCustomerAddress(custAddress);
- 
+
 
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
     setMainDatas(datas)
@@ -166,7 +166,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
 
       let primaryWt = 0;
       let count = 0;
-      let netWtFinal = e?.NetWt + e?.LossWt - findingsWt - secondaryWt;
+      let netWtFinal = e?.NetWt + e?.LossWt - findingsWt;
 
       diamondHandling += e?.TotalDiamondHandling;
       e?.metal?.forEach((ele, ind) => {
@@ -177,6 +177,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           secondaryMetalAmount += ele?.Amount;
         }
       });
+      primaryWt = primaryWt - findingsWt - secondaryWt
       // labour.primaryWt += primaryWt;
       labour.makingAmount += e?.MakingAmount;
       labour.totalAmount += e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost;
@@ -485,7 +486,6 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryMetal?.Amount, 2)}</p></div>
               </div>
             })}
-            {console.log(mainData?.findings)}
             {mainData?.findings?.map((e, i) => {
               return <div className="d-flex" key={i}>
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.ShapeName} {e?.QualityName}</p></div>
