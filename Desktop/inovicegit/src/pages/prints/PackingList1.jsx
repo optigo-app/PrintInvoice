@@ -141,6 +141,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let netWtLoss = 0;
             let count = 0;
             let metalWt = 0;
+            let otherMiscAmount = 0;
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (ele?.StockBarcode === e?.SrJobno) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -195,6 +196,8 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             } else {
                                 otherChargess[findOther].Amount += ele?.Amount
                             }
+                        } else {
+                            otherMiscAmount += ele?.Amount;
                         }
                     }
                 }
@@ -211,6 +214,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.colors = colors;
             obj.metals = metals;
             obj.netWtLoss = netWtLoss;
+            obj.otherMiscAmount = otherMiscAmount;
             obj.otherTotal = otherTotal;
             obj.otherCharge = otherCharge;
             obj.otherChargess = otherChargess;
@@ -671,21 +675,22 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             {e?.otherChargess?.map((ele, ind) => {
                                                 return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`}>{ele?.ShapeName}</p>
                                             })}
+                                            {(e?.otherMiscAmount !== 0) && <p className={`${style?.min_height}`}>Other</p>}
                                             {e?.otherCharge?.map((ele, ind) => {
                                                 return (+ele?.value !== 0 && ind <= 2) && <p key={ind} className={`${style?.min_height}`}>{ele?.label}</p>
                                             })}
 
-                                            {(e?.MiscAmount !== 0 && e?.otherChargess?.length === 0) && <p className={`${style?.min_height}`}>Other</p>}
                                             {e?.TotalDiamondHandling !== 0 && <p className={`${style?.min_height}`} style={{ wordBreak: "normal" }}>Charges Handling</p>}
                                         </div>
                                         <div className={` col-6 text-end position-relative h-100 pb-3`}>
+                                        {e?.otherChargess?.map((ele, ind) => {
+                                                return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`}>{NumberWithCommas(ele?.Amount / json0Data?.CurrencyExchRate, 2)}</p>
+                                            })}
+                                            
+                                            {(e?.otherMiscAmount !== 0) && <p className={`${style?.min_height}`}>{NumberWithCommas(e?.otherMiscAmount / json0Data?.CurrencyExchRate, 2)}</p>}
                                             {e?.otherCharge?.map((ele, ind) => {
                                                 return (+ele?.value !== 0 && ind <= 2) && <p key={ind} className={`${style?.min_height}`}>{NumberWithCommas(+ele?.value, 2)}</p>
                                             })}
-                                            {e?.otherChargess?.map((ele, ind) => {
-                                                return ele?.Amount !== 0 && <p key={ind} className={`${style?.min_height}`}>{NumberWithCommas(ele?.Amount / json0Data?.CurrencyExchRate, 2)}</p>
-                                            })}
-                                            {(e?.MiscAmount !== 0 && e?.otherChargess?.length === 0) && <p className={`${style?.min_height}`}>{NumberWithCommas(e?.MiscAmount / json0Data?.CurrencyExchRate, 2)}</p>}
                                             {e?.TotalDiamondHandling !== 0 && <p className={`${style?.min_height}`}>{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>}
                                         </div>
                                     </div>
@@ -872,10 +877,10 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className={` ${style?.discounts} border-end d-flex flex-wrap lightGrey text-end w-100`}>
                                         {/* <p className={` w-100 fw-bold`}>Discount {e?.Discount}% On Amount</p> */}
                                         <p className="fw-bold text-end">Discount {e?.Discount}% @{e?.IsCriteriabasedAmount === 1 ?
-                                                    e?.discountElements?.map((ele, ind) => {
-                                                        return <React.Fragment key={ind}>{ele?.label} {ind !== (e?.discountElements?.length - 1) ? "," : ""}</React.Fragment>
-                                                    }) : "Total "}
-                                                    Amount	</p>
+                                            e?.discountElements?.map((ele, ind) => {
+                                                return <React.Fragment key={ind}>{ele?.label} {ind !== (e?.discountElements?.length - 1) ? "," : ""}</React.Fragment>
+                                            }) : "Total "}
+                                            Amount	</p>
                                     </div>
                                     <div className={` ${style?.discountsAmounts} border-end lightGrey text-end`}>
                                         <p className={` fw-bold`}>{NumberWithCommas(e?.DiscountAmt / json0Data?.CurrencyExchRate, 2)}</p>
@@ -884,7 +889,7 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         <div className="d-flex w-100">
                                             <div className={`position-relative h-100 text-end w-100`}>
                                                 <p>{NumberWithCommas(e?.TotalAmount / json0Data?.CurrencyExchRate, 2)}</p>
-                                            
+
                                             </div>
                                         </div>
 

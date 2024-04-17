@@ -56,6 +56,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     miscLength++
                     if (ele?.IsHSCOE === 1) {
                         if (ele?.Rate !== 0 && e?.HUID !== "") {
+                            console.log("asjkdhjashd");
                             huidShowOrnot = true;
                         }
                     }
@@ -386,7 +387,8 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                 return (ele?.IsHSCOE === 3 && ele?.Amount !== 0) && <p className="" key={ind}>{e?.CertificateNo}</p>
                                                             })
                                                         }
-                                                        {e?.huidShowOrnot && <><p className="">HUID- </p>
+                                                        {console.log(e?.huidShowOrnot)}
+                                                        {e?.huidShowOrnot === true && <><p className="">HUID- </p>
                                                             <p>{e?.HUID}</p></>}
                                                     </div>
                                                 </div>

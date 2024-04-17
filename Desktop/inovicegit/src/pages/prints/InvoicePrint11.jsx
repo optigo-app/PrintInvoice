@@ -62,6 +62,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     total: 0,
     discount: 0,
     totalPcs: 0,
+    SettingAmount: 0,
   })
 
   const loadData = (data) => {
@@ -101,6 +102,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     let totalPcss = [];
     let jobWiseLabourCalc = 0;
     let jobWiseMinusFindigWt = 0;
+    let SettingAmount = datas?.mainTotal?.diamonds?.SettingAmount + datas?.mainTotal?.colorstone?.SettingAmount;
     datas?.resultArray?.map((e, i) => {
       let obj = cloneDeep(e);
       let findingWt = 0;
@@ -177,7 +179,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           secondaryMetalAmount += ele?.Amount;
         }
       });
-      primaryWt = primaryWt - findingsWt - secondaryWt
+      primaryWt = primaryWt - findingsWt
       // labour.primaryWt += primaryWt;
       labour.makingAmount += e?.MakingAmount;
       labour.totalAmount += e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost;
@@ -308,7 +310,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         return labelA.localeCompare(labelB);
       }
     });
-    setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
+    setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, SettingAmount: SettingAmount, });
     setMainData({
       ...mainData, resultArr: resultArr, findings: findings, diamonds: diamonds, colorStones: colorStones,
       miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling, secondaryMetal: secondaryMetal
@@ -483,7 +485,8 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "9%", width: "9%" }} className=" px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryMetal?.Rate, 2)}</p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryMetal?.Amount, 2)}</p></div>
+                {/* <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryMetal?.Amount, 2)}</p></div> */}
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryWt * e?.primaryMetal?.Rate, 2)}</p></div>
               </div>
             })}
             {mainData?.findings?.map((e, i) => {
@@ -581,6 +584,15 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(+e?.value, 2)}</p></div>
               </div>
             })}
+            {totalss?.SettingAmount !== 0 && <div className="d-flex">
+              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>SETTING</p></div>
+              <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
+              <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
+              <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p></p></div>
+              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
+              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
+              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(totalss?.SettingAmount, 2)}</p></div>
+            </div>}
           </div>
         </div>
         {/* total */}
