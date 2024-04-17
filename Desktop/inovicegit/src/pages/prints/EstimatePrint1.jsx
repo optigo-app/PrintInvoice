@@ -55,6 +55,8 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             let netWtlossWt = 0;
             let count = 0;
             let pureWt = 0;
+            let otherChargess = otherAmountDetail(e?.OtherAmtDetail);
+            console.log(otherChargess);
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (ele?.StockBarcode === e?.SrJobno) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
@@ -89,11 +91,13 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         }
                     }
                     else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+                       if(ele?.IsHSCOE === 0 || ele?.IsHSCOE === 3){
                         if (ele?.Rate !== 0) {
                             totals.miscWt += ele?.Wt;
                             totals.OtherCharges += ele?.Amount;
                             misc.push(ele);
                         }
+                       }
                     }
                 }
             });
@@ -270,7 +274,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 return 0
             }
         });
-        console.log(dataArr);
+        // console.log(dataArr);
         setData(dataArr);
     }
 

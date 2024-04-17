@@ -38,19 +38,35 @@
     min-width: 9%;
 }
 
-.diamondDetailPrint1 {
+.diamondDetailPrint1l {
+    /* width: 181.9px;
+    min-width: 181.9px; */
+    width: 22.9%;
+    min-width: 22.9%;
+}
+
+.diamondDetailPrint1p {
     /* width: 181.9px;
     min-width: 181.9px; */
     width: 21.9%;
     min-width: 21.9%;
 }
 
-.stoneDetailsPrint1 {
+.stoneDetailsPrint1l {
+    /* width: 174.3px;
+    min-width: 174.3px; */
+    width: 23.8%;
+    min-width: 23.8%;
+}
+
+.stoneDetailsPrint1p {
     /* width: 174.3px;
     min-width: 174.3px; */
     width: 21.8%;
     min-width: 21.8%;
 }
+
+
 
 .metalDetailPrint1 {
     width: 200px;
@@ -63,8 +79,18 @@
 }
 
 .otherAmountDetailPrint1 {
+    width: 11.3%;
+    min-width: 11.3%;
+}
+
+.otherAmountDetailPrint1p {
     width: 10.3%;
     min-width: 10.3%;
+}
+
+.otherAmountDetailPrint1l {
+    width: 5.3%;
+    min-width: 5.3%;
 }
 
 .labourAmountDetailPrint1 {
@@ -83,7 +109,19 @@
     min-width: 20%;
 }
 
-.diamondDetailPrint1 * {
+.metalGoldDetailPrint1l,
+.metalTotalDetailPrint1l {
+    width: 22%;
+    min-width: 22%;
+}
+
+.metalGoldDetailPrint1p,
+.metalTotalDetailPrint1p {
+    width: 20%;
+    min-width: 20%;
+}
+
+.diamondDetailPrint1l *, .diamondDetailPrint1p * {
     word-break: break-all;
 }
 
