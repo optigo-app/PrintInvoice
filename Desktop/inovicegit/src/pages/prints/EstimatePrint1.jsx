@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/estimatePrint1.module.css";
 import { ToWords } from 'to-words';
+import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 
 const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
@@ -56,7 +57,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             let count = 0;
             let pureWt = 0;
             let otherChargess = otherAmountDetail(e?.OtherAmtDetail);
-            console.log(otherChargess);
+            // console.log(otherChargess);
             data?.BillPrint_Json2.forEach((ele, ind) => {
                 if (ele?.StockBarcode === e?.SrJobno) {
                     if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
@@ -65,7 +66,6 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             ++count;
                         } else {
                             pureWt += ele?.Wt;
-                        totals.miscWt += ele?.Wt;
 
                         }
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
@@ -94,6 +94,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         }
                     }
                     else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
+                        totals.miscWt += ele?.Wt;
                     //    if(ele?.IsHSCOE === 0 || ele?.IsHSCOE === 3){
                         if (ele?.Amount !== 0) {
                             // totals.miscWt += ele?.Wt;
@@ -247,6 +248,9 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 dataArr.push(obj);
             }
         });
+
+        let datass = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
+        console.log(datass);
 
         let bankDetails = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
         setBank(bankDetails);
@@ -601,8 +605,8 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className={`border-start border-bottom border-end d-flex no_break ${style?.font_12}`}>
                 <div className="col-9 p-1 border-end">
                     <p className=''>In Words {json0Data?.Currencyname}</p>
-                    <p className='fw-bold'>{toWords.convert(+fixedValues((total?.TotalAmount / json0Data?.CurrencyExchRate) + (json0Data?.AddLess / json0Data?.CurrencyExchRate)
-                        + (tax?.reduce((acc, cObj) => acc + (+cObj?.amount / json0Data?.CurrencyExchRate), 0)), 2))} Only</p>
+                    <p className='fw-bold'>{toWords.convert(+fixedValues(+(total?.TotalAmount / json0Data?.CurrencyExchRate)?.toFixed(2) + +(json0Data?.AddLess / json0Data?.CurrencyExchRate)?.toFixed(2)
+                        + (tax?.reduce((acc, cObj) => acc + (+(cObj?.amount / json0Data?.CurrencyExchRate)?.toFixed(2)), 0)), 2))} Only</p>
                 </div>
                 <div className="col-3 d-flex">
                     <div className="col-7 border-end d-flex align-items-center justify-content-end text-end p-1">
