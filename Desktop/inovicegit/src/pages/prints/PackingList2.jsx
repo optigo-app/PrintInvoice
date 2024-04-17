@@ -53,6 +53,8 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 }
             }
             let OtherMetalLength = 0;
+            let otherMiscAmount = e?.misc?.reduce((acc, cObj) => cObj?.IsHSCOE === 0 ? acc+cObj?.Amount : acc, 0);
+            
             // obj.PrimaryWt = e?.metal?.reduce((acc, cObj) => cObj?.IsPrimaryMetal === 1 ? acc + cObj?.Wt : acc, 0);
             let PrimaryWt = 0;
             let PrimaryAmount = 0;
@@ -68,6 +70,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.discountElements = discountElements;
             obj.PrimaryWt = PrimaryWt;
             obj.PrimaryAmount = PrimaryAmount;
+            obj.otherMiscAmount = otherMiscAmount;
             obj.miscLength = e?.misc?.reduce((acc, cObj) => cObj?.IsHSCOE !== 0 ? acc + 1 : acc, 0);
             if (obj?.OtherMetalLength === 0) {
                 netWtTotal += e?.NetWt + e?.LossWt;
@@ -285,6 +288,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                         <p className=""> {e?.designno}</p>
                                                     </div>
                                                     <img src={e?.DesignImage} alt="" className='w-100 imgWidth mt-2' onError={handleImageError} />
+                                                    {e?.HUID !== "" && <p className='text-center'>HUID-{e?.HUID}</p>}
                                                 </div>
                                                 <div className={`${style?.Diamond} border-end`}>
                                                     <div className="d-grid h-100">
@@ -421,9 +425,9 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 </div>
                                                 <div className={`${style?.Other} border-end ${style?.no_word_break}`}>
                                                     {
-                                                        (e?.miscLength === 0 && e?.MiscAmount !== 0) && <div className="d-flex justify-content-between">
+                                                        (e?.otherMiscAmount !== 0) && <div className="d-flex justify-content-between">
                                                             <p className='col-8'>Other</p>
-                                                            <p className='col-4 text-end'>{NumberWithCommas(e?.MiscAmount / headerData?.CurrencyExchRate, 2)}</p>
+                                                            <p className='col-4 text-end'>{NumberWithCommas(e?.otherMiscAmount / headerData?.CurrencyExchRate, 2)}</p>
                                                         </div>
                                                     }
                                                     {
@@ -451,11 +455,12 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     <p className="text-end fw-bold">{NumberWithCommas(e?.UnitCost / headerData?.CurrencyExchRate, 2)}</p>
                                                 </div>
                                             </div>
-                                            <div className={`d-flex border-top`}>
+                                            <div className={`d-flex`}>
                                                 <div className={`${style?.Sr} border-end`}></div>
                                                 <div className={`${style?.Jewelcode} border-end p-1`}>
+                                                {e?.lineid !== "" && <p className='text-center'>{e?.lineid}</p>}
                                                 </div>
-                                                <div className={`${style?.Diamond} border-end lightGrey`}>
+                                                <div className={`${style?.Diamond} border-end lightGrey border-top`}>
                                                     <div className="d-grid h-100">
                                                         <div className={`d-flex w-100`}>
                                                             <div className={`${style?.w_20} border-end`}>
@@ -476,7 +481,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className={`${style?.Metal} border-end lightGrey`}>
+                                                <div className={`${style?.Metal} border-end lightGrey border-top`}>
                                                     <div className="d-grid h-100">
                                                         <div className={`d-flex w-100`}>
                                                             <div style={{ width: "18%" }} className={`border-end`}>
@@ -497,7 +502,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className={`${style?.Stone} border-end lightGrey`}>
+                                                <div className={`${style?.Stone} border-end lightGrey border-top`}>
                                                     <div className="d-grid h-100">
                                                         <div className={`d-flex w-100`}>
                                                             <div className={`col-3 border-end`}>
@@ -515,7 +520,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className={`${style?.Labour} border-end lightGrey`}>
+                                                <div className={`${style?.Labour} border-end lightGrey border-top`}>
                                                     <div className="d-grid h-100">
                                                         <div className={`d-flex w-100`}>
                                                             <div className={`w-50 border-end`}>
@@ -527,7 +532,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className={`${style?.Other} border-end lightGrey`}>
+                                                <div className={`${style?.Other} border-end lightGrey border-top`}>
                                                     <div className="d-grid h-100">
                                                         <div className={`d-flex w-100`}>
                                                             <div className={`w-50`}>
@@ -539,7 +544,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className={`${style?.Price} lightGrey`}>
+                                                <div className={`${style?.Price} lightGrey border-top`}>
                                                     <div className="d-grid h-100">
                                                         <div className={`w-100 `}>
                                                             <p className="text-end fw-bold">{NumberWithCommas(e?.UnitCost / headerData?.CurrencyExchRate, 2)}</p>

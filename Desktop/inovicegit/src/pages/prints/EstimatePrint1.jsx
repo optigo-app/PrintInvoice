@@ -387,50 +387,50 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className='col-6'>
                         <div className="d-grid h-100 border-end">
                             <div className="d-flex border-bottom">
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='' style={{ wordBreak: "normal" }}>{e?.MetalType}</p></div>
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='' style={{ wordBreak: "normal" }}>{e?.MetalPurity}</p></div>
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{NumberWithCommas(e?.grosswt, 3)}	</p></div>
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{NumberWithCommas(e?.netWtlossWt, 3)}</p></div>
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''>{e?.netWtlossWt !== 0 && NumberWithCommas((e?.MetalAmount / json0Data?.CurrencyExchRate) / e?.netWtlossWt, 2)}</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center' style={{ wordBreak: "normal" }}>{e?.MetalType}</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center' style={{ wordBreak: "normal" }}>{e?.MetalPurity}</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'>{NumberWithCommas(e?.grosswt, 3)}	</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'></p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'>{NumberWithCommas(e?.netWtlossWt, 3)}</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className='text-center'>{e?.netWtlossWt !== 0 && NumberWithCommas((e?.MetalAmount / json0Data?.CurrencyExchRate) / e?.netWtlossWt, 2)}</p></div>
                             </div>
                             {e?.diamonds.map((ele, ind) => {
                                 return <div className="d-flex border-bottom" key={ind}>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='' style={{ wordBreak: "normal" }}>{ele?.ShapeName}</p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>	</p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{NumberWithCommas(ele?.Wt, 3)}</p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''></p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center' style={{ wordBreak: "normal" }}>{ele?.ShapeName}</p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'>	</p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'></p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'>{NumberWithCommas(ele?.Wt, 3)}</p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'></p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className='text-center'></p></div>
                                 </div>
                             })}
                             {e?.colorstone.map((ele, ind) => {
                                 return <div className="d-flex border-bottom" key={ind}>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='' style={{ wordBreak: "normal" }}>{ele?.ShapeName}</p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>	</p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{ele?.IsLess === 1 && "Less: "}{NumberWithCommas(ele?.Wt, 3)}</p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''></p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center' style={{ wordBreak: "normal" }}>{ele?.ShapeName}</p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'>	</p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'></p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'>{ele?.IsLess === 1 && "Less: "}{NumberWithCommas(ele?.Wt, 3)}</p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'></p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className='text-center'></p></div>
                                 </div>
                             })}
                             {e?.misc.map((ele, ind) => {
                                 return ele?.Rate !== 0 && <div className="d-flex border-bottom" key={ind}>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='' style={{ wordBreak: "normal" }}>{ele?.IsHSCOE === 0 ? ele?.ShapeName : ele?.ShapeName?.replace("Certification_", "")}</p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>	</p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>{ele?.IsLess === 1 && "Less: "}{NumberWithCommas(ele?.Wt, 3)}</p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
-                                    <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''></p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center' style={{ wordBreak: "normal" }}>{ele?.IsHSCOE === 0 ? ele?.ShapeName : ele?.ShapeName?.replace("Certification_", "")}</p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'>	</p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'></p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'>{ele?.IsLess === 1 && "Less: "}{NumberWithCommas(ele?.Wt, 3)}</p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'></p></div>
+                                    <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className='text-center'></p></div>
                                 </div>
                             })}
                             {e?.OtherCharges + e?.TotalDiamondHandling !== 0 && <div className="d-flex">
                                 <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center' style={{ wordBreak: "normal" }}>Other Charge	</p></div>
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''>	</p></div>
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className=''></p></div>
-                                <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className=''></p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'>	</p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'></p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'></p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'></p></div>
+                                <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className='text-center'></p></div>
                             </div>}
                         </div>
                     </div>

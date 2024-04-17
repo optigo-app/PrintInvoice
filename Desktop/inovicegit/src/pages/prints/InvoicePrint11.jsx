@@ -16,6 +16,7 @@ import BarcodePrintGenerator from "../../components/barcodes/BarcodePrintGenerat
 import style2 from "../../assets/css/headers/header1.module.css";
 import footerStyle from "../../assets/css/footers/footer2.module.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+import { cloneDeep } from "lodash";
 
 const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
@@ -422,7 +423,54 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     let jobWiseLabourCalc = 0;
     let jobWiseMinusFindigWt = 0;
     datas?.resultArray?.map((e, i) => {
-      let obj = { ...e };
+      let obj = cloneDeep(e);
+      let findingWt = 0;
+      let findingsWt = 0;
+      let findingsAmount = 0;
+      let secondaryMetalAmount = 0;
+      obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+      e?.finding?.forEach((ele, ind) => {
+        // if (ele?.ShapeName !== obj?.primaryMetal?.ShapeName && ele?.QualityName !== obj?.primaryMetal?.QualityName) {
+        let obb = cloneDeep(ele);
+        if (obj?.primaryMetal) {
+          obb.Rate = obj?.primaryMetal?.Rate;
+          obb.Amount = (ele?.Wt * obb?.Rate);
+          findingsAmount += (ele?.Wt * obb?.Rate);
+        }
+        obb.count = 1;
+        findingsWt += ele?.Wt;
+        let findFinding = findings?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName);
+        if (findFinding === -1) {
+          findings?.push(obb);
+        } else {
+          findings[findFinding].Wt += ele?.Wt;
+          findings[findFinding].Pcs += ele?.Pcs;
+          findings[findFinding].Rate = findings[findFinding].Rate + obb?.Rate;
+          findings[findFinding].Amount += obb?.Amount;
+          findings[findFinding].count += 1;
+        }
+
+        total2.total += (obb?.Amount);
+        // }
+        if (ele?.Supplier?.toLowerCase() === "customer") {
+          findingWt += ele?.Wt
+        }
+      });
+      let secondaryWt = 0;
+      e?.metal?.forEach((ele, ind) => {
+        if (ele?.IsPrimaryMetal !== 1) {
+          let findSecondary = secondaryMetal?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
+          if (findSecondary === -1) {
+            secondaryMetal?.push(ele)
+          } else {
+            secondaryMetal[findSecondary].Wt += ele?.Wt;
+            secondaryMetal[findSecondary].Pcs += ele?.Pcs;
+            secondaryMetal[findSecondary].Amount += ele?.Amount;
+          }
+          secondaryWt += ele?.Wt;
+        }
+      })
+
       let findPcss = totalPcss?.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob);
       if (findPcss === -1) {
         totalPcss?.push({ GroupJob: e?.GroupJob, value: e?.Quantity });
@@ -436,35 +484,33 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           }
         }
       }
-      obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+
       let primaryWt = 0;
       let count = 0;
+      console.log(findingsWt);
+      let netWtFinal = e?.NetWt + e?.LossWt - findingsWt - secondaryWt;
+
       diamondHandling += e?.TotalDiamondHandling;
       e?.metal?.forEach((ele, ind) => {
         count += 1;
         if (ele?.IsPrimaryMetal === 1) {
           primaryWt += ele?.Wt;
         } else {
-          let findSecondaryMetal = secondaryMetal?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
-          if (findSecondaryMetal === -1) {
-            secondaryMetal?.push(ele);
-          } else {
-            secondaryMetal[findSecondaryMetal].Wt += ele?.Wt;
-            secondaryMetal[findSecondaryMetal].Pcs += ele?.Pcs;
-            secondaryMetal[findSecondaryMetal].Amount += ele?.Amount;
-          }
+          secondaryMetalAmount += ele?.Amount;
         }
       });
       // labour.primaryWt += primaryWt;
       labour.makingAmount += e?.MakingAmount;
       labour.totalAmount += e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost;
-      total2.discount += e?.DiscountAmt
+      total2.discount += e?.DiscountAmt;
       obj.primaryWt = primaryWt;
+      obj.netWtFinal = netWtFinal;
+      obj.metalAmountFinal = e?.MetalAmount - findingsAmount + secondaryMetalAmount;
       if (count <= 1) {
         primaryWt = e?.NetWt + e?.LossWt;
       }
       if (obj?.primaryMetal) {
-        total2.total += obj?.primaryMetal?.Amount;
+        total2.total += obj?.metalAmountFinal;
         let findRecord = resultArr?.findIndex((ele, ind) => ele?.primaryMetal?.ShapeName === obj?.primaryMetal?.ShapeName && ele?.primaryMetal?.QualityName === obj?.primaryMetal?.QualityName && ele?.primaryMetal?.Rate === obj?.primaryMetal?.Rate);
         if (findRecord === -1) {
           resultArr?.push(obj);
@@ -476,20 +522,11 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           resultArr[findRecord].primaryMetal.Pcs += obj?.primaryMetal.Pcs;
           resultArr[findRecord].primaryMetal.Wt += obj?.primaryMetal.Wt;
           resultArr[findRecord].primaryMetal.Amount += obj?.primaryMetal.Amount;
+          resultArr[findRecord].netWtFinal += obj?.netWtFinal;
+          resultArr[findRecord].metalAmountFinal += obj?.metalAmountFinal
         }
       }
 
-
-      let findingWt = 0;
-      e?.finding?.forEach((ele, ind) => {
-        if (ele?.ShapeName !== obj?.primaryMetal?.ShapeName && ele?.QualityName !== obj?.primaryMetal?.QualityName) {
-          findings?.push(ele);
-          total2.total += (ele?.Amount);
-        }
-        if (ele?.Supplier?.toLowerCase() === "customer") {
-          findingWt += ele?.Wt
-        }
-      });
       jobWiseLabourCalc += ((e?.MetalDiaWt - findingWt) * e?.MaKingCharge_Unit);
       jobWiseMinusFindigWt += (e?.MetalDiaWt - findingWt);
 
@@ -528,7 +565,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         } else {
           misc2Total2 += ele?.Amount;
         }
-        if (ele?.IsHSCOE !== 0 && ele?.ShapeName?.toLowerCase()?.includes("certification")) {
+        if (ele?.IsHSCOE !== 0) {
           let findMisc = miscs?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
           if (findMisc === -1) {
             miscs?.push(ele);
@@ -564,6 +601,10 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       });
 
     });
+    findings?.forEach((ele, ind) => {
+      ele.Rate = ele?.Amount / ele?.Wt;
+    })
+
     let totalPcs = totalPcss?.reduce((acc, cObj) => acc + cObj?.value, 0);
     // total2.total += labour?.totalAmount
     total2.total += (diamondTotal / data?.BillPrint_Json[0]?.CurrencyExchRate) + (colorStone1Total1 / data?.BillPrint_Json[0]?.CurrencyExchRate) +
@@ -571,7 +612,6 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       (misc2Total2 / data?.BillPrint_Json[0]?.CurrencyExchRate) + labour?.totalAmount + diamondHandling;
 
     labour.primaryWt = jobWiseMinusFindigWt;
-    console.log(misc2);
     resultArr.sort((a, b) => {
       const labelA = a.MetalTypePurity.toLowerCase();
       const labelB = b.MetalTypePurity.toLowerCase();
@@ -589,11 +629,10 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         return labelA.localeCompare(labelB);
       }
     });
-    console.log(total2?.diamondHandling);
     setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
     setMainData({
       ...mainData, resultArr: resultArr, findings: findings, diamonds: diamonds, colorStones: colorStones,
-      miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling, secondaryMetal: secondaryMetal
+      miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling
     });
   };
 
