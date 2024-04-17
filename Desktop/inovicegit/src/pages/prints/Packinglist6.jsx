@@ -48,7 +48,22 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let metalRates = 0;
             let metalWts = 0;
             let metalAmounts = 0;
-            let miscLength = e?.misc?.reduce((acc, cObj) => cObj?.IsHSCOE !== 0 ? acc + 1 : acc, 0);
+            let miscLength = 0;
+            let otherMiscAmount = 0;
+            let huidShowOrnot = false;
+            e?.misc?.forEach((ele, ind) => {
+                if (ele?.IsHSCOE !== 0) {
+                    miscLength++
+                    if (ele?.IsHSCOE === 1) {
+                        if (ele?.Amount !== 0 && e?.HUID !== "") {
+                            console.log("asjkdhjashd");
+                            huidShowOrnot = true;
+                        }
+                    }
+                } else {
+                    otherMiscAmount += ele?.Amount;
+                }
+            });
             if (e?.metal?.length <= 1) {
                 if (e?.metal?.length === 1) {
                     metalRates += e?.metal[0]?.Rate;
@@ -71,14 +86,34 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     metalAmountss += e?.metal[findIndex]?.Amount;
                 }
             }
+            let discountElements = [];
+            if (e?.IsCriteriabasedAmount === 1) {
+                if (e?.IsDiamondAmount === 1) {
+                    discountElements?.push({ label: 'Diamond' })
+                }
+                if (e?.IsStoneAmount === 1) {
+                    discountElements?.push({ label: 'Stone' })
+                } if (e?.IsMetalAmount === 1) {
+                    discountElements?.push({ label: 'Metal' })
+                } if (e?.IsLabourAmount === 1) {
+                    discountElements?.push({ label: 'Labour' })
+                } if (e?.IsSolitaireAmount === 1) {
+                    discountElements?.push({ label: 'Solitaire' })
+                } if (e?.IsMiscAmount === 1) {
+                    discountElements?.push({ label: 'Misc' })
+                }
+            }
             let obj = cloneDeep(e);
             let jobNo = e?.SrJobno?.split("/");
             let jobNos = jobNo?.length > 0 ? jobNo[1] : jobNo[0];
             obj.jobNos = jobNos;
             obj.metalRates = metalRates;
+            obj.otherMiscAmount = otherMiscAmount
             obj.metalWts = metalWts;
             obj.metalAmounts = metalAmounts;
             obj.metalShapeName = metalShapeName;
+            obj.discountElements = discountElements;
+            obj.huidShowOrnot = huidShowOrnot;
             obj.metalQualityName = metalQualityName;
             obj.miscLength = miscLength
             resultArr?.push(obj);
@@ -223,7 +258,6 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <p className="text-center">{e?.lineid}</p>
                                             </div>
                                             <div className={`${style?.Metal} border-end`}>
-
                                                 {e?.JobRemark !== "" ? <> <div className="d-flex border-bottom">
                                                     <div className={`${style?.w_20} border-end  d-flex justify-content-between flex-column pt-1`}>
                                                         <div>
@@ -333,12 +367,13 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className={`${style?.Other} border-end d-flex`}>
                                                 <div className=" col-4 border-end  d-flex flex-column justify-content-between">
                                                     <div className="pt-1">
+
                                                         {
                                                             e?.misc?.map((ele, ind) => {
                                                                 return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <p className="" key={ind}>{ele?.ShapeName}</p>
                                                             })
                                                         }
-                                                        {(e?.MiscAmount !== 0 && e?.miscLength === 0) && <p>Other</p>}
+                                                        {(e?.otherMiscAmount !== 0) && <p>Other</p>}
                                                         {e?.other_details?.map((ele, ind) => {
                                                             return ind <= 2 && <p className="" key={ind}>{ele?.label}</p>
                                                         })}
@@ -352,17 +387,20 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                 return (ele?.IsHSCOE === 3 && ele?.Amount !== 0) && <p className="" key={ind}>{e?.CertificateNo}</p>
                                                             })
                                                         }
-                                                        {/* <p className="text-end" ></p> */}
+                                                        {console.log(e?.huidShowOrnot)}
+                                                        {e?.huidShowOrnot === true && <><p className="">HUID- </p>
+                                                            <p>{e?.HUID}</p></>}
                                                     </div>
                                                 </div>
                                                 <div className=" text-center col-4  d-flex flex-column justify-content-between">
                                                     <div className="pt-1">
-                                                        {(e?.MiscAmount !== 0 && e?.miscLength === 0) && <p className="text-end">{NumberWithCommas(e?.MiscAmount / headerData?.CurrencyExchRate, 2)}</p>}
+
                                                         {
                                                             e?.misc?.map((ele, ind) => {
                                                                 return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <p className="text-end" key={ind}>{NumberWithCommas(ele?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                             })
                                                         }
+                                                        {(e?.otherMiscAmount !== 0) && <p className="text-end">{NumberWithCommas(e?.otherMiscAmount / headerData?.CurrencyExchRate, 2)}</p>}
                                                         {e?.other_details?.map((ele, ind) => {
                                                             return ind <= 2 && <p className="text-end" key={ind}>{NumberWithCommas(+ele?.value, 2)}</p>
                                                         })}
@@ -447,7 +485,12 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className={`${style?.Stone} lightGrey border-end d-flex`}></div>
                                             <div className={`${style?.Labour} lightGrey border-end d-flex`}></div> */}
                                             <div className={`${style?.discount} border-end lightGrey pt-1`}>
-                                                <p className={`fw-bold text-end px_1 pt-1`}>Discount {e?.Discount}% @Total Amount	</p>
+                                                {/* <p className={`fw-bold text-end px_1 pt-1`}>Discount {e?.Discount}% @Total Amount	</p> */}
+                                                <p className="fw-bold text-end">Discount {e?.Discount}% @{e?.IsCriteriabasedAmount === 1 ?
+                                                    e?.discountElements?.map((ele, ind) => {
+                                                        return <React.Fragment key={ind}>{ele?.label} {ind !== (e?.discountElements?.length - 1) ? "," : ""}</React.Fragment>
+                                                    }) : "Total "}
+                                                    Amount	</p>
                                             </div>
                                             <div className={`${style?.otherAmount} border-end lightGrey`}>
                                                 <p className={`fw-bold text-end px_1 pt-1`}>{NumberWithCommas(e?.DiscountAmt / headerData?.CurrencyExchRate, 2)}</p>
