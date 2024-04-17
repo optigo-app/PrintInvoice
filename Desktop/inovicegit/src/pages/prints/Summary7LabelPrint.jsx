@@ -11,6 +11,7 @@ const Summary7LabelPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
     const [result, setResult] = useState(null);
     const [msg, setMsg] = useState("");
     const [loader, setLoader] = useState(true);
+    const [payAbleAmount, setPayAbleAmount] = useState(0);
 
     useEffect(() => {
         const sendData = async () => {
@@ -66,6 +67,19 @@ const Summary7LabelPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         obj.misc.miscHSCODE0_Wt_total  = miscHSCODE0_Wt_total;
         datas.mainTotal = obj;
         setResult(datas);
+
+        let payableamt = 0;
+
+        let finalAmt = (datas?.mainTotal?.total_amount + (datas?.allTaxesTotal * datas?.header?.CurrencyExchRate) + datas?.header?.AddLess);
+
+        payableamt = finalAmt - (datas?.header?.CashReceived + datas?.header?.BankReceived);
+
+        if(payableamt < 0){
+            setPayAbleAmount(0);
+        }else{
+            setPayAbleAmount(payableamt);
+        }
+
     }
 console.log(result);
   return (
@@ -75,21 +89,21 @@ console.log(result);
         {
             msg === '' ? <>
             <div className='container_s7lp'>
-                <div className='pb-5 mb-5'>
+                <div className='pb-5 mb-5 d_none_s7lp'>
                     <Button />
                 </div>
                 <div>
-                    <div className='fw-bold fs_s7lp text-center'>{result?.header?.CompanyFullName}</div>
-                    <div className='fs_s7lp_All text-center'>{result?.header?.CompanyAddress?.split(",")[0]}</div>
-                    <div className='fs_s7lp_All text-center'>{result?.header?.CompanyCity}</div>
-                    <div className='fs_s7lp_All text-center'>{result?.header?.Company_VAT_GST_No}</div>
-                    <div className='border-black border-top border-bottom py-1 my-1 fw-bold fs_s7lp text-center'>{result?.header?.PrintHeadLabel === '' ? 'TAX INVOICE' : result?.header?.PrintHeadLabel}</div>
-                    <div className='d-flex fs_s7lp_All'><div className='w-50'>Invoice No:</div><div className='fw-bold'>{result?.header?.InvoiceNo}</div></div>
-                    <div className='d-flex fs_s7lp_All'><div className='w-50'>Date:</div><div className='fw-bold'>{result?.header?.EntryDate}</div></div>
-                    <div className='d-flex fs_s7lp_All'><div className='w-50'>{result?.header?.HSN_No_Label}:</div><div className='fw-bold'>{result?.header?.HSN_No}</div></div>
-                    <div className='d-flex fs_s7lp_All'><div className='w-50'>Cashier:</div><div className='fw-bold'>{result?.header?.SalPerName?.split(" ")[0]}</div></div>
-                    <div className='my-1 fs_s7lp_All border-black border-top py-1 pb-0 d-flex'><div style={{width:'42%'}}>Customer Name:</div><div className='fw-bold'>{result?.header?.customerfirmname}</div></div>
-                    <div className='my-1 fs_s7lp_All border-black border-bottom py-1 pt-0 d-flex'><div style={{width:'42%'}}>Customer Mobile:</div><div className='fw-bold'>{result?.header?.customermobileno}</div></div>
+                    <div className='fw-bold fs_s7lp text-center p-1'>{result?.header?.CompanyFullName}</div>
+                    <div className='fs_s7lp_All text-center px-1'>{result?.header?.CompanyAddress}</div>
+                    <div className='fs_s7lp_All text-center px-1'>{result?.header?.CompanyCity} - {result?.header?.CompanyPinCode}</div>
+                    <div className='fs_s7lp_All text-center px-1'>{result?.header?.Company_VAT_GST_No}</div>
+                    <div className='border-black border-top border-bottom py-1 my-1 fw-bold fs_s7lp text-center px-1'>{result?.header?.PrintHeadLabel === '' ? 'TAX INVOICE' : result?.header?.PrintHeadLabel}</div>
+                    <div className='d-flex fs_s7lp_All px-1'><div className='w-50'>Invoice No:</div><div className='fw-bold'>{result?.header?.InvoiceNo}</div></div>
+                    <div className='d-flex fs_s7lp_All px-1'><div className='w-50'>Date:</div><div className='fw-bold'>{result?.header?.EntryDate}</div></div>
+                    <div className='d-flex fs_s7lp_All px-1'><div className='w-50'>{result?.header?.HSN_No_Label}:</div><div className='fw-bold'>{result?.header?.HSN_No}</div></div>
+                    <div className='d-flex fs_s7lp_All px-1'><div className='w-50'>Cashier:</div><div className='fw-bold'>{result?.header?.SalPerName?.split(" ")[0]}</div></div>
+                    <div className='my-1 fs_s7lp_All border-black border-top py-1 pb-0 d-flex px-1'><div style={{width:'42%'}}>Customer Name:</div><div className='fw-bold'>{result?.header?.customerfirmname}</div></div>
+                    <div className='my-1 fs_s7lp_All border-black border-bottom py-1 pt-0 d-flex px-1'><div style={{width:'42%'}}>Customer Mobile:</div><div className='fw-bold'>{result?.header?.customermobileno}</div></div>
                     <div className='table_s7lp'>
                     <div className='thead_s7lp'>
                         <div className='col1_s7lp text-center'>SR#</div>
@@ -101,7 +115,7 @@ console.log(result);
                     <div className='tbody_s7lp'>
                         {
                             result?.resultArray?.map((e, i) => {
-                                return <div className='d-flex fs_s7lp_All p-1'>
+                                return <div className='d-flex fs_s7lp_All p-1 pgia_s7lp'>
                                 <div className='col1_s7lp text-center'>{i+1}</div>
                                 <div className='col2_s7lp text-start text-break'>{e?.SrJobno}<br/>{e?.designno}<br />{e?.Categoryname}</div>
                                 <div className='col3_s7lp text-end'>{e?.NetWt?.toFixed(3)}<br/>{e?.grosswt?.toFixed(3)}<br />{e?.miscHSCODE0_Wt?.toFixed(3)}</div>
@@ -118,12 +132,12 @@ console.log(result);
                             <div className='col5_s7lp text-end'>{formatAmount(result?.mainTotal?.total_amount)}</div>
                         </div>
                         <div className='w-100 d-flex justify-content-end align-items-center'>
-                             <div className='my-1 py-1 w-75'>
+                             <div className='my-1 py-1 w-75 pgia_s7lp'>
                             {
                                 result?.allTaxes?.map((e, i) => {
                                     return <div className='d-flex w-100' key={i}>
                                                 <div className='w-50 d-flex justify-content-end align-items-center text-break'>{e?.name} @ {e?.per}</div>
-                                                <div className='w-50 d-flex justify-content-end align-items-center'>{e?.amount}</div>
+                                                <div className='w-50 d-flex justify-content-end align-items-center'>{((+e?.amount) * result?.header?.CurrencyExchRate)}</div>
                                             </div>
                                 })
                             }
@@ -133,7 +147,7 @@ console.log(result);
                                             </div>
                             </div>
                         </div>
-                        <div className='my-1 py-1 border-black border-top border-bottom w-100 d-flex justify-content-end align-items-center'>
+                        <div className='pgia_s7lp my-1 py-1 border-black border-top border-bottom w-100 d-flex justify-content-end align-items-center'>
                             <div className='w-75'>
                             <div className='d-flex w-100 fw-bold' >
                                 <div className='w-50 d-flex justify-content-end align-items-center'>Final Amount:</div>
@@ -141,22 +155,22 @@ console.log(result);
                             </div>
                             <div className='d-flex w-100 ' >
                                 <div className='w-50 d-flex justify-content-end align-items-center'>Cash:</div>
-                                <div className='w-50 d-flex justify-content-end align-items-center'>{formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal))}</div>
+                                <div className='w-50 d-flex justify-content-end align-items-center'>{formatAmount((result?.header?.CashReceived))}</div>
                             </div>
                             <div className='d-flex w-100 ' >
                                 <div className='w-50 d-flex justify-content-end align-items-center'>Cheque:</div>
-                                <div className='w-50 d-flex justify-content-end align-items-center'>{formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal))}</div>
+                                <div className='w-50 d-flex justify-content-end align-items-center'>{formatAmount((result?.header?.BankReceived))}</div>
                             </div>
                             <div className='d-flex w-100 fw-bold' >
                                 <div className='w-50 d-flex justify-content-end align-items-center'>Payable Amount:</div>
-                                <div className='w-50 d-flex justify-content-end align-items-center'>{formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal))}</div>
+                                <div className='w-50 d-flex justify-content-end align-items-center'>{formatAmount(payAbleAmount)}</div>
                             </div>
                             </div>
                         </div>
                         <div className='p-1'>
-                            <div className='text-break'>In Words: {toWords?.convert((+(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)?.toFixed(2)))} Only </div>
+                            <div className='text-break fs_s7lp_All'>In Words: {toWords?.convert(+(payAbleAmount)?.toFixed(2))} Only </div>
                         </div>
-                        <div className='border-black border-top p-1 fw-bold'>
+                        <div className='border-black border-top p-1 fw-bold pgia_s7lp'>
                             <div>Terms & Conditions :</div>
                             <div className='dec_s7lp' dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
                         </div>
