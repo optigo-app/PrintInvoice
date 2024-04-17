@@ -65,8 +65,11 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             ++count;
                         } else {
                             pureWt += ele?.Wt;
+                        totals.miscWt += ele?.Wt;
+
                         }
                     } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+                     
                         totals.materialWt += ele?.Wt;
                         totals.OtherCharges += ele?.Amount;
                         let findDiamonds = diamonds.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.Rate === ele?.Rate);
@@ -93,7 +96,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
                     //    if(ele?.IsHSCOE === 0 || ele?.IsHSCOE === 3){
                         if (ele?.Amount !== 0) {
-                            totals.miscWt += ele?.Wt;
+                            // totals.miscWt += ele?.Wt;
                             totals.OtherCharges += ele?.Amount;
                             misc.push(ele);
                         }

@@ -248,7 +248,8 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         <div></div>
                         <div>
                             <p className='px-1'>In Words  {headerData?.Currencyname}</p>
-                            <p className='px-1 fw-bold'>{toWords?.convert(+fixedValues(data?.finalAmount / headerData?.CurrencyRate, 2))} Only</p>
+                            <p className='px-1 fw-bold'>{toWords?.convert(+fixedValues(+(data?.mainTotal?.total_amount / headerData?.CurrencyRate)?.toFixed(2) +
+                            data?.allTaxes?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) +(headerData?.AddLess / headerData?.CurrencyExchRate), 2))} Only</p>
                         </div>
                         <div><p className='px-1'>Old Gold Purchase Description : <span className="fw-bold">{headerData?.Remark}</span>	</p></div>
                     </div>
@@ -276,9 +277,9 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         {/* <p className='text-end px-1'>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p> */}
                         <p className='text-end px-1'>{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyRate, 2)}</p>
                         {data?.allTaxes?.map((e, i) => {
-                            return <p className="text-end px-1" key={i}>{e?.amount}</p>
+                            return <p className="text-end px-1" key={i}>{NumberWithCommas(e?.amount, 2)}</p>
                         })}
-                        {headerData?.AddLess !== 0 && <p className="text-end px-1">{NumberWithCommas(headerData?.AddLess, 2)}</p>}
+                        {headerData?.AddLess !== 0 && <p className="text-end px-1">{NumberWithCommas(headerData?.AddLess / headerData?.CurrencyExchRate, 2)}</p>}
                         {/* <p className='text-end px-1'>{NumberWithCommas(data?.mainTotal?.total_amount / headerData?.CurrencyRate, 2)}</p> */}
                         <p className='text-end px-1'>{NumberWithCommas(headerData?.OldGoldAmount, 2)}</p>
                         <p className='text-end px-1'>{NumberWithCommas(headerData?.CashReceived, 2)}</p>
@@ -289,8 +290,11 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                             })
                         }
                         {/* <p className='text-end px-1'>{NumberWithCommas(headerData?.BankReceived, 2)}</p> */}
-                        <p className='text-end px-1'>{NumberWithCommas((data?.finalAmount / headerData?.CurrencyRate) - bank?.reduce((acc, cObj) => acc + +cObj?.amount, 0), 2)}</p>
-                        <p className="text-end mt-1 border-top p-1 fw-bold"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }} className='pe-1'></span>{NumberWithCommas(data?.finalAmount / headerData?.CurrencyRate, 2)}</p>
+                        <p className='text-end px-1'>{NumberWithCommas((data?.mainTotal?.total_amount / headerData?.CurrencyRate) +
+                            data?.allTaxes?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) +(headerData?.AddLess / headerData?.CurrencyExchRate) -
+                            bank?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) - headerData?.OldGoldAmount - headerData?.CashReceived, 2)}</p>
+                        <p className="text-end mt-1 border-top p-1 fw-bold"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }} className='pe-1'></span>{NumberWithCommas(+(data?.mainTotal?.total_amount / headerData?.CurrencyRate)?.toFixed(2) +
+                            data?.allTaxes?.reduce((acc, cObj) => acc + +((+cObj?.amount)?.toFixed(2)), 0) +(headerData?.AddLess / headerData?.CurrencyExchRate), 2)}</p>
                     </div>
                 </div>
                 {/* declaration */}
