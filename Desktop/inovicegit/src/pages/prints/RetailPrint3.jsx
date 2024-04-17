@@ -432,28 +432,30 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 </tr> */}
                                                 {
                                                     e?.metal?.map((el, ind) => {
+                                                        console.log(el);
                                                         return         <tr className='border-bottom' key={ind}>
                                                         <td className={`border-end border-bottom ${style?.material}`}>
-                                                            <p className='p-1 fs_rp_2'>{e?.MetalType}</p>
+                                                            <p className='p-1 fs_rp_2'>{ el?.IsPrimaryMetal === 1 ? el?.ShapeName : ''}</p>
                                                         </td>
                                                         <td className={`border-end border-bottom ${style?.qty}`}>
-                                                            <p className='p-1 fs_rp_2'>{e?.MetalPurity}</p>
+                                                            <p className='p-1 fs_rp_2'>{el?.QualityName}</p>
                                                         </td>
                                                         <td className={`border-end border-bottom ${style?.color}`}>
-                                                            {/* <p className='p-1 fs_rp_2'>{e?.MetalColor}</p> */}
-                                                            <p className='p-1 fs_rp_2'></p>
+                                                            <p className='p-1 fs_rp_2'>{el?.IsPrimaryMetal === 1 ? '' : el?.Colorname}</p>
                                                         </td>
                                                         <td className={`border-end border-bottom ${style?.pcs}`}>
-                                                            <p className=' p-1 fs_rp_2'></p>
+                                                            <p className=' p-1 text-end fs_rp_2'>{el?.IsPrimaryMetal === 1 ? '' : el?.Pcs}</p>
                                                         </td>
                                                       {ind === 0 &&  <td className={`border-end ${style?.gWt}`} rowSpan={e?.metal?.length + e?.diamonds?.length + e?.colorstone?.length + e?.misc?.length + e?.finding?.length + e?.other_details?.length}>
                                                             <p className='p-1 text-end fs_rp_2'>{e?.grosswt?.toFixed(3)}</p>
                                                         </td>}
                                                         <td className={`border-end border-bottom ${style?.nWt}`}>
-                                                            <p className='p-1 text-end fs_rp_2'>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</p>
+                                                            {/* <p className='p-1 text-end fs_rp_2'>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</p> */}
+                                                            <p className='p-1 text-end fs_rp_2'>{(el?.Wt )?.toFixed(3)}</p>
                                                         </td>
                                                         <td className={` text-center border-end border-bottom ${style?.rate}`}>
-                                                            <p className='p-1 text-end fs_rp_2'>{formatAmount(el?.Amount / ((e?.NetWt + e?.LossWt) === 0 ? 1 : (e?.NetWt + e?.LossWt)))}</p>
+                                                            {/* <p className='p-1 text-end fs_rp_2'>{formatAmount(el?.Amount / ((e?.NetWt + e?.LossWt) === 0 ? 1 : (e?.NetWt + e?.LossWt)))}</p> */}
+                                                            <p className='p-1 text-end fs_rp_2'>{formatAmount(el?.Amount / ((el?.Wt) === 0 ? 1 : (el?.Wt)))}</p>
                                                         </td>
                                                         <td className={`text-center border-end border-bottom p-1 ${style?.amount}`}>
                                                             <p className='text-end fs_rp_2'>{formatAmount(el?.Amount)}</p>
@@ -464,6 +466,36 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     </tr>
                                                     })
                                                 }
+                                                {/* {
+                                                    e?.metal?.map((el, ind) => {
+                                                        console.log(el);
+                                                        return(
+                                                            <tr className='border-bottom' key={ind}>
+                                                        <td className={` border-end ${style?.material}`}>
+                                                            <p className='p-1 fs_rp_2'>{el?.ShapeName}</p>
+                                                        </td>
+                                                        <td className={` border-end ${style?.qty}`}>
+                                                            <p className='p-1 fs_rp_2'>{el?.QualityName}</p>
+                                                        </td>
+                                                        <td className={` border-end ${style?.color}`}>
+                                                            <p className='p-1 fs_rp_2'>{el?.Colorname}</p>
+                                                        </td>
+                                                        <td className={` border-end ${style?.pcs}`}>
+                                                            <p className='d-flex justify-content-end align-items-center text-end  p-1 fs_rp_2'></p>
+                                                        </td>
+                                                        <td className={`text-end border-end   ${style?.nWt}`}>
+                                                            <p className='p-1 text-end fs_rp_2'>{el?.Wt?.toFixed(3)}</p>
+                                                        </td>
+                                                        <td className={` border-end ${style?.rate}`}>
+                                                            <p className='p-1 text-end fs_rp_2'>{formatAmount((el?.Amount / (el?.isRateOnPcs === 1 ? (el?.Pcs === 0 ? 1 : el?.Pcs) : (el?.Wt === 0 ? 1 : el?.Wt))))}</p>
+                                                        </td>
+                                                        <td className={`text-center border-end p-1 ${style?.amount}`}>
+                                                            <p className='text-end fs_rp_2'>{formatAmount(el?.Amount)}</p>
+                                                        </td>
+                                                    </tr>
+                                                        )
+                                                    })
+                                                } */}
                                                 {
                                                     e?.diamonds?.map((el, ind) => {
                                                         return <tr className='border-bottom' key={ind}>
@@ -537,10 +569,10 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                             <p className='p-1 text-end fs_rp_2'>{el?.miscwt?.toFixed(3)}</p>
                                                         </td>
                                                         <td className={` border-end ${style?.rate}`}>
-                                                            <p className='p-1 text-end fs_rp_2'>{el?.miscamt / (el?.isRateOnPcs === 1 ? (el?.miscpcs === 0 ? 1 : el?.miscpcs ) : (el?.miscwt === 0 ? 1 : el?.miscwt))}</p>
+                                                            <p className='p-1 text-end fs_rp_2'>{ el?.miscamt === 0 ? '' : formatAmount((el?.miscamt / (el?.isRateOnPcs === 1 ? (el?.miscpcs === 0 ? 1 : el?.miscpcs ) : (el?.miscwt === 0 ? 1 : el?.miscwt))))}</p>
                                                         </td>
                                                         <td className={`text-center border-end p-1 ${style?.amount}`}>
-                                                            <p className='text-end fs_rp_2'>{el?.miscamt}</p>
+                                                            <p className='text-end fs_rp_2'>{el?.miscamt === 0 ? '' : formatAmount(el?.miscamt)}</p>
                                                         </td>
                                                     </tr>
                                                     })
@@ -564,11 +596,9 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                             <p className='p-1 text-end fs_rp_2'>{el?.Wt?.toFixed(3)}</p>
                                                         </td>
                                                         <td className={` border-end ${style?.rate}`}>
-                                                            {/* <p className='p-1 text-end '>{el?.Amount / (el?.Wt === 0 ? 1 : el?.Wt)}</p> */}
                                                             <p className='p-1 text-end fs_rp_2'></p>
                                                         </td>
                                                         <td className={`text-center border-end p-1 ${style?.amount}`}>
-                                                            {/* <p className='text-end fs_rp_2'>{el?.Amount}</p> */}
                                                             <p className='text-end '></p>
                                                         </td>
                                                     </tr>
@@ -702,17 +732,18 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p className='d-flex p-1'></p>
                                 </div>
                                 <div className={`fw-bold w-100 text-end border-end  ${style?.pcs}`}>
-                                    <p className='p-1 w-100 text-end fs_rp_2_bold fs_rp_2'>{result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + misctotPcs + result?.mainTotal?.metal?.Pcs}</p>
+                                    <p className='p-1 w-100 d-flex justify-content-end align-items-center h-100 fs_rp_2_bold fs_rp_2'>{result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + misctotPcs + result?.mainTotal?.metal?.Pcs}</p>
                                 </div>
                                 <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-end border-end fs_rp_2 ${style?.gWt}`}><p className='p-1 fs_rp_2'>{result?.mainTotal?.grosswt?.toFixed(3)}</p></div>
                                 <div className={`fw-bold w-100 text-end border-end  ${style?.nWt}`}>
-                                    <p className='d-flex p-1 justify-content-end fs_rp_2_bold fs_rp_2' >{ gmwt?.toFixed(3)} / {ctwwt?.toFixed(3)}</p>
+                                    <p className='d-flex p-1 justify-content-end fs_rp_2_bold fs_rp_2' >{ gmwt?.toFixed(3)} gms <br /> {ctwwt?.toFixed(3)} ctw</p>
                                 </div>
                                 <div className={`fw-bold w-100 text-end border-end  ${style?.rate}`}>
                                     <p className='d-flex p-1 justify-content-end'></p>
                                 </div>
                                 <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-center border-end p-1 ${style?.amount}`}>
-                                    <p className='fs_rp_2_bold fs_rp_2'>{formatAmount((result?.mainTotal?.metal?.Amount + result?.mainTotal?.diamonds?.Amount + result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.Amount + result?.mainTotal?.finding?.Amount ))}</p>
+                                    {/* <p className='fs_rp_2_bold fs_rp_2'>{formatAmount((result?.mainTotal?.metal?.Amount + result?.mainTotal?.diamonds?.Amount + result?.mainTotal?.colorstone?.Amount + (result?.mainTotal?.misc?.Amount) + result?.mainTotal?.finding?.Amount ))}</p> */}
+                                    <p className='fs_rp_2_bold fs_rp_2'>{formatAmount((result?.mainTotal?.metal?.Amount + result?.mainTotal?.diamonds?.Amount + result?.mainTotal?.colorstone?.Amount + (result?.mainTotal?.misc?.Amount)  ))}</p>
                                 </div>
                                 <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-center p-1 border-end ${style?.making}`}><p className='fs_rp_2_bold fs_rp_2'>{formatAmount((((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate))))}</p></div>
                                 <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-center p-1 border-end ${style?.discount}`}><p className='fs_rp_2_bold fs_rp_2'>{formatAmount(result?.mainTotal?.total_discount_amount)}</p></div>

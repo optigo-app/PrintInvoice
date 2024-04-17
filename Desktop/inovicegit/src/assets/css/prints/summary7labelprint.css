@@ -1,0 +1,40 @@
+.container_s7lp{
+    max-width: 352px;
+    margin: 0 auto;
+    margin-top: 3rem;
+    
+    width: 100%;
+    padding-bottom: 60px;
+}
+.fs_s7lp{
+    font-size: 20px;
+    line-height: 22px;
+}
+.fs_s7lp_All{
+    font-size: 17px;
+    line-height: 20px;
+}   
+.thead_s7lp{
+    display: flex;
+    font-size: 17.5px;
+    font-weight: bold;
+}
+.col1_s7lp{
+    width: 8%;
+}
+.col2_s7lp{
+    width: 29%;
+}
+.col3_s7lp{
+    width: 24%;
+}
+.col4_s7lp{
+    width: 9%;
+}
+.col5_s7lp{
+    width: 30%;
+}
+.dec_s7lp *{
+    word-wrap: break-word;
+    line-height: 16px;
+}
