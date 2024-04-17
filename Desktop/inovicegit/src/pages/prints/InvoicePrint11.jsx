@@ -55,6 +55,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     otherCharges: [],
     misc2: [],
     labour: {},
+    labours: [],
     diamondHandling: 0,
     secondaryMetal: [],
   });
@@ -89,6 +90,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     let colorStones = [];
     let misc2 = [];
     let labour = { label: "LABOUR", primaryWt: 0, makingAmount: 0, totalAmount: 0 };
+    let labours = [];
     let miscs = [];
     let otherCharges = [];
     let secondaryMetal = [];
@@ -109,6 +111,12 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       let findingsWt = 0;
       let findingsAmount = 0;
       let secondaryMetalAmount = 0;
+      let findLabour = labours?.findIndex((ele, ind) => ele?.MaKingCharge_Unit === e?.MaKingCharge_Unit);
+      if(findLabour === -1){
+        labours?.push({label: "LABOUR", MaKingCharge_Unit: e?.MaKingCharge_Unit, MakingAmount: e?.MakingAmount});
+      }else{
+        labours.MakingAmount += e?.MakingAmount
+      }
       obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
       e?.finding?.forEach((ele, ind) => {
         // if (ele?.ShapeName !== obj?.primaryMetal?.ShapeName && ele?.QualityName !== obj?.primaryMetal?.QualityName) {
@@ -313,7 +321,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, SettingAmount: SettingAmount, });
     setMainData({
       ...mainData, resultArr: resultArr, findings: findings, diamonds: diamonds, colorStones: colorStones,
-      miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling, secondaryMetal: secondaryMetal
+      miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling, secondaryMetal: secondaryMetal, labours: labours
     });
   };
 
@@ -544,7 +552,20 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount / headerData?.CurrencyExchRate, 2)}</p></div>
               </div>
             })}
-            <div className="d-flex">
+            {
+              mainData?.labours?.map((ele, ind) => {
+                return <div className="d-flex" key={ind}>
+                <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{ele?.label}</p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "9%", width: "9%" }} className="px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p></p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(ele?.MaKingCharge_Unit, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(ele?.MakingAmount, 2)}</p></div>
+              </div>
+              })
+            }
+            {/* <div className="d-flex">
               <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{mainData?.labour?.label}</p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
@@ -552,7 +573,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{mainData?.labour?.primaryWt !== 0 && NumberWithCommas(mainData?.labour?.makingAmount / mainData?.labour?.primaryWt, 2)}</p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(mainData?.labour?.totalAmount / headerData?.CurrencyExchRate, 2)}</p></div>
-            </div>
+            </div> */}
             {mainData?.miscs?.map((e, i) => {
               return <div className="d-flex" key={i}>
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.ShapeName}</p></div>
@@ -564,7 +585,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount / headerData?.CurrencyExchRate, 2)}</p></div>
               </div>
             })}
-            <div className="d-flex">
+            {mainData?.diamondHandling !== 0 && <div className="d-flex">
               <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>HANDLING</p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
@@ -572,7 +593,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(mainData?.diamondHandling, 2)}</p></div>
-            </div>
+            </div>}
             {mainData?.otherCharges?.map((e, i) => {
               return <div className="d-flex" key={i}>
                 <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>{e?.label}</p></div>
