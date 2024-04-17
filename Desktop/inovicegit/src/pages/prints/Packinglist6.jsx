@@ -50,9 +50,15 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let metalAmounts = 0;
             let miscLength = 0;
             let otherMiscAmount = 0;
+            let huidShowOrnot = false;
             e?.misc?.forEach((ele, ind) => {
                 if (ele?.IsHSCOE !== 0) {
                     miscLength++
+                    if (ele?.IsHSCOE === 1) {
+                        if (ele?.Rate !== 0 && e?.HUID !== "") {
+                            huidShowOrnot = true;
+                        }
+                    }
                 } else {
                     otherMiscAmount += ele?.Amount;
                 }
@@ -106,6 +112,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.metalAmounts = metalAmounts;
             obj.metalShapeName = metalShapeName;
             obj.discountElements = discountElements;
+            obj.huidShowOrnot = huidShowOrnot;
             obj.metalQualityName = metalQualityName;
             obj.miscLength = miscLength
             resultArr?.push(obj);
@@ -379,19 +386,19 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                 return (ele?.IsHSCOE === 3 && ele?.Amount !== 0) && <p className="" key={ind}>{e?.CertificateNo}</p>
                                                             })
                                                         }
-                                                        {e?.HUID !== "" && <><p className="">HUID- </p>
+                                                        {e?.huidShowOrnot && <><p className="">HUID- </p>
                                                             <p>{e?.HUID}</p></>}
                                                     </div>
                                                 </div>
                                                 <div className=" text-center col-4  d-flex flex-column justify-content-between">
                                                     <div className="pt-1">
-                                                    
+
                                                         {
                                                             e?.misc?.map((ele, ind) => {
                                                                 return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <p className="text-end" key={ind}>{NumberWithCommas(ele?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                             })
                                                         }
-                                                            {(e?.otherMiscAmount !== 0) && <p className="text-end">{NumberWithCommas(e?.otherMiscAmount / headerData?.CurrencyExchRate, 2)}</p>}
+                                                        {(e?.otherMiscAmount !== 0) && <p className="text-end">{NumberWithCommas(e?.otherMiscAmount / headerData?.CurrencyExchRate, 2)}</p>}
                                                         {e?.other_details?.map((ele, ind) => {
                                                             return ind <= 2 && <p className="text-end" key={ind}>{NumberWithCommas(+ele?.value, 2)}</p>
                                                         })}
