@@ -73,336 +73,15 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     setFooter(footers);
     let custAddress = data?.BillPrint_Json[0]?.Printlable.split("\n");
     setCustomerAddress(custAddress);
-    // let pcss = 0;
-    // let totals = { ...total };
-    // let resultArr = [];
-    // let diamond = {
-    //   Wt: 0,
-    //   Pcs: 0,
-    //   Amount: 0,
-    //   title: "DIAMOND",
-    //   Rate: 0,
-    // };
-
-    // let colorStone = {
-    //   Wt: 0,
-    //   Pcs: 0,
-    //   Amount: 0,
-    //   title: "COLOR STONE",
-    //   Rate: 0,
-    // };
-
-    // let miscs = {
-    //   Wt: 0,
-    //   Pcs: 0,
-    //   Amount: 0,
-    //   title: "OTHER MATERIAL",
-    //   Rate: 0,
-    // };
-
-    // let labour = {
-    //   Wt: 0,
-    //   Pcs: 0,
-    //   Amount: 0,
-    //   title: "LABOUR",
-    //   Rate: 0,
-    // };
-
-    // let other = {
-    //   Wt: 0,
-    //   Pcs: 0,
-    //   Amount: 0,
-    //   title: "OTHER",
-    //   Rate: 0,
-    // };
-
-    // let handling = {
-    //   Wt: 0,
-    //   Pcs: 0,
-    //   Amount: 0,
-    //   title: "HANDLING",
-    //   Rate: 0,
-    // };
-
-    // let labourArr = [];
-
-    // let setting = {
-    //   Wt: 0,
-    //   Pcs: 0,
-    //   Amount: 0,
-    //   title: "SETTING",
-    //   Rate: 0,
-    // };
-    // let total2 = 0;
-
-    // let totalPcs = [];
-    // data.BillPrint_Json1.forEach((e, i) => {
-    //   let findObj = totalPcs.findIndex((ele, ind) => ele?.label === e?.GroupJob && e?.GroupJob !== "");
-    //   discounts += e?.DiscountAmt;
-
-    //   if (findObj === -1) {
-    //     totalPcs.push({ label: e?.GroupJob, value: e?.Quantity });
-    //   }
-    //   labour.Amount += e?.MakingAmount;
-    //   labour.Rate += e?.MaKingCharge_Unit;
-    //   other.Amount += e?.OtherCharges;
-    //   handling.Amount += e?.TotalDiamondHandling;
-    //   let findOther = labourArr.findIndex(
-    //     (ele, ind) => ele?.Rate === e?.MaKingCharge_Unit
-    //   );
-    //   if (findOther === -1) {
-    //     labourArr.push({
-    //       Wt: 0,
-    //       Pcs: 0,
-    //       Amount: e?.MakingAmount,
-    //       title: "LABOUR",
-    //       Rate: e?.MaKingCharge_Unit,
-    //     });
-    //   } else {
-    //     labourArr[findOther].Amount += e?.MakingAmount;
-    //     // labourArr[findOther].Rate += e?.MaKingCharge_Unit
-    //   }
-
-    //   data?.BillPrint_Json2.forEach((ele, ind) => {
-    //     if (ele?.StockBarcode === e?.SrJobno) {
-    //       if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
-    //       } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-    //         diamond.Wt += ele?.Wt;
-    //         diamond.Pcs += ele?.Pcs;
-    //         diamond.Amount += ele?.Amount;
-    //         labour.Amount += ele?.SettingAmount;
-    //         setting.Amount += ele?.SettingAmount;
-    //       } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
-    //         colorStone.Wt += ele?.Wt;
-    //         colorStone.Pcs += ele?.Pcs;
-    //         colorStone.Amount += ele?.Amount;
-    //         labour.Amount += ele?.SettingAmount;
-    //         setting.Amount += ele?.SettingAmount;
-    //       } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
-    //         miscs.Wt += ele?.Wt;
-    //         miscs.Pcs += ele?.Pcs;
-    //         miscs.Amount += ele?.Amount;
-    //       }
-    //     }
-    //   });
-
-    //   totals.total +=
-    //     e?.MakingAmount +
-    //     e?.OtherCharges +
-    //     e?.TotalDiamondHandling;
-    // });
-    // setDiscount(discounts);
-    // let totalpcss = totalPcs.reduce((acc, cobj) => {
-    //   return acc + cobj?.value
-    // }, 0);
-    // setTotalPcsss(totalpcss);
-
-    // labour.Rate = labour?.Rate / data.BillPrint_Json1?.length;
-    // // diamond.Rate = NumberWithCommas(diamond?.Amount / diamond?.Wt, 2) + " / Wt";
-    // if (diamond?.Wt !== 0) {
-    //   diamond.Rate =
-    //     NumberWithCommas(diamond?.Amount / diamond?.Wt, 2) + " / Wt";
-    // } else {
-    //   diamond.Rate = 0 + " / Wt";
-    // }
-    // if (colorStone?.Wt !== 0) {
-    //   colorStone.Rate =
-    //     NumberWithCommas(colorStone?.Amount / colorStone?.Wt, 2) + " / Wt";
-    // } else {
-    //   colorStone.Rate = 0 + " / Wt";
-    // }
-
-    // miscs.Rate = NumberWithCommas(miscs?.Amount, 2) + " / Pcs";
-    // // miscs.Rate = NumberWithCommas(miscs?.Amount / miscs?.Wt, 2) + " / Pcs";
-    // diamond.Wt = NumberWithCommas(diamond.Wt, 3) + " Ctw";
-    // colorStone.Wt = NumberWithCommas(colorStone.Wt, 3) + " Ctw";
-    // miscs.Wt = NumberWithCommas(miscs.Wt, 3) + " Gms";
-    // labour.Rate = NumberWithCommas(labour.Rate, 2);
-
-    // let otherMaterials = [];
-    // if (pnm === "invoice print 10") {
-    //   if (diamond?.Wt !== "0.000 Ctw") {
-    //     otherMaterials.push(diamond);
-    //   }
-    //   if (colorStone?.Wt !== "0.000 Ctw") {
-    //     otherMaterials.push(colorStone);
-    //   }
-    //   if (miscs?.Wt !== "0.000 Gms") {
-    //     otherMaterials.push(miscs);
-    //   }
-    //   if (labour.Amount !== 0) {
-    //     otherMaterials.push(labour);
-    //   }
-    //   if (other.Amount !== 0) {
-    //     otherMaterials.push(other);
-    //   }
-    //   if (handling?.Amount !== 0) {
-    //     otherMaterials.push(handling);
-    //   }
-    //   otherMaterials = otherMaterials.flat();
-    //   total2 += otherMaterials.reduce((a, b) => a + b.Amount, 0);
-    // } else if (pnm === "invoice print 11") {
-    //   otherMaterials = [
-    //     diamond,
-    //     colorStone,
-    //     miscs,
-    //     labourArr,
-    //     setting,
-    //     other,
-    //     handling,
-    //   ].flat();
-    //   total2 += otherMaterials.reduce((a, b) => a + b.Amount, 0);
-    // }
-
-    // setOtherMaterial(otherMaterials);
-
-    // let finalArr = [];
-
-    // resultArr.forEach((e, i) => {
-    //   if (e?.GroupJob === "") {
-    //     let findRec = finalArr.findIndex((ele, ind) => {
-    //       // console.log(ele?.MetalTypePurity ,  e?.MetalTypePurity ,  ele?.GroupJob ,  "" ,  ele?.Rate ,  e?.Rate);
-    //       return (
-    //         ele?.MetalTypePurity === e?.MetalTypePurity &&
-    //         ele?.GroupJob === "" &&
-    //         ele?.Rate === e?.Rate
-    //       );
-    //     });
-
-    //     if (findRec === -1) {
-    //       finalArr.push(e);
-    //     } else {
-    //       finalArr[findRec].NetWt += e?.NetWt;
-    //       finalArr[findRec].Pcs += e?.Pcs;
-    //       finalArr[findRec].Quantity += e?.Quantity;
-    //       finalArr[findRec].grossWt += e?.grossWt;
-    //       finalArr[findRec].Amount += e?.Amount;
-    //     }
-    //   } else {
-    //     let findRec = finalArr.findIndex(
-    //       (ele, ind) =>
-    //         ele?.MetalTypePurity === e?.MetalTypePurity &&
-    //         ele?.GroupJob !== "" &&
-    //         ele?.Rate === e?.Rate &&
-    //         ele?.GroupJob === e?.GroupJob
-    //     );
-    //     if (findRec === -1) {
-    //       finalArr.push(e);
-    //     } else {
-    //       finalArr[findRec].NetWt += e?.NetWt;
-    //       finalArr[findRec].Pcs += e?.Pcs;
-    //       finalArr[findRec].Quantity += e?.Quantity;
-    //       finalArr[findRec].grossWt += e?.grossWt;
-    //       finalArr[findRec].Amount += e?.Amount;
-    //     }
-    //     let findGroup = finalArr.findIndex(
-    //       (ele, ind) => ele?.GroupJob === e?.GroupJob
-    //     );
-    //     if (findGroup !== -1) {
-    //       if (finalArr[findGroup].GroupJob === finalArr[findGroup].SrJobno) {
-    //         finalArr[findGroup].grossWt += e?.grossWt;
-    //       }
-    //     }
-    //   }
-    // });
-
-    // let testArr = [];
-    // data.BillPrint_Json1.forEach((e, i) => {
-    //   let obj = { ...e };
-    //   let findMetals = data.BillPrint_Json2.filter(
-    //     (ele) =>
-    //       ele?.StockBarcode === e?.SrJobno &&
-    //       ele?.MasterManagement_DiamondStoneTypeid === 4
-    //   );
-    //   findMetals.forEach((ele, ind) => {
-    //     let metalobj = {
-    //       GroupJob: obj?.GroupJob,
-    //       MetalTypePurity: ele?.ShapeName + " " + ele?.QualityName,
-    //       grossWt: ele?.IsPrimaryMetal === 1 ? obj?.grosswt : 0,
-    //       NetWt: obj?.NetWt + obj?.LossWt,
-    //       Wt: ele?.Wt,
-    //       Rate: ele?.Rate,
-    //       Amount: ele?.Amount,
-    //       SrJobno: obj?.SrJobno,
-    //       Pcs: ele?.Pcs,
-    //       Quantity: obj?.Quantity,
-    //       grossShow:
-    //         obj?.GroupJob === obj?.SrJobno
-    //           ? ele?.IsPrimaryMetal
-    //             ? true
-    //             : false
-    //           : obj.GroupJob === ""
-    //             ? true
-    //             : false,
-    //     };
-    //     testArr.push(metalobj);
-    //   });
-    // });
-
-    // let test2Arr = [];
-    // testArr.forEach((e, i) => {
-    //   total2 += e?.Amount;
-    //   if (e?.GroupJob === "") {
-    //     let findRec = test2Arr.findIndex(
-    //       (elem, index) =>
-    //         elem?.MetalTypePurity === e?.MetalTypePurity &&
-    //         elem?.Rate === e?.Rate &&
-    //         elem?.GroupJob === ""
-    //     );
-    //     if (findRec === -1) {
-    //       test2Arr.push(e);
-    //     } else {
-    //       test2Arr[findRec].Wt += e?.Wt;
-    //       test2Arr[findRec].Amount += e?.Amount;
-    //       test2Arr[findRec].Pcs += e?.Pcs;
-    //       test2Arr[findRec].grossWt += e?.grossWt;
-    //       test2Arr[findRec].NetWt += e?.NetWt;
-    //     }
-    //   } else {
-    //     let findRec = test2Arr.findIndex(
-    //       (elem, index) =>
-    //         elem?.MetalTypePurity === e?.MetalTypePurity &&
-    //         elem?.Rate === e?.Rate &&
-    //         elem?.GroupJob !== "" &&
-    //         elem?.GroupJob === e?.GroupJob
-    //     );
-    //     let findGroup = test2Arr.findIndex(
-    //       (elem, index) => elem?.GroupJob === e?.GroupJob
-    //     );
-    //     if (findRec !== -1) {
-    //       test2Arr[findRec].grossWt += e?.grossWt;
-    //       test2Arr[findRec].NetWt += e?.NetWt;
-    //     } else if (findGroup !== -1) {
-    //       test2Arr[findGroup].grossWt += e.grossWt;
-    //     }
-    //     if (findRec === -1) {
-    //       test2Arr.push(e);
-    //     } else {
-    //       test2Arr[findRec].Wt += e?.Wt;
-    //       // test2Arr[findRec].grossWt += e?.grossWt;
-    //       test2Arr[findRec].Amount += e?.Amount;
-    //       test2Arr[findRec].Pcs += e?.Pcs;
-    //     }
-    //   }
-    // });
-    // totals.totals = total2;
-    // totals.discounttotals = totals.totals - discounts;
-
-    // setTotal(totals);
-    // setData(test2Arr);
-    // let taxValue = taxGenrator(data?.BillPrint_Json[0], totals?.totals);
-    // setTaxes(taxValue);
-
-    // totals.grandtotal +=
-    //   totals?.discounttotals +
-    //   taxValue.reduce((acc, cobj) => {
-    //     return acc + +cobj?.amount;
-    //   }, 0) +
-    //   data?.BillPrint_Json[0]?.AddLess;
+ 
 
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
     setMainDatas(datas)
     console.log(datas);
+    // let secondaryMetals = datas?.json2?.filter(ele=> ele?.IsPrimaryMetal !== 1 && ele?.MasterManagement_DiamondStoneTypeid === 4);
+    // console.log(secondaryMetals);
+    // let findingss = datas?.json2?.filter(ele=> ele?.MasterManagement_DiamondStoneTypeid === 5);
+    // console.log(findingss);
     let resultArr = [];
     let findings = [];
     let diamonds = [];
@@ -487,7 +166,6 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
 
       let primaryWt = 0;
       let count = 0;
-      console.log(findingsWt);
       let netWtFinal = e?.NetWt + e?.LossWt - findingsWt - secondaryWt;
 
       diamondHandling += e?.TotalDiamondHandling;
@@ -523,7 +201,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           resultArr[findRecord].primaryMetal.Wt += obj?.primaryMetal.Wt;
           resultArr[findRecord].primaryMetal.Amount += obj?.primaryMetal.Amount;
           resultArr[findRecord].netWtFinal += obj?.netWtFinal;
-          resultArr[findRecord].metalAmountFinal += obj?.metalAmountFinal
+          resultArr[findRecord].metalAmountFinal += obj?.metalAmountFinal;
         }
       }
 
@@ -632,7 +310,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
     setMainData({
       ...mainData, resultArr: resultArr, findings: findings, diamonds: diamonds, colorStones: colorStones,
-      miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling
+      miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling, secondaryMetal: secondaryMetal
     });
   };
 
@@ -807,6 +485,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.primaryMetal?.Amount, 2)}</p></div>
               </div>
             })}
+            {console.log(mainData?.findings)}
             {mainData?.findings?.map((e, i) => {
               return <div className="d-flex" key={i}>
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>{e?.ShapeName} {e?.QualityName}</p></div>
@@ -852,7 +531,6 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               </div>
             })}
             {mainData?.misc2?.map((e, i) => {
-              console.log(e);
               return <div className="d-flex" key={i}>
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1"><p>OTHER MATERIAL</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>

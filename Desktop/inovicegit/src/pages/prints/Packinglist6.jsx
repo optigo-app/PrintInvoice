@@ -359,13 +359,13 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className={`${style?.Other} border-end d-flex`}>
                                                 <div className=" col-4 border-end  d-flex flex-column justify-content-between">
                                                     <div className="pt-1">
-                                                        {(e?.otherMiscAmount !== 0) && <p>Other</p>}
+
                                                         {
                                                             e?.misc?.map((ele, ind) => {
                                                                 return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <p className="" key={ind}>{ele?.ShapeName}</p>
                                                             })
                                                         }
-
+                                                        {(e?.otherMiscAmount !== 0) && <p>Other</p>}
                                                         {e?.other_details?.map((ele, ind) => {
                                                             return ind <= 2 && <p className="" key={ind}>{ele?.label}</p>
                                                         })}
@@ -385,12 +385,13 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 </div>
                                                 <div className=" text-center col-4  d-flex flex-column justify-content-between">
                                                     <div className="pt-1">
-                                                        {(e?.otherMiscAmount !== 0) && <p className="text-end">{NumberWithCommas(e?.otherMiscAmount / headerData?.CurrencyExchRate, 2)}</p>}
+                                                    
                                                         {
                                                             e?.misc?.map((ele, ind) => {
                                                                 return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <p className="text-end" key={ind}>{NumberWithCommas(ele?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                             })
                                                         }
+                                                            {(e?.otherMiscAmount !== 0) && <p className="text-end">{NumberWithCommas(e?.otherMiscAmount / headerData?.CurrencyExchRate, 2)}</p>}
                                                         {e?.other_details?.map((ele, ind) => {
                                                             return ind <= 2 && <p className="text-end" key={ind}>{NumberWithCommas(+ele?.value, 2)}</p>
                                                         })}

@@ -289,6 +289,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     </div>
                                                     <img src={e?.DesignImage} alt="" className='w-100 imgWidth mt-2' onError={handleImageError} />
                                                     {e?.HUID !== "" && <p className='text-center'>HUID-{e?.HUID}</p>}
+                                                    {e?.lineid !== "" && <p className='text-center'>{e?.lineid}</p>}
                                                 </div>
                                                 <div className={`${style?.Diamond} border-end`}>
                                                     <div className="d-grid h-100">
@@ -424,12 +425,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                     </div>
                                                 </div>
                                                 <div className={`${style?.Other} border-end ${style?.no_word_break}`}>
-                                                    {
-                                                        (e?.otherMiscAmount !== 0) && <div className="d-flex justify-content-between">
-                                                            <p className='col-8'>Other</p>
-                                                            <p className='col-4 text-end'>{NumberWithCommas(e?.otherMiscAmount / headerData?.CurrencyExchRate, 2)}</p>
-                                                        </div>
-                                                    }
+                                                
                                                     {
                                                         e?.misc?.map((ele, ind) => {
                                                             return (ele?.IsHSCOE !== 0 && ele?.Amount !== 0) && <div className="d-flex" key={ind}>
@@ -437,6 +433,12 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                 <p className='col-4 text-end'>{NumberWithCommas(ele?.Amount / headerData?.CurrencyExchRate, 2)}</p>
                                                             </div>
                                                         })
+                                                    }
+                                                        {
+                                                        (e?.otherMiscAmount !== 0) && <div className="d-flex justify-content-between">
+                                                            <p className='col-8'>Other</p>
+                                                            <p className='col-4 text-end'>{NumberWithCommas(e?.otherMiscAmount / headerData?.CurrencyExchRate, 2)}</p>
+                                                        </div>
                                                     }
                                                     {
                                                         e?.other_details.map((ele, ind) => {
@@ -458,7 +460,7 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className={`d-flex`}>
                                                 <div className={`${style?.Sr} border-end`}></div>
                                                 <div className={`${style?.Jewelcode} border-end p-1`}>
-                                                {e?.lineid !== "" && <p className='text-center'>{e?.lineid}</p>}
+                                           
                                                 </div>
                                                 <div className={`${style?.Diamond} border-end lightGrey border-top`}>
                                                     <div className="d-grid h-100">
