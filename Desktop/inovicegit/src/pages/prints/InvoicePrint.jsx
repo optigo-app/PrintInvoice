@@ -522,12 +522,12 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       {/* address */}
       <div className="w-100 d-flex justify-content-between py-2 no_break">
         <div className='col-10 p-1 border border-2 border-white p-1'>
-          <p className='fw-bold fs-6'>{json0?.CompanyFullName}</p>
-          <p>{json0?.CompanyAddress}</p>
-          <p>{json0?.CompanyCity}-{json0?.CompanyPinCode}, {json0?.CompanyState}{json0?.CompanyCountry !== "" && `(${json0?.CompanyCountry})`}</p>
+          <p className='fw-bold fs-6 pb-1'>{json0?.CompanyFullName}</p>
+          <p className='pb-1'>{json0?.CompanyAddress}</p>
+          <p className='pb-1'>{json0?.CompanyCity}-{json0?.CompanyPinCode}, {json0?.CompanyState}{json0?.CompanyCountry !== "" && `(${json0?.CompanyCountry})`}</p>
           {/* <p>{json0?.CompanyAddress2}-{json0?.CompanyPinCode}, {json0?.CompanyState}({json0?.CompanyCountry})</p> */}
-          <p>T {json0?.CompanyTellNo} | TOLL FREE {json0?.CompanyTollFreeNo}</p>
-          <p>{json0?.CompanyEmail} | {json0?.CompanyWebsite}</p>
+          <p className='pb-1'>T {json0?.CompanyTellNo} | TOLL FREE {json0?.CompanyTollFreeNo}</p>
+          <p className='pb-1'>{json0?.CompanyEmail} | {json0?.CompanyWebsite}</p>
         </div>
         <div className='col-2'>
           {isImageWorking && (json0?.PrintLogo !== "" &&
@@ -544,15 +544,15 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         </div>
         <div className='col-3'>
           <div className="border border-2 p-2 border-black">
-            <div className="d-flex">
+            <div className="d-flex pb-1">
               <p className='col-3 fw-bold'>BILL NO</p>
               <p className='col-9 ps-2'>{json0?.InvoiceNo}</p>
             </div>
-            <div className="d-flex">
+            <div className="d-flex pb-1">
               <p className='col-3 fw-bold'>DATE</p>
               <p className='col-9 ps-2'>{json0?.EntryDate}</p>
             </div>
-            <div className="d-flex">
+            <div className="d-flex pb-1">
               <p className='col-3 fw-bold'>HSN</p>
               <p className='col-9 ps-2'>{json0?.HSN_No}</p>
             </div>
@@ -563,17 +563,17 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       <div className="pb-2 no_break">
         <div className="d-flex border-2 border border-black p-1">
           <div className="col-6">
-            <p className='fs-6 fw-bold'> To,	{json0?.customerfirmname}</p>
-            <p className="ps-4">{json0?.customerstreet}</p>
-            <p className="ps-4">{json0?.customerAddress2}</p>
-            <p className="ps-4">{json0?.customercity}{json0?.customerpincode}</p>
-            <p className="ps-4">STATE NAME : {json0?.State}</p>
+            <p className='pb-1 fs-6 fw-bold'> To,	{json0?.customerfirmname}</p>
+            <p className="pb-1 ps-4">{json0?.customerstreet}</p>
+            <p className="pb-1 ps-4">{json0?.customerAddress2}</p>
+            <p className="pb-1 ps-4">{json0?.customercity}{json0?.customerpincode}</p>
+            <p className="pb-1 ps-4">STATE NAME : {json0?.State}</p>
           </div>
           <div className="col-3"></div>
           <div className="col-3 d-flex justify-content-center align-items-start flex-column">
-            <p className='d-flex w-100'><span className='fw-bold' style={{ minWidth: "70px" }}>GSTIN: </span><span className='ps-2'>{json0?.CustGstNo}</span></p>
-            <p className='d-flex w-100'><span className='fw-bold' style={{ minWidth: "70px" }}>STATE CODE: </span><span className='ps-2'>{json0?.Cust_CST_STATE_No}</span></p>
-            <p className='d-flex w-100'><span className='fw-bold' style={{ minWidth: "70px" }}>PAN NO : </span><span className='ps-2'>{json0?.CustPanno}</span></p>
+            <p className='d-flex w-100 pb-1'><span className='fw-bold' style={{ minWidth: "70px" }}>GSTIN: </span><span className='ps-2'>{json0?.CustGstNo}</span></p>
+            <p className='d-flex w-100 pb-1'><span className='fw-bold' style={{ minWidth: "70px" }}>STATE CODE: </span><span className='ps-2'>{json0?.Cust_CST_STATE_No}</span></p>
+            <p className='d-flex w-100 pb-1'><span className='fw-bold' style={{ minWidth: "70px" }}>PAN NO : </span><span className='ps-2'>{json0?.CustPanno}</span></p>
           </div>
         </div>
       </div>
@@ -583,7 +583,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           <div className="col-3 border-end border-2 border-black position-relative">
             <p className="fw-bold p-1 text-center border-bottom border-2 border-black">DESCRIPTION</p>
             <div className="minHieght150InvoicePrint d-flex justify-content-center pt-5 mt-3 h-100">
-              <p>DIAMOND STUDDED JEWELLERY</p>
+              <p>{datass?.mainTotal?.diamonds?.Pcs > 0 ? "DIAMOND STUDDED" : "GOLD"}  JEWELLERY</p>
             </div>
             <div className="minHieght28InvoicePrint border-top border-2 border-black position-absolute bottom-0 left-0 w-100"></div>
           </div>
@@ -606,9 +606,9 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </p>
               </div>
             </div>
-            <div className="minHieght150InvoicePrint">
+            <div className="minHieght150InvoicePrint pt-1">
               {mainData?.resultArr?.map((e, i) => {
-                return <div className="d-flex" key={i}>
+                return <div className="d-flex pb-1" key={i}>
                   <div className="col-4 px-1 text-uppercase"><p>{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
                   <div className="col-3 px-1 text-end"><p>{NumberWithCommas(e?.netWtFinal, 3)} </p></div>
                   <div className="col-2 px-1 text-end"><p>{e?.netWtFinal !== 0 && NumberWithCommas((e?.metalAmountFinal / json0?.CurrencyExchRate) / e?.netWtFinal, 2)}</p></div>
@@ -616,7 +616,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
               })}
               {mainData?.diamonds?.map((e, i) => {
-                return <div className="d-flex" key={i}>
+                return <div className="d-flex pb-1" key={i}>
                   <div className="px-1 text-uppercase col-4"><p>{e?.MasterManagement_DiamondStoneTypeName} {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
                   <div className="px-1 text-end col-3"><p>{NumberWithCommas(e?.Wt, 3)} </p></div>
                   <div className="px-1 text-end col-2"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas((e?.Amount / e?.Wt) / json0?.CurrencyExchRate, 0)} </>) : (e?.Pcs !== 0 && <>{NumberWithCommas((e?.Amount / e?.Pcs) / json0?.CurrencyExchRate, 0)} / Pcs</>))}</p></div>
@@ -624,14 +624,14 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
               })}
               {mainData?.colorStones?.map((e, i) => {
-                return <div className="d-flex" key={i}>
+                return <div className="d-flex pb-1" key={i}>
                   <div className="col-4 px-1 text-uppercase"><p>{e?.MasterManagement_DiamondStoneTypeName} {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
                   <div className="col-3  px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} </p></div>
                   <div className="col-2  px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas((e?.Amount / e?.Wt) / json0?.CurrencyExchRate, 0)} </>) : (e?.Pcs !== 0 && <>{NumberWithCommas((e?.Amount / e?.Pcs) / json0?.CurrencyExchRate, 0)} </>))}</p></div>
                   <div className="col-3  px-1 text-end"><p>{NumberWithCommas(e?.Amount / json0?.CurrencyExchRate, 2)}</p></div>
                 </div>
               })}
-              <div className="d-flex">
+              <div className="d-flex pb-1">
                 <div className="px-1 col-4 text-uppercase"><p>{mainData?.labour?.label}</p></div>
                 <div className="px-1 col-3 text-end"><p></p></div>
                 <div className="px-1 col-2 text-end"><p>{mainData?.labour?.primaryWt !== 0 && NumberWithCommas((mainData?.labour?.rate), 0)}</p></div>
@@ -639,7 +639,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   datass?.mainTotal?.colorstone?.SettingAmount + datass?.mainTotal?.misc?.Amount + datass?.mainTotal?.total_diamondHandling, 2)}</p></div>
               </div>
               {mainData?.miscs?.map((e, i) => {
-                return <div className="d-flex" key={i}>
+                return <div className="d-flex pb-1" key={i}>
                   <div className="col-4 px-1 text-uppercase"><p>{e?.ShapeName}</p></div>
                   <div className="col-3 px-1 text-end"><p></p></div>
                   <div className="col-2 px-1 text-end"><p></p></div>
@@ -647,7 +647,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
               })}
               {mainData?.otherCharges?.map((e, i) => {
-                return <div className="d-flex" key={i}>
+                return <div className="d-flex pb-1" key={i}>
                   <div className="col-4 px-1 text-uppercase"><p>{e?.label}</p></div>
                   <div className="col-3 px-1 text-end"><p></p></div>
                   <div className="col-2 px-1 text-end"><p></p></div>
