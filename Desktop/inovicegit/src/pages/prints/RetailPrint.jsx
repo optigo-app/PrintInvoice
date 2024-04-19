@@ -576,7 +576,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.customercity}{jsonData1?.customerpincode}</p>
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.customeremail1}</p>
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.vat_cst_pan}</p>
-                        <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.Cust_CST_STATE} {jsonData1?.Cust_CST_STATE_No}</p>
+                        <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.Cust_CST_STATE}-{jsonData1?.Cust_CST_STATE_No}</p>
                     </div>
                     <div className="col-4 p-1 border-end">
                         <p className='line_height_110 ft_12_retailPrint'>Ship To, </p>
@@ -649,12 +649,12 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* data */}
                 {dataFill.map((e, i) => {
-                    return <div className="d-flex border-bottom border-start border-end no_break ft_12_retailPrint" key={i}>
-                        <div className="srNoRetailPrint border-end p-1 d-flex justify-content-center align-items-center">
+                    return <div className="d-flex border-start border-end no_break ft_12_retailPrint" key={i}>
+                        <div className="srNoRetailPrint border-end p-1 d-flex justify-content-center align-items-center border-bottom ">
                             <p className='fw-bold'>{NumberWithCommas(i + 1, 0)}</p>
                         </div>
-                        <div className="poductDiscriptionRetailPrint border-end p-1">
-                            <p>{e?.SubCategoryname} {e?.Categoryname} </p>
+                        <div className="poductDiscriptionRetailPrint border-end p-1 border-bottom ">
+                            <p style={{wordBreak: "normal"}}>{e?.SubCategoryname} {e?.Categoryname} </p>
                             <p>{e?.designno} | {e?.SrJobno}</p>
                             <img src={e?.DesignImage} alt="" className='w-100 product_image_retailPrint' onError={handleImageError} />
                             <p className='text-center fw-bold pt-1 ft_13_retailPrint'>Tunch: {NumberWithCommas(e?.Tunch, 3)}</p>
@@ -785,15 +785,15 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 })} */}
                             </div>
                         </div>
-                        <div className={`makingRetailPrint border-end p-1 d-flex ${pName === "retail print 1" ? `flex-column align-items-end justify-content-center` : `align-items-center justify-content-end `}`}>
+                        <div className={`makingRetailPrint border-end border-bottom  p-1 d-flex ${pName === "retail print 1" ? `flex-column align-items-end justify-content-center` : `align-items-center justify-content-end `}`}>
                             {pName === "retail print 1" && <p className='text-end'><span className="fw-bold">R: </span>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p>}
                             <p className='text-end'>{NumberWithCommas((e?.MakingAmount + e?.SettingAmount) / jsonData1?.CurrencyExchRate, 2)}</p>
 
                         </div>
-                        <div className="othersRetailPrint border-end p-1 d-flex align-items-center justify-content-end">
+                        <div className="othersRetailPrint border-end p-1 border-bottom  d-flex align-items-center justify-content-end">
                             <p className='text-end'>{NumberWithCommas((e?.OtherCharges + e?.TotalDiamondHandling) / jsonData1?.CurrencyExchRate, 2)}</p>
                         </div>
-                        <div className="totalRetailPrint p-1 d-flex align-items-center justify-content-end">
+                        <div className="totalRetailPrint border-bottom p-1 d-flex align-items-center justify-content-end">
                             <p className='text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
                         </div>
                     </div>
