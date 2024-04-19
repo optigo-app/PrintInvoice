@@ -568,82 +568,82 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             <div className="minHieght150InvoicePrint">
               {mainData?.resultArr?.map((e, i) => {
                 return <div className="d-flex" key={i}>
-                  <div className="col-5 px-1 text-uppercase"><p>{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
+                  <div className="col-4 px-1 text-uppercase"><p>{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
                   {/* <div className="col-3 px-1 text-end"><p>{NumberWithCommas(e?.grosswt, 3)} Gms</p></div> */}
                   <div className="col-3 px-1 text-end"><p>{NumberWithCommas(e?.netWtFinal, 3)} </p></div>
                   {/* <div style={{ minWidth: "9%", width: "9%" }} className=" px-1"><p></p></div>
                   <div style={{ minWidth: "15%", width: "15%" }} className=" px-1"><p></p></div> */}
                   <div className="col-2 px-1 text-end"><p>{e?.netWtFinal !== 0 && NumberWithCommas((e?.metalAmountFinal / json0?.CurrencyExchRate) / e?.netWtFinal, 2)}</p></div>
-                  <div className="col-2 px-1 text-end"><p>{NumberWithCommas(e?.metalAmountFinal / json0?.CurrencyExchRate, 2)}</p></div>
+                  <div className="col-3 px-1 text-end"><p>{NumberWithCommas(e?.metalAmountFinal / json0?.CurrencyExchRate, 2)}</p></div>
                 </div>
               })}
               {/* {mainData?.findings?.map((e, i) => {
                 return <div className="d-flex" key={i}>
-                  <div className="col-5 px-1 text-uppercase"><p>{e?.ShapeName} {e?.QualityName}</p></div>
+                  <div className="col-4 px-1 text-uppercase"><p>{e?.ShapeName} {e?.QualityName}</p></div>
                   <div className="col-3 px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} Gms</p></div>
                   <div className="col-2 px-1 text-end"><p>{NumberWithCommas(e?.Rate, 2)}</p></div>
-                  <div className="col-2 px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
+                  <div className="col-3 px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
                 </div>
               })} */}
               {mainData?.diamonds?.map((e, i) => {
                 return <div className="d-flex" key={i}>
-                  <div className="px-1 text-uppercase col-5"><p>{e?.MasterManagement_DiamondStoneTypeName} {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
+                  <div className="px-1 text-uppercase col-4"><p>{e?.MasterManagement_DiamondStoneTypeName} {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
                   {/* <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                   <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                   <div style={{ minWidth: "9%", width: "9%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div> */}
                   <div className="px-1 text-end col-3"><p>{NumberWithCommas(e?.Wt, 3)} </p></div>
                   <div className="px-1 text-end col-2"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas((e?.Amount / e?.Wt) / json0?.CurrencyExchRate, 0)} </>) : (e?.Pcs !== 0 && <>{NumberWithCommas((e?.Amount / e?.Pcs) / json0?.CurrencyExchRate, 0)} / Pcs</>))}</p></div>
-                  <div className="px-1 text-end col-2"><p>{NumberWithCommas(e?.Amount / json0?.CurrencyExchRate, 2)}</p></div>
+                  <div className="px-1 text-end col-3"><p>{NumberWithCommas(e?.Amount / json0?.CurrencyExchRate, 2)}</p></div>
                 </div>
               })}
               {mainData?.colorStones?.map((e, i) => {
                 return <div className="d-flex" key={i}>
-                  <div className="col-5 px-1 text-uppercase"><p>{e?.MasterManagement_DiamondStoneTypeName} {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
+                  <div className="col-4 px-1 text-uppercase"><p>{e?.MasterManagement_DiamondStoneTypeName} {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
                   {/* <div className=" px-1 text-end"><p></p></div>
                   <div className=" px-1 text-end"><p></p></div> */}
                   {/* <div className=" px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div> */}
                   <div className="col-3  px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} </p></div>
                   <div className="col-2  px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas((e?.Amount / e?.Wt) / json0?.CurrencyExchRate, 0)} </>) : (e?.Pcs !== 0 && <>{NumberWithCommas((e?.Amount / e?.Pcs) / json0?.CurrencyExchRate, 0)} </>))}</p></div>
-                  <div className="col-2  px-1 text-end"><p>{NumberWithCommas(e?.Amount / json0?.CurrencyExchRate, 2)}</p></div>
+                  <div className="col-3  px-1 text-end"><p>{NumberWithCommas(e?.Amount / json0?.CurrencyExchRate, 2)}</p></div>
                 </div>
               })}
               {/* {mainData?.misc2?.map((e, i) => {
                 return <div className="d-flex" key={i}>
-                  <div className="col-5 px-1 text-uppercase"><p>OTHER MATERIAL</p></div>
+                  <div className="col-4 px-1 text-uppercase"><p>OTHER MATERIAL</p></div>
                   <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                   <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
                   <div style={{ minWidth: "9%", width: "9%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Pcs, 0)}</p></div>
                   <div className="col-3 px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} </p></div>
                   <div className="col-2 px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas((e?.Amount / e?.Wt) / json0?.CurrencyExchRate, 0)} </>) : (e?.Pcs !== 0 && <>{NumberWithCommas((e?.Amount / e?.Pcs) / json0?.CurrencyExchRate, 0)} </>))}</p></div>
-                  <div className="col-2 px-1 text-end"><p>{NumberWithCommas(e?.Amount / json0?.CurrencyExchRate, 2)}</p></div>
+                  <div className="col-3 px-1 text-end"><p>{NumberWithCommas(e?.Amount / json0?.CurrencyExchRate, 2)}</p></div>
                 </div>
               })} */}
               <div className="d-flex">
-                <div className="px-1 col-5 text-uppercase"><p>{mainData?.labour?.label}</p></div>
+                <div className="px-1 col-4 text-uppercase"><p>{mainData?.labour?.label}</p></div>
                 <div className="px-1 col-3 text-end"><p></p></div>
                 <div className="px-1 col-2 text-end"><p>{mainData?.labour?.primaryWt !== 0 && NumberWithCommas((mainData?.labour?.makingAmount / mainData?.labour?.primaryWt) / json0?.CurrencyExchRate, 0)}</p></div>
-                <div className="px-1 col-2 text-end"><p>{NumberWithCommas(mainData?.labour?.totalAmount / json0?.CurrencyExchRate, 2)}</p></div>
+                <div className="px-1 col-3 text-end"><p>{NumberWithCommas(mainData?.labour?.totalAmount / json0?.CurrencyExchRate, 2)}</p></div>
               </div>
               {mainData?.miscs?.map((e, i) => {
                 return <div className="d-flex" key={i}>
-                  <div className="col-5 px-1 text-uppercase"><p>{e?.ShapeName}</p></div>
+                  <div className="col-4 px-1 text-uppercase"><p>{e?.ShapeName}</p></div>
                   <div className="col-3 px-1 text-end"><p></p></div>
                   <div className="col-2 px-1 text-end"><p></p></div>
-                  <div className="col-2 px-1 text-end"><p>{NumberWithCommas(e?.Amount / json0?.CurrencyExchRate, 2)}</p></div>
+                  <div className="col-3 px-1 text-end"><p>{NumberWithCommas(e?.Amount / json0?.CurrencyExchRate, 2)}</p></div>
                 </div>
               })}
               {/* <div className="d-flex">
-                <div className="col-5 px-1 text-uppercase"><p>HANDLING</p></div>
+                <div className="col-4 px-1 text-uppercase"><p>HANDLING</p></div>
                 <div className="col-3 px-1 text-end"><p></p></div>
                 <div className="col-2 px-1 text-end"><p></p></div>
-                <div className="col-2 px-1 text-end"><p>{NumberWithCommas(mainData?.diamondHandling / json0?.CurrencyExchRate, 2)}</p></div>
+                <div className="col-3 px-1 text-end"><p>{NumberWithCommas(mainData?.diamondHandling / json0?.CurrencyExchRate, 2)}</p></div>
               </div> */}
               {mainData?.otherCharges?.map((e, i) => {
                 return <div className="d-flex" key={i}>
-                  <div className="col-5 px-1 text-uppercase"><p>{e?.label}</p></div>
+                  <div className="col-4 px-1 text-uppercase"><p>{e?.label}</p></div>
                   <div className="col-3 px-1 text-end"><p></p></div>
                   <div className="col-2 px-1 text-end"><p></p></div>
-                  <div className="col-2 px-1 text-end"><p>{NumberWithCommas(+e?.value, 2)}</p></div>
+                  <div className="col-3 px-1 text-end"><p>{NumberWithCommas(+e?.value, 2)}</p></div>
                 </div>
               })}
             </div>
