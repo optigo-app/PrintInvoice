@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Loader from '../../components/Loader';
 import Button from '../../GlobalFunctions/Button';
 import { useEffect } from 'react';
-import { apiCall, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
 import { cloneDeep } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 
@@ -16,6 +16,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
+  const [purityWise, setPurityWise] = useState([]);
     
     useEffect(() => {
         const sendData = async () => {
@@ -55,6 +56,19 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
         );
         setResult(datas);
 
+        let pwise = [];
+
+        datas?.resultArray?.forEach((el) => {
+            let findRec = pwise?.findIndex((a) => a?.MetalTypePurity === el?.MetalTypePurity)
+            if(findRec === -1){
+                pwise.push(el);
+            }else{
+                pwise[findRec].grosswt += el?.grosswt;
+                pwise[findRec].NetWt += el?.NetWt;
+                pwise[findRec].LossWt += el?.LossWt;
+            }
+        })
+        setPurityWise(pwise);
     }
 
     const handleImageErrors = () => {
@@ -124,8 +138,8 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                                     <div className='text-break lh_jts'>Design: <span className='fw-bold'>{e?.designno}</span></div>
                                     <div className='text-break lh_jts'>{e?.Size}</div>
                                 </div>
-                                <div className='col3_jts d-flex align-items-start justify-content-start p-1 brr_jts text-break'>{e?.MetalTypePurity} {e?.MetalColor} | {e?.grosswt?.toFixed(3)} gms GW | 14.000 gms NW | DIA: 5.000 Cts | CS: 5.000 Cts | MISC: 2.000 gms</div>
-                                <div className='col4_jts d-flex align-items-start justify-content-end p-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{e?.TotalAmount}</div>
+                                <div className='col3_jts d-flex align-items-start justify-content-start p-1 brr_jts text-break'>{e?.MetalTypePurity} {e?.MetalColor} | {e?.grosswt?.toFixed(3)} gms GW | {e?.NetWt?.toFixed(3)} gms NW | DIA: {e?.totals?.diamonds?.Wt?.toFixed(3)} Cts | CS: {e?.totals?.colorstone?.Wt?.toFixed(3)} Cts | MISC: {e?.totals?.misc?.Wt?.toFixed(3)} gms</div>
+                                <div className='col4_jts d-flex align-items-start justify-content-end p-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount((e?.TotalAmount / result?.header?.CurrencyExchRate))}</div>
                             </div>
                             })
                         }
@@ -134,7 +148,66 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                         <div className='col1_jts center_jts brr_jts'></div>
                         <div className='col2_jts start_jts brr_jts ps-1'>TOTAL</div>
                         <div className='col3_jts center_jts brr_jts'></div>
-                        <div className='col4_jts end_jts pe-1'>AMOUNT (USD)</div>
+                        <div className='col4_jts end_jts pe-1'><span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span> {formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))}</div>
+                    </div>
+                </div>
+                <div className='brall_jts border-top-0 d-flex'>
+                    <div className='w33_jts p-1 fs_jts brr_jts'><div className='fw-bold text-decoration-underline'>REMARKS:</div><div>{result?.header?.PrintRemark}</div></div>
+                    <div className='w33_jts p-1 fs_jts brr_jts'>
+                        {
+                            purityWise?.map((e, i) => {
+                                return <div className='w-100 d-flex' key={i}><div className='w-50'>{e?.MetalTypePurity} : </div><div className='w-50'>{e?.grosswt?.toFixed(3)} gm</div></div>
+                            })
+                        }
+                        <div className='w-100 d-flex'><div className='w-50'>Diamond Wt : </div><div className='w-50'>{result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts</div></div>
+                        <div className='w-100 d-flex'><div className='w-50'>Stone Wt : </div><div className='w-50'>{result?.mainTotal?.colorstone?.Wt?.toFixed(3)} cts</div></div>
+                        <div className='w-100 d-flex'><div className='w-50'>Gross Wt : </div><div className='w-50'>{result?.mainTotal?.grosswt?.toFixed(3)} gm</div></div>
+                    </div>
+                    <div className='w33_jts  fs_jts d-flex'>
+                        <div className='brr_jts w1_jts'>
+                            {
+                                result?.allTaxes?.map((e, i) => <div className='start_jts ps-1' key={i}>{e?.name} @ {e?.per}</div>)
+                            }
+                            <div className='start_jts ps-1'>Total</div>
+                            <div className='start_jts ps-1'>{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div>
+                            <div className='start_jts ps-1'>Delivery Charges</div>
+                        </div>
+                        <div className='w2_jts fw-bold'>
+                            {
+                                result?.allTaxes?.map((e, i) => <div className='end_jts pe-1' key={i}><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount(e?.amount)}</div>)
+                            }
+                            <div className='end_jts pe-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))}</div>
+                            <div className='end_jts pe-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount((result?.header?.AddLess / result?.header?.CurrencyExchRate))}</div>
+                            <div className='end_jts pe-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount((result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}</div>
+                        </div>
+                    </div>
+                </div>
+                <div className='thead_jts'>
+                    <div className='col1_jts center_jts brr_jts'></div>
+                    <div className='col2_jts start_jts brr_jts ps-1'></div>
+                    <div className='col3_jts end_jts brr_jts' style={{paddingRight:'12.5%'}}>GRAND TOTAL</div>
+                    <div className='col4_jts end_jts pe-1'><span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span> {formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))}</div>
+                </div>
+                <div className='static_jts py-2'>**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
+                <div className='brall_jts dec_jts p-2'>
+                    <div dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
+                </div>
+                <div className='d-flex fs_jts brall_jts border-top-0'>
+                    <div className='w33_jts p-1 brr_jts'>
+                        <div className='fw-bold'>Bank Detail </div>
+                        <div>Bank Name: {result?.header?.bankname}</div>
+                        <div>Branch: {result?.header?.bankaddress}</div>
+                        <div>Account Name: {result?.header?.accountname}</div>
+                        <div>Account No. : {result?.header?.accountnumber}</div>
+                        <div>RTGS/NEFT IFSC: {result?.header?.rtgs_neft_ifsc}</div>
+                    </div>
+                    <div className='w33_jts p-1 brr_jts d-flex flex-column justify-content-between'>
+                        <div>Signature</div>
+                        <div className='fw-bold'>{result?.header?.customerfirmname}</div>
+                    </div>
+                    <div className='w33_jts p-1 brr_jts d-flex flex-column justify-content-between'>
+                        <div>Signature</div>
+                        <div className='fw-bold'>{result?.header?.CompanyFullName}</div>
                     </div>
                 </div>
             </div>
