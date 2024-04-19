@@ -684,7 +684,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="designDetalPrint1 border-end  p-1 border-bottom d-flex justify-content-center align-items-center">
                 <p className="fw-bold p-1">Design</p>
               </div>
-              <div className="diamondDetailPrint1 border-end ">
+              <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} border-end `}>
                 <div className="d-grid h-100">
                   <div className="d-flex justify-content-center border-bottom ">
                     <p className="fw-bold p-1">Diamond</p>
@@ -711,7 +711,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="metalGoldDetailPrint1 border-end ">
+              <div className={`${dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l"} border-end `}>
                 <div className="d-grid h-100">
                   <div className="d-flex justify-content-center align-items-center border-bottom ">
                     <p className="fw-bold p-1">Metal </p>
@@ -735,7 +735,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="stoneDetailsPrint1 border-end ">
+              <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} border-end `}>
                 <div className="d-grid h-100">
                   <div className="d-flex justify-content-center border-bottom ">
                     <p className="fw-bold p-1">Stone</p>
@@ -762,8 +762,8 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="otherAmountDetailPrint1 border-end  border-bottom d-flex align-items-center justify-content-center flex-column">
-                <p className="fw-bold text-center d-flex align-items-center justify-content-center">
+              <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} border-end  border-bottom d-flex align-items-center justify-content-center flex-column`}>
+                <p className="fw-bold text-center d-flex align-items-center justify-content-center" style={{wordBreak: "normal"}}>
                   Other Amount
                 </p>
               </div>
@@ -857,7 +857,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           )}
                         </div>
                       </div>
-                      <div className="diamondDetailPrint1 border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1">
+                      <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="h-100 paddingBottomTotalDetailPrint1">
                           {e?.diamonds.length > 0 &&
                             e?.diamonds.map((ele, ind) => {
@@ -910,7 +910,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         </div>
                       </div>
-                      <div className="metalGoldDetailPrint1 border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1">
+                      <div className={`${dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l"} border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="h-100 paddingBottomTotalDetailPrint1">
                           {e?.metal.length > 0 &&
                             e?.metal.map((ele, ind) => {
@@ -960,7 +960,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         </div>
                       </div>
-                      <div className="stoneDetailsPrint1 border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1">
+                      <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="h-100 paddingBottomTotalDetailPrint1">
                           {e?.colorstone.length > 0 &&
                             e?.colorstone.map((ele, ind) => {
@@ -1013,7 +1013,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         </div>
                       </div>
-                      <div className="otherAmountDetailPrint1 border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1">
+                      <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                         <div className="paddingBottomTotalDetailPrint1">
                           <div>
                             {detailtPrintR ? (
@@ -1162,11 +1162,11 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <p className=" p-1"></p>
                       </div>
                       <div className="designDetalPrint1 border-end  p-1 border-bottom"></div>
-                      <div className="diamondDetailPrint1 border-end  position-relative border-bottom lightGrey">
+                      <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} border-end  position-relative border-bottom lightGrey`}>
                         <div className="d-grid"></div>
                       </div>
-                      <div className="metalGoldDetailPrint1 border-end  position-relative border-bottom lightGrey"></div>
-                      <div className="stoneDetailsPrint1 border-end position-relative border-bottom pt-1 lightGrey">
+                      <div className={`${dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l"} border-end  position-relative border-bottom lightGrey`}></div>
+                      <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} border-end position-relative border-bottom pt-1 lightGrey`}>
                         <div className="d-grid">
                           {e?.Discount !== 0 && (
                             <p className="p-1 text-end fw-bold paddingLeftDetailPrint1 paddingRightDetailPrint1">
@@ -1178,7 +1178,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           )}
                         </div>
                       </div>
-                      <div className="otherAmountDetailPrint1 border-end  border-bottom lightGrey">
+                      <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} border-end  border-bottom lightGrey`}>
                         <p className="d-flex align-items-center justify-content-end"></p>
                       </div>
                       <div className="labourAmountDetailPrint1 border-end  lightGrey border-bottom pt-1 ">
@@ -1253,7 +1253,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   Total
                 </p>
               </div>
-              <div className="diamondDetailPrint1 border-end  position-relative border-bottom d-flex flex-column justify-content-center paddingLeftDetailPrint1 paddingRightDetailPrint1">
+              <div className={`${dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"} border-end  position-relative border-bottom d-flex flex-column justify-content-center paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                 <div className="d-flex">
                   <div className=" col-2">
                     <p className=""></p>
@@ -1279,7 +1279,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="metalTotalDetailPrint1 border-end  position-relative border-bottom d-flex flex-column justify-content-center  ">
+              <div className={`${dpp ? "metalTotalDetailPrint1p" : "metalTotalDetailPrint1l"} border-end  position-relative border-bottom d-flex flex-column justify-content-center`}>
                 <div className="d-flex">
                   <div className="col-3 paddingRightDetailPrint1">
                     <p className=""></p>
@@ -1303,7 +1303,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="stoneDetailsPrint1 border-end  position-relative border-bottom d-flex flex-column justify-content-center paddingLeftDetailPrint1 paddingRightDetailPrint1">
+              <div className={`${dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"} border-end  position-relative border-bottom d-flex flex-column justify-content-center paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                 <div className="d-flex">
                   <div className="col-2 paddingRightDetailPrint1">
                     <p className=""></p>
@@ -1331,7 +1331,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                 </div>
               </div>
-              <div className="otherAmountDetailPrint1 border-end  border-bottom d-table paddingLeftDetailPrint1 paddingRightDetailPrint1">
+              <div className={`${dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l"} border-end  border-bottom d-table paddingLeftDetailPrint1 paddingRightDetailPrint1`}>
                 <p className="py-1 d-flex align-items-center justify-content-end d-table-cell align-middle fw-bold" >
                   <span>{NumberWithCommas(finalD?.mainTotal?.miscChargesTotals, 2)}</span>
                 </p>

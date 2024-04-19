@@ -94,7 +94,7 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         });
         setUnitCost(unitcosts);
         setData(arr);
-        console.log(arr);
+        // console.log(arr);
         console.log(data);
         setJson0Data(data?.BillPrint_Json[0]);
         setMetalArr(metalArrs);
@@ -245,18 +245,18 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </div>
                             <div className={`d-flex fw-bold border-black border-bottom ${style?.minHeight_24_8ExportPrint1}`}>
                                 <div className="col-6 p-1 border-black border-end"><p>{json0Data?.ModeOfDel}</p></div>
-                                <div className="col-6 p-1 text-end"><p>{NumberWithCommas(json0Data?.FreightCharges, 2)}</p></div>
+                                <div className="col-6 p-1 text-end"><p>{NumberWithCommas(json0Data?.FreightCharges / json0Data?.CurrencyExchRate, 2)}</p></div>
                             </div>
                             <div className={`d-flex ${style?.minHeight_24_8ExportPrint1}`}>
                                 <div className="col-6 p-1  border-black border-end fw-bold"><p>CFR</p></div>
-                                <div className="col-6 p-1 text-end fw-bold"><p>{NumberWithCommas(totalAmount + json0Data?.FreightCharges, 0)}</p></div>
+                                <div className="col-6 p-1 text-end fw-bold"><p>{NumberWithCommas(totalAmount + (json0Data?.FreightCharges / json0Data?.CurrencyExchRate), 0)}</p></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             {/* FOB */}
-            <p className=' border-black border-bottom border-start border-end p-2 no_break'>FOB IN Word:  {toWords?.convert(+fixedValues(totalAmount + json0Data?.FreightCharges, 0))}</p>
+            <p className=' border-black border-bottom border-start border-end p-2 no_break'>FOB IN Word:  {toWords?.convert(+fixedValues(totalAmount + (json0Data?.FreightCharges / json0Data?.CurrencyExchRate), 0))}</p>
             {/* I/we hereby certify */}
             <div dangerouslySetInnerHTML={{ __html: json0Data?.Declaration }} className={`border-black border-bottom border-start border-end p-2 no_break ${style?.Declaration}`}></div>
             <div className="d-flex  border-black border-start border-end border-bottom no_break">

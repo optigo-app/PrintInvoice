@@ -115,14 +115,14 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* buttons */}
                 <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 mt-4">
                     <div className="form-check ps-3">
-                        <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
+                        <input type="button" className="btn_white blue py-2" value="Print" style={{fontSize: "14px"}} onClick={(e) => handlePrint(e)} />
                     </div>
                 </div>
                 {/* header */}
                 {/* {header} */}
                 <div className={`${style1.headline} headerTitle target_header`}>{headerData?.PrintHeadLabel}</div>
                 <div className={`${style1.companyDetails} ${style?.target_header}`}>
-                    <div className={`${style1.companyhead} p-2 ${style?.headerPara}`}>
+                    <div className={`${style1.companyhead} p-2 ${style?.headerPara} ${style?.headerPara}`}>
                         <div className={style1.lines} style={{ fontWeight: "bold", fontSize: "16px" }}>
                             {headerData?.CompanyFullName}
                         </div>
@@ -130,14 +130,22 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className={style1.lines}>{headerData?.CompanyAddress2}</div>
                         <div className={style1.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
                         {/* <div className={style.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
-                        <div className={style1.lines}>Tell No:  {headerData?.CompanyTellNo}</div>
+                        <div className={style1.lines}>T {headerData?.CompanyTellNo} {headerData?.CompanyTollFreeNo !== "" && ` | TOLL FREE ${headerData?.CompanyTollFreeNo}`}</div>
                         <div className={style1.lines}>
-                            {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
+                            {headerData?.CompanyEmail}  {headerData?.CompanyWebsite}
                         </div>
                         <div className={style1.lines}>
                             {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
                             {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
                         </div>
+                        {headerData?.Com_CINNO !== "" && <div className={style1.lines}>
+                            CIN-{headerData?.Com_CINNO}
+                        </div>}
+                        {headerData?.Com_GoldDealershipRefNo !== "" && <div className={style1.lines}>
+                            {headerData?.Com_GoldDealershipRefNo}
+                        </div>}
+                        
+
                     </div>
                     <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
                         <ImageComponent imageUrl={headerData?.PrintLogo} styles={logoStyle} />
@@ -145,7 +153,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                 </div>
                 {/* sub header */}
-                <div className={`d-flex border ${style?.subHeader}`}>
+                <div className={`d-flex border ${style?.subHeader} ${style?.headerPara}`}>
                     <div className="col-4 border-end p-2">
                         <p>{headerData?.lblBillTo} {headerData?.customerfirmname}</p>
                         <p>Address: {headerData?.customerAddress1}</p>
@@ -191,7 +199,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`d-flex justify-content-center align-items-center ${style?.Product} border-end`}><p className='p-1 fw-bold text-center'>Product Design	</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.Design} border-end`}><p className='p-1 fw-bold text-center'>Design No	</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.QR} border-end`}><p className='p-1 fw-bold text-center'>QR Code	</p></div>
-                    <div className={`d-flex justify-content-center align-items-center ${style?.Certificate} border-end`}><p className='p-1 fw-bold text-center ' style={{wordBreak: "normal"}}>Certificate No IGI & BIS</p></div>
+                    <div className={`d-flex justify-content-center align-items-center ${style?.Certificate} border-end`}><p className='p-1 fw-bold text-center ' style={{ wordBreak: "normal" }}>Certificate No IGI & BIS</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.Metal} border-end`}><p className='p-1 fw-bold text-center'>Metal Details	</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.Gross} border-end`}><p className='p-1 fw-bold text-center'>Gross Wt	</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.Less} border-end`}><p className='p-1 fw-bold text-center'>Less Wt	</p></div>
@@ -264,7 +272,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="my-1 border d-flex no_break">
                     <div className="col-4 border-end p-2">
                         <p>Value in Words:</p>
-                        <p className='fw-bold'>{toWords?.convert(+fixedValues(data?.finalAmount, 2))}</p>
+                        <p className='fw-bold'>{toWords?.convert(+fixedValues(data?.finalAmount, 2))} only</p>
                     </div>
                     <div className="col-4 border-end p-2">
                         <p className='fw-bold'>Bank Details :</p>

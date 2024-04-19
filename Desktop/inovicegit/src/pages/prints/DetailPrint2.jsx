@@ -223,7 +223,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         <p className="text-center col-3 fw-semibold"></p>
                                         <p className="text-end col-3 fw-semibold">{e?.totals?.diamonds?.Wt !== 0 && NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p>
                                         <p className="text-end col-3 fw-semibold"></p>
-                                        <p className="text-end col-3 fw-semibold">{NumberWithCommas(e?.totals?.diamonds?.Amount, 2)}</p>
+                                        <p className="text-end col-3 fw-semibold">{e?.diamonds?.length > 0 ? NumberWithCommas(e?.totals?.diamonds?.Amount, 2) : <>&nbsp;</>}</p>
                                     </div>
                                 </div>
                             </div>
@@ -262,7 +262,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         })}
                                     </div>
                                     <div className="border-top lightGrey">
-                                        <p className='text-end fw-semibold' style={{ minHeight: "13.5px" }}>{NumberWithCommas(e?.totals?.colorstone?.Amount, 2)}</p>
+                                        <p className='text-end fw-semibold' style={{ minHeight: "13.5px" }}>{e?.colorstone?.length > 0 ? NumberWithCommas(e?.totals?.colorstone?.Amount, 2) : <>&nbsp;</>}</p>
                                     </div>
                                 </div>
                             </div>
@@ -424,7 +424,9 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <p><i>Checked by</i></p>
                     </div>
                 </div>
-            </div >
+                {/* pre msg */}
+                <p className="pre pt-3 w-100 " style={{overflow: "unset", letterSpacing: "0.55px"}}>**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS </p>
+            </div>
         </>
     ) : (
         <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

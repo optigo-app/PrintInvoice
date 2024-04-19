@@ -45,8 +45,8 @@
 }
 
 .srNoRetailPrint {
-    width: 5%;
-    min-width: 5%;
+    width: 4%;
+    min-width: 4%;
 }
 
 .poductDiscriptionRetailPrint {
@@ -60,20 +60,27 @@
 }
 
 .materialDescriptionRetailPrint {
-    width: 48%;
-    min-width: 48%;
+    width: 51%;
+    min-width: 51%;
 }
 
 .materialRetailPrint,
-.wtRetailPrint,
 .rateRetailPrint,
 .amountRetailPrint {
     width: 18%;
     min-width: 18%;
 }
+.wtRetailPrint{
+    width: 20%;
+    min-width: 20%;
+}
 
-.qtyRetailPrint,
-.pcsRetailPrint {
+.pcsRetailPrint{
+    width: 12%;
+    min-width: 12%;
+}
+
+.qtyRetailPrint {
     width: 14%;
     min-width: 14%;
 }
