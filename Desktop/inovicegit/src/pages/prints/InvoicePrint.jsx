@@ -338,23 +338,32 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     diamonds.sort(compare);
     colorStones.sort(compare);
 
-    miscs?.sort((a, b) => {
-      if (a.ShapeName < b.ShapeName) {
-        return -1;
-      } else if (a.ShapeName > b.ShapeName) {
-        return 1; 
-      } else {
-       return 0
-      }
-    })
+    // miscs?.sort((a, b) => {
+    //   if (a.ShapeName < b.ShapeName) {
+    //     return -1;
+    //   } else if (a.ShapeName > b.ShapeName) {
+    //     return 1; 
+    //   } else {
+    //    return 0
+    //   }
+    // })
 
+
+
+    miscs?.forEach((e, i) => {
+      e.label = e?.ShapeName;
+      e.value = e?.Amount
+    });
+    otherCharges = [...otherCharges, ...miscs]?.flat();
     otherCharges?.sort((a, b) => {
-      if (a.label < b.label) {
+      var labelA = a.label.toUpperCase();
+      var labelB = b.label.toUpperCase();
+      if (labelA < labelB) {
         return -1;
-      } else if (a.label > b.label) {
-        return 1; 
+      } else if (labelA > labelB) {
+        return 1;
       } else {
-       return 0
+        return 0
       }
     })
 
@@ -520,14 +529,14 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="px-1 col-3 text-end"><p>{NumberWithCommas(datass?.mainTotal?.total_Making_Amount + datass?.mainTotal?.diamonds?.SettingAmount +
                   datass?.mainTotal?.colorstone?.SettingAmount + datass?.mainTotal?.misc?.Amount + datass?.mainTotal?.total_diamondHandling, 2)}</p></div>
               </div>
-              {mainData?.miscs?.map((e, i) => {
+              {/* {mainData?.miscs?.map((e, i) => {
                 return <div className="d-flex pb-1" key={i}>
                   <div className="col-4 px-1 text-uppercase"><p>{e?.ShapeName}</p></div>
                   <div className="col-3 px-1 text-end"><p></p></div>
                   <div className="col-2 px-1 text-end"><p></p></div>
                   <div className="col-3 px-1 text-end"><p>{NumberWithCommas(e?.Amount / json0?.CurrencyExchRate, 2)}</p></div>
                 </div>
-              })}
+              })} */}
               {mainData?.otherCharges?.map((e, i) => {
                 return <div className="d-flex pb-1" key={i}>
                   <div className="col-4 px-1 text-uppercase"><p>{e?.label}</p></div>
