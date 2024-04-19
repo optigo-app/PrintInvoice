@@ -206,6 +206,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
         };
         sendData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return loader ? (

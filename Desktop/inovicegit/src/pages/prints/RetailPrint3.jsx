@@ -98,7 +98,7 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           copydata?.BillPrint_Json1,
           copydata?.BillPrint_Json2
         );
-
+        
         let finalArr = [];
 
         datas?.resultArray?.forEach((a) => {
@@ -106,14 +106,17 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             finalArr.push(a);
         }else{
           let b = cloneDeep(a);
+          
           let find_record = finalArr.findIndex((el) => el?.GroupJob === b?.GroupJob);
           if(find_record === -1){
+            b.count = 1;
             finalArr.push(b);
           }else{
             if(finalArr[find_record]?.GroupJob !== finalArr[find_record]?.SrJobno){
                 finalArr[find_record].designno = b?.designno;
                 finalArr[find_record].HUID = b?.HUID; 
             }
+            finalArr[find_record].count +=  1;
             finalArr[find_record].grosswt += b?.grosswt;
             finalArr[find_record].NetWt += b?.NetWt;
             finalArr[find_record].LossWt += b?.LossWt;
@@ -247,6 +250,8 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
         datas?.resultArray?.sort((a,b) => a?.designno - b?.designno)
 
+        
+
         setResult(datas);
     }
     useEffect(() => {
@@ -310,7 +315,8 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <p className='fw-bold fs_rp_2 w_h2_rp' >{result?.header?.HSN_No_Label}/SAC</p>
                             <p  className='fs_rp_2 w_h2_rp_2'>:  {result?.header?.HSN_No}</p>
                         </div>
-                        <p className='fw-bold fs_rp_2 w_h2_rp'>GSTIN - {result?.header?.CustGstNo}</p>
+                        { result?.header?.CustGstNo === '' ? <p className='fw-bold fs_rp_2  d-flex w-100'><span>GSTIN -</span>&nbsp;&nbsp; <span>{result?.header?.Cust_VAT_GST_No}</span></p> : <p className='fw-bold fs_rp_2 w_h2_rp'><span>GSTIN - </span><span>{result?.header?.CustGstNo}</span></p>}
+                        
                         <p className='fw-bold fs_rp_2 w_h2_rp'>{result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No}</p>
                         <p className='fw-bold fs_rp_2 w_h2_rp'>PAN - {result?.header?.CustPanno}</p>
                         <p> </p>
@@ -432,7 +438,6 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 </tr> */}
                                                 {
                                                     e?.metal?.map((el, ind) => {
-                                                        console.log(el);
                                                         return         <tr className='border-bottom' key={ind}>
                                                         <td className={`border-end border-bottom ${style?.material}`}>
                                                             <p className='p-1 fs_rp_2'>{ el?.IsPrimaryMetal === 1 ? el?.ShapeName : ''}</p>
@@ -569,10 +574,12 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                             <p className='p-1 text-end fs_rp_2'>{el?.miscwt?.toFixed(3)}</p>
                                                         </td>
                                                         <td className={` border-end ${style?.rate}`}>
-                                                            <p className='p-1 text-end fs_rp_2'>{ el?.miscamt === 0 ? '' : formatAmount((el?.miscamt / (el?.isRateOnPcs === 1 ? (el?.miscpcs === 0 ? 1 : el?.miscpcs ) : (el?.miscwt === 0 ? 1 : el?.miscwt))))}</p>
+                                                            {/* <p className='p-1 text-end fs_rp_2'>{ el?.miscamt === 0 ? '' : formatAmount((el?.miscamt / (el?.isRateOnPcs === 1 ? (el?.miscpcs === 0 ? 1 : el?.miscpcs ) : (el?.miscwt === 0 ? 1 : el?.miscwt))))}</p> */}
+                                                            {console.log(el?.miscamt/(e?.count), e?.count)}
+                                                            <p className='p-1 text-end fs_rp_2'>{ el?.miscamt === 0 ? '' : formatAmount((el?.miscamt/(e?.count ?? 1)))}</p>
                                                         </td>
                                                         <td className={`text-center border-end p-1 ${style?.amount}`}>
-                                                            <p className='text-end fs_rp_2'>{el?.miscamt === 0 ? '' : formatAmount(el?.miscamt)}</p>
+                                                            <p className='text-end fs_rp_2'>{el?.miscamt === 0 ? '' : formatAmount((el?.miscamt))}</p>
                                                         </td>
                                                     </tr>
                                                     })
