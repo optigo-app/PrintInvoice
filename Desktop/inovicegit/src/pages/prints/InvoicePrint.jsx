@@ -426,6 +426,22 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       ...mainData, resultArr: resultArr, findings: findings, diamonds: diamonds, colorStones: colorStones,
       miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling
     });
+
+    let clr = [];
+    datas?.resultArray?.forEach((e) => {
+      e?.colorstone?.forEach((el) => {
+        let obj = cloneDeep(el);
+        let findrec = clr?.findIndex((a) => a?.MaterialTypeName === obj?.MaterialTypeName && a?.ShapeName === obj?.ShapeName && a?.QualityName === obj?.QualityName && a?.Colorname === obj?.Colorname && a?.isRateOnPcs === obj?.isRateOnPcs)
+        if(findrec === -1){
+          clr.push(obj);
+        }else{
+          clr[findrec].Wt += obj?.Wt;
+          clr[findrec].Amount += obj?.Amount;
+          clr[findrec].Pcs += obj?.Pcs;
+        }  
+      })
+    });
+    console.log(clr);
   }
 
   useEffect(() => {
