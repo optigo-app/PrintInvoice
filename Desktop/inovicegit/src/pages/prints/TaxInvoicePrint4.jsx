@@ -14,6 +14,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { ToWords } from "to-words";
 import style2 from "../../assets/css/headers/header1.module.css";
 import footerStyle from "../../assets/css/footers/footer2.module.css";
+import { cloneDeep } from "lodash";
 
 const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
@@ -41,6 +42,13 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+    datas.mainTotal.diaRmWt = 0;
+    datas?.resultArray?.forEach((e, i) => {
+      e.diaRmWt = e?.diamonds?.reduce((acc, cObj) => acc + cObj?.RMwt, 0);
+      datas.mainTotal.diaRmWt += e?.diaRmWt;
+      e.csRmWt = e?.colorstone?.reduce((acc, cObj) => acc + cObj?.RMwt, 0);
+      datas.mainTotal.csRmWt += e?.csRmWt;
+    });
     datas?.resultArray.sort((a, b) => {
       var nameA = a.designno.toUpperCase(); // Convert names to uppercase for case-insensitive comparison
       var nameB = b.designno.toUpperCase();
@@ -263,11 +271,12 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
               <p className="">{NumberWithCommas(e?.grosswt, 3)}</p>
             </div>
             <div className={`${style?.DWt} border-end p-1 text-end`}>
-              <p className="">{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p>
+              {/* <p className="">{NumberWithCommas(e?.totals?.diamonds?.Wt, 3)}</p> */}
+              <p className="">{NumberWithCommas(e?.diaRmWt, 3)}</p>
             </div>
             <div className={`${style?.DRate} border-end p-1 text-end`}>
               <p className="">
-                {e?.totals?.diamonds?.Wt !== 0 ? NumberWithCommas(e?.totals?.diamonds?.Amount / e?.totals?.diamonds?.Wt, 2) : "0.00"}
+                {e?.totals?.diamonds?.Wt !== 0 ? NumberWithCommas(e?.totals?.diamonds?.Amount / e?.diaRmWt, 2) : "0.00"}
               </p>
             </div>
             <div className={`${style?.StWt} border-end p-1 text-end`}>
@@ -277,7 +286,8 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             </div>
             <div className={`${style?.StRate} border-end p-1 text-end`}>
               <p className="">
-                {e?.colorstone?.length !== 0 ? NumberWithCommas(e?.colorstone?.reduce((acc, cObj) => acc+cObj?.Rate, 0) / e?.colorstone?.length, 2): "0.00"}
+                {/* {e?.colorstone?.length !== 0 ? NumberWithCommas(e?.colorstone?.reduce((acc, cObj) => acc + cObj?.Rate, 0) / e?.colorstone?.length, 2) : "0.00"} */}
+                {e?.colorstone?.length !== 0 ? NumberWithCommas(e?.totals?.colorstone?.Amount / e?.csRmWt, 2) : "0.00"}
               </p>
             </div>
             <div className={`${style?.NetWt} border-end p-1 text-end`}>
@@ -288,7 +298,8 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             </div>
             <div className={`${style?.Rate} border-end p-1 text-end`}>
               <p className="">
-                {NumberWithCommas(e?.MaKingCharge_Unit + e?.MetalAmount / e?.NetWt, 2)}
+                {/* {NumberWithCommas(e?.MaKingCharge_Unit + e?.MetalAmount / e?.NetWt, 2)} */}
+                {NumberWithCommas((e?.totals?.metal?.Amount + (e?.MaKingCharge_Unit * e?.NetWt)) / e?.NetWt, 2)}
               </p>
             </div>
             <div className={`${style?.Amount} p-1 text-end`}>
@@ -315,7 +326,7 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
         </div>
         <div className={`${style?.DWt} border-end p-1 text-end`}>
           <p className="fw-bold">
-            {NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}
+            {NumberWithCommas(data?.mainTotal?.diaRmWt, 3)}
           </p>
         </div>
         <div className={`${style?.DRate} border-end p-1 text-end`}>
@@ -351,9 +362,9 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
         <div
           className={`${style?.words} border-end p-1 d-flex justify-content-end flex-column`}
         >
-          <p>In Words Indian Rupees</p>
+          <p>In Words {headerData?.Currencyname}</p>
           <p className="fw-bold">
-            {toWords.convert(+fixedValues(data?.finalAmount, 2))} Only
+            {toWords.convert(+fixedValues(data?.mainTotal?.total_amount + data?.allTaxes?.reduce((acc, cObj) => acc + +((+cObj?.amount * headerData?.CurrencyExchRate)?.toFixed(2)), 0) + headerData?.AddLess, 2))} Only
           </p>
         </div>
         <div className={`${style?.grandTotal}`}>
@@ -374,9 +385,9 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             </div>
             <div className={`${style?.amounts} p-1 text-end`}>
               {/* <p>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p> */}
-              <p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_unitcost - data?.mainTotal?.total_discount_amount, 2)}</p>
+              <p className="fw-bold">{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p>
               {data?.allTaxes.map((e, i) => {
-                return <p key={i}>{e?.amount}</p>;
+                return <p key={i}>{NumberWithCommas(+e?.amount * headerData?.CurrencyExchRate, 2)}</p>;
               })}
               {headerData?.AddLess !== 0 && (
                 <p>{NumberWithCommas(headerData?.AddLess, 2)}</p>
@@ -389,7 +400,7 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             </div>
             <div className={`${style?.amounts} p-1 text-end`}>
               <p className="fw-bold">
-                {NumberWithCommas(data?.finalAmount, 2)}
+                {NumberWithCommas(data?.mainTotal?.total_amount + data?.allTaxes?.reduce((acc, cObj) => acc + +((+cObj?.amount * headerData?.CurrencyExchRate)?.toFixed(2)), 0) + headerData?.AddLess, 2)}
               </p>
             </div>
           </div>

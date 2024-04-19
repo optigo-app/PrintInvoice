@@ -787,11 +787,11 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                         <div className={`makingRetailPrint border-end p-1 d-flex ${pName === "retail print 1" ? `flex-column align-items-end justify-content-center` : `align-items-center justify-content-end `}`}>
                             {pName === "retail print 1" && <p className='text-end'><span className="fw-bold">R: </span>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p>}
-                            <p className='text-end'>{NumberWithCommas(e?.MakingAmount + e?.SettingAmount, 2)}</p>
+                            <p className='text-end'>{NumberWithCommas((e?.MakingAmount + e?.SettingAmount) / jsonData1?.CurrencyExchRate, 2)}</p>
 
                         </div>
                         <div className="othersRetailPrint border-end p-1 d-flex align-items-center justify-content-end">
-                            <p className='text-end'>{NumberWithCommas(e?.OtherCharges + e?.TotalDiamondHandling, 2)}</p>
+                            <p className='text-end'>{NumberWithCommas((e?.OtherCharges + e?.TotalDiamondHandling) / jsonData1?.CurrencyExchRate, 2)}</p>
                         </div>
                         <div className="totalRetailPrint p-1 d-flex align-items-center justify-content-end">
                             <p className='text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
@@ -833,10 +833,10 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                     </div>
                     <div className="makingRetailPrint border-end p-1 d-flex align-items-center justify-content-end ft_12_retailPrint">
-                        <p className='fw-bold text-end'>{NumberWithCommas(total?.making, 2)}</p>
+                        <p className='fw-bold text-end'>{NumberWithCommas(total?.making / jsonData1?.CurrencyExchRate, 2)}</p>
                     </div>
                     <div className="othersRetailPrint border-end p-1 d-flex align-items-center justify-content-end ft_12_retailPrint">
-                        <p className='fw-bold text-end'>{NumberWithCommas(total?.others, 2)}</p>
+                        <p className='fw-bold text-end'>{NumberWithCommas(total?.others / jsonData1?.CurrencyExchRate, 2)}</p>
                     </div>
                     <div className="totalRetailPrint p-1 d-flex align-items-center justify-content-end ft_12_retailPrint">
                         <p className='fw-bold text-end'>{NumberWithCommas(total?.totalAmount, 2)}</p>

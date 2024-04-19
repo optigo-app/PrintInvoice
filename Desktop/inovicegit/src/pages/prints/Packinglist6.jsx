@@ -119,6 +119,22 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             resultArr?.push(obj);
         });
         setTotal({ ...total, metalWt: metalWtss, metalAmount: metalAmountss });
+        resultArr.sort((a, b) => {
+            const labelA = a?.JewelCodePrefix?.toLowerCase() + a?.Category_Prefix?.substring(0, 2)?.toLowerCase() + a?.jobNos?.toLowerCase();
+            const labelB = b?.JewelCodePrefix?.toLowerCase() + b?.Category_Prefix?.substring(0, 2)?.toLowerCase() + b?.jobNos?.toLowerCase();
+
+            // Extract numeric part from label
+            const numericPartA = parseInt(labelA.match(/\d+/)?.[0]) || 0;
+            const numericPartB = parseInt(labelB.match(/\d+/)?.[0]) || 0;
+
+            // Compare numeric parts first
+            if (numericPartA !== numericPartB) {
+                return numericPartA - numericPartB;
+            }
+
+            // If numeric parts are equal, compare whole strings
+            return labelA.localeCompare(labelB);
+        });
         datas.resultArray = resultArr;
         setData(datas);
         console.log(datas);
@@ -166,16 +182,16 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             onError={handleImageErrors} height={120} width={150} />)}
                     <p className={`fw-bold text-center pt-1 ${style?.font_12}`}>{headerData?.CompanyAddress} {headerData?.CompanyAddress2} {headerData?.CompanyCity}-{headerData?.CompanyPinCode}</p>
                     {headerData?.PrintHeadLabel !== "" && <p className={` ${style?.font_18} fw-bold`}>{headerData?.PrintHeadLabel}</p>}
-                    {headerData?.PrintRemark !== '' && <p className={`fw-bold text-center pt-2 ${style?.font_11}`}>{headerData?.PrintRemark}</p>}
+                    {headerData?.PrintRemark !== '' && <p className={`fw-bold text-center pt-2 ${style?.font_11}`}>({headerData?.PrintRemark})</p>}
                     <div className={`d-flex justify-content-between`}>
                         <p className={` ${style?.font_14}`}><span className="fw-bold">Party :  </span>{headerData?.customerfirmname}</p>
                         <div className={` ${style?.font_12}`}>
                             <div className="d-flex pb-1">
-                                <p style={{ minWidth: "75px" }}>Invoice No :</p>
+                                <p style={{ minWidth: "82px" }} className="text-end pe-4">Invoice No :</p>
                                 <p className="fw-bold">{headerData?.InvoiceNo}</p>
                             </div>
                             <div className="d-flex pb-1">
-                                <p style={{ minWidth: "75px" }}>Date :</p>
+                                <p style={{ minWidth: "82px" }} className="text-end pe-4">Date :</p>
                                 <p className="fw-bold">{headerData?.EntryDate}</p>
                             </div>
                         </div>
@@ -198,7 +214,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <div className="d-flex">
                                                     <p className={`fw-bold border-end text-center ${style?.w_20}`}>Kt</p>
                                                     <p className={`fw-bold border-end text-center ${style?.w_20}`}>Gr Wt</p>
-                                                    <p className={`fw-bold border-end text-center ${style?.w_20}`}>Net Wt</p>
+                                                    <p className={`fw-bold border-end text-center ${style?.w_20}`}>N + L</p>
                                                     <p className={`fw-bold border-end text-center ${style?.w_20}`}>Rate</p>
                                                     <p className={`fw-bold text-center ${style?.w_20}`}>Amount</p>
                                                 </div>
@@ -251,7 +267,7 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             <div className={`${style?.srNo} border-end d-flex justify-content-center align-items-center`}><p className="pt-1">{i + 1}</p></div>
                                             <div className={`${style?.Jewelcode} border-end`}>
                                                 <div className="d-flex justify-content-between px_1 pt-1 flex-wrap">
-                                                    <p className="">{e?.JewelCodePrefix}{e?.Category_Prefix}{e?.jobNos}</p>
+                                                    <p className="">{e?.JewelCodePrefix}{e?.Category_Prefix.substring(0, 2)}{e?.jobNos}</p>
                                                     <p className="">{e?.designno}</p>
                                                 </div>
                                                 <img src={e?.DesignImage} alt="" className="imgWidth" onError={handleImageError} />

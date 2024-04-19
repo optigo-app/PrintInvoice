@@ -285,7 +285,6 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         <p className='text-end px-1'>{NumberWithCommas(headerData?.CashReceived, 2)}</p>
                         {
                             bank?.map((e, i) => {
-                                console.log(e);
                                 return <p className="text-end px-1">{NumberWithCommas(e?.amount, 2)}</p>
                             })
                         }

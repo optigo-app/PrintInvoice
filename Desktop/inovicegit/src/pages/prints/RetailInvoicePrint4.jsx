@@ -729,12 +729,12 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                                             <p className="pb-1 px-1 text-end">
                                                 {NumberWithCommas(((total?.beforeTax / headerData?.CurrencyExchRate) +
                                                     taxes?.reduce((acc, cObj) => acc + (+cObj?.amount / headerData?.CurrencyExchRate), 0) +
-                                                    (headerData?.AddLess / headerData?.CurrencyExchRate)-headerData?.OldGoldAmount-headerData?.CashReceived-
+                                                    (headerData?.AddLess / headerData?.CurrencyExchRate) - headerData?.OldGoldAmount - headerData?.CashReceived -
                                                     bank?.reduce((acc, cObj) => acc + +cObj?.amount, 0)), 2)}</p>
 
 
                                             <p className="fw-bold text-end p-1 border-top"><span dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}></span>
-                                            {NumberWithCommas((total?.beforeTax / headerData?.CurrencyExchRate) +
+                                                {NumberWithCommas((total?.beforeTax / headerData?.CurrencyExchRate) +
                                                     taxes?.reduce((acc, cObj) => acc + (+cObj?.amount / headerData?.CurrencyExchRate), 0) +
                                                     (headerData?.AddLess / headerData?.CurrencyExchRate), 2)}</p>
                                         </div>
