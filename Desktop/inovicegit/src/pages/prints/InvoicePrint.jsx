@@ -73,25 +73,25 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
   const compare = (a, b) => {
     if (a.Rate !== b.Rate) {
-        return a.Rate - b.Rate; 
+      return a.Rate - b.Rate;
     } else {
-        if (a.designno < b.designno) {
-            return -1; 
-        } else if (a.designno > b.designno) {
-            return 1; 
-        } else {
-            return 0; 
-        }
+      if (a.designno < b.designno) {
+        return -1;
+      } else if (a.designno > b.designno) {
+        return 1;
+      } else {
+        return 0;
+      }
     }
-}
+  }
 
   const loadData = (data) => {
 
 
     setJson0(data?.BillPrint_Json[0]);
-    
+
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-     setDatas(datas);
+    setDatas(datas);
     console.log(datas);
     let resultArr = [];
     let findings = [];
@@ -219,9 +219,9 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         } else {
           // let findDiamond = diamonds?.findIndex((elem, index) => elem?.MaterialTypeName === ele?.MaterialTypeName && elem?.ShapeName === ele?.ShapeName &&
           //   elem?.Colorname === ele?.Colorname && elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
-          let findDiamond = diamonds?.findIndex((elem, index) => elem?.MaterialTypeName === ele?.MaterialTypeName && 
-          // elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && 
-          elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
+          let findDiamond = diamonds?.findIndex((elem, index) => elem?.MaterialTypeName === ele?.MaterialTypeName &&
+            // elem?.ShapeName === ele?.ShapeName && elem?.Colorname === ele?.Colorname && 
+            elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate);
           if (findDiamond === -1) {
             // let findDiamonds = diamonds?.findIndex((elem, index) => elem?.QualityName === ele?.QualityName && elem?.Rate === ele?.Rate && elem?.MaterialTypeName === ele?.MaterialTypeName);
             // if (findDiamonds === -1) {
@@ -333,10 +333,31 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         return labelA.localeCompare(labelB);
       }
     });
-   
 
-  diamonds.sort(compare);
-  colorStones.sort(compare);
+
+    diamonds.sort(compare);
+    colorStones.sort(compare);
+
+    miscs?.sort((a, b) => {
+      if (a.ShapeName < b.ShapeName) {
+        return -1;
+      } else if (a.ShapeName > b.ShapeName) {
+        return 1; 
+      } else {
+       return 0
+      }
+    })
+
+    otherCharges?.sort((a, b) => {
+      if (a.label < b.label) {
+        return -1;
+      } else if (a.label > b.label) {
+        return 1; 
+      } else {
+       return 0
+      }
+    })
+
     console.log(colorStones[1], colorStones[2]);
     setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
     setMainData({
@@ -375,7 +396,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       {/* buttons */}
       <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4">
         <div className="form-check">
-          <input type="button" className="btn_white blue" value="Print" style={{fontSize: "15px"}} onClick={(e) => handlePrint(e)} />
+          <input type="button" className="btn_white blue" value="Print" style={{ fontSize: "15px" }} onClick={(e) => handlePrint(e)} />
         </div>
       </div>
       {/* heading */}
@@ -535,7 +556,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           </div>}
           <div className="d-flex p-1 justify-content-between py-1 px-2">
             <p className='fw-bold'>Total Amount	 </p>
-            <p>{NumberWithCommas(datass?.mainTotal?.total_amount, 2)} </p>
+            <p className='fw-bold'>{NumberWithCommas(datass?.mainTotal?.total_amount, 2)} </p>
           </div>
           {
             datass?.allTaxes?.map((e, i) => {
