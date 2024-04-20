@@ -232,8 +232,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         // }
       })
       if(arr?.length === 1){
-        if(arr[0]?.IsHSCOE === 3 && arr[0]?.Rate === 0){
-            // arr = [];
+        if(arr[0]?.IsHSCOE === 3 && arr[0]?.Wt === 0 && arr[0]?.ServWt === 0 && arr[0]?.Rate === 0){
+            arr = [];
         }
         // else{
         //   arr = [];
