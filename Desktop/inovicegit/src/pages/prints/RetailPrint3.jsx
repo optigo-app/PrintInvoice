@@ -574,9 +574,8 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                             <p className='p-1 text-end fs_rp_2'>{el?.miscwt?.toFixed(3)}</p>
                                                         </td>
                                                         <td className={` border-end ${style?.rate}`}>
-                                                            {/* <p className='p-1 text-end fs_rp_2'>{ el?.miscamt === 0 ? '' : formatAmount((el?.miscamt / (el?.isRateOnPcs === 1 ? (el?.miscpcs === 0 ? 1 : el?.miscpcs ) : (el?.miscwt === 0 ? 1 : el?.miscwt))))}</p> */}
-                                                            {console.log(el?.miscamt/(e?.count), e?.count)}
-                                                            <p className='p-1 text-end fs_rp_2'>{ el?.miscamt === 0 ? '' : formatAmount((el?.miscamt/(e?.count ?? 1)))}</p>
+                                                            <p className='p-1 text-end fs_rp_2'>{ el?.miscamt === 0 ? '' : formatAmount((el?.miscamt / (el?.isRateOnPcs === 1 ? (el?.miscpcs === 0 ? 1 : el?.miscpcs ) : (el?.miscwt === 0 ? 1 : el?.miscwt))))}</p>
+                                                            {/* <p className='p-1 text-end fs_rp_2'>{ el?.miscamt === 0 ? '' : formatAmount((el?.miscamt/(e?.count ?? 1)))}</p> */}
                                                         </td>
                                                         <td className={`text-center border-end p-1 ${style?.amount}`}>
                                                             <p className='text-end fs_rp_2'>{el?.miscamt === 0 ? '' : formatAmount((el?.miscamt))}</p>

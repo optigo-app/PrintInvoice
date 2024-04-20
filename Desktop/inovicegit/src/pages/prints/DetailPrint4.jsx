@@ -786,8 +786,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       { (el?.IsHSCOE === 1 || el?.IsHSCOE === 2 || el?.IsHSCOE === 3) ? el?.servwt_cert?.toFixed(3) :  el?.mswt?.toFixed(3)}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
-                                      {console.log((el))}
-                                      { el?.ShapeName?.includes("Certification") ? formatAmount((el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert))) :  formatAmount(( el?.isRateOnPcs === 0 ? (el?.msamt / (el?.mswt === 0 ? 1 : el?.mswt)) : (el?.msamt / (el?.mspcs === 0 ? 1 : el?.mspcs))))}
+                                      { el?.ShapeName?.includes("Certification") ? formatAmount(( el?.isRateOnPcs === 0 ? (el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert)) : (el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert)))) :  formatAmount(( el?.isRateOnPcs === 0 ? (el?.msamt / (el?.mswt === 0 ? 1 : el?.mswt)) : (el?.msamt / (el?.mspcs === 0 ? 1 : el?.mspcs))))}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4 fw-bold">
                                       {formatAmount(el?.msamt)}
