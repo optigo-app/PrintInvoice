@@ -3,6 +3,7 @@ import style from "../../assets/css/prints/InvoicePrint9.module.css";
 import Loader from '../../components/Loader';
 import { ToWords } from "to-words";
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
+import style1 from "../../assets/css/headers/header1.module.css";
 import {
     HeaderComponent,
     NumberWithCommas,
@@ -14,6 +15,7 @@ import {
 } from "../../GlobalFunctions";
 import footer2 from "../../assets/css/footers/footer2.module.css";
 import { cloneDeep, replace } from 'lodash';
+import ImageComponent from '../../components/ImageComponent ';
 
 const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const toWords = new ToWords();
@@ -26,6 +28,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [data, setData] = useState({});
     const [documentDetail, setDocumentDetail] = useState([]);
     const [isImageWorking, setIsImageWorking] = useState(true);
+    const [logoStyle, setlogoStyle] = useState({ maxWidth: "120px", maxHeight: "95px", minHeight: "95px" });
     const handleImageErrors = () => {
         setIsImageWorking(false);
     };
@@ -143,7 +146,28 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* header */}
                 {headerCheck && <div className={`pb-5 mb-5 invoiceprint9Header `}>
-                    {header}
+                    {/* {header} */}
+                    <div className={`${style1.headline} headerTitle target_header`}>{headerData?.PrintHeadLabel}</div>
+                    <div className={`${style1.companyDetails} target_header`}>
+                        <div className={`${style1.companyhead} p-2`}>
+                            <div className={style1.lines} style={{ fontWeight: "bold" }}>
+                                {headerData?.CompanyFullName}
+                            </div>
+                            <div className={style1.lines}>{headerData?.CompanyAddress}</div>
+                            <div className={style1.lines}>{headerData?.CompanyAddress2}</div>
+                            <div className={style1.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+                            <div className={style1.lines}>T {headerData?.CompanyTellNo} | </div>
+                            <div className={style1.lines}>
+                                {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
+                            </div>
+                            <div className={style1.lines}>
+                                {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
+                            </div>
+                        </div>
+                        <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
+                            <ImageComponent imageUrl={headerData?.PrintLogo} styles={logoStyle} />
+                        </div>
+                    </div>
                 </div>}
                 {/* print heading */}
                 <div className='mt-5 pt-5'>
