@@ -26,9 +26,9 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [data, setData] = useState({});
     const [documentDetail, setDocumentDetail] = useState([]);
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+    const handleImageErrors = () => {
+        setIsImageWorking(false);
+    };
     const loadData = (data) => {
         let head = HeaderComponent("1", data?.BillPrint_Json[0]);
         let docs = data?.BillPrint_Json[0]?.DocumentDetail?.split("#@#");
@@ -50,8 +50,24 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setlabel(printArr);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         let resultArr = [];
+        let totalAmounts = 0;
         datas?.resultArray?.map((e, i) => {
             let obj = cloneDeep(e);
+            if ((e?.OtherCharges + e?.misc?.reduce((acc, cObj) => acc + cObj?.Amount, 0) + e?.totals?.diamonds?.SettingAmount +
+                e?.totals?.colorstone?.SettingAmount + e?.finding?.reduce((acc, cObj) => acc + cObj?.SettingAmount, 0) +
+                e?.TotalDiamondHandling) > 0 && (e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs > 0)) {
+                console.log("hello");
+                // totalAmounts += e?.OtherCharges +
+                //     e?.misc?.reduce((acc, cObj) => acc + cObj?.Amount, 0) +
+                //     e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount +
+                //     e?.TotalDiamondHandling + e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount +
+                //     e?.totals?.misc?.Amount+e?.finding?.reduce((acc, cObj) => acc + +cObj?.SettingAmount, 0);
+
+                totalAmounts += e?.OtherCharges + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount +
+                    e?.finding?.reduce((acc, cObj) => acc + cObj?.SettingAmount, 0) + e?.TotalDiamondHandling +
+                    + e?.totals?.misc?.Amount;
+            }
+            totalAmounts += e?.MetalAmount + e?.MakingAmount + e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount;
             let findGold = obj?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
             if (findGold !== undefined) {
                 obj.metalRate = findGold?.Rate;
@@ -62,17 +78,12 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         });
         datas.resultArray = resultArr;
         datas?.resultArray?.sort((a, b) => {
-
             var regex = /(\d+)|(\D+)/g;
             var partsA = a.SrJobno.match(regex);
             var partsB = b.SrJobno.match(regex);
-        
-            // Compare each part of the labels
             for (var i = 0; i < Math.min(partsA.length, partsB.length); i++) {
                 var partA = partsA[i];
                 var partB = partsB[i];
-        
-                // If both parts are numbers, compare numerically
                 if (!isNaN(partA) && !isNaN(partB)) {
                     var numA = parseInt(partA);
                     var numB = parseInt(partB);
@@ -80,7 +91,6 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         return numA - numB;
                     }
                 } else {
-                    // Otherwise, compare as strings
                     if (partA !== partB) {
                         return partA.localeCompare(partB);
                     }
@@ -88,6 +98,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
 
         });
+        datas.mainTotal.totalAmounts = totalAmounts
         console.log(datas);
         setData(datas);
     }
@@ -127,7 +138,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </label>
                     </div>
                     <div className="form-check ps-3">
-                        <input type="button" className="btn_white blue" value="Print" onClick={(e) => handlePrint(e)} />
+                        <input type="button" className="btn_white blue py-2" value="Print" onClick={(e) => handlePrint(e)} style={{ fontSize: "14px" }} />
                     </div>
                 </div>
                 {/* header */}
@@ -177,7 +188,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <p className='fw-bold col-6'>DRIVING LICENCE	</p>
                             <p className='col-6'> </p>
                         </div>
-                     
+
                         <div className="d-flex">
                             <p className='fw-bold col-6'>MOBILE</p>
                             <p className='col-6'>   {headerData?.customermobileno} [{headerData?.customercountry}]  </p>
@@ -187,7 +198,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* table header */}
                 <div className="d-flex border py-1 mt-1">
                     <div className={`${style?.Image} px-1`}><p className={`${style?.font_15} fw-bold `}>Image	</p></div>
-                    <div className={`${style?.SNo} px-1`}><p className={`${style?.font_15} fw-bold `}>S.No	</p></div>
+                    <div className={`${style?.SNo} px-1`}><p className={`${style?.font_15} fw-bold text-center`}>S.No	</p></div>
                     <div className={`${style?.Description} px-1`}><p className={`${style?.font_15} fw-bold `}>Description	</p></div>
                     <div className={`${style?.HSN} px-1`}><p className={`${style?.font_15} fw-bold `}>HSN	</p></div>
                     <div className={`${style?.Pcs} px-1`}><p className={`${style?.font_15} fw-bold  text-end`}>Pcs	</p></div>
@@ -207,9 +218,10 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <img src={e?.DesignImage} alt="" className='imgWidth' onError={handleImageError} />
                                 <p className='fw-bold'>HUID:{e?.HUID}</p>
                             </div>
-                            <div className={`${style?.SNo} px-1 border-end`}><p className={`fw-bold ${style?.font_13}`}>{NumberWithCommas(i + 1, 0)}</p></div>
+                            <div className={`${style?.SNo} px-1 border-end`}><p className={`${style?.font_13} text-center`}>{NumberWithCommas(i + 1, 0)}</p></div>
                             <div className={`${style?.Description} px-1`}>
-                                <p className={`fw-bold ${style?.font_13}`}>{e?.SubCategoryname}-{e?.MetalPurity}</p>
+                                <p className={`fw-bold pb-1 ${style?.font_13}`}>{e?.SubCategoryname}-{e?.MetalPurity}</p>
+                                <p className=' '>{e?.CertificateNo}</p>
                                 {e?.diamonds?.map((ele, ind) => {
                                     return <p className={`pt-1 ${style?.font_13}`} key={ind}>DIAMONDS  {ele?.Colorname} {ele?.QualityName} {ele?.ShapeName} </p>
                                 })}
@@ -221,7 +233,10 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         return ele?.ShapeName?.toLowerCase()?.includes("certification_") && <p className={`pt-1 ${style?.font_13}`} key={ind}>{ele?.ShapeName?.replaceAll("Certification_", "")} </p>
                                     })
                                 } */}
-                                {e?.diamonds?.length + e?.colorstone?.length > 0 && <p className={`pt-1 ${style?.font_13}`}> OTHER </p>}
+                                {((e?.OtherCharges +
+                                    e?.misc?.reduce((acc, cObj) => acc + cObj?.Amount, 0) +
+                                    e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount +
+                                    e?.finding?.reduce((acc, cObj) => acc + cObj?.SettingAmount, 0) + e?.TotalDiamondHandling) > 0 && e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs > 0) && <p className={`pt-1 ${style?.font_13}`}> OTHER </p>}
                             </div>
                             <div className={`${style?.HSN} px-1`}><p className={`fw-bold ${style?.font_13}`}>85213</p></div>
                             <div className={`${style?.Pcs} px-1`}>
@@ -263,10 +278,15 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 {e?.colorstone?.map((ele, ind) => {
                                     return <p className={`pt-1 text-end ${style?.font_13}`} key={ind}> {NumberWithCommas(ele?.Amount, 2)}  </p>
                                 })}
-                                {e?.diamonds?.length + e?.colorstone?.length > 0 && <p className={`pt-1 text-end ${style?.font_13}`}> {NumberWithCommas(e?.OtherCharges +
+                                {((e?.OtherCharges +
                                     e?.misc?.reduce((acc, cObj) => acc + cObj?.Amount, 0) +
                                     e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount +
-                                    e?.finding?.reduce((acc, cObj) => acc + cObj?.SettingAmount, 0) + e?.TotalDiamondHandling, 2)} </p>}
+                                    e?.finding?.reduce((acc, cObj) => acc + cObj?.SettingAmount, 0) + e?.TotalDiamondHandling) > 0 && e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs > 0) > 0 &&
+                                    <p className={`pt-1 text-end ${style?.font_13}`}>
+                                        {NumberWithCommas(e?.OtherCharges +
+                                            e?.misc?.reduce((acc, cObj) => acc + cObj?.Amount, 0) +
+                                            e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount +
+                                            e?.finding?.reduce((acc, cObj) => acc + cObj?.SettingAmount, 0) + e?.TotalDiamondHandling, 2)} </p>}
                             </div>
                         </div>
                     })
@@ -288,7 +308,10 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                     <div className={`${style?.VA} px-1`}><p className="fw-bold text-end"></p></div>
                     <div className={`${style?.Amount} px-1`}>
-                        <p className={`fw-bold text-end ${style?.font_15}`}>{NumberWithCommas(data?.mainTotal?.total_amount, 2)} </p>
+                        <p className={`fw-bold text-end ${style?.font_15}`}>
+                            {/* {NumberWithCommas(data?.mainTotal?.total_amount, 2)}  */}
+                            {NumberWithCommas(data?.mainTotal?.totalAmounts, 2)}
+                        </p>
                     </div>
                 </div>
                 {/* table taxes */}
