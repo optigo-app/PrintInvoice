@@ -84,7 +84,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
             msg === '' ? 
             <>
             <div className='container_jts'>
-                <div className='mb-5 pb-5 d-flex justify-content-end align-items-center mt-5 pt-5'><Button /></div>
+                <div className='mb-5 pb-5 d-flex justify-content-end align-items-center mt-5 pt-5 d_none_jts'><Button /></div>
                 <div className='d-flex justify-content-between align-items-center p-1'>
                     <div className='fs_jts'>                        
                         <div className='fs2_jts fw-bold py-2'>{result?.header?.CompanyFullName}</div>
@@ -131,7 +131,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                     <div className='tbody_jts'>      
                         {
                             result?.resultArray?.map((e, i) => {
-                                return <div className='d-flex w-100 brl_jts brr_jts brb_jts fs_jts' key={i}>
+                                return <div className='d-flex w-100 brl_jts brr_jts brb_jts fs_jts pbia_jts' key={i}>
                                 <div className='col1_jts  d-flex align-items-start justify-content-center brr_jts p-1'>{i+1}</div>
                                 <div className='col2_jts start_jts p-1 brr_jts d-flex flex-column align-items-start text-break'>	
                                     <div className='text-break lh_jts'>Job: {e?.SrJobno}</div>
@@ -151,7 +151,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                         <div className='col4_jts end_jts pe-1'><span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span> {formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))}</div>
                     </div>
                 </div>
-                <div className='brall_jts border-top-0 d-flex'>
+                <div className='brall_jts border-top-0 d-flex pbia_jts'>
                     <div className='w33_jts p-1 fs_jts brr_jts'><div className='fw-bold text-decoration-underline'>REMARKS:</div><div>{result?.header?.PrintRemark}</div></div>
                     <div className='w33_jts p-1 fs_jts brr_jts'>
                         {
@@ -182,17 +182,17 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                         </div>
                     </div>
                 </div>
-                <div className='thead_jts'>
+                <div className='thead_jts pbia_jts'>
                     <div className='col1_jts center_jts brr_jts'></div>
                     <div className='col2_jts start_jts brr_jts ps-1'></div>
                     <div className='col3_jts end_jts brr_jts' style={{paddingRight:'12.5%'}}>GRAND TOTAL</div>
                     <div className='col4_jts end_jts pe-1'><span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span> {formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))}</div>
                 </div>
                 <div className='static_jts py-2'>**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
-                <div className='brall_jts dec_jts p-2'>
+                <div className='brall_jts dec_jts p-2 pbia_jts'>
                     <div dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
                 </div>
-                <div className='d-flex fs_jts brall_jts border-top-0'>
+                <div className='d-flex fs_jts brall_jts border-top-0 pbia_jts'>
                     <div className='w33_jts p-1 brr_jts'>
                         <div className='fw-bold'>Bank Detail </div>
                         <div>Bank Name: {result?.header?.bankname}</div>
