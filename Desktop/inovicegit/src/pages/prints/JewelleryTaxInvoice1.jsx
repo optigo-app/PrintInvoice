@@ -69,13 +69,42 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
         loader ? <Loader /> : <>
         {
             msg === '' ? <>
-                <div className='container_jtip1'>
+            <div className='container_jtip1'>
                 <div className='mb-5 pb-5 d-flex justify-content-end align-items-center mt-5 pt-5 d_none_jti2'><Button /></div>
                 <div className='d-flex justify-content-between align-items-center'>
-                    <div><img src="" alt="#headerlogo" /></div>
-                    <div></div>
+                    <div>{isImageWorking && (result?.header?.PrintLogo !== "" && 
+                      <img src={result?.header?.PrintLogo} alt="" 
+                      className='w-100 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
+                    </div>
+                    <div className='fs_jtip1'>          
+                        <div>{result?.header?.CompanyFullName}</div>
+                        <div>{result?.header?.CompanyAddress}</div>
+                        <div>{result?.header?.CompanyAddress2}</div>
+                        <div>{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode}, {result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
+                        <div>T {result?.header?.CompanyTellNo}</div>
+                        <div>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
+                        <div>{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE} - {result?.header?.Company_CST_STATE_No} | PAN - {result?.header?.Com_pannumber}</div>
+                    </div>
                 </div>
+                <div>
+                    <div>
+To,
+Prashant Rajput pvt ltd
+Karawan naka
+Near Nimazari naka
+Near engineering collage, market main road,
+Shirpur - 425405
+Tel : 951-021-3588
+darren@orail.co.in
+STATE NAME : Maharashtra,STATE CODE-GS
+                    </div>
+                    <div>
+                        Invoice#: SK19082022 Dated 20 Apr 2024
+                        Due Date: 30 Apr 2024
+                    </div>
                 </div>
+            </div>
             </> : <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
             {msg}
           </p>
