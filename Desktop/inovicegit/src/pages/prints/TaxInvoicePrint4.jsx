@@ -428,7 +428,7 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
           style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
         >
           <div className={`${footerStyle.linesf3} fw-normal`}><span className="fw-bold">Sales Person Name :</span> {headerData?.SalPerName}</div>
-          <div className={`${footerStyle.linesf3} fw-normal d-flex`}><span className="fw-bold pe-2">Transaction Id:</span> <div dangerouslySetInnerHTML={{ __html: headerData?.TransactionId }}></div></div>
+          <div className={`${footerStyle.linesf3} fw-normal `}><span className="fw-bold pe-2">Transaction Id:</span> <span dangerouslySetInnerHTML={{ __html: headerData?.TransactionId }}></span></div>
         </div>
         <div
           className={footerStyle.block2f3}

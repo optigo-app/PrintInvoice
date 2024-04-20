@@ -62,20 +62,32 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         });
         datas.resultArray = resultArr;
         datas?.resultArray?.sort((a, b) => {
-            // Extract the names to compare
-            const nameA = a.SrJobno.toLowerCase(); // Convert to lowercase for case-insensitive comparison
-            const nameB = b.SrJobno.toLowerCase();
 
-            // Compare the names
-            if (nameA < nameB) {
-                return -1;
+            var regex = /(\d+)|(\D+)/g;
+            var partsA = a.SrJobno.match(regex);
+            var partsB = b.SrJobno.match(regex);
+        
+            // Compare each part of the labels
+            for (var i = 0; i < Math.min(partsA.length, partsB.length); i++) {
+                var partA = partsA[i];
+                var partB = partsB[i];
+        
+                // If both parts are numbers, compare numerically
+                if (!isNaN(partA) && !isNaN(partB)) {
+                    var numA = parseInt(partA);
+                    var numB = parseInt(partB);
+                    if (numA !== numB) {
+                        return numA - numB;
+                    }
+                } else {
+                    // Otherwise, compare as strings
+                    if (partA !== partB) {
+                        return partA.localeCompare(partB);
+                    }
+                }
             }
-            if (nameA > nameB) {
-                return 1;
-            }
-            return 0;
 
-        })
+        });
         console.log(datas);
         setData(datas);
     }

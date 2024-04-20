@@ -49,8 +49,10 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let resultArray = [];
         datas?.resultArray?.map((e, i) => {
             let obj = cloneDeep(e);
+            let RMwt = 0;
             let diamonds = [];
             obj?.diamonds?.forEach((ele, ind) => {
+                RMwt += ele?.RMwt;
                 let findDiamond = diamonds?.findIndex((elem, index) => elem?.QualityName === ele?.QualityName);
                 if (findDiamond === -1) {
                     diamonds.push(ele);
@@ -61,6 +63,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 }
             });
             obj.quaDia = diamonds;
+            obj.RMwt = RMwt;
             resultArray.push(obj);
         });
         datas.resultArray = resultArray;
@@ -262,7 +265,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`d-flex justify-content-center align-items-center ${style?.DiaQuality} border-end`}><p className='p-1 text-center'></p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.DiaColor} border-end`}><p className='p-1 text-center'></p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.DiaPcs} border-end`}><p className='p-1 text-center'>	</p></div>
-                    <div className={`d-flex justify-content-center align-items-center ${style?.DiaWt} border-end`}><p className='p-1 text-center fw-bold'>{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)}</p></div>
+                    <div className={`d-flex justify-content-center align-items-center ${style?.DiaWt} border-end`}><p className='p-1 text-center fw-bold'>{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 2)}</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.MRP} border-end`}><p className='p-1 text-center fw-bold'>{NumberWithCommas(data?.mainTotal?.total_unitcost, 2)}</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.discountPer} border-end`}><p className='p-1 text-center fw-bold'>{NumberWithCommas(data?.mainTotal?.total_discount, 2)}</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.DisAmt} border-end`}><p className='p-1 text-center fw-bold'>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p></div>

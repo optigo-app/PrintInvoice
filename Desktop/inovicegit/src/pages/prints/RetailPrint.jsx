@@ -432,11 +432,11 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let taxValue = taxGenrator(data?.BillPrint_Json[0], totalObj.totalAmount);
         setTaxes(taxValue);
         taxValue.forEach((e, i) => {
-            totalObj.grandTotal += +(e?.amount);
+            totalObj.grandTotal += +(e?.amount / data?.BillPrint_Json[0]?.CurrencyExchRate)?.toFixed(2);
         });
-        totalObj.grandTotal += totalObj.totalAmount + totalObj.addLess;
+        totalObj.grandTotal += (totalObj.totalAmount/ data?.BillPrint_Json[0]?.CurrencyExchRate) + (totalObj.addLess/ data?.BillPrint_Json[0]?.CurrencyExchRate);
         totalObj.totalAmount = (totalObj.totalAmount).toFixed(2);
-        totalObj.textInNumbers = toWords.convert(totalObj.grandTotal);
+        // totalObj.textInNumbers = toWords.convert(+(fixedValues(total?.grandTotal, 2)));
         let resulArr = [];
 
         blankArr?.forEach((e, i) => {
@@ -555,7 +555,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className='ft_12_retailPrint'>{jsonData1?.CompanyCity} {jsonData1?.CompanyPinCode} {jsonData1?.CompanyState} {jsonData1?.CompanyCountry}</p>
                         <p className='ft_12_retailPrint'>T {jsonData1?.CompanyTellNo} | TOLL FREE {jsonData1?.CompanyTollFreeNo}</p>
                         <p className='ft_12_retailPrint'>{jsonData1?.CompanyEmail} | {jsonData1?.CompanyWebsite}</p>
-                        <p className='ft_12_retailPrint'>{jsonData1?.Company_VAT_GST_No} | {jsonData1?.Cust_CST_STATE} - {jsonData1?.Company_CST_STATE_No} | PAN-{jsonData1?.Pannumber}</p>
+                        <p className='ft_12_retailPrint'>{jsonData1?.Company_VAT_GST_No} | {jsonData1?.Company_CST_STATE} - {jsonData1?.Company_CST_STATE_No} | PAN-{jsonData1?.Pannumber}</p>
                     </div>
                     <div className="col-6">
                         {/* <img src={jsonData1?.PrintLogo} alt="" className='retailPrintLogo d-block ms-auto' /> */}
@@ -576,7 +576,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.customercity}{jsonData1?.customerpincode}</p>
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.customeremail1}</p>
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.vat_cst_pan}</p>
-                        <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.Cust_CST_STATE} {jsonData1?.Cust_CST_STATE_No}</p>
+                        <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.Cust_CST_STATE}-{jsonData1?.Cust_CST_STATE_No}</p>
                     </div>
                     <div className="col-4 p-1 border-end">
                         <p className='line_height_110 ft_12_retailPrint'>Ship To, </p>
@@ -649,12 +649,12 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* data */}
                 {dataFill.map((e, i) => {
-                    return <div className="d-flex border-bottom border-start border-end no_break ft_12_retailPrint" key={i}>
-                        <div className="srNoRetailPrint border-end p-1 d-flex justify-content-center align-items-center">
+                    return <div className="d-flex border-start border-end no_break ft_12_retailPrint" key={i}>
+                        <div className="srNoRetailPrint border-end p-1 d-flex justify-content-center align-items-center border-bottom ">
                             <p className='fw-bold'>{NumberWithCommas(i + 1, 0)}</p>
                         </div>
-                        <div className="poductDiscriptionRetailPrint border-end p-1">
-                            <p>{e?.SubCategoryname} {e?.Categoryname} </p>
+                        <div className="poductDiscriptionRetailPrint border-end p-1 border-bottom ">
+                            <p style={{wordBreak: "normal"}}>{e?.SubCategoryname} {e?.Categoryname} </p>
                             <p>{e?.designno} | {e?.SrJobno}</p>
                             <img src={e?.DesignImage} alt="" className='w-100 product_image_retailPrint' onError={handleImageError} />
                             <p className='text-center fw-bold pt-1 ft_13_retailPrint'>Tunch: {NumberWithCommas(e?.Tunch, 3)}</p>
@@ -749,7 +749,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <p className='text-end'>{NumberWithCommas(ele?.Pcs, 0)}</p>
                                             </div>
                                             <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{NumberWithCommas(ele?.IsHSCODE === 0 ? ele?.Wt : ele?.ServWt, 3)}</p>
+                                                <p className='text-end'>{NumberWithCommas(ele?.Wt +ele?.ServWt, 3)}</p>
                                             </div>
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
                                                 {/* <p className='text-end'>{(ele?.IsHSCODE === 0 ? (ele?.Wt !== 0 ? NumberWithCommas((ele?.Amount / ele?.Wt), 2) : "0.00") : (ele?.ServWt !== 0 ? NumberWithCommas((ele?.Amount / ele?.ServWt), 2) : "0.00"))}</p> */}
@@ -785,16 +785,16 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 })} */}
                             </div>
                         </div>
-                        <div className={`makingRetailPrint border-end p-1 d-flex ${pName === "retail print 1" ? `flex-column align-items-end justify-content-center` : `align-items-center justify-content-end `}`}>
+                        <div className={`makingRetailPrint border-end border-bottom  p-1 d-flex ${pName === "retail print 1" ? `flex-column align-items-end justify-content-center` : `align-items-center justify-content-end `}`}>
                             {pName === "retail print 1" && <p className='text-end'><span className="fw-bold">R: </span>{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p>}
                             <p className='text-end'>{NumberWithCommas((e?.MakingAmount + e?.SettingAmount) / jsonData1?.CurrencyExchRate, 2)}</p>
 
                         </div>
-                        <div className="othersRetailPrint border-end p-1 d-flex align-items-center justify-content-end">
+                        <div className="othersRetailPrint border-end p-1 border-bottom  d-flex align-items-center justify-content-end">
                             <p className='text-end'>{NumberWithCommas((e?.OtherCharges + e?.TotalDiamondHandling) / jsonData1?.CurrencyExchRate, 2)}</p>
                         </div>
-                        <div className="totalRetailPrint p-1 d-flex align-items-center justify-content-end">
-                            <p className='text-end'>{NumberWithCommas(e?.TotalAmount, 2)}</p>
+                        <div className="totalRetailPrint border-bottom p-1 d-flex align-items-center justify-content-end">
+                            <p className='text-end'>{NumberWithCommas(e?.TotalAmount / jsonData1?.CurrencyExchRate, 2)}</p>
                         </div>
                     </div>
                 })}
@@ -839,14 +839,14 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className='fw-bold text-end'>{NumberWithCommas(total?.others / jsonData1?.CurrencyExchRate, 2)}</p>
                     </div>
                     <div className="totalRetailPrint p-1 d-flex align-items-center justify-content-end ft_12_retailPrint">
-                        <p className='fw-bold text-end'>{NumberWithCommas(total?.totalAmount, 2)}</p>
+                        <p className='fw-bold text-end'>{NumberWithCommas(total?.totalAmount / jsonData1?.CurrencyExchRate, 2)}</p>
                     </div>
                 </div>
                 {/* grand total */}
                 <div className="d-flex border-start border-end border-bottom no_break">
                     {/* <div className="totalInWordsRetailPrint p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end"> */}
                     <div className="col-8 p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end">
-                        <p className='ft_12_retailPrint'>In Words Indian Rupees</p>
+                        <p className='ft_12_retailPrint'>In Words {jsonData1?.Currencyname}</p>
                         <p className='fw-bold ft_12_retailPrint'>{total?.textInNumbers} Only</p>
                     </div>
                     {/* <div className="cgstRetailPrint p-1 text-end p-1 border-end"> */}
@@ -860,9 +860,9 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {/* <div className="totalRetailPrint p-1 text-end p-1"> */}
                     <div className="col-2  py-1 text-end ft_12_retailPrint">
                         {taxes.length > 0 && taxes.map((e, i) => {
-                            return <p key={i} className='pb-1 px-1'>{NumberWithCommas(+e?.amount, 2)}</p>
+                            return <p key={i} className='pb-1 px-1'>{NumberWithCommas(+e?.amount / jsonData1?.CurrencyExchRate, 2)}</p>
                         })}
-                        <p className='ft_12_retailPrint px-1'>{total?.addLess}</p>
+                        <p className='ft_12_retailPrint px-1'>{NumberWithCommas(total?.addLess / jsonData1?.CurrencyExchRate, 2)}</p>
                         <p className='fw-bold py-1 border-top ft_12_retailPrint px-1'>₹{NumberWithCommas(total?.grandTotal, 2)}</p>
                     </div>
                 </div>
