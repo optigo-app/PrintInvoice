@@ -338,6 +338,32 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
         console.log(colorStones[1], colorStones[2]);
         setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
+
+        resultArr?.sort((a, b) => {
+            var regex = /(\d+)|(\D+)/g;
+            var partsA = a.MetalTypePurity.match(regex);
+            var partsB = b.MetalTypePurity.match(regex);
+
+            for (var i = 0; i < Math.min(partsA.length, partsB.length); i++) {
+                var partA = partsA[i];
+                var partB = partsB[i];
+
+                if (!isNaN(partA) && !isNaN(partB)) {
+                    var numA = parseInt(partA);
+                    var numB = parseInt(partB);
+                    if (numA !== numB) {
+                        return numA - numB;
+                    }
+                } else {
+                    if (partA !== partB) {
+                        return partA.localeCompare(partB);
+                    }
+                }
+            }
+
+            return a.MetalTypePurity.length - b.MetalTypePurity.length;
+
+        })
         setMainData({
             ...mainData, resultArr: resultArr, findings: findings, diamonds: diamonds, colorStones: colorStones,
             miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling
@@ -377,7 +403,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             {/* buttons */}
             <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`} >
                 <div className="form-check ps-3">
-                    <input type="button" className="btn_white blue py-1 mt-2" value="Print" onClick={(e) => handlePrint(e)} style={{fontSize: "15px"}}/>
+                    <input type="button" className="btn_white blue py-1 mt-2" value="Print" onClick={(e) => handlePrint(e)} style={{ fontSize: "15px" }} />
                 </div>
             </div>
             {/* header */}
@@ -549,7 +575,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                     {mainData?.otherCharges?.map((e, i) => {
                         return <div className="d-flex no_break" key={i}>
-                            <div className="col-4 px-1">{e?.label} </div>
+                            <div className="col-4 px-1 text-uppercase">{e?.label} </div>
                             <div className="col-8 d-flex">
                                 <div className="col-4 px-1 text-end"></div>
                                 <div className="col-4 px-1 text-end">  </div>
