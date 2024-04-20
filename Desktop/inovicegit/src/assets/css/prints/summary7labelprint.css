@@ -1,7 +1,8 @@
 .container_s7lp{
     max-width: 352px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     margin-top: 3rem;
+    margin-left: 2rem;
     width: 100%;
     padding-bottom: 60px;
 }

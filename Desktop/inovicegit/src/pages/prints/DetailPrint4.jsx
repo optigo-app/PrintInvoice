@@ -233,7 +233,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       })
       if(arr?.length === 1){
         if(arr[0]?.IsHSCOE === 3 && arr[0]?.Rate === 0){
-            arr = [];
+            // arr = [];
         }
         // else{
         //   arr = [];
@@ -288,11 +288,11 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
         finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
         // finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
-        finalArr[find_record].diamonds = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
+        finalArr[find_record].diamonds = [...finalArr[find_record]?.diamonds, ...b?.diamonds]?.flat();
         // finalArr[find_record].colorstone_d = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
-        finalArr[find_record].colorstone = [...finalArr[find_record]?.colorstone ,...b?.colorstone]?.flat();
+        finalArr[find_record].colorstone = [...finalArr[find_record]?.colorstone, ...b?.colorstone]?.flat();
         // finalArr[find_record].metal_d = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
-        finalArr[find_record].metal = [...finalArr[find_record]?.metal ,...b?.metal]?.flat();
+        finalArr[find_record].metal = [...finalArr[find_record]?.metal, ...b?.metal]?.flat();
         finalArr[find_record].misc = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
         finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
         finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
@@ -380,7 +380,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       let miscarr = [];
       e?.misc?.forEach((e) => {
-        let findrec = miscarr?.findIndex((a) => a?.ShapeName === e?.ShapeName && a?.QualityName === e?.QualityName && a?.Colorname === e?.Colorname)
+        let findrec = miscarr?.findIndex((a) => a?.ShapeName === e?.ShapeName && a?.QualityName === e?.QualityName && a?.Colorname === e?.Colorname && a?.isRateOnPcs === e?.isRateOnPcs)
         if(findrec === -1){
           let obj = {...e};
           obj.msamt = e?.Amount;
@@ -474,6 +474,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setImgFlag(true);
     }
   };
+  console.log(result);
   return (
     <>
       {loader ? (
@@ -705,8 +706,9 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             
                             <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{(((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)?.toFixed(3)}</div>
                             {/* <div className="dia_col_w_dp4 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
-                            {/* <div className="dia_col_w_dp4 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
-                            <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
+                            <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}</div>
+                            {/* <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{(e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3)}</div> */}
+                            {/* <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{(el?.Wt)?.toFixed(3)}</div> */}
                             <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center ">{formatAmount((el?.metamt / (e?.NetWt === 0 ? 1 : e?.NetWt)))}</div>
                             <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center fw-bold">{formatAmount(el?.metamt)}</div>
                           </div> : ''
@@ -784,7 +786,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       { (el?.IsHSCOE === 1 || el?.IsHSCOE === 2 || el?.IsHSCOE === 3) ? el?.servwt_cert?.toFixed(3) :  el?.mswt?.toFixed(3)}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4">
-                                      { el?.ShapeName?.includes("Certification") ? formatAmount((el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert))) :  formatAmount((el?.msamt / (el?.mswt === 0 ? 1 : el?.mswt)))}
+                                      {console.log((el))}
+                                      { el?.ShapeName?.includes("Certification") ? formatAmount((el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert))) :  formatAmount(( el?.isRateOnPcs === 0 ? (el?.msamt / (el?.mswt === 0 ? 1 : el?.mswt)) : (el?.msamt / (el?.mspcs === 0 ? 1 : el?.mspcs))))}
                                     </div>
                                     <div className="dia_col_w_dp4 end_dp4 fw-bold">
                                       {formatAmount(el?.msamt)}
@@ -863,12 +866,12 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {(((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)?.toFixed(3)}
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4">
-                                  {e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}
+                                  {( (e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}
                                 </div>
-                                <div className="dia_col_w_dp4 end_dp4">
-                                  {/* {formatAmount(e?.totals?.metal?.Rate)} */}
-                                </div>
-                                <div className="dia_col_w_dp4 end_dp4">
+                                {/* <div className="dia_col_w_dp4 end_dp4">
+                                  
+                                </div> */}
+                                <div className="dia_col_w_dp4 end_dp4" style={{width:'40%'}}>
                                   {formatAmount(e?.totals?.metal?.IsPrimaryMetal_Amount)}
                                 </div>
                               </div>
@@ -883,10 +886,10 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   {/* { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)} */}
                                   {/* { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)} */}
                                   {/* { (e?.totals?.colorstone?.Pcs + ( e?.misc?.length > 0 && e?.totals?.misc?.withouthscode1_2_pcs + e?.totals?.misc?.onlyHSCODE3_pcs)) === 0 ? '' :  (e?.totals?.colorstone?.Pcs + (e?.misc?.length > 0 &&  e?.totals?.misc?.withouthscode1_2_pcs + e?.totals?.misc?.onlyHSCODE3_pcs))} */}
-                                  { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs) }
+                                  { ((e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs) === 0 ? '' : (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.withouthscode1_2_pcs)) }
                                 </div>
                                 <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
-                                  { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt )?.toFixed(3) }
+                                  { ( (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt)?.toFixed(3) ) }
                                   {/* { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.withouthscode1_2_wt)?.toFixed(3)} */}
                                   {/* { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.misc?.allservwt) === 0 ? '' : (e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.misc?.allservwt)?.toFixed(3)} */}
                                 </div>
