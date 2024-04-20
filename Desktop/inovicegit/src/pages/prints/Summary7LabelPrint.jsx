@@ -151,7 +151,7 @@ console.log(result);
                             <div className='w-75'>
                             <div className='d-flex w-100 fw-bold' >
                                 <div className='w-50 d-flex justify-content-end align-items-center'>Final Amount:</div>
-                                <div className='w-50 d-flex justify-content-end align-items-center'>{formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal))}</div>
+                                <div className='w-50 d-flex justify-content-end align-items-center'>Rs. {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</div>
                             </div>
                             <div className='d-flex w-100 ' >
                                 <div className='w-50 d-flex justify-content-end align-items-center'>Cash:</div>
