@@ -48,6 +48,7 @@ export const printConditions = [
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
   {printName: 'jewellery retail invoice c', etpType: 'print', componentName: 'JewelleryRetailInvoicePrintc'},
   {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
+  {printName: 'jewellery tax invoice 2', etpType: 'print', componentName: 'JewelleryTaxInvoice2'},
   {printName: 'jewellery tax summary', etpType: 'print', componentName: 'JewelleryTaxSummary'},
   {printName: 'Labour Bill', etpType: 'print', componentName: 'JewelleryInvoicePrint'},
   {printName: 'labour bill', etpType: 'print', componentName: 'JewelleryInvoicePrint'},
