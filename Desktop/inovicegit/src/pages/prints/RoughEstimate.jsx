@@ -350,11 +350,18 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             finalArr[findrec].UnitCost += obj?.UnitCost;
             finalArr[findrec].OtherCharges += obj?.OtherCharges;
             finalArr[findrec].Quantity += obj?.Quantity;
+            finalArr[findrec].TotalDiamondHandling += obj?.TotalDiamondHandling;
           }
       })
       datas.resultArray = finalArr;
 
       datas.resultArray.sort((a, b) => a?.Collectionname - b?.Collectionname);
+      let totpkg = 0;
+      datas?.resultArray?.forEach((a) => {
+        totpkg += a?.PackageWt;
+      })
+      setTotalPKG(totpkg)
+
       setResult(datas);
       // countCategorySubCategory(data?.BillPrint_Json1);
       setLoader(false);
@@ -404,7 +411,7 @@ console.log(result);
         <>
           {msg === "" ? (
             <>
-              <div className="container_pcl pad_60_allPrint">
+              <div className="container_reg pad_60_allPrint">
                 <div className="btnpclRE">
                   <Button />
                 </div>
@@ -421,38 +428,24 @@ console.log(result);
                   <div className="d-flex flex-column">
                     <div className="d-flex">
                       <div className="headerAddRE">To,</div>
-                      <div className="headerAddRE fw-bold">
-                        {result?.header?.customerfirmname}
-                      </div>
+                      <div className="headerAddRE fw-bold"> {result?.header?.customerfirmname} </div>
                     </div>
                     <div className="d-flex">
-                      <div className="headerAddRE">{result?.header?.customercity} :</div>{" "}
-                      <div className="headerAddRE">{result?.header?.PinCode}</div>
+                      <div className="headerAddRE">{result?.header?.customercity} :</div>{" "} <div className="headerAddRE">{result?.header?.PinCode}</div> </div>
+                    <div className="d-flex">
+                      <div className="headerAddRE">GSTIn :</div>{" "} <div className="headerAddRE fw-bold"> {result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.Cust_VAT_GST_No} </div>
                     </div>
                     <div className="d-flex">
-                      <div className="headerAddRE">GSTIn :</div>{" "}
-                      <div className="headerAddRE fw-bold">
-                        {result?.header?.CustGstNo}
-                      </div>
-                    </div>
-                    <div className="d-flex">
-                      <div className="headerAddRE">Bill No :</div>{" "}
-                      <div className="headerAddRE fw-bold">
-                        {result?.header?.InvoiceNo}
-                      </div>
+                      <div className="headerAddRE">Bill No :</div>{" "} <div className="headerAddRE fw-bold"> {result?.header?.InvoiceNo} </div>
                     </div>
                     <div className="d-flex">
                       <div className="headerAddRE">Date :</div>{" "}
-                      <div className="headerAddRE fw-bold">
-                        {result?.header?.EntryDate}
-                      </div>
+                      <div className="headerAddRE fw-bold"> {result?.header?.EntryDate} </div>
                     </div>
                   </div>
                   <div className="rateREflex">
                     <div className="rateRE"> 24K RATE : </div>
-                    <div className="rateRE fw-bold">
-                      {result?.header?.MetalRate24K?.toFixed(2)}
-                    </div>
+                    <div className="rateRE fw-bold"> {result?.header?.MetalRate24K?.toFixed(2)} </div>
                   </div>
                 </div>
                 <div className="tableRE">
@@ -489,15 +482,15 @@ console.log(result);
                         <div className="d-flex qtdRE">
                           <p className="fs-3">
                             {/* {e?.MetalPriceRatio?.toFixed(3)} Purity */}
-                            {e?.Tunch?.toFixed(3)} Purity
+                            {(e?.Tunch - e?.Wastage)?.toFixed(3)} Purity
                           </p>
                           {e?.Wastage === 0 ? (
                             ""
                           ) : (
                             <p className="fs-3">W: {e?.Wastage?.toFixed(3)}</p>
                           )}
-                          <p className="fs-3">{e?.Collectionname}</p>
-                          <p className="fs-3 fw-bold">{e?.Categoryname}</p>
+                          <p className="fs-3 text-break">{e?.Collectionname}</p>
+                          <p className="fs-3 fw-bold text-break">{e?.Categoryname}</p>
                         </div>
                         <div className="d-flex r1RE">
                           <p className="c1RE brbRE fs-3 d-flex justify-content-end">
@@ -530,7 +523,7 @@ console.log(result);
                           </p>
                           <p className="c1RE brbRE endRE fs-3">
                             {/* {NumberWithCommas(e?.OtherAmount, 2)} */}
-                            {formatAmount(e?.OtherCharges)}
+                            {formatAmount(e?.OtherCharges + e?.TotalDiamondHandling)}
                           </p>{" "}
                           <p className="c1RE fw-bold endRE fs-3">
                             {/* {NumberWithCommas(e?.TotalAmount, 2)} */}
@@ -579,7 +572,8 @@ console.log(result);
                       <p className="c1RE brbRE endRE fs-3">
                         {/* {NumberWithCommas(mainTotal.totallabourAmount, 2)} */}
                         {formatAmount(((
-                          (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate)
+                          // ((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))/(result?.header?.CurrencyExchRate)
+                          ((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))
                           )))}
                       </p>
                       <p className="c1RE brbRE endRE fs-3">
@@ -588,7 +582,8 @@ console.log(result);
                       </p>
                       <p className="c1RE fw-bold endRE fs-3">
                         {/* {NumberWithCommas(totalUnitCost, 2)} */}
-                        {formatAmount(result?.mainTotal?.total_amount)}
+                        {/* {formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))} */}
+                        {formatAmount((result?.mainTotal?.total_amount))}
                       </p>
                     </div>
                   </div>
@@ -608,7 +603,7 @@ console.log(result);
                               </div>
                               <div className="d-flex justify-content-end w-50 fs-3">
                                 
-                                {formatAmount(e?.amount)}
+                                {formatAmount((e?.amount * result?.header?.CurrencyExchRate))}
                               </div>
                             </div>
                           );
@@ -632,7 +627,8 @@ console.log(result);
                         TOTAL
                       </div>
                       <div className="fs-3 d-flex justify-content-end w-50 text-black">
-                        {formatAmount((result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess))}
+                        {/* {formatAmount((result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess))} */}
+                        {formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))}
                       </div>
                     </div>
                   </div>

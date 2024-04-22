@@ -60,6 +60,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
         let pwise = [];
 
         datas?.resultArray?.forEach((el) => {
+            console.log(el);
             let obj = deepClone(el);
             let findRec = pwise?.findIndex((a) => a?.MetalTypePurity === obj?.MetalTypePurity)
             if(findRec === -1){
@@ -70,6 +71,11 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                 pwise[findRec].LossWt += obj?.LossWt;
             }
         })
+        pwise.sort((a, b) => {
+            const purityA = parseInt(a.MetalTypePurity.match(/\d+/)[0]);
+            const purityB = parseInt(b.MetalTypePurity.match(/\d+/)[0]);
+            return purityA - purityB;
+          });
         setPurityWise(pwise);
     }
 
