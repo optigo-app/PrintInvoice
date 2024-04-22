@@ -245,7 +245,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <p className='p-1 text-center'>{NumberWithCommas(e?.totals?.diamonds?.Pcs, 0)} </p>
                             </div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.DiaWt} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.totals?.diamonds?.Wt, 2)}	</p></div>
-                            <div className={`d-flex justify-content-center align-items-center ${style?.MRP} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
+                            <div className={`d-flex justify-content-center align-items-center ${style?.MRP} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.UnitCost, 2)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.discountPer} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.Discount, 2)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.DisAmt} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.DiscountAmt, 2)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.TotalAmount} `}><p className='p-1 text-center'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>

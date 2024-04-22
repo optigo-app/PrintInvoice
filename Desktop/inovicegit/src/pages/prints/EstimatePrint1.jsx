@@ -395,8 +395,8 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             {/* table data */}
             {data.map((e, i) => {
-                return <div className={`border-start border-bottom border-end d-flex no_break ${style?.word_break} ${style?.font_12}`} key={i}>
-                    <div className="col-3 d-flex">
+                return <div className={`border-start border-end d-flex no_break ${style?.word_break} ${style?.font_12}`} key={i}>
+                    <div className="col-3 d-flex border-bottom">
                         <div className="col-3 p-1 border-end d-flex align-items-center justify-content-center"><p className="">{i + 1}</p></div>
                         <div className="col-6 p-1 border-end">
                             <p style={{ wordBreak: "normal" }}> {e?.SubCategoryname}  {e?.Categoryname}</p>
@@ -446,7 +446,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className='col-2 d-flex align-items-center justify-content-center p-1'><p className='text-center'></p></div>
                                 </div>
                             })}
-                            {e?.OtherCharges + e?.TotalDiamondHandling !== 0 && <div className="d-flex">
+                            {e?.OtherCharges + e?.TotalDiamondHandling !== 0 && <div className="d-flex border-bottom">
                                 <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center' style={{ wordBreak: "normal" }}>Other Charge	</p></div>
                                 <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'>	</p></div>
                                 <div className='col-2 d-flex align-items-center justify-content-center p-1 border-end'><p className='text-center'></p></div>
@@ -457,7 +457,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                     </div>
                     <div className="col-3 d-flex">
-                        <div className="col-3 p-1 border-end d-flex align-items-center justify-content-center"><p className="">{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p></div>
+                        <div className="col-3 p-1 border-end d-flex align-items-center justify-content-center border-bottom"><p className="">{NumberWithCommas(e?.MaKingCharge_Unit, 2)}</p></div>
                         <div className="col-4 border-end d-flex align-items-center justify-content-center">
                             <div className="d-grid h-100 w-100">
                                 <div className="d-flex align-items-center justify-content-end p-1 border-bottom"><p className=''>{NumberWithCommas(e?.MetalAmount / json0Data?.CurrencyExchRate, 2)}</p> </div>
@@ -468,7 +468,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     return <div className="d-flex align-items-center justify-content-end p-1 border-bottom" key={ind}><p className=''>{ele?.Amount !== 0 ? NumberWithCommas(ele?.Amount / json0Data?.CurrencyExchRate, 2) : <>&nbsp;</>}</p> </div>
                                 })}
                                 {e?.misc.map((ele, ind) => {
-                                    return ele?.Rate !== 0 && <div className="d-flex align-items-center justify-content-end p-1 border-bottom" key={ind}><p className=''>
+                                    return  <div className="d-flex align-items-center justify-content-end p-1 border-bottom" key={ind}><p className=''>
                                         {ele?.IsHSCOE === 0 && <>{ele?.Amount !== 0 ? NumberWithCommas(ele?.Amount / json0Data?.CurrencyExchRate, 2) : <>&nbsp;</>}</>}
                                         {ele?.IsHSCOE !== 0 && <>{ele?.Amount !== 0 ? NumberWithCommas(ele?.Amount / json0Data?.CurrencyExchRate, 2) : <>&nbsp;</>}</>}
                                     </p> </div>
@@ -476,7 +476,7 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {e?.OtherCharges + e?.TotalDiamondHandling !== 0 && <div className="d-flex align-items-center justify-content-end p-1 border-bottom"><p className=''>{NumberWithCommas((e?.OtherCharges + e?.TotalDiamondHandling) / json0Data?.CurrencyExchRate, 2)}</p> </div>}
                             </div>
                         </div>
-                        <div className="col-5 p-1 d-flex align-items-center justify-content-end"><p className="">{NumberWithCommas(e?.UnitCost / json0Data?.CurrencyExchRate, 2)}</p></div>
+                        <div className="col-5 p-1 d-flex align-items-center justify-content-end border-bottom"><p className="">{NumberWithCommas(e?.UnitCost / json0Data?.CurrencyExchRate, 2)}</p></div>
                     </div>
                 </div>
             })}
