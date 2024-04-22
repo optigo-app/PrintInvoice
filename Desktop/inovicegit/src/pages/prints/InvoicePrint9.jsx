@@ -156,7 +156,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className={style1.lines}>{headerData?.CompanyAddress}</div>
                             <div className={style1.lines}>{headerData?.CompanyAddress2}</div>
                             <div className={style1.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
-                            <div className={style1.lines}>T {headerData?.CompanyTellNo} | </div>
+                            <div className={style1.lines}>T {headerData?.CompanyTellNo} {headerData?.CompanyTellNo2 !== "" && ` | ${headerData?.CompanyTellNo2}`}</div>
                             <div className={style1.lines}>
                                 {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
                             </div>
@@ -215,7 +215,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                         <div className="d-flex">
                             <p className='fw-bold col-6'>MOBILE</p>
-                            <p className='col-6'>   {headerData?.customermobileno} [{headerData?.customercountry}]  </p>
+                            <p className='col-6'>   {headerData?.MobNoPrCon} </p>
                         </div>
                     </div>
                 </div>
@@ -351,11 +351,15 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                         <div className="d-flex justify-content-between pb-1">
                             <p className={`fw-bold ${style?.font_15}`}>Credit :	</p>
-                            <p className={`fw-bold ${style?.font_15}`}>{NumberWithCommas(headerData?.BankReceived, 2)}</p>
+                            <p className={`fw-bold ${style?.font_15}`}>
+                                {/* {NumberWithCommas(headerData?.BankReceived, 2)} */}
+                            </p>
                         </div>
                         <div className="d-flex justify-content-between pb-1">
                             <p className={`fw-bold ${style?.font_15}`}>Cash :	</p>
-                            <p className={`fw-bold ${style?.font_15}`}>{NumberWithCommas(headerData?.CashReceived, 2)}</p>
+                            <p className={`fw-bold ${style?.font_15}`}>
+                                {/* {NumberWithCommas(headerData?.CashReceived, 2)} */}
+                            </p>
                         </div>
                     </div>
                     <div className="col-4 p-2 d-flex flex-column justify-content-end">
@@ -365,27 +369,33 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                         <div className="d-flex justify-content-between pb-1">
                             <p className={`fw-bold ${style?.font_15}`}>Total Amount</p>
-                            <p className={`fw-bold ${style?.font_15}`}>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p>
+                            <p className={`fw-bold ${style?.font_15}`}>{NumberWithCommas((data?.mainTotal?.total_amount + headerData?.FreightCharges) / headerData?.CurrencyExchRate, 2)}</p>
                         </div>
                         {data?.allTaxes?.map((e, i) => {
                             return <div className="d-flex justify-content-between pb-1" key={i}>
                                 <p className={` ${style?.font_15}`}>{e?.name} @ {e?.per}</p>
-                                <p className={` ${style?.font_15}`}>{NumberWithCommas(+e?.amount * data?.header?.CurrencyExchRate, 2)}</p>
+                                <p className={` ${style?.font_15}`}>{NumberWithCommas(+e?.amount, 2)}</p>
                             </div>
                         })}
                         {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between pb-1">
                             <p className={` ${style?.font_15}`}>{headerData?.AddLess < 0 ? "Less" : "Add"}	    </p>
-                            <p className={` ${style?.font_15}`}>{NumberWithCommas(headerData?.AddLess, 2)}</p>
+                            <p className={` ${style?.font_15}`}>{NumberWithCommas(headerData?.AddLess / headerData?.CurrencyExchRate, 2)}</p>
                         </div>}
                         <div className="d-flex justify-content-between pb-1">
                             <p className={`fw-bold ${style?.font_15}`}>Grand Total	</p>
-                            <p className={`fw-bold ${style?.font_15}`}>{NumberWithCommas(data?.finalAmount, 2)}</p>
+                            <p className={`fw-bold ${style?.font_15}`}>
+                                {NumberWithCommas((+fixedValues((data?.mainTotal?.total_amount + headerData?.FreightCharges) / headerData?.CurrencyExchRate, 2)) +
+                                    (data?.allTaxes?.reduce((acc, cObj) => acc + +(fixedValues(+cObj?.amount, 2)), 0)) + 
+                                    (+(fixedValues(headerData?.AddLess / headerData?.CurrencyExchRate, 2))), 2)}
+                            </p>
                         </div>
                     </div>
                 </div>
                 {/* amount in words */}
                 <div className="py-1 px-2 no_break">
-                    <p className={` ${style?.font_14}`}><span className={`fw-bold ${style?.font_14}`}>Rupees :</span> {toWords?.convert(+fixedValues(data?.finalAmount, 2))} Only.</p>
+                    <p className={` ${style?.font_14}`}><span className={`fw-bold ${style?.font_14}`}>Rupees :</span> {toWords?.convert(+fixedValues((+fixedValues((data?.mainTotal?.total_amount + headerData?.FreightCharges) / headerData?.CurrencyExchRate, 2)) +
+                                    (data?.allTaxes?.reduce((acc, cObj) => acc + +(fixedValues(+cObj?.amount, 2)), 0)) + 
+                                    (+(fixedValues(headerData?.AddLess / headerData?.CurrencyExchRate, 2))), 2))} Only.</p>
                 </div>
                 {/* declaration */}
                 <p className="fw-bold pt-1 px-2 pb-2 no_break" dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}></p>
