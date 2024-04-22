@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { apiCall, formatAmount, isObjectEmpty } from '../../GlobalFunctions';
 import { cloneDeep } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
+import { deepClone } from '@mui/x-data-grid/utils/utils';
 
 const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   
@@ -59,13 +60,14 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
         let pwise = [];
 
         datas?.resultArray?.forEach((el) => {
-            let findRec = pwise?.findIndex((a) => a?.MetalTypePurity === el?.MetalTypePurity)
+            let obj = deepClone(el);
+            let findRec = pwise?.findIndex((a) => a?.MetalTypePurity === obj?.MetalTypePurity)
             if(findRec === -1){
-                pwise.push(el);
+                pwise.push(obj);
             }else{
-                pwise[findRec].grosswt += el?.grosswt;
-                pwise[findRec].NetWt += el?.NetWt;
-                pwise[findRec].LossWt += el?.LossWt;
+                pwise[findRec].grosswt += obj?.grosswt;
+                pwise[findRec].NetWt += obj?.NetWt;
+                pwise[findRec].LossWt += obj?.LossWt;
             }
         })
         setPurityWise(pwise);
@@ -120,7 +122,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                         <div>{result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN'} &nbsp;
                         <span className='fw-bold'>{ result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo}</span>
                             | {result?.header?.Cust_CST_STATE} <span className='fw-bold'>{result?.header?.Cust_CST_STATE_No}</span></div>
-                        <div>Terms: <span className='fw-bold'>{result?.header?.DueDays} Days</span></div>
+                        { result?.header?.DueDays === 0 ? '' :  <div>Terms: <span className='fw-bold'>{result?.header?.DueDays} Days</span></div>}
                         <div>Due Date: <span className='fw-bold'>{result?.header?.DueDate}</span></div>
                     </div>
                 </div>
@@ -161,7 +163,9 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                     </div>
                 </div>
                 <div className='brall_jts border-top-0 d-flex pbia_jts'>
-                    <div className='w33_jts p-1 fs_jts brr_jts'><div className='fw-bold text-decoration-underline'>REMARKS:</div><div>{result?.header?.PrintRemark}</div></div>
+                    <div className='w33_jts p-1 fs_jts brr_jts'>
+                        <div className='fw-bold text-decoration-underline'>REMARKS:</div><div>{result?.header?.PrintRemark}</div>
+                    </div>
                     <div className='w33_jts p-1 fs_jts brr_jts'>
                         {
                             purityWise?.map((e, i) => {

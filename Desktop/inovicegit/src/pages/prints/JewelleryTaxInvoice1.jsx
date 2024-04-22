@@ -54,7 +54,140 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
         );
 
         setResult(datas);
+
         
+        let pwise = [];
+
+        datas?.resultArray?.forEach((el) => {
+            let obj = cloneDeep(el);
+            let findRec = pwise?.findIndex((a) => a?.MetalTypePurity === obj?.MetalTypePurity)
+            if(findRec === -1){
+                pwise.push(obj);
+            }else{
+                pwise[findRec].grosswt += obj?.grosswt;
+                pwise[findRec].NetWt += obj?.NetWt;
+                pwise[findRec].LossWt += obj?.LossWt;
+            }
+        })
+        setPurityWise(pwise);
+        
+        let invpaydet = [];
+
+        let abc = datas?.header?.InvPayDet?.split("@-@");
+
+        let newarr = [];
+
+
+        abc?.forEach((e) => {
+            let obj = {
+                name : '',
+                amount : null,
+                docno: ''
+            }
+            obj.name = e?.split("#-##-#")[0]
+            obj.amount = (e?.split("#-##-#")[1])
+            if(obj.name !== undefined && obj.amount !== undefined){
+                if(obj.name?.toLowerCase() === 'discount'){
+                    obj.name = 'Cash';
+                    newarr.push(obj);
+                }else{
+                    newarr.push(obj);
+                }
+            }
+        })
+
+        abc?.forEach((e) => {
+            let obj = {
+                name : '',
+                amount : null,
+                docno: ''
+            }
+
+            obj.name = e?.split("#-#")[0];
+            obj.docno = e?.split("#-#")[1];
+            obj.amount = e?.split("#-#")[2];
+
+            if(obj.docno !== ''){
+                if(obj.name?.toLowerCase() === 'discount'){
+                    obj.name = 'Cheque';
+                    newarr.push(obj);
+                }else{
+                    newarr.push(obj);
+                }
+            }
+        })
+        datas.header.mainarr = newarr;
+
+        // abc?.forEach((item) => {
+        //     let val = item?.toLowerCase();
+        //     let obj = {};
+        //     let doc_no;
+        //     if(val?.includes("cash") && val?.includes("-##-")){
+        //         let amtby = val?.split("-##-")[0];
+        //         let name = amtby?.split("#")[0];
+        //         obj.name = name;
+        //         let amtby1 = val?.split("-##-")[1];
+        //         let cashamt = amtby1?.split("#")[1];
+        //         obj.amount = Number(cashamt);
+        //         obj.docno = '';
+        //         invpaydet.push(obj);
+        //     }
+        //     if(val?.includes("discount") && val?.includes("-##-")){
+        //         let amtby = val?.split("-##-")[0];
+        //         let name = amtby?.split("#")[0];
+        //         obj.name = name;
+        //         let amtby1 = val?.split("-##-")[1];
+        //         let cashamt = amtby1?.split("#")[1];
+        //         obj.amount = Number(cashamt);
+        //         obj.docno = '';
+        //         invpaydet.push(obj);
+        //     }
+        //     if(val?.includes("cheque") && val?.includes("#-#")){
+        //         let name = val?.split("#-#")[0];
+        //         let docno = val?.split("#-#")[1];
+        //         let amt = val?.split("#-#")[2];
+        //         obj.name = name;
+        //         obj.docno = docno;
+        //         obj.amount = amt;
+        //         doc_no = docno;
+        //         invpaydet.push(obj);
+        //     }
+        //     if(val?.includes("discount")){
+        //         if(val?.includes("-##-")){
+        //             return
+        //         }else{
+        //             newarr.push(val)
+        //         }
+        //     }
+            
+        // })
+        // let disarr = [];
+        // newarr?.forEach((e) => {
+        //     let val = e?.toLowerCase();
+        //     let obj = {};
+        //     if(val?.includes("#-#")){
+        //         let name = e?.split("#-#")[0];
+        //         let docno = e?.split("#-#")[1];
+        //         let amount = e?.split("#-#")[2];
+        //         obj.name = name;
+        //         obj.docno = docno;
+        //         obj.amount = amount;
+        //         disarr.push(obj);
+        //     }
+        // })
+        
+        // let mainarr = [...invpaydet, ...disarr];
+        // datas.header.mainarr = mainarr;
+
+        let recheckArr = [];
+          datas?.resultArray?.forEach((e) => {
+            let obj = cloneDeep(e);
+            obj.MetalRate = e?.metal.reduce((acc, num) => acc + num?.Rate, 0) || 0;
+            recheckArr.push(obj);
+        })
+        
+        datas.resultArray = recheckArr;
+
     };
 
     const handleImageErrors = () => {
@@ -84,7 +217,8 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                         <div>{result?.header?.CompanyCity}-{result?.header?.CompanyPinCode}, {result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
                         <div>T {result?.header?.CompanyTellNo}</div>
                         <div>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
-                        <div>{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE} - {result?.header?.Company_CST_STATE_No} | PAN - {result?.header?.Com_pannumber}</div>
+                        <div>{result?.header?.Company_VAT_GST_No} |
+                         {result?.header?.Company_CST_STATE} - {result?.header?.Company_CST_STATE_No} | PAN - {result?.header?.Com_pannumber}</div>
                     </div>
                 </div>
                 <div className='d-flex justify-content-between align-items-start border   mt-1 p-2'>
@@ -98,8 +232,9 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                         <div>Tel : {result?.header?.customermobileno}</div>
                         <div>{result?.header?.customeremail1}</div>
                         {/* <div>STATE NAME : {result?.header?.customerstate},STATE CODE-GS</div> */}
-                        <div>{result?.header?.Cust_CST_STATE_No_}</div>
-                        <div>{result?.header?.CustGstNo} | PAN - {result?.header?.CustPanno}</div>
+                        {/* <div>{result?.header?.Cust_CST_STATE_No_}</div> */}
+                        STATE NAME : {result?.header?.customerstate}
+                        <div>{result?.header?.CustGstNo === '' ? '' : `${result?.header?.CustGstNo} | `}  PAN - {result?.header?.CustPanno}</div>
                     </div>
                     <div className='fs_jtip1  pe-5 text-break'>
                         Invoice#: <span className='fw-bold'>{result?.header?.InvoiceNo}</span>&nbsp; Dated <span className='fw-bold'>{result?.header?.EntryDate}</span>&nbsp;
@@ -123,12 +258,14 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                                             <div className='col2_jti1 brr_jtip1 center_jtip1 p-1'><img src={e?.DesignImage} alt="#designimg" className='desimg_jtip1' onError={(e) => handleImageError(e)} /></div>
                                             <div className='col3_jti1 brr_jtip1 d-flex flex-column align-items-start justify-content-start p-1'>    	
                                                 <div>{e?.MetalTypePurity} {e?.MetalColor} | {e?.grosswt?.toFixed(3)} gms GW | {e?.NetWt?.toFixed(3)} gms NW</div>
-                                                <div>Design: {e?.designno} (1) {result?.header?.HSN_No_Label}: <span className='fw-bold'>{result?.header?.HSN_No}</span></div>
-                                                <div>Ring , LITE WEIGHT</div>
+                                                <div>Design: <span className='fw-bold'>{e?.designno}</span> 
+                                                <span className='fw-bold'>{e?.BulkPurchaseQTY > 0 ? ` (${e?.BulkPurchaseQTY}) ` : ' '} </span>
+                                                {result?.header?.HSN_No_Label}: <span className='fw-bold'>{result?.header?.HSN_No}</span></div>
+                                                <div>{e?.Categoryname} , {e?.SubCategoryname}</div>
                                             </div>
-                                            <div className='col4_jti1 brr_jtip1 center_jtip1 align-items-start justify-content-end p-1'>{formatAmount(e?.MakingAmount)}</div>
+                                            <div className='col4_jti1 brr_jtip1 center_jtip1 align-items-start justify-content-end p-1'>{formatAmount(e?.MetalRate)}</div>
                                             <div className='col5_jti1 brr_jtip1 center_jtip1 align-items-start justify-content-end p-1 text-break'>{formatAmount(e?.MaKingCharge_Unit)}</div>
-                                            <div className='col6_jti1 center_jtip1 align-items-start justify-content-end p-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount(e?.TotalAmount)}</div>
+                                            <div className='col6_jti1 center_jtip1 align-items-start justify-content-end p-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount((e?.TotalAmount / result?.header?.CurrencyExchRate))}</div>
                                         </div>  
                             })
                         }
@@ -139,7 +276,7 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                         <div className='col3_jti1  center_jtip1 p-1'></div>
                         <div className='col4_jti1  center_jtip1 p-1'></div>
                         <div className='col5_jti1  center_jtip1 p-1 text-break'></div>
-                        <div className='col6_jti1 center_jtip1 p-1 align-items-start brl_jtip1 justify-content-end fs2_jtip1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount(result?.mainTotal?.total_amount)}</div>
+                        <div className='col6_jti1 center_jtip1 p-1 align-items-start brl_jtip1 justify-content-end fs2_jtip1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))}</div>
                     </div>
                 </div>
                 <div className='brall_jts d-flex  border mt-1 fs_jtip1 pgia_jtip1'>
@@ -152,18 +289,18 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                                 })
                             }
                         </div>
-                        <div>Balance : {formatAmount(result?.header?.LedgerBal)}</div>
+                        {/* <div>Balance : {formatAmount(result?.header?.LedgerBal)}</div> */}
                         <div className='fw-bold text-decoration-underline'>REMARKS:</div><div>{result?.header?.PrintRemark}</div>
                         </div>
                         <div className='w33_jts p-1 fs_jts border-end text-break'>
                         {
                             purityWise?.map((e, i) => {
-                                return <div className='w-100 d-flex' key={i}><div className='w-50'>{e?.MetalTypePurity} : </div><div className='w-50'>{e?.grosswt?.toFixed(3)} gm</div></div>
+                                return <div className='w-100 d-flex' key={i}><div className='w-50'>{e?.MetalTypePurity} : </div><div className='w-50'>{(e?.NetWt)?.toFixed(3)} gm</div></div>
                             })
                         }
                         {/* <div className='w-100 d-flex'><div className='w-50'>Diamond Wt : </div><div className='w-50'>{result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts</div></div> */}
                         <div className='w-100 d-flex'><div className='w-50'>Gross Wt : </div><div className='w-50'>{result?.mainTotal?.grosswt?.toFixed(3)} gm</div></div>
-                        <div className='w-100 d-flex'><div className='w-50'>Net Wt Wt : </div><div className='w-50'>{result?.mainTotal?.netwt?.toFixed(3)} gm</div></div>
+                        <div className='w-100 d-flex'><div className='w-50'>Net Wt  : </div><div className='w-50'>{result?.mainTotal?.netwt?.toFixed(3)} gm</div></div>
                         </div>
                         <div className='w33_jts  fs_jts d-flex text-break'>
                             <div className='border-end w1_jts'>
@@ -190,7 +327,7 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                     <div className='col3_jti1 brr_jtip1 center_jtip1 '></div>
                     <div className='col4_jti1 brr_jtip1 center_jtip1 '></div>
                     <div className='col5_jti1 brr_jtip1 d-flex justify-content-end align-items-center p-1  fs2_jtip1 text-break brl_jtip1'>GRAND TOTAL</div>
-                    <div className='col6_jti1 d-flex justify-content-end align-items-center fs2_jtip1 p-1'>{formatAmount((result?.mainTotal?.total_amount))}</div>
+                    <div className='col6_jti1 d-flex justify-content-end align-items-center fs2_jtip1 p-1'>{formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate)))}</div>
                 </div>
                 <div className='mt-1 d-flex border fs_jtip1 pgia_jtip1'>
                     <div className='w33_jts border-end p-1 text-break'>
