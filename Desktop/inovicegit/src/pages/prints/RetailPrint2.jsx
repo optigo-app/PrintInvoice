@@ -230,7 +230,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className={`d-flex justify-content-center align-items-center ${style?.Certificate} border-end`}><p className='p-1 text-center text-break'>{e?.CertificateNo}	</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.Metal} border-end`}><p className='p-1 text-center text-break'>{e?.MetalTypePurity}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.Gross} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(e?.grosswt, 3)}</p></div>
-                            <div className={`d-flex justify-content-center align-items-center ${style?.Less} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(e?.grosswt - (e?.NetWt - e?.LossWt), 3)}</p></div>
+                            <div className={`d-flex justify-content-center align-items-center ${style?.Less} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(e?.grosswt - e?.NetWt, 3)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.Net} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(e?.NetWt, 3)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center flex-column ${style?.DiaQuality} border-end`}>
                                 {e?.quaDia?.map((ele, ind) => {
@@ -278,7 +278,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className="col-4 border-end p-2">
                         <p>Value in Words:</p>
                         <p className='fw-bold'>{toWords?.convert(+fixedValues(data?.mainTotal?.total_amount +
-                                    data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0) + headerData?.AddLess, 2))} only</p>
+                            data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0) + headerData?.AddLess, 2))} only</p>
                     </div>
                     <div className="col-4 border-end p-2">
                         <p className='fw-bold'>Bank Details :</p>
