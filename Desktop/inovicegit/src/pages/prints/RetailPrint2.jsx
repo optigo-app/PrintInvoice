@@ -118,7 +118,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* buttons */}
                 <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 mt-4">
                     <div className="form-check ps-3">
-                        <input type="button" className="btn_white blue py-2" value="Print" style={{fontSize: "14px"}} onClick={(e) => handlePrint(e)} />
+                        <input type="button" className="btn_white blue py-2" value="Print" style={{ fontSize: "14px" }} onClick={(e) => handlePrint(e)} />
                     </div>
                 </div>
                 {/* header */}
@@ -147,7 +147,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         {headerData?.Com_GoldDealershipRefNo !== "" && <div className={style1.lines}>
                             {headerData?.Com_GoldDealershipRefNo}
                         </div>}
-                        
+
 
                     </div>
                     <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
@@ -158,7 +158,9 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* sub header */}
                 <div className={`d-flex border ${style?.subHeader} ${style?.headerPara}`}>
                     <div className="col-4 border-end p-2">
-                        <p>{headerData?.lblBillTo} {headerData?.customerfirmname}</p>
+                        <p>
+                            {/* {headerData?.lblBillTo}  */}
+                            To, {headerData?.customerfirmname}</p>
                         <p>Address: {headerData?.customerAddress1}</p>
                         <p>{headerData?.customerAddress2}</p>
                         <p>{headerData?.customercity}{headerData?.customerpincode}</p>
@@ -228,7 +230,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className={`d-flex justify-content-center align-items-center ${style?.Certificate} border-end`}><p className='p-1 text-center text-break'>{e?.CertificateNo}	</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.Metal} border-end`}><p className='p-1 text-center text-break'>{e?.MetalTypePurity}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.Gross} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(e?.grosswt, 3)}</p></div>
-                            <div className={`d-flex justify-content-center align-items-center ${style?.Less} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(e?.LossWt, 3)}</p></div>
+                            <div className={`d-flex justify-content-center align-items-center ${style?.Less} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(e?.grosswt - (e?.NetWt - e?.LossWt), 3)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.Net} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(e?.NetWt, 3)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center flex-column ${style?.DiaQuality} border-end`}>
                                 {e?.quaDia?.map((ele, ind) => {
@@ -275,7 +277,8 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="my-1 border d-flex no_break">
                     <div className="col-4 border-end p-2">
                         <p>Value in Words:</p>
-                        <p className='fw-bold'>{toWords?.convert(+fixedValues(data?.finalAmount, 2))} only</p>
+                        <p className='fw-bold'>{toWords?.convert(+fixedValues(data?.mainTotal?.total_amount +
+                                    data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0) + headerData?.AddLess, 2))} only</p>
                     </div>
                     <div className="col-4 border-end p-2">
                         <p className='fw-bold'>Bank Details :</p>
@@ -290,15 +293,17 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div>
                                 {
                                     data?.allTaxes?.map((e, i) => {
-                                        return <p className='d-flex justify-content-between' key={i}><span>{e?.name} @ {e?.per} </span><span> {NumberWithCommas(e?.amount, 2)}</span></p>
+                                        return <p className='d-flex justify-content-between' key={i}><span>{e?.name} @ {e?.per} </span><span> {NumberWithCommas(+e?.amount * headerData?.CurrencyExchRate, 2)}</span></p>
                                     })
                                 }
                                 {headerData?.AddLess !== 0 && <p className='d-flex justify-content-between'><span>{headerData?.AddLess > 0 ? "Add" : "Less"} </span><span> {NumberWithCommas(headerData?.AddLess, 2)}</span></p>}
-                                <p className='fw-bold d-flex justify-content-between'><span>Bill Amt    </span><span> {NumberWithCommas(data?.finalAmount, 2)}</span></p>
+                                <p className='fw-bold d-flex justify-content-between'><span>Bill Amt    </span><span> {NumberWithCommas(data?.mainTotal?.total_amount +
+                                    data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0) + headerData?.AddLess, 2)}</span></p>
 
                             </div>
                             <div>
-                                <p className='fw-bold d-flex justify-content-between'><span>Grand Total </span><span> {NumberWithCommas(data?.finalAmount, 2)}</span></p>
+                                <p className='fw-bold d-flex justify-content-between'><span>Grand Total </span><span> {NumberWithCommas(data?.mainTotal?.total_amount +
+                                    data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0) + headerData?.AddLess, 2)}</span></p>
                             </div>
                         </div>
                     </div>

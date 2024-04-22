@@ -21,8 +21,8 @@
 }
 
 .SNo {
-    width: 5%;
-    min-width: 5%;
+    width: 3%;
+    min-width: 3%;
 }
 
 .Description {
@@ -66,13 +66,13 @@
 }
 
 .Amount {
-    width: 8%;
-    min-width: 8%;
+    width: 10%;
+    min-width: 10%;
 }
 
 .total{
-    width: 35%;
-    min-width: 35%;    
+    width: 39%;
+    min-width: 39%;    
 }
 
 .font_15{
