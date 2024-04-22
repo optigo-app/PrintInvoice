@@ -375,8 +375,8 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             </div>
                                             <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>
-                                                    {/* {ind === 0 ? NumberWithCommas(e?.NetWt - e?.totals?.finding?.Wt, 3) : NumberWithCommas(ele?.Wt, 3)} */}
-                                                    {ind === 0 ? NumberWithCommas(e?.netWtLossWt, 3) : NumberWithCommas(ele?.Wt, 3)}
+                                                    {ind === 0 ? NumberWithCommas(e?.NetWt - e?.totals?.finding?.Wt -e?.LossWt, 3) : NumberWithCommas(ele?.Wt, 3)}
+                                                    {/* {ind === 0 ? NumberWithCommas(e?.netWtLossWt, 3) : NumberWithCommas(ele?.Wt, 3)} */}
                                                 </p>
                                             </div>
                                             <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
