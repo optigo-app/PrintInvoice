@@ -131,7 +131,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     return (
         loader ? <Loader /> : msg === "" ? <>
-            <div className={`container max_width_container ${style?.invoiceprint9} pad_60_allPrint px-1 mt-1 invoiceprint9`}>
+            <div className={`container max_width_container ${style?.invoiceprint9} pad_60_allPrint px-1 mt-0 invoiceprint9`}>
                 {/* buttons */}
                 <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 mt-4">
                     <div className="form-check pe-3 ">
@@ -318,7 +318,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* table total */}
                 <div className="d-flex border-start border-end border-bottom py-1 no_break">
                     <div className={`${style?.total} px-1`}><p className={`fw-bold text-center ${style?.font_15}`}>Total</p></div>
-                    <div className={`${style?.HSN} px-1`}><p className={`fw-bold ${style?.font_15}`}></p></div>
+                    {/* <div className={`${style?.HSN} px-1`}><p className={`fw-bold ${style?.font_15}`}></p></div> */}
                     <div className={`${style?.Pcs} px-1`}>
                         <p className={`fw-bold text-end ${style?.font_15}`}>{NumberWithCommas(data?.mainTotal?.total_Quantity, 0)}</p>
                     </div>
@@ -351,7 +351,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         </div>
                         <div className="d-flex justify-content-between pb-1">
                             <p className={`fw-bold ${style?.font_15}`}>Credit :	</p>
-                            <p className={`fw-bold ${style?.font_15}`}>{NumberWithCommas(data?.finalAmount, 2)}</p>
+                            <p className={`fw-bold ${style?.font_15}`}>{NumberWithCommas(headerData?.BankReceived, 2)}</p>
                         </div>
                         <div className="d-flex justify-content-between pb-1">
                             <p className={`fw-bold ${style?.font_15}`}>Cash :	</p>
@@ -370,7 +370,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         {data?.allTaxes?.map((e, i) => {
                             return <div className="d-flex justify-content-between pb-1" key={i}>
                                 <p className={` ${style?.font_15}`}>{e?.name} @ {e?.per}</p>
-                                <p className={` ${style?.font_15}`}>{NumberWithCommas(+e?.amount, 2)}</p>
+                                <p className={` ${style?.font_15}`}>{NumberWithCommas(+e?.amount * data?.header?.CurrencyExchRate, 2)}</p>
                             </div>
                         })}
                         {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between pb-1">
@@ -401,6 +401,9 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className={footer2.linesf3}>Account Name: {headerData?.accountname}</div>
                         <div className={footer2.linesf3}>Account No. : {headerData?.accountnumber}</div>
                         <div className={footer2.linesf3}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
+                        <div className={footer2.linesf3}>Enquiry No. {headerData?.rtgs_neft_ifsc}</div>
+                        <div className={footer2.linesf3}>(E & OE)</div>
+
                     </div>
                     <div
                         className={footer2.block2f3}
