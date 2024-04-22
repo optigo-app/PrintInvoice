@@ -232,8 +232,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         // }
       })
       if(arr?.length === 1){
-        if(arr[0]?.IsHSCOE === 3 && arr[0]?.Rate === 0){
-            // arr = [];
+        if(arr[0]?.IsHSCOE === 3 && arr[0]?.Wt === 0 && arr[0]?.ServWt === 0 && arr[0]?.Rate === 0){
+            arr = [];
         }
         // else{
         //   arr = [];
@@ -624,8 +624,8 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="center_dp4 col_w_dp4">Amount</div>
                     </div>
                   </div>
-                  <div className="col6_dp4 border-secondary border-end center_dp4">
-                    Other
+                  <div className="col6_dp4 border-secondary border-end center_dp4 text-break " style={{lineHeight:'12px'}}>
+                    Other <br /> Amount
                   </div>
                   <div className="col7_dp4 border-secondary border-end">
                     <div className="h-50 center_dp4 w-100">Labour</div>
@@ -680,11 +680,11 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="d-flex fs_dp4" key={ind}>
                                     <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%" }} > {el?.QualityName} {el?.Colorname} </div>
                                     <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} > {el?.dpcs} </div>
-                                    <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} > {el?.dwt?.toFixed(3)} </div>
-                                    <div className="dia_col_w_dp4 end_dp4">
+                                    <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt" style={{ width: "15%" }} > {el?.dwt?.toFixed(3)} </div>
+                                    <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt">
                                     {formatAmount((el?.damt / ( el?.isRateOnPcs === 1 ? (el?.dpcs === 0 ? 1 : el?.dpcs) : (el?.dwt === 0 ? 1 : el?.dwt))))}
                                     </div>
-                                    <div className="dia_col_w_dp4 end_dp4 fw-bold">
+                                    <div className="dia_col_w_dp4 end_dp4 fw-bold lh_dp4_amt">
                                       {formatAmount(el?.damt)}
                                     </div>
                                   </div>
@@ -701,16 +701,16 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div key={ind}>
                           {
                             el?.IsPrimaryMetal === 1 ? <div className="d-flex border-secondary border-bottom" >
-                            <div className="dia_col_w_dp4 start_dp3 d-flex align-items-center" style={{wordBreak:'break-word', lineHeight:'11px'}}>{e?.MetalTypePurity}</div>
+                            <div className="dia_col_w_dp4 start_dp3 d-flex align-items-center" style={{ width:'18%', wordBreak:'break-word', lineHeight:'11px'}}>{e?.MetalTypePurity}</div>
                             {/* <div className="dia_col_w_dp4 end_dp3">{e?.grosswt?.toFixed(3)}</div> */}
                             
-                            <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{(((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)?.toFixed(3)}</div>
+                            <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center lh_dp4_amt" style={{width:'19%'}}>{(((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)?.toFixed(3)}</div>
                             {/* <div className="dia_col_w_dp4 end_dp3">{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
-                            <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}</div>
+                            <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center lh_dp4_amt">{((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}</div>
                             {/* <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{(e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3)}</div> */}
                             {/* <div className="dia_col_w_dp4 end_dp3 d-flex justify-content-end align-items-center">{(el?.Wt)?.toFixed(3)}</div> */}
-                            <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center ">{formatAmount((el?.metamt / (e?.NetWt === 0 ? 1 : e?.NetWt)))}</div>
-                            <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center fw-bold">{formatAmount(el?.metamt)}</div>
+                            <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center lh_dp4_amt">{formatAmount((el?.metamt / (e?.NetWt === 0 ? 1 : e?.NetWt)))}</div>
+                            <div className="dia_col_w_dp4 d-flex justify-content-end align-items-center fw-bold lh_dp4_amt" style={{width:'22%'}}>{formatAmount(el?.metamt)}</div>
                           </div> : ''
                           }
                           
@@ -755,19 +755,19 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.colorstone?.map((el, ind) => {
                                 return (
                                   <div className="d-flex fs_dp4" key={ind}>
-                                    <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%" }} >
+                                    <div className="dia_col_w_dp4 start_dp4 lh_dp4_amt" style={{ width: "35%" }} >
                                       {el?.QualityName} {el?.Colorname}
                                     </div>
-                                    <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} >
+                                    <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt" style={{ width: "10%" }} >
                                       {el?.cspcs}
                                     </div>
-                                    <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
+                                    <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt" style={{ width: "15%" }} >
                                       {el?.cswt?.toFixed(3)}
                                     </div>
-                                    <div className="dia_col_w_dp4 end_dp4">
+                                    <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt">
                                       {formatAmount(((el?.csamt)/( el?.isRateOnPcs === 1 ? (el?.cspcs === 0 ? 1 : el?.cspcs) : (el?.cswt === 0 ? 1 : el?.cswt))))}
                                     </div>
-                                    <div className="dia_col_w_dp4 end_dp4 fw-bold">
+                                    <div className="dia_col_w_dp4 end_dp4 fw-bold lh_dp4_amt">
                                       {formatAmount(el?.csamt)}
                                     </div>
                                   </div>
@@ -777,19 +777,18 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 e?.misc?.map((el, i) => {
                                   return(
                                     <div className="d-flex fs_dp4" key={i}>
-                                    <div className="dia_col_w_dp4 start_dp4" style={{ width: "35%", wordBreak:'break-word' }} >M: {el?.ShapeName} </div>
-                                    <div className="dia_col_w_dp4 end_dp4" style={{ width: "10%" }} >
+                                    <div className="dia_col_w_dp4 start_dp4 lh_dp4_amt" style={{ width: "35%", wordBreak:'break-word' }} >M: {el?.ShapeName} </div>
+                                    <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt" style={{ width: "10%" }} >
                                       {el?.mspcs}
                                     </div>
-                                    <div className="dia_col_w_dp4 end_dp4" style={{ width: "15%" }} >
+                                    <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt" style={{ width: "15%" }} >
                                       {/* { el?.ShapeName?.includes("Certification") ? el?.servwt_cert?.toFixed(3) :  el?.mswt?.toFixed(3)} */}
                                       { (el?.IsHSCOE === 1 || el?.IsHSCOE === 2 || el?.IsHSCOE === 3) ? el?.servwt_cert?.toFixed(3) :  el?.mswt?.toFixed(3)}
                                     </div>
-                                    <div className="dia_col_w_dp4 end_dp4">
-                                      {console.log((el))}
-                                      { el?.ShapeName?.includes("Certification") ? formatAmount((el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert))) :  formatAmount(( el?.isRateOnPcs === 0 ? (el?.msamt / (el?.mswt === 0 ? 1 : el?.mswt)) : (el?.msamt / (el?.mspcs === 0 ? 1 : el?.mspcs))))}
+                                    <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt">
+                                      { el?.ShapeName?.includes("Certification") ? formatAmount(( el?.isRateOnPcs === 0 ? (el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert)) : (el?.msamt / (el?.servwt_cert === 0 ? 1 : el?.servwt_cert)))) :  formatAmount(( el?.isRateOnPcs === 0 ? (el?.msamt / (el?.mswt === 0 ? 1 : el?.mswt)) : (el?.msamt / (el?.mspcs === 0 ? 1 : el?.mspcs))))}
                                     </div>
-                                    <div className="dia_col_w_dp4 end_dp4 fw-bold">
+                                    <div className="dia_col_w_dp4 end_dp4 fw-bold lh_dp4_amt">
                                       {formatAmount(el?.msamt)}
                                     </div>
                                   </div>
@@ -860,18 +859,18 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="col4_dp4 border-secondary border-end">
                             <div>
                               <div className="d-flex fs_dp4">
-                                <div className="dia_col_w_dp4 start_dp4"></div>
-                                <div className="dia_col_w_dp4 end_dp4">
+                                {/* <div className="dia_col_w_dp4 start_dp4"></div> */}
+                                <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt" style={{width:'37%'}}>
                                   {/* {e?.totals?.metal?.Wt?.toFixed(3)} */}
                                   {(((e?.totals?.diamonds?.Wt)/5) + e?.NetWt)?.toFixed(3)}
                                 </div>
-                                <div className="dia_col_w_dp4 end_dp4">
+                                <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt">
                                   {( (e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}
                                 </div>
                                 {/* <div className="dia_col_w_dp4 end_dp4">
                                   
                                 </div> */}
-                                <div className="dia_col_w_dp4 end_dp4" style={{width:'40%'}}>
+                                <div className="dia_col_w_dp4 end_dp4 lh_dp4_amt" style={{width:'43%'}}>
                                   {formatAmount(e?.totals?.metal?.IsPrimaryMetal_Amount)}
                                 </div>
                               </div>
@@ -1054,18 +1053,18 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="col4_dp4 border-secondary border-end">
                     <div>
                       <div className="d-flex fs_dp4">
-                        <div className="dia_col_w_dp4 start_dp4"></div>
-                        <div className="dia_col_w_dp4 end_dp4">
+                        {/* <div className="dia_col_w_dp4 start_dp4"></div> */}
+                        <div className="dia_col_w_dp4 end_dp4" style={{width:'37%'}}>
                           {/* {result?.mainTotal?.metal?.Wt?.toFixed(3)} */}
                           {mdwt?.toFixed(3)}
                         </div>
-                        <div className="dia_col_w_dp4 end_dp4">
+                        <div className="dia_col_w_dp4 end_dp4" style={{width:'25%'}}>
                           {/* {result?.mainTotal?.metal?.Wt?.toFixed(3)} */}
                           {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
                         </div>
-                        <div className="dia_col_w_dp4 end_dp4" style={{width:'10%'}}>
-                        </div>
-                        <div className="dia_col_w_dp4 end_dp4" style={{width:'30%'}}>
+                        {/* <div className="dia_col_w_dp4 end_dp4" style={{width:'5%'}}>
+                        </div> */}
+                        <div className="dia_col_w_dp4 end_dp4" style={{width:'43%'}}>
                           {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
                         </div>
                       </div>
