@@ -54,7 +54,87 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
         );
 
         setResult(datas);
+
         
+        let pwise = [];
+
+        datas?.resultArray?.forEach((el) => {
+            let findRec = pwise?.findIndex((a) => a?.MetalTypePurity === el?.MetalTypePurity)
+            if(findRec === -1){
+                pwise.push(el);
+            }else{
+                pwise[findRec].grosswt += el?.grosswt;
+                pwise[findRec].NetWt += el?.NetWt;
+                pwise[findRec].LossWt += el?.LossWt;
+            }
+        })
+        setPurityWise(pwise);
+        
+        let invpaydet = [];
+
+        let abc = datas?.header?.InvPayDet?.split("@-@");
+        let newarr = [];
+        abc?.forEach((item) => {
+            let val = item?.toLowerCase();
+            let obj = {};
+            let doc_no;
+            if(val?.includes("cash") && val?.includes("-##-")){
+                let amtby = val?.split("-##-")[0];
+                let name = amtby?.split("#")[0];
+                obj.name = name;
+                let amtby1 = val?.split("-##-")[1];
+                let cashamt = amtby1?.split("#")[1];
+                obj.amount = Number(cashamt);
+                obj.docno = '';
+                invpaydet.push(obj);
+            }
+            if(val?.includes("discount") && val?.includes("-##-")){
+                let amtby = val?.split("-##-")[0];
+                let name = amtby?.split("#")[0];
+                obj.name = name;
+                let amtby1 = val?.split("-##-")[1];
+                let cashamt = amtby1?.split("#")[1];
+                obj.amount = Number(cashamt);
+                obj.docno = '';
+                invpaydet.push(obj);
+            }
+            if(val?.includes("cheque") && val?.includes("#-#")){
+                let name = val?.split("#-#")[0];
+                let docno = val?.split("#-#")[1];
+                let amt = val?.split("#-#")[2];
+                obj.name = name;
+                obj.docno = docno;
+                obj.amount = amt;
+                doc_no = docno;
+                invpaydet.push(obj);
+            }
+            if(val?.includes("discount")){
+                if(val?.includes("-##-")){
+                    return
+                }else{
+                    newarr.push(val)
+                }
+            }
+            
+        })
+        let disarr = [];
+        newarr?.forEach((e) => {
+            let val = e?.toLowerCase();
+            let obj = {};
+            if(val?.includes("#-#")){
+                let name = e?.split("#-#")[0];
+                let docno = e?.split("#-#")[1];
+                let amount = e?.split("#-#")[2];
+                obj.name = name;
+                obj.docno = docno;
+                obj.amount = amount;
+                disarr.push(obj);
+            }
+        })
+        
+        let mainarr = [...invpaydet, ...disarr];
+        datas.header.mainarr = mainarr;
+
     };
 
     const handleImageErrors = () => {
@@ -158,12 +238,12 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                         <div className='w33_jts p-1 fs_jts border-end text-break'>
                         {
                             purityWise?.map((e, i) => {
-                                return <div className='w-100 d-flex' key={i}><div className='w-50'>{e?.MetalTypePurity} : </div><div className='w-50'>{e?.grosswt?.toFixed(3)} gm</div></div>
+                                return <div className='w-100 d-flex' key={i}><div className='w-50'>{e?.MetalTypePurity} : </div><div className='w-50'>{(e?.NetWt)?.toFixed(3)} gm</div></div>
                             })
                         }
                         {/* <div className='w-100 d-flex'><div className='w-50'>Diamond Wt : </div><div className='w-50'>{result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts</div></div> */}
                         <div className='w-100 d-flex'><div className='w-50'>Gross Wt : </div><div className='w-50'>{result?.mainTotal?.grosswt?.toFixed(3)} gm</div></div>
-                        <div className='w-100 d-flex'><div className='w-50'>Net Wt Wt : </div><div className='w-50'>{result?.mainTotal?.netwt?.toFixed(3)} gm</div></div>
+                        <div className='w-100 d-flex'><div className='w-50'>Net Wt  : </div><div className='w-50'>{result?.mainTotal?.netwt?.toFixed(3)} gm</div></div>
                         </div>
                         <div className='w33_jts  fs_jts d-flex text-break'>
                             <div className='border-end w1_jts'>
