@@ -270,10 +270,50 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         return labelA.localeCompare(labelB);
       }
     });
+
+    let newArr = [{ label: "HANDLING", Amount: diamondHandling / data?.BillPrint_Json[0]?.CurrencyExchRate }];
+    miscs?.forEach((e, i) => {
+      let obj = cloneDeep(e);
+      obj.label = obj?.ShapeName;
+      obj.Amount = obj?.Amount / data?.BillPrint_Json[0]?.CurrencyExchRate;
+      newArr?.push(obj);
+    });
+    otherCharges?.forEach((e, i) => {
+      let obj = cloneDeep(e);
+      obj.value = +obj?.value
+      newArr?.push(obj);
+    });
+
+    newArr?.sort((a, b)=> {
+      var regex = /(\d+)|(\D+)/g;
+      var partsA = a.label.match(regex);
+      var partsB = b.label.match(regex);
+  
+      for (var i = 0; i < Math.min(partsA.length, partsB.length); i++) {
+          var partA = partsA[i];
+          var partB = partsB[i];
+  
+          if (!isNaN(partA) && !isNaN(partB)) {
+              var numA = parseInt(partA);
+              var numB = parseInt(partB);
+              if (numA !== numB) {
+                  return numA - numB;
+              }
+          } else {
+              if (partA !== partB) {
+                  return partA.localeCompare(partB);
+              }
+          }
+      }
+  
+      return a.label.length - b.label.length;
+  })
+
+
     setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
     setMainData({
       ...mainData, resultArr: resultArr, findings: findings, diamonds: diamonds, colorStones: colorStones,
-      miscs: miscs, otherCharges: otherCharges, misc2: misc2, labour: labour, diamondHandling: diamondHandling
+      miscs: miscs, otherCharges: newArr, misc2: misc2, labour: labour, diamondHandling: diamondHandling
     });
   };
 
@@ -622,7 +662,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{mainData?.labour?.primaryWt !== 0 && NumberWithCommas((mainData?.labour?.makingAmount / mainData?.labour?.primaryWt) / headerData?.CurrencyExchRate, 2)}</p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(mainData?.labour?.totalAmount / headerData?.CurrencyExchRate, 2)}</p></div>
             </div>
-            {mainData?.miscs?.map((e, i) => {
+            {/* {mainData?.miscs?.map((e, i) => {
               return <div className="d-flex" key={i}>
                 <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-uppercase"><p>{e?.ShapeName}</p></div>
                 <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
@@ -641,7 +681,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(mainData?.diamondHandling / headerData?.CurrencyExchRate, 2)}</p></div>
-            </div>
+            </div> */}
             {mainData?.otherCharges?.map((e, i) => {
               return <div className="d-flex" key={i}>
                 <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-uppercase"><p>{e?.label}</p></div>
@@ -650,7 +690,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
                 <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(+e?.value, 2)}</p></div>
+                <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(e?.value, 2)}</p></div>
               </div>
             })}
           </div>
@@ -733,7 +773,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
             <p className="fw-bold"> IN Words Indian Rupees</p>
             <p className="fw-bold">
               {toWords.convert(+fixedValues((mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate) + mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * headerData?.CurrencyExchRate), 0) + headerData?.AddLess + headerData?.FreightCharges, 2))} Only.
-            
+
               {/* {toWords?.convert(+fixedValues(totalss?.total-totalss?.discount + mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+(cObj?.amount)), 0) +
                 headerData?.AddLess + headerData?.FreightCharges, 2))} Only. */}
             </p>
