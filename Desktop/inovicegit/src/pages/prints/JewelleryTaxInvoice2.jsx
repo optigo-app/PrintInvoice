@@ -172,7 +172,7 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                         <div>PAN#: <span className='fw-bold'>{result?.header?.CustPanno}</span></div>
                         <div>VAT <span className='fw-bold text-break'>{result?.header?.Cust_VAT_GST_No}</span>| {result?.header?.Cust_CST_STATE} <span className='fw-bold'>{result?.header?.Cust_CST_STATE_No}</span></div>
                         <div>Due Date: <span className='fw-bold'>{result?.header?.DueDate}</span></div>
-                        <div><div>Salesrep:</div><div></div></div>
+                        <div className='d-flex'><div className='pe-2'>Salesrep:</div><div>{result?.header?.SalPerName?.split(" ")[0]}</div></div>
                         </div>
                     </div>
                     <div>

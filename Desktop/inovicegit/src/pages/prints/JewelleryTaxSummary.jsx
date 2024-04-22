@@ -117,7 +117,10 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                         <div>Invoice#: <span className='fw-bold'>{result?.header?.InvoiceNo}</span> Dated <span className='fw-bold'>{result?.header?.EntryDate}</span></div>
                         <div>{result?.header?.HSN_No_Label}: <span className='fw-bold'>{result?.header?.HSN_No}</span></div>
                         <div>PAN#: <span className='fw-bold'>{result?.header?.CustPanno}</span></div>
-                        <div>VAT <span className='fw-bold'>{result?.header?.Cust_VAT_GST_No}</span>| {result?.header?.Cust_CST_STATE} <span className='fw-bold'>{result?.header?.Cust_CST_STATE_No}</span></div>
+                        <div>{result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN'} &nbsp;
+                        <span className='fw-bold'>{ result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo}</span>
+                            | {result?.header?.Cust_CST_STATE} <span className='fw-bold'>{result?.header?.Cust_CST_STATE_No}</span></div>
+                        <div>Terms: <span className='fw-bold'>{result?.header?.DueDays} Days</span></div>
                         <div>Due Date: <span className='fw-bold'>{result?.header?.DueDate}</span></div>
                     </div>
                 </div>
@@ -138,7 +141,13 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                                     <div className='text-break lh_jts'>Design: <span className='fw-bold'>{e?.designno}</span></div>
                                     <div className='text-break lh_jts'>{e?.Size}</div>
                                 </div>
-                                <div className='col3_jts d-flex align-items-start justify-content-start p-1 brr_jts text-break'>{e?.MetalTypePurity} {e?.MetalColor} | {e?.grosswt?.toFixed(3)} gms GW | {e?.NetWt?.toFixed(3)} gms NW | DIA: {e?.totals?.diamonds?.Wt?.toFixed(3)} Cts | CS: {e?.totals?.colorstone?.Wt?.toFixed(3)} Cts | MISC: {e?.totals?.misc?.Wt?.toFixed(3)} gms</div>
+                                <div className='col3_jts d-flex align-items-start justify-content-start p-1 brr_jts text-break'>
+                                    {e?.MetalTypePurity} {e?.MetalColor} | {e?.grosswt?.toFixed(3)} gms GW | {e?.NetWt?.toFixed(3)} gms NW
+                                    { e?.totals?.diamonds?.Wt === 0 ? ''  : ` | DIA : ${e?.totals?.diamonds?.Wt?.toFixed(3)} Cts `}
+                                    { e?.totals?.colorstone?.Wt === 0 ? ''  : ` | CS : ${e?.totals?.colorstone?.Wt?.toFixed(3)} Cts `}
+                                    { e?.totals?.misc?.Wt === 0 ? ''  : ` | MISC : ${e?.totals?.misc?.Wt?.toFixed(3)} gms `}
+                                     {/* | DIA: {e?.totals?.diamonds?.Wt?.toFixed(3)} Cts | CS: {e?.totals?.colorstone?.Wt?.toFixed(3)} Cts | MISC: {e?.totals?.misc?.Wt?.toFixed(3)} gms */}
+                                     </div>
                                 <div className='col4_jts d-flex align-items-start justify-content-end p-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount((e?.TotalAmount / result?.header?.CurrencyExchRate))}</div>
                             </div>
                             })
@@ -156,7 +165,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                     <div className='w33_jts p-1 fs_jts brr_jts'>
                         {
                             purityWise?.map((e, i) => {
-                                return <div className='w-100 d-flex' key={i}><div className='w-50'>{e?.MetalTypePurity} : </div><div className='w-50'>{e?.grosswt?.toFixed(3)} gm</div></div>
+                                return <div className='w-100 d-flex' key={i}><div className='w-50'>{e?.MetalTypePurity} : </div><div className='w-50'>{e?.NetWt?.toFixed(3)} gm</div></div>
                             })
                         }
                         <div className='w-100 d-flex'><div className='w-50'>Diamond Wt : </div><div className='w-50'>{result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts</div></div>
@@ -188,7 +197,7 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                     <div className='col3_jts end_jts brr_jts' style={{paddingRight:'12.5%'}}>GRAND TOTAL</div>
                     <div className='col4_jts end_jts pe-1'><span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span> {formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))}</div>
                 </div>
-                <div className='static_jts py-2'>**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
+                <div className='static_jts py-2'>** THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
                 <div className='brall_jts dec_jts p-2 pbia_jts'>
                     <div dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
                 </div>

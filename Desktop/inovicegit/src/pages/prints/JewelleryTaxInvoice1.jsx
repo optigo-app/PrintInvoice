@@ -72,7 +72,7 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
             <div className='container_jtip1'>
                 <div className='mb-5 pb-5 d-flex justify-content-end align-items-center mt-5 pt-5 d_none_btn_jtip1'><Button /></div>
                 <div className='d-flex justify-content-between align-items-center'>
-                    <div>{isImageWorking && (result?.header?.PrintLogo !== "" && 
+                    <div className='ps-5'>{isImageWorking && (result?.header?.PrintLogo !== "" && 
                       <img src={result?.header?.PrintLogo} alt="" 
                       className='w-100 h-auto ms-auto d-block object-fit-contain'
                       onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
@@ -185,10 +185,10 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                         </div>
                 </div>
                 <div className='thead_jti1 fw-bold border border-top-0 w-100 pgia_jtip1'>
-                    <div className='col1_jti1 brr_jtip1 center_jtip1 p-1'></div>
-                    <div className='col2_jti1 brr_jtip1 center_jtip1 p-1'></div>
-                    <div className='col3_jti1 brr_jtip1 center_jtip1 p-1'></div>
-                    <div className='col4_jti1 brr_jtip1 center_jtip1 p-1'></div>
+                    <div className='col1_jti1 brr_jtip1 center_jtip1 '></div>
+                    <div className='col2_jti1 brr_jtip1 center_jtip1 '></div>
+                    <div className='col3_jti1 brr_jtip1 center_jtip1 '></div>
+                    <div className='col4_jti1 brr_jtip1 center_jtip1 '></div>
                     <div className='col5_jti1 brr_jtip1 d-flex justify-content-end align-items-center p-1  fs2_jtip1 text-break brl_jtip1'>GRAND TOTAL</div>
                     <div className='col6_jti1 d-flex justify-content-end align-items-center fs2_jtip1 p-1'>{formatAmount((result?.mainTotal?.total_amount))}</div>
                 </div>

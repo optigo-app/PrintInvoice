@@ -4,14 +4,21 @@
 }
 /* global */
 .containers3{
-    display: flex;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 10px;
+    padding-bottom: 5rem;
+    max-width: 675px;
+    width: 100%;
+    margin-top: 3rem;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     padding: 0 15rem;
     margin: 0 auto;
-    margin-top: 3rem;
+    margin-top: 3rem; */
 }
 .fsgs3{
     font-size: 12px;
@@ -166,13 +173,14 @@
 
 @media print {
     .containers3{
-        display: flex;
+        margin-top: 1rem;
+        /* display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         margin: 0px;
         padding: 1rem;
-        margin-top: 3rem;
+        margin-top: 3rem; */
     }
     .btn_print_s3{
         display: none;
