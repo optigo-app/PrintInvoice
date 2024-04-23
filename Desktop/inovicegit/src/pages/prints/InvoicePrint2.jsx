@@ -48,6 +48,9 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   }
 
   const organizeData = (json, json1, json2) => {
+    console.log(json);
+    console.log(json1);
+    console.log(json2);
     let resultArr = [];
     let totAmt = 0;
 
@@ -149,14 +152,17 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           OtherAmount: 0,
         },
       };
-      let otherMisc = e?.MiscAmount + e?.OtherCharges;
+      let otherMisc = e?.MiscAmount + e?.OtherCharges + e?.TotalDiamondHandling;
       // eslint-disable-next-line array-callback-return
 
       mainTotal.totAmount.TotalAmount += e?.TotalAmount;
-      mainTotal.totOthAmt.Amount += e?.OtherCharges + e?.MiscAmount;
+      mainTotal.totOthAmt.Amount += e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
       mainTotal.totalgrosswt.grosswt += e?.grosswt;
-      mainTotal.totalnetwt.netwt += e?.NetWt;
+
       totAmt += e?.TotalAmount;
+
+      let netWtLossWt = 0;
+      let count = 0
 
       // eslint-disable-next-line array-callback-return
       json2?.map((ele) => {
@@ -205,6 +211,11 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             mainTotal.metal.Wt += ele?.Wt;
             mainTotal.metal.Rate += ele?.Rate;
             mainTotal.metal.Amount += ele?.Amount;
+            if (ele?.IsPrimaryMetal === 1) {
+              netWtLossWt += ele?.Wt;
+            } else {
+              count++
+            }
           }
           if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
             findinglist.push(ele);
@@ -220,6 +231,10 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         }
       });
 
+      if (count === 0) {
+        netWtLossWt = e?.NetWt + e?.LossWt;
+      }
+      mainTotal.totalnetwt.netwt += netWtLossWt;
       let obj = { ...e };
       obj.diamondsDetails = diamondlist;
       obj.colorstoneDetails = colorstonelist;
@@ -227,11 +242,35 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       obj.miscDetails = misclist;
       obj.findingDetails = findinglist;
       obj.AllJobsTotal = mainTotal;
+      obj.netWtLossWt = netWtLossWt
       obj.JobWiseTotal = totals;
       obj.otherMisc = otherMisc;
       resultArr.push(obj);
-      setResultArray(resultArr);
     });
+    resultArr?.sort((a, b)=>{
+      var regex = /(\d+)|(\D+)/g;
+      var partsA = a.designno.match(regex);
+      var partsB = b.designno.match(regex);
+  
+      for (var i = 0; i < Math.min(partsA.length, partsB.length); i++) {
+          var partA = partsA[i];
+          var partB = partsB[i];
+  
+          if (!isNaN(partA) && !isNaN(partB)) {
+              var numA = parseInt(partA);
+              var numB = parseInt(partB);
+              if (numA !== numB) {
+                  return numA - numB;
+              }
+          } else {
+              if (partA !== partB) {
+                  return partA.localeCompare(partB);
+              }
+          }
+      }
+      return a.designno.length - b.designno.length;
+  });
+    setResultArray(resultArr);
 
     setMainTotal(mainTotal);
     let grandTot = totAmt + json?.AddLess;
@@ -296,6 +335,19 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       return { name, val };
     });
 
+    formattedArray?.sort((a, b) => {
+      let nameA = a?.name?.toUpperCase();
+      let nameB = b?.name?.toUpperCase();
+
+      if (nameA < nameB) {
+        return -1; // a should come before b
+      } else if (nameA > nameB) {
+        return 1; // a should come after b
+      } else {
+        return 0; // labels are equal
+      }
+    })
+
     let arr1 = formattedArray.slice(0, 3);
     let arr2 = formattedArray.slice(3, 6);
     let arr3 = formattedArray.slice(6, 9);
@@ -324,10 +376,10 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="mainheaderivp2">
                   <div className="head3ivp2">
                     <div className="d-flex" style={{ width: "70%" }}>
-                      <div className="fw-bold fs-4 px-2">INVOICE #: {headerData?.InvoiceNo}</div>
-                      <div className="fs-5 p-1" dangerouslySetInnerHTML={{ __html: headerData?.Remark }}></div>
+                      <div className="fw-bold px-2" style={{fontSize: "18px"}}>INVOICE #: {headerData?.InvoiceNo}</div>
+                      <div className=" px-1" style={{fontSize: "18px"}} dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></div>
                     </div>
-                    <div className="p-1" style={{width:"30%"}}>
+                    <div className="p-1" style={{ width: "30%" }}>
                       <div className="d-flex justify-content-end align-items-end binvivp2">
                         <b className="binvivp2 w-50">DATE :</b>
                         <span className="w-50">{headerData?.EntryDate}</span>
@@ -355,14 +407,15 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       {headerData?.customermobileno}
                     </div>
                     <div className="lhhead4ivp2">
-                      {headerData?.vat_cst_pan} |{" "}
-                      {headerData?.Company_CST_STATE}-
-                      {headerData?.Company_CST_STATE_No}
+                      {headerData?.CustGstNo !== "" && `GSTIN-${headerData?.CustGstNo}`}
+                      {headerData?.Cust_CST_STATE !== "" && headerData?.Cust_CST_STATE_No !== "" && ` | ${headerData?.Cust_CST_STATE}- ${headerData?.Cust_CST_STATE_No}`}
+                      {headerData?.CustPanno !== "" && ` | PAN-${headerData?.CustPanno}`} 
+
                     </div>
                   </div>
                 </div>
-                <div className="tableSectionivp2">
-                  <div className="theadivp2">
+                <div className="tableSectionivp2" style={{borderTop: "none", borderBottom: "none"}}>
+                  <div className="theadivp2" style={{borderTop: "none", borderBottom: "1px solid #e8e8e8"}}>
                     <div className="wthivp2 srwivp2">SR#</div>
                     <div className="wthivp2 designwivp2">DESIGNS / CODE</div>
                     <div className="wthivp2">METAL</div>
@@ -377,7 +430,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   {resultArray?.map((e, i) => {
                     return (
-                      <div className="tbodyivp2" key={i}>
+                      <div className="tbodyivp2" key={i}style={{borderTop: "none"}}>
                         <div className="wtbivp2 srwivp2">{e?.SrNo}</div>
                         <div className="wtbivp2 designwivp2 d-flex justify-content-around p-1">
                           <div className="w-50">
@@ -394,14 +447,12 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               style={{
                                 fontWeight: "bold",
                                 textAlign: "center",
-                                lineHeight: "8px",
                                 fontSize: "12px",
-                                height: "16px",
                               }}
                             >
                               {e?.designno}
                             </p>
-                            <p className="brbdesigninvp2 brbinvp2 pt-2">
+                            <p className="brbdesigninvp2 brbinvp2 text-center">
                               {e?.SrJobno}
                             </p>
                           </div>
@@ -413,7 +464,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           {e?.grosswt?.toFixed(3)}
                         </div>
                         <div className="wtbivp2 alignrightinvp2">
-                          {e?.NetWt?.toFixed(3)}
+                          {NumberWithCommas(e?.netWtLossWt, 3)}
                         </div>
                         <div className="wtbivp2 alignrightinvp2">
                           {e?.JobWiseTotal?.diamonds?.Pcs}
@@ -440,7 +491,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="secondheadinvp2">
 
                   <div>
-                    <div className="tbodyinvp2second">
+                    <div className="tbodyinvp2second" style={{borderTop: "0"}}>
                       <div className="wtbinvp2 wtotalinvp2 htotalrowinvp2">
                         <b className="totrowfsinvp2">TOTAL</b>
                       </div>
@@ -479,7 +530,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           {NumberWithCommas(mainTotal?.totOthAmt?.Amount, 2)}
                         </b>
                       </div>
-                      <div className="wtbinvp2 brightinvp2 htotalrowinvp2 alignrightinvp2">
+                      <div className="wtbinvp2 brightinvp2 htotalrowinvp2 alignrightinvp2" style={{borderRight: "unset"}}>
                         <b className="totrowfsinvp2 d-flex">
                           <p
                             dangerouslySetInnerHTML={{
@@ -499,10 +550,10 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               className="d-flex justify-content-between wtotinvp2"
                               key={i}
                             >
-                              <div className="w-50 d-flex justify-content-end">
+                              <div className="w-50 d-flex px-1">
                                 {e?.name} {e?.per}
                               </div>
-                              <div className="w-50 d-flex justify-content-end">
+                              <div className="ps-1 w-50 d-flex justify-content-end">
                                 {NumberWithCommas(e?.amount, 2)}
                               </div>
                             </div>
@@ -510,18 +561,18 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         })}
                       <div
                         className="d-flex justify-content-between wtotinvp2" >
-                        <div className="w-50 d-flex justify-content-end">
+                        <div className="w-50 d-flex px-1">
                           <p className="totgstinvp2 gsttotsum1 fw-bold"> {headerData?.AddLess > 0 ? "ADD" : "Less"} </p>
                         </div>
-                        <div className="w-50 d-flex justify-content-end"> <p className="totgstinvp2 fw-bold"> {headerData?.AddLess?.toFixed(2)} </p>
+                        <div className="ps-1 w-50 d-flex justify-content-end"> <p className="totgstinvp2 fw-bold"> {headerData?.AddLess?.toFixed(2)} </p>
                         </div>
                       </div>
                     </div>
                     <div className="grandtotalinvp2">
                       <div className="amtwordsinvp2 px-2">{inWords}</div>
                       <div className="amtwordsinvp2 wtotinvp2 d-flex align-items-center justify-content-end  wgtinvp2">
-                        <div className="w-50 d-flex justify-content-end"> Grand Total :</div>{" "}
-                        <div className="d-flex w-50 justify-content-end ">
+                        <div className="px-1 w-50 d-flex"> Grand Total :</div>{" "}
+                        <div className="px-1 d-flex w-50 justify-content-end ">
                           <p dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol, }} ></p>
                           {NumberWithCommas(grandTotal, 2)} /-
                         </div>
@@ -529,12 +580,12 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                   </div>
                   <div className="summaryinvp2">
-                    <div className="summaryinvp2fs">Summary Detail</div>
-                    <div className="summaryDetailinvp2">
+                    <div className="summaryinvp2fs lightGrey px-2">Summary Detail</div>
+                    <div className="summaryDetailinvp2 pt-1">
                       <div className="wsummaryinvp2 px-2">
                         {summaryDetail?.firstArr?.map((e, i) => {
                           return (
-                            <div key={i} className="d-flex arrinvp2">
+                            <div key={i} className="d-flex arrinvp2 align-items-start">
                               <div
                                 className="summwinvp2 fs13invp2"
                                 style={{ width: "60%" }}
@@ -549,7 +600,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 :{" "}
                               </div>
                               <div
-                                className="summwinvp2 fs13invp2"
+                                className="summwinvp2 fs13invp2 fw-bold"
                                 style={{ width: "20%" }}
                               >
                                 {e?.val}
@@ -561,7 +612,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="wsummaryinvp2">
                         {summaryDetail?.secondArr?.map((e, i) => {
                           return (
-                            <div className="d-flex arrinvp2" key={i}>
+                            <div className="d-flex arrinvp2 align-items-start" key={i}>
                               <div
                                 className="summwinvp2 fs13invp2"
                                 style={{ width: "60%" }}
@@ -576,7 +627,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 :{" "}
                               </div>
                               <div
-                                className="summwinvp2 fs13invp2"
+                                className="summwinvp2 fs13invp2 fw-bold"
                                 style={{ width: "20%" }}
                               >
                                 {e?.val}
@@ -588,7 +639,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="wsummaryinvp2">
                         {summaryDetail?.thirdArr?.map((e, i) => {
                           return (
-                            <div className="d-flex arrinvp2" key={i}>
+                            <div className="d-flex arrinvp2 align-items-start" key={i}>
                               <div
                                 className="summwinvp2 fs13invp2"
                                 style={{ width: "60%" }}
@@ -602,7 +653,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 :
                               </div>
                               <div
-                                className="summwinvp2 fs13invp2"
+                                className="summwinvp2 fs13invp2 fw-bold"
                                 style={{ width: "20%" }}
                               >
                                 {e?.val}
@@ -615,7 +666,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         {summaryDetail?.fourthArr?.map((e, i) => {
                           return (
                             <>
-                              <div className="d-flex arrinvp2" key={i}>
+                              <div className="d-flex arrinvp2 align-items-start" key={i}>
                                 <div
                                   className="summwinvp2 fs13invp2"
                                   style={{ width: "60%" }}
@@ -630,7 +681,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   :{" "}
                                 </div>
                                 <div
-                                  className="summwinvp2 fs13invp2"
+                                  className="summwinvp2 fs13invp2 fw-bold"
                                   style={{ width: "20%" }}
                                 >
                                   {e?.val}
@@ -643,7 +694,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                   </div>
                   <div className="notesinvp2">
-                    <div className="noteinvp2">NOTE :</div>
+                    <div className="noteinvp2">DECLARATION :</div>
                     <div
                       className="noteDemoinvp2 pb-4"
                       dangerouslySetInnerHTML={{
