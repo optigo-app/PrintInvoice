@@ -159,6 +159,8 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setResult(datas);
     
   }
+  console.log(result?.header)
+
 
 
   return (
@@ -210,9 +212,9 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     <div className='text-break p-1 col4_ri center_ri'>{e?.grosswt?.toFixed(3)}</div>
                                     <div className='text-break p-1 col5_ri center_ri'>{e?.totals?.diamonds?.Wt?.toFixed(3)}</div>
                                     <div className='text-break p-1 col6_ri center_ri'>{e?.totals?.colorstone?.Wt?.toFixed(3)}</div>
-                                    <div className='text-break p-1 col7_ri center_ri'>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div>
+                                    <div className='text-break p-1 col7_ri center_ri'>{((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}</div>
                                     {/* <div className='text-break p-1 col8_ri center_ri'>{formatAmount((e?.UnitCost - (e?.totals?.finding?.SettingAmount + e?.totals?.metal?.withoutPrimaryMetal_Amount)))}</div> */}
-                                    <div className='text-break p-1 col8_ri center_ri'>{formatAmount((e?.UnitCost))}</div>
+                                    <div className='text-break p-1 col8_ri center_ri'>{formatAmount(((e?.UnitCost + e?.OtherCharges)))}</div>
                                     <div className='p-1 col9_ri center_ri'><img src={e?.DesignImage} alt="#jobimg" onError={(e) => handleImageError(e)} className='img_ri' /></div>
                                     {/* <div className='text-break p-1 col10_ri center_ri flex-column'><span>{e?.IsCriteriabasedAmount === 0 ? '-' : `${formatAmount(e?.Discount)} % On `  } </span><span>{e?.discountOn?.map((el, ind) => <div key={ind}>{el}</div>)}</span></div> */}
                                     <div className='text-break p-1 col10_ri center_ri flex-column'>
@@ -235,7 +237,7 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className='text-break p-1 col5_ri center_ri'>{result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</div>
                             <div className='text-break p-1 col6_ri center_ri'>{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</div>
                             <div className='text-break p-1 col7_ri center_ri'>{(result?.mainTotal?.netwt + result?.mainTotal?.lossWt)?.toFixed(3)}</div>
-                            <div className='text-break p-1 col8_ri center_ri'>{formatAmount((result?.mainTotal?.total_unitcost))}</div>
+                            <div className='text-break p-1 col8_ri center_ri'>{formatAmount(((result?.mainTotal?.total_unitcost + result?.mainTotal?.total_other)))}</div>
                             <div className='p-1 col9_ri center_ri'></div>
                             <div className='text-break p-1 col10_ri center_ri'></div>
                             <div className='text-break p-1 col11_ri center_ri'>{formatAmount(result?.mainTotal?.total_discount_amount)}</div>
