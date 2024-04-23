@@ -150,7 +150,9 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       total2.discount += e?.DiscountAmt;
       obj.primaryWt = primaryWt;
       obj.netWtFinal = netWtFinal;
-      obj.metalAmountFinal = e?.MetalAmount - findingsAmount + secondaryMetalAmount;
+      // obj.metalAmountFinal = e?.MetalAmount - findingsAmount + secondaryMetalAmount;
+      obj.metalAmountFinal = e?.totals?.metal?.Amount - findingsAmount;
+      console.log(e?.totals?.metal?.Amount);
       if (count <= 1) {
         primaryWt = e?.NetWt + e?.LossWt;
       }
@@ -284,30 +286,30 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       newArr?.push(obj);
     });
 
-    newArr?.sort((a, b)=> {
+    newArr?.sort((a, b) => {
       var regex = /(\d+)|(\D+)/g;
       var partsA = a.label.match(regex);
       var partsB = b.label.match(regex);
-  
+
       for (var i = 0; i < Math.min(partsA.length, partsB.length); i++) {
-          var partA = partsA[i];
-          var partB = partsB[i];
-  
-          if (!isNaN(partA) && !isNaN(partB)) {
-              var numA = parseInt(partA);
-              var numB = parseInt(partB);
-              if (numA !== numB) {
-                  return numA - numB;
-              }
-          } else {
-              if (partA !== partB) {
-                  return partA.localeCompare(partB);
-              }
+        var partA = partsA[i];
+        var partB = partsB[i];
+
+        if (!isNaN(partA) && !isNaN(partB)) {
+          var numA = parseInt(partA);
+          var numB = parseInt(partB);
+          if (numA !== numB) {
+            return numA - numB;
           }
+        } else {
+          if (partA !== partB) {
+            return partA.localeCompare(partB);
+          }
+        }
       }
-  
+
       return a.label.length - b.label.length;
-  })
+    })
 
 
     setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
