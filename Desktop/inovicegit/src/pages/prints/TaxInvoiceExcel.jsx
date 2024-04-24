@@ -252,13 +252,13 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.total_amount = e?.TotalAmount;
             
             let arr = [];
-            let len = 5;
+            let len = 7;
             if(e?.diamonds?.length > e?.colorstone?.length){
-                if(e?.diamonds?.length > 3){
+                if(e?.diamonds?.length > 7){
                     len = e?.diamonds?.length;
                 }
             }else if(e?.diamonds?.length < e?.colorstone?.length){
-                    if(e?.colorstone?.length > 3){
+                    if(e?.colorstone?.length > 7){
                     len = e?.colorstone?.length;
                 }
             }
@@ -534,16 +534,17 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                  />
                 <table id='table-to-xls'>
                     <tbody>
-                        <tr></tr>
+            
                         {/* head line */}
-                        <tr><td colSpan={23} style={tableCellStyle}>{result?.header?.PrintHeadLabel}</td> </tr>
+                        <tr> <td colSpan={23} style={tableCellStyle}>{result?.header?.PrintHeadLabel}</td> </tr>
                         
 
                         {/* company header */}
-                        <tr> <td style={{fontSize:'18px', fontWeight:'bold', paddingBottom:'5px'}} colSpan={21}>{result?.header?.CompanyFullName}</td> <td colSpan={2}></td> </tr>
+                        <tr > <td style={{fontSize:'18px', fontWeight:'bold', paddingBottom:'5px'}} colSpan={21}>{result?.header?.CompanyFullName}</td> <td colSpan={2}></td> </tr>
                         <tr> 
                             <td  colSpan={21}> {result?.header?.CompanyAddress} </td> 
-                            <td width={132} style={{ padding:'5px'}} colSpan={2} rowSpan={5}>{isImageWorking && (result?.header?.PrintLogo !== "" && 
+                            <td width={132} style={{ padding:'5px'}} colSpan={2} rowSpan={5}>
+                                {isImageWorking && (result?.header?.PrintLogo !== "" && 
                                     <img src={result?.header?.PrintLogo} alt="" 
                                     className='w-25 h-auto ms-auto d-block object-fit-contain'
                                     onError={handleImageErrors} width={132} />)}
@@ -637,8 +638,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                 return (<>
                                     <tr>
                                         <td width={90} style={{borderRight:'1px solid #989898'}} align='center'>{e?.sr}</td>
-                                        <td width={90}>&nbsp;{e?.SrJobno}</td>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{e?.designno}</td>
+                                        <td width={90}>&nbsp;{e?.designno}</td>
+                                        <td width={90} style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.SrJobno}</td>
                                         <td width={90}>{e?.dia_code}</td>
                                         <td width={90}>{e?.dia_size}</td>
                                         <td width={90}>{e?.dia_pcs}</td>
@@ -756,7 +757,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                 <th style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}} align='right'>{result?.mainTotal?.colorstone?.Wt === 0 ? '' : result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</th>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
                                 <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>{ result?.mainTotal?.colorstone?.Amount === 0 ? '' :  formatAmount(result?.mainTotal?.colorstone?.Amount)}</th>
-                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>{ (result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling) === 0 ? '' :  formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling))}</th>
+                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>{ (result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling) === 0 ? '' :  formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount))}</th>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898', borderRight:'1px solid #989898'}}></td>
                                 <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>{ (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount) === 0 ? '' : formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</th>
                                 <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>{ (result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)) === 0 ? '' :  formatAmount((result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</th>
