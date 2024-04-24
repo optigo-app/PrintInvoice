@@ -587,9 +587,16 @@ const allTaxes = allTax?.map((e) => {
       allTaxTotal += +e?.amount;
       return obj;
   })
-
+  let finalArr = [];
+  resultArray?.forEach((e) => {
+    let obj = {...e};
+    let metal_rate = e?.metal?.reduce((acc, val) => acc + val?.Rate, 0);
+    obj.metal_rate = metal_rate;
+    finalArr.push(obj);
+  })
   const finalObject = {
-    resultArray: resultArray,
+    // resultArray: resultArray,
+    resultArray: finalArr,
     mainTotal: maintotal,
     finalAmount: +totalAmount,
     allTaxes: allTaxes,
