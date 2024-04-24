@@ -43,7 +43,21 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let makingSetting = 0;
         let otherChargesDiamondHandling = 0;
         let diasCsMiscPcs = 0;
-
+        let totalObj = {
+            pcs: 0,
+            materialWeight: 0,
+            rate: 0,
+            amount: 0,
+            making: 0,
+            others: 0,
+            totalAmount: 0,
+            sgstAmount: 0,
+            cgstAmount: 0,
+            addLess: 0,
+            grandTotal: 0,
+            textInNumbers: "",
+            goldWeight: 0
+        }
         datas?.resultArray?.forEach((e, i) => {
             let obj = cloneDeep(e);
             makingSetting += (e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.MakingAmount) / data?.BillPrint_Json[0]?.CurrencyExchRate;
@@ -73,6 +87,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             });
             let misc = [];
             obj?.misc?.forEach((ele, ind) => {
+                totalObj.goldWeight += ele?.Wt + ele?.ServWt;
                 let findmisc = misc?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
                 if (findmisc === -1) {
                     misc?.push(ele);
@@ -80,6 +95,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     misc[findmisc].Wt += ele?.Wt;
                     misc[findmisc].Pcs += ele?.Pcs;
                     misc[findmisc].Amount += ele?.Amount;
+                    misc[findmisc].ServWt += ele?.ServWt;
                 }
             });
 
@@ -96,14 +112,15 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 netWtLossWt = e?.NetWt + e?.LossWt + (e?.totals?.diamonds?.Wt / 5);
             }
             obj.netWtLossWt = netWtLossWt;
+            totalObj.goldWeight += netWtLossWt;
             obj.diamonds = diamonds;
             obj.colorstone = colorstone;
             obj.misc = misc;
             obj.SettingAmount = SettingAmount
             let findObjs = resultArr?.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob && e?.GroupJob !== "");
-            diasCsMiscPcs += obj?.diamonds?.reduce((acc, cObj) => acc+cObj?.Pcs, 0)+
-            obj?.colorstone?.reduce((acc, cObj) => acc+cObj?.Pcs, 0)+
-            obj?.misc?.reduce((acc, cObj) => acc+cObj?.Pcs, 0)
+            diasCsMiscPcs += obj?.diamonds?.reduce((acc, cObj) => acc + cObj?.Pcs, 0) +
+                obj?.colorstone?.reduce((acc, cObj) => acc + cObj?.Pcs, 0) +
+                obj?.misc?.reduce((acc, cObj) => acc + cObj?.Pcs, 0)
             if (findObjs === -1) {
                 resultArr?.push(obj);
             } else {
@@ -129,7 +146,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     resultArr[findObjs].metal[0].QualityName = obj?.metal[0]?.QualityName;
                 }
 
-                resultArr[findObjs].Tunch = (resultArr[findObjs].Tunch + obj?.Tunch)/2;
+                resultArr[findObjs].Tunch = (resultArr[findObjs].Tunch + obj?.Tunch) / 2;
                 resultArr[findObjs].grosswt += obj?.grosswt;
                 resultArr[findObjs].NetWt += obj?.NetWt;
                 resultArr[findObjs].LossWt += obj?.LossWt;
@@ -178,6 +195,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         blankMisc[findmiscss].Wt += ele?.Wt;
                         blankMisc[findmiscss].Pcs += ele?.Pcs;
                         blankMisc[findmiscss].Amount += ele?.Amount;
+                        blankMisc[findmiscss].ServWt += ele?.ServWt;
                     }
                 });
                 resultArr[findObjs].diamonds = blankDiamonds;
@@ -223,21 +241,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setFinalD(datas);
         console.log(datas);
         setJsonData1(data?.BillPrint_Json[0]);
-        let totalObj = {
-            pcs: 0,
-            materialWeight: 0,
-            rate: 0,
-            amount: 0,
-            making: 0,
-            others: 0,
-            totalAmount: 0,
-            sgstAmount: 0,
-            cgstAmount: 0,
-            addLess: 0,
-            grandTotal: 0,
-            textInNumbers: "",
-            goldWeight: 0
-        }
+
         let taxValue = taxGenrator(data?.BillPrint_Json[0], totalObj.totalAmount);
         setTaxes(taxValue);
         totalObj.materialWeight = datas?.mainTotal?.diamonds?.Wt + datas?.mainTotal?.colorstone?.Wt;
