@@ -93,12 +93,13 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let address = copydata?.BillPrint_Json[0]?.Printlable?.split("\r\n");
         copydata.BillPrint_Json[0].address = address;
         
-        const datas = OrganizeDataPrint(
+        let datass = OrganizeDataPrint(
           copydata?.BillPrint_Json[0],
           copydata?.BillPrint_Json1,
           copydata?.BillPrint_Json2
         );
-        
+        const datas = cloneDeep(datass);
+        console.log(datass);
         let finalArr = [];
 
         datas?.resultArray?.forEach((a) => {
@@ -249,9 +250,7 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setMisctotPcs(totmiscwt)
 
         datas?.resultArray?.sort((a,b) => a?.designno - b?.designno)
-
         
-
         setResult(datas);
     }
     useEffect(() => {
@@ -278,7 +277,6 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         sendData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    console.log(result);
     return (
         loader ? <Loader /> : msg === "" ? <>
             <div className={`container max_width_container ${style?.RetailPrint3} pad_60_allPrint px-1 mt-1 RetailPrint3`}>
@@ -772,7 +770,7 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         {
                             result?.allTaxes?.map((e, i) => {
                                 return(
-                                    <div className='d-flex w-100'>
+                                    <div className='d-flex w-100' key={i}>
                                         <div className='text-end border-end pe-1 fs_rp_2' style={{width:'67%'}}>{e?.name} @ {e?.per}</div>
                                         <div className='text-end pe-1 fs_rp_2' style={{width:'33%'}}>{formatAmount(e?.amount)}</div>
                                     </div>

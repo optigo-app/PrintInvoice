@@ -391,16 +391,14 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               </div>
             </div>
-            <div className="col6_dp3 border-secondary border-end end_top_dp3">{formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}</div>
+            <div className="col6_dp3 border-secondary border-end end_top_dp3">{formatAmount((result?.mainTotal?.totalMiscAmount + result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling))}</div>
             {/* <div className="col6_dp3 border-secondary border-end end_top_dp3">{formatAmount((result?.mainTotal?.total_other_charges + result?.mainTotal?.total_diamondHandling))}</div> */}
             <div className="col7_dp3 border-secondary border-end">
               <div className="d-flex">
                 {/* <div className="w-50 end_top_dp3"></div> */}
               <div className="w-100 end_top_dp3">{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</div></div>
             </div>
-            <div className="col8_dp3 end_top_dp3">{
-            formatAmount((
-              result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</div>
+            <div className="col8_dp3 end_top_dp3">{formatAmount((result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</div>
           </div>
       </div>
       {/* summary & footer */}

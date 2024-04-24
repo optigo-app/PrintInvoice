@@ -120,6 +120,7 @@ export const excelConditions = [
   { printName: "sale format j1", etpType: "excel", componentName: "ExcelToJsonDownloadJ1"},
   { printName: "sale format r", etpType: "excel", componentName: "ExcelToJsonDownloadR"},
   { printName: "quotation format", etpType: "excel", componentName: "QuotationExcel"},
+  { printName: "tax invoice", etpType: "excel", componentName: "TaxInvoiceExcel"},
 ];
 
 export const alterationArray = [
