@@ -408,6 +408,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                     <div className="lhhead4ivp2">
                       {headerData?.CustGstNo !== "" && `GSTIN-${headerData?.CustGstNo}`}
+                      {(headerData?.CustGstNo === "" && headerData?.Cust_VAT_GST_No !== "") && `VAT-${headerData?.Cust_VAT_GST_No}`}
                       {headerData?.Cust_CST_STATE !== "" && headerData?.Cust_CST_STATE_No !== "" && ` | ${headerData?.Cust_CST_STATE}- ${headerData?.Cust_CST_STATE_No}`}
                       {headerData?.CustPanno !== "" && ` | PAN-${headerData?.CustPanno}`} 
 
