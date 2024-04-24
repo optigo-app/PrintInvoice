@@ -25,6 +25,8 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   const [grandTotal, setGrandTotal] = useState(0);
   const toWords = new ToWords();
   const [isImageWorking, setIsImageWorking] = useState(true);
+  
+  const [marginNone, setMarginNone] = useState(false);
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
@@ -37,9 +39,8 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
+    console.log(datas);
     let finalArr = [];
-    
-    
     datas?.resultArray?.forEach((e, i) => {
       let findData = finalArr?.findIndex(
         (ele) => ele.MetalPurity === e?.MetalPurity
@@ -54,11 +55,9 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         finalArr[findData].totals.colorstone.Wt += e?.totals?.colorstone?.Wt;
         finalArr[findData].totals.misc.Amount += e?.totals?.misc?.Amount;
         finalArr[findData].TotalDiamondHandling += e?.TotalDiamondHandling;
-        finalArr[findData].totals.diamonds.SettingAmount +=
-          e?.totals.diamonds.SettingAmount;
-        finalArr[findData].totals.colorstone.SettingAmount +=
-          e?.totals.colorstone.SettingAmount;
-          
+        finalArr[findData].totals.diamonds.SettingAmount += e?.totals.diamonds.SettingAmount;
+        finalArr[findData].totals.colorstone.SettingAmount += e?.totals.colorstone.SettingAmount;
+
         // let otherAmtDetails = [
         //   ...finalArr[findData]?.other_amount_details,
         //   ...e?.other_amount_details,
@@ -76,11 +75,8 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         //   }
         // });
         // finalArr[findData].otherAmtDetails = otherAmtDetail;
-        let otherAmtDetails = [
-          ...e?.other_details,
-          ...finalArr[findData]?.other_details,
-        ]?.flat();
-        let  otherAmtDetail2 = [];
+        let otherAmtDetails = [...e?.other_details, ...finalArr[findData]?.other_details,]?.flat();
+        let otherAmtDetail2 = [];
         otherAmtDetails?.forEach((elem, index) => {
           let findOther = otherAmtDetail2?.findIndex(
             (ele) => ele?.label === elem?.label
@@ -92,9 +88,11 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               +otherAmtDetail2[findOther]?.value + +elem?.value;
           }
         });
-        finalArr[findData].otherAmtDetails = otherAmtDetail2;
+        // finalArr[findData].otherAmtDetails = otherAmtDetail2;
+        finalArr[findData].other_details = otherAmtDetail2;
         finalArr[findData].MakingAmount += e?.MakingAmount;
         finalArr[findData].TotalAmount += e?.TotalAmount;
+        finalArr[findData].UnitCost += e?.UnitCost;
       }
     });
     setData(finalArr);
@@ -102,6 +100,19 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     setTotal(datas?.mainTotal);
     setGrandTotal(datas?.finalAmount);
   };
+
+    // Function to check margin and update state
+    const checkMargin = () => {
+      const element = document.getElementById('myElement');
+      if (element) {
+        const computedStyle = window.getComputedStyle(element);
+        if (computedStyle.margin === '0px') {
+          setMarginNone(true);
+        } else {
+          setMarginNone(false);
+        }
+      }
+    };
 
   useEffect(() => {
     const sendData = async () => {
@@ -125,23 +136,38 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       }
     };
     sendData();
+    checkMargin();
+  }, []);
+
+
+
+
+  // useEffect to check margin when component mounts and on subsequent updates
+
+
+  useEffect(() => {
+    // Listen for changes in margin using MutationObserver
+    const element = document.getElementById('myElement');
+    if (element) {
+      const observer = new MutationObserver(checkMargin);
+      observer.observe(element, { attributes: true, attributeFilter: ['style'] });
+      return () => {
+        observer.disconnect();
+      };
+    }
   }, []);
 
   return loader ? (
     <Loader />
   ) : msg === "" ? (
-    <div
-      className={`container container-fluid max_width_container mt-1 ${style?.InvoicePrint_12} pad_60_allPrint`}
-    >
-
+    <div className={`container container-fluid max_width_container mt-1 ${style?.InvoicePrint_12} pad_60_allPrint ${marginNone ? 'pt-0' : 'hell'}`} >
       {/* buttons */}
-      <div
-        className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
-      >
+      <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`} >
         <div className="form-check ps-3">
           <input
             type="button"
-            className="btn_white blue py-2 mt-2"
+            className="btn_white blue py-1 mt-2"
+            style={{fontSize: "15px"}}
             value="Print"
             onClick={(e) => handlePrint(e)}
           />
@@ -149,11 +175,10 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       </div>
       {/* Title */}
       <div className="py-1">
-        <h4 className="text-center fs-4 fw-semibold">
+        <h4 className="text-center fs-5 fw-semibold">
           {headerData?.PrintHeadLabel}
         </h4>
       </div>
-
       {/* header */}
       <div className="d-flex border p-2">
         <div className="col-8">
@@ -178,6 +203,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             <p className="fw-semibold">PAN </p>
             <p className="fw-semibold">GSTIN </p>
             <p className="fw-semibold">MSME NO </p>
+            <p className="fw-semibold">TERMS </p>
           </div>
           <div className="col-8">
             <p>: {headerData?.InvoiceNo}</p>
@@ -187,10 +213,10 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             <p>: {headerData?.Pannumber}</p>
             <p>: {headerData?.Company_VAT_GST_No.replace("GSTIN-", "")}</p>
             <p>: {headerData?.MSME}</p>
+            <p>: {headerData?.DueDays} Days</p>
           </div>
         </div>
       </div>
-
       {/* table header */}
       <div className="d-flex border-bottom border-start border-end">
         <div className={`${style?.Sr} border-end`}>
@@ -227,15 +253,10 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           <p className="fw-bold text-center">Product Value</p>
         </div>
       </div>
-
       {/* table data */}
-
       {data.map((e, i) => {
         return (
-          <div
-            className={`d-flex border-bottom border-start border-end ${style?.table}`}
-            key={i}
-          >
+          <div className={`d-flex border-bottom border-start border-end ${style?.table}`} key={i} >
             <div className={`${style?.Sr} border-end`}>
               <p className="text-center">{i + 1}</p>
             </div>
@@ -265,24 +286,22 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               <p className="text-end">{NumberWithCommas(e?.NetWt, 3)}</p>
             </div>
             <div className={`${style?.Other} border-end`}>
-              {e?.other_amount_details?.map((ele, ind) => {
-                return (
-                  <div className="d-flex justify-content-between" key={ind}>
-                    <p>{ele?.label}</p>
-                    <p>{NumberWithCommas(+ele?.value, 2)}</p>
-                  </div>
-                );
+              {e?.other_details?.map((ele, ind) => {
+                return <div className="d-flex justify-content-between" key={ind}>
+                  <p className="pe-1 col-8">{ele?.label}</p>
+                  <p style={{wordBreak: "break-all"}} className="col-4 text-end">{NumberWithCommas(+ele?.value, 2)}</p>
+                </div>
               })}
               {e?.TotalDiamondHandling !== 0 && (
                 <div className="d-flex justify-content-between">
-                  <p>Handling</p>
-                  <p>{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>
+                  <p className="pe-1 col-8">Handling Charges</p>
+                  <p className="col-4 text-end" style={{wordBreak: "break-all"}}>{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>
                 </div>
               )}
               {e?.totals?.misc?.Amount !== 0 && (
                 <div className="d-flex justify-content-between">
-                  <p>Misc</p>
-                  <p>{NumberWithCommas(e?.totals?.misc?.Amount, 2)}</p>
+                  <p className="pe-1 col-8">Misc Charges</p>
+                  <p className="col-4 text-end" style={{wordBreak: "break-all"}}>{NumberWithCommas(e?.totals?.misc?.Amount, 2)}</p>
                 </div>
               )}
             </div>
@@ -297,16 +316,13 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               </p>
             </div>
             <div className={`${style?.ProductVal}`}>
-              <p className="text-end">{NumberWithCommas(e?.TotalAmount, 2)}</p>
+              <p className="text-end">{NumberWithCommas(e?.UnitCost, 2)}</p>
             </div>
           </div>
         );
       })}
-
       {/* total */}
-      <div
-        className={`d-flex border-bottom border-start border-end ${style?.table}`}
-      >
+      <div className={`d-flex border-bottom border-start border-end ${style?.table}`} >
         <div className={`${style?.Sr} border-end`}>
           <p className="text-center"></p>
         </div>
@@ -318,7 +334,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         </div>
         <div className={`${style?.Qty} border-end fw-semibold`}>
           <p className="text-end">
-            {NumberWithCommas(total?.total_Quantity, 0)}
+            {NumberWithCommas(total?.total_Quantity, 2)}
           </p>
         </div>
         <div className={`${style?.Gross} border-end fw-semibold`}>
@@ -347,14 +363,13 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         </div>
         <div className={`${style?.Making} border-end fw-semibold`}>
           <p className="text-end">
-            {NumberWithCommas(total?.total_Making_Amount+total?.diamonds?.SettingAmount+total?.colorstone?.SettingAmount, 2)}{" "}
+            {NumberWithCommas(total?.total_Making_Amount + total?.diamonds?.SettingAmount + total?.colorstone?.SettingAmount, 2)}{" "}
           </p>
         </div>
         <div className={`${style?.ProductVal} fw-semibold`}>
-          <p className="text-end">{NumberWithCommas(total?.total_amount, 2)}</p>
+          <p className="text-end">{NumberWithCommas(total?.total_unitcost, 2)}</p>
         </div>
       </div>
-
       {/* taxes */}
       <div className={`d-flex border-bottom border-start border-end`}>
         <div
@@ -362,20 +377,35 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         >
           <p>Value in Words:</p>
           <p className="fw-semibold">
-            {toWords.convert(+fixedValues(grandTotal, 2))} Only.
+            {toWords.convert(+fixedValues(total?.total_amount + taxes?.reduce((acc, cObj) => acc + +cObj?.amount * headerData?.CurrencyExchRate, 0) + headerData?.AddLess, 2))} Only.
           </p>
         </div>
         <div className={`${style?.totalAmount}`}>
           <div className={`d-flex ${style?.table}`}>
-            <div
-              className={`${style?.totalAmtWord} border-end text-end fw-bold`}
-            >
+            <div className={`${style?.totalAmtWord} border-end text-end fw-bold`} >
               Total Amount
             </div>
             <div className={`${style?.totalAmtValue} fw-bold text-end`}>
-              {NumberWithCommas(total?.total_amount, 2)}
+              {NumberWithCommas(total?.total_unitcost, 2)}
             </div>
           </div>
+          {total?.total_discount_amount !== 0 && <div className={`d-flex ${style?.table}`}>
+            <div className={`${style?.totalAmtWord} border-end text-end`} >
+              Discount
+            </div>
+            <div className={`${style?.totalAmtValue} text-end`}>
+              {NumberWithCommas(total?.total_discount_amount, 2)}
+            </div>
+          </div>}
+       {total?.total_discount_amount !== 0 &&    <div className={`d-flex ${style?.table}`}>
+            <div className={`${style?.totalAmtWord} border-end text-end`} >
+              Value After Discount:
+            </div>
+            <div className={`${style?.totalAmtValue} text-end`}>
+              {NumberWithCommas(total?.total_amount, 2)}
+            </div>
+          </div>}
+
           {taxes.map((e, i) => {
             return (
               <div className={`d-flex ${style?.table}`} key={i}>
@@ -383,7 +413,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                   {e?.name} @ {e?.per}
                 </div>
                 <div className={`${style?.totalAmtValue} text-end`}>
-                  {e?.amount}
+                  {NumberWithCommas(e?.amount * headerData?.CurrencyExchRate, 2)}
                 </div>
               </div>
             );
@@ -410,54 +440,42 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               <span
                 dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
               ></span>
-              {NumberWithCommas(grandTotal, 2)}
+              {/* {NumberWithCommas(grandTotal, 2)} */}
+              {NumberWithCommas(total?.total_amount + taxes?.reduce((acc, cObj) => acc + +cObj?.amount * headerData?.CurrencyExchRate, 0) + headerData?.AddLess, 2)}
             </div>
           </div>
         </div>
       </div>
-
       {/* remark */}
       <div className={`border-bottom border-start border-end p-2`}>
         <p className="fw-bold text-decoration-underline">Remark : </p>
         <p>  {headerData?.PrintRemark}</p>
       </div>
-
       {/* declaration */}
       <div className="my-1 border">
         <p className="fw-bold text-decoration-underline px-2 pt-2">Notes: </p>
-        <div
-          className="px-2 pb-2"
-          dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
-        ></div>
+        <div className="px-2 pb-2" dangerouslySetInnerHTML={{ __html: headerData?.Declaration }} ></div>
       </div>
-
-
       {/* footer */}
-        {/* {footer} */}
-        <div className={`${footerStyle.container} no_break`}>
-          <div
-            className={footerStyle.block1f3}
-            style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
-          >
-            <div className={footerStyle.linesf3} style={{ fontWeight: "bold" }}>Bank Detail</div>
-            <div className={footerStyle.linesf3}>Bank Name: {headerData?.bankname}</div>
-            <div className={footerStyle.linesf3}>Branch: {headerData?.bankaddress}</div>
-            <div className={footerStyle.linesf3}>Account Name: {headerData?.accountname}</div>
-            <div className={footerStyle.linesf3}>Account No. : {headerData?.accountnumber}</div>
-            <div className={footerStyle.linesf3}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
-          </div>
-          <div
-            className={footerStyle.block2f3}
-            style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
-          >
-            <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
-            <div className={footerStyle.linesf3}>{headerData?.customerfirmname}</div>
-          </div>
-          <div className={footerStyle.block2f3} style={{ width: "33.33%" }}>
-            <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
-            <div className={footerStyle.linesf3}>{headerData?.CompanyFullName}</div>
-          </div>
+      {/* {footer} */}
+      <div className={`${footerStyle.container} no_break`}>
+        <div className={footerStyle.block1f3} style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }} >
+          <div className={footerStyle.linesf3} style={{ fontWeight: "bold" }}>Bank Detail</div>
+          <div className={footerStyle.linesf3}>Bank Name: {headerData?.bankname}</div>
+          <div className={footerStyle.linesf3}>Branch: {headerData?.bankaddress}</div>
+          <div className={footerStyle.linesf3}>Account Name: {headerData?.accountname}</div>
+          <div className={footerStyle.linesf3}>Account No. : {headerData?.accountnumber}</div>
+          <div className={footerStyle.linesf3}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
         </div>
+        <div className={footerStyle.block2f3} style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }} >
+          <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
+          <div className={footerStyle.linesf3}>{headerData?.customerfirmname}</div>
+        </div>
+        <div className={footerStyle.block2f3} style={{ width: "33.33%" }}>
+          <div className={`${footerStyle.linesf3} fw-normal`}>Signature</div>
+          <div className={footerStyle.linesf3}>{headerData?.CompanyFullName}</div>
+        </div>
+      </div>
     </div>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

@@ -4,8 +4,8 @@
 }
 
 .Sr {
-  width: 5%;
-  min-width: 5%;
+  width: 4%;
+  min-width: 4%;
 }
 
 .Product {
@@ -15,8 +15,8 @@
 
 .KT,
 .Qty {
-    width: 7%;
-    min-width: 7%;
+    width: 5%;
+    min-width: 5%;
 }
 
 .Gross,
@@ -28,8 +28,8 @@
 }
 
 .Other {
-    width: 12%;
-    min-width: 12%;
+    width: 17%;
+    min-width: 17%;
 }
 
 .Making,
@@ -65,5 +65,9 @@ min-width: 68.8%;
 @media print {
   .print_sec_sum4 {
     display: none !important;
+  }
+
+  .InvoicePrint_12{
+    padding-top: 150px;
   }
 }
