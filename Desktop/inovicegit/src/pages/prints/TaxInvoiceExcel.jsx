@@ -350,7 +350,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         catewise.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
         setResult3(catewise)
 
-        console.log(diarndotherarr5[0], diarndotherarr5[1]);
 
 
         let rowArr = [];
@@ -535,13 +534,13 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                  />
                 <table id='table-to-xls'>
                     <tbody>
-
+                        <tr></tr>
                         {/* head line */}
-                        <tr> <td colSpan={23} style={tableCellStyle}>{result?.header?.PrintHeadLabel}</td> </tr>
+                        <tr><td colSpan={23} style={tableCellStyle}>{result?.header?.PrintHeadLabel}</td> </tr>
                         
 
                         {/* company header */}
-                        <tr > <td style={{fontSize:'18px', fontWeight:'bold', paddingBottom:'5px'}} colSpan={21}>{result?.header?.CompanyFullName}</td> <td colSpan={2}></td> </tr>
+                        <tr> <td style={{fontSize:'18px', fontWeight:'bold', paddingBottom:'5px'}} colSpan={21}>{result?.header?.CompanyFullName}</td> <td colSpan={2}></td> </tr>
                         <tr> 
                             <td  colSpan={21}> {result?.header?.CompanyAddress} </td> 
                             <td width={132} style={{ padding:'5px'}} colSpan={2} rowSpan={5}>{isImageWorking && (result?.header?.PrintLogo !== "" && 
@@ -771,7 +770,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             {
                                 rowWise?.map((e, i) => {
                                     return  <tr key={i}>
-                                                <th align='left'>{e?.grosswt_name}</th>
+                                                <th align='left' width={100}>{e?.grosswt_name}</th>
                                                 <td align='right' colSpan={2} style={{borderRight:'1px solid #989898'}}>{e?.grosswt_value} {e?.grosswt_value === '' ? '' : 'gms'}</td>
                                                 <th align='left'>{e?.name}</th>
                                                 <td colSpan={2} align='right' style={{borderRight:'1px solid #989898'}}>{e?.value}</td>
@@ -785,7 +784,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             }
                         
                         <tr><td style={{borderTop:'1px solid #989898', borderLeft:'1px solid #989898', borderRight:'1px solid #989898'}}  colSpan={23}><b>NOTE:</b></td></tr>
-                        <tr><th style={{border:'1px solid #989898'}} colSpan={23} align='left'><span dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></span></th></tr>
+                        <tr><th style={{border:'1px solid #989898', borderTop:'0px'}} colSpan={23} align='left'><span dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></span></th></tr>
                         
                     
                     </tbody>
