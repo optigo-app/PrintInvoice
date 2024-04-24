@@ -218,7 +218,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.SrJobno = `${e?.SrJobno}`;
             obj.designno = e?.designno;
 
-            obj.dia_code = e?.diamonds[0] ? e?.diamonds[0]?.ShapeName : '';
+            obj.dia_code = e?.diamonds[0] ? (e?.diamonds[0]?.ShapeName + " " + e?.diamonds[0]?.QualityName + " " + e?.diamonds[0]?.Colorname) : '';
             obj.dia_size = e?.diamonds[0] ? e?.diamonds[0]?.SizeName : '';
             obj.dia_pcs = e?.diamonds[0] ? e?.diamonds[0]?.Pcs : '';
             obj.dia_wt = e?.diamonds[0] ? ((e?.diamonds[0]?.Wt)?.toFixed(3)) : '';
@@ -237,8 +237,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 obj.met_quality = findMetal ? (findMetal?.ShapeName + " " + findMetal?.QualityName) : '';
             
 
-
-            obj.cls_code = e?.colorstone[0] ? (e?.colorstone[0]?.ShapeName) : '';
+            
+            obj.cls_code = e?.colorstone[0] ? (e?.colorstone[0]?.ShapeName + " " + e?.colorstone[0]?.QualityName + " " + e?.colorstone[0]?.Colorname) : '';
             obj.cls_size = e?.colorstone[0] ? (e?.colorstone[0]?.SizeName) : '';
             obj.cls_pcs = e?.colorstone[0] ? (e?.colorstone[0]?.Pcs) : '';
             obj.cls_wt = e?.colorstone[0] ? ((e?.colorstone[0]?.Wt)?.toFixed(3)) : '';
@@ -291,7 +291,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 obj.diaflag = false;
                 if(e?.diamonds[i+1]){
                     obj.diaflag = true;
-                    obj.dia_code = e?.diamonds[i+1]?.ShapeName + " " + e?.diamonds[i+1]?.QualityName + " " + e?.diamonds[i+1]?.Colorname;
+                    obj.dia_code = (e?.diamonds[i+1]?.ShapeName + " " + e?.diamonds[i+1]?.QualityName + " " + e?.diamonds[i+1]?.Colorname);
                     obj.dia_size = e?.diamonds[i+1]?.SizeName;
                     obj.dia_pcs = e?.diamonds[i+1]?.Pcs;
                     obj.dia_wt = ((e?.diamonds[i+1]?.Wt)?.toFixed(3));
@@ -640,26 +640,26 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         <td width={90} style={{borderRight:'1px solid #989898'}} align='center'>{e?.sr}</td>
                                         <td width={90}>&nbsp;{e?.designno}</td>
                                         <td width={90} style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.SrJobno}</td>
-                                        <td width={90}>{e?.dia_code}</td>
-                                        <td width={90}>{e?.dia_size}</td>
+                                        <td width={140} align='left' >{e?.dia_code}</td>
+                                        <td width={140} align='left'>{`${e?.dia_size}`}</td>
                                         <td width={90}>{e?.dia_pcs}</td>
-                                        <td width={90}>{e?.dia_wt}</td>
+                                        <td width={90}>{( e?.dia_wt === '' ? '' : (+e?.dia_wt)?.toFixed(3))}</td>
                                         <td width={90}>{e?.dia_rate}</td>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{e?.dia_amt}</td>
-                                        <td width={90} style={{wordBreak:'break-word'}} align='left'>{e?.met_quality}</td>
-                                        <td width={90}>{e?.met_wt}</td>
+                                        <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>{ e?.dia_amt === '' ? '' : formatAmount(e?.dia_amt)}</th>
+                                        <td width={140} style={{wordBreak:'break-word'}} align='left'>{`${e?.met_quality}`}</td>
+                                        <td width={90}>{((+e?.met_wt)?.toFixed(3))}</td>
                                         <td width={90}>{e?.met_rate}</td>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{e?.met_amt}</td>
-                                        <td width={90}>{e?.cls_code}</td>
-                                        <td width={90}>{e?.cls_size}</td>
+                                        <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>{e?.met_amt}</th>
+                                        <td width={140} align='left'>{e?.cls_code}</td>
+                                        <td width={140} align='left'>{`${e?.cls_size}`}</td>
                                         <td width={90}>{e?.cls_pcs}</td>
-                                        <td width={90}>{e?.cls_wt}</td>
+                                        <td width={90}>{( e?.cls_wt === '' ? '' : ((+e?.cls_wt)?.toFixed(3)))}</td>
                                         <td width={90}>{e?.cls_rate}</td>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{e?.cls_amt}</td>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{e?.oth_amt}</td>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{e?.labour_rate}</td>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{e?.labour_amt}</td>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{e?.total_amount}</td>
+                                        <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>{ e?.cls_amt === '' ? '' : formatAmount(e?.cls_amt)}</th>
+                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{formatAmount(e?.oth_amt)}</td>
+                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{formatAmount(e?.labour_rate)}</td>
+                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{formatAmount(e?.labour_amt)}</td>
+                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{formatAmount(e?.total_amount)}</td>
                                     </tr>
                                     {/* dia clr materail */}
                                     {
@@ -668,26 +668,26 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 <td width={90} style={{borderRight:'1px solid #989898'}} align='center'></td>
                                                 <td  colSpan={2} style={{borderRight:'1px solid #989898', verticalAlign:'center'}} align='center'>
                                                     <span style={{textAlign:'center'}}>{val?.imgflag && <img src={val?.img} alt=""  onError={eve => handleGlobalImgError(eve, result?.header?.DefImage)} width={70}  style={{ paddingLeft: "10px", objectFit: "contain", verticalAlign:'center' }} />}</span>
-                                                    <div style={{textAlign:'center'}}>{val?.tunchflag && `Tunch : `} {val?.tunchflag && val?.tunch}</div>
-                                                    <div style={{textAlign:'center'}}>{val?.grosswetflag && val?.grosswt} {val?.grosswetflag && ' gm Gross'}</div>
+                                                    <div style={{textAlign:'center'}}>{val?.tunchflag && `Tunch : `} <b>{val?.tunchflag && val?.tunch}</b></div>
+                                                    <div style={{textAlign:'center'}}><b>{val?.grosswetflag && val?.grosswt}</b> {val?.grosswetflag && ' gm Gross'}</div>
                                                 </td>
                                                 {/* <td width={90}></td> */}
-                                                <td width={90}>{ val?.diaflag && val?.dia_code}</td>
-                                                <td width={90}>{val?.diaflag && val?.dia_size}</td>
+                                                <td width={90} align='left'>{ val?.diaflag && `${val?.dia_code}`}</td>
+                                                <td width={90} align='left'>{val?.diaflag && `${val?.dia_size}`}</td>
                                                 <td width={90}>{val?.diaflag && val?.dia_pcs}</td>
-                                                <td width={90}>{val?.diaflag && val?.dia_wt}</td>
+                                                <td width={90}>{val?.diaflag && (+(val?.dia_wt))?.toFixed(3)}</td>
                                                 <td width={90}>{val?.diaflag && val?.dia_rate}</td>
-                                                <td width={90} style={{borderRight:'1px solid #989898'}}>{val?.diaflag && val?.dia_amt}</td>
+                                                <th width={90} style={{borderRight:'1px solid #989898'}} align='right'>{val?.diaflag && formatAmount(val?.dia_amt)}</th>
                                                 <th width={90} colSpan={val?.jobRemarkflag && 4} style={{borderRight:`${val?.jobRemarkflag && '1px solid #989898'}`}} align='left'>{val?.jobRemarkflag && (` Remark :  ${val?.JobRemark}`)}</th>
                                                 {val?.jobRemarkflag ? '' : <td width={90}></td>} 
                                                 {val?.jobRemarkflag ? '' : <td width={90}></td>}
                                                 {val?.jobRemarkflag ? '' : <td width={90} style={{borderRight:'1px solid #989898'}}></td>}
-                                                <td width={90}>{val?.clsflag && val?.cls_code}</td>
-                                                <td width={90}>{val?.clsflag && val?.cls_size}</td>
-                                                <td width={90}>{val?.clsflag && val?.cls_pcs}</td>
-                                                <td width={90}>{val?.clsflag && val?.cls_wt}</td>
-                                                <td width={90}>{val?.clsflag && val?.cls_rate}</td>
-                                                <td width={90} style={{borderRight:'1px solid #989898'}}>{val?.clsflag && val?.cls_amt}</td>
+                                                <td width={90} align='left'>{val?.clsflag && `${val?.cls_code}`}</td>
+                                                <td width={90} align='left'>{val?.clsflag && `${val?.cls_size}`}</td>
+                                                <td width={90} align='right'>{val?.clsflag && val?.cls_pcs}</td>
+                                                <td width={90} align='right'>{val?.clsflag && ((+val?.cls_wt))?.toFixed(3)}</td>
+                                                <td width={90} align='right'>{val?.clsflag && val?.cls_rate}</td>
+                                                <th width={90} style={{borderRight:'1px solid #989898'}}>{val?.clsflag && formatAmount(val?.cls_amt)}</th>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}}></td>
