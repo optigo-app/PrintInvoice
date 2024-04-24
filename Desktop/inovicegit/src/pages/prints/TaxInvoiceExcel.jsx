@@ -372,8 +372,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         rowObj1.grosswt_value = ((datas?.mainTotal?.netwt)?.toFixed(3));
         rowObj1.name = 'DIAMOND';
         rowObj1.value = (formatAmount(datas?.mainTotal?.diamonds?.Amount));
-        rowObj.dia_info_name = ( diarndotherarr5[1]  === undefined ? '' : (diarndotherarr5[1]?.ShapeName + " " + diarndotherarr5[1]?.QualityName + " " + diarndotherarr5[1]?.Colorname) )
-        rowObj.dia_info_value = ( diarndotherarr5[1] === undefined ? '' : ( diarndotherarr5[1]?.pcPcss + " / " + (diarndotherarr5[1]?.wtWts)?.toFixed(3)) )
+        rowObj1.dia_info_name = ( diarndotherarr5[1]  === undefined ? '' : (diarndotherarr5[1]?.ShapeName + " " + diarndotherarr5[1]?.QualityName + " " + diarndotherarr5[1]?.Colorname) )
+        rowObj1.dia_info_value = ( diarndotherarr5[1] === undefined ? '' : ( diarndotherarr5[1]?.pcPcss + " / " + (diarndotherarr5[1]?.wtWts)?.toFixed(3)) )
         // rowObj1.dia_info_name = ((diarndotherarr5[1]?.ShapeName !== undefined ? diarndotherarr5[1]?.ShapeName : "") + " " + 
         // ((diarndotherarr5[1]?.QualityName) === undefined ? '' : diarndotherarr5[1]?.QualityName) + " " + (diarndotherarr5[1]?.Colorname === undefined) ? '' : diarndotherarr5[1]?.Colorname)
         // rowObj1.dia_info_value = ((diarndotherarr5[1]?.pcPcss === undefined ? '' : diarndotherarr5[1]?.Colorname ) + " / " + ( diarndotherarr5[1]?.wtWts === undefined ? '' : (diarndotherarr5[1]?.wtWts)?.toFixed(3)))
@@ -514,7 +514,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         fontWeight:'bold'
     };
     
-    console.log(result)
 
     
    
@@ -777,22 +776,17 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 <th align='left'>{e?.name}</th>
                                                 <td colSpan={2} align='right' style={{borderRight:'1px solid #989898'}}>{e?.value}</td>
                                                 <th colSpan={2} align='left'>{e?.dia_info_name}</th>
-                                                <td colSpan={2} align='right'>{e?.dia_info_value} cts</td>
+                                                <td colSpan={2} align='right'>{e?.dia_info_value} {e?.dia_info_value === '' ? '' : 'cts'}</td>
                                                 <td colSpan={2} align='left' style={{borderLeft:'1px solid #989898'}}>{e?.sum_info_name}</td>
                                                 <th align='center' style={{borderRight:'1px solid #989898'}}>{e?.sum_info_value}</th>
                                                  { e?.remark === '' ? '' : <td colSpan={3} style={{borderBottom:'1px solid #989899',  borderRight:'1px solid #989898'}}>{e?.remark}</td> } 
                                             </tr>
                                 })
                             }
-                        <tr>
-                        </tr>
-                        <tr>
-                            <tr><td></td><td colSpan={22}><b>NOTE:</b></td></tr>
-                            <tr>
-                                <td></td>
-                                <th style={{border:'1px solid #989898'}} colSpan={21} align='left'><span dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></span></th>
-                            </tr>
-                        </tr>
+                        
+                        <tr><td style={{borderTop:'1px solid #989898', borderLeft:'1px solid #989898', borderRight:'1px solid #989898'}}  colSpan={23}><b>NOTE:</b></td></tr>
+                        <tr><th style={{border:'1px solid #989898'}} colSpan={23} align='left'><span dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></span></th></tr>
+                        
                     
                     </tbody>
                 </table> 
