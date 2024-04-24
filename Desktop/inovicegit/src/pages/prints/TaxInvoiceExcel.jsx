@@ -66,6 +66,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             rRates: 0,
             amtAmount: 0,
             amtAmounts: 0,
+            QualityName:'',
+            Colorname:''
           };
       
           let diaonlyrndarr1 = [];
@@ -227,12 +229,12 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.met_wt = 0;
             obj.met_rate = 0;
             obj.met_amt = 0;
-            // if(findMetal ){
+            
                 obj.met_wt = e?.NetWt;
                 obj.met_rate = findMetal ? (Math.round(findMetal?.Amount / e?.NetWt)) : '';
                 obj.met_amt = findMetal ? (formatAmount(findMetal?.Amount)) : '';
                 obj.met_quality = findMetal ? (findMetal?.ShapeName + " " + findMetal?.QualityName) : '';
-            // }
+            
 
 
             obj.cls_code = e?.colorstone[0] ? (e?.colorstone[0]?.ShapeName) : '';
@@ -249,7 +251,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.total_amount = e?.TotalAmount;
             
             let arr = [];
-            let len = 3;
+            let len = 5;
             if(e?.diamonds?.length > e?.colorstone?.length){
                 if(e?.diamonds?.length > 3){
                     len = e?.diamonds?.length;
@@ -268,13 +270,13 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 }
                 obj.tunch = ((e?.Tunch)?.toFixed(3));
                 obj.tunchflag = false;
-                if(i === 0){
+                if(i === 4){
                     obj.tunchflag = true;
                 }
 
                 obj.grosswt = ((e?.grosswt)?.toFixed(3));
                 obj.grosswetflag = false;
-                if(i === 1){
+                if(i === 5){
                     obj.grosswetflag = true;
                 }
 
@@ -348,27 +350,152 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         console.log(catewise);
         setResult3(catewise)
 
+
+
+
         let rowArr = [];
+
         let rowObj = {};
         rowObj.grosswt_name = 'GROSS WT'
         rowObj.grosswt_value = ((datas?.mainTotal?.grosswt)?.toFixed(3));
-        rowObj.gold_name = 'GOLD'
-        rowObj.gold_value = (formatAmount(datas?.mainTotal?.MetalAmount));
+        rowObj.name = 'GOLD'
+        rowObj.value = (formatAmount(datas?.mainTotal?.MetalAmount));
         rowObj.dia_info_name = (diarndotherarr5[0]?.ShapeName + " " + diarndotherarr5[0]?.QualityName + " " + diarndotherarr5[0]?.Colorname  )
-        rowObj.dia_info_value = (diarndotherarr5[0]?.pcPcss + " / " + diarndotherarr5[0]?.wtWts)
+        rowObj.dia_info_value = (diarndotherarr5[0]?.pcPcss + " / " + (diarndotherarr5[0]?.wtWts)?.toFixed(3))
         rowObj.sum_info_name = catewise[0]?.Categoryname;
         rowObj.sum_info_value = catewise[0]?.Quantity;
         rowObj.remark = ((datas?.header?.PrintRemark));
-
         rowArr.push(rowObj);
+
+        let rowObj1 = {};
+        rowObj1.grosswt_name = 'WT'
+        rowObj1.grosswt_value = ((datas?.mainTotal?.netwt)?.toFixed(3));
+        rowObj1.name = 'DIAMOND';
+        rowObj1.value = (formatAmount(datas?.mainTotal?.diamonds?.Amount));
+        rowObj1.dia_info_name = ((diarndotherarr5[1]?.ShapeName !== undefined ? diarndotherarr5[1]?.ShapeName : "") + " " + 
+        diarndotherarr5[1]?.QualityName + " " + diarndotherarr5[1]?.Colorname  )
+        rowObj1.dia_info_value = (diarndotherarr5[1]?.pcPcss + " / " + (diarndotherarr5[1]?.wtWts)?.toFixed(3))
+        rowObj1.sum_info_name = catewise[1]?.Categoryname;
+        rowObj1.sum_info_value = catewise[1]?.Quantity;
+        rowObj1.remark = '';
+        rowArr.push(rowObj1);
+
+
+
+        let rowObj2 = {};
+        rowObj2.grosswt_name = 'DIAMOND WT'
+        rowObj2.grosswt_value = (`${datas?.mainTotal?.diamonds?.Pcs} / ${datas?.mainTotal?.diamonds?.Wt}`);
+        rowObj2.name = 'CST';
+        rowObj2.value = (formatAmount(datas?.mainTotal?.colorstone?.Amount));
+        rowObj2.dia_info_name = (diarndotherarr5[2]?.ShapeName + " " + diarndotherarr5[2]?.QualityName + " " + diarndotherarr5[2]?.Colorname  )
+        rowObj2.dia_info_value = (diarndotherarr5[2]?.pcPcss + " / " + (diarndotherarr5[2]?.wtWts)?.toFixed(3))
+        rowObj2.sum_info_name = catewise[2]?.Categoryname;
+        rowObj2.sum_info_value = catewise[2]?.Quantity;
+        rowObj2.remark = '';
+        rowArr.push(rowObj2);
+
+
+        let rowObj3 = {};
+        rowObj3.grosswt_name = 'STONE WT'
+        rowObj3.grosswt_value = (`${datas?.mainTotal?.colorstone?.Pcs} / ${datas?.mainTotal?.colorstone?.Wt}`);
+        rowObj3.name = 'MAKING';
+        rowObj3.value = (formatAmount(( datas?.mainTotal?.total_Making_Amount + datas?.mainTotal?.diamonds?.SettingAmount + datas?.mainTotal?.colorstone?.SettingAmount)));
+        rowObj3.dia_info_name = (diarndotherarr5[3]?.ShapeName + " " + diarndotherarr5[3]?.QualityName + " " + diarndotherarr5[3]?.Colorname  )
+        rowObj3.dia_info_value = (diarndotherarr5[3]?.pcPcss + " / " + (diarndotherarr5[3]?.wtWts)?.toFixed(3))
+        rowObj3.sum_info_name = catewise[3]?.Categoryname;
+        rowObj3.sum_info_value = catewise[3]?.Quantity;
+        rowObj3.remark = '';
+        rowArr.push(rowObj3);
+
+
+        let rowObj4 = {};
+        rowObj4.grosswt_name = ''
+        rowObj4.grosswt_value = '';
+        rowObj4.name = 'OTHER';
+        rowObj4.value = (formatAmount(( datas?.mainTotal?.total_other + datas?.mainTotal?.totalMiscAmount + datas?.mainTotal?.total_diamondHandling)));
+        rowObj4.dia_info_name = (diarndotherarr5[4]?.ShapeName + " " + diarndotherarr5[4]?.QualityName + " " + diarndotherarr5[4]?.Colorname  )
+        rowObj4.dia_info_value = (diarndotherarr5[4]?.pcPcss + " / " + (diarndotherarr5[4]?.wtWts)?.toFixed(3))
+        rowObj4.sum_info_name = catewise[4]?.Categoryname;
+        rowObj4.sum_info_value = catewise[4]?.Quantity;
+        rowObj4.remark = '';
+        rowArr.push(rowObj4);
+
+
+        let rowObj5 = {};
+        rowObj5.grosswt_name = ''
+        rowObj5.grosswt_value = '';
+        rowObj5.name = 'TAX';
+        rowObj5.value = (formatAmount((datas?.allTaxesTotal)));
+        rowObj5.dia_info_name = (diarndotherarr5[5]?.ShapeName + " " + diarndotherarr5[5]?.QualityName + " " + diarndotherarr5[5]?.Colorname  )
+        rowObj5.dia_info_value = (diarndotherarr5[5]?.pcPcss + " / " + (diarndotherarr5[5]?.wtWts)?.toFixed(3))
+        rowObj5.sum_info_name = catewise[5]?.Categoryname;
+        rowObj5.sum_info_value = catewise[5]?.Quantity;
+        rowObj5.remark = '';
+        rowArr.push(rowObj5);
+
+
+        let rowObj6 = {};
+        rowObj6.grosswt_name = ''
+        rowObj6.grosswt_value = '';
+        rowObj6.name = 'LESS';
+        rowObj6.value = (formatAmount((datas?.header?.AddLess)));
+        rowObj6.dia_info_name = (diarndotherarr5[6]?.ShapeName + " " + diarndotherarr5[6]?.QualityName + " " + diarndotherarr5[6]?.Colorname  )
+        rowObj6.dia_info_value = (diarndotherarr5[6]?.pcPcss + " / " + (diarndotherarr5[6]?.wtWts)?.toFixed(3))
+        rowObj6.sum_info_name = catewise[6]?.Categoryname;
+        rowObj6.sum_info_value = catewise[6]?.Quantity;
+        rowObj6.remark = '';
+        rowArr.push(rowObj6);
+
+
+        let rowObj7 = {};
+        rowObj7.grosswt_name = ''
+        rowObj7.grosswt_value = '';
+        rowObj7.name = 'TOTAL';
+        rowObj7.value = formatAmount((datas?.mainTotal.total_amount + datas?.header?.AddLess + (datas?.allTaxesTotal * datas?.header?.CurrencyExchRate)));
+        rowObj7.dia_info_name = (diarndotherarr5[7]?.ShapeName + " " + diarndotherarr5[7]?.QualityName + " " + diarndotherarr5[7]?.Colorname  )
+        rowObj7.dia_info_value = (diarndotherarr5[7]?.pcPcss + " / " + (diarndotherarr5[7]?.wtWts)?.toFixed(3))
+        rowObj7.sum_info_name = catewise[7]?.Categoryname;
+        rowObj7.sum_info_value = catewise[7]?.Quantity;
+        rowObj7.remark = '';
+        rowArr.push(rowObj7);
+
+        let len2 = 8;
+        if(catewise?.length > 8 || diarndotherarr5?.length > 8){
+            if(catewise?.length > diarndotherarr5?.length){
+                len2 = catewise?.length; 
+            }
+            if(catewise?.length < diarndotherarr5?.length){
+                len2 = diarndotherarr5?.length; 
+            }
+        }
+
+        Array.from({length:len2})?.map((e, i) => {
+            if(i > 7){
+                let rowObj7 = {};
+                rowObj7.grosswt_name = ''
+                rowObj7.grosswt_value = '';
+                rowObj7.name = '';
+                rowObj7.value = ''
+                rowObj7.dia_info_name = diarndotherarr5[i] ? ((diarndotherarr5[i]?.ShapeName + " " + diarndotherarr5[i]?.QualityName + " " + diarndotherarr5[i]?.Colorname)  ) :  ""
+                rowObj7.dia_info_value = (diarndotherarr5[i]?.pcPcss + " / " + (diarndotherarr5[i]?.wtWts)?.toFixed(3))
+                // rowObj7.sum_info_name =  catewise[i] ? catewise[i]?.Categoryname;
+                rowObj7.sum_info_value = catewise[i]?.Quantity;
+                rowObj7.remark = '';
+                rowArr.push(rowObj7);
+            }
+        })
+
         console.log(rowArr);
         setRowWise(rowArr);
 
+
+
+
         // for download excel direct
-        // setTimeout(() => {
-        //     const button = document.getElementById('test-table-xls-button');
-        //     button.click();
-        //   }, 2000);
+        setTimeout(() => {
+            const button = document.getElementById('test-table-xls-button');
+            button.click();
+          }, 2000);
 
 
         //loadData end
@@ -519,7 +646,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         <td width={90}>{e?.dia_wt}</td>
                                         <td width={90}>{e?.dia_rate}</td>
                                         <td width={90} style={{borderRight:'1px solid #989898'}}>{e?.dia_amt}</td>
-                                        <td width={90}>{e?.met_quality}</td>
+                                        <td width={90} style={{wordBreak:'break-word'}} align='left'>{e?.met_quality}</td>
                                         <td width={90}>{e?.met_wt}</td>
                                         <td width={90}>{e?.met_rate}</td>
                                         <td width={90} style={{borderRight:'1px solid #989898'}}>{e?.met_amt}</td>
@@ -551,10 +678,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 <td width={90}>{val?.diaflag && val?.dia_wt}</td>
                                                 <td width={90}>{val?.diaflag && val?.dia_rate}</td>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}}>{val?.diaflag && val?.dia_amt}</td>
-                                                <td width={90}></td>
-                                                <td width={90}></td>
-                                                <td width={90}></td>
-                                                <td width={90} style={{borderRight:'1px solid #989898'}}></td>
+                                                <th width={90} colSpan={val?.jobRemarkflag && 4} style={{borderRight:`${val?.jobRemarkflag && '1px solid #989898'}`}} align='left'>{val?.jobRemarkflag && (` Remark :  ${val?.JobRemark}`)}</th>
+                                                {val?.jobRemarkflag ? '' : <td width={90}></td>} 
+                                                {val?.jobRemarkflag ? '' : <td width={90}></td>}
+                                                {val?.jobRemarkflag ? '' : <td width={90} style={{borderRight:'1px solid #989898'}}></td>}
                                                 <td width={90}>{val?.clsflag && val?.cls_code}</td>
                                                 <td width={90}>{val?.clsflag && val?.cls_size}</td>
                                                 <td width={90}>{val?.clsflag && val?.cls_pcs}</td>
@@ -645,17 +772,19 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                 rowWise?.map((e, i) => {
                                     return  <tr key={i}>
                                                 <th align='left'>{e?.grosswt_name}</th>
-                                                <td align='right' colSpan={2} style={{borderRight:'1px solid #989898'}}>{e?.grosswt_value} gms</td>
-                                                <th align='left'>{e?.gold_name}</th>
-                                                <td colSpan={2} align='right' style={{borderRight:'1px solid #989898'}}>{e?.gold_value}</td>
+                                                <td align='right' colSpan={2} style={{borderRight:'1px solid #989898'}}>{e?.grosswt_value} {e?.grosswt_value === '' ? '' : 'gms'}</td>
+                                                <th align='left'>{e?.name}</th>
+                                                <td colSpan={2} align='right' style={{borderRight:'1px solid #989898'}}>{e?.value}</td>
                                                 <th colSpan={2} align='left'>{e?.dia_info_name}</th>
                                                 <td colSpan={2} align='right'>{e?.dia_info_value} cts</td>
                                                 <td colSpan={2} align='left' style={{borderLeft:'1px solid #989898'}}>{e?.sum_info_name}</td>
                                                 <th align='center' style={{borderRight:'1px solid #989898'}}>{e?.sum_info_value}</th>
-                                                <td colSpan={3} style={{borderBottom:'1px solid #989899',  borderRight:'1px solid #989898'}}>{e?.remark}</td>
+                                                 { e?.remark === '' ? '' : <td colSpan={3} style={{borderBottom:'1px solid #989899',  borderRight:'1px solid #989898'}}>{e?.remark}</td> } 
                                             </tr>
                                 })
                             }
+                        <tr>
+                        </tr>
                         <tr>
                             <tr><td></td><td colSpan={22}><b>NOTE:</b></td></tr>
                             <tr>
