@@ -177,6 +177,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       
           diarndotherarr5 = [...diaonlyrndarr6, diaObj];
           setDiamondWise(diarndotherarr5);
+          console.log(diarndotherarr5[7]);
 
         datas?.resultArray?.forEach((el) => {
             let dia = [];
@@ -347,10 +348,9 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             }
         })
         catewise.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
-        console.log(catewise);
         setResult3(catewise)
 
-
+        console.log(diarndotherarr5[0], diarndotherarr5[1]);
 
 
         let rowArr = [];
@@ -360,10 +360,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         rowObj.grosswt_value = ((datas?.mainTotal?.grosswt)?.toFixed(3));
         rowObj.name = 'GOLD'
         rowObj.value = (formatAmount(datas?.mainTotal?.MetalAmount));
-        rowObj.dia_info_name = (diarndotherarr5[0]?.ShapeName + " " + diarndotherarr5[0]?.QualityName + " " + diarndotherarr5[0]?.Colorname  )
-        rowObj.dia_info_value = (diarndotherarr5[0]?.pcPcss + " / " + (diarndotherarr5[0]?.wtWts)?.toFixed(3))
-        rowObj.sum_info_name = catewise[0]?.Categoryname;
-        rowObj.sum_info_value = catewise[0]?.Quantity;
+        rowObj.dia_info_name = ( diarndotherarr5[0]  !== undefined ? (diarndotherarr5[0]?.ShapeName + " " + diarndotherarr5[0]?.QualityName + " " + diarndotherarr5[0]?.Colorname) : '')
+        rowObj.dia_info_value = ( diarndotherarr5[0] !== undefined ? ( diarndotherarr5[0]?.pcPcss + " / " + (diarndotherarr5[0]?.wtWts)?.toFixed(3)) : '')
+        rowObj.sum_info_name = ( catewise[0] === undefined ? '' : catewise[0]?.Categoryname);
+        rowObj.sum_info_value = ( catewise[0] === undefined ? '' : catewise[0]?.Quantity);
         rowObj.remark = ((datas?.header?.PrintRemark));
         rowArr.push(rowObj);
 
@@ -372,11 +372,13 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         rowObj1.grosswt_value = ((datas?.mainTotal?.netwt)?.toFixed(3));
         rowObj1.name = 'DIAMOND';
         rowObj1.value = (formatAmount(datas?.mainTotal?.diamonds?.Amount));
-        rowObj1.dia_info_name = ((diarndotherarr5[1]?.ShapeName !== undefined ? diarndotherarr5[1]?.ShapeName : "") + " " + 
-        diarndotherarr5[1]?.QualityName + " " + diarndotherarr5[1]?.Colorname  )
-        rowObj1.dia_info_value = (diarndotherarr5[1]?.pcPcss + " / " + (diarndotherarr5[1]?.wtWts)?.toFixed(3))
-        rowObj1.sum_info_name = catewise[1]?.Categoryname;
-        rowObj1.sum_info_value = catewise[1]?.Quantity;
+        rowObj.dia_info_name = ( diarndotherarr5[1]  === undefined ? '' : (diarndotherarr5[1]?.ShapeName + " " + diarndotherarr5[1]?.QualityName + " " + diarndotherarr5[1]?.Colorname) )
+        rowObj.dia_info_value = ( diarndotherarr5[1] === undefined ? '' : ( diarndotherarr5[1]?.pcPcss + " / " + (diarndotherarr5[1]?.wtWts)?.toFixed(3)) )
+        // rowObj1.dia_info_name = ((diarndotherarr5[1]?.ShapeName !== undefined ? diarndotherarr5[1]?.ShapeName : "") + " " + 
+        // ((diarndotherarr5[1]?.QualityName) === undefined ? '' : diarndotherarr5[1]?.QualityName) + " " + (diarndotherarr5[1]?.Colorname === undefined) ? '' : diarndotherarr5[1]?.Colorname)
+        // rowObj1.dia_info_value = ((diarndotherarr5[1]?.pcPcss === undefined ? '' : diarndotherarr5[1]?.Colorname ) + " / " + ( diarndotherarr5[1]?.wtWts === undefined ? '' : (diarndotherarr5[1]?.wtWts)?.toFixed(3)))
+        rowObj1.sum_info_name = ( catewise[1] === undefined ? '' : catewise[1]?.Categoryname);
+        rowObj1.sum_info_value = ( catewise[1] === undefined ? '' : catewise[1]?.Quantity);
         rowObj1.remark = '';
         rowArr.push(rowObj1);
 
@@ -387,10 +389,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         rowObj2.grosswt_value = (`${datas?.mainTotal?.diamonds?.Pcs} / ${datas?.mainTotal?.diamonds?.Wt}`);
         rowObj2.name = 'CST';
         rowObj2.value = (formatAmount(datas?.mainTotal?.colorstone?.Amount));
-        rowObj2.dia_info_name = (diarndotherarr5[2]?.ShapeName + " " + diarndotherarr5[2]?.QualityName + " " + diarndotherarr5[2]?.Colorname  )
-        rowObj2.dia_info_value = (diarndotherarr5[2]?.pcPcss + " / " + (diarndotherarr5[2]?.wtWts)?.toFixed(3))
-        rowObj2.sum_info_name = catewise[2]?.Categoryname;
-        rowObj2.sum_info_value = catewise[2]?.Quantity;
+        rowObj2.dia_info_name = ( diarndotherarr5[2] === undefined ? '' : (diarndotherarr5[2]?.ShapeName + " " + diarndotherarr5[2]?.QualityName + " " + diarndotherarr5[2]?.Colorname  ))
+        rowObj2.dia_info_value = ( diarndotherarr5[2] === undefined ? '' : (diarndotherarr5[2]?.pcPcss + " / " + (diarndotherarr5[2]?.wtWts)?.toFixed(3)))
+        rowObj2.sum_info_name = ( catewise[2] === undefined ? '' : catewise[2]?.Categoryname);
+        rowObj2.sum_info_value = ( catewise[2] === undefined ? '' : catewise[2]?.Quantity);
         rowObj2.remark = '';
         rowArr.push(rowObj2);
 
@@ -400,10 +402,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         rowObj3.grosswt_value = (`${datas?.mainTotal?.colorstone?.Pcs} / ${datas?.mainTotal?.colorstone?.Wt}`);
         rowObj3.name = 'MAKING';
         rowObj3.value = (formatAmount(( datas?.mainTotal?.total_Making_Amount + datas?.mainTotal?.diamonds?.SettingAmount + datas?.mainTotal?.colorstone?.SettingAmount)));
-        rowObj3.dia_info_name = (diarndotherarr5[3]?.ShapeName + " " + diarndotherarr5[3]?.QualityName + " " + diarndotherarr5[3]?.Colorname  )
-        rowObj3.dia_info_value = (diarndotherarr5[3]?.pcPcss + " / " + (diarndotherarr5[3]?.wtWts)?.toFixed(3))
-        rowObj3.sum_info_name = catewise[3]?.Categoryname;
-        rowObj3.sum_info_value = catewise[3]?.Quantity;
+        rowObj3.dia_info_name = (  diarndotherarr5[3] === undefined ? '' : ( (diarndotherarr5[3]?.ShapeName + " " + diarndotherarr5[3]?.QualityName + " " + diarndotherarr5[3]?.Colorname  )))
+        rowObj3.dia_info_value = ( diarndotherarr5[3] === undefined ? '' :  ((diarndotherarr5[3]?.pcPcss + " / " + (diarndotherarr5[3]?.wtWts)?.toFixed(3))))
+        rowObj3.sum_info_name = ( catewise[3] === undefined ? '' :  catewise[3]?.Categoryname);
+        rowObj3.sum_info_value = (catewise[3] === undefined ? '' : catewise[3]?.Quantity);
         rowObj3.remark = '';
         rowArr.push(rowObj3);
 
@@ -413,10 +415,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         rowObj4.grosswt_value = '';
         rowObj4.name = 'OTHER';
         rowObj4.value = (formatAmount(( datas?.mainTotal?.total_other + datas?.mainTotal?.totalMiscAmount + datas?.mainTotal?.total_diamondHandling)));
-        rowObj4.dia_info_name = (diarndotherarr5[4]?.ShapeName + " " + diarndotherarr5[4]?.QualityName + " " + diarndotherarr5[4]?.Colorname  )
-        rowObj4.dia_info_value = (diarndotherarr5[4]?.pcPcss + " / " + (diarndotherarr5[4]?.wtWts)?.toFixed(3))
-        rowObj4.sum_info_name = catewise[4]?.Categoryname;
-        rowObj4.sum_info_value = catewise[4]?.Quantity;
+        rowObj4.dia_info_name = ( diarndotherarr5[4] === undefined ? '' : (diarndotherarr5[4]?.ShapeName + " " + diarndotherarr5[4]?.QualityName + " " + diarndotherarr5[4]?.Colorname  ))
+        rowObj4.dia_info_value = ( diarndotherarr5[4] === undefined ? '' : (diarndotherarr5[4]?.pcPcss + " / " + (diarndotherarr5[4]?.wtWts)?.toFixed(3)))
+        rowObj4.sum_info_name = ( catewise[4] === undefined ? '' :  catewise[4]?.Categoryname);
+        rowObj4.sum_info_value = ( catewise[4] === undefined ? '' : catewise[4]?.Quantity);
         rowObj4.remark = '';
         rowArr.push(rowObj4);
 
@@ -426,10 +428,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         rowObj5.grosswt_value = '';
         rowObj5.name = 'TAX';
         rowObj5.value = (formatAmount((datas?.allTaxesTotal)));
-        rowObj5.dia_info_name = (diarndotherarr5[5]?.ShapeName + " " + diarndotherarr5[5]?.QualityName + " " + diarndotherarr5[5]?.Colorname  )
-        rowObj5.dia_info_value = (diarndotherarr5[5]?.pcPcss + " / " + (diarndotherarr5[5]?.wtWts)?.toFixed(3))
-        rowObj5.sum_info_name = catewise[5]?.Categoryname;
-        rowObj5.sum_info_value = catewise[5]?.Quantity;
+        rowObj5.dia_info_name = (diarndotherarr5[5] === undefined ? '' : (diarndotherarr5[5]?.ShapeName + " " + diarndotherarr5[5]?.QualityName + " " + diarndotherarr5[5]?.Colorname  ))
+        rowObj5.dia_info_value = ( diarndotherarr5[5] === undefined ? '' :  (diarndotherarr5[5]?.pcPcss + " / " + (diarndotherarr5[5]?.wtWts)?.toFixed(3)))
+        rowObj5.sum_info_name = ( catewise[5] === undefined ? '' : catewise[5]?.Categoryname);
+        rowObj5.sum_info_value = ( catewise[5] === undefined ? '' : catewise[5]?.Quantity);
         rowObj5.remark = '';
         rowArr.push(rowObj5);
 
@@ -439,10 +441,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         rowObj6.grosswt_value = '';
         rowObj6.name = 'LESS';
         rowObj6.value = (formatAmount((datas?.header?.AddLess)));
-        rowObj6.dia_info_name = (diarndotherarr5[6]?.ShapeName + " " + diarndotherarr5[6]?.QualityName + " " + diarndotherarr5[6]?.Colorname  )
-        rowObj6.dia_info_value = (diarndotherarr5[6]?.pcPcss + " / " + (diarndotherarr5[6]?.wtWts)?.toFixed(3))
-        rowObj6.sum_info_name = catewise[6]?.Categoryname;
-        rowObj6.sum_info_value = catewise[6]?.Quantity;
+        rowObj6.dia_info_name = ( diarndotherarr5[6] === undefined ? '' : (diarndotherarr5[6]?.ShapeName + " " + diarndotherarr5[6]?.QualityName + " " + diarndotherarr5[6]?.Colorname  ))
+        rowObj6.dia_info_value = ( diarndotherarr5[6] === undefined ? '' : (diarndotherarr5[6]?.pcPcss + " / " + (diarndotherarr5[6]?.wtWts)?.toFixed(3)))
+        rowObj6.sum_info_name = ( catewise[6] === undefined ? '' : catewise[6]?.Categoryname);
+        rowObj6.sum_info_value = (  catewise[6] === undefined ? '' : catewise[6]?.Quantity);
         rowObj6.remark = '';
         rowArr.push(rowObj6);
 
@@ -452,10 +454,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         rowObj7.grosswt_value = '';
         rowObj7.name = 'TOTAL';
         rowObj7.value = formatAmount((datas?.mainTotal.total_amount + datas?.header?.AddLess + (datas?.allTaxesTotal * datas?.header?.CurrencyExchRate)));
-        rowObj7.dia_info_name = (diarndotherarr5[7]?.ShapeName + " " + diarndotherarr5[7]?.QualityName + " " + diarndotherarr5[7]?.Colorname  )
-        rowObj7.dia_info_value = (diarndotherarr5[7]?.pcPcss + " / " + (diarndotherarr5[7]?.wtWts)?.toFixed(3))
-        rowObj7.sum_info_name = catewise[7]?.Categoryname;
-        rowObj7.sum_info_value = catewise[7]?.Quantity;
+        rowObj7.dia_info_name = ( diarndotherarr5[7] === undefined ? '' : (diarndotherarr5[7]?.ShapeName + " " + diarndotherarr5[7]?.QualityName + " " + diarndotherarr5[7]?.Colorname  ))
+        rowObj7.dia_info_value = ( diarndotherarr5[7] === undefined ? '' : (diarndotherarr5[7]?.pcPcss + " / " + (diarndotherarr5[7]?.wtWts)?.toFixed(3)))
+        rowObj7.sum_info_name = ( catewise[7] === undefined ? '' : catewise[7]?.Categoryname);
+        rowObj7.sum_info_value = (catewise[7] === undefined ? '' : catewise[7]?.Quantity);
         rowObj7.remark = '';
         rowArr.push(rowObj7);
 
@@ -471,21 +473,20 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
         Array.from({length:len2})?.map((e, i) => {
             if(i > 7){
-                let rowObj7 = {};
-                rowObj7.grosswt_name = ''
-                rowObj7.grosswt_value = '';
-                rowObj7.name = '';
-                rowObj7.value = ''
-                rowObj7.dia_info_name = diarndotherarr5[i] ? ((diarndotherarr5[i]?.ShapeName + " " + diarndotherarr5[i]?.QualityName + " " + diarndotherarr5[i]?.Colorname)  ) :  ""
-                rowObj7.dia_info_value = (diarndotherarr5[i]?.pcPcss + " / " + (diarndotherarr5[i]?.wtWts)?.toFixed(3))
-                // rowObj7.sum_info_name =  catewise[i] ? catewise[i]?.Categoryname;
-                rowObj7.sum_info_value = catewise[i]?.Quantity;
-                rowObj7.remark = '';
-                rowArr.push(rowObj7);
+                let rowObjs = {};
+                rowObjs.grosswt_name = ''
+                rowObjs.grosswt_value = '';
+                rowObjs.name = '';
+                rowObjs.value = ''
+                rowObjs.dia_info_name = diarndotherarr5[i] !== undefined ? ((diarndotherarr5[i]?.ShapeName + " " + diarndotherarr5[i]?.QualityName + " " + diarndotherarr5[i]?.Colorname)  ) :  ""
+                rowObjs.dia_info_value = ( diarndotherarr5[i] === undefined ? '' : (diarndotherarr5[i]?.pcPcss + " / " + (diarndotherarr5[i]?.wtWts)?.toFixed(3)))
+                rowObjs.sum_info_name =  catewise[i] !== undefined ? (catewise[i]?.Categoryname) : '';
+                rowObjs.sum_info_value = catewise[i] !== undefined  ? (catewise[i]?.Quantity) : '';
+                rowObjs.remark = '';
+                rowArr.push(rowObjs);
             }
         })
 
-        console.log(rowArr);
         setRowWise(rowArr);
 
 
