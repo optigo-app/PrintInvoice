@@ -59,7 +59,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             textInNumbers: "",
             goldWeight: 0
         }
-        let totalWt = datas?.mainTotal?.diamonds?.Wt + datas?.mainTotal?.colorstone?.Wt + datas?.mainTotal?.misc?.Wt + datas?.mainTotal?.finding?.Wt;
+        let totalWt = datas?.mainTotal?.diamonds?.Wt + datas?.mainTotal?.colorstone?.Wt + datas?.mainTotal?.finding?.Wt;
         // datas?.mainTotal?.netwtWithLossWt - datas?.mainTotal?.finding?.Wt + datas?.mainTotal?.diamonds?.Wt+datas?.mainTotal?.colorstone?.Wt+datas?.mainTotal?.misc?.Wt;
         datas?.resultArray?.forEach((e, i) => {
             let obj = cloneDeep(e);
@@ -69,7 +69,6 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             let count = 0
             //  else {
             e?.metal?.forEach((ele, ind) => {
-
                 if (ele?.IsPrimaryMetal === 1) {
                     netWtLossWt += ele?.Wt;
                 } else {
@@ -78,10 +77,11 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 }
             });
             // }
-            if (e?.count > 0) {
-                netWtLossWt = e?.NetWt + e?.LossWt;
-            }
-            totalWt += (e?.NetWt - e?.totals?.finding?.Wt + secondWt);
+            // if (e?.count > 0) {
+            //     netWtLossWt = e?.NetWt + e?.LossWt;
+            // }
+            // totalWt += (e?.NetWt - e?.totals?.finding?.Wt + secondWt);
+            totalWt += (e?.NetWt - secondWt);
             let diamonds = [];
             e?.diamonds?.forEach((ele, ind) => {
                 totalObj.pcs += ele?.Pcs;
@@ -121,15 +121,16 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     colorstone[findColorStones].Amount += ele?.Amount;
                 }
             });
-            if (isRateOnPcs?.Pcs !== 0) {
-                // totalWt += isRateOnPcs?.Amount / isRateOnPcs?.Pcs;
-            }
-            if (isRateOnWt?.Wt !== 0) {
-                // totalWt += isRateOnWt?.Amount / isRateOnWt?.Wt;
-            }
+            // if (isRateOnPcs?.Pcs !== 0) {
+            //     // totalWt += isRateOnPcs?.Amount / isRateOnPcs?.Pcs;
+            // }
+            // if (isRateOnWt?.Wt !== 0) {
+            //     // totalWt += isRateOnWt?.Amount / isRateOnWt?.Wt;
+            // }
 
             let misc = [];
             e?.misc?.forEach((ele, ind) => {
+                totalWt += ele?.ServWt+ele?.Wt;
                 if(ele?.Wt + ele?.ServWt !== 0){
                     totalObj.pcs += ele?.Pcs;
                 }
@@ -174,6 +175,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.diamonds = diamonds;
             obj.colorstone = colorstone;
             obj.misc = misc;
+            obj.secondaryWt = (e?.NetWt - secondWt);
             obj.finding = finding;
             resultArray?.push(obj);
            
@@ -363,7 +365,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className="d-grid h-100">
                                 {
                                     e?.metal?.map((ele, ind) => {
-                                        return <div className={`d-flex border-bottom`} key={ind}>
+                                        return ele?.IsPrimaryMetal === 1 &&<div className={`d-flex border-bottom`} key={ind}>
                                             <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.IsPrimaryMetal === 1 && ele?.ShapeName}</p>
                                             </div>
@@ -375,7 +377,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                             </div>
                                             <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>
-                                                    {ind === 0 ? NumberWithCommas(e?.NetWt - e?.totals?.finding?.Wt -e?.LossWt, 3) : NumberWithCommas(ele?.Wt, 3)}
+                                                    {NumberWithCommas(e?.secondaryWt, 3)}
                                                     {/* {ind === 0 ? NumberWithCommas(e?.netWtLossWt, 3) : NumberWithCommas(ele?.Wt, 3)} */}
                                                 </p>
                                             </div>

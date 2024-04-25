@@ -98,19 +98,16 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     misc[findmisc].ServWt += ele?.ServWt;
                 }
             });
-
-            let netWtLossWt = 0;
-            let count = 0;
+            // let count = 0;
+            let secondaryWt = 0;
             e?.metal?.forEach((ele, ind) => {
-                if (ele?.IsPrimaryMetal === 1) {
-                    netWtLossWt += ele?.Wt;
-                } else {
-                    count++;
+                if (ele?.IsPrimaryMetal !== 1) {
+                    secondaryWt += ele?.Wt
                 }
             });
-            if (count === 0) {
-                netWtLossWt = e?.NetWt + e?.LossWt + (e?.totals?.diamonds?.Wt / 5);
-            }
+
+            let netWtLossWt = e?.NetWt + e?.LossWt - secondaryWt + (e?.totals?.diamonds?.Wt / 5);
+
             obj.netWtLossWt = netWtLossWt;
             totalObj.goldWeight += netWtLossWt;
             obj.diamonds = diamonds;
