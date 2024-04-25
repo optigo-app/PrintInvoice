@@ -53,6 +53,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
     console.log(datas);
     let resultArray = [];
+    let criterialbased = false;
     datas?.resultArray?.forEach((e, i) => {
       let obj = cloneDeep(e);
       let primaryWt = 0;
@@ -539,7 +540,8 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>}
                         <div className={`d-flex justify-content-between position-absolute bottom-0 start-0 w-100 border-top lightGrey px-1 ${style?.minHeight}`}>
                           <div className="fw-bold">TOTAL	</div>
-                          <div className="text-end">{NumberWithCommas(data?.finalAmount, 2)}	</div>
+                          <div className="text-end">{NumberWithCommas(data?.mainTotal?.total_amount +
+                data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * json0Data?.CurrencyExchRate), 0) + json0Data?.AddLess, 2)}	</div>
                         </div>
                       </div>
                     </div>

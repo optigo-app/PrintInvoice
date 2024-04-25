@@ -25,7 +25,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   const [grandTotal, setGrandTotal] = useState(0);
   const toWords = new ToWords();
   const [isImageWorking, setIsImageWorking] = useState(true);
-  
+
   const [marginNone, setMarginNone] = useState(false);
   const handleImageErrors = () => {
     setIsImageWorking(false);
@@ -41,10 +41,14 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     );
     console.log(datas);
     let finalArr = [];
+    let criterialBasedDiscount = false;
     datas?.resultArray?.forEach((e, i) => {
       let findData = finalArr?.findIndex(
         (ele) => ele.MetalPurity === e?.MetalPurity
       );
+      if (e?.IsCriteriabasedAmount === 1) {
+        criterialBasedDiscount = true;
+      }
       if (findData === -1) {
         finalArr.push(e);
       } else {
@@ -78,14 +82,11 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         let otherAmtDetails = [...e?.other_details, ...finalArr[findData]?.other_details,]?.flat();
         let otherAmtDetail2 = [];
         otherAmtDetails?.forEach((elem, index) => {
-          let findOther = otherAmtDetail2?.findIndex(
-            (ele) => ele?.label === elem?.label
-          );
+          let findOther = otherAmtDetail2?.findIndex((ele) => ele?.label === elem?.label);
           if (findOther === -1) {
             otherAmtDetail2.push(elem);
           } else {
-            otherAmtDetail2[findOther].value =
-              +otherAmtDetail2[findOther]?.value + +elem?.value;
+            otherAmtDetail2[findOther].value = +otherAmtDetail2[findOther]?.value + +elem?.value;
           }
         });
         // finalArr[findData].otherAmtDetails = otherAmtDetail2;
@@ -95,24 +96,25 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         finalArr[findData].UnitCost += e?.UnitCost;
       }
     });
+    datas.mainTotal.criterialBasedDiscount = criterialBasedDiscount;
     setData(finalArr);
     setTaxes(datas?.allTaxes);
     setTotal(datas?.mainTotal);
     setGrandTotal(datas?.finalAmount);
   };
 
-    // Function to check margin and update state
-    const checkMargin = () => {
-      const element = document.getElementById('myElement');
-      if (element) {
-        const computedStyle = window.getComputedStyle(element);
-        if (computedStyle.margin === '0px') {
-          setMarginNone(true);
-        } else {
-          setMarginNone(false);
-        }
+  // Function to check margin and update state
+  const checkMargin = () => {
+    const element = document.getElementById('myElement');
+    if (element) {
+      const computedStyle = window.getComputedStyle(element);
+      if (computedStyle.margin === '0px') {
+        setMarginNone(true);
+      } else {
+        setMarginNone(false);
       }
-    };
+    }
+  };
 
   useEffect(() => {
     const sendData = async () => {
@@ -167,7 +169,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           <input
             type="button"
             className="btn_white blue py-1 mt-2"
-            style={{fontSize: "15px"}}
+            style={{ fontSize: "15px" }}
             value="Print"
             onClick={(e) => handlePrint(e)}
           />
@@ -289,19 +291,19 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               {e?.other_details?.map((ele, ind) => {
                 return <div className="d-flex justify-content-between" key={ind}>
                   <p className="pe-1 col-8">{ele?.label}</p>
-                  <p style={{wordBreak: "break-all"}} className="col-4 text-end">{NumberWithCommas(+ele?.value, 2)}</p>
+                  <p style={{ wordBreak: "break-all" }} className="col-4 text-end">{NumberWithCommas(+ele?.value, 2)}</p>
                 </div>
               })}
               {e?.TotalDiamondHandling !== 0 && (
                 <div className="d-flex justify-content-between">
                   <p className="pe-1 col-8">Handling Charges</p>
-                  <p className="col-4 text-end" style={{wordBreak: "break-all"}}>{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>
+                  <p className="col-4 text-end" style={{ wordBreak: "break-all" }}>{NumberWithCommas(e?.TotalDiamondHandling, 2)}</p>
                 </div>
               )}
               {e?.totals?.misc?.Amount !== 0 && (
                 <div className="d-flex justify-content-between">
                   <p className="pe-1 col-8">Misc Charges</p>
-                  <p className="col-4 text-end" style={{wordBreak: "break-all"}}>{NumberWithCommas(e?.totals?.misc?.Amount, 2)}</p>
+                  <p className="col-4 text-end" style={{ wordBreak: "break-all" }}>{NumberWithCommas(e?.totals?.misc?.Amount, 2)}</p>
                 </div>
               )}
             </div>
@@ -389,7 +391,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               {NumberWithCommas(total?.total_unitcost, 2)}
             </div>
           </div>
-          {total?.total_discount_amount !== 0 && <div className={`d-flex ${style?.table}`}>
+          {!total?.mainTotal?.criterialBasedDiscount && <div className={`d-flex ${style?.table}`}>
             <div className={`${style?.totalAmtWord} border-end text-end`} >
               Discount
             </div>
@@ -397,7 +399,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               {NumberWithCommas(total?.total_discount_amount, 2)}
             </div>
           </div>}
-       {total?.total_discount_amount !== 0 &&    <div className={`d-flex ${style?.table}`}>
+          {total?.total_discount_amount !== 0 && <div className={`d-flex ${style?.table}`}>
             <div className={`${style?.totalAmtWord} border-end text-end`} >
               Value After Discount:
             </div>

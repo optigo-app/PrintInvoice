@@ -47,9 +47,12 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setlabel(printArr);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         let resultArray = [];
+        let discountPercentages = 0
         datas?.resultArray?.map((e, i) => {
             let obj = cloneDeep(e);
             let RMwt = 0;
+            let discountPercentage = e?.DiscountAmt * 100 / e?.UnitCost;
+            discountPercentages += discountPercentage;
             let diamonds = [];
             obj?.diamonds?.forEach((ele, ind) => {
                 RMwt += ele?.RMwt;
@@ -64,9 +67,11 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             });
             obj.quaDia = diamonds;
             obj.RMwt = RMwt;
+            obj.discountPercentage = discountPercentage;
             resultArray.push(obj);
         });
         datas.resultArray = resultArray;
+        datas.mainTotal.discountPercentages = discountPercentages;
         console.log(datas);
         setData(datas);
         let documentDetails = data?.BillPrint_Json[0]?.DocumentDetail.split("#@#");
@@ -230,7 +235,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className={`d-flex justify-content-center align-items-center ${style?.Certificate} border-end`}><p className='p-1 text-center text-break'>{e?.CertificateNo}	</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.Metal} border-end`}><p className='p-1 text-center text-break'>{e?.MetalTypePurity}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.Gross} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(e?.grosswt, 3)}</p></div>
-                            <div className={`d-flex justify-content-center align-items-center ${style?.Less} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(e?.grosswt - e?.NetWt, 3)}</p></div>
+                            <div className={`d-flex justify-content-center align-items-center ${style?.Less} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(e?.totals?.diamonds?.Wt / 5, 3)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.Net} border-end`}><p className='p-1 text-center text-break'>{NumberWithCommas(e?.NetWt, 3)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center flex-column ${style?.DiaQuality} border-end`}>
                                 {e?.quaDia?.map((ele, ind) => {
@@ -246,7 +251,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.DiaWt} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.totals?.diamonds?.Wt, 2)}	</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.MRP} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.UnitCost, 2)}</p></div>
-                            <div className={`d-flex justify-content-center align-items-center ${style?.discountPer} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.Discount, 2)}</p></div>
+                            <div className={`d-flex justify-content-center align-items-center ${style?.discountPer} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.discountPercentage, 2)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.DisAmt} border-end`}><p className='p-1 text-center'>{NumberWithCommas(e?.DiscountAmt, 2)}</p></div>
                             <div className={`d-flex justify-content-center align-items-center ${style?.TotalAmount} `}><p className='p-1 text-center'>{NumberWithCommas(e?.TotalAmount, 2)}</p></div>
                         </div>
@@ -269,7 +274,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     <div className={`d-flex justify-content-center align-items-center ${style?.DiaPcs} border-end`}><p className='p-1 text-center'>	</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.DiaWt} border-end`}><p className='p-1 text-center fw-bold'>{NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 2)}</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.MRP} border-end`}><p className='p-1 text-center fw-bold'>{NumberWithCommas(data?.mainTotal?.total_unitcost, 2)}</p></div>
-                    <div className={`d-flex justify-content-center align-items-center ${style?.discountPer} border-end`}><p className='p-1 text-center fw-bold'>{NumberWithCommas(data?.mainTotal?.total_discount, 2)}</p></div>
+                    <div className={`d-flex justify-content-center align-items-center ${style?.discountPer} border-end`}><p className='p-1 text-center fw-bold'>{NumberWithCommas(data?.mainTotal?.discountPercentages, 2)}</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.DisAmt} border-end`}><p className='p-1 text-center fw-bold'>{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p></div>
                     <div className={`d-flex justify-content-center align-items-center ${style?.TotalAmount} `}><p className='p-1 text-center fw-bold'>{NumberWithCommas(data?.mainTotal?.total_amount, 2)}</p></div>
                 </div>
