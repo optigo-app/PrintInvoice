@@ -481,13 +481,13 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       {/* <div className="px-1">TOTAL IN {result?.header?.CurrencyCode}</div> */}
                      <div>TOTAL IN HK$ </div>
                      {/* <div className="px-1" dangerouslySetInnerHTML={{ __html: result?.header?.Currencysymbol }}></div> */}
-                     &nbsp;{" "}:{" "} &nbsp;<div className="px-1">{formatAmount((result?.mainTotal?.total_amount + result?.header?.TotalGSTAmount + result?.header?.AddLess))} </div></div>
+                     &nbsp;{" "}:{" "} &nbsp;<div className="px-1">{formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))} </div></div>
                   </div>
                   {/* amount in words */}
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">
                     {/* <div>{numberToWord((result?.finalAmount)?.toFixed(2))} Only /-</div> */}
                     {/* <div>{toWords.convert(+(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)?.toFixed(2))} Only /-</div> */}
-                    <div>{NumToWord((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal))}</div>
+                    <div>{NumToWord((result?.mainTotal?.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</div>
                     {/* <div>TOTAL : {result?.header?.CurrencyCode}  */}
                     <div>TOTAL :  HKD  {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.header?.TotalGSTAmount))}</div>
                   </div>
