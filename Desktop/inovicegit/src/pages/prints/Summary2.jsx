@@ -105,7 +105,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             dia[findrecord].damt += a?.Amount;
           }
       })
-
+      dia.sort((a, b) => a?.QualityName?.localeCompare(b?.QualityName));
       el.diamonds = dia;
     })
 
@@ -251,7 +251,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div>Phno:-{result?.header?.customermobileno}</div>
                       <div>
                         {console.log(result)}
-                        GSTIN - {result?.header?.CustGstNo} | 
+                        { result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN' } - {result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo} | 
                         {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} |
                         PAN - {result?.header?.CustPanno}
                         {/* {result?.header?.Cust_CST_STATE}-
@@ -343,7 +343,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {
                               e?.diamonds?.map((el) => {
                                 return (
-                                  <div className="tops2 pe-1">{formatAmount((el?.damt / el?.dwt))}</div>
+                                  <div className="tops2 pe-1">{formatAmount(((el?.damt / el?.dwt)/(result?.header?.CurrencyExchRate)))}</div>
                                 )
                               })
                             }
@@ -359,7 +359,14 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </div>
                           <div className={`${classIs.col8} border-end tops2 pe-1`}>{e?.grosswt?.toFixed(3)}</div>
                           {hsnetwt ? <div className={`${classIs.col9} border-end tops2 pe-1`}>{e?.NetWt?.toFixed(3)}</div> : ''}
-                          <div className={`${classIs.col10} border-end tops2 pe-1`}>{formatAmount((e?.MiscAmount + e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.OtherCharges + e?.TotalDiamondHandling + e?.totals?.finding?.SettingAmount))}</div>
+                          <div className={`${classIs.col10} border-end tops2 pe-1`}>
+                            {
+                            formatAmount(
+                              (
+                                ((e?.MiscAmount + e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.OtherCharges + e?.TotalDiamondHandling) + (e?.totals?.finding?.SettingAmount) - e?.totals?.finding?.SettingAmount)
+                              ))
+                            }
+                          </div>
                           <div className={`${classIs.col11} border-end tops2 pe-1`}>{formatAmount(e?.totals?.colorstone?.Amount)}</div>
                           <div className={`${classIs.col12} border-end tops2 pe-1`}>{e?.convertednetwt?.toFixed(3)}</div>
                           <div className={`${classIs.col13} border-end tops2 pe-1`}>{formatAmount(e?.MetalAmount)}</div>
@@ -385,7 +392,10 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         result?.mainTotal?.total_other + 
                         result?.mainTotal?.total_diamondHandling + 
                         result?.mainTotal?.total_Making_Amount + 
-                        result?.mainTotal?.finding?.SettingAmount))}</div>
+                        result?.mainTotal?.totalMiscAmount +
+                        result?.mainTotal?.finding?.SettingAmount -
+                        result?.mainTotal?.finding?.SettingAmount
+                        ))}</div>
                     <div className={`${classIs.col11} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.total_csamount)}</div>
                     <div className={`${classIs.col12} border-end ends2 pe-1`}>{result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
                     <div className={`${classIs.col13} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.MetalAmount)}</div>
@@ -398,22 +408,22 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {
                       result?.allTaxes?.map((e, i) => {
                         return (
-                          <div className="d-flex justify-content-between " key={i}><div className="w-50 d-flex justify-content-end">{e?.name} @ {e?.per}</div><div className="w-50 d-flex justify-content-end">{e?.amount}</div></div>
+                          <div className="d-flex justify-content-between " key={i}><div className="w-50 d-flex justify-content-end">{e?.name} @ {e?.per}</div><div className="w-50 d-flex justify-content-end">{formatAmount((+e?.amount) * result?.header?.CurrencyExchRate)}</div></div>
                         )
                       })
                     }
-                    <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-end">{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className="w-50 d-flex justify-content-end fw-bold">{result?.header?.AddLess}</div></div>
+                    <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-start fw-bold" style={{paddingLeft:'3px'}}>{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className="w-50 d-flex justify-content-end fw-bold">{result?.header?.AddLess}</div></div>
                   </div>
                 </div>
                 {/* grand total */}
                 <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2 fsh2_s2">
                   <div>Gold in 24K : <b className="fsgs2">{result?.mainTotal?.convertednetwt?.toFixed(3)}</b></div>
-                  <div className="fw-bold">TOTAL IN HK$ : {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal))}</div>
+                  <div className="fw-bold">TOTAL IN HK$ : {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</div>
                 </div>
                 {/* in words */}
                 <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2 fsh2_s2">
-                  <div className="fw-bold">{toWords.convert(+(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)?.toFixed(2))}</div>
-                  <div className="fw-bold">TOTAL  :   HKD {formatAmount(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)} </div>
+                  <div className="fw-bold">{toWords.convert(+(result?.mainTotal?.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate))?.toFixed(2))}</div>
+                  <div className="fw-bold">TOTAL  :   HKD {formatAmount(result?.mainTotal?.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate))} </div>
                 </div>
                 {/* summary */}
                 <div className="border mt-2 pbias2 fsh2_s2">
@@ -433,7 +443,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* notes  */}
                 <div className="border mt-2 pbias2 fsh2_s2">
-                  <div className="fw-bold p-2 pt-3">NOTE:</div>
+                  <div className="fw-bold p-2 pt-3 ps-1" style={{fontSize:'16px'}}>NOTE:</div>
                   <div className="p-1 fsh2_s2 danger_s2" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }}></div>
                 </div>
                 {/* remarks */}
