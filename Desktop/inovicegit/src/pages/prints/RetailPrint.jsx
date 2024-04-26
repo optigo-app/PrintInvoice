@@ -559,7 +559,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </div>
                             <div className={`${styles.Wt} border-end p-1 d-flex align-items-end justify-content-around flex-column min_height_44_retail_print_1 ft_12_retailPrint`}>
                                 <p className='fw-bold lh-1 text-end'>{fixedValues(total?.materialWeight, 3)} Ctw</p>
-                                <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight, 3)} gm</p>
+                                <p className='fw-bold lh-1 text-end'>{fixedValues(total?.goldWeight - (finalD?.mainTotal?.diamonds?.Wt / 5), 3)} gm</p>
                             </div>
                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end min_height_44_retail_print_1 ft_12_retailPrint`}>
                                 <p className='fw-bold text-end'>

@@ -197,9 +197,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           if (semiFinalArr[findRec].mainData.SrJobno !== semiFinalArr[findRec].mainData.GroupJob) {
             semiFinalArr[findRec].mainData.SrJobno = semiFinalArr[findRec].mainData.GroupJob;
           } else {
-            mainMetals = semiFinalArr[findRec].data.filter(
-              (ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4
-            );
+            mainMetals = semiFinalArr[findRec].data.filter( (ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4 );
             whichArr = "semiFinal";
           }
           if (obj.mainData.SrJobno === obj.mainData.GroupJob) {
@@ -296,9 +294,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             ].flat();
             let blankM = [];
             metals.forEach((ele, ind) => {
-              let findMetals = blankM.findIndex(
-                (elee) => elee?.ShapeName === ele?.ShapeName
-              );
+              let findMetals = blankM.findIndex( (elee) => elee?.ShapeName === ele?.ShapeName );
               if (findMetals === -1) {
                 blankM.push(ele);
               } else {
@@ -422,6 +418,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   };
 
   const loadData = (datas) => {
+    console.log(datas);
     setBillPrint_Json(datas?.BillPrint_Json[0]);
     setBillPrint_Json1(datas?.BillPrint_Json1);
     setBillPrint_Json2(datas?.BillPrint_Json2);
@@ -632,14 +629,14 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </div>
                             <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
                               {(ele?.ShapeName !== "GOLD" && ele?.Wt !== 0) &&
-                                fixedValues(ele?.Wt, 3)}
+                                `${ele?.IsLess === 1 ? "Less:" : ""}${fixedValues(ele?.Wt, 3)}`}
                             </div>
                             <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
-                              {ind === 0 && fixedValues(e?.primaryWt, 3)}
+                              {ind === 0 && `${fixedValues(e?.primaryWt, 3)}`}
                             </div>
                             <div className="min_padding_invoice1  justify-content-end col-2">
                               <p className="text-end">  {ele?.MasterManagement_DiamondStoneTypeid === 4 &&
-                                NumberWithCommas(ele?.Rate, 2)}</p>
+                                NumberWithCommas(ele?.Rate / BillPrint_Json?.CurrencyExchRate, 2)}</p>
                             </div>
                           </div>
                         );
@@ -694,12 +691,12 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="others_invoice1 others_invoicePrint1  border-end">
                     <div className="d-grid h-100">
                       <div className="text-end border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1 d-flex align-items-center justify-content-end">
-                        {NumberWithCommas(e?.mainData?.MetalAmount, 2)}
+                        {NumberWithCommas(e?.mainData?.MetalAmount / BillPrint_Json?.CurrencyExchRate, 2)}
                       </div>
                       {e?.data.map((ele, ind) => {
                         return ele?.MasterManagement_DiamondStoneTypeid !== 4 && <div className={`text-end ${(e?.mainData?.OtherCharges !== 0 || ind !== e?.data.length) && `border-bottom`} 
                             material_inner_invoice1 p-1 minHeight20_5_taxInvoice1 d-flex align-items-center justify-content-end`} key={ind} >
-                          {ele?.materialCharges !== 0 && NumberWithCommas(ele?.materialCharges, 2)}
+                          {ele?.materialCharges !== 0 && NumberWithCommas(ele?.materialCharges / BillPrint_Json?.CurrencyExchRate, 2)}
                         </div>
                       })}
                       {/* {
@@ -717,7 +714,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                   </div>
                   <div className="d-flex align-items-center justify-content-end total_invoice1 total_invoicePrint1 min_padding_invoice1 border-end  ">
-                    {NumberWithCommas(+e?.mainData?.UnitCost, 2)}
+                    {NumberWithCommas(+e?.mainData?.UnitCost / BillPrint_Json?.CurrencyExchRate, 2)}
                   </div>
                 </div>
               );
