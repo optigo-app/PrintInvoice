@@ -347,9 +347,9 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.CustName}</p>
 
                         {/* <p className=''>{jsonData1?.customerAddress2}</p> */}
-                        <p className='line_height_110'>{jsonData1?.customercity}, {jsonData1?.State}</p>
-                        <p className='line_height_110'>{jsonData1?.CompanyCountry}{jsonData1?.customerpincode}</p>
-                        <p className='line_height_110'>Mobile No. : {jsonData1?.customermobileno1}</p>
+                        <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.customercity}, {jsonData1?.State}</p>
+                        <p className='line_height_110 ft_12_retailPrint'>{jsonData1?.CompanyCountry}{jsonData1?.customerpincode}</p>
+                        <p className='line_height_110 ft_12_retailPrint'>Mobile No. : {jsonData1?.customermobileno1}</p>
                     </div>
                     <div className="col-4 p-1 position-relative">
                         <div className="d-flex">
