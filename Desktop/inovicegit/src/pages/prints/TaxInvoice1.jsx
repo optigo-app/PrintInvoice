@@ -41,6 +41,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
   const findMaterials = (json2, json1, json0) => {
     const groupedObjects = {};
+
     json2.forEach((item) => {
       if (json1.some((srItem) => srItem.SrJobno === item.StockBarcode)) {
         if ((item?.MasterManagement_DiamondStoneTypeid === 3 && item?.IsHSCOE !== 0) || (item?.MasterManagement_DiamondStoneTypeid === 5)) {
@@ -60,12 +61,14 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }));
 
     let arrResult = [];
+    let diamondCsWt = 0
     resultArray.forEach((e, i) => {
       let diamonds = [];
       let colorStones = [];
       let miscs = [];
       e?.data?.forEach((ele, ind) => {
         if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+          diamondCsWt += ele?.Wt;
           let findDiamond = diamonds?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname &&
             elem?.SizeName === ele?.SizeName && elem?.Rate === ele?.Rate);
           if (findDiamond === -1) {
@@ -77,8 +80,9 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           }
         }
         else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+          diamondCsWt += ele?.Wt;
           let findColorStones = colorStones?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname &&
-            elem?.isRateOnPcs === ele?.isRateOnPcs);
+            elem?.isRateOnPcs === ele?.isRateOnPcs && elem?.Rate === ele?.Rate);
           if (findColorStones === -1) {
             colorStones?.push(ele);
           } else {
@@ -168,6 +172,15 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               totalobj.weightInGram += element.Wt;
             }
           });
+          ele?.diamonds?.forEach((elem, index) => {
+            totalobj.diaWt += elem?.Wt;
+          });
+          ele?.colorStones?.forEach((elem, index) => {
+            totalobj.diaWt += elem?.Wt;
+          });
+          ele?.miscs?.forEach((elem, index) => {
+            totalobj.weightInGram += elem.Wt;
+          })
           // finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e, totalAmount: totalAmount });
           finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e, miscArr: miscArr, diamonds: ele?.diamonds, colorStones: ele?.colorStones, miscs: ele?.miscs });
         }
@@ -269,8 +282,8 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           let allColorStones = [...obj?.colorStones, ...semiFinalArr[findRec]?.colorStones]?.flat();
           let blankColorStones = [];
           allColorStones?.forEach((ele, ind) => {
-            let findColorStone = blankColorStones?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname &&
-              elem?.isRateOnPcs === ele?.isRateOnPcs);
+            let findColorStone = blankColorStones?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && 
+            elem?.Colorname === ele?.Colorname && elem?.isRateOnPcs === ele?.isRateOnPcs && elem?.Rate === ele?.Rate);
             if (findColorStone === -1) {
               blankColorStones?.push(ele);
             } else {
@@ -293,7 +306,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           })
           console.log(obj?.mainData?.SrJobno, semiFinalArr[findRec]?.mainData?.SrJobno);
           semiFinalArr[findRec].mainData.MakingAmount += obj.mainData.MakingAmount;
-          // semiFinalArr[findRec].mainData.TotalAmount += obj.mainData.TotalAmount;
+          semiFinalArr[findRec].mainData.TotalAmount += obj.mainData.TotalAmount;
           semiFinalArr[findRec].mainData.grosswt += obj.mainData.grosswt;
           semiFinalArr[findRec].mainData.NetWt += obj.mainData.NetWt;
           semiFinalArr[findRec].mainData.LossWt += obj.mainData.LossWt;
@@ -416,7 +429,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               );
             }
           });
-          semiFinalArr[findRec].data = [ ...blankMetals, ].flat();
+          semiFinalArr[findRec].data = [...blankMetals,].flat();
         }
       }
     });
@@ -462,7 +475,16 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         if (ele?.MasterManagement_DiamondStoneTypeid !== 4) {
           totalobj.totalOtherAmount += ele.Amount;
         }
-      })
+      });
+      e?.diamonds?.forEach((ele, ind) => {
+        totalobj.totalOtherAmount += ele?.Amount;
+      });
+      e?.colorStones?.forEach((ele, ind) => {
+        totalobj.totalOtherAmount += ele?.Amount;
+      });
+      e?.miscs?.forEach((ele, ind) => {
+        totalobj.totalOtherAmount += ele?.Amount;
+      });
     });
     setTotalAmount(totalobj);
   };
@@ -802,7 +824,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                       {e?.mainData?.OtherCharges !== 0 && (
                         <div className="text-end border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1 d-flex align-items-center justify-content-end">
-                          {NumberWithCommas(e?.mainData?.OtherCharges + e?.mainData?.TotalDiamondHandling, 2)}
+                          {NumberWithCommas((e?.mainData?.OtherCharges + e?.mainData?.TotalDiamondHandling) / BillPrint_Json?.CurrencyExchRate, 2)}
                         </div>
                       )}
                     </div>
@@ -841,7 +863,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               {NumberWithCommas(totalAmount?.totalOtherAmount / BillPrint_Json?.CurrencyExchRate, 2)}
             </div>
             <div className="p-1 d-flex align-items-center total_invoice1 total_invoicePrint1 border-end fw-bold justify-content-end pad_2_tax_invoice_1">
-              {NumberWithCommas(totalAmount?.UnitCost, 2)}
+              {NumberWithCommas(totalAmount?.UnitCost / BillPrint_Json?.CurrencyExchRate, 2)}
             </div>
           </div>
           <div className="d-flex border-start border-end border-bottom print_break_avoid_invoice1 pad_2_tax_invoice_1">
@@ -869,6 +891,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </p>
                   );
                 })}
+              {BillPrint_Json?.AddLess !== 0 && <p>{BillPrint_Json?.AddLess > 0 ? "Add" : "Less"}</p>}
               <p>Total Amt. after Tax</p>
               <p>Old Gold</p>
               <p>Advance</p>
@@ -883,12 +906,15 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               {totalAmount?.discountAmt !== 0 && (
                 <p>{NumberWithCommas(totalAmount?.discountAmt, 2)}</p>
               )}
-              <p>{totalAmount?.TotalAmount?.toFixed(2)}</p>
+              <p>{NumberWithCommas(totalAmount?.TotalAmount / BillPrint_Json?.CurrencyExchRate, 2)}</p>
               {taxes.length > 0 &&
                 taxes?.map((e, i) => {
-                  return <p key={i}>{NumberWithCommas(+e?.amount, 2)}</p>;
+                  return <p key={i}>{NumberWithCommas(+e?.amount / BillPrint_Json?.CurrencyExchRate, 2)}</p>;
                 })}
-              <p>{totalAmount?.totalAmountAfterTax}</p>
+              {BillPrint_Json?.AddLess !== 0 && <p>{NumberWithCommas(BillPrint_Json?.AddLess / BillPrint_Json?.CurrencyExchRate, 2)}</p>}
+              <p>{NumberWithCommas(+((totalAmount?.TotalAmount / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)) +
+                (+(BillPrint_Json?.AddLess / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)) +
+                taxes?.reduce((acc, cObj) => acc + +(+(cObj?.amount / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)), 0), 2)}</p>
               <p>
                 {BillPrint_Json?.OldGoldAmount !== undefined &&
                   NumberWithCommas(BillPrint_Json?.OldGoldAmount, 2)}
@@ -907,23 +933,29 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 })}
               {/* <p>{BillPrint_Json?.BankReceived !== undefined && NumberWithCommas(BillPrint_Json?.BankReceived, 2)}</p> */}
               <p>
-                {totalAmount?.netBalanceAmount !== undefined &&
-                  NumberWithCommas(totalAmount?.netBalanceAmount, 2)}
+                {/* {totalAmount?.netBalanceAmount !== undefined && NumberWithCommas(totalAmount?.netBalanceAmount, 2)} */}
+                {NumberWithCommas(+((totalAmount?.TotalAmount / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)) +
+                  (+(BillPrint_Json?.AddLess / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)) +
+                  taxes?.reduce((acc, cObj) => acc + +(+(cObj?.amount / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)), 0) - +(BillPrint_Json?.OldGoldAmount?.toFixed(2)) -
+                  +(BillPrint_Json?.AdvanceAmount?.toFixed(2)) - +(BillPrint_Json?.CashReceived?.toFixed(2)), 2)}
               </p>
             </div>
           </div>
           <div className="d-flex border-start border-end border-bottom   print_break_avoid_invoice1 pad_2_tax_invoice_1">
             <div className=" totalNumbersinvoice1 border-end totalNumbersinvoicePrint1">
-              <p>In Words {BillPrint_Jso1?.Currencyname}</p>
+              <p>In Words {NumberWithCommas(+((totalAmount?.TotalAmount / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)) +
+                (+(BillPrint_Json?.AddLess / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)) +
+                taxes?.reduce((acc, cObj) => acc + +(+(cObj?.amount / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)), 0), 2)}</p>
               <p className="fw-bold">{NumToWord(+fixedValues(totalAmount?.totalAmountAfterTax, 2))} Only</p>
             </div>
             <div className=" totalTaxinvoice1 totalTaxinvoicePrint1 border-end text-end align-items-center d-flex justify-content-end fw-bold pad_2_tax_invoice_1">
               <p>   GRAND TOTAL</p>
             </div>
             <div className="d-flex align-items-center justify-content-end totalTaxNumberinvoice_print_1 fw-bold totalTaxNumberinvoiceprint1 pad_2_tax_invoice_1">
-              <p>   ₹{" "}
-                {totalAmount?.totalAmountAfterTax !== undefined &&
-                  NumberWithCommas(totalAmount?.totalAmountAfterTax, 2)}</p>
+              <p>   {BillPrint_Json?.Currencysymbol}{" "}
+                {NumberWithCommas(+((totalAmount?.TotalAmount / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)) +
+                  (+(BillPrint_Json?.AddLess / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)) +
+                  taxes?.reduce((acc, cObj) => acc + +(+(cObj?.amount / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)), 0), 2)}</p>
             </div>
           </div>
           <div className="d-flex border-start border-end border-bottom p-1 print_break_avoid_invoice1 declarationTaxInvoice1 pb-4">
