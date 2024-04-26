@@ -69,7 +69,8 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         col11: "col8ip7",
       });
     }
-  }, [printName]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const sendData = async () => {
