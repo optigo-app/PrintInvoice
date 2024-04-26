@@ -175,7 +175,8 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.diamonds = diamonds;
             obj.colorstone = colorstone;
             obj.misc = misc;
-            obj.secondaryWt = (e?.NetWt - secondWt);
+            // obj.secondaryWt = (e?.NetWt - secondWt);
+            obj.secondaryWt = (netWtLossWt - e?.totals?.finding?.Wt);
             obj.finding = finding;
             resultArray?.push(obj);
            
@@ -359,7 +360,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className="poductDiscriptionRetailPrint border-bottom border-end p-1">
                             <p>{e?.SubCategoryname} {e?.Categoryname} </p>
                             <img src={e?.DesignImage} alt="" className='w-100 product_image_retailPrint' onError={handleImageError} />
-                            <p className='text-center fw-bold pt-1'>{fixedValues(e?.grosswt, 3)}gm <span className='fw-normal'>Gross</span></p>
+                            <p className='text-center fw-bold pt-1'>{fixedValues(e?.grosswt, 3)} gm <span className='fw-normal'>Gross</span></p>
                         </div>
                         <div className="materialDescriptionRetailPrint border-end">
                             <div className="d-grid h-100">
