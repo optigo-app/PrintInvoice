@@ -129,6 +129,8 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           e?.colorstoneWtMetalPurityWise;
           metwise[findIndex].totals.diamonds.Wt += e?.totals?.diamonds?.Wt;
           metwise[findIndex].totals.colorstone.Wt += e?.totals?.colorstone?.Wt;
+          metwise[findIndex].totals.colorstone.SettingAmount += e?.totals?.colorstone?.SettingAmount;
+          metwise[findIndex].totals.diamonds.SettingAmount += e?.totals?.diamonds?.SettingAmount;
       }
     });
 
@@ -350,7 +352,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div
                             className={`${classip?.col10}  border-end endip5 px-1`}
                           >
-                            {formatAmount(e?.MakingAmount)}
+                            {formatAmount((e?.MakingAmount + e?.totals?.colorstone?.SettingAmount + e?.totals?.diamonds?.SettingAmount))}
                           </div>
                           <div className={`${classip?.col11} endip5 px-1`}>
                             {formatAmount((e?.TotalAmount + e?.DiscountAmt))}
@@ -407,7 +409,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         className={`${classip?.col10}  border-end endip5 px-1`}
                       >
                         {formatAmount(
-                          result?.mainTotal?.total_labour?.labour_amount
+                          (result?.mainTotal?.total_labour?.labour_amount  + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)
                         )}
                       </div>
                       <div className={`${classip?.col11}  endip5 px-1`}>
@@ -438,7 +440,8 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         Discount
                       </div>
                       <div className="w-50 px-1 endip5">
-                        {formatAmount((result?.mainTotal?.total_discount_amount/result?.header?.CurrencyExchRate))}
+                        {/* {formatAmount((result?.mainTotal?.total_discount_amount/result?.header?.CurrencyExchRate))} */}
+                        {formatAmount((result?.mainTotal?.total_discount_amount))}
                       </div>
                     </div>
                     <div className="d-flex ">
@@ -455,7 +458,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="w-50 px-1 border-end endip5">
                             {e?.name} @ {e?.per}
                           </div>
-                          <div className="w-50 px-1 endip5">{formatAmount(e?.amount)}</div>
+                          <div className="w-50 px-1 endip5">{formatAmount((+e?.amount) * result?.header?.CurrencyExchRate)}</div>
                         </div>
                       );
                     })}

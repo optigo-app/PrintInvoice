@@ -105,7 +105,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             dia[findrecord].damt += a?.Amount;
           }
       })
-
+      dia.sort((a, b) => a?.QualityName?.localeCompare(b?.QualityName));
       el.diamonds = dia;
     })
 
@@ -251,7 +251,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div>Phno:-{result?.header?.customermobileno}</div>
                       <div>
                         {console.log(result)}
-                        GSTIN - {result?.header?.CustGstNo} | 
+                        GSTIN - {result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo} | 
                         {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} |
                         PAN - {result?.header?.CustPanno}
                         {/* {result?.header?.Cust_CST_STATE}-
@@ -343,7 +343,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {
                               e?.diamonds?.map((el) => {
                                 return (
-                                  <div className="tops2 pe-1">{formatAmount((el?.damt / el?.dwt))}</div>
+                                  <div className="tops2 pe-1">{formatAmount(((el?.damt / el?.dwt)/(result?.header?.CurrencyExchRate)))}</div>
                                 )
                               })
                             }
@@ -359,7 +359,14 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           </div>
                           <div className={`${classIs.col8} border-end tops2 pe-1`}>{e?.grosswt?.toFixed(3)}</div>
                           {hsnetwt ? <div className={`${classIs.col9} border-end tops2 pe-1`}>{e?.NetWt?.toFixed(3)}</div> : ''}
-                          <div className={`${classIs.col10} border-end tops2 pe-1`}>{formatAmount((e?.MiscAmount + e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.OtherCharges + e?.TotalDiamondHandling + e?.totals?.finding?.SettingAmount))}</div>
+                          <div className={`${classIs.col10} border-end tops2 pe-1`}>
+                            {
+                            formatAmount(
+                              (
+                                ((e?.MiscAmount + e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount + e?.OtherCharges + e?.TotalDiamondHandling) + (e?.totals?.finding?.SettingAmount) - e?.totals?.finding?.SettingAmount)
+                              ))
+                            }
+                          </div>
                           <div className={`${classIs.col11} border-end tops2 pe-1`}>{formatAmount(e?.totals?.colorstone?.Amount)}</div>
                           <div className={`${classIs.col12} border-end tops2 pe-1`}>{e?.convertednetwt?.toFixed(3)}</div>
                           <div className={`${classIs.col13} border-end tops2 pe-1`}>{formatAmount(e?.MetalAmount)}</div>

@@ -351,10 +351,10 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             finalArr[findrec].OtherCharges += obj?.OtherCharges;
             finalArr[findrec].Quantity += obj?.Quantity;
             finalArr[findrec].TotalDiamondHandling += obj?.TotalDiamondHandling;
+            finalArr[findrec].MiscAmount += obj?.MiscAmount;
           }
       })
       datas.resultArray = finalArr;
-
       datas.resultArray.sort((a, b) => a?.Collectionname - b?.Collectionname);
       let totpkg = 0;
       datas?.resultArray?.forEach((a) => {
@@ -427,18 +427,18 @@ console.log(result);
                 <div className="header2RE">
                   <div className="d-flex flex-column">
                     <div className="d-flex">
-                      <div className="headerAddRE">To,</div>
+                      <div className="headerAddRE" style={{marginRight:'1rem'}}>To,</div>
                       <div className="headerAddRE fw-bold"> {result?.header?.customerfirmname} </div>
                     </div>
-                    <div className="d-flex">
+                    <div className="d-flex" style={{paddingLeft:'3.5rem'}}>
                       <div className="headerAddRE">{result?.header?.customercity} :</div>{" "} <div className="headerAddRE">{result?.header?.PinCode}</div> </div>
-                    <div className="d-flex">
+                    <div className="d-flex" style={{paddingLeft:'3.5rem'}}>
                       <div className="headerAddRE">GSTIn :</div>{" "} <div className="headerAddRE fw-bold"> {result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.Cust_VAT_GST_No} </div>
                     </div>
-                    <div className="d-flex">
+                    <div className="d-flex" style={{paddingLeft:'3.5rem'}}>
                       <div className="headerAddRE">Bill No :</div>{" "} <div className="headerAddRE fw-bold"> {result?.header?.InvoiceNo} </div>
                     </div>
-                    <div className="d-flex">
+                    <div className="d-flex" style={{paddingLeft:'3.5rem'}}>
                       <div className="headerAddRE">Date :</div>{" "}
                       <div className="headerAddRE fw-bold"> {result?.header?.EntryDate} </div>
                     </div>
@@ -523,7 +523,7 @@ console.log(result);
                           </p>
                           <p className="c1RE brbRE endRE fs-3">
                             {/* {NumberWithCommas(e?.OtherAmount, 2)} */}
-                            {formatAmount(e?.OtherCharges + e?.TotalDiamondHandling)}
+                            {formatAmount(e?.OtherCharges + e?.TotalDiamondHandling + e?.MiscAmount)}
                           </p>{" "}
                           <p className="c1RE fw-bold endRE fs-3">
                             {/* {NumberWithCommas(e?.TotalAmount, 2)} */}

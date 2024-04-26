@@ -12,6 +12,7 @@ import Loader from "../../components/Loader";
 import "../../assets/css/prints/summary5.css";
 import * as lsh from "lodash";
 import { ToWords } from "to-words";
+import NumToWord from "../../GlobalFunctions/NumToWord";
 
 const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const toWords = new ToWords();
@@ -111,7 +112,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       let clr = [];
 
       e?.colorstone?.forEach((a) => {
-        let findrec = clr?.findIndex((el) => el?.ShapeName === a?.ShapeName && el?.QualityName === a?.QualityName && el?.Colorname === a?.Colorname)
+        let findrec = clr?.findIndex((el) => el?.ShapeName === a?.ShapeName && el?.QualityName === a?.QualityName && el?.Colorname === a?.Colorname && el?.isRateOnPcs === a?.isRateOnPcs && el?.Rate === a?.Rate && el?.SizeName === a?.SizeName)
         if(findrec === -1){
           let obj = {...a};
           obj.cspcs = a?.Pcs;
@@ -300,7 +301,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         >
                           {/* tabel result data */}
                           <div className="col1s5 border-end Topcenters5  pb10s5">
-                            {e?.SrNo}
+                            {i + 1}
                           </div>
                           <div className="col2s5 border-end pb10s5 fw-bold">
                             <div>{e?.designno}</div>
@@ -319,11 +320,9 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </div>
                             <div>Tunch : {(e?.Tunch - e?.Wastage)?.toFixed(3)}</div>
                           </div>
-                          <div
-                            className="col3s5 border-end pb10s5"
-                            style={{ wordBreak: "break-word" }}
-                          >
-                            {e?.MetalPurity} {e?.MetalColor}
+                          {console.log(e)}
+                          <div className="col3s5 border-end pb10s5" style={{ wordBreak: "break-word" }} >
+                            { (e?.MetalType?.toLowerCase()) === 'gold' ? e?.MetalPurity : e?.MetalTypePurity} {e?.MetalColor}
                           </div>
                           <div className="col4s5 border-end ends5 pb10s5">
                             {e?.grosswt?.toFixed(3)}
@@ -388,18 +387,18 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {formatAmount(e?.MaKingCharge_Unit)}
                           </div>
                           <div className="col14s5 border-end ends5 pb10s5">
-                            {/* {formatAmount((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))} */}
-                            {formatAmount((((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate))))}
+                            {formatAmount((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))}
+                            {/* {formatAmount((((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate))))} */}
                           </div>
                           <div className="col15s5 border-end ends5 pb10s5">
-                            {formatAmount(e?.Wastage)}
+                            {(e?.Wastage?.toFixed(3))}
                           </div>
                           <div className="col16s5 border-end ends5 pb10s5">
                             {/* {formatAmount((e?.OtherCharges + e?.TotalDiamondHandling))} */}
                             {formatAmount(((e?.OtherCharges + e?.TotalDiamondHandling ) / (result?.header?.CurrencyExchRate)))}
                           </div>
                           <div className="col17s5 ends5 pb10s5">
-                            {formatAmount(e?.TotalAmount)}
+                            {formatAmount((e?.TotalAmount))}
                           </div>
                         </div>
                       );
@@ -487,7 +486,8 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   {/* amount in words */}
                   <div className="mt-2 border bgs5 d-flex justify-content-between align-items-center p-1 fw-bold fsgs5 pbiag">
                     {/* <div>{numberToWord((result?.finalAmount)?.toFixed(2))} Only /-</div> */}
-                    <div>{toWords.convert(+(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)?.toFixed(2))} Only /-</div>
+                    {/* <div>{toWords.convert(+(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)?.toFixed(2))} Only /-</div> */}
+                    <div>{NumToWord((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal))}</div>
                     {/* <div>TOTAL : {result?.header?.CurrencyCode}  */}
                     <div>TOTAL :  HKD  {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.header?.TotalGSTAmount))}</div>
                   </div>

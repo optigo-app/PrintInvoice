@@ -162,5 +162,11 @@ margin: 3rem;
     
         .print_sec_sum4 {
             display: none !important;
-          }   
+          }  
+          .wREord {
+            width: 70%;
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0px;
+        }
 }
