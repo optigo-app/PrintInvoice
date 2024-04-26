@@ -587,7 +587,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className='fw-bold ft_12_retail1Print'>{NumToWord(+fixedValues(
                             +(fixedValues(dataFill?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate, 2)) +
                             taxes?.reduce((acc, cObj) => acc + +(fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) +
-                            (+fixedValues(jsonData1?.AddLess / jsonData1?.CurrencyExchRate, 2)), 2))} Only</p>
+                            (+fixedValues(jsonData1?.AddLess / jsonData1?.CurrencyExchRate, 2)), 2))} </p>
                     </div>
                     {/* <div className="cgstRetailPrint p-1 text-end p-1 border-end"> */}
                     <div className="retail1PrintInNumbers py-1 text-end border-end ft_12_retail1Print">

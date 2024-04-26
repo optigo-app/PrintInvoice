@@ -623,7 +623,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {/* {toWords?.convert(+fixedValues((finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate) +
                             taxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) + (jsonData1?.AddLess / jsonData1?.CurrencyExchRate), 2))}  */}
                             {NumToWord(+fixedValues((finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate) +
-                            taxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) + (jsonData1?.AddLess / jsonData1?.CurrencyExchRate), 2))} Only</p>
+                            taxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) + (jsonData1?.AddLess / jsonData1?.CurrencyExchRate), 2))} </p>
                     </div>
                     {/* <div className="cgstRetailPrint p-1 text-end p-1 border-end"> */}
                     <div className="col-2 py-1 text-end border-end ft_12_retailPrint">
