@@ -129,6 +129,19 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       oth?.forEach((e) => {
          totamt += e?.Amount;
       })
+      met?.sort((a, b) => {
+        // Extract the QualityName from the string (assuming it's in the format "GOLD 10K", "GOLD 14K", etc.)
+        const qualityA = a?.QualityName;
+        const qualityB = b?.QualityName;
+        // Convert the extracted QualityName to integers for comparison
+        const qualityNumA = parseInt(qualityA);
+        const qualityNumB = parseInt(qualityB);
+        // Return the comparison result
+        return qualityNumA - qualityNumB;
+    });
+    oth?.sort((a, b) => {
+      return a.label.localeCompare(b.label);
+  });
       setTotalAmount(totamt)
       setMetwise(met);
       setDiawise(dia);
@@ -308,8 +321,8 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                     </div>
                   </div>
                   <div className='subheadertri2_2'>
-                    <div className='d-flex'><div className='w-50 fw-bold'>GSTIN:</div><div>{result?.header?.CustGstNo}</div></div>
-                    <div className='d-flex'><div className='w-50 fw-bold'>{result?.header?.Cust_CST_STATE}:</div><div>{result?.header?.Cust_CST_STATE_No}</div></div>
+                    <div className='d-flex'><div className='w-50 fw-bold'>{result?.header?.CustGstNo === '' ? '' : 'GSTIN:'}</div><div>{result?.header?.CustGstNo}</div></div>
+                    <div className='d-flex'><div className='w-50 fw-bold'>{( result?.header?.CustGstNo === '' ? '' : result?.header?.Cust_CST_STATE)}{ result?.header?.CustGstNo === '' ? '' : ':'}</div><div>{( result?.header?.CustGstNo === '' ? '' : result?.header?.Cust_CST_STATE_No)}</div></div>
                     <div className='d-flex'><div className='w-50 fw-bold'>PAN NO:</div><div>{result?.header?.CustPanno}</div></div>
                   </div>
               </div>
@@ -333,7 +346,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                               <div className='tcol1rti ps-2'>{el?.ShapeName} {el?.QualityName}</div>
                               <div className='tcol2rti end_rti pe-1'>{(el?.Wt)?.toFixed(3)}</div>
                               <div className='tcol3rti end_rti pe-1'>{formatAmount(el?.Rate)}</div>
-                              <div className='tcol4rti brrightrti end_rti pe-1'>{formatAmount(el?.Amount)}</div>
+                              <div className='tcol4rti brrightrti end_rti pe-1'>{formatAmount((el?.Amount / result?.header?.CurrencyExchRate))}</div>
                             </div>
                           })}
                         </React.Fragment>
@@ -344,9 +357,9 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                         <React.Fragment>
                           {diawise?.map((el, k) => {
                             return  <div className='d-flex pbiarti' key={k}>
-                              <div className='tcol1rti ps-2'>{el?.MasterManagement_DiamondStoneTypeName} </div>
+                              <div className='tcol1rti ps-2'>{el?.MasterManagement_DiamondStoneTypeName} { el?.MaterialTypeName === '' ? '' : `(${el?.MaterialTypeName})` }</div>
                               <div className='tcol2rti end_rti pe-1'>{(el?.Wt)?.toFixed(3)}</div>
-                              <div className='tcol3rti end_rti pe-1'>{formatAmount(el?.Rate)}</div>
+                              <div className='tcol3rti end_rti pe-1'>{Math.round(el?.Rate)}</div>
                               <div className='tcol4rti brrightrti end_rti pe-1'>{formatAmount(el?.Amount)}</div>
                             </div>
                           })}
@@ -358,9 +371,9 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                         <React.Fragment>
                           {clrwise?.map((el, k) => {
                             return  <div className='d-flex pbiarti' key={k}>
-                              <div className='tcol1rti ps-2'>{el?.MasterManagement_DiamondStoneTypeName}</div>
+                              <div className='tcol1rti ps-2'>{el?.MasterManagement_DiamondStoneTypeName} { el?.MaterialTypeName === '' ? '' : `(${el?.MaterialTypeName})` }</div>
                               <div className='tcol2rti end_rti pe-1'>{(el?.Wt)?.toFixed(3)}</div>
-                              <div className='tcol3rti end_rti pe-1'>{formatAmount((el?.Amount / (el?.isRateOnPcs === 1 ? (el?.Pcs === 0 ? 1 : el?.Pcs) : (el?.Wt === 0 ? 1 : el?.Wt))))}</div>
+                              <div className='tcol3rti end_rti pe-1'>{Math.round(((el?.Amount / (el?.isRateOnPcs === 1 ? (el?.Pcs === 0 ? 1 : el?.Pcs) : (el?.Wt === 0 ? 1 : el?.Wt)) / (result?.header?.CurrencyExchRate))))}</div>
                               {/* <div className='tcol3rti end_rti pe-1'>{el?.Rate}</div> */}
                               <div className='tcol4rti brrightrti end_rti pe-1'>{formatAmount(el?.Amount)}</div>
                             </div>
@@ -420,23 +433,23 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
               {/* tax total */}
               <div className='w-100 d-flex pt-2 fsrti pbiarti'>
                 <div className='w-25'></div>
-                <div className='w-25'>{result?.header?.PrintRemark}</div>
+                <div className='w-25'> <span className='fw-bold'>{result?.header?.PrintRemark === '' ? '' : 'NOTE :'}</span> {result?.header?.PrintRemark}</div>
                 <div className='w-50 d-flex justify-content-end'>
                   <div className='grandtotalrti'>
                     <div className='d-flex'><div className='w-50 ps-2'>Discount</div><div className='w-50 end_rti pe-1'>{formatAmount(result?.mainTotal?.total_discount_amount)}</div></div>
                     <div className='d-flex'><div className='w-50 ps-2 fw-bold'>Total Amount</div><div className='w-50 end_rti pe-1 fw-bold'>{formatAmount(result?.mainTotal?.total_amount)}</div></div>
                     {
                       result?.allTaxes?.map((e, i) => {
-                        return <div className='d-flex'><div className='w-50 ps-2'>{e?.name} @ {e?.per}</div><div className='w-50 end_rti pe-1'>{formatAmount(e?.amount)}</div></div>
+                        return <div className='d-flex'><div className='w-50 ps-2'>{e?.name} @ {e?.per}</div><div className='w-50 end_rti pe-1'>{formatAmount(((+e?.amount) * result?.header?.CurrencyExchRate))}</div></div>
                       })
                     }
                     <div className='d-flex'><div className='w-50 ps-2'>{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className='w-50 end_rti pe-1'>{formatAmount(result?.header?.AddLess)}</div></div>
-                    <div className='d-flex brtoprti mt-2'><div className='w-50 ps-2 fw-bold'>Grand Total</div><div className='w-50 end_rti pe-1 fw-bold'>{formatAmount((result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess))}</div></div>
+                    <div className='d-flex brtoprti mt-2'><div className='w-50 ps-2 fw-bold'>Grand Total</div><div className='w-50 end_rti pe-1 fw-bold'>{formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate ) + result?.header?.AddLess))}</div></div>
                   </div>
                 </div>
               </div>
               {/* amount in words */}
-              <div className='amtinwrdrti fw-bold ps-2 pe-2 fsrti pbiarti'>Rs. {toWords?.convert(+(result?.mainTotal?.total_amount + result?.allTaxesTotal + result?.header?.AddLess)?.toFixed(2))} </div>
+              <div className='amtinwrdrti fw-bold ps-2 pe-2 fsrti pbiarti'>Rs. {toWords?.convert(+(result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate ) + result?.header?.AddLess)?.toFixed(2))} Only /-</div>
               <div className='mt-2 amtinwrdrti fsrti pbiarti'>
                     <div className='p-1 fw-bold'>NOTE :</div>
                     <div className='decrti p-1 fsrti' dangerouslySetInnerHTML={{__html:result?.header?.Declaration}}></div>
