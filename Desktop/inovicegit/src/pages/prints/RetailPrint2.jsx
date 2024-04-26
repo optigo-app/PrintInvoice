@@ -65,7 +65,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     diamonds[findDiamond].Amount += ele?.Amount;
                 }
             });
-            obj?.diamonds?.sort((a, b) => {
+            diamonds?.sort((a, b) => {
                 const compareLabel1 = a.QualityName.localeCompare(b.QualityName);
                 if (compareLabel1 !== 0) {
                     return compareLabel1;
