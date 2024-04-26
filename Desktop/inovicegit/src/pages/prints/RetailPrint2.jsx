@@ -65,6 +65,21 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     diamonds[findDiamond].Amount += ele?.Amount;
                 }
             });
+            obj?.diamonds?.sort((a, b) => {
+                const compareLabel1 = a.QualityName.localeCompare(b.QualityName);
+                if (compareLabel1 !== 0) {
+                    return compareLabel1;
+                }
+
+                const getNumber = (str) => parseInt(str.match(/\d+/) || 0);
+                const numA = getNumber(a.Colorname);
+                const numB = getNumber(b.Colorname);
+                if (numA !== numB) {
+                    return numA - numB;
+                }
+
+                return 0;
+            })
             obj.quaDia = diamonds;
             obj.RMwt = RMwt;
             obj.discountPercentage = discountPercentage;
@@ -72,6 +87,7 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         });
         datas.resultArray = resultArray;
         datas.mainTotal.discountPercentages = discountPercentages;
+
         console.log(datas);
         setData(datas);
         let documentDetails = data?.BillPrint_Json[0]?.DocumentDetail.split("#@#");
