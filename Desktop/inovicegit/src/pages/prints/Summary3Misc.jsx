@@ -6,8 +6,6 @@ import "../../assets/css/prints/summary3.css";
 import { cloneDeep } from "lodash";
 
 const Summary3Misc = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
-  console.log("printname",printName);
-  console.log("printname",atob(printName));
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -46,7 +44,7 @@ const Summary3Misc = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           setMsg(data?.Message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     sendData();
@@ -119,6 +117,7 @@ const Summary3Misc = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         p_wise2[findIN].Quantity += obj?.Quantity;
         p_wise2[findIN].totals.colorstone.Wt += obj?.totals?.colorstone?.Wt;
         p_wise2[findIN].totals.misc.Wt += obj?.totals?.misc?.Wt;
+        p_wise2[findIN].totals.misc.onlyIsHSCODE0_Wt += obj?.totals?.misc?.onlyIsHSCODE0_Wt;
         p_wise2[findIN].convertednetwt += obj?.convertednetwt;
         p_wise2[findIN].TotalAmount += obj?.TotalAmount;
       }
@@ -239,7 +238,8 @@ console.log(result);
                                 <div className={`col4s3m centers3 border-end border-black  rs3 pe-1`}>{(e?.primarymetalwt )?.toFixed(3)}</div>
                                 <div className={`col5s3m centers3 border-end border-black  rs3 pe-1`}>{(e?.Tunch - e?.Wastage)?.toFixed(3)} </div>
                                 <div className={`col6s3m centers3 border-end border-black  rs3 pe-1`}>{e?.Wastage?.toFixed(3)}</div>
-                                <div className={`col7s3m centers3 border-end border-black  rs3 pe-1`}>{((e?.totals?.colorstone?.Wt)/5)?.toFixed(3)}</div>
+                                {/* <div className={`col7s3m centers3 border-end border-black  rs3 pe-1`}>{((e?.totals?.colorstone?.Wt)/5)?.toFixed(3)}</div> */}
+                                <div className={`col7s3m centers3 border-end border-black  rs3 pe-1`}>{((e?.totals?.misc?.onlyIsHSCODE0_Wt))?.toFixed(3)}</div>
                                 {/* <div className={`${classIs.col7} centers3 border-end border-black  rs3 pe-1`}>{((e?._totalmiscwt))?.toFixed(3)}</div> */}
                                 <div className={`col8s3m centers3 border-end border-black  rs3 pe-1`}> {  atob(printName) === "summary 3" ? <>{e?.totals?.colorstone?.Wt?.toFixed(3)}</> : <>{e?.totals?.colorstone?.Wt?.toFixed(3)}</> } </div>
                                 {/* <div className={`${classIs.col8} centers3 border-end border-black  rs3 pe-1`}> {  atob(printName) === "summary 3" ? <>{e?._totalcswt?.toFixed(3)}</> : <>{e?._totalcswt?.toFixed(3)}</> } </div> */}
