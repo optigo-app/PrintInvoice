@@ -5,7 +5,7 @@ import Loader from "../../components/Loader";
 import "../../assets/css/prints/summary3.css";
 import { cloneDeep } from "lodash";
 
-const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
+const Summary3Misc = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   console.log("printname",printName);
   console.log("printname",atob(printName));
   const [result, setResult] = useState(null);
@@ -205,15 +205,15 @@ console.log(result);
                 <div className="mt-3 tables3 fsgs3">
                   {/* table head */}
                   <div className="theads3 border border-black">
-                    <div className={`col1s3 centers3 border-end border-black h-100`}>Category</div>
-                    <div className={`col2s3 centers3 border-end border-black h-100`}>Pcs</div>
-                    <div className={`col3s3 centers3 border-end border-black h-100`}>Gross</div>
-                    <div className={`col4s3 centers3 border-end border-black h-100`}>Net Wt</div>
-                    <div className={`col5s3 centers3 border-end border-black h-100`}>Purity %</div>
-                    <div className={`col6s3 centers3 border-end border-black h-100`}>Wastage</div>
-                    <div className={`col7s3 centers3 border-end border-black h-100`}>Stone (gm)</div>
-                    <div className={`col8s3 centers3 border-end border-black h-100`}> {  atob(printName) === "summary 3" ? 'Stone' : 'Stone (ctw)' } </div>
-                    <div className={`col9s3 centers3 border-end border-black h-100`}>Rate</div>
+                    <div className={`col1s3m centers3 border-end border-black h-100`}>Category</div>
+                    <div className={`col2s3m centers3 border-end border-black h-100`}>Pcs</div>
+                    <div className={`col3s3m centers3 border-end border-black h-100`}>Gross</div>
+                    <div className={`col4s3m centers3 border-end border-black h-100`}>Net Wt</div>
+                    <div className={`col5s3m centers3 border-end border-black h-100`}>Purity %</div>
+                    <div className={`col6s3m centers3 border-end border-black h-100`}>Wastage</div>
+                    <div className={`col7s3m centers3 border-end border-black h-100`}>Stone (gm)</div>
+                    <div className={`col8s3m centers3 border-end border-black h-100`}> {  atob(printName) === "summary 3" ? 'Stone' : 'Stone (ctw)' } </div>
+                    <div className={`col9s3m centers3 border-end border-black h-100`}>Rate</div>
                     <div className="finalcols3 d-block h-100">
                         <div className="d-grid h-100">
                             <div className="d-flex justify-content-center border-black border-bottom">Final</div>
@@ -231,22 +231,22 @@ console.log(result);
                         result?.resultArray?.map((e, i) => {
                             return(
                             <div className="tbodyrows3 border-start border-black border-bottom" key={i}>
-                                <div className={`col1s3 centers3 border-end border-black  lefts3 ps-1`}>{e?.Categoryname}</div>
-                                <div className={`col2s3 centers3 border-end border-black  rs3 pe-1`}>{e?.Quantity}</div>
-                                <div className={`col3s3 centers3 border-end border-black  rs3 pe-1`}>{e?.grosswt?.toFixed(3)}</div>
-                                {/* <div className={`col1s3 centers3 border-end border-black  rs3 pe-1`}>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
-                                {/* <div className={`col1s3 centers3 border-end border-black  rs3 pe-1`}>{(e?.primarymetalwt + e?.LossWt)?.toFixed(3)}</div> */}
-                                <div className={`col4s3 centers3 border-end border-black  rs3 pe-1`}>{(e?.primarymetalwt )?.toFixed(3)}</div>
-                                <div className={`col5s3 centers3 border-end border-black  rs3 pe-1`}>{(e?.Tunch - e?.Wastage)?.toFixed(3)} </div>
-                                <div className={`col6s3 centers3 border-end border-black  rs3 pe-1`}>{e?.Wastage?.toFixed(3)}</div>
-                                <div className={`col7s3 centers3 border-end border-black  rs3 pe-1`}>{((e?.totals?.colorstone?.Wt)/5)?.toFixed(3)}</div>
-                                {/* <div className={`col1s3 centers3 border-end border-black  rs3 pe-1`}>{((e?._totalmiscwt))?.toFixed(3)}</div> */}
-                                <div className={`col8s3 centers3 border-end border-black  rs3 pe-1`}> {  atob(printName) === "summary 3" ? <>{e?.totals?.colorstone?.Wt?.toFixed(3)}</> : <>{e?.totals?.colorstone?.Wt?.toFixed(3)}</> } </div>
-                                {/* <div className={`col1s3 centers3 border-end border-black  rs3 pe-1`}> {  atob(printName) === "summary 3" ? <>{e?._totalcswt?.toFixed(3)}</> : <>{e?._totalcswt?.toFixed(3)}</> } </div> */}
-                                {/* <div className={`col1s3 centers3 border-end border-black  rs3 pe-1`}>{formatAmount(e?.totals?.metal?.Rate)}</div> */}
-                                <div className={`col9s3 centers3 border-end border-black  rs3 pe-1`}>{formatAmount(e?.metalrate)}</div>
-                                <div className={`col10s3 centers3 border-end border-black  rs3 pe-1`}>{e?.convertednetwt?.toFixed(3)}</div>
-                                <div className={`col11s3 centers3 border-end border-black  rs3 pe-1`}>{formatAmount(e?.TotalAmount)}</div>      
+                                <div className={`col1s3m centers3 border-end border-black  lefts3 ps-1`}>{e?.Categoryname}</div>
+                                <div className={`col2s3m centers3 border-end border-black  rs3 pe-1`}>{e?.Quantity}</div>
+                                <div className={`col3s3m centers3 border-end border-black  rs3 pe-1`}>{e?.grosswt?.toFixed(3)}</div>
+                                {/* <div className={`${classIs.col4} centers3 border-end border-black  rs3 pe-1`}>{(e?.NetWt + e?.LossWt)?.toFixed(3)}</div> */}
+                                {/* <div className={`${classIs.col4} centers3 border-end border-black  rs3 pe-1`}>{(e?.primarymetalwt + e?.LossWt)?.toFixed(3)}</div> */}
+                                <div className={`col4s3m centers3 border-end border-black  rs3 pe-1`}>{(e?.primarymetalwt )?.toFixed(3)}</div>
+                                <div className={`col5s3m centers3 border-end border-black  rs3 pe-1`}>{(e?.Tunch - e?.Wastage)?.toFixed(3)} </div>
+                                <div className={`col6s3m centers3 border-end border-black  rs3 pe-1`}>{e?.Wastage?.toFixed(3)}</div>
+                                <div className={`col7s3m centers3 border-end border-black  rs3 pe-1`}>{((e?.totals?.colorstone?.Wt)/5)?.toFixed(3)}</div>
+                                {/* <div className={`${classIs.col7} centers3 border-end border-black  rs3 pe-1`}>{((e?._totalmiscwt))?.toFixed(3)}</div> */}
+                                <div className={`col8s3m centers3 border-end border-black  rs3 pe-1`}> {  atob(printName) === "summary 3" ? <>{e?.totals?.colorstone?.Wt?.toFixed(3)}</> : <>{e?.totals?.colorstone?.Wt?.toFixed(3)}</> } </div>
+                                {/* <div className={`${classIs.col8} centers3 border-end border-black  rs3 pe-1`}> {  atob(printName) === "summary 3" ? <>{e?._totalcswt?.toFixed(3)}</> : <>{e?._totalcswt?.toFixed(3)}</> } </div> */}
+                                {/* <div className={`${classIs.col9} centers3 border-end border-black  rs3 pe-1`}>{formatAmount(e?.totals?.metal?.Rate)}</div> */}
+                                <div className={`col9s3m centers3 border-end border-black  rs3 pe-1`}>{formatAmount(e?.metalrate)}</div>
+                                <div className={`col10s3m centers3 border-end border-black  rs3 pe-1`}>{e?.convertednetwt?.toFixed(3)}</div>
+                                <div className={`col11s3m centers3 border-end border-black  rs3 pe-1`}>{formatAmount(e?.TotalAmount)}</div>      
                             </div>
                             )
                         })
@@ -254,18 +254,18 @@ console.log(result);
                     </div>
                      {/* table total */}
                             <div className="d-flex border-black border-top-0 border-end-0 border fw-bold bgcs3 fsgs3">
-                                <div className={`col1s3 centers3 border-end border-black  lefts3 ps-1`}>TOTAL</div>
-                                <div className={`col2s3 centers3 border-end border-black  rs3 pe-1`}>{result?.mainTotal?.total_Quantity}</div>
-                                <div className={`col3s3 centers3 border-end border-black  rs3 pe-1`}>{result?.mainTotal?.grosswt?.toFixed(3)}</div>
-                                <div className={`col4s3 centers3 border-end border-black  rs3 pe-1`}>{result?.mainTotal?.netwtWithLossWt?.toFixed(3)}</div>
-                                <div className={`col5s3 centers3 border-end border-black `}> </div>
-                                {/* <div className={`col1s3 centers3 border-end border-black   rs3 pe-1`}>{result?.mainTotal?.total_Wastage?.toFixed(3)}</div> */}
-                                <div className={`col6s3 centers3 border-end border-black   rs3 pe-1`}></div>
-                                <div className={`col7s3 centers3 border-end border-black  rs3 pe-1`}>{result?.mainTotal?.misc?.Wt?.toFixed(3)}</div>
-                                <div className={`col8s3 centers3 border-end border-black  rs3 pe-1`}> {  atob(printName) === "summary 3" ? <>{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</> : <>{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</> } </div>
-                                <div className={`col9s3 centers3 border-end border-black  `}></div>
-                                <div className={`col10s3 centers3 border-end border-black   rs3 pe-1`}>{result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
-                                <div className={`col11s3 centers3 border-end border-black  rs3 pe-1`}>{formatAmount(result?.mainTotal?.total_amount)}</div> 
+                                <div className={`col1s3m centers3 border-end border-black  lefts3 ps-1`}>TOTAL</div>
+                                <div className={`col2s3m centers3 border-end border-black  rs3 pe-1`}>{result?.mainTotal?.total_Quantity}</div>
+                                <div className={`col3s3m centers3 border-end border-black  rs3 pe-1`}>{result?.mainTotal?.grosswt?.toFixed(3)}</div>
+                                <div className={`col4s3m centers3 border-end border-black  rs3 pe-1`}>{result?.mainTotal?.netwtWithLossWt?.toFixed(3)}</div>
+                                <div className={`col5s3m centers3 border-end border-black `}> </div>
+                                {/* <div className={`${classIs.col6} centers3 border-end border-black   rs3 pe-1`}>{result?.mainTotal?.total_Wastage?.toFixed(3)}</div> */}
+                                <div className={`col6s3m centers3 border-end border-black   rs3 pe-1`}></div>
+                                <div className={`col7s3m centers3 border-end border-black  rs3 pe-1`}>{result?.mainTotal?.misc?.Wt?.toFixed(3)}</div>
+                                <div className={`col8s3m centers3 border-end border-black  rs3 pe-1`}> {  atob(printName) === "summary 3" ? <>{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</> : <>{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</> } </div>
+                                <div className={`col9s3m centers3 border-end border-black  `}></div>
+                                <div className={`col10s3m centers3 border-end border-black   rs3 pe-1`}>{result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
+                                <div className={`col11s3m centers3 border-end border-black  rs3 pe-1`}>{formatAmount(result?.mainTotal?.total_amount)}</div> 
                             </div>
                     </div>
                     <div className="w-100 border-black border border-top-0 border-bottom-0 fw-bold bgcs3 fsgs3">
@@ -298,4 +298,4 @@ console.log(result);
   );
 };
 
-export default Summary3;
+export default Summary3Misc;
