@@ -5,6 +5,7 @@ import Loader from '../../components/Loader';
 import { ToWords } from 'to-words';
 import { cloneDeep, find, findIndex } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
+import NumToWord from '../../GlobalFunctions/NumToWord';
 
 const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [jsonData1, setJsonData1] = useState({});
@@ -583,10 +584,10 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {/* <div className="totalInWordsRetailPrint p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end"> */}
                     <div className="retail1PrintInWords p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end">
                         <p className='ft_12_retail1Print'>In Words {jsonData1?.Currencyname}</p>
-                        <p className='fw-bold ft_12_retail1Print'>{toWords?.convert(+fixedValues(
+                        <p className='fw-bold ft_12_retail1Print'>{NumToWord(+fixedValues(
                             +(fixedValues(dataFill?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate, 2)) +
                             taxes?.reduce((acc, cObj) => acc + +(fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) +
-                            (+fixedValues(jsonData1?.AddLess / jsonData1?.CurrencyExchRate, 2)), 2))} Only</p>
+                            (+fixedValues(jsonData1?.AddLess / jsonData1?.CurrencyExchRate, 2)), 2))} </p>
                     </div>
                     {/* <div className="cgstRetailPrint p-1 text-end p-1 border-end"> */}
                     <div className="retail1PrintInNumbers py-1 text-end border-end ft_12_retail1Print">

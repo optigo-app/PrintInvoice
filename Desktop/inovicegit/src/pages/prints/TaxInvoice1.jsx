@@ -16,6 +16,7 @@ import {
 import Loader from "../../components/Loader";
 import { ToWords } from "to-words";
 import { cloneDeep } from "lodash";
+import NumToWord from "../../GlobalFunctions/NumToWord";
 
 const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [image, setimage] = useState(false);
@@ -61,19 +62,50 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     let arrResult = [];
     resultArray.forEach((e, i) => {
       let diamonds = [];
+      let colorStones = [];
+      let miscs = [];
       e?.data?.forEach((ele, ind) => {
-        let findDiamond = diamonds?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname &&
-          elem?.SizeName === ele?.SizeName && elem?.Rate === ele?.Rate && elem?.MasterManagement_DiamondStoneTypeid === 1);
-        if (findDiamond === -1) {
-          if(ele?.MasterManagement_DiamondStoneTypeid === 1){
-            diamonds?.push(ele);
+        if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+          let findDiamond = diamonds?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname &&
+            elem?.SizeName === ele?.SizeName && elem?.Rate === ele?.Rate);
+          if (findDiamond === -1) {
+            if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+              diamonds?.push(ele);
+            }
+          } else {
+            diamonds[findDiamond].Wt += ele?.Wt
+            diamonds[findDiamond].Pcs += ele?.Pcs
+            diamonds[findDiamond].Amount += ele?.Amount
           }
-        } else {
-          diamonds[findDiamond].Wt += ele?.Wt
-          diamonds[findDiamond].Pcs += ele?.Pcs
-          diamonds[findDiamond].Amount += ele?.Amount
+        }
+        else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+          let findColorStones = colorStones?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname &&
+            elem?.isRateOnPcs === ele?.isRateOnPcs);
+          if (findColorStones === -1) {
+            if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
+              colorStones?.push(ele);
+            }
+          } else {
+            colorStones[findColorStones].Wt += ele?.Wt
+            colorStones[findColorStones].Pcs += ele?.Pcs
+            colorStones[findColorStones].Amount += ele?.Amount
+          }
+        }
+        else if (ele?.MasterManagement_DiamondStoneTypeid === 3 && ele?.IsHSCOE === 0) {
+          let findMisc = miscs?.findIndex((elem, index) => ele?.ShapeName === elem?.ShapeName);
+          if (findMisc === -1) {
+            if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+              miscs?.push(ele);
+            }
+          } else {
+            miscs[findMisc].Wt += ele?.Wt
+            miscs[findMisc].Pcs += ele?.Pcs
+            miscs[findMisc].Amount += ele?.Amount
+          }
         }
       });
+
+
       const mergedArray = e.data.reduce((result, current) => {
         const existingItem = result.find(
           (item) =>
@@ -90,7 +122,13 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
         return result;
       }, []);
-      arrResult.push({ jobNo: e.SrjobNo, data: mergedArray, diamonds: diamonds });
+      let dataArr = [];
+      mergedArray?.forEach((ele, ind) => {
+        if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
+          dataArr?.push(ele)
+        }
+      })
+      arrResult.push({ jobNo: e.SrjobNo, data: dataArr, diamonds: diamonds, colorStones: colorStones, miscs: miscs });
     });
     let finalArr = [];
     let totalobj = {
@@ -139,7 +177,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
           });
           // finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e, totalAmount: totalAmount });
-          finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e, miscArr: miscArr, diamonds: ele?.diamonds });
+          finalArr.push({ jobNo: e.SrJobno, data: arr, mainData: e, miscArr: miscArr, diamonds: ele?.diamonds, colorStones: ele?.colorStones, miscs: ele?.miscs });
         }
       });
       totalobj.TotalAmount += e?.TotalAmount;
@@ -223,7 +261,6 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             mainMetals = obj.data.filter((ele, ind) => ele?.MasterManagement_DiamondStoneTypeid === 4);
             whichArr = "obj";
           }
-          console.log(e);
           let alldiamonds = [...obj?.diamonds, ...semiFinalArr[findRec]?.diamonds]?.flat();
           let blankDiamonds = [];
           alldiamonds?.forEach((ele, ind) => {
@@ -237,19 +274,44 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               blankDiamonds[findDiamond].Amount += ele?.Amount;
             }
           })
+          let allColorStones = [...obj?.colorStones, ...semiFinalArr[findRec]?.colorStones]?.flat();
+          let blankColorStones = [];
+          allColorStones?.forEach((ele, ind) => {
+            let findColorStone = blankColorStones?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.QualityName === ele?.QualityName && elem?.Colorname === ele?.Colorname &&
+              elem?.isRateOnPcs === ele?.isRateOnPcs);
+            if (findColorStone === -1) {
+              blankColorStones?.push(ele);
+            } else {
+              blankColorStones[findColorStone].Wt += ele?.Wt;
+              blankColorStones[findColorStone].Pcs += ele?.Pcs;
+              blankColorStones[findColorStone].Amount += ele?.Amount;
+            }
+          })
+          let allMiscs = [...obj?.miscs, ...semiFinalArr[findRec]?.miscs]?.flat();
+          let blankMiscs = [];
+          allMiscs?.forEach((ele, ind) => {
+            let findMiscs = blankMiscs?.findIndex((elem, index) => ele?.ShapeName === elem?.ShapeName);
+            if (findMiscs === -1) {
+              blankMiscs?.push(ele);
+            } else {
+              blankMiscs[findMiscs].Wt += ele?.Wt;
+              blankMiscs[findMiscs].Pcs += ele?.Pcs;
+              blankMiscs[findMiscs].Amount += ele?.Amount;
+            }
+          })
 
-          semiFinalArr[findRec].mainData.MakingAmount +=
-            obj.mainData.MakingAmount;
-          semiFinalArr[findRec].mainData.TotalAmount +=
-            obj.mainData.TotalAmount;
+          semiFinalArr[findRec].mainData.MakingAmount += obj.mainData.MakingAmount;
+          semiFinalArr[findRec].mainData.TotalAmount += obj.mainData.TotalAmount;
           semiFinalArr[findRec].mainData.grosswt += obj.mainData.grosswt;
           semiFinalArr[findRec].mainData.NetWt += obj.mainData.NetWt;
           semiFinalArr[findRec].mainData.LossWt += obj.mainData.LossWt;
           semiFinalArr[findRec].mainData.MetalAmount += obj.mainData.MetalAmount;
           semiFinalArr[findRec].mainData.UnitCost = +semiFinalArr[findRec].mainData.UnitCost + +obj.mainData.UnitCost;
-          semiFinalArr[findRec].mainData.OtherCharges += obj.mainData.OtherCharges
-          semiFinalArr[findRec].mainData.TotalDiamondHandling += obj.mainData.TotalDiamondHandling
-          semiFinalArr[findRec].diamonds = blankDiamonds
+          semiFinalArr[findRec].mainData.OtherCharges += obj.mainData.OtherCharges;
+          semiFinalArr[findRec].mainData.TotalDiamondHandling += obj.mainData.TotalDiamondHandling;
+          semiFinalArr[findRec].diamonds = blankDiamonds;
+          semiFinalArr[findRec].colorStones = blankColorStones;
+          semiFinalArr[findRec].miscs = blankMiscs;
           // semiFinalArr[findRec].data.TotalAmount += obj.data.TotalAmount;
 
           // for metals
@@ -343,55 +405,43 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             blankMetals = blankM;
           }
 
-          let findMetalRate =
-            semiFinalArr[findRec].mainData.MetalAmount /
-            (semiFinalArr[findRec].mainData.NetWt +
-              semiFinalArr[findRec].mainData.LossWt);
+          let findMetalRate = semiFinalArr[findRec].mainData.MetalAmount / (semiFinalArr[findRec].mainData.NetWt + semiFinalArr[findRec].mainData.LossWt);
           blankMetals[0].Rate = findMetalRate;
           // for materials
           let blankMaterials = [];
-          let materials = [
-            semiFinalArr[findRec].data.filter(
-              (ele, ind) => ele?.MasterManagement_DiamondStoneTypeid !== 4
-            ),
-            obj.data.filter(
-              (ele, ind) => ele?.MasterManagement_DiamondStoneTypeid !== 4
-            ),
-          ].flat();
-          materials.forEach((ele, ind) => {
-            let findMaterial = blankMaterials.findIndex(
-              (elem, index) =>
-                elem?.MasterManagement_DiamondStoneTypeid ===
-                ele?.MasterManagement_DiamondStoneTypeid &&
-                elem?.ShapeName === ele?.ShapeName
-              // elem?.Colorname === ele?.Colorname &&
-              // elem?.QualityName === ele?.QualityName &&
-              // elem?.SizeName === ele?.SizeName &&
-              // elem?.Rate === ele?.Rate
-            );
-            if (findMaterial === -1) {
-              blankMaterials.push(ele);
-            } else {
-              blankMaterials[findMaterial].Wt += ele?.Wt;
-              blankMaterials[findMaterial].Pcs += ele?.Pcs;
-              blankMaterials[findMaterial].Amount += ele?.Amount;
-              // blankMaterials[findMaterial].materialCharges += +((ele.Rate * ele.Wt).toFixed(2));
-              blankMaterials[findMaterial].materialCharges += ele?.Amount;
-            }
-          });
-          blankMaterials.sort((a, b) => {
-            if (
-              a.MasterManagement_DiamondStoneTypeid ===
-              b.MasterManagement_DiamondStoneTypeid
-            ) {
-              return a.id - b.id; // If mastermanagementtypeid is the same, sort by ID
-            } else {
-              return (
-                a.MasterManagement_DiamondStoneTypeid -
-                b.MasterManagement_DiamondStoneTypeid
-              );
-            }
-          });
+          // let materials = [
+          //   semiFinalArr[findRec].data.filter(
+          //     (ele, ind) => ele?.MasterManagement_DiamondStoneTypeid !== 4
+          //   ),
+          //   obj.data.filter(
+          //     (ele, ind) => ele?.MasterManagement_DiamondStoneTypeid !== 4
+          //   ),
+          // ].flat();
+          // materials.forEach((ele, ind) => {
+          //   let findMaterial = blankMaterials.findIndex( (elem, index) => elem?.MasterManagement_DiamondStoneTypeid === ele?.MasterManagement_DiamondStoneTypeid && elem?.ShapeName === ele?.ShapeName );
+          //   if (findMaterial === -1) {
+          //     blankMaterials.push(ele);
+          //   } else {
+          //     blankMaterials[findMaterial].Wt += ele?.Wt;
+          //     blankMaterials[findMaterial].Pcs += ele?.Pcs;
+          //     blankMaterials[findMaterial].Amount += ele?.Amount;
+          //     // blankMaterials[findMaterial].materialCharges += +((ele.Rate * ele.Wt).toFixed(2));
+          //     blankMaterials[findMaterial].materialCharges += ele?.Amount;
+          //   }
+          // });
+          // blankMaterials.sort((a, b) => {
+          //   if (
+          //     a.MasterManagement_DiamondStoneTypeid ===
+          //     b.MasterManagement_DiamondStoneTypeid
+          //   ) {
+          //     return a.id - b.id; // If mastermanagementtypeid is the same, sort by ID
+          //   } else {
+          //     return (
+          //       a.MasterManagement_DiamondStoneTypeid -
+          //       b.MasterManagement_DiamondStoneTypeid
+          //     );
+          //   }
+          // });
           semiFinalArr[findRec].data = [
             ...blankMetals,
             ...blankMaterials,
@@ -645,7 +695,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="material_invoice_inner1 border-end materialInvoicePrint1">
                     {e?.data.map((ele, ind) => {
                       return (
-                        ele?.MasterManagement_DiamondStoneTypeid !== 1 && <div className={`d-flex material_inner_invoice1 pad_2_tax_invoice_1 border-bottom`} key={ind} >
+                        <div className={`d-flex material_inner_invoice1 pad_2_tax_invoice_1 border-bottom`} key={ind} >
                           <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
                             {ele?.ShapeName}
                           </div>
@@ -677,50 +727,63 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {ele?.ShapeName}
                           </div>
                           <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
-                            {ind === 0 && ele?.QualityName}
                           </div>
                           <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
-                            {ind === 0 &&
-                              fixedValues(e?.mainData?.grosswt, 3)}
                           </div>
                           <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
-                            {( ele?.Wt !== 0) && `${ele?.IsLess === 1 ? "Less:" : ""}${fixedValues(ele?.Wt, 3)}`}
+                            {(ele?.Wt !== 0) && `${ele?.IsLess === 1 ? "Less:" : ""}${fixedValues(ele?.Wt, 3)}`}
                           </div>
                           <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
                           </div>
                           <div className="min_padding_invoice1  justify-content-end col-2">
-                            <p className="text-end">  {ele?.MasterManagement_DiamondStoneTypeid === 4 && NumberWithCommas(ele?.Rate / BillPrint_Json?.CurrencyExchRate, 2)}</p>
+                            <p className="text-end">  </p>
                           </div>
                         </div>
                       })
                     }
-                    {/* {
-                      e?.miscArr?.map((ele, ind) => {
+                    {
+                      e?.colorStones?.map((ele, ind) => {
                         return <div className={`d-flex material_inner_invoice1 pad_2_tax_invoice_1 border-bottom`} key={ind} >
                           <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
                             {ele?.ShapeName}
                           </div>
                           <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
-                            {ind === 0 && ele?.QualityName}
                           </div>
                           <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
-                            {ind === 0 &&
-                              fixedValues(e?.mainData?.grosswt, 3)}
                           </div>
                           <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
-                            {(ele?.ShapeName !== "GOLD" && ele?.Wt !== 0) &&
-                              fixedValues(ele?.Wt, 3)}
+                            {(ele?.Wt !== 0) && `${ele?.IsLess === 1 ? "Less:" : ""}${fixedValues(ele?.Wt, 3)}`}
                           </div>
                           <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
-                            {ind === 0 && fixedValues(e?.primaryWt, 3)}
                           </div>
                           <div className="min_padding_invoice1  justify-content-end col-2">
-                            <p className="text-end">  {ele?.MasterManagement_DiamondStoneTypeid === 4 &&
-                              NumberWithCommas(ele?.Rate, 2)}</p>
+                            <p className="text-end">  </p>
                           </div>
                         </div>
                       })
-                    } */}
+                    }
+                    {
+                      e?.miscs?.map((ele, ind) => {
+                        return <div className={`d-flex material_inner_invoice1 pad_2_tax_invoice_1 border-bottom`} key={ind} >
+                          <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
+                            {ele?.ShapeName}
+                          </div>
+                          <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
+                          </div>
+                          <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
+                          </div>
+                          <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
+                            {(ele?.Wt !== 0) && `${ele?.IsLess === 1 ? "Less:" : ""}${fixedValues(ele?.Wt, 3)}`}
+                          </div>
+                          <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
+                          </div>
+                          <div className="min_padding_invoice1  justify-content-end col-2">
+                            <p className="text-end">  </p>
+                          </div>
+                        </div>
+                      })
+                    }
+
                     {e?.mainData?.OtherCharges !== 0 && <div className={`d-flex  material_inner_invoice1 pad_2_tax_invoice_1`} >
                       <div className="min_padding_invoice1  border-end justify-content-center col-2 pad_2_tax_invoice_1 text-center">
                         Other Charge
@@ -752,13 +815,22 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                           {ele?.materialCharges !== 0 && NumberWithCommas(ele?.materialCharges / BillPrint_Json?.CurrencyExchRate, 2)}
                         </div>
                       })}
-                      {/* {
-                        e?.miscArr?.map((ele, ind) => {
-                          return <div className="text-end border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1 d-flex align-items-center justify-content-end" key={ind}>
-                            {NumberWithCommas(e?.Amount, 2)}
-                          </div>
-                        })
-                      } */}
+                      {e?.diamonds?.map((ele, ind) => {
+                        return <div className={`text-end border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1 d-flex align-items-center justify-content-end`} key={ind} >
+                          {ele?.materialCharges !== 0 && NumberWithCommas(ele?.Amount / BillPrint_Json?.CurrencyExchRate, 2)}
+                        </div>
+                      })}
+                      {e?.colorStones?.map((ele, ind) => {
+                        return <div className={`text-end border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1 d-flex align-items-center justify-content-end`} key={ind} >
+                          {ele?.materialCharges !== 0 && NumberWithCommas(ele?.Amount / BillPrint_Json?.CurrencyExchRate, 2)}
+                        </div>
+                      })}
+                      {e?.miscs?.map((ele, ind) => {
+                        return <div className={`text-end border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1 d-flex align-items-center justify-content-end`} key={ind} >
+                          {ele?.materialCharges !== 0 && NumberWithCommas(ele?.Amount / BillPrint_Json?.CurrencyExchRate, 2)}
+                        </div>
+                      })}
+
                       {e?.mainData?.OtherCharges !== 0 && (
                         <div className="text-end border-bottom material_inner_invoice1 p-1 minHeight20_5_taxInvoice1 d-flex align-items-center justify-content-end">
                           {NumberWithCommas(e?.mainData?.OtherCharges + e?.mainData?.TotalDiamondHandling, 2)}
@@ -797,7 +869,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
             <div className="p-1 d-flex align-items-center making_invoice1 making_invoicePrint1 border-end"></div>
             <div className="p-1 d-flex align-items-center others_invoice1 others_invoicePrint1 border-end fw-bold justify-content-end pad_2_tax_invoice_1">
-              {NumberWithCommas(totalAmount?.totalOtherAmount, 2)}
+              {NumberWithCommas(totalAmount?.totalOtherAmount / BillPrint_Json?.CurrencyExchRate, 2)}
             </div>
             <div className="p-1 d-flex align-items-center total_invoice1 total_invoicePrint1 border-end fw-bold justify-content-end pad_2_tax_invoice_1">
               {NumberWithCommas(totalAmount?.UnitCost, 2)}
@@ -873,7 +945,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           </div>
           <div className="d-flex border-start border-end border-bottom   print_break_avoid_invoice1 pad_2_tax_invoice_1">
             <div className=" totalNumbersinvoice1 border-end totalNumbersinvoicePrint1">
-              <p>In Words Indian Rupees</p>
+              <p>In Words {BillPrint_Jso1?.Currencyname}</p>
               <p className="fw-bold">{toWords?.convert(+fixedValues(totalAmount?.totalAmountAfterTax, 2))} Only</p>
             </div>
             <div className=" totalTaxinvoice1 totalTaxinvoicePrint1 border-end text-end align-items-center d-flex justify-content-end fw-bold pad_2_tax_invoice_1">
