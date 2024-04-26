@@ -14,7 +14,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     const [msg, setMsg] = useState("");
     const [loader, setLoader] = useState(true);
     const [isImageWorking, setIsImageWorking] = useState(true);
-
     const handleImageErrors = () => {
       setIsImageWorking(false);
     };
@@ -37,7 +36,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
               setMsg(data?.Message);
             }
           } catch (error) {
-            console.error(error);
+            console.log(error);
           }
         }
         sendData();
@@ -177,33 +176,33 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       
           diarndotherarr5 = [...diaonlyrndarr6, diaObj];
           setDiamondWise(diarndotherarr5);
-          console.log(diarndotherarr5[7]);
 
         datas?.resultArray?.forEach((el) => {
             let dia = [];
             el?.diamonds?.forEach((a) => {
                 let obj = cloneDeep(a);
-                let findrec = dia?.findIndex((ele) => ele?.ShapeName === obj?.ShapeName && ele?.QualityName === obj?.QualityName && ele?.Colorname === obj?.Colorname)
+                let findrec = dia?.findIndex((ele) => ele?.ShapeName === obj?.ShapeName && ele?.QualityName === obj?.QualityName && ele?.Colorname === obj?.Colorname && ele?.SizeName === obj?.SizeName && ele?.Rate === obj?.Rate)
                 if(findrec === -1){
                     dia.push(obj);
                 }else{
                     dia[findrec].Wt += obj?.Wt;
                     dia[findrec].Pcs += obj?.Pcs;
-                    dia[findrec].Rate += obj?.Rate;
+                    dia[findrec].Rate = obj?.Rate;
                     dia[findrec].Amount += obj?.Amount;
                 }
             })
             el.diamonds = dia;
+
             let clr = [];
             el?.colorstone?.forEach((a) => {
                 let obj = cloneDeep(a);
-                let findrec = clr?.findIndex((ele) => ele?.ShapeName === obj?.ShapeName && ele?.QualityName === obj?.QualityName && ele?.Colorname === obj?.Colorname && ele?.isRateOnPcs === obj?.isRateOnPcs)
+                let findrec = clr?.findIndex((ele) => ele?.ShapeName === obj?.ShapeName && ele?.QualityName === obj?.QualityName && ele?.Colorname === obj?.Colorname && ele?.isRateOnPcs === obj?.isRateOnPcs && ele?.SizeName === obj?.SizeName && ele?.Rate === obj?.Rate)
                 if(findrec === -1){
                     clr.push(obj);
                 }else{
                     clr[findrec].Wt += obj?.Wt;
                     clr[findrec].Pcs += obj?.Pcs;
-                    clr[findrec].Rate += obj?.Rate;
+                    clr[findrec].Rate = obj?.Rate;
                     clr[findrec].Amount += obj?.Amount;
                 }
             })
@@ -217,13 +216,14 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.sr = (i + 1);
             obj.SrJobno = `${e?.SrJobno}`;
             obj.designno = e?.designno;
-
+          
             obj.dia_code = e?.diamonds[0] ? (e?.diamonds[0]?.ShapeName + " " + e?.diamonds[0]?.QualityName + " " + e?.diamonds[0]?.Colorname) : '';
             obj.dia_size = e?.diamonds[0] ? e?.diamonds[0]?.SizeName : '';
             obj.dia_pcs = e?.diamonds[0] ? e?.diamonds[0]?.Pcs : '';
             obj.dia_wt = e?.diamonds[0] ? ((e?.diamonds[0]?.Wt)?.toFixed(3)) : '';
-            obj.dia_rate = e?.diamonds[0] ? (Math.round((e?.diamonds[0]?.Amount / e?.diamonds[0]?.Wt))) : '';
-            obj.dia_amt = e?.diamonds[0] ? (formatAmount(e?.diamonds[0]?.Amount)) : '';
+            // obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
+            obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
+            obj.dia_amt = e?.diamonds[0] ? (e?.diamonds[0]?.Amount) : '';
 
 
             obj.met_quality = '';
@@ -232,7 +232,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.met_amt = 0;
             
                 obj.met_wt = e?.NetWt;
-                obj.met_rate = findMetal ? (Math.round(findMetal?.Amount / e?.NetWt)) : '';
+                obj.met_rate = findMetal ? (Math.round(((findMetal?.Amount / datas?.header?.CurrencyExchRate)) / e?.NetWt)) : '';
                 obj.met_amt = findMetal ? (formatAmount(findMetal?.Amount)) : '';
                 obj.met_quality = findMetal ? (findMetal?.ShapeName + " " + findMetal?.QualityName) : '';
             
@@ -242,7 +242,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.cls_size = e?.colorstone[0] ? (e?.colorstone[0]?.SizeName) : '';
             obj.cls_pcs = e?.colorstone[0] ? (e?.colorstone[0]?.Pcs) : '';
             obj.cls_wt = e?.colorstone[0] ? ((e?.colorstone[0]?.Wt)?.toFixed(3)) : '';
-            obj.cls_rate = e?.colorstone[0] ? (Math.round(e?.colorstone[0]?.Amount / e?.colorstone[0]?.Wt)) : '';
+            // obj.cls_rate = e?.colorstone[0] ? (Math.round(((e?.colorstone[0]?.Amount / result?.header?.CurrencyExchRate)) / ( e?.colorstone[0]?.isRateOnPcs === 1 ? (e?.colorstone[0]?.Pcs === 0 ? 1 : e?.colorstone[0]?.Pcs) :  (e?.colorstone[0]?.Wt === 0 ? 1 : e?.colorstone[0]?.Wt)))) : '';
+            obj.cls_rate = e?.colorstone[0] ? (Math.round(((e?.colorstone[0]?.Amount / datas?.header?.CurrencyExchRate)) / ( e?.colorstone[0]?.isRateOnPcs === 1 ? (e?.colorstone[0]?.Pcs === 0 ? 1 : e?.colorstone[0]?.Pcs) :  (e?.colorstone[0]?.Wt === 0 ? 1 : e?.colorstone[0]?.Wt)))) : '';
             obj.cls_amt = e?.colorstone[0] ? (formatAmount(e?.colorstone[0]?.Amount)) : '';
 
 
@@ -295,7 +296,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                     obj.dia_size = e?.diamonds[i+1]?.SizeName;
                     obj.dia_pcs = e?.diamonds[i+1]?.Pcs;
                     obj.dia_wt = ((e?.diamonds[i+1]?.Wt)?.toFixed(3));
-                    obj.dia_rate = (Math.round(e?.diamonds[i+1]?.Amount / (e?.diamonds[i+1]?.Wt === 0 ? 1 : e?.diamonds[i+1]?.Wt)));
+                    // obj.dia_rate = (Math.round((e?.diamonds[i+1]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[i+1]?.Wt === 0 ? 1 : e?.diamonds[i+1]?.Wt)));
+                    obj.dia_rate = (Math.round((e?.diamonds[i+1]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[i+1]?.Wt === 0 ? 1 : e?.diamonds[i+1]?.Wt)));
                     obj.dia_amt = (formatAmount(e?.diamonds[i+1]?.Amount));
                 }
 
@@ -313,7 +315,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                     obj.cls_size = e?.colorstone[i+1]?.SizeName;
                     obj.cls_pcs = e?.colorstone[i+1]?.Pcs;
                     obj.cls_wt = ((e?.colorstone[i+1]?.Wt)?.toFixed(3));
-                    obj.cls_rate = (Math.round(e?.colorstone[i+1]?.Amount / (e?.colorstone[i+1]?.Wt === 0 ? 1 : e?.colorstone[i+1]?.Wt)));
+                    // obj.cls_rate = (Math.round(((e?.colorstone[i+1]?.Amount / result?.header?.CurrencyExchRate)) / (e?.colorstone[i+1]?.Wt === 0 ? 1 : e?.colorstone[i+1]?.Wt)));
+                    obj.cls_rate = (Math.round(((e?.colorstone[i+1]?.Amount / datas?.header?.CurrencyExchRate)) / (e?.colorstone[i+1]?.Wt === 0 ? 1 : e?.colorstone[i+1]?.Wt)));
                     obj.cls_amt = (formatAmount(e?.colorstone[i+1]?.Amount));
                 }
 
@@ -426,7 +429,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         rowObj5.grosswt_name = ''
         rowObj5.grosswt_value = '';
         rowObj5.name = 'TAX';
-        rowObj5.value = (formatAmount((datas?.allTaxesTotal)));
+        rowObj5.value = (formatAmount(((+datas?.allTaxesTotal) * datas?.header?.CurrencyExchRate)));
         rowObj5.dia_info_name = (diarndotherarr5[5] === undefined ? '' : (diarndotherarr5[5]?.ShapeName + " " + diarndotherarr5[5]?.QualityName + " " + diarndotherarr5[5]?.Colorname  ))
         rowObj5.dia_info_value = ( diarndotherarr5[5] === undefined ? '' :  (diarndotherarr5[5]?.pcPcss + " / " + (diarndotherarr5[5]?.wtWts)?.toFixed(3)))
         rowObj5.sum_info_name = ( catewise[5] === undefined ? '' : catewise[5]?.Categoryname);
@@ -503,7 +506,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
 
 
-
     //styles and css
     const tableCellStyle = {
         height: '40px',
@@ -528,7 +530,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                     id="test-table-xls-button"
                     className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
                     table="table-to-xls"
-                    filename={`DetailPrint11_${result?.header?.InvoiceNo}_${Date.now()}`}
+                    filename={`TaxInvoice_${result?.header?.InvoiceNo}_${Date.now()}`}
                     sheet="tablexls"
                     buttonText="Download as XLS"
                  />
@@ -590,7 +592,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             <th colSpan={2} style={{borderRight:'1px solid #e8e8e8'}}></th>
                         </tr>
                         <tr>
-                            <td style={{borderBottom:'1px solid #e8e8e8'}} colSpan={18}>GSTIN : {result?.header?.CustGstNo} | {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} | PAN - {result?.header?.CustPanno}</td>
+                            <td style={{borderBottom:'1px solid #e8e8e8'}} colSpan={18}>GSTIN : {(result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo)} | {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} | PAN - {result?.header?.CustPanno}</td>
                             <td colSpan={2} style={{borderBottom:'1px solid #e8e8e8'}}></td>
                             <th colSpan={2} style={{borderBottom:'1px solid #e8e8e8', borderRight:'1px solid #e8e8e8'}}></th>
                         </tr>
@@ -638,30 +640,31 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                 return (<>
                                     <tr>
                                         <td width={90} style={{borderRight:'1px solid #989898'}} align='center'>{e?.sr}</td>
-                                        <td width={90}>&nbsp;{e?.designno}</td>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.SrJobno}</td>
-                                        <td width={140} align='left' >{e?.dia_code}</td>
-                                        <td width={140} align='left'>{`${e?.dia_size}`}</td>
-                                        <td width={90}>{e?.dia_pcs}</td>
-                                        <td width={90}>{( e?.dia_wt === '' ? '' : (+e?.dia_wt)?.toFixed(3))}</td>
-                                        <td width={90}>{e?.dia_rate}</td>
-                                        <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>{ e?.dia_amt === '' ? '' : formatAmount(e?.dia_amt)}</th>
-                                        <td width={140} style={{wordBreak:'break-word'}} align='left'>{`${e?.met_quality}`}</td>
-                                        <td width={90}>{((+e?.met_wt)?.toFixed(3))}</td>
-                                        <td width={90}>{e?.met_rate}</td>
-                                        <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>{e?.met_amt}</th>
-                                        <td width={140} align='left'>{e?.cls_code}</td>
-                                        <td width={140} align='left'>{`${e?.cls_size}`}</td>
-                                        <td width={90}>{e?.cls_pcs}</td>
-                                        <td width={90}>{( e?.cls_wt === '' ? '' : ((+e?.cls_wt)?.toFixed(3)))}</td>
-                                        <td width={90}>{e?.cls_rate}</td>
-                                        <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>{ e?.cls_amt === '' ? '' : formatAmount(e?.cls_amt)}</th>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{formatAmount(e?.oth_amt)}</td>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{formatAmount(e?.labour_rate)}</td>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{formatAmount(e?.labour_amt)}</td>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}}>{formatAmount(e?.total_amount)}</td>
+                                        <td width={120} style={{wordBreak:'break-word'}}>&nbsp;{e?.designno}</td>
+                                        <td width={120} style={{borderRight:'1px solid #989898', wordBreak:'break-word'}}>&nbsp;{e?.SrJobno}</td>
+                                        <td width={140} align='left' >&nbsp;{e?.dia_code}</td>
+                                        <td width={140} align='left'>&nbsp;{`${e?.dia_size}`}</td>
+                                        <td width={90} align='right'>&nbsp;{e?.dia_pcs}</td>
+                                        <td width={90} align='right'>&nbsp;{( e?.dia_wt === '' ? '' : (+e?.dia_wt)?.toFixed(3))}</td>
+                                        <td width={90} align='right'>&nbsp;{e?.dia_rate}</td>
+                                        <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>&nbsp;{ e?.dia_amt === '' ? '' : formatAmount(e?.dia_amt)}</th>
+                                        <td width={140}  style={{wordBreak:'break-word'}} align='left'>&nbsp;{`${e?.met_quality}`}</td>
+                                        <td width={90} align='right'>&nbsp;{((+e?.met_wt)?.toFixed(3))}</td>
+                                        <td width={90} align='right'>&nbsp;{e?.met_rate}</td>
+                                        <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.met_amt}</th>
+                                        <td width={140} align='left'>&nbsp;{e?.cls_code}</td>
+                                        <td width={140} align='left'>&nbsp;{`${e?.cls_size}`}</td>
+                                        <td width={90} align='right'>&nbsp;{e?.cls_pcs}</td>
+                                        <td width={90} align='right'>&nbsp;{( e?.cls_wt === '' ? '' : ((+e?.cls_wt)?.toFixed(3)))}</td>
+                                        <td width={90} align='right'>&nbsp;{e?.cls_rate}</td>
+                                        <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>&nbsp;{ e?.cls_amt === '' ? '' : formatAmount(e?.cls_amt)}</th>
+                                        <td width={90} align='right' style={{borderRight:'1px solid #989898'}}>&nbsp;{ e?.oth_amt === 0 ? '' : formatAmount(e?.oth_amt)}</td>
+                                        <td width={90} align='right' style={{borderRight:'1px solid #989898'}}>&nbsp;{ e?.labour_rate === 0 ? '' :  formatAmount(e?.labour_rate)}</td>
+                                        <td width={90} align='right' style={{borderRight:'1px solid #989898'}}>&nbsp;{formatAmount(e?.labour_amt)}</td>
+                                        <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>&nbsp;{formatAmount(e?.total_amount)}</th>
                                     </tr>
                                     {/* dia clr materail */}
+                                    
                                     {
                                         e?.matrialArr?.map((val, ind) => {
                                             return <tr key={ind}>
@@ -672,22 +675,22 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                     <div style={{textAlign:'center'}}><b>{val?.grosswetflag && val?.grosswt}</b> {val?.grosswetflag && ' gm Gross'}</div>
                                                 </td>
                                                 {/* <td width={90}></td> */}
-                                                <td width={90} align='left'>{ val?.diaflag && `${val?.dia_code}`}</td>
-                                                <td width={90} align='left'>{val?.diaflag && `${val?.dia_size}`}</td>
-                                                <td width={90}>{val?.diaflag && val?.dia_pcs}</td>
-                                                <td width={90}>{val?.diaflag && (+(val?.dia_wt))?.toFixed(3)}</td>
-                                                <td width={90}>{val?.diaflag && val?.dia_rate}</td>
-                                                <th width={90} style={{borderRight:'1px solid #989898'}} align='right'>{val?.diaflag && formatAmount(val?.dia_amt)}</th>
-                                                <th width={90} colSpan={val?.jobRemarkflag && 4} style={{borderRight:`${val?.jobRemarkflag && '1px solid #989898'}`}} align='left'>{val?.jobRemarkflag && (` Remark :  ${val?.JobRemark}`)}</th>
+                                                <td width={90} align='left'>&nbsp;{ val?.diaflag && `${val?.dia_code}`}</td>
+                                                <td width={90} align='left'>&nbsp;{val?.diaflag && `${val?.dia_size}`}</td>
+                                                <td width={90} align='right'>&nbsp;{val?.diaflag && val?.dia_pcs}</td>
+                                                <td width={90} align='right'>&nbsp;{val?.diaflag && (+(val?.dia_wt))?.toFixed(3)}</td>
+                                                <td width={90} align='right'>&nbsp;{val?.diaflag && val?.dia_rate}</td>
+                                                <th width={90} style={{borderRight:'1px solid #989898'}} align='right'>&nbsp;{val?.diaflag && formatAmount(val?.dia_amt)}</th>
+                                                <th width={90} colSpan={val?.jobRemarkflag && 4} style={{borderRight:`${val?.jobRemarkflag && '1px solid #989898'}`}} align='left'>&nbsp;{val?.jobRemarkflag && (` Remark :  ${val?.JobRemark}`)}</th>
                                                 {val?.jobRemarkflag ? '' : <td width={90}></td>} 
                                                 {val?.jobRemarkflag ? '' : <td width={90}></td>}
                                                 {val?.jobRemarkflag ? '' : <td width={90} style={{borderRight:'1px solid #989898'}}></td>}
-                                                <td width={90} align='left'>{val?.clsflag && `${val?.cls_code}`}</td>
-                                                <td width={90} align='left'>{val?.clsflag && `${val?.cls_size}`}</td>
-                                                <td width={90} align='right'>{val?.clsflag && val?.cls_pcs}</td>
-                                                <td width={90} align='right'>{val?.clsflag && ((+val?.cls_wt))?.toFixed(3)}</td>
-                                                <td width={90} align='right'>{val?.clsflag && val?.cls_rate}</td>
-                                                <th width={90} style={{borderRight:'1px solid #989898'}}>{val?.clsflag && formatAmount(val?.cls_amt)}</th>
+                                                <td width={90} align='left'>&nbsp;{val?.clsflag && `${val?.cls_code}`}</td>
+                                                <td width={90} align='left'>&nbsp;{val?.clsflag && `${val?.cls_size}`}</td>
+                                                <td width={90} align='right'>&nbsp;{val?.clsflag && val?.cls_pcs}</td>
+                                                <td width={90} align='right'>&nbsp;{val?.clsflag && ((+val?.cls_wt))?.toFixed(3)}</td>
+                                                <td width={90} align='right'>&nbsp;{val?.clsflag && val?.cls_rate}</td>
+                                                <th width={90} style={{borderRight:'1px solid #989898'}} align='right'>&nbsp;{val?.clsflag && formatAmount(val?.cls_amt)}</th>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}}></td>
@@ -703,26 +706,26 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         {/* diamonds */}
                                         <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
                                         <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <th align='right' style={{backgroundColor:'#F5F5F5',borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}} >{e?.values?.totals?.diamonds?.Pcs === 0 ? '' : e?.values?.totals?.diamonds?.Pcs}</th>
-                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{ e?.values?.totals?.diamonds?.Wt === 0 ? '' : (e?.values?.totals?.diamonds?.Wt)?.toFixed(3)}</th>
+                                        <th align='right' style={{backgroundColor:'#F5F5F5',borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{e?.values?.totals?.diamonds?.Pcs === 0 ? '' : e?.values?.totals?.diamonds?.Pcs}</th>
+                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{ e?.values?.totals?.diamonds?.Wt === 0 ? '' : (e?.values?.totals?.diamonds?.Wt)?.toFixed(3)}</th>
                                         {/* <td>{((e?.values?.totals?.diamonds?.Amount / (e?.values?.totals?.diamonds?.Wt === 0 ? 1 : e?.values?.totals?.diamonds?.Wt)))}</td> */}
                                         <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></th>
-                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{ e?.values?.totals?.diamonds?.Amount === 0 ? '' : formatAmount((e?.values?.totals?.diamonds?.Amount))}</th>
+                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{ e?.values?.totals?.diamonds?.Amount === 0 ? '' : formatAmount((e?.values?.totals?.diamonds?.Amount))}</th>
                                         <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></th>
                                         {/* <td>{e?.values?.totals?.metal?.IsPrimaryMetal}</td> */}
-                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{ e?.met_wt === 0 ? '' : ((e?.met_wt)?.toFixed(3))}</th>
+                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{ e?.met_wt === 0 ? '' : ((e?.met_wt)?.toFixed(3))}</th>
                                         <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{e?.met_amt === 0 ? '' : e?.met_amt}</th>
+                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{e?.met_amt === 0 ? '' : e?.met_amt}</th>
                                         <td align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
                                         <td align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{e?.values?.totals?.colorstone?.Pcs === 0 ? '' : e?.values?.totals?.colorstone?.Pcs}</th>
-                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{e?.values?.totals?.colorstone?.Wt === 0 ? '' : e?.values?.totals?.colorstone?.Wt?.toFixed()}</th>
+                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{e?.values?.totals?.colorstone?.Pcs === 0 ? '' : e?.values?.totals?.colorstone?.Pcs}</th>
+                                        <th align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{e?.values?.totals?.colorstone?.Wt === 0 ? '' : e?.values?.totals?.colorstone?.Wt?.toFixed(3)}</th>
                                         <td align='right' style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{ e?.values?.totals?.colorstone?.Amount === 0 ? '' : formatAmount((e?.values?.totals?.colorstone?.Amount))}</th>
-                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{e?.oth_amt === 0 ? '' : formatAmount(e?.oth_amt)}</th>
+                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{ e?.values?.totals?.colorstone?.Amount === 0 ? '' : formatAmount((e?.values?.totals?.colorstone?.Amount))}</th>
+                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{e?.oth_amt === 0 ? '' : formatAmount(e?.oth_amt)}</th>
                                         <td align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{ e?.labour_amt === 0 ? '' : formatAmount(e?.labour_amt)}</th>
-                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>{ e?.total_amount === 0 ? '' : formatAmount(e?.total_amount)}</th>
+                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{ e?.labour_amt === 0 ? '' : formatAmount(e?.labour_amt)}</th>
+                                        <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{ e?.total_amount === 0 ? '' : formatAmount(e?.total_amount)}</th>
                                     </tr>
                                     </>
                                 )
@@ -734,33 +737,38 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                 return <tr key={i}>
                                             <td colSpan={20}></td>
                                             <td colSpan={2}>{e?.name} @ {e?.per}</td>
-                                            <td align='right' style={{borderRight:'1px solid #989898'}}>{formatAmount(e?.amount)}</td>
+                                            <td align='right' style={{borderRight:'1px solid #989898'}}>&nbsp;{formatAmount(((+e?.amount) * result?.header?.CurrencyExchRate))}</td>
                                        </tr>
                             })
                         }
+                                        <tr>
+                                            <td colSpan={20}></td>
+                                            <td colSpan={2}>{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</td>
+                                            <td align='right' style={{borderRight:'1px solid #989898'}}>&nbsp;{formatAmount(result?.header?.AddLess)}</td>
+                                       </tr>
                         {/* main total */}
                         <tr>
                                 <th align='center' style={{borderRight:'1px solid #989898', borderBottom:'1px solid #989898', borderTop:'1px solid #989898', borderLeft:'1px solid #989898', backgroundColor:'#F5F5F5'}} colSpan={3}>TOTAL</th>
                                 <td style={{backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898', borderTop:'1px solid #989898'}}></td>
                                 <td style={{backgroundColor:'#F5F5F5',borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
-                                <th style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}} align='right'>{result?.mainTotal?.diamonds?.Pcs === 0 ? '' : result?.mainTotal?.diamonds?.Pcs}</th>
-                                <th style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}} align='right'>{ result?.mainTotal?.diamonds?.Wt === 0 ? '' : result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</th>
+                                <th style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{result?.mainTotal?.diamonds?.Pcs === 0 ? '' : result?.mainTotal?.diamonds?.Pcs}</th>
+                                <th style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ result?.mainTotal?.diamonds?.Wt === 0 ? '' : result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</th>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
-                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>{ result?.mainTotal?.diamonds?.Amount === 0 ? '' : formatAmount(result?.mainTotal?.diamonds?.Amount)}</th>
+                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ result?.mainTotal?.diamonds?.Amount === 0 ? '' : formatAmount(result?.mainTotal?.diamonds?.Amount)}</th>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
-                                <th style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}} align='right'>{ result?.mainTotal?.netwt === 0 ? '' : result?.mainTotal?.netwt?.toFixed(3)}</th>
+                                <th style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ result?.mainTotal?.netwt === 0 ? '' : result?.mainTotal?.netwt?.toFixed(3)}</th>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
-                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>{ result?.mainTotal?.MetalAmount === 0 ? '' : formatAmount(result?.mainTotal?.MetalAmount)}</th>
+                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ result?.mainTotal?.MetalAmount === 0 ? '' : formatAmount(result?.mainTotal?.MetalAmount)}</th>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
-                                <th style={{backgroundColor:'#F5F5F5',borderTop:'1px solid #989898',  borderBottom:'1px solid #989898'}} align='right'>{result?.mainTotal?.colorstone?.Pcs === 0 ? '' : result?.mainTotal?.colorstone?.Pcs}</th>
-                                <th style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}} align='right'>{result?.mainTotal?.colorstone?.Wt === 0 ? '' : result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</th>
+                                <th style={{backgroundColor:'#F5F5F5',borderTop:'1px solid #989898',  borderBottom:'1px solid #989898'}} align='right'>&nbsp;{result?.mainTotal?.colorstone?.Pcs === 0 ? '' : result?.mainTotal?.colorstone?.Pcs}</th>
+                                <th style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{result?.mainTotal?.colorstone?.Wt === 0 ? '' : result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</th>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
-                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>{ result?.mainTotal?.colorstone?.Amount === 0 ? '' :  formatAmount(result?.mainTotal?.colorstone?.Amount)}</th>
-                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>{ (result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling) === 0 ? '' :  formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount))}</th>
+                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ result?.mainTotal?.colorstone?.Amount === 0 ? '' :  formatAmount(result?.mainTotal?.colorstone?.Amount)}</th>
+                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ (result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling) === 0 ? '' :  formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount))}</th>
                                 <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898', borderRight:'1px solid #989898'}}></td>
-                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>{ (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount) === 0 ? '' : formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</th>
-                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>{ (result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)) === 0 ? '' :  formatAmount((result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</th>
+                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount) === 0 ? '' : formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</th>
+                                <th style={{borderRight:'1px solid #989898', borderTop:'1px solid #989898', backgroundColor:'#F5F5F5', borderBottom:'1px solid #989898'}} align='right'>&nbsp;{ (result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)) === 0 ? '' :  formatAmount((result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</th>
                         </tr>
                         <tr>
                             <th colSpan={6} style={{backgroundColor:'#F5F5F5', borderLeft:'1px solid #989898', borderRight:'1px solid #989898', borderBottom:'1px solid #989898'}}>SUMMARY</th>
@@ -772,13 +780,13 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                 rowWise?.map((e, i) => {
                                     return  <tr key={i}>
                                                 <th align='left' width={100}>{e?.grosswt_name}</th>
-                                                <td align='right' colSpan={2} style={{borderRight:'1px solid #989898'}}>{e?.grosswt_value} {e?.grosswt_value === '' ? '' : 'gms'}</td>
-                                                <th align='left'>{e?.name}</th>
-                                                <td colSpan={2} align='right' style={{borderRight:'1px solid #989898'}}>{e?.value}</td>
+                                                <td align='right' colSpan={2} style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.grosswt_value} {e?.grosswt_value === '' ? '' : `${(e?.grosswt_name === 'STONE WT' || e?.grosswt_name === 'DIAMOND WT') ? 'cts' : 'gms'}`}</td>
+                                                <th align='left' style={{borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, borderRight:`${ i === 7 ? '1px solid #989898' : ''}`,backgroundColor:`${ i === 7 ? '#F5F5F5' : ''}` }}>{e?.name}</th>
+                                                <td colSpan={2} align='right' style={{borderRight:'1px solid #989898', borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, backgroundColor:`${ i === 7 ? '#F5F5F5' : ''}`, fontWeight:`${ i === 7 ? 'bold' : ''}`}}>&nbsp;{e?.value}</td>
                                                 <th colSpan={2} align='left'>{e?.dia_info_name}</th>
-                                                <td colSpan={2} align='right'>{e?.dia_info_value} {e?.dia_info_value === '' ? '' : 'cts'}</td>
+                                                <td colSpan={2} align='right'>&nbsp;{e?.dia_info_value} {e?.dia_info_value === '' ? '' : 'cts'}</td>
                                                 <td colSpan={2} align='left' style={{borderLeft:'1px solid #989898'}}>{e?.sum_info_name}</td>
-                                                <th align='center' style={{borderRight:'1px solid #989898'}}>{e?.sum_info_value}</th>
+                                                <th align='center' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.sum_info_value}</th>
                                                  { e?.remark === '' ? '' : <td colSpan={3} style={{borderBottom:'1px solid #989899',  borderRight:'1px solid #989898'}}>{e?.remark}</td> } 
                                             </tr>
                                 })

@@ -14,9 +14,9 @@ import Loader from "../../components/Loader";
 
 const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
-  const [diamondWise, setDiamondWise] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
+  const [diamondWise, setDiamondWise] = useState([]);
   const [imgFlag, setImgFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
 
