@@ -57,7 +57,8 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       onlyHSCODE3_pcs:0,
       onlyHSCODE3_amt:0,
       withouthscode1_2_pcs:0,
-      isHSCODE123_amt:0
+      isHSCODE123_amt:0,
+      onlyIsHSCODE0_Wt:0,
     },
     stone_misc: {
       Wt: 0,
@@ -200,6 +201,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
           allpcs:0,
           allservwt:0,
           isHSCODE123_amt:0,
+          onlyIsHSCODE0_Wt:0
         },
         stone_misc: {
           Wt: 0,
@@ -328,7 +330,10 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
                 maintotal.misc.isHSCODE123_amt += j2?.Amount;
                 jobwise_totals.misc.isHSCODE123_amt += j2?.Amount;
               }
-
+              if(j2?.IsHSCOE === 0){
+                jobwise_totals.misc.onlyIsHSCODE0_Wt += j2?.Wt;
+                maintotal.misc.onlyIsHSCODE0_Wt += j2?.Wt;
+              }
               all_m_d_c_m.push(j2)
               if(j2?.isRateOnPcs === 0){
                 israteonpcsMISC0.push(j2);
