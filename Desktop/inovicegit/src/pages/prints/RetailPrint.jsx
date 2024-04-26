@@ -120,6 +120,21 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 obj?.misc?.reduce((acc, cObj) => acc + cObj?.Pcs, 0)
             if (findObjs === -1) {
                 resultArr?.push(obj);
+                obj?.diamonds?.sort((a, b) => {
+                    const compareLabel1 = a.QualityName.localeCompare(b.QualityName);
+                    if (compareLabel1 !== 0) {
+                        return compareLabel1;
+                    }
+    
+                    const getNumber = (str) => parseInt(str.match(/\d+/) || 0);
+                    const numA = getNumber(a.Colorname);
+                    const numB = getNumber(b.Colorname);
+                    if (numA !== numB) {
+                        return numA - numB;
+                    }
+    
+                    return 0;
+                })
             } else {
                 let primaryMetal = obj?.metal?.findIndex((elem, index) => elem?.IsPrimaryMetal === 1);
                 let primaryMetal2 = resultArr[findObjs]?.metal?.findIndex((elem, index) => elem?.IsPrimaryMetal === 1);
@@ -195,6 +210,21 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         blankMisc[findmiscss].ServWt += ele?.ServWt;
                     }
                 });
+                blankDiamonds?.sort((a, b) => {
+                    const compareLabel1 = a.QualityName.localeCompare(b.QualityName);
+                    if (compareLabel1 !== 0) {
+                        return compareLabel1;
+                    }
+    
+                    const getNumber = (str) => parseInt(str.match(/\d+/) || 0);
+                    const numA = getNumber(a.Colorname);
+                    const numB = getNumber(b.Colorname);
+                    if (numA !== numB) {
+                        return numA - numB;
+                    }
+    
+                    return 0;
+                })
                 resultArr[findObjs].diamonds = blankDiamonds;
                 resultArr[findObjs].colorstone = blankcolorStones;
                 resultArr[findObjs].misc = blankMisc;
