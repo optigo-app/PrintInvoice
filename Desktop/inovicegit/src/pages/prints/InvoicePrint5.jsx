@@ -307,7 +307,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           key={i}
                         >
                           <div
-                            className={`${classip?.col1}  border-end centerip5`}
+                            className={`${classip?.col1} ${ atob(printName) === 'invoice print 5' ? 'col1ip5' : 'col1ip7'}  border-end centerip5`}
                           >
                             {i + 1}
                           </div>
