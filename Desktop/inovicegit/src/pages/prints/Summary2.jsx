@@ -251,7 +251,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div>Phno:-{result?.header?.customermobileno}</div>
                       <div>
                         {console.log(result)}
-                        GSTIN - {result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo} | 
+                        { result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN' } - {result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo} | 
                         {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} |
                         PAN - {result?.header?.CustPanno}
                         {/* {result?.header?.Cust_CST_STATE}-
@@ -412,7 +412,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         )
                       })
                     }
-                    <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-end">{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className="w-50 d-flex justify-content-end fw-bold">{result?.header?.AddLess}</div></div>
+                    <div className="d-flex justify-content-between "><div className="w-50 d-flex justify-content-start fw-bold" style={{paddingLeft:'3px'}}>{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className="w-50 d-flex justify-content-end fw-bold">{result?.header?.AddLess}</div></div>
                   </div>
                 </div>
                 {/* grand total */}
@@ -443,7 +443,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* notes  */}
                 <div className="border mt-2 pbias2 fsh2_s2">
-                  <div className="fw-bold p-2 pt-3">NOTE:</div>
+                  <div className="fw-bold p-2 pt-3 ps-1" style={{fontSize:'16px'}}>NOTE:</div>
                   <div className="p-1 fsh2_s2 danger_s2" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }}></div>
                 </div>
                 {/* remarks */}
