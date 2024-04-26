@@ -81,7 +81,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             //     netWtLossWt = e?.NetWt + e?.LossWt;
             // }
             // totalWt += (e?.NetWt - e?.totals?.finding?.Wt + secondWt);
-            totalWt += (e?.NetWt - secondWt);
+            totalWt += (e?.NetWt - secondWt - e?.totals?.finding?.Wt);
             let diamonds = [];
             e?.diamonds?.forEach((ele, ind) => {
                 totalObj.pcs += ele?.Pcs;
@@ -176,7 +176,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.colorstone = colorstone;
             obj.misc = misc;
             // obj.secondaryWt = (e?.NetWt - secondWt);
-            obj.secondaryWt = (netWtLossWt - e?.totals?.finding?.Wt);
+            obj.secondaryWt = (e?.NetWt - secondWt - e?.totals?.finding?.Wt);
             obj.finding = finding;
             resultArray?.push(obj);
            
