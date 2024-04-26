@@ -392,7 +392,10 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         result?.mainTotal?.total_other + 
                         result?.mainTotal?.total_diamondHandling + 
                         result?.mainTotal?.total_Making_Amount + 
-                        result?.mainTotal?.finding?.SettingAmount))}</div>
+                        result?.mainTotal?.totalMiscAmount +
+                        result?.mainTotal?.finding?.SettingAmount -
+                        result?.mainTotal?.finding?.SettingAmount
+                        ))}</div>
                     <div className={`${classIs.col11} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.total_csamount)}</div>
                     <div className={`${classIs.col12} border-end ends2 pe-1`}>{result?.mainTotal?.convertednetwt?.toFixed(3)}</div>
                     <div className={`${classIs.col13} border-end ends2 pe-1`}>{formatAmount(result?.mainTotal?.MetalAmount)}</div>
@@ -405,7 +408,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {
                       result?.allTaxes?.map((e, i) => {
                         return (
-                          <div className="d-flex justify-content-between " key={i}><div className="w-50 d-flex justify-content-end">{e?.name} @ {e?.per}</div><div className="w-50 d-flex justify-content-end">{e?.amount}</div></div>
+                          <div className="d-flex justify-content-between " key={i}><div className="w-50 d-flex justify-content-end">{e?.name} @ {e?.per}</div><div className="w-50 d-flex justify-content-end">{formatAmount((+e?.amount) * result?.header?.CurrencyExchRate)}</div></div>
                         )
                       })
                     }
@@ -415,12 +418,12 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {/* grand total */}
                 <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2 fsh2_s2">
                   <div>Gold in 24K : <b className="fsgs2">{result?.mainTotal?.convertednetwt?.toFixed(3)}</b></div>
-                  <div className="fw-bold">TOTAL IN HK$ : {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal))}</div>
+                  <div className="fw-bold">TOTAL IN HK$ : {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</div>
                 </div>
                 {/* in words */}
                 <div className="mt-2 border d-flex justify-content-between p-1 bgcs2 pbias2 fsh2_s2">
-                  <div className="fw-bold">{toWords.convert(+(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)?.toFixed(2))}</div>
-                  <div className="fw-bold">TOTAL  :   HKD {formatAmount(result?.mainTotal?.total_amount + result?.header?.AddLess + result?.allTaxesTotal)} </div>
+                  <div className="fw-bold">{toWords.convert(+(result?.mainTotal?.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate))?.toFixed(2))}</div>
+                  <div className="fw-bold">TOTAL  :   HKD {formatAmount(result?.mainTotal?.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate))} </div>
                 </div>
                 {/* summary */}
                 <div className="border mt-2 pbias2 fsh2_s2">
