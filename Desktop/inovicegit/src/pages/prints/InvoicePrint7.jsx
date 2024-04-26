@@ -10,7 +10,7 @@ import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import Loader from "../../components/Loader";
 import "../../assets/css/prints/invoiceprint5.css";
 
-const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
+const InvoicePrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [grandTotal, setGrandTotal] = useState(0);
   const [classip, setClassip] = useState({
     col1: "",
@@ -34,43 +34,43 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [footerComp, setFooterComp] = useState(null);
-  // useEffect(() => {
-  //   let print_name = atob(printName);
-  //   console.log(print_name);
-  //   if (print_name === "invoice print 5") {
-  //     console.log("in invp5");
-  //     setClassip({
-  //       col1: "col1ip5",
-  //       col2: "col2ip5",
-  //       col3: "col3ip5",
-  //       col4: "col4ip5",
-  //       col5: "col5ip5",
-  //       col6: "col5ip5",
-  //       col7: "col5ip5",
-  //       col8: "col5ip5",
-  //       col9: "col6ip5",
-  //       col10: "col7ip5",
-  //       col11: "col8ip5",
-  //     });
-  //   }
-  //   if (print_name === "invoice print 7") {
-  //     console.log("in invp7");
-  //     setClassip({
-  //       col1: "col1ip7",
-  //       col2: "col2ip7",
-  //       col3: "col3ip7",
-  //       col4: "col4ip7",
-  //       col5: "col5ip7",
-  //       col6: "col5ip7",
-  //       col7: "col5ip7",
-  //       col8: "col5ip7",
-  //       col9: "col6ip7",
-  //       col10: "col7ip7",
-  //       col11: "col8ip7",
-  //     });
-  //   }
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+//   useEffect(() => {
+//     let print_name = atob(printName);
+//     console.log(print_name);
+//     if (print_name === "invoice print 5") {
+//       console.log("in invp5");
+//       setClassip({
+//         col1: "col1ip5",
+//         col2: "col2ip5",
+//         col3: "col3ip5",
+//         col4: "col4ip5",
+//         col5: "col5ip5",
+//         col6: "col5ip5",
+//         col7: "col5ip5",
+//         col8: "col5ip5",
+//         col9: "col6ip5",
+//         col10: "col7ip5",
+//         col11: "col8ip5",
+//       });
+//     }
+//     if (print_name === "invoice print 7") {
+//       console.log("in invp7");
+//       setClassip({
+//         col1: "col1ip7",
+//         col2: "col2ip7",
+//         col3: "col3ip7",
+//         col4: "col4ip7",
+//         col5: "col5ip7",
+//         col6: "col5ip7",
+//         col7: "col5ip7",
+//         col8: "col5ip7",
+//         col9: "col6ip7",
+//         col10: "col7ip7",
+//         col11: "col8ip7",
+//       });
+//     }
+//   // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, []);
 
   useEffect(() => {
     const sendData = async () => {
@@ -266,35 +266,35 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div>
                   {/* table head */}
                   <div className="theadip5 border mt-1 fw-bold border-bottom fsgip5 ">
-                    <div className={`col1ip5 h-100 border-end centerip5`} >
+                    <div className={`col1ip7 h-100 border-end centerip5`} >
                       Sr#
                     </div>
-                    <div className={`col2ip5 h-100 border-end centerip5`} >
+                    <div className={`col2ip7 h-100 border-end centerip5`} >
                       Product Description
                     </div>
-                    <div className={`col3ip5 h-100 border-end centerip5`} >
+                    <div className={`col3ip7 h-100 border-end centerip5`} >
                       KT
                     </div>
-                    <div className={`col4ip5 h-100 border-end centerip5`} >
+                    <div className={`col4ip7 h-100 border-end centerip5`} >
                       Qty
                     </div>
-                    <div className={`col5ip5 h-100 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
+                    <div className={`col5ip7 h-100 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
                       Gross Wt(ctw)
                     </div>
-                    <div className={`col5ip5 h-100 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
+                    <div className={`col5ip7 h-100 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
                       Dia Wt(ctw)
                     </div>
-                    <div className={`col5ip5 h-100 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
+                    <div className={`col5ip7 h-100 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
                       Stone Wt(ctw)
                     </div>
-                    <div className={`col5ip5 h-100 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
+                    <div className={`col5ip7 h-100 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
                       Net Wt(gm)
                     </div>
-                    <div className={`col6ip5 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
+                    <div className={`col6ip7 border-end centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
                       Other Charges
                     </div>
-                    <div className={`col7ip5 h-100 border-end centerip5`} > Amount </div>
-                    <div className={`col8ip5 h-100 centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
+                    <div className={`col7ip7 h-100 border-end centerip5`} > Amount </div>
+                    <div className={`col8ip7 h-100 centerip5`} style={{wordBreak:"break-word", textAlign:"center"}} >
                       Product Value
                     </div>
                   </div>
@@ -307,57 +307,57 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           key={i}
                         >
                           <div
-                            className='col1ip5 border-end centerip5'
+                            className={`col1ip7   border-end centerip5`}
                           >
                             {i + 1}
                           </div>
                           <div
-                            className={`col2ip5  border-end startip5 px-1`}
+                            className={`col2ip7  border-end startip5 px-1`}
                           >
                             Diamond Studded Gold Jewellery
                           </div>
                           <div
-                            className={`col3ip5  border-end startip5 px-1`}
+                            className={`col3ip7  border-end startip5 px-1`}
                           >
                             {e?.MetalPurity}
                           </div>
                           <div
-                            className={`col4ip5  border-end endip5 px-1`}
+                            className={`col4ip7  border-end endip5 px-1`}
                           >
                             {e?.Quantity}
                           </div>
                           <div
-                            className={`col5ip5  border-end endip5 px-1`}
+                            className={`col5ip7  border-end endip5 px-1`}
                           >
                             {e?.grosswt?.toFixed(3)}
                           </div>
                           <div
-                            className={`col5ip5  border-end endip5 px-1`}
+                            className={`col5ip7  border-end endip5 px-1`}
                           >
                             {e?.totals?.diamonds?.Wt?.toFixed(3)}
                           </div>
                           <div
-                            className={`col5ip5  border-end endip5 px-1`}
+                            className={`col5ip7  border-end endip5 px-1`}
                           >
                             {e?.totals?.colorstone?.Wt?.toFixed(3)}
                           </div>
                           <div
-                            className={`col5ip5  border-end endip5 px-1`}
+                            className={`col5ip7  border-end endip5 px-1`}
                           >
                             {e?.NetWt?.toFixed(3)}
                           </div>
                           <div
-                            className={`col6ip5  border-end endip5 px-1`}
+                            className={`col6ip7  border-end endip5 px-1`}
                           >
                             {/* {formatAmount((e?.totals?.otherChargesMiscHallStamp + e?.OtherCharges))} */}
                             {formatAmount(( e?.MiscAmount + e?.OtherCharges + e?.TotalDiamondHandling))}
                           </div>
                           <div
-                            className={`col7ip5  border-end endip5 px-1`}
+                            className={`col7ip7  border-end endip5 px-1`}
                           >
                             {formatAmount((e?.MakingAmount + e?.totals?.colorstone?.SettingAmount + e?.totals?.diamonds?.SettingAmount))}
                           </div>
-                          <div className={`col8ip5 endip5 px-1`}>
+                          <div className={`col8ip7 endip5 px-1`}>
                             {formatAmount((e?.TotalAmount + e?.DiscountAmt))}
                           </div>
                         </div>
@@ -366,52 +366,56 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {/* table total */}
                     <div className="tbodyip5 border border-top-0 fw-bold fsgip5 texpartivp5">
                       <div
-                        className={`col1ip5  border-end centerip5`}
+                        className={`col1ip7  border-end centerip5`}
                       ></div>
                       <div
-                        className={`col2ip5  border-end  startip5 px-1 fsgip5`}
+                        className={`col2ip7  border-end  startip5 px-1 fsgip5`}
                       >
                         TOTAL
                       </div>
                       <div
-                        className={`col3ip5  border-end centerip5`}
+                        className={`col3ip7  border-end centerip5`}
                       ></div>
                       <div
-                        className={`col4ip5  border-end endip5 px-1`}
+                        className={`col4ip7  border-end endip5 px-1`}
                       >
                         {result?.mainTotal?.total_Quantity}
                       </div>
                       <div
-                        className={`col5ip5  border-end endip5 px-1`}
+                        className={`col5ip7  border-end endip5 px-1`}
                       >
                         {result?.mainTotal?.grosswt?.toFixed(3)}
                       </div>
                       <div
-                        className={`col5ip5  border-end endip5 px-1`}
+                        className={`col5ip7  border-end endip5 px-1`}
                       >
                         {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                       </div>
                       <div
-                        className={`col5ip5  border-end endip5 px-1`}
+                        className={`col5ip7  border-end endip5 px-1`}
                       >
                         {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
                       </div>
                       <div
-                        className={`col5ip5  border-end endip5 px-1`}
+                        className={`col5ip7  border-end endip5 px-1`}
                       >
                         {result?.mainTotal?.netwt?.toFixed(3)}
                       </div>
-                      <div className={`col6ip5  border-end endip5 px-1`} >
+                      <div
+                        className={`col6ip7  border-end endip5 px-1`}
+                      >
                         {console.log(result)}
                         {/* {formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_otherChargesMiscHallStamp))} */}
                         {formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.misc?.Amount))}
                       </div>
-                      <div className={`col7ip5  border-end endip5 px-1`} >
+                      <div
+                        className={`col7ip7  border-end endip5 px-1`}
+                      >
                         {formatAmount(
                           (result?.mainTotal?.total_labour?.labour_amount  + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)
                         )}
                       </div>
-                      <div className={`col8ip5  endip5 px-1`}>
+                      <div className={`col8ip7  endip5 px-1`}>
                         {formatAmount((result?.mainTotal?.total_unitcost))}
                       </div>
                     </div>
@@ -538,4 +542,4 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   );
 };
 
-export default InvoicePrint5;
+export default InvoicePrint7;
