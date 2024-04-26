@@ -66,6 +66,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             // totalWt += (e?.NetWt - e?.totals?.finding?.Wt) + e?.totals?.diamonds?.Wt + e?.totals?.misc?.Wt + e?.totals?.colorstone?.Wt;
             let netWtLossWt = 0;
             let secondWt = 0;
+            let secondaryWt = 0;
             let count = 0
             //  else {
             e?.metal?.forEach((ele, ind) => {
@@ -74,6 +75,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 } else {
                     secondWt += ele?.Wt
                     count++
+                    secondaryWt += ele?.Wt;
                 }
             });
             // }
@@ -81,7 +83,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             //     netWtLossWt = e?.NetWt + e?.LossWt;
             // }
             // totalWt += (e?.NetWt - e?.totals?.finding?.Wt + secondWt);
-            totalWt += (e?.NetWt - secondWt - e?.totals?.finding?.Wt);
+            totalWt += (e?.NetWt - secondWt - e?.totals?.finding?.Wt) + secondaryWt;
             let diamonds = [];
             e?.diamonds?.forEach((ele, ind) => {
                 totalObj.pcs += ele?.Pcs;
@@ -130,8 +132,8 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
             let misc = [];
             e?.misc?.forEach((ele, ind) => {
-                totalWt += ele?.ServWt+ele?.Wt;
-                if(ele?.Wt + ele?.ServWt !== 0){
+                totalWt += ele?.ServWt + ele?.Wt;
+                if (ele?.Wt + ele?.ServWt !== 0) {
                     totalObj.pcs += ele?.Pcs;
                 }
                 // let findMiscs = misc?.findIndex((elem, index) => {
@@ -177,9 +179,10 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             obj.misc = misc;
             // obj.secondaryWt = (e?.NetWt - secondWt);
             obj.secondaryWt = (e?.NetWt - secondWt - e?.totals?.finding?.Wt);
+            obj.secondaryWts = secondaryWt;
             obj.finding = finding;
             resultArray?.push(obj);
-           
+
         });
 
         setTotalss({ ...totalss, totalWt: totalWt });
@@ -366,7 +369,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             <div className="d-grid h-100">
                                 {
                                     e?.metal?.map((ele, ind) => {
-                                        return ele?.IsPrimaryMetal === 1 &&<div className={`d-flex border-bottom`} key={ind}>
+                                        return ele?.IsPrimaryMetal === 1 && <div className={`d-flex border-bottom`} key={ind}>
                                             <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
                                                 <p>{ele?.IsPrimaryMetal === 1 && ele?.ShapeName}</p>
                                             </div>
@@ -489,6 +492,30 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                         </div>
                                     })
                                 }
+                                {e?.secondaryWts !== 0 && <div className={`d-flex border-bottom`} >
+                                    <div className={`${styles.Material} border-end p-1 d-flex align-items-center`}>
+                                        <p></p>
+                                    </div>
+                                    <div className={`${styles.Qty} border-end p-1 d-flex align-items-center`}>
+                                        <p></p>
+                                    </div>
+                                    <div className={`${styles.Pcs} border-end p-1 d-flex align-items-center justify-content-end`}>
+                                        <p className='text-end'>{ }</p>
+                                    </div>
+                                    <div className={`${styles.Wt} border-end p-1 d-flex align-items-center justify-content-end`}>
+                                        <p className='text-end'>
+                                            {NumberWithCommas(e?.secondaryWts, 3)}
+                                        </p>
+                                    </div>
+                                    <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
+                                        <p className='text-end'></p>
+                                    </div>
+                                    {pName !== 'retail1 print' && <div className={`${styles.Amount} p-1 d-flex align-items-center justify-content-end`}>
+                                        <p className='text-end'></p>
+                                    </div>}
+                                </div>
+                                }
+
 
                             </div>
                         </div>
