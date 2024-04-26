@@ -142,17 +142,32 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
     oth?.sort((a, b) => {
       return a.label.localeCompare(b.label);
   });
+  oth?.forEach(item => {
+    item.label = item?.label?.toUpperCase(); // Convert to uppercase
+    item.label = item?.label?.replace(/\b\w/g, char => char?.toUpperCase()); // Capitalize first letter of each word
+});
+      dia?.sort((a, b) => a.Rate - b.Rate);
+      let clr2 = [];
+      clr?.forEach((e) => {
+        let obj = {...e};
+        if(obj?.isRateOnPcs === 1){
+            obj._rate = ((obj?.Amount / (obj?.Pcs === 0 ? 1 : obj?.Pcs)) / datas?.header?.CurrencyExchRate);
+        }else{
+            obj._rate = ((obj?.Amount / (obj?.Wt === 0 ? 1 : obj?.Wt)) / datas?.header?.CurrencyExchRate);
+        }
+        clr2.push(obj);
+      })
+      clr2?.sort((a, b) => a?._rate - b?._rate);
       setTotalAmount(totamt)
       setMetwise(met);
       setDiawise(dia);
-      setClrwise(clr);
+      setClrwise(clr2);
       setMiscwise(miscc);
       setOthInfo(oth);
 
       // let lbr_rate = 0;
       // let finalArr = [];
       // datas?.resultArray?.forEach((e) => {
-      //   // console.log(e);
       //   let obj = {...e};
       //   let findingwt = 0;
       //   datas?.json2?.forEach((el) => {
@@ -164,7 +179,6 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       //             findingwt += el?.Wt;
       //           }
       //         }
-      //         // console.log(findingwt);
               
       //       }
       //     })
@@ -269,7 +283,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                     setMsg(data?.Message);
                 }
             } catch (error) {
-                console.error(error);
+                console.log(error);
             }
         }
         sendData();
@@ -373,7 +387,8 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                             return  <div className='d-flex pbiarti' key={k}>
                               <div className='tcol1rti ps-2'>{el?.MasterManagement_DiamondStoneTypeName} { el?.MaterialTypeName === '' ? '' : `(${el?.MaterialTypeName})` }</div>
                               <div className='tcol2rti end_rti pe-1'>{(el?.Wt)?.toFixed(3)}</div>
-                              <div className='tcol3rti end_rti pe-1'>{Math.round(((el?.Amount / (el?.isRateOnPcs === 1 ? (el?.Pcs === 0 ? 1 : el?.Pcs) : (el?.Wt === 0 ? 1 : el?.Wt)) / (result?.header?.CurrencyExchRate))))}</div>
+                              {/* <div className='tcol3rti end_rti pe-1'>{Math.round(((el?.Amount / (el?.isRateOnPcs === 1 ? (el?.Pcs === 0 ? 1 : el?.Pcs) : (el?.Wt === 0 ? 1 : el?.Wt)) / (result?.header?.CurrencyExchRate))))}</div> */}
+                              <div className='tcol3rti end_rti pe-1'>{Math.round(el?._rate)}</div>
                               {/* <div className='tcol3rti end_rti pe-1'>{el?.Rate}</div> */}
                               <div className='tcol4rti brrightrti end_rti pe-1'>{formatAmount(el?.Amount)}</div>
                             </div>
@@ -407,7 +422,6 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                       // result?.resultArray?.map((e, i) => (
                         <React.Fragment >
                           {othInfo?.map((el, k) => {
-                            // console.log(el, e?.other_details);
                             return  <div className='d-flex' key={k}>
                               <div className='tcol1rti ps-2'>{el?.label} </div>
                               <div className='tcol2rti end_rti pe-1'></div>
