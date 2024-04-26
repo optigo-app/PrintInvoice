@@ -5,6 +5,7 @@ import Loader from '../../components/Loader';
 import { ToWords } from 'to-words';
 import { cloneDeep, find, findIndex } from 'lodash';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
+import NumToWord from '../../GlobalFunctions/NumToWord';
 
 const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [jsonData1, setJsonData1] = useState({});
@@ -125,14 +126,14 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     if (compareLabel1 !== 0) {
                         return compareLabel1;
                     }
-    
+
                     const getNumber = (str) => parseInt(str.match(/\d+/) || 0);
                     const numA = getNumber(a.Colorname);
                     const numB = getNumber(b.Colorname);
                     if (numA !== numB) {
                         return numA - numB;
                     }
-    
+
                     return 0;
                 })
             } else {
@@ -215,14 +216,14 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     if (compareLabel1 !== 0) {
                         return compareLabel1;
                     }
-    
+
                     const getNumber = (str) => parseInt(str.match(/\d+/) || 0);
                     const numA = getNumber(a.Colorname);
                     const numB = getNumber(b.Colorname);
                     if (numA !== numB) {
                         return numA - numB;
                     }
-    
+
                     return 0;
                 })
                 resultArr[findObjs].diamonds = blankDiamonds;
@@ -618,7 +619,10 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {/* <div className="totalInWordsRetailPrint p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end"> */}
                     <div className="col-8 p-1 d-flex flex-column align-items-start justify-content-end p-1 border-end">
                         <p className='ft_12_retailPrint'>In Words {jsonData1?.Currencyname}</p>
-                        <p className='fw-bold ft_12_retailPrint'>{toWords?.convert(+fixedValues((finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate) +
+                        <p className='fw-bold ft_12_retailPrint'>
+                            {/* {toWords?.convert(+fixedValues((finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate) +
+                            taxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) + (jsonData1?.AddLess / jsonData1?.CurrencyExchRate), 2))}  */}
+                            {NumToWord(+fixedValues((finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate) +
                             taxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) + (jsonData1?.AddLess / jsonData1?.CurrencyExchRate), 2))} Only</p>
                     </div>
                     {/* <div className="cgstRetailPrint p-1 text-end p-1 border-end"> */}
@@ -626,7 +630,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         {taxes.length > 0 && taxes.map((e, i) => {
                             return <p key={i} className='pb-1 px-1'>{e?.name} @ {e?.per}</p>
                         })}
-                        <p className='ft_12_retailPrint px-1'>Add</p>
+                        {jsonData1?.AddLess !== 0 && <p className='ft_12_retailPrint px-1'>{jsonData1?.AddLess > 0 ? "Add" : "Less"}</p>}
                         <p className='fw-bold py-1 border-top ft_12_retailPrint px-1'>GRAND TOTAL</p>
                     </div>
                     {/* <div className="totalRetailPrint p-1 text-end p-1"> */}
@@ -634,7 +638,7 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         {taxes.length > 0 && taxes.map((e, i) => {
                             return <p key={i} className='pb-1 px-1'>{NumberWithCommas(+e?.amount / jsonData1?.CurrencyExchRate, 2)}</p>
                         })}
-                        <p className='ft_12_retailPrint px-1'>{NumberWithCommas(jsonData1?.AddLess / jsonData1?.CurrencyExchRate, 2)}</p>
+                        {jsonData1?.AddLess !== 0 && <p className='ft_12_retailPrint px-1'>{NumberWithCommas(jsonData1?.AddLess / jsonData1?.CurrencyExchRate, 2)}</p>}
                         <p className='fw-bold py-1 border-top ft_12_retailPrint px-1'>₹{NumberWithCommas((finalD?.mainTotal?.total_amount / jsonData1?.CurrencyExchRate) +
                             taxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount / jsonData1?.CurrencyExchRate, 2)), 0) + (jsonData1?.AddLess / jsonData1?.CurrencyExchRate), 2)}</p>
                     </div>
