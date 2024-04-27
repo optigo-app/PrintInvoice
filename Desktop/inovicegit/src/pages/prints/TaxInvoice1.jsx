@@ -830,7 +830,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                   </div>
                   <div className="d-flex align-items-center justify-content-end total_invoice1 total_invoicePrint1 min_padding_invoice1 border-end  ">
-                    {NumberWithCommas(+e?.mainData?.TotalAmount / BillPrint_Json?.CurrencyExchRate, 2)}
+                    {NumberWithCommas(+e?.mainData?.UnitCost / BillPrint_Json?.CurrencyExchRate, 2)}
                   </div>
                 </div>
               );
@@ -937,7 +937,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 {NumberWithCommas(+((totalAmount?.TotalAmount / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)) +
                   (+(BillPrint_Json?.AddLess / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)) +
                   taxes?.reduce((acc, cObj) => acc + +(+(cObj?.amount / BillPrint_Json?.CurrencyExchRate)?.toFixed(2)), 0) - +(BillPrint_Json?.OldGoldAmount?.toFixed(2)) -
-                  +(BillPrint_Json?.AdvanceAmount?.toFixed(2)) - +(BillPrint_Json?.CashReceived?.toFixed(2)), 2)}
+                  +(BillPrint_Json?.AdvanceAmount?.toFixed(2)) - bank?.reduce((acc, cObj) => acc + +((+cObj?.amount))?.toFixed(2), 0) , 2)}
               </p>
             </div>
           </div>

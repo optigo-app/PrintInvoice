@@ -45,7 +45,6 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         let resultArray = [];
         let totalObj = {
-            // pcs: datas?.mainTotal?.diamonds?.Pcs + datas?.mainTotal?.colorstone?.Pcs + datas?.mainTotal?.misc?.Pcs,
             pcs: 0,
             materialWeight: 0,
             rate: 0,
@@ -60,16 +59,13 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             textInNumbers: "",
             goldWeight: 0
         }
-        let totalWt = datas?.mainTotal?.diamonds?.Wt + datas?.mainTotal?.colorstone?.Wt + datas?.mainTotal?.finding?.Wt;
-        // datas?.mainTotal?.netwtWithLossWt - datas?.mainTotal?.finding?.Wt + datas?.mainTotal?.diamonds?.Wt+datas?.mainTotal?.colorstone?.Wt+datas?.mainTotal?.misc?.Wt;
+        let totalWt = 0;
         datas?.resultArray?.forEach((e, i) => {
             let obj = cloneDeep(e);
-            // totalWt += (e?.NetWt - e?.totals?.finding?.Wt) + e?.totals?.diamonds?.Wt + e?.totals?.misc?.Wt + e?.totals?.colorstone?.Wt;
             let netWtLossWt = 0;
             let secondWt = 0;
             let secondaryWt = 0;
             let count = 0
-            //  else {
             e?.metal?.forEach((ele, ind) => {
                 if (ele?.IsPrimaryMetal === 1) {
                     netWtLossWt += ele?.Wt;
@@ -77,18 +73,15 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     secondWt += ele?.Wt
                     count++
                     secondaryWt += ele?.Wt;
+                    totalWt += ele?.Wt
                 }
             });
-            // }
-            // if (e?.count > 0) {
-            //     netWtLossWt = e?.NetWt + e?.LossWt;
-            // }
-            // totalWt += (e?.NetWt - e?.totals?.finding?.Wt + secondWt);
-            totalWt += (e?.NetWt - secondWt - e?.totals?.finding?.Wt) + secondaryWt;
+       
+            
             let diamonds = [];
             e?.diamonds?.forEach((ele, ind) => {
+                totalWt += ele?.Wt;
                 totalObj.pcs += ele?.Pcs;
-                // let findDiamond = diamonds?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName);
                 if (diamonds?.length === 0) {
                     diamonds?.push(ele);
                 } else {
@@ -107,6 +100,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 Amount: 0
             }
             e?.colorstone?.forEach((ele, ind) => {
+                totalWt += ele?.Wt;
                 totalObj.pcs += ele?.Pcs;
                 if (ele?.isRateOnPcs === 0) {
                     isRateOnWt.Wt += ele?.Wt;
@@ -124,12 +118,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     colorstone[findColorStones].Amount += ele?.Amount;
                 }
             });
-            // if (isRateOnPcs?.Pcs !== 0) {
-            //     // totalWt += isRateOnPcs?.Amount / isRateOnPcs?.Pcs;
-            // }
-            // if (isRateOnWt?.Wt !== 0) {
-            //     // totalWt += isRateOnWt?.Amount / isRateOnWt?.Wt;
-            // }
+         
 
             let misc = [];
             e?.misc?.forEach((ele, ind) => {
@@ -137,22 +126,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 if (ele?.Wt + ele?.ServWt !== 0) {
                     totalObj.pcs += ele?.Pcs;
                 }
-                // let findMiscs = misc?.findIndex((elem, index) => {
-                //     // elem?.ShapeName === ele?.ShapeName && elem?.ISHSCODE === ele?.ISHSCODE);
-                //     if(elem?.IsHSCOE === 0 && ele?.IsHSCOE === 0){
-                //         if(elem?.ShapeName === ele?.ShapeName){
-                //             return ind
-                //         }else{
-                //             return -1
-                //         }
-                //     }else{
-                //         if(elem?.IsHSCOE === 3 && ele?.IsHSCOE === 3){
-                //             return ind
-                //         }else{
-                //             return null
-                //         }
-                //     }
-                // });
+          
                 let findMiscs = misc?.findIndex((elem, index) => elem?.ShapeName === ele?.ShapeName && elem?.ISHSCODE === ele?.ISHSCODE);
                 if (findMiscs === -1) {
                     misc?.push(ele);
@@ -164,6 +138,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             });
             let finding = [];
             e?.finding?.forEach((ele, ind) => {
+                totalWt += ele?.Wt;
                 totalObj.pcs += ele?.Pcs;
                 if (finding?.length === 0) {
                     finding?.push(ele);
@@ -173,13 +148,13 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     finding[0].Amount += ele?.Amount;
                 }
             });
-
+            totalWt += e?.MetalWeight;
             obj.netWtLossWt = netWtLossWt;
             obj.diamonds = diamonds;
             obj.colorstone = colorstone;
             obj.misc = misc;
-            // obj.secondaryWt = (e?.NetWt - secondWt);
-            obj.secondaryWt = (e?.NetWt - secondWt - e?.totals?.finding?.Wt);
+            obj.secondaryWt = e?.MetalWeight;
+            // obj.secondaryWt = (e?.NetWt - secondWt - e?.totals?.finding?.Wt);
             obj.secondaryWts = secondaryWt;
             obj.finding = finding;
             resultArray?.push(obj);
@@ -218,19 +193,6 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setTotal(totalObj);
         setDataFill(datas);
     }
-
-    // const handleChange = (e) => {
-    //     rate ? setRate(false) : setRate(true);
-    //     let value = rate ? false : true;
-    //     setStyles({
-    //         ...styles,
-    //         Material: getStyles("materialRetailPrint1", "materialRetailPrint", value),
-    //         Qty: getStyles("qtyRetailPrint1", "qtyRetailPrint", value),
-    //         Pcs: getStyles("pcsRetailPrint1", "pcsRetailPrint", value),
-    //         Wt: getStyles("wtRetailPrint1", "wtRetailPrint", value),
-    //         Amount: getStyles("", "amountRetailPrint", value),
-    //     })
-    // }
 
     useEffect(() => {
         const sendData = async () => {
