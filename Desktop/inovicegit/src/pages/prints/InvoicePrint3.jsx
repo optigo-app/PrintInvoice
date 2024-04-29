@@ -5,6 +5,7 @@ import { taxGenrator } from "./../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import Button from "../../GlobalFunctions/Button";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
+import { NumToWord } from './../../GlobalFunctions/NumToWord';
 
 const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState();
@@ -351,16 +352,16 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setMainTotal(mainTotal);
 
 
-    let allTax = taxGenrator(json, aa);
-    setTaxTotal(allTax);
+    // let allTax = taxGenrator(json, aa);
+    // setTaxTotal(allTax);
 
-    allTax?.forEach((e) => {
-      aa += +e?.amount;
-    });
+    // allTax?.forEach((e) => {
+    //   aa += (+e?.amount);
+    // });
     let ab = (+aa?.toFixed(2));
     let words = numberToWord(ab) + " Only";
-    setInWords(words);
-    setGrandTotal(aa);
+    // setInWords(words);
+    // setGrandTotal(aa);
     setTotDiscount(totdis);
 
 
@@ -440,7 +441,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         sen4 = 'CZ STUDDED'
       }
       let result1 = [(sen === '' ? 'GOLD' : 'GOLD'), sen2, sen3, sen4]?.join(", ");
-      console.log(result1);
       setDescArr(result1);
 
       
@@ -464,6 +464,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             diamonds[findRecord].amount += el?.Amount;
           }
         })
+
+
         
         // e.diamonds = dia;
         // diamonds = dia;
@@ -526,7 +528,10 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         // e.metal = met;
 
       })
-      // let mainarr = [...metals, ...diamonds, ...colorstones];
+      
+
+      diamonds?.sort((a, b) => (((a?.amount / b?.wt) / result?.header?.CurrencyExchRate)) - ((b?.amount / b?.wt) / result?.header?.CurrencyExchRate))
+
       setDiamond_s(diamonds);
       setColorStone_s(colorstones);
       setMetal_s(metals);
@@ -577,37 +582,22 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
               <div className="containerinvp3 pad_60_allPrint" id="divToPrint">
                 <div className="headinvp3">
                   <div className="headerinvp3">
-                    <div className="head1invp3">
-                      <p className="fw-bold fsinvp3 w-50">BILL NO</p>
-                      <p className="fsinvp3 w-50 text-end">{headerData?.InvoiceNo}</p>
-                    </div>
-                    <div className="head1invp3">
-                      <p className="fw-bold fsinvp3">DATE</p>
-                      <p className="fsinvp3">{headerData?.EntryDate}</p>
-                    </div>
-                    <div className="head1invp3">
-                      <p className="fw-bold fsinvp3">HSN</p>
-                      <p className="fsinvp3">{headerData?.HSN_No}</p>
-                    </div>
+                    <div className="head1invp3"> <p className="fw-bold fsinvp3 w-50">BILL NO</p> <p className="fsinvp3 w-50 text-end">{headerData?.InvoiceNo}</p> </div>
+                    <div className="head1invp3"> <p className="fw-bold fsinvp3">DATE</p> <p className="fsinvp3">{headerData?.EntryDate}</p> </div>
+                    <div className="head1invp3"> <p className="fw-bold fsinvp3">HSN</p> <p className="fsinvp3">{headerData?.HSN_No}</p> </div>
                   </div>
                 </div>
                 <div className="header2invp3">
                   <div>
-                    <p className="fw-bold fs-6">
-                      {headerData?.customerfirmname}
-                    </p>
+                    <p className="fw-bold fs-6"> {headerData?.customerfirmname} </p>
                     <p className="fsinvp3">{headerData?.customerstreet}</p>
                     <p className="fsinvp3">{headerData?.customerregion}</p>
-                    <p className="fsinvp3">
-                      {headerData?.customercity} {headerData?.customerpincode}
-                    </p>
-                    <p className="fsinvp3">
-                      Mobile : {headerData?.customermobileno}
-                    </p>
+                    <p className="fsinvp3"> {headerData?.customercity} {headerData?.customerpincode} </p>
+                    <p className="fsinvp3"> Mobile : {headerData?.customermobileno} </p>
                   </div>
                   {console.log(result)}
                   <div className="w-25 fsinvp3">
-                      <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center" style={{width:'33%'}}>GSTIN : </div><div className="d-flex justify-content-start align-items-center" style={{width:'67%'}}>{result?.header?.CustGstNo}</div></div>
+                      <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center" style={{width:'33%'}}>{result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN' } : </div><div className="d-flex justify-content-start align-items-center" style={{width:'67%'}}>{(result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo)}</div></div>
                       <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center" style={{width:'33%'}}>{result?.header?.Cust_CST_STATE} : </div><div className="w-50" style={{width:'67%'}}>{result?.header?.Cust_CST_STATE_No}</div></div>
                       <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center" style={{width:'33%'}}>PAN NO : </div><div className="w-50" style={{width:'67%'}}>{result?.header?.CustPanno}</div></div>
                   </div>
@@ -640,13 +630,9 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       return(
                         <div key={i} className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
-                        <div style={{width:'30%'}} className="ps-2">
-                          {
-                           (e?.ShapeName + " " + e?.QualityName)
-                          }
-                        </div>
+                        <div style={{width:'30%'}} className="ps-2"> { (e?.ShapeName + " " + e?.QualityName) } </div>
                         <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
-                        <div style={{width:'10%'}}>{formatAmount((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)))}</div>
+                        <div style={{width:'10%'}}>{formatAmount((((e?.amount)/((e?.wt === 0 ? 1 : e?.wt))) / result?.header?.CurrencyExchRate))}</div>
                         <div style={{width:'10%'}}>{formatAmount((e?.amount / result?.header?.CurrencyExchRate))}</div>
                         </div>
                       )
@@ -661,7 +647,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         }</div>
                         <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
                         <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
-                        <div style={{width:'10%'}}>{formatAmount((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)))}</div>
+                        <div style={{width:'10%'}}>{Math.round(((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)) / result?.header?.CurrencyExchRate))}</div>
                         <div style={{width:'10%'}}>{formatAmount(e?.amount)}</div>
                         </div>
                       )
@@ -674,8 +660,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
                         <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
                         <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
-                        <div style={{width:'10%'}}>{formatAmount((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)))}</div>
-                        <div style={{width:'10%'}}>{formatAmount(e?.amount)}</div>
+                        <div style={{width:'10%'}}>{Math.round(( (e?.amount) / ((e?.wt === 0 ? 1 : e?.wt)) ) / result?.header?.CurrencyExchRate)}</div>
+                        <div style={{width:'10%'}}>{formatAmount(((e?.amount / result?.header?.CurrencyExchRate)))}</div>
                         </div>
                       )
                     })
@@ -685,7 +671,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div style={{width:'30%'}} className="ps-2">MISC</div>
                         <div style={{width:'10%'}}></div>
                         <div style={{width:'10%'}}></div>
-                        <div style={{width:'10%'}}>{formatAmount(result?.mainTotal?.misc?.Amount)}</div>
+                        <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.totalMiscAmount))}</div>
                         </div>
                         <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
@@ -727,47 +713,26 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     {result?.allTaxes?.length > 0 &&
                       result?.allTaxes?.map((e, i) => {
                         return (
-                          <div
-                            className="d-flex justify-content-between px-1"
-                            key={i}
-                          >
-                            <div className="fsinvp3">
-                              {e?.name} {e?.per}
-                            </div>
-                            <div className="fsinvp3">{formatAmount(e?.amountInNumber)}</div>
+                          <div className="d-flex justify-content-between px-1" key={i} >
+                            <div className="fsinvp3"> {e?.name} {e?.per} </div>
+                            <div className="fsinvp3">{formatAmount((e?.amountInNumber * result?.header?.CurrencyExchRate))}</div>
                           </div>
                         );
                       })}
 
                     {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between px-1">
-                      <p className="fsinvp3">
-                        {headerData?.AddLess > 0 ? "Add" : "Less"}
-                      </p>
-                      <p className="w-50 text-end fsinvp3">
-                        {formatAmount(headerData?.AddLess)}
-                      </p>
+                      <p className="fsinvp3"> {headerData?.AddLess > 0 ? "Add" : "Less"} </p>
+                      <p className="w-50 text-end fsinvp3"> {formatAmount(headerData?.AddLess)} </p>
                     </div>}
-                    <div
-                      className="d-flex justify-content-between px-1 mt-1"
-                      style={{ borderTop: "2.5px solid #e8e8e8" }}
-                    >
+                    <div className="d-flex justify-content-between px-1 mt-1" style={{ borderTop: "2.5px solid #e8e8e8" }} >
                       <p className="fw-bold fsinvp3">Grand Total</p>
-                      <p className="fw-bold w-50 text-end fsinvp3">
-                        {formatAmount(grandTotal)}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="wordsinvp3 fsinvp3 px-1 fw-bold">
-                    Rs. {inWords}
+                      <p className="fw-bold w-50 text-end fsinvp3"> {formatAmount((result?.mainTotal?.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))} </p> </div> </div>
+                      {/* <div className="wordsinvp3 fsinvp3 px-1 fw-bold"> Rs. {inWords} */}
+                      <div className="wordsinvp3 fsinvp3 px-1 fw-bold"> Rs. {NumToWord((result?.mainTotal?.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}
                   </div>
                   <div className="wordsinvp3 fsinvp3">
                     <p className="fw-bold px-2">NOTE:</p>
-                    <p
-                      className="fsinvp3"
-                      dangerouslySetInnerHTML={{
-                        __html: headerData?.PrintRemark,
-                      }}
-                    ></p>
+                    <p className="fsinvp3" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }} ></p>
                   </div>
                 </div>
               </div>

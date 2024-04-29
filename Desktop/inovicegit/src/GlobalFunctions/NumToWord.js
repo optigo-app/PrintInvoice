@@ -44,7 +44,6 @@ export const NumToWord = (TotalAmount) => {
     
     // Construct the complete amount string with the converted decimal part
     const amountInWords = `${toWords.convert(Math.floor(totalAmount))} Point ${decimalWords} Only /-`;
-
     // Render the amount in words
     return amountInWords;
 }
