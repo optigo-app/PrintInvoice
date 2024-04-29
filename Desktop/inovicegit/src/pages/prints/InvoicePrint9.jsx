@@ -348,7 +348,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   className="imgWidth"
                   onError={handleImageError}
                 />
-                {e?.HUID !== "" && <p className="fw-bold">HUID:{e?.HUID}</p>}
+                {e?.HUID !== "" && <p className="fw-bold pb-1">HUID:{e?.HUID}</p>}
               </div>
               <div className={`${style?.SNo} px-1 border-end`}>
                 <p className={`${style?.font_13} text-center`}>
@@ -441,7 +441,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   return (
                     <p className={`pt-1 text-end ${style?.font_13}`} key={ind}>
                       {" "}
-                      {NumberWithCommas(ele?.Wt, 3)}{" "}
+                      {NumberWithCommas(ele?.Wt, 3)}{" "}cts
                     </p>
                   );
                 })}
@@ -449,7 +449,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   return (
                     <p className={`pt-1 text-end ${style?.font_13}`} key={ind}>
                       {" "}
-                      {NumberWithCommas(ele?.Wt, 3)}{" "}
+                      {NumberWithCommas(ele?.Wt, 3)}{" "}cts
                     </p>
                   );
                 })}
@@ -494,13 +494,13 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   {NumberWithCommas(e?.MakingAmount + e?.MetalAmount, 2)}
                 </p>
                 {e?.CertificateNo !== "" && (
-                  <p className="invisible">&nbsp;12</p>
+                  <p className="invisible">&nbsp;00</p>
                 )}
                 {e?.diamonds?.map((ele, ind) => {
                   return (
                     <p className={`pt-1 text-end ${style?.font_13}`} key={ind}>
                       {" "}
-                      {NumberWithCommas(ele?.Amount, 2)}{" "}
+                      {NumberWithCommas(ele?.Amount, 2)}{" "} 
                     </p>
                   );
                 })}
@@ -679,7 +679,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         {/* amount in words */}
         <div className="py-1 px-2 no_break">
           <p className={` ${style?.font_14}`}>
-            <span className={`fw-bold ${style?.font_14}`}>Rupees :</span>{" "}
+            <span className={`fw-bold ${style?.font_14}`}>{headerData?.Currencyname} :</span>{" "}
             {toWords?.convert(
               +fixedValues(
                 +fixedValues(
@@ -717,22 +717,22 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             <div className={footer2.linesf3} style={{ fontWeight: "bold" }}>
               Bank Detail
             </div>
-            <div className={footer2.linesf3}>
+            <div className={footer2.linesf3} style={{wordBreak: "normal"}}>
               Bank Name: {headerData?.bankname}
             </div>
-            <div className={footer2.linesf3}>
+            <div className={footer2.linesf3} style={{wordBreak: "normal"}}>
               Branch: {headerData?.bankaddress}
             </div>
-            <div className={footer2.linesf3}>
+            <div className={footer2.linesf3} style={{wordBreak: "normal"}}>
               Account Name: {headerData?.accountname}
             </div>
-            <div className={footer2.linesf3}>
+            <div className={footer2.linesf3} style={{wordBreak: "normal"}}>
               Account No. : {headerData?.accountnumber}
             </div>
-            <div className={footer2.linesf3}>
+            <div className={footer2.linesf3} style={{wordBreak: "normal"}}>
               RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}
             </div>
-            <div className={footer2.linesf3}>
+            <div className={footer2.linesf3} style={{wordBreak: "normal"}}>
               Enquiry No.
             </div>
             <div className={footer2.linesf3}>(E & OE)</div>

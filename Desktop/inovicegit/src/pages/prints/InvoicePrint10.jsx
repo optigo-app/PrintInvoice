@@ -453,16 +453,9 @@ const InvoicePrint_10_11 = ({
       className={`container container-fluid max_width_container mt-1 ${style?.InvoicePrint_10_11} pad_60_allPrint`}
     >
       {/* buttons */}
-      <div
-        className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
-      >
+      <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`} >
         <div className={`form-check ps-3 ${style?.printBtn}`}>
-          <input
-            type="button"
-            className="btn_white blue py-2 mt-2"
-            value="Print"
-            onClick={(e) => handlePrint(e)}
-          />
+          <input type="button" className="btn_white blue py-2 mt-2" value="Print" onClick={(e) => handlePrint(e)} />
         </div>
       </div>
       {/* header */}
@@ -471,10 +464,7 @@ const InvoicePrint_10_11 = ({
       </div>
       <div className={`${style?.font_12} ${style2.companyDetails}`}>
         <div className={`${style2.companyhead} p-2`}>
-          <div
-            className={`${style2.lines} ${style?.font_16}`}
-            style={{ fontWeight: "bold" }}
-          >
+          <div className={`${style2.lines} ${style?.font_16}`} style={{ fontWeight: "bold" }} >
             {headerData?.CompanyFullName}
           </div>
           <div className={style2.lines}>{headerData?.CompanyAddress}</div>
