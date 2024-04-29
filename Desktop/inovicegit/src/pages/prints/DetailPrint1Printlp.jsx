@@ -27,16 +27,16 @@ const DetailPrint1Printlp = ({ token, invoiceNo, printName, urls, evn, ApiVer })
     atob(printName).toLowerCase() === "detail print r" ? true : false
   );
   const [detailtPrintL, setdetailtPrintL] = useState(
-    atob(printName).toLowerCase() === "print1 (l)" ? true : false
+    atob(printName).toLowerCase() === "print (l)" ? true : false
   );
 
   const [detailtPrintp, setdetailtPrintp] = useState(
-    atob(printName).toLowerCase() === "print1 (p)" ? true : false
+    atob(printName).toLowerCase() === "print (p)" ? true : false
   );
 
 
-  const [dp1lp, setdp1lp] = useState((atob(printName).toLowerCase() === "print1 (l)" || atob(printName).toLowerCase() === "print1 (p)") ? true : false);
-  const [dpp, setdpp] = useState(atob(printName).toLowerCase() === "print1 (p)" ? true : false);
+  const [dp1lp, setdp1lp] = useState((atob(printName).toLowerCase() === "print (l)" || atob(printName).toLowerCase() === "print (p)") ? true : false);
+  const [dpp, setdpp] = useState(atob(printName).toLowerCase() === "print (p)" ? true : false);
 
   const [brokarage, setBrokarage] = useState([]);
   const [msg, setMsg] = useState("");
