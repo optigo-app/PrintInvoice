@@ -396,6 +396,7 @@ export const otherAmountDetail = (otherAmtDetail) => {
       let arr = e?.split("#-#");
       obj.label = arr[0];
       obj.value = arr[1];
+      obj.amtval = (+arr[1]);
       resultArr.push(obj);
     });
     return resultArr;
