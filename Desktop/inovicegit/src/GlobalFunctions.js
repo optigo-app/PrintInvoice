@@ -21,6 +21,7 @@ export const handleImageError = (e) => {
   e.target.src = img;
 };
 export const handleGlobalImgError = (e, img) => {
+  console.log(e, img);
   e.target.src = img;
 };
 //sentence words first char capital function

@@ -348,7 +348,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   className="imgWidth"
                   onError={handleImageError}
                 />
-                {e?.HUID !== "" && <p className="fw-bold">HUID:{e?.HUID}</p>}
+                {e?.HUID !== "" && <p className="fw-bold pb-1">HUID:{e?.HUID}</p>}
               </div>
               <div className={`${style?.SNo} px-1 border-end`}>
                 <p className={`${style?.font_13} text-center`}>
