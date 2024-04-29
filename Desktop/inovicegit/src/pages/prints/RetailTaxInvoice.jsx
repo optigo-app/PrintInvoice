@@ -129,24 +129,77 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       oth?.forEach((e) => {
          totamt += e?.Amount;
       })
-      met?.sort((a, b) => {
-        // Extract the QualityName from the string (assuming it's in the format "GOLD 10K", "GOLD 14K", etc.)
-        const qualityA = a?.QualityName;
-        const qualityB = b?.QualityName;
-        // Convert the extracted QualityName to integers for comparison
-        const qualityNumA = parseInt(qualityA);
-        const qualityNumB = parseInt(qualityB);
-        // Return the comparison result
-        return qualityNumA - qualityNumB;
+    //   met?.sort((a, b) => {
+    //     // Extract the QualityName from the string (assuming it's in the format "GOLD 10K", "GOLD 14K", etc.)
+    //     const qualityA = a?.QualityName;
+    //     const qualityB = b?.QualityName;
+    //     // Convert the extracted QualityName to integers for comparison
+    //     const qualityNumA = parseInt(qualityA);
+    //     const qualityNumB = parseInt(qualityB);
+    //     // Return the comparison result
+    //     return qualityNumA - qualityNumB;
+    // });
+    met?.sort((a, b) => {
+      const qualityA = a?.QualityName?.toUpperCase();
+      const qualityB = b?.QualityName?.toUpperCase();
+  
+      // Extract the karat value from the QualityName
+      const karatA = parseInt(qualityA?.split(' ')[1]); // Extracts the numeric part from "GOLD 10K"
+      const karatB = parseInt(qualityB?.split(' ')[1]); // Extracts the numeric part from "GOLD 18K"
+  
+      // If both are numbers (i.e., metal types), compare them numerically
+      if (!isNaN(karatA) && !isNaN(karatB)) {
+          return karatA - karatB;
+      }
+  
+      // If one of them is not a number (i.e., metal type and "TITANIUM High"), sort the metal type first
+      if (!isNaN(karatA)) {
+          return -1; // Place metal type before "TITANIUM High"
+      } else if (!isNaN(karatB)) {
+          return 1; // Place "TITANIUM High" after metal types
+      }
+  
+      // If both are not numbers, sort them alphabetically
+      if (qualityA < qualityB) return -1;
+      if (qualityA > qualityB) return 1;
+      return 0;
     });
+  
     oth?.sort((a, b) => {
       return a.label.localeCompare(b.label);
-  });
-  oth?.forEach(item => {
+     });
+
+    oth?.forEach(item => {
     item.label = item?.label?.toUpperCase(); // Convert to uppercase
     item.label = item?.label?.replace(/\b\w/g, char => char?.toUpperCase()); // Capitalize first letter of each word
-});
-      dia?.sort((a, b) => a.Rate - b.Rate);
+    });
+
+      dia?.sort((a, b) => a?.Rate - b?.Rate);
+
+      let dia1 =[];
+      let dia2 = [];
+
+        dia1 = dia?.filter((e) => e?.Amount === 0 && e?.Rate === 0)
+        dia2 = dia?.filter((e) => e?.Amount !== 0 && e?.Rate !== 0)
+
+        let totwtdia = 0;
+        dia1?.forEach((a) => totwtdia += a?.Wt)
+
+        let obj_dia = {
+          MasterManagement_DiamondStoneTypeName : 'DIAMOND',
+          MaterialTypeName:'',
+          Wt : totwtdia,
+          Rate : 0,
+          Amount : 0
+        }
+
+        dia2?.splice(0, 0, obj_dia);
+
+        dia = dia2;
+
+    
+
+
       let clr2 = [];
       clr?.forEach((e) => {
         let obj = {...e};
