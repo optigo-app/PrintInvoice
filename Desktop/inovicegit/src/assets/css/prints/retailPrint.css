@@ -2,6 +2,10 @@
     max-width: 1120px !important;
 }
 
+.containerRetail1Prints{
+    margin-top: 50px;
+}
+
 .containerRetailPrint {
     font-size: 14px;
 }
@@ -197,6 +201,9 @@
     min-width: 12.1%;
 }
 
+.headlinepRetail1Print{
+    margin-top: 15px;
+}
 
 @media print {
     .print_sec_sum4 {
@@ -207,6 +214,14 @@
 .ft_12_retailPrint,
 .ft_12_retailPrint * {
     font-size: 10px;
+}
+
+.containerRetail1Prints{
+    margin-top: 0;
+}
+
+.headlinepRetail1Print{
+    margin-top: 5px;
 }
 
 }

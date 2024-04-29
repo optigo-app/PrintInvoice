@@ -11,18 +11,22 @@
     font-size: 12px !important;
 }
 
+.space{
+    padding-top: 20px;
+}
+
 .footerContainer *{
     font-size: 15px;
 }
 
 .Image {
-    width: 14%;
-    min-width: 14%;
+    width: 12.5%;
+    min-width: 12.5%;
 }
 
 .SNo {
-    width: 3%;
-    min-width: 3%;
+    width: 4.5%;
+    min-width: 4.5%;
 }
 
 .Description {
@@ -75,7 +79,7 @@
     min-width: 39%;    
 }
 
-.font_15{
+.font_15, .font_15 *{
     font-size: 15px;
 }
 
@@ -88,8 +92,10 @@
 }
 
 @media print{
-    .font_15, .invoiceprint9 *, .font_13, .font_14 {
+    .font_15, .font_15 *, .invoiceprint9 *, .font_13, .font_14 {
         font-size: 9px;
     }
- 
+    .space{
+        padding-top: 148px;
+    }
 }

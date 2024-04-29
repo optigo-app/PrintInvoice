@@ -220,7 +220,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     return (
         <>
-            {loader ? <Loader /> : msg === "" ? <div className='container containerRetailPrint mt-5 pad_60_allPrint'>
+            {loader ? <Loader /> : msg === "" ? <div className='container containerRetailPrint containerRetail1Prints pad_60_allPrint'>
                 {/* print button */}
                 <div className="d-flex w-100 justify-content-end align-items-baseline print_sec_sum4 no_break position-relative">
                     <div className="printBtn_sec text-end position-absolute printBtnRetailPrint">
@@ -229,7 +229,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 {/* headline retail print */}
                 <div className="px-1 no_break">
-                    <div className='headlinepRetailPrint w-100 mt-4 px-2 fw-bold'>
+                    <div className='headlinepRetailPrint headlinepRetail1Print w-100 px-2 fw-bold'>
                         {jsonData1?.PrintHeadLabel}
                     </div>
                 </div>
@@ -242,7 +242,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <p className='ft_12_retail1Print'>{jsonData1?.CompanyCity} {jsonData1?.CompanyPinCode} {jsonData1?.CompanyState} {jsonData1?.CompanyCountry}</p>
                         <p className='ft_12_retail1Print'>T {jsonData1?.CompanyTellNo} | TOLL FREE {jsonData1?.CompanyTollFreeNo}</p>
                         <p className='ft_12_retail1Print'>{jsonData1?.CompanyEmail} | {jsonData1?.CompanyWebsite}</p>
-                        <p className='ft_12_retail1Print'>{jsonData1?.Company_VAT_GST_No} | {jsonData1?.Cust_CST_STATE} - {jsonData1?.Company_CST_STATE_No} | PAN-{jsonData1?.Pannumber}</p>
+                        <p className='ft_12_retail1Print'>{jsonData1?.Company_VAT_GST_No} | {jsonData1?.Company_CST_STATE} - {jsonData1?.Company_CST_STATE_No} | PAN-{jsonData1?.Pannumber}</p>
                     </div>
                     <div className="col-6">
                         {/* <img src={jsonData1?.PrintLogo} alt="" className='retailPrintLogo d-block ms-auto' /> */}
@@ -257,7 +257,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <div className="d-flex border mt-2 no_break justify-content-between">
                     <div className="py-2 px-1">
                         <p className='line_height_110 ft_12_retail1Print'>{jsonData1?.lblBillTo} </p>
-                        <p className='fw-bold line_height_110'>{jsonData1?.customerfirmname}</p>
+                        <p className='fw-bold line_height_110'>{jsonData1?.CustName}</p>
                     </div>
                     <div className="p-1 position-relative pe-5">
                         <div className="d-flex">
@@ -423,7 +423,11 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                 <p className='text-end'>{ele?.IsHSCOE === 0 ? NumberWithCommas(ele?.Wt, 3) : NumberWithCommas(ele?.ServWt, 3)}</p>
                                             </div>
                                             {rate && <div className={`${pName === 'retail1 print' ? `rateRetailPrint1` : `rateRetailPrint border-end`} p-1 d-flex align-items-center justify-content-end`}>
-                                                <p className='text-end'>{ele?.Wt !== 0 ? NumberWithCommas((ele?.Amount / ele?.Wt), 2) : "0.00"}</p>
+                                                {/* <p className='text-end'>{ele?.Wt !== 0 ? NumberWithCommas((ele?.Amount / ele?.Wt), 2) : "0.00"}</p> */}
+                                                <p className='text-end'>{ele?.isRateOnPcs === 0  ? 
+                                                (ele?.Wt !== 0 ? NumberWithCommas((ele?.Amount / ele?.Wt) / jsonData1?.CurrencyExchRate, 2) : "0.00") :
+                                                (ele?.Pcs !== 0 ? NumberWithCommas((ele?.Amount / ele?.Pcs) / jsonData1?.CurrencyExchRate, 2) : "0.00")
+                                                }</p>
                                             </div>}
                                             {pName !== 'retail1 print' && <div className={`${styles.Amount} p-1 d-flex align-items-center justify-content-end`}>
                                                 <p className='text-end'>{NumberWithCommas((ele?.Amount / jsonData1?.CurrencyExchRate) / jsonData1?.CurrencyExchRate, 2)}</p>
@@ -488,7 +492,7 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
                         </div>
                         <div className="othersRetailPrint border-bottom border-end p-1 d-flex align-items-center justify-content-end">
-                            <p className='text-end'>{NumberWithCommas((e?.OtherCharges + e?.TotalDiamondHandling) / jsonData1?.CurrencyExchRate, 2)}</p>
+                            <p className='text-end'>{NumberWithCommas((e?.OtherCharges + e?.TotalDiamondHandling+e?.MiscAmount) / jsonData1?.CurrencyExchRate, 2)}</p>
                         </div>
                         <div className={`${styles?.total} border-bottom p-1 d-flex align-items-center justify-content-end`}>
                             <p className='text-end'>{NumberWithCommas(e?.TotalAmount / jsonData1?.CurrencyExchRate, 2)}</p>

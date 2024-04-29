@@ -972,7 +972,9 @@ const DetailPrint1LGroup = ({
                                   {ele?.Colorname}
                                 </p>
                                 <p className="col-2 text-center  paddingRightDetailPrint1">
-                                  {ele?.GroupName}
+                                  {ele?.GroupName === ""
+                                    ? ele?.SizeName
+                                    : ele?.GroupName}
                                 </p>
                                 <p className="col-1 text-end paddingRightDetailPrint1">
                                   {NumberWithCommas(ele?.Pcs, 0)}

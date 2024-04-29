@@ -4,17 +4,30 @@
     word-break: normal;
 }
 
-.Sr, .qty, .totalt{
+ .qty, .totalt{
     width: 5%;
     min-width: 5%;
 }
-.design, .Pcs{
+.Sr{
+    width: 3.5%;
+    min-width: 3.5%;
+}
+.design{
     width: 10%;
     min-width: 10%;
 }
+
+.Pcs{
+    width: 7%;
+    min-width: 7%;
+}
 .material{
-    width: 50%;
-    min-width: 50%;
+    width: 51.5%;
+    min-width: 51.5%;
+}
+
+.word_breakNormal{
+    word-break: break-all;
 }
 
 .min_height_title{
@@ -34,13 +47,31 @@
     width: 9%;
     min-width: 9%;
 }
-.Material, .Shape{
-    width: 12%;
-    min-width: 12%;
+.Material {
+    width: 15%;
+    min-width: 15%;
 }
-.Qlty, .Color, .Size, .WtCtw, .Rate, .Amount{
+
+.Shape{
+    width: 19%;
+    min-width: 19%;
+}
+.Qlty, .Color {
+    width: 8%;
+    min-width: 8%;
+}
+.Size{
     width: 11%;
     min-width: 11%;
+}
+ .Rate, .Amount{
+    width: 11%;
+    min-width: 11%;
+}
+
+.WtCtw{
+    width: 10%;
+    min-width: 10%;
 }
 .words{
     width: 70%;
@@ -75,5 +106,8 @@
     font-size: 14px;
 }
 
-
-
+@media print{
+    .detailprint8 *{
+        font-size: 9px !important;
+    }
+}
