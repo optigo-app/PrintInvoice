@@ -5,6 +5,7 @@
     margin: 0 auto;
     padding: 10px;
     padding-bottom: 5rem;
+    color: black;
 }
 .fs_ji3{
     font-size: 12px;
@@ -116,4 +117,16 @@
 }
 .col4acc_ji3{
     width: 26%;
+}
+
+@media print {
+    .pbia_ji3{
+        page-break-inside: avoid;
+    }
+    .fs_ji3{
+        font-size: 9px;
+    }
+    .d_none_ji3{
+        display: none !important;
+    }
 }
