@@ -388,7 +388,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           setMsg(data?.Message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     sendData();
