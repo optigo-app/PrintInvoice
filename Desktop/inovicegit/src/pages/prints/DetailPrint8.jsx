@@ -86,8 +86,18 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       obj.materials = [...e?.metal, ...e?.diamonds, ...e?.colorstone, ...miscs];
       arr.push(obj);
     });
-    console.log(miscses);
     setMiscss({ ...miscss, Wt: miscses?.Wt, Pcs: miscses?.Pcs });
+    arr?.sort((a, b) => {
+      // Extract numbers from label1 strings
+      const numA = parseInt(a.label1.match(/\d+/g)?.[0]) || 0;
+      const numB = parseInt(b.label1.match(/\d+/g)?.[0]) || 0;
+  
+      // Compare numbers first
+      if (numA !== numB) return numA - numB;
+  
+      // If numbers are equal, compare the remaining strings
+      return a.label1.localeCompare(b.label1);
+  });
     datas.resultArray = [...arr];
     datas.mainTotal.primaryWt = primaryWt;
     datas.mainTotal.totalMaterialAmount = totalMaterialAmount;
@@ -182,9 +192,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       className={`container container-fluid max_width_container mt-1 ${style?.detailprint8} pad_60_allPrint`}
     >
       {/* buttons */}
-      <div
-        className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
-      >
+      <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`} >
         <input
           type="checkbox"
           checked={imgFlag}
@@ -452,12 +460,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <p className="pad_1"> {e?.designno} </p>
               <p className="text-end pad_1">{e?.SrJobno}</p>
               {imgFlag && (
-                <img
-                  src={e?.DesignImage}
-                  alt=""
-                  className="imgWidth"
-                  onError={handleImageError}
-                />
+                <img src={e?.DesignImage} alt="" className="imgWidth" onError={handleImageError} />
               )}
              { e?.PO !== "" && <p className="text-center">PO:{e?.PO}</p>}
              { e?.HUID !== "" && <p className="text-center">HUID-{e?.HUID}</p>}
@@ -471,37 +474,23 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="d-grid h-100 w-100">
                 {e?.materials.map((ele, ind) => {
                   return (
-                    <div
-                      className={`d-flex ${
-                        ind !== e?.materials.length - 1 && "border-bottom"
-                      }`}
-                      key={ind}
-                    >
-                      <div
-                        className={`${style?.Material} d-flex align-items-center pad_1 py-1 border-end`}
-                      >
+                    <div className={`d-flex ${ ind !== e?.materials.length - 1 && "border-bottom" }`} key={ind} >
+                      <div className={`${style?.Material} d-flex align-items-center pad_1 py-1 border-end`} >
                         {(ele?.MasterManagement_DiamondStoneTypeid !== 4 ||
                           ele?.IsPrimaryMetal === 1) &&
                           setTitle(ele)}
                       </div>
                       <div className={`${style?.Shape} d-flex align-items-center pad_1 py-1 border-end`} >
-                        {ele?.MasterManagement_DiamondStoneTypeid !== 4 &&
-                          ele?.ShapeName}
-                        {ele?.MasterManagement_DiamondStoneTypeid === 4 &&
-                          ele?.IsPrimaryMetal === 0 &&
-                          ele?.ShapeName}
+                        {ele?.MasterManagement_DiamondStoneTypeid !== 4 && ele?.ShapeName}
+                        {ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.IsPrimaryMetal === 0 && ele?.ShapeName}
                       </div>
-                      <div
-                        className={`${style?.Qlty} d-flex align-items-center pad_1 py-1 border-end`}
-                      >
+                      <div className={`${style?.Qlty} d-flex align-items-center pad_1 py-1 border-end`} >
                         {/* {checkid(ele, "QualityName", "")} */}
                         {ele?.MasterManagement_DiamondStoneTypeid !== 1 &&
                           ele?.QualityName !== "-" &&
                           ele?.QualityName}
                       </div>
-                      <div
-                        className={`${style?.Color} d-flex align-items-center pad_1 py-1 border-end`}
-                      >
+                      <div className={`${style?.Color} d-flex align-items-center pad_1 py-1 border-end`} >
                         {ele?.MasterManagement_DiamondStoneTypeid !== 1 &&
                           ele?.MasterManagement_DiamondStoneTypeid !== 4 &&
                           ele?.Colorname !== "-" &&
@@ -511,30 +500,22 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           ele?.Colorname !== "-" &&
                           ele?.Colorname}
                       </div>
-                      <div
-                        className={`${style?.Size} d-flex align-items-center pad_1 py-1 border-end ${style?.word_breakNormal}`} 
-                      >
+                      <div className={`${style?.Size} d-flex align-items-center pad_1 py-1 border-end ${style?.word_breakNormal}`} >
                         {/* {checkid(ele, "", "SizeName")} */}
                         {(ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.IsPrimaryMetal === 0) && ele?.SizeName}
                           {(ele?.MasterManagement_DiamondStoneTypeid !== 4) && ele?.SizeName}
                       </div>
-                      <div
-                        className={`${style?.Pcs} d-flex align-items-center justify-content-end pad_1 py-1 border-end text-end`}
-                      >
+                      <div className={`${style?.Pcs} d-flex align-items-center justify-content-end pad_1 py-1 border-end text-end`} >
                         {/* {checkid(ele, "", "Pcs")} */}
                         {ele?.MasterManagement_DiamondStoneTypeid === 4 &&
                           ele?.IsPrimaryMetal === 0 &&
                           NumberWithCommas(ele?.Pcs, 0)}
                              {(ele?.MasterManagement_DiamondStoneTypeid !== 4) && NumberWithCommas(ele?.Pcs, 0)}
                       </div>
-                      <div
-                        className={`${style?.WtCtw} d-flex align-items-center justify-content-end pad_1 py-1 border-end text-end`}
-                      >
+                      <div className={`${style?.WtCtw} d-flex align-items-center justify-content-end pad_1 py-1 border-end text-end`} >
                         {NumberWithCommas(ele?.Wt + ele?.ServWt, 3)}
                       </div>
-                      <div
-                        className={`${style?.Rate} d-flex align-items-center justify-content-end pad_1 py-1 border-end text-end`}
-                      >
+                      <div className={`${style?.Rate} d-flex align-items-center justify-content-end pad_1 py-1 border-end text-end`} >
                         {ele?.MasterManagement_DiamondStoneTypeid !== 4 &&
                           ele?.Rate !== 0 &&
                           NumberWithCommas(ele?.Rate, 2)}
@@ -546,9 +527,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             2
                           )}
                       </div>
-                      <div
-                        className={`${style?.Amount} d-flex align-items-center justify-content-end pad_1 py-1 text-end`}
-                      >
+                      <div className={`${style?.Amount} d-flex align-items-center justify-content-end pad_1 py-1 text-end`} >
                         {ele?.MasterManagement_DiamondStoneTypeid !== 4 &&
                           ele?.Amount !== 0 &&
                           NumberWithCommas(

@@ -380,6 +380,10 @@ html .footer_secInvoicePrint8 .target_footer * {
   font-size: 13px;
 }
 
+.detailPrint5Container .target_header > div:first-child > div:first-child{
+  font-size: 16px;
+}
+
 @media print {
 
   .containerretailInvoice2 .retailInvoice_2_3_footer_Font_12 .target_footer * {

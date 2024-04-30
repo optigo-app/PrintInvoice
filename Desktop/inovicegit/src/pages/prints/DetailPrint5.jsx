@@ -87,6 +87,13 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       discountAmts += e?.DiscountAmt;
       otherAmount += e?.OtherCharges + e?.TotalDiamondHandling;
       otherAmt += e?.OtherCharges + e?.TotalDiamondHandling;
+      let findingTotal = {
+        Pcs: 0,
+        Wt: 0,
+        Amount: 0,
+      }
+      let netWtLoss = 0;
+      let count = 0;
       data?.BillPrint_Json2.forEach((ele, ind) => {
         if (ele?.StockBarcode === e?.SrJobno) {
           obj.MakingAmount += ele.SettingAmount;
@@ -105,9 +112,18 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             metals.push(ele);
             metalTotal.Wt += ele?.Wt;
             metalTotal.Amount += ele?.Amount;
+            if(ele?.IsPrimaryMetal === 1){
+              netWtLoss += ele?.Wt;
+            }else{
+              count ++;
+            }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
             otherAmount += ele?.Amount;
             otherAmt += ele?.Amount;
+          } else if(ele?.MasterManagement_DiamondStoneTypeid === 5) {
+            findingTotal.Pcs += ele?.Pcs;
+            findingTotal.Wt += ele?.Wt;
+            findingTotal.Amount += ele?.Amount;
           }
         }
       });
@@ -127,21 +143,29 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       totals.TotalAmount += obj?.TotalAmount;
       totals.grosswt += obj?.grosswt;
 
-      metalTotal.NL += e?.NetWt + e?.LossWt;
+      // metalTotal.NL += e?.NetWt + e?.LossWt;
+    
       metalTotal.Wt -= metals[0].Wt;
       metals[0].Wt = obj?.NetWt + diaTotal?.Wt / 5;
       metalTotal.Wt += metals[0].Wt;
       totals.metalTotal.Wt += metalTotal.Wt;
-      totals.metalTotal.NL += metalTotal.NL;
+      // totals.metalTotal.NL += metalTotal.NL;
       totals.metalTotal.Amount += metalTotal.Amount;
 
+      if(count === 0){
+        netWtLoss = e?.NetWt + e?.LossWt;
+      }
+      totals.metalTotal.NL += netWtLoss;
+      metalTotal.NL += netWtLoss;
       obj.diamonds = diamonds;
+      obj.netWtLoss = netWtLoss;
       obj.colorStones = colorStones;
       obj.metals = metals;
       obj.diaTotal = diaTotal;
       obj.metalTotal = metalTotal;
       obj.csTotal = csTotal;
       obj.otherAmt = otherAmt;
+      obj.findingTotal = findingTotal;
       resultArr.push(obj);
     });
     setDiscountAmt(discountAmts);
@@ -260,9 +284,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   return loader ? (
     <Loader />
   ) : msg === "" ? (
-    <div
-      className={`container container-fluid max_width_container mt-1 ${style?.detailPrint5} pad_60_allPrint`}
-    >
+    <div className={`container container-fluid max_width_container mt-1 ${style?.detailPrint5} pad_60_allPrint detailPrint5Container`} >
       {/* buttons */}
       <div
         className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`}
@@ -349,14 +371,10 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       {/* table Header */}
       <div className={`${style?.detailPrint5Table}`}>
         <div className="d-flex border lightGrey">
-          <div
-            className={`${style?.srNo} border-end d-flex justify-content-center align-items-center fw-bold`}
-          >
+          <div className={`${style?.srNo} border-end d-flex justify-content-center align-items-center fw-bold`} >
             Sr
           </div>
-          <div
-            className={`${style?.design} border-end d-flex justify-content-center align-items-center fw-bold`}
-          >
+          <div className={`${style?.design} border-end d-flex justify-content-center align-items-center fw-bold`} >
             Design
           </div>
           <div className={`${style?.diamond} border-end fw-bold`}>
@@ -492,7 +510,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className={`col-2`}>
                           {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}
                         </div>
-                        <div className={`col-2 ${style?.wordBreak}`}>{ele?.SizeName}</div>
+                        <div className={`col-2 ${style?.wordBreak} text-center`}>{ele?.SizeName}</div>
                         <div className={`col-2 text-end ${style?.wordBreak}`}>
                           {NumberWithCommas(ele?.Pcs, 0)}
                         </div>
@@ -522,7 +540,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className={`${style?.w_20} text-end  ${style?.wordBreak}`}>
                           {ind === 0 &&
-                            NumberWithCommas(e?.NetWt + e?.LossWt, 3)}
+                            NumberWithCommas(e?.netWtLoss, 3)}
+                            {ele?.IsPrimaryMetal === 0 && NumberWithCommas(ele?.Wt, 3)}
                         </div>
                         <div className={`${style?.w_20} text-end  ${style?.wordBreak}`}>
                           {NumberWithCommas(ele?.Rate, 2)}
@@ -548,22 +567,22 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   {e?.colorStones.map((ele, ind) => {
                     return (
                       <div className="d-flex w-100" key={ind}>
-                        <div className={`col-2 text-center`}>
+                        <div className={`col-2`}>
                           {ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}
                         </div>
                         <div className={`col-2 text-center ${style?.wordBreak}`}>
                           {ele?.SizeName}
                         </div>
-                        <div className={`col-2 text-center ${style?.wordBreak}`}>
+                        <div className={`col-2 ${style?.wordBreak} text-end`}>
                           {NumberWithCommas(ele?.Pcs, 0)}
                         </div>
-                        <div className={`col-2 text-center ${style?.wordBreak}`}>
+                        <div className={`col-2 ${style?.wordBreak} text-end`}>
                           {NumberWithCommas(ele?.Wt, 3)}
                         </div>
                         <div className={`col-2 text-center ${style?.wordBreak}`}>
                           {NumberWithCommas(ele?.Rate, 2)}
                         </div>
-                        <div className={`col-2 text-center fw-bold ${style?.wordBreak}`}>
+                        <div className={`col-2 fw-bold ${style?.wordBreak} text-end`}>
                           {NumberWithCommas(ele?.Amount, 2)}
                         </div>
                       </div>
@@ -643,8 +662,8 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           NumberWithCommas(e?.metalTotal?.Wt, 3)}
                       </div>
                       <div className={`${style?.w_20} text-end fw-bold`}>
-                        {e?.metalTotal?.NL !== 0 &&
-                          NumberWithCommas(e?.metalTotal?.NL, 3)}
+                        {e?.netWtLoss !== 0 &&
+                          NumberWithCommas(e?.netWtLoss, 3)}
                       </div>
                       <div className={`${style?.w_20} text-end`}></div>
                       <div className={`${style?.w_20} text-end fw-bold`}>
@@ -758,12 +777,6 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {headerData?.AddLess > 0 ? "Add" : "Less"}
               </p>
             )}
-            {/* {headerData?.BankReceived !== 0 && <p className="text-end">
-              Recv. in Cash
-            </p>}
-            {headerData?.CashReceived !== 0 && <p className="text-end">
-              Recv. in Bank
-            </p>} */}
           </div>
           <div className={`${style?.totalAmount} `}>
             {discountAmt !== 0 && <p className="text-end">
@@ -781,12 +794,6 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {NumberWithCommas(headerData?.AddLess, 2)}
               </p>
             )}
-            {/* {headerData?.BankReceived !== 0 && <p className="text-end">
-              {NumberWithCommas(headerData?.BankReceived, 2)}
-            </p>}
-            {headerData?.CashReceived !== 0 && <p className="text-end">
-              {NumberWithCommas(headerData?.CashReceived, 2)}
-            </p>} */}
           </div>
         </div>
         {/* table total */}
