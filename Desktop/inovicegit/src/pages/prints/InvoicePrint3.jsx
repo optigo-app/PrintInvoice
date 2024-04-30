@@ -6,6 +6,7 @@ import Loader from "../../components/Loader";
 import Button from "../../GlobalFunctions/Button";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { NumToWord } from './../../GlobalFunctions/NumToWord';
+import { cloneDeep } from "lodash";
 
 const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [headerData, setHeaderData] = useState();
@@ -399,7 +400,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     const groupNamesArray = Object?.keys(groupedData);
     const sentence = groupNamesArray?.join(", ");
-    console.log(sentence);
     // setDescArr(sentence);
   };
   async function loadData(data) {
@@ -451,7 +451,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       datas?.resultArray?.forEach((e) => {
         // let dia = [];
         e?.diamonds?.forEach((el) => {
-          let findRecord = diamonds?.findIndex((a) => a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.SizeName === el?.SizeName)
+          let findRecord = diamonds?.findIndex((a) => a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname  && a?.ShapeName === el?.ShapeName && a?.Rate === el?.Rate)
           if(findRecord === -1){
             let obj = {...el};
             obj.wt = obj?.Wt;
@@ -507,37 +507,112 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         // e.misc = miscs;
 
         // let met = [];
-        e?.metal?.forEach((el) => {
-          if(el?.IsPrimaryMetal === 1){
+        // e?.metal?.forEach((el) => {
+        //   if(el?.IsPrimaryMetal === 1){
 
-            let findRecord = metals?.findIndex((a) => a?.QualityName === el?.QualityName && a?.Rate === el?.Rate)
-            if(findRecord === -1){
-            let obj = {...el};
-            obj.wt = obj?.Wt;
-            obj.rate = obj?.Rate;
-            obj.amount = obj?.Amount;
-            metals.push(obj);
-          }else{
-            metals[findRecord].wt += el?.Wt;
-            metals[findRecord].rate += el?.Rate;
-            metals[findRecord].amount += el?.Amount;
-          }
-        }
-        })
+        //     // let findRecord = metals?.findIndex((a) => a?.QualityName === el?.QualityName && a?.ShapeName === el?.ShapeName  && a?.Rate === el?.Rate)
+
+        //     let findRecord = metals?.findIndex((a) => a?.QualityName === el?.QualityName && a?.ShapeName === el?.ShapeName && a?.Rate === el?.Rate)
+            
+        //     let obj = {...el};
+        //     if(findRecord === -1){
+        //       obj.wt = obj?.Wt;
+        //       obj.rate = obj?.Rate;
+        //       obj.amt = obj?.Amount;
+        //       metals.push(obj);
+        //     }else{
+        //       metals[findRecord].wt += obj?.Wt;
+        //       metals[findRecord].rate += obj?.Rate;
+        //       metals[findRecord].amt += obj?.Amount;
+        //     }
+        //   }
+
+        // })
         
         // e.metal = met;
 
       })
       
 
-      diamonds?.sort((a, b) => (((a?.amount / b?.wt) / result?.header?.CurrencyExchRate)) - ((b?.amount / b?.wt) / result?.header?.CurrencyExchRate))
+      // setMetal_s(met3);
 
+      diamonds?.sort((a, b) => (((a?.amount / a?.wt) / result?.header?.CurrencyExchRate)) - ((b?.amount / b?.wt) / result?.header?.CurrencyExchRate))
+      
+      metals?.sort((a, b) => {
+        const qualityA = a?.QualityName?.toUpperCase();
+        const qualityB = b?.QualityName?.toUpperCase();
+    
+        // Extract the karat value from the QualityName
+        const karatA = parseInt(qualityA?.split(' ')[1]); // Extracts the numeric part from "GOLD 10K"
+        const karatB = parseInt(qualityB?.split(' ')[1]); // Extracts the numeric part from "GOLD 18K"
+        // If both are numbers (i.e., metal types), compare them numerically
+        if (!isNaN(karatA) && !isNaN(karatB)) {
+            return karatA - karatB;
+        }
+    
+        // If one of them is not a number (i.e., metal type and "TITANIUM High"), sort the metal type first
+        if (!isNaN(karatA)) {
+            return -1; // Place metal type before "TITANIUM High"
+        } else if (!isNaN(karatB)) {
+            return 1; // Place "TITANIUM High" after metal types
+        }
+    
+        // If both are not numbers, sort them alphabetically
+        if (qualityA < qualityB) return -1;
+        if (qualityA > qualityB) return 1;
+        return 0;
+      });
+    
       setDiamond_s(diamonds);
       setColorStone_s(colorstones);
-      setMetal_s(metals);
+      // setMetal_s(metals);
       // setGroupedArr(mainarr);
       setResult(datas);
       setLoader(false);
+      let resultArr = [];
+      datas?.resultArray?.forEach((e) => {
+        let obj = cloneDeep(e);
+        obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
+        
+        let primaryWt = 0;
+        let count = 0;
+        // console.log(findingsWt);
+        let secondaryMetalAmount = 0;
+        let secondaryWt = 0;
+        e?.metal?.forEach((ele, ind) => {
+          count += 1;
+          if (ele?.IsPrimaryMetal === 1) {
+            primaryWt += ele?.Wt;
+          } else {
+            secondaryMetalAmount += ele?.Amount;
+            secondaryWt += ele?.Wt;
+          }
+        });
+        let netWtFinal = e?.NetWt + e?.LossWt - secondaryWt
+        obj.primaryWt = primaryWt;
+        obj.netWtFinal = netWtFinal;
+        obj.metalAmountFinal = e?.MetalAmount;
+        if (count <= 1) {
+          primaryWt = e?.NetWt + e?.LossWt;
+      }
+        if (obj?.primaryMetal) {
+          // total2.total += (obj?.metalAmountFinal / data?.BillPrint_Json[0]?.CurrencyExchRate);
+          let findRecord = resultArr?.findIndex((ele, ind) => ele?.primaryMetal?.ShapeName === obj?.primaryMetal?.ShapeName && ele?.primaryMetal?.QualityName === obj?.primaryMetal?.QualityName && ele?.primaryMetal?.Rate === obj?.primaryMetal?.Rate);
+          if (findRecord === -1) {
+              resultArr?.push(obj);
+          } else {
+              resultArr[findRecord].primaryWt += obj?.primaryWt;
+              resultArr[findRecord].primaryMetal.Pcs += obj?.primaryMetal.Pcs;
+              resultArr[findRecord].primaryMetal.Wt += obj?.primaryMetal.Wt;
+              resultArr[findRecord].primaryMetal.Amount += obj?.primaryMetal.Amount;
+              resultArr[findRecord].netWtFinal += obj?.netWtFinal;
+              resultArr[findRecord].metalAmountFinal += obj?.metalAmountFinal;
+          }
+      }
+      })
+      setMetal_s(resultArr)
+
+
     } catch (error) {
       console.log(error);
     }
@@ -602,20 +677,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center" style={{width:'33%'}}>PAN NO : </div><div className="w-50" style={{width:'67%'}}>{result?.header?.CustPanno}</div></div>
                   </div>
                 </div>
-                <div
-                  // className="d-flex"
-                  // style={{
-                  //   borderBottom: "2px solid #d8d7d7",
-                  //   borderLeft: "2px solid #d8d7d7",
-                  // }}
-                >
-                  {/* <div className="w-50 d-flex flex-column justify-content-between position-relative d-flex">
-                    <div className="w-100 h-100 position-relative">
-                      <div className="discHeadinvp3">DESCRIPTION</div>
-                      <div className="w-100 descriptioninovicePrint3 px-2">{descArr} JEWELLERY.</div>
-                    </div>
-                    <div className="empdivinvp3"></div>
-                  </div> */}
+                <div>
+                  {/* <div className="w-50 d-flex flex-column justify-content-between position-relative d-flex"> <div className="w-100 h-100 position-relative"> <div className="discHeadinvp3">DESCRIPTION</div> <div className="w-100 descriptioninovicePrint3 px-2">{descArr} JEWELLERY.</div> </div> <div className="empdivinvp3"></div> </div> */}
                  <div className="d-flex w-100 fw-bold mt-1" style={{border:'2px solid #d8d7d7'}}>
                   <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center">DESCRIPTION</div>
                   <div style={{width:'30%'}} className="ps-2">DETAIL</div>
@@ -630,10 +693,10 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       return(
                         <div key={i} className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
-                        <div style={{width:'30%'}} className="ps-2"> { (e?.ShapeName + " " + e?.QualityName) } </div>
-                        <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
-                        <div style={{width:'10%'}}>{formatAmount((((e?.amount)/((e?.wt === 0 ? 1 : e?.wt))) / result?.header?.CurrencyExchRate))}</div>
-                        <div style={{width:'10%'}}>{formatAmount((e?.amount / result?.header?.CurrencyExchRate))}</div>
+                        <div style={{width:'30%'}} className="ps-2">{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName} </div>
+                        <div style={{width:'10%'}}>{e?.netWtFinal?.toFixed(3)}</div>
+                        <div style={{width:'10%'}}>{formatAmount((((e?.metalAmountFinal)/((e?.netWtFinal === 0 ? 1 : e?.netWtFinal))) / result?.header?.CurrencyExchRate))}</div>
+                        <div style={{width:'10%'}}>{formatAmount(((e?.metalAmountFinal) / (result?.header?.CurrencyExchRate)))}</div>
                         </div>
                       )
                     })
