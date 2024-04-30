@@ -62,23 +62,6 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         finalArr[findData].totals.diamonds.SettingAmount += e?.totals.diamonds.SettingAmount;
         finalArr[findData].totals.colorstone.SettingAmount += e?.totals.colorstone.SettingAmount;
 
-        // let otherAmtDetails = [
-        //   ...finalArr[findData]?.other_amount_details,
-        //   ...e?.other_amount_details,
-        // ]?.flat();
-        // let otherAmtDetail = [];
-        // otherAmtDetails?.forEach((elem, index) => {
-        //   let findOther = otherAmtDetail?.findIndex(
-        //     (ele) => ele?.label === elem?.label
-        //   );
-        //   if (findOther === -1) {
-        //     otherAmtDetail.push(elem);
-        //   } else {
-        //     otherAmtDetail[findOther].value =
-        //       +otherAmtDetail[findOther]?.value + +elem?.value;
-        //   }
-        // });
-        // finalArr[findData].otherAmtDetails = otherAmtDetail;
         let otherAmtDetails = [...e?.other_details, ...finalArr[findData]?.other_details,]?.flat();
         let otherAmtDetail2 = [];
         otherAmtDetails?.forEach((elem, index) => {

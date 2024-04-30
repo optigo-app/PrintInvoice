@@ -87,16 +87,17 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       arr.push(obj);
     });
     setMiscss({ ...miscss, Wt: miscses?.Wt, Pcs: miscses?.Pcs });
+    console.log(arr);
     arr?.sort((a, b) => {
       // Extract numbers from label1 strings
-      const numA = parseInt(a.label1.match(/\d+/g)?.[0]) || 0;
-      const numB = parseInt(b.label1.match(/\d+/g)?.[0]) || 0;
+      const numA = parseInt(a.designno.match(/\d+/g)?.[0]) || 0;
+      const numB = parseInt(b.designno.match(/\d+/g)?.[0]) || 0;
   
       // Compare numbers first
       if (numA !== numB) return numA - numB;
   
       // If numbers are equal, compare the remaining strings
-      return a.label1.localeCompare(b.label1);
+      return a.designno.localeCompare(b.designno);
   });
     datas.resultArray = [...arr];
     datas.mainTotal.primaryWt = primaryWt;
@@ -465,9 +466,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
              { e?.PO !== "" && <p className="text-center">PO:{e?.PO}</p>}
              { e?.HUID !== "" && <p className="text-center">HUID-{e?.HUID}</p>}
               <p className="text-center">
-                <span className="fw-bold">
-                  {NumberWithCommas(e?.grosswt, 3)} gm Gross
-                </span>
+                <span className="fw-bold"> {NumberWithCommas(e?.grosswt, 3)} gm </span> Gross
               </p>
             </div>
             <div className={`${style?.material} border-end d-flex`}>
@@ -814,11 +813,11 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         className={footer2.block2f3}
         style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
       >
-        <div className={footer2.linesf3}>Signature</div>
+        <div className={`${footer2.linesf3} fw-normal`}>Signature</div>
         <div className={footer2.linesf3}>{data?.customerfirmname}</div>
       </div>
       <div className={footer2.block2f3} style={{ width: "33.33%" }}>
-        <div className={footer2.linesf3}>Signature</div>
+        <div className={`${footer2.linesf3} fw-normal`}>Signature</div>
         <div className={footer2.linesf3}>{data?.CompanyFullName}</div>
       </div>
     </div>

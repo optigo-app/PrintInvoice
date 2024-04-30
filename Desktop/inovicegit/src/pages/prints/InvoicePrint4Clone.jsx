@@ -196,7 +196,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div className="border d-flex mt-2">
                     <div className="col-6 p-2">
                         <p className="">{headerData?.lblBillTo}</p>
-                        <p className="pb-1 fw-semibold" style={{    fontSize: "19px"}}>{headerData?.CustName}</p>
+                        <p className="pb-1" style={{    fontSize: "19px"}}>{headerData?.CustName}</p>
                         <p className="">{headerData?.customerAddress1}</p>
                         {/* <p className="">{headerData?.customerAddress2}</p> */}
                         <p className="">{headerData?.customercity} {headerData?.customerpincode}</p>
