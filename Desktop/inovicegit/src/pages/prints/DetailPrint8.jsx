@@ -566,16 +566,10 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             <div className={`${style?.labour} border-end d-flex`}>
               <div className="col-6 d-flex justify-content-end align-items-center border-end pad_1">
-                {NumberWithCommas(e?.MaKingCharge_Unit, 2)}
+                {NumberWithCommas(e?.MaKingCharge_Unit / headerData?.CurrencyExchRate, 2)}
               </div>
               <div className="col-6 d-flex justify-content-end align-items-center pad_1">
-                {NumberWithCommas(
-                  (e?.MakingAmount +
-                    e?.totals?.diamonds?.SettingAmount +
-                    e?.totals?.colorstone?.SettingAmount) /
-                    headerData?.CurrencyExchRate,
-                  2
-                )}
+                {NumberWithCommas( (e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) / headerData?.CurrencyExchRate, 2 )}
               </div>
             </div>
             <div
