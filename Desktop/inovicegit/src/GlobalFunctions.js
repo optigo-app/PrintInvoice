@@ -611,21 +611,33 @@ export const shapeColorQuality = (jsonData) => {
     }
   }
 }
-// export function formatAmount(amount) {
-//   let amt = parseFloat(+amount);
-//   // Convert the amount to a number and round it to 2 decimal places
-//   const roundedAmount = Number(amt).toFixed(2);
 
-//   // Check if the number has no decimal part
-//   const hasNoDecimal = Number.isInteger(Number(amt));
-//   console.log(roundedAmount, hasNoDecimal);
-
-//   // Use toLocaleString to add commas for thousands separator and ensure 2 decimal places
-//   const formattedAmount = parseFloat(roundedAmount).toLocaleString("en-IN", {
-//     minimumFractionDigits: hasNoDecimal ? 2 : 0,
-//     maximumFractionDigits: 2,
-//   });
-
-//   return formattedAmount;
-// }
-
+export const discountCriteria = (data) => {
+  let discountOn = [];
+  if(data?.IsCriteriabasedAmount === 1){
+      if(data?.IsMetalAmount === 1){
+          discountOn.push('Metal')
+      }
+      if(data?.IsDiamondAmount === 1){
+          discountOn.push('Diamond')
+      }
+      if(data?.IsStoneAmount === 1){
+          discountOn.push('Stone')
+      }
+      if(data?.IsMiscAmount === 1){
+          discountOn.push('Misc')
+      }
+      if(data?.IsLabourAmount === 1){
+          discountOn.push('Labour')
+      }
+      if(data?.IsSolitaireAmount === 1){
+          discountOn.push('Solitaire')
+      }
+  }else{
+      if(data?.Discount !== 0){
+          discountOn.push('Total Amount')
+      }
+  }
+  let str_discountOn = discountOn?.join(',');
+  return str_discountOn;
+}

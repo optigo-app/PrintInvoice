@@ -84,6 +84,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         Wt: 0,
         Amount: 0,
       };
+      let findingSetting = 0;
       discountAmts += e?.DiscountAmt;
       otherAmount += e?.OtherCharges + e?.TotalDiamondHandling;
       otherAmt += e?.OtherCharges + e?.TotalDiamondHandling;
@@ -124,6 +125,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             findingTotal.Pcs += ele?.Pcs;
             findingTotal.Wt += ele?.Wt;
             findingTotal.Amount += ele?.Amount;
+            findingSetting += ele?.SettingAmount;
           }
         }
       });
@@ -139,7 +141,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       totals.OtherCharges += otherAmt;
       totals.MaKingCharge_Unit += obj?.MaKingCharge_Unit;
 
-      totals.MakingAmount += obj?.MakingAmount;
+      totals.MakingAmount += obj?.MakingAmount - findingSetting;
       totals.TotalAmount += obj?.TotalAmount;
       totals.grosswt += obj?.grosswt;
 
@@ -161,6 +163,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       obj.netWtLoss = netWtLoss;
       obj.colorStones = colorStones;
       obj.metals = metals;
+      obj.findingSetting = findingSetting;
       obj.diaTotal = diaTotal;
       obj.metalTotal = metalTotal;
       obj.csTotal = csTotal;
@@ -609,7 +612,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         <div className={`col-6 text-end`}>
                           {e?.MakingAmount !== 0 &&
-                            NumberWithCommas(e?.MakingAmount, 2)}
+                            NumberWithCommas(e?.MakingAmount - e?.findingSetting, 2)}
                         </div>
                       </div>
                     </div>
@@ -708,7 +711,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className={`col-6 text-end fw-bold`}>
                         {e?.MakingAmount !== 0 &&
-                          NumberWithCommas(e?.MakingAmount, 2)}
+                          NumberWithCommas(e?.MakingAmount - e?.findingSetting, 2)}
                       </div>
                     </div>
                 </div>

@@ -26,6 +26,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [footer, setFooter] = useState(null);
   const [header, setHeader] = useState(null);
   const [taxes, setTaxes] = useState([]);
+  const [headers, setHeaders] = useState(null);
   const [miscss, setMiscss] = useState({
     Wt: 0,
     Pcs: 0,
@@ -33,6 +34,8 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const toWords = new ToWords();
   const [custAddress, setCustAddress] = useState([]);
   const loadData = (data) => {
+    let heads = HeaderComponent("3", data?.BillPrint_Json[0]);
+    setHeaders(heads);
     setHeaderData(data?.BillPrint_Json[0]);
     let totalMaterialAmount = 0;
     let footers = FooterComponent("2", data?.BillPrint_Json[0]);
@@ -87,17 +90,18 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       arr.push(obj);
     });
     setMiscss({ ...miscss, Wt: miscses?.Wt, Pcs: miscses?.Pcs });
+    console.log(arr);
     arr?.sort((a, b) => {
       // Extract numbers from label1 strings
-      const numA = parseInt(a.label1.match(/\d+/g)?.[0]) || 0;
-      const numB = parseInt(b.label1.match(/\d+/g)?.[0]) || 0;
-  
+      const numA = parseInt(a.designno.match(/\d+/g)?.[0]) || 0;
+      const numB = parseInt(b.designno.match(/\d+/g)?.[0]) || 0;
+
       // Compare numbers first
       if (numA !== numB) return numA - numB;
-  
+
       // If numbers are equal, compare the remaining strings
-      return a.label1.localeCompare(b.label1);
-  });
+      return a.designno.localeCompare(b.designno);
+    });
     datas.resultArray = [...arr];
     datas.mainTotal.primaryWt = primaryWt;
     datas.mainTotal.totalMaterialAmount = totalMaterialAmount;
@@ -221,6 +225,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           {headerData?.PrintHeadLabel}
         </h4>
       </div>
+      {headers}
       {/* header */}
       <div className="text-center pt-3">
         {isImageWorking && headerData?.PrintLogo !== "" && (
@@ -462,19 +467,17 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {imgFlag && (
                 <img src={e?.DesignImage} alt="" className="imgWidth" onError={handleImageError} />
               )}
-             { e?.PO !== "" && <p className="text-center">PO:{e?.PO}</p>}
-             { e?.HUID !== "" && <p className="text-center">HUID-{e?.HUID}</p>}
+              {e?.PO !== "" && <p className="text-center">PO:{e?.PO}</p>}
+              {e?.HUID !== "" && <p className="text-center">HUID-{e?.HUID}</p>}
               <p className="text-center">
-                <span className="fw-bold">
-                  {NumberWithCommas(e?.grosswt, 3)} gm Gross
-                </span>
+                <span className="fw-bold"> {NumberWithCommas(e?.grosswt, 3)} gm </span> Gross
               </p>
             </div>
             <div className={`${style?.material} border-end d-flex`}>
               <div className="d-grid h-100 w-100">
                 {e?.materials.map((ele, ind) => {
                   return (
-                    <div className={`d-flex ${ ind !== e?.materials.length - 1 && "border-bottom" }`} key={ind} >
+                    <div className={`d-flex ${ind !== e?.materials.length - 1 && "border-bottom"}`} key={ind} >
                       <div className={`${style?.Material} d-flex align-items-center pad_1 py-1 border-end`} >
                         {(ele?.MasterManagement_DiamondStoneTypeid !== 4 ||
                           ele?.IsPrimaryMetal === 1) &&
@@ -503,14 +506,14 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className={`${style?.Size} d-flex align-items-center pad_1 py-1 border-end ${style?.word_breakNormal}`} >
                         {/* {checkid(ele, "", "SizeName")} */}
                         {(ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.IsPrimaryMetal === 0) && ele?.SizeName}
-                          {(ele?.MasterManagement_DiamondStoneTypeid !== 4) && ele?.SizeName}
+                        {(ele?.MasterManagement_DiamondStoneTypeid !== 4) && ele?.SizeName}
                       </div>
                       <div className={`${style?.Pcs} d-flex align-items-center justify-content-end pad_1 py-1 border-end text-end`} >
                         {/* {checkid(ele, "", "Pcs")} */}
                         {ele?.MasterManagement_DiamondStoneTypeid === 4 &&
                           ele?.IsPrimaryMetal === 0 &&
                           NumberWithCommas(ele?.Pcs, 0)}
-                             {(ele?.MasterManagement_DiamondStoneTypeid !== 4) && NumberWithCommas(ele?.Pcs, 0)}
+                        {(ele?.MasterManagement_DiamondStoneTypeid !== 4) && NumberWithCommas(ele?.Pcs, 0)}
                       </div>
                       <div className={`${style?.WtCtw} d-flex align-items-center justify-content-end pad_1 py-1 border-end text-end`} >
                         {NumberWithCommas(ele?.Wt + ele?.ServWt, 3)}
@@ -560,23 +563,17 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <p className="pad_1 text-end">
                 {NumberWithCommas(
                   (e?.OtherCharges + e?.TotalDiamondHandling) /
-                    headerData?.CurrencyExchRate,
+                  headerData?.CurrencyExchRate,
                   2
                 )}
               </p>
             </div>
             <div className={`${style?.labour} border-end d-flex`}>
               <div className="col-6 d-flex justify-content-end align-items-center border-end pad_1">
-                {NumberWithCommas(e?.MaKingCharge_Unit, 2)}
+                {NumberWithCommas(e?.MaKingCharge_Unit / headerData?.CurrencyExchRate, 2)}
               </div>
               <div className="col-6 d-flex justify-content-end align-items-center pad_1">
-                {NumberWithCommas(
-                  (e?.MakingAmount +
-                    e?.totals?.diamonds?.SettingAmount +
-                    e?.totals?.colorstone?.SettingAmount) /
-                    headerData?.CurrencyExchRate,
-                  2
-                )}
+                {NumberWithCommas((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) / headerData?.CurrencyExchRate, 2)}
               </div>
             </div>
             <div
@@ -696,7 +693,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <p className="text-end pad_1 fw-bold">
             {NumberWithCommas(
               data?.mainTotal?.totalMaterialAmount /
-                headerData?.CurrencyExchRate,
+              headerData?.CurrencyExchRate,
               2
             )}{" "}
           </p>
@@ -715,7 +712,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {NumberWithCommas(
               (data?.mainTotal?.total_diamondHandling +
                 data?.mainTotal?.total_other) /
-                headerData?.CurrencyExchRate,
+              headerData?.CurrencyExchRate,
               2
             )}{" "}
           </p>
@@ -728,7 +725,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               (data?.mainTotal?.total_Making_Amount +
                 data?.mainTotal?.total_TotalCsSetcost +
                 data?.mainTotal?.total_TotalDiaSetcost) /
-                headerData?.CurrencyExchRate,
+              headerData?.CurrencyExchRate,
               2
             )}{" "}
           </p>
@@ -742,14 +739,14 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             ></span>{" "}
             {NumberWithCommas(
               +((data?.mainTotal?.total_amount / headerData?.CurrencyExchRate)?.toFixed(2)) +
-                data?.allTaxes?.reduce(
-                  (acc, cObj) => acc + +(+cObj?.amount)?.toFixed(2),
-                  0
-                ) +
-                data?.header?.FreightCharges +
-                +(
-                  data?.header?.AddLess / headerData?.CurrencyExchRate
-                )?.toFixed(2),
+              data?.allTaxes?.reduce(
+                (acc, cObj) => acc + +(+cObj?.amount)?.toFixed(2),
+                0
+              ) +
+              data?.header?.FreightCharges +
+              +(
+                data?.header?.AddLess / headerData?.CurrencyExchRate
+              )?.toFixed(2),
               2
             )}
           </p>
@@ -796,32 +793,32 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       </div>
 
       {/* footer */}
-          <div className={`${footer2.container} no_break target_footer`}>
-      <div
-        className={footer2.block1f3}
-        style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
-      >
-        <div className={footer2.linesf3} style={{fontWeight:"bold"}}>Bank Detail</div>
-        <div className={footer2.linesf3}>Bank Name: {headerData?.bankname}</div>
-        <div className={footer2.linesf3}>Branch: {headerData?.bankaddress}</div>
-        <div className={footer2.linesf3}>Account Name: {headerData?.accountname}</div>
-        <div className={footer2.linesf3}>Account No. : {headerData?.accountnumber}</div>
-        <div className={footer2.linesf3}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
-        <div className={footer2.linesf3}>Enquiry No.</div>
-        <div className={footer2.linesf3}>(E & OE) </div>
+      <div className={`${footer2.container} no_break target_footer`}>
+        <div
+          className={footer2.block1f3}
+          style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+        >
+          <div className={footer2.linesf3} style={{ fontWeight: "bold" }}>Bank Detail</div>
+          <div className={footer2.linesf3}>Bank Name: {headerData?.bankname}</div>
+          <div className={footer2.linesf3}>Branch: {headerData?.bankaddress}</div>
+          <div className={footer2.linesf3}>Account Name: {headerData?.accountname}</div>
+          <div className={footer2.linesf3}>Account No. : {headerData?.accountnumber}</div>
+          <div className={footer2.linesf3}>RTGS/NEFT IFSC: {headerData?.rtgs_neft_ifsc}</div>
+          <div className={footer2.linesf3}>Enquiry No.</div>
+          <div className={footer2.linesf3}>(E & OE) </div>
+        </div>
+        <div
+          className={footer2.block2f3}
+          style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
+        >
+          <div className={`${footer2.linesf3} fw-normal`}>Signature</div>
+          <div className={footer2.linesf3}>{data?.customerfirmname}</div>
+        </div>
+        <div className={footer2.block2f3} style={{ width: "33.33%" }}>
+          <div className={`${footer2.linesf3} fw-normal`}>Signature</div>
+          <div className={footer2.linesf3}>{data?.CompanyFullName}</div>
+        </div>
       </div>
-      <div
-        className={footer2.block2f3}
-        style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }}
-      >
-        <div className={footer2.linesf3}>Signature</div>
-        <div className={footer2.linesf3}>{data?.customerfirmname}</div>
-      </div>
-      <div className={footer2.block2f3} style={{ width: "33.33%" }}>
-        <div className={footer2.linesf3}>Signature</div>
-        <div className={footer2.linesf3}>{data?.CompanyFullName}</div>
-      </div>
-    </div>
     </div>
   ) : (
     <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

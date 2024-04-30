@@ -1,29 +1,12 @@
 import React, { useEffect } from "react";
 import "../../assets/css/prints/detailPrint1.css";
 import { useState } from "react";
-import {
-  NumberWithCommas,
-  apiCall,
-  brokarageDetail,
-  fixedValues,
-  handleImageError,
-  handlePrint,
-  isObjectEmpty,
-  otherAmountDetail,
-  taxGenrator,
-} from "../../GlobalFunctions";
+import { NumberWithCommas, apiCall, brokarageDetail, discountCriteria, fixedValues, formatAmount, handleImageError, handlePrint, isObjectEmpty, otherAmountDetail, taxGenrator, } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 
-const DetailPrint1LGroup = ({
-  token,
-  invoiceNo,
-  printName,
-  urls,
-  evn,
-  ApiVer,
-}) => {
+const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, }) => {
   const [image, setImage] = useState(false);
   const [loader, setLoader] = useState(true);
   const [json0Data, setJson0Data] = useState({});
@@ -140,15 +123,31 @@ const DetailPrint1LGroup = ({
     let totalMetalWt = 0;
     // console.log(datas);
     let miscChargesTotals = 0;
+    let metalWts = 0;
     datas?.resultArray?.map((e, i) => {
       let primaryMetalWt = 0;
+      let netWtlossWt = 0;
+      let counts = 0;
+      let str_discountOn = discountCriteria(e);
       let otherMisc = e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling;
       let findMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
       if (findMetal !== undefined) {
         primaryMetalWt = findMetal?.Wt;
         totalMetalWt += findMetal?.Wt;
       }
+      e?.metal?.forEach((ele, ind) => {
+        if(ele?.IsPrimaryMetal === 1){
+          netWtlossWt += ele?.Wt;
+        }else{
+          counts++; 
+        }
+      });
+      if(counts ===  0){
+        netWtlossWt = e?.NetWt + e?.LossWt;
+      }
+      metalWts += netWtlossWt;
       let obj = cloneDeep(e);
+      obj.netWtlossWt = netWtlossWt;
       let miscChargesTotal = e?.OtherCharges + e?.TotalDiamondHandling;
       let miscChargesss = 0;
       let miscCharges = data?.BillPrint_Json2?.filter((ele, ind) => {
@@ -171,11 +170,13 @@ const DetailPrint1LGroup = ({
       obj.miscCharges = miscCharges;
       obj.miscChargesTotal = miscChargesTotal;
       obj.miscChargesss = miscChargesss;
+      obj.str_discountOn = str_discountOn;
       finalArr.push(obj);
     });
     datas.mainTotal.miscChargesTotals = miscChargesTotals;
     settotalMetalWts(totalMetalWt);
     datas.resultArray = finalArr;
+    datas.mainTotal.metalWts = metalWts;
     // console.log(datas);
     console.log(datas);
     setFinalD(datas);
@@ -284,14 +285,7 @@ const DetailPrint1LGroup = ({
   useEffect(() => {
     const sendData = async () => {
       try {
-        const data = await apiCall(
-          token,
-          invoiceNo,
-          printName,
-          urls,
-          evn,
-          ApiVer
-        );
+        const data = await apiCall( token, invoiceNo, printName, urls, evn, ApiVer );
         if (data?.Status === "200") {
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
@@ -379,6 +373,8 @@ const DetailPrint1LGroup = ({
       obj.OtherAmountDetail = OtherAmountDetail;
       obj.totalOther = totalOther;
       obj.SettingAmount = 0;
+      obj.netWtlossWt = 0;
+      let counts = 0;
       let diamondArr = [];
       let metalArr = [];
       let colorStoneArr = [];
@@ -431,6 +427,9 @@ const DetailPrint1LGroup = ({
             }
             if (el?.IsPrimaryMetal === 1) {
               primaryMetalWt += el?.Wt;
+              obj.netWtlossWt += el?.Wt;
+            }else{
+              counts += 1;
             }
             // totals.metalWt += el?.Wt;
             totals.metalAmount += el?.Amount;
@@ -452,7 +451,9 @@ const DetailPrint1LGroup = ({
           summary.makingAmount += el?.SettingAmount;
         }
       });
-
+      if(counts === 0){
+        obj.netWtlossWt = e?.NetWt + e?.LossWt;
+      }
       metalWt = metalWt / 5 + e?.NetWt;
       totals.metalWt += metalWt;
       // totals.metalWt += e?.DiamondCTWwithLoss / 5;
@@ -878,10 +879,7 @@ const DetailPrint1LGroup = ({
             {/* data */}
             {finalD?.resultArray?.map((e, i) => {
               return (
-                <div
-                  key={i}
-                  className="recordDetailPrint1 detailPrint1L_font_11"
-                >
+                <div key={i} className="recordDetailPrint1 detailPrint1L_font_11" >
                   <div className="d-flex w-100">
                     <div className="srNoDetailprint11 border-end border-start border-bottom pt-1">
                       <p className="p-1 text-center paddingLeftDetailPrint1 paddingRightDetailPrint1">
@@ -942,10 +940,8 @@ const DetailPrint1LGroup = ({
                         ) : (
                           <>
                             <p className="text-center">
-                              Gross Wt:{" "}
-                              <span className="fw-bold">
-                                {fixedValues(e?.grosswt, 3)}
-                              </span>
+                              {" "}
+                              <span className="fw-bold"> {fixedValues(e?.grosswt, 3)} gm </span> Gross
                             </p>
                           </>
                         )}
@@ -954,24 +950,17 @@ const DetailPrint1LGroup = ({
                         )}
                       </div>
                     </div>
-                    <div
-                      className={`${
-                        dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l"
-                      } border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}
-                    >
+                    <div className={`${ dpp ? "diamondDetailPrint1p" : "diamondDetailPrint1l" } border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`} >
                       <div className="h-100 paddingBottomTotalDetailPrint1">
                         {e?.diamonds.length > 0 &&
                           e?.diamonds.map((ele, ind) => {
                             return (
-                              <div
-                                className={`d-flex justify-content-between `}
-                                key={ind}
-                              >
+                              <div className={`d-flex justify-content-between `} key={ind} >
                                 <p className="col-3 paddingRightDetailPrint1">
                                   {ele?.ShapeName} {ele?.QualityName}{" "}
                                   {ele?.Colorname}
                                 </p>
-                                <p className="col-2 text-center  paddingRightDetailPrint1">
+                                <p className="col-2 paddingRightDetailPrint1">
                                   {ele?.GroupName === ""
                                     ? ele?.SizeName
                                     : ele?.GroupName}
@@ -986,9 +975,7 @@ const DetailPrint1LGroup = ({
                                   {NumberWithCommas(ele?.Rate, 2)}
                                 </p>
                                 <p
-                                  className={`col-2 text-end ${
-                                    dp1lp && "fw-bold"
-                                  } ${detailPrintK && "fw-bold "}`}
+                                  className={`col-2 text-end fw-bold `}
                                 >
                                   {NumberWithCommas(ele?.Amount, 2)}
                                 </p>
@@ -1014,13 +1001,7 @@ const DetailPrint1LGroup = ({
                         </div>
                       </div>
                     </div>
-                    <div
-                      className={`${
-                        dpp
-                          ? "metalGoldDetailPrint1p"
-                          : "metalGoldDetailPrint1l"
-                      } border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}
-                    >
+                    <div className={`${ dpp ? "metalGoldDetailPrint1p" : "metalGoldDetailPrint1l" } border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`} >
                       <div className="h-100 paddingBottomTotalDetailPrint1">
                         {e?.metal.length > 0 &&
                           e?.metal.map((ele, ind) => {
@@ -1030,25 +1011,16 @@ const DetailPrint1LGroup = ({
                                   {ele?.ShapeName + " " + ele?.QualityName}
                                 </p>
                                 <p className="col-2  text-end paddingRightDetailPrint1">
-                                  {ind === 0
-                                    ? NumberWithCommas(
-                                        e?.NetWt + e?.totals?.diamonds?.Wt / 5,
-                                        3
-                                      )
-                                    : NumberWithCommas(ele?.Wt, 3)}
+                                  {ind === 0 ? NumberWithCommas( e?.NetWt + e?.totals?.diamonds?.Wt / 5, 3 ) : NumberWithCommas(ele?.Wt, 3)}
                                 </p>
                                 <p className="col-2  text-end paddingRightDetailPrint1">
-                                  {dp1lp
-                                    ? NumberWithCommas(ele?.Wt, 3)
-                                    : fixedValues(e?.NetWt + e?.LossWt, 3)}
+                                  {ind > 0 ? NumberWithCommas(ele?.Wt, 3) : fixedValues(e?.NetWt, 3)}
                                 </p>
                                 <p className="col-2  text-end paddingRightDetailPrint1">
                                   {NumberWithCommas(ele?.Rate, 2)}
                                 </p>
                                 <p
-                                  className={`col-3 text-end ${
-                                    ind > 0 && "fw-bold"
-                                  }`}
+                                  className={`col-3 text-end ${ ind > 0 && "fw-bold" }`}
                                 >
                                   {NumberWithCommas(ele?.Amount, 2)}
                                 </p>
@@ -1072,10 +1044,11 @@ const DetailPrint1LGroup = ({
                             {/* fixedValues(e?.totals?.metal?.Wt + (e?.totals?.diamonds?.Wt / 5), 3)} */}
                           </p>
                           <p className="col-2 text-end fw-bold d-flex justify-content-end align-items-center paddingRightDetailPrint1">
-                            {e?.NetWt !== 0 &&
+                            {/* {e?.NetWt !== 0 &&
                               (dp1lp
                                 ? fixedValues(e?.primaryMetalWt, 3)
-                                : fixedValues(e?.NetWt + e?.LossWt, 3))}
+                                : fixedValues(e?.NetWt + e?.LossWt, 3))} */}
+                                {NumberWithCommas(e?.netWtlossWt, 3)}
                           </p>
                           <p className="col-2 text-end paddingRightDetailPrint1"></p>
                           <p className="col-3 text-end fw-bold d-flex justify-content-end align-items-center  paddingRightDetailPrint1 ">
@@ -1085,11 +1058,7 @@ const DetailPrint1LGroup = ({
                         </div>
                       </div>
                     </div>
-                    <div
-                      className={`${
-                        dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l"
-                      } border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}
-                    >
+                    <div className={`${ dpp ? "stoneDetailsPrint1p" : "stoneDetailsPrint1l" } border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`} >
                       <div className="h-100 paddingBottomTotalDetailPrint1">
                         {e?.colorstone.length > 0 &&
                           e?.colorstone.map((ele, ind) => {
@@ -1112,11 +1081,7 @@ const DetailPrint1LGroup = ({
                                   {NumberWithCommas(ele?.Rate, 2)}
                                 </p>
                                 <p
-                                  className={`col-2 text-end ${
-                                    dp1lp && "fw-bold"
-                                  } ${
-                                    detailPrintK &&
-                                    "fw-bold paddingRightDetailPrint1"
+                                  className={`col-2 text-end fw-bold ${ detailPrintK && "paddingRightDetailPrint1"
                                   }`}
                                 >
                                   {NumberWithCommas(ele?.Amount, 2)}
@@ -1146,21 +1111,10 @@ const DetailPrint1LGroup = ({
                         </div>
                       </div>
                     </div>
-                    <div
-                      className={`${
-                        dpp
-                          ? "otherAmountDetailPrint1p"
-                          : "otherAmountDetailPrint1l"
-                      } border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`}
-                    >
+                    <div className={`${ dpp ? "otherAmountDetailPrint1p" : "otherAmountDetailPrint1l" } border-end  position-relative pt-1 paddingLeftDetailPrint1 paddingRightDetailPrint1`} >
                       <div className="paddingBottomTotalDetailPrint1">
                         <div>
-                          {detailtPrintR ? (
-                            <p className="text-end">
-                              {e?.OtherCharges !== 0 &&
-                                NumberWithCommas(e?.otherMisc, 2)}
-                            </p>
-                          ) : (
+                    
                             <>
                               {dp1lp ? (
                                 dpp ? (
@@ -1236,7 +1190,7 @@ const DetailPrint1LGroup = ({
                                     )}
                                   </>
                                 ) : (
-                                  <>
+                                  <>{console.log("askjdhajkshd")}
                                     {e?.OtherCharges +
                                       e?.MiscAmount +
                                       e?.TotalDiamondHandling !==
@@ -1260,35 +1214,26 @@ const DetailPrint1LGroup = ({
                                 )
                               ) : (
                                 <>
-                                  {e?.OtherCharges !== 0 && (
+                                  {e?.OtherCharges + e?.MiscAmount+e?.TotalDiamondHandling !== 0 && (
                                     <div
                                       className="d-flex justify-content-between"
                                       style={{ fontSize: "10.5px" }}
                                     >
                                       <p className="paddingRightDetailPrint1"></p>
                                       <p className="">
-                                        {NumberWithCommas(
-                                          e?.OtherCharges + e?.MiscAmount,
-                                          2
-                                        )}
+                                        {NumberWithCommas( e?.OtherCharges + e?.MiscAmount+e?.TotalDiamondHandling, 2 )}
                                       </p>
                                     </div>
                                   )}
                                 </>
                               )}
                             </>
-                          )}
                         </div>
                       </div>
                       <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end paddingRightDetailPrint1 start-0">
                         <p className="text-end fw-bold  ">
-                          {dp1lp || detailtPrintR
-                            ? // (e?.totalOther !== 0 && NumberWithCommas(e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling + e?.miscChargesTotal, 2)) :
-                              e?.totalOther !== 0 &&
-                              NumberWithCommas(e?.miscChargesTotal, 2)
-                            : e?.totalOther !== 0 &&
-                              NumberWithCommas(
-                                e?.OtherCharges + e?.MiscAmount,
+                          {dp1lp ? e?.totalOther !== 0 && NumberWithCommas(e?.miscChargesTotal, 2) : e?.totalOther !== 0 && NumberWithCommas(
+                                e?.OtherCharges + e?.MiscAmount+e?.TotalDiamondHandling,
                                 2
                               )}
                         </p>
@@ -1299,22 +1244,12 @@ const DetailPrint1LGroup = ({
                         <div className="d-flex ">
                           <div className="col-5 ">
                             <p className="text-center">
-                              {e?.MaKingCharge_Unit !== 0 &&
-                                NumberWithCommas(e?.MaKingCharge_Unit, 2)}
+                              {e?.MaKingCharge_Unit !== 0 && NumberWithCommas(e?.MaKingCharge_Unit, 2)}
                             </p>
                           </div>
                           <div className="col-7">
                             <p className="text-end text-end">
-                              {e?.MakingAmount +
-                                e?.TotalCsSetcost +
-                                e?.TotalDiaSetcost !==
-                                0 &&
-                                NumberWithCommas(
-                                  e?.MakingAmount +
-                                    e?.TotalCsSetcost +
-                                    e?.TotalDiaSetcost,
-                                  2
-                                )}
+                              {e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost !== 0 && NumberWithCommas( e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost, 2 )}
                             </p>
                           </div>
                         </div>
@@ -1328,16 +1263,7 @@ const DetailPrint1LGroup = ({
                         </div>
                         <div className="col-7">
                           <p className="text-end fw-bold  ">
-                            {e?.MakingAmount +
-                              e?.TotalCsSetcost +
-                              e?.TotalDiaSetcost !==
-                              0 &&
-                              NumberWithCommas(
-                                e?.MakingAmount +
-                                  e?.TotalCsSetcost +
-                                  e?.TotalDiaSetcost,
-                                2
-                              )}
+                            {e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost !== 0 && NumberWithCommas( e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost, 2 )}
                           </p>
                         </div>
                       </div>
@@ -1387,11 +1313,10 @@ const DetailPrint1LGroup = ({
                         <div className="d-grid">
                           {e?.Discount !== 0 && (
                             <p className="p-1 text-end fw-bold paddingLeftDetailPrint1 paddingRightDetailPrint1">
-                              Discount{" "}
-                              {e?.Discount !== 0 &&
-                                NumberWithCommas(e?.Discount, 2)}
-                              {!detailPrintK && "%"} @Total Amount
-                            </p>
+                              {/* Discount{" "}
+                              { NumberWithCommas(e?.Discount, 2)} {!detailPrintK && "%"} @Total Amount  */}
+                              Discount {formatAmount(e?.Discount)}% @ {e?.str_discountOn} Amount
+                              </p>
                           )}
                         </div>
                       </div>
@@ -1510,30 +1435,19 @@ const DetailPrint1LGroup = ({
                   </div>
                 </div>
               </div>
-              <div
-                className={`${
-                  dpp ? "metalTotalDetailPrint1p" : "metalTotalDetailPrint1l"
-                } border-end  position-relative border-bottom d-flex flex-column justify-content-center`}
-              >
+              <div className={`${ dpp ? "metalTotalDetailPrint1p" : "metalTotalDetailPrint1l" } border-end  position-relative border-bottom d-flex flex-column justify-content-center`} >
                 <div className="d-flex">
                   <div className="col-3 paddingRightDetailPrint1">
                     <p className=""></p>
                   </div>
                   <div className="col-2 text-end paddingRightDetailPrint1">
                     <p className="fw-bold">
-                      {NumberWithCommas(
-                        finalD?.mainTotal?.netwt +
-                          finalD?.mainTotal?.diamonds?.Wt / 5,
-                        3
-                      )}
+                      {NumberWithCommas( finalD?.mainTotal?.netwt + finalD?.mainTotal?.diamonds?.Wt / 5, 3 )}
                     </p>
                   </div>
                   <div className="col-2 text-end paddingRightDetailPrint1">
                     <p className="fw-bold">
-                      {dp1lp
-                        ? NumberWithCommas(totalMetalWts, 3)
-                        : NumberWithCommas(finalD?.mainTotal?.metal?.Wt, 3)}
-                      {/* {NumberWithCommas(finalD?.mainTotal?.netwt, 3)} */}
+                      {dp1lp ? NumberWithCommas(totalMetalWts, 3) : NumberWithCommas(finalD?.mainTotal?.metalWts, 3)} {/* {NumberWithCommas(finalD?.mainTotal?.netwt, 3)} */}
                     </p>
                   </div>
                   <div className="col-2 text-end paddingRightDetailPrint1">
@@ -1624,13 +1538,14 @@ const DetailPrint1LGroup = ({
                     <div className="d-flex justify-content-between">
                       <p className="fw-bold px-1 pt-1">GOLD IN 24KT</p>
                       <p className="px-1 pt-1">
-                        {" "}
-                        {detailtPrintR || detailtPrintL || detailtPrintp
+                     
+                        {/* {detailtPrintR || detailtPrintL || detailtPrintp
                           ? NumberWithCommas(summary?.gold24Kt, 3)
                           : fixedValues(
                               finalD?.mainTotal?.convertednetwt,
                               3
-                            )}{" "}
+                            )} */}
+                       {     NumberWithCommas(     finalD?.mainTotal?.convertednetwt,3)}
                         gm
                       </p>
                     </div>
