@@ -207,15 +207,7 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
       if (ele?.ShapeName === "RND") {
         findRND.push(ele);
       } else {
-        if (remaingDia?.length > 0) {
-          remaingDia[0].Wt += ele?.Wt;
-          remaingDia[0].Pcs += ele?.Pcs;
-          remaingDia[0].Amount += ele?.Amount;
-        } else {
-          let obb = cloneDeep(ele);
-          obb.ShapeName = "OTHER";
-          remaingDia.push(obb);
-        }
+        remaingDia.push(ele);
       }
     });
     let resultArr = [];
@@ -251,11 +243,7 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
         obj.Amount += cobj?.Amount;
       }, obj);
       obj.ShapeName = "OTHER";
-      if ((obj?.Wt !== 0 || obj?.pcs !== 0) && findOther === -1) {
-        resultArr = [...arr, obj].flat();
-      } else {
-        resultArr = cloneDeep(arr);
-      }
+      resultArr = [...arr, obj].flat();
     } else {
       let arr = [...findRND].flat();
       let smallArr = [...remaingDia.slice(0, 6 - findRND?.length)].flat();
@@ -272,11 +260,7 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
         obj.Amount += cobj?.Amount;
       }, obj);
       obj.ShapeName = "OTHER";
-      if ((obj?.Wt !== 0 || obj?.pcs !== 0) && findOther === -1) {
-        resultArr = [...finalArr, obj].flat();
-      } else {
-        resultArr = cloneDeep(finalArr);
-      }
+      resultArr = [...finalArr, obj].flat();
     }
 
     setDiamondDetails(resultArr);
@@ -1516,13 +1500,13 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
               </div>
               <div className="totalAmountDetailPrint1 border-end  border-bottom paddingLeftDetailPrint1 paddingRightDetailPrint1">
                 <p className="d-flex justify-content-end align-items-center h-100 text-end fw-bold">
-                  {!dp1lp && (
+                  {/* {!dp1lp && (
                     <span
                       dangerouslySetInnerHTML={{
                         __html: json0Data?.Currencysymbol,
                       }}
                     ></span>
-                  )}
+                  )} */}
                   {NumberWithCommas(total?.withDiscountTaxAmount, 2)}
                 </p>
               </div>
