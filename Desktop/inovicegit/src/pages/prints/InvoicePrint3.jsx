@@ -94,211 +94,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         Amount: 0,
       },
     };
-    // eslint-disable-next-line array-callback-return
-    json1.map((e) => {
-      let diamondlist = [];
-      let colorstonelist = [];
-      let metallist = [];
-      let misclist = [];
-      let findinglist = [];
-
-      let totals = {
-        diamonds: {
-          Wt: 0,
-          Pcs: 0,
-          Rate: 0,
-          Amount: 0,
-        },
-
-        colorstone: {
-          Wt: 0,
-          Pcs: 0,
-          Rate: 0,
-          Amount: 0,
-        },
-
-        metal: {
-          Wt: 0,
-          Pcs: 0,
-          Rate: 0,
-          Amount: 0,
-        },
-
-        misc: {
-          Wt: 0,
-          Pcs: 0,
-          Rate: 0,
-          Amount: 0,
-        },
-
-        finding: {
-          Wt: 0,
-          Pcs: 0,
-          Rate: 0,
-          Amount: 0,
-        },
-
-        labour: {
-          labourAmount: 0,
-        },
-
-        OtherCh: {
-          OtherAmount: 0,
-        },
-      };
-
-      // eslint-disable-next-line array-callback-return
-
-      totdis = totdis + e?.DiscountAmt;
-      mainTotal.totAmount.TotalAmount += e?.TotalAmount;
-      mainTotal.totOthAmt.Amount += e?.OtherCharges + e?.MiscAmount;
-      mainTotal.totalgrosswt.grosswt += e?.grosswt;
-      mainTotal.totalnetwt.netwt += e?.NetWt;
-      totAmt += e?.TotalAmount;
-      totLbrAmt += e?.MakingAmount;
-      totOthAmt += e?.OtherCharges;
-      totmiscAmt += e?.MiscAmount;
-
-      // eslint-disable-next-line array-callback-return
-      json2.map((ele) => {
-        if (ele?.StockBarcode === e?.SrJobno) {
-          if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-            diamondlist.push(ele);
-            totals.diamonds.Pcs += ele?.Pcs;
-            totals.diamonds.Wt += ele?.Wt;
-            totals.diamonds.Amount += ele?.Amount;
-            totals.diamonds.Rate += ele?.Rate;
-            mainTotal.diamonds.Pcs += ele?.Pcs;
-            mainTotal.diamonds.Wt += ele?.Wt;
-            mainTotal.diamonds.Rate += ele?.Rate;
-            mainTotal.diamonds.Amount += ele?.Amount;
-          }
-
-          if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
-            colorstonelist.push(ele);
-            totals.colorstone.Pcs += ele?.Pcs;
-            totals.colorstone.Wt += ele?.Wt;
-            totals.colorstone.Amount += ele?.Amount;
-            totals.colorstone.Rate += ele?.Rate;
-            mainTotal.colorstone.Pcs += ele?.Pcs;
-            mainTotal.colorstone.Wt += ele?.Wt;
-            mainTotal.colorstone.Rate += ele?.Rate;
-            mainTotal.colorstone.Amount += ele?.Amount;
-          }
-          if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
-            misclist.push(ele);
-            totals.colorstone.Pcs += ele?.Pcs;
-            totals.colorstone.Wt += ele?.Wt;
-            totals.colorstone.Amount += ele?.Amount;
-            totals.colorstone.Rate += ele?.Rate;
-            mainTotal.misc.Pcs += ele?.Pcs;
-            mainTotal.misc.Wt += ele?.Wt;
-            mainTotal.misc.Rate += ele?.Rate;
-            mainTotal.misc.Amount += ele?.Amount;
-          }
-          if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
-            metallist.push(ele);
-            totals.metal.Pcs += ele?.Pcs;
-            totals.metal.Wt += ele?.Wt;
-            totals.metal.Amount += ele?.Amount;
-            totals.metal.Rate += ele?.Rate;
-            mainTotal.metal.Pcs += ele?.Pcs;
-            mainTotal.metal.Wt += ele?.Wt;
-            mainTotal.metal.Rate += ele?.Rate;
-            mainTotal.metal.Amount += ele?.Amount;
-          }
-          if (ele?.MasterManagement_DiamondStoneTypeid === 5) {
-            findinglist.push(ele);
-            totals.finding.Pcs += ele?.Pcs;
-            totals.finding.Wt += ele?.Wt;
-            totals.finding.Amount += ele?.Amount;
-            totals.finding.Rate += ele?.Rate;
-            mainTotal.finding.Pcs += ele?.Pcs;
-            mainTotal.finding.Wt += ele?.Wt;
-            mainTotal.finding.Rate += ele?.Rate;
-            mainTotal.finding.Amount += ele?.Amount;
-          }
-        }
-      });
-
-      let obj = { ...e };
-      obj.diamondsDetails = diamondlist;
-      obj.colorstoneDetails = colorstonelist;
-      obj.metalDetails = metallist;
-      obj.miscDetails = misclist;
-      obj.findingDetails = findinglist;
-      obj.AllJobsTotal = mainTotal;
-      obj.JobWiseTotal = totals;
-      resultArr.push(obj);
-      setResultArray(resultArr);
-    });
-    let arr = [];
-
-    // eslint-disable-next-line array-callback-return
-    // json2.map((ele) => {
-    //   if (ele?.MasterManagement_DiamondStoneTypeid === 4 && ele?.IsPrimaryMetal === 1) {
-    //     if (arr?.length === 0) {
-    //       // let obj = {...ele};
-    //       // obj._wt = ele?.Wt;
-    //       // obj._amount = ele?.Amount;
-    //       arr.push(ele);
-    //     } else {
-    //       let findIndex = arr?.findIndex(
-    //         (e) =>
-    //           // e?.ShapeName === ele?.ShapeName &&
-    //           e?.Rate === ele?.Rate &&
-    //           e?.QualityName === ele?.QualityName
-    //       );
-    //       if (findIndex === -1) {
-    //         arr.push(ele);
-    //       } else {
-    //         arr[findIndex].Wt += ele?.Wt;
-    //         arr[findIndex].Amount += ele?.Amount;
-    //       }
-    //     }
-    //   } else if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
-    //     if (arr.length === 0) {
-    //       arr.push(ele);
-    //     } else {
-    //       let findIndex = arr.findIndex((e) => e?.Rate === ele?.Rate);
-    //       if (findIndex === -1) {
-    //         arr.push(ele);
-    //       } else {
-    //         arr[findIndex].Wt += ele?.Wt;
-    //         arr[findIndex].Amount += ele?.Amount;
-    //       }
-    //     }
-    //   } else if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
-    //     if (arr.length === 0) {
-    //       arr.push(ele);
-    //     } else {
-    //       let findIndex = arr.findIndex((e) => e?.QualityName === ele?.QualityName && e?.Colorname === ele?.Colorname && e?.SizeName === ele?.SizeName);
-    //       if (findIndex === -1) {
-    //         arr.push(ele);
-    //       } else {
-    //         arr[findIndex].Wt += ele?.Wt;
-    //         arr[findIndex].Amount += ele?.Amount;
-    //       }
-    //     }
-    //   } else if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-    //     if (arr.length === 0) {
-    //       arr.push(ele);
-    //     } else {
-    //       let findIndex = arr.findIndex((e) => e?.QualityName === ele?.QualityName && e?.Colorname === ele?.Colorname && e?.SizeName === ele?.SizeName);
-    //       if (findIndex === -1) {
-    //         arr.push(ele);
-    //       } else {
-    //         arr[findIndex].Wt += ele?.Wt;
-    //         arr[findIndex].Amount += ele?.Amount;
-    //       }
-    //     }
-    //   }
-    // });
+    
     let aa = 0;
-    // eslint-disable-next-line array-callback-return
-    json1?.map((e) => {
-      aa += e?.TotalAmount;
-    });
 
     groupedAmtTotal = groupedAmtTotal + totLbrAmt + totOthAmt;
     let obj1 = {
@@ -323,83 +120,49 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setLOM(LOM);
     setGroupedArrAmountTotal(groupedAmtTotal);
 
-
-    // arr.sort((a, b) => {
-    //   if (a.MasterManagement_DiamondStoneTypeid !== b.MasterManagement_DiamondStoneTypeid) {
-    //     return b.MasterManagement_DiamondStoneTypeid - a.MasterManagement_DiamondStoneTypeid;
-    //   } else {
-    //     return a.QualityName.localeCompare(b.QualityName);  // If names are the same, sort by age
-    //   }
-    // });
-
-    arr.sort((a, b) => {
-      if (a.MasterManagement_DiamondStoneTypeid === 4 && b.MasterManagement_DiamondStoneTypeid !== 4) {
-        return -1; // a comes before b if a is 'Gold' and b is not
-      } else if (b.MasterManagement_DiamondStoneTypeid === 4 && a.MasterManagement_DiamondStoneTypeid !== 4) {
-        return 1; // b comes before a if b is 'Gold' and a is not
-      } else {
-        if (a.MasterManagement_DiamondStoneTypeid === 1 && b.MasterManagement_DiamondStoneTypeid !== 1) {
-          return -1;
-        } else if (b.MasterManagement_DiamondStoneTypeid === 1 && a.MasterManagement_DiamondStoneTypeid !== 1) {
-          return 1;
-        } else {
-          return a.MasterManagement_DiamondStoneTypeName.localeCompare(b.MasterManagement_DiamondStoneTypeName); // Sort by name if metalType is not 'Gold'
-        }
-      }
-    });
-  
     // setGroupedArr(arr);
 
     setMainTotal(mainTotal);
 
-
-    // let allTax = taxGenrator(json, aa);
-    // setTaxTotal(allTax);
-
-    // allTax?.forEach((e) => {
-    //   aa += (+e?.amount);
-    // });
     let ab = (+aa?.toFixed(2));
     let words = numberToWord(ab) + " Only";
-    // setInWords(words);
-    // setGrandTotal(aa);
     setTotDiscount(totdis);
 
 
 
-    const groupedData = arr?.reduce((result, item) => {
-      let groupName;
+    // const groupedData = datas?.json2?.reduce((result, item) => {
+    //   let groupName;
 
-      switch (item.MasterManagement_DiamondStoneTypeid) {
-        case 1:
-          groupName = "DIAMOND";
-          break;
-        case 2:
-          groupName = "COLORSTONE";
-          break;
-        case 3:
-          groupName = "CZ STUDDED JEWELLERY";
-          break;
-        case 4:
-          groupName = "GOLD";
-          break;
-        default:
-          groupName = "OTHER";
-      }
+    //   switch (item.MasterManagement_DiamondStoneTypeid) {
+    //     case 1:
+    //       groupName = "DIAMOND";
+    //       break;
+    //     case 2:
+    //       groupName = "COLORSTONE";
+    //       break;
+    //     case 3:
+    //       groupName = "CZ STUDDED JEWELLERY";
+    //       break;
+    //     case 4:
+    //       groupName = "GOLD";
+    //       break;
+    //     default:
+    //       groupName = "OTHER";
+    //   }
 
-      // Initialize the group if it doesn't exist
-      if (!result[groupName]) {
-        result[groupName] = [];
-      }
+    //   // Initialize the group if it doesn't exist
+    //   if (!result[groupName]) {
+    //     result[groupName] = [];
+    //   }
 
-      // Add the item to the corresponding group
-      result[groupName].push(item);
+    //   // Add the item to the corresponding group
+    //   result[groupName].push(item);
 
-      return result;
-    }, {});
+    //   return result;
+    // }, {});
 
-    const groupNamesArray = Object?.keys(groupedData);
-    const sentence = groupNamesArray?.join(", ");
+    // const groupNamesArray = Object?.keys(groupedData);
+    // const sentence = groupNamesArray?.join(", ");
     // setDescArr(sentence);
   };
   async function loadData(data) {
@@ -472,10 +235,12 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
         // let cls = [];
         e?.colorstone?.forEach((el) => {
-          let findRecord = colorstones?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.Colorname === el?.Colorname && a?.QualityName === el?.QualityName && a?.isRateOnPcs === el?.isRateOnPcs && a?.Rate === el?.Rate)
+          // let findRecord = colorstones?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.Colorname === el?.Colorname && a?.QualityName === el?.QualityName && a?.isRateOnPcs === el?.isRateOnPcs && a?.Rate === el?.Rate)
+          let findRecord = colorstones?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.Colorname === el?.Colorname && a?.QualityName === el?.QualityName && a?.SizeName === el?.SizeName && a?.isRateOnPcs === el?.isRateOnPcs)
           if(findRecord === -1){
             let obj = {...el};
             obj.wt = obj?.Wt;
+            obj.pcs = obj?.Pcs;
             obj.rate = obj?.Rate;
             obj.amount = obj?.Amount;
             colorstones.push(obj);
@@ -483,6 +248,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             colorstones[findRecord].wt += el?.Wt;
             colorstones[findRecord].rate = el?.Rate;
             colorstones[findRecord].amount += el?.Amount;
+            colorstones[findRecord].pcs += el?.Pcs;
           }
         })
         
@@ -537,6 +303,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       // setMetal_s(met3);
 
       diamonds?.sort((a, b) => (((a?.amount / a?.wt) / result?.header?.CurrencyExchRate)) - ((b?.amount / b?.wt) / result?.header?.CurrencyExchRate))
+      colorstones?.sort((a, b) => (((a?.amount / a?.wt) / result?.header?.CurrencyExchRate)) - ((b?.amount / b?.wt) / result?.header?.CurrencyExchRate))
       // diamonds?.sort((a, b) => a?.rate - b?.rate)
       
       metals?.sort((a, b) => {
@@ -724,7 +491,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
                         <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
                         <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
-                        <div style={{width:'10%'}}>{Math.round(( (e?.amount) / ((e?.wt === 0 ? 1 : e?.wt)) ) / result?.header?.CurrencyExchRate)}</div>
+                        <div style={{width:'10%'}}>{Math.round(( (e?.amount) / (( e?.isRateOnPcs === 1 ? (e?.pcs === 0 ? 1 : e?.pcs) : (e?.wt === 0 ? 1 : e?.wt))) ) / result?.header?.CurrencyExchRate)}</div>
                         <div style={{width:'10%'}}>{formatAmount(((e?.amount / result?.header?.CurrencyExchRate)))}</div>
                         </div>
                       )

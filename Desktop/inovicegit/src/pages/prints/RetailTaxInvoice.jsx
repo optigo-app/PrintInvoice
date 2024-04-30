@@ -213,7 +213,12 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
       clr2?.sort((a, b) => a?._rate - b?._rate);
       setTotalAmount(totamt)
       setMetwise(met);
-      setDiawise(dia);
+      
+      if(dia?.length === 1 && dia[0]?.Wt === 0 && dia[0]?.Rate === 0 && dia[0]?.Amount === 0){
+        setDiawise([])
+      }else{
+        setDiawise(dia);
+      }
       setClrwise(clr2);
       setMiscwise(miscc);
       setOthInfo(oth);
@@ -403,7 +408,7 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                     <div className='col5_rti d-flex align-items-center end_rti pe-1'>AMOUNT</div>
                   </div>
                   <div className='d-flex brbottomrti'>
-                    <div className='col1_rti brleftti d-flex justify-content-center pt-3' style={{width:'36%'}}>DIAMOND STUDDED JEWELLERY</div>
+                    <div className='col1_rti brleftti d-flex justify-content-center pt-3' style={{width:'36%'}}>{ diawise?.length === 0 ? 'GOLD JEWELLERY' : 'DIAMOND STUDDED JEWELLERY' }</div>
                      <div className='d-flex flex-column tbodyrti' style={{width:'66.8%'}}>
                      {
                       // result?.resultArray?.map((e, i) => (
@@ -494,7 +499,8 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                   <div className='col2_rti ps-2 d-flex align-items-center'>Total</div>
                   <div className='col3_rti d-flex align-items-center'></div>
                   <div className='col4_rti d-flex align-items-center'></div>
-                  <div className='col5_rti d-flex align-items-center end_rti pe-1'>{formatAmount(result?.mainTotal?.total_unitcost)}</div>
+                  {/* <div className='col5_rti d-flex align-items-center end_rti pe-1'>{formatAmount(result?.mainTotal?.total_unitcost)}</div> */}
+                  <div className='col5_rti d-flex align-items-center end_rti pe-1'>{formatAmount(result?.mainTotal?.total_amount)}</div>
                   {/* <div className='col5_rti d-flex align-items-center end_rti pe-1'>{totalAmount}</div> */}
               </div>
               {/* tax total */}
@@ -503,14 +509,14 @@ const RetailTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
                 <div className='w-25'> <span className='fw-bold'>{result?.header?.PrintRemark === '' ? '' : 'NOTE :'}</span> {result?.header?.PrintRemark}</div>
                 <div className='w-50 d-flex justify-content-end'>
                   <div className='grandtotalrti'>
-                    <div className='d-flex'><div className='w-50 ps-2'>Discount</div><div className='w-50 end_rti pe-1'>{formatAmount(result?.mainTotal?.total_discount_amount)}</div></div>
+                    { result?.mainTotal?.total_discount_amount === 0 ? '' : <div className='d-flex'><div className='w-50 ps-2'>Discount</div><div className='w-50 end_rti pe-1'>{formatAmount(result?.mainTotal?.total_discount_amount)}</div></div>}
                     <div className='d-flex'><div className='w-50 ps-2 fw-bold'>Total Amount</div><div className='w-50 end_rti pe-1 fw-bold'>{formatAmount(result?.mainTotal?.total_amount)}</div></div>
                     {
                       result?.allTaxes?.map((e, i) => {
                         return <div className='d-flex'><div className='w-50 ps-2'>{e?.name} @ {e?.per}</div><div className='w-50 end_rti pe-1'>{formatAmount(((+e?.amount) * result?.header?.CurrencyExchRate))}</div></div>
                       })
                     }
-                    <div className='d-flex'><div className='w-50 ps-2'>{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className='w-50 end_rti pe-1'>{formatAmount(result?.header?.AddLess)}</div></div>
+                    { result?.header?.AddLess === 0 ? '' : <div className='d-flex'><div className='w-50 ps-2'>{result?.header?.AddLess > 0 ? 'Add' : 'Less'}</div><div className='w-50 end_rti pe-1'>{formatAmount(result?.header?.AddLess)}</div></div>}
                     <div className='d-flex brtoprti mt-2'><div className='w-50 ps-2 fw-bold'>Grand Total</div><div className='w-50 end_rti pe-1 fw-bold'>{formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate ) + result?.header?.AddLess))}</div></div>
                   </div>
                 </div>
