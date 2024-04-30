@@ -381,7 +381,7 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <div className='pt-4'>
             {header && <div className="d-flex header_section_sum4 justify-content-between align-items-center pb-2">
                 <div className='address_sum4'>
-                    <h1 className='h1_sum4'>{billPrintJson?.CompanyFullName}</h1>
+                    <h1 className='h1_sum4 fw-bold'>{billPrintJson?.CompanyFullName}</h1>
                     <p className='address_para_sum4 lh-1 pb-1'> {billPrintJson?.CompanyAddress} </p>
                     <p className='address_para_sum4 lh-1 pb-1'>{billPrintJson?.CompanyAddress2} </p>
                     <p className='address_para_sum4 lh-1 pb-1'>{billPrintJson?.CompanyCity} {billPrintJson?.CompanyPinCode} {billPrintJson?.CompanyState} {billPrintJson?.CompanyCountry} </p>
@@ -447,9 +447,9 @@ const Summary4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                 <p className='fw-bold'> {e?.SrJobno} - {e?.Categoryname} </p>
                                 {image && <img src={e?.DesignImage} alt="" onError={e => handleImageError(e)} />}
                                 <p className='fw-bold'>{e?.MetalTypePurity}</p> </div>
-                            <div className="p-1 remark_sum4 border-end text-end remark_sum4">
+                            <div className="p-1 remark_sum4 border-end">
                                 {e?.HUID !== "" && <p> HUID No. : {e?.HUID}</p>}
-                                {e?.CertificateNo !== "" && <><p className='fw-bold'>IGI-</p><p className='fw-bold'> {e?.CertificateNo}</p></>}
+                                {e?.CertificateNo !== "" && <p><span className='fw-bold'>IGI-</span><span className='fw-bold'> {e?.CertificateNo}</span></p>}
                                 <p>{e?.CertRemark} </p>
                             </div>
                             <div className="p-1 dia_wt_ctw_sum4 border-end text-end "> {e?.diamondsRate.length > 0 && e.diamondsRate.map((ele, indd) => {
