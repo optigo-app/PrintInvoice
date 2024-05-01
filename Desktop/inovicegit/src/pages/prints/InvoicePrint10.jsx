@@ -83,7 +83,6 @@ const InvoicePrint_10_11 = ({
       data?.BillPrint_Json2
     );
     setMainDatas(datas);
-    console.log(datas);
     let resultArr = [];
     let findings = [];
     let diamonds = [];
@@ -114,20 +113,17 @@ const InvoicePrint_10_11 = ({
       let findingsAmount = 0;
       let secondaryMetalAmount = 0;
 
-      obj.primaryMetal = e?.metal?.find(
-        (ele, ind) => ele?.IsPrimaryMetal === 1
-      );
+      
+
+      obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
       e?.finding?.forEach((ele, ind) => {
-        if (
-          ele?.ShapeName !== obj?.primaryMetal?.ShapeName &&
-          ele?.QualityName !== obj?.primaryMetal?.QualityName
-        ) {
+        if (ele?.ShapeName !== obj?.primaryMetal?.ShapeName && ele?.QualityName !== obj?.primaryMetal?.QualityName) {
           // console.log(ele);
           let obb = cloneDeep(ele);
           if (obj?.primaryMetal) {
             obb.Rate = obj?.primaryMetal?.Rate;
             obb.Amount = ele?.Wt * obb?.Rate;
-            findingsAmount += ele?.Wt * obb?.Rate;
+            findingsAmount += (ele?.Wt * obb?.Rate);
           }
           findingsWt += ele?.Wt;
           findings?.push(obb);
@@ -162,7 +158,7 @@ const InvoicePrint_10_11 = ({
       let secondMetalWt = 0;
       // console.log(findingsWt);
       let netWtFinal = e?.NetWt + e?.LossWt - findingsWt;
-
+ 
       diamondHandling += e?.TotalDiamondHandling;
       e?.metal?.forEach((ele, ind) => {
         count += 1;
@@ -176,20 +172,17 @@ const InvoicePrint_10_11 = ({
           secondMetalWt += ele?.Wt;
         }
       });
-      let finalMetalAmount =
-        (e?.MetalDiaWt -
-          (e?.totals?.finding?.Wt * e?.LossPer) / 100 +
-          e?.totals?.finding?.Wt) *
-          primaryMetalRAte +
-        secondaryMetalAmount;
+      let latestAmount = (((e?.MetalDiaWt - findingsWt) * primaryMetalRAte) + secondaryMetalAmount );
+              total2.total += latestAmount;
+      let finalMetalAmount = (e?.MetalDiaWt - (e?.totals?.finding?.Wt * e?.LossPer) / 100 + e?.totals?.finding?.Wt) * primaryMetalRAte + secondaryMetalAmount;
 
       // labour.primaryWt += primaryWt;
       labour.makingAmount += e?.MakingAmount;
-      labour.totalAmount +=
-        e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost;
+      labour.totalAmount += e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost;
       total2.discount += e?.DiscountAmt;
       obj.primaryWt = primaryWt;
       obj.netWtFinal = netWtFinal;
+      obj.latestAmount = latestAmount;
       obj.secondaryMetalAmount = secondaryMetalAmount;
       obj.secondMetalWt = secondMetalWt;
       obj.finalMetalAmount = finalMetalAmount;
@@ -199,13 +192,10 @@ const InvoicePrint_10_11 = ({
         primaryWt = e?.NetWt + e?.LossWt;
       }
       if (obj?.primaryMetal) {
-        total2.total +=
-          obj?.metalAmountFinal / data?.BillPrint_Json[0]?.CurrencyExchRate;
-        let findRecord = resultArr?.findIndex(
-          (ele, ind) =>
-            ele?.primaryMetal?.ShapeName === obj?.primaryMetal?.ShapeName &&
-            ele?.primaryMetal?.QualityName === obj?.primaryMetal?.QualityName &&
-            ele?.primaryMetal?.Rate === obj?.primaryMetal?.Rate
+        // total2.total +=
+        //   obj?.metalAmountFinal / data?.BillPrint_Json[0]?.CurrencyExchRate;
+        let findRecord = resultArr?.findIndex( (ele, ind) => ele?.primaryMetal?.ShapeName === obj?.primaryMetal?.ShapeName && 
+        ele?.primaryMetal?.QualityName === obj?.primaryMetal?.QualityName && ele?.primaryMetal?.Rate === obj?.primaryMetal?.Rate
         );
         if (findRecord === -1) {
           resultArr?.push(obj);
@@ -219,8 +209,8 @@ const InvoicePrint_10_11 = ({
           resultArr[findRecord].primaryMetal.Amount += obj?.primaryMetal.Amount;
           resultArr[findRecord].netWtFinal += obj?.netWtFinal;
           resultArr[findRecord].metalAmountFinal += obj?.metalAmountFinal;
-          resultArr[findRecord].secondaryMetalAmount +=
-            obj?.secondaryMetalAmount;
+          resultArr[findRecord].secondaryMetalAmount += obj?.secondaryMetalAmount;
+          resultArr[findRecord].latestAmount += latestAmount;
           resultArr[findRecord].finalMetalAmount += obj?.finalMetalAmount;
           resultArr[findRecord].secondMetalWt += obj?.secondMetalWt;
         }
@@ -310,13 +300,12 @@ const InvoicePrint_10_11 = ({
     });
     let finalsArr = [];
     resultArr?.forEach((e, i) => {
-      console.log(e);
       let finalMetalWt =
         e?.MetalDiaWt -
         (e?.totals?.finding?.Wt * e?.LossPer) / 100 +
         e?.totals?.finding?.Wt +
         e?.secondMetalWt;
-      let finalRate = e?.finalMetalAmount / finalMetalWt;
+      let finalRate = e?.latestAmount / e?.netWtFinal;
       let obj = cloneDeep(e);
       obj.finalMetalWt = finalMetalWt;
       obj.finalRate = finalRate;
@@ -395,12 +384,7 @@ const InvoicePrint_10_11 = ({
       return a.label.length - b.label.length;
     });
 
-    setTotalss({
-      ...totalss,
-      total: total2?.total,
-      discount: total2?.discount,
-      totalPcs: totalPcs,
-    });
+    setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
     setMainData({
       ...mainData,
       resultArr: finalsArr,
@@ -681,15 +665,7 @@ const InvoicePrint_10_11 = ({
                     style={{ minWidth: "15%", width: "15%" }}
                     className=" px-1 text-end"
                   >
-                    {/* <p>
-                      {e?.netWtFinal !== 0 &&
-                        NumberWithCommas(
-                          e?.metalAmountFinal /
-                            headerData?.CurrencyExchRate /
-                            e?.netWtFinal,
-                          2
-                        )}
-                    </p> */}
+          
                     <p>{NumberWithCommas(e?.finalRate, 2)}</p>
                   </div>
                   <div
@@ -698,7 +674,7 @@ const InvoicePrint_10_11 = ({
                   >
                     <p>
                       {NumberWithCommas(
-                        e?.metalAmountFinal / headerData?.CurrencyExchRate,
+                        e?.latestAmount,
                         2
                       )}
                     </p>
@@ -793,27 +769,27 @@ const InvoicePrint_10_11 = ({
                     <p>
                       {e?.isRateOnPcs === 0
                         ? e?.Wt !== 0 && (
-                            <>
-                              {NumberWithCommas(
-                                e?.Amount /
-                                  e?.Wt /
-                                  headerData?.CurrencyExchRate,
-                                2
-                              )}{" "}
-                              / Wt
-                            </>
-                          )
+                          <>
+                            {NumberWithCommas(
+                              e?.Amount /
+                              e?.Wt /
+                              headerData?.CurrencyExchRate,
+                              2
+                            )}{" "}
+                            / Wt
+                          </>
+                        )
                         : e?.Pcs !== 0 && (
-                            <>
-                              {NumberWithCommas(
-                                e?.Amount /
-                                  e?.Pcs /
-                                  headerData?.CurrencyExchRate,
-                                2
-                              )}{" "}
-                              / Pcs
-                            </>
-                          )}
+                          <>
+                            {NumberWithCommas(
+                              e?.Amount /
+                              e?.Pcs /
+                              headerData?.CurrencyExchRate,
+                              2
+                            )}{" "}
+                            / Pcs
+                          </>
+                        )}
                     </p>
                   </div>
                   <div
@@ -870,27 +846,27 @@ const InvoicePrint_10_11 = ({
                     <p>
                       {e?.isRateOnPcs === 0
                         ? e?.Wt !== 0 && (
-                            <>
-                              {NumberWithCommas(
-                                e?.Amount /
-                                  e?.Wt /
-                                  headerData?.CurrencyExchRate,
-                                2
-                              )}{" "}
-                              / Wt
-                            </>
-                          )
+                          <>
+                            {NumberWithCommas(
+                              e?.Amount /
+                              e?.Wt /
+                              headerData?.CurrencyExchRate,
+                              2
+                            )}{" "}
+                            / Wt
+                          </>
+                        )
                         : e?.Pcs !== 0 && (
-                            <>
-                              {NumberWithCommas(
-                                e?.Amount /
-                                  e?.Pcs /
-                                  headerData?.CurrencyExchRate,
-                                2
-                              )}{" "}
-                              / Pcs
-                            </>
-                          )}
+                          <>
+                            {NumberWithCommas(
+                              e?.Amount /
+                              e?.Pcs /
+                              headerData?.CurrencyExchRate,
+                              2
+                            )}{" "}
+                            / Pcs
+                          </>
+                        )}
                     </p>
                   </div>
                   <div
@@ -947,27 +923,27 @@ const InvoicePrint_10_11 = ({
                     <p>
                       {e?.isRateOnPcs === 0
                         ? e?.Wt !== 0 && (
-                            <>
-                              {NumberWithCommas(
-                                e?.Amount /
-                                  e?.Wt /
-                                  headerData?.CurrencyExchRate,
-                                2
-                              )}{" "}
-                              / Wt
-                            </>
-                          )
+                          <>
+                            {NumberWithCommas(
+                              e?.Amount /
+                              e?.Wt /
+                              headerData?.CurrencyExchRate,
+                              2
+                            )}{" "}
+                            / Wt
+                          </>
+                        )
                         : e?.Pcs !== 0 && (
-                            <>
-                              {NumberWithCommas(
-                                e?.Amount /
-                                  e?.Pcs /
-                                  headerData?.CurrencyExchRate,
-                                2
-                              )}{" "}
-                              / Pcs
-                            </>
-                          )}
+                          <>
+                            {NumberWithCommas(
+                              e?.Amount /
+                              e?.Pcs /
+                              headerData?.CurrencyExchRate,
+                              2
+                            )}{" "}
+                            / Pcs
+                          </>
+                        )}
                     </p>
                   </div>
                   <div
@@ -1023,8 +999,8 @@ const InvoicePrint_10_11 = ({
                   {mainData?.labour?.primaryWt !== 0 &&
                     NumberWithCommas(
                       mainData?.labour?.makingAmount /
-                        mainData?.labour?.primaryWt /
-                        headerData?.CurrencyExchRate,
+                      mainData?.labour?.primaryWt /
+                      headerData?.CurrencyExchRate,
                       2
                     )}
                 </p>
@@ -1036,32 +1012,13 @@ const InvoicePrint_10_11 = ({
                 <p>
                   {NumberWithCommas(
                     mainData?.labour?.totalAmount /
-                      headerData?.CurrencyExchRate,
+                    headerData?.CurrencyExchRate,
                     2
                   )}
                 </p>
               </div>
             </div>
-            {/* {mainData?.miscs?.map((e, i) => {
-              return <div className="d-flex" key={i}>
-                <div style={{ minWidth: "17%", width: "17%" }} className="px-1 text-uppercase"><p>{e?.ShapeName}</p></div>
-                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "14.5%", width: "14.5%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "9%", width: "9%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p></p></div>
-                <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount / headerData?.CurrencyExchRate, 2)}</p></div>
-              </div>
-            })}
-            <div className="d-flex">
-              <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-uppercase"><p>HANDLING</p></div>
-              <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(mainData?.diamondHandling / headerData?.CurrencyExchRate, 2)}</p></div>
-            </div> */}
+
             {mainData?.otherCharges?.map((e, i) => {
               return (
                 <div className="d-flex" key={i}>
@@ -1113,9 +1070,7 @@ const InvoicePrint_10_11 = ({
           </div>
         </div>
         {/* total */}
-        <div
-          className={`d-flex border-start border-end border-bottom mb-1 no_break ${style?.font_15}`}
-        >
+        <div className={`d-flex border-start border-end border-bottom mb-1 no_break ${style?.font_15}`} >
           <div className="col-3 border-end d-flex align-items-center justify-content-center flex-column"></div>
           <div className="col-9">
             <div className="d-flex border-bottom">
@@ -1162,11 +1117,8 @@ const InvoicePrint_10_11 = ({
               <p className="fw-bold"> Total Amount </p>
               <p className="fw-bold">
                 {" "}
-                {NumberWithCommas(
-                  mainDatas?.mainTotal?.total_amount /
-                    headerData?.CurrencyExchRate,
-                  2
-                )}
+                {console.log(mainDatas)}
+                {NumberWithCommas( (mainDatas?.mainTotal?.total_amount  / headerData?.CurrencyExchRate)- headerData?.FreightCharges, 2 )}
               </p>
               {/* <p className="fw-bold"> {NumberWithCommas(totalss?.total-totalss?.discount, 2)}</p> */}
             </div>
@@ -1193,7 +1145,7 @@ const InvoicePrint_10_11 = ({
             )}
             {headerData?.FreightCharges !== 0 && (
               <div className="d-flex justify-content-between">
-                <p>BY COURIER </p>
+                <p>{headerData?.ModeOfDel} </p>
                 <p>{NumberWithCommas(headerData?.FreightCharges, 2)}</p>
               </div>
             )}
@@ -1208,14 +1160,14 @@ const InvoicePrint_10_11 = ({
               {toWords.convert(
                 +fixedValues(
                   mainDatas?.mainTotal?.total_amount /
-                    headerData?.CurrencyExchRate +
-                    mainDatas?.allTaxes?.reduce(
-                      (acc, cObj) =>
-                        acc + +cObj?.amount * headerData?.CurrencyExchRate,
-                      0
-                    ) +
-                    headerData?.AddLess +
-                    headerData?.FreightCharges,
+                  headerData?.CurrencyExchRate +
+                  mainDatas?.allTaxes?.reduce(
+                    (acc, cObj) =>
+                      acc + +cObj?.amount * headerData?.CurrencyExchRate,
+                    0
+                  ) +
+                  headerData?.AddLess +
+                  headerData?.FreightCharges,
                   2
                 )
               )}{" "}
@@ -1229,13 +1181,13 @@ const InvoicePrint_10_11 = ({
             <p className="text-end fw-bold">
               {NumberWithCommas(
                 mainDatas?.mainTotal?.total_amount /
-                  headerData?.CurrencyExchRate +
-                  mainDatas?.allTaxes?.reduce(
-                    (acc, cObj) => acc + +cObj?.amount,
-                    0
-                  ) +
-                  headerData?.AddLess +
-                  headerData?.FreightCharges,
+                headerData?.CurrencyExchRate +
+                mainDatas?.allTaxes?.reduce(
+                  (acc, cObj) => acc + +cObj?.amount,
+                  0
+                ) +
+                headerData?.AddLess +
+                headerData?.FreightCharges,
                 2
               )}
             </p>
