@@ -358,7 +358,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       });
       datas?.resultArray?.forEach((e) => {
         if(e?.misc?.length === 1 && e?.misc[0]?.IsHSCOE === 3 && e?.misc[0]?.Rate === 0 ){
-          e.misc = [];
+          // e.misc = [];
         }
       })
       setFineWtTotal(finewt_);
