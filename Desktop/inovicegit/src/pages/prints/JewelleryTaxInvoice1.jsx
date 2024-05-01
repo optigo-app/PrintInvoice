@@ -69,6 +69,33 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                 pwise[findRec].LossWt += obj?.LossWt;
             }
         })
+
+        pwise?.sort((a, b) => {
+            const qualityA = a?.MetalTypePurity?.toUpperCase();
+            const qualityB = b?.QualityName?.toUpperCase();
+        
+            // Extract the karat value from the QualityName
+            const karatA = parseInt(qualityA?.split(' ')[1]); // Extracts the numeric part from "GOLD 10K"
+            const karatB = parseInt(qualityB?.split(' ')[1]); // Extracts the numeric part from "GOLD 18K"
+        
+            // If both are numbers (i.e., metal types), compare them numerically
+            if (!isNaN(karatA) && !isNaN(karatB)) {
+                return karatA - karatB;
+            }
+        
+            // If one of them is not a number (i.e., metal type and "TITANIUM High"), sort the metal type first
+            if (!isNaN(karatA)) {
+                return -1; // Place metal type before "TITANIUM High"
+            } else if (!isNaN(karatB)) {
+                return 1; // Place "TITANIUM High" after metal types
+            }
+        
+            // If both are not numbers, sort them alphabetically
+            if (qualityA < qualityB) return -1;
+            if (qualityA > qualityB) return 1;
+            return 0;
+          });
+
         setPurityWise(pwise);
         
         let invpaydet = [];
@@ -183,6 +210,14 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
           datas?.resultArray?.forEach((e) => {
             let obj = cloneDeep(e);
             obj.MetalRate = e?.metal.reduce((acc, num) => acc + num?.Rate, 0) || 0;
+            obj.MetalRatePrimaryMetal = e?.metal.reduce((acc, num) => (num?.IsPrimaryMetal === 1 ? acc + num?.Rate : acc), 0) || 0;
+
+            obj?.metal?.forEach((el) => {
+                if(el?.IsPrimaryMetal === 1){
+                    obj.MetalColorCode = el?.MetalColorCode
+                }
+            })
+
             recheckArr.push(obj);
         })
         
@@ -203,7 +238,7 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
         {
             msg === '' ? <>
             <div className='container_jtip1'>
-                <div className='mb-5 pb-5 d-flex justify-content-end align-items-center mt-5 pt-5 d_none_btn_jtip1'><Button /></div>
+                <div className='mb-2 pb-2 d-flex justify-content-end align-items-center  d_none_btn_jtip1'><Button /></div>
                 <div className='d-flex justify-content-between align-items-center'>
                     <div className='ps-5'>{isImageWorking && (result?.header?.PrintLogo !== "" && 
                       <img src={result?.header?.PrintLogo} alt="" 
@@ -231,9 +266,7 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                         <div>{result?.header?.customercity}{result?.header?.customerpincode}</div>
                         <div>Tel : {result?.header?.customermobileno}</div>
                         <div>{result?.header?.customeremail1}</div>
-                        {/* <div>STATE NAME : {result?.header?.customerstate},STATE CODE-GS</div> */}
-                        {/* <div>{result?.header?.Cust_CST_STATE_No_}</div> */}
-                        STATE NAME : {result?.header?.customerstate}
+                        STATE NAME : {result?.header?.customerstate}, {result?.header?.Cust_CST_STATE} : {result?.header?.Cust_CST_STATE_No}
                         <div>{result?.header?.CustGstNo === '' ? '' : `${result?.header?.CustGstNo} | `}  PAN - {result?.header?.CustPanno}</div>
                     </div>
                     <div className='fs_jtip1  pe-5 text-break'>
@@ -257,13 +290,13 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                                             <div className='col1_jti1 brr_jtip1 center_jtip1 align-items-start p-1'>{i+1}</div>
                                             <div className='col2_jti1 brr_jtip1 center_jtip1 p-1'><img src={e?.DesignImage} alt="#designimg" className='desimg_jtip1' onError={(e) => handleImageError(e)} /></div>
                                             <div className='col3_jti1 brr_jtip1 d-flex flex-column align-items-start justify-content-start p-1'>    	
-                                                <div>{e?.MetalTypePurity} {e?.MetalColor} | {e?.grosswt?.toFixed(3)} gms GW | {e?.NetWt?.toFixed(3)} gms NW</div>
-                                                <div>Design: <span className='fw-bold'>{e?.designno}</span> 
+                                                <div className='py-2'>{e?.MetalTypePurity} {e?.MetalColorCode} | {e?.grosswt?.toFixed(3)} gms GW | {e?.NetWt?.toFixed(3)} gms NW</div>
+                                                <div className='py-2'>Design: <span className='fw-bold'>{e?.designno}</span> 
                                                 <span className='fw-bold'>{e?.BulkPurchaseQTY > 0 ? ` (${e?.BulkPurchaseQTY}) ` : ' '} </span>
                                                 {result?.header?.HSN_No_Label}: <span className='fw-bold'>{result?.header?.HSN_No}</span></div>
-                                                <div>{e?.Categoryname} , {e?.SubCategoryname}</div>
+                                                <div className='py-2'>{e?.Categoryname} , {e?.SubCategoryname}</div>
                                             </div>
-                                            <div className='col4_jti1 brr_jtip1 center_jtip1 align-items-start justify-content-end p-1'>{formatAmount(e?.MetalRate)}</div>
+                                            <div className='col4_jti1 brr_jtip1 center_jtip1 align-items-start justify-content-end p-1'>{formatAmount((e?.MetalRatePrimaryMetal))}</div>
                                             <div className='col5_jti1 brr_jtip1 center_jtip1 align-items-start justify-content-end p-1 text-break'>{formatAmount(e?.MaKingCharge_Unit)}</div>
                                             <div className='col6_jti1 center_jtip1 align-items-start justify-content-end p-1'><span className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span>{formatAmount((e?.TotalAmount / result?.header?.CurrencyExchRate))}</div>
                                         </div>  
