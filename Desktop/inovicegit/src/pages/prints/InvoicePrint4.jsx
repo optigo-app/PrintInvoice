@@ -15,6 +15,7 @@ import Button from "../../GlobalFunctions/Button";
 import "../../assets/css/prints/invoiceprint4.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { cloneDeep } from "lodash";
+import { NumToWord } from './../../GlobalFunctions/NumToWord';
 
 const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [header, setHeader] = useState(null);
@@ -37,7 +38,7 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [totDiscount, setTotDiscount] = useState(0);
   const [msg, setMsg] = useState("");
   const [isImageWorking, setIsImageWorking] = useState(true);
-
+  const [total_makingcharge_unit, setTotalMakingChargeUnit] = useState(0);
   const [diamond_s, setDiamond_s] = useState([]);
   const [colorstone_s, setColorStone_s] = useState([]);
   const [metal_s, setMetal_s] = useState([]);
@@ -443,6 +444,17 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         data?.BillPrint_Json2
       );
 
+      const datas2 = OrganizeDataPrint(
+        data?.BillPrint_Json[0],
+        data?.BillPrint_Json1,
+        data?.BillPrint_Json2
+      );
+
+      const datas_clone = cloneDeep(datas2);
+      
+
+      loadData2( datas_clone)
+
       let sen = '';
       let metal = datas?.json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 4)
       if(metal.length > 0){
@@ -505,7 +517,8 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
         // let cls = [];
         e?.colorstone?.forEach((el) => {
-          let findRecord = colorstones?.findIndex((a) => a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.ShapeName === el?.ShapeName)
+          // let findRecord = colorstones?.findIndex((a) => a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.ShapeName === el?.ShapeName)
+          let findRecord = colorstones?.findIndex((a) => a?.Rate === el?.Rate)
           if(findRecord === -1){
             let obj = {...el};
             obj.wt = obj?.Wt;
@@ -560,6 +573,8 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         // e.metal = met;
       })
       // let mainarr = [...metals, ...diamonds, ...colorstones];
+      colorstones?.sort((a, b) => a?.Rate - b?.Rate)
+      diamonds?.sort((a, b) => a?.Rate - b?.Rate)
       setDiamond_s(diamonds);
       setColorStone_s(colorstones);
 
@@ -646,6 +661,78 @@ useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  async function loadData2(data){
+    let datas = data;
+    console.log(datas);
+
+    let finalArr = [];
+
+    datas?.resultArray?.forEach((a) => {
+      let findingwt = 0;
+      datas?.json2?.forEach((el) => {
+        if(a?.SrJobno === el?.StockBarcode){
+          if(el?.MasterManagement_DiamondStoneTypeid === 5){
+            if(el?.Supplier === 'customer' || el?.supplier === 'Customer'){
+              findingwt += el?.Wt;
+            }
+          }
+        }
+      })
+      let obj = {...a};
+      obj.findingwt = findingwt;
+      finalArr.push(obj);
+    })
+
+    let finalArr2 = [];
+    finalArr?.forEach((e) => {
+      let obj = {...e};
+      let lbr_wt = 0;
+      // let lbr_wt = ((obj?.MetalDiaWt - obj?.findingwt) * obj?.MaKingCharge_Unit);
+       lbr_wt = ((obj?.MetalDiaWt - obj?.findingwt));
+      
+      obj.lbr_wt = lbr_wt;
+      finalArr2.push(obj);
+    })
+    let finalArr3 = [];
+    finalArr2?.forEach((a) => {
+      let obj = {...a};
+      let lbr_amt = 0;
+        lbr_amt = ((obj?.MetalDiaWt - obj?.findingwt) * obj?.MaKingCharge_Unit);
+        obj.lbr_amt = lbr_amt;
+        finalArr3.push(obj);
+    })
+
+    let tot_lbr_wt =0;
+    let tot_lbr_amt =0;
+
+    finalArr3.forEach((a) => {
+      tot_lbr_wt += a?.lbr_wt;
+      tot_lbr_amt += a?.lbr_amt;
+    })
+
+
+    let finalArr4 = [];
+    finalArr4?.forEach((a) => {
+      let obj = {...a};
+      let lbr_rate = 0;
+      lbr_rate = ((obj?.lbr_amt) / (obj?.lbr_wt));
+      obj.lbr_rate = lbr_rate;
+      finalArr4.push(obj);
+    })
+    datas.resultArray = finalArr4;
+    // let totlbrrate = 0;
+    // datas?.resultArray?.forEach((a) => {
+    //     totlbrrate += a?.lbr_rate;
+    // })
+    let lbr_rate_total = 0;
+
+    lbr_rate_total = (tot_lbr_amt / (tot_lbr_wt === 0 ? 1 : tot_lbr_wt))
+    let rounduplabour =  Math.round(lbr_rate_total)
+    setTotalMakingChargeUnit(rounduplabour);
+
+  }
+
+
   return (
     <React.Fragment>
       {loader ? (
@@ -655,46 +742,66 @@ useEffect(() => {
           {msg === "" ? (
             <>
               <div>
-                <div className="container max_width_container px-2 print_sec_sum4">
+                
+                <div className="containerinvp4 pad_60_allPrint">
+                <div className="container max_width_container px-2 print_sec_sum4 pt-2 pb-4">
                   <Button />
                 </div>
-                <div className="containerinvp4 pad_60_allPrint">
                   <div>
-                    <div style={{border:"1px solid #e8e8e8", borderBottom:"0px"}}>{header}</div>
-                    <div className="subheadinvp4 d-flex justify-content-between p-1" style={{border:"1px solid #e8e8e8", borderBottom:"0px"}}>
-                      <div className="w-75 h-100">
-                        <div className="linesinvp4"> {headerData?.lblBillTo} </div>
-                        <div className="linesinvp4"> {headerData?.customerfirmname} </div>
-                        <div className="linesinvp4"> {headerData?.customerAddress1} </div>
-                        <div className="linesinvp4"> {headerData?.customerAddress2} </div>
-                        <div className="linesinvp4"> {headerData?.customerAddress3} </div>
-                        <div className="linesinvp4"> {headerData?.customercity} {headerData?.customerpincode} </div>
-                        <div className="linesinvp4"> {headerData?.customeremail1} </div>
-                        <div className="linesinvp4"> {headerData?.Cust_CST_STATE_No_} </div>
-                        <div className="linesinvp4"> {headerData?.vat_cst_pan} </div>
-                      </div>
-                      <div className="h-100 w-25">
-                        <div className="d-flex justify-content-between align-items-center w-100">
-                          <div className="fw-bold w-50 linesinvp4 d-flex justify-content-end align-items-center"> INVOICE# </div>
+                    {/* <div style={{border:"1px solid #e8e8e8", borderBottom:"0px"}}>{header}</div> */}
+                    <div>
+                      <div className="headline_invp4"> {result?.header?.PrintHeadLabel} </div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div className="invp4_fs p-1">
+                          <div className="invp4_fs_2 fw-bold">{result?.header?.CompanyFullName}</div>
+                          <div>{result?.header?.CompanyAddress}</div>
+                          <div>{result?.header?.CompanyAddress2}</div>
+                          <div>{result?.header?.CompanyCity} - {result?.header?.CompanyPinCode}, {result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
+                          <div>T {result?.header?.CompanyTellNo}</div>
+                          <div>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
+                          <div>{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE} - {result?.header?.Company_CST_STATE_No} | PAN - {result?.header?.Pannumber} </div>
+                          <div>CIN - {result?.header?.CINNO}  MSME - {result?.header?.MSME} </div>
+                        </div>
+                        
+                        <div className='pe-4'>  {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                          <img src={result?.header?.PrintLogo} alt="" 
+                          className='w-100 h-auto my-0 mx-auto d-block object-fit-contain'
+                          style={{minHeight:'75px', minWidth:'115px', maxWidth:'117px', maxHeight:'75px'}}
+                          onError={handleImageErrors} height={120} width={150} />)}
+                        </div>
 
-                          <div className="w-50 linesinvp4 d-flex justify-content-end align-items-center"> {headerData?.InvoiceNo} </div>
-                        </div>
-                        <div className="d-flex justify-content-end align-items-center w-100">
-                          <div className="linesinvp4 fw-bold">DATE</div>
-                          <div className="linesinvp4 w-50 d-flex justify-content-end align-items-center"> {headerData?.EntryDate} </div>
-                        </div>
-                        <div className="d-flex justify-content-end align-items-center w-100">
-                          <div className="linesinvp4 fw-bold">HSN</div>
-                          <div className="linesinvp4 w-50 d-flex justify-content-end align-items-center"> {headerData?.HSN_No} </div>
-                        </div>
-                        <div className="d-flex justify-content-end align-items-center w-100">
-                          <div className="linesinvp4 fw-bold">DUE DATE</div>
-                          <div className="linesinvp4 w-50 d-flex justify-content-end align-items-center"> {headerData?.DueDate} </div>
-                        </div>
-                        <div className="d-flex justify-content-end align-items-center w-100">
-                          <div className="linesinvp4 fw-bold">MSME</div>
-                          <div className="linesinvp4 w-50 d-flex justify-content-end align-items-center"> {headerData?.MSME} </div>
-                        </div>
+                      </div>
+                    </div>
+                    <div className="subheadinvp4 d-flex justify-content-between p-1" style={{border:"1px solid #e8e8e8", borderBottom:"1px solid #e8e8e8"}}>
+                      <div className="w-75 h-100 invp4_fs">
+                        <div > {result?.header?.lblBillTo} </div>
+                        <div className="invp4_fs_2 fw-bold"> {result?.header?.customerfirmname} </div>
+                        <div > {result?.header?.customerAddress1} </div>
+                        <div > {result?.header?.customerAddress2} </div>
+                        <div > {result?.header?.customerAddress3} </div>
+                        <div > {result?.header?.customercity} {result?.header?.customerpincode} </div>
+                        <div > {result?.header?.customeremail1} </div>
+                        <div > {result?.header?.Cust_CST_STATE_No_} </div>
+                        <div > {result?.header?.vat_cst_pan} </div>
+                      </div>
+                      <div className="w-25 invp4_fs">
+                          <div className="d-flex justify-content-end pe-2 w-100">
+                            <div className="fw-bold w_30_invp4 d-flex justify-content-start">#INVOICE</div>
+                            <div className="w-50 d-flex justify-content-end">{result?.header?.InvoiceNo}</div>
+                          </div>
+                          <div className="d-flex justify-content-end pe-2 w-100">
+                            <div className="fw-bold w_30_invp4 d-flex justify-content-start">DATE</div>
+                            <div className="w-50 d-flex justify-content-end">{result?.header?.EntryDate}</div>
+                          </div>
+                          <div className="d-flex justify-content-end pe-2 w-100">
+                            <div className="fw-bold w_30_invp4 d-flex justify-content-start">{result?.header?.HSN_No_Label}</div>
+                            <div className="w-50 d-flex justify-content-end">{result?.header?.HSN_No}</div>
+                          </div>
+                          <div className="d-flex justify-content-end pe-2 w-100">
+                            <div className="fw-bold w_30_invp4 d-flex justify-content-start">DUE DATE</div>
+                            <div className="w-50 d-flex justify-content-end">{result?.header?.DueDate}</div>
+                          </div>
+                         
                       </div>
                     </div>
                   </div>
@@ -798,13 +905,12 @@ useEffect(() => {
                       </div>
                     </div>
                   </div> */}
-                   <div
-                  // className="d-flex"
-                  style={{
+                   <div className="invp4_fs"
+                      style={{
                     fontSize:'12px',
                     position:'relative'
-                  }}
-                >
+                      }}
+                  >
                     
                   {/* <div className="w-50 d-flex flex-column justify-content-between position-relative d-flex">
                     <div className="w-100 h-100 position-relative">
@@ -816,9 +922,9 @@ useEffect(() => {
                  <div className="d-flex w-100 fw-bold mt-1 border">
                   <div style={{width:'40%'}} className="d-flex justify-content-center border-end">DESCRIPTION</div>
                   <div style={{width:'30%'}} className="ps-2">DETAIL</div>
-                  <div style={{width:'10%'}}>WEIGHT</div>
-                  <div style={{width:'10%'}}>RATE</div>
-                  <div style={{width:'10%'}}>AMOUNT</div>
+                  <div className="end_invp4_ pe-1" style={{width:'10%'}}>WEIGHT</div>
+                  <div className="end_invp4_ pe-1" style={{width:'10%'}}>RATE</div>
+                  <div className="end_invp4_ pe-1" style={{width:'10%'}}>AMOUNT</div>
                  </div>
                  {/* <div className="w-100" style={{borderBottom:'2px solid #d8d7d7'}}> */}
                  <div className="w-100 border-bottom" >
@@ -829,18 +935,44 @@ useEffect(() => {
                   {
                     metal_s?.map((e, i) => {
                       return(
-                        <div key={i} className="d-flex w-100  fsinvp3 border-start border-end" >
+                        <div key={i} className="d-flex w-100   border-start border-end invp4_fs" >
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                         <div style={{width:'30%'}} className="ps-2">
                           {e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}
                         </div>
-                        <div style={{width:'10%'}}>{e?.netWtFinal?.toFixed(3)}</div>
-                        <div style={{width:'10%'}}>{formatAmount((((e?.metalAmountFinal)/((e?.netWtFinal === 0 ? 1 : e?.netWtFinal))) / result?.header?.CurrencyExchRate))}</div>
-                        <div style={{width:'10%'}}>{formatAmount((e?.metalAmountFinal / result?.header?.CurrencyExchRate))}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{e?.netWtFinal?.toFixed(3)}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount((((e?.metalAmountFinal)/((e?.netWtFinal === 0 ? 1 : e?.netWtFinal))) / result?.header?.CurrencyExchRate))}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount((e?.metalAmountFinal / result?.header?.CurrencyExchRate))}</div>
                         </div>
                       )
                     })
                   }
+                  {
+                    diamond_s?.map((e, i) => {
+                      return(
+                        <div key={i} className="d-flex w-100   border-start border-end" >
+                        <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
+                        <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{Math.round(((e?.amount / result?.header?.CurrencyExchRate))/((e?.wt === 0 ? 1 : e?.wt)))}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount(e?.amount)}</div>
+                        </div>
+                      )
+                    })
+                  }
+                  {
+                    colorstone_s?.map((e, i) => {
+                      return(
+                        <div key={i} className="d-flex w-100   border-start border-end" >
+                        <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
+                        <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{Math.round(((e?.amount / result?.header?.CurrencyExchRate))/((e?.wt === 0 ? 1 : e?.wt)))}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount(e?.amount)}</div>
+                        </div>
+                      )
+                    })
+                  } 
                  {/* <div className="d-flex justify-content-start align-items-center border-start border-end"><input type="text" width={"200px"} style={{width:'280px'}} className="d-flex justify-content-center align-items-center ms-5" value={ diamond_s?.length > 0 ? `DIAMOND STUDDED JEWELLERY` : `GOLD JEWELLERY`} /></div> */}
               
                   {/* {
@@ -881,97 +1013,103 @@ useEffect(() => {
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                         <div style={{width:'30%'}} className="ps-2">LABOUR</div>
                         <div style={{width:'10%'}}></div>
-                        <div style={{width:'10%'}}></div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{total_makingcharge_unit}</div>
                         {/* <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost))}</div> */}
                         {console.log(result)}
-                        <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.miscAmount))}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.totalMiscAmount + result?.mainTotal?.total_diamondHandling))}</div>
                         </div>
                         <div className="d-flex w-100  fsinvp3 border-start border-end">
                         <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                         <div style={{width:'30%'}} className="ps-2">OTHER</div>
                         <div style={{width:'10%'}}></div>
                         <div style={{width:'10%'}}></div>
-                        <div style={{width:'10%'}}>{formatAmount(result?.mainTotal?.total_other)}</div>
+                        <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount(result?.mainTotal?.total_other)}</div>
                         </div>
                  </div>
-                 <div className="d-flex w-100 fw-bold border-top-0 border" style={{ fontSize:'14px'}}>
+                 <div className="d-flex w-100 fw-bold border-top-0 border invp4_fs_3">
                   <div style={{width:'40%'}} className="d-flex justify-content-center border-end"></div>
                   <div style={{width:'30%'}} className="ps-2">TOTAL</div>
                   <div style={{width:'10%'}}></div>
-                  <div style={{width:'10%'}}></div>
-                  <div style={{width:'10%'}}>{formatAmount(result?.mainTotal?.total_unitcost)}</div>
+                  {/* <div style={{width:'10%'}}></div> */}
+                  <div className="end_invp4_ pe-1" style={{width:'20%'}}>{formatAmount(result?.mainTotal?.total_amount)}</div>
                  </div>
                 </div>
                   <div className="summaryinvp4">
                     <div style={{ width: "60%", height: "100%" }}></div>
                     <div style={{ width: "40%" }}>
                       <div style={{ borderLeft: "1px solid #e8e8e8" }}>
-                        <div className="d-flex justify-content-between align-items-center ps-1">
+                        <div className="d-flex flex-column justify-content-between align-items-center ps-1">
                           {result?.allTaxes?.map((e, i) => {
                             return (
                               <div
                                 className="d-flex justify-content-between align-items-center w-100"
                                 key={i}
                               >
-                                <div
-                                  className="w-50"
-                                  style={{ borderRight: "1px solid #e8e8e8" }}
-                                >
+                                <div className="w-50" style={{ borderRight: "1px solid #e8e8e8" }} >
                                   {e?.name} {e?.per}
                                 </div>
                                 <div className="w-50 d-flex justify-content-end align-items-center pe-1">
-                                  {formatAmount(e?.amount)}
+                                  {formatAmount((+e?.amount * result?.header?.CurrencyExchRate))}
                                 </div>
                               </div>
                             );
                           })}
                         </div>
-                        {headerData?.AddLess !== 0 && (
+                        {result?.header?.AddLess !== 0 && (
                           <div className="d-flex justify-content-between align-items-center ps-1">
                             <div
                               className="w-50"
                               style={{ borderRight: "1px solid #e8e8e8" }}
                             >
-                              {headerData?.AddLess > 0 ? "Add" : "Less"}
+                              {result?.header?.AddLess > 0 ? "Add" : "Less"}
                             </div>
                             <div className="w-50 d-flex justify-content-end align-items-center pe-1">
-                              {formatAmount(headerData?.AddLess)}
+                              {formatAmount(result?.header?.AddLess)}
                             </div>
                           </div>
                         )}
                       </div>
-                      <div
-                        className="d-flex justify-content-between align-items-center ps-1 fw-bold"
-                        style={{
-                          borderTop: "1px solid #e8e8e8",
-                          borderLeft: "1px solid #e8e8e8",
-                        }}
-                      >
+                      <div className="d-flex justify-content-between align-items-center ps-1 fw-bold" style={{ borderTop: "1px solid #e8e8e8", borderLeft: "1px solid #e8e8e8", }} >
                         <div className="w-50" style={{fontSize:"13px"}}>GRAND TOTAL</div>
                         <div className="w-50 d-flex justify-content-end align-items-center pe-1" style={{fontSize:"13px"}}>
-                          {formatAmount(grandTotal)}
+                          {/* {formatAmount(grandTotal)} */}
+                          {formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))}
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="wordsinvp4">
                     <div>In Words Indian Rupees</div>
-                    <div className="fw-bold">{inWords}</div>
+                    <div className="fw-bold">{NumToWord((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + result?.header?.AddLess))}</div>
                   </div>
                   <div className="noteinvp4">
                     <div className="fw-bold">NOTE:</div>
-                    <div>{headerData?.PrintRemark}</div>
+                    <div>{result?.header?.PrintRemark}</div>
                   </div>
-                  <div className="declarationinvp4">
+                  <div className="declarationinvp4" style={{borderBottom:'1px solid #e8e8e8'}}>
                     <div className="fw-bold fs12invp4">DECLARATION :</div>
-                    <div
-                      style={{ fontWeight: "bold" }}
-                      dangerouslySetInnerHTML={{
-                        __html: headerData?.Declaration,
-                      }}
-                    ></div>
+                    <div style={{ fontWeight: "bold" }} dangerouslySetInnerHTML={{ __html: result?.header?.Declaration, }} ></div>
                   </div>
-                  <div className="fs12invp4 footerINVP4">{subheader}</div>
+                  <div className="d-flex brright_invp4 brbottom_invp4 brleft_invp4 footer_invp4_box">
+                    <div className="invp4_33 brright_invp4 invp4_fs p-1">
+                      <div className="fw-bold">Bank Detail</div>
+                      <div>Account Name : {result?.header?.accountname}</div>
+                      <div>Bank Name : {result?.header?.bankname}</div>
+                      <div>Branch : {result?.header?.bankaddress}</div>
+                      <div>Account No : {result?.header?.accountnumber}</div>
+                      <div>RTGS/NEFT IFSC : {result?.header?.rtgs_neft_ifsc}</div>
+                    </div>
+                    <div className="invp4_33 brright_invp4 invp4_fs p-1 d-flex flex-column justify-content-between align-items-start ">
+                        <div>Signature</div>
+                        <div className="fw-bold pb-2">{result?.header?.customerfirmname}</div>
+                    </div>
+                    <div className="invp4_33 invp4_fs p-1 d-flex flex-column justify-content-between align-items-start ">
+                      <div>Signature</div>
+                      <div className="fw-bold pb-2">{result?.header?.CompanyFullName}</div>
+                    </div>
+                    
+                  </div>
+                  {/* <div className="fs12invp4 footerINVP4">{subheader}</div> */}
                 </div>
               </div>
             </>

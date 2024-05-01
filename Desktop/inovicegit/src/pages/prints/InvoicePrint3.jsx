@@ -30,7 +30,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
-
+  const [total_makingcharge_unit, setTotalMakingChargeUnit] = useState(0);
   const [diamond_s, setDiamond_s] = useState([]);
   const [colorstone_s, setColorStone_s] = useState([]);
   const [metal_s, setMetal_s] = useState([]);
@@ -128,42 +128,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     let words = numberToWord(ab) + " Only";
     setTotDiscount(totdis);
 
-
-
-    // const groupedData = datas?.json2?.reduce((result, item) => {
-    //   let groupName;
-
-    //   switch (item.MasterManagement_DiamondStoneTypeid) {
-    //     case 1:
-    //       groupName = "DIAMOND";
-    //       break;
-    //     case 2:
-    //       groupName = "COLORSTONE";
-    //       break;
-    //     case 3:
-    //       groupName = "CZ STUDDED JEWELLERY";
-    //       break;
-    //     case 4:
-    //       groupName = "GOLD";
-    //       break;
-    //     default:
-    //       groupName = "OTHER";
-    //   }
-
-    //   // Initialize the group if it doesn't exist
-    //   if (!result[groupName]) {
-    //     result[groupName] = [];
-    //   }
-
-    //   // Add the item to the corresponding group
-    //   result[groupName].push(item);
-
-    //   return result;
-    // }, {});
-
-    // const groupNamesArray = Object?.keys(groupedData);
-    // const sentence = groupNamesArray?.join(", ");
-    // setDescArr(sentence);
   };
   async function loadData(data) {
     try {
@@ -183,6 +147,17 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
+      const datas2 = OrganizeDataPrint(
+        data?.BillPrint_Json[0],
+        data?.BillPrint_Json1,
+        data?.BillPrint_Json2
+      );
+
+      const datas_clone = cloneDeep(datas2);
+      
+
+      loadData2( datas_clone)
+
       let sen = '';
       let metal = datas?.json2?.filter((e) => e?.MasterManagement_DiamondStoneTypeid === 4)
       if(metal.length > 0){
@@ -236,7 +211,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         // let cls = [];
         e?.colorstone?.forEach((el) => {
           // let findRecord = colorstones?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.Colorname === el?.Colorname && a?.QualityName === el?.QualityName && a?.isRateOnPcs === el?.isRateOnPcs && a?.Rate === el?.Rate)
-          let findRecord = colorstones?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.Colorname === el?.Colorname && a?.QualityName === el?.QualityName && a?.SizeName === el?.SizeName && a?.isRateOnPcs === el?.isRateOnPcs)
+          // let findRecord = colorstones?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.Colorname === el?.Colorname && a?.QualityName === el?.QualityName && a?.SizeName === el?.SizeName && a?.isRateOnPcs === el?.isRateOnPcs)
+          let findRecord = colorstones?.findIndex((a) => a?.Rate === el?.Rate)
           if(findRecord === -1){
             let obj = {...el};
             obj.wt = obj?.Wt;
@@ -303,38 +279,60 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       // setMetal_s(met3);
 
       diamonds?.sort((a, b) => (((a?.amount / a?.wt) / result?.header?.CurrencyExchRate)) - ((b?.amount / b?.wt) / result?.header?.CurrencyExchRate))
-      colorstones?.sort((a, b) => (((a?.amount / a?.wt) / result?.header?.CurrencyExchRate)) - ((b?.amount / b?.wt) / result?.header?.CurrencyExchRate))
+      // colorstones?.sort((a, b) => (((a?.amount / a?.wt) / result?.header?.CurrencyExchRate)) - ((b?.amount / b?.wt) / result?.header?.CurrencyExchRate))
+      colorstones?.sort((a, b) => a?.Rate - b?.Rate)
       // diamonds?.sort((a, b) => a?.rate - b?.rate)
       
-      metals?.sort((a, b) => {
-        const qualityA = a?.QualityName?.toUpperCase();
-        const qualityB = b?.QualityName?.toUpperCase();
+      // metals?.sort((a, b) => {
+      //   const qualityA = a?.QualityName?.toUpperCase();
+      //   const qualityB = b?.QualityName?.toUpperCase();
     
-        // Extract the karat value from the QualityName
-        const karatA = parseInt(qualityA?.split(' ')[1]); // Extracts the numeric part from "GOLD 10K"
-        const karatB = parseInt(qualityB?.split(' ')[1]); // Extracts the numeric part from "GOLD 18K"
-        // If both are numbers (i.e., metal types), compare them numerically
-        if (!isNaN(karatA) && !isNaN(karatB)) {
-            return karatA - karatB;
+      //   // Extract the karat value from the QualityName
+      //   const karatA = parseInt(qualityA?.split(' ')[1]); // Extracts the numeric part from "GOLD 10K"
+      //   const karatB = parseInt(qualityB?.split(' ')[1]); // Extracts the numeric part from "GOLD 18K"
+      //   // If both are numbers (i.e., metal types), compare them numerically
+      //   if (!isNaN(karatA) && !isNaN(karatB)) {
+      //       return karatA - karatB;
+      //   }
+    
+      //   // If one of them is not a number (i.e., metal type and "TITANIUM High"), sort the metal type first
+      //   if (!isNaN(karatA)) {
+      //       return -1; // Place metal type before "TITANIUM High"
+      //   } else if (!isNaN(karatB)) {
+      //       return 1; // Place "TITANIUM High" after metal types
+      //   }
+    
+      //   // If both are not numbers, sort them alphabetically
+      //   if (qualityA < qualityB) return -1;
+      //   if (qualityA > qualityB) return 1;
+      //   return 0;
+      // });
+
+      let dia1 =[];
+      let dia2 = [];
+
+        dia1 = diamonds?.filter((e) => e?.Amount === 0 && e?.Rate === 0)
+        dia2 = diamonds?.filter((e) => e?.Amount !== 0 && e?.Rate !== 0)
+
+        let totwtdia = 0;
+        dia1?.forEach((a) => totwtdia += a?.wt)
+
+        let obj_dia = {
+          MasterManagement_DiamondStoneTypeName : 'DIAMOND',
+          MaterialTypeName:'',
+          Wt : totwtdia,
+          wt: totwtdia,
+          Rate : 0,
+          Amount : 0,
+          amount : 0
         }
-    
-        // If one of them is not a number (i.e., metal type and "TITANIUM High"), sort the metal type first
-        if (!isNaN(karatA)) {
-            return -1; // Place metal type before "TITANIUM High"
-        } else if (!isNaN(karatB)) {
-            return 1; // Place "TITANIUM High" after metal types
-        }
-    
-        // If both are not numbers, sort them alphabetically
-        if (qualityA < qualityB) return -1;
-        if (qualityA > qualityB) return 1;
-        return 0;
-      });
+
+        dia2?.splice(0, 0, obj_dia);
+
+        diamonds = dia2;
     
       setDiamond_s(diamonds);
-      setColorStone_s(colorstones);
-      // setMetal_s(metals);
-      // setGroupedArr(mainarr);
+      setColorStone_s(colorstones);      
       setResult(datas);
       setLoader(false);
       let resultArr = [];
@@ -378,6 +376,32 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           }
       }
       })
+
+      resultArr?.sort((a, b) => {
+        const qualityA = a?.MetalTypePurity?.toUpperCase();
+        const qualityB = b?.MetalTypePurity?.toUpperCase();
+    
+        // Extract the karat value from the QualityName
+        const karatA = parseInt(qualityA?.split(' ')[1]); // Extracts the numeric part from "GOLD 10K"
+        const karatB = parseInt(qualityB?.split(' ')[1]); // Extracts the numeric part from "GOLD 18K"
+        // If both are numbers (i.e., metal types), compare them numerically
+        if (!isNaN(karatA) && !isNaN(karatB)) {
+            return karatA - karatB;
+        }
+    
+        // If one of them is not a number (i.e., metal type and "TITANIUM High"), sort the metal type first
+        if (!isNaN(karatA)) {
+            return -1; // Place metal type before "TITANIUM High"
+        } else if (!isNaN(karatB)) {
+            return 1; // Place "TITANIUM High" after metal types
+        }
+    
+        // If both are not numbers, sort them alphabetically
+        if (qualityA < qualityB) return -1;
+        if (qualityA > qualityB) return 1;
+        return 0;
+      });
+
       setMetal_s(resultArr)
 
 
@@ -385,6 +409,78 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       console.log(error);
     }
   }
+
+  async function loadData2(data){
+    let datas = data;
+    console.log(datas);
+
+    let finalArr = [];
+
+    datas?.resultArray?.forEach((a) => {
+      let findingwt = 0;
+      datas?.json2?.forEach((el) => {
+        if(a?.SrJobno === el?.StockBarcode){
+          if(el?.MasterManagement_DiamondStoneTypeid === 5){
+            if(el?.Supplier === 'customer' || el?.supplier === 'Customer'){
+              findingwt += el?.Wt;
+            }
+          }
+        }
+      })
+      let obj = {...a};
+      obj.findingwt = findingwt;
+      finalArr.push(obj);
+    })
+
+    let finalArr2 = [];
+    finalArr?.forEach((e) => {
+      let obj = {...e};
+      let lbr_wt = 0;
+      // let lbr_wt = ((obj?.MetalDiaWt - obj?.findingwt) * obj?.MaKingCharge_Unit);
+       lbr_wt = ((obj?.MetalDiaWt - obj?.findingwt));
+      
+      obj.lbr_wt = lbr_wt;
+      finalArr2.push(obj);
+    })
+    let finalArr3 = [];
+    finalArr2?.forEach((a) => {
+      let obj = {...a};
+      let lbr_amt = 0;
+        lbr_amt = ((obj?.MetalDiaWt - obj?.findingwt) * obj?.MaKingCharge_Unit);
+        obj.lbr_amt = lbr_amt;
+        finalArr3.push(obj);
+    })
+
+    let tot_lbr_wt =0;
+    let tot_lbr_amt =0;
+
+    finalArr3.forEach((a) => {
+      tot_lbr_wt += a?.lbr_wt;
+      tot_lbr_amt += a?.lbr_amt;
+    })
+
+
+    let finalArr4 = [];
+    finalArr4?.forEach((a) => {
+      let obj = {...a};
+      let lbr_rate = 0;
+      lbr_rate = ((obj?.lbr_amt) / (obj?.lbr_wt));
+      obj.lbr_rate = lbr_rate;
+      finalArr4.push(obj);
+    })
+    datas.resultArray = finalArr4;
+    // let totlbrrate = 0;
+    // datas?.resultArray?.forEach((a) => {
+    //     totlbrrate += a?.lbr_rate;
+    // })
+    let lbr_rate_total = 0;
+
+    lbr_rate_total = (tot_lbr_amt / (tot_lbr_wt === 0 ? 1 : tot_lbr_wt))
+    let rounduplabour =  Math.round(lbr_rate_total)
+    setTotalMakingChargeUnit(rounduplabour);
+
+  }
+
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -432,17 +528,19 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 <div className="header2invp3">
                   <div>
-                    <p className="fw-bold fs-6"> {headerData?.customerfirmname} </p>
-                    <p className="fsinvp3">{headerData?.customerstreet}</p>
-                    <p className="fsinvp3">{headerData?.customerregion}</p>
-                    <p className="fsinvp3"> {headerData?.customercity} {headerData?.customerpincode} </p>
-                    <p className="fsinvp3"> Mobile : {headerData?.customermobileno} </p>
+                    <p className="fw-bold fs-6"> {result?.header?.customerfirmname} </p>
+                    <p className="fsinvp3">{result?.header?.customerstreet}</p>
+                    <p className="fsinvp3">{result?.header?.customerregion}</p>
+                    <p className="fsinvp3"> {result?.header?.customercity} {result?.header?.customerpincode} </p>
+                    <p className="fsinvp3"> Mobile : {result?.header?.customermobileno} </p>
                   </div>
-                  {console.log(result)}
                   <div className="w-25 fsinvp3">
-                      <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center" style={{width:'33%'}}>{result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN' } : </div><div className="d-flex justify-content-start align-items-center" style={{width:'67%'}}>{(result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo)}</div></div>
-                      <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center" style={{width:'33%'}}>{result?.header?.Cust_CST_STATE} : </div><div className="w-50" style={{width:'67%'}}>{result?.header?.Cust_CST_STATE_No}</div></div>
-                      <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center" style={{width:'33%'}}>PAN NO : </div><div className="w-50" style={{width:'67%'}}>{result?.header?.CustPanno}</div></div>
+                      <div className="d-flex justify-content-start align-items-center w-100">
+                        <div className="fw-bold d-flex justify-content-start align-items-center w1_invp3" >{result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN' } : </div>
+                        <div className="d-flex justify-content-start align-items-center w2_invp3"  >{(result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo)}</div>
+                      </div>
+                      <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center w1_invp3" >{result?.header?.Cust_CST_STATE} : </div><div className="w-50" style={{width:'67%'}}>{result?.header?.Cust_CST_STATE_No}</div></div>
+                      <div className="d-flex justify-content-start align-items-center w-100"><div className="fw-bold d-flex justify-content-start align-items-center w1_invp3" >PAN NO : </div><div className="w-50" style={{width:'67%'}}>{result?.header?.CustPanno}</div></div>
                   </div>
                 </div>
                 <div>
@@ -473,13 +571,13 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     diamond_s?.map((e, i) => {
                       return(
                         <div key={i} className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
-                        <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center">{
+                        <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center  text-break px-2">{
                           i === 0 ? `${descArr} JEWELLERY` : ''
                         }</div>
                         <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
                         <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
-                        <div style={{width:'10%'}}>{Math.round(((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)) / result?.header?.CurrencyExchRate))}</div>
-                        <div style={{width:'10%'}}>{formatAmount(e?.amount)}</div>
+                        <div style={{width:'10%'}}>{(Math.round(((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)) / result?.header?.CurrencyExchRate)) === 0 ? '' : Math.round(((e?.amount)/((e?.wt === 0 ? 1 : e?.wt)) / result?.header?.CurrencyExchRate)))}</div>
+                        <div style={{width:'10%'}}>{ e?.amount === 0 ? '' : formatAmount(e?.amount)}</div>
                         </div>
                       )
                     })
@@ -508,8 +606,9 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
                         <div style={{width:'30%'}} className="ps-2">LABOUR</div>
                         <div style={{width:'10%'}}></div>
-                        <div style={{width:'10%'}}></div>
-                        <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost))}</div>
+                        {console.log(result)}
+                        <div style={{width:'10%'}}>{Math.round(total_makingcharge_unit)}</div>
+                        <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_diamondHandling))}</div>
                         </div>
                         <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
@@ -529,16 +628,17 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
                 <div className="summaryinvp3">
                   <div className="totalinvp3">
-                    {totDiscount !== 0 && <div className="d-flex justify-content-between px-1">
+                    {result?.mainTotal?.total_discount_amount !== 0 && <div className="d-flex justify-content-between px-1">
                       <p className="w-50 text-start fsinvp3">Discount</p>
                       <p className="w-50 text-end fsinvp3">
-                        {formatAmount(totDiscount)}
+                        {formatAmount(result?.mainTotal?.total_discount_amount)}
+                        {/* {formatAmount(totDiscount)} */}
                       </p>
                     </div>}
                     <div className="d-flex justify-content-between px-1 fw-bold">
                       <p className="fsinvp3">Total Amount</p>
                       <p className="w-50 text-end fsinvp3">
-                        {formatAmount(mainTotal?.totAmount?.TotalAmount)}
+                        {formatAmount(result?.mainTotal?.total_amount)}
                       </p>
                     </div>
                     {result?.allTaxes?.length > 0 &&
@@ -551,9 +651,9 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         );
                       })}
 
-                    {headerData?.AddLess !== 0 && <div className="d-flex justify-content-between px-1">
-                      <p className="fsinvp3"> {headerData?.AddLess > 0 ? "Add" : "Less"} </p>
-                      <p className="w-50 text-end fsinvp3"> {formatAmount(headerData?.AddLess)} </p>
+                    {result?.header?.AddLess !== 0 && <div className="d-flex justify-content-between px-1">
+                      <p className="fsinvp3"> {result?.header?.AddLess > 0 ? "Add" : "Less"} </p>
+                      <p className="w-50 text-end fsinvp3"> {formatAmount(result?.header?.AddLess)} </p>
                     </div>}
                     <div className="d-flex justify-content-between px-1 mt-1" style={{ borderTop: "2.5px solid #e8e8e8" }} >
                       <p className="fw-bold fsinvp3">Grand Total</p>
@@ -563,7 +663,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   <div className="wordsinvp3 fsinvp3">
                     <p className="fw-bold px-2">NOTE:</p>
-                    <p className="fsinvp3" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }} ></p>
+                    <p className="fsinvp3" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }} ></p>
                   </div>
                 </div>
               </div>
