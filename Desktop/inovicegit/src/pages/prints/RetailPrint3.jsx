@@ -31,15 +31,17 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [misctotPcs, setMisctotPcs] = useState(null);
     const [gmwt, setGmwt] = useState(null);
     const [ctwwt, setCtwwt] = useState(null);
+    const [totPcs, setTotPcs] = useState(0);
+    const [totWt, setTotWt] = useState(0);
     const [document, setDocument] = useState({
         aadharcard: "",
         nri: "",
         passport: "",
     });
     const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+        const handleImageErrors = () => {
+            setIsImageWorking(false);
+        };
     // const loadData = (data) => {
     //     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     //     setHeader(head);
@@ -250,7 +252,25 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setMisctotPcs(totmiscwt)
 
         datas?.resultArray?.sort((a,b) => a?.designno - b?.designno)
-        
+
+        let tot_pcs2 = 0;
+        let tot_wt2 = 0;
+        datas?.resultArray?.forEach((e) => {
+                e?.diamonds?.forEach((el) => {
+                    tot_pcs2 += el?.dpcs;
+                    tot_wt2 += el?.dwt;
+                })
+               
+        })
+        datas?.resultArray?.forEach((e) => {
+                e?.colorstone?.forEach((el) => {
+                    tot_pcs2 += el?.cspcs;
+                    tot_wt2 += el?.cswt;
+                })
+               
+        })
+        setTotPcs(tot_pcs2)
+        setTotWt(tot_wt2)
         setResult(datas);
     }
     useEffect(() => {
@@ -736,11 +756,14 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <p className='d-flex p-1'></p>
                                 </div>
                                 <div className={`fw-bold w-100 text-end border-end  ${style?.pcs}`}>
-                                    <p className='p-1 w-100 d-flex justify-content-end align-items-center h-100 fs_rp_2_bold fs_rp_2'>{result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + misctotPcs + result?.mainTotal?.metal?.Pcs}</p>
+                                    {/* <p className='p-1 w-100 d-flex justify-content-end align-items-center h-100 fs_rp_2_bold fs_rp_2'>{result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + misctotPcs + result?.mainTotal?.metal?.Pcs}</p> */}
+                                    {/* <p className='p-1 w-100 d-flex justify-content-end align-items-center h-100 fs_rp_2_bold fs_rp_2'>{result?.mainTotal?.diamonds?.Pcs + misctotPcs }</p> */}
+                                    <p className='p-1 w-100 d-flex justify-content-end align-items-center h-100 fs_rp_2_bold fs_rp_2'>{totPcs + misctotPcs  }</p>
                                 </div>
                                 <div className={`d-flex justify-content-end align-items-center fw-bold w-100 text-end border-end fs_rp_2 ${style?.gWt}`}><p className='p-1 fs_rp_2'>{result?.mainTotal?.grosswt?.toFixed(3)}</p></div>
                                 <div className={`fw-bold w-100 text-end border-end  ${style?.nWt}`}>
-                                    <p className='d-flex p-1 justify-content-end fs_rp_2_bold fs_rp_2' >{ gmwt?.toFixed(3)} gms <br /> {ctwwt?.toFixed(3)} ctw</p>
+                                    {/* <p className='d-flex p-1 justify-content-end fs_rp_2_bold fs_rp_2' >{ gmwt?.toFixed(3)} gms <br /> {ctwwt?.toFixed(3)} ctw</p> */}
+                                    <p className='d-flex p-1 justify-content-end fs_rp_2_bold fs_rp_2' >{ gmwt?.toFixed(3)} gms <br /> {totWt?.toFixed(3)} ctw</p>
                                 </div>
                                 <div className={`fw-bold w-100 text-end border-end  ${style?.rate}`}>
                                     <p className='d-flex p-1 justify-content-end'></p>

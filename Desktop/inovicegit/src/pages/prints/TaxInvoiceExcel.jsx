@@ -375,7 +375,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         rowObj1.name = 'DIAMOND';
         rowObj1.value = (formatAmount(datas?.mainTotal?.diamonds?.Amount));
         rowObj1.dia_info_name = ( diarndotherarr5[1]  === undefined ? '' : (diarndotherarr5[1]?.ShapeName + " " + diarndotherarr5[1]?.QualityName + " " + diarndotherarr5[1]?.Colorname) )
-        rowObj1.dia_info_value = ( diarndotherarr5[1] === undefined ? '' : ( diarndotherarr5[1]?.pcPcss + " / " + (diarndotherarr5[1]?.wtWts)?.toFixed(3)) )
+        rowObj1.dia_info_value = ( diarndotherarr5[1] === undefined ? '' : ( diarndotherarr5[1]?.pcPcss + " / " + ((diarndotherarr5[1]?.wtWts)?.toFixed(3))) )
         // rowObj1.dia_info_name = ((diarndotherarr5[1]?.ShapeName !== undefined ? diarndotherarr5[1]?.ShapeName : "") + " " + 
         // ((diarndotherarr5[1]?.QualityName) === undefined ? '' : diarndotherarr5[1]?.QualityName) + " " + (diarndotherarr5[1]?.Colorname === undefined) ? '' : diarndotherarr5[1]?.Colorname)
         // rowObj1.dia_info_value = ((diarndotherarr5[1]?.pcPcss === undefined ? '' : diarndotherarr5[1]?.Colorname ) + " / " + ( diarndotherarr5[1]?.wtWts === undefined ? '' : (diarndotherarr5[1]?.wtWts)?.toFixed(3)))
@@ -388,7 +388,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
         let rowObj2 = {};
         rowObj2.grosswt_name = 'DIAMOND WT'
-        rowObj2.grosswt_value = (`${datas?.mainTotal?.diamonds?.Pcs} / ${datas?.mainTotal?.diamonds?.Wt}`);
+        rowObj2.grosswt_value = (`${datas?.mainTotal?.diamonds?.Pcs} / ${(datas?.mainTotal?.diamonds?.Wt)?.toFixed(3)}`);
         rowObj2.name = 'CST';
         rowObj2.value = (formatAmount(datas?.mainTotal?.colorstone?.Amount));
         rowObj2.dia_info_name = ( diarndotherarr5[2] === undefined ? '' : (diarndotherarr5[2]?.ShapeName + " " + diarndotherarr5[2]?.QualityName + " " + diarndotherarr5[2]?.Colorname  ))
@@ -401,7 +401,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
         let rowObj3 = {};
         rowObj3.grosswt_name = 'STONE WT'
-        rowObj3.grosswt_value = (`${datas?.mainTotal?.colorstone?.Pcs} / ${datas?.mainTotal?.colorstone?.Wt}`);
+        rowObj3.grosswt_value = (`${datas?.mainTotal?.colorstone?.Pcs} / ${(datas?.mainTotal?.colorstone?.Wt)?.toFixed(3)}`);
         rowObj3.name = 'MAKING';
         rowObj3.value = (formatAmount(( datas?.mainTotal?.total_Making_Amount + datas?.mainTotal?.diamonds?.SettingAmount + datas?.mainTotal?.colorstone?.SettingAmount)));
         rowObj3.dia_info_name = (  diarndotherarr5[3] === undefined ? '' : ( (diarndotherarr5[3]?.ShapeName + " " + diarndotherarr5[3]?.QualityName + " " + diarndotherarr5[3]?.Colorname  )))
@@ -518,7 +518,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
     
    
-
+console.log(result?.header);
   return (
     <>
     {
@@ -555,8 +555,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                         <tr> <td  colSpan={21}> {result?.header?.CompanyAddress2} </td> </tr>
                         <tr> <td  colSpan={21}> {result?.header?.CompanyCity} - {result?.header?.CompanyPinCode}, {result?.header?.CompanyState} ({result?.header?.CompanyCountry}) </td> </tr>
                         <tr> <td  colSpan={21}>T {result?.header?.CompanyTellNo} | TOLL FREE {result?.header?.CompanyTollFreeNo} </td> </tr>
-                        <tr> <td  colSpan={21}> {result?.header?.CompanyAddress} </td> </tr>
-                        <tr> <td  colSpan={21}> {result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE} - {result?.header?.Company_CST_STATE_No} | {result?.header?.Com_pannumber} </td> </tr>
+                        <tr> <td  colSpan={21}> {result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</td> </tr>
+                        <tr> <td  colSpan={21}> {result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE} - {result?.header?.Company_CST_STATE_No} | PAN - {result?.header?.Com_pannumber} </td> </tr>
                         <tr>
                             <td></td>
                         </tr>
@@ -571,19 +571,19 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             <td rowSpan={5} style={{borderBottom:'1px solid #e8e8e8', borderLeft:'1px solid #e8e8e8'}}></td>
                             <td colSpan={18}>{result?.header?.customerstreet}</td>
                             <td colSpan={2} >INVOICE#:</td>
-                            <th colSpan={2} style={{borderRight:'1px solid #e8e8e8'}}>{result?.header?.InvoiceNo}</th>
+                            <th colSpan={2} align='left' style={{borderRight:'1px solid #e8e8e8'}}>{result?.header?.InvoiceNo}</th>
                         </tr>
                         <tr>
                             
-                            <td colSpan={18}>{result?.header?.customerAddress2}</td>
-                            <td colSpan={2}>DATE#:</td>
-                            <th colSpan={2} style={{borderRight:'1px solid #e8e8e8'}}>{result?.header?.EntryDate}</th>
+                            <td colSpan={18}>{result?.header?.customerregion}</td>
+                            <td colSpan={2}>DATE:</td>
+                            <th colSpan={2} align='left' style={{borderRight:'1px solid #e8e8e8'}}>{result?.header?.EntryDate}</th>
                         </tr>
                         <tr>
                             
                             <td colSpan={18}>{result?.header?.customercity}{result?.header?.customerpincode}</td>
                             <td colSpan={2}>{result?.header?.HSN_No_Label} :</td>
-                            <th colSpan={2} style={{borderRight:'1px solid #e8e8e8'}}>{result?.header?.HSN_No}</th>
+                            <th colSpan={2} align='left' style={{borderRight:'1px solid #e8e8e8'}}>{result?.header?.HSN_No}</th>
                         </tr>
                         <tr>
                             
@@ -592,7 +592,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             <th colSpan={2} style={{borderRight:'1px solid #e8e8e8'}}></th>
                         </tr>
                         <tr>
-                            <td style={{borderBottom:'1px solid #e8e8e8'}} colSpan={18}>GSTIN : {(result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo)} | {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} | PAN - {result?.header?.CustPanno}</td>
+                            <td style={{borderBottom:'1px solid #e8e8e8'}} colSpan={18}>GSTIN : {(result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo)} | PAN - {result?.header?.CustPanno} | {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} </td>
                             <td colSpan={2} style={{borderBottom:'1px solid #e8e8e8'}}></td>
                             <th colSpan={2} style={{borderBottom:'1px solid #e8e8e8', borderRight:'1px solid #e8e8e8'}}></th>
                         </tr>
@@ -607,7 +607,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             <th style={{borderLeft:'1px solid #989898',borderTop:'1px solid #989898', borderBottom:'1px solid #989898',  backgroundColor:'#F5F5F5'}} colSpan={6}>Diamond</th>
                             <th style={{borderLeft:'1px solid #989898',borderTop:'1px solid #989898', borderBottom:'1px solid #989898',  backgroundColor:'#F5F5F5'}} colSpan={4}>Metal</th>
                             <th style={{borderLeft:'1px solid #989898',borderTop:'1px solid #989898', borderBottom:'1px solid #989898',  backgroundColor:'#F5F5F5'}} colSpan={6}>Stone</th>
-                            <th style={{borderLeft:'1px solid #989898',borderTop:'1px solid #989898', borderBottom:'1px solid #989898',  backgroundColor:'#F5F5F5'}} colSpan={1}>Other</th>
+                            <th style={{borderLeft:'1px solid #989898',borderTop:'1px solid #989898',   backgroundColor:'#F5F5F5'}} colSpan={1}>Other</th>
                             <th style={{borderLeft:'1px solid #989898',borderTop:'1px solid #989898', borderBottom:'1px solid #989898',  backgroundColor:'#F5F5F5'}} colSpan={2}>Labour</th>
                             <th style={{borderLeft:'1px solid #989898',borderTop:'1px solid #989898', borderRight:'1px solid #989898',  backgroundColor:'#F5F5F5'}} colSpan={1}>Total</th>
                         </tr>
@@ -646,17 +646,18 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         <td width={140} align='left'>&nbsp;{`${e?.dia_size}`}</td>
                                         <td width={90} align='right'>&nbsp;{e?.dia_pcs}</td>
                                         <td width={90} align='right'>&nbsp;{( e?.dia_wt === '' ? '' : (+e?.dia_wt)?.toFixed(3))}</td>
-                                        <td width={90} align='right'>&nbsp;{e?.dia_rate}</td>
+                                        
+                                        <td width={90} align='right'>&nbsp;{( e?.dia_rate === '' ? '' : formatAmount(e?.dia_rate))}</td>
                                         <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>&nbsp;{ e?.dia_amt === '' ? '' : formatAmount(e?.dia_amt)}</th>
                                         <td width={140}  style={{wordBreak:'break-word'}} align='left'>&nbsp;{`${e?.met_quality}`}</td>
                                         <td width={90} align='right'>&nbsp;{((+e?.met_wt)?.toFixed(3))}</td>
-                                        <td width={90} align='right'>&nbsp;{e?.met_rate}</td>
+                                        <td width={90} align='right'>&nbsp;{formatAmount(e?.met_rate)}</td>
                                         <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.met_amt}</th>
                                         <td width={140} align='left'>&nbsp;{e?.cls_code}</td>
                                         <td width={140} align='left'>&nbsp;{`${e?.cls_size}`}</td>
                                         <td width={90} align='right'>&nbsp;{e?.cls_pcs}</td>
                                         <td width={90} align='right'>&nbsp;{( e?.cls_wt === '' ? '' : ((+e?.cls_wt)?.toFixed(3)))}</td>
-                                        <td width={90} align='right'>&nbsp;{e?.cls_rate}</td>
+                                        <td width={90} align='right'>&nbsp;{( e?.cls_rate === '' ? '' :  formatAmount(e?.cls_rate))}</td>
                                         <th align='right' width={90} style={{borderRight:'1px solid #989898'}}>&nbsp;{ e?.cls_amt === '' ? '' : formatAmount(e?.cls_amt)}</th>
                                         <td width={90} align='right' style={{borderRight:'1px solid #989898'}}>&nbsp;{ e?.oth_amt === 0 ? '' : formatAmount(e?.oth_amt)}</td>
                                         <td width={90} align='right' style={{borderRight:'1px solid #989898'}}>&nbsp;{ e?.labour_rate === 0 ? '' :  formatAmount(e?.labour_rate)}</td>
@@ -679,7 +680,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 <td width={90} align='left'>&nbsp;{val?.diaflag && `${val?.dia_size}`}</td>
                                                 <td width={90} align='right'>&nbsp;{val?.diaflag && val?.dia_pcs}</td>
                                                 <td width={90} align='right'>&nbsp;{val?.diaflag && (+(val?.dia_wt))?.toFixed(3)}</td>
-                                                <td width={90} align='right'>&nbsp;{val?.diaflag && val?.dia_rate}</td>
+                                                <td width={90} align='right'>&nbsp;{val?.diaflag && ( val?.dia_rate === '' ? '' : formatAmount(val?.dia_rate))}</td>
                                                 <th width={90} style={{borderRight:'1px solid #989898'}} align='right'>&nbsp;{val?.diaflag && formatAmount(val?.dia_amt)}</th>
                                                 <th width={90} colSpan={val?.jobRemarkflag && 4} style={{borderRight:`${val?.jobRemarkflag && '1px solid #989898'}`}} align='left'>&nbsp;{val?.jobRemarkflag && (` Remark :  ${val?.JobRemark}`)}</th>
                                                 {val?.jobRemarkflag ? '' : <td width={90}></td>} 
@@ -689,7 +690,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 <td width={90} align='left'>&nbsp;{val?.clsflag && `${val?.cls_size}`}</td>
                                                 <td width={90} align='right'>&nbsp;{val?.clsflag && val?.cls_pcs}</td>
                                                 <td width={90} align='right'>&nbsp;{val?.clsflag && ((+val?.cls_wt))?.toFixed(3)}</td>
-                                                <td width={90} align='right'>&nbsp;{val?.clsflag && val?.cls_rate}</td>
+                                                <td width={90} align='right'>&nbsp;{val?.clsflag && ( val?.cls_rate === '' ? '' : formatAmount(val?.cls_rate))}</td>
                                                 <th width={90} style={{borderRight:'1px solid #989898'}} align='right'>&nbsp;{val?.clsflag && formatAmount(val?.cls_amt)}</th>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid #989898'}}></td>
@@ -701,7 +702,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                     {/* job wise total */}
                                     <tr>
                                         <td style={{borderRight:'1px solid #989898', borderBottom:'1px solid #989898'}}></td>
-                                        <td style={{borderRight:'1px solid #989898', borderBottom:'1px solid #989898'}} align='center' colSpan={2}>{ e?.values?.CertificateNo === '' ? '' : 'Cert#:'}<b>{e?.values?.CertificateNo === '' ? '' : e?.values?.CertificateNo}</b></td>
+                                        <td style={{borderRight:'1px solid #989898', borderBottom:'1px solid #989898'}} align='center' colSpan={2}>{ e?.values?.CertificateNo === '' ? '' : 'Cert#'}<b>{e?.values?.CertificateNo === '' ? '' : e?.values?.CertificateNo}</b></td>
                                         {/* <td align='center' ><td></td></td> */}
                                         {/* diamonds */}
                                         <td style={{backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}></td>
@@ -784,7 +785,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 <th align='left' style={{borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, borderRight:`${ i === 7 ? '1px solid #989898' : ''}`,backgroundColor:`${ i === 7 ? '#F5F5F5' : ''}` }}>{e?.name}</th>
                                                 <td colSpan={2} align='right' style={{borderRight:'1px solid #989898', borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, backgroundColor:`${ i === 7 ? '#F5F5F5' : ''}`, fontWeight:`${ i === 7 ? 'bold' : ''}`}}>&nbsp;{e?.value}</td>
                                                 <th colSpan={2} align='left'>{e?.dia_info_name}</th>
-                                                <td colSpan={2} align='right'>&nbsp;{e?.dia_info_value} {e?.dia_info_value === '' ? '' : 'cts'}</td>
+                                                <td colSpan={2} align='right'>&nbsp;{(e?.dia_info_value)} {e?.dia_info_value === '' ? '' : 'cts'}</td>
                                                 <td colSpan={2} align='left' style={{borderLeft:'1px solid #989898'}}>{e?.sum_info_name}</td>
                                                 <th align='center' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.sum_info_value}</th>
                                                  { e?.remark === '' ? '' : <td colSpan={3} style={{borderBottom:'1px solid #989899',  borderRight:'1px solid #989898'}}>{e?.remark}</td> } 

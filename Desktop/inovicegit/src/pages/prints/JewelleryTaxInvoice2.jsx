@@ -229,6 +229,23 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
             e.misc = miscss;
         })
 
+        let recheckArr = [];
+        datas?.resultArray?.forEach((e) => {
+          let obj = cloneDeep(e);
+          obj.MetalRate = e?.metal.reduce((acc, num) => acc + num?.Rate, 0) || 0;
+          obj.MetalRatePrimaryMetal = e?.metal.reduce((acc, num) => (num?.IsPrimaryMetal === 1 ? acc + num?.Rate : acc), 0) || 0;
+
+          obj?.metal?.forEach((el) => {
+              if(el?.IsPrimaryMetal === 1){
+                  obj.MetalColorCode = el?.MetalColorCode
+              }
+          })
+
+          recheckArr.push(obj);
+      })
+      
+        datas.resultArray = recheckArr;
+
         setResult(datas);
   
         
@@ -262,9 +279,10 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                         <div>Invoice#: <span className='fw-bold'>{result?.header?.InvoiceNo}</span> Dated <span className='fw-bold text-break'>{result?.header?.EntryDate}</span></div>
                         {/* <div>{result?.header?.HSN_No_Label}: <span className='fw-bold'>{result?.header?.HSN_No}</span></div> */}
                         <div>PAN#: <span className='fw-bold'>{result?.header?.CustPanno}</span></div>
-                        <div>VAT <span className='fw-bold text-break'>{result?.header?.Cust_VAT_GST_No}</span>| {result?.header?.Cust_CST_STATE} <span className='fw-bold'>{result?.header?.Cust_CST_STATE_No}</span></div>
+                        <div>{ result?.header?.CustGstNo === '' ? 'VAT' : 'GST' } <span className='fw-bold text-break'>{result?.header?.CustGstNo === '' ? result?.header?.Cust_CST_STATE_No : result?.header?.CustGstNo}</span>| {result?.header?.Cust_CST_STATE} <span className='fw-bold'>{result?.header?.Cust_CST_STATE_No}</span></div>
+                        <div>Terms: <span className='fw-bold'>{result?.header?.DueDays}</span></div>
                         <div>Due Date: <span className='fw-bold'>{result?.header?.DueDate}</span></div>
-                        <div className='d-flex'><div className='pe-2'>Salesrep:</div><div>{result?.header?.SalPerName?.split(" ")[0]}</div></div>
+                        <div className='d-flex'><div className='pe-2'>Salesrep:</div><div className='fw-bold'>{result?.header?.SalPerName?.split(" ")[0]}</div></div>
                         </div>
                     </div>
                     <div>
@@ -287,7 +305,7 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                                     </div>
                                     <div className='col3_jti2 start_jti2 align-items-start flex-column  brr_jti2 text-break'>
                                         <div className='p-1 text-break'>
-                                            {a?.MetalTypePurity} {a?.MetalColor} | {a?.grosswt?.toFixed(3)} gms GW | {a?.NetWt?.toFixed(3)} gms NW 
+                                            {a?.MetalTypePurity} {a?.MetalColorCode} | {a?.grosswt?.toFixed(3)} gms GW | {a?.NetWt?.toFixed(3)} gms NW 
                                             {
                                                 `${a?.totals?.diamonds?.Wt === 0 ? '' : (' | ' + a?.totals?.diamonds?.Wt?.toFixed(3) + " cts ") } `
                                             }
@@ -300,7 +318,7 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                                             </div>
                                             {
                                                 a?.diamonds?.map((e) => {
-                                                    return <div className='p-1'>Labgrown : {e?.Pcs} Pcs | {e?.Wt?.toFixed(3)} Cts | {e?.ShapeName} {e?.Colorname} {e?.QualityName} </div>
+                                                    return <div className='p-1'>Labgrown : {e?.Pcs} Pcs | {e?.Wt?.toFixed(3)} Cts | {e?.Colorname} {e?.QualityName} </div>
                                                 })
                                             }
                                             {
@@ -313,7 +331,7 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                                                     return <div className='p-1'>Misc : {e?.Pcs} Pcs | {e?.Wt?.toFixed(3)} gms | {e?.ShapeName}</div>
                                                 })
                                             }
-                                        { a?.JobRemark !== '' && <div className='d-flex align-items-center p-2'><div className='fs_jti2 pe-1 text-decoration-underline fw-bold'>REMARKS:</div><div>{a?.JobRemark}</div></div>}
+                                        { a?.JobRemark !== '' && <div className='d-flex flex-column align-items-start p-2'><div className='fs_jti2 pe-1 text-decoration-underline fw-bold'>REMARKS:</div><div>{a?.JobRemark}</div></div>}
                                     </div>
                                     <div className='col4_jti2 center_jti2 brr_jti2'><img src={a?.DesignImage} alt="#designimg" className='desimg_jti2' onError={(e) => handleImageError(e)} /></div>
                                     <div className='col5_jti2 end_jti2 align-items-start pt-1'><span dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></span><span className='ps-1 pe-1'>{formatAmount((a?.TotalAmount / result?.header?.CurrencyExchRate))}</span></div>
