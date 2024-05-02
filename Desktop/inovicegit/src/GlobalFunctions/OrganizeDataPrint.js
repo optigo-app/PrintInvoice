@@ -597,6 +597,8 @@ const allTaxes = allTax?.map((e) => {
     let obj = {...e};
     let metal_rate = e?.metal?.reduce((acc, val) => acc + val?.Rate, 0);
     obj.metal_rate = metal_rate;
+    let primary_metal_rate = e?.metal?.reduce((acc, val) => ( val?.IsPrimaryMetal === 1 ?  (acc + val?.Rate) : acc), 0);
+    obj.primary_metal_rate = primary_metal_rate;
     finalArr.push(obj);
   })
   const finalObject = {

@@ -1135,6 +1135,9 @@
 .be_1_pcl{
     border-right: 0.5px solid #989898;
 }
+.w_pcl_new{
+    width: 94% !important;
+}
 @media print {
     .btnpcl {
         display: none !important;

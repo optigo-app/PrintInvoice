@@ -176,7 +176,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       
           diarndotherarr5 = [...diaonlyrndarr6, diaObj];
           setDiamondWise(diarndotherarr5);
-
+          console.log(datas?.resultArray);
         datas?.resultArray?.forEach((el) => {
             let dia = [];
             el?.diamonds?.forEach((a) => {
@@ -247,7 +247,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.met_amt = 0;
             
                 obj.met_wt = e?.NetWt;
-                obj.met_rate = findMetal ? (Math.round(((findMetal?.Amount / datas?.header?.CurrencyExchRate)) / e?.NetWt)) : '';
+                // obj.met_rate = findMetal ? (Math.round(((findMetal?.Amount / datas?.header?.CurrencyExchRate)) / e?.NetWt)) : '';
+                obj.met_rate = findMetal ? (Math.round((findMetal?.Rate) )) : '';
                 obj.met_amt = findMetal ? (formatAmount(findMetal?.Amount)) : '';
                 obj.met_quality = findMetal ? (findMetal?.ShapeName + " " + findMetal?.QualityName) : '';
             
@@ -584,7 +585,7 @@ console.log(result?.header);
                             
                             <td colSpan={18}>{result?.header?.customerregion}</td>
                             <td colSpan={2}>DATE:</td>
-                            <th colSpan={2} align='left' style={{borderRight:'1px solid #e8e8e8'}}>{result?.header?.EntryDate}</th>
+                            <th colSpan={2} align='left' style={{borderRight:'1px solid #e8e8e8'}}>&nbsp;{result?.header?.EntryDate}</th>
                         </tr>
                         <tr>
                             
@@ -648,7 +649,7 @@ console.log(result?.header);
                                     <tr>
                                   { e?.srflag && <td width={90} style={{borderRight:'1px solid #989898'}} align='center' rowSpan={e?.srRowSpan + 1} >{e?.sr}</td>}
                                         <td width={120} style={{wordBreak:'break-word'}}>&nbsp;{e?.designno}</td>
-                                        <td width={120} style={{borderRight:'1px solid #989898', wordBreak:'break-word'}}>&nbsp;{e?.SrJobno}</td>
+                                        <td width={120} align='right' style={{borderRight:'1px solid #989898', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.SrJobno}&nbsp;</td>
                                         <td width={140} align='left' >&nbsp;{e?.dia_code}</td>
                                         <td width={140} align='left'>&nbsp;{`${e?.dia_size}`}</td>
                                         <td width={90} align='right'>&nbsp;{e?.dia_pcs}</td>
@@ -789,8 +790,8 @@ console.log(result?.header);
                                     return  <tr key={i}>
                                                 <th align='left' width={100}>{e?.grosswt_name}</th>
                                                 <td align='right' colSpan={2} style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.grosswt_value} {e?.grosswt_value === '' ? '' : `${(e?.grosswt_name === 'STONE WT' || e?.grosswt_name === 'DIAMOND WT') ? 'cts' : 'gms'}`}</td>
-                                                <th align='left' style={{borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, borderRight:`${ i === 7 ? '1px solid #989898' : ''}`,backgroundColor:`${ i === 7 ? '#F5F5F5' : ''}` }}>{e?.name}</th>
-                                                <td colSpan={2} align='right' style={{borderRight:'1px solid #989898', borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, backgroundColor:`${ i === 7 ? '#F5F5F5' : ''}`, fontWeight:`${ i === 7 ? 'bold' : ''}`}}>&nbsp;{e?.value}</td>
+                                                <th align='left' style={{borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, borderBottom:`${ i === 7 ? '1px solid #989898' : ''}`, borderRight:`${ i === 7 ? '1px solid #989898' : ''}`,backgroundColor:`${ i === 7 ? 'rgb(245, 245, 245)' : ''}` }}>{e?.name}</th>
+                                                <td colSpan={2} align='right' style={{borderRight:'1px solid #989898',borderBottom:`${ i === 7 ? '1px solid #989898' : ''}`, borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, backgroundColor:`${ i === 7 ? 'rgb(245, 245, 245)' : ''}`, fontWeight:`${ i === 7 ? 'bold' : ''}`}}>&nbsp;{e?.value}</td>
                                                 <th colSpan={2} align='left'>{e?.dia_info_name}</th>
                                                 <td colSpan={2} align='right'>&nbsp;{(e?.dia_info_value)} {e?.dia_info_value === '' ? '' : 'cts'}</td>
                                                 <td colSpan={2} align='left' style={{borderLeft:'1px solid #989898'}}>{e?.sum_info_name}</td>

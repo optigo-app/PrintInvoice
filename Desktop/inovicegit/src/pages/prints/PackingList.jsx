@@ -478,6 +478,43 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
       })
 
+      let finalArr =[];
+      datas?.resultArray?.forEach((e) => {
+          let obj = {...e};
+          let discountOn = [];
+          if(e?.IsCriteriabasedAmount === 1){
+              if(e?.IsMetalAmount === 1){
+                  discountOn.push('Metal')
+              }
+              if(e?.IsDiamondAmount === 1){
+                  discountOn.push('Diamond')
+              }
+              if(e?.IsStoneAmount === 1){
+                  discountOn.push('Stone')
+              }
+              if(e?.IsMiscAmount === 1){
+                  discountOn.push('Misc')
+              }
+              if(e?.IsLabourAmount === 1){
+                  discountOn.push('Labour')
+              }
+              if(e?.IsSolitaireAmount === 1){
+                  discountOn.push('Solitaire')
+              }
+          }else{
+              if(e?.Discount !== 0){
+                  discountOn.push('Total Amount')
+              }
+          }
+          
+          obj.discountOn = discountOn; 
+          obj.str_discountOn = discountOn?.join(', ');
+          obj.str_discountOn = obj?.str_discountOn + " Amount";
+          
+          finalArr.push(obj);
+      })
+      datas.resultArray = finalArr;
+
     setResult(datas);
     setLoader(false);
   };
@@ -545,12 +582,12 @@ console.log(result);
               <div className="pclprint pad_60_allPrint">
                 <div className="pclheader">
                   <div className="orailpcl">
-                  {isImageWorking && (result?.header?.PrintLogo !== "" && <img src={result?.header?.PrintLogo} alt="" className='w-100 h-auto ms-auto d-block object-fit-contain' onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
-                       {/* <img
-                      src={result?.header?.PrintLogo}
+                  {/* {isImageWorking && (result?.header?.PrintLogo !== "" && <img src={result?.header?.PrintLogo} alt="" className='w-100 h-auto ms-auto d-block object-fit-contain' onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)} */}
+                       <img
+                      src='http://nzen/R66B1/UFS/R66B1XZ4DVJSNAOE352WHP/companylogo/projectlogo.png'
                       alt="orail"
                       id="orailpcl"
-                    /> */}
+                    />
                   </div>
                   <div className="addresspcl fspcl">
                     {result?.header?.CompanyAddress?.split(",")[0]}{" "}
@@ -644,12 +681,13 @@ console.log(result);
                                   <div className="tbodyrowpcl">
                                     <div className="pcltbr1c1 fspcl"> {i+1} </div>
                                     <div className="pcltbr1c2 fspcl">
-                                      <div className="fspcl w-100 ps-1 text-break"> {e?.JewelCodePrefix + e?.SrJobno?.split("/")[1]} </div>
+                                      <div className="fspcl w-100 ps-1 text-break"> {e?.JewelCodePrefix + e?.Category_Prefix + e?.SrJobno?.split("/")[1]} </div>
                                       <div className="designimgpcl fspcl">
                                         <img src={e?.DesignImage} alt="packinglist" id="designimgpclid" onError={(e) => handleImageError(e)} />
                                       </div>
                                       {/* <div className="fspcl">{e?.CertificateNo}</div> */}
                                       {e?.HUID === "" ? ( "" ) : ( <div className="fspcl text-break"> HUID - {e?.HUID} </div> )}
+                                      <div className="fspcl text-break text-center w-100">{e?.lineid}</div>
                                     </div>
                                     {/* diamond */}
                                     <div className="pcltbr1c3 fspcl">
@@ -657,7 +695,8 @@ console.log(result);
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div className="leftpcl fspcl text-break" key={i} > {ele?.ShapeName} </div>
+                                              // <div className="leftpcl fspcl text-break" key={i} > {ele?.ShapeName} </div>
+                                              <div className="leftpcl fspcl text-break" key={i} >  </div>
                                             );
                                           })
                                         }
@@ -726,7 +765,8 @@ console.log(result);
                                             <div className="dcolsthpcl rightpcl fspcl p_2_pcl" style={{ width: "18%" }} >
                                               {/* {( +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3) )?.toFixed(3)} */}
                                               {/* {(   (e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3) )} */}
-                                              { (e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3) }
+                                              {/* { (e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3) } */}
+                                              { (e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3) }
                                             </div>
                                             <div className="dcolsthpcl fspcl p_2_pcl" style={{ width: "20%" }} >
                                               {
@@ -772,7 +812,8 @@ console.log(result);
                                           </div>
                                           <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1 rightpcl" >
                                             {/* {( +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3) )?.toFixed(3)} */}
-                                            {( e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3)}
+                                            {/* {( e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3)} */}
+                                            {( e?.totals?.metal?.IsPrimaryMetal )?.toFixed(3)}
                                           </div>
                                           <div style={{ width: "20%" }} className="be_1_pcl " > {
                                               // eslint-disable-next-line array-callback-return
@@ -912,6 +953,8 @@ console.log(result);
                                       {formatAmount((e?.UnitCost/(result?.header?.CurrencyExchRate)))}
                                     </div>
                                   </div>
+
+                                  {/* row wise total */}
                                   <div className="tbodyrowpcltot fspcl" style={{ borderTop: "1px solid #989898", backgroundColor:'#F5F5F5 !important' }} >
                                     <div className="srpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "14px", }} ></div>
                                     <div className="jwlpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "14px", }} ></div>
@@ -933,12 +976,20 @@ console.log(result);
                                       </div>
                                       <div className="dcolsthpcl rightpcl fwboldpcl fspcld-flex justify-content-end align-items-center" style={{ width: "18%" }} >
                                         {/* {( +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3) )?.toFixed(3)} */}
-                                        { (e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3) }
-                                        {/* { (e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3) } */}
+                                        {/* { (e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3) } */}
+                                        { (e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3) }
                                       </div>
                                       <div className="dcolsthpcl" style={{ width: "20%" }} ></div>
                                       <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px",  width: "22%", }} >
-                                        { formatAmount(e?.totals?.metal?.IsPrimaryMetal_Amount)}
+                                        {/* { formatAmount(e?.totals?.metal?.IsPrimaryMetal_Amount)} */}
+                                        {
+                                              // eslint-disable-next-line array-callback-return
+                                              e?.metal?.map((ele, i) => {
+                                                return (
+                                                  <div className="rightpcl fspcl pt-1" key={i} > {" "} {ele?.IsPrimaryMetal ===1 && formatAmount( (ele?.Amount/(result?.header?.CurrencyExchRate)) )}{" "} </div>
+                                                );
+                                              })
+                                            }
                                       </div>
                                     </div>
                                     <div className="stnpcltotrowtb">
@@ -975,10 +1026,13 @@ console.log(result);
                                       <div className="jwlpcltotrowtb fspcl" style={{ backgroundColor:'#F5F5F5 !important', height: "13px", }} ></div>
                                       <div className="diapcltotrowtb fspcl"></div>
                                       <div className="diapcltotrowtb"></div>
-                                      <div className="stnpcltotrowtb"></div>
-                                      <div className="lopcltotrowtb dispcltotrowtb" style={{ width: "20%" }} >
-                                        <div className="discpclcs fwboldpcl fspcl2"> Discount {e?.Discount}% @Total Amount </div>
-                                        <div className="disvalpclcs  fwboldpcl fspcl d-flex justify-content-end rightpcl" style={{ borderRight: "0px" }} >
+                                      {/* <div className="stnpcltotrowtb"></div> */}
+                                      <div className="lopcltotrowtb dispcltotrowtb " style={{ width: "41%" }} >
+                                        <div className="discpclcs fwboldpcl fspcl2 d-flex justify-content-end pe-2"> Discount { e?.Discount === 0 ? '-' : <span className='text-break'>
+                                            { `${formatAmount(e?.Discount)} % On ${e?.str_discountOn}` }
+                                            {/* {e?.discountOn?.map((el, ind) => <div className='text-break' key={ind}>{`${formatAmount(e?.Discount)} % On ${el}`}</div>)} */}
+                                        </span> } </div>
+                                        <div className="disvalpclcs  fwboldpcl fspcl d-flex justify-content-end rightpcl" style={{ borderRight: "0px", width:'28.7%' }} >
                                           {formatAmount((e?.DiscountAmt/(result?.header?.CurrencyExchRate)))}
                                         </div>
                                       </div>
@@ -1019,7 +1073,8 @@ console.log(result);
                       </div>
                       <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{  width: "18%" }} >
                         {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
-                        {(result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt)?.toFixed(3)}
+                        {/* {(result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt)?.toFixed(3)} */}
+                        {(result?.mainTotal?.metal?.IsPrimaryMetal )?.toFixed(3)}
                       </div>
                       <div className="dcolsthpcl" style={{ width: "20%" }} ></div>
                       <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", width: "22%", }} >
