@@ -600,7 +600,7 @@ console.log(result?.header);
                             <th colSpan={2} style={{borderRight:'1px solid #e8e8e8'}}></th>
                         </tr>
                         <tr>
-                            <td style={{borderBottom:'1px solid #e8e8e8'}} colSpan={18}>GSTIN : {(result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo)} | PAN - {result?.header?.CustPanno} | {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} </td>
+                            <td style={{borderBottom:'1px solid #e8e8e8'}} colSpan={18}>GSTIN : {(result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo)} | {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No}  | PAN - {result?.header?.CustPanno}  </td>
                             <td colSpan={2} style={{borderBottom:'1px solid #e8e8e8'}}></td>
                             <th colSpan={2} style={{borderBottom:'1px solid #e8e8e8', borderRight:'1px solid #e8e8e8'}}></th>
                         </tr>
