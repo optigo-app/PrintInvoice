@@ -18,6 +18,7 @@ import Button from "../../GlobalFunctions/Button";
 import Loader from "../../components/Loader";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { ToWords } from "to-words";
+import { NumToWord } from './../../GlobalFunctions/NumToWord';
 
 const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const toWords = new ToWords();
@@ -503,7 +504,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="">{result?.header?.customercity}</div>
                       <div className="">{result?.header?.customermobileno}</div>
                       <div className="">
-                        GSTIN - {result?.header?.Cust_VAT_GST_No} |{" "}
+                        { result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN' } - { result?.header?.Cust_VAT_GST_No === '' ?  result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo} |{" "}
                         {result?.header?.Cust_CST_STATE} -{" "}
                         {result?.header?.Cust_CST_STATE_No} | PAN -{" "}
                         {result?.header?.CustPanno}
@@ -564,7 +565,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               {e?.grosswt?.toFixed(3)}
                             </div>
                             <div className="wtbsum1 alignrightsum1 pe-1">
-                              {(e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3)}
+                              {(e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3)}
                               {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
                             </div>
                             <div className="wtbsum1 alignrightsum1 pe-1">
@@ -613,7 +614,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             {/* {totalnetlosswt?.toFixed(3)} */}
                             {/* {(formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt))} */}
                             {/* {( result?.mainTotal?.netwt + result?.mainTotal?.lossWt )?.toFixed(3)} */}
-                            {((result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt)?.toFixed(3))}
+                            {((result?.mainTotal?.metal?.IsPrimaryMetal )?.toFixed(3))}
                           </b>
                         </div>
                         <div className="wtbsum1 htotalrowsum1 alignrightsum1">
@@ -688,13 +689,16 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="grandtotalsum1">
                         {/* <div className="amtwordssum1 px-2">{inWords}</div> */}
                         <div className="amtwordssum1 px-2 fsrtis1">
-                          {toWords?.convert(
+                          {NumToWord(((result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)) +
+                              result?.allTaxesTotal +
+                              result?.header?.AddLess))}
+                          {/* {toWords?.convert(
                             +(
                               (result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)) +
                               result?.allTaxesTotal +
                               result?.header?.AddLess
                             )?.toFixed(2)
-                          )}
+                          )} */}
                         </div>
                         <div className="amtwordssum1 wtotsum1 d-flex align-items-center justify-content-end wgtsum1">
                           <div className="d-flex justify-content-end w-50 fsrtis1 text-break">
@@ -711,7 +715,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               (result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)) +
                                 result?.allTaxesTotal +
                                 result?.header?.AddLess
-                            )}
+                            )} /-
                           </div>
                         </div>
                       </div>

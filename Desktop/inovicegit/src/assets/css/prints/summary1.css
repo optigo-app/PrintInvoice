@@ -333,7 +333,11 @@
     line-height: 20px;
     font-weight: bold;
     font-size: 12px;
-    padding: 5px;
+    padding: 1px;
+    word-wrap: break-word;
+    word-break: break-word;
+    align-items: flex-start;
+    display: flex;
 }
 
 .addSum1 {

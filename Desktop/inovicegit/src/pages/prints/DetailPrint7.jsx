@@ -324,6 +324,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         finewt_ += e?.fineWtss;
       });
 
+
       datas?.resultArray?.forEach((e) => {
         let arr = [];
         // console.log("hello");
@@ -784,84 +785,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                           <div style={{ width: "" }} className=" col7dp7 ">
                             <div className="d-grid h-100">
-                              {/* {e?.diamond_colorstone_misc?.map((el, ind) => { */}
-                              {/* {e?.dcm_grp?.map((el, ind) => {
-                                return (
-                                  <div className="d-flex brtdp7" key={ind}>
-                                    <div className="w_subcoldp7 dp7cen1 brdp7">
-                                      {el?.ShapeName}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {el?.dcm_pcs}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {el?.ShapeName ===
-                                      "Certification_NM award"
-                                        ? e?.certificateWtDia?.toFixed(3)
-                                        : el?.dcm_wt?.toFixed(3)}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                        {el?.ShapeName === "Certification_NM award" ? (formatAmount(((el?.dcm_amt)/(e?.certificateWtDia === 0 ? 1 : e?.certificateWtDia))))
-                                        : (formatAmount((el?.dcm_amt)/(el?.dcm_wt)))}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2">
-                                      {el?.dcm_amt?.toFixed(2)}
-                                    </div>
-                                  </div>
-                                );
-                              })} */}
-                              {/* {
-                            e?.all_m_d_c_m?.map((el, ind) => {
-                              return(
-                               <React.Fragment key={ind}>
-                                {
-                                  el?.IsPrimaryMetal === 1  && el?.MasterManagement_DiamondStoneTypeid === 4 ?  <div className="d-flex brtdp7" key={ind}>
-                                  <div className="w_subcoldp7 dp7cen1 brdp7">
-                                      {el?.ShapeName}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {el?.Pcs}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {el?.Wt?.toFixed(3)}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {formatAmount(el?.Rate)}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2" style={{width:'25%'}}>
-                                      {formatAmount((el?.Amount/(result?.header?.CurrencyExchRate)))}
-                                    </div>
-                                </div> : '' 
-                                }
-                               </React.Fragment>
-                              )
-                            })
-                           } */}
-                              {/* {e?.diamond_colorstone_misc?.map((el, ind) => {
-                                return (
-                                  <div className="d-flex brtdp7" key={ind}>
-                                    <div className="w_subcoldp7 dp7cen1 brdp7">
-                                      {el?.ShapeName}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {el?.Pcs}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {el?.ShapeName ===
-                                      "Certification_NM award"
-                                        ? e?.certificateWtDia?.toFixed(3)
-                                        : el?.Wt?.toFixed(3)}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2 brdp7">
-                                      {el?.Rate?.toFixed(2)}
-                                    </div>
-                                    <div className="w_subcoldp7 dp7cen2">
-                                      {el?.Amount?.toFixed(2)}
-                                    </div>
-                                  </div>
-                                );
-                              })} */}
-
                               {e?.metal?.length > 0 &&
                                 e?.metal?.map((el, ind) => {
                                   return (
@@ -1070,6 +993,7 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                       >
                                         
                                       </div>
+                                
                                     </div>}
                             </div>
                           </div>
