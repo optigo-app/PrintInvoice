@@ -27,7 +27,6 @@
 .lines {
     line-height: 100%;
     padding: 2px;
-    height: 16px;
     font-size: 14px;
 }
 .linesmain {
@@ -45,6 +44,7 @@
     justify-content: space-between;
     align-items: flex-start;
     border-top: 1px solid #e8e8e8;
+    flex-wrap: wrap;
     min-height: 25px;
     height: 100%;
 }
@@ -91,4 +91,10 @@
 .commonwidthh3{
     width: 33.33%;
     padding: 2px;
+}
+
+@media print{
+   .lines, .einvdetails .einvoiceDetails, .fshead3comp {
+        font-size: 10px !important;
+    }
 }

@@ -27,6 +27,8 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
   const [footer, setFooter] = useState(null);
   const [headerData, setHeaderData] = useState({});
   const [customerAddress, setCustomerAddress] = useState([]);
+  const [headerss, setHeaderss] = useState(null);
+
   const [total, setTotal] = useState({
     total: 0,
     grandtotal: 0,
@@ -60,32 +62,30 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     secondaryMetal: [],
     fullnfinaltotal: 0,
   });
+
   const [totalss, setTotalss] = useState({
     total: 0,
     discount: 0,
     totalPcs: 0,
     SettingAmount: 0,
-  })
+  });
 
   const loadData = (data) => {
     let discounts = 0
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     setHeader(head);
+    let headersss = HeaderComponent("3", data?.BillPrint_Json[0]);
+    setHeaderss(headersss);
     setHeaderData(data?.BillPrint_Json[0]);
     let footers = FooterComponent("2", data?.BillPrint_Json[0]);
     setFooter(footers);
     let custAddress = data?.BillPrint_Json[0]?.Printlable.split("\n");
     setCustomerAddress(custAddress);
 
-
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
     setTaxes(datas?.allTaxes);
     setMainDatas(datas)
     console.log(datas);
-    // let secondaryMetals = datas?.json2?.filter(ele=> ele?.IsPrimaryMetal !== 1 && ele?.MasterManagement_DiamondStoneTypeid === 4);
-    // console.log(secondaryMetals);
-    // let findingss = datas?.json2?.filter(ele=> ele?.MasterManagement_DiamondStoneTypeid === 5);
-    // console.log(findingss);
     let resultArr = [];
     let findings = [];
     let diamonds = [];
@@ -411,34 +411,35 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         </div>
       </div>
       {/* header */}
-      <div className={`${style2.headline} headerTitle`}>{headerData?.PrintHeadLabel}</div>
-      <div className={style2.companyDetails}>
-        <div className={`${style2.companyhead} p-2`}>
-          <div className={style2.lines} style={{ fontWeight: "bold" }}>
-            {headerData?.CompanyFullName}
-          </div>
-          <div className={style2.lines}>{headerData?.CompanyAddress}</div>
-          <div className={style2.lines}>{headerData?.CompanyAddress2}</div>
-          <div className={style2.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
-          {/* <div className={style2.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
-          <div className={style2.lines}>T:  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
-          <div className={style2.lines}>
-            {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
-          </div>
-          <div className={style2.lines}>
-            {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
-            {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
-          </div>
-        </div>
-        <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
-          {isImageWorking && (headerData?.PrintLogo !== "" &&
-            <img src={headerData?.PrintLogo} alt=""
-              className='w-100 h-auto ms-auto d-block object-fit-contain'
-              style={{ maxWidth: '116px' }}
-              onError={handleImageErrors} height={120} width={150} />)}
-          {/* <img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /> */}
-        </div>
-      </div>
+      {headerData?.IsEinvoice !== 1 ?
+        <><div className={`${style2.headline} headerTitle`}>{headerData?.PrintHeadLabel}</div>
+          <div className={style2.companyDetails}>
+            <div className={`${style2.companyhead} p-2`}>
+              <div className={style2.lines} style={{ fontWeight: "bold" }}>
+                {headerData?.CompanyFullName}
+              </div>
+              <div className={style2.lines}>{headerData?.CompanyAddress}</div>
+              <div className={style2.lines}>{headerData?.CompanyAddress2}</div>
+              <div className={style2.lines}>{headerData?.CompanyCity}-{headerData?.CompanyPinCode},{headerData?.CompanyState}({headerData?.CompanyCountry})</div>
+              {/* <div className={style2.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
+              <div className={style2.lines}>T:  {headerData?.CompanyTellNo} | TOLL FREE {headerData?.CompanyTollFreeNo} | TOLL FREE {headerData?.CompanyTollFreeNo}</div>
+              <div className={style2.lines}>
+                {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
+              </div>
+              <div className={style2.lines}>
+                {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
+                {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
+              </div>
+            </div>
+            <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100">
+              {isImageWorking && (headerData?.PrintLogo !== "" &&
+                <img src={headerData?.PrintLogo} alt=""
+                  className='w-100 h-auto ms-auto d-block object-fit-contain'
+                  style={{ maxWidth: '116px' }}
+                  onError={handleImageErrors} height={120} width={150} />)}
+              {/* <img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /> */}
+            </div>
+          </div></> : headerss}
       {/* barcodes */}
       {pnm === "invoice print 10" && <div className="mb-1">
         <div className="d-flex justify-content-between border p-2 pb-1">
@@ -716,17 +717,17 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           <div className="col-8 border-end px-1">
             <p className="fw-bold"> IN Words Indian Rupees</p>
             <p className="fw-bold">
-              {toWords.convert(+fixedValues(+fixedValues(mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2) + 
-              (+fixedValues(headerData?.AddLess / headerData?.CurrencyExchRate, 2) + 
-              mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount, 2)), 0)) , 2))} Only.
+              {toWords.convert(+fixedValues(+fixedValues(mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2) +
+                (+fixedValues(headerData?.AddLess / headerData?.CurrencyExchRate, 2) +
+                  mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount, 2)), 0)), 2))} Only.
             </p>
           </div>
           <div className="col-4 px-1 d-flex justify-content-between align-items-center">
             <p className="text-end fw-bold">Grand Total </p>
             <p className="text-end fw-bold">
-              {NumberWithCommas(+fixedValues(mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2) + 
-              (+fixedValues(headerData?.AddLess / headerData?.CurrencyExchRate, 2) + 
-              mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount, 2)), 0)), 2)}
+              {NumberWithCommas(+fixedValues(mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2) +
+                (+fixedValues(headerData?.AddLess / headerData?.CurrencyExchRate, 2) +
+                  mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount, 2)), 0)), 2)}
             </p>
           </div>
         </div>
