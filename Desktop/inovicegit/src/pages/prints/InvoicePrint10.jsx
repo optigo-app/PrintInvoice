@@ -51,6 +51,7 @@ const InvoicePrint_10_11 = ({
   const [pnm, setPnm] = useState(atob(printName).toLowerCase());
   const [totalpcsss, setTotalPcsss] = useState(0);
   const toWords = new ToWords();
+  const [headerss, setHeaderss] = useState(null);
 
   const [mainData, setMainData] = useState({
     resultArr: [],
@@ -77,6 +78,8 @@ const InvoicePrint_10_11 = ({
     setFooter(footers);
     let custAddress = data?.BillPrint_Json[0]?.Printlable.split("\n");
     setCustomerAddress(custAddress);
+    let headersss = HeaderComponent("3", data?.BillPrint_Json[0]);
+    setHeaderss(headersss);
     let datas = OrganizeDataPrint(
       data?.BillPrint_Json[0],
       data?.BillPrint_Json1,
@@ -113,7 +116,7 @@ const InvoicePrint_10_11 = ({
       let findingsAmount = 0;
       let secondaryMetalAmount = 0;
 
-      
+
 
       obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
       e?.finding?.forEach((ele, ind) => {
@@ -158,7 +161,7 @@ const InvoicePrint_10_11 = ({
       let secondMetalWt = 0;
       // console.log(findingsWt);
       let netWtFinal = e?.NetWt + e?.LossWt - findingsWt;
- 
+
       diamondHandling += e?.TotalDiamondHandling;
       e?.metal?.forEach((ele, ind) => {
         count += 1;
@@ -172,8 +175,8 @@ const InvoicePrint_10_11 = ({
           secondMetalWt += ele?.Wt;
         }
       });
-      let latestAmount = (((e?.MetalDiaWt - findingsWt) * primaryMetalRAte) + secondaryMetalAmount );
-              total2.total += latestAmount;
+      let latestAmount = (((e?.MetalDiaWt - findingsWt) * primaryMetalRAte) + secondaryMetalAmount);
+      total2.total += latestAmount;
       let finalMetalAmount = (e?.MetalDiaWt - (e?.totals?.finding?.Wt * e?.LossPer) / 100 + e?.totals?.finding?.Wt) * primaryMetalRAte + secondaryMetalAmount;
 
       // labour.primaryWt += primaryWt;
@@ -194,8 +197,8 @@ const InvoicePrint_10_11 = ({
       if (obj?.primaryMetal) {
         // total2.total +=
         //   obj?.metalAmountFinal / data?.BillPrint_Json[0]?.CurrencyExchRate;
-        let findRecord = resultArr?.findIndex( (ele, ind) => ele?.primaryMetal?.ShapeName === obj?.primaryMetal?.ShapeName && 
-        ele?.primaryMetal?.QualityName === obj?.primaryMetal?.QualityName && ele?.primaryMetal?.Rate === obj?.primaryMetal?.Rate
+        let findRecord = resultArr?.findIndex((ele, ind) => ele?.primaryMetal?.ShapeName === obj?.primaryMetal?.ShapeName &&
+          ele?.primaryMetal?.QualityName === obj?.primaryMetal?.QualityName && ele?.primaryMetal?.Rate === obj?.primaryMetal?.Rate
         );
         if (findRecord === -1) {
           resultArr?.push(obj);
@@ -443,53 +446,53 @@ const InvoicePrint_10_11 = ({
         </div>
       </div>
       {/* header */}
-      <div className={`${style2.headline} headerTitle`}>
+      {headerData?.IsEinvoice !== 1 ? <><div className={`${style2.headline} headerTitle`}>
         {headerData?.PrintHeadLabel}
       </div>
-      <div className={`${style?.font_12} ${style2.companyDetails}`}>
-        <div className={`${style2.companyhead} p-2`}>
-          <div className={`${style2.lines} ${style?.font_16}`} style={{ fontWeight: "bold" }} >
-            {headerData?.CompanyFullName}
+        <div className={`${style?.font_12} ${style2.companyDetails}`}>
+          <div className={`${style2.companyhead} p-2`}>
+            <div className={`${style2.lines} ${style?.font_16}`} style={{ fontWeight: "bold" }} >
+              {headerData?.CompanyFullName}
+            </div>
+            <div className={style2.lines}>{headerData?.CompanyAddress}</div>
+            <div className={style2.lines}>{headerData?.CompanyAddress2}</div>
+            <div className={style2.lines}>
+              {headerData?.CompanyCity}-{headerData?.CompanyPinCode},
+              {headerData?.CompanyState}({headerData?.CompanyCountry})
+            </div>
+            {/* <div className={style2.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
+            <div className={style2.lines}>
+              T: {headerData?.CompanyTellNo} | TOLL FREE{" "}
+              {headerData?.CompanyTollFreeNo} | TOLL FREE{" "}
+              {headerData?.CompanyTollFreeNo}
+            </div>
+            <div className={style2.lines}>
+              {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
+            </div>
+            <div className={style2.lines}>
+              {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
+              {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-
+              {headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
+            </div>
           </div>
-          <div className={style2.lines}>{headerData?.CompanyAddress}</div>
-          <div className={style2.lines}>{headerData?.CompanyAddress2}</div>
-          <div className={style2.lines}>
-            {headerData?.CompanyCity}-{headerData?.CompanyPinCode},
-            {headerData?.CompanyState}({headerData?.CompanyCountry})
+          <div
+            style={{ width: "30%" }}
+            className="d-flex justify-content-end align-item-center h-100"
+          >
+            {isImageWorking && headerData?.PrintLogo !== "" && (
+              <img
+                src={headerData?.PrintLogo}
+                alt=""
+                className="w-100 h-auto ms-auto d-block object-fit-contain"
+                style={{ maxWidth: "116px" }}
+                onError={handleImageErrors}
+                height={120}
+                width={150}
+              />
+            )}
+            {/* <img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /> */}
           </div>
-          {/* <div className={style2.lines}>Tell No: {headerData?.CompanyTellNo}</div> */}
-          <div className={style2.lines}>
-            T: {headerData?.CompanyTellNo} | TOLL FREE{" "}
-            {headerData?.CompanyTollFreeNo} | TOLL FREE{" "}
-            {headerData?.CompanyTollFreeNo}
-          </div>
-          <div className={style2.lines}>
-            {headerData?.CompanyEmail} | {headerData?.CompanyWebsite}
-          </div>
-          <div className={style2.lines}>
-            {/* {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-{headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber} */}
-            {headerData?.Company_VAT_GST_No} | {headerData?.Company_CST_STATE}-
-            {headerData?.Company_CST_STATE_No} | PAN-{headerData?.Pannumber}
-          </div>
-        </div>
-        <div
-          style={{ width: "30%" }}
-          className="d-flex justify-content-end align-item-center h-100"
-        >
-          {isImageWorking && headerData?.PrintLogo !== "" && (
-            <img
-              src={headerData?.PrintLogo}
-              alt=""
-              className="w-100 h-auto ms-auto d-block object-fit-contain"
-              style={{ maxWidth: "116px" }}
-              onError={handleImageErrors}
-              height={120}
-              width={150}
-            />
-          )}
-          {/* <img src={headerData?.PrintLogo} alt="" className={style2.headerImg} /> */}
-        </div>
-      </div>
+        </div></> : headerss}
       {/* barcodes */}
       {pnm === "invoice print 10" && (
         <div className={`mb-1 ${style?.font_15}`}>
@@ -665,7 +668,7 @@ const InvoicePrint_10_11 = ({
                     style={{ minWidth: "15%", width: "15%" }}
                     className=" px-1 text-end"
                   >
-          
+
                     <p>{NumberWithCommas(e?.finalRate, 2)}</p>
                   </div>
                   <div
@@ -1118,7 +1121,7 @@ const InvoicePrint_10_11 = ({
               <p className="fw-bold">
                 {" "}
                 {console.log(mainDatas)}
-                {NumberWithCommas( (mainDatas?.mainTotal?.total_amount  / headerData?.CurrencyExchRate)- headerData?.FreightCharges, 2 )}
+                {NumberWithCommas((mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate) - headerData?.FreightCharges, 2)}
               </p>
               {/* <p className="fw-bold"> {NumberWithCommas(totalss?.total-totalss?.discount, 2)}</p> */}
             </div>
