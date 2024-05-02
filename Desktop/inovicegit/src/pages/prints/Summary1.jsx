@@ -417,11 +417,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   {result?.header?.CompanyFullName}
                                 </div>
                                 <div>
-                                  {
-                                    result?.header?.CompanyAddress?.split(
-                                      ","
-                                    )[0]
-                                  }
+                                  { result?.header?.CompanyAddress?.split( "," )[0] }
                                 </div>
                                 <div>
                                   {result?.header?.CompanyCity} -{" "}
@@ -429,10 +425,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                   {result?.header?.CompanyState} (
                                   {result?.header?.CompanyCountry})
                                 </div>
-                                <div>
-                                  T {result?.header?.CompanyTellNo} | TOLL FREE{" "}
-                                  {result?.header?.CompanyTollFreeNo}
-                                </div>
+                                <div> T {result?.header?.CompanyTellNo} | TOLL FREE{" "} {result?.header?.CompanyTollFreeNo} </div>
                                 <div>
                                   {result?.header?.CompanyEmail} |{" "}
                                   {result?.header?.CompanyWebsite}
@@ -446,12 +439,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                       src={result?.header?.PrintLogo}
                                       alt=""
                                       className="w-100 h-auto my-0 mx-auto d-block object-fit-contain"
-                                      style={{
-                                        minHeight: "75px",
-                                        minWidth: "115px",
-                                        maxWidth: "117px",
-                                        maxHeight: "75px",
-                                      }}
+                                      style={{ minHeight: "75px", minWidth: "115px", maxWidth: "117px", maxHeight: "75px", }}
                                       onError={handleImageErrors}
                                       height={120}
                                       width={150}
@@ -506,8 +494,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="">
                         { result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN' } - { result?.header?.Cust_VAT_GST_No === '' ?  result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo} |{" "}
                         {result?.header?.Cust_CST_STATE} -{" "}
-                        {result?.header?.Cust_CST_STATE_No} | PAN -{" "}
-                        {result?.header?.CustPanno}
+                        {result?.header?.Cust_CST_STATE_No} | PAN - {" "} {result?.header?.CustPanno}
                       </div>
                     </div>
                           </td>

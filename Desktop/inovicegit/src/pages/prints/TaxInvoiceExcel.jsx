@@ -211,9 +211,24 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
         let finalArr = [];
         datas?.resultArray?.forEach((e, i) => {
+
+            let arr = [];
+            let len = 7;
+            if(e?.diamonds?.length > e?.colorstone?.length){
+                if(e?.diamonds?.length > 7){
+                    len = e?.diamonds?.length;
+                }
+            }else if(e?.diamonds?.length < e?.colorstone?.length){
+                    if(e?.colorstone?.length > 7){
+                    len = e?.colorstone?.length;
+                }
+            }
+
             let findMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1)
             let obj = {};
-            obj.sr = (i + 1);
+            obj.sr = i+1;
+            obj.srflag = true;
+            obj.srRowSpan = len;
             obj.SrJobno = `${e?.SrJobno}`;
             obj.designno = e?.designno;
           
@@ -252,33 +267,25 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.labour_amt = (e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount);
             obj.total_amount = e?.TotalAmount;
             
-            let arr = [];
-            let len = 7;
-            if(e?.diamonds?.length > e?.colorstone?.length){
-                if(e?.diamonds?.length > 7){
-                    len = e?.diamonds?.length;
-                }
-            }else if(e?.diamonds?.length < e?.colorstone?.length){
-                    if(e?.colorstone?.length > 7){
-                    len = e?.colorstone?.length;
-                }
-            }
-            Array?.from({length : len})?.map((el, i) => {
+         
+            Array?.from({length : len})?.map((el, ind) => {
                 let obj = {};
+          
+                obj.srflag = false
                 obj.img = e?.DesignImage;
                 obj.imgflag = false;
-                if(i === 0){
+                if(ind === 0){
                     obj.imgflag = true;
                 }
                 obj.tunch = ((e?.Tunch)?.toFixed(3));
                 obj.tunchflag = false;
-                if(i === 4){
+                if(ind === 4){
                     obj.tunchflag = true;
                 }
 
                 obj.grosswt = ((e?.grosswt)?.toFixed(3));
                 obj.grosswetflag = false;
-                if(i === 5){
+                if(ind === 5){
                     obj.grosswetflag = true;
                 }
 
@@ -290,15 +297,15 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 obj.dia_rate = 0;
                 obj.dia_amt = 0;
                 obj.diaflag = false;
-                if(e?.diamonds[i+1]){
+                if(e?.diamonds[ind+1]){
                     obj.diaflag = true;
-                    obj.dia_code = (e?.diamonds[i+1]?.ShapeName + " " + e?.diamonds[i+1]?.QualityName + " " + e?.diamonds[i+1]?.Colorname);
-                    obj.dia_size = e?.diamonds[i+1]?.SizeName;
-                    obj.dia_pcs = e?.diamonds[i+1]?.Pcs;
-                    obj.dia_wt = ((e?.diamonds[i+1]?.Wt)?.toFixed(3));
-                    // obj.dia_rate = (Math.round((e?.diamonds[i+1]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[i+1]?.Wt === 0 ? 1 : e?.diamonds[i+1]?.Wt)));
-                    obj.dia_rate = (Math.round((e?.diamonds[i+1]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[i+1]?.Wt === 0 ? 1 : e?.diamonds[i+1]?.Wt)));
-                    obj.dia_amt = (formatAmount(e?.diamonds[i+1]?.Amount));
+                    obj.dia_code = (e?.diamonds[ind + 1]?.ShapeName + " " + e?.diamonds[ind + 1]?.QualityName + " " + e?.diamonds[ind + 1]?.Colorname);
+                    obj.dia_size = e?.diamonds[ind + 1]?.SizeName;
+                    obj.dia_pcs = e?.diamonds[ind + 1]?.Pcs;
+                    obj.dia_wt = ((e?.diamonds[ind + 1]?.Wt)?.toFixed(3));
+                    // obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
+                    obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
+                    obj.dia_amt = (formatAmount(e?.diamonds[ind + 1]?.Amount));
                 }
 
                 // colorstone
@@ -309,20 +316,20 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 obj.cls_rate = 0;
                 obj.cls_amt = 0;
                 obj.clsflag = false;
-                if(e?.colorstone[i+1]){
+                if(e?.colorstone[ind+1]){
                     obj.clsflag = true;
-                    obj.cls_code = e?.colorstone[i+1]?.ShapeName + " " + e?.colorstone[i+1]?.QualityName + " " + e?.colorstone[i+1]?.Colorname;
-                    obj.cls_size = e?.colorstone[i+1]?.SizeName;
-                    obj.cls_pcs = e?.colorstone[i+1]?.Pcs;
-                    obj.cls_wt = ((e?.colorstone[i+1]?.Wt)?.toFixed(3));
-                    // obj.cls_rate = (Math.round(((e?.colorstone[i+1]?.Amount / result?.header?.CurrencyExchRate)) / (e?.colorstone[i+1]?.Wt === 0 ? 1 : e?.colorstone[i+1]?.Wt)));
-                    obj.cls_rate = (Math.round(((e?.colorstone[i+1]?.Amount / datas?.header?.CurrencyExchRate)) / (e?.colorstone[i+1]?.Wt === 0 ? 1 : e?.colorstone[i+1]?.Wt)));
-                    obj.cls_amt = (formatAmount(e?.colorstone[i+1]?.Amount));
+                    obj.cls_code = e?.colorstone[ind + 1]?.ShapeName + " " + e?.colorstone[ind + 1]?.QualityName + " " + e?.colorstone[ind + 1]?.Colorname;
+                    obj.cls_size = e?.colorstone[ind + 1]?.SizeName;
+                    obj.cls_pcs = e?.colorstone[ind + 1]?.Pcs;
+                    obj.cls_wt = ((e?.colorstone[ind + 1]?.Wt)?.toFixed(3));
+                    // obj.cls_rate = (Math.round(((e?.colorstone[ind + 1]?.Amount / result?.header?.CurrencyExchRate)) / (e?.colorstone[ind + 1]?.Wt === 0 ? 1 : e?.colorstone[ind + 1]?.Wt)));
+                    obj.cls_rate = (Math.round(((e?.colorstone[ind + 1]?.Amount / datas?.header?.CurrencyExchRate)) / (e?.colorstone[ind + 1]?.Wt === 0 ? 1 : e?.colorstone[ind + 1]?.Wt)));
+                    obj.cls_amt = (formatAmount(e?.colorstone[ind + 1]?.Amount));
                 }
 
                 obj.JobRemark = e?.JobRemark;
                 obj.jobRemarkflag = false;
-                if(i === 1 && e?.JobRemark !== ''){
+                if(ind === 1 && e?.JobRemark !== ''){
                     obj.jobRemarkflag = true;
                 }
 
@@ -639,7 +646,7 @@ console.log(result?.header);
                             result2?.map((e) => {
                                 return (<>
                                     <tr>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}} align='center'>{e?.sr}</td>
+                                  { e?.srflag && <td width={90} style={{borderRight:'1px solid #989898'}} align='center' rowSpan={e?.srRowSpan + 1} >{e?.sr}</td>}
                                         <td width={120} style={{wordBreak:'break-word'}}>&nbsp;{e?.designno}</td>
                                         <td width={120} style={{borderRight:'1px solid #989898', wordBreak:'break-word'}}>&nbsp;{e?.SrJobno}</td>
                                         <td width={140} align='left' >&nbsp;{e?.dia_code}</td>
@@ -669,11 +676,11 @@ console.log(result?.header);
                                     {
                                         e?.matrialArr?.map((val, ind) => {
                                             return <tr key={ind}>
-                                                <td width={90} style={{borderRight:'1px solid #989898'}} align='center'></td>
+                                            
                                                 <td  colSpan={2} style={{borderRight:'1px solid #989898', verticalAlign:'center'}} align='center'>
                                                     <span style={{textAlign:'center'}}>{val?.imgflag && <img src={val?.img} alt=""  onError={eve => handleGlobalImgError(eve, result?.header?.DefImage)} width={70}  style={{ paddingLeft: "10px", objectFit: "contain", verticalAlign:'center' }} />}</span>
                                                     <div style={{textAlign:'center'}}>{val?.tunchflag && `Tunch : `} <b>{val?.tunchflag && val?.tunch}</b></div>
-                                                    <div style={{textAlign:'center'}}><b>{val?.grosswetflag && val?.grosswt}</b> {val?.grosswetflag && ' gm Gross'}</div>
+                                                    <div style={{textAlign:'center'}}><b>{val?.grosswetflag && val?.grosswt}</b> {val?.grosswetflag && <span><b>gm</b> Gross</span>}</div>
                                                 </td>
                                                 {/* <td width={90}></td> */}
                                                 <td width={90} align='left'>&nbsp;{ val?.diaflag && `${val?.dia_code}`}</td>
