@@ -25,6 +25,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
   const [memo, setMemo] = useState(atob(evn)?.toLowerCase() === "memo" ? true : false);
   const [estimate, setEstimate] = useState(atob(evn)?.toLowerCase() === "product estimate" ? true : false);
   const [summary, setSummary] = useState([]);
+  const [summary2, setSummary2] = useState([]);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [evName, setEvname] = useState(atob(evn)?.trim()?.toLowerCase() === 'quote' ? true : false);
   const handleImageErrors = () => {
@@ -70,11 +71,11 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         (elem) => elem?.label === e?.MetalTypePurity
       );
       if (findRecord === -1) {
-        metalArr.push({ label: e?.MetalTypePurity, value: e?.NetWt, gm: true });
+        metalArr.push({ label: e?.MetalTypePurity, value: (e?.NetWt * e?.Quantity), gm: true });
       } else {
-        metalArr[findRecord].value += e?.NetWt;
+        metalArr[findRecord].value += (e?.NetWt * e?.Quantity);
       }
-      grossWt += e?.grosswt;
+      grossWt += (e?.grosswt * e?.Quantity);
       let diamondWts = 0;
       let colorStoneWts = 0;
       let miscWts = 0;
@@ -110,15 +111,15 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
               materials[findRecord].Amount += ele?.Amount;
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 1) {
-              diamondWt += ele?.Wt;
+              diamondWt += (ele?.Wt * obj?.Quantity) ;
               diamondWts += ele?.Wt;
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 2) {
-              colorStoneWt += ele?.Wt;
+              colorStoneWt += (ele?.Wt * obj?.Quantity);
               colorStoneWts += ele?.Wt;
             }
             if (ele?.MasterManagement_DiamondStoneTypeid === 3) {
-              miscWt += ele?.Wt;
+              miscWt += (ele?.Wt );
               miscWts += ele?.Wt;
             }
           } else if (ele?.MasterManagement_DiamondStoneTypeid === 4) {
@@ -130,6 +131,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
           }
         }
       });
+        
       obj.TotalAmount =
         obj.TotalAmount / data?.BillPrint_Json[0].CurrencyExchRate;
       obj.diamondWts = diamondWts;
@@ -137,17 +139,36 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
       obj.miscWts = miscWts;
       obj.materials = materials;
       obj.metalColorCode = metalColorCode;
-      obj.miscWt = miscWt;
+      
+      obj.miscWt = (miscWt * obj?.Quantity);
       resultArr.push(obj);
     });
-    metalArr.push({ label: "Diamond Wt", value: diamondWt, gm: false });
+    // let miscQunWt = 0;
+    // metalArr?.forEach((a) => {
+    //   return  miscQunWt += a?.miscWt;
+    // })
+    metalArr.push({ label: "Diamond Wt", value: (diamondWt), gm: false });
     metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
-    if(evName){
-      metalArr.push({label: "Misc Wt", value: miscWt, gm: true});
-      metalArr.push({label: "Gross Wt", value: grossWt, gm: true});
-    }
+  
     if (!estimate) {
       // metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
+    }
+
+
+    let miscQunWt = 0;
+    resultArr?.forEach((a) => {
+      return  miscQunWt += a?.miscWt;
+    })
+    console.log(miscQunWt);
+
+    if(evName){
+      metalArr.push({label: "Misc Wt", value: miscQunWt, gm: true});
+      // metalArr.push({label: "Gross Wt", value: grossWt, gm: true});
+    }
+
+    if(evName){
+      // metalArr.push({label: "Misc Wt", value: miscWt, gm: true});
+      metalArr.push({label: "Gross Wt", value: grossWt, gm: true});
     }
     setSummary(metalArr);
     let taxValue = taxGenrator(json0Datas, totalAmountBefore);
@@ -161,6 +182,12 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
       after: afterTotal,
       grand: grandTotal,
     };
+    resultArr.sort((a, b) => {
+      const designNoA = parseInt((a?.designno).match(/\d+/)[0]);
+      const designNoB = parseInt((b?.designno).match(/\d+/)[0]);
+      return designNoA - designNoB;
+  });
+  
     settotalAmount(totalAmounts);
     settax(taxValue);
     setData(resultArr);
@@ -177,6 +204,31 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
     );
 
     setResult(datas)
+
+    let metwise = [];
+
+    // datas?.resultArray?.forEach((a) => {
+    //   let findrec =  metwise.findIndex((elem) => elem?.label === a?.MetalTypePurity);
+    //   if(findrec === -1){
+    //     let obj = {...a}
+    //     obj.netwt_ = (a?.NetWt * a?.Quantity);
+    //     obj.dwt = a?.totals?.diamonds?.Wt;
+    //     obj.cswt = a?.totals?.colorstone?.Wt;
+    //     metwise.push(obj);
+    //   }else{
+    //     metwise[findrec].netwt_ += (a?.NetWt * a?.Quantity)
+    //     metwise[findrec].dwt += (a?.dwt * a?.Quantity)
+    //     metwise[findrec].cswt += (a?.cswt * a?.Quantity)
+    //   }
+    // })
+    // let diaclr = [];
+    // datas?.resultArray?.forEach((el) => {
+    //     let obj = {...el};
+    //     obj.dia_wt_quantity = (el?.Quantity * el?.totals?.diamonds?.Wt);
+    //     obj.cls_wt_quantity = (el?.Quantity * el?.totals?.colorstone?.Wt);
+    // })
+
+    // setSummary2(metwise);
 
   }
 
@@ -199,7 +251,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
           setMsg(data?.Message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     sendData();
@@ -374,7 +426,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
           </div>
           {
             evName && <div className="col-2 p-1 border-end">
-            <p className="fw-bold text-center">UNITPRICE</p>
+            <p className="fw-bold text-center">UNIT PRICE</p>
           </div>
           }
           <div className="col-2 p-1">
@@ -391,27 +443,27 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 <div className="col-1 p-1 border-end">
                   <p className="text-center">{i + 1}</p>
                 </div>
-                <div className={`col-2 p-1 border-end`}>
+                <div className={`col-2 p-1 border-end position-relative`}>
                   { evName ? '' : <p>Job: {e?.SrJobno} </p>}
                   <p>
                     Design: <span className="fw-bold">{e?.designno}</span>{" "}
                   </p>
                   { e?.Size === '' || e?.Size === '-' ? '' : <p className="fw-bold">{e?.Size}</p>}
-                  <div className="text-center w-100 mt-3"><span className="fw-bold"><span className="fw-normal">QTY :</span> </span><span>{e?.Quantity}</span></div>
+                  <div className="text-center w-100 " style={{position: 'absolute', top:'50%' }}><span><span className="fw-normal">QTY :</span> </span><span className="fw-bold">{e?.Quantity}</span></div>
                 </div>
                 <div className={`${evName ? 'col-4' : 'col-5'} p-1 border-end`}>
                   <p className="text-break">
-                    {e?.MetalTypePurity} {e?.metalColorCode} |{" "}
+                    {e?.MetalTypePurity} {e?.MetalColor} |{" "}
                     {NumberWithCommas(e?.grosswt, 3)} gms GW |{" "}
                     {NumberWithCommas(e?.NetWt, 3)} gms NW
                     {e?.diamondWts !== 0 && (
-                      <> | {memo && "Dia: "} {NumberWithCommas(e?.diamondWts, 3)} Cts</>
+                      <> | {(memo || evName) && "Dia: "} {NumberWithCommas(e?.diamondWts, 3)} Cts</>
                     )}
                     {e?.colorStoneWts !== 0 && (
-                      <> | {memo && "CS: "} {NumberWithCommas(e?.colorStoneWts, 3)} Cts</>
+                      <> | {(memo || evName) && "CS: "} {NumberWithCommas(e?.colorStoneWts, 3)} Cts</>
                     )}
                     {e?.miscWts !== 0 && (
-                      <> | {memo && "MISC: "} {NumberWithCommas(e?.miscWts, 3)} gms</>
+                      <> | {(memo || evName) && "MISC: "} {NumberWithCommas(e?.miscWts, 3)} gms</>
                     )}
                   </p>
                   
@@ -517,7 +569,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             ></div>
           </div>
           <div className="col-4 p-1 border-end">
-            {summary.map((e, i) => {
+            { evName !== 'quote' && summary.map((e, i) => {
               return (
                 <div className="d-flex justify-content-between" key={i}>
                   <p key={i}>{e?.label}: </p>
@@ -527,7 +579,13 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 </div>
               );
             })}
-         
+            {/* {
+              evName === 'quote' && summary2?.map((e, i) => {
+                return <div>
+                  <div>{}</div>
+                </div>
+              })
+            } */}
           </div>
           <div className="col-2 p-1 border-end">
             {tax.map((e, i) => {
@@ -541,7 +599,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             {json0Data?.AddLess > 0 ? <p>Add</p> : <p>Less</p>}
           </div>
           <div className="col-2 p-1">
-            {tax.map((e, i) => {
+            {tax?.map((e, i) => {
               return (
                 <p className="text-end fw-bold" key={i}>
                   <span
@@ -549,7 +607,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                       __html: json0Data?.Currencysymbol,
                     }}
                   ></span>
-                  {NumberWithCommas(+e?.amount, 2)}{" "}
+                  {NumberWithCommas((+e?.amount / result?.header?.CurrencyExchRate), 2)}{" "}
                 </p>
               );
             })}
@@ -557,7 +615,8 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
-              {NumberWithCommas(totalAmount.after, 2)}{" "}
+              {/* {NumberWithCommas(totalAmount.after, 2)}{" "} */}
+              {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)))}
             </p>
             <p className="text-end fw-bold">
               <span
@@ -578,7 +637,8 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
               <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
-              {NumberWithCommas(totalAmount.grand, 2)}{" "}
+              {/* {NumberWithCommas(totalAmount.grand, 2)}{" "} */}
+              {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal) + result?.header?.AddLess))}
             </p>
           </div>
         </div>
