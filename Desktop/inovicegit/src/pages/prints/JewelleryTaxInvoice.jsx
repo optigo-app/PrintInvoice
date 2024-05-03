@@ -159,7 +159,6 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
     resultArr?.forEach((a) => {
       return  miscQunWt += a?.miscWt;
     })
-    console.log(miscQunWt);
 
     if(evName){
       metalArr.push({label: "Misc Wt", value: miscQunWt, gm: true});
@@ -377,7 +376,6 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                   PAN<span className="fw-bold">#: {customerDetail?.pan}</span>{" "}
                 </p>
               )}
-              {console.log(customerDetail?.gst)}
               {/* {customerDetail?.gst !== "" && (
                 <p className="lh-1 pb-1">
                   GSTIN <span className="fw-bold">{customerDetail?.gst} </span>
@@ -471,9 +469,9 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     e.materials.map((ele, ind) => {
                       return (
                         <p key={ind} className="text-break">
-                          {ele?.IsCenterStone === 1 ? (
-                            "Center stone"
-                          ) : (
+                          {/* {ele?.IsCenterStone === 1 ? ( */}
+                            {/* // "Center stone" */}
+                          {/* // ) : ( */}
                             <span className="text-break">
                               {ele?.MasterManagement_DiamondStoneTypeid === 1 &&
                                 "Diamond"}
@@ -482,7 +480,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                               {ele?.MasterManagement_DiamondStoneTypeid === 3 &&
                                 "Misc"}
                             </span>
-                          )}
+                          {/* )} */}
                           : {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} 
                           {ele?.MasterManagement_DiamondStoneTypeid === 3 ? "gms" : "Cts"} | 
                          {evName ? (ele?.MaterialTypeName ? `${ele?.MaterialTypeName} ` : "") : ""} {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <span className="text-break"> 
@@ -533,7 +531,6 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             );
           })}
         {/* total */}
-        {console.log(result)}
         <div className="d-flex border-start border-end border-bottom no_break lightGrey">
           <div className="col-1 p-1 border-end">
             <p className="text-center"></p>

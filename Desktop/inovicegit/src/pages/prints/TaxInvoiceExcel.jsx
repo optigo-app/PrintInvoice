@@ -176,7 +176,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       
           diarndotherarr5 = [...diaonlyrndarr6, diaObj];
           setDiamondWise(diarndotherarr5);
-          console.log(datas?.resultArray);
         datas?.resultArray?.forEach((el) => {
             let dia = [];
             el?.diamonds?.forEach((a) => {
@@ -526,7 +525,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
     
    
-console.log(result?.header);
   return (
     <>
     {
