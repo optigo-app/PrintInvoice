@@ -235,7 +235,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
               
             {isImageWorking && (json0Data?.PrintLogo !== "" && 
                       <img src={json0Data?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      className='w-25 h-auto ms-auto d-block object-fit-contain' 
                       onError={handleImageErrors} height={120} width={150} />)}
               {/* <img
                 src={json0Data?.PrintLogo}
@@ -280,7 +280,8 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
               /> */}
                 {isImageWorking && (json0Data?.PrintLogo !== "" && 
                       <img src={json0Data?.PrintLogo} alt="" 
-                      className='w-25 h-auto ms-auto d-block object-fit-contain'
+                      className='w-100 h-auto ms-auto d-block object-fit-contain'
+                      style={{maxWidth:'116px'}}
                       onError={handleImageErrors} height={120} width={150} />)}
             </div>
           </div>
@@ -362,17 +363,17 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
           <div className="col-1 p-1 border-end">
             <p className="fw-bold text-center">SR NO</p>
           </div>
-          <div className="col-2 p-1 border-end">
+          <div className={`col-2 border-end`}>
             <p className="fw-bold text-center">ITEM CODE</p>
           </div>
           <div className={`${evName ? 'col-4' : 'col-5'} p-1 border-end`}>
             <p className="fw-bold text-center">DESCRIPTION</p>
           </div>
-          <div className="col-2 p-1 border-end">
+          <div className={` ${evName ? 'col-1' : 'col-2'} p-1 border-end  `}>
             <p className="fw-bold text-center">IMAGE</p>
           </div>
           {
-            evName && <div className="col-1 p-1 border-end">
+            evName && <div className="col-2 p-1 border-end">
             <p className="fw-bold text-center">UNITPRICE</p>
           </div>
           }
@@ -390,7 +391,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                 <div className="col-1 p-1 border-end">
                   <p className="text-center">{i + 1}</p>
                 </div>
-                <div className="col-2 p-1 border-end">
+                <div className={`col-2 p-1 border-end`}>
                   { evName ? '' : <p>Job: {e?.SrJobno} </p>}
                   <p>
                     Design: <span className="fw-bold">{e?.designno}</span>{" "}
@@ -399,7 +400,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                   <div className="text-center w-100 mt-3"><span className="fw-bold">QTY : </span><span>{e?.Quantity}</span></div>
                 </div>
                 <div className={`${evName ? 'col-4' : 'col-5'} p-1 border-end`}>
-                  <p>
+                  <p className="text-break">
                     {e?.MetalTypePurity} {e?.metalColorCode} |{" "}
                     {NumberWithCommas(e?.grosswt, 3)} gms GW |{" "}
                     {NumberWithCommas(e?.NetWt, 3)} gms NW
@@ -417,23 +418,23 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                   {e.materials.length > 0 &&
                     e.materials.map((ele, ind) => {
                       return (
-                        <p key={ind}>
+                        <p key={ind} className="text-break">
                           {ele?.IsCenterStone === 1 ? (
                             "Center stone"
                           ) : (
-                            <>
+                            <span className="text-break">
                               {ele?.MasterManagement_DiamondStoneTypeid === 1 &&
                                 "Diamond"}
                               {ele?.MasterManagement_DiamondStoneTypeid === 2 &&
                                 "Colorstone"}
                               {ele?.MasterManagement_DiamondStoneTypeid === 3 &&
                                 "Misc"}
-                            </>
+                            </span>
                           )}
                           : {NumberWithCommas(ele?.Pcs, 0)} Pcs | {NumberWithCommas(ele?.Wt, 3)} 
                           {ele?.MasterManagement_DiamondStoneTypeid === 3 ? "gms" : "Cts"} | 
-                         {evName ? (ele?.MaterialTypeName ? `${ele?.MaterialTypeName} ` : "") : ""} {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <> 
-                          {" "} {ele?.Colorname} {ele?.QualityName}</>}
+                         {evName ? (ele?.MaterialTypeName ? `${ele?.MaterialTypeName} ` : "") : ""} {ele?.ShapeName}{ele?.MasterManagement_DiamondStoneTypeid !== 3 && <span className="text-break"> 
+                          {" "} {ele?.Colorname} {ele?.QualityName}</span>}
                         </p>
                       );
                     })}
@@ -446,7 +447,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     </div>
                   )}
                 </div>
-                <div className="col-2 p-1 border-end d-flex justify-content-center align-items-center">
+                <div className={`${ evName ? 'col-1' : 'col-2' } p-1 border-end d-flex justify-content-center align-items-center`}>
                   <img
                     src={e?.DesignImage}
                     alt=""
@@ -455,14 +456,14 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                   />
                 </div>
               {
-                 evName &&   <div className="col-1 p-1 border-end">
+                 evName &&   <div className="col-2 p-1 border-end">
                  <p className="text-end">
                    <span className="pe-1"
                      dangerouslySetInnerHTML={{
                        __html: json0Data?.Currencysymbol,
                      }}
                    ></span>
-                   {NumberWithCommas(e?.UnitCost, 2)}{" "}
+                   {NumberWithCommas((e?.TotalAmount / e?.Quantity), 2)}{" "}
                  </p>
                </div>
               }
@@ -492,7 +493,9 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
           evName &&  <div className="col-2 p-1">
           <p className="text-end fw-bold">
             <span className="pe-1" dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }} ></span>
-            {formatAmount(result?.mainTotal?.total_unitcost)}
+            {/* {formatAmount((result?.mainTotal?.total_amount / result?.mainTotal?.total_Quantity))} */}
+            {/* {formatAmount(((result?.mainTotal?.total_amount / result?.mainTotal?.total_Quantity)))} */}
+            {NumberWithCommas(totalAmount.before, 2)}{" "}
           </p>
         </div>
          }
@@ -596,7 +599,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
           <div className="col-6 border-end p-2">
             <p className="fw-bold">Bank Detail</p>
             <p>Bank Name: {json0Data?.bankname}</p>
-            <p>Branch: {json0Data?.bankaddress}</p>
+            <p className="text-break">Branch: {json0Data?.bankaddress}</p>
             <p>Account Name: {json0Data?.accountname}</p>
             <p>Account No. : {json0Data?.accountnumber}</p>
             <p>RTGS/NEFT IFSC: {json0Data?.rtgs_neft_ifsc}</p>
