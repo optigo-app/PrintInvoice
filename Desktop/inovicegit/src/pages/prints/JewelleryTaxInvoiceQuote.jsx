@@ -3,23 +3,18 @@ import React, { useEffect, useState } from "react";
 import {
   NumberWithCommas,
   apiCall,
-  formatAmount,
   handleImageError,
   handlePrint,
   isObjectEmpty,
   taxGenrator,
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
-import style from "../../assets/css/prints/jewelleryTaxInvoice.module.css";
+import style from "../../assets/css/prints/jewelleryTaxInvoiceQuote.module.css";
 import style1 from "../../assets/css/prints/jewelleryTaxInvoice.module.css";
 import style2 from "../../assets/css/headers/header1.module.css";
-import { cloneDeep } from "lodash";
-import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 
-const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
+const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [loader, setLoader] = useState(true);
-  
-  const [result, setResult] = useState();
   const [data, setData] = useState([]);
   const [tax, settax] = useState([]);
   const [memo, setMemo] = useState(atob(evn)?.toLowerCase() === "memo" ? true : false);
@@ -165,20 +160,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
     settax(taxValue);
     setData(resultArr);
   };
-  const loadData2 = (data) => {
-    const copydata = cloneDeep(data);
 
-    let address = copydata?.BillPrint_Json[0]?.Printlable?.split("\r\n");
-    copydata.BillPrint_Json[0].address = address;
-    const datas = OrganizeDataPrint(
-      copydata?.BillPrint_Json[0],
-      copydata?.BillPrint_Json1,
-      copydata?.BillPrint_Json2
-    );
-
-    setResult(datas)
-
-  }
 
   useEffect(() => {
     const sendData = async () => {
@@ -188,7 +170,6 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
           let isEmpty = isObjectEmpty(data?.Data);
           if (!isEmpty) {
             loadData(data?.Data);
-            loadData2(data?.Data)
             setLoader(false);
           } else {
             setLoader(false);
@@ -247,7 +228,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         ) : (
           <div className={`${style2.companyDetails}`}>
             <div className={`${style2.companyhead} p-2`}>
-              <p className={`${style2.lines} fw-bold px-1`} style21={{ fontWeight: "bold" }}>
+              <p className={style2.lines} style21={{ fontWeight: "bold" }}>
                 {json0Data?.CompanyFullName}
               </p>
 
@@ -324,8 +305,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                   PAN<span className="fw-bold">#: {customerDetail?.pan}</span>{" "}
                 </p>
               )}
-              {console.log(customerDetail?.gst)}
-              {/* {customerDetail?.gst !== "" && (
+              {customerDetail?.gst !== "" && (
                 <p className="lh-1 pb-1">
                   GSTIN <span className="fw-bold">{customerDetail?.gst} </span>
                   {json0Data?.Cust_CST_STATE !== "" &&
@@ -338,22 +318,13 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                       </>
                     )}{" "}
                 </p>
-              )} */}
-              <div>
-                GSTIN : <span className="fw-bold">{result?.header?.CustGstNo}</span> | { result?.header?.Cust_CST_STATE } <span className="fw-bold"> { result?.header?.Cust_CST_STATE_No }</span>
-              </div>
-              {/* {(evns !== "memo" || evns === 'quote' ) && (
+              )}
+              {evns !== "memo" && (
                 <p className="lh-1 pb-1">
                   Due Date:{" "}
                   <span className="fw-bold">{json0Data?.DueDate}</span>
                 </p>
-              )} */}
-              {
-                ((evns === 'quote') || (evns === 'memo')) ? '' : <p className="lh-1 pb-1">
-                Due Date:{" "}
-                <span className="fw-bold">{json0Data?.DueDate}</span>
-              </p>
-              }
+              )}
             </div>
           </div>
         </div>
@@ -365,17 +336,12 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
           <div className="col-2 p-1 border-end">
             <p className="fw-bold text-center">ITEM CODE</p>
           </div>
-          <div className={`${evName ? 'col-4' : 'col-5'} p-1 border-end`}>
+          <div className="col-5 p-1 border-end">
             <p className="fw-bold text-center">DESCRIPTION</p>
           </div>
           <div className="col-2 p-1 border-end">
             <p className="fw-bold text-center">IMAGE</p>
           </div>
-          {
-            evName && <div className="col-1 p-1 border-end">
-            <p className="fw-bold text-center">UNITPRICE</p>
-          </div>
-          }
           <div className="col-2 p-1">
             <p className="fw-bold text-center">
               AMOUNT ({json0Data?.CurrencyCode})
@@ -385,6 +351,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         {/* table data */}
         {data.length > 0 &&
           data.map((e, i) => {
+            console.log(e);
             return (
               <div className="d-flex border-start border-end border-bottom no_break" key={i} >
                 <div className="col-1 p-1 border-end">
@@ -395,10 +362,9 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                   <p>
                     Design: <span className="fw-bold">{e?.designno}</span>{" "}
                   </p>
-                  { e?.Size === '' || e?.Size === '-' ? '' : <p className="fw-bold">{e?.Size}</p>}
-                  <div className="text-center w-100 mt-3"><span className="fw-bold">QTY : </span><span>{e?.Quantity}</span></div>
+                  <p className="fw-bold">{e?.Size}</p>
                 </div>
-                <div className={`${evName ? 'col-4' : 'col-5'} p-1 border-end`}>
+                <div className="col-5 p-1 border-end">
                   <p>
                     {e?.MetalTypePurity} {e?.metalColorCode} |{" "}
                     {NumberWithCommas(e?.grosswt, 3)} gms GW |{" "}
@@ -454,18 +420,6 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     onError={handleImageError}
                   />
                 </div>
-              {
-                 evName &&   <div className="col-1 p-1 border-end">
-                 <p className="text-end">
-                   <span className="pe-1"
-                     dangerouslySetInnerHTML={{
-                       __html: json0Data?.Currencysymbol,
-                     }}
-                   ></span>
-                   {NumberWithCommas(e?.UnitCost, 2)}{" "}
-                 </p>
-               </div>
-              }
                 <div className="col-2 p-1">
                   <p className="text-end">
                     <span
@@ -480,22 +434,13 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             );
           })}
         {/* total */}
-        {console.log(result)}
         <div className="d-flex border-start border-end border-bottom no_break lightGrey">
           <div className="col-1 p-1 border-end">
             <p className="text-center"></p>
           </div>
-          <div className={`${ evName ? 'col-7' : 'col-9' } p-1 border-end`}>
+          <div className="col-9 p-1 border-end">
             <p className="fw-bold">Total</p>{" "}
           </div>
-         {
-          evName &&  <div className="col-2 p-1">
-          <p className="text-end fw-bold">
-            <span className="pe-1" dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }} ></span>
-            {formatAmount(result?.mainTotal?.total_unitcost)}
-          </p>
-        </div>
-         }
           <div className="col-2 p-1">
             <p className="text-end fw-bold">
               <span
@@ -619,7 +564,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
   );
 };
 
-export default JewelleryTaxInvoice;
+export default JewelleryTaxInvoiceQuote;
 
 
 

@@ -134,3 +134,6 @@ export const alterationArray = [
   {label:"alteration" ,evname: "RepairAlteration"},
   {label:"alteration receive" ,evname: "RepairAlterationReceive"},
 ];
+export const quoteArray = [
+  {label:"alteration", evname: "quote"},
+];

@@ -10,6 +10,7 @@ const AllDesignPrint = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const queryParams = new URLSearchParams(queryString);
   const printname = queryParams.get("pnm");
+  const eventName = queryParams.get("evn");
   let etp = queryParams.get("etp");
   const [faviconIcon, setFaviconIcon] = useState(null);
 
@@ -25,6 +26,7 @@ const AllDesignPrint = () => {
 
   let printName = atob(printname).toLowerCase();
   let etpType = atob(etp).toLowerCase();
+  let evnname = atob(eventName).toLowerCase();
 
   const importComponent = async (name) => {
     try {
@@ -64,6 +66,7 @@ const AllDesignPrint = () => {
     // } else if (etpType === "alteration receive") {
     //   conditions = module.alterationReceiveConditions;
     // }
+    // console.log(etpType, evnname);
     switch (etpType) {
       case "print":
         conditions = module.printConditions;
