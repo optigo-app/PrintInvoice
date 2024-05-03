@@ -397,7 +397,7 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                     Design: <span className="fw-bold">{e?.designno}</span>{" "}
                   </p>
                   { e?.Size === '' || e?.Size === '-' ? '' : <p className="fw-bold">{e?.Size}</p>}
-                  <div className="text-center w-100 mt-3"><span className="fw-bold">QTY : </span><span>{e?.Quantity}</span></div>
+                  <div className="text-center w-100 mt-3"><span className="fw-bold"><span className="fw-normal">QTY :</span> </span><span>{e?.Quantity}</span></div>
                 </div>
                 <div className={`${evName ? 'col-4' : 'col-5'} p-1 border-end`}>
                   <p className="text-break">
