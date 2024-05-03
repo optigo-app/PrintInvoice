@@ -906,7 +906,8 @@ p.w_33.bold,
 }
 
 .p_3 {
-  padding: 0.99375mm;
+  /* padding: 0.99375mm; */
+  padding: 0.59375mm;
   box-sizing: border-box;
 }
 
