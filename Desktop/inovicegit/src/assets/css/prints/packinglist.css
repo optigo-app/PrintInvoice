@@ -615,6 +615,8 @@
 #designimgpclid {
     height: 70%;
     width: 70%;
+    max-width: 116px;
+    object-fit: contain;
 }
 
 .diatotbodypcl {
@@ -1137,6 +1139,9 @@
 }
 .w_pcl_new{
     width: 94% !important;
+}
+.fspcl_3{
+    font-size: 14px !important;
 }
 @media print {
     .btnpcl {

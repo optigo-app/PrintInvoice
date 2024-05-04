@@ -30,42 +30,11 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [misc_other, setMisc_Other] = useState([]);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-  const totalObj = {
-    totdiapcs: 0,
-    totdiawt: 0,
-    totdiaamt: 0,
-    totcspcs: 0,
-    totcswt: 0,
-    totcsamt: 0,
-    totmiscpcs: 0,
-    totmiscwt: 0,
-    totmiscamt: 0,
-    totmtpcs: 0,
-    totmtwt: 0,
-    totmtamt: 0,
-    totstpcs: 0,
-    totstwt: 0,
-    totstamt: 0,
-    totalAmt: 0,
-    totmakingAmt: 0,
-    totOthAmt: 0,
-    totDiscount: 0,
-    totfinewt: 0,
-    totgrosswt: 0,
-    totnetwt: 0,
-    totlbramt: 0,
-  };
+
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
-  let diamondList = [];
-  let colorStoneList = [];
-  let miscList = [];
-  let metalList = [];
-  let findingList = [];
-  // eslint-disable-next-line no-unused-vars
-  let stoneMiscList = [];
 
   // const organizeData = (arr, arr1, arr2) => {
   //   let totgrosswt = 0;
@@ -450,7 +419,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let dia = [];
         e?.diamonds?.forEach((el) => {
           let obj = cloneDeep(el);
-          let findrec = dia?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.SizeName === el?.SizeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname)
+          let findrec = dia?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.SizeName === el?.SizeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.Rate === el?.Rate)
           if(findrec === -1){
             dia.push(obj)
           }else{
@@ -464,7 +433,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let clr = [];
         e?.colorstone?.forEach((el) => {
           let obj = cloneDeep(el);
-          let findrec = clr?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.SizeName === el?.SizeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname)
+          let findrec = clr?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.SizeName === el?.SizeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.Rate === el?.Rate)
           if(findrec === -1){
             clr.push(obj)
           }else{
@@ -474,7 +443,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           }
         })
         e.colorstone = clr;
-
 
       })
 
@@ -582,12 +550,7 @@ console.log(result);
               <div className="pclprint pad_60_allPrint">
                 <div className="pclheader">
                   <div className="orailpcl">
-                  {/* {isImageWorking && (result?.header?.PrintLogo !== "" && <img src={result?.header?.PrintLogo} alt="" className='w-100 h-auto ms-auto d-block object-fit-contain' onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)} */}
-                       <img
-                      src='http://nzen/R66B1/UFS/R66B1XZ4DVJSNAOE352WHP/companylogo/projectlogo.png'
-                      alt="orail"
-                      id="orailpcl"
-                    />
+                    {isImageWorking && (result?.header?.PrintLogo !== "" && <img src={result?.header?.PrintLogo} alt="" className='w-100 h-auto ms-auto d-block object-fit-contain' onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
                   </div>
                   <div className="addresspcl fspcl">
                     {result?.header?.CompanyAddress?.split(",")[0]}{" "}
@@ -604,14 +567,14 @@ console.log(result);
                 </div>
                 <div className="pclsubheader">
                   <div className="partynamepcl">
-                    <b className="partypcl fspcl ">Party:</b> <div className="contentpclparty fspcl"> {result?.header?.customerfirmname} </div>
+                    <b className="partypcl fspcl_3 ">Party:</b> <div className="contentpclparty fspcl_3"> {result?.header?.customerfirmname} </div>
                   </div>
                   <div className="w-25">
                     <div className="d-flex justify-content-between align-items-center">
-                      <div className="d-flex justify-content-end align-items-center fspcl w-50"> Invoice No:{" "} </div> <b className="d-flex justify-content-end align-items-center fspcl w-50"> {result?.header?.InvoiceNo} </b>
+                      <div className="d-flex justify-content-end align-items-center fspcl_3 w-50"> Invoice No:{" "} </div> <b className="d-flex justify-content-end align-items-center fspcl_3 w-50"> {result?.header?.InvoiceNo} </b>
                     </div>
                     <div className="d-flex align-items-center">
-                      <div className="d-flex justify-content-end align-items-center fspcl w-50"> Date:{" "} </div> <b className="d-flex justify-content-end align-items-center fspcl w-50"> {result?.header?.EntryDate} </b>
+                      <div className="d-flex justify-content-end align-items-center fspcl_3 w-50"> Date:{" "} </div> <b className="d-flex justify-content-end align-items-center fspcl_3 w-50"> {result?.header?.EntryDate} </b>
                     </div>
                   </div>
                 </div>
@@ -681,7 +644,7 @@ console.log(result);
                                   <div className="tbodyrowpcl">
                                     <div className="pcltbr1c1 fspcl"> {i+1} </div>
                                     <div className="pcltbr1c2 fspcl">
-                                      <div className="fspcl w-100 ps-1 text-break"> {e?.JewelCodePrefix + e?.Category_Prefix + e?.SrJobno?.split("/")[1]} </div>
+                                      <div className="fspcl w-100  text-break"> {e?.JewelCodePrefix + e?.Category_Prefix + e?.SrJobno?.split("/")[1]} </div>
                                       <div className="designimgpcl fspcl">
                                         <img src={e?.DesignImage} alt="packinglist" id="designimgpclid" onError={(e) => handleImageError(e)} />
                                       </div>
@@ -696,7 +659,7 @@ console.log(result);
                                           e?.diamonds?.map((ele, i) => {
                                             return (
                                               // <div className="leftpcl fspcl text-break" key={i} > {ele?.ShapeName} </div>
-                                              <div className="leftpcl fspcl text-break" key={i} >  </div>
+                                              <div className=" fspcl text-break" key={i} >  </div>
                                             );
                                           })
                                         }
@@ -706,7 +669,7 @@ console.log(result);
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div className="leftpcl fspcl text-break" key={i} > {ele?.SizeName} </div>
+                                              <div className=" fspcl text-break" key={i} > {ele?.SizeName} </div>
                                             );
                                             // }
                                           })
@@ -717,7 +680,7 @@ console.log(result);
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div className="rightpcl fspcl" key={i} > {ele?.Wt?.toFixed(3)} </div>
+                                              <div className=" fspcl" key={i} > {ele?.Wt?.toFixed(3)} </div>
                                             );
                                           })
                                         }
@@ -727,7 +690,7 @@ console.log(result);
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div className="rightpcl fspcl" key={i} > {formatAmount(ele?.Rate)} </div>
+                                              <div className=" fspcl" key={i} > {formatAmount(ele?.Rate)} </div>
                                             );
                                           })
                                         }
@@ -737,7 +700,7 @@ console.log(result);
                                           // eslint-disable-next-line array-callback-return
                                           e?.diamonds?.map((ele, i) => {
                                             return (
-                                              <div className="rightpcl fspcl " key={i} > {formatAmount((ele?.Amount/(result?.header?.CurrencyExchRate)))} </div>
+                                              <div className=" fspcl " key={i} > {formatAmount((ele?.Amount/(result?.header?.CurrencyExchRate)))} </div>
                                             );
                                           })
                                         }
@@ -800,17 +763,17 @@ console.log(result);
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div className="leftpcl fspcl text-break" key={i} >
+                                                  <div className=" fspcl text-break" key={i} >
                                                      { ele?.IsPrimaryMetal ===1 && (ele?.ShapeName + " " + ele?.QualityName)}{" "}
                                                   </div>
                                                 );
                                               })
                                             }
                                           </div>
-                                          <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1 rightpcl" >
+                                          <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1 " >
                                             {e?.grosswt?.toFixed(3)}
                                           </div>
-                                          <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1 rightpcl" >
+                                          <div style={{ width: "18%" }} className="be_1_pcl d-flex justify-content-end pt-1 " >
                                             {/* {( +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3) )?.toFixed(3)} */}
                                             {/* {( e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3)} */}
                                             {( e?.totals?.metal?.IsPrimaryMetal )?.toFixed(3)}
@@ -819,7 +782,7 @@ console.log(result);
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div className="rightpcl fspcl pt-1" key={i} > { ele?.IsPrimaryMetal ===1 && formatAmount( (ele?.Rate) )}{" "} </div> );
+                                                  <div className=" fspcl pt-1" key={i} > { ele?.IsPrimaryMetal ===1 && formatAmount( (ele?.Rate) )}{" "} </div> );
                                               })
                                             }
                                           </div>
@@ -829,7 +792,7 @@ console.log(result);
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div className="rightpcl fspcl pt-1" key={i} > {" "} {ele?.IsPrimaryMetal ===1 && formatAmount( (ele?.Amount/(result?.header?.CurrencyExchRate)) )}{" "} </div>
+                                                  <div className=" fspcl pt-1" key={i} > {" "} {ele?.IsPrimaryMetal ===1 && formatAmount( (ele?.Amount/(result?.header?.CurrencyExchRate)) )}{" "} </div>
                                                 );
                                               })
                                             }
@@ -859,7 +822,7 @@ console.log(result);
                                           // eslint-disable-next-line array-callback-return
                                           e?.colorstone?.map((ele, i) => {
                                             return (
-                                              <div className="leftpcl fspcl text-break" key={i} >
+                                              <div className=" fspcl text-break" key={i} >
                                                 {ele?.ShapeName}
                                               </div>
                                             );
@@ -871,7 +834,7 @@ console.log(result);
                                           // eslint-disable-next-line array-callback-return
                                           e?.colorstone?.map((ele, i) => {
                                             return (
-                                              <div className="rightpcl fspcl" key={i} >
+                                              <div className=" fspcl" key={i} >
                                                 {ele?.Wt?.toFixed(3)}
                                               </div>
                                             );
@@ -883,7 +846,7 @@ console.log(result);
                                           // eslint-disable-next-line array-callback-return
                                           e?.colorstone?.map((ele, i) => {
                                             return (
-                                              <div className="rightpcl fspcl" key={i} >
+                                              <div className=" fspcl" key={i} >
                                                 {/* {ele?.Rate?.toFixed(2)} */}
                                                 {/* {formatAmount(ele?.Rate)} */}
                                                 {formatAmount(((ele?.Amount/(result?.header?.CurrencyExchRate)) / ele?.Wt))}
@@ -897,7 +860,7 @@ console.log(result);
                                           // eslint-disable-next-line array-callback-return
                                           e?.colorstone?.map((ele, i) => {
                                             return (
-                                              <div className="rightpcl fspcl" key={i} > {formatAmount((ele?.Amount/(result?.header?.CurrencyExchRate)))} </div>
+                                              <div className=" fspcl" key={i} > {formatAmount((ele?.Amount/(result?.header?.CurrencyExchRate)))} </div>
                                             );
                                           })
                                         }
@@ -906,13 +869,13 @@ console.log(result);
 
                                     {/* labour */}
                                     <div className="pcltbr1c6 fspcl ">
-                                      <div className="lopclcol rightpcl fspcl pt-1 "> {formatAmount(e?.MaKingCharge_Unit)} </div>
-                                      <div className="lopclcol rightpcl fspcl pt-1" style={{ borderRight: "0px" }} > {formatAmount( ((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost)/(result?.header?.CurrencyExchRate)) )} </div>
+                                      <div className="lopclcol  fspcl pt-1 "> {formatAmount(e?.MaKingCharge_Unit)} </div>
+                                      <div className="lopclcol  fspcl pt-1" style={{ borderRight: "0px" }} > {formatAmount( ((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost)/(result?.header?.CurrencyExchRate)) )} </div>
                                     </div>
 
                                     {/* othercharge */}
                                     <div className="pcltbr1c6 fspcl">
-                                      <div className="lopclcol fspcl pt-1 ps-1">
+                                      <div className="lopclcol fspcl pt-1 ">
                                       <div>{ e?.MiscAmount === 0 ? '' : 'OTHER' }</div>
                                       <div>{ e?.TotalDiamondHandling === 0 ? '' : 'HANDLING' }</div>
                                       <div>
@@ -923,19 +886,19 @@ console.log(result);
                                       }
                                       </div>
                                         </div>
-                                      <div className="lopclcol fspcl pt-1" D style={{ borderRight: "0px" }} >
-                                        <div className=" d-flex flex-column justify-content-end align-items-end pe-1 fspcl">
-                                        <div>{ e?.MiscAmount === 0 ? '' : formatAmount(e?.MiscAmount) }</div>
+                                      <div className="lopclcol fspcl pt-1"  style={{ borderRight: "0px" }} >
+                                        <div className=" d-flex flex-column justify-content-end align-items-end  fspcl">
+                                        <div>{ e?.MiscAmount === 0 ? '' : formatAmount((e?.MiscAmount / result?.header?.CurrencyExchRate)) }</div>
                                         <div>{ e?.TotalDiamondHandling === 0 ? '' : formatAmount(e?.TotalDiamondHandling) }</div>
                                         <div>
                                         {
                                           e?.other_details?.map((e, i) => {
-                                            return <div key={i}>{e?.value}</div>
+                                            return  ((i < 3) ? <div key={i}>{e?.value}</div> : '') 
                                           })
                                         }
                                         </div>
                                         </div>
-                                        <div className="rightpcl fspcl d-flex flex-column justify-content-end align-items-end w-100">
+                                        <div className=" fspcl d-flex flex-column justify-content-end align-items-end w-100">
                                           {/* {formatAmount(e?.MiscAmount)} */}
                                           {/* {
                                     e?.misc?.map((e, i) => {
@@ -948,7 +911,7 @@ console.log(result);
                                       </div>
                                     </div>
                                     {/* price */}
-                                    <div className="pcltbr1c7 rightpcl fwboldpcl fspcl pt-1" style={{ borderRight: "0px" }} >
+                                    <div className="pcltbr1c7  fwboldpcl fspcl pt-1" style={{ borderRight: "0px" }} >
                                       {/* {NumberWithCommas(e?.UnitCost, 2)} */}
                                       {formatAmount((e?.UnitCost/(result?.header?.CurrencyExchRate)))}
                                     </div>
@@ -961,32 +924,32 @@ console.log(result);
                                     <div className="diapcltotrowtb fspcl">
                                       <div className="dcolsthpcl" style={{ width: "27%" }} ></div>
                                       <div className="dcolsthpcl" style={{ width: "27%" }} ></div>
-                                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ width: "22%" }} >
+                                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ width: "22%" }} >
                                         {e?.totals?.diamonds?.Wt === 0 ? '' : e?.totals?.diamonds?.Wt?.toFixed(3)}
                                       </div>
                                       <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
-                                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", width: "27%", }} >
+                                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", width: "27%", }} >
                                         {e?.totals?.diamonds?.Amount === 0 ? '' : formatAmount( (e?.totals?.diamonds?.Amount/(result?.header?.CurrencyExchRate)) )}
                                       </div>
                                     </div>
                                     <div className="diapcltotrowtb">
                                       <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
-                                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ width: "18%" }} >
+                                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ width: "18%" }} >
                                         {e?.grosswt?.toFixed(3)}
                                       </div>
-                                      <div className="dcolsthpcl rightpcl fwboldpcl fspcld-flex justify-content-end align-items-center" style={{ width: "18%" }} >
+                                      <div className="dcolsthpcl  fwboldpcl fspcld-flex justify-content-end align-items-center" style={{ width: "18%" }} >
                                         {/* {( +e?.NetWt?.toFixed(3) + +e?.LossWt?.toFixed(3) )?.toFixed(3)} */}
                                         {/* { (e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3) } */}
                                         { (e?.totals?.metal?.IsPrimaryMetal)?.toFixed(3) }
                                       </div>
                                       <div className="dcolsthpcl" style={{ width: "20%" }} ></div>
-                                      <div className="dcolsthpcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px",  width: "22%", }} >
+                                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px",  width: "22%", }} >
                                         {/* { formatAmount(e?.totals?.metal?.IsPrimaryMetal_Amount)} */}
                                         {
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div className="rightpcl fspcl pt-1" key={i} > {" "} {ele?.IsPrimaryMetal ===1 && formatAmount( (ele?.Amount/(result?.header?.CurrencyExchRate)) )}{" "} </div>
+                                                  <div className=" fspcl pt-1" key={i} > {" "} {ele?.IsPrimaryMetal ===1 && formatAmount( (ele?.Amount/(result?.header?.CurrencyExchRate)) )}{" "} </div>
                                                 );
                                               })
                                             }
@@ -994,29 +957,29 @@ console.log(result);
                                     </div>
                                     <div className="stnpcltotrowtb">
                                       <div className="shpthcolspcl" style={{ width: "27%" }} ></div>
-                                      <div className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ paddingRight: "0px", width: "22%", }} >
+                                      <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ paddingRight: "0px", width: "22%", }} >
                                         {e?.totals?.colorstone?.Wt === 0 ? '' : e?.totals?.colorstone?.Wt?.toFixed(3)}
                                       </div>
                                       <div className="shpthcolspcl" style={{ width: "23%" }} ></div>
-                                      <div className="shpthcolspcl rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center rightpcl" style={{ borderRight: "0px", width: "28%", }} >
+                                      <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center " style={{ borderRight: "0px", width: "28%", }} >
                                         {e?.totals?.colorstone?.Amount === 0 ? '' : formatAmount( (e?.totals?.colorstone?.Amount/(result?.header?.CurrencyExchRate)) )}
                                       </div>
                                     </div>
                                     <div className="lopcltotrowtb">
                                       <div className="lopclcol"></div>
 
-                                      <div className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", }} >
+                                      <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", }} >
                                         {e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost === 0 ? '' : formatAmount( ((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost)/(result?.header?.CurrencyExchRate)) )}
                                         {/* {e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost === 0 ? '' : formatAmount((((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate))))} */}
                                       </div>
                                     </div>
                                     <div className="lopcltotrowtb">
                                       {/* <div className="lopclcol"></div> */}
-                                      <div className="lopclcol rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center w-100" style={{ borderRight: "0px" }} >
-                                        {e?.OtherCharges + e?.totals?.misc?.Amount + e?.TotalDiamondHandling === 0 ? '' : formatAmount( e?.OtherCharges + e?.totals?.misc?.Amount + e?.TotalDiamondHandling )}
+                                      <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center w-100" style={{ borderRight: "0px" }} >
+                                        {e?.other_details_arr_total_amount + e?.totals?.misc?.Amount + e?.TotalDiamondHandling === 0 ? '' : formatAmount( e?.other_details_arr_total_amount + (e?.totals?.misc?.Amount / result?.header?.CurrencyExchRate) + e?.TotalDiamondHandling )}
                                       </div>
                                     </div>
-                                    <div className="prpcltotrowtb rightpcl fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px" }} >
+                                    <div className="prpcltotrowtb  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px" }} >
                                       {formatAmount((e?.UnitCost/(result?.header?.CurrencyExchRate)))}
                                     </div>
                                   </div>
@@ -1032,12 +995,12 @@ console.log(result);
                                             { `${formatAmount(e?.Discount)} % On ${e?.str_discountOn}` }
                                             {/* {e?.discountOn?.map((el, ind) => <div className='text-break' key={ind}>{`${formatAmount(e?.Discount)} % On ${el}`}</div>)} */}
                                         </span> } </div>
-                                        <div className="disvalpclcs  fwboldpcl fspcl d-flex justify-content-end rightpcl" style={{ borderRight: "0px", width:'28.7%' }} >
+                                        <div className="disvalpclcs  fwboldpcl fspcl d-flex justify-content-end " style={{ borderRight: "0px", width:'28.7%' }} >
                                           {formatAmount((e?.DiscountAmt/(result?.header?.CurrencyExchRate)))}
                                         </div>
                                       </div>
 
-                                      <div className="prpcltotrowtb rightpcl fwboldpcl fspcl" style={{ borderRight: "0px" }} >
+                                      <div className="prpcltotrowtb  fwboldpcl fspcl" style={{ borderRight: "0px" }} >
                                         {formatAmount((e?.TotalAmount/(result?.header?.CurrencyExchRate)))}
                                       </div>
                                     </div>
