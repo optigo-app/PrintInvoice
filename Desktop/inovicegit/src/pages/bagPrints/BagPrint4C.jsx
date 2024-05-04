@@ -189,58 +189,58 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                         <div className="print4Apart_1 print4bpart_1">
                                                                             <div className="part_1_4A">
                                                                                 <div className="title4A jobDiaGold4A border_bottom4A lh_4C_new align-items-center">
-                                                                                    <div className="jobDiaGoldText4A lh_4C_new ps-1">
+                                                                                    <div className="jobDiaGoldText4A lh_4C_new ps-1 fs_4c_lh">
                                                                                         {e?.data?.serialjobno}
                                                                                     </div>
-                                                                                    <div className="jobDiaGoldText4A lh_4C_new">
+                                                                                    <div className="jobDiaGoldText4A lh_4C_new fs_4c_lh">
                                                                                         {e?.data?.Designcode}
                                                                                     </div>
-                                                                                    <div className="jobDiaGoldText4A lh_4C_new border_right4A pe-1 h-100 d-flex align-items-center" style={{ paddingRight: "2px" }}>
+                                                                                    <div className="jobDiaGoldText4A lh_4C_new border_right4A pe-1 h-100 d-flex align-items-center fs_4c_lh" style={{ paddingRight: "2px" }}>
                                                                                         {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                                                                     </div>
                                                                                 </div>
                                                                                 <div className="height_border_31_4A border_bottom4A bagPrint4CHead">
                                                                                     <div className="cust4A border_right4A">
                                                                                         <div
-                                                                                            className="custText4A"
+                                                                                            className="custText4A fs_4c_lh"
                                                                                             style={{ paddingTop: "3px" }}
                                                                                         >
                                                                                             CUST
                                                                                         </div>
-                                                                                        <div className="custTextRes4A ">
+                                                                                        <div className="custTextRes4A lh_4C_new fs_4c_lh" style={{paddingTop:'2px'}}>
                                                                                             {e?.data?.CustomerCode}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="ordDt4A border_right4A">
                                                                                         <div
-                                                                                            className="custText4A"
+                                                                                            className="custText4A fs_4c_lh"
                                                                                             style={{ paddingTop: "3px" }}
                                                                                         >
                                                                                             ORD.DT.
                                                                                         </div>
-                                                                                        <div className="custTextRes4A" style={{ fontSize: `${e?.data?.orderDatef?.length > 7 ? '7.5pt' : '9pt'}` }}>
+                                                                                        <div className="custTextRes4A lh_4C_new fs_4c_lh" style={{paddingTop:'2px'}}>
                                                                                             {e?.data?.orderDatef ?? ""}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="delDt4A border_right4A">
                                                                                         <div
-                                                                                            className="custText4A"
+                                                                                            className="custText4A fs_4c_lh"
                                                                                             style={{ paddingTop: "3px" }}
                                                                                         >
                                                                                             DEL.DT.
                                                                                         </div>
-                                                                                        <div className="custTextRes4A" style={{ fontSize: `${e?.data?.promiseDatef?.length > 7 ? '7.5pt' : '9pt'}`,  }}>
+                                                                                        <div className="custTextRes4A lh_4C_new fs_4c_lh" style={{paddingTop:'2px'}}>
                                                                                             {e?.data?.promiseDatef ?? ""}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="size4AB border_right4A">
                                                                                         <div
-                                                                                            className="custText4A"
+                                                                                            className="custText4A fs_4c_lh"
                                                                                             style={{ paddingTop: "3px", paddingLeft: "1px" }}
                                                                                         >
                                                                                             SIZE
                                                                                         </div>
-                                                                                        <div className="custTextRes4A">
+                                                                                        <div className="custTextRes4A lh_4C_new fs_4c_lh" style={{paddingLeft:'1px'}}>
                                                                                             {e?.data?.Size}
                                                                                         </div>
                                                                                     </div>
