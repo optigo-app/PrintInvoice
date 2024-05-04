@@ -631,56 +631,29 @@ const InvoicePrint_10_11 = ({
             {mainData?.resultArr?.map((e, i) => {
               return (
                 <div className="d-flex" key={i}>
-                  <div
-                    style={{ minWidth: "17%", width: "17%" }}
-                    className=" px-1 text-uppercase"
-                  >
+                  <div style={{ minWidth: "17%", width: "17%" }} className=" px-1 text-uppercase" >
                     <p>
                       {e?.primaryMetal?.ShapeName}{" "}
                       {e?.primaryMetal?.QualityName}
                     </p>
                   </div>
-                  <div
-                    style={{ minWidth: "14.5%", width: "14.5%" }}
-                    className=" px-1 text-end"
-                  >
+                  <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end" >
                     <p>{NumberWithCommas(e?.grosswt, 3)} Gms</p>
                   </div>
-                  <div
-                    style={{ minWidth: "14.5%", width: "14.5%" }}
-                    className=" px-1 text-end"
-                  >
+                  <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end" >
                     <p>{NumberWithCommas(e?.netWtFinal, 3)} Gms</p>
                   </div>
-                  <div
-                    style={{ minWidth: "9%", width: "9%" }}
-                    className=" px-1"
-                  >
+                  <div style={{ minWidth: "9%", width: "9%" }} className=" px-1" >
                     <p></p>
                   </div>
-                  <div
-                    style={{ minWidth: "15%", width: "15%" }}
-                    className=" px-1"
-                  >
+                  <div style={{ minWidth: "15%", width: "15%" }} className=" px-1" >
                     <p></p>
                   </div>
-                  <div
-                    style={{ minWidth: "15%", width: "15%" }}
-                    className=" px-1 text-end"
-                  >
-
+                  <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end" >
                     <p>{NumberWithCommas(e?.finalRate, 2)}</p>
                   </div>
-                  <div
-                    style={{ minWidth: "15%", width: "15%" }}
-                    className=" px-1 text-end"
-                  >
-                    <p>
-                      {NumberWithCommas(
-                        e?.latestAmount,
-                        2
-                      )}
-                    </p>
+                  <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end" >
+                    <p> {NumberWithCommas( e?.latestAmount, 2 )} </p>
                   </div>
                 </div>
               );
