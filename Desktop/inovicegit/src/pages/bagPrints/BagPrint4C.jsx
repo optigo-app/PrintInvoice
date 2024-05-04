@@ -187,7 +187,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                 return (
                                                                     <div className="container4A container4B" key={ind}>
                                                                         <div className="print4Apart_1 print4bpart_1">
-                                                                            <div className="part_1_4A">
+                                                                            <div className="part_1_4ACC">
                                                                                 <div className="title4A jobDiaGold4A border_bottom4A lh_4C_new align-items-center">
                                                                                     <div className="jobDiaGoldText4A lh_4C_new ps-1 fs_4c_lh">
                                                                                         {e?.data?.serialjobno}
@@ -236,11 +236,11 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                                     <div className="size4AB border_right4A">
                                                                                         <div
                                                                                             className="custText4A fs_4c_lh"
-                                                                                            style={{ paddingTop: "3px", paddingLeft: "1px" }}
+                                                                                            style={{ paddingTop: "2px", paddingLeft: "1px" }}
                                                                                         >
                                                                                             SIZE
                                                                                         </div>
-                                                                                        <div className="custTextRes4A lh_4C_new fs_4c_lh" style={{paddingLeft:'1px'}}>
+                                                                                        <div className="custTextRes4A lh_4C_new fs_4c_lh" style={{paddingLeft:'1px', paddingTop:'2px'}}>
                                                                                             {e?.data?.Size}
                                                                                         </div>
                                                                                     </div>
@@ -331,7 +331,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                                         )}
                                                                                 </div>
                                                                             </div>
-                                                                            <div className="part_2_4B">
+                                                                            <div className="part_2_4BCC">
                                                                                 {/* { <div className="img_sec_4A border-bottom border-black"> } */}
                                                                                 <div className="img_fir_4C border-bottom border-black">
                                                                                     <img
@@ -404,7 +404,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                             </> : (<>
                                                 <div className="container4A container4B" >
                                                     <div className="print4Apart_1 print4bpart_1">
-                                                        <div className="part_1_4A">
+                                                        <div className="part_1_4ACC">
                                                             <div className="title4A jobDiaGold4A border_bottom4A lh_4C_new align-items-center">
                                                                 <div className="jobDiaGoldText4A lh_4C_new ps-1">
                                                                     {e?.data?.serialjobno}
@@ -453,11 +453,11 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                 <div className="size4AB border_right4A">
                                                                     <div
                                                                         className="custText4A"
-                                                                        style={{ paddingTop: "3px", paddingLeft: "1px" }}
+                                                                        style={{ paddingTop: "2px", paddingLeft: "1px" }}
                                                                     >
                                                                         SIZE
                                                                     </div>
-                                                                    <div className="custTextRes4A">
+                                                                    <div className="custTextRes4A" style={{paddingTop: "2px"}}>
                                                                         {e?.data?.Size}
                                                                     </div>
                                                                 </div>
@@ -546,7 +546,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                                     )}
                                                             </div>
                                                         </div>
-                                                        <div className="part_2_4B">
+                                                        <div className="part_2_4BCC">
                                                             <div className="img_sec_4A border-bottom border-black">
                                                                 <img
                                                                     src={e?.additional?.img}
@@ -642,33 +642,33 @@ const BagPrint4C = ({ queries, headers }) => {
                                                         <div className="priority_sec_4A border_right4A">
                                                             <div
                                                                 className="sales_Rep_text_4A"
-                                                                style={{ paddingTop: "3px" }}
+                                                                style={{ paddingTop: "2px" }}
                                                             >
                                                                 SALES REP.
                                                             </div>
-                                                            <div className="sales_Rep_letter_4A">
+                                                            <div className="sales_Rep_letter_4A" style={{ paddingBottom: "2px" }}>
                                                                 {e?.data?.SalesrepCode}
                                                             </div>
                                                         </div>
                                                         <div className=" border_right4A  loc4A ">
                                                             <div
                                                                 className="sales_Rep_text_4A"
-                                                                style={{ paddingTop: "3px" }}
+                                                                style={{ paddingTop: "2px" }}
                                                             >
                                                                 FROSTING
                                                             </div>
-                                                            <div className="sales_Rep_letter_4A">
+                                                            <div className="sales_Rep_letter_4A" style={{ paddingBottom: "2px" }}>
                                                                 {e?.data?.MetalFrosting}
                                                             </div>
                                                         </div>
                                                         <div className=" border_right4A  qc4A ">
                                                             <div
                                                                 className="sales_Rep_text_4A"
-                                                                style={{ paddingTop: "3px" }}
+                                                                style={{ paddingTop: "2px" }}
                                                             >
                                                                 ENAMELING
                                                             </div>
-                                                            <div className="sales_Rep_letter_4A">
+                                                            <div className="sales_Rep_letter_4A" style={{ paddingBottom: "2px" }}>
                                                                 {e?.data?.Enamelling}
                                                             </div>
                                                         </div>
