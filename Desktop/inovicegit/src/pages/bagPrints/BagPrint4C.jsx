@@ -35,7 +35,15 @@ const BagPrint4C = ({ queries, headers }) => {
                     headers: headers,
                 };
                 const allDatas = await GetData(objs);
+                console.log(allDatas);
+                if(allDatas?.rd?.length === 0 && allDatas?.rd1?.length === 0){
+                    setData(['Data Not Present'])
+                    
+                }else{
+
+                
                 let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+                console.log(datas);
                 // eslint-disable-next-line array-callback-return
                 datas?.map((a) => {
                     let chunkData = [];
@@ -127,7 +135,9 @@ const BagPrint4C = ({ queries, headers }) => {
                         },
                     });
                 });
+
                 setData(responseData);
+            }
             } catch (error) {
                 console.log(error);
             }
@@ -149,10 +159,7 @@ const BagPrint4C = ({ queries, headers }) => {
             ) : (
                 <>
                     <div className="print_btn ">
-                        <button
-                            className="btn_white blue print_btn"
-                            onClick={(e) => handlePrint(e)}
-                        >
+                        <button className="btn_white blue print_btn" onClick={(e) => handlePrint(e)} >
                             Print
                         </button>
                     </div>
@@ -172,8 +179,9 @@ const BagPrint4C = ({ queries, headers }) => {
                         )}
                         
                         {
-                            data?.length > 0 &&
+                            data?.length > 0 ?
                             data?.map((e, i) => {
+                                console.log(data);
                                 return (
                                     <React.Fragment key={i}>
                                         {
@@ -868,7 +876,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                         </div>
                                     </React.Fragment>
                                 );
-                            })
+                            }) : <div>Data Not Present</div>
                         }
                     </section>
                 </>

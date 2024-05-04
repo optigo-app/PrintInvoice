@@ -214,7 +214,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
         fineWtByMetalWtCalculation: 0,
         otherChargesMiscHallStamp: 0,
         makingAmount_settingAmount: 0,
-        jobwise_dia_wt_certificate:0
+        jobwise_dia_wt_certificate:0,
       };
 
       let other_details = otherAmountDetail(j1?.OtherAmtDetail);
@@ -597,6 +597,16 @@ const allTaxes = allTax?.map((e) => {
     let obj = {...e};
     let metal_rate = e?.metal?.reduce((acc, val) => acc + val?.Rate, 0);
     obj.metal_rate = metal_rate;
+    let primary_metal_rate = e?.metal?.reduce((acc, val) => ( val?.IsPrimaryMetal === 1 ?  (acc + val?.Rate) : acc), 0);
+    obj.primary_metal_rate = primary_metal_rate;
+
+    let other_details_arr_total_amount = 0;
+
+     other_details_arr_total_amount = obj?.other_details?.reduce((acc, num) => acc + num?.amtval, 0);
+    
+    obj.other_details_arr_total_amount = other_details_arr_total_amount;
+
+
     finalArr.push(obj);
   })
   const finalObject = {

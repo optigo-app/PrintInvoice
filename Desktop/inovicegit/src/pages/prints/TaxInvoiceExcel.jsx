@@ -176,7 +176,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       
           diarndotherarr5 = [...diaonlyrndarr6, diaObj];
           setDiamondWise(diarndotherarr5);
-
         datas?.resultArray?.forEach((el) => {
             let dia = [];
             el?.diamonds?.forEach((a) => {
@@ -211,9 +210,24 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
         let finalArr = [];
         datas?.resultArray?.forEach((e, i) => {
+
+            let arr = [];
+            let len = 7;
+            if(e?.diamonds?.length > e?.colorstone?.length){
+                if(e?.diamonds?.length > 7){
+                    len = e?.diamonds?.length;
+                }
+            }else if(e?.diamonds?.length < e?.colorstone?.length){
+                    if(e?.colorstone?.length > 7){
+                    len = e?.colorstone?.length;
+                }
+            }
+
             let findMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1)
             let obj = {};
-            obj.sr = (i + 1);
+            obj.sr = i+1;
+            obj.srflag = true;
+            obj.srRowSpan = len;
             obj.SrJobno = `${e?.SrJobno}`;
             obj.designno = e?.designno;
           
@@ -232,7 +246,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.met_amt = 0;
             
                 obj.met_wt = e?.NetWt;
-                obj.met_rate = findMetal ? (Math.round(((findMetal?.Amount / datas?.header?.CurrencyExchRate)) / e?.NetWt)) : '';
+                // obj.met_rate = findMetal ? (Math.round(((findMetal?.Amount / datas?.header?.CurrencyExchRate)) / e?.NetWt)) : '';
+                obj.met_rate = findMetal ? (Math.round((findMetal?.Rate) )) : '';
                 obj.met_amt = findMetal ? (formatAmount(findMetal?.Amount)) : '';
                 obj.met_quality = findMetal ? (findMetal?.ShapeName + " " + findMetal?.QualityName) : '';
             
@@ -252,33 +267,25 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.labour_amt = (e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount);
             obj.total_amount = e?.TotalAmount;
             
-            let arr = [];
-            let len = 7;
-            if(e?.diamonds?.length > e?.colorstone?.length){
-                if(e?.diamonds?.length > 7){
-                    len = e?.diamonds?.length;
-                }
-            }else if(e?.diamonds?.length < e?.colorstone?.length){
-                    if(e?.colorstone?.length > 7){
-                    len = e?.colorstone?.length;
-                }
-            }
-            Array?.from({length : len})?.map((el, i) => {
+         
+            Array?.from({length : len})?.map((el, ind) => {
                 let obj = {};
+          
+                obj.srflag = false
                 obj.img = e?.DesignImage;
                 obj.imgflag = false;
-                if(i === 0){
+                if(ind === 0){
                     obj.imgflag = true;
                 }
                 obj.tunch = ((e?.Tunch)?.toFixed(3));
                 obj.tunchflag = false;
-                if(i === 4){
+                if(ind === 4){
                     obj.tunchflag = true;
                 }
 
                 obj.grosswt = ((e?.grosswt)?.toFixed(3));
                 obj.grosswetflag = false;
-                if(i === 5){
+                if(ind === 5){
                     obj.grosswetflag = true;
                 }
 
@@ -290,15 +297,15 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 obj.dia_rate = 0;
                 obj.dia_amt = 0;
                 obj.diaflag = false;
-                if(e?.diamonds[i+1]){
+                if(e?.diamonds[ind+1]){
                     obj.diaflag = true;
-                    obj.dia_code = (e?.diamonds[i+1]?.ShapeName + " " + e?.diamonds[i+1]?.QualityName + " " + e?.diamonds[i+1]?.Colorname);
-                    obj.dia_size = e?.diamonds[i+1]?.SizeName;
-                    obj.dia_pcs = e?.diamonds[i+1]?.Pcs;
-                    obj.dia_wt = ((e?.diamonds[i+1]?.Wt)?.toFixed(3));
-                    // obj.dia_rate = (Math.round((e?.diamonds[i+1]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[i+1]?.Wt === 0 ? 1 : e?.diamonds[i+1]?.Wt)));
-                    obj.dia_rate = (Math.round((e?.diamonds[i+1]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[i+1]?.Wt === 0 ? 1 : e?.diamonds[i+1]?.Wt)));
-                    obj.dia_amt = (formatAmount(e?.diamonds[i+1]?.Amount));
+                    obj.dia_code = (e?.diamonds[ind + 1]?.ShapeName + " " + e?.diamonds[ind + 1]?.QualityName + " " + e?.diamonds[ind + 1]?.Colorname);
+                    obj.dia_size = e?.diamonds[ind + 1]?.SizeName;
+                    obj.dia_pcs = e?.diamonds[ind + 1]?.Pcs;
+                    obj.dia_wt = ((e?.diamonds[ind + 1]?.Wt)?.toFixed(3));
+                    // obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
+                    obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
+                    obj.dia_amt = (formatAmount(e?.diamonds[ind + 1]?.Amount));
                 }
 
                 // colorstone
@@ -309,20 +316,20 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 obj.cls_rate = 0;
                 obj.cls_amt = 0;
                 obj.clsflag = false;
-                if(e?.colorstone[i+1]){
+                if(e?.colorstone[ind+1]){
                     obj.clsflag = true;
-                    obj.cls_code = e?.colorstone[i+1]?.ShapeName + " " + e?.colorstone[i+1]?.QualityName + " " + e?.colorstone[i+1]?.Colorname;
-                    obj.cls_size = e?.colorstone[i+1]?.SizeName;
-                    obj.cls_pcs = e?.colorstone[i+1]?.Pcs;
-                    obj.cls_wt = ((e?.colorstone[i+1]?.Wt)?.toFixed(3));
-                    // obj.cls_rate = (Math.round(((e?.colorstone[i+1]?.Amount / result?.header?.CurrencyExchRate)) / (e?.colorstone[i+1]?.Wt === 0 ? 1 : e?.colorstone[i+1]?.Wt)));
-                    obj.cls_rate = (Math.round(((e?.colorstone[i+1]?.Amount / datas?.header?.CurrencyExchRate)) / (e?.colorstone[i+1]?.Wt === 0 ? 1 : e?.colorstone[i+1]?.Wt)));
-                    obj.cls_amt = (formatAmount(e?.colorstone[i+1]?.Amount));
+                    obj.cls_code = e?.colorstone[ind + 1]?.ShapeName + " " + e?.colorstone[ind + 1]?.QualityName + " " + e?.colorstone[ind + 1]?.Colorname;
+                    obj.cls_size = e?.colorstone[ind + 1]?.SizeName;
+                    obj.cls_pcs = e?.colorstone[ind + 1]?.Pcs;
+                    obj.cls_wt = ((e?.colorstone[ind + 1]?.Wt)?.toFixed(3));
+                    // obj.cls_rate = (Math.round(((e?.colorstone[ind + 1]?.Amount / result?.header?.CurrencyExchRate)) / (e?.colorstone[ind + 1]?.Wt === 0 ? 1 : e?.colorstone[ind + 1]?.Wt)));
+                    obj.cls_rate = (Math.round(((e?.colorstone[ind + 1]?.Amount / datas?.header?.CurrencyExchRate)) / (e?.colorstone[ind + 1]?.Wt === 0 ? 1 : e?.colorstone[ind + 1]?.Wt)));
+                    obj.cls_amt = (formatAmount(e?.colorstone[ind + 1]?.Amount));
                 }
 
                 obj.JobRemark = e?.JobRemark;
                 obj.jobRemarkflag = false;
-                if(i === 1 && e?.JobRemark !== ''){
+                if(ind === 1 && e?.JobRemark !== ''){
                     obj.jobRemarkflag = true;
                 }
 
@@ -518,7 +525,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
     
    
-console.log(result?.header);
   return (
     <>
     {
@@ -577,7 +583,7 @@ console.log(result?.header);
                             
                             <td colSpan={18}>{result?.header?.customerregion}</td>
                             <td colSpan={2}>DATE:</td>
-                            <th colSpan={2} align='left' style={{borderRight:'1px solid #e8e8e8'}}>{result?.header?.EntryDate}</th>
+                            <th colSpan={2} align='left' style={{borderRight:'1px solid #e8e8e8'}}>&nbsp;{result?.header?.EntryDate}</th>
                         </tr>
                         <tr>
                             
@@ -592,7 +598,7 @@ console.log(result?.header);
                             <th colSpan={2} style={{borderRight:'1px solid #e8e8e8'}}></th>
                         </tr>
                         <tr>
-                            <td style={{borderBottom:'1px solid #e8e8e8'}} colSpan={18}>GSTIN : {(result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo)} | PAN - {result?.header?.CustPanno} | {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} </td>
+                            <td style={{borderBottom:'1px solid #e8e8e8'}} colSpan={18}>GSTIN : {(result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo)} | {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No}  | PAN - {result?.header?.CustPanno}  </td>
                             <td colSpan={2} style={{borderBottom:'1px solid #e8e8e8'}}></td>
                             <th colSpan={2} style={{borderBottom:'1px solid #e8e8e8', borderRight:'1px solid #e8e8e8'}}></th>
                         </tr>
@@ -639,9 +645,9 @@ console.log(result?.header);
                             result2?.map((e) => {
                                 return (<>
                                     <tr>
-                                        <td width={90} style={{borderRight:'1px solid #989898'}} align='center'>{e?.sr}</td>
+                                  { e?.srflag && <td width={90} style={{borderRight:'1px solid #989898'}} align='center' rowSpan={e?.srRowSpan + 1} >{e?.sr}</td>}
                                         <td width={120} style={{wordBreak:'break-word'}}>&nbsp;{e?.designno}</td>
-                                        <td width={120} style={{borderRight:'1px solid #989898', wordBreak:'break-word'}}>&nbsp;{e?.SrJobno}</td>
+                                        <td width={120} align='right' style={{borderRight:'1px solid #989898', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.SrJobno}&nbsp;</td>
                                         <td width={140} align='left' >&nbsp;{e?.dia_code}</td>
                                         <td width={140} align='left'>&nbsp;{`${e?.dia_size}`}</td>
                                         <td width={90} align='right'>&nbsp;{e?.dia_pcs}</td>
@@ -669,11 +675,11 @@ console.log(result?.header);
                                     {
                                         e?.matrialArr?.map((val, ind) => {
                                             return <tr key={ind}>
-                                                <td width={90} style={{borderRight:'1px solid #989898'}} align='center'></td>
+                                            
                                                 <td  colSpan={2} style={{borderRight:'1px solid #989898', verticalAlign:'center'}} align='center'>
                                                     <span style={{textAlign:'center'}}>{val?.imgflag && <img src={val?.img} alt=""  onError={eve => handleGlobalImgError(eve, result?.header?.DefImage)} width={70}  style={{ paddingLeft: "10px", objectFit: "contain", verticalAlign:'center' }} />}</span>
                                                     <div style={{textAlign:'center'}}>{val?.tunchflag && `Tunch : `} <b>{val?.tunchflag && val?.tunch}</b></div>
-                                                    <div style={{textAlign:'center'}}><b>{val?.grosswetflag && val?.grosswt}</b> {val?.grosswetflag && ' gm Gross'}</div>
+                                                    <div style={{textAlign:'center'}}><b>{val?.grosswetflag && val?.grosswt}</b> {val?.grosswetflag && <span><b>gm</b> Gross</span>}</div>
                                                 </td>
                                                 {/* <td width={90}></td> */}
                                                 <td width={90} align='left'>&nbsp;{ val?.diaflag && `${val?.dia_code}`}</td>
@@ -782,8 +788,8 @@ console.log(result?.header);
                                     return  <tr key={i}>
                                                 <th align='left' width={100}>{e?.grosswt_name}</th>
                                                 <td align='right' colSpan={2} style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.grosswt_value} {e?.grosswt_value === '' ? '' : `${(e?.grosswt_name === 'STONE WT' || e?.grosswt_name === 'DIAMOND WT') ? 'cts' : 'gms'}`}</td>
-                                                <th align='left' style={{borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, borderRight:`${ i === 7 ? '1px solid #989898' : ''}`,backgroundColor:`${ i === 7 ? '#F5F5F5' : ''}` }}>{e?.name}</th>
-                                                <td colSpan={2} align='right' style={{borderRight:'1px solid #989898', borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, backgroundColor:`${ i === 7 ? '#F5F5F5' : ''}`, fontWeight:`${ i === 7 ? 'bold' : ''}`}}>&nbsp;{e?.value}</td>
+                                                <th align='left' style={{borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, borderBottom:`${ i === 7 ? '1px solid #989898' : ''}`, borderRight:`${ i === 7 ? '1px solid #989898' : ''}`,backgroundColor:`${ i === 7 ? 'rgb(245, 245, 245)' : ''}` }}>{e?.name}</th>
+                                                <td colSpan={2} align='right' style={{borderRight:'1px solid #989898',borderBottom:`${ i === 7 ? '1px solid #989898' : ''}`, borderTop:`${ i === 7 ? '1px solid #989898' : ''}`, backgroundColor:`${ i === 7 ? 'rgb(245, 245, 245)' : ''}`, fontWeight:`${ i === 7 ? 'bold' : ''}`}}>&nbsp;{e?.value}</td>
                                                 <th colSpan={2} align='left'>{e?.dia_info_name}</th>
                                                 <td colSpan={2} align='right'>&nbsp;{(e?.dia_info_value)} {e?.dia_info_value === '' ? '' : 'cts'}</td>
                                                 <td colSpan={2} align='left' style={{borderLeft:'1px solid #989898'}}>{e?.sum_info_name}</td>

@@ -615,6 +615,8 @@
 #designimgpclid {
     height: 70%;
     width: 70%;
+    max-width: 116px;
+    object-fit: contain;
 }
 
 .diatotbodypcl {
@@ -1134,6 +1136,25 @@
 }
 .be_1_pcl{
     border-right: 0.5px solid #989898;
+}
+.w_pcl_new{
+    width: 94% !important;
+}
+.fspcl_3{
+    font-size: 14px !important;
+}
+.end_pcl_new{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.end_p_pcl_new{
+    padding-right: 2px;
+}
+.end_pcl_new_2{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
 }
 @media print {
     .btnpcl {
