@@ -627,7 +627,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                             {e?.data?.MetalType} {e?.data?.MetalColorCo}
                                                         </div>
                                                     </div>
-                                                    <div className="priority4A border_bottom4A">
+                                                    <div className="priority4ACC border_bottom4A">
                                                         <div className="border_right4A priority_text_4A priority_sec_4A ">
                                                             PRIORITY
                                                         </div>
@@ -702,7 +702,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className="priority4A border_bottom4A">
+                                                    <div className="priority4ACC border_bottom4A">
                                                         <div className="border_right4A priority_text_4A priority_sec_4A ">
                                                             TR NO.
                                                         </div>
@@ -713,7 +713,7 @@ const BagPrint4C = ({ queries, headers }) => {
                                                             TR NO.
                                                         </div>
                                                     </div>
-                                                    <div className="priority4A border_bottom4A">
+                                                    <div className="priority4ACC border_bottom4A">
                                                         <div className="border_right4A priority_text_4A priority_sec_4A ">
                                                             TR WT
                                                         </div>

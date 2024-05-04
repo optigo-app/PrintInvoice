@@ -23,7 +23,7 @@
     object-fit: cover;
     transform: rotate(90deg) !important;
     position: relative !important;
-    left: 39px !important;
+    left: 42px !important;
     margin: 0px;
 }
 .barcodeText4ABCC {
@@ -65,7 +65,8 @@
     height: 140px !important;
 }
 .ins4CH{
-    height: 16pt !important;
+    /* height: 16pt !important; */
+    height: 13pt !important;
 }
 .barcode_img_container_4B_CC {
     width: 27pt;
@@ -85,4 +86,18 @@
 
 .lh_4C_new{
     line-height: 8px !important;
+}
+.priority4ACC{
+
+    height: 15.295pt;
+    /* height: 10.9pt; */
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.part_3_container_4A_record {
+    display: flex;
+    height: 13.1pt;
+    /* height: 14.3pt; */
 }
