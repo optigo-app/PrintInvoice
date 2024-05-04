@@ -1143,6 +1143,19 @@
 .fspcl_3{
     font-size: 14px !important;
 }
+.end_pcl_new{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.end_p_pcl_new{
+    padding-right: 2px;
+}
+.end_pcl_new_2{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
 @media print {
     .btnpcl {
         display: none !important;

@@ -182,8 +182,8 @@ const JewelleryTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
       grand: grandTotal,
     };
     resultArr.sort((a, b) => {
-      const designNoA = parseInt((a?.designno).match(/\d+/)[0]);
-      const designNoB = parseInt((b?.designno).match(/\d+/)[0]);
+      const designNoA = parseInt((a?.designno)?.match(/\d+/)[0]);
+      const designNoB = parseInt((b?.designno)?.match(/\d+/)[0]);
       return designNoA - designNoB;
   });
   
