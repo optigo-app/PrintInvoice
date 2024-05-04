@@ -1137,9 +1137,7 @@ const InvoicePrint8 = ({
             )}
           </div>
         </div>
-        <div
-          className={`d-flex border-start border-end border-bottom no_break ${style?.font_15}`}
-        >
+        <div className={`d-flex border-start border-end border-bottom no_break ${style?.font_15}`} >
           <div className="col-8 border-end px-1">
             <p className="fw-bold"> IN Words Indian Rupees</p>
             <p className="fw-bold">
