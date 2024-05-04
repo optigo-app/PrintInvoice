@@ -1021,52 +1021,52 @@ console.log(result);
                     <div className="diapcltotrowtb">
                       <div className="dcolsthpcl" style={{ width: "27%", backgroundColor:'#F5F5F5 !important' }} ></div>
                       <div className="dcolsthpcl" style={{ width: "27%", backgroundColor:'#F5F5F5 !important' }} ></div>
-                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{  width: "22%" }} >
+                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{  width: "22%" }} >
                         {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                       </div>
                       <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
-                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px",  width: "27%", }} >
+                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px",  width: "27%", }} >
                         {formatAmount(((result?.mainTotal?.diamonds?.Amount)/(result?.header?.CurrencyExchRate)))}
                       </div>
                     </div>
                     <div className="diapcltotrowtb">
                       <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
-                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{  width: "18%" }} >
+                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{  width: "18%" }} >
                         {result?.mainTotal?.grosswt?.toFixed(3)}
                       </div>
-                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{  width: "18%" }} >
+                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{  width: "18%" }} >
                         {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
                         {/* {(result?.mainTotal?.metal?.IsPrimaryMetal + result?.mainTotal?.lossWt)?.toFixed(3)} */}
                         {(result?.mainTotal?.metal?.IsPrimaryMetal )?.toFixed(3)}
                       </div>
                       <div className="dcolsthpcl" style={{ width: "20%" }} ></div>
-                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", width: "22%", }} >
+                      <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "22%", }} >
                         {formatAmount(((result?.mainTotal.metal?.IsPrimaryMetal_Amount)/(result?.header?.CurrencyExchRate)))}
                       </div>
                     </div>
                     <div className="stnpcltotrowtb">
                       <div className="shpthcolspcl" style={{ width: "27%" }} ></div>
-                      <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ width: "22%" }} >
+                      <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ width: "22%" }} >
                         {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
                       </div>
                       <div className="shpthcolspcl" style={{ width: "23%" }} ></div>
-                      <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", width: "28%", }} >
+                      <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "28%", }} >
                         {formatAmount((result?.mainTotal.colorstone?.Amount/(result?.header?.CurrencyExchRate)))}
                       </div>
                     </div>
                     <div className="lopcltotrowtb">
                       <div className="lopclcol"></div>
-                      <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", }} >
+                      <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
                         {formatAmount( ((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate)) )}
                       </div>
                     </div>
                     <div className="lopcltotrowtb">
                       <div className="lopclcol"></div>
-                      <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px", }} >
+                      <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
                         {formatAmount( ((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount)/(result?.header?.CurrencyExchRate) ) )}
                       </div>
                     </div>
-                    <div className="prpcltotrowtb  fwboldpcl fspcl d-flex justify-content-end align-items-center" style={{ borderRight: "0px" }} >
+                    <div className="prpcltotrowtb  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px" }} >
                       {formatAmount((result?.mainTotal?.total_amount/(result?.header?.CurrencyExchRate)))}
                     </div>
                   </div>
@@ -1075,7 +1075,7 @@ console.log(result);
                       <div className="summaryalignpcl fspcl">
                         Total Discount
                       </div>
-                      <div className="fspcl w-50 d-flex justify-content-end align-items-center">
+                      <div className="fspcl w-50 d-flex justify-content-end align-items-center ">
                         {formatAmount((result?.mainTotal?.total_discount_amount/(result?.header?.CurrencyExchRate)))}
                       </div>
                     </div>
