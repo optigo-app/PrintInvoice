@@ -611,7 +611,7 @@ const allTaxes = allTax?.map((e) => {
     
     obj.other_details_arr_total_amount = other_details_arr_total_amount;
 
-
+    
     finalArr.push(obj);
   })
   const finalObject = {

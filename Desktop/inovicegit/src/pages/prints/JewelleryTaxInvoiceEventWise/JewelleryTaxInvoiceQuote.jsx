@@ -228,6 +228,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
     // setSummary2(metwise);
 
   }
+  console.log(json0Data);
 
   useEffect(() => {
     const sendData = async () => {
