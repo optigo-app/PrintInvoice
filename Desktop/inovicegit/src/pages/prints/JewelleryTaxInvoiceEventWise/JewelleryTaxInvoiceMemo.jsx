@@ -73,9 +73,11 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
       if (findRecord === -1) {
         metalArr.push({ label: e?.MetalTypePurity, value: (e?.NetWt * e?.Quantity), gm: true });
       } else {
-        metalArr[findRecord].value += (e?.NetWt * e?.Quantity);
+        // metalArr[findRecord].value += (e?.NetWt * e?.Quantity);
+        metalArr[findRecord].value += (e?.NetWt);
       }
-      grossWt += (e?.grosswt * e?.Quantity);
+      // grossWt += (e?.grosswt * e?.Quantity);
+      grossWt += (e?.grosswt );
       let diamondWts = 0;
       let colorStoneWts = 0;
       let miscWts = 0;
@@ -149,7 +151,7 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
     // })
     metalArr.push({ label: "Diamond Wt", value: (diamondWt), gm: false });
     metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
-    metalArr.push({ label: "Gross Wt", value: grossWt, gm: false });
+    metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
   
     if (!estimate) {
       // metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
