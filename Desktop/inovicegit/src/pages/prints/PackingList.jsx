@@ -782,7 +782,7 @@ console.log(result);
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div className="end_pcl_new end_p_pcl_new fspcl pt-1" key={i} > { ele?.IsPrimaryMetal ===1 && formatAmount( (ele?.Rate) )}{" "} </div> );
+                                                  <div className="end_pcl_new end_p_pcl_new fspcl pt-1" key={i} > { ele?.IsPrimaryMetal ===1 && ( ele?.Rate !== 0 && formatAmount( (ele?.Rate)) )}{" "} </div> );
                                               })
                                             }
                                           </div>
@@ -792,7 +792,7 @@ console.log(result);
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div className="end_pcl_new end_p_pcl_new fspcl pt-1" key={i} >{ele?.IsPrimaryMetal ===1 && formatAmount( (ele?.Amount/(result?.header?.CurrencyExchRate)) )} </div>
+                                                  <div className="end_pcl_new end_p_pcl_new fspcl pt-1" key={i} >{ele?.IsPrimaryMetal ===1 && ( ele?.Amount !== 0 && formatAmount( (ele?.Amount/(result?.header?.CurrencyExchRate))) )} </div>
                                                 );
                                               })
                                             }
@@ -869,8 +869,8 @@ console.log(result);
 
                                     {/* labour */}
                                     <div className="pcltbr1c6 fspcl ">
-                                      <div className="lopclcol d-flex justify-content-end end_p_pcl_new fspcl pt-1 "> {formatAmount(e?.MaKingCharge_Unit)} </div>
-                                      <div className="lopclcol d-flex justify-content-end end_p_pcl_new fspcl pt-1" style={{ borderRight: "0px" }} > {formatAmount( ((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost)/(result?.header?.CurrencyExchRate)) )} </div>
+                                      <div className="lopclcol d-flex justify-content-end end_p_pcl_new fspcl pt-1 "> { e?.MaKingCharge_Unit !== 0 && formatAmount(e?.MaKingCharge_Unit)} </div>
+                                      <div className="lopclcol d-flex justify-content-end end_p_pcl_new fspcl pt-1" style={{ borderRight: "0px" }} > { (e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost) !== 0 && formatAmount( ((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost)/(result?.header?.CurrencyExchRate)) )} </div>
                                     </div>
 
                                     {/* othercharge */}
@@ -949,7 +949,7 @@ console.log(result);
                                               // eslint-disable-next-line array-callback-return
                                               e?.metal?.map((ele, i) => {
                                                 return (
-                                                  <div className="end_pcl_new end_p_pcl_new fspcl pt-1" key={i} > {" "} {ele?.IsPrimaryMetal ===1 && formatAmount( (ele?.Amount/(result?.header?.CurrencyExchRate)) )}{" "} </div>
+                                                  <div className="end_pcl_new end_p_pcl_new fspcl pt-1" key={i} > {" "} {ele?.IsPrimaryMetal ===1 && ( ele?.Amount !== 0 && formatAmount( (ele?.Amount/(result?.header?.CurrencyExchRate)) ))}{" "} </div>
                                                 );
                                               })
                                             }
@@ -969,7 +969,7 @@ console.log(result);
                                       <div className="lopclcol"></div>
 
                                       <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
-                                        {e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost === 0 ? '' : formatAmount( ((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost)/(result?.header?.CurrencyExchRate)) )}
+                                        {(e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost) === 0 ? '' : formatAmount( ((e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost)/(result?.header?.CurrencyExchRate)) )}
                                         {/* {e?.MakingAmount + e?.TotalCsSetcost + e?.TotalDiaSetcost === 0 ? '' : formatAmount((((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate))))} */}
                                       </div>
                                     </div>
@@ -1022,11 +1022,11 @@ console.log(result);
                       <div className="dcolsthpcl" style={{ width: "27%", backgroundColor:'#F5F5F5 !important' }} ></div>
                       <div className="dcolsthpcl" style={{ width: "27%", backgroundColor:'#F5F5F5 !important' }} ></div>
                       <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{  width: "22%" }} >
-                        {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
+                        { result?.mainTotal?.diamonds?.Wt !== 0 && result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
                       </div>
                       <div className="dcolsthpcl" style={{ width: "22%" }} ></div>
                       <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px",  width: "27%", }} >
-                        {formatAmount(((result?.mainTotal?.diamonds?.Amount)/(result?.header?.CurrencyExchRate)))}
+                        { result?.mainTotal?.diamonds?.Amount !== 0 && formatAmount(((result?.mainTotal?.diamonds?.Amount)/(result?.header?.CurrencyExchRate)))}
                       </div>
                     </div>
                     <div className="diapcltotrowtb">
@@ -1041,29 +1041,29 @@ console.log(result);
                       </div>
                       <div className="dcolsthpcl" style={{ width: "20%" }} ></div>
                       <div className="dcolsthpcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "22%", }} >
-                        {formatAmount(((result?.mainTotal.metal?.IsPrimaryMetal_Amount)/(result?.header?.CurrencyExchRate)))}
+                        { result?.mainTotal.metal?.IsPrimaryMetal_Amount !== 0 && formatAmount(((result?.mainTotal.metal?.IsPrimaryMetal_Amount)/(result?.header?.CurrencyExchRate)))}
                       </div>
                     </div>
                     <div className="stnpcltotrowtb">
                       <div className="shpthcolspcl" style={{ width: "27%" }} ></div>
                       <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ width: "22%" }} >
-                        {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
+                        { result?.mainTotal?.colorstone?.Wt !== 0 && result?.mainTotal?.colorstone?.Wt?.toFixed(3)}
                       </div>
                       <div className="shpthcolspcl" style={{ width: "23%" }} ></div>
                       <div className="shpthcolspcl  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", width: "28%", }} >
-                        {formatAmount((result?.mainTotal.colorstone?.Amount/(result?.header?.CurrencyExchRate)))}
+                        { result?.mainTotal.colorstone?.Amount !== 0 && formatAmount((result?.mainTotal.colorstone?.Amount/(result?.header?.CurrencyExchRate)))}
                       </div>
                     </div>
                     <div className="lopcltotrowtb">
                       <div className="lopclcol"></div>
                       <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
-                        {formatAmount( ((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate)) )}
+                          { (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount) !== 0 && formatAmount( ((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount)/(result?.header?.CurrencyExchRate)) )}
                       </div>
                     </div>
                     <div className="lopcltotrowtb">
                       <div className="lopclcol"></div>
                       <div className="lopclcol  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px", }} >
-                        {formatAmount( ((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount)/(result?.header?.CurrencyExchRate) ) )}
+                        { (result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount) !== 0 && formatAmount( ((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.totalMiscAmount)/(result?.header?.CurrencyExchRate) ) )}
                       </div>
                     </div>
                     <div className="prpcltotrowtb  fwboldpcl fspcl d-flex justify-content-end align-items-center end_p_pcl_new" style={{ borderRight: "0px" }} >

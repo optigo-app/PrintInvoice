@@ -181,6 +181,17 @@
     font-size: 20px;
     color: white;
 }
+.max_qr_invp4{
+    
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.max_qr_invp4_2{
+    max-width: 240px;
+    max-height: 240px;
+}
 @media print{
     .btnpcl{
         display: none !important;

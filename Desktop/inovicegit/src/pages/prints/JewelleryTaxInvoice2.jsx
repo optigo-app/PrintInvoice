@@ -279,8 +279,8 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                         <div>Invoice#: <span className='fw-bold'>{result?.header?.InvoiceNo}</span> Dated <span className='fw-bold text-break'>{result?.header?.EntryDate}</span></div>
                         {/* <div>{result?.header?.HSN_No_Label}: <span className='fw-bold'>{result?.header?.HSN_No}</span></div> */}
                         <div>PAN#: <span className='fw-bold'>{result?.header?.CustPanno}</span></div>
-                        <div>{ result?.header?.CustGstNo === '' ? 'VAT' : 'GST' } <span className='fw-bold text-break'>{result?.header?.CustGstNo === '' ? result?.header?.Cust_CST_STATE_No : result?.header?.CustGstNo}</span>| {result?.header?.Cust_CST_STATE} <span className='fw-bold'>{result?.header?.Cust_CST_STATE_No}</span></div>
-                        <div>Terms: <span className='fw-bold'>{result?.header?.DueDays}</span></div>
+                        <div>{ result?.header?.CustGstNo === '' ? 'VAT' : 'GST' } <span className='fw-bold text-break'>{result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo}</span>| {result?.header?.Cust_CST_STATE} <span className='fw-bold'>{result?.header?.Cust_CST_STATE_No}</span></div>
+                        { result?.header?.DueDays !== 0 && <div>Terms: <span className='fw-bold'>{result?.header?.DueDays}</span></div>}
                         <div>Due Date: <span className='fw-bold'>{result?.header?.DueDate}</span></div>
                         <div className='d-flex'><div className='pe-2'>Salesrep:</div><div className='fw-bold'>{result?.header?.SalPerName?.split(" ")[0]}</div></div>
                         </div>
@@ -402,11 +402,11 @@ const JewelleryTaxInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
                     <div className='mt-1 d-flex justify-content-between align-items-center p-1 pbia_jti2 text-break'>
                         <div className='fs_jti2 minh_jti2 d-flex justify-content-between flex-column'>
                             <div>Signature</div>
-                            <div className='fw-bold'>kirti pvt ltd</div>
+                            <div className='fw-bold'>{result?.header?.customerfirmname}</div>
                         </div>
                         <div className='fs_jti2 minh_jti2 d-flex justify-content-between flex-column'>
                             <div>Signature</div>
-                            <div className='fw-bold'>Optigo</div>
+                            <div className='fw-bold'>{result?.header?.CompanyFullName}</div>
                         </div>
                     </div>
                 </div>
