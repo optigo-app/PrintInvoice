@@ -44,7 +44,7 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
   const [msg, setMsg] = useState("");
 
 
-  const [evns, setEvns] = useState(atob(evn).toLowerCase());
+  const [evns, setEvns] = useState(atob(evn)?.toLowerCase());
 
   const loadData = (data) => {
     
@@ -180,6 +180,7 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
   //     const designNoB = parseInt((b?.designno)?.match(/\d+/)[0]);
   //     return designNoA - designNoB;
   // });
+  resultArr?.sort((a, b) => a?.designno - b?.designno)
   
     settotalAmount(totalAmounts);
     settax(taxValue);
@@ -549,12 +550,12 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {/* {NumberWithCommas(totalAmount.after, 2)}{" "} */}
-              {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)))}
+              {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal  / result?.header?.CurrencyExchRate)))}
             </p>
             <p className="text-end fw-bold">
-              <span
+              {  json0Data?.AddLess !== 0 && <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
-              ></span>
+              ></span>}
               { json0Data?.AddLess !== 0 && NumberWithCommas(json0Data?.AddLess, 2)}{" "}
             </p>
           </div>
