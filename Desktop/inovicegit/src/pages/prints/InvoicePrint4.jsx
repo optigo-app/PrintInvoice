@@ -773,8 +773,8 @@ useEffect(() => {
                       <div className="invp4_fs border mb-2">
                         <div className="fw-bold p-1">1. e-Invoice Details</div>
                         <div className="border-top invp4_fs d-flex align-items-center pb-4">
-                            <div className="w-50 p-1"><span className="fw-bold">IRN :</span>a0055a1211730aa61cbd6ccaf10c70a4b54135edead319a9a5ce943751501284</div>
-                            <div className="w-25 p-1"><span className="fw-bold">Ack. No :</span>152110015763682</div>
+                            <div className="w-50 p-1"><span className="fw-bold">IRN : </span>{result?.header?.E_IRN}</div>
+                            <div className="w-25 p-1"><span className="fw-bold">Ack. No : </span>{result?.header?.E_AckNo}</div>
                             <div className="w-25 p-1"><span className="fw-bold">Ack. Date :</span>{result?.header?.E_AckDt}</div>
                         </div>
                       </div>
@@ -786,9 +786,9 @@ useEffect(() => {
                             <div className="w-25"><span className="fw-bold px-1">IGST on INTRA :</span>{result?.header?.E_INTRA}</div>
                         </div>
                         <div className=" invp4_fs d-flex align-items-center pb-4">
-                            <div className="w-25"><span className="fw-bold px-1">Invoice Type :</span>{result?.header?.E_InvoiceType}</div>
-                            <div className="w-25"><span className="fw-bold px-1">Invoice Date :</span>{result?.header?.EntryDate}</div>
-                            <div className="w-25"><span className="fw-bold px-1">IGST on INTRA :</span>NA</div>
+                            <div className="w-25"><span className="fw-bold px-1 invp4_fs">Invoice Type :</span>{result?.header?.E_InvoiceType}</div>
+                            <div className="w-25"><span className="fw-bold px-1 invp4_fs">Invoice Date :</span>{result?.header?.EntryDate}</div>
+                            <div className="w-25"><span className="fw-bold px-1 invp4_fs">	Description :</span>{result?.header?.E_BTY}</div>
                         </div>
                       </div>
                       </>
@@ -971,8 +971,8 @@ useEffect(() => {
                  {/* <div className="w-100" style={{borderBottom:'2px solid #d8d7d7'}}> */}
                  <div className="w-100 border-bottom" >
                  {/* <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "100px"}}> */}
-                 <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "50%"}}>
-                  <input type="text"  style={{width:'170px',}} className="d-flex justify-content-center align-items-center ms-5 position-absolute" value={descText} onChange={(e) => setDescText(e.target.value)} />
+                 <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "50%", marginLeft:'10%'}}>
+                  <input type="text"  style={{width:'170px',}} className="d-flex justify-content-center align-items-center  position-absolute" value={descText} onChange={(e) => setDescText(e.target.value)} />
                   </div>
                   {
                     metal_s?.map((e, i) => {
