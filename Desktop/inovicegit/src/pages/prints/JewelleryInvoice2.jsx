@@ -222,7 +222,9 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
               diaq[findDiarc]._amount += a?.Amount;
             }
         })
+        diaq?.sort((a, b) => a?.QualityName - b?.QualityName)
         e.diamonds = diaq;
+        
         let clrq1 = [];
         let clrq2 = [];
         let csobj1 = {
@@ -548,12 +550,13 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                   <div>{result?.header?.customerAddress1}</div>
                   <div>{result?.header?.customerAddress2}</div>
                   <div>
-                    {result?.header?.customercity} {result?.header?.customerpincode}
+                    {result?.header?.customercity} 
+                    { result?.header?.customerpincode}
                   </div>
                   <div>{result?.header?.customeremail1}</div>
-                  <div>{result?.header?.Cust_CST_STATE_No_}</div>
+                  <div>{result?.header?.Cust_CST_STATE_No_?.split(",")[0]}&nbsp; { result?.header?.CustGstNo !== '' && result?.header?.Cust_CST_STATE_No_?.split(",")[1]}</div>
                   <div>
-                    GSTIN - {result?.header?.CustGstNo} | PAN -{" "} {result?.header?.CustPanno}
+                    { result?.header?.CustGstNo !== '' && ('GSTIN' - result?.header?.CustGstNo + '|')}  PAN -{" "} { result?.header?.CustPanno}
                   </div>
                   <div>
                     <b>Place Of Supply :</b> {result?.header?.customerstate}
@@ -722,11 +725,11 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                   <div className="col4_ji2 border-end endc_ji2 pad_end_ji2">
                     {/* {result?.mainTotal?.diamond_colorstone_misc?.Pcs} */}
                     {/* {totobj?.pcs} */}
-                    {result?.mainTotal?.metal?.Pcs + result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.Pcs  }
+                    {result?.mainTotal?.metal?.Pcs + result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.finding?.Pcs + result?.mainTotal?.misc?.withouthscode1_2_pcs  }
                   </div>
                   <div className="col5_ji2 border-end center_ji2">
                     {console.log(result)}
-                     {(result?.mainTotal?.diamonds?.Wt + result?.mainTotal?.colorstone?.Wt)} ctw <br />
+                     {(result?.mainTotal?.diamonds?.Wt + result?.mainTotal?.colorstone?.Wt)?.toFixed(3)} ctw <br />
                      {((result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt + result?.mainTotal?.metal?.Wt + result?.mainTotal?.finding?.Wt)?.toFixed(3))} gm
                      {/* {(totalCtw)} ctw <br /> {((totalGm))} gm */}
                     {/* {result?.mainTotal?.diamond_colorstone_misc?.Wt?.toFixed(3)} Ctw <br /> 43.476 gm */}
@@ -761,7 +764,7 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                       return(
                         <div className="d-flex fs_ji2 lh_ji2" key={i}>
                           <div className="w-50 border-end endc_ji2 pe-2">{e?.name} @ {e?.per}</div>
-                          <div className="w-50 endc_ji2 pad_end_ji2">{formatAmount(e?.amount)}</div>
+                          <div className="w-50 endc_ji2 pad_end_ji2">{formatAmount((e?.amount * result?.header?.CurrencyExchRate))}</div>
                         </div>
                       )
                     })
