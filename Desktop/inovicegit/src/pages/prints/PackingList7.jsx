@@ -98,22 +98,28 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           finalArr[find_record].metal = [...finalArr[find_record]?.metal, ...b?.metal]?.flat();
           finalArr[find_record].misc = [...finalArr[find_record]?.misc ,...b?.misc]?.flat();
           finalArr[find_record].finding = [...finalArr[find_record]?.finding ,...b?.finding]?.flat();
+
           finalArr[find_record].totals.finding.Wt += b?.totals?.finding?.Wt;
           finalArr[find_record].totals.finding.Pcs += b?.totals?.finding?.Pcs;
           finalArr[find_record].totals.finding.Amount += b?.totals?.finding?.Amount;
-          finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
+
+          // finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
           finalArr[find_record].totals.diamonds.Pcs += b?.totals?.diamonds?.Pcs;
           finalArr[find_record].totals.diamonds.Amount += b?.totals?.diamonds?.Amount;
+
           finalArr[find_record].totals.colorstone.Wt += b?.totals?.colorstone?.Wt;
           finalArr[find_record].totals.colorstone.Pcs += b?.totals?.colorstone?.Pcs;
           finalArr[find_record].totals.colorstone.Amount += b?.totals?.colorstone?.Amount;
+
           finalArr[find_record].totals.misc.Wt += b?.totals?.misc?.Wt;
           finalArr[find_record].totals.misc.allservwt += b?.totals?.misc?.allservwt;
           finalArr[find_record].totals.misc.Pcs += b?.totals?.misc?.Pcs;
           finalArr[find_record].totals.misc.Amount += b?.totals?.misc?.Amount;
+
           finalArr[find_record].totals.metal.Amount += b?.totals?.metal?.Amount;
           finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
           finalArr[find_record].totals.metal.IsPrimaryMetal_Amount += b?.totals?.metal?.IsPrimaryMetal_Amount;
+
           finalArr[find_record].totals.misc.withouthscode1_2_pcs += b?.totals?.misc?.withouthscode1_2_pcs;
           finalArr[find_record].totals.misc.withouthscode1_2_wt += b?.totals?.misc?.withouthscode1_2_wt;
           finalArr[find_record].totals.misc.onlyHSCODE3_amt += b?.totals?.misc?.onlyHSCODE3_amt;
