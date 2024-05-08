@@ -128,7 +128,6 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       //after groupjob
       datas?.resultArray?.forEach((e) => {
-        console.log(e);
         //diamond
         let dia2 = [];
 
@@ -442,7 +441,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="d-flex justify-content-between">
                     <div className="p-1 fsgdp10_pcl7_2">
-                      <div className="fw-bold fs-6 py-2">
+                      <div className="fw-bold cfullname_pcl7 ">
                         {result?.header?.CompanyFullName}
                       </div>
                       <div>{result?.header?.CompanyAddress}</div>
@@ -468,7 +467,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     <div className="d-flex justify-content-end pe-2 pt-2">
                     {isImageWorking && (result?.header?.PrintLogo !== "" && 
-                      <img src={result?.header?.PrintLogo} alt="" className='w-100 h-auto ms-auto d-block object-fit-contain' onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
+                      <img src={result?.header?.PrintLogo} alt="" className='w-100 h-auto ms-auto d-block object-fit-contain headImg_Pcl7' onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
                       {/* <img
                         src={result?.header?.PrintLogo}
                         alt="#companylogo"
@@ -519,17 +518,15 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="subdiv3dp10_pcl7 fsgdp10_pcl7_2 border-end">
                     <div className="d-flex justify-content-start px-1">
                       <div className="w-25 fw-bold">BILL NO</div>
-                      <div className="w-25">{result?.header?.InvoiceNo}</div>
+                      <div className="w-50">{result?.header?.InvoiceNo}</div>
                     </div>
                     <div className="d-flex justify-content-start px-1">
                       <div className="w-25 fw-bold">DATE</div>
-                      <div className="w-25">{result?.header?.EntryDate}</div>
+                      <div className="w-50">{result?.header?.EntryDate}</div>
                     </div>
                     <div className="d-flex justify-content-start px-1">
-                      <div className="w-25 fw-bold">
-                        {result?.header?.HSN_No_Label}
-                      </div>
-                      <div className="w-25">{result?.header?.HSN_No}</div>
+                      <div className="w-25 fw-bold"> {result?.header?.HSN_No_Label} </div>
+                      <div className="w-50">{result?.header?.HSN_No}</div>
                     </div>
                     {/* <div className="d-flex justify-content-end mt-5 px-2 fw-bold">
                       Gold Rate {result?.header?.MetalRate24K?.toFixed(2)} Per
@@ -644,7 +641,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   {/* table body */}
                   <div className="tbodydp10_pcl7 fsgdp10_pcl7 ">
                     {result?.resultArray?.map((e, i) => {
-                      return (<>
+                      return (<div className="summarydp10_pcl7">
                         <div className="tbrowdp10_pcl7 h-100 " key={i}>
                           <div className="tbcol1dp10_pcl7 center_sdp10_pcl7 ">
                             {/* {e?.SrNo} */}
@@ -765,31 +762,31 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                              }
                              {
                               // e?.totals?.finding?.Wt === 0 ? '' : 
-                              <>
-                              {
-                                e?.finding?.map((e, i) => {
-                                  return <div className="d-flex w-100" key={i}>
-                                  <div className="theadsubcol2_dp10_pcl7 d-flex justify-content-start border-end h-100 ps-1 border-end-0 text-break" style={{ width: "21%", wordBreak:'break-word' }} >
-                                    FINDING ACESSORIES 
-                                  </div>
-                                  <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
+                              // <>
+                              // {
+                              //   e?.finding?.map((e, i) => {
+                              //     return <div className="d-flex w-100" key={i}>
+                              //     <div className="theadsubcol2_dp10_pcl7 d-flex justify-content-start border-end h-100 ps-1 border-end-0 text-break" style={{ width: "21%", wordBreak:'break-word' }} >
+                              //       FINDING ACESSORIES 
+                              //     </div>
+                              //     <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
                                     
-                                  </div>
-                                  <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
-                                    {/* {e?.totals?.finding?.Wt?.toFixed(3)} */}
-                                    {e?.Wt?.toFixed(3)}
-                                  </div>
-                                  <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7" style={{width:'18%'}}>
-                                  {/* { formatAmount(e?.metal_rate) } */}
-                                  </div>
-                                  <div className={`theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7 pr_dp10_pcl7 `} style={{width:'21%'}}>
-                                    {/* {formatAmount(((e?.totals?.finding?.Wt * e?.metal_rate) / result?.header?.CurrencyExchRate))} */}
-                                    {formatAmount(e?.Amount)}
-                                  </div>
-                                </div>
-                                })
-                              }
-                              </>
+                              //     </div>
+                              //     <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7">
+                              //       {/* {e?.totals?.finding?.Wt?.toFixed(3)} */}
+                              //       {e?.Wt?.toFixed(3)}
+                              //     </div>
+                              //     <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7" style={{width:'18%'}}>
+                              //     {/* { formatAmount(e?.metal_rate) } */}
+                              //     </div>
+                              //     <div className={`theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7 pr_dp10_pcl7 `} style={{width:'21%'}}>
+                              //       {/* {formatAmount(((e?.totals?.finding?.Wt * e?.metal_rate) / result?.header?.CurrencyExchRate))} */}
+                              //       {formatAmount(e?.Amount)}
+                              //     </div>
+                              //   </div>
+                              //   })
+                              // }
+                              // </>
                              }
                             <div className="p-2 px-1">
                               {e?.JobRemark !== "" ? (
@@ -966,8 +963,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       {/* {formatAmount(result?.finalAmount)} */}
                       {formatAmount((e?.UnitCost / result?.header?.CurrencyExchRate))}
                     </div>
-                  </div>
-                        </>
+                        </div>
+                        </div>
                       );
                     })}
                     
@@ -986,7 +983,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="theadsubcol1_dp10_pcl7">&nbsp;</div>
                       <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "20.66%" }}   >
-                        {formatAmount(result?.mainTotal?.diamonds?.Amount)}
+                        {formatAmount((result?.mainTotal?.diamonds?.Amount / result?.header?.CurrencyExchRate))}
                       </div>
                     </div>
                     <div className="col4dp10_pcl7 d-flex align-items-center brR_dp10_pcl7">
@@ -998,7 +995,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       {/* <div className="theadsubcol2_dp10"></div> */}
                       <div className="theadsubcol2_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "45%" }} >
-                        {formatAmount(result?.mainTotal?.metal?.Amount)}
+                        {formatAmount((result?.mainTotal?.metal?.Amount / result?.header?.CurrencyExchRate))}
                       </div>
                     </div>
                     <div className="col3dp10_pcl7 d-flex align-items-center brR_dp10_pcl7">
@@ -1012,22 +1009,22 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       {/* <div className="theadsubcol1_dp10_pcl7"></div> */}
                       <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "33.32%" }} >
-                        {formatAmount((result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.onlyIsHSCODE0_Amount))}
+                        {formatAmount(((result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.onlyIsHSCODE0_Amount) / result?.header?.CurrencyExchRate))}
                       </div>
                     </div>
                     {/* <div className="col6dp10_pcl7 end_dp10_pcl7  d-flex align-items-center brR_dp10_pcl7 pr_dp10_pcl7" style={{width:'5%', paddingRight:'1px'}}>
                       {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
                     </div> */}
                     <div className="col7dp10_pcl7 end_dp10_pcl7  d-flex align-items-center  pr_dp10_pcl7  border-end-0">
-                      {formatAmount( result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.finding?.SettingAmount)}
+                      {formatAmount( (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.finding?.SettingAmount) / result?.header?.CurrencyExchRate)}
                     </div>
                     <div className="col8dp10_pcl7 end_dp10_pcl7  d-flex align-items-center pr_dp10_pcl7 border-start border-black">
-                      {formatAmount(result?.mainTotal?.total_unitcost)}
+                      {formatAmount((result?.mainTotal?.total_unitcost / result?.header?.CurrencyExchRate))}
                     </div>
                   </div>
                   {/* final total */}
                   <div className="d-flex justify-content-end align-items-center brb_dp10_pcl7 tbrowdp10_pcl7 pt-1 border-bottom border-black">
-                    <div style={{ width: "13%" }}>
+                    <div style={{ width: "16%" }}>
                       {/* <div className="d-flex justify-content-between">
                         <div className="w-50 end_dp10_pcl7">Net Amount</div>
                         <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
@@ -1039,13 +1036,13 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           )?.toFixed(2)}
                         </div>
                       </div> */}
-                   { result?.mainTotal?.total_discount_amount !== 0 &&   <div className="d-flex justify-content-between">
+                   { result?.mainTotal?.total_discount_amount !== 0 &&   <div className="d-flex justify-content-between fs_5_pcl7">
                         <div className="w-50 end_dp10_pcl7">Total Discount</div>
                         <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
                           {formatAmount((result?.mainTotal?.total_discount_amount / result?.header?.CurrencyExchRate))}
                         </div>
                       </div>}
-                      <div className="d-flex justify-content-between">
+                      <div className="d-flex justify-content-between fs_5_pcl7">
                         <div className="w-50 end_dp10_pcl7">Total Amount</div>
                         <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
                           {formatAmount(((result?.mainTotal?.total_amount) / result?.header?.CurrencyExchRate))}
@@ -1054,13 +1051,13 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div>
                         {result?.allTaxes?.map((e, i) => {
                           return (
-                            <div className="d-flex justify-content-between" key={i} >
+                            <div className="d-flex justify-content-between fs_5_pcl7" key={i} >
                               <div className="w-50 end_dp10_pcl7"> {e?.name} {e?.per} </div>
                               <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7"> {formatAmount(e?.amountInNumber)} </div>
                             </div>
                           );
                         })}
-                        <div className="d-flex justify-content-between">
+                        <div className="d-flex justify-content-between fs_5_pcl7">
                           <div className="w-50 end_dp10_pcl7">
                             {result?.header?.AddLess > 0 ? "Add" : "Less"}
                           </div>
@@ -1069,13 +1066,13 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         </div>
                       </div>
-                      <div className="d-flex justify-content-between ">
+                      <div className="d-flex justify-content-between fs_5_pcl7">
                         <div className="w-50 end_dp10_pcl7">{result?.header?.ModeOfDel}</div>
                         <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
                           {formatAmount((result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}
                         </div>
                       </div>
-                      <div className="d-flex justify-content-between fw-bold">
+                      <div className="d-flex justify-content-between fw-bold fs_5_pcl7">
                         <div className="w-50 end_dp10_pcl7">Final Amount</div>
                         <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
                           {formatAmount(

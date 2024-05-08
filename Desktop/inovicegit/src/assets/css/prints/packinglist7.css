@@ -260,10 +260,10 @@
 
 /* summary */
 .sumdp10_pcl7{
-    width: 31%;
+    width: 33%;
 }
 .dia_sum_dp10_pcl7{
-    width: 18%;
+    width: 16%;
 }
 .oth_sum_dp10_pcl7{
     width: 15%;
@@ -285,13 +285,21 @@
 .pr_dp10_pcl7{
     padding-right: 2px !important;
 }
+.cfullname_pcl7{
+    font-size: 16px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.fs_5_pcl7{
+    font-size: 11px;
+}
 @media print {
     .fsgdp10_pcl7{
-        font-size: 9px !important;
-        line-height: 10px !important;
+        font-size: 8px !important;
+        line-height: 9px !important;
     }
     .fsg2dp10_pcl7{
-        font-size: 8px !important;
+        font-size: 7px !important;
         /* line-height: 14px; */
     }
     .containerdp10_pcl7{
@@ -300,6 +308,7 @@
         padding: 4px;
         font-size: 8px !important;
         line-height: 9px !important;
+        color: black;
     }
 
     .hidebtndp10_pcl7{
@@ -322,7 +331,7 @@
     }
     .imgHWdp10_pcl7{
         height: 100%;
-        max-height: 60px;
+        max-height: 50px;
     }
     .grandtotaldp10_pcl7{
         height: 15px !important;
@@ -346,4 +355,46 @@
     .h14_dp10_pcl7{
         height: 10px !important;
     }
+    .imgdp10_pcl7{
+        /* height: 80%;
+        width: 65%; */
+        height: 80px;
+        width: 70px;
+        margin: 2px;
+    }
+    .pheaddp10_pcl7{
+        height: 25px;
+        /* background-color: #989898; */
+        background-color: #939292;
+        font-size: 15px;
+        font-weight: bold;
+        color: white;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 10px;
+        margin-bottom: 3px;
+    }
+    .cfullname_pcl7{
+        font-size: 12px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+    .fsgdp10_pcl7_2{
+        font-size: 9px;
+        line-height: 9px;
+    }
+    .fsgdp10_pcl7_3 {
+        font-size: 11px;
+        line-height: 11px;
+    }
+    .headImg_Pcl7{
+        width: 100px !important;
+    }
+    .fs_5_pcl7{
+        font-size: 9px;
+    }
+    @page {
+        margin: 2mm 2mm 2mm 2mm; /* top, right, bottom, left */
+      }
 }
