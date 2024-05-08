@@ -15,15 +15,22 @@
 }
 
 .container_1 {
-    width: 197mm;
-    height: 129mm;
+    /* width: 197mm; */
+    width: 162.5mm;
+    /* height: 129mm; */
+    height: 102mm;
     border: 2px solid black;
     margin-top: 11mm;
     /* margin-left: 7mm; */
     display: flex;
     justify-content: space-between;
 }
-
+.brt_bg21{
+    border-top: 1.5px solid grey;
+}
+.brr_bg21{
+    border-right: 1.5px solid grey;
+}
 .firstpart_header {
     display: flex;
 }
@@ -37,7 +44,22 @@
 }
 
 .firstpart_one_chunk {
-    width: 130px;
+    /* width: 130px; */
+    width: 70px;
+    height: 22px;
+    border-bottom: 1.5px solid grey;
+    border-right: 1.5px solid grey;
+    display: flex;
+    align-items: center;
+    padding-top: 0px;
+    padding-left: 4px;
+    padding-bottom: 1px;
+    font-size: 10px;
+    line-height: 9px;
+}
+.firstpart_one_chunk_2 {
+    /* width: 130px; */
+    width: 250px;
     height: 22px;
     border-bottom: 1.5px solid grey;
     border-right: 1.5px solid grey;
@@ -64,7 +86,8 @@
 }
 
 .firstpart_two_chunk {
-    width: 130px;
+    /* width: 130px; */
+    width: 70px;
     height: 22px;
     border-bottom: 1.5px solid grey;
     border-right: 1.5px solid grey;
@@ -74,6 +97,9 @@
     padding-left: 4px;
     padding-bottom: 1px;
     font-size: 10px;
+}
+.w_bg21{
+    width: 120px;
 }
 
 .firstpart_one_chunk_val {
@@ -97,7 +123,8 @@
     justify-content: flex-end;
     padding-right: 1px;
     font-size: 10px;
-    width: 65px;
+    /* width: 65px; */
+    width: 60px;
     height: 22px;
 }
 
@@ -111,7 +138,7 @@
 }
 
 .imagediv {
-    height: 154.5px;
+    height: 243px;
     width: 240px;
     border-bottom: 1.5px solid grey;
     display: flex;
@@ -119,25 +146,45 @@
     align-items: center;
 }
 .imagediv > img {
-        height: 150.5px;
-        width: 240px;
-        object-fit: contain;
+    height: 239px;
+    width: 240px;
+    object-fit: contain;
 }
 
 .barcode14>.barcode_sticker {
-    height: 25px;
+    /* height: 25px;
+    width: 150px;
+    object-fit: cover;
+    position: relative;
+    right: -50px !important;
+    top: 80px !important;
+    transform: translate(0) rotate(90deg) !important;
+    margin: 0px;
+    left: 125px; */
+    height: 13px;
+    width: 153px;
+    object-fit: cover;
+    position: relative;
+    right: -50px !important;
+    top: -3px !important;
+    transform: translate(0) rotate(0deg) !important;
+    margin: 0px;
+    /* height: 25px;
     width: 150px;
     object-fit: cover;
     position: relative;
     right: -50px !important;
     top: 8px !important;
     transform: translate(0) rotate(0deg) !important;   
-    margin: 0px;
+    margin: 0px; */
 }
 
 .barcodediv {
     position: relative;
-    height: 43px;
+    /* height: 45.5px;; */
+    /* height: 178px; */
+    /* height: 50px; */
+    height: 21px;
     border-bottom: 1.5px solid grey;
 }
 
@@ -169,6 +216,7 @@
     padding-top: 0px;
     padding-left: 4px;
     padding-bottom: 1px;
+    width: 237px;
 }
 
 .secondpart_footer_2 {
@@ -181,7 +229,9 @@
     padding-left: 4px;
     padding-bottom: 1px;
 }
-
+.secondpart_footer_2_21{
+    height: 24px;
+}
 .last {
     display: flex;
 }
@@ -200,15 +250,19 @@
     display: flex;
     align-items: center;
     height: 22px;
-    width: 48px;
+    /* width: 48px; */
+    width: 33.33%;
     padding-top: 0px;
     padding-left: 4px;
     padding-bottom: 1px;
     border-right: 1.5px solid grey;
 }
-
+.last_2_21{
+    height: 24px;
+}
 ._color {
-    color: grey;
+    /* color: grey; */
+    color: black;
 }
 
 .workbreak {
@@ -247,7 +301,14 @@
 }
 .fs14A{
     font-size: 10.5px;
-}   
+} 
+.ins_bg21{
+    /* height: 88px; */
+    height: 53px;
+}  
+.fsbg21{
+    font-size: 10px;
+}
 @media print {
     .bag14Aflex {
         margin-bottom: 0rem;
@@ -255,11 +316,11 @@
 
     .container_1:nth-child(2n) {
         page-break-after: always;
-        margin: 1rem;
+        margin: 4rem;
     }
 
     .container_1:nth-child(2n + 1) {
-        margin-top: 4rem;
+        margin-top: 8rem;
     }
 }
 

@@ -32,6 +32,7 @@ const BagPrint12A = ({ queries, headers }) => {
                     headers: headers,
                 };
                 const allDatas = await GetData(objs);
+                
                 let datas = organizeData(allDatas?.rd, allDatas?.rd1);
                 // eslint-disable-next-line array-callback-return
                 datas?.map((a) => {
@@ -133,6 +134,8 @@ const BagPrint12A = ({ queries, headers }) => {
         }
 
     }, [data]);
+    console.log(data);
+
     return (
         <>
             {
@@ -153,6 +156,7 @@ const BagPrint12A = ({ queries, headers }) => {
                                         <React.Fragment key={i}>
                                             {
                                                 e?.additional?.pages?.length > 0 ? e?.additional?.pages?.map((ele, ind) => {
+                                                    console.log(e);
                                                     return (
                                                         <React.Fragment key={ind}>
                                                             <div className="section_12A">

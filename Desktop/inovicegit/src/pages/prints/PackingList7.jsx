@@ -14,6 +14,7 @@ import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 
 const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
+  
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -374,6 +375,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
+
   return (
     <>
       {loader ? (
@@ -654,16 +656,16 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {el?.ShapeName} {el?.QualityName}&nbsp;
                                     {el?.Colorname}
                                   </div>
-                                  <div className="theadsubcol1_dp10_pcl7 text-center" style={{lineHeight:'8px !important'}}>
+                                  <div className="theadsubcol1_dp10_pcl7 text-start ps-1" style={{lineHeight:'8px !important'}}>
                                     {el?.SizeName}
                                   </div>
-                                  <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7" style={{ width: "8.66%" }} >
+                                  <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7" style={{ width: "11.66%" }} >
                                     {el?.Pcs}
                                   </div>
-                                  <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
+                                  <div className="theadsubcol1_dp10_pcl7 text-end end_dp10_pcl7" style={{width:'17.66%'}}>
                                     {el?.Wt?.toFixed(3)}
                                   </div>
-                                  <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7" style={{width:'19.66%'}}>
+                                  <div className="theadsubcol1_dp10_pcl7 text-end end_dp10_pcl7" style={{width:'15.66%'}}>
                                     {/* {formatAmount(el?.Rate)} */}
                                     {formatAmount(((el?.Amount / result?.header?.CurrencyExchRate) / (el?.Wt)))}
                                   </div>
@@ -847,18 +849,14 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="col3dp10_pcl7 d-flex align-items-center bl_dp10_pcl7 bt_dp10_pcl7" style={{ backgroundColor: "#F5F5F5" }}>
                       <div className="theadsubcol1_dp10_pcl7"></div>
                       <div className="theadsubcol1_dp10_pcl7"></div>
-                      <div className="theadsubcol1_dp10_pcl7 centerdp10_pcl7">
-                        {/* {result?.mainTotal?.diamonds?.Pcs} */}
-                        {e?.totals?.diamonds?.Pcs}
+                      <div className="theadsubcol1_dp10_pcl7 centerdp10_pcl7" style={{width:'11.66%'}}>
+                        { e?.totals?.diamonds?.Pcs !== 0 && e?.totals?.diamonds?.Pcs}
                       </div>
-                      <div className="theadsubcol1_dp10_pcl7 ">
-                        {/* {result?.mainTotal?.diamonds?.Wt?.toFixed(3)} */}
-                        {e?.totals?.diamonds?.Wt?.toFixed(3)}
+                      <div className="theadsubcol1_dp10_pcl7 " style={{width:'17.66%'}}>
+                        { e?.totals?.diamonds?.Wt !== 0 && e?.totals?.diamonds?.Wt?.toFixed(3)}
                       </div>
-                      {/* <div className="theadsubcol1_dp10_pcl7"></div> */}
                       <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "33.332%" }} >
-                        {/* {formatAmount(result?.mainTotal?.diamonds?.Amount)} */}
-                        {formatAmount((e?.totals?.diamonds?.Amount / result?.header?.CurrencyExchRate))}
+                        { e?.totals?.diamonds?.Amount !== 0 && formatAmount((e?.totals?.diamonds?.Amount / result?.header?.CurrencyExchRate))}
                       </div>
                     </div>
                     <div className="col4dp10_pcl7 d-flex align-items-center bt_dp10_pcl7" style={{ backgroundColor: "#F5F5F5" }}>
@@ -884,16 +882,16 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="theadsubcol1_dp10_pcl7"></div>
                       <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
                         {/* {result?.mainTotal?.colorstone?.Pcs} */}
-                        {e?.totals?.colorstone?.Pcs + e?.totals?.misc?.onlyIsHSCODE0_Pcs}
+                        { (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.onlyIsHSCODE0_Pcs) !== 0 && (e?.totals?.colorstone?.Pcs + e?.totals?.misc?.onlyIsHSCODE0_Pcs)}
                       </div>
                       <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
                         {/* {result?.mainTotal?.colorstone?.Wt?.toFixed(3)} */}
-                        {(e?.totals?.colorstone?.Wt + e?.totals?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)}
+                        { (e?.totals?.colorstone?.Wt + e?.totals?.misc?.onlyIsHSCODE0_Wt) !== 0 && (e?.totals?.colorstone?.Wt + e?.totals?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)}
                       </div>
                       {/* <div className="theadsubcol1_dp10_pcl7"></div> */}
                       <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "33.32%" }} >
                         {/* {formatAmount(result?.mainTotal?.colorstone?.Amount)} */}
-                        {formatAmount(((e?.totals?.colorstone?.Amount + e?.totals?.misc?.onlyIsHSCODE0_Amount) / result?.header?.CurrencyExchRate))}
+                        { (e?.totals?.colorstone?.Amount + e?.totals?.misc?.onlyIsHSCODE0_Amount) !== 0 && formatAmount(((e?.totals?.colorstone?.Amount + e?.totals?.misc?.onlyIsHSCODE0_Amount) / result?.header?.CurrencyExchRate))}
                       </div>
                     </div>
                     {/* <div className="col6dp10_pcl7 end_dp10_pcl7  d-flex align-items-center brR_dp10_pcl7 pr_dp10_pcl7" style={{width:'5%', paddingRight:'1px'}}>
