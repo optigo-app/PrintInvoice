@@ -268,7 +268,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     });
 
-    diaonlyrndarr1.forEach((e) => {
+    diaonlyrndarr1?.forEach((e) => {
       let findRecord = diaonlyrndarr3.findIndex(
         (a) =>
           e?.StockBarcode === a?.StockBarcode &&
@@ -292,7 +292,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     });
 
-    diaonlyrndarr2.forEach((e) => {
+    diaonlyrndarr2?.forEach((e) => {
       let findRecord = diaonlyrndarr4.findIndex(
         (a) =>
           e?.StockBarcode === a?.StockBarcode &&
@@ -324,7 +324,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     });
 
-    diaonlyrndarr4.forEach((e) => {
+    diaonlyrndarr4?.forEach((e) => {
       diaObj.wtWt += e?.wtWt;
       diaObj.wtWts += e?.wtWts;
       diaObj.pcPcs += e?.pcPcs;
@@ -1114,6 +1114,14 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                           <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 fw-bold">MISC</div>
+                            <div className="w-50 end_dp10_pcl7">
+                              {formatAmount(
+                                result?.mainTotal?.misc?.Amount / result?.header?.CurrencyExchRate
+                              )}
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">MAKING </div>
                             <div className="w-50 end_dp10_pcl7">
                               {formatAmount(
@@ -1121,12 +1129,12 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               )}
                             </div>
                           </div>
-                          <div className="d-flex justify-content-between px-1">
+                          {/* <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">OTHER </div>
                             <div className="w-50 end_dp10_pcl7">
                               {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
                             </div>
-                          </div>
+                          </div> */}
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">
                               {result?.header?.AddLess > 0 ? "ADD" : "LESS"}
@@ -1167,7 +1175,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.ShapeName} {e?.QualityName} {e?.Colorname}
                             </div>
                             <div className="w-50 end_dp10_pcl7">
-                              {e?.pcPcss} / {e?.wtWts?.toFixed(3)} cts
+                              {e?.pcPcss} / {e?.wtWt?.toFixed(3)} cts
                             </div>
                           </div>
                         );
