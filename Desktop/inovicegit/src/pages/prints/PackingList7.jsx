@@ -88,6 +88,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           finalArr[find_record].Quantity += b?.Quantity;
           finalArr[find_record].Wastage += b?.Wastage;
           finalArr[find_record].totals.metal.IsPrimaryMetal += b?.totals?.metal?.IsPrimaryMetal;
+          finalArr[find_record].totals.metal.Wt += b?.totals?.metal?.Wt;
           finalArr[find_record].totals.diamonds.Wt += b?.totals?.diamonds?.Wt;
           // finalArr[find_record].diamonds_d = [...finalArr[find_record]?.diamonds ,...b?.diamonds]?.flat();
           finalArr[find_record].diamonds = [...finalArr[find_record]?.diamonds, ...b?.diamonds]?.flat();
@@ -243,19 +244,19 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           e.metal = met3;
         }
 
-        let find_ing = [];
-        e?.finding?.forEach((a) => {
-          // if(a?.Supplier?.toLowerCase() === 'customer'){
-          //   find_ing.push(a);
-          // }
-          // else{
-            if((a?.FindingTypename?.toLowerCase() === 'hook') || (a?.FindingTypename?.toLowerCase() === 'kadi') || (a?.FindingTypename?.toLowerCase() === 'chain')){
-              find_ing.push(a);
-            }
-          // }
-        })
-        // console.log(find_ing);
-        e.finding = find_ing;
+        // let find_ing = [];
+        // e?.finding?.forEach((a) => {
+        //   // if(a?.Supplier?.toLowerCase() === 'customer'){
+        //   //   find_ing.push(a);
+        //   // }
+        //   // else{
+        //     if((a?.FindingTypename?.toLowerCase() === 'hook') || (a?.FindingTypename?.toLowerCase() === 'kadi') || (a?.FindingTypename?.toLowerCase() === 'chain')){
+        //       find_ing.push(a);
+        //     }
+        //   // }
+        // })
+        // // console.log(find_ing);
+        // e.finding = find_ing;
 
         
       })
@@ -927,7 +928,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
                         {/* {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} */}
                         {/* {  ((e?.totals?.metal?.IsPrimaryMetal + e?.LossWt)?.toFixed(3))} */}
-                        {  ((e?.totals?.metal?.Wt )?.toFixed(3))}
+                        {  (((e?.totals?.metal?.Wt) )?.toFixed(3))}
                       </div>
                       {/* <div className="theadsubcol2_dp10"></div> */}
                       <div className="theadsubcol2_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "43%" }} >
@@ -1115,7 +1116,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">NET WT</div>
                             <div className="w-50 end_dp10_pcl7 pe-1">
-                            {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} gm
+                            {result?.mainTotal?.metal?.Wt?.toFixed(3)} gm
                             </div>
                           </div>
                           <div className="d-flex justify-content-between px-1">
