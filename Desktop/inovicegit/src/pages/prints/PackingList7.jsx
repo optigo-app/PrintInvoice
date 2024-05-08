@@ -129,14 +129,15 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
         e?.diamonds?.forEach((el) => {
           let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname)
+          let ell = cloneDeep(el);
           if(findrec === -1){
-            dia2.push(el);
+            dia2.push(ell);
           }else{
-              dia2[findrec].Wt += el?.Wt;
-              dia2[findrec].Pcs += el?.Pcs;
-              dia2[findrec].Amount += el?.Amount;
-              dia2[findrec].Rate += el?.Rate;
-              if(dia2[findrec]?.SizeName !== el?.SizeName){
+              dia2[findrec].Wt += ell?.Wt;
+              dia2[findrec].Pcs += ell?.Pcs;
+              dia2[findrec].Amount += ell?.Amount;
+              dia2[findrec].Rate += ell?.Rate;
+              if(dia2[findrec]?.SizeName !== ell?.SizeName){
                 dia2[findrec].SizeName = 'Mix'
               }
           }
