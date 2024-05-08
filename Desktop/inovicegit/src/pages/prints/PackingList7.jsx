@@ -379,7 +379,10 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     });
 
     diarndotherarr5 = [...diaonlyrndarr6, diaObj];
-    setDiamondWise(diarndotherarr5);
+    const sortedData = diarndotherarr5?.sort(customSort);
+    // setDiamonds(sortedData);
+    setDiamondWise(sortedData);
+
     setResult(datas);
   }
 
@@ -393,6 +396,24 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
+  };
+
+  const customSort = (a, b) => {
+    if (a?.ShapeName === "OTHER" && b?.ShapeName !== "OTHER") {
+      return 1; // "OTHER" comes after any other ShapeName
+    } else if (a?.ShapeName !== "OTHER" && b?.ShapeName === "OTHER") {
+      return -1; // Any other ShapeName comes before "OTHER"
+    } else {
+      // If ShapeNames are equal, compare by QualityName
+      if (a?.QualityName < b?.QualityName) {
+        return -1;
+      } else if (a?.QualityName > b?.QualityName) {
+        return 1;
+      } else {
+        // If QualityNames are equal, compare by Colorname
+        return a?.Colorname?.localeCompare(b?.Colorname);
+      }
+    }
   };
 
   return (
