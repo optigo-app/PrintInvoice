@@ -1137,7 +1137,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="w-50 fw-bold">MISC WT</div>
                             <div className="w-50 end_dp10_pcl7 pe-1">
                               {result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs} /{" "}
-                              {result?.mainTotal?.misc?.Wt?.toFixed(3)}{" "} gm
+                              {result?.mainTotal?.misc?.onlyIsHSCODE0_Wt?.toFixed(3)}{" "} gm
                             </div>
                           </div>
                         </div>
@@ -1168,7 +1168,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="w-50 fw-bold">MISC</div>
                             <div className="w-50 end_dp10_pcl7">
                               {formatAmount(
-                                result?.mainTotal?.misc?.Amount / result?.header?.CurrencyExchRate
+                                result?.mainTotal?.misc?.onlyIsHSCODE0_Amount / result?.header?.CurrencyExchRate
                               )}
                             </div>
                           </div>
