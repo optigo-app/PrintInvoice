@@ -24,7 +24,6 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setIsImageWorking(false);
     };
     const loadData = (data) => {
-        console.log(data);
         setHeaderData(data?.BillPrint_Json[0]);
         let datas = OrganizeDataPrint(
             data?.BillPrint_Json[0],
@@ -81,7 +80,6 @@ const PackingList2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         });
         datas.resultArray = resultArr;
         datas.mainTotal.netWtTotal = netWtTotal;
-        console.log(datas);
         setData(datas);
     };
 

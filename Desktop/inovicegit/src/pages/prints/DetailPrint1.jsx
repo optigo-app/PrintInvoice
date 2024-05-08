@@ -1080,7 +1080,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </>
                             )}
                           </div>
-                        </div>{console.log(e)}
+                        </div>
                         <div className="position-absolute bottom-0 w-100 border-top border-bottom  totalMinHeightDetailPrint1 lightGrey d-flex align-items-center justify-content-end paddingRightDetailPrint1 start-0">
                           <p className="text-end fw-bold  ">
                             {

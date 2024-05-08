@@ -230,7 +230,6 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     datas.afterReceive = datas?.finalAmount - data?.BillPrint_Json[0]?.BankReceived - data?.BillPrint_Json[0]?.CashReceived;
     setTotal({ ...total, FineWt: FineWts });
     setCategory(categories);
-    console.log(datas);
     setData(datas);
   };
 
@@ -926,7 +925,6 @@ const DetailPrint9 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <p className="text-end">Recv. in Bank</p>
           </div>
           <div className={`${style?.taxAmount}`}>
-            {console.log(data)}
             {data?.mainTotal?.total_discount_amount !== 0 && <p className="text-end">{NumberWithCommas(data?.mainTotal?.total_discount_amount, 2)}</p>}
             {data?.allTaxes.map((e, i) => {
               return <p className="text-end" key={i}>{NumberWithCommas(e?.amount*headerData?.CurrencyExchRate, 2)}</p>

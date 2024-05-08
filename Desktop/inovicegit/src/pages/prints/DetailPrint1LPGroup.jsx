@@ -178,7 +178,6 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
     datas.resultArray = finalArr;
     datas.mainTotal.metalWts = metalWts;
     // console.log(datas);
-    console.log(datas);
     setFinalD(datas);
     // console.log(datas);
     let brok = brokarageDetail(data?.BillPrint_Json[0]?.Brokerage);
@@ -1174,7 +1173,7 @@ const DetailPrint1LGroup = ({ token, invoiceNo, printName, urls, evn, ApiVer, })
                                     )}
                                   </>
                                 ) : (
-                                  <>{console.log("askjdhajkshd")}
+                                  <>
                                     {e?.OtherCharges +
                                       e?.MiscAmount +
                                       e?.TotalDiamondHandling !==

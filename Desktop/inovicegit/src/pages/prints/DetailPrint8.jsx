@@ -90,7 +90,6 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       arr.push(obj);
     });
     setMiscss({ ...miscss, Wt: miscses?.Wt, Pcs: miscses?.Pcs });
-    console.log(arr);
     arr?.sort((a, b) => {
       // Extract numbers from label1 strings
       const numA = parseInt(a.designno.match(/\d+/g)?.[0]) || 0;
@@ -106,7 +105,6 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     datas.mainTotal.primaryWt = primaryWt;
     datas.mainTotal.totalMaterialAmount = totalMaterialAmount;
     setData(datas);
-    console.log(datas);
   };
   const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {

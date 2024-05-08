@@ -78,7 +78,6 @@ const PackingList4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         datas.resultArray = resultArr;
         setTotal({ ...total, netWt: netWts, metalAmount: metalAmountss });
         setData(datas);
-        console.log(datas);
     }
 
     useEffect(() => {

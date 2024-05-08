@@ -486,7 +486,6 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     setResult(datas);
     setLoader(false);
   };
-console.log(result);
   // dynamicList2?.length > 0 &&
   //   // eslint-disable-next-line array-callback-return
   //   dynamicList2?.map((e, i) => {

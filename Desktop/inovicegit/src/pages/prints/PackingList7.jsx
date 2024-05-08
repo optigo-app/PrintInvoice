@@ -58,7 +58,6 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-      console.log(datas);
       //grouping of jobs and isGroupJob is 1
    
       let finalArr = [];
@@ -226,7 +225,6 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         e.misc = misc0;
 
         let met2 = [];
-        // console.log(e?.metal);
         e?.metal?.forEach((a) => {
           if(e?.GroupJob !== ''){
             let obj = {...a};
@@ -250,19 +248,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           e.metal = met3;
         }
 
-        // let find_ing = [];
-        // e?.finding?.forEach((a) => {
-        //   // if(a?.Supplier?.toLowerCase() === 'customer'){
-        //   //   find_ing.push(a);
-        //   // }
-        //   // else{
-        //     if((a?.FindingTypename?.toLowerCase() === 'hook') || (a?.FindingTypename?.toLowerCase() === 'kadi') || (a?.FindingTypename?.toLowerCase() === 'chain')){
-        //       find_ing.push(a);
-        //     }
-        //   // }
-        // })
-        // // console.log(find_ing);
-        // e.finding = find_ing;
+
 
         
       })
@@ -742,7 +728,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className={`theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7 pr_dp10_pcl7 ${el?.IsPrimaryMetal === 1 ? 'fw-bold' : 'fw-bold' }`} style={{width:'21%'}}>
                                     {/* {formatAmount(((el?.Amount) / result?.header?.CurrencyExchRate))} */}
                                     {/* { formatAmount((el?.IsPrimaryMetal === 1 ? (((el?.Wt - (e?.LossWt + e?.totals?.finding?.Wt)) * el?.Rate)) : (el?.Amount))) } */}
-                                    { formatAmount((el?.IsPrimaryMetal === 1 ? (((el?.Wt - e?.LossWt) * el?.Rate)) : (el?.Amount))) }
+                                    { formatAmount((el?.IsPrimaryMetal === 1 ? (((el?.Wt - e?.LossWt) * el?.Rate)) : ((el?.Amount / result?.header?.CurrencyExchRate)))) }
                                   </div>
                                 </div>
                               );
@@ -760,13 +746,14 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 {e?.LossWt?.toFixed(3)}
                               </div>
                               <div className="theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7" style={{width:'18%'}}>
-                              {formatAmount(((e?.LossAmt / result?.header?.CurrencyExchRate) / (e?.LossWt === 0 ? 1 : e?.LossWt)))}
+                              {formatAmount(((e?.LossAmt ) / (e?.LossWt === 0 ? 1 : e?.LossWt)))}
                               </div>
                               <div className={`theadsubcol2_dp10_pcl7 centerdp10_pcl7 border-end h-100 pe-1 border-end-0 end_dp10_pcl7 pr_dp10_pcl7 fw-bold`} style={{width:'21%'}}>
-                                {formatAmount((e?.LossAmt / result?.header?.CurrencyExchRate))}
+                                {formatAmount((e?.LossAmt ))}
                               </div>
                             </div>
                              }
+                             
                              {
                               // e?.totals?.finding?.Wt === 0 ? '' : 
                               // <>

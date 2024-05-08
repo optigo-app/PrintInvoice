@@ -59,7 +59,6 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         datas.mainTotal.PrimaryMetalWts = PrimaryMetalWts;
         datas.mainTotal.PrimaryMetalAmounts = PrimaryMetalAmounts;
         datas.resultArray = resultArr;
-        console.log(datas);
         setData(datas);
     }
 

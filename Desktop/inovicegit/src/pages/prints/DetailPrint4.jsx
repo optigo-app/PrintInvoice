@@ -474,7 +474,6 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setImgFlag(true);
     }
   };
-  console.log(result);
   return (
     <>
       {loader ? (

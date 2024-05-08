@@ -41,7 +41,6 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         let resultArr = [];
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         setDatas(datas);
-        console.log(datas);
         let totals = {
             s_lcPcs: 0,
             s_lcWt: 0,
@@ -80,11 +79,9 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                 if ((ele?.QualityName)?.toLowerCase()?.includes("s-lc") && ele?.ShapeName?.toLowerCase()?.includes("rnd")) {
                     ds_lcPcs += ele?.Pcs;
                     ds_lcWt += ele?.Wt;
-                    console.log(ele);
                 } else if ((ele?.QualityName)?.toLowerCase()?.includes("s-lb") && ele?.ShapeName?.toLowerCase()?.includes("rnd")) {
                     s_lbPcs += ele?.Pcs;
                     s_lbPWt += ele?.Wt;
-                    console.log(ele);
                 } else if ((ele?.QualityName)?.toLowerCase()?.includes("s-lb") && ele?.ShapeName?.toLowerCase()?.includes("bug")) {
                     d_bugPcs += ele?.Pcs;
                     d_bugWt += ele?.Wt;
