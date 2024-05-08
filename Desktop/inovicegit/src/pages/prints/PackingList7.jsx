@@ -1152,7 +1152,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="d-flex justify-content-between px-1">
                             <div className="w-50 fw-bold">GOLD</div>
                             <div className="w-50 end_dp10_pcl7">
-                              {formatAmount((result?.mainTotal?.metal?.IsPrimaryMetal_Amount / result?.header?.CurrencyExchRate))}
+                              {formatAmount((result?.mainTotal?.metal?.Amount / result?.header?.CurrencyExchRate))}
                             </div>
                           </div>
                           <div className="d-flex justify-content-between px-1">
