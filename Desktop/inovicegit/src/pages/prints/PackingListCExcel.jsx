@@ -251,7 +251,6 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                     </thead>
                     <tbody>
                         {data.map((e, i) => {
-<<<<<<< HEAD
                             return e?.showImage ?
                                 <React.Fragment key={i}>
                                     <tr>
@@ -332,46 +331,6 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                     <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{e?.size}</td>
                                     <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{e?.remark}</td>
                                 </tr>
-=======
-                            return <tr key={i}>
-                                {/* <td width={10} ></td> */}
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{i + 1}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.jobNo}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.designNo}</td>
-                                {/* <td style={{ padding: "10px", margin:'10px', border: "0.5px solid #000", }} align='center' height={e?.showImage ? 100 : 35}>&nbsp;{e?.showImage && <img src={e?.image} alt=' ' width={75} height={75} style={{margin:'5px'}}  />}</td> */}
-                                <td style={{ padding: "10px", margin:'10px', border: "0.5px solid #000", verticalAlign: 'middle', textAlign:'center' }} align='center' height={e?.showImage ? 100 : 35}>&nbsp;{e?.showImage && <img src={e?.image} alt="" onError={eve => handleGlobalImgError(eve, datas?.header?.DefImage)} width={100} height={70} style={{ paddingLeft: "20px", paddingTop:'20px', objectFit: "contain",  display: 'block', margin: 'auto' }} />}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.category}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000" }} align='center'> &nbsp;{NumberWithCommas(e?.grosswt, 3)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{NumberWithCommas(e?.netwt, 3)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{NumberWithCommas(e?.colorStoneWt, 3)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.goldRate, 2)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.goldAmount, 2)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.diaPcs, 0)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.diaWt, 3)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.ds_lcPcs, 0)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.ds_lcWt, 3)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.s_lbPcs, 0)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.s_lbPWt, 3)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.000</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bugPcs, 0)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bugWt, 3)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bug_slc_Pcs, 0)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bug_slc_Wt, 3)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_prsPcs, 0)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_prsWt, 3)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_prs_SlcPcs, 0)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_prs_SlcWt, 3)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.00</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.diaAmt, 2)}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{e?.size}</td>
-                                <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{e?.remark}</td>
-                            </tr>
->>>>>>> 4fc0287087696ed2116d5603c298331dab6e8851
                         })}
                         <tr>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center' height={40}> </td>
