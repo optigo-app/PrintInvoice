@@ -1272,7 +1272,7 @@ const DetailPrint1Printlp = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                   </div>
                   <div className=" col-2 text-end">
                     <p className="fw-bold">
-                      {NumberWithCommas(finalD?.mainTotal?.diamonds?.Amount, 2)}
+                      {pricerateShow ?NumberWithCommas(finalD?.mainTotal?.diamonds?.Amount, 2): ""}
                     </p>
                   </div>
                 </div>
