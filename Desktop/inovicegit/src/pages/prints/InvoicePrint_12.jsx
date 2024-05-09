@@ -7,6 +7,7 @@ import {
   FooterComponent,
   fixedValues,
   otherAmountDetail,
+  HeaderComponent,
 } from "../../GlobalFunctions";
 import Loader from "../../components/Loader";
 import style from "../../assets/css/prints/invoiceprint_12.module.css";
@@ -25,6 +26,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
   const [grandTotal, setGrandTotal] = useState(0);
   const toWords = new ToWords();
   const [isImageWorking, setIsImageWorking] = useState(true);
+  const [headerss, setHeaderss] = useState(null);
 
   const [marginNone, setMarginNone] = useState(false);
   const handleImageErrors = () => {
@@ -84,6 +86,8 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     setTaxes(datas?.allTaxes);
     setTotal(datas?.mainTotal);
     setGrandTotal(datas?.finalAmount);
+    let headersss = HeaderComponent("3", data?.BillPrint_Json[0]);
+    setHeaderss(headersss);
   };
 
   // Function to check margin and update state
@@ -122,25 +126,18 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     };
     sendData();
     checkMargin();
+        // Listen for changes in margin using MutationObserver
+        const element = document.getElementById('myElement');
+        if (element) {
+          const observer = new MutationObserver(checkMargin);
+          observer.observe(element, { attributes: true, attributeFilter: ['style'] });
+          return () => {
+            observer.disconnect();
+          };
+        }
   }, []);
-
-
-
 
   // useEffect to check margin when component mounts and on subsequent updates
-
-
-  useEffect(() => {
-    // Listen for changes in margin using MutationObserver
-    const element = document.getElementById('myElement');
-    if (element) {
-      const observer = new MutationObserver(checkMargin);
-      observer.observe(element, { attributes: true, attributeFilter: ['style'] });
-      return () => {
-        observer.disconnect();
-      };
-    }
-  }, []);
 
   return loader ? (
     <Loader />
@@ -159,12 +156,14 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         </div>
       </div>
       {/* Title */}
-      <div className="py-1">
-        <h4 className="text-center fs-5 fw-semibold">
-          {headerData?.PrintHeadLabel}
-        </h4>
-      </div>
+   
       {/* header */}
+      {headerData?.IsEinvoice !== 1 ?
+         <><div className="py-1">
+         <h4 className="text-center fs-5 fw-semibold">
+           {headerData?.PrintHeadLabel}
+         </h4>
+       </div>
       <div className="d-flex border p-2">
         <div className="col-8">
           <p>{headerData?.lblBillTo}</p>
@@ -201,7 +200,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             <p>: {headerData?.DueDays} Days</p>
           </div>
         </div>
-      </div>
+      </div> </>: headerss}
       {/* table header */}
       <div className="d-flex border-bottom border-start border-end">
         <div className={`${style?.Sr} border-end`}>
@@ -241,7 +240,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       {/* table data */}
       {data.map((e, i) => {
         return (
-          <div className={`d-flex border-bottom border-start border-end ${style?.table}`} key={i} >
+          <div className={`d-flex border-bottom border-start border-end no_break ${style?.table}`} key={i} >
             <div className={`${style?.Sr} border-end`}>
               <p className="text-center">{i + 1}</p>
             </div>
@@ -307,7 +306,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         );
       })}
       {/* total */}
-      <div className={`d-flex border-bottom border-start border-end ${style?.table}`} >
+      <div className={`d-flex border-bottom border-start no_break border-end ${style?.table}`} >
         <div className={`${style?.Sr} border-end`}>
           <p className="text-center"></p>
         </div>
@@ -356,7 +355,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         </div>
       </div>
       {/* taxes */}
-      <div className={`d-flex border-bottom border-start border-end`}>
+      <div className={`d-flex border-bottom border-start no_break border-end`}>
         <div
           className={`${style?.words} d-flex justify-content-end flex-column border-end ${style?.table} p-2`}
         >
@@ -432,18 +431,18 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         </div>
       </div>
       {/* remark */}
-      <div className={`border-bottom border-start border-end p-2`}>
+      <div className={`border-bottom border-start no_break border-end p-2`}>
         <p className="fw-bold text-decoration-underline">Remark : </p>
         <p>  {headerData?.PrintRemark}</p>
       </div>
       {/* declaration */}
-      <div className="my-1 border">
+      <div className="my-1 border no_break">
         <p className="fw-bold text-decoration-underline px-2 pt-2">Notes: </p>
         <div className="px-2 pb-2" dangerouslySetInnerHTML={{ __html: headerData?.Declaration }} ></div>
       </div>
       {/* footer */}
       {/* {footer} */}
-      <div className={`${footerStyle.container} no_break`}>
+      <div className={`${footerStyle.container} no_break `}>
         <div className={footerStyle.block1f3} style={{ width: "33.33%", borderRight: "1px solid #e8e8e8" }} >
           <div className={footerStyle.linesf3} style={{ fontWeight: "bold" }}>Bank Detail</div>
           <div className={footerStyle.linesf3}>Bank Name: {headerData?.bankname}</div>
