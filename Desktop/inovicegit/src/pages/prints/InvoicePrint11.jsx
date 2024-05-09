@@ -70,8 +70,8 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     SettingAmount: 0,
   });
 
+
   const loadData = (data) => {
-    let discounts = 0
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     setHeader(head);
     let headersss = HeaderComponent("3", data?.BillPrint_Json[0]);
@@ -108,7 +108,17 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     let jobWiseMinusFindigWt = 0;
     let SettingAmount = datas?.mainTotal?.diamonds?.SettingAmount + datas?.mainTotal?.colorstone?.SettingAmount;
     let fullnfinaltotal = 0;
+
+    let pcsCounts = []
     datas?.resultArray?.map((e, i) => {
+      let findGroups = pcsCounts?.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob);
+      if (findGroups === -1) {
+        pcsCounts?.push({ GroupJob: e?.GroupJob, count: 1 });
+      } else {
+        if (pcsCounts[findGroups].GroupJob === "") {
+          pcsCounts[findGroups].count += 1;
+        }
+      }
       let obj = cloneDeep(e);
       let findingWt = 0;
       let findingsWt = 0;
@@ -163,10 +173,6 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           secondaryWt += ele?.Wt;
         }
       })
-      // fullnfinaltotal += e?.totals?.diamonds?.Amount+
-      // e?.totals?.colorstone?.Amount+e?.totals?.finding?.Amount + 
-      // e?.totals?.misc?.Amount+e?.OtherCharges+e?.MakingAmount+e?.TotalDiamondHandling+
-      // e?.TotalDiaSetcost+e?.TotalCsSetcost+e?.totals?.finding?.SettingAmount;
 
       let findPcss = totalPcss?.findIndex((ele, ind) => ele?.GroupJob === e?.GroupJob);
       if (findPcss === -1) {
@@ -200,7 +206,6 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
         }
       });
       primaryWt = primaryWt - findingsWt
-      // labour.primaryWt += primaryWt;
       let latestAmount = (((e?.MetalDiaWt - findingsWt) * primaryMetalRAte));
       fullnfinaltotal += latestAmount;
       total2.total += latestAmount;
@@ -307,6 +312,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       });
 
     });
+    setTotalPcsss(pcsCounts?.reduce((acc, cObj) => acc + cObj?.count, 0))
     findings?.forEach((ele, ind) => {
       ele.Rate = ele?.Amount / ele?.Wt;
       fullnfinaltotal += ele?.Amount;
@@ -334,10 +340,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       fullnfinaltotal += +ele?.value;
     });
 
-
-
     let totalPcs = totalPcss?.reduce((acc, cObj) => acc + cObj?.value, 0);
-    // total2.total += labour?.totalAmount
     total2.total += (diamondTotal / data?.BillPrint_Json[0]?.CurrencyExchRate) + (colorStone1Total1 / data?.BillPrint_Json[0]?.CurrencyExchRate) +
       (colorStone2Total2 / data?.BillPrint_Json[0]?.CurrencyExchRate) + (misc1Total1 / data?.BillPrint_Json[0]?.CurrencyExchRate) +
       (misc2Total2 / data?.BillPrint_Json[0]?.CurrencyExchRate) + labours?.reduce((acc, cObj) => acc + cObj?.MakingAmount, 0) + diamondHandling + SettingAmount;
@@ -347,7 +350,6 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
       const labelA = a.MetalTypePurity.toLowerCase();
       const labelB = b.MetalTypePurity.toLowerCase();
 
-      // Check if labels contain numbers
       const hasNumberA = /\d/.test(labelA);
       const hasNumberB = /\d/.test(labelB);
 
@@ -617,14 +619,14 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                 <div style={{ minWidth: "15%", width: "15%" }} className="px-1 text-end"><p>{NumberWithCommas(e?.Amount / headerData?.CurrencyExchRate, 2)}</p></div>
               </div>
             })}
-            {mainData?.diamondHandling !== 0 && <div className="d-flex">
+            {mainDatas?.mainTotal?.total_diamondHandling !== 0 && <div className="d-flex">
               <div style={{ minWidth: "17%", width: "17%" }} className=" px-1"><p>HANDLING</p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "14.5%", width: "14.5%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "9%", width: "9%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
               <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p></p></div>
-              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(mainData?.diamondHandling, 2)}</p></div>
+              <div style={{ minWidth: "15%", width: "15%" }} className=" px-1 text-end"><p>{NumberWithCommas(mainDatas?.mainTotal?.total_diamondHandling, 2)}</p></div>
             </div>}
             {mainData?.otherCharges?.map((e, i) => {
               return <div className="d-flex" key={i}>
@@ -692,7 +694,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
             </div>
               <div className="d-flex justify-content-between">
                 <p className="fw-bold"> Total Amount </p>
-                <p className="fw-bold"> {NumberWithCommas(mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2)}</p>
+                <p className="fw-bold"> {NumberWithCommas(((mainDatas?.mainTotal?.total_amount + headerData?.FreightCharges) / headerData?.CurrencyExchRate), 2)}</p>
               </div></>
             }
             {taxes?.map((e, i) => {
@@ -717,7 +719,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           <div className="col-8 border-end px-1">
             <p className="fw-bold"> IN Words Indian Rupees</p>
             <p className="fw-bold">
-              {toWords.convert(+fixedValues(+fixedValues(mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2) +
+              {toWords.convert(+fixedValues(+fixedValues((mainDatas?.mainTotal?.total_amount + headerData?.FreightCharges) / headerData?.CurrencyExchRate, 2) +
                 (+fixedValues(headerData?.AddLess / headerData?.CurrencyExchRate, 2) +
                   mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount, 2)), 0)), 2))} Only.
             </p>
@@ -725,7 +727,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           <div className="col-4 px-1 d-flex justify-content-between align-items-center">
             <p className="text-end fw-bold">Grand Total </p>
             <p className="text-end fw-bold">
-              {NumberWithCommas(+fixedValues(mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate, 2) +
+              {NumberWithCommas(+fixedValues((mainDatas?.mainTotal?.total_amount + headerData?.FreightCharges) / headerData?.CurrencyExchRate, 2) +
                 (+fixedValues(headerData?.AddLess / headerData?.CurrencyExchRate, 2) +
                   mainDatas?.allTaxes?.reduce((acc, cObj) => acc + (+fixedValues(+cObj?.amount, 2)), 0)), 2)}
             </p>

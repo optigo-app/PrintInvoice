@@ -343,11 +343,10 @@ const InvoicePrint_10_11 = ({
         return labelA.localeCompare(labelB);
       }
     });
-
     let newArr = [
       {
         label: "HANDLING",
-        Amount: diamondHandling / data?.BillPrint_Json[0]?.CurrencyExchRate,
+        value: datas?.mainTotal?.total_diamondHandling,
       },
     ];
     miscs?.forEach((e, i) => {
@@ -1094,7 +1093,7 @@ const InvoicePrint_10_11 = ({
               <p className="fw-bold">
                 {" "}
                 {console.log(mainDatas)}
-                {NumberWithCommas((mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate) - headerData?.FreightCharges, 2)}
+                {NumberWithCommas((mainDatas?.mainTotal?.total_amount / headerData?.CurrencyExchRate), 2)}
               </p>
               {/* <p className="fw-bold"> {NumberWithCommas(totalss?.total-totalss?.discount, 2)}</p> */}
             </div>

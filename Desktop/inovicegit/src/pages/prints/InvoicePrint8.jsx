@@ -118,8 +118,6 @@ const InvoicePrint8 = ({
       let findingsAmount = 0;
       let secondaryMetalAmount = 0;
 
-      
-
       obj.primaryMetal = e?.metal?.find((ele, ind) => ele?.IsPrimaryMetal === 1);
       e?.finding?.forEach((ele, ind) => {
         if (ele?.ShapeName !== obj?.primaryMetal?.ShapeName && ele?.QualityName !== obj?.primaryMetal?.QualityName) {
@@ -349,7 +347,7 @@ const InvoicePrint8 = ({
     let newArr = [
       {
         label: "HANDLING",
-        Amount: diamondHandling / data?.BillPrint_Json[0]?.CurrencyExchRate,
+        value: diamondHandling / data?.BillPrint_Json[0]?.CurrencyExchRate,
       },
     ];
     miscs?.forEach((e, i) => {
@@ -1129,12 +1127,12 @@ const InvoicePrint8 = ({
                 </p>
               </div>
             )}
-            {headerData?.FreightCharges !== 0 && (
+            {/* {headerData?.FreightCharges !== 0 && (
               <div className="d-flex justify-content-between">
                 <p>{headerData?.ModeOfDel} </p>
                 <p>{NumberWithCommas(headerData?.FreightCharges, 2)}</p>
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <div
