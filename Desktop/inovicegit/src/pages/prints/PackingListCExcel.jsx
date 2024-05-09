@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NumberWithCommas, apiCall, checkImageExists, checkImageExistss, isObjectEmpty } from '../../GlobalFunctions';
+import { NumberWithCommas, apiCall, checkImageExists, checkImageExistss, handleGlobalImgError, isObjectEmpty } from '../../GlobalFunctions';
 import Loader from '../../components/Loader';
 import style from "../../assets/css/prints/PackingListCExcel.module.css"
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
@@ -41,6 +41,7 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         let resultArr = [];
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
         setDatas(datas);
+
         let totals = {
             s_lcPcs: 0,
             s_lcWt: 0,
@@ -192,7 +193,6 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         };
         sendData();
     }, []);
-
     return loader ? (
         <Loader />
     ) : msg === "" ? (
@@ -256,7 +256,8 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{i + 1}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.jobNo}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.designNo}</td>
-                                <td style={{ padding: "10px", border: "0.5px solid #000", }} align='center' height={e?.showImage ? 150 : 35}>&nbsp;{e?.showImage && <img src={e?.image} alt=' ' width={135} height={135} />}</td>
+                                {/* <td style={{ padding: "10px", margin:'10px', border: "0.5px solid #000", }} align='center' height={e?.showImage ? 100 : 35}>&nbsp;{e?.showImage && <img src={e?.image} alt=' ' width={75} height={75} style={{margin:'5px'}}  />}</td> */}
+                                <td style={{ padding: "10px", margin:'10px', border: "0.5px solid #000", verticalAlign: 'middle', textAlign:'center' }} align='center' height={e?.showImage ? 100 : 35}>&nbsp;{e?.showImage && <img src={e?.image} alt="" onError={eve => handleGlobalImgError(eve, datas?.header?.DefImage)} width={100} height={70} style={{ paddingLeft: "20px", paddingTop:'20px', objectFit: "contain",  display: 'block', margin: 'auto' }} />}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.category}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000" }} align='center'> &nbsp;{NumberWithCommas(e?.grosswt, 3)}</td>
                                 <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{NumberWithCommas(e?.netwt, 3)}</td>
@@ -297,7 +298,7 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.netwtWithLossWt, 3)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.colorstone?.Wt, 3)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'> </td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.metal?.Amount, 2)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.MetalAmount, 2)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.diamonds?.Pcs, 0)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.diamonds?.Wt, 3)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.s_lcPcs, 0)}</td>

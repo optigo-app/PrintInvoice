@@ -22,7 +22,6 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [imgFlag, setImgFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
 
-
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -247,10 +246,6 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }else{
           e.metal = met3;
         }
-
-
-
-        
       })
 
     let diaObj = {
@@ -634,8 +629,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   {/* table body */}
                   <div className="tbodydp10_pcl7 fsgdp10_pcl7 ">
                     {result?.resultArray?.map((e, i) => {
-                      return (<div className="summarydp10_pcl7">
-                        <div className="tbrowdp10_pcl7 h-100 " key={i}>
+                      return (<div className="summarydp10_pcl7" key={i}>
+                        <div className="tbrowdp10_pcl7 h-100 " >
                           <div className="tbcol1dp10_pcl7 center_sdp10_pcl7 ">
                             {/* {e?.SrNo} */}
                             {i + 1}
@@ -963,122 +958,113 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     })}
                     
                   </div>
-                  {/* main total */}
-                  <div className="d-flex grandtotaldp10_pcl7 brb_dp10_pcl7 brbb_dp10_pcl7 tbrowdp10_pcl7 border-top border-black mt-2 fsgdp10_pcl7" style={{ backgroundColor: "#F5F5F5" }} >
-                    <div className="centerdp10_pcl7 brR_dp10_pcl7" style={{ width: "12.5%" }} > Total </div>
-                    <div className="col3dp10_pcl7 d-flex align-items-center brR_dp10_pcl7">
-                      <div className="theadsubcol1_dp10_pcl7">&nbsp;</div>
-                      <div className="theadsubcol1_dp10_pcl7">&nbsp;</div>
-                      <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 "  style={{ width: "11.66%" }}>
-                        {result?.mainTotal?.diamonds?.Pcs}
-                      </div>
-                      <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7" style={{width:'17.66%'}}>
-                        {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
-                      </div>
-                      <div className="theadsubcol1_dp10_pcl7">&nbsp;</div>
-                      <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "20.66%" }}   >
-                        {formatAmount((result?.mainTotal?.diamonds?.Amount / result?.header?.CurrencyExchRate))}
-                      </div>
-                    </div>
-                    <div className="col4dp10_pcl7 d-flex align-items-center brR_dp10_pcl7">
-                      <div className="theadsubcol2_dp10_pcl7"></div>
-                      <div className="theadsubcol2_dp10_pcl7 end_dp10_pcl7">{result?.mainTotal?.grosswt?.toFixed(3)}</div>
-                      <div className="theadsubcol2_dp10_pcl7 pr_dp10_pcl7 end_dp10_pcl7">
-                        {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
-                        {result?.mainTotal?.metal?.Wt?.toFixed(3)}
-                      </div>
-                      {/* <div className="theadsubcol2_dp10"></div> */}
-                      <div className="theadsubcol2_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "45%" }} >
-                        {formatAmount((result?.mainTotal?.metal?.Amount / result?.header?.CurrencyExchRate))}
-                      </div>
-                    </div>
-                    <div className="col3dp10_pcl7 d-flex align-items-center brR_dp10_pcl7">
-                      <div className="theadsubcol1_dp10_pcl7"></div>
-                      <div className="theadsubcol1_dp10_pcl7"></div>
-                      <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
-                        {(result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs)}
-                      </div>
-                      <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
-                        {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)}
-                      </div>
-                      {/* <div className="theadsubcol1_dp10_pcl7"></div> */}
-                      <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "33.32%" }} >
-                        {formatAmount(((result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.onlyIsHSCODE0_Amount) / result?.header?.CurrencyExchRate))}
-                      </div>
-                    </div>
-                    {/* <div className="col6dp10_pcl7 end_dp10_pcl7  d-flex align-items-center brR_dp10_pcl7 pr_dp10_pcl7" style={{width:'5%', paddingRight:'1px'}}>
-                      {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
-                    </div> */}
-                    <div className="col7dp10_pcl7 end_dp10_pcl7  d-flex align-items-center  pr_dp10_pcl7  border-end-0">
-                      {formatAmount( (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.finding?.SettingAmount) / result?.header?.CurrencyExchRate)}
-                    </div>
-                    <div className="col8dp10_pcl7 end_dp10_pcl7  d-flex align-items-center pr_dp10_pcl7 border-start border-black">
-                      {formatAmount((result?.mainTotal?.total_unitcost / result?.header?.CurrencyExchRate))}
-                    </div>
-                  </div>
-                  {/* final total */}
-                  <div className="d-flex justify-content-end align-items-center brb_dp10_pcl7 tbrowdp10_pcl7 pt-1 border-bottom border-black">
-                    <div style={{ width: "16%" }}>
-                      {/* <div className="d-flex justify-content-between">
-                        <div className="w-50 end_dp10_pcl7">Net Amount</div>
-                        <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
-                          {(
-                            +result?.mainTotal?.total_amount?.toFixed(2) +
-                            +result?.mainTotal?.total_discount_amount?.toFixed(
-                              2
-                            )
-                          )?.toFixed(2)}
+                  <div className="pgia_pcl7">
+                    {/* main total */}
+                    <div className="d-flex grandtotaldp10_pcl7 brb_dp10_pcl7 brbb_dp10_pcl7 tbrowdp10_pcl7 border-top border-black mt-2 fsgdp10_pcl7" style={{ backgroundColor: "#F5F5F5" }} >
+                      <div className="centerdp10_pcl7 brR_dp10_pcl7" style={{ width: "12.5%" }} > Total </div>
+                      <div className="col3dp10_pcl7 d-flex align-items-center brR_dp10_pcl7">
+                        <div className="theadsubcol1_dp10_pcl7">&nbsp;</div>
+                        <div className="theadsubcol1_dp10_pcl7">&nbsp;</div>
+                        <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 "  style={{ width: "11.66%" }}>
+                          {result?.mainTotal?.diamonds?.Pcs}
                         </div>
+                        <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7" style={{width:'17.66%'}}>
+                          {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
+                        </div>
+                        <div className="theadsubcol1_dp10_pcl7">&nbsp;</div>
+                        <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "20.66%" }}   >
+                          {formatAmount((result?.mainTotal?.diamonds?.Amount / result?.header?.CurrencyExchRate))}
+                        </div>
+                      </div>
+                      <div className="col4dp10_pcl7 d-flex align-items-center brR_dp10_pcl7">
+                        <div className="theadsubcol2_dp10_pcl7"></div>
+                        <div className="theadsubcol2_dp10_pcl7 end_dp10_pcl7">{result?.mainTotal?.grosswt?.toFixed(3)}</div>
+                        <div className="theadsubcol2_dp10_pcl7 pr_dp10_pcl7 end_dp10_pcl7">
+                          {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
+                          {result?.mainTotal?.metal?.Wt?.toFixed(3)}
+                        </div>
+                        {/* <div className="theadsubcol2_dp10"></div> */}
+                        <div className="theadsubcol2_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "45%" }} >
+                          {formatAmount((result?.mainTotal?.metal?.Amount / result?.header?.CurrencyExchRate))}
+                        </div>
+                      </div>
+                      <div className="col3dp10_pcl7 d-flex align-items-center brR_dp10_pcl7">
+                        <div className="theadsubcol1_dp10_pcl7"></div>
+                        <div className="theadsubcol1_dp10_pcl7"></div>
+                        <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
+                          {(result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.misc?.onlyIsHSCODE0_Pcs)}
+                        </div>
+                        <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
+                          {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)}
+                        </div>
+                        {/* <div className="theadsubcol1_dp10_pcl7"></div> */}
+                        <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "33.32%" }} >
+                          {formatAmount(((result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.onlyIsHSCODE0_Amount) / result?.header?.CurrencyExchRate))}
+                        </div>
+                      </div>
+                      {/* <div className="col6dp10_pcl7 end_dp10_pcl7  d-flex align-items-center brR_dp10_pcl7 pr_dp10_pcl7" style={{width:'5%', paddingRight:'1px'}}>
+                        {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
                       </div> */}
-                   { result?.mainTotal?.total_discount_amount !== 0 &&   <div className="d-flex justify-content-between fs_5_pcl7">
-                        <div className="w-50 end_dp10_pcl7">Total Discount</div>
-                        <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
-                          {formatAmount((result?.mainTotal?.total_discount_amount / result?.header?.CurrencyExchRate))}
-                        </div>
-                      </div>}
-                      <div className="d-flex justify-content-between fs_5_pcl7">
-                        <div className="w-50 end_dp10_pcl7">Total Amount</div>
-                        <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
-                          {formatAmount(((result?.mainTotal?.total_amount) / result?.header?.CurrencyExchRate))}
-                        </div>
+                      <div className="col7dp10_pcl7 end_dp10_pcl7  d-flex align-items-center  pr_dp10_pcl7  border-end-0">
+                        {formatAmount( (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.finding?.SettingAmount) / result?.header?.CurrencyExchRate)}
                       </div>
-                      <div>
-                        {result?.allTaxes?.map((e, i) => {
-                          return (
-                            <div className="d-flex justify-content-between fs_5_pcl7" key={i} >
-                              <div className="w-50 end_dp10_pcl7"> {e?.name} {e?.per} </div>
-                              <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7"> {formatAmount(e?.amountInNumber)} </div>
-                            </div>
-                          );
-                        })}
-                        <div className="d-flex justify-content-between fs_5_pcl7">
-                          <div className="w-50 end_dp10_pcl7">
-                            {result?.header?.AddLess > 0 ? "Add" : "Less"}
-                          </div>
+                      <div className="col8dp10_pcl7 end_dp10_pcl7  d-flex align-items-center pr_dp10_pcl7 border-start border-black">
+                        {formatAmount((result?.mainTotal?.total_unitcost / result?.header?.CurrencyExchRate))}
+                      </div>
+                    </div>
+                    {/* final total */}
+                    <div className="d-flex justify-content-end align-items-center brb_dp10_pcl7 tbrowdp10_pcl7 pt-1 border-bottom border-black">
+                      <div style={{ width: "16%" }}>
+                    { result?.mainTotal?.total_discount_amount !== 0 &&   <div className="d-flex justify-content-between fs_5_pcl7">
+                          <div className="w-50 end_dp10_pcl7">Total Discount</div>
                           <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
-                            {formatAmount(((result?.header?.AddLess / result?.header?.CurrencyExchRate)))}
+                            {formatAmount((result?.mainTotal?.total_discount_amount / result?.header?.CurrencyExchRate))}
+                          </div>
+                        </div>}
+                        <div className="d-flex justify-content-between fs_5_pcl7">
+                          <div className="w-50 end_dp10_pcl7">Total Amount</div>
+                          <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
+                            {formatAmount(((result?.mainTotal?.total_amount) / result?.header?.CurrencyExchRate))}
                           </div>
                         </div>
-                      </div>
-                      <div className="d-flex justify-content-between fs_5_pcl7">
-                        <div className="w-50 end_dp10_pcl7">{result?.header?.ModeOfDel}</div>
-                        <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
-                          {formatAmount((result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}
+                        <div>
+                          {result?.allTaxes?.map((e, i) => {
+                            return (
+                              <div className="d-flex justify-content-between fs_5_pcl7" key={i} >
+                                <div className="w-50 end_dp10_pcl7"> {e?.name} {e?.per} </div>
+                                <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7"> {formatAmount(e?.amountInNumber)} </div>
+                              </div>
+                            );
+                          })}
+                          <div className="d-flex justify-content-between fs_5_pcl7">
+                            <div className="w-50 end_dp10_pcl7">
+                              {result?.header?.AddLess > 0 ? "Add" : "Less"}
+                            </div>
+                            <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
+                              {formatAmount(((result?.header?.AddLess / result?.header?.CurrencyExchRate)))}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="d-flex justify-content-between fw-bold fs_5_pcl7">
-                        <div className="w-50 end_dp10_pcl7">Final Amount</div>
-                        <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
-                          {formatAmount(
-                            (
+                        <div className="d-flex justify-content-between fs_5_pcl7">
+                          <div className="w-50 end_dp10_pcl7">{result?.header?.ModeOfDel}</div>
+                          <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
+                            {formatAmount((result?.header?.FreightCharges / result?.header?.CurrencyExchRate))}
+                          </div>
+                        </div>
+                        <div className="d-flex justify-content-between fw-bold fs_5_pcl7">
+                          <div className="w-50 end_dp10_pcl7">Final Amount</div>
+                          <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
+                            {formatAmount(
                               (
-                                (result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) 
-                                + (result?.allTaxesTotal )
-                                + ( result?.header?.FreightCharges / result?.header?.CurrencyExchRate)
-                                + (result?.header?.AddLess / result?.header?.CurrencyExchRate)
+                                (
+                                  (result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) 
+                                  + (result?.allTaxesTotal )
+                                  + ( result?.header?.FreightCharges / result?.header?.CurrencyExchRate)
+                                  + (result?.header?.AddLess / result?.header?.CurrencyExchRate)
+                                )
                               )
-                            )
-                          )}
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1283,7 +1269,6 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div style={{color:'gray'}} className="pt-3" >**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
                 
               </div>
-              
             </>
           ) : (
             <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
