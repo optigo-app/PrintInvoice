@@ -317,6 +317,9 @@
     .tbrowdp10_pcl7{
         page-break-inside: avoid;
     }
+    .pgia_pcl7{
+        page-break-inside: avoid;
+    }
     .summarydp10_pcl7{
         page-break-inside: avoid;
     }
@@ -336,7 +339,7 @@
     .grandtotaldp10_pcl7{
         height: 15px !important;
         border: 1px solid #BDBDBD;
-        border-bottom: 1px solid black;
+        /* border-bottom: 1px solid black; */
         border-left: 1px solid black;
         border-right: 1px solid black;
         font-weight: bold;

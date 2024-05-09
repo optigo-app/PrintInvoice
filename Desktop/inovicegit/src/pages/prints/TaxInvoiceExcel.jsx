@@ -505,7 +505,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         setTimeout(() => {
             const button = document.getElementById('test-table-xls-button');
             button.click();
-          }, 2000);
+          }, 500);
 
 
         //loadData end
@@ -642,8 +642,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             <th style={{borderBottom:'1px solid #989898', borderRight:'1px solid #989898',  backgroundColor:'#F5F5F5'}}>Amount</th>
                         </tr>
                         {
-                            result2?.map((e) => {
-                                return (<>
+                            result2?.map((e, i) => {
+                                return (<React.Fragment key={i}>
                                     <tr>
                                   { e?.srflag && <td width={90} style={{borderRight:'1px solid #989898'}} align='center' rowSpan={e?.srRowSpan + 1} >{e?.sr}</td>}
                                         <td width={120} style={{wordBreak:'break-word'}}>&nbsp;{e?.designno}</td>
@@ -734,7 +734,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{ e?.labour_amt === 0 ? '' : formatAmount(e?.labour_amt)}</th>
                                         <th align='right' style={{borderRight:'1px solid #989898', backgroundColor:'#F5F5F5', borderTop:'1px solid #989898', borderBottom:'1px solid #989898',borderLeft:'1px solid #e8e8e8'}}>&nbsp;{ e?.total_amount === 0 ? '' : formatAmount(e?.total_amount)}</th>
                                     </tr>
-                                    </>
+                                    </React.Fragment>
                                 )
                             })
                         }
