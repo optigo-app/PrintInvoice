@@ -16,26 +16,13 @@ import "../../assets/css/prints/invoiceprint4.css";
 import { OrganizeDataPrint } from "../../GlobalFunctions/OrganizeDataPrint";
 import { cloneDeep } from "lodash";
 import { NumToWord } from './../../GlobalFunctions/NumToWord';
+import QrCodeForPrint from "../../components/QrCodeForPrint";
 
 const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   const [header, setHeader] = useState(null);
-  const [headerData, setHeaderData] = useState({});
-  const [subheader, setSubHeader] = useState(null);
-  // eslint-disable-next-line no-unused-vars
-  const [resultArray, setResultArray] = useState();
   const [result, setResult] = useState();
-  const [mainTotal, setMainTotal] = useState({});
   const [descArr, setDescArr] = useState("");
-  const [inWords, setInWords] = useState("");
-  const [grandTotal, setGrandTotal] = useState(0);
-  const [LOM, setLOM] = useState([]);
-  const [groupedArr, setGroupedArr] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [groupedArrAmountTotal, setGroupedArrAmountTotal] = useState(0);
-  const [taxTotal, setTaxTotal] = useState([]);
   const [loader, setLoader] = useState(true);
-  // eslint-disable-next-line no-unused-vars
-  const [totDiscount, setTotDiscount] = useState(0);
   const [msg, setMsg] = useState("");
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [total_makingcharge_unit, setTotalMakingChargeUnit] = useState(0);
@@ -423,7 +410,7 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
   async function loadData(data) {
     try {
-      setHeaderData(data?.BillPrint_Json[0]);
+      // setHeaderData(data?.BillPrint_Json[0]);
       // organizeData(
       //   data?.BillPrint_Json[0],
       //   data?.BillPrint_Json1,
@@ -620,6 +607,12 @@ const InvoicePrint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }
       })
 
+
+
+      let headerComp = HeaderComponent('4', result?.header)
+      setHeader(headerComp);
+
+
       setMetal_s(resultArr);
       setResult(datas);
 
@@ -750,8 +743,56 @@ useEffect(() => {
                   <div>
                     {/* <div style={{border:"1px solid #e8e8e8", borderBottom:"0px"}}>{header}</div> */}
                     <div>
-                      <div className="headline_invp4"> {result?.header?.PrintHeadLabel} </div>
+                      { result?.header?.IsEinvoice ? <div className="headline_invp4"> {result?.header?.E_InvoiceType} <span style={{marginLeft:'63%'}}>{result?.header?.E_HeadLabel}</span></div> : <div className="headline_invp4"> {result?.header?.PrintHeadLabel} </div> }
+                      { result?.header?.IsEinvoice ? <>
+                      
                       <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                        <div className='p-3'>  {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                          <img src={result?.header?.PrintLogo} alt="" 
+                          className='w-100 h-auto  d-block object-fit-contain'
+                          style={{minHeight:'75px', minWidth:'115px', maxWidth:'117px', maxHeight:'75px'}}
+                          onError={handleImageErrors} height={120} width={150} />)}
+                        </div>
+                        <div className="invp4_fs p-1">
+                          <div className="invp4_fs_2 fw-bold">{result?.header?.CompanyFullName}</div>
+                          <div>{result?.header?.CompanyAddress}</div>
+                          <div>{result?.header?.CompanyAddress2}</div>
+                          <div>{result?.header?.CompanyCity} - {result?.header?.CompanyPinCode}, {result?.header?.CompanyState}({result?.header?.CompanyCountry})</div>
+                          <div>T {result?.header?.CompanyTellNo}</div>
+                          <div>{result?.header?.CompanyEmail} | {result?.header?.CompanyWebsite}</div>
+                          <div>{result?.header?.Company_VAT_GST_No} | {result?.header?.Company_CST_STATE} - {result?.header?.Company_CST_STATE_No} | PAN - {result?.header?.Pannumber} </div>
+                          <div>CIN - {result?.header?.CINNO}  MSME - {result?.header?.MSME} </div>
+                        </div>
+                        </div>
+                        <div>
+                          <div className="p-4 pb-2 max_qr_invp4"><div className="max_qr_invp4_2"><QrCodeForPrint text="hellosdkjnksdfbnkjbsfkjbbdasfklnenfsdeflkhnresglkjgklkndfkgjngkjngklnasdfkjndfdglkndfgknkdfgjnkjadekjsdnkj" /></div></div>
+                          <div className="text-break fw-bold pb-2 invp4_fs">{result?.header?.InvoiceBillType}</div>
+                        </div>
+                      </div>
+                      <div className="invp4_fs border mb-2">
+                        <div className="fw-bold p-1">1. e-Invoice Details</div>
+                        <div className="border-top invp4_fs d-flex align-items-center pb-4">
+                            <div className="w-50 p-1"><span className="fw-bold">IRN : </span>{result?.header?.E_IRN}</div>
+                            <div className="w-25 p-1"><span className="fw-bold">Ack. No : </span>{result?.header?.E_AckNo}</div>
+                            <div className="w-25 p-1"><span className="fw-bold">Ack. Date :</span>{result?.header?.E_AckDt}</div>
+                        </div>
+                      </div>
+                      <div className="invp4_fs border mb-2">
+                        <div className="fw-bold p-1">2.Transaction Details</div>
+                        <div className="border-top invp4_fs d-flex align-items-center">
+                            <div className="w-25"><span className="fw-bold px-1">Category :</span>{result?.header?.E_Category}</div>
+                            <div className="w-25"><span className="fw-bold px-1">Invoice No :</span>{result?.header?.InvoiceNo}</div>
+                            <div className="w-25"><span className="fw-bold px-1">IGST on INTRA :</span>{result?.header?.E_INTRA}</div>
+                        </div>
+                        <div className=" invp4_fs d-flex align-items-center pb-4">
+                            <div className="w-25"><span className="fw-bold px-1 invp4_fs">Invoice Type :</span>{result?.header?.E_InvoiceType}</div>
+                            <div className="w-25"><span className="fw-bold px-1 invp4_fs">Invoice Date :</span>{result?.header?.EntryDate}</div>
+                            <div className="w-25"><span className="fw-bold px-1 invp4_fs">	Description :</span>{result?.header?.E_BTY}</div>
+                        </div>
+                      </div>
+                      </>
+                       : <div className="d-flex justify-content-between align-items-center">
                         <div className="invp4_fs p-1">
                           <div className="invp4_fs_2 fw-bold">{result?.header?.CompanyFullName}</div>
                           <div>{result?.header?.CompanyAddress}</div>
@@ -770,8 +811,9 @@ useEffect(() => {
                           onError={handleImageErrors} height={120} width={150} />)}
                         </div>
 
-                      </div>
+                      </div>}
                     </div>
+                    {/* <div>{header}</div> */}
                     <div className="subheadinvp4 d-flex justify-content-between p-1" style={{border:"1px solid #e8e8e8", borderBottom:"1px solid #e8e8e8"}}>
                       <div className="w-75 h-100 invp4_fs">
                         <div > {result?.header?.lblBillTo} </div>
@@ -929,8 +971,8 @@ useEffect(() => {
                  {/* <div className="w-100" style={{borderBottom:'2px solid #d8d7d7'}}> */}
                  <div className="w-100 border-bottom" >
                  {/* <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "100px"}}> */}
-                 <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "50%"}}>
-                  <input type="text"  style={{width:'170px',}} className="d-flex justify-content-center align-items-center ms-5 position-absolute" value={descText} onChange={(e) => setDescText(e.target.value)} />
+                 <div className="d-flex justify-content-start align-items-center border-start border-end  position-absolute" style={{    top: "50%", marginLeft:'10%'}}>
+                  <input type="text"  style={{width:'170px',}} className="d-flex justify-content-center align-items-center  position-absolute" value={descText} onChange={(e) => setDescText(e.target.value)} />
                   </div>
                   {
                     metal_s?.map((e, i) => {

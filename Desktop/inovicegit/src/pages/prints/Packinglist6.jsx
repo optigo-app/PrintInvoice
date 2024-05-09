@@ -56,7 +56,6 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     miscLength++
                     if (ele?.IsHSCOE === 1) {
                         if (ele?.Amount !== 0 && e?.HUID !== "") {
-                            console.log("asjkdhjashd");
                             huidShowOrnot = true;
                         }
                     }
@@ -137,7 +136,6 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         });
         datas.resultArray = resultArr;
         setData(datas);
-        console.log(datas);
     }
 
     useEffect(() => {
@@ -403,7 +401,6 @@ const Packinglist6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                                                 return (ele?.IsHSCOE === 3 && ele?.Amount !== 0) && <p className="" key={ind}>{e?.CertificateNo}</p>
                                                             })
                                                         }
-                                                        {console.log(e?.huidShowOrnot)}
                                                         {e?.huidShowOrnot === true && <><p className="">HUID- </p>
                                                             <p>{e?.HUID}</p></>}
                                                     </div>

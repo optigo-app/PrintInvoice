@@ -492,7 +492,7 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       <div className="">{result?.header?.customercity}</div>
                       <div className="">{result?.header?.customermobileno}</div>
                       <div className="">
-                        { result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN' } - { result?.header?.Cust_VAT_GST_No === '' ?  result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo} |{" "}
+                        { result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN' } - { result?.header?.Cust_VAT_GST_No === '' ?  result?.header?.Cust_VAT_GST_No : result?.header?.Cust_VAT_GST_No} |{" "}
                         {result?.header?.Cust_CST_STATE} -{" "}
                         {result?.header?.Cust_CST_STATE_No} | PAN - {" "} {result?.header?.CustPanno}
                       </div>

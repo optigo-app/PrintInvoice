@@ -228,6 +228,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
     // setSummary2(metwise);
 
   }
+  console.log(json0Data);
 
   useEffect(() => {
     const sendData = async () => {
@@ -478,8 +479,8 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
                     onError={handleImageError}
                   />
                 </div>
-              {
-                 evName &&   <div className="col-2 p-1 border-end">
+              
+              <div className="col-2 p-1 border-end">
                  <p className="text-end">
                    <span className="pe-1"
                      dangerouslySetInnerHTML={{
@@ -489,7 +490,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
                    {NumberWithCommas((e?.TotalAmount / e?.Quantity), 2)}{" "}
                  </p>
                </div>
-              }
+              
                 <div className="col-2 p-1">
                   <p className="text-end">
                     <span
@@ -508,11 +509,11 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
           <div className="col-1 p-1 border-end">
             <p className="text-center"></p>
           </div>
-          <div className={`${ evName ? 'col-7' : 'col-9' } p-1 border-end`}>
+          <div className={`col-7   p-1 border-end`}>
             <p className="fw-bold">Total</p>{" "}
           </div>
-         {
-          evName &&  <div className="col-2 p-1">
+        
+          <div className="col-2 p-1">
           <p className="text-end fw-bold">
             <span className="pe-1" dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }} ></span>
             {/* {formatAmount((result?.mainTotal?.total_amount / result?.mainTotal?.total_Quantity))} */}
@@ -520,7 +521,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
             {NumberWithCommas(totalAmount.before, 2)}{" "}
           </p>
         </div>
-         }
+         
           <div className="col-2 p-1">
             <p className="text-end fw-bold">
               <span
@@ -539,10 +540,20 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
             ></div>
           </div>
           <div className="col-4 p-1 border-end">
-        
+            {  summary.map((e, i) => {
+              return (
+                <div className="d-flex justify-content-between" key={i}>
+                  <p key={i}>{e?.label}: </p>
+                  <p>
+                    {NumberWithCommas(e?.value, 3)} {e?.gm ? "gm" : "cts"}
+                  </p>
+                </div>
+              );
+            })}
+       
           </div>
           <div className="col-2 p-1 border-end">
-            {tax.map((e, i) => {
+            {tax?.map((e, i) => {
               return (
                 <p key={i}>
                   {e?.name} @ {e?.per}
@@ -550,13 +561,14 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
               );
             })}
             <p>Total</p>
-            {json0Data?.AddLess > 0 ? <p>Add</p> : <p>Less</p>}
+            {json0Data?.AddLess < 0 ? <p>Less</p> : <p>Add</p>}
           </div>
           <div className="col-2 p-1">
             {tax?.map((e, i) => {
               return (
                 <p className="text-end fw-bold" key={i}>
                   <span
+                   className="pe-1"
                     dangerouslySetInnerHTML={{
                       __html: json0Data?.Currencysymbol,
                     }}
@@ -566,14 +578,14 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
               );
             })}
             <p className="text-end fw-bold">
-              <span
+              <span className="pe-1"
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {/* {NumberWithCommas(totalAmount.after, 2)}{" "} */}
               {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)))}
             </p>
             <p className="text-end fw-bold">
-              <span
+              <span className="pe-1"
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {NumberWithCommas(json0Data?.AddLess, 2)}{" "}
@@ -588,7 +600,7 @@ const JewelleryTaxInvoiceQuote = ({ urls, token, invoiceNo, printName, evn, ApiV
           </div>
           <div className="col-2 p-1">
             <p className="text-end fw-bold">
-              <span
+              <span className="pe-1"
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {/* {NumberWithCommas(totalAmount.grand, 2)}{" "} */}

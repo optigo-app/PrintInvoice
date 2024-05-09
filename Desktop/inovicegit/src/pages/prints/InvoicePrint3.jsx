@@ -278,11 +278,46 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
       // setMetal_s(met3);
 
-      diamonds?.sort((a, b) => (((a?.amount / a?.wt) / result?.header?.CurrencyExchRate)) - ((b?.amount / b?.wt) / result?.header?.CurrencyExchRate))
+      // diamonds?.sort((a, b) => 
+      //     ( 
+      //       (
+      //         (a?.amount / a?.wt) / result?.header?.CurrencyExchRate
+      //       )
+      //     ) 
+      //     - 
+      //     (
+      //       (
+      //         (b?.amount / b?.wt) / result?.header?.CurrencyExchRate
+      //       )
+      //     )
+      //   )
+
+        let dList = [];
+        diamonds?.forEach((a) => {
+          let obj = {...a};
+
+          obj._rate_ = ((a?.amount / a?.wt) / (result?.header?.CurrencyExchRate))
+
+          dList.push(obj);
+
+        })
+        diamonds = dList;
       // colorstones?.sort((a, b) => (((a?.amount / a?.wt) / result?.header?.CurrencyExchRate)) - ((b?.amount / b?.wt) / result?.header?.CurrencyExchRate))
       colorstones?.sort((a, b) => a?.Rate - b?.Rate)
       // diamonds?.sort((a, b) => a?.rate - b?.rate)
-      
+      diamonds?.sort((a, b) => 
+          ( 
+            (
+              (a?.amount / a?.wt) / result?.header?.CurrencyExchRate
+            )
+          ) 
+          - 
+          (
+            (
+              (b?.amount / b?.wt) / result?.header?.CurrencyExchRate
+            )
+          )
+        )
       // metals?.sort((a, b) => {
       //   const qualityA = a?.QualityName?.toUpperCase();
       //   const qualityB = b?.QualityName?.toUpperCase();
@@ -590,7 +625,8 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div style={{width:'30%'}} className="ps-2">{e?.MasterManagement_DiamondStoneTypeName}</div>
                         <div style={{width:'10%'}}>{e?.wt?.toFixed(3)}</div>
                         <div style={{width:'10%'}}>{Math.round(( (e?.amount) / (( e?.isRateOnPcs === 1 ? (e?.pcs === 0 ? 1 : e?.pcs) : (e?.wt === 0 ? 1 : e?.wt))) ) / result?.header?.CurrencyExchRate)}</div>
-                        <div style={{width:'10%'}}>{formatAmount(((e?.amount / result?.header?.CurrencyExchRate)))}</div>
+                        {/* <div style={{width:'10%'}}>{Math.round(( (e?.amount / e?.pcs) /  result?.header?.CurrencyExchRate))}</div> */}
+                        <div style={{width:'10%'}}>{formatAmount(((e?.amount)))}</div>
                         </div>
                       )
                     })
@@ -600,13 +636,12 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div style={{width:'30%'}} className="ps-2">MISC</div>
                         <div style={{width:'10%'}}></div>
                         <div style={{width:'10%'}}></div>
-                        <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.totalMiscAmount))}</div>
+                        <div style={{width:'10%'}}>{formatAmount(((result?.mainTotal?.totalMiscAmount - result?.mainTotal?.misc?.isHSCODE123_amt)))}</div>
                         </div>
                         <div className="d-flex w-100  fsinvp3" style={{borderLeft:'2px solid #d8d7d7', borderRight:'2px solid #d8d7d7'}}>
                         <div style={{width:'40%', borderRight:'2px solid #d8d7d7'}} className="d-flex justify-content-center"></div>
                         <div style={{width:'30%'}} className="ps-2">LABOUR</div>
                         <div style={{width:'10%'}}></div>
-                        {console.log(result)}
                         <div style={{width:'10%'}}>{Math.round(total_makingcharge_unit)}</div>
                         <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_diamondHandling))}</div>
                         </div>
@@ -615,7 +650,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div style={{width:'30%'}} className="ps-2">OTHER</div>
                         <div style={{width:'10%'}}></div>
                         <div style={{width:'10%'}}></div>
-                        <div style={{width:'10%'}}>{formatAmount(result?.mainTotal?.total_other)}</div>
+                        <div style={{width:'10%'}}>{formatAmount(((result?.mainTotal?.total_other + result?.mainTotal?.misc?.isHSCODE123_amt)))}</div>
                         </div>
                  </div>
                  <div className="d-flex w-100 fw-bold border-top-0" style={{border:'2px solid #d8d7d7', fontSize:'14px'}}>

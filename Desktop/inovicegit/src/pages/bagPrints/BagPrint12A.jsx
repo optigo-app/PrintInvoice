@@ -32,6 +32,7 @@ const BagPrint12A = ({ queries, headers }) => {
                     headers: headers,
                 };
                 const allDatas = await GetData(objs);
+                
                 let datas = organizeData(allDatas?.rd, allDatas?.rd1);
                 // eslint-disable-next-line array-callback-return
                 datas?.map((a) => {
@@ -133,6 +134,7 @@ const BagPrint12A = ({ queries, headers }) => {
         }
 
     }, [data]);
+
     return (
         <>
             {

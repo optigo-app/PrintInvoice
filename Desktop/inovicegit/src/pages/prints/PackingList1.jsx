@@ -403,7 +403,6 @@ const PackingList1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             return 0;
         });
 
-        console.log(data);
         setData(newArr);
     }
 

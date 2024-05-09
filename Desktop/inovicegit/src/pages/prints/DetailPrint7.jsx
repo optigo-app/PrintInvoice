@@ -488,7 +488,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   //   setDia_Cls_Misc_Arr(dia_cls_misc_merge);
 
   // }
-  console.log(result);
   const handleImgShow = (e) => {
     if (imgFlag) setImgFlag(false);
     else {
@@ -649,7 +648,6 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       );
                     })}
                   </div>
-                  {console.log(result)}
                   <div className="subheaddiv3 fsgdp7">
                     <div className="fsgdp7 lhdp7 d-flex justify-content-between">
                       <span className="w-50 fw-bold">INVOICE NO</span>

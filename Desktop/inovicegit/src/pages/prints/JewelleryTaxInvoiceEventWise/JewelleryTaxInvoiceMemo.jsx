@@ -44,9 +44,10 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
   const [msg, setMsg] = useState("");
 
 
-  const [evns, setEvns] = useState(atob(evn).toLowerCase());
+  const [evns, setEvns] = useState(atob(evn)?.toLowerCase());
 
   const loadData = (data) => {
+    
     let json0Datas = data.BillPrint_Json[0];
     let custDetail = { ...customerDetail };
     if (data.BillPrint_Json[0]?.vat_cst_pan !== "") {
@@ -72,9 +73,11 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
       if (findRecord === -1) {
         metalArr.push({ label: e?.MetalTypePurity, value: (e?.NetWt * e?.Quantity), gm: true });
       } else {
-        metalArr[findRecord].value += (e?.NetWt * e?.Quantity);
+        // metalArr[findRecord].value += (e?.NetWt * e?.Quantity);
+        metalArr[findRecord].value += (e?.NetWt);
       }
-      grossWt += (e?.grosswt * e?.Quantity);
+      // grossWt += (e?.grosswt * e?.Quantity);
+      grossWt += (e?.grosswt );
       let diamondWts = 0;
       let colorStoneWts = 0;
       let miscWts = 0;
@@ -148,6 +151,7 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
     // })
     metalArr.push({ label: "Diamond Wt", value: (diamondWt), gm: false });
     metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
+    metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
   
     if (!estimate) {
       // metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
@@ -171,11 +175,12 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
       after: afterTotal,
       grand: grandTotal,
     };
-    resultArr.sort((a, b) => {
-      const designNoA = parseInt((a?.designno)?.match(/\d+/)[0]);
-      const designNoB = parseInt((b?.designno)?.match(/\d+/)[0]);
-      return designNoA - designNoB;
-  });
+  //   resultArr?.sort((a, b) => {
+  //     const designNoA = parseInt((a?.designno)?.match(/\d+/)[0]);
+  //     const designNoB = parseInt((b?.designno)?.match(/\d+/)[0]);
+  //     return designNoA - designNoB;
+  // });
+  resultArr?.sort((a, b) => a?.designno - b?.designno)
   
     settotalAmount(totalAmounts);
     settax(taxValue);
@@ -191,7 +196,7 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
       copydata?.BillPrint_Json1,
       copydata?.BillPrint_Json2
     );
-
+      console.log(datas);
     setResult(datas)
 
     let metwise = [];
@@ -344,11 +349,11 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 <p className="lh-1 pb-1">{json0Data?.customerregion}</p>
               )}
               {json0Data?.customercity !== "" && (
-                <p className="lh-1 pb-1">{json0Data?.customercity}</p>
+                <p className="lh-1 pb-1">{json0Data?.customercity} {json0Data?.customerpincode}</p>
               )}
               <p className="lh-1 pb-1">
-                {json0Data?.customerstate}, {json0Data?.customercountry}{" "}
-                {json0Data?.customerpincode}
+                {/* {json0Data?.customerstate}, {json0Data?.customercountry}{" "} */}
+                
               </p>
               {json0Data?.customermobileno !== "" && (
                 <p className="lh-1 pb-1">Tel : {json0Data?.customermobileno}</p>
@@ -407,7 +412,7 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
                     Design: <span className="fw-bold">{e?.designno}</span>{" "}
                   </p>
                   { e?.Size === '' || e?.Size === '-' ? '' : <p className="fw-bold">{e?.Size}</p>}
-                  <div className="text-center w-100 " style={{position: 'absolute', top:'50%' }}><span><span className="fw-normal">QTY :</span> </span><span className="fw-bold">{e?.Quantity}</span></div>
+                  {/* <div className="text-center w-100 " style={{position: 'absolute', top:'50%' }}><span><span className="fw-normal">QTY :</span> </span><span className="fw-bold">{e?.Quantity}</span></div> */}
                 </div>
                 <div className={`${'col-5'} p-1 border-end`}>
                   <p className="text-break">
@@ -525,7 +530,7 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
               );
             })}
             <p>Total</p>
-            {json0Data?.AddLess > 0 ? <p>Add</p> : <p>Less</p>}
+            {json0Data?.AddLess > 0 ? <p>{ json0Data?.AddLess === 0 ? '' : 'Add'}</p> : <p>{ json0Data?.AddLess === 0 ? '' : 'Less'}</p>}
           </div>
           <div className="col-2 p-1">
             {tax?.map((e, i) => {
@@ -545,13 +550,13 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {/* {NumberWithCommas(totalAmount.after, 2)}{" "} */}
-              {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal)))}
+              {formatAmount(((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate) + (result?.allTaxesTotal  / result?.header?.CurrencyExchRate)))}
             </p>
             <p className="text-end fw-bold">
-              <span
+              {  json0Data?.AddLess !== 0 && <span
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
-              ></span>
-              {NumberWithCommas(json0Data?.AddLess, 2)}{" "}
+              ></span>}
+              { json0Data?.AddLess !== 0 && NumberWithCommas(json0Data?.AddLess, 2)}{" "}
             </p>
           </div>
         </div>

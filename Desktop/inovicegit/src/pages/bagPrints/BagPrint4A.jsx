@@ -259,6 +259,7 @@ const BagPrint4A = ({ queries, headers }) => {
             )}
             {data?.length > 0 &&
               data?.map((e, i) => {
+                console.log(e);
                 return (
                   <React.Fragment key={i}>
                     {e?.additional?.pages?.length > 0 ? <> {(

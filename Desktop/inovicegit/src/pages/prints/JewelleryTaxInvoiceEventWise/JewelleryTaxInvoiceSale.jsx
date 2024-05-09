@@ -146,6 +146,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
     // })
     metalArr.push({ label: "Diamond Wt", value: (diamondWt), gm: false });
     metalArr.push({ label: "Stone Wt", value: colorStoneWt, gm: false });
+    metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
   
     if (!estimate) {
       // metalArr.push({ label: "Gross Wt", value: grossWt, gm: true });
@@ -272,7 +273,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
               <p className={style2.lines}>{json0Data?.CompanyAddress}</p>
               <p className={style2.lines}>{json0Data?.CompanyAddress2}</p>
               <p className={style2.lines}>
-                {json0Data?.CompanyCity}-{json0Data?.CompanyPinCode},
+                {json0Data?.CompanyCity} - {json0Data?.CompanyPinCode},
                 {json0Data?.CompanyState}({json0Data?.CompanyCountry})
               </p>
               <p className={style2.lines}>
@@ -283,13 +284,10 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
               </p>
               <p className={style2.lines}>
                 {json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}
-                -{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}
+                - {json0Data?.Company_CST_STATE_No} | PAN - {json0Data?.Pannumber}
               </p>
             </div>
-            <div
-              style={{ width: "30%" }}
-              className="d-flex justify-content-end align-item-center h-100"
-            >
+            <div style={{ width: "30%" }} className="d-flex justify-content-end align-item-center h-100" >
               {/* <img
                 src={json0Data?.PrintLogo}
                 alt=""
@@ -323,8 +321,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 <p className="lh-1 pb-1">{json0Data?.customercity}</p>
               )}
               <p className="lh-1 pb-1">
-                {json0Data?.customerstate}, {json0Data?.customercountry}{" "}
-                {json0Data?.customerpincode}
+                {json0Data?.customerstate}, {json0Data?.customercountry} {json0Data?.customerpincode}
               </p>
               {json0Data?.customermobileno !== "" && (
                 <p className="lh-1 pb-1">Tel : {json0Data?.customermobileno}</p>
@@ -362,6 +359,10 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
        
               
                  <p className="lh-1 pb-1">
+                 Terms: {" "}
+                <span className="fw-bold"> {json0Data?.DueDays}</span>
+              </p>
+                 <p className="lh-1 pb-1">
                 Due Date:{" "}
                 <span className="fw-bold">{json0Data?.DueDate}</span>
               </p>
@@ -390,8 +391,8 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
           </div>
         </div>
         {/* table data */}
-        {data.length > 0 &&
-          data.map((e, i) => {
+        {data?.length > 0 &&
+          data?.map((e, i) => {
             return (
               <div className="d-flex border-start border-end border-bottom no_break" key={i} >
                 <div className="col-1 p-1 border-end">
@@ -403,11 +404,12 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                     Design: <span className="fw-bold">{e?.designno}</span>{" "}
                   </p>
                   { e?.Size === '' || e?.Size === '-' ? '' : <p className="fw-bold">{e?.Size}</p>}
-                  <div className="text-center w-100 " style={{position: 'absolute', top:'50%' }}><span><span className="fw-normal">QTY :</span> </span><span className="fw-bold">{e?.Quantity}</span></div>
+                  {/* <div className="text-center w-100 " style={{position: 'absolute', top:'50%' }}><span><span className="fw-normal">QTY :</span> </span><span className="fw-bold">{e?.Quantity}</span></div> */}
                 </div>
                 <div className={`col-5 p-1 border-end`}>
                   <p className="text-break">
-                    {e?.MetalTypePurity} {e?.MetalColor} |{" "}
+                    
+                    {e?.MetalTypePurity} {e?.metalColorCode} |{" "}
                     {NumberWithCommas(e?.grosswt, 3)} gms GW |{" "}
                     {NumberWithCommas(e?.NetWt, 3)} gms NW
                     {e?.diamondWts !== 0 && (
@@ -421,8 +423,8 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                     )}
                   </p>
                   
-                  {e.materials.length > 0 &&
-                    e.materials.map((ele, ind) => {
+                  {e?.materials?.length > 0 &&
+                    e?.materials?.map((ele, ind) => {
                       return (
                         <p key={ind} className="text-break">
                          
@@ -522,6 +524,7 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
             })}
             <p>Total</p>
             {json0Data?.AddLess > 0 ? <p>Add</p> : <p>Less</p>}
+            <p>Delivery Charges</p>
           </div>
           <div className="col-2 p-1">
             {tax?.map((e, i) => {
@@ -548,6 +551,12 @@ const JewelleryTaxInvoiceSale = ({ urls, token, invoiceNo, printName, evn, ApiVe
                 dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
               ></span>
               {NumberWithCommas(json0Data?.AddLess, 2)}{" "}
+            </p>
+            <p className="text-end fw-bold">
+              <span
+                dangerouslySetInnerHTML={{ __html: json0Data?.Currencysymbol }}
+              ></span>
+              {NumberWithCommas(json0Data?.FreightCharges, 2)}{" "}
             </p>
           </div>
         </div>

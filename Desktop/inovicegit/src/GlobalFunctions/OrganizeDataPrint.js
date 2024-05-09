@@ -59,6 +59,8 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       withouthscode1_2_pcs:0,
       isHSCODE123_amt:0,
       onlyIsHSCODE0_Wt:0,
+      onlyIsHSCODE0_Pcs:0,
+      onlyIsHSCODE0_Amount:0
     },
     stone_misc: {
       Wt: 0,
@@ -201,7 +203,9 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
           allpcs:0,
           allservwt:0,
           isHSCODE123_amt:0,
-          onlyIsHSCODE0_Wt:0
+          onlyIsHSCODE0_Wt:0,
+          onlyIsHSCODE0_Pcs:0,
+          onlyIsHSCODE0_Amount:0
         },
         stone_misc: {
           Wt: 0,
@@ -332,7 +336,11 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               }
               if(j2?.IsHSCOE === 0){
                 jobwise_totals.misc.onlyIsHSCODE0_Wt += j2?.Wt;
+                jobwise_totals.misc.onlyIsHSCODE0_Pcs += j2?.Pcs;
+                jobwise_totals.misc.onlyIsHSCODE0_Amount += j2?.Amount;
                 maintotal.misc.onlyIsHSCODE0_Wt += j2?.Wt;
+                maintotal.misc.onlyIsHSCODE0_Pcs += j2?.Pcs;
+                maintotal.misc.onlyIsHSCODE0_Amount += j2?.Amount;
               }
               all_m_d_c_m.push(j2)
               if(j2?.isRateOnPcs === 0){
@@ -461,6 +469,11 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
           }
         })
       })
+
+      diamondList?.sort((a, b) => a?.Rate - b?.Rate);
+      colorstoneList?.sort((a, b) => a?.Rate - b?.Rate);
+
+
       jobwise_totals.makingAmount_settingAmount += j1?.MakingAmount;
       obj.diamond_colorstone_misc = diamond_colorstone_misc;
       obj.all_m_d_c_m = all_m_d_c_m;
@@ -606,7 +619,7 @@ const allTaxes = allTax?.map((e) => {
     
     obj.other_details_arr_total_amount = other_details_arr_total_amount;
 
-
+    
     finalArr.push(obj);
   })
   const finalObject = {
