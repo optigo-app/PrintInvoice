@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkinvoice=self.webpackChunkinvoice||[]).push([[9441],{39441:(e,c,i)=>{e.exports=i.p+"static/media/jewelleryinvoice2backup.cc81b3f40e0f08f7d377.txt"}}]);

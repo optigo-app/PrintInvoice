@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkinvoice=self.webpackChunkinvoice||[]).push([[8715],{88715:(c,e,s)=>{c.exports=s.p+"static/media/s1backup.935739164fc316ff1ac9.txt"}}]);

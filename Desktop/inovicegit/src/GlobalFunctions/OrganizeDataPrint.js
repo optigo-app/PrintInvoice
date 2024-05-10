@@ -43,7 +43,8 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       Pcs: 0,
       Rate: 0,
       Amount: 0,
-      SettingAmount: 0
+      SettingAmount: 0,
+      SettingRate:0
     },
     misc: {
       Wt: 0,
@@ -130,6 +131,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       let findingList = [];
       let miscList = [];
       let miscList_duplicate = [];
+      let miscList_IsHSCODE123 = [];
       let stone_miscList = [];
       // let blankArrDiamond = [];
       // let blankArrColorstone = [];
@@ -184,7 +186,8 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
           Amount: 0,
           FineWt: 0,
           length: 0,
-          SettingAmount: 0
+          SettingAmount: 0,
+          SettingRate:0
         },
         misc: {
           Wt: 0,
@@ -333,6 +336,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               if(j2?.IsHSCOE === 1 || j2?.IsHSCOE === 2 || j2?.IsHSCOE === 3){
                 maintotal.misc.isHSCODE123_amt += j2?.Amount;
                 jobwise_totals.misc.isHSCODE123_amt += j2?.Amount;
+                miscList_IsHSCODE123.push(j2);
               }
               if(j2?.IsHSCOE === 0){
                 jobwise_totals.misc.onlyIsHSCODE0_Wt += j2?.Wt;
@@ -401,6 +405,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               jobwise_totals.finding.Amount += j2?.Amount;
               jobwise_totals.finding.FineWt += j2?.FineWt;
               jobwise_totals.finding.SettingAmount += j2?.SettingAmount;
+              jobwise_totals.finding.SettingRate += j2?.SettingRate;
               jobwise_totals.finding.length += 1;
               maintotal.finding.Wt += j2?.Wt;
               maintotal.finding.total_FineWt += +j2?.FineWt;
@@ -408,6 +413,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
               maintotal.finding.Rate += j2?.Rate;
               maintotal.finding.Amount += j2?.Amount;
               maintotal.finding.SettingAmount += j2?.SettingAmount;
+              maintotal.finding.SettingRate += j2?.SettingRate;
             }
             //for stone and misc
             if (
@@ -477,6 +483,7 @@ export const OrganizeDataPrint = (header2, json1_1, json2_1) => {
       jobwise_totals.makingAmount_settingAmount += j1?.MakingAmount;
       obj.diamond_colorstone_misc = diamond_colorstone_misc;
       obj.all_m_d_c_m = all_m_d_c_m;
+      obj.miscList_IsHSCODE123 = miscList_IsHSCODE123;
       // obj.diamond_colorstone_misc_2_new = diamond_colorstone_misc_2_new;
       obj.certificateWtDia = diawtdup;
       obj.diamonds = diamondList;
