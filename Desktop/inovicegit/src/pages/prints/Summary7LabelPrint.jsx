@@ -81,7 +81,7 @@ const Summary7LabelPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
         }
 
     }
-console.log(result);
+
   return (
     <>
        {

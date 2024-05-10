@@ -250,7 +250,7 @@ const Summary2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                       </div>
                       <div>Phno:-{result?.header?.customermobileno}</div>
                       <div>
-                        {console.log(result)}
+                    
                         { result?.header?.CustGstNo === '' ? 'VAT' : 'GSTIN' } - {result?.header?.CustGstNo === '' ? result?.header?.Cust_VAT_GST_No : result?.header?.CustGstNo} | 
                         {result?.header?.Cust_CST_STATE} - {result?.header?.Cust_CST_STATE_No} |
                         PAN - {result?.header?.CustPanno}

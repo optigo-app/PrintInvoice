@@ -78,10 +78,10 @@ const Summary8 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         datas.resultArray = resultArray;
         datas?.resultArray.sort((acc, cobj) => acc.Categoryname.localeCompare(cobj.Categoryname));
         setData(datas);
-        console.log(datas);
+   
 
         let bankDetail = ReceiveInBank(data?.BillPrint_Json[0]?.InvPayDet);
-        console.log(bankDetail);
+      
         let blankBank = [];
         bankDetail?.forEach((ele, ind) => {
             let obj = cloneDeep(ele);

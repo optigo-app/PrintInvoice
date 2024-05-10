@@ -118,7 +118,6 @@ const TaxInvoice5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       return numericA - numericB;
     });
     setData(datas);
-    console.log(datas);
   };
 
   useEffect(() => {

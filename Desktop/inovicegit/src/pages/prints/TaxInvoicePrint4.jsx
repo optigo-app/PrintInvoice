@@ -61,7 +61,6 @@ const TaxInvoicePrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
       }
       return 0; // Names are equal
     });
-    console.log(datas);
     setData(datas);
   };
 

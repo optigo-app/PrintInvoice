@@ -402,7 +402,7 @@ const RoughEstimate = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     });
     return parsedAmounts;
   };
-console.log(result);
+
   return (
     <>
       {loader ? (

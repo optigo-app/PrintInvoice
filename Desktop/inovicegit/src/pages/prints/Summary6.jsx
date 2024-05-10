@@ -63,7 +63,7 @@ const Summary6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         });
         datas.mainTotal.metalNetWt = metalNetWts;
         datas.resultArray = resultArray;
-        console.log(datas);
+     
         setSummary(summaryItems);
     };
 

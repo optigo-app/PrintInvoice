@@ -51,7 +51,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     let head = HeaderComponent("1", data?.BillPrint_Json[0]);
     setHeaderComp(head);
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-    console.log(datas);
+
     let resultArray = [];
     let criterialbased = false;
     datas?.resultArray?.forEach((e, i) => {
@@ -100,7 +100,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }
       }
     });
-    console.log(datas);
+
     const sortedData = diamondArr.sort(customSort);
     setDiamonds(sortedData);
     let taxValue = datas?.allTaxes.reduce((acc, cobj) => acc + +cobj?.amount * data?.BillPrint_Json[0]?.CurrencyExchRate, 0);

@@ -101,7 +101,6 @@ const RetailPrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           copydata?.BillPrint_Json2
         );
         const datas = cloneDeep(datass);
-        console.log(datass);
         let finalArr = [];
 
         datas?.resultArray?.forEach((a) => {

@@ -48,7 +48,7 @@ const SummaryInCurrency = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
         });
         datas.resultArray = resultArr;
         setData(datas);
-        console.log(datas);
+
     };
 
     const handleChange = (e) => {

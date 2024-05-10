@@ -196,7 +196,6 @@ const JewelleryTaxInvoiceMemo = ({ urls, token, invoiceNo, printName, evn, ApiVe
       copydata?.BillPrint_Json1,
       copydata?.BillPrint_Json2
     );
-      console.log(datas);
     setResult(datas)
 
     let metwise = [];

@@ -33,7 +33,6 @@ const ExportInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         let footers = FooterComponent("1", data?.BillPrint_Json[0]);
         setFooter(footers);
         let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-        console.log(datas);
         let resultArr = [];
         let table1Totals = { ...table1Total };
         let categories = [];

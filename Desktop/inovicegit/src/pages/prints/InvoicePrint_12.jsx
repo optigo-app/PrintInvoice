@@ -41,7 +41,6 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       data?.BillPrint_Json1,
       data?.BillPrint_Json2
     );
-    console.log(datas);
     let finalArr = [];
     let criterialBasedDiscount = false;
     datas?.resultArray?.forEach((e, i) => {

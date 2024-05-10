@@ -48,9 +48,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   }
 
   const organizeData = (json, json1, json2) => {
-    console.log(json);
-    console.log(json1);
-    console.log(json2);
+
     let resultArr = [];
     let totAmt = 0;
 

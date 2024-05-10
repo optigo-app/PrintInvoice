@@ -170,7 +170,7 @@ const Summary3Misc = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }
   }, [printName]);
   
-console.log(result);
+
 
   return (
     <>

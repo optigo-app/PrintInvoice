@@ -92,7 +92,6 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
     setDatas(datas);
-    console.log(datas);
     let resultArr = [];
     let findings = [];
     let diamonds = [];
@@ -303,7 +302,6 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       });
 
     });
-    console.log(labourAmt);
     if (labourWt !== 0) {
       labourRate = Math?.round(labourAmt / labourWt);
     }

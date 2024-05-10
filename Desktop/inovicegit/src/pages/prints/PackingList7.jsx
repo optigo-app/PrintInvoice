@@ -1042,7 +1042,6 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7">
                           {(result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.onlyIsHSCODE0_Wt)?.toFixed(3)}
                         </div>
-                        {console.log(result)}
                         {/* <div className="theadsubcol1_dp10_pcl7"></div> */}
                         <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "33.32%" }} >
                           {formatAmount(((result?.mainTotal?.colorstone?.Amount + result?.mainTotal?.misc?.onlyIsHSCODE0_Amount) / result?.header?.CurrencyExchRate))}

@@ -40,7 +40,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
   };
 
   const findMaterials = (json2, json1, json0) => {
-    console.log(json2, json1, json0);
+  
     const groupedObjects = {};
 
     json2.forEach((item) => {
@@ -471,7 +471,7 @@ const TaxInvoice1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     });
 
     lastArr?.forEach((e, i) => {
-console.log(e?.mainData?.grosswt);
+
 totalobj.gwt += e?.mainData?.grosswt
     })
     setResultArr(lastArr);

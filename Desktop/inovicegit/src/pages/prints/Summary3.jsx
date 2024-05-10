@@ -6,8 +6,7 @@ import "../../assets/css/prints/summary3.css";
 import { cloneDeep } from "lodash";
 
 const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
-  console.log("printname",printName);
-  console.log("printname",atob(printName));
+
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -171,7 +170,7 @@ const Summary3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     }
   }, [printName]);
   
-console.log(result);
+
 
   return (
     <>

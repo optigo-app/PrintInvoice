@@ -208,7 +208,7 @@ const Summary9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         miscLists.total = miscTotal;
         setMiscs(miscLists);
         setColorStones(csLists);
-        console.log(datas);
+      
     };
     useEffect(() => {
         const sendData = async () => {

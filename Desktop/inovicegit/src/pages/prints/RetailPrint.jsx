@@ -267,7 +267,6 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
         setDataFill(resultArr);
         setFinalD(datas);
-        console.log(datas);
         setJsonData1(data?.BillPrint_Json[0]);
 
         let taxValue = taxGenrator(data?.BillPrint_Json[0], totalObj.totalAmount);

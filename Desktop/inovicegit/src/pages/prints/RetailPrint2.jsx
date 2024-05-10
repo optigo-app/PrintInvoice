@@ -88,7 +88,6 @@ const RetailPrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         datas.resultArray = resultArray;
         datas.mainTotal.discountPercentages = discountPercentages;
 
-        console.log(datas);
         setData(datas);
         let documentDetails = data?.BillPrint_Json[0]?.DocumentDetail.split("#@#");
         let documents = {

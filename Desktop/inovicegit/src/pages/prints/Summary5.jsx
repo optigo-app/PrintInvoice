@@ -320,7 +320,7 @@ const Summary5 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             </div>
                             <div>Tunch : {(e?.Tunch - e?.Wastage)?.toFixed(3)}</div>
                           </div>
-                          {console.log(e)}
+                
                           <div className="col3s5 border-end pb10s5" style={{ wordBreak: "break-word" }} >
                             { (e?.MetalType?.toLowerCase()) === 'gold' ? e?.MetalPurity : e?.MetalTypePurity} {e?.MetalColor}
                           </div>

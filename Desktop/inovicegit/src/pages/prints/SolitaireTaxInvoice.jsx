@@ -99,7 +99,7 @@ const SolitaireTaxInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         });
         datas.resultArray = resultArray;
         setData(datas);
-        console.log(datas);
+   
         let documentDetails = data?.BillPrint_Json[0]?.DocumentDetail.split("#@#");
         let documents = {
             aadharcard: "",

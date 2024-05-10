@@ -447,7 +447,6 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
 
   async function loadData2(data){
     let datas = data;
-    console.log(datas);
 
     let finalArr = [];
 
