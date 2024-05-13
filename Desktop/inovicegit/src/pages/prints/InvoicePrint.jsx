@@ -365,7 +365,6 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }
     })
 
-    console.log(colorStones[1], colorStones[2]);
     setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
     setMainData({
       ...mainData, resultArr: resultArr, findings: findings, diamonds: diamonds, colorStones: colorStones,
@@ -413,6 +412,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <div className='col-10 p-1 border border-2 border-white p-1'>
           <p className='fw-bold fs-6 pb-1'>{json0?.CompanyFullName}</p>
           <p className='pb-1'>{json0?.CompanyAddress}</p>
+          <p className='pb-1'>{json0?.CompanyAddress2}</p>
           <p className='pb-1'>{json0?.CompanyCity}-{json0?.CompanyPinCode}, {json0?.CompanyState}{json0?.CompanyCountry !== "" && `(${json0?.CompanyCountry})`}</p>
           {/* <p>{json0?.CompanyAddress2}-{json0?.CompanyPinCode}, {json0?.CompanyState}({json0?.CompanyCountry})</p> */}
           <p className='pb-1'>T {json0?.CompanyTellNo} | TOLL FREE {json0?.CompanyTollFreeNo}</p>
@@ -603,6 +603,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           <p className='pb-1'>GSTIN. : {json0?.Company_VAT_GST_No?.split("-")[1]}</p>
           <p className='pb-1'>{json0?.Company_CST_STATE} : {json0?.Company_CST_STATE_No}</p>
           <p className='pb-1'>PAN NO. : {json0?.Pannumber}</p>
+          <p className='pb-1'>MSME NO. : {json0?.MSME}</p>
           <p className='pb-1'>Kindly make your payment by the name of <span className="fw-bold">"{json0?.accountname}"</span></p>
           <p className='pb-1'>Payable at ST (GJ) by cheque or DD</p>
           <p className='pb-1'>Bank Detail : Bank Account No - <span className="fw-bold">{json0?.accountnumber}</span></p>

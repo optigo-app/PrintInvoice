@@ -1,5 +1,6 @@
 export const printConditions = [
-  {printName: 'customer daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
+  {printName: 'customer daily statement', etpType: 'print', componentName: 'BillSticker'},
+  // {printName: 'customer daily statement', etpType: 'print', componentName: 'CustomerDailyStatement'},
   {printName: 'detail print1 (l)', etpType: 'print', componentName: 'DetailPrint1'},
   {printName: 'detail print1 (p)', etpType: 'print', componentName: 'DetailPrint1'},
   {printName: 'print (l)', etpType: 'print', componentName: 'DetailPrint1Printlp'},

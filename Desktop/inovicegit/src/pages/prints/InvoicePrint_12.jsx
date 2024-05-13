@@ -157,12 +157,17 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       {/* Title */}
    
       {/* header */}
-      {headerData?.IsEinvoice !== 1 ?
-         <><div className="py-1">
-         <h4 className="text-center fs-5 fw-semibold">
+      {/* {headerData?.IsEinvoice !== 1 ? */}
+      { headerData?.IsEinvoice === 1 && <div>{headerss}</div> }
+
+         <>
+        { headerData?.IsEinvoice !== 1 &&
+         <div className="py-1">
+          <h4 className="text-center fs-5 fw-semibold">
            {headerData?.PrintHeadLabel}
          </h4>
        </div>
+         }
       <div className="d-flex border p-2">
         <div className="col-8">
           <p>{headerData?.lblBillTo}</p>
@@ -199,7 +204,13 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             <p>: {headerData?.DueDays} Days</p>
           </div>
         </div>
-      </div> </>: headerss}
+      </div> </>
+      {/* : headerss} */}
+
+
+
+
+
       {/* table header */}
       <div className="d-flex border-bottom border-start border-end">
         <div className={`${style?.Sr} border-end`}>
@@ -236,6 +247,22 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           <p className="fw-bold text-center">Product Value</p>
         </div>
       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       {/* table data */}
       {data.map((e, i) => {
         return (
