@@ -85,7 +85,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     setTaxes(datas?.allTaxes);
     setTotal(datas?.mainTotal);
     setGrandTotal(datas?.finalAmount);
-    let headersss = HeaderComponent("3", data?.BillPrint_Json[0]);
+    let headersss = HeaderComponent("5", data?.BillPrint_Json[0]);
     setHeaderss(headersss);
   };
 

@@ -655,10 +655,11 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                                     <div className="pcltbr1c3 fspcl">
                                       <div className="dcolsthpcl fspcl pt-1" style={{ width: "27%" }} > {
                                           // eslint-disable-next-line array-callback-return
-                                          e?.diamonds?.map((ele, i) => {
+                                          e?.diamonds?.map((ele, ind) => {
+                                            
                                             return (
-                                              // <div className="leftpcl fspcl text-break" key={i} > {ele?.ShapeName} </div>
-                                              <div className=" fspcl text-break" key={i} >  </div>
+                                              <div className="leftpcl fspcl text-break" key={ind} > {ele?.ShapeName} </div>
+                                              // <div className=" fspcl text-break" key={i} ></div>
                                             );
                                           })
                                         }

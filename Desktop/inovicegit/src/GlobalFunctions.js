@@ -11,6 +11,7 @@ import { exportToExcel } from "react-json-to-excel";
 import Footer2 from "./components/footers/Footer2";
 import { ToWords } from "to-words";
 import Header4 from "./components/headers/Header4";
+import EInvoiceHeader from "./components/headers/EInvoiceHeader";
 
 //print button function for print pop up
 export const handlePrint = (e) => {
@@ -271,6 +272,10 @@ export const HeaderComponent = (headNo, headerData) => {
 
     case "4":
       headerComponent = <Header4 data={headerData} />;
+      break;
+
+    case "5":
+      headerComponent = <EInvoiceHeader data={headerData} />;
       break;
 
     default:
