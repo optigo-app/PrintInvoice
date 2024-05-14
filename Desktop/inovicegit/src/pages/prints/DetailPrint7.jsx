@@ -35,8 +35,8 @@ const DetailPrint7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     Wt_gm: 0,
     Amount: 0,
   });
-  const [isImageWorking, setIsImageWorking] = useState(true);
   const [fineWtTotal, setFineWtTotal] = useState(0);
+  const [isImageWorking, setIsImageWorking] = useState(true);
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };

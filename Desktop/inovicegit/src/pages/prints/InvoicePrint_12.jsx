@@ -134,6 +134,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             observer.disconnect();
           };
         }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // useEffect to check margin when component mounts and on subsequent updates
@@ -145,13 +146,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       {/* buttons */}
       <div className={`d-flex justify-content-end align-items-center ${style?.print_sec_sum4} mb-4`} >
         <div className="form-check ps-3">
-          <input
-            type="button"
-            className="btn_white blue py-1 mt-2"
-            style={{ fontSize: "15px" }}
-            value="Print"
-            onClick={(e) => handlePrint(e)}
-          />
+          <input type="button" className="btn_white blue py-1 mt-2" style={{ fontSize: "15px" }} value="Print" onClick={(e) => handlePrint(e)} />
         </div>
       </div>
       {/* Title */}
