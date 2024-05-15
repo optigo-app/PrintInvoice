@@ -77,7 +77,7 @@ console.log(result);
             </div>
             <div className="row_elv">
                 <div className="fs_elv w50_elv">NWT</div>
-                <div className="fs_elv end_elv w50_elv">{(result?.mainTotal?.netwt + result?.mainTotal?.losswt)?.toFixed(3)} gm</div>
+                <div className="fs_elv end_elv w50_elv">{(result?.mainTotal?.netwt + result?.mainTotal?.lossWt)?.toFixed(3)} gm</div>
             </div>
             <div className="row_elv">
                 <div className="fs_elv w50_elv">CST</div>
@@ -89,7 +89,7 @@ console.log(result);
             </div>
             <div className="row_elv">
                 <div className="fs_elv w50_elv">BRANCH</div>
-                <div className="fs_elv end_elv w50_elv"></div>
+                <div className="fs_elv end_elv w50_elv">{result?.resultArray[0]?.batchnumber}</div>
             </div>
            
         </div></> :  <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">

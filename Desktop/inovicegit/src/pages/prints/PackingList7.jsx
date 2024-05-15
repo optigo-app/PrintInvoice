@@ -635,12 +635,12 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {result?.resultArray?.map((e, i) => {
                       return (<div className="summarydp10_pcl7" key={i}>
                         <div className="tbrowdp10_pcl7 h-100 " >
-                          <div className="tbcol1dp10_pcl7 center_sdp10_pcl7 ">
+                          <div className="tbcol1dp10_pcl7 center_sdp10_pcl7 pad_top_pcl7">
                             {/* {e?.SrNo} */}
                             {i + 1}
                           </div>
                           <div className="tbcol2dp10_pcl7 d-flex flex-column justify-content-between">
-                            <div className="d-flex justify-content-between px-1 flex-wrap">
+                            <div className="d-flex justify-content-between px-1 flex-wrap pad_top_pcl7">
                               <div className="fsgdp10_pcl7">{e?.designno}</div>
                               <div className="fsgdp10_pcl7">{e?.SrJobno}</div>
                             </div>
@@ -672,7 +672,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="tbcol3dp10_pcl7 ">
                             {e?.diamonds?.map((el, idia) => {
                               return (
-                                <div className="d-flex" key={idia}>
+                                <div className="d-flex pad_top_pcl7" key={idia}>
                                   <div className="theadsubcol1_dp10_pcl7" style={{wordBreak:'break-word',paddingLeft:'2px'}}>
                                     {el?.ShapeName} {el?.QualityName}&nbsp;
                                     {el?.Colorname}
@@ -700,7 +700,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="tbcol4dp10_pcl7">
                             {e?.metal?.map((el, imet) => {
                               return (
-                                <div className="d-flex w-100" key={imet}>
+                                <div className="d-flex w-100 pad_top_pcl7" key={imet}>
                                    <div className="theadsubcol2_dp10_pcl7 d-flex justify-content-start border-end h-100 ps-1 border-end-0 text-break" style={{ width: "21%", wordBreak:'break-word' }} >
                                     {el?.ShapeName} {el?.QualityName} {el?.Colorname}
                                   </div>
@@ -787,7 +787,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           <div className="tbcol3dp10_pcl7">
                             {e?.colorstone?.map((el, ics) => {
                               return (
-                                <div className="d-flex" key={ics}>
+                                <div className="d-flex pad_top_pcl7" key={ics}>
                                   <div className="theadsubcol1_dp10_pcl7" style={{wordBreak:'break-word', paddingLeft:'2px', width:'21.66%'}}>
                                     {el?.ShapeName + " " + el?.QualityName + " " + el?.Colorname}
                                   </div>
@@ -819,7 +819,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             })}
                             {e?.misc?.map((el, ics) => {
                               return (
-                                <div className="d-flex" key={ics}>
+                                <div className="d-flex pad_top_pcl7" key={ics}>
                                   <div className="theadsubcol1_dp10_pcl7" style={{wordBreak:'break-word', paddingLeft:'2px', width:'21.66%'}}>
                                     M: { el?.ShapeName + " " + el?.QualityName }
                                   </div>
@@ -858,7 +858,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             )}
                           </div> */}
                           <div className="tbcol7dp10_pcl7 border-end border-black">
-                            <div className="d-flex flex-column">
+                            <div className="d-flex flex-column pad_top_pcl7">
                               {/* <div className="w-50 end_dp10_pcl7 pr_dp10_pcl7">
                                 {formatAmount(e?.MaKingCharge_Unit)}
                               </div> */}
@@ -916,7 +916,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div> */}
                             </div>
                           </div>
-                          <div className="tbcol8dp10_pcl7 end_dp10_pcl7 fw-bold p-1 pad_top_dp10_pcl7 pr_dp10_pcl7 border-start ">
+                          <div className="tbcol8dp10_pcl7 end_dp10_pcl7 fw-bold p-1  pr_dp10_pcl7 border-start pad_top_pcl7 ">
                             {/* {formatAmount((e?.TotalAmount + e?.DiscountAmt))} */}
                             {formatAmount((e?.UnitCost /result?.header?.CurrencyExchRate ))}
                           </div>
@@ -1315,6 +1315,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
                   <div style={{color:'gray'}} className="pt-3" >**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
+                
               </div>
             </>
           ) : (

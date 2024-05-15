@@ -403,13 +403,13 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       {/* buttons */}
       <div className="d-flex justify-content-end align-items-center print_sec_sum4 mb-4 pt-4">
         <div className="form-check">
-          <input type="button" className="btn_white blue" value="Print" style={{ fontSize: "15px" }} onClick={(e) => handlePrint(e)} />
+          <input type="button" className="btn_white blue" value="Print" style={{ fontSize: "15px", padding:'10px' }} onClick={(e) => handlePrint(e)} />
         </div>
       </div>
       {/* heading */}
       <div className="bgGrey text-uppercase fs-5 fw-bold p-2 text-white mb_2 no_break">{json0?.PrintHeadLabel}</div>
       {/* address */}
-      <div className="w-100 d-flex justify-content-between py-2 no_break">
+      <div className="w-100 d-flex justify-content-between  no_break">
         <div className='col-10 p-1 border border-2 border-white p-1'>
           <p className='fw-bold fs-6 pb-1'>{json0?.CompanyFullName}</p>
           <p className='pb-1'>{json0?.CompanyAddress}</p>
@@ -450,7 +450,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         </div>
       </div>
       {/* customer address */}
-      <div className="pb-2 no_break">
+      <div className="pb-1 no_break">
         <div className="d-flex border-2 border border-black p-1">
           <div className="col-6">
             <p className='pb-1 fs-6 fw-bold'> To,	{json0?.customerfirmname}</p>
@@ -468,7 +468,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         </div>
       </div>
       {/* discription */}
-      <div className="pb-2 ">
+      <div className="pb-1 ">
         <div className="d-flex border border-2 border-black">
           <div className="col-3 border-end border-2 border-black position-relative">
             <p className="fw-bold p-1 text-center border-bottom border-2 border-black">DESCRIPTION</p>
@@ -553,7 +553,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         </div>
       </div>
       {/* cgst */}
-      <div className="pb-2 d-flex justify-content-end no_break">
+      <div className="pb-1 d-flex justify-content-end no_break">
         <div className='col-3'>
           <span className="fw-bold">  Note: </span>{json0?.PrintRemark}
         </div>
@@ -585,20 +585,20 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         </div>
       </div>
       {/* total price in text */}
-      <div className="pb-2 no_break">
+      <div className="pb-1 no_break">
         <div className="border border-2 border-black p-1">
           <p className="fw-bold">Rs. {toWords?.convert(+fixedValues(datass?.mainTotal?.total_amount + datass?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * json0?.CurrencyExchRate), 0) + json0?.AddLess, 2))} Only.</p>
         </div>
       </div>
       {/* note */}
-      <div className="pb-2 no_break">
+      <div className="pb-1 no_break">
         <div className="border border-2 border-black p-1">
           <p className='fw-bold'>NOTE :</p>
           <p className='declarationInvoicePrint' dangerouslySetInnerHTML={{ __html: json0?.Declaration }}></p>
         </div>
       </div>
       {/* company details */}
-      <div className="pb-2 no_break">
+      <div className="pb-1 no_break">
         <div className="border border-2 border-black p-1">
           <p className="fw-bold pb-1">COMPANY DETAILS :</p>
           <p className='pb-1'>GSTIN. : {json0?.Company_VAT_GST_No?.split("-")[1]}</p>
