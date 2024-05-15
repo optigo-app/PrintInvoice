@@ -562,10 +562,10 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             <p>Discount	 </p>
             <p>{NumberWithCommas(datass?.mainTotal?.total_discount_amount, 2)} </p>
           </div>}
-          <div className="d-flex p-1 justify-content-between py-1 px-2">
+          { datass?.mainTotal?.total_discount_amount !== 0 && <div className="d-flex p-1 justify-content-between py-1 px-2">
             <p className='fw-bold'>Total Amount	 </p>
             <p className='fw-bold'>{NumberWithCommas(datass?.mainTotal?.total_amount, 2)} </p>
-          </div>
+          </div>}
           {
             datass?.allTaxes?.map((e, i) => {
               return <div className="d-flex p-1 justify-content-between py-1 px-2" key={i}>
@@ -578,7 +578,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             <p className='fw-bold'>{json0?.AddLess > 0 ? "Add" : "Less"} </p>
             <p>{NumberWithCommas(json0?.AddLess, 2)}</p>
           </div>}
-          {json0?.AddLess !== 0 && <div className="d-flex justify-content-between py-1 px-2 border-top border-2 border-black">
+          {<div className="d-flex justify-content-between py-1 px-2 border-top border-2 border-black">
             <p className='fw-bold'>Grand Total </p>
             <p className='fw-bold'>{NumberWithCommas(datass?.mainTotal?.total_amount + datass?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * json0?.CurrencyExchRate), 0) + json0?.AddLess, 2)}</p>
           </div>}

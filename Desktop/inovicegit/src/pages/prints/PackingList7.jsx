@@ -916,7 +916,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               </div> */}
                             </div>
                           </div>
-                          <div className="tbcol8dp10_pcl7 end_dp10_pcl7 fw-bold p-1  pr_dp10_pcl7 border-start pad_top_pcl7 ">
+                          <div className="tbcol8dp10_pcl7 end_dp10_pcl7 fw-bold  pr_dp10_pcl7 border-start pad_top_pcl7 ">
                             {/* {formatAmount((e?.TotalAmount + e?.DiscountAmt))} */}
                             {formatAmount((e?.UnitCost /result?.header?.CurrencyExchRate ))}
                           </div>
@@ -1061,7 +1061,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                     {/* final total */}
                     <div className="d-flex justify-content-end align-items-start brb_dp10_pcl7 tbrowdp10_pcl7 border-bottom border-black" >
-                     <div className="text-start pt-3 ps-1 .fs_5_pcl7" style={{width:'83%'}}>No. Of Items : <span className="fw-bold">{result?.resultArray?.length}</span></div>
+                     <div className="text-start pt-3 ps-1 fs_5_pcl7" style={{width:'83%'}}>No. Of Items : <span className="fw-bold">{result?.resultArray?.length}</span></div>
                      <div className="border-start border-black"  style={{ width: "17%", borderTop:'0px solid black' }}>
                          { result?.mainTotal?.total_discount_amount !== 0 &&   <div className="d-flex justify-content-between fs_5_pcl7">
                           <div className="w-50 end_dp10_pcl7">Total Discount</div>

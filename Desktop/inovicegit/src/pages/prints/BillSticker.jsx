@@ -52,7 +52,7 @@ const BillSticker = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         setResult(datas);
           
       }
-console.log(result);
+
   return (
     <>  
     {
@@ -62,11 +62,11 @@ console.log(result);
             <div className='d-flex justify-content-start align-items-center p-2 hide_bs' style={{marginLeft:'12%'}}><Button /></div>
             <div className='container_elv text-break m-2'>
             <div className="barcode_elv"> 
-              {result?.resultArray[2]?.PO !== undefined && (
-                <BarcodeGenerator data={result?.resultArray[2]?.PO} />
+              {result?.resultArray[0]?.PO !== undefined && (
+                <BarcodeGenerator data={result?.resultArray[0]?.PO} />
               )}
             </div>
-            <div className="num_elv">{result?.resultArray[2]?.PO}</div>
+            <div className="num_elv">{result?.resultArray[0]?.PO}</div>
             <div className="row_elv">
                 <div className="fs_elv w50_elv">QTY</div>
                 <div className="fs_elv end_elv w50_elv">{result?.mainTotal?.total_Quantity}</div>
