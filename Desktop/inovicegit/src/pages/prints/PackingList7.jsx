@@ -137,7 +137,8 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         let dia2 = [];
 
         e?.diamonds?.forEach((el) => {
-          let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
+          // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
+          let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname )
           let ell = cloneDeep(el);
           if(findrec === -1){
             dia2.push(ell);
@@ -146,10 +147,10 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               dia2[findrec].Pcs += ell?.Pcs;
               dia2[findrec].Amount += ell?.Amount;
               dia2[findrec].Rate += ell?.Rate;
-              if(dia2[findrec]?.SizeName !== ell?.SizeName){
-                // dia2[findrec].SizeName = 'Mix'
-                dia2[findrec].SizeName = ell?.GroupName;
-              }
+              // if(dia2[findrec]?.SizeName !== ell?.SizeName){
+              //   // dia2[findrec].SizeName = 'Mix'
+              //   dia2[findrec].SizeName = ell?.GroupName;
+              // }
           }
 
         })
@@ -864,47 +865,47 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                               { e?.MakingAmount !== 0 && 
                                 <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
-                                  <div style={{width:'33.33%'}} className="ps-1 text-start">Labour</div>
-                                  <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end">{formatAmount(e?.MaKingCharge_Unit)}</div>
-                                  <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end">{formatAmount(e?.MakingAmount)}</div>
+                                  <div style={{width:'33.33%'}} className=" text-start fsgdp10_pcl7">Labour</div>
+                                  <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount(e?.MaKingCharge_Unit)}</div>
+                                  <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount(e?.MakingAmount)}</div>
                               </div>
                               }
                              { e?.totals?.finding?.SettingAmount !== 0 &&
                                <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
-                               <div style={{width:'33.33%'}} className="ps-1 text-start">Labour</div>
-                               <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end">{formatAmount(e?.totals?.finding?.SettingRate)}</div>
-                               <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end">{formatAmount(e?.totals?.finding?.SettingAmount)}</div>
+                               <div style={{width:'33.33%'}} className=" text-start fsgdp10_pcl7">Labour</div>
+                               <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount(e?.totals?.finding?.SettingRate)}</div>
+                               <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount(e?.totals?.finding?.SettingAmount)}</div>
                              </div>
                              }
                               {
                                 e?.other_details?.map((el, ind) => {
                                   return <div className="d-flex align-items-center w-100 fsgdp10_pcl7" key={ind}>
-                                  <div style={{width:'33.33%'}} className="ps-1 text-start text-break">{el?.label}</div>
+                                  <div style={{width:'33.33%'}} className=" text-start text-break fsgdp10_pcl7">{el?.label}</div>
                                   <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end"></div>
-                                  <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end">{formatAmount(el?.amtval)}</div>
+                                  <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount(el?.amtval)}</div>
                                 </div>
                                 })
                               }
                               {
                                 (e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) !== 0 &&
                                 <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
-                                  <div  className="w-50 ps-1 text-start">Setting</div>
-                                  <div  className="w-50 pr_dp10_pcl7 text-end">{formatAmount((e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))}</div>
+                                  <div  className="w-50 text-start fsgdp10_pcl7">Setting</div>
+                                  <div  className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount((e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))}</div>
                               </div>
                               }
                               {
                                 (e?.TotalDiamondHandling) !== 0 &&
                                 <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
-                                  <div  className="w-50 ps-1 text-start">Handling</div>
-                                  <div  className="w-50 pr_dp10_pcl7 text-end">{formatAmount((e?.TotalDiamondHandling))}</div>
+                                  <div  className="w-50  text-start fsgdp10_pcl7">Handling</div>
+                                  <div  className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount((e?.TotalDiamondHandling))}</div>
                               </div>
                               }
                               
                               { 
                               e?.miscList_IsHSCODE123?.map((e) => {
                                 return  <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
-                                  { e?.Amount !== 0 && <div  className="w-50 ps-1 text-start">{e?.IsHSCOE === 3 && e?.ShapeName}</div>}
-                                  { e?.Amount !== 0 && <div  className="w-50 pr_dp10_pcl7 text-end">{e?.IsHSCOE === 3 && formatAmount((e?.Amount))}</div>}
+                                  { e?.Amount !== 0 && <div  className="w-50  text-start fsgdp10_pcl7">{e?.IsHSCOE === 3 && e?.ShapeName}</div>}
+                                  { e?.Amount !== 0 && <div  className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">{e?.IsHSCOE === 3 && formatAmount((e?.Amount))}</div>}
                               </div>
                               })
                               }
@@ -1314,7 +1315,6 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                   </div>
                   <div style={{color:'gray'}} className="pt-3" >**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
-                
               </div>
             </>
           ) : (

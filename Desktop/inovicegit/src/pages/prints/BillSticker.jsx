@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import Loader from '../../components/Loader';
 import BarcodeGenerator from '../../components/BarcodeGenerator';
 import "../../assets/css/prints/billsticker.css";
+import Button from './../../GlobalFunctions/Button';
 
 const BillSticker = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
@@ -57,7 +58,9 @@ console.log(result);
     {
         loader ? <Loader /> : <>
         {
-            msg === '' ? <div className='container_elv text-break'>
+            msg === '' ? <>
+            <div className='d-flex justify-content-start align-items-center p-2 hide_bs' style={{marginLeft:'12%'}}><Button /></div>
+            <div className='container_elv text-break m-2'>
             <div className="barcode_elv"> 
               {result?.resultArray[2]?.PO !== undefined && (
                 <BarcodeGenerator data={result?.resultArray[2]?.PO} />
@@ -74,11 +77,11 @@ console.log(result);
             </div>
             <div className="row_elv">
                 <div className="fs_elv w50_elv">NWT</div>
-                <div className="fs_elv end_elv w50_elv">{result?.mainTotal?.netwt?.toFixed(3)} gm</div>
+                <div className="fs_elv end_elv w50_elv">{(result?.mainTotal?.netwt + result?.mainTotal?.losswt)?.toFixed(3)} gm</div>
             </div>
             <div className="row_elv">
                 <div className="fs_elv w50_elv">CST</div>
-                <div className="fs_elv end_elv w50_elv">{result?.mainTotal?.colorstone?.Wt?.toFixed(3)} gm</div>
+                <div className="fs_elv end_elv w50_elv">{((result?.mainTotal?.colorstone?.Wt) / 5)?.toFixed(3)} gm</div>
             </div>
             <div className="row_elv">
                 <div className="fs_elv w50_elv">OTHER</div>
@@ -89,7 +92,7 @@ console.log(result);
                 <div className="fs_elv end_elv w50_elv"></div>
             </div>
            
-        </div> :  <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
+        </div></> :  <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
             {msg}
           </p>
         }

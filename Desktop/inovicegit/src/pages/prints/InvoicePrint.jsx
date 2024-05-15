@@ -391,10 +391,11 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
           setMsg(data?.Message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     }
     sendData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -406,7 +407,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         </div>
       </div>
       {/* heading */}
-      <div className="bgGrey text-uppercase fs-5 fw-bold p-2 text-white mb-2 no_break">{json0?.PrintHeadLabel}</div>
+      <div className="bgGrey text-uppercase fs-5 fw-bold p-2 text-white mb_2 no_break">{json0?.PrintHeadLabel}</div>
       {/* address */}
       <div className="w-100 d-flex justify-content-between py-2 no_break">
         <div className='col-10 p-1 border border-2 border-white p-1'>
@@ -432,7 +433,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         <div className='col-9'>
         </div>
         <div className='col-3'>
-          <div className="border border-2 p-2 border-black">
+          <div className="border border-2 p_2 border-black">
             <div className="d-flex pb-1">
               <p className='col-3 fw-bold'>BILL NO</p>
               <p className='col-9 ps-2'>{json0?.InvoiceNo}</p>
@@ -467,11 +468,11 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         </div>
       </div>
       {/* discription */}
-      <div className="pb-2 no_break">
+      <div className="pb-2 ">
         <div className="d-flex border border-2 border-black">
           <div className="col-3 border-end border-2 border-black position-relative">
             <p className="fw-bold p-1 text-center border-bottom border-2 border-black">DESCRIPTION</p>
-            <div className="minHieght150InvoicePrint d-flex justify-content-center pt-5 mt-3 h-100">
+            <div className="minHieght150InvoicePrint d-flex justify-content-center pd_top_invp h-100">
               <p>{datass?.mainTotal?.diamonds?.Pcs > 0 ? "DIAMOND STUDDED" : "GOLD"}  JEWELLERY</p>
             </div>
             <div className="minHieght28InvoicePrint border-top border-2 border-black position-absolute bottom-0 left-0 w-100"></div>
@@ -497,7 +498,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
             <div className="minHieght150InvoicePrint pt-1">
               {mainData?.resultArr?.map((e, i) => {
-                return <div className="d-flex pb-1" key={i}>
+                return <div className="d-flex pb-1 no_break" key={i}>
                   <div className="col-4 px-1 text-uppercase"><p>{e?.primaryMetal?.ShapeName} {e?.primaryMetal?.QualityName}</p></div>
                   <div className="col-3 px-1 text-end"><p>{NumberWithCommas(e?.netWtFinal, 3)} </p></div>
                   <div className="col-2 px-1 text-end"><p>{e?.netWtFinal !== 0 && NumberWithCommas((e?.metalAmountFinal / json0?.CurrencyExchRate) / e?.netWtFinal, 2)}</p></div>
@@ -505,7 +506,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
               })}
               {mainData?.diamonds?.map((e, i) => {
-                return <div className="d-flex pb-1" key={i}>
+                return <div className="d-flex pb-1 no_break" key={i}>
                   <div className="px-1 text-uppercase col-4"><p>{e?.MasterManagement_DiamondStoneTypeName} {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
                   <div className="px-1 text-end col-3"><p>{NumberWithCommas(e?.Wt, 3)} </p></div>
                   <div className="px-1 text-end col-2"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas((e?.Amount / e?.Wt) / json0?.CurrencyExchRate, 0)} </>) : (e?.Pcs !== 0 && <>{NumberWithCommas((e?.Amount / e?.Pcs) / json0?.CurrencyExchRate, 0)} / Pcs</>))}</p></div>
@@ -513,14 +514,14 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
               })}
               {mainData?.colorStones?.map((e, i) => {
-                return <div className="d-flex pb-1" key={i}>
+                return <div className="d-flex pb-1 no_break" key={i}>
                   <div className="col-4 px-1 text-uppercase"><p>STONE {e?.MaterialTypeName !== "" && `(${e?.MaterialTypeName})`}</p></div>
                   <div className="col-3  px-1 text-end"><p>{NumberWithCommas(e?.Wt, 3)} </p></div>
                   <div className="col-2  px-1 text-end"><p>{(e?.isRateOnPcs === 0 ? (e?.Wt !== 0 && <>{NumberWithCommas((e?.Amount / e?.Wt) / json0?.CurrencyExchRate, 0)} </>) : (e?.Pcs !== 0 && <>{NumberWithCommas((e?.Amount / e?.Pcs) / json0?.CurrencyExchRate, 0)} </>))}</p></div>
                   <div className="col-3  px-1 text-end"><p>{NumberWithCommas(e?.Amount, 2)}</p></div>
                 </div>
               })}
-              <div className="d-flex pb-1">
+              <div className="d-flex pb-1 no_break">
                 <div className="px-1 col-4 text-uppercase"><p>{mainData?.labour?.label}</p></div>
                 <div className="px-1 col-3 text-end"><p></p></div>
                 <div className="px-1 col-2 text-end"><p>{mainData?.labour?.primaryWt !== 0 && NumberWithCommas((mainData?.labour?.rate), 0)}</p></div>
@@ -536,7 +537,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
               })} */}
               {mainData?.otherCharges?.map((e, i) => {
-                return <div className="d-flex pb-1" key={i}>
+                return <div className="d-flex pb-1 no_break" key={i}>
                   <div className="col-4 px-1 text-uppercase"><p>{e?.label}</p></div>
                   <div className="col-3 px-1 text-end"><p></p></div>
                   <div className="col-2 px-1 text-end"><p></p></div>
@@ -544,7 +545,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 </div>
               })}
             </div>
-            <div className="minHieght28InvoicePrint d-flex justify-content-between align-items-center py-1 px-2 border-top border-black border-2">
+            <div className="minHieght28InvoicePrint d-flex justify-content-between align-items-center py-1 px-2 border-top border-black border-2 no_break">
               <p className='fw-bold text-end'>Total</p>
               <p className='fw-bold'>{NumberWithCommas(datass?.mainTotal?.total_unitcost, 2)}</p>
             </div>

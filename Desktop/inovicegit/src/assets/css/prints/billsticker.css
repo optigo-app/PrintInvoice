@@ -7,6 +7,7 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     word-wrap: break-word;
 }
+
 .row_elv {
     display: flex;
     justify-content: space-between;
@@ -62,4 +63,11 @@
     transform: translate(0) rotate(180deg) !important;
     width: 56.275mm !important;
     z-index: 1;
+  }
+  
+  @media print{
+    .hide_bs{
+        display: none !important;
+    }
+
   }

@@ -1,15 +1,16 @@
 .inoviceprintContainer *:not(.declarationInvoicePrint *){
     font-size: 12px;
     line-height: 120%;
+    line-height: 12px;
 }
 
 .declarationInvoicePrint *{
     line-height: 135%;
 }
 
-.minHieght150InvoicePrint{
+/* .minHieght150InvoicePrint{
     min-height: 150px;
-}
+} */
 
 .minHieght28InvoicePrint{
     min-height: 28px;
@@ -28,9 +29,30 @@
     object-fit: contain;
     object-position: right;
 }
-
+.pd_top_invp{
+    position: absolute;
+    top: 35%;
+    left: 25%;
+}
+.p_2{
+    padding: 5px;
+}
+.mb_2{
+    margin-bottom: 8px;
+}
 @media print{
     .print_sec_sum4 {
         display: none !important;
       }
+    .pd_top_invp{
+        position: absolute;
+        top: 35%;
+        left: 2%;
+    }
+    .p_2{
+        padding: 3px;
+    }
+    .mb_2{
+        margin-bottom: 4px;
+    }
 }
