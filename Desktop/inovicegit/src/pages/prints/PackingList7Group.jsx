@@ -137,8 +137,8 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         let dia2 = [];
 
         e?.diamonds?.forEach((el) => {
-          // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
-          let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname )
+          let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
+          // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname )
           let ell = cloneDeep(el);
           if(findrec === -1){
             dia2.push(ell);
