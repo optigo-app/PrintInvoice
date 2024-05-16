@@ -149,7 +149,11 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
               dia2[findrec].Rate += ell?.Rate;
               if(dia2[findrec]?.SizeName !== ell?.SizeName){
                 // dia2[findrec].SizeName = 'Mix'
-                dia2[findrec].SizeName = ell?.GroupName;
+                if(ell?.GroupName === ''){
+                  dia2[findrec].SizeName = ell?.SizeName;
+                }else{
+                  dia2[findrec].SizeName = ell?.GroupName;
+                }
               }
           }
 
