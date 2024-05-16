@@ -55,6 +55,8 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
             d_prsWt: 0,
             d_prs_SlcPcs: 0,
             d_prs_SlcWt: 0,
+            d_rnd_PD5_Wt:0,
+            d_rnd_PD5_Pcs:0,
         }
         for (const e of datas?.resultArray || []) {
             let goldRate = 0;
@@ -76,25 +78,30 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
             let d_prsWt = 0;
             let d_prs_SlcPcs = 0;
             let d_prs_SlcWt = 0;
+            let d_rnd_PD5_Wt= 0;
+            let d_rnd_PD5_Pcs=0;
             e?.diamonds?.forEach((ele, ind) => {
-                if ((ele?.QualityName)?.toLowerCase()?.includes("s-lc") && ele?.ShapeName?.toLowerCase()?.includes("rnd")) {
+                if ((ele?.QualityName)?.toLowerCase()?.includes("A2") && ele?.ShapeName?.toLowerCase()?.includes("rnd")) {
                     ds_lcPcs += ele?.Pcs;
                     ds_lcWt += ele?.Wt;
-                } else if ((ele?.QualityName)?.toLowerCase()?.includes("s-lb") && ele?.ShapeName?.toLowerCase()?.includes("rnd")) {
+                } else if ((ele?.QualityName)?.toLowerCase()?.includes("A1") && ele?.ShapeName?.toLowerCase()?.includes("rnd")) {
                     s_lbPcs += ele?.Pcs;
                     s_lbPWt += ele?.Wt;
-                } else if ((ele?.QualityName)?.toLowerCase()?.includes("s-lb") && ele?.ShapeName?.toLowerCase()?.includes("bug")) {
+                } else if ((ele?.QualityName)?.toLowerCase()?.includes("A1") && ele?.ShapeName?.toLowerCase()?.includes("bug")) {
                     d_bugPcs += ele?.Pcs;
                     d_bugWt += ele?.Wt;
-                } else if ((ele?.QualityName)?.toLowerCase()?.includes("s-lc") && ele?.ShapeName?.toLowerCase()?.includes("bug")) {
+                } else if ((ele?.QualityName)?.toLowerCase()?.includes("A2") && ele?.ShapeName?.toLowerCase()?.includes("bug")) {
                     d_bug_slc_Pcs += ele?.Pcs;
                     d_bug_slc_Wt += ele?.Wt;
-                } else if ((ele?.QualityName)?.toLowerCase()?.includes("s-lb") && ele?.ShapeName?.toLowerCase()?.includes("prs")) {
+                } else if ((ele?.QualityName)?.toLowerCase()?.includes("A1") && ele?.ShapeName?.toLowerCase()?.includes("prs")) {
                     d_prsPcs += ele?.Pcs;
                     d_prsWt += ele?.Wt;
-                } else if ((ele?.QualityName)?.toLowerCase()?.includes("s-lc") && ele?.ShapeName?.toLowerCase()?.includes("prs")) {
+                } else if ((ele?.QualityName)?.toLowerCase()?.includes("A2") && ele?.ShapeName?.toLowerCase()?.includes("prs")) {
                     d_prs_SlcPcs += ele?.Pcs;
                     d_prs_SlcWt += ele?.Wt;
+                } else if ((ele?.QualityName)?.toLowerCase()?.includes("PD5") && ele?.ShapeName?.toLowerCase()?.includes("rnd")) {
+                    d_rnd_PD5_Pcs += ele?.Pcs;
+                    d_rnd_PD5_Wt += ele?.Wt;
                 }
             });
 
@@ -110,8 +117,11 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
             totals.d_prsWt += d_prsWt;
             totals.d_prs_SlcPcs += d_prs_SlcPcs;
             totals.d_prs_SlcWt += d_prs_SlcWt;
+            totals.d_rnd_PD5_Pcs += d_rnd_PD5_Pcs;
+            totals.d_rnd_PD5_Wt += d_rnd_PD5_Wt;
 
             let obj = {
+                MFG_DesignNo : e?.MFG_DesignNo,
                 jobNo: e?.SrJobno,
                 designNo: e?.designno,
                 image: e?.DesignImage,
@@ -169,7 +179,7 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
             }
         }, 0);
     }
-
+    
     useEffect(() => {
         const sendData = async () => {
             try {
@@ -192,6 +202,7 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
             }
         };
         sendData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return loader ? (
         <Loader />
@@ -214,6 +225,7 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                         <tr>
                             {/* <th width={10} height={50}></th> */}
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>SR NO</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>MFG. DESIGN NO</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>JOB no</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>DESIGN NO.</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' colSpan={2}>IMAGES</th>
@@ -225,20 +237,20 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>Gold amt</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>Total pcs</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>Total Cts</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (S-LC) Pcs</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (S-LC) CW	</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (S-LB) Pcs</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (S-LB) CW</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D WT pcs +11</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D WT CW +11</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG (S-LB) Pcs</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG (S-LB) CW</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG (S-LC) Pcs</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG (S-LC) CW</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR (S-LB) PCS</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR (S-LB) CW</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR (S-LC) PCS</th>
-                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR (S-LC) CW</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (A2) Pcs</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (A2) CW	</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (A1) Pcs</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (A1) CW</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (PD5) Pcs</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D RND (PD5) CW</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG (A1) Pcs</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG (A1) CW</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG (A2) Pcs</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D BUG (A2) CW</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR (A1) PCS</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR (A1) CW</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR (A2) PCS</th>
+                            <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D PR (A2) CW</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D.RATE(-2 DIA)</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D.RATE +2-11</th>
                             <th style={{ padding: "1px", border: "0.5px solid #000", }} align='center' width={100}>D.RATE +11</th>
@@ -255,6 +267,7 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                 <React.Fragment key={i}>
                                     <tr>
                                         <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{i + 1}</td>
+                                        <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.MFG_DesignNo}</td>
                                         <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.jobNo}</td>
                                         <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.designNo}</td>
                                         <td colSpan={2} height={1} style={{ padding: "10px", borderStart: "0.5px solid #fff", borderTop: "0.5px solid #000", borderEnd: "0.5px solid #000", borderBottom: "0.5px solid #fff" }} align='center'></td>
@@ -270,8 +283,8 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                         <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.ds_lcWt, 3)}</td>
                                         <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.s_lbPcs, 0)}</td>
                                         <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.s_lbPWt, 3)}</td>
-                                        <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0</td>
-                                        <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.000</td>
+                                        <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_rnd_PD5_Pcs, 0)}</td>
+                                        <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_rnd_PD5_Wt, 3)}</td>
                                         <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bugPcs, 0)}</td>
                                         <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bugWt, 3)}</td>
                                         <td rowSpan={2} style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bug_slc_Pcs, 0)}</td>
@@ -297,6 +310,7 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                 </React.Fragment> :
                                 <tr key={i}>
                                     <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{i + 1}</td>
+                                    <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.MFG_DesignNo}</td>
                                     <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.jobNo}</td>
                                     <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'> &nbsp;{e?.designNo}</td>
                                     <td colSpan={2} style={{ padding: "10px", borderStart: "0.5px solid #000", borderTop: "0.5px solid #000", borderEnd: "0.5px solid #000", borderBottom: "0.5px solid #000" }} align='center' ></td>
@@ -312,8 +326,8 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                                     <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.ds_lcWt, 3)}</td>
                                     <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.s_lbPcs, 0)}</td>
                                     <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.s_lbPWt, 3)}</td>
-                                    <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0</td>
-                                    <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;0.000</td>
+                                    <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_rnd_PD5_Pcs, 0)}</td>
+                                    <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_rnd_PD5_Wt, 3)}</td>
                                     <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bugPcs, 0)}</td>
                                     <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bugWt, 3)}</td>
                                     <td style={{ padding: "1px", border: "0.5px solid #000", }} align='center'>&nbsp;{NumberWithCommas(e?.d_bug_slc_Pcs, 0)}</td>
@@ -335,6 +349,7 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                         <tr>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center' height={40}> </td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'> </td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'> </td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center' colSpan={4}> <b>TOTAL</b></td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.grosswt, 3)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(datas?.mainTotal?.netwtWithLossWt, 3)}</td>
@@ -347,8 +362,10 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.s_lcWt, 3)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.s_lbPcs, 0)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.s_lbWt, 3)}</td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'></td>
-                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'></td>
+
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_rnd_PD5_Pcs, 0)}</td>
+                            <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_rnd_PD5_Wt, 3)}</td>
+
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_bugPcs, 0)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_bugWt, 3)}</td>
                             <td style={{ padding: "1px", border: "0.5px solid #000", fontWeight: "bold" }} align='center'>&nbsp;{NumberWithCommas(total?.d_bug_slc_Pcs, 0)}</td>

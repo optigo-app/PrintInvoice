@@ -426,11 +426,17 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       <div className="totaldp12 w-100 brtdp12 border-top-0 border-start border-end fsgdp12">
         <div className="totcol1dp12"></div>
         <div className="totcol2dp12 dp12cen2" style={{width:'15%'}}>
-          <div>{result?.mainTotal?.grosswt !== 0 && result?.mainTotal?.grosswt?.toFixed(3)} </div>
+          {/* <div>{result?.mainTotal?.grosswt !== 0 && result?.mainTotal?.grosswt?.toFixed(3)} </div> */}
         </div>
-        <div className="totcol3dp12 dp12cen2"> {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} </div>
-        <div className="totcol3dp12 dp12cen2"> {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} </div>
-        <div className="totcol4dp12"></div>
+        {/* <div className="totcol3dp12 dp12cen2"> {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} </div> */}
+        <div className="totcol3dp12 dp12cen2"> </div>
+        <div className="totcol3dp12 dp12cen2"> {formatAmount(result?.mainTotal?.total_Making_Amount + result?.mainTotal?.metal?.Amount)} </div>
+        <div className="totcol3dp12 dp12cen2"> </div>
+        {/* <div className="totcol3dp12 dp12cen2"> {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} </div> */}
+        <div className="totcol4dp12">
+          <div className='brdp12 end_dp12 pe-1' style={{width:'60%'}}>{(result?.mainTotal?.diamonds?.Wt + result?.mainTotal?.colorstone?.Wt + result?.mainTotal?.misc?.Wt)?.toFixed(3)}</div>
+          <div style={{width:'40%'}}></div>
+        </div>
         <div className="totcol5dp12 dp12cen2"> {result?.mainTotal?.total_diamond_colorstone_misc_amount !== 0 && formatAmount( result?.mainTotal?.total_diamond_colorstone_misc_amount / result?.header?.CurrencyExchRate )} </div>
         {/* <div className="totcol6dp12 dp12cen2"> {formatAmount( ((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.misc?.isHSCODE123_amt ) / result?.header?.CurrencyExchRate) )} </div> */}
         <div className="totcol7dp12 dp12cen2"> {formatAmount((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate))} </div>
