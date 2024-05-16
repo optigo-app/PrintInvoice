@@ -238,7 +238,8 @@
 }
 
 .totcol1dp12{
-    width: 24%;
+    /* width: 24%; */
+    width: 15%;
     border-right: 1px solid #e8e8e8;
 }
 .totcol2dp12{
@@ -412,6 +413,11 @@
 .footer_bank_dp12{
     border: 1px solid #e8e8e8;   
     min-height: 6rem;   
+}
+.end_dp12{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 @media print {
     .hidebtn{

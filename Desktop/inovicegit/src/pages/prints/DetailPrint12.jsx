@@ -231,21 +231,21 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className='d-flex brbdp12 w-100'>
                     <div className='w-50 brdp12 ps-1'>GROSS</div>
-                    <div className='w-50 ps-1'> {e?.grosswt?.toFixed(3)} </div>
+                    <div className='w-50 pe-1 end_dp12'> {e?.grosswt?.toFixed(3)} </div>
                   </div>
                   <div className='d-flex brbdp12 w-100'>
                     <div className='w-50 brdp12 ps-1'>NETWT</div>
-                    <div className='w-50 ps-1'> {(e?.NetWt + e?.LossWt)?.toFixed(3)} </div>
+                    <div className='w-50 pe-1 end_dp12'> {(e?.NetWt + e?.LossWt)?.toFixed(3)} </div>
                   </div>
                   <div className='d-flex brbdp12 w-100'>
                     <div className='w-50 brdp12 ps-1'>MAKING RATE</div>
-                    <div className='w-50 ps-1'> {(e?.NetWt + e?.LossWt)?.toFixed(3)} </div>
+                    <div className='w-50 pe-1 end_dp12'> {(e?.NetWt + e?.LossWt)?.toFixed(3)} </div>
                   </div>
                   </div>
                   <div>
                   <div className='d-flex brbdp12 brtdp12 w-100 fw-bold'>
                     <div className='w-50 brdp12 ps-1'>TOTAL</div>
-                    <div className='w-50 ps-1'> {(e?.NetWt + e?.LossWt)?.toFixed(3)} </div>
+                    <div className='w-50 pe-1 end_dp12'> {(e?.NetWt + e?.LossWt)?.toFixed(3)} </div>
                   </div>
                   </div>
                 </div>
@@ -255,20 +255,20 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {/* {((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}  */}
                     <div className='w-100 brbdp12'>&nbsp;</div>
                     <div className='w-100 brbdp12'>&nbsp;</div>
-                    <div className='w-100 brbdp12'>{e?.MetalAmount === 0 ? '&nbsp;' : formatAmount((e?.MetalAmount / ((e?.NetWt + e?.LossWt) === 0 ? 1 : (e?.NetWt + e?.LossWt))))}</div>
-                    <div className='w-100 brbdp12'>{e?.MaKingCharge_Unit === 0 ? '&nbsp;' : formatAmount(e?.MaKingCharge_Unit)}</div>
+                    <div className='w-100 brbdp12 end_dp12 pe-1'>{e?.MetalAmount === 0 ? '&nbsp;' : formatAmount((e?.MetalAmount / ((e?.NetWt + e?.LossWt) === 0 ? 1 : (e?.NetWt + e?.LossWt))))}</div>
+                    <div className='w-100 brbdp12 end_dp12 pe-1'>{e?.MaKingCharge_Unit === 0 ? '&nbsp;' : formatAmount(e?.MaKingCharge_Unit)}</div>
                     </div>
-                    <div className='w-100 brbdp12 brtdp12  fw-bold'>{e?.MaKingCharge_Unit === 0 ? '&nbsp;' : formatAmount(e?.MaKingCharge_Unit)}</div>
+                    <div className='w-100 brbdp12 brtdp12 end_dp12 pe-1  fw-bold'>{e?.MaKingCharge_Unit === 0 ? '&nbsp;' : formatAmount(e?.MaKingCharge_Unit)}</div>
                 </div>
                 <div className="rcol6dp12 dp12cen1 d-flex flex-column justify-content-between"> 
                   {/* {e?.Wastage?.toFixed(3)}  */}
                   <div className='w-100'>
                     <div className='w-100 brbdp12'>&nbsp;</div>
                     <div className='w-100 brbdp12'>&nbsp;</div>
-                    <div className='w-100 brbdp12'>{e?.MetalAmount === 0 ? '&nbsp;' : formatAmount(e?.MetalAmount)}</div>
-                    <div className='w-100 brbdp12'>{e?.MakingAmount === 0 ? '&nbsp;' : formatAmount(e?.MakingAmount)}</div>
+                    <div className='w-100 brbdp12 end_dp12 p-1'>{e?.MetalAmount === 0 ? '&nbsp;' : formatAmount(e?.MetalAmount)}</div>
+                    <div className='w-100 brbdp12 end_dp12 p-1'>{e?.MakingAmount === 0 ? '&nbsp;' : formatAmount(e?.MakingAmount)}</div>
                   </div>
-                  <div className='w-100 brbdp12 brtdp12  fw-bold'>{e?.MakingAmount === 0 ? '&nbsp;' : formatAmount(e?.MakingAmount)}</div>
+                  <div className='w-100 brbdp12 brtdp12 end_dp12 pe-1 fw-bold'>{e?.MakingAmount === 0 ? '&nbsp;' : formatAmount(e?.MakingAmount)}</div>
                 </div>
                 <div style={{ width: "" }} className=" col7dp12 d-flex flex-column justify-content-between">
                   {/* <div className="d-grid h-100"> */}
@@ -406,10 +406,10 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className="d-flex brtdp12  fw-bold" >
                             <div className="w_subcoldp12 dp12cen1 brdp12" style={{ wordBreak: "break-word", width: "25%" }} > </div>
-                            <div className="w_subcoldp12 dp12cen2 brdp12" style={{ width: "10%" }} >{(e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs)} </div>
-                            <div className="w_subcoldp12 dp12cen2 brdp12">{(e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt)?.toFixed(3)}</div>
+                            <div className="w_subcoldp12 dp12cen2 brdp12 pe-1" style={{ width: "10%" }} >{(e?.totals?.diamonds?.Pcs + e?.totals?.colorstone?.Pcs + e?.totals?.misc?.Pcs)} </div>
+                            <div className="w_subcoldp12 dp12cen2 brdp12 pe-1">{(e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt)?.toFixed(3)}</div>
                             <div className="w_subcoldp12 dp12cen2 brdp12"></div>
-                            <div className="w_subcoldp12 dp12cen2" style={{ width: "25%" }}>{formatAmount(e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount)}</div>
+                            <div className="w_subcoldp12 dp12cen2 pe-1" style={{ width: "25%" }}>{formatAmount(e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount)}</div>
                   </div>
                 </div>
                 {/* <div className="rcol12dp12 dp12cen2 bldp12">
@@ -425,7 +425,9 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       {/* table all row total */}
       <div className="totaldp12 w-100 brtdp12 border-top-0 border-start border-end fsgdp12">
         <div className="totcol1dp12"></div>
-        <div className="totcol2dp12 dp12cen2"> {result?.mainTotal?.grosswt !== 0 && result?.mainTotal?.grosswt?.toFixed(3)} </div>
+        <div className="totcol2dp12 dp12cen2" style={{width:'15%'}}>
+          <div>{result?.mainTotal?.grosswt !== 0 && result?.mainTotal?.grosswt?.toFixed(3)} </div>
+        </div>
         <div className="totcol3dp12 dp12cen2"> {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} </div>
         <div className="totcol3dp12 dp12cen2"> {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} </div>
         <div className="totcol4dp12"></div>
