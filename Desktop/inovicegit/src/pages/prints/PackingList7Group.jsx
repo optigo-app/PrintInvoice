@@ -136,28 +136,71 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         //diamond
         let dia2 = [];
 
-        e?.diamonds?.forEach((el) => {
-          let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
-          // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname )
-          let ell = cloneDeep(el);
-          if(findrec === -1){
-            dia2.push(ell);
-          }else{
-              dia2[findrec].Wt += ell?.Wt;
-              dia2[findrec].Pcs += ell?.Pcs;
-              dia2[findrec].Amount += ell?.Amount;
-              dia2[findrec].Rate += ell?.Rate;
-              if(dia2[findrec]?.SizeName !== ell?.SizeName){
-                // dia2[findrec].SizeName = 'Mix'
-                if(ell?.GroupName === ''){
-                  dia2[findrec].SizeName = ell?.SizeName;
-                }else{
-                  dia2[findrec].SizeName = ell?.GroupName;
-                }
-              }
-          }
+        // e?.diamonds?.forEach((el) => {
+        //   let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
+        //   // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname )
+        //   let ell = cloneDeep(el);
+        //   if(findrec === -1){
+        //     dia2.push(ell);
+        //   }else{
+        //       dia2[findrec].Wt += ell?.Wt;
+        //       dia2[findrec].Pcs += ell?.Pcs;
+        //       dia2[findrec].Amount += ell?.Amount;
+        //       dia2[findrec].Rate += ell?.Rate;
+        //       if(dia2[findrec]?.SizeName !== ell?.SizeName){
+        //         // dia2[findrec].SizeName = 'Mix'
+        //         if(ell?.GroupName === ''){
+        //           dia2[findrec].SizeName = ell?.SizeName;
+        //         }else{
+        //           dia2[findrec].SizeName = ell?.GroupName;
+        //         }
+        //       }
+        //   }
 
+        // })
+        let dia1_ = [];
+        let dia2_ = [];
+        e?.diamonds?.forEach((el) => {
+            console.log(el);
+            if(el?.GroupName === ''){
+              dia1_.push(el);
+            }else{
+              dia2_.push(el);
+            }
         })
+        let dia1_g = [];
+        dia1_?.forEach((ell) => {
+          let bll = cloneDeep(ell);
+            let findrec = dia1_g.findIndex((a) => a?.ShapeName === bll?.ShapeName && a?.QualityName === bll?.QualityName && a?.Colorname === bll?.Colorname && a?.SizeName === bll?.SizeName)
+            if(findrec === -1){
+              dia1_g.push(bll);
+            }else{
+                dia1_g[findrec].Wt += bll?.Wt;
+                dia1_g[findrec].Pcs += bll?.Pcs;
+                dia1_g[findrec].Amount += bll?.Amount;
+              
+            }
+        });
+        let dia2_g = [];
+        dia2_?.forEach((ell) => {
+          let bll = cloneDeep(ell);
+            let findrec = dia2_g.findIndex((a) => a?.ShapeName === bll?.ShapeName && a?.QualityName === bll?.QualityName && a?.Colorname === bll?.Colorname && a?.GroupName === bll?.GroupName)
+            if(findrec === -1){
+              dia2_g.push(bll);
+            }else{
+                dia2_g[findrec].Wt += bll?.Wt;
+                dia2_g[findrec].Pcs += bll?.Pcs;
+                dia2_g[findrec].Amount += bll?.Amount;
+                
+            }
+        });
+        let dia2_g_ = [];
+        dia2_g?.forEach((e) => {
+          e.SizeName = e?.GroupName;
+          dia2_g_.push(e);
+        })
+        dia2 = [...dia1_g, ...dia2_g_];
+
         e.diamonds = dia2
 
         //colorstone
