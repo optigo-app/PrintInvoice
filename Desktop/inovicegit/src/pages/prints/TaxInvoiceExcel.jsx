@@ -342,7 +342,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
 
             finalArr.push(obj);
         })
-
         setResult2(finalArr);
         setResult(datas);
 
@@ -687,7 +686,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 <td width={90} align='right'>&nbsp;{val?.diaflag && val?.dia_pcs}</td>
                                                 <td width={90} align='right'>&nbsp;{val?.diaflag && (+(val?.dia_wt))?.toFixed(3)}</td>
                                                 <td width={90} align='right'>&nbsp;{val?.diaflag && ( val?.dia_rate === '' ? '' : formatAmount(val?.dia_rate))}</td>
-                                                <th width={90} style={{borderRight:'1px solid #989898'}} align='right'>&nbsp;{val?.diaflag && formatAmount(val?.dia_amt)}</th>
+                                                <th width={90} style={{borderRight:'1px solid #989898'}} align='right'>&nbsp;{val?.diaflag && (val?.dia_amt)}</th>
                                                 <th width={90} colSpan={val?.jobRemarkflag && 4} style={{borderRight:`${val?.jobRemarkflag && '1px solid #989898'}`}} align='left'>&nbsp;{val?.jobRemarkflag && (` Remark :  ${val?.JobRemark}`)}</th>
                                                 {val?.jobRemarkflag ? '' : <td width={90}></td>} 
                                                 {val?.jobRemarkflag ? '' : <td width={90}></td>}

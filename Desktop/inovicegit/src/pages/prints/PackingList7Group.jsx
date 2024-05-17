@@ -451,7 +451,6 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       }
     }
   };
-console.log(result);
   return (
     <>
       {loader ? (
@@ -473,9 +472,9 @@ console.log(result);
                 </div>
                 {/* header */}
                 <div>
-                  <div className="pheaddp10_pcl7">
+                  { result?.header?.PrintHeadLabel === '' ? '' : <div className="pheaddp10_pcl7">
                     {result?.header?.PrintHeadLabel}
-                  </div>
+                  </div>}
                   <div className="d-flex justify-content-between">
                     <div className="p-1 fsgdp10_pcl7_2">
                       <div className="fw-bold cfullname_pcl7 ">
