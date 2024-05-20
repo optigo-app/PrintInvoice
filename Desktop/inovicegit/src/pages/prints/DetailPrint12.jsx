@@ -6,6 +6,7 @@ import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
 import { ToWords } from 'to-words';
 import "../../assets/css/prints/detailprint12.css";
+import { NumToWord } from './../../GlobalFunctions/NumToWord';
 
 const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
@@ -53,8 +54,19 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
+      datas?.resultArray?.forEach((e) => {
+        let arr = [];
+        arr = e?.misc?.filter((a) => a?.Amount !== 0);
+        e.misc = arr;
+      })
 
+      datas?.resultArray?.forEach((e, i) => {
+        let counts =
+          e?.metal?.reduce( (acc, cObj) => cObj?.IsPrimaryMetal === 0 ? acc+1 : acc , 0 ) + e?.diamonds?.length + e?.colorstone?.length + e?.misc?.length;
+          e.counts = counts;
+      });
 
+  
 
       setResult(datas);
   }
@@ -176,8 +188,12 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className="theaddp12 hcompdp12 bordersdp12">
           <div className="col1dp12 dp12cen">SR#</div>
           <div className="col2dp12 dp12cen">DESIGN DESCRIPTION</div>
-          <div className="col3dp12 dp12cen"></div>
-          <div className="col4dp12 dp12cen"></div>
+          <div style={{width:'15%'}} className='brdp12'>
+            <div className='w-50 brdp12 h-100'></div>
+            <div className='w-50'></div>
+          </div>
+          {/* <div className="col3dp12 dp12cen"></div>
+          <div className="col4dp12 dp12cen"></div> */}
           {/* <div className="col5dp12 dp12cen">NET</div> */}
           <div className="col5dp12 dp12cen p-1 text-break">METAL / MAKING RATE</div>
           {/* <div className="col6dp12 dp12cen">WASTAGE</div> */}
@@ -227,7 +243,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div>
                   <div className='d-flex brbdp12 w-100'>
                     <div className='w-50 brdp12 ps-1'>KT/COL</div>
-                    <div className='w-50 ps-1'> {e?.MetalPurity} {e?.MetalColor} </div>
+                    <div className='w-50 pe-1 end_dp12'> {e?.MetalPurity} {e?.MetalColor} </div>
                   </div>
                   <div className='d-flex brbdp12 w-100'>
                     <div className='w-50 brdp12 ps-1'>GROSS</div>
@@ -235,7 +251,10 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   </div>
                   <div className='d-flex brbdp12 w-100'>
                     <div className='w-50 brdp12 ps-1'>NETWT</div>
-                    <div className='w-50 pe-1 end_dp12'> {(e?.NetWt + e?.LossWt)?.toFixed(3)} </div>
+                    <div className='w-50 pe-1 end_dp12'> 
+                      {((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}
+                      {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)}  */}
+                    </div>
                   </div>
                   <div className='d-flex brbdp12 w-100'>
                     <div className='w-50 brdp12 ps-1'>MAKING RATE</div>
@@ -255,8 +274,8 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {/* {((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}  */}
                     <div className='w-100 brbdp12'>&nbsp;</div>
                     <div className='w-100 brbdp12'>&nbsp;</div>
-                    <div className='w-100 brbdp12 end_dp12 pe-1'>{e?.MetalAmount === 0 ? '&nbsp;' : formatAmount((e?.MetalAmount / ((e?.NetWt + e?.LossWt) === 0 ? 1 : (e?.NetWt + e?.LossWt))))}</div>
-                    <div className='w-100 brbdp12 end_dp12 pe-1'>{e?.MaKingCharge_Unit === 0 ? '&nbsp;' : formatAmount(e?.MaKingCharge_Unit)}</div>
+                    <div className='w-100 brbdp12 end_dp12 pe-1'>&nbsp;{e?.MetalAmount === 0 ? '' : formatAmount(((e?.MetalAmount / result?.header?.CurrencyExchRate) / (((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal) === 0 ? 1 : ((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal))))}</div>
+                    <div className='w-100 brbdp12 end_dp12 pe-1'>&nbsp;{e?.MaKingCharge_Unit === 0 ? '' : formatAmount((e?.MaKingCharge_Unit))}</div>
                     </div>
                     {/* <div className='w-100 brbdp12 brtdp12 end_dp12 pe-1  fw-bold'>{e?.MaKingCharge_Unit === 0 ? '&nbsp;' : formatAmount(e?.MaKingCharge_Unit)}</div> */}
                     <div className='w-100 brbdp12 brtdp12 end_dp12 pe-1  fw-bold'>&nbsp;</div>
@@ -266,10 +285,10 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className='w-100'>
                     <div className='w-100 brbdp12'>&nbsp;</div>
                     <div className='w-100 brbdp12'>&nbsp;</div>
-                    <div className='w-100 brbdp12 end_dp12 '>{e?.MetalAmount === 0 ? '&nbsp;' : formatAmount(e?.MetalAmount)}</div>
-                    <div className='w-100 brbdp12 end_dp12 '>{e?.MakingAmount === 0 ? '&nbsp;' : formatAmount(e?.MakingAmount)}</div>
+                    <div className='w-100 brbdp12 end_dp12 '>&nbsp;{e?.MetalAmount === 0 ? '' : formatAmount((e?.MetalAmount / result?.header?.CurrencyExchRate))}</div>
+                    <div className='w-100 brbdp12 end_dp12 '>&nbsp;{e?.MakingAmount === 0 ? '' : formatAmount((e?.MakingAmount / result?.header?.CurrencyExchRate))}</div>
                   </div>
-                  <div className='w-100 brbdp12 brtdp12 end_dp12 pe-1 fw-bold'>{e?.MakingAmount === 0 ? '&nbsp;' : formatAmount((e?.MakingAmount + e?.MetalAmount))}</div>
+                  <div className='w-100 brbdp12 brtdp12 end_dp12 pe-1 fw-bold'>&nbsp;{e?.MakingAmount === 0 ? '' : formatAmount((e?.MakingAmount + e?.MetalAmount))}</div>
                 </div>
                 <div style={{ width: "" }} className=" col7dp12 d-flex flex-column justify-content-between">
                   {/* <div className="d-grid h-100"> */}
@@ -395,23 +414,27 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                         );
                       })}
-                      {/* {e?.counts === 0 &&   <div className="d-flex brtdp12" >
+                      {e?.counts === 0 &&   <div className="d-flex brtdp12" >
                             <div className="w_subcoldp12 dp12cen1 brdp12" style={{ wordBreak: "break-word", width: "25%", }} > </div>
                             <div className="w_subcoldp12 dp12cen2 brdp12" style={{ width: "10%" }} > </div>
                             <div className="w_subcoldp12 dp12cen2 brdp12"> </div>
                             <div className="w_subcoldp12 dp12cen2 brdp12"> </div>
                             <div className="w_subcoldp12 dp12cen2" style={{ width: "25%" }} > </div>
-                          </div>} */}
+                          </div>}
 
                          
                   </div>
-                  <div className="d-flex brtdp12  fw-bold" >
-                            <div className="w_subcoldp12 dp12cen1 brdp12" style={{ wordBreak: "break-word", width: "25%" }} > </div>
-                            <div className="w_subcoldp12 dp12cen2 brdp12 pe-1" style={{ width: "10%" }} ></div>
-                            <div className="w_subcoldp12 dp12cen2 brdp12 pe-1">{(e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}</div>
-                            <div className="w_subcoldp12 dp12cen2 brdp12"></div>
-                            <div className="w_subcoldp12 dp12cen2 pe-1" style={{ width: "25%" }}>{formatAmount(e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount)}</div>
+                  {
+                    ((e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.metal?.WithOutPrimaryMetal === 0 ) && (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount === 0)) ? '' :
+                    <div className="d-flex brtdp12  fw-bold" >
+                      <div className="w_subcoldp12 dp12cen1 brdp12" style={{ wordBreak: "break-word", width: "25%" }} > </div>
+                      <div className="w_subcoldp12 dp12cen2 brdp12 pe-1" style={{ width: "10%" }} ></div>
+                      <div className="w_subcoldp12 dp12cen2 brdp12 pe-1">{(e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}</div>
+                      <div className="w_subcoldp12 dp12cen2 brdp12"></div>
+                      <div className="w_subcoldp12 dp12cen2 pe-1" style={{ width: "25%" }}>{formatAmount(e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount)}</div>
                   </div>
+                  }
+                  
                 </div>
                 {/* <div className="rcol12dp12 dp12cen2 bldp12">
                   {formatAmount( (e?.OtherCharges + e?.TotalDiamondHandling) / result?.header?.CurrencyExchRate )}
@@ -431,7 +454,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
         {/* <div className="totcol3dp12 dp12cen2"> {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} </div> */}
         <div className="totcol3dp12 dp12cen2"> </div>
-        <div className="totcol3dp12 dp12cen2"> {formatAmount(result?.mainTotal?.total_Making_Amount + result?.mainTotal?.metal?.Amount)} </div>
+        <div className="totcol3dp12 dp12cen2"> {formatAmount((result?.mainTotal?.total_Making_Amount / result?.header?.CurrencyExchRate) + (result?.mainTotal?.metal?.Amount / result?.header?.CurrencyExchRate))} </div>
         <div className="totcol3dp12 dp12cen2"> </div>
         {/* <div className="totcol3dp12 dp12cen2"> {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)} </div> */}
         <div className="totcol4dp12">
@@ -498,10 +521,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       <div className="w-100 d-flex brbdp12 brdp12 bldp12 fsgdp12">
         <div className="brdp12 fw-bold ps-1" style={{ width: "3%" }} dangerouslySetInnerHTML={{ __html: result?.header?.Currencysymbol, }} ></div>
         <div className="ps-2 fw-bold" style={{ width: "97%" }}>
-          {/* {result?.finalAmount !== 0 && toWords.convert((result?.finalAmount + result?.header?.FreightCharges))}  /- */}
-          {result?.finalAmount !== 0 &&
-            toWords.convert( +( result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate + (result?.header?.FreightCharges / result?.header?.CurrencyExchRate + result?.allTaxesTotal + result?.header?.AddLess / result?.header?.CurrencyExchRate) )?.toFixed(2) )}{" "}
-          Only
+          { result?.finalAmount !== 0 && NumToWord((result?.mainTotal?.total_amount / result?.header?.CurrencyExchRate + (result?.header?.FreightCharges / result?.header?.CurrencyExchRate + result?.allTaxesTotal + result?.header?.AddLess / result?.header?.CurrencyExchRate))) }
         </div>
       </div>
 

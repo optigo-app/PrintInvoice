@@ -867,14 +867,14 @@ console.log(result);
                                 <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
                                   <div style={{width:'33.33%'}} className=" text-start fsgdp10_pcl7">Labour</div>
                                   <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount(e?.MaKingCharge_Unit)}</div>
-                                  <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount(e?.MakingAmount)}</div>
+                                  <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount((e?.MakingAmount / result?.header?.CurrencyExchRate))}</div>
                               </div>
                               }
                              { e?.totals?.finding?.SettingAmount !== 0 &&
                                <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
                                <div style={{width:'33.33%'}} className=" text-start fsgdp10_pcl7">Labour</div>
                                <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount(e?.totals?.finding?.SettingRate)}</div>
-                               <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount(e?.totals?.finding?.SettingAmount)}</div>
+                               <div style={{width:'33.33%'}} className="pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount((e?.totals?.finding?.SettingAmount / result?.header?.CurrencyExchRate))}</div>
                              </div>
                              }
                               {
@@ -890,14 +890,14 @@ console.log(result);
                                 (e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) !== 0 &&
                                 <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
                                   <div  className="w-50 text-start fsgdp10_pcl7">Setting</div>
-                                  <div  className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount((e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount))}</div>
+                                  <div  className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount(((e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) / result?.header?.CurrencyExchRate))}</div>
                               </div>
                               }
                               {
                                 (e?.TotalDiamondHandling) !== 0 &&
                                 <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
                                   <div  className="w-50  text-start fsgdp10_pcl7">Handling</div>
-                                  <div  className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount((e?.TotalDiamondHandling))}</div>
+                                  <div  className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">{formatAmount(((e?.TotalDiamondHandling) / result?.header?.CurrencyExchRate))}</div>
                               </div>
                               }
                               
@@ -905,7 +905,7 @@ console.log(result);
                               e?.miscList_IsHSCODE123?.map((e) => {
                                 return  <div className="d-flex align-items-center w-100 fsgdp10_pcl7">
                                   { e?.Amount !== 0 && <div  className="w-50  text-start fsgdp10_pcl7">{e?.IsHSCOE === 3 && e?.ShapeName}</div>}
-                                  { e?.Amount !== 0 && <div  className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">{e?.IsHSCOE === 3 && formatAmount((e?.Amount))}</div>}
+                                  { e?.Amount !== 0 && <div  className="w-50 pr_dp10_pcl7 text-end fsgdp10_pcl7">{e?.IsHSCOE === 3 && formatAmount(((e?.Amount / result?.header?.CurrencyExchRate)))}</div>}
                               </div>
                               })
                               }
