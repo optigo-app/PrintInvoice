@@ -65,31 +65,48 @@ const BillSticker = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {result?.resultArray[0]?.PO !== undefined && (
                 <BarcodeGenerator data={result?.resultArray[0]?.PO} />
               )}
+              {console.log(result)}
             </div>
             <div className="num_elv">{result?.resultArray[0]?.PO}</div>
             <div className="row_elv">
-                <div className="fs_elv w50_elv">QTY</div>
-                <div className="fs_elv end_elv w50_elv">{result?.mainTotal?.total_Quantity}</div>
+                <div className="fs_elv w50_elv">ERPDN : </div>
+                <div className="fs_elv end_elv w50_elv">{result?.resultArray[0]?.MFG_DesignNo}</div>
             </div>
             <div className="row_elv">
-                <div className="fs_elv w50_elv">GWT</div>
-                <div className="fs_elv end_elv w50_elv">{result?.mainTotal?.grosswt?.toFixed(3)} gm</div>
+                <div className="fs_elv w50_elv">PDT : </div>
+                <div className="fs_elv end_elv w50_elv">{result?.resultArray[0]?.Categoryname}</div>
             </div>
             <div className="row_elv">
-                <div className="fs_elv w50_elv">NWT</div>
-                <div className="fs_elv end_elv w50_elv">{(result?.mainTotal?.netwt + result?.mainTotal?.lossWt)?.toFixed(3)} gm</div>
+                <div className="fs_elv w50_elv text-break">DESIGN NO : </div>
+                <div className="fs_elv end_elv w50_elv text-break">{result?.resultArray[0]?.designno}</div>
             </div>
             <div className="row_elv">
-                <div className="fs_elv w50_elv">CST</div>
-                <div className="fs_elv end_elv w50_elv">{((result?.mainTotal?.colorstone?.Wt) / 5)?.toFixed(3)} gm</div>
+                <div className="fs_elv w50_elv">SIZE : </div>
+                <div className="fs_elv end_elv w50_elv text-break">{result?.resultArray[0]?.Size}</div>
             </div>
             <div className="row_elv">
-                <div className="fs_elv w50_elv">OTHER</div>
-                <div className="fs_elv end_elv w50_elv">{result?.mainTotal?.misc?.Wt?.toFixed(3)} gm</div>
+                <div className="fs_elv w50_elv">QTY : </div>
+                <div className="fs_elv end_elv w50_elv text-break">{result?.mainTotal?.total_Quantity}</div>
             </div>
             <div className="row_elv">
-                <div className="fs_elv w50_elv">BRANCH</div>
-                <div className="fs_elv end_elv w50_elv">{result?.resultArray[0]?.batchnumber}</div>
+                <div className="fs_elv w50_elv">GWT : </div>
+                <div className="fs_elv end_elv w50_elv text-break">{result?.mainTotal?.grosswt?.toFixed(3)} gm</div>
+            </div>
+            <div className="row_elv">
+                <div className="fs_elv w50_elv">NWT : </div>
+                <div className="fs_elv end_elv w50_elv text-break">{(result?.mainTotal?.netwt + result?.mainTotal?.lossWt)?.toFixed(3)} gm</div>
+            </div>
+            <div className="row_elv">
+                <div className="fs_elv w50_elv">CST : </div>
+                <div className="fs_elv end_elv w50_elv text-break">{((result?.mainTotal?.colorstone?.Wt) / 5)?.toFixed(3)} gm</div>
+            </div>
+            <div className="row_elv">
+                <div className="fs_elv w50_elv">OTHER : </div>
+                <div className="fs_elv end_elv w50_elv text-break">{result?.mainTotal?.misc?.Wt?.toFixed(3)} gm</div>
+            </div>
+            <div className="row_elv">
+                <div className="fs_elv w50_elv">BRANCH : </div>
+                <div className="fs_elv end_elv w50_elv text-break">{result?.resultArray[0]?.batchnumber}</div>
             </div>
            
         </div></> :  <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto">
