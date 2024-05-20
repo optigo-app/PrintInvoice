@@ -54,10 +54,48 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
+      // datas?.resultArray?.forEach((e) => {
+      //   let arr = [];
+      //   arr = e?.misc?.filter((a) => a?.Amount !== 0);
+      //   e.misc = arr;
+      // })
+
       datas?.resultArray?.forEach((e) => {
         let arr = [];
-        arr = e?.misc?.filter((a) => a?.Amount !== 0);
+        // console.log("hello");
+        e?.misc?.forEach((a) => {
+          if (a?.IsHSCOE === 0 || a?.IsHSCOE === 3) {
+            // console.log(a);
+            arr?.push(a);
+          }
+          // if(a?.IsHSCOE === 0){
+          //     if(a?.IsHSCOE === 1 || a?.IsHSCOE === 2){
+          //         return ''
+          //     }else if(a?.IsHSCOE === 0 || a?.IsHSCOE === 3){
+          //       arr?.push(a);
+          //     }
+          // }
+        });
+        if (arr?.length === 1) {
+          if (arr[0]?.IsHSCOE === 3) {
+            // arr = [];
+          }
+        }
+        // let arr2 = [];
+        // arr?.forEach((a) => {
+        //   if(a?.IsHSCOE !== 0){
+        //       return ''
+        //   }else{
+        //     arr2.push(a);
+        //   }
+        // })
+
         e.misc = arr;
+      });
+      datas?.resultArray?.forEach((e) => {
+        if(e?.misc?.length === 1 && e?.misc[0]?.IsHSCOE === 3 && e?.misc[0]?.Rate === 0 ){
+          // e.misc = [];
+        }
       })
 
       datas?.resultArray?.forEach((e, i) => {
