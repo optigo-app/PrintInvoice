@@ -5,7 +5,7 @@ import { apiCall, formatAmount, handleImageError, handlePrint, isObjectEmpty } f
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
 import { ToWords } from 'to-words';
-import "../../assets/css/prints/detailprint12.css";
+import "../../assets/css/prints/detailPrint12.css";
 import { NumToWord } from './../../GlobalFunctions/NumToWord';
 
 const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
