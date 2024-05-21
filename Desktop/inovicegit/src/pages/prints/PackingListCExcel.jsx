@@ -198,7 +198,7 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                     setMsg(data?.Message);
                 }
             } catch (error) {
-                console.error(error);
+                console.log(error);
             }
         };
         sendData();

@@ -161,7 +161,6 @@ const PackingList7Group = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
         let dia1_ = [];
         let dia2_ = [];
         e?.diamonds?.forEach((el) => {
-            console.log(el);
             if(el?.GroupName === ''){
               dia1_.push(el);
             }else{

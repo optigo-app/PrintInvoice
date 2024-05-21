@@ -404,7 +404,6 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     }
   };
-console.log(result);
   return (
     <>
       {loader ? (

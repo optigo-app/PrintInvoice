@@ -37,7 +37,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           setMsg(data?.Message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     sendData();
@@ -483,7 +483,6 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           })}
         </div>
       </div>
-{console.log(result)}
       {/* table all row total */}
       <div className="totaldp12 w-100 brtdp12 border-top-0 border-start border-end fsgdp12">
         <div className="totcol1dp12"></div>

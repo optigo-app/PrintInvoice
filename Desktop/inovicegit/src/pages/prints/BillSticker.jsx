@@ -32,7 +32,7 @@ const BillSticker = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               setMsg(data?.Message);
             }
           } catch (error) {
-            console.error(error);
+            console.log(error);
           }
         };
         sendData();
@@ -65,7 +65,6 @@ const BillSticker = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               {result?.resultArray[0]?.PO !== undefined && (
                 <BarcodeGenerator data={result?.resultArray[0]?.PO} />
               )}
-              {console.log(result)}
             </div>
             <div className="num_elv">{result?.resultArray[0]?.PO}</div>
             <div className="row_elv">
