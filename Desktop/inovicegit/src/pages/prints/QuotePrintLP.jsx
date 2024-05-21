@@ -1,0 +1,808 @@
+import React from 'react'
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { apiCall, formatAmount, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
+import Loader from '../../components/Loader';
+import "../../assets/css/prints/quoteprintlp.css";
+import { cloneDeep } from 'lodash';
+
+const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
+  const [result, setResult] = useState(null);
+  const [msg, setMsg] = useState("");
+  const [loader, setLoader] = useState(true);
+  const [imgFlag, setImgFlag] = useState(true);
+  const [isImageWorking, setIsImageWorking] = useState(true);
+  const [cateName, setCateName] = useState([]);
+  useEffect(() => {
+    const sendData = async () => {
+      try {
+        const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
+        if (data?.Status === "200") {
+          let isEmpty = isObjectEmpty(data?.Data);
+          if (!isEmpty) {
+            loadData(data?.Data);
+            setLoader(false);
+          } else {
+            setLoader(false);
+            setMsg("Data Not Found");
+          }
+        } else {
+          setLoader(false);
+          setMsg(data?.Message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    sendData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const loadData = (data) => {
+
+      let address = data?.BillPrint_Json[0]?.Printlable?.split("\r\n");
+      data.BillPrint_Json[0].address = address;
+ 
+      const datas = OrganizeDataPrint(
+        data?.BillPrint_Json[0],
+        data?.BillPrint_Json1,
+        data?.BillPrint_Json2
+      );
+        
+      let catNameWise = [];
+      datas?.resultArray?.forEach((a) => {
+        let b = cloneDeep(a);
+            b.Count = 1;        
+        let findrec = catNameWise?.findIndex((al) => al?.Categoryname === b?.Categoryname);
+        if(findrec === -1){
+          catNameWise.push(b);
+        }else{
+          catNameWise[findrec].Count += 1;
+        }
+
+      })
+
+      setCateName(catNameWise);
+
+      setResult(datas);
+  }
+
+  const handleImgShow = (e) => {
+    if (imgFlag) setImgFlag(false);
+    else {
+      setImgFlag(true);
+    }
+  };
+  const handleCheckbox = () => {
+    if (imgFlag) {
+      setImgFlag(false);
+    } else {
+      setImgFlag(true);
+    }
+  };
+
+  const handleImageErrors = () => {
+    setIsImageWorking(false);
+  };
+console.log(result);
+  return (
+    <>
+    { loader ? <Loader /> : msg === '' ? <div className="containerdp10 pab60_dp10">
+                <div className="d-flex justify-content-end align-items-center hidebtndp10 mb-4">
+                  <input
+                    type="checkbox"
+                    id="imghideshow"
+                    className="mx-1"
+                    checked={imgFlag}
+                    onChange={handleCheckbox}
+                  />
+                  <label htmlFor="imghideshow" className="me-3 user-select-none">
+                    With Image
+                  </label>
+                  <button
+                    className="btn_white blue mb-0 hidedp10 m-0 p-2"
+                    onClick={(e) => handlePrint(e)}
+                  >
+                    Print
+                  </button>
+                </div>
+                {/* header */}
+                <div>
+                  <div className="pheaddp10">
+                    {result?.header?.PrintHeadLabel === '' ? 'QUOTATION' : result?.header?.PrintHeadLabel}
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <div className="p-1 fsgdp10">
+                      <div className="fw-bold fs-6 py-2">
+                        {result?.header?.CompanyFullName}
+                      </div>
+                      <div>{result?.header?.CompanyAddress}</div>
+                      <div>{result?.header?.CompanyAddress2}</div>
+                      <div>{result?.header?.CompanyCity}</div>
+                      <div>
+                        {result?.header?.CompanyCity}-
+                        {result?.header?.CompanyPinCode},{" "}
+                        {result?.header?.CompanyState}(
+                        {result?.header?.CompanyCountry})
+                      </div>
+                      <div>T {result?.header?.CompanyTellNo}</div>
+                      <div>
+                        {result?.header?.CompanyEmail} |{" "}
+                        {result?.header?.CompanyWebsite}
+                      </div>
+                      <div>
+                        {result?.header?.Company_VAT_GST_No} |{" "}
+                        {result?.header?.Company_CST_STATE}-
+                        {result?.header?.Company_CST_STATE_No} | PAN-
+                        {result?.header?.Pannumber}
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-end pe-2 pt-2">
+                    {isImageWorking && (result?.header?.PrintLogo !== "" && 
+                      <img src={result?.header?.PrintLogo} alt="" 
+                      className='w-100 h-auto ms-auto d-block object-fit-contain'
+                      onError={handleImageErrors} height={120} width={150} style={{maxWidth: "116px"}} />)}
+                      {/* <img
+                        src={result?.header?.PrintLogo}
+                        alt="#companylogo"
+                        className="imgHWdp10"
+                      /> */}
+                    </div>
+                  </div>
+                </div>
+                {/* subheader */}
+                <div className="subheaderdp10">
+                  <div className="subdiv1dp10 border-end fsgdp10 border-start ">
+                    <div className="px-1">Quote To,</div>
+                    <div className="px-1 fw-bold">
+                      {result?.header?.customerfirmname}
+                    </div>
+                    <div className="px-1">
+                      {result?.header?.customerAddress2}
+                    </div>
+                    <div className="px-1">
+                      {result?.header?.customerAddress1}
+                    </div>
+                    <div className="px-1">
+                      {result?.header?.customerAddress3}
+                    </div>
+                    <div className="px-1">
+                      {result?.header?.customercity1}-{result?.header?.PinCode}
+                    </div>
+                    <div className="px-1">{result?.header?.customeremail1}</div>
+                    <div className="px-1">{result?.header?.vat_cst_pan}</div>
+                    {/* <div className="px-1">
+                      {result?.header?.Cust_CST_STATE}-
+                      {result?.header?.Cust_CST_STATE_No}
+                    </div> */}
+                  </div>
+                  <div className="subdiv2dp10 border-end fsgdp10">
+                    {/* <div className="px-1">Ship To,</div> */}
+                    <div className="px-1 fw-bold">
+                      {result?.header?.customerfirmname}
+                    </div>
+                    {result?.header?.address?.map((e, i) => {
+                      return (
+                        <div className="px-1" key={i}>
+                          {e}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="subdiv3dp10 fsgdp10 border-end">
+                    <div className="d-flex justify-content-start px-1">
+                      <div className="w-25 fw-bold">QUOTE NO</div>
+                      <div className="w-25">{result?.header?.InvoiceNo}</div>
+                    </div>
+                    <div className="d-flex justify-content-start px-1">
+                      <div className="w-25 fw-bold">DATE</div>
+                      <div className="w-25">{result?.header?.EntryDate}</div>
+                    </div>
+                    <div className="d-flex justify-content-start px-1">
+                      <div className="w-25 fw-bold">
+                        {result?.header?.HSN_No_Label}
+                      </div>
+                      <div className="w-25">{result?.header?.HSN_No}</div>
+                    </div>
+                    {/* <div className="d-flex justify-content-end mt-5 px-2 fw-bold">
+                      Gold Rate {result?.header?.MetalRate24K?.toFixed(2)} Per
+                      Gram
+                    </div> */}
+                  </div>
+                </div>
+                {/* table */}
+
+                <div className="tabledp10">
+                  {/* tablehead */}
+                  <div className="theaddp10 fw-bold fsg2dp10" style={{backgroundColor:'#F5F5F5'}}>
+                    <div className="col1dp10 centerdp10 ">Sr</div>
+                    <div className="col2dp10 centerdp10  fw-bold">Design</div>
+                    <div className="col3dp10">
+                      <div className="h-50 centerdp10 fw-bold w-100">
+                        Diamond
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center h-50 bt_dp10 w-100">
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                          Code
+                        </div>
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                          Size
+                        </div>
+                        <div
+                          className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10"
+                          style={{ width: "14.66%" }}
+                        >
+                          Pcs
+                        </div>
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                          Wt
+                        </div>
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                          Rate
+                        </div>
+                        <div
+                          className="centerdp10 h-100 theadsubcol1_dp10"
+                          style={{ width: "18.66%" }}
+                        >
+                          Amount
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col4dp10 ">
+                      <div className="h-50 centerdp10 fw-bold w-100">Metal</div>
+                      <div className="d-flex justify-content-between align-items-center h-50 bt_dp10 w-100">
+                        <div
+                          className="theadsubcol2_dp10 bright_dp10 h-100 centerdp10"
+                          // style={{ width: "30%" }}
+                        >
+                          Quality
+                        </div>
+                        <div className="theadsubcol2_dp10 centerdp10 bright_dp10 h-100">
+                          *Wt
+                        </div>
+                        <div className="theadsubcol2_dp10 centerdp10 bright_dp10 h-100">
+                          N+L
+                        </div>
+                        <div className="theadsubcol2_dp10 centerdp10 bright_dp10 h-100">
+                          Rate
+                        </div>
+                        <div className="theadsubcol2_dp10 centerdp10 h-100" >
+                          Amount
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col3dp10">
+                      <div className="h-50 centerdp10 fw-bold w-100">Stone</div>
+                      <div className="d-flex justify-content-between align-items-center h-50 bt_dp10 w-100">
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10" style={{width:'21.66%'}}>
+                          Code
+                        </div>
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10 ">
+                          Size
+                        </div>
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10" style={{width:'11.66%'}}>
+                          Pcs
+                        </div>
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                          Wt
+                        </div>
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                          Rate
+                        </div>
+                        <div className="centerdp10 h-100 theadsubcol1_dp10">
+                          Amount
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col6dp10">
+                      <div className="d-flex justify-content-center align-items-center h-50 w-100 ">
+                        Other
+                      </div>
+                      <div className="d-flex justify-content-center align-items-center h-50 w-100 bt_dp10">
+                        Amount
+                      </div>
+                    </div>
+                    <div className="col7dp10">
+                      <div className="h-50 centerdp10 fw-bold w-100">
+                        Labour
+                      </div>
+                      <div className="d-flex justify-content-between align-items-center h-50 bt_dp10  w-100">
+                        <div className=" h-100 centerdp10 bright_dp10" style={{width:'40%'}}>
+                          Rate
+                        </div>
+                        <div className=" h-100 centerdp10" style={{width:'60%'}}>Amount</div>
+                      </div>
+                    </div>
+                    <div className="col8dp10">
+                      <div className="d-flex justify-content-center align-items-center h-50 border-top w-100">
+                        Total
+                      </div>
+                      <div className="d-flex justify-content-center align-items-center h-50 w-100">
+                        Amount
+                      </div>
+                    </div>
+                  </div>
+                  {/* table body */}
+                  <div className="tbodydp10 fsgdp10 ">
+                    {result?.resultArray?.map((e, i) => {
+                      return (
+                        <div className="tbrowdp10 h-100 " key={i}>
+                          <div className="tbcol1dp10 center_sdp10">
+                            {/* {e?.SrNo} */}
+                            {i + 1}
+                          </div>
+                          <div className="tbcol2dp10 d-flex flex-column justify-content-between">
+                            <div className="d-flex justify-content-between px-1 flex-wrap">
+                              <div className="fsgdp10">{e?.designno}</div>
+                              <div className="fsgdp10">{e?.MetalColor}</div>
+                            </div>
+                            {/* <div className="d-flex justify-content-end px-1">
+                              {e?.MetalColor}
+                            </div> */}
+                            {imgFlag ? (
+                              <div
+                                className="w-100 d-flex justify-content-center align-items-start fsgdp10 m-1"
+                                style={{ minHeight: "80px" }}
+                              >
+                                <img
+                                  src={e?.DesignImage}
+                                  onError={(e) => handleImageError(e)}
+                                  alt="design"
+                                  className="imgdp10"
+                                />
+                              </div>
+                            ) : (
+                              ""
+                            )}
+
+                            {/* <div className="centerdp10 fsgdp10">
+                              {e?.batchnumber}
+                            </div>
+                            {e?.HUID !== "" ? (
+                              <div className="centerdp10 fsgdp10">
+                                HUID - {e?.HUID}
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            <div className="centerdp10 fw-bold fsgdp10">
+                              PO: {e?.PO}
+                            </div>
+                            <div className="centerdp10 fw-bold fsgdp10">
+                                {e?.lineid}
+                            </div>
+                            <div className="centerdp10 fsgdp10">
+                              Tunch : &nbsp;
+                              <b className="fsgdp10">{e?.Tunch?.toFixed(3)}</b>
+                            </div> */}
+                            <div className="centerdp10 text-break">
+                              G Wt &nbsp; 
+                              <b className="fsgdp10">
+                                {( e?.grosswt)?.toFixed(3)} gm
+                              </b>
+                              &nbsp; 
+                            </div>
+                            {/* <div className="centerdp10">
+                              {" "}
+                              {e?.Size === "" ? "" : `Size : ${e?.Size}`}
+                            </div> */}
+                          </div>
+                          <div className="tbcol3dp10 ">
+                            {e?.diamonds?.map((el, idia) => {
+                              return (
+                                <div className="d-flex" key={idia}>
+                                  <div className="theadsubcol1_dp10" style={{wordBreak:'break-word',paddingLeft:'2px'}}>
+                                    {el?.ShapeName} {el?.QualityName}&nbsp;
+                                    {el?.Colorname}
+                                  </div>
+                                  <div className="theadsubcol1_dp10 text-start" style={{lineHeight:'8px !important'}}>
+                                    {el?.SizeName}
+                                  </div>
+                                  <div
+                                    className="theadsubcol1_dp10 end_dp10"
+                                    style={{ width: "8.66%" }}
+                                  >
+                                    {el?.Pcs}
+                                  </div>
+                                  <div className="theadsubcol1_dp10 end_dp10">
+                                    {el?.Wt?.toFixed(3)}
+                                  </div>
+                                  <div className="theadsubcol1_dp10 end_dp10" style={{width:'19.66%'}}>
+                                    {formatAmount(el?.Rate)}
+                                  </div>
+                                  <div
+                                    className="theadsubcol1_dp10 fw-bold end_dp10 pr_dp10"
+                                    style={{ width: "21.66%" }}
+                                  >
+                                    {formatAmount(el?.Amount)}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                          <div className="tbcol4dp10">
+                            {e?.metal?.map((el, imet) => {
+                              return (
+                                <div className="d-flex w-100" key={imet}>
+                                  <div
+                                    className="theadsubcol2_dp10 d-flex justify-content-start border-end h-100 ps-1 border-end-0"
+                                    style={{ wordBreak:'break-word' }}
+                                  >
+                                    {el?.ShapeName} {el?.QualityName}
+                                  </div>
+                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10">
+                                    {e?.grosswt?.toFixed(3)}
+                                  </div>
+                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10">
+                                    {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
+                                    {el?.Wt?.toFixed(3)}
+                                  </div>
+                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10">
+                                    {el?.Rate?.toFixed(2)}
+                                  </div>
+                                  <div className={`theadsubcol2_dp10 centerdp10 border-end h-100  border-end-0 end_dp10 pr_dp10 ${el?.IsPrimaryMetal === 1 ? 'fw-bold' : 'fw-bold' }`}>
+                                    {el?.Amount?.toFixed(2)}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                            <div className="p-2 px-1">
+                              {e?.JobRemark !== "" ? (
+                                <>
+                                  <b className="fsgdp10">Remark : </b>{" "}
+                                  {e?.JobRemark}
+                                </>
+                              ) : (
+                                ""
+                              )}{" "}
+                            </div>
+                          </div>
+                          <div className="tbcol3dp10">
+                            {e?.colorstone?.map((el, ics) => {
+                              return (
+                                <div className="d-flex" key={ics}>
+                                  <div className="theadsubcol1_dp10" style={{wordBreak:'break-word', paddingLeft:'2px', width:'21.66%'}}>
+                                    {el?.ShapeName +
+                                      " " +
+                                      el?.QualityName +
+                                      " " +
+                                      el?.Colorname}
+                                  </div>
+                                  <div className="theadsubcol1_dp10 text-center">
+                                    {el?.SizeName}
+                                  </div>
+                                  <div className="theadsubcol1_dp10 end_dp10" style={{width:'11.66%'}}>
+                                    {el?.Pcs}
+                                  </div>
+                                  <div className="theadsubcol1_dp10 end_dp10">
+                                    {el?.Wt?.toFixed(3)}
+                                  </div>
+                                  <div className="theadsubcol1_dp10 end_dp10">
+                                    {el?.Rate?.toFixed(2)}
+                                  </div>
+                                  <div className="theadsubcol1_dp10 end_dp10 fw-bold pr_dp10">
+                                    {el?.Amount?.toFixed(2)}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                          <div className="tbcol6dp10 end_dp10 p-1 pr_dp10"> {formatAmount( e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling )}
+                          </div>
+                          <div className="tbcol7dp10 ">
+                            <div className="d-flex">
+                              <div className=" end_dp10 pr_dp10" style={{width:'40%'}}>
+                                {formatAmount(e?.MaKingCharge_Unit)}
+                              </div>
+                              <div className=" end_dp10  pr_dp10" style={{width:'60%'}}>
+                                {formatAmount( (e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost) )}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="tbcol8dp10 end_dp10 fw-bold p-1 pad_top_dp10 pr_dp10">
+                            {formatAmount((e?.TotalAmount + e?.DiscountAmt))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {/* final total */}
+                  <div className="d-flex justify-content-end align-items-center brb_dp10 tbrowdp10 pt-1">
+                    <div style={{ width: "13%" }}>
+                      {/* <div className="d-flex justify-content-between">
+                        <div className="w-50 end_dp10">Net Amount</div>
+                        <div className="w-50 end_dp10 pr_dp10">
+                          {(
+                            +result?.mainTotal?.total_amount?.toFixed(2) +
+                            +result?.mainTotal?.total_discount_amount?.toFixed(
+                              2
+                            )
+                          )?.toFixed(2)}
+                        </div>
+                      </div> */}
+                      {/* <div className="d-flex justify-content-between">
+                        <div className="w-50 end_dp10">Total Discount</div>
+                        <div className="w-50 end_dp10 pr_dp10">
+                          {result?.mainTotal?.total_discount_amount?.toFixed(2)}
+                        </div>
+                      </div> */}
+                      <div>
+                        {result?.allTaxes?.map((e, i) => {
+                          return (
+                            <div className="d-flex justify-content-between" key={i} >
+                              <div className="w-50 end_dp10">
+                                {e?.name} {e?.per}
+                              </div>
+                              <div className="w-50 end_dp10 pr_dp10">
+                                {formatAmount(e?.amountInNumber)}
+                              </div>
+                            </div>
+                          );
+                        })}
+                        <div className="d-flex justify-content-between">
+                          <div className="w-50 end_dp10">
+                            {result?.header?.AddLess > 0 ? "Add" : "Less"}
+                          </div>
+                          <div className="w-50 end_dp10 pr_dp10">
+                            {formatAmount(result?.header?.AddLess)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* all table row total */}
+                  <div className="d-flex grandtotaldp10 brb_dp10 brbb_dp10 tbrowdp10" style={{ backgroundColor: "#F5F5F5" }} >
+                    <div className="centerdp10 brR_dp10" style={{ width: "11%" }} > Total </div>
+                    <div className="col3dp10 d-flex align-items-center brR_dp10 justify-content-end">
+                      {/* <div className="theadsubcol1_dp10"></div> */}
+                      {/* <div className="theadsubcol1_dp10"></div> */}
+                      {/* <div className="theadsubcol1_dp10 end_dp10"> */}
+                      <div className=" end_dp10" style={{width:'19%'}}>
+                        {result?.mainTotal?.diamonds?.Pcs}
+                      </div>
+                      {/* <div className="theadsubcol1_dp10 end_dp10" style={{width:'20%'}}> */}
+                      <div className=" end_dp10"  style={{width:'19%'}}>
+                        {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
+                      </div>
+                      {/* <div className="theadsubcol1_dp10"></div> */}
+                      <div
+                        // className="theadsubcol1_dp10 end_dp10 pr_dp10"
+                        className="theadsubcol1_dp10 end_dp10 pr_dp10"
+                        style={{width:'44%'}}
+                      >
+                        {formatAmount(result?.mainTotal?.diamonds?.Amount)}
+                      </div>
+                    </div>
+                    <div className="col4dp10 d-flex align-items-center brR_dp10">
+                      <div className="theadsubcol2_dp10" ></div>
+                       <div className="theadsubcol2_dp10 pr_dp10">
+                        {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
+                        {result?.mainTotal?.grosswt?.toFixed(3)}
+                      </div>
+                       <div className="theadsubcol2_dp10 pr_dp10">
+                        {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
+                        {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
+                      </div>
+                      {/* <div className="theadsubcol2_dp10"></div> */}
+                      <div className="theadsubcol2_dp10 end_dp10 pr_dp10" style={{ width: "45%" }} >
+                        {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
+                      </div>
+                    </div>
+                    <div className="col3dp10 d-flex align-items-center justify-content-end brR_dp10">
+                      {/* <div className="theadsubcol1_dp10"></div>
+                      <div className="theadsubcol1_dp10"></div> */}
+                      <div className=" end_dp10">
+                        {result?.mainTotal?.colorstone?.Pcs}
+                      </div>
+                      <div className=" end_dp10" style={{ width: "20.32%" }}>
+                        {(result?.mainTotal?.colorstone?.Wt)?.toFixed(3)}
+                      </div>
+                      {/* <div className=""></div> */}
+                      <div
+                        className=" end_dp10 pr_dp10"
+                        style={{ width: "35.32%" }}
+                      >
+                        {formatAmount(result?.mainTotal?.colorstone?.Amount)}
+                      </div>
+                    </div>
+                    <div className="col6dp10 end_dp10  d-flex align-items-center brR_dp10 pr_dp10" style={{width:'5%', paddingRight:'1px'}}>
+                      {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
+                    </div>
+                    <div className="col7dp10 end_dp10  d-flex align-items-center brR_dp10 pr_dp10">
+                      {formatAmount( result?.mainTotal?.total_labour?.labour_amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost )}
+                    </div>
+                    <div className="col8dp10 end_dp10  d-flex align-items-center pr_dp10">
+                      {formatAmount(result?.finalAmount)}
+                    </div>
+                  </div>
+                  </div>
+                  {/* summary */}
+                  <div className="d-flex justify-content-between mt-1 summarydp10">
+                    <div className="d-flex flex-column sumdp10">
+                      <div className="fw-bold bg_dp10 w-100 centerdp10  ball_dp10">
+                        SUMMARY
+                      </div>
+                      <div className="d-flex w-100 fsgdp10">
+                        <div className="w-50 bright_dp10  bl_dp10">
+                          <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 fw-bold">GOLD IN 24KT</div>
+                            <div className="w-50 end_dp10 pe-1">
+                              {result?.mainTotal?.convertednetwt?.toFixed(3)} gm
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 fw-bold">GROSS WT</div>
+                            <div className="w-50 end_dp10 pe-1">
+                              {result?.mainTotal?.grosswt?.toFixed(3)} gm
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 fw-bold">NET WT</div>
+                            <div className="w-50 end_dp10 pe-1">
+                            {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
+                              gm
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 fw-bold">DIAMOND WT</div>
+                            <div className="w-50 end_dp10 pe-1">
+                              {result?.mainTotal?.diamonds?.Pcs} /{" "}
+                              {result?.mainTotal?.diamonds?.Wt?.toFixed(3)} cts
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 fw-bold">STONE WT</div>
+                            <div className="w-50 end_dp10 pe-1">
+                              {result?.mainTotal?.colorstone?.Pcs} /{" "}
+                              {result?.mainTotal?.colorstone?.Wt?.toFixed(3)}{" "}
+                              cts
+                            </div>
+                          </div>
+                        </div>
+                        <div className="w-50 bright_dp10 ">
+                          <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 fw-bold">GOLD</div>
+                            <div className="w-50 end_dp10">
+                              {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 fw-bold">DIAMOND</div>
+                            <div className="w-50 end_dp10">
+                              {formatAmount(
+                                result?.mainTotal?.diamonds?.Amount
+                              )}
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 fw-bold">CST</div>
+                            <div className="w-50 end_dp10">
+                              {formatAmount(
+                                result?.mainTotal?.colorstone?.Amount
+                              )}
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 fw-bold">MAKING </div>
+                            <div className="w-50 end_dp10">
+                              {formatAmount(
+                                 (result?.mainTotal?.total_labour?.labour_amount + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.total_TotalCsSetcost )
+                              )}
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 fw-bold">OTHER </div>
+                            <div className="w-50 end_dp10">
+                              {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-between px-1">
+                            <div className="w-50 fw-bold">
+                              {result?.header?.AddLess > 0 ? "ADD" : "LESS"}
+                            </div>
+                            <div className="w-50 end_dp10">
+                              {result?.header?.AddLess}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg_dp10 h_bd10 ball_dp10 d-flex fsgdp10 ">
+                        <div className="w-50 h-100"></div>
+                        <div className="w-50 h-100 d-flex align-items-center bl_dp10">
+                          <div className="fw-bold w-50 px-1">TOTAL</div>
+                          <div className="w-50 end_dp10 px-1">
+                            {formatAmount(result?.finalAmount)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* <div className="dia_sum_dp10 d-flex flex-column  fsgdp10">
+                      <div className="h_bd10 centerdp10 bg_dp10 fw-bold ball_dp10">
+                        Diamond Detail
+                      </div>
+                      {diamondWise?.map((e, i) => {
+                        return (
+                          <div
+                            className="d-flex justify-content-between px-1 ball_dp10 border-top-0 border-bottom-0 fsgdp10"
+                            key={i}
+                          >
+                            <div className="fw-bold w-50">
+                              {e?.ShapeName} {e?.QualityName} {e?.Colorname}
+                            </div>
+                            <div className="w-50 end_dp10">
+                              {e?.pcPcss} / {e?.wtWts?.toFixed(3)} cts
+                            </div>
+                          </div>
+                        );
+                      })}
+                      <div className="d-flex justify-content-between px-1 bg_dp10 h_bd10  ball_dp10">
+                        <div className="fw-bold w-50 h14_dp10" ></div>
+                        <div className="w-50"></div>
+                      </div>
+                    </div> */}
+                    {/* <div className="oth_sum_dp10 fsgdp10">
+                      <div className="h_bd10 centerdp10 bg_dp10 fw-bold ball_dp10">
+                        OTHER DETAILS
+                      </div>
+                      <div className="d-flex flex-column justify-content-between w-100 px-1 ball_dp10 border-top-0 p-1">
+                        <div className="d-flex">
+                          <div className="w-50 fw-bold start_dp10 fsgdp10">
+                            RATE IN 24KT
+                          </div>
+                          <div className="w-50 end_dp10 fsgdp10">
+                            {result?.header?.MetalRate24K?.toFixed(2)}
+                          </div>
+                        </div>
+                        <div>
+                          {result?.header?.BrokerageDetails?.map((e, i) => {
+                            return (
+                              <div className="d-flex fsgdp10" key={i}>
+                                <div className="w-50 fw-bold start_dp10">
+                                  {e?.label}
+                                </div>
+                                <div className="w-50 end_dp10">{e?.value}</div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div> */}
+                    <div className='d-flex flex-column oth_sum_dp10'>
+                      <div className='fw-bold bg_dp10 w-100 centerdp10  ball_dp10'>SUMMARY</div>
+                      <div>
+                        {
+                          cateName?.map((a, ind) => {
+                            return <div className='d-flex align-items-center w-100 fw-bold bb_dp10' key={ind}>
+                            <div className='w-75 bl_dp10 ps-1'>{a?.Categoryname}</div>
+                            <div className='w-25 center_dp10 bright_dp10'>{a?.Count}</div>
+                          </div>
+                          })
+                        }
+                      </div>
+                    </div>
+                     {
+                      result?.header?.PrintRemark === '' ? <div style={{width:'15%'}}></div> : <div className="remark_sum_dp10 fsgdp10">
+                      <div className="h_bd10 centerdp10 bg_dp10 fw-bold ball_dp10">
+                        Remark
+                      </div>
+                       <div className="ball_dp10 border-top-0 p-1">
+                        {result?.header?.PrintRemark}
+                      </div>
+                    </div>
+                     } 
+                    {/* <div className="check_dp10 ball_dp10 d-flex justify-content-center align-items-end pb-1 fsgdp10">
+                      <i>Created By</i>
+                    </div> */}
+                    <div className="check_dp10 ball_dp10 d-flex justify-content-center align-items-end pb-1 fsgdp10 mt-2">
+                      <i>Checked By</i>
+                    </div>
+                  </div>
+                  <div style={{color:'gray', fontSize:'10px'}} className="pt-3" >**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
+                
+              </div> : <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto"> {msg} </p> }
+    </>
+  )
+}
+
+export default QuotePrintLP
