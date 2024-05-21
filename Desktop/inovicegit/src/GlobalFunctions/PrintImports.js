@@ -63,8 +63,9 @@ export const printConditions = [
   {printName: 'labour summary', etpType: 'print', componentName: 'LabourSummary'},
   {printName: 'misc print 1', etpType: 'print', componentName: 'MiscPrint1'},
   {printName: 'misc detail print', etpType: 'print', componentName: 'MiscDetailPrint'},
-  {printName: 'print (l)', etpType: 'print', componentName: 'QuotePrintLP'},
-  {printName: 'print (p)', etpType: 'print', componentName: 'QuotePrintLP'},
+  // {printName: 'print (l)', etpType: 'print', componentName: 'QuotePrintLP', evName: 'quote'},
+  // {printName: 'print (p)', etpType: 'print', componentName: 'QuotePrintLP', evName: 'quote'},
+  {printName: 'pritn 1', etpType: 'print', componentName: 'Print1'},
   {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
   {printName: 'packing list 1', etpType: 'print', componentName: 'PackingList1'},
   {printName: 'packing list 2', etpType: 'print', componentName: 'PackingList2'},
@@ -89,7 +90,7 @@ export const printConditions = [
   {printName: 'retail tax invoice', etpType: 'print', componentName: 'RetailTaxInvoice'},
   {printName: 'retail1 print', etpType: 'print', componentName: 'Retail1Print'},
   {printName: 'rough estimate', etpType: 'print', componentName: 'RoughEstimate'},
-  {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},
+  // {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},
   {printName: 'solitaire tax invoice', etpType: 'print', componentName: 'SolitaireTaxInvoice'},
   {printName: 'summary 1', etpType: 'print', componentName: 'Summary1'},
   {printName: 'summary 2', etpType: 'print', componentName: 'Summary2'},
@@ -121,6 +122,19 @@ export const printConditions = [
   {printName: 'tax invoice 6', etpType: 'print', componentName: 'TaxInvoice5'}, 
 ];
 
+
+export const QuotationPrints = [
+  {printName: 'print (l)', etpType: 'print', componentName: 'QuotePrintLP'},
+  {printName: 'print (p)', etpType: 'print', componentName: 'QuotePrintLP' },
+  {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},
+  {printName: 'detail print 11', etpType: 'print', componentName: 'DetailPrint11'},
+  {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
+  {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
+  {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
+  {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
+]
+
+
 export const excelConditions = [
   { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel"},
   { printName: "image zip file", etpType: "excel", componentName: "ImageExportExcel"},
@@ -136,10 +150,14 @@ export const excelConditions = [
   { printName: "packing list c", etpType: "excel", componentName: "PackingListCExcel2"},
 ];
 
+
 export const alterationArray = [
   {label:"alteration" ,evname: "RepairAlteration"},
   {label:"alteration receive" ,evname: "RepairAlterationReceive"},
 ];
+
+
 export const quoteArray = [
   {label:"alteration", evname: "quote"},
 ];
+

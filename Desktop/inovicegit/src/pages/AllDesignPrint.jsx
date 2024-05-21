@@ -66,10 +66,9 @@ const AllDesignPrint = () => {
     // } else if (etpType === "alteration receive") {
     //   conditions = module.alterationReceiveConditions;
     // }
-    // console.log(etpType, evnname);
     switch (etpType) {
       case "print":
-        conditions = module.printConditions;
+        conditions = checkEvName(etpType, evnname, module);
         break;
       case "excel":
         conditions = module.excelConditions;
@@ -83,12 +82,23 @@ const AllDesignPrint = () => {
       default:
         break;
     }
+
+
     let findPrint = conditions.find((e) => printName === e?.printName);
     if (findPrint) {
       const component = await importComponent(findPrint.componentName);
       setImportedComponent(component);
     }
   };
+
+  const checkEvName = (etpType, evnname, module) => {
+      if(etpType === 'print' && evnname === 'sale'){
+        return module.printConditions || []
+      }
+      if(etpType === 'print' && evnname === 'quote'){
+        return module.QuotationPrints || []
+      }
+  }
 
   const checkFavicon = () => {
     setIsFaviconLoaded(true);
@@ -114,7 +124,7 @@ const AllDesignPrint = () => {
     takePrint();
     checkFaviconUrl();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [evnname]);
   return (
     <>
       <Suspense fallback={<Loader />}>{importedComponent}</Suspense>
