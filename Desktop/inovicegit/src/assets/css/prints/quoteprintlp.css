@@ -269,15 +269,11 @@
 .pr_dp10{
     padding-right: 2px !important;
 }
+.bgc_dp10{
+    background-color: rgb(245, 245, 245);
+}
 @media print {
-    .fsgdp10{
-        font-size: 9px !important;
-        line-height: 10px !important;
-    }
-    .fsg2dp10{
-        font-size: 8px !important;
-        /* line-height: 14px; */
-    }
+    
     .containerdp10{
         box-sizing: border-box;
         word-break: break-all;
@@ -329,5 +325,19 @@
     }
     .h14_dp10{
         height: 10px !important;
+    }
+    .fsgdp10{
+        font-size: 6px !important;
+        line-height: 8px !important;
+    }
+    .fsg2dp10{
+        font-size: 6px !important;
+        /* line-height: 14px; */
+    }
+    .fs_3_qlp{
+        font-size: 12px !important;
+    }
+    .fs_4_qlp{
+        font-size: 7px !important;
     }
 }
