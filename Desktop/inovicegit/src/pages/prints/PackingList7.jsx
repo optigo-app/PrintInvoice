@@ -1313,7 +1313,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <i>Checked By</i>
                     </div>
                   </div>
-                  <div style={{color:'gray'}} className="pt-3" >**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
+                  <div style={{color:'gray', fontSize:'10px'}} className="pt-3" >**   THIS IS A COMPUTER GENERATED INVOICE AND KINDLY NOTIFY US IMMEDIATELY IN CASE YOU FIND ANY DISCREPANCY IN THE DETAILS OF TRANSACTIONS</div>
                 
               </div>
             </>
