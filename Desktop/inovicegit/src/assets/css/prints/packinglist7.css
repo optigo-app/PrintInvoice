@@ -298,6 +298,11 @@
 .pad_top_pcl7{
     padding-top: 2px !important;
 }
+.summarydp10_pcl7{
+    border-top: 1px solid #989898;
+
+    
+}
 @media print {
 
     .containerdp10_pcl7{
@@ -384,7 +389,7 @@
         padding-top: 2px;
         padding-bottom: 2px;
     }
-   
+    
     .headImg_Pcl7{
         width: 100px !important;
     }
@@ -411,7 +416,11 @@
     .pr_dp10_pcl7{
         padding-right: 1px !important;
     }
+    .summarydp10_pcl7{
+        border-top: 1px solid #989898;
+        
+    }
     @page {
         margin: 1.5mm 1.55mm 1.5mm 1.5mm; /* top, right, bottom, left */
-      }
+    }
 }
