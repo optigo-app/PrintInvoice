@@ -65,7 +65,7 @@ export const printConditions = [
   {printName: 'misc detail print', etpType: 'print', componentName: 'MiscDetailPrint'},
   // {printName: 'print (l)', etpType: 'print', componentName: 'QuotePrintLP', evName: 'quote'},
   // {printName: 'print (p)', etpType: 'print', componentName: 'QuotePrintLP', evName: 'quote'},
-  {printName: 'pritn 1', etpType: 'print', componentName: 'Print1'},
+  // {printName: 'pritn 1', etpType: 'print', componentName: 'Print1'},
   {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
   {printName: 'packing list 1', etpType: 'print', componentName: 'PackingList1'},
   {printName: 'packing list 2', etpType: 'print', componentName: 'PackingList2'},
@@ -124,6 +124,7 @@ export const printConditions = [
 
 
 export const QuotationPrints = [
+  {printName: 'pritn 1', etpType: 'print', componentName: 'Print1'},
   {printName: 'print (l)', etpType: 'print', componentName: 'QuotePrintLP'},
   {printName: 'print (p)', etpType: 'print', componentName: 'QuotePrintLP' },
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},
