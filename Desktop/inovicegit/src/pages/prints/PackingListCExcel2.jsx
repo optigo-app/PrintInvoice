@@ -361,6 +361,8 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
        })
        datas.resultArray = finalArr3;
 
+       
+
 
 
         let finalArr = [];
@@ -624,18 +626,18 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                 return (<React.Fragment key={i}>
                                     <tr>
                                     { e?.srflag && <td width={90} style={{borderRight:'1px solid black'}} align='center' rowSpan={e?.srRowSpan + 1} >{e?.sr}</td>}
-                                        <td width={120} style={{wordBreak:'break-word', borderRight:'1px solid black',}}>&nbsp;{e?.MFG_DesignNo}</td>
-                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.SrJobno}&nbsp;</td>
-                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.designno}&nbsp;</td>
+                                        { e?.srflag && <td width={120} style={{wordBreak:'break-word', borderRight:'1px solid black',}} rowSpan={e?.srRowSpan + 1}  >&nbsp;{e?.MFG_DesignNo}</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1}>&nbsp;{e?.SrJobno}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.designno}&nbsp;</td>}
                                         <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.designImage}&nbsp;</td>
-                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.Categoryname}&nbsp;</td>
-                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.grosswt}&nbsp;</td>
-                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.NetWt}&nbsp;</td>
-                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.values?.totals?.colorstone?.Pcs}&nbsp;</td>
-                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.metal_rate}&nbsp;</td>
-                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.values?.totals?.metal?.Amount}&nbsp;</td>
-                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.values?.totals?.diamonds?.Pcs}&nbsp;</td>
-                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.values?.totals?.diamonds?.Wt?.toFixed(3)}&nbsp;</td>
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.Categoryname}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.grosswt}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.NetWt}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.colorstone?.Pcs}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.metal_rate}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.metal?.Amount}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.diamonds?.Pcs}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.diamonds?.Wt?.toFixed(3)}&nbsp;</td>}
 
                                         {/* <td width={140} align='left' style={{borderRight:'1px solid #989898'}} >&nbsp;{(e?.diaShp?.toLowerCase() === 'rnd' || e?.diaShp?.toLowerCase() === 'bug' || e?.diaShp?.toLowerCase() === 'prs' ) && e?.diaQly}</td> */}
                                         <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.diaQly2}</td>
@@ -654,16 +656,16 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'prs' && e?.dia_pcs}</td>
                                         <th align='left' width={90} style={{borderRight:'1px solid black'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'prs' && e?.dia_wt}</th> */}
                                         
-                                        <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                        <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                        <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                        <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                        <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                        <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;{e?.diamond_Amt === '' ? '' : e?.diamond_Amt}</td>
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.diamond_Amt === '' ? '' : e?.diamond_Amt}</td>}
 
-                                        <td width={90} align='left' style={{borderRight:'1px solid black'}} colSpan={1}>&nbsp;{e?.Size}</td>
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} colSpan={1} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.Size}</td>}
                                         
-                                        <th align='left' width={90} style={{borderRight:'1px solid black'}}>&nbsp;{e?.lineid}</th>
+                                        { e?.srflag && <th align='center' width={90} style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.lineid}</th>}
 
                                     </tr>
                                     {/* dia clr materail */}
@@ -673,21 +675,21 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                             return <tr key={ind}>
                                                 
                                                 
-                                                <td width={90} align='left' style={{borderRight:'1px solid black'}} colSpan={1}>&nbsp;</td>
-                                                <td width={90} align='left' style={{borderRight:'1px solid black'}} colSpan={1}>&nbsp;</td>
-                                                <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
+                                                {/* <td width={90} align='left' style={{borderRight:'1px solid black'}} colSpan={1}>&nbsp;</td> */}
+                                                {/* <td width={90} align='left' style={{borderRight:'1px solid black'}} colSpan={1}>&nbsp;</td> */}
+                                                {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
                                                 
                                                 <td  colSpan={1} style={{borderRight:'1px solid black', verticalAlign:'center'}} align='center'>
                                                     <span style={{textAlign:'center'}}>{val?.imgflag && <img src={val?.img} alt=""  onError={eve => handleGlobalImgError(eve, result?.header?.DefImage)} width={150}  style={{ paddingLeft: "10px", objectFit: "contain", verticalAlign:'center' }} />}</span>
                                                 </td>
-                                                <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                                <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                                <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                                <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                                <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                                <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                                <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                                <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
+                                                {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
+                                                {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
+                                                {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
+                                                {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
+                                                {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
+                                                {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
+                                                {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
+                                                {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
                                                 {/* <td width={90} align='left' style={{borderLeft:'1px solid black', borderRight:'1px solid #989898'}}>&nbsp;{ val?.diaflag && `${(val?.diaShp?.toLowerCase() === 'rnd' || val?.diaShp?.toLowerCase() === 'bug' || val?.diaShp?.toLowerCase() === 'prs' ) && val?.diaQly}`}</td> */}
                                                 <td width={90} align='left' style={{borderLeft:'1px solid black', borderRight:'1px solid black'}}>&nbsp;{ val?.diaflag && `${val?.diaQly2}`}</td>
 
@@ -706,14 +708,14 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{val?.diaflag && val?.diaShp?.toLowerCase() === 'prs' && val?.dia_pcs}</td>
 
                                                 <th width={90} style={{borderRight:'1px solid black'}} align='left'>&nbsp;{val?.diaflag && (val?.diaShp?.toLowerCase() === 'prs' && val?.dia_wt)}</th> */}
+                                                {/* <td width={90} style={{borderRight:'1px solid black'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid black'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid black'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid black'}}></td>
-                                                <td width={90} style={{borderRight:'1px solid black'}}></td>
-                                                <td width={90} style={{borderRight:'1px solid black'}}></td>
-                                                <td width={90} style={{borderRight:'1px solid black'}}></td>
+                                                <td width={90} style={{borderRight:'1px solid black'}}></td> */}
+                                                {/* <td width={90} style={{borderRight:'1px solid black'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid black'}} colSpan={1}></td>
-                                                <td width={90} style={{borderRight:'1px solid black'}}></td>
+                                                <td width={90} style={{borderRight:'1px solid black'}}></td> */}
                                             </tr>
                                         })
                                     }
