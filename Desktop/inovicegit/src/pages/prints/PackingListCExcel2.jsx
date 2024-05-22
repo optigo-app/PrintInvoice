@@ -4,6 +4,7 @@ import Loader from '../../components/Loader';
 import  ReactHTMLTableToExcel  from 'react-html-table-to-excel';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import { cloneDeep } from 'lodash';
+import { deepClone } from '@mui/x-data-grid/utils/utils';
 
 const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     const [result, setResult] = useState(null);
@@ -298,6 +299,68 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
        setMainTotal(obj);
         
         
+       let jobWiseData = {};
+
+       datas?.resultArray?.forEach((a) => {
+           // Extract job number
+           const jobNumber = a?.SrJobno;
+           
+           // Initialize job if not exists
+           if (!jobWiseData[jobNumber]) {
+               jobWiseData[jobNumber] = {
+                   SrJobno: jobNumber,
+                   diamonds: [],
+               };
+           }
+           
+           // Initialize qualityShapeData object
+           let qualityShapeData = {};
+           
+           a?.diamonds?.forEach((diamond) => {
+               const quality = diamond?.QualityName?.toUpperCase();
+               const shape = diamond?.ShapeName?.toLowerCase();
+               
+               // Initialize quality if not exists
+               if (!qualityShapeData[quality]) {
+                   qualityShapeData[quality] = {
+                       D_QUL: quality, // Include quality in the object
+                       D_RND_PCS: 0,
+                       D_RND_WT: 0,
+                       D_BUG_PCS: 0,
+                       D_BUG_WT: 0,
+                       D_PRS_PCS: 0,
+                       D_PRS_WT: 0
+                   };
+               }
+               
+               // Accumulate counts and weights based on shape
+               qualityShapeData[quality][`D_${shape.toUpperCase()}_PCS`] += diamond?.Pcs || 0;
+               qualityShapeData[quality][`D_${shape.toUpperCase()}_WT`] += diamond?.Wt || 0;
+           });
+       
+           // Push each qualityShapeData object into the diamonds array of the current job
+           Object.values(qualityShapeData).forEach((qualityObj) => {
+               jobWiseData[jobNumber].diamonds.push(qualityObj);
+           });
+       });
+       
+       
+       let jobWiseDataArray = Object.values(jobWiseData);
+       
+
+       let finalArr3 = [];
+       datas?.resultArray?.forEach((a) => {
+        let b = deepClone(a);
+        b = {...a};
+        jobWiseDataArray?.forEach((el) => {
+          if(b?.SrJobno === el?.SrJobno){
+            b.diamonds_qly = el?.diamonds
+          }
+        })
+        finalArr3.push(b);
+       })
+       datas.resultArray = finalArr3;
+
 
 
         let finalArr = [];
@@ -328,15 +391,25 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.metal_rate = e?.metal_rate;
             obj.Size = e?.Size;
             obj.lineid = e?.lineid;
-            obj.diaShp = e?.diamonds[0]?.ShapeName;
-            obj.diaQly = e?.diamonds[0]?.QualityName;
-            obj.dia_code = e?.diamonds[0] ? (e?.diamonds[0]?.ShapeName + " " + e?.diamonds[0]?.QualityName + " " + e?.diamonds[0]?.Colorname) : '';
-            obj.dia_size = e?.diamonds[0] ? e?.diamonds[0]?.SizeName : '';
-            obj.dia_pcs = e?.diamonds[0] ? e?.diamonds[0]?.Pcs : '';
-            obj.dia_wt = e?.diamonds[0] ? (+((e?.diamonds[0]?.Wt)?.toFixed(3))) : '';
-            // obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
-            obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
-            obj.dia_amt = e?.diamonds[0] ? (e?.diamonds[0]?.Amount) : '';
+            obj.diamond_Amt = e?.totals?.diamonds?.Amount;
+            // obj.diaShp = e?.diamonds[0]?.ShapeName;
+            // obj.diaQly = e?.diamonds[0]?.QualityName;
+
+            obj.diaQly2 = e?.diamonds_qly[0]?.D_QUL;
+            obj.dia_rnd_pcs = e?.diamonds_qly[0]?.D_RND_PCS;
+            obj.dia_rnd_wt = e?.diamonds_qly[0]?.D_RND_WT;
+            obj.dia_bug_pcs = e?.diamonds_qly[0]?.D_BUG_PCS;
+            obj.dia_bug_wt = e?.diamonds_qly[0]?.D_BUG_WT;
+            obj.dia_prs_pcs = e?.diamonds_qly[0]?.D_PRS_PCS;
+            obj.dia_prs_wt = e?.diamonds_qly[0]?.D_PRS_WT;
+
+            // obj.dia_code = e?.diamonds[0] ? (e?.diamonds[0]?.ShapeName + " " + e?.diamonds[0]?.QualityName + " " + e?.diamonds[0]?.Colorname) : '';
+            // obj.dia_size = e?.diamonds[0] ? e?.diamonds[0]?.SizeName : '';
+            // obj.dia_pcs = e?.diamonds[0] ? e?.diamonds[0]?.Pcs : '';
+            // obj.dia_wt = e?.diamonds[0] ? (+((e?.diamonds[0]?.Wt)?.toFixed(3))) : '';
+            // // obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
+            // obj.dia_rate = e?.diamonds[0] ? (Math.round(((e?.diamonds[0]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[0]?.Wt === 0 ? 1 : e?.diamonds[0]?.Wt)))) : '';
+            // obj.dia_amt = e?.diamonds[0] ? (e?.diamonds[0]?.Amount) : '';
 
 
             obj.met_quality = '';
@@ -389,25 +462,49 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                 }
 
                 //diamond
-                obj.dia_code = '';
-                obj.dia_size = '';
-                obj.dia_pcs = 0;
-                obj.dia_wt = 0;
-                obj.dia_rate = 0;
-                obj.dia_amt = 0;
-                obj.diaflag = false;
-                if(e?.diamonds[ind+1]){
-                    obj.diaflag = true;
-                    obj.diaShp = e?.diamonds[ind + 1]?.ShapeName;
-                    obj.diaQly = e?.diamonds[ind + 1]?.QualityName;
-                    obj.dia_code = (e?.diamonds[ind + 1]?.ShapeName + " " + e?.diamonds[ind + 1]?.QualityName + " " + e?.diamonds[ind + 1]?.Colorname);
-                    obj.dia_size = e?.diamonds[ind + 1]?.SizeName;
-                    obj.dia_pcs = e?.diamonds[ind + 1]?.Pcs;
-                    obj.dia_wt = ((e?.diamonds[ind + 1]?.Wt)?.toFixed(3));
-                    // obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
-                    obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
-                    obj.dia_amt = (formatAmount(e?.diamonds[ind + 1]?.Amount));
+                // obj.dia_code = '';
+                // obj.dia_size = '';
+                // obj.dia_pcs = 0;
+                // obj.dia_wt = 0;
+                // obj.dia_rate = 0;
+                // obj.dia_amt = 0;
+                // obj.diaflag = false;
+                // if(e?.diamonds[ind+1]){
+                //     obj.diaflag = true;
+                //     obj.diaShp = e?.diamonds[ind + 1]?.ShapeName;
+                //     obj.diaQly = e?.diamonds[ind + 1]?.QualityName;
+                //     obj.dia_code = (e?.diamonds[ind + 1]?.ShapeName + " " + e?.diamonds[ind + 1]?.QualityName + " " + e?.diamonds[ind + 1]?.Colorname);
+                //     obj.dia_size = e?.diamonds[ind + 1]?.SizeName;
+                //     obj.dia_pcs = e?.diamonds[ind + 1]?.Pcs;
+                //     obj.dia_wt = ((e?.diamonds[ind + 1]?.Wt)?.toFixed(3));
+                //     // obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / result?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
+                //     obj.dia_rate = (Math.round((e?.diamonds[ind + 1]?.Amount / datas?.header?.CurrencyExchRate) / (e?.diamonds[ind + 1]?.Wt === 0 ? 1 : e?.diamonds[ind + 1]?.Wt)));
+                //     obj.dia_amt = (formatAmount(e?.diamonds[ind + 1]?.Amount));
+
+                
+
+                // }
+
+                //dia_qyl
+                obj.diaQly2 = '';
+                obj.dia_prs_pcs = 0;
+                obj.dia_prs_wt = 0;
+                obj.dia_bug_pcs = 0;
+                obj.dia_bug_wt = 0;
+                obj.dia_rnd_pcs = 0;
+                obj.dia_rnd_wt = 0;
+
+                if(e?.diamonds_qly[ind+1]){
+                  obj.diaflag = true;
+                  obj.diaQly2 = e?.diamonds_qly[ind+1]?.D_QUL;
+                  obj.dia_rnd_pcs = e?.diamonds_qly[ind+1]?.D_RND_PCS;
+                  obj.dia_rnd_wt = e?.diamonds_qly[ind+1]?.D_RND_WT;
+                  obj.dia_bug_pcs = e?.diamonds_qly[ind+1]?.D_BUG_PCS;
+                  obj.dia_bug_wt = e?.diamonds_qly[ind+1]?.D_BUG_WT;
+                  obj.dia_prs_pcs = e?.diamonds_qly[ind+1]?.D_PRS_PCS;
+                  obj.dia_prs_wt = e?.diamonds_qly[ind+1]?.D_PRS_WT;
                 }
+
 
                 // colorstone
                 obj.cls_code = '';
@@ -446,318 +543,10 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         setResult2(finalArr);
         setResult(datas);
 
-        // let catewise = [];
-
-        // datas?.resultArray?.forEach((e, i) => {
-        //     let obj = cloneDeep(e);
-        //     let findrec = catewise?.findIndex((a) => a?.Categoryname === obj?.Categoryname)
-        //     if(findrec === -1){
-        //         catewise.push(obj)
-        //     }else{
-        //         catewise[findrec].Quantity += obj?.Quantity;
-        //     }
-        // })
-
-        // catewise.sort((a, b) => a.Categoryname.localeCompare(b.Categoryname));
-        // setResult3(catewise)
-
-
-        //wroking code
-        // let aggregatedData = {};
-
-        // datas?.resultArray?.forEach((a) => {
-        //     // Key for grouping by job
-        //     // let jobKey = `${a?.MFG_DesignNo}_${a?.SrJobno}_${a?.designno}_${a?.designImage}_${a?.Categoryname}_${a?.grosswt}_${a?.NetWt}_${a?.values?.totals?.colorstone?.Pcs}_${a?.metal_rate}_${a?.values?.totals?.metal?.Amount}`;
-        //     let jobKey = `${a?.SrJobno}`;
-        //     // Initialize the aggregated data object for the current job if it doesn't exist
-        //     if (!aggregatedData[jobKey]) {
-        //         aggregatedData[jobKey] = {
-        //             dia_rnd_pcs: 0,
-        //             dia_rnd_wt: 0,
-        //             dia_bug_pcs: 0,
-        //             dia_bug_wt: 0,
-        //             dia_prs_pcs: 0,
-        //             dia_prs_wt: 0,
-        //             dia_amt: 0,
-        //             // Other properties as needed
-        //         };
-        //     }
-        //     // Iterate through the diamonds array of the current job
-        //     a?.diamonds?.forEach((al) => {
-        //         // Determine the shape and quality of the diamond
-        //         const shape = al?.ShapeName?.toLowerCase() || '';
-        //         const quality = al?.QualityName || '';
-        //         // Update the aggregated data based on the shape and quality
-        //         switch ((shape)) {
-        //             case 'rnd':
-        //                 aggregatedData[jobKey].dia_rnd_pcs += al?.Pcs || 0;
-        //                 aggregatedData[jobKey].dia_rnd_wt += al?.Wt || 0;
-        //                 break;
-        //             case 'bug':
-        //                 aggregatedData[jobKey].dia_bug_pcs += al?.Pcs || 0;
-        //                 aggregatedData[jobKey].dia_bug_wt += al?.Wt || 0;
-        //                 break;
-        //             case 'prs':
-        //                 aggregatedData[jobKey].dia_prs_pcs += al?.Pcs || 0;
-        //                 aggregatedData[jobKey].dia_prs_wt += al?.Wt || 0;
-        //                 break;
-        //             // Handle other shapes if needed
-        //             default:
-        //                 break;
-        //         }
-        //         // Update the total diamond amount for the job
-        //         aggregatedData[jobKey].dia_amt += al?.Amount || 0;
-        //     });
-        // });
-
-        // console.log(aggregatedData);
-
-//         let aggregatedData = {};
-
-// datas?.resultArray?.forEach((a) => {
-//     // Key for grouping by job
-//     let jobKey = `${a?.SrJobno}`;
-//     // Initialize the aggregated data object for the current job if it doesn't exist
-//     if (!aggregatedData[jobKey]) {
-//         aggregatedData[jobKey] = {};
-//     }
-//     // Iterate through the diamonds array of the current job
-//     a?.diamonds?.forEach((al) => {
-//         // Determine the shape and quality of the diamond
-//         const shape = al?.ShapeName?.toLowerCase() || '';
-//         const quality = al?.QualityName || '';
-//         // Initialize the quality object for the current shape if it doesn't exist
-//         if (!aggregatedData[jobKey][shape]) {
-//             aggregatedData[jobKey][shape] = {};
-//         }
-//         // Initialize the quality array for the current shape and quality if it doesn't exist
-//         if (!aggregatedData[jobKey][shape][quality]) {
-//             aggregatedData[jobKey][shape][quality] = {
-//                 dia_rnd_pcs: 0,
-//                 dia_rnd_wt: 0,
-//                 dia_bug_pcs: 0,
-//                 dia_bug_wt: 0,
-//                 dia_prs_pcs: 0,
-//                 dia_prs_wt: 0,
-//             };
-//         }
-//         // Update the aggregated data based on the shape, quality, and quantity of the diamond
-//         switch (shape) {
-//             case 'rnd':
-//                 aggregatedData[jobKey][shape][quality].dia_rnd_pcs += al?.Pcs || 0;
-//                 aggregatedData[jobKey][shape][quality].dia_rnd_wt += al?.Wt || 0;
-//                 break;
-//             case 'bug':
-//                 aggregatedData[jobKey][shape][quality].dia_bug_pcs += al?.Pcs || 0;
-//                 aggregatedData[jobKey][shape][quality].dia_bug_wt += al?.Wt || 0;
-//                 break;
-//             case 'prs':
-//                 aggregatedData[jobKey][shape][quality].dia_prs_pcs += al?.Pcs || 0;
-//                 aggregatedData[jobKey][shape][quality].dia_prs_wt += al?.Wt || 0;
-//                 break;
-//             // Handle other shapes if needed
-//             default:
-//                 break;
-//         }
-//     });
-// }); 
-//   console.log(aggregatedData);
-
-
-// let finalArr2 = [];
-
-// datas?.resultArray?.forEach((e, i) => {
-//     // Group diamonds by qualityName
-//     const qualityGroups = {};
-//     e?.diamonds?.forEach((diamond) => {
-//         const qualityName = diamond?.QualityName?.toLowerCase();
-//         if (!qualityGroups[qualityName]) {
-//             qualityGroups[qualityName] = [];
-//         }
-//         qualityGroups[qualityName].push(diamond);
-//     });
-
-//     // Initialize the result object
-//     const resultObj = {
-//         SrJobno: `${e?.SrJobno}`,
-//         designno: e?.designno,
-//         grosswt: e?.grosswt,
-//         Categoryname: e?.Categoryname,
-//         NetWt: e?.NetWt,
-//         Size: e?.Size,
-//         lineid: e?.lineid,
-//         matrialArr: []
-//     };
-
-//     // Process each quality group
-//     Object.entries(qualityGroups).forEach(([qualityName, diamonds]) => {
-//         const qualityTotal = {
-//             dia_pcs: 0,
-//             dia_wt: 0,
-//             dia_amt: 0
-//         };
-
-//         // Group diamonds by shapeName within qualityName
-//         const shapeGroups = {};
-//         diamonds.forEach((diamond) => {
-//             const shapeName = diamond?.ShapeName?.toLowerCase();
-//             if (!shapeGroups[shapeName]) {
-//                 shapeGroups[shapeName] = [];
-//             }
-//             shapeGroups[shapeName].push(diamond);
-
-//             // Update quality total
-//             qualityTotal.dia_pcs += diamond?.Pcs || 0;
-//             qualityTotal.dia_wt += diamond?.Wt || 0;
-//             qualityTotal.dia_amt += diamond?.Amount || 0;
-//         });
-
-//         // Push data for each shapeName within qualityName
-//         Object.entries(shapeGroups).forEach(([shapeName, diamonds]) => {
-//             const shapeTotal = {
-//                 dia_pcs: diamonds.reduce((acc, diamond) => acc + (diamond?.Pcs || 0), 0),
-//                 dia_wt: diamonds.reduce((acc, diamond) => acc + (diamond?.Wt || 0), 0),
-//                 dia_amt: diamonds.reduce((acc, diamond) => acc + (diamond?.Amount || 0), 0)
-//             };
-
-//             resultObj.matrialArr.push({
-//                 diaShp: shapeName,
-//                 diaQly: qualityName.toUpperCase(),
-//                 dia_pcs: shapeTotal.dia_pcs,
-//                 dia_wt: shapeTotal.dia_wt.toFixed(3),
-//                 dia_amt: formatAmount(shapeTotal.dia_amt)
-//             });
-//         });
-
-//         // Update total for this quality group
-//         resultObj.matrialArr.push({
-//             diaShp: 'Total',
-//             diaQly: qualityName.toUpperCase(),
-//             dia_pcs: qualityTotal.dia_pcs,
-//             dia_wt: qualityTotal.dia_wt.toFixed(3),
-//             dia_amt: formatAmount(qualityTotal.dia_amt)
-//         });
-//     });
-
-//     finalArr2.push(resultObj);
-// });
-//   console.log(finalArr2);
-// setResult2(finalArr);
-      
-
-//almost work
-// let qualityShapeData = {};
-
-// datas?.resultArray?.forEach((a) => {
-//     a?.diamonds?.forEach((diamond) => {
-//         const quality = diamond?.QualityName?.toUpperCase();
-//         const shape = diamond?.ShapeName?.toLowerCase();
-        
-//         // Initialize quality if not exists
-//         if (!qualityShapeData[quality]) {
-//             qualityShapeData[quality] = {
-//                 D_RND_PCS: 0,
-//                 D_RND_WT: 0,
-//                 D_BUG_PCS: 0,
-//                 D_BUG_WT: 0,
-//                 D_PRS_PCS: 0,
-//                 D_PRS_WT: 0
-//             };
-//         }
-        
-//         // Accumulate counts and weights based on shape
-//         qualityShapeData[quality][`D_${shape.toUpperCase()}_PCS`] += diamond?.Pcs || 0;
-//         qualityShapeData[quality][`D_${shape.toUpperCase()}_WT`] += diamond?.Wt || 0;
-//     });
-// });
-// console.log(qualityShapeData);
-
-        //90% done
-// let jobWiseData = {};
-
-// datas?.resultArray?.forEach((a) => {
-//     // Extract job number
-//     const jobNumber = a?.SrJobno;
-    
-//     // Initialize job if not exists
-//     if (!jobWiseData[jobNumber]) {
-//         jobWiseData[jobNumber] = {};
-//     }
-    
-//     a?.diamonds?.forEach((diamond) => {
-//         const quality = diamond?.QualityName?.toUpperCase();
-//         const shape = diamond?.ShapeName?.toLowerCase();
-        
-//         // Initialize quality if not exists
-//         if (!jobWiseData[jobNumber][quality]) {
-//             jobWiseData[jobNumber][quality] = {
-//                 D_RND_PCS: 0,
-//                 D_RND_WT: 0,
-//                 D_BUG_PCS: 0,
-//                 D_BUG_WT: 0,
-//                 D_PRS_PCS: 0,
-//                 D_PRS_WT: 0
-//             };
-//         }
-        
-//         // Accumulate counts and weights based on shape
-//         jobWiseData[jobNumber][quality][`D_${shape.toUpperCase()}_PCS`] += diamond?.Pcs || 0;
-//         jobWiseData[jobNumber][quality][`D_${shape.toUpperCase()}_WT`] += diamond?.Wt || 0;
-//     });
-// });
-
-// console.log(jobWiseData);
-
-let jobWiseData = {};
-
-datas?.resultArray?.forEach((a) => {
-    // Extract job number
-    const jobNumber = a?.SrJobno;
-    
-    // Initialize job if not exists
-    if (!jobWiseData[jobNumber]) {
-        jobWiseData[jobNumber] = {
-            diamonds: []
-        };
-    }
-    
-    let qualityShapeData = {};
-    
-    a?.diamonds?.forEach((diamond) => {
-        const quality = diamond?.QualityName?.toUpperCase();
-        const shape = diamond?.ShapeName?.toLowerCase();
-        
-        // Initialize quality if not exists
-        if (!qualityShapeData[quality]) {
-            qualityShapeData[quality] = {
-                D_RND_PCS: 0,
-                D_RND_WT: 0,
-                D_BUG_PCS: 0,
-                D_BUG_WT: 0,
-                D_PRS_PCS: 0,
-                D_PRS_WT: 0
-            };
-        }
-        
-        // Accumulate counts and weights based on shape
-        qualityShapeData[quality][`D_${shape.toUpperCase()}_PCS`] += diamond?.Pcs || 0;
-        qualityShapeData[quality][`D_${shape.toUpperCase()}_WT`] += diamond?.Wt || 0;
-    });
-    console.log(qualityShapeData);
-    
-    // Add quality and shape data to the current job
-    jobWiseData[jobNumber].diamonds.push(qualityShapeData);
-});
-
-console.log(jobWiseData);
-
-
-
-        // for download excel direct
-        // setTimeout(() => {
-        //     const button = document.getElementById('test-table-xls-button');
-        //     button.click();
-        //   }, 500);
+         setTimeout(() => {
+            const button = document.getElementById('test-table-xls-button');
+            button.click();
+          }, 500);
 
 
         //loadData end
@@ -788,7 +577,7 @@ console.log(jobWiseData);
                     id="test-table-xls-button"
                     className="download-table-xls-button btn btn-success text-black bg-success px-2 py-1 fs-5 d-none"
                     table="table-to-xls"
-                    filename={`TaxInvoice_${result?.header?.InvoiceNo}_${Date.now()}`}
+                    filename={`Packing_List_C_${result?.header?.InvoiceNo}_${Date.now()}`}
                     sheet="tablexls"
                     buttonText="Download as XLS"
                  />
@@ -848,22 +637,29 @@ console.log(jobWiseData);
                                         <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.values?.totals?.diamonds?.Pcs}&nbsp;</td>
                                         <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.values?.totals?.diamonds?.Wt?.toFixed(3)}&nbsp;</td>
 
-                                        <td width={140} align='left' style={{borderRight:'1px solid #989898'}} >&nbsp;{(e?.diaShp?.toLowerCase() === 'rnd' || e?.diaShp?.toLowerCase() === 'bug' || e?.diaShp?.toLowerCase() === 'prs' ) && e?.diaQly}</td>
+                                        {/* <td width={140} align='left' style={{borderRight:'1px solid #989898'}} >&nbsp;{(e?.diaShp?.toLowerCase() === 'rnd' || e?.diaShp?.toLowerCase() === 'bug' || e?.diaShp?.toLowerCase() === 'prs' ) && e?.diaQly}</td> */}
+                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.diaQly2}</td>
 
-                                        <td width={140} align='left' style={{borderRight:'1px solid #989898'}} >&nbsp;{e?.diaShp?.toLowerCase() === 'rnd' ? e?.dia_pcs : ''}</td>
-                                        <td width={140} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'rnd' && e?.dia_wt}</td>
-                                        <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'bug' && e?.dia_pcs}</td>
+                                        {/* <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.diaShp?.toLowerCase() === 'rnd' ? e?.dia_pcs : ''}</td> */}
+                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.dia_rnd_pcs}</td>
+                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.dia_rnd_wt}</td>
+                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.dia_bug_pcs}</td>
+                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.dia_bug_wt}</td>
+                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.dia_prs_pcs}</td>
+                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.dia_prs_wt}</td>
+                                        {/* <td width={140} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'rnd' && e?.dia_wt}</td> */}
+                                        {/* <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'bug' && e?.dia_pcs}</td>
                                         <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{( e?.dia_wt === '' ? '' : (e?.diaShp?.toLowerCase() === 'bug' && (+(e?.dia_wt?.toFixed(3)))))}</td>
                                         
                                         <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'prs' && e?.dia_pcs}</td>
-                                        <th align='left' width={90} style={{borderRight:'1px solid black'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'prs' && e?.dia_wt}</th>
+                                        <th align='left' width={90} style={{borderRight:'1px solid black'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'prs' && e?.dia_wt}</th> */}
                                         
                                         <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
                                         <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
                                         <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
                                         <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
                                         <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                        <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;{e?.dia_amt === '' ? '' : e?.dia_amt}</td>
+                                        <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;{e?.diamond_Amt === '' ? '' : e?.diamond_Amt}</td>
 
                                         <td width={90} align='left' style={{borderRight:'1px solid black'}} colSpan={1}>&nbsp;{e?.Size}</td>
                                         
@@ -892,16 +688,24 @@ console.log(jobWiseData);
                                                 <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
                                                 <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
                                                 <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td>
-                                                <td width={90} align='left' style={{borderLeft:'1px solid black', borderRight:'1px solid #989898'}}>&nbsp;{ val?.diaflag && `${(val?.diaShp?.toLowerCase() === 'rnd' || val?.diaShp?.toLowerCase() === 'bug' || val?.diaShp?.toLowerCase() === 'prs' ) && val?.diaQly}`}</td>
+                                                {/* <td width={90} align='left' style={{borderLeft:'1px solid black', borderRight:'1px solid #989898'}}>&nbsp;{ val?.diaflag && `${(val?.diaShp?.toLowerCase() === 'rnd' || val?.diaShp?.toLowerCase() === 'bug' || val?.diaShp?.toLowerCase() === 'prs' ) && val?.diaQly}`}</td> */}
+                                                <td width={90} align='left' style={{borderLeft:'1px solid black', borderRight:'1px solid black'}}>&nbsp;{ val?.diaflag && `${val?.diaQly2}`}</td>
 
-                                                <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{ val?.diaflag && `${val?.diaShp?.toLowerCase() === 'rnd' ? val?.dia_pcs : ''}`}</td>
+                                                <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_rnd_pcs}</td>
+                                                <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_rnd_wt}</td>
+                                                <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_bug_pcs}</td>
+                                                <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_bug_wt}</td>
+                                                <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_prs_pcs}</td>
+                                                <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_prs_wt}</td>
+
+                                                {/* <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{ val?.diaflag && `${val?.diaShp?.toLowerCase() === 'rnd' ? val?.dia_pcs : ''}`}</td>
                                                 <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{val?.diaflag && `${val?.diaShp?.toLowerCase() === 'rnd' ? val?.dia_wt : ''}`}</td>
                                                 <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{val?.diaflag && val?.diaShp?.toLowerCase() === 'bug' && val?.dia_pcs}</td>
                                                 <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{val?.diaflag && val?.diaShp?.toLowerCase() === 'bug' && val?.dia_wt}</td>
                                                 
                                                 <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{val?.diaflag && val?.diaShp?.toLowerCase() === 'prs' && val?.dia_pcs}</td>
 
-                                                <th width={90} style={{borderRight:'1px solid black'}} align='left'>&nbsp;{val?.diaflag && (val?.diaShp?.toLowerCase() === 'prs' && val?.dia_wt)}</th>
+                                                <th width={90} style={{borderRight:'1px solid black'}} align='left'>&nbsp;{val?.diaflag && (val?.diaShp?.toLowerCase() === 'prs' && val?.dia_wt)}</th> */}
                                                 <td width={90} style={{borderRight:'1px solid black'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid black'}}></td>
                                                 <td width={90} style={{borderRight:'1px solid black'}}></td>
@@ -928,12 +732,12 @@ console.log(jobWiseData);
                                         <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
                                         <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
                                         <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td style={{  borderBottom:'1px solid black', borderRight:'1px solid #989898'}}></td>
-                                        <td style={{ borderBottom:'1px solid black', borderRight:'1px solid #989898'}}></td>
-                                        <th align='left' style={{ borderBottom:'1px solid black', borderRight:'1px solid #989898'}}>&nbsp;</th>
-                                        <th align='left' style={{ borderBottom:'1px solid black', borderRight:'1px solid #989898'}}>&nbsp;</th>
-                                        <th align='left' style={{  borderBottom:'1px solid black', borderRight:'1px solid #989898'}}>&nbsp;</th>
-                                        <th align='left' style={{  borderBottom:'1px solid black', borderRight:'1px solid #989898'}}></th>
+                                        <td style={{  borderBottom:'1px solid black', borderRight:'1px solid black'}}></td>
+                                        <td style={{ borderBottom:'1px solid black', borderRight:'1px solid black'}}></td>
+                                        <th align='left' style={{ borderBottom:'1px solid black', borderRight:'1px solid black'}}>&nbsp;</th>
+                                        <th align='left' style={{ borderBottom:'1px solid black', borderRight:'1px solid black'}}>&nbsp;</th>
+                                        <th align='left' style={{  borderBottom:'1px solid black', borderRight:'1px solid black'}}>&nbsp;</th>
+                                        <th align='left' style={{  borderBottom:'1px solid black', borderRight:'1px solid black'}}></th>
                                         <th align='left' style={{   borderBottom:'1px solid black', borderRight:'1px solid black'}}>&nbsp;</th>
                                         <td align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
                                         <td align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
@@ -964,12 +768,12 @@ console.log(jobWiseData);
                                 <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='left'>{result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</th>
                                 <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='left'>{result?.mainTotal?.diamonds?.Pcs?.toFixed(3)}</th>
                                 <td style={{borderTop:'1px solid black', borderLeft:'1px solid black', borderBottom:'1px solid black'}}></td>
-                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid #989898'}} align='left'>&nbsp;{mainTotal?.dia_rnd_pcs}</th>
-                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid #989898'}} align='left'>&nbsp;{mainTotal?.dia_rnd_wt?.toFixed(3)}</th>
-                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid #989898'}} align='left'>&nbsp;{mainTotal?.dia_bug_pcs}</th>
-                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid #989898'}} align='left'>&nbsp;{mainTotal?.dia_bug_wt?.toFixed(3)}</th>
-                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid #989898'}} align='left'>{mainTotal?.dia_prs_pcs}</th>
-                                <th style={{borderRight:'1px solid black', borderTop:'1px solid black',  borderBottom:'1px solid black', borderLeft:'1px solid #989898'}} align='left'>&nbsp;{mainTotal?.dia_prs_wt?.toFixed(3)}</th>
+                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='left'>&nbsp;{mainTotal?.dia_rnd_pcs}</th>
+                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='left'>&nbsp;{mainTotal?.dia_rnd_wt?.toFixed(3)}</th>
+                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='left'>&nbsp;{mainTotal?.dia_bug_pcs}</th>
+                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='left'>&nbsp;{mainTotal?.dia_bug_wt?.toFixed(3)}</th>
+                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='left'>{mainTotal?.dia_prs_pcs}</th>
+                                <th style={{borderRight:'1px solid black', borderTop:'1px solid black',  borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='left'>&nbsp;{mainTotal?.dia_prs_wt?.toFixed(3)}</th>
                                 
                                 <td style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}}></td>
                                 <td style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}}></td>
