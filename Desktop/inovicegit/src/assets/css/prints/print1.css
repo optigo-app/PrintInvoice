@@ -11,6 +11,26 @@
       .b_t_qp1 {
         page-break-inside: avoid;
     }
+    .j_h_qp1{
+        display: flex;
+        justify-content: space-between;
+        padding-right: 10px;
+    }
+    .j_qp1{
+        display: flex;
+        justify-content: space-between;
+    }
+    .w_110_qp1{
+        max-width: 110px;
+        min-width: 110px;
+    }
+    .w_0_qp1{
+        max-width: 0px !important;
+        min-width: 0px !important;
+    }
+    .br_right_r_qp1{
+        border-right: none !important;
+    }
 }
 .display_qp1{
     display: none;
@@ -57,8 +77,8 @@
 }
 
 .itemdiv_qp1 {
-    min-width: 260px;
-    max-width: 260px;
+    min-width: 230px;
+    max-width: 230px;
     border: 1px solid lightgray;
     padding: 10px;
 }
@@ -68,10 +88,11 @@
 }
 
 .image_qp1 {
-    max-height: 100%;
+    max-height: 190px;
     min-height: 190px;
-    max-width: 180px;
-    min-width: 180px;
+    max-width: 100%;
+    min-width: 100%;
+    margin-bottom: 30px;
 }
 .i_qp1{
     object-fit: contain ;
@@ -82,8 +103,8 @@
 }
 
 .main_width_qp1 {
-    min-width: 260px;
-    max-width: 260px;
+    min-width: 230px;
+    max-width: 230px;
 }
 
 .child1_w_qp1 {
@@ -97,8 +118,8 @@
 }
 
 .child3_w_qp1 {
-    min-width: 100px;
-    max-width: 100px;
+    min-width: 70px;
+    max-width: 70px;
 }
 
 .text_end_qp1 {
@@ -203,4 +224,7 @@
 
 .padding_bottom_qp1 {
     padding-bottom: 15px;
+}
+.h_qp1{
+    height: 20px;
 }
