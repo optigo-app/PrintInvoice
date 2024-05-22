@@ -106,15 +106,14 @@ const Print1Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }, 0);
     };
 
-    console.log(result);
 
     return (
         <>
             {loader ? <Loader /> : msg === '' ? <div><div className='container_qp1'>
-                <div className='d_flex_qp1 flex_direction_colum_qp1'>
+                <div className='d_flex_qp1 flex_direction_colum_qp1 main_qp1'>
                     <div className='d_flex_qp1'>
-                        <div className='printbtn_qp1' onClick={handlePrintwithoutprice}>Print WithOut Price</div>
-                        <div className='printbtn2_qp1' onClick={handlePrintwithprice}>Print With Price</div>
+                        <div className='printbtn_qp1 print_btn_qp1' onClick={handlePrintwithoutprice}>Print WithOut Price</div>
+                        <div className='printbtn2_qp1 print_btn_qp1' onClick={handlePrintwithprice}>Print With Price</div>
                     </div>
                     <div className='d_flex_qp1'>
                         <div>Quotation# :</div>
@@ -148,19 +147,19 @@ const Print1Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         </div>
                                         <div>
                                             <div className={removeclass === false ? "j_qp1 d_flex_qp1 text_end_qp1" : 'd_flex_qp1 text_end_qp1'}>
-                                                    <div className='child1_w_qp1 text_start_qp1'>{res?.MetalType} {res?.MetalPurity} {res?.MetalColor}</div>
-                                                    <div className='child2_w_qp1'>{res?.MetalWeight?.toFixed(3)}</div>
-                                                    <div className={removeclass === false ? "print_btn_qp1" : ""}><div className='child3_w_qp1'>{formatAmount(res?.MetalAmount)}</div></div>
+                                                <div className='child1_w_qp1 text_start_qp1'>{res?.MetalType} {res?.MetalPurity} {res?.MetalColor}</div>
+                                                <div className='child2_w_qp1'>{res?.MetalWeight?.toFixed(3)}</div>
+                                                <div className={removeclass === false ? "print_btn_qp1" : ""}><div className='child3_w_qp1'>{formatAmount(res?.MetalAmount)}</div></div>
                                             </div>
                                             <div className={removeclass === false ? "j_qp1 d_flex_qp1 text_end_qp1" : 'd_flex_qp1 text_end_qp1'}>
-                                                    <div className='child1_w_qp1 text_start_qp1'>Diamond</div>
-                                                    <div className='child2_w_qp1'>{res.totals?.diamonds?.Wt?.toFixed(3)}</div>
-                                                    <div className={removeclass === false ? "print_btn_qp1" : ""}><div className='child3_w_qp1'>{formatAmount(res?.totals?.diamonds?.Amount)}</div></div>
+                                                <div className='child1_w_qp1 text_start_qp1'>Diamond</div>
+                                                <div className='child2_w_qp1'>{res.totals?.diamonds?.Wt?.toFixed(3)}</div>
+                                                <div className={removeclass === false ? "print_btn_qp1" : ""}><div className='child3_w_qp1'>{formatAmount(res?.totals?.diamonds?.Amount)}</div></div>
                                             </div>
                                             <div className={removeclass === false ? "j_qp1 d_flex_qp1 text_end_qp1" : 'd_flex_qp1 text_end_qp1'}>
-                                                    <div className='child1_w_qp1 text_start_qp1'>Color Stone</div>
-                                                    <div className='child2_w_qp1'>{res.totals?.colorstone?.Wt?.toFixed(3)}</div>
-                                                    <div className={removeclass === false ? "print_btn_qp1" : ""}><div className=' child3_w_qp1'>{formatAmount(res?.totals?.colorstone?.Amount)}</div></div>
+                                                <div className='child1_w_qp1 text_start_qp1'>Color Stone</div>
+                                                <div className='child2_w_qp1'>{res.totals?.colorstone?.Wt?.toFixed(3)}</div>
+                                                <div className={removeclass === false ? "print_btn_qp1" : ""}><div className=' child3_w_qp1'>{formatAmount(res?.totals?.colorstone?.Amount)}</div></div>
                                             </div>
                                             <div className='d_flex_qp1 text_end_qp1'>
                                                 <div className='child1_w_qp1 text_start_qp1'>Labour</div>
@@ -175,7 +174,7 @@ const Print1Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                             <div className='d_flex_qp1 text_end_qp1'>
                                                 <div className='child1_w_qp1 text_start_qp1'>Total</div>
                                                 <div className='child2_w_qp1'></div>
-                                                <div className='child3_w_qp1'><div className={removeclass === false ? "print_btn_qp1" : ""}>{formatAmount(res?.TotalAmount)}</div></div>
+                                                <div className='child3_w_qp1 font_bold_qp1'><div className={removeclass === false ? "print_btn_qp1" : ""}>{formatAmount(res?.TotalAmount)}</div></div>
                                             </div>
                                         </div>
                                     </div>
@@ -184,60 +183,60 @@ const Print1Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         })}
 
                     </div>
-                    <div className='d_flex_qp1 '>
+                    <div className='d_flex_qp1 m_t_qp1 b_t_qp1'>
                         <div className='d_flex_qp1 summary_w_qp1'>
                             <div className='d_flex_qp1 br_black_qp1 br_right_remove_qp1'>
                                 <div className='fix_bottom_qp1'>
                                     <div className='background_qp1 font_bold_qp1 text_center_qp1 br_bottom_qp1'>SUMMARY</div>
                                     <div className='d_flex_qp1'>
-                                        <div className='br_right_qp1'>
-                                            <div className={removeclass === false ? "br_right_r_qp1" : ""}>
-                                                <div className='d_flex_qp1 justify_between_qp1'>
-                                                    <div className='padding_left_qp1 font_bold_qp1'>
-                                                        <p>GOLD IN 24KT</p>
-                                                        <p>GROSS WT</p>
-                                                        <p>*(G+D) WT</p>
-                                                        <p>NET WT</p>
-                                                        <p>DIAMOND WT</p>
-                                                        <p>STONE WT</p>
-                                                    </div>
-                                                    <div className='padding_right_qp1 text_end_qp1'>
-                                                        <p>{result?.mainTotal?.total_purenetwt.toFixed(3)}</p>
-                                                        <p>{result?.mainTotal?.grosswt.toFixed(3)}</p>
-                                                        <p>{((result?.mainTotal?.diamonds?.Wt / 5) + result?.mainTotal?.netwt)?.toFixed(3)}</p>
-                                                        <p>{result?.mainTotal?.netwt.toFixed(3)}</p>
-                                                        <p>{result?.mainTotal?.diamonds?.Pcs} / {result?.mainTotal?.diamonds?.Wt.toFixed(3)}</p>
-                                                        <p>{result?.mainTotal?.colorstone?.Pcs} / {result?.mainTotal?.colorstone?.Wt.toFixed(3)}</p>
-                                                    </div>
+                                        <div className={removeclass === false ? "br_right_r_qp1 br_right_qp1 d_flex_qp1 flex_direction_colum_qp1 justify_between_qp1" : "br_right_qp1 d_flex_qp1 flex_direction_colum_qp1 justify_between_qp1"} >
+                                            <div className='d_flex_qp1 justify_between_qp1'>
+                                                <div className='padding_left_qp1 font_bold_qp1'>
+                                                    <p>GOLD IN 24KT</p>
+                                                    <p>GROSS WT</p>
+                                                    <p>*(G+D) WT</p>
+                                                    <p>NET WT</p>
+                                                    <p>DIAMOND WT</p>
+                                                    <p>STONE WT</p>
                                                 </div>
-                                                <div className='d_flex_qp1 h_qp1 summary3_w_qp1 justify_between_qp1 background_qp1'>
-                                                    <div className='padding_left_qp1 font_bold_qp1'>
-                                                        <p></p>
-                                                    </div>
-                                                    <div className='padding_right_qp1 text_end_qp1'>
-                                                        <p></p>
-                                                    </div>
+                                                <div className='padding_right_qp1 text_end_qp1'>
+                                                    <p>{result?.mainTotal?.total_purenetwt.toFixed(3)} gm</p>
+                                                    <p>{result?.mainTotal?.grosswt.toFixed(3)} gm</p>
+                                                    <p>{((result?.mainTotal?.diamonds?.Wt / 5) + result?.mainTotal?.netwt)?.toFixed(3)} gm</p>
+                                                    <p>{result?.mainTotal?.netwt.toFixed(3)} gm</p>
+                                                    <p>{result?.mainTotal?.diamonds?.Pcs} / {result?.mainTotal?.diamonds?.Wt.toFixed(3)} cst</p>
+                                                    <p>{result?.mainTotal?.colorstone?.Pcs} / {result?.mainTotal?.colorstone?.Wt.toFixed(3)} cst</p>
+                                                </div>
+                                            </div>
+                                            <div className='d_flex_qp1 h_qp1 summary3_w_qp1 justify_between_qp1 background_qp1'>
+                                                <div className='padding_left_qp1 font_bold_qp1'>
+                                                    <p></p>
+                                                </div>
+                                                <div className='padding_right_qp1 text_end_qp1'>
+                                                    <p></p>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className={removeclass === false ? "print_btn_qp1" : ""}>
-                                            <div className='d_flex_qp1 summary4_w_qp1 justify_between_qp1'>
-                                                <div className='padding_left_qp1 font_bold_qp1'>
-                                                    <p>GOLD</p>
-                                                    <p>DIAMOND</p>
-                                                    <p>CST</p>
-                                                    <p>MAKING</p>
-                                                    <p>OTHER</p>
-                                                    <p>{result?.header?.AddLess >= 0 ? "Add" : "Less"}</p>
-                                                </div>
-                                                <div className='padding_right_qp1 text_end_qp1'>
-                                                    <p>{formatAmount(result?.mainTotal?.MetalAmount)}</p>
-                                                    <p>{formatAmount(result?.mainTotal?.diamonds?.Amount)}</p>
-                                                    <p>{formatAmount(result?.mainTotal?.colorstone?.Amount)}</p>
-                                                    <p>{formatAmount(result?.mainTotal?.total_labour?.labour_amount)}</p>
-                                                    <p>{formatAmount(result?.mainTotal?.total_other_charges)}</p>
-                                                    <p>{formatAmount(result?.header?.AddLess)}</p>
+                                        <div className={removeclass === false ? "print_btn_qp1 d_flex_qp1 flex_direction_colum_qp1 justify_between_qp1" : "d_flex_qp1 flex_direction_colum_qp1 justify_between_qp1"}>
+                                            <div>
+                                                <div className='d_flex_qp1 summary4_w_qp1 justify_between_qp1'>
+                                                    <div className='padding_left_qp1 font_bold_qp1'>
+                                                        <p>GOLD</p>
+                                                        <p>DIAMOND</p>
+                                                        <p>CST</p>
+                                                        <p>MAKING</p>
+                                                        <p>OTHER</p>
+                                                        <p>{result?.header?.AddLess >= 0 ? "Add" : "Less"}</p>
+                                                    </div>
+                                                    <div className='padding_right_qp1 text_end_qp1'>
+                                                        <p>{formatAmount(result?.mainTotal?.MetalAmount)}</p>
+                                                        <p>{formatAmount(result?.mainTotal?.diamonds?.Amount)}</p>
+                                                        <p>{formatAmount(result?.mainTotal?.colorstone?.Amount)}</p>
+                                                        <p>{formatAmount(result?.mainTotal?.total_labour?.labour_amount)}</p>
+                                                        <p>{formatAmount(result?.mainTotal?.total_other_charges)}</p>
+                                                        <p>{formatAmount(result?.header?.AddLess)}</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className='d_flex_qp1 summary4_w_qp1 justify_between_qp1 background_qp1'>
