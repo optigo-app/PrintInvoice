@@ -4,39 +4,11 @@
     margin: 0;
 }
 
-@media print {
-    .print_btn_qp1 {
-        display: none;
-      }
-      .b_t_qp1 {
-        page-break-inside: avoid;
-    }
-    .j_h_qp1{
-        display: flex;
-        justify-content: space-between;
-        padding-right: 10px;
-    }
-    .j_qp1{
-        display: flex;
-        justify-content: space-between;
-    }
-    .w_110_qp1{
-        max-width: 110px;
-        min-width: 110px;
-    }
-    .w_0_qp1{
-        max-width: 0px !important;
-        min-width: 0px !important;
-    }
-    .br_right_r_qp1{
-        border-right: none !important;
-    }
-}
 .display_qp1{
     display: none;
 }
 .container_qp1 {
-    max-width: 1200px;
+    max-width: 1230px;
     margin: 0 auto;
     font-size: 13px;
     padding-bottom: 60px;
@@ -51,6 +23,7 @@
     padding: 5px 10px;
     border: 1px solid gray;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .printbtn2_qp1 {
@@ -59,6 +32,10 @@
     border: 1px solid gray;
     margin-left: 5px;
     cursor: pointer;
+    border-radius: 5px;
+}
+.m_t_qp1{
+    margin-top: 6px;
 }
 
 .font_bold_qp1 {
@@ -73,14 +50,15 @@
 .main_div_qp1 {
     float: left;
     padding-right: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    line-height: 1.3;
 }
 
 .itemdiv_qp1 {
     min-width: 230px;
     max-width: 230px;
     border: 1px solid lightgray;
-    padding: 10px;
+    padding: 0px 10px;
 }
 
 .text_center_qp1 {
@@ -227,4 +205,39 @@
 }
 .h_qp1{
     height: 20px;
+}
+
+
+
+
+@media print {
+    .main_qp1{
+        zoom: 100%;
+      }
+    .print_btn_qp1 {
+        display: none;
+      }
+      .b_t_qp1 {
+        page-break-inside: avoid;
+    }
+    .j_h_qp1{
+        display: flex;
+        justify-content: space-between;
+        padding-right: 10px;
+    }
+    .j_qp1{
+        display: flex;
+        justify-content: space-between;
+    }
+    .w_110_qp1{
+        max-width: 110px;
+        min-width: 110px;
+    }
+    .w_0_qp1{
+        max-width: 0px !important;
+        min-width: 0px !important;
+    }
+    .br_right_r_qp1{
+        border-right: none !important;
+    }
 }
