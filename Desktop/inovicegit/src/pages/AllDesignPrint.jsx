@@ -67,11 +67,11 @@ const AllDesignPrint = () => {
     //   conditions = module.alterationReceiveConditions;
     // }
     switch (etpType) {
-      case "print":
-        conditions = checkEvName(etpType, evnname, module);
-        break;
       case "excel":
         conditions = module.excelConditions;
+        break;
+      case "print":
+        conditions = checkEvName(etpType, evnname, module);
         break;
       case "alteration":
         conditions = module.alterationConditions;
@@ -97,6 +97,12 @@ const AllDesignPrint = () => {
       }
       if(etpType === 'print' && evnname === 'quote'){
         return module.QuotationPrints || []
+      }
+      if(etpType === 'print' && evnname === 'alteration receive'){
+        return module.alterationArray || []
+      }
+      if(etpType === 'print' && evnname === 'alteration'){
+        return module.alterationArray || []
       }
   }
 

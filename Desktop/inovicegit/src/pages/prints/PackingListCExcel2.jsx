@@ -55,7 +55,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           copydata?.BillPrint_Json1,
           copydata?.BillPrint_Json2
         );
-
+          
         let diaObj = {
             ShapeName: "OTHERS",
             wtWt: 0,
@@ -238,30 +238,63 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             let dia1 = [];
             let dia2 = [];
             let dia3 = [];
-
+            let obj2 = {
+              dia_rnd_pcs : 0,
+              dia_rnd_wt : 0,
+              dia_bug_pcs : 0,
+              dia_bug_wt : 0,
+              dia_prs_pcs : 0,
+              dia_prs_wt : 0,
+              dia_amt:0
+          }
             a?.diamonds?.forEach((al) => {
                 if(al?.ShapeName?.toLowerCase() === 'rnd'){
                     dia1.push(al);
                     obj.dia_rnd_pcs += al?.Pcs;
                     obj.dia_rnd_wt += al?.Wt;
                     obj.dia_amt += al?.Amount;
+                    obj2.dia_rnd_pcs += al?.Pcs;
+                    obj2.dia_rnd_wt += al?.Wt;
+                    obj2.dia_amt += al?.Amount;
                 }
                 if(al?.ShapeName?.toLowerCase() === 'bug'){
                     dia2.push(al);
                     obj.dia_bug_pcs += al?.Pcs;
                     obj.dia_bug_wt += al?.Wt;
                     obj.dia_amt += al?.Amount;
+                    obj2.dia_bug_pcs += al?.Pcs;
+                    obj2.dia_bug_wt += al?.Wt;
+                    obj2.dia_amt += al?.Amount;
                 }
                 if(al?.ShapeName?.toLowerCase() === 'prs'){
                     dia3.push(al);
                     obj.dia_prs_pcs += al?.Pcs;
                     obj.dia_prs_wt += al?.Wt;
                     obj.dia_amt += al?.Amount;
+                    obj2.dia_prs_pcs += al?.Pcs;
+                    obj2.dia_prs_wt += al?.Wt;
+                    obj2.dia_amt += al?.Amount;
                 }
             })
             let dia4 = [...dia1, ...dia2, ...dia3];
             a.diamonds = dia4;
+            
         })
+
+        datas?.resultArray?.forEach((a) => {
+          let dia_qul = [];
+
+          a?.diamonds?.forEach((al) => {
+            let findrec = dia_qul?.findIndex((el) => el?.ShapeName === al?.ShapeName && el?.QualityName === al?.QualityName)
+            if(findrec === -1){
+              dia_qul.push(al);
+            }else{
+              dia_qul[findrec].Wt += al?.Wt;
+              dia_qul[findrec].Pcs += al?.Pcs;
+            }
+          })
+          // console.log(dia_qul);
+        });
        setMainTotal(obj);
         
         
@@ -429,16 +462,302 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
         // setResult3(catewise)
 
 
+        //wroking code
+        // let aggregatedData = {};
 
-       
+        // datas?.resultArray?.forEach((a) => {
+        //     // Key for grouping by job
+        //     // let jobKey = `${a?.MFG_DesignNo}_${a?.SrJobno}_${a?.designno}_${a?.designImage}_${a?.Categoryname}_${a?.grosswt}_${a?.NetWt}_${a?.values?.totals?.colorstone?.Pcs}_${a?.metal_rate}_${a?.values?.totals?.metal?.Amount}`;
+        //     let jobKey = `${a?.SrJobno}`;
+        //     // Initialize the aggregated data object for the current job if it doesn't exist
+        //     if (!aggregatedData[jobKey]) {
+        //         aggregatedData[jobKey] = {
+        //             dia_rnd_pcs: 0,
+        //             dia_rnd_wt: 0,
+        //             dia_bug_pcs: 0,
+        //             dia_bug_wt: 0,
+        //             dia_prs_pcs: 0,
+        //             dia_prs_wt: 0,
+        //             dia_amt: 0,
+        //             // Other properties as needed
+        //         };
+        //     }
+        //     // Iterate through the diamonds array of the current job
+        //     a?.diamonds?.forEach((al) => {
+        //         // Determine the shape and quality of the diamond
+        //         const shape = al?.ShapeName?.toLowerCase() || '';
+        //         const quality = al?.QualityName || '';
+        //         // Update the aggregated data based on the shape and quality
+        //         switch ((shape)) {
+        //             case 'rnd':
+        //                 aggregatedData[jobKey].dia_rnd_pcs += al?.Pcs || 0;
+        //                 aggregatedData[jobKey].dia_rnd_wt += al?.Wt || 0;
+        //                 break;
+        //             case 'bug':
+        //                 aggregatedData[jobKey].dia_bug_pcs += al?.Pcs || 0;
+        //                 aggregatedData[jobKey].dia_bug_wt += al?.Wt || 0;
+        //                 break;
+        //             case 'prs':
+        //                 aggregatedData[jobKey].dia_prs_pcs += al?.Pcs || 0;
+        //                 aggregatedData[jobKey].dia_prs_wt += al?.Wt || 0;
+        //                 break;
+        //             // Handle other shapes if needed
+        //             default:
+        //                 break;
+        //         }
+        //         // Update the total diamond amount for the job
+        //         aggregatedData[jobKey].dia_amt += al?.Amount || 0;
+        //     });
+        // });
+
+        // console.log(aggregatedData);
+
+//         let aggregatedData = {};
+
+// datas?.resultArray?.forEach((a) => {
+//     // Key for grouping by job
+//     let jobKey = `${a?.SrJobno}`;
+//     // Initialize the aggregated data object for the current job if it doesn't exist
+//     if (!aggregatedData[jobKey]) {
+//         aggregatedData[jobKey] = {};
+//     }
+//     // Iterate through the diamonds array of the current job
+//     a?.diamonds?.forEach((al) => {
+//         // Determine the shape and quality of the diamond
+//         const shape = al?.ShapeName?.toLowerCase() || '';
+//         const quality = al?.QualityName || '';
+//         // Initialize the quality object for the current shape if it doesn't exist
+//         if (!aggregatedData[jobKey][shape]) {
+//             aggregatedData[jobKey][shape] = {};
+//         }
+//         // Initialize the quality array for the current shape and quality if it doesn't exist
+//         if (!aggregatedData[jobKey][shape][quality]) {
+//             aggregatedData[jobKey][shape][quality] = {
+//                 dia_rnd_pcs: 0,
+//                 dia_rnd_wt: 0,
+//                 dia_bug_pcs: 0,
+//                 dia_bug_wt: 0,
+//                 dia_prs_pcs: 0,
+//                 dia_prs_wt: 0,
+//             };
+//         }
+//         // Update the aggregated data based on the shape, quality, and quantity of the diamond
+//         switch (shape) {
+//             case 'rnd':
+//                 aggregatedData[jobKey][shape][quality].dia_rnd_pcs += al?.Pcs || 0;
+//                 aggregatedData[jobKey][shape][quality].dia_rnd_wt += al?.Wt || 0;
+//                 break;
+//             case 'bug':
+//                 aggregatedData[jobKey][shape][quality].dia_bug_pcs += al?.Pcs || 0;
+//                 aggregatedData[jobKey][shape][quality].dia_bug_wt += al?.Wt || 0;
+//                 break;
+//             case 'prs':
+//                 aggregatedData[jobKey][shape][quality].dia_prs_pcs += al?.Pcs || 0;
+//                 aggregatedData[jobKey][shape][quality].dia_prs_wt += al?.Wt || 0;
+//                 break;
+//             // Handle other shapes if needed
+//             default:
+//                 break;
+//         }
+//     });
+// }); 
+//   console.log(aggregatedData);
+
+
+// let finalArr2 = [];
+
+// datas?.resultArray?.forEach((e, i) => {
+//     // Group diamonds by qualityName
+//     const qualityGroups = {};
+//     e?.diamonds?.forEach((diamond) => {
+//         const qualityName = diamond?.QualityName?.toLowerCase();
+//         if (!qualityGroups[qualityName]) {
+//             qualityGroups[qualityName] = [];
+//         }
+//         qualityGroups[qualityName].push(diamond);
+//     });
+
+//     // Initialize the result object
+//     const resultObj = {
+//         SrJobno: `${e?.SrJobno}`,
+//         designno: e?.designno,
+//         grosswt: e?.grosswt,
+//         Categoryname: e?.Categoryname,
+//         NetWt: e?.NetWt,
+//         Size: e?.Size,
+//         lineid: e?.lineid,
+//         matrialArr: []
+//     };
+
+//     // Process each quality group
+//     Object.entries(qualityGroups).forEach(([qualityName, diamonds]) => {
+//         const qualityTotal = {
+//             dia_pcs: 0,
+//             dia_wt: 0,
+//             dia_amt: 0
+//         };
+
+//         // Group diamonds by shapeName within qualityName
+//         const shapeGroups = {};
+//         diamonds.forEach((diamond) => {
+//             const shapeName = diamond?.ShapeName?.toLowerCase();
+//             if (!shapeGroups[shapeName]) {
+//                 shapeGroups[shapeName] = [];
+//             }
+//             shapeGroups[shapeName].push(diamond);
+
+//             // Update quality total
+//             qualityTotal.dia_pcs += diamond?.Pcs || 0;
+//             qualityTotal.dia_wt += diamond?.Wt || 0;
+//             qualityTotal.dia_amt += diamond?.Amount || 0;
+//         });
+
+//         // Push data for each shapeName within qualityName
+//         Object.entries(shapeGroups).forEach(([shapeName, diamonds]) => {
+//             const shapeTotal = {
+//                 dia_pcs: diamonds.reduce((acc, diamond) => acc + (diamond?.Pcs || 0), 0),
+//                 dia_wt: diamonds.reduce((acc, diamond) => acc + (diamond?.Wt || 0), 0),
+//                 dia_amt: diamonds.reduce((acc, diamond) => acc + (diamond?.Amount || 0), 0)
+//             };
+
+//             resultObj.matrialArr.push({
+//                 diaShp: shapeName,
+//                 diaQly: qualityName.toUpperCase(),
+//                 dia_pcs: shapeTotal.dia_pcs,
+//                 dia_wt: shapeTotal.dia_wt.toFixed(3),
+//                 dia_amt: formatAmount(shapeTotal.dia_amt)
+//             });
+//         });
+
+//         // Update total for this quality group
+//         resultObj.matrialArr.push({
+//             diaShp: 'Total',
+//             diaQly: qualityName.toUpperCase(),
+//             dia_pcs: qualityTotal.dia_pcs,
+//             dia_wt: qualityTotal.dia_wt.toFixed(3),
+//             dia_amt: formatAmount(qualityTotal.dia_amt)
+//         });
+//     });
+
+//     finalArr2.push(resultObj);
+// });
+//   console.log(finalArr2);
+// setResult2(finalArr);
+      
+
+//almost work
+// let qualityShapeData = {};
+
+// datas?.resultArray?.forEach((a) => {
+//     a?.diamonds?.forEach((diamond) => {
+//         const quality = diamond?.QualityName?.toUpperCase();
+//         const shape = diamond?.ShapeName?.toLowerCase();
+        
+//         // Initialize quality if not exists
+//         if (!qualityShapeData[quality]) {
+//             qualityShapeData[quality] = {
+//                 D_RND_PCS: 0,
+//                 D_RND_WT: 0,
+//                 D_BUG_PCS: 0,
+//                 D_BUG_WT: 0,
+//                 D_PRS_PCS: 0,
+//                 D_PRS_WT: 0
+//             };
+//         }
+        
+//         // Accumulate counts and weights based on shape
+//         qualityShapeData[quality][`D_${shape.toUpperCase()}_PCS`] += diamond?.Pcs || 0;
+//         qualityShapeData[quality][`D_${shape.toUpperCase()}_WT`] += diamond?.Wt || 0;
+//     });
+// });
+// console.log(qualityShapeData);
+
+        //90% done
+// let jobWiseData = {};
+
+// datas?.resultArray?.forEach((a) => {
+//     // Extract job number
+//     const jobNumber = a?.SrJobno;
+    
+//     // Initialize job if not exists
+//     if (!jobWiseData[jobNumber]) {
+//         jobWiseData[jobNumber] = {};
+//     }
+    
+//     a?.diamonds?.forEach((diamond) => {
+//         const quality = diamond?.QualityName?.toUpperCase();
+//         const shape = diamond?.ShapeName?.toLowerCase();
+        
+//         // Initialize quality if not exists
+//         if (!jobWiseData[jobNumber][quality]) {
+//             jobWiseData[jobNumber][quality] = {
+//                 D_RND_PCS: 0,
+//                 D_RND_WT: 0,
+//                 D_BUG_PCS: 0,
+//                 D_BUG_WT: 0,
+//                 D_PRS_PCS: 0,
+//                 D_PRS_WT: 0
+//             };
+//         }
+        
+//         // Accumulate counts and weights based on shape
+//         jobWiseData[jobNumber][quality][`D_${shape.toUpperCase()}_PCS`] += diamond?.Pcs || 0;
+//         jobWiseData[jobNumber][quality][`D_${shape.toUpperCase()}_WT`] += diamond?.Wt || 0;
+//     });
+// });
+
+// console.log(jobWiseData);
+
+let jobWiseData = {};
+
+datas?.resultArray?.forEach((a) => {
+    // Extract job number
+    const jobNumber = a?.SrJobno;
+    
+    // Initialize job if not exists
+    if (!jobWiseData[jobNumber]) {
+        jobWiseData[jobNumber] = {
+            diamonds: []
+        };
+    }
+    
+    let qualityShapeData = {};
+    
+    a?.diamonds?.forEach((diamond) => {
+        const quality = diamond?.QualityName?.toUpperCase();
+        const shape = diamond?.ShapeName?.toLowerCase();
+        
+        // Initialize quality if not exists
+        if (!qualityShapeData[quality]) {
+            qualityShapeData[quality] = {
+                D_RND_PCS: 0,
+                D_RND_WT: 0,
+                D_BUG_PCS: 0,
+                D_BUG_WT: 0,
+                D_PRS_PCS: 0,
+                D_PRS_WT: 0
+            };
+        }
+        
+        // Accumulate counts and weights based on shape
+        qualityShapeData[quality][`D_${shape.toUpperCase()}_PCS`] += diamond?.Pcs || 0;
+        qualityShapeData[quality][`D_${shape.toUpperCase()}_WT`] += diamond?.Wt || 0;
+    });
+    console.log(qualityShapeData);
+    
+    // Add quality and shape data to the current job
+    jobWiseData[jobNumber].diamonds.push(qualityShapeData);
+});
+
+console.log(jobWiseData);
 
 
 
         // for download excel direct
-        setTimeout(() => {
-            const button = document.getElementById('test-table-xls-button');
-            button.click();
-          }, 500);
+        // setTimeout(() => {
+        //     const button = document.getElementById('test-table-xls-button');
+        //     button.click();
+        //   }, 500);
 
 
         //loadData end
