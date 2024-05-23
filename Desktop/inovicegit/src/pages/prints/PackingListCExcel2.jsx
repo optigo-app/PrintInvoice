@@ -673,8 +673,6 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                     {
                                         e?.matrialArr?.map((val, ind) => {
                                             return <tr key={ind}>
-                                                
-                                                
                                                 {/* <td width={90} align='left' style={{borderRight:'1px solid black'}} colSpan={1}>&nbsp;</td> */}
                                                 {/* <td width={90} align='left' style={{borderRight:'1px solid black'}} colSpan={1}>&nbsp;</td> */}
                                                 {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}

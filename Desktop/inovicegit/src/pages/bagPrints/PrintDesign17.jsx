@@ -32,10 +32,13 @@ const PrintDesign17 = ({ queries, headers }) => {
           headers: headers,
         };
         let allDatas = await GetData(objs);
-
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+        console.log(datas);
 
         // eslint-disable-next-line array-callback-return
+       if(datas?.length === 0){
+          setData(['Data Not Present'])
+       }else{
         datas?.map((a) => {
           let length = 0;
           let clr = {
@@ -118,6 +121,7 @@ const PrintDesign17 = ({ queries, headers }) => {
           });
         });
         setData(responseData);
+       }
       } catch (error) {
         console.log(error);
       }

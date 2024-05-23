@@ -35,134 +35,139 @@ const PrintDesign16 = ({ queries, headers }) => {
 
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
         // eslint-disable-next-line array-callback-return
-        datas?.map((a) => {
-          let length = 0;
-          let clr = {
-            clrPcs: 0,
-            clrWt: 0,
-          };
-          let dia = {
-            diaPcs: 0,
-            diaWt: 0,
-          };
-          let diamondData = [];
-          let clrData = [];
-          let diamondWeight = 0;
-          let diamondPcs = 0;
-          let clrWeight = 0;
-          let clrpcs = 0;
-          // eslint-disable-next-line array-callback-return
-          a?.rd1?.map((e, i) => {
-            if (
-              e?.MasterManagement_DiamondStoneTypeid === 3 ||
-              e?.MasterManagement_DiamondStoneTypeid === 4
-            ) {
-              length++;
-            }
-            if (e?.MasterManagement_DiamondStoneTypeid === 3) {
-              dia.diaPcs = dia.diaPcs + e?.ActualPcs;
-              dia.diaWt = dia.diaWt + e?.ActualWeight;
-              diamondData.push(e);
-              diamondWeight = diamondWeight + e?.ActualWeight;
-              diamondPcs = diamondPcs + e?.ActualPcs;
-            } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
-              clr.clrPcs = clr.clrPcs + e?.ActualPcs;
-              clr.clrWt = clr.clrWt + e?.ActualWeight;
-              clrData.push(e);
-              clrWeight = clrWeight + e?.ActualWeight;
-              clrpcs = clrpcs + e?.ActualPcs;
-            }
-          });
-
-          if (diamondData?.length > 0) {
-            let diamondDataObject = {
-              ActualPcs: diamondPcs,
-              ActualWeight: diamondWeight,
-              ColorCode: "",
-              ColorName: "",
-              ConcatedFullShapeQualityColorCode: "",
-              ConcatedFullShapeQualityColorName: "",
-              ConcatedShapeQualityColorName: "",
-              IssuePcs: "",
-              IssueWeight: "",
-              LimitedShapeQualityColorCode: "",
-              MasterManagement_DiamondStoneTypeid: "",
-              MetalColor: "",
-              Quality: "",
-              QualityCode: "",
-              Quality_DisplayOrder: "",
-              SerialJobno: "",
-              Shapecode: "",
-              Shapename: "Total",
-              Size_DisplayOrder: "",
-              Sizename: "",
-              TruncateShapename: "",
-              totalFontWeight: "900",
+        if(datas?.length === 0){
+          setData(['Data Not Present'])
+        }else{
+          datas?.map((a) => {
+            let length = 0;
+            let clr = {
+              clrPcs: 0,
+              clrWt: 0,
             };
-            diamondData.push(diamondDataObject);
-          }
-          if (clrData.length > 0) {
-            let clrDataObject = {
-              ActualPcs: clrpcs,
-              ActualWeight: clrWeight,
-              ColorCode: "",
-              ColorName: "",
-              ConcatedFullShapeQualityColorCode: "",
-              ConcatedFullShapeQualityColorName: "",
-              ConcatedShapeQualityColorName: "",
-              IssuePcs: "",
-              IssueWeight: "",
-              LimitedShapeQualityColorCode: "",
-              MasterManagement_DiamondStoneTypeid: "",
-              MetalColor: "",
-              Quality: "",
-              QualityCode: "",
-              Quality_DisplayOrder: "",
-              SerialJobno: "",
-              Shapecode: "",
-              Shapename: "Total",
-              Size_DisplayOrder: "",
-              Sizename: "",
-              TruncateShapename: "",
-              totalFontWeight: "900",
+            let dia = {
+              diaPcs: 0,
+              diaWt: 0,
             };
-            clrData.push(clrDataObject);
-          }
-          let originlData = [...diamondData, ...clrData];
-          let chData = [];
-          let count = 0;
-          for (let i = 0; i < originlData?.length; i += chunkSize) {
-            let len = 15 - originlData?.slice(i, i + chunkSize)?.length;
-            count++;
-
-            if (count % 5 === 0) {
-            }
-            chData?.push({
-              data: originlData?.slice(i, i + chunkSize),
-              length: len,
+            let diamondData = [];
+            let clrData = [];
+            let diamondWeight = 0;
+            let diamondPcs = 0;
+            let clrWeight = 0;
+            let clrpcs = 0;
+            // eslint-disable-next-line array-callback-return
+            a?.rd1?.map((e, i) => {
+              if (
+                e?.MasterManagement_DiamondStoneTypeid === 3 ||
+                e?.MasterManagement_DiamondStoneTypeid === 4
+              ) {
+                length++;
+              }
+              if (e?.MasterManagement_DiamondStoneTypeid === 3) {
+                dia.diaPcs = dia.diaPcs + e?.ActualPcs;
+                dia.diaWt = dia.diaWt + e?.ActualWeight;
+                diamondData.push(e);
+                diamondWeight = diamondWeight + e?.ActualWeight;
+                diamondPcs = diamondPcs + e?.ActualPcs;
+              } else if (e?.MasterManagement_DiamondStoneTypeid === 4) {
+                clr.clrPcs = clr.clrPcs + e?.ActualPcs;
+                clr.clrWt = clr.clrWt + e?.ActualWeight;
+                clrData.push(e);
+                clrWeight = clrWeight + e?.ActualWeight;
+                clrpcs = clrpcs + e?.ActualPcs;
+              }
             });
-          }
-          if (chData?.length === 0) {
-            length = 15;
-          } else {
-            length = 13 - length;
-          }
-          let imagePath = queryParams?.imagepath;
-          imagePath = atob(queryParams?.imagepath);
-          let img = imagePath + a?.rd?.ThumbImagePath;
-          responseData.push({
-            data: a,
-            additional: {
-              length: length,
-              clr: clr,
-              dia: dia,
-              img: img,
-              chdata: chData,
-            },
+  
+            if (diamondData?.length > 0) {
+              let diamondDataObject = {
+                ActualPcs: diamondPcs,
+                ActualWeight: diamondWeight,
+                ColorCode: "",
+                ColorName: "",
+                ConcatedFullShapeQualityColorCode: "",
+                ConcatedFullShapeQualityColorName: "",
+                ConcatedShapeQualityColorName: "",
+                IssuePcs: "",
+                IssueWeight: "",
+                LimitedShapeQualityColorCode: "",
+                MasterManagement_DiamondStoneTypeid: "",
+                MetalColor: "",
+                Quality: "",
+                QualityCode: "",
+                Quality_DisplayOrder: "",
+                SerialJobno: "",
+                Shapecode: "",
+                Shapename: "Total",
+                Size_DisplayOrder: "",
+                Sizename: "",
+                TruncateShapename: "",
+                totalFontWeight: "900",
+              };
+              diamondData.push(diamondDataObject);
+            }
+            if (clrData.length > 0) {
+              let clrDataObject = {
+                ActualPcs: clrpcs,
+                ActualWeight: clrWeight,
+                ColorCode: "",
+                ColorName: "",
+                ConcatedFullShapeQualityColorCode: "",
+                ConcatedFullShapeQualityColorName: "",
+                ConcatedShapeQualityColorName: "",
+                IssuePcs: "",
+                IssueWeight: "",
+                LimitedShapeQualityColorCode: "",
+                MasterManagement_DiamondStoneTypeid: "",
+                MetalColor: "",
+                Quality: "",
+                QualityCode: "",
+                Quality_DisplayOrder: "",
+                SerialJobno: "",
+                Shapecode: "",
+                Shapename: "Total",
+                Size_DisplayOrder: "",
+                Sizename: "",
+                TruncateShapename: "",
+                totalFontWeight: "900",
+              };
+              clrData.push(clrDataObject);
+            }
+            let originlData = [...diamondData, ...clrData];
+            let chData = [];
+            let count = 0;
+            for (let i = 0; i < originlData?.length; i += chunkSize) {
+              let len = 15 - originlData?.slice(i, i + chunkSize)?.length;
+              count++;
+  
+              if (count % 5 === 0) {
+              }
+              chData?.push({
+                data: originlData?.slice(i, i + chunkSize),
+                length: len,
+              });
+            }
+            if (chData?.length === 0) {
+              length = 15;
+            } else {
+              length = 13 - length;
+            }
+            let imagePath = queryParams?.imagepath;
+            imagePath = atob(queryParams?.imagepath);
+            let img = imagePath + a?.rd?.ThumbImagePath;
+            responseData.push({
+              data: a,
+              additional: {
+                length: length,
+                clr: clr,
+                dia: dia,
+                img: img,
+                chdata: chData,
+              },
+            });
           });
-        });
-     
         setData(responseData);
+
+        }
+     
       } catch (error) {
         console.log(error);
       }
@@ -177,9 +182,13 @@ const PrintDesign16 = ({ queries, headers }) => {
 
   useEffect(() => {
     if (data?.length !== 0) {
-      setTimeout(() => {
-        window.print();
-      }, 5000);
+      if(data?.length === 1 && data[0] === 'Data Not Present' ){
+          return
+      }else{
+        setTimeout(() => {
+          window.print();
+        }, 5000);
+      }
     }
   }, [data]);
 
@@ -214,7 +223,9 @@ const PrintDesign16 = ({ queries, headers }) => {
                     ></div>
                   )
               )}
-              {data?.map((e, i) => {
+              
+              { (data?.length === 1 && data[0] === 'Data Not Present') ? <div className="mt-4 w-100 text-center fs-4 fw-bold text-danger">Data Not Present</div> :  data?.map((e, i) => {
+
                 if (e?.additional?.chdata?.length === 0) {
                   return (
                     <React.Fragment key={`bagprint16${i}`}>
@@ -1731,6 +1742,7 @@ const PrintDesign16 = ({ queries, headers }) => {
                     );
                   });
                 }
+
               })}
             </div>
           </div>

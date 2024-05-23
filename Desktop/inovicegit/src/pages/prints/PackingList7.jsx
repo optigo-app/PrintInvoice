@@ -14,7 +14,6 @@ import Loader from "../../components/Loader";
 import { cloneDeep } from "lodash";
 
 const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
-  
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -138,7 +137,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
         e?.diamonds?.forEach((el) => {
           // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
-          let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname )
+          let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.SizeName === el?.SizeName && a?.Rate === el?.Rate)
           let ell = cloneDeep(el);
           if(findrec === -1){
             dia2.push(ell);

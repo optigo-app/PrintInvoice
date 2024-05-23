@@ -44,7 +44,7 @@ const AllDesignPrint = () => {
           billNumber={billNum}
           urls={atob(urls)}
           token={token}
-          invoiceNo={invoiceno}c
+          invoiceNo={invoiceno}
           printName={printname}
           evn={evn}
           ApiVer = {ApiVer}
@@ -83,8 +83,7 @@ const AllDesignPrint = () => {
         break;
     }
 
-
-    let findPrint = conditions.find((e) => printName === e?.printName);
+    let findPrint = conditions.find((e) => printName?.toLowerCase() === e?.printName?.toLowerCase());
     if (findPrint) {
       const component = await importComponent(findPrint.componentName);
       setImportedComponent(component);
@@ -130,7 +129,7 @@ const AllDesignPrint = () => {
     takePrint();
     checkFaviconUrl();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [evnname]);
+  }, []);
   return (
     <>
       <Suspense fallback={<Loader />}>{importedComponent}</Suspense>
