@@ -103,6 +103,12 @@ const AllDesignPrint = () => {
       if(etpType === 'print' && evnname === 'alteration'){
         return module.alterationArray || []
       }
+      if(etpType === 'print' && evnname === 'memo'){
+        return module.MemoPrints || []
+      }
+      if(etpType === 'print' && evnname === 'estimate'){
+        return module.EstimatePrints || []
+      }
   }
 
   const checkFavicon = () => {

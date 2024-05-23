@@ -155,6 +155,29 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         })
         e.diamonds = dia2
 
+        //diamond
+        let clr2 = [];
+
+        e?.colorstone?.forEach((el) => {
+          // let findrec = dia2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.GroupName === el?.GroupName)
+          let findrec = clr2?.findIndex((a) => a?.ShapeName === el?.ShapeName && a?.QualityName === el?.QualityName && a?.Colorname === el?.Colorname && a?.SizeName === el?.SizeName && a?.Rate === el?.Rate && a?.isRateOnPcs === el?.isRateOnPcs)
+          let ell = cloneDeep(el);
+          if(findrec === -1){
+           clr2.push(ell);
+          }else{
+              clr2[findrec].Wt += ell?.Wt;
+              clr2[findrec].Pcs += ell?.Pcs;
+              clr2[findrec].Amount += ell?.Amount;
+              clr2[findrec].Rate += ell?.Rate;
+              // if(dia2[findrec]?.SizeName !== ell?.SizeName){
+              //   // dia2[findrec].SizeName = 'Mix'
+              //   dia2[findrec].SizeName = ell?.GroupName;
+              // }
+          }
+
+        })
+        e.colorstone = clr2;
+
         //colorstone
         // let clr_rop0 = []; //wt
         // let clr_rop1 = []; //pcs
@@ -546,10 +569,10 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="centerdp10_pcl7 h-100 bright_dp10_pcl7 theadsubcol1_dp10_pcl7" style={{width:'16.66%'}}>
                           Wt
                         </div>
-                        <div className="centerdp10_pcl7 h-100 bright_dp10_pcl7 theadsubcol1_dp10_pcl7" style={{width:'15.66%'}}>
+                        <div className="centerdp10_pcl7 h-100 bright_dp10_pcl7 theadsubcol1_dp10_pcl7" style={{width:'16.66%'}}>
                           Rate
                         </div>
-                        <div className="centerdp10_pcl7 h-100 theadsubcol1_dp10_pcl7" style={{ width: "23.66%" }} >
+                        <div className="centerdp10_pcl7 h-100 theadsubcol1_dp10_pcl7" style={{ width: "22.66%" }} >
                           Amount
                         </div>
                       </div>
@@ -684,11 +707,11 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <div className="theadsubcol1_dp10_pcl7 text-end end_dp10_pcl7 pr_dp10_pcl7" style={{width:'16.66%'}}>
                                     {el?.Wt?.toFixed(3)}
                                   </div>
-                                  <div className="theadsubcol1_dp10_pcl7 text-end end_dp10_pcl7 pr_dp10_pcl7" style={{width:'15.66%'}} >
+                                  <div className="theadsubcol1_dp10_pcl7 text-end end_dp10_pcl7 pr_dp10_pcl7" style={{width:'16.66%'}} >
                                     {/* {formatAmount(el?.Rate)} */}
                                     {formatAmount(((el?.Amount / result?.header?.CurrencyExchRate) / (el?.Wt)))}
                                   </div>
-                                  <div className="theadsubcol1_dp10_pcl7 fw-bold end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "23.66%" }} >
+                                  <div className="theadsubcol1_dp10_pcl7 fw-bold end_dp10_pcl7 pr_dp10_pcl7" style={{ width: "22.66%" }} >
                                     {formatAmount((el?.Amount / result?.header?.CurrencyExchRate))}
                                   </div>
                                 </div>
@@ -810,7 +833,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     }
                                   </div>
                                   <div className="theadsubcol1_dp10_pcl7 end_dp10_pcl7 fw-bold pr_dp10_pcl7">
-                                    {formatAmount((el?.Amount/ result?.header?.CurrencyExchRate))}
+                                    {formatAmount((el?.Amount / result?.header?.CurrencyExchRate))}
                                   </div>
                                 </div>
                               );

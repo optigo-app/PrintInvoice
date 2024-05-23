@@ -1094,6 +1094,14 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         );
                       })}
 
+                    { result?.header?.FreightCharges === 0 ? '' :  <div className="totdispcl">
+                      <div className="summaryalignpcl fspcl w-50 d-flex justify-content-end align-items-center">
+                        {result?.header?.ModeOfDel}
+                      </div>
+                      <div className="fspcl">
+                        {formatAmount((result?.header?.FreightCharges/(result?.header?.CurrencyExchRate)))}
+                      </div>
+                    </div>}
                     <div className="totdispcl">
                       <div className="summaryalignpcl fspcl w-50 d-flex justify-content-end align-items-center">
                         {result?.header?.AddLess > 0 ? "ADD" : "Less"}
@@ -1109,7 +1117,7 @@ const PackingList = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         {/* {formatAmount((((result?.mainTotal?.total_amount) + result?.mainTotal?.total_discount_amount + result?.allTaxesTotal + (result?.header?.AddLess/(result?.header?.CurrencyExchRate)))/(result?.header?.CurrencyExchRate)))} */}
                         {formatAmount(((
                           (result?.mainTotal?.total_amount + result?.header?.AddLess)/(result?.header?.CurrencyExchRate))
-                          + result?.allTaxesTotal
+                          + result?.allTaxesTotal + (result?.header?.FreightCharges / result?.header?.CurrencyExchRate)
                           ))}
                       </div>
                     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import style from "../../assets/css/prints/taxInvoice.module.css";
-import { NumberWithCommas, apiCall, handleImageError, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
+import { NumberWithCommas, apiCall, formatAmount, handleImageError, handlePrint, isObjectEmpty } from "../../GlobalFunctions";
 import Header from "../../components/Header";
 import { useEffect } from "react";
 import { HeaderComponent } from "./../../GlobalFunctions";
@@ -307,7 +307,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div>
                         {e?.diamonds?.map((ele, ind) => {
                           return <div className="d-flex w-100" key={ind}>
-                            <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1}`}>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}	</p></div>
+                            <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1}`}>{ele?.ShapeName} {ele?.QualityName}	</p></div>
                             <div style={{ width: "16%" }} className=""><p className={`${style?.pad_1}`}>{ele?.SizeName}	</p></div>
                             <div style={{ width: "12%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
                             <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Wt, 3)}	</p></div>
@@ -342,7 +342,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div>
                         {e?.colorstone?.map((ele, ind) => {
                           return <div className="d-flex w-100" key={ind}>
-                            <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1}`}>{ele?.ShapeName} {ele?.QualityName} {ele?.Colorname}</p></div>
+                            <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1}`}>{ele?.ShapeName} {ele?.QualityName}</p></div>
                             <div style={{ width: "16%" }} className=""><p className={`${style?.pad_1}`}>{ele?.SizeName}</p></div>
                             <div style={{ width: "12%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Pcs, 0)}</p></div>
                             <div style={{ width: "17%" }} className=""><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(ele?.Wt, 3)}</p></div>
@@ -432,12 +432,14 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 {data?.allTaxes?.map((e, i) => {
                   return <p className={`${style?.pad_1} text-end`} key={i}>{e?.name} @ {e?.per}	</p>
                 })}
+                {json0Data?.FreightCharges !== 0 && <p className={`${style?.pad_1} text-end`} >{json0Data?.ModeOfDel}	</p>}
                 {json0Data?.AddLess !== 0 && <p className={`${style?.pad_1} text-end`} >{json0Data?.AddLess > 0 ? "Add" : "Less"}	</p>}
               </div>
               <div className={`${style?.totalAmount} border-bottom`}>
                 {data?.allTaxes?.map((e, i) => {
                   return <p className={`${style?.pad_1} text-end`} key={i}>{NumberWithCommas(e?.amount * json0Data?.CurrencyExchRate, 2)}</p>
                 })}
+                {json0Data?.FreightCharges !== 0 && <p className={`${style?.pad_1} text-end`} >{formatAmount(json0Data?.FreightCharges)}	</p>}
                 {json0Data?.AddLess !== 0 && <p className={`${style?.pad_1} text-end`} >{NumberWithCommas(json0Data?.AddLess, 2)}	</p>}
               </div>
             </div>
@@ -479,7 +481,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
               <div className={`${style?.totalAmount} border-bottom`}><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(data?.mainTotal?.total_amount +
-                data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * json0Data?.CurrencyExchRate), 0) + json0Data?.AddLess, 2)}</p></div>
+                data?.allTaxes?.reduce((acc, cObj) => acc + (+cObj?.amount * json0Data?.CurrencyExchRate), 0) + json0Data?.AddLess + json0Data?.FreightCharges, 2)}</p></div>
             </div>
             {/* table summary */}
             <div className={`d-flex no_break ${style?.rowWisePad} ${style?.wordBreak}`}>
@@ -490,20 +492,20 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="d-flex " style={{ height: "calc(100% - 15px)" }}>
                       <div className="col-6 border-end px-1 position-relative" style={{ paddingBottom: "15px" }}>
                         <div className="d-flex justify-content-between">
-                          <div className="fw-bold">GROSS WT	</div>
-                          <div className="text-end">{NumberWithCommas(data?.mainTotal?.grosswt, 3)} gm	</div>
+                          <p className="fw-bold">GROSS WT	</p>
+                          <p className="text-end">{NumberWithCommas(data?.mainTotal?.grosswt, 3)} gm	</p>
                         </div>
                         <div className="d-flex justify-content-between">
-                          <div className="fw-bold">WT	</div>
-                          <div className="text-end">{NumberWithCommas(data?.mainTotal?.netwt, 3)} gm	</div>
+                          <p className="fw-bold">WT	</p>
+                          <p className="text-end">{NumberWithCommas(data?.mainTotal?.netwt, 3)} gm	</p>
                         </div>
                         <div className="d-flex justify-content-between">
-                          <div className="fw-bold text-start"> DIAMOND WT	</div>
-                          <div className="text-end">{NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)} / {NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)} cts	</div>
+                          <p className="fw-bold text-start"> DIAMOND WT	</p>
+                          <p className="text-end">{NumberWithCommas(data?.mainTotal?.diamonds?.Pcs, 0)} / {NumberWithCommas(data?.mainTotal?.diamonds?.Wt, 3)} cts	</p>
                         </div>
                         <div className="d-flex justify-content-between">
-                          <div className="fw-bold">STONE WT	</div>
-                          <div className="text-end">{NumberWithCommas(data?.mainTotal?.colorstone?.Pcs, 0)} / {NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)} cts		</div>
+                          <p className="fw-bold">STONE WT	</p>
+                          <p className="text-end">{NumberWithCommas(data?.mainTotal?.colorstone?.Pcs, 0)} / {NumberWithCommas(data?.mainTotal?.colorstone?.Wt, 3)} cts		</p>
                         </div>
                         <div className={`d-flex justify-content-between position-absolute bottom-0 start-0 w-100 border-top lightGrey px-1 ${style?.minHeight}`} >
 
@@ -533,7 +535,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         <div className="d-flex justify-content-between">
                           <div className="fw-bold">TAX	</div>
                           <div className="text-end"> 	{NumberWithCommas(tax, 2)}		</div>
-                        </div>
+                        </div>  
                         {json0Data?.AddLess !== 0 && <div className="d-flex justify-content-between">
                           <div className="fw-bold">{json0Data?.AddLess < 0 ? "LESS" : "ADD"}	</div>
                           <div className="text-end">{NumberWithCommas(json0Data?.AddLess, 2)}	</div>

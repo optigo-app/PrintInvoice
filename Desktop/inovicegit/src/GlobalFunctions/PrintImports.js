@@ -136,6 +136,13 @@ export const QuotationPrints = [
   {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
 ]
 
+export const MemoPrints = [
+  {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
+]
+
+export const EstimatePrints = [
+  {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
+]
 
 export const excelConditions = [
   { printName: "detail print 11", etpType: "excel", componentName: "DetailPrint11Excel"},
