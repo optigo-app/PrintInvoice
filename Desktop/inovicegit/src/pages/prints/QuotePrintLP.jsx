@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { apiCall, formatAmount, handleImageError, handlePrint, isObjectEmpty } from '../../GlobalFunctions';
+import { apiCall, formatAmount, handleImageError,  isObjectEmpty } from '../../GlobalFunctions';
 import { OrganizeDataPrint } from '../../GlobalFunctions/OrganizeDataPrint';
 import Loader from '../../components/Loader';
 import "../../assets/css/prints/quoteprintlp.css";
@@ -12,8 +12,11 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
+  const [headerFlag, setHeaderFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [cateName, setCateName] = useState([]);
+  const [printWithPrice, setPrintWithPrice] = useState(true);
+  const [mainTotal, setMainTotal] = useState();
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -63,7 +66,50 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       })
 
+      let totalObj = {
+        diamond_pcs : 0,
+        diamond_wt : 0,
+        diamond_Amt : 0,
+        colorstone_Amt : 0,
+        colorstone_wt : 0,
+        colorstone_pcs : 0,
+        metal_wt : 0,
+        metal_netwt : 0,
+        metal_Amt : 0,
+        otherAmt:0,
+        labourRate:0,
+        labourAmt:0,
+        totalAmt:0,
+      }
+
+      datas?.resultArray?.forEach((a) => {
+        a?.diamonds?.forEach((al) => {
+          totalObj.diamond_pcs += (al?.Pcs * a?.Quantity)
+          totalObj.diamond_wt += (al?.Wt * a?.Quantity)
+          totalObj.diamond_Amt += (al?.Amount * a?.Quantity)
+        })
+        a?.colorstone?.forEach((al) => {
+          totalObj.colorstone_pcs += (al?.Pcs * a?.Quantity)
+          totalObj.colorstone_wt += (al?.Wt * a?.Quantity)
+          totalObj.colorstone_Amt += (al?.Amount * a?.Quantity)
+        })
+        a?.metal?.forEach((al) => {
+          totalObj.metal_wt += ((((a?.NetWt + a?.LossWt) * a?.Quantity) + ((a?.totals?.diamonds?.Wt / 5) * a?.Quantity)) )
+          totalObj.metal_netwt += (al?.Wt * a?.Quantity)
+          totalObj.metal_Amt += (al?.Amount * a?.Quantity)
+        })
+        a?.finding?.forEach((al) => {
+          totalObj.metal_wt += ((((a?.NetWt + a?.LossWt) * a?.Quantity) + ((a?.totals?.diamonds?.Wt / 5) * a?.Quantity)) )
+          totalObj.metal_netwt += (al?.Wt * a?.Quantity)
+          totalObj.metal_Amt += (al?.Amount * a?.Quantity)
+        })
+        totalObj.otherAmt += ((a?.OtherCharges + a?.MiscAmount + a?.TotalDiamondHandling) * a?.Quantity)
+        totalObj.labourAmt+= ((a?.MakingAmount + a?.totals?.diamonds?.SettingAmount + a?.totals?.colorstone?.SettingAmount) * a?.Quantity)
+        totalObj.labourRate+= a?.MaKingCharge_Unit;
+      })
+
       setCateName(catNameWise);
+      setMainTotal(totalObj);
 
       setResult(datas);
   }
@@ -75,36 +121,44 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     }
   };
   const handleCheckbox = () => {
-    if (imgFlag) {
-      setImgFlag(false);
-    } else {
-      setImgFlag(true);
+    if(headerFlag){
+      setHeaderFlag(false);
+    }else{
+      setHeaderFlag(true);
     }
   };
 
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
-console.log(result);
+
+  const handlePrintWithPrice = () => {
+    setPrintWithPrice(true);
+    setTimeout(() => {
+      window.print();
+    },0)
+  }
+  const handlePrintWithOutPrice = () => {
+    setPrintWithPrice(false);
+    setTimeout(() => {
+      window.print();
+    },0)
+    
+  }
+
   return (
     <>
     { loader ? <Loader /> : msg === '' ? <div className="containerdp10 pab60_dp10">
                 <div className="d-flex justify-content-end align-items-center hidebtndp10 mb-4">
-                  <input
-                    type="checkbox"
-                    id="imghideshow"
-                    className="mx-1"
-                    checked={imgFlag}
-                    onChange={handleCheckbox}
-                  />
+                  <input type="checkbox" id="imghideshow" className="mx-1" checked={headerFlag} onChange={handleCheckbox} />
                   <label htmlFor="imghideshow" className="me-3 user-select-none">
-                    With Image
+                    With Header
                   </label>
-                  <button
-                    className="btn_white blue mb-0 hidedp10 m-0 p-2"
-                    onClick={(e) => handlePrint(e)}
-                  >
-                    Print
+                  <button className="btn_white blue mb-0 hidedp10 m-0 p-2" onClick={(e) => handlePrintWithPrice(e)} >
+                    Print With Price
+                  </button>
+                  <button className="btn_white blue mb-0 hidedp10 m-0 p-2 mx-2 maroon_qlp" onClick={(e) => handlePrintWithOutPrice(e)} >
+                    Print WithOut Price
                   </button>
                 </div>
                 {/* header */}
@@ -112,17 +166,16 @@ console.log(result);
                   <div className="pheaddp10">
                     {result?.header?.PrintHeadLabel === '' ? 'QUOTATION' : result?.header?.PrintHeadLabel}
                   </div>
-                  <div className="d-flex justify-content-between">
+                  {
+                    headerFlag ? <div className="d-flex justify-content-between">
                     <div className="p-1 fsgdp10">
                       <div className="fw-bold fs-6 py-2 fs_3_qlp">
                         {result?.header?.CompanyFullName}
                       </div>
                       <div>{result?.header?.CompanyAddress}</div>
                       <div>{result?.header?.CompanyAddress2}</div>
-                      <div>{result?.header?.CompanyCity}</div>
                       <div>
-                        {result?.header?.CompanyCity}-
-                        {result?.header?.CompanyPinCode},{" "}
+                        {result?.header?.CompanyCity}- {result?.header?.CompanyPinCode},{" "}
                         {result?.header?.CompanyState}(
                         {result?.header?.CompanyCountry})
                       </div>
@@ -149,7 +202,8 @@ console.log(result);
                         className="imgHWdp10"
                       /> */}
                     </div>
-                  </div>
+                  </div> : ''
+                  }
                 </div>
                 {/* subheader */}
                 <div className="subheaderdp10">
@@ -238,22 +292,16 @@ console.log(result);
                         <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
                           Size
                         </div>
-                        <div
-                          className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10"
-                          style={{ width: "14.66%" }}
-                        >
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10" style={{ width: "8.66%" }}>
                           Pcs
                         </div>
                         <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
                           Wt
                         </div>
-                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10">
+                        <div className="centerdp10 h-100 bright_dp10 theadsubcol1_dp10" style={{width:'19.66%'}}>
                           Rate
                         </div>
-                        <div
-                          className="centerdp10 h-100 theadsubcol1_dp10"
-                          style={{ width: "18.66%" }}
-                        >
+                        <div className="centerdp10 h-100 theadsubcol1_dp10" style={{ width: "21.66%" }} >
                           Amount
                         </div>
                       </div>
@@ -261,22 +309,19 @@ console.log(result);
                     <div className="col4dp10 ">
                       <div className="h-50 centerdp10 fw-bold w-100">Metal</div>
                       <div className="d-flex justify-content-between align-items-center h-50 bt_dp10 w-100">
-                        <div
-                          className="theadsubcol2_dp10 bright_dp10 h-100 centerdp10"
-                          // style={{ width: "30%" }}
-                        >
+                        <div className="theadsubcol2_dp10 bright_dp10 h-100 centerdp10" >
                           Quality
                         </div>
-                        <div className="theadsubcol2_dp10 centerdp10 bright_dp10 h-100">
+                        <div className="theadsubcol2_dp10 centerdp10 bright_dp10 h-100" style={{width:'18%'}}>
                           *Wt
                         </div>
-                        <div className="theadsubcol2_dp10 centerdp10 bright_dp10 h-100">
-                          N+L
+                        <div className="theadsubcol2_dp10 centerdp10 bright_dp10 h-100" style={{width:'19%'}}>
+                          Net Wt
                         </div>
                         <div className="theadsubcol2_dp10 centerdp10 bright_dp10 h-100">
                           Rate
                         </div>
-                        <div className="theadsubcol2_dp10 centerdp10 h-100" >
+                        <div className="theadsubcol2_dp10 centerdp10 h-100" style={{width:'23%'}}>
                           Amount
                         </div>
                       </div>
@@ -349,21 +394,11 @@ console.log(result);
                             {/* <div className="d-flex justify-content-end px-1">
                               {e?.MetalColor}
                             </div> */}
-                            {imgFlag ? (
-                              <div
-                                className="w-100 d-flex justify-content-center align-items-start fsgdp10 m-1"
-                                style={{ minHeight: "80px" }}
-                              >
-                                <img
-                                  src={e?.DesignImage}
-                                  onError={(e) => handleImageError(e)}
-                                  alt="design"
-                                  className="imgdp10"
-                                />
+                            
+                              <div className="w-100 d-flex justify-content-center align-items-start fsgdp10 m-1" style={{ minHeight: "80px" }} >
+                                <img src={e?.DesignImage} onError={(e) => handleImageError(e)} alt="design" className="imgdp10" />
                               </div>
-                            ) : (
-                              ""
-                            )}
+                           
 
                             {/* <div className="centerdp10 fsgdp10">
                               {e?.batchnumber}
@@ -392,40 +427,36 @@ console.log(result);
                               </b>
                               &nbsp; 
                             </div>
-                            {/* <div className="centerdp10">
-                              {" "}
+                            <div className="centerdp10">
                               {e?.Size === "" ? "" : `Size : ${e?.Size}`}
-                            </div> */}
+                            </div>
+                            <div className="centerdp10">
+                              {e?.Quantity === 0 ? "" : `Qty : ${e?.Quantity}`}
+                            </div>
                           </div>
                           <div className="tbcol3dp10 d-flex flex-column justify-content-between">
                             <div>
                             {e?.diamonds?.map((el, idia) => {
                               return (
                                 <div className="d-flex" key={idia}>
-                                  <div className="theadsubcol1_dp10" style={{wordBreak:'break-word',paddingLeft:'2px'}}>
-                                    {el?.ShapeName} {el?.QualityName}&nbsp;
+                                  <div className="theadsubcol1_dp10 " style={{wordBreak:'break-word',paddingLeft:'2px'}}>
+                                     {el?.MaterialTypeName} {el?.ShapeName} {el?.QualityName}&nbsp;
                                     {el?.Colorname}
                                   </div>
                                   <div className="theadsubcol1_dp10 text-start" style={{lineHeight:'8px !important'}}>
                                     {el?.SizeName}
                                   </div>
-                                  <div
-                                    className="theadsubcol1_dp10 end_dp10"
-                                    style={{ width: "8.66%" }}
-                                  >
-                                    {el?.Pcs}
+                                  <div className="theadsubcol1_dp10 end_dp10" style={{ width: "8.66%" }} >
+                                    {el?.Pcs * e?.Quantity}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10">
                                     {(el?.Wt * e?.Quantity)?.toFixed(3)}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10" style={{width:'19.66%'}}>
-                                    {formatAmount(el?.Rate)}
+                                    { printWithPrice && formatAmount(el?.Rate)}
                                   </div>
-                                  <div
-                                    className="theadsubcol1_dp10 fw-bold end_dp10 pr_dp10"
-                                    style={{ width: "21.66%" }}
-                                  >
-                                    {formatAmount(el?.Amount)}
+                                  <div className="theadsubcol1_dp10 fw-bold end_dp10 pr_dp10" style={{ width: "21.66%" }} >
+                                    { printWithPrice && formatAmount((el?.Amount * e?.Quantity))}
                                   </div>
                                 </div>
                               );
@@ -435,42 +466,37 @@ console.log(result);
                                   <div className="theadsubcol1_dp10" style={{wordBreak:'break-word',paddingLeft:'2px'}}> </div>
                                   <div className="theadsubcol1_dp10 text-start" style={{lineHeight:'8px !important'}}> </div>
                                   <div className="theadsubcol1_dp10 end_dp10" style={{ width: "8.66%" }} >
-                                    {e?.totals?.diamonds?.Pcs}
+                                    {e?.totals?.diamonds?.Pcs * e?.Quantity}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10">
                                     {(e?.totals?.diamonds?.Wt * e?.Quantity)?.toFixed(3)}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10" style={{width:'19.66%'}}> </div>
                                   <div className="theadsubcol1_dp10 fw-bold end_dp10 pr_dp10" style={{ width: "21.66%" }} >
-                                    {formatAmount(e?.totals?.diamonds?.Amount)}
+                                    { printWithPrice && formatAmount((e?.totals?.diamonds?.Amount * e?.Quantity))}
                                   </div>
                                 </div>
                           </div>
                           <div className="tbcol4dp10 d-flex flex-column justify-content-between">
                             <div>
-
-                            
                             {e?.metal?.map((el, imet) => {
                               return (
                                 <div className="d-flex w-100" key={imet}>
-                                  <div
-                                    className="theadsubcol2_dp10 d-flex justify-content-start border-end h-100 ps-1 border-end-0"
-                                    style={{ wordBreak:'break-word' }}
-                                  >
+                                  <div className="theadsubcol2_dp10 d-flex justify-content-start border-end h-100 ps-1 border-end-0" style={{ wordBreak:'break-word' }} >
                                     {el?.ShapeName} {el?.QualityName}
                                   </div>
-                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10">
+                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10" style={{width:'18%'}}>
                                     {((((e?.NetWt + e?.LossWt) * e?.Quantity) + ((e?.totals?.diamonds?.Wt / 5) * e?.Quantity)) )?.toFixed(3)}
                                   </div>
-                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10">
+                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10" style={{width:'19%'}}>
                                     {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
                                     {(el?.Wt * e?.Quantity)?.toFixed(3)}
                                   </div>
                                   <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10">
-                                    {el?.Rate?.toFixed(2)}
+                                    { printWithPrice && formatAmount(el?.Rate)}
                                   </div>
-                                  <div className={`theadsubcol2_dp10 centerdp10 border-end h-100  border-end-0 end_dp10 pr_dp10 ${el?.IsPrimaryMetal === 1 ? 'fw-bold' : 'fw-bold' }`}>
-                                    {el?.Amount?.toFixed(2)}
+                                  <div className={`theadsubcol2_dp10 centerdp10 border-end h-100  border-end-0 end_dp10 pr_dp10 ${el?.IsPrimaryMetal === 1 ? 'fw-bold' : 'fw-bold' }`} style={{width:'23%'}}>
+                                    { printWithPrice && formatAmount((el?.Amount * e?.Quantity))}
                                   </div>
                                 </div>
                               );
@@ -479,25 +505,22 @@ console.log(result);
                               e?.finding?.map((el, il) => {
                                 return (
                                   <div className="d-flex w-100" key={il}>
-                                  <div
-                                    className="theadsubcol2_dp10 d-flex justify-content-start border-end h-100 ps-1 border-end-0"
-                                    style={{ wordBreak:'break-word' }}
-                                  >
+                                  <div className="theadsubcol2_dp10 d-flex justify-content-start border-end h-100 ps-1 border-end-0 text-break" style={{ wordBreak:'break-word' }} >
                                     {el?.ShapeName} {el?.QualityName}
                                   </div>
-                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10">
+                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10" style={{width:'18%'}}>
                                     {/* {((((e?.NetWt + e?.LossWt) * e?.Quantity) + ((e?.totals?.diamonds?.Wt / 5) * e?.Quantity)) )?.toFixed(3)} */}
                                     {(((e?.totals?.diamonds?.Wt / 5) + el?.Wt) * e?.Quantity)?.toFixed(3)}
                                   </div>
-                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10">
+                                  <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10" style={{width:'19%'}}>
                                     {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
                                     {(el?.Wt * e?.Quantity)?.toFixed(3)}
                                   </div>
                                   <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10">
-                                    {el?.Rate?.toFixed(2)}
+                                    { printWithPrice && formatAmount(el?.Rate)}
                                   </div>
-                                  <div className={`theadsubcol2_dp10 centerdp10 border-end h-100  border-end-0 end_dp10 pr_dp10 ${el?.IsPrimaryMetal === 1 ? 'fw-bold' : 'fw-bold' }`}>
-                                    {el?.Amount?.toFixed(2)}
+                                  <div className={`theadsubcol2_dp10 centerdp10 border-end h-100  border-end-0 end_dp10 pr_dp10 ${el?.IsPrimaryMetal === 1 ? 'fw-bold' : 'fw-bold' }`} style={{width:'23%'}}>
+                                    { printWithPrice && formatAmount((el?.Amount * e?.Quantity))}
                                   </div>
                                 </div>
                                 )
@@ -517,7 +540,7 @@ console.log(result);
                             <div className='d-flex end_dp10  bgc_dp10 bt_dp10 fw-bold'>
                               <div className='end_dp10' style={{width:'39%'}}>{e?.grosswt?.toFixed(3)}</div>
                               <div className='end_dp10' style={{width:'20%'}}>{e?.totals?.metal?.IsPrimaryMetal?.toFixed(3)}</div>
-                              <div className='end_dp10 pr_dp10' style={{width:'41%'}}>{formatAmount(e?.totals?.metal?.IsPrimaryMetal_Amount)}</div>
+                              <div className='end_dp10 pr_dp10' style={{width:'41%'}}>{ printWithPrice && formatAmount(((e?.totals?.metal?.IsPrimaryMetal_Amount * e?.Quantity) + (e?.totals?.finding?.Amount * e?.Quantity)))}</div>
                             </div>
                           </div>
                           <div className="tbcol3dp10 d-flex flex-column justify-content-between">
@@ -527,27 +550,22 @@ console.log(result);
                             {e?.colorstone?.map((el, ics) => {
                               return (
                                 <div className="d-flex" key={ics}>
-                                  <div className="theadsubcol1_dp10" style={{wordBreak:'break-word', paddingLeft:'2px', width:'21.66%'}}>
-                                    {el?.ShapeName +
-                                      " " +
-                                      el?.QualityName +
-                                      " " +
-                                      el?.Colorname}
-                                  </div>
+                                  <div className="theadsubcol1_dp10 " style={{wordBreak:'break-word', paddingLeft:'2px', width:'21.66%'}}>
+                                    { el?.MaterialTypeName + " " + el?.ShapeName + " " + el?.QualityName + " " + el?.Colorname} </div>
                                   <div className="theadsubcol1_dp10 text-center">
                                     {el?.SizeName}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10" style={{width:'11.66%'}}>
-                                    {el?.Pcs}
+                                    {(el?.Pcs * e?.Quantity)}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10">
-                                    {el?.Wt?.toFixed(3)}
+                                    {(el?.Wt * e?.Quantity)?.toFixed(3)}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10">
-                                    {el?.Rate?.toFixed(2)}
+                                    { printWithPrice && formatAmount(el?.Rate)}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10 fw-bold pr_dp10">
-                                    {el?.Amount?.toFixed(2)}
+                                    { printWithPrice && formatAmount((el?.Amount * e?.Quantity))}
                                   </div>
                                 </div>
                               );
@@ -557,49 +575,49 @@ console.log(result);
                                   <div className="theadsubcol1_dp10" style={{wordBreak:'break-word', paddingLeft:'2px', width:'21.66%'}}> </div>
                                   <div className="theadsubcol1_dp10 text-center"> </div>
                                   <div className="theadsubcol1_dp10 end_dp10" style={{width:'11.66%'}}>
-                                    {e?.totals?.colorstone?.Pcs}
+                                    {(e?.totals?.colorstone?.Pcs * e?.Quantity)}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10">
-                                  {e?.totals?.colorstone?.Wt?.toFixed(3)}
+                                  {(e?.totals?.colorstone?.Wt * e?.Quantity)?.toFixed(3)}
                                   </div>
                                   <div className="theadsubcol1_dp10 end_dp10"> </div>
                                   <div className="theadsubcol1_dp10 end_dp10 fw-bold pr_dp10">
-                                  {formatAmount(e?.totals?.colorstone?.Amount)}
+                                  { printWithPrice && formatAmount((e?.totals?.colorstone?.Amount * e?.Quantity))}
                                   </div>
                                 </div>
                           </div>
                           <div className="tbcol6dp10 p-1 pr_dp10 d-flex flex-column justify-content-between">
                              <div className='w-100 end_dp10 '>
-                             {formatAmount( e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling )}
+                             { printWithPrice && formatAmount( ((e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) * e?.Quantity) )}
                              </div>
                              <div className='w-100 end_dp10  bgc_dp10 bt_dp10 fw-bold'>
-                             {formatAmount( e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling )}
+                             &nbsp;{ printWithPrice && formatAmount( ((e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) * e?.Quantity) )}
                              </div>
                           </div>
                           <div className="tbcol7dp10 d-flex  flex-column justify-content-between ">
                             <div className="d-flex">
                               <div className=" end_dp10 pr_dp10" style={{width:'40%'}}>
-                                {formatAmount(e?.MaKingCharge_Unit)}
+                                { printWithPrice && formatAmount(e?.MaKingCharge_Unit)}
                               </div>
                               <div className=" end_dp10  pr_dp10" style={{width:'60%'}}>
-                                {formatAmount( (e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) )}
+                                { printWithPrice && formatAmount( (((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) * e?.Quantity)) )}
                               </div>
                             </div>
                             <div className="d-flex  bgc_dp10 bt_dp10 fw-bold">
-                              {/* <div className=" end_dp10 pr_dp10" style={{width:'40%'}}>
+                              <div className=" end_dp10 pr_dp10" style={{width:'37%'}}>
                                 {formatAmount(e?.MaKingCharge_Unit)}
-                              </div> */}
-                              <div className=" end_dp10  pr_dp10 w-100 " >
-                                {formatAmount( (e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) )}
+                              </div>
+                              <div className=" end_dp10  pr_dp10  " style={{width:'63%'}}>
+                                &nbsp;{ printWithPrice && formatAmount( (((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) * e?.Quantity)) )}
                               </div>
                             </div>
                           </div>
                           <div className="tbcol8dp10 fw-bold p-1 pad_top_dp10 pr_dp10 d-flex flex-column justify-content-between align-items-end">
                             <div className='w-100 end_dp10 '>
-                            {formatAmount((e?.TotalAmount + e?.DiscountAmt))}
+                            { printWithPrice && formatAmount((e?.TotalAmount + e?.DiscountAmt))}
                             </div>
                             <div className='w-100 end_dp10  bgc_dp10 bt_dp10'>
-                            {formatAmount((e?.TotalAmount + e?.DiscountAmt))}
+                            &nbsp;{ printWithPrice && formatAmount((e?.TotalAmount + e?.DiscountAmt))}
                             </div>
                           </div>
                         </div>
@@ -607,25 +625,10 @@ console.log(result);
                     })}
                   </div>
                   {/* final total */}
-                  <div className="d-flex justify-content-end align-items-center brb_dp10 tbrowdp10 pt-1">
+                  {
+                    printWithPrice && <div className="d-flex justify-content-end align-items-center brb_dp10 tbrowdp10 pt-1">
                     <div style={{ width: "13%" }}>
-                      {/* <div className="d-flex justify-content-between">
-                        <div className="w-50 end_dp10">Net Amount</div>
-                        <div className="w-50 end_dp10 pr_dp10">
-                          {(
-                            +result?.mainTotal?.total_amount?.toFixed(2) +
-                            +result?.mainTotal?.total_discount_amount?.toFixed(
-                              2
-                            )
-                          )?.toFixed(2)}
-                        </div>
-                      </div> */}
-                      {/* <div className="d-flex justify-content-between">
-                        <div className="w-50 end_dp10">Total Discount</div>
-                        <div className="w-50 end_dp10 pr_dp10">
-                          {result?.mainTotal?.total_discount_amount?.toFixed(2)}
-                        </div>
-                      </div> */}
+                     
                       <div>
                         {result?.allTaxes?.map((e, i) => {
                           return (
@@ -650,6 +653,7 @@ console.log(result);
                       </div>
                     </div>
                   </div>
+                  }
                   {/* all table row total */}
                   <div className="d-flex grandtotaldp10 brb_dp10 brbb_dp10 tbrowdp10" style={{ backgroundColor: "#F5F5F5" }} >
                     <div className="centerdp10 brR_dp10 fsg2dp10" style={{ width: "11%" }} > Total </div>
@@ -658,72 +662,66 @@ console.log(result);
                       {/* <div className="theadsubcol1_dp10"></div> */}
                       {/* <div className="theadsubcol1_dp10 end_dp10"> */}
                       <div className=" end_dp10 fsg2dp10" style={{width:'19%'}}>
-                        {result?.mainTotal?.diamonds?.Pcs}
+                        {mainTotal?.diamond_pcs}
                       </div>
                       {/* <div className="theadsubcol1_dp10 end_dp10" style={{width:'20%'}}> */}
                       <div className=" end_dp10 fsg2dp10"  style={{width:'19%'}}>
-                        {result?.mainTotal?.diamonds?.Wt?.toFixed(3)}
+                        {mainTotal?.diamond_wt?.toFixed(3)}
                       </div>
                       {/* <div className="theadsubcol1_dp10"></div> */}
-                      <div
-                        // className="theadsubcol1_dp10 end_dp10 pr_dp10"
-                        className="theadsubcol1_dp10 end_dp10 pr_dp10 fsg2dp10"
-                        style={{width:'44%'}}
-                      >
-                        {formatAmount(result?.mainTotal?.diamonds?.Amount)}
+                      <div className="theadsubcol1_dp10 end_dp10 pr_dp10 fsg2dp10" style={{width:'40%'}} >
+                        { printWithPrice && formatAmount((mainTotal?.diamond_Amt))}
                       </div>
                     </div>
-                    <div className="col4dp10 d-flex align-items-center brR_dp10">
-                      <div className="theadsubcol2_dp10" ></div>
-                       <div className="theadsubcol2_dp10 pr_dp10 fsg2dp10">
+                    <div className="col4dp10 d-flex align-items-center brR_dp10 justify-content-end">
+                      {/* <div className="theadsubcol2_dp10" ></div> */}
+                       <div className="theadsubcol2_dp10 pr_dp10 fsg2dp10" style={{width:'19%'}}>
                         {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
-                        {result?.mainTotal?.grosswt?.toFixed(3)}
+                        {mainTotal?.metal_wt?.toFixed(3)}
                       </div>
-                       <div className="theadsubcol2_dp10 pr_dp10 fsg2dp10">
+                       <div className="theadsubcol2_dp10 pr_dp10 fsg2dp10 end_dp10" style={{width:'19%'}}>
                         {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
-                        {result?.mainTotal?.metal?.IsPrimaryMetal?.toFixed(3)}
+                        {mainTotal?.metal_netwt?.toFixed(3)}
                       </div>
                       {/* <div className="theadsubcol2_dp10"></div> */}
-                      <div className="theadsubcol2_dp10 end_dp10 pr_dp10 fsg2dp10" style={{ width: "45%" }} >
-                        {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
+                      <div className="theadsubcol2_dp10 end_dp10 pr_dp10 fsg2dp10" style={{ width: "38%" }} >
+                        { printWithPrice && formatAmount(mainTotal?.metal_Amt)}
                       </div>
                     </div>
-                    <div className="col3dp10 d-flex align-items-center justify-content-end brR_dp10 fsg2dp10">
+                    <div className="col3dp10 d-flex align-items-center justify-content-end brR_dp10 fsg2dp10" style={{width:'25%'}}>
                       {/* <div className="theadsubcol1_dp10"></div>
                       <div className="theadsubcol1_dp10"></div> */}
                       <div className=" end_dp10 fsg2dp10">
-                        {result?.mainTotal?.colorstone?.Pcs}
+                        {mainTotal?.colorstone_pcs}
                       </div>
                       <div className=" end_dp10 fsg2dp10" style={{ width: "20.32%" }}>
-                        {(result?.mainTotal?.colorstone?.Wt)?.toFixed(3)}
+                        {(mainTotal?.colorstone_wt)?.toFixed(3)}
                       </div>
                       {/* <div className=""></div> */}
-                      <div
-                        className=" end_dp10 pr_dp10 fsg2dp10"
-                        style={{ width: "35.32%" }}
-                      >
-                        {formatAmount(result?.mainTotal?.colorstone?.Amount)}
+                      <div className=" end_dp10 pr_dp10 fsg2dp10" style={{ width: "27.32%" }} >
+                        { printWithPrice && formatAmount(mainTotal?.colorstone_Amt)}
                       </div>
                     </div>
-                    <div className="col6dp10 end_dp10  d-flex align-items-center brR_dp10 pr_dp10 fsg2dp10" style={{width:'5%', paddingRight:'1px'}}>
-                      {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
+                    <div className="col6dp10 end_dp10  d-flex align-items-center brR_dp10 pr_dp10 fsg2dp10" style={{width:'4%', paddingRight:'1px'}}>
+                      { printWithPrice && formatAmount((mainTotal?.otherAmt))}
                     </div>
-                    <div className="col7dp10 end_dp10  d-flex align-items-center brR_dp10 pr_dp10 fsg2dp10" style={{width:'6%'}}>
-                      {formatAmount( result?.mainTotal?.total_labour?.labour_amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount )}
+                    <div className="col7dp10 end_dp10  d-flex align-items-center brR_dp10 pr_dp10 fsg2dp10" style={{width:'9%'}}>
+                      <div className='end_dp10 brR_dp10 h-100 pr_dp10 align-items-center' style={{width:'38%'}}>{ printWithPrice && formatAmount( (mainTotal?.labourRate))}</div>
+                      <div className='end_dp10 pr_dp10' style={{width:'64%'}}>{ printWithPrice && formatAmount( (mainTotal?.labourAmt))}</div>
                     </div>
-                    <div className="col8dp10 end_dp10  d-flex align-items-center pr_dp10 fsg2dp10" style={{width:"8%"}}>
-                    <div>{result?.header?.Currencysymbol}</div> {formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + (result?.header?.AddLess)))}
+                    <div className="col8dp10 end_dp10  d-flex align-items-center pr_dp10 fsg2dp10" style={{width:"6%"}}>
+                    { printWithPrice && <div>{result?.header?.Currencysymbol}</div>} { printWithPrice && formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + (result?.header?.AddLess)))}
                     </div>
                   </div>
                   </div>
                   {/* summary */}
                   <div className="d-flex justify-content-between mt-1 summarydp10">
-                    <div className="d-flex flex-column sumdp10">
+                    <div className={`d-flex flex-column ${ printWithPrice ? 'sumdp10' : 'sumdp10_2'}`}>
                       <div className="fw-bold bg_dp10 w-100 centerdp10  ball_dp10 fsg2dp10">
                         SUMMARY
                       </div>
                       <div className="d-flex w-100 fsgdp10">
-                        <div className="w-50 bright_dp10  bl_dp10">
+                        <div className={`${printWithPrice ? 'w-50' : 'w-100'} bright_dp10 bl_dp10`}>
                           <div className="d-flex justify-content-between px-1 fsg2dp10">
                             <div className="w-50 fw-bold fsg2dp10">GOLD IN 24KT</div>
                             <div className="w-50 end_dp10 pe-1"> {(result?.mainTotal?.total_purenetwt)?.toFixed(3)} gm </div>
@@ -756,61 +754,65 @@ console.log(result);
                             </div>
                           </div>
                         </div>
-                        <div className="w-50 bright_dp10 ">
-                          <div className="d-flex justify-content-between px-1">
-                            <div className="w-50 fw-bold fsg2dp10">GOLD</div>
-                            <div className="w-50 end_dp10 fsg2dp10">
-                              {formatAmount(result?.mainTotal?.metal?.IsPrimaryMetal_Amount)}
-                            </div>
-                          </div>
-                          <div className="d-flex justify-content-between px-1">
-                            <div className="w-50 fw-bold fsg2dp10">DIAMOND</div>
-                            <div className="w-50 end_dp10 fsg2dp10">
-                              {formatAmount(
-                                result?.mainTotal?.diamonds?.Amount
-                              )}
-                            </div>
-                          </div>
-                          <div className="d-flex justify-content-between px-1">
-                            <div className="w-50 fw-bold fsg2dp10">CST</div>
-                            <div className="w-50 end_dp10 fsg2dp10">
-                              {formatAmount(
-                                result?.mainTotal?.colorstone?.Amount
-                              )}
-                            </div>
-                          </div>
-                          <div className="d-flex justify-content-between px-1">
-                            <div className="w-50 fw-bold fsg2dp10">MAKING </div>
-                            <div className="w-50 end_dp10 fsg2dp10">
-                              {formatAmount(
-                                 (result?.mainTotal?.total_labour?.labour_amount + result?.mainTotal?.colorstone?.SettingAmount + result?.mainTotal?.diamonds?.SettingAmount )
-                              )}
-                            </div>
-                          </div>
-                          <div className="d-flex justify-content-between px-1">
-                            <div className="w-50 fw-bold fsg2dp10">OTHER </div>
-                            <div className="w-50 end_dp10 fsg2dp10">
-                              {formatAmount(result?.mainTotal?.total_otherCharge_Diamond_Handling)}
-                            </div>
-                          </div>
-                          <div className="d-flex justify-content-between px-1">
-                            <div className="w-50 fw-bold fsg2dp10">
-                              {result?.header?.AddLess > 0 ? "ADD" : "LESS"}
-                            </div>
-                            <div className="w-50 end_dp10 fsg2dp10">
-                              {result?.header?.AddLess}
-                            </div>
-                          </div>
-                        </div>
+                        {
+                           printWithPrice && <div className="w-50 bright_dp10 ">
+                           <div className="d-flex justify-content-between px-1">
+                             <div className="w-50 fw-bold fsg2dp10">GOLD</div>
+                             <div className="w-50 end_dp10 fsg2dp10">
+                               {formatAmount(mainTotal?.metal_Amt)}
+                             </div>
+                           </div>
+                           <div className="d-flex justify-content-between px-1">
+                             <div className="w-50 fw-bold fsg2dp10">DIAMOND</div>
+                             <div className="w-50 end_dp10 fsg2dp10">
+                               {formatAmount(
+                                 mainTotal?.diamond_Amt
+                               )}
+                             </div>
+                           </div>
+                           <div className="d-flex justify-content-between px-1">
+                             <div className="w-50 fw-bold fsg2dp10">CST</div>
+                             <div className="w-50 end_dp10 fsg2dp10">
+                               {formatAmount(
+                                 mainTotal?.colorstone_Amt
+                               )}
+                             </div>
+                           </div>
+                           <div className="d-flex justify-content-between px-1">
+                             <div className="w-50 fw-bold fsg2dp10">MAKING </div>
+                             <div className="w-50 end_dp10 fsg2dp10">
+                               {formatAmount(
+                                  (mainTotal?.labourAmt)
+                               )}
+                             </div>
+                           </div>
+                           <div className="d-flex justify-content-between px-1">
+                             <div className="w-50 fw-bold fsg2dp10">OTHER </div>
+                             <div className="w-50 end_dp10 fsg2dp10">
+                               {formatAmount(mainTotal?.otherAmt)}
+                             </div>
+                           </div>
+                           <div className="d-flex justify-content-between px-1">
+                             <div className="w-50 fw-bold fsg2dp10">
+                               {result?.header?.AddLess > 0 ? "ADD" : "LESS"}
+                             </div>
+                             <div className="w-50 end_dp10 fsg2dp10">
+                               {result?.header?.AddLess}
+                             </div>
+                           </div>
+                         </div>
+                        }
                       </div>
-                      <div className="bg_dp10 h_bd10 ball_dp10 d-flex fsgdp10 ">
+                      <div className={`bg_dp10 h_bd10 ball_dp10 d-flex fsgdp10 `}>
                         <div className="w-50 h-100"></div>
-                        <div className="w-50 h-100 d-flex align-items-center bl_dp10">
+                        {
+                          printWithPrice && <div className="w-50 h-100 d-flex align-items-center bl_dp10">
                           <div className="fw-bold w-50 px-1 fsg2dp10">TOTAL</div>
                           <div className="w-50 end_dp10 px-1 fsg2dp10">
                               {formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + (result?.header?.AddLess)))}
                           </div>
                         </div>
+                        }
                       </div>
                     </div>
                     {/* <div className="dia_sum_dp10 d-flex flex-column  fsgdp10">
@@ -890,7 +892,7 @@ console.log(result);
                     {/* <div className="check_dp10 ball_dp10 d-flex justify-content-center align-items-end pb-1 fsgdp10">
                       <i>Created By</i>
                     </div> */}
-                    <div className="check_dp10 ball_dp10 d-flex justify-content-center align-items-end pb-1 fsgdp10 mt-2">
+                    <div className="check_dp10 ball_dp10 d-flex justify-content-center align-items-end pb-1 fsgdp10 ">
                       <i>Checked By</i>
                     </div>
                   </div>
