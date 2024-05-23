@@ -17,6 +17,7 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [cateName, setCateName] = useState([]);
   const [printWithPrice, setPrintWithPrice] = useState(true);
   const [mainTotal, setMainTotal] = useState();
+  const [otherMetal, setOtherMetal] = useState([]);
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -112,6 +113,27 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       setMainTotal(totalObj);
 
       setResult(datas);
+      let other_metal = [];
+      datas?.json2?.forEach((a) => {
+          if(a?.IsPrimaryMetal === 1 && a?.MasterManagement_DiamondStoneTypeid === 4){
+              other_metal.push(a);
+          }
+      })
+
+      let othm2 = [];
+      other_metal?.forEach((a) => {
+        let findrec = othm2?.findIndex((al) => al?.ShapeName === a?.ShapeName)
+        if(findrec === -1){
+          let obj = {...a};
+          obj.mt_Wt = a?.Wt;
+          othm2.push(obj);
+        }else{
+          othm2[findrec].mt_Wt += a?.Wt;
+        }
+      })
+
+      setOtherMetal(othm2)
+
   }
 
   const handleImgShow = (e) => {
@@ -722,6 +744,18 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       </div>
                       <div className="d-flex w-100 fsgdp10">
                         <div className={`${printWithPrice ? 'w-50' : 'w-100'} bright_dp10 bl_dp10`}>
+                          {
+                              otherMetal?.map((e, i) => {
+                                return (
+                                  <div className="d-flex justify-content-between px-1 fsg2dp10" key={i}>
+                                    <div className="w-50 fw-bold fsg2dp10">{e?.ShapeName}</div>
+                                    <div className="w-50 end_dp10 fsg2dp10  pe-1">
+                                      {e?.Wt?.toFixed(3)}
+                                    </div>
+                                  </div>
+                                )
+                              })
+                          }
                           <div className="d-flex justify-content-between px-1 fsg2dp10">
                             <div className="w-50 fw-bold fsg2dp10">GOLD IN 24KT</div>
                             <div className="w-50 end_dp10 pe-1"> {(result?.mainTotal?.total_purenetwt)?.toFixed(3)} gm </div>
@@ -756,12 +790,24 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                         {
                            printWithPrice && <div className="w-50 bright_dp10 ">
-                           <div className="d-flex justify-content-between px-1">
+                            {
+                              otherMetal?.map((e, i) => {
+                                return (
+                                  <div className="d-flex justify-content-between px-1" key={i}>
+                                    <div className="w-50 fw-bold fsg2dp10">{e?.ShapeName}</div>
+                                    <div className="w-50 end_dp10 fsg2dp10">
+                                      {formatAmount(e?.Amount)}
+                                    </div>
+                                  </div>
+                                )
+                              })
+                            }
+                           {/* <div className="d-flex justify-content-between px-1">
                              <div className="w-50 fw-bold fsg2dp10">GOLD</div>
                              <div className="w-50 end_dp10 fsg2dp10">
                                {formatAmount(mainTotal?.metal_Amt)}
                              </div>
-                           </div>
+                           </div> */}
                            <div className="d-flex justify-content-between px-1">
                              <div className="w-50 fw-bold fsg2dp10">DIAMOND</div>
                              <div className="w-50 end_dp10 fsg2dp10">
