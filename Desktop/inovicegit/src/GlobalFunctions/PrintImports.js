@@ -129,9 +129,10 @@ export const QuotationPrints = [
   {printName: 'print (p)', etpType: 'print', componentName: 'QuotePrintLP' },
   {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},
   {printName: 'detail print 11', etpType: 'print', componentName: 'DetailPrint11'},
-  {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
+  // {printName: 'summary 4', etpType: 'print', componentName: 'Summary4'},
   {printName: 'jewellery tax invoice', etpType: 'print', componentName: 'JewelleryTaxInvoice'},
   {printName: 'packing list', etpType: 'print', componentName: 'PackingList'},
+  {printName: 'summary 4', etpType: 'print', componentName: 'Summary4Quote'},
   {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
 ]
 

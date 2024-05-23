@@ -106,6 +106,7 @@ const Print1Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }, 0);
     };
 
+    console.log(result);
 
     return (
         <>
