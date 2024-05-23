@@ -121,7 +121,7 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         }, 0);
     };
 
-
+  
     return (
         <>
             {loader ? <Loader /> : msg === '' ? <div><div className='container_qp1'>
@@ -224,8 +224,8 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                     <p>{result?.mainTotal?.grosswt.toFixed(2)} gm</p>
                                                     <p>{((result?.mainTotal?.diamonds?.Wt / 5) + result?.mainTotal?.netwt)?.toFixed(2)} gm</p>
                                                     <p>{result?.mainTotal?.netwt.toFixed(2)} gm</p>
-                                                    <p>{result?.mainTotal?.diamonds?.Pcs} / {result?.mainTotal?.diamonds?.Wt.toFixed(2)} cst</p>
-                                                    <p>{result?.mainTotal?.colorstone?.Pcs} / {result?.mainTotal?.colorstone?.Wt.toFixed(2)} cst</p>
+                                                    <p>{result?.mainTotal?.diamonds?.Pcs} / {result?.mainTotal?.diamonds?.Wt.toFixed(2)} cts</p>
+                                                    <p>{result?.mainTotal?.colorstone?.Pcs} / {result?.mainTotal?.colorstone?.Wt.toFixed(2)} cts</p>
                                                 </div>
                                             </div>
                                             <div className='d_flex_qp1 h_qp1 summary3_w_qp1 justify_between_qp1 background_qp1'>
