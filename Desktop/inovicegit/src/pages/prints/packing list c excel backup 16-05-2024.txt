@@ -129,7 +129,10 @@ const PackingListCExcel = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                 category: e?.Categoryname,
                 grosswt: e?.grosswt,
                 netwt: e?.NetWt + e?.LossWt,
+
                 mop: "",
+
+                
                 diaPcs: e?.totals?.diamonds?.Pcs,
                 diaWt: e?.totals?.diamonds?.Wt,
                 ds_lcPcs: ds_lcPcs,

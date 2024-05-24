@@ -71,113 +71,113 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             Colorname:''
           };
       
-          let diaonlyrndarr1 = [];
-          let diaonlyrndarr2 = [];
-          let diaonlyrndarr3 = [];
-          let diaonlyrndarr4 = [];
-          let diarndotherarr5 = [];
-          let diaonlyrndarr6 = [];
-          datas?.json2?.forEach((e) => {
-            if (e?.MasterManagement_DiamondStoneTypeid === 1) {
-              if (e.ShapeName?.toLowerCase() === "rnd") {
-                diaonlyrndarr1.push(e);
-              } else {
-                diaonlyrndarr2.push(e);
-              }
-            }
-          });
+          // let diaonlyrndarr1 = [];
+          // let diaonlyrndarr2 = [];
+          // let diaonlyrndarr3 = [];
+          // let diaonlyrndarr4 = [];
+          // let diarndotherarr5 = [];
+          // let diaonlyrndarr6 = [];
+          // datas?.json2?.forEach((e) => {
+          //   if (e?.MasterManagement_DiamondStoneTypeid === 1) {
+          //     if (e.ShapeName?.toLowerCase() === "rnd") {
+          //       diaonlyrndarr1.push(e);
+          //     } else {
+          //       diaonlyrndarr2.push(e);
+          //     }
+          //   }
+          // });
       
-          diaonlyrndarr1.forEach((e) => {
-            let findRecord = diaonlyrndarr3.findIndex(
-              (a) =>
-                e?.StockBarcode === a?.StockBarcode &&
-                e?.ShapeName === a?.ShapeName &&
-                e?.QualityName === a?.QualityName &&
-                e?.Colorname === a?.Colorname
-            );
+          // diaonlyrndarr1.forEach((e) => {
+          //   let findRecord = diaonlyrndarr3.findIndex(
+          //     (a) =>
+          //       e?.StockBarcode === a?.StockBarcode &&
+          //       e?.ShapeName === a?.ShapeName &&
+          //       e?.QualityName === a?.QualityName &&
+          //       e?.Colorname === a?.Colorname
+          //   );
       
-            if (findRecord === -1) {
-              let obj = { ...e };
-              obj.wtWt = e?.Wt;
-              obj.pcPcs = e?.Pcs;
-              obj.rRate = e?.Rate;
-              obj.amtAmount = e?.Amount;
-              diaonlyrndarr3.push(obj);
-            } else {
-              diaonlyrndarr3[findRecord].wtWt += e?.Wt;
-              diaonlyrndarr3[findRecord].pcPcs += e?.Pcs;
-              diaonlyrndarr3[findRecord].rRate += e?.Rate;
-              diaonlyrndarr3[findRecord].amtAmount += e?.Amount;
-            }
-          });
+          //   if (findRecord === -1) {
+          //     let obj = { ...e };
+          //     obj.wtWt = e?.Wt;
+          //     obj.pcPcs = e?.Pcs;
+          //     obj.rRate = e?.Rate;
+          //     obj.amtAmount = e?.Amount;
+          //     diaonlyrndarr3.push(obj);
+          //   } else {
+          //     diaonlyrndarr3[findRecord].wtWt += e?.Wt;
+          //     diaonlyrndarr3[findRecord].pcPcs += e?.Pcs;
+          //     diaonlyrndarr3[findRecord].rRate += e?.Rate;
+          //     diaonlyrndarr3[findRecord].amtAmount += e?.Amount;
+          //   }
+          // });
       
-          diaonlyrndarr2.forEach((e) => {
-            let findRecord = diaonlyrndarr4.findIndex(
-              (a) =>
-                e?.StockBarcode === a?.StockBarcode &&
-                e?.ShapeName === a?.ShapeName &&
-                e?.QualityName === a?.QualityName &&
-                e?.Colorname === a?.Colorname
-            );
+          // diaonlyrndarr2.forEach((e) => {
+          //   let findRecord = diaonlyrndarr4.findIndex(
+          //     (a) =>
+          //       e?.StockBarcode === a?.StockBarcode &&
+          //       e?.ShapeName === a?.ShapeName &&
+          //       e?.QualityName === a?.QualityName &&
+          //       e?.Colorname === a?.Colorname
+          //   );
       
-            if (findRecord === -1) {
-              let obj = { ...e };
-              obj.wtWt = e?.Wt;
-              obj.wtWts = e?.Wt;
-              obj.pcPcs = e?.Pcs;
-              obj.pcPcss = e?.Pcs;
-              obj.rRate = e?.Rate;
-              obj.rRates = e?.Rate;
-              obj.amtAmount = e?.Amount;
-              obj.amtAmounts = e?.Amount;
-              diaonlyrndarr4.push(obj);
-            } else {
-              diaonlyrndarr4[findRecord].wtWt += e?.Wt;
-              diaonlyrndarr4[findRecord].wtWts += e?.Wt;
-              diaonlyrndarr4[findRecord].pcPcs += e?.Pcs;
-              diaonlyrndarr4[findRecord].pcPcss += e?.Pcs;
-              diaonlyrndarr4[findRecord].rRate += e?.Rate;
-              diaonlyrndarr4[findRecord].rRates += e?.Rate;
-              diaonlyrndarr4[findRecord].amtAmount += e?.Amount;
-              diaonlyrndarr4[findRecord].amtAmounts += e?.Amount;
-            }
-          });
+          //   if (findRecord === -1) {
+          //     let obj = { ...e };
+          //     obj.wtWt = e?.Wt;
+          //     obj.wtWts = e?.Wt;
+          //     obj.pcPcs = e?.Pcs;
+          //     obj.pcPcss = e?.Pcs;
+          //     obj.rRate = e?.Rate;
+          //     obj.rRates = e?.Rate;
+          //     obj.amtAmount = e?.Amount;
+          //     obj.amtAmounts = e?.Amount;
+          //     diaonlyrndarr4.push(obj);
+          //   } else {
+          //     diaonlyrndarr4[findRecord].wtWt += e?.Wt;
+          //     diaonlyrndarr4[findRecord].wtWts += e?.Wt;
+          //     diaonlyrndarr4[findRecord].pcPcs += e?.Pcs;
+          //     diaonlyrndarr4[findRecord].pcPcss += e?.Pcs;
+          //     diaonlyrndarr4[findRecord].rRate += e?.Rate;
+          //     diaonlyrndarr4[findRecord].rRates += e?.Rate;
+          //     diaonlyrndarr4[findRecord].amtAmount += e?.Amount;
+          //     diaonlyrndarr4[findRecord].amtAmounts += e?.Amount;
+          //   }
+          // });
       
-          diaonlyrndarr4.forEach((e) => {
-            diaObj.wtWt += e?.wtWt;
-            diaObj.wtWts += e?.wtWts;
-            diaObj.pcPcs += e?.pcPcs;
-            diaObj.pcPcss += e?.pcPcss;
-            diaObj.rRate += e?.rRate;
-            diaObj.rRates += e?.rRates;
-            diaObj.amtAmount += e?.amtAmount;
-            diaObj.amtAmounts += e?.amtAmounts;
-          });
+          // diaonlyrndarr4.forEach((e) => {
+          //   diaObj.wtWt += e?.wtWt;
+          //   diaObj.wtWts += e?.wtWts;
+          //   diaObj.pcPcs += e?.pcPcs;
+          //   diaObj.pcPcss += e?.pcPcss;
+          //   diaObj.rRate += e?.rRate;
+          //   diaObj.rRates += e?.rRates;
+          //   diaObj.amtAmount += e?.amtAmount;
+          //   diaObj.amtAmounts += e?.amtAmounts;
+          // });
           
-          diaonlyrndarr3?.forEach((e) => {
-            let find_record = diaonlyrndarr6?.findIndex(
-              (a) =>
-                e?.ShapeName === a?.ShapeName &&
-                e?.QualityName === a?.QualityName &&
-                e?.Colorname === a?.Colorname
-            );
-            if (find_record === -1) {
-              let obj = { ...e };
-              obj.wtWts = e?.wtWt;
-              obj.pcPcss = e?.pcPcs;
-              obj.rRates = e?.rRate;
-              obj.amtAmounts = e?.amtAmount;
-              diaonlyrndarr6.push(obj);
-            }else{
-              diaonlyrndarr6[find_record].wtWts += e?.wtWt;
-              diaonlyrndarr6[find_record].pcPcss += e?.pcPcs;
-              diaonlyrndarr6[find_record].rRates += e?.rRate;
-              diaonlyrndarr6[find_record].amtAmounts += e?.amtAmount;
-            }
-          });
+          // diaonlyrndarr3?.forEach((e) => {
+          //   let find_record = diaonlyrndarr6?.findIndex(
+          //     (a) =>
+          //       e?.ShapeName === a?.ShapeName &&
+          //       e?.QualityName === a?.QualityName &&
+          //       e?.Colorname === a?.Colorname
+          //   );
+          //   if (find_record === -1) {
+          //     let obj = { ...e };
+          //     obj.wtWts = e?.wtWt;
+          //     obj.pcPcss = e?.pcPcs;
+          //     obj.rRates = e?.rRate;
+          //     obj.amtAmounts = e?.amtAmount;
+          //     diaonlyrndarr6.push(obj);
+          //   }else{
+          //     diaonlyrndarr6[find_record].wtWts += e?.wtWt;
+          //     diaonlyrndarr6[find_record].pcPcss += e?.pcPcs;
+          //     diaonlyrndarr6[find_record].rRates += e?.rRate;
+          //     diaonlyrndarr6[find_record].amtAmounts += e?.amtAmount;
+          //   }
+          // });
       
-          diarndotherarr5 = [...diaonlyrndarr6, diaObj];
-          setDiamondWise(diarndotherarr5);
+          // diarndotherarr5 = [...diaonlyrndarr6, diaObj];
+          // setDiamondWise(diarndotherarr5);
         // datas?.resultArray?.forEach((el) => {
         //     let dia = [];
         //     el?.diamonds?.forEach((a) => {
@@ -250,10 +250,14 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           }
             a?.diamonds?.forEach((al) => {
                 if(al?.ShapeName?.toLowerCase() === 'rnd'){
+
+
                     dia1.push(al);
+
                     obj.dia_rnd_pcs += al?.Pcs;
                     obj.dia_rnd_wt += al?.Wt;
                     obj.dia_amt += al?.Amount;
+
                     obj2.dia_rnd_pcs += al?.Pcs;
                     obj2.dia_rnd_wt += al?.Wt;
                     obj2.dia_amt += al?.Amount;
@@ -286,12 +290,13 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
           let dia_qul = [];
 
           a?.diamonds?.forEach((al) => {
-            let findrec = dia_qul?.findIndex((el) => el?.ShapeName === al?.ShapeName && el?.QualityName === al?.QualityName)
+            let b = cloneDeep(al);
+            let findrec = dia_qul?.findIndex((el) => el?.ShapeName === b?.ShapeName && el?.QualityName === b?.QualityName)
             if(findrec === -1){
-              dia_qul.push(al);
+              dia_qul.push(b);
             }else{
-              dia_qul[findrec].Wt += al?.Wt;
-              dia_qul[findrec].Pcs += al?.Pcs;
+              dia_qul[findrec].Wt += b?.Wt;
+              dia_qul[findrec].Pcs += b?.Pcs;
             }
           })
           // console.log(dia_qul);
@@ -389,7 +394,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
             obj.designno = e?.designno;
             obj.grosswt= e?.grosswt;
             obj.Categoryname= e?.Categoryname;
-            obj.NetWt= e?.NetWt;
+            obj.NetWt= e?.NetWt + e?.LossWt;
             obj.metal_rate = e?.metal_rate;
             obj.Size = e?.Size;
             obj.lineid = e?.lineid;
@@ -625,30 +630,30 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                             result2?.map((e, i) => {
                                 return (<React.Fragment key={i}>
                                     <tr>
-                                    { e?.srflag && <td width={90} style={{borderRight:'1px solid black'}} align='center' rowSpan={e?.srRowSpan + 1} >{e?.sr}</td>}
-                                        { e?.srflag && <td width={120} style={{wordBreak:'break-word', borderRight:'1px solid black',}} rowSpan={e?.srRowSpan + 1}  >&nbsp;{e?.MFG_DesignNo}</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1}>&nbsp;{e?.SrJobno}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.designno}&nbsp;</td>}
-                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}}>&nbsp;{e?.designImage}&nbsp;</td>
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.Categoryname}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.grosswt}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.NetWt}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.colorstone?.Pcs}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.metal_rate}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.metal?.Amount}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.diamonds?.Pcs}&nbsp;</td>}
-                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.diamonds?.Wt?.toFixed(3)}&nbsp;</td>}
+                                    { e?.srflag && <td width={90} style={{borderRight:'1px solid black', borderTop:'1px solid black'}} align='center' rowSpan={e?.srRowSpan + 1} >{e?.sr}</td>}
+                                        { e?.srflag && <td width={120} style={{wordBreak:'break-word', borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1}  >&nbsp;{e?.MFG_DesignNo}</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', borderTop:'1px solid black', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1}>&nbsp;{e?.SrJobno}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.designno}&nbsp;</td>}
+                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}}>&nbsp;{e?.designImage}&nbsp;</td>
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.Categoryname}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.grosswt?.toFixed(3)}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.NetWt?.toFixed(3)}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{(e?.values?.totals?.colorstone?.Wt)?.toFixed(3)}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{formatAmount(e?.metal_rate)}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{formatAmount(e?.values?.totals?.metal?.Amount)}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.diamonds?.Pcs}&nbsp;</td>}
+                                        { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.diamonds?.Wt?.toFixed(3)}&nbsp;</td>}
 
                                         {/* <td width={140} align='left' style={{borderRight:'1px solid #989898'}} >&nbsp;{(e?.diaShp?.toLowerCase() === 'rnd' || e?.diaShp?.toLowerCase() === 'bug' || e?.diaShp?.toLowerCase() === 'prs' ) && e?.diaQly}</td> */}
-                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.diaQly2}</td>
+                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.diaQly2}</td>
 
                                         {/* <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.diaShp?.toLowerCase() === 'rnd' ? e?.dia_pcs : ''}</td> */}
-                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.dia_rnd_pcs}</td>
-                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.dia_rnd_wt}</td>
-                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.dia_bug_pcs}</td>
-                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.dia_bug_wt}</td>
-                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.dia_prs_pcs}</td>
-                                        <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.dia_prs_wt}</td>
+                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_rnd_pcs}</td>
+                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_rnd_wt?.toFixed(3)}</td>
+                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_bug_pcs}</td>
+                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_bug_wt?.toFixed(3)}</td>
+                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_prs_pcs}</td>
+                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_prs_wt?.toFixed(3)}</td>
                                         {/* <td width={140} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'rnd' && e?.dia_wt}</td> */}
                                         {/* <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'bug' && e?.dia_pcs}</td>
                                         <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{( e?.dia_wt === '' ? '' : (e?.diaShp?.toLowerCase() === 'bug' && (+(e?.dia_wt?.toFixed(3)))))}</td>
@@ -656,16 +661,16 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'prs' && e?.dia_pcs}</td>
                                         <th align='left' width={90} style={{borderRight:'1px solid black'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'prs' && e?.dia_wt}</th> */}
                                         
-                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
-                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
-                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
-                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
-                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
-                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.diamond_Amt === '' ? '' : e?.diamond_Amt}</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.diamond_Amt === '' ? '' : e?.diamond_Amt}</td>}
 
-                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black'}} colSpan={1} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.Size}</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} colSpan={1} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.Size}</td>}
                                         
-                                        { e?.srflag && <th align='center' width={90} style={{borderRight:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.lineid}</th>}
+                                        { e?.srflag && <th align='center' width={90} style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.lineid}</th>}
 
                                     </tr>
                                     {/* dia clr materail */}
@@ -692,11 +697,11 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 <td width={90} align='left' style={{borderLeft:'1px solid black', borderRight:'1px solid black'}}>&nbsp;{ val?.diaflag && `${val?.diaQly2}`}</td>
 
                                                 <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_rnd_pcs}</td>
-                                                <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_rnd_wt}</td>
+                                                <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_rnd_wt?.toFixed(3)}</td>
                                                 <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_bug_pcs}</td>
-                                                <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_bug_wt}</td>
+                                                <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_bug_wt?.toFixed(3)}</td>
                                                 <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_prs_pcs}</td>
-                                                <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_prs_wt}</td>
+                                                <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{val?.diaflag && val?.dia_prs_wt?.toFixed(3)}</td>
 
                                                 {/* <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{ val?.diaflag && `${val?.diaShp?.toLowerCase() === 'rnd' ? val?.dia_pcs : ''}`}</td>
                                                 <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{val?.diaflag && `${val?.diaShp?.toLowerCase() === 'rnd' ? val?.dia_wt : ''}`}</td>
@@ -718,7 +723,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         })
                                     }
                                     {/* job wise total */}
-                                    <tr>
+                                    {/* <tr>
                                         <td style={{borderRight:'1px solid black', borderBottom:'1px solid black'}}></td>
                                         <td style={{borderRight:'1px solid black', borderBottom:'1px solid black'}}></td>
                                         <td style={{borderRight:'1px solid black', borderBottom:'1px solid black'}} align='center' colSpan={1}></td>
@@ -747,7 +752,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         <td align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
                                         <th align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}} colSpan={1}>&nbsp;</th>
                                         <th align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}>&nbsp;</th>
-                                    </tr>
+                                    </tr> */}
                                     </React.Fragment>
                                 )
                             })
@@ -760,31 +765,31 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                 <th align='left' style={{borderRight:'1px solid black', borderBottom:'1px solid black', borderTop:'1px solid black', borderLeft:'1px solid black', }} ></th>
                                 <th style={{ borderBottom:'1px solid black', borderTop:'1px solid black'}}></th>
                                 <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black', borderRight:'1px solid black'}} align='center' colSpan={2}>TOTAL</th>
-                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='left'>{result?.mainTotal?.grosswt?.toFixed(3)}</th>
-                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='left'>{result?.mainTotal?.netwt?.toFixed(3)}</th>
-                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='left'>{result?.mainTotal?.colorstone?.Wt?.toFixed(3)}</th>
+                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{result?.mainTotal?.grosswt?.toFixed(3)}</th>
+                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{(result?.mainTotal?.netwt + result?.mainTotal?.lossWt)?.toFixed(3)}</th>
+                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{`${((result?.mainTotal?.colorstone?.Wt)?.toFixed(3))}`}</th>
                                 <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}}></th>
-                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='left'>{result?.mainTotal?.metal?.Amount}</th>
-                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='left'>{result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</th>
-                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='left'>{result?.mainTotal?.diamonds?.Pcs?.toFixed(3)}</th>
+                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{result?.mainTotal?.metal?.Amount}</th>
+                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{result?.mainTotal?.diamonds?.Pcs}</th>
+                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</th>
                                 <td style={{borderTop:'1px solid black', borderLeft:'1px solid black', borderBottom:'1px solid black'}}></td>
-                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='left'>&nbsp;{mainTotal?.dia_rnd_pcs}</th>
-                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='left'>&nbsp;{mainTotal?.dia_rnd_wt?.toFixed(3)}</th>
-                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='left'>&nbsp;{mainTotal?.dia_bug_pcs}</th>
-                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='left'>&nbsp;{mainTotal?.dia_bug_wt?.toFixed(3)}</th>
-                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='left'>{mainTotal?.dia_prs_pcs}</th>
-                                <th style={{borderRight:'1px solid black', borderTop:'1px solid black',  borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='left'>&nbsp;{mainTotal?.dia_prs_wt?.toFixed(3)}</th>
+                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='center'>&nbsp;{mainTotal?.dia_rnd_pcs}</th>
+                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='center'>&nbsp;{mainTotal?.dia_rnd_wt?.toFixed(3)}</th>
+                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='center'>&nbsp;{mainTotal?.dia_bug_pcs}</th>
+                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='center'>&nbsp;{mainTotal?.dia_bug_wt?.toFixed(3)}</th>
+                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='center'>{mainTotal?.dia_prs_pcs}</th>
+                                <th style={{borderRight:'1px solid black', borderTop:'1px solid black',  borderBottom:'1px solid black', borderLeft:'1px solid black'}} align='center'>&nbsp;{mainTotal?.dia_prs_wt?.toFixed(3)}</th>
                                 
                                 <td style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}}></td>
                                 <td style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}}></td>
                                 <td style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}}></td>
                                 <td style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}}></td>
                                 <td style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}}></td>
-                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='left'>&nbsp;{mainTotal?.dia_amt}</th>
-                                {/* <th style={{borderRight:'1px solid black', borderTop:'1px solid black',  borderBottom:'1px solid black'}} colSpan={1} align='left'>&nbsp;{ (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount) === 0 ? '' : formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</th> */}
-                                <th style={{borderRight:'1px solid black', borderTop:'1px solid black',  borderBottom:'1px solid black'}} colSpan={1} align='left'>&nbsp;</th>
-                                {/* <th style={{borderRight:'1px solid black', borderTop:'1px solid black',  borderBottom:'1px solid black'}} align='left'>&nbsp;{ (result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)) === 0 ? '' :  formatAmount((result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</th> */}
-                                <th style={{borderRight:'1px solid black', borderTop:'1px solid black',  borderBottom:'1px solid black'}} align='left'>&nbsp;</th>
+                                <th style={{ borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{formatAmount(result?.mainTotal?.diamonds?.Amount)}</th>
+                                {/* <th style={{borderRight:'1px solid black', borderTop:'1px solid black',  borderBottom:'1px solid black'}} colSpan={1} align='center'>&nbsp;{ (result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount) === 0 ? '' : formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.diamonds?.SettingAmount + result?.mainTotal?.colorstone?.SettingAmount))}</th> */}
+                                <th style={{borderRight:'1px solid black', borderTop:'1px solid black',  borderBottom:'1px solid black'}} colSpan={1} align='center'>&nbsp;</th>
+                                {/* <th style={{borderRight:'1px solid black', borderTop:'1px solid black',  borderBottom:'1px solid black'}} align='center'>&nbsp;{ (result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)) === 0 ? '' :  formatAmount((result?.mainTotal.total_amount + result?.header?.AddLess + (result?.allTaxesTotal * result?.header?.CurrencyExchRate)))}</th> */}
+                                <th style={{borderRight:'1px solid black', borderTop:'1px solid black',  borderBottom:'1px solid black'}} align='center'>&nbsp;</th>
                         </tr>
                         
                             
