@@ -47,7 +47,6 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
     const [logoStyle, setlogoStyle] = useState({ maxWidth: "120px", maxHeight: "95px", minHeight: "95px" });
 
     const loadData = (data) => {
-        console.log(data);
         let totals = { ...total };
         let headerData = data?.BillPrint_Json[0];
         setJson0Data(headerData);
@@ -98,7 +97,6 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
 
             let bankDetails = ReceiveInBank(data?.BillPrint_Json[0]?.InvPayDet);
             setBankDetail(bankDetails);
-            console.log(bankDetails);
             if (count === 1) {
                 netWtLoss = e?.NetWt + e?.LossWt;
             } else {
@@ -127,7 +125,6 @@ const RetailInvoice2_3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =>
             obj.Qty = Qty;
             resultArr?.push(obj)
         });
-        console.log(discountAmt);
         resultArr?.sort((a, b) => {
             let nameA = a?.designno?.toLowerCase() + a?.SrJobno?.toLowerCase();
             let nameB = b?.designno?.toLowerCase() + b?.SrJobno?.toLowerCase();

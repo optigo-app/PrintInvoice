@@ -115,7 +115,6 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
     // tax
 
     let taxValue = taxGenrator(data?.BillPrint_Json[0], +totals.total);
-    console.log(taxValue);
     setTaxes(taxValue);
     taxValue.forEach((e, i) => {
       totals.afterGst += +(e?.amount) * data?.BillPrint_Json[0]?.CurrencyExchRate;
@@ -147,8 +146,6 @@ const JewelleryInvoice = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =>
     // tax end
     setTotal(totals);
     setData(resultArr);
-    console.log(resultArr);
-    console.log(data);
   }
 
   useEffect(() => {

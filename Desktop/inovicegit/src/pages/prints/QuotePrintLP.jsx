@@ -114,25 +114,39 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       setResult(datas);
       let other_metal = [];
-      datas?.json2?.forEach((a) => {
-          if(a?.IsPrimaryMetal === 1 && a?.MasterManagement_DiamondStoneTypeid === 4){
-              other_metal.push(a);
-          }
-      })
 
-      let othm2 = [];
-      other_metal?.forEach((a) => {
-        let findrec = othm2?.findIndex((al) => al?.ShapeName === a?.ShapeName)
+      datas?.resultArray?.forEach((e) => {
+        let b = cloneDeep(e);
+        let findrec = other_metal?.findIndex((el) => (b?.MetalTypePurity)?.toLowerCase() === (el?.MetalTypePurity)?.toLowerCase())
         if(findrec === -1){
-          let obj = {...a};
-          obj.mt_Wt = a?.Wt;
-          othm2.push(obj);
+          other_metal.push(b);
         }else{
-          othm2[findrec].mt_Wt += a?.Wt;
+          other_metal[findrec].convertednetwt += b?.convertednetwt;
+          other_metal[findrec].MetalAmount += b?.MetalAmount;
+          other_metal[findrec].Quantity += b?.Quantity;
         }
       })
+      other_metal?.sort((a, b) => a?.MetalTypePurity.localeCompare(b?.MetalTypePurity))
+      setOtherMetal(other_metal)
+      // datas?.json2?.forEach((a) => {
+      //     if(a?.IsPrimaryMetal === 1 && a?.MasterManagement_DiamondStoneTypeid === 4){
+      //         other_metal.push(a);
+      //     }
+      // })
 
-      setOtherMetal(othm2)
+      // let othm2 = [];
+      // other_metal?.forEach((a) => {
+      //   let findrec = othm2?.findIndex((al) => al?.ShapeName === a?.ShapeName)
+      //   if(findrec === -1){
+      //     let obj = {...a};
+      //     obj.mt_Wt = a?.Wt;
+      //     othm2.push(obj);
+      //   }else{
+      //     othm2[findrec].mt_Wt += a?.Wt;
+      //   }
+      // })
+
+      // setOtherMetal(othm2)
 
   }
 
@@ -748,9 +762,9 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               otherMetal?.map((e, i) => {
                                 return (
                                   <div className="d-flex justify-content-between px-1 fsg2dp10" key={i}>
-                                    <div className="w-50 fw-bold fsg2dp10">{e?.ShapeName}</div>
+                                    <div className="w-50 fw-bold fsg2dp10">{e?.MetalTypePurity}</div>
                                     <div className="w-50 end_dp10 fsg2dp10  pe-1">
-                                      {e?.Wt?.toFixed(3)}
+                                      {e?.convertednetwt?.toFixed(3)} gm
                                     </div>
                                   </div>
                                 )
@@ -794,9 +808,9 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               otherMetal?.map((e, i) => {
                                 return (
                                   <div className="d-flex justify-content-between px-1" key={i}>
-                                    <div className="w-50 fw-bold fsg2dp10">{e?.ShapeName}</div>
+                                    <div className="w-50 fw-bold fsg2dp10">{e?.MetalTypePurity}</div>
                                     <div className="w-50 end_dp10 fsg2dp10">
-                                      {formatAmount(e?.Amount)}
+                                      {formatAmount((e?.MetalAmount *e?.Quantity))}
                                     </div>
                                   </div>
                                 )

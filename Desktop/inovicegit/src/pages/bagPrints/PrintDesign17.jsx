@@ -33,7 +33,6 @@ const PrintDesign17 = ({ queries, headers }) => {
         };
         let allDatas = await GetData(objs);
         let datas = organizeData(allDatas?.rd, allDatas?.rd1);
-        console.log(datas);
 
         // eslint-disable-next-line array-callback-return
        if(datas?.length === 0){

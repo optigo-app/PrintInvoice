@@ -59,7 +59,6 @@ const Summary4Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
 
 
-    console.log(result);
 
 
     // http://localhost:3000/?tkn=OTA2NTQ3MTcwMDUzNTY1MQ==&invn=UVQyNTcxNw==&evn=cXVvdGU=&pnm=c3VtbWFyeSA0&up=aHR0cDovL256ZW4vam8vYXBpLWxpYi9BcHAvU2FsZUJpbGxfSnNvbg==&ifid=DetailPrint11&pid=undefined&ctv=NjU=

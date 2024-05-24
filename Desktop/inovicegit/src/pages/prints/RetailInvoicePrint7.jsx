@@ -85,7 +85,6 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
         })
         datas.resultArray = resultArr;
         setData(datas);
-        console.log(datas);
         let documentDetails = data?.BillPrint_Json[0]?.DocumentDetail.split("#@#");
         let documents = {
             aadharcard: "",
@@ -266,8 +265,7 @@ const RetailInvoicePrint7 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
                         {/* <p className="text-end px-1">Recv.in Bank</p> */}
                         {
                             bank?.map((e, i) => {
-                                console.log(e);
-                                return <p className="text-end px-1">Receive In Bank{e?.label !== "" && `(${e?.label})`}</p>
+                                return <p className="text-end px-1" key={i}>Receive In Bank{e?.label !== "" && `(${e?.label})`}</p>
                             })
                         }
                         <p className="text-end px-1">Net Bal. Amount</p>

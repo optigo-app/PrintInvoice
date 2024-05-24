@@ -229,7 +229,6 @@ const JewelleryTaxInvoice1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }
         setIsImageWorking(false);
       };
   
-      console.log(result);
 
   return (
     <>

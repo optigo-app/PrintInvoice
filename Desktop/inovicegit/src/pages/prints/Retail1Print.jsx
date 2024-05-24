@@ -189,7 +189,6 @@ const Retail1Print = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             return 0;
         });
 
-        console.log(datas);
         setTotal(totalObj);
         setDataFill(datas);
     }

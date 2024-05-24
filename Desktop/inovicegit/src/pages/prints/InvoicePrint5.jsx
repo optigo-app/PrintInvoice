@@ -402,7 +402,6 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {result?.mainTotal?.netwt?.toFixed(3)}
                       </div>
                       <div className={`col6ip5  border-end endip5 px-1`} >
-                        {console.log(result)}
                         {/* {formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_otherChargesMiscHallStamp))} */}
                         {formatAmount((result?.mainTotal?.total_other + result?.mainTotal?.total_diamondHandling + result?.mainTotal?.misc?.Amount))}
                       </div>

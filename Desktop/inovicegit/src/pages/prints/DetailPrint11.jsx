@@ -285,8 +285,8 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }
     }
     sendData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-console.log(json0Data)
   return (
     loader ? <Loader /> : msg === "" ? <>
       <div className='container containerDetailP11 mt-5 pad_60_allPrint'>

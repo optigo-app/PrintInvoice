@@ -1101,7 +1101,6 @@ const InvoicePrint8 = ({
               <p className="fw-bold"> Total Amount </p>
               <p className="fw-bold">
                 {" "}
-                {console.log(mainDatas)}
                 {NumberWithCommas( (mainDatas?.mainTotal?.total_amount  / headerData?.CurrencyExchRate)- headerData?.FreightCharges, 2 )}
               </p>
               {/* <p className="fw-bold"> {NumberWithCommas(totalss?.total-totalss?.discount, 2)}</p> */}

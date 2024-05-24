@@ -310,8 +310,6 @@ const RetailInvoiceprint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             setDocument(documentDetail);
             setdata(resultArr);
             setTotal(totals);
-            console.log(data);
-            console.log(resultArr);
             setLoader(false);
         } catch (error) {
             console.log(error);

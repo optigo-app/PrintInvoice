@@ -139,7 +139,6 @@ const RetailPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             } else {
                 let primaryMetal = obj?.metal?.findIndex((elem, index) => elem?.IsPrimaryMetal === 1);
                 let primaryMetal2 = resultArr[findObjs]?.metal?.findIndex((elem, index) => elem?.IsPrimaryMetal === 1);
-                console.log(primaryMetal, primaryMetal2);
                 if (primaryMetal !== -1 && primaryMetal2 !== -1) {
                     resultArr[findObjs].metal[primaryMetal2].Wt += obj?.metal[primaryMetal]?.Wt;
                     resultArr[findObjs].metal[primaryMetal2].Pcs += obj?.metal[primaryMetal]?.Pcs;
