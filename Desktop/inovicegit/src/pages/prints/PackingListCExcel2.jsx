@@ -634,7 +634,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         { e?.srflag && <td width={120} style={{wordBreak:'break-word', borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1}  >&nbsp;{e?.MFG_DesignNo}</td>}
                                         { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', borderTop:'1px solid black', paddingRight:'5px'}} rowSpan={e?.srRowSpan + 1}>&nbsp;{e?.SrJobno}&nbsp;</td>}
                                         { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.designno}&nbsp;</td>}
-                                        <td width={120} align='left' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}}>&nbsp;{e?.designImage}&nbsp;</td>
+                                        <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}}>&nbsp;{e?.designImage}&nbsp;</td>
                                         { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.Categoryname}&nbsp;</td>}
                                         { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.grosswt?.toFixed(3)}&nbsp;</td>}
                                         { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.NetWt?.toFixed(3)}&nbsp;</td>}
@@ -645,15 +645,15 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         { e?.srflag && <td width={120} align='center' style={{borderRight:'1px solid black', wordBreak:'break-word', paddingRight:'5px', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.values?.totals?.diamonds?.Wt?.toFixed(3)}&nbsp;</td>}
 
                                         {/* <td width={140} align='left' style={{borderRight:'1px solid #989898'}} >&nbsp;{(e?.diaShp?.toLowerCase() === 'rnd' || e?.diaShp?.toLowerCase() === 'bug' || e?.diaShp?.toLowerCase() === 'prs' ) && e?.diaQly}</td> */}
-                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.diaQly2}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.diaQly2}</td>
 
-                                        {/* <td width={140} align='left' style={{borderRight:'1px solid black'}} >&nbsp;{e?.diaShp?.toLowerCase() === 'rnd' ? e?.dia_pcs : ''}</td> */}
-                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_rnd_pcs}</td>
-                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_rnd_wt?.toFixed(3)}</td>
-                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_bug_pcs}</td>
-                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_bug_wt?.toFixed(3)}</td>
-                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_prs_pcs}</td>
-                                        <td width={140} align='left' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_prs_wt?.toFixed(3)}</td>
+                                        {/* <td width={140} align='center' style={{borderRight:'1px solid black'}} >&nbsp;{e?.diaShp?.toLowerCase() === 'rnd' ? e?.dia_pcs : ''}</td> */}
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_rnd_pcs}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_rnd_wt?.toFixed(3)}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_bug_pcs}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_bug_wt?.toFixed(3)}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_prs_pcs}</td>
+                                        <td width={140} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} >&nbsp;{e?.dia_prs_wt?.toFixed(3)}</td>
                                         {/* <td width={140} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'rnd' && e?.dia_wt}</td> */}
                                         {/* <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{e?.diaShp?.toLowerCase() === 'bug' && e?.dia_pcs}</td>
                                         <td width={90} align='left' style={{borderRight:'1px solid #989898'}}>&nbsp;{( e?.dia_wt === '' ? '' : (e?.diaShp?.toLowerCase() === 'bug' && (+(e?.dia_wt?.toFixed(3)))))}</td>
@@ -666,7 +666,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
                                         { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
                                         { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;</td>}
-                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.diamond_Amt === '' ? '' : e?.diamond_Amt}</td>}
+                                        { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.diamond_Amt === '' ? '' : formatAmount(e?.diamond_Amt)}</td>}
 
                                         { e?.srflag && <td width={90} align='center' style={{borderRight:'1px solid black', borderTop:'1px solid black'}} colSpan={1} rowSpan={e?.srRowSpan + 1} >&nbsp;{e?.Size}</td>}
                                         
@@ -723,36 +723,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                         })
                                     }
                                     {/* job wise total */}
-                                    {/* <tr>
-                                        <td style={{borderRight:'1px solid black', borderBottom:'1px solid black'}}></td>
-                                        <td style={{borderRight:'1px solid black', borderBottom:'1px solid black'}}></td>
-                                        <td style={{borderRight:'1px solid black', borderBottom:'1px solid black'}} align='center' colSpan={1}></td>
-                                        <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td style={{ borderRight:'1px solid black', borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td style={{  borderBottom:'1px solid black', borderRight:'1px solid black'}}></td>
-                                        <td style={{ borderBottom:'1px solid black', borderRight:'1px solid black'}}></td>
-                                        <th align='left' style={{ borderBottom:'1px solid black', borderRight:'1px solid black'}}>&nbsp;</th>
-                                        <th align='left' style={{ borderBottom:'1px solid black', borderRight:'1px solid black'}}>&nbsp;</th>
-                                        <th align='left' style={{  borderBottom:'1px solid black', borderRight:'1px solid black'}}>&nbsp;</th>
-                                        <th align='left' style={{  borderBottom:'1px solid black', borderRight:'1px solid black'}}></th>
-                                        <th align='left' style={{   borderBottom:'1px solid black', borderRight:'1px solid black'}}>&nbsp;</th>
-                                        <td align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <td align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}></td>
-                                        <th align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}} colSpan={1}>&nbsp;</th>
-                                        <th align='left' style={{borderRight:'1px solid black',  borderBottom:'1px solid black',borderLeft:'1px solid #e8e8e8'}}>&nbsp;</th>
-                                    </tr> */}
+                                    
                                     </React.Fragment>
                                 )
                             })
@@ -769,7 +740,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                 <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{(result?.mainTotal?.netwt + result?.mainTotal?.lossWt)?.toFixed(3)}</th>
                                 <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{`${((result?.mainTotal?.colorstone?.Wt)?.toFixed(3))}`}</th>
                                 <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}}></th>
-                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{result?.mainTotal?.metal?.Amount}</th>
+                                <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{formatAmount(result?.mainTotal?.metal?.Amount)}</th>
                                 <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{result?.mainTotal?.diamonds?.Pcs}</th>
                                 <th style={{borderTop:'1px solid black', borderBottom:'1px solid black', borderRight:'1px solid black'}} align='center'>&nbsp;{result?.mainTotal?.diamonds?.Wt?.toFixed(3)}</th>
                                 <td style={{borderTop:'1px solid black', borderLeft:'1px solid black', borderBottom:'1px solid black'}}></td>
