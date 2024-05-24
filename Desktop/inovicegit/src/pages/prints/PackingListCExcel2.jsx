@@ -683,7 +683,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
                                                 {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
                                                 
                                                 <td  colSpan={1} style={{borderRight:'1px solid black', verticalAlign:'center'}} align='center'>
-                                                    <span style={{textAlign:'center'}}>{val?.imgflag && <img src={val?.img} alt=""  onError={eve => handleGlobalImgError(eve, result?.header?.DefImage)} width={150}  style={{ paddingLeft: "10px", objectFit: "contain", verticalAlign:'center' }} />}</span>
+                                                    <span style={{textAlign:'center'}}>{val?.imgflag && <img src={val?.img} alt=""  onError={eve => handleGlobalImgError(eve, result?.header?.DefImage)} width={140}  style={{ paddingLeft: "10px", objectFit: "contain", verticalAlign:'center' }} />}</span>
                                                 </td>
                                                 {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
                                                 {/* <td width={90} align='left' style={{borderRight:'1px solid black'}}>&nbsp;</td> */}
