@@ -40,6 +40,15 @@
 .mb_2{
     margin-bottom: 8px;
 }
+.invp_830{
+    max-width: 830px !important;
+}
+.pad_10_invp_830{
+    padding: 10px;
+}
+.minh_invp_830{
+    min-height: 90px;
+}
 @media print{
     .print_sec_sum4 {
         display: none !important;
@@ -55,4 +64,9 @@
     .mb_2{
         margin-bottom: 4px;
     }
+    .invp_830_fs{
+        font-size: 10px !important;
+        line-height: 10px !important;
+    }
+    
 }
