@@ -8,6 +8,7 @@ import "../../assets/css/prints/quoteprintlp.css";
 import { cloneDeep } from 'lodash';
 
 const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
+  
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -19,6 +20,7 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [otherMetal, setOtherMetal] = useState([]);
   const [goldNetWt, setGoldNetWt] = useState(0);
   const [goldAmount, setGoldAmount] = useState(0);
+
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -54,7 +56,6 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         data?.BillPrint_Json1,
         data?.BillPrint_Json2
       );
-        
       let catNameWise = [];
       datas?.resultArray?.forEach((a) => {
         let b = cloneDeep(a);
@@ -131,13 +132,17 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       other_metal?.sort((a, b) => a?.MetalTypePurity.localeCompare(b?.MetalTypePurity))
 
       let gold_purewt = 0;
+      let gold_amount = 0;
 
       other_metal?.forEach((a) => {
         if(a?.MetalType?.toLowerCase() === 'gold'){
           gold_purewt += a?.convertednetwt;
+          gold_amount += (a?.MetalAmount * a?.Quantity);
         }
       })
+
       setGoldNetWt(gold_purewt);
+      setGoldAmount(gold_amount);
       setOtherMetal(other_metal)
 
   }
@@ -160,6 +165,7 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       window.print();
     },0)
   }
+
   const handlePrintWithOutPrice = () => {
     setPrintWithPrice(false);
     setTimeout(() => {
@@ -511,7 +517,6 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     {((((e?.NetWt + e?.LossWt) * e?.Quantity) + ((e?.totals?.diamonds?.Wt / 5) * e?.Quantity)) )?.toFixed(3)}
                                   </div>
                                   <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10" style={{width:'19%'}}>
-                                    {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)} */}
                                     {(el?.Wt * e?.Quantity)?.toFixed(3)}
                                   </div>
                                   <div className="theadsubcol2_dp10 centerdp10 border-end h-100 pr_dp10 border-end-0 end_dp10">
@@ -732,7 +737,7 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className='end_dp10 pr_dp10' style={{width:'64%'}}>{ printWithPrice && formatAmount( (mainTotal?.labourAmt))}</div>
                     </div>
                     <div className="col8dp10 end_dp10  d-flex align-items-center pr_dp10 fsg2dp10" style={{width:"6%"}}>
-                    { printWithPrice && <div>{result?.header?.Currencysymbol}</div>} { printWithPrice && formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + (result?.header?.AddLess)))}
+                    { printWithPrice && <div className='pe-1' dangerouslySetInnerHTML={{__html:result?.header?.Currencysymbol}}></div>} { printWithPrice && formatAmount((result?.mainTotal?.total_amount + (result?.allTaxesTotal * result?.header?.CurrencyExchRate) + (result?.header?.AddLess)))}
                     </div>
                   </div>
                   </div>
@@ -752,7 +757,7 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           {
                               otherMetal?.map((e, i) => {
                                 return (
-                                  <>
+                                  <React.Fragment key={i}>
                                   {
                                     e?.MetalType?.toLowerCase()  === 'gold' ? '' : <div className="d-flex justify-content-between px-1 fsg2dp10" key={i}>
                                     <div className="w-50 fw-bold fsg2dp10">{e?.MetalType}</div>
@@ -761,7 +766,7 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                   </div>
                                   }
-                                  </>
+                                  </React.Fragment>
                                 )
                               })
                           }
@@ -794,17 +799,31 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             </div>
                           </div>
                         </div>
+                        
                         {
                            printWithPrice && <div className="w-50 bright_dp10 ">
+                            <div className="d-flex justify-content-between px-1">
+                             <div className="w-50 fw-bold fsg2dp10">GOLD</div>
+                             <div className="w-50 end_dp10 fsg2dp10">
+                               {formatAmount(
+                                 goldAmount
+                               )}
+                             </div>
+                           </div>
                             {
                               otherMetal?.map((e, i) => {
                                 return (
-                                  <div className="d-flex justify-content-between px-1" key={i}>
-                                    <div className="w-50 fw-bold fsg2dp10">{e?.MetalTypePurity}</div>
-                                    <div className="w-50 end_dp10 fsg2dp10">
-                                      {formatAmount((e?.MetalAmount *e?.Quantity))}
-                                    </div>
-                                  </div>
+                                  <React.Fragment key={i}>
+                                      {
+                                        e?.MetalType?.toLowerCase() === 'gold' ? '' : 
+                                        <div className="d-flex justify-content-between px-1" key={i}>
+                                          <div className="w-50 fw-bold fsg2dp10">{e?.MetalType}</div>
+                                          <div className="w-50 end_dp10 fsg2dp10">
+                                            {formatAmount((e?.MetalAmount *e?.Quantity))}
+                                          </div>
+                                        </div>
+                                      }
+                                  </React.Fragment>
                                 )
                               })
                             }

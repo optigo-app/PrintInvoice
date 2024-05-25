@@ -13,11 +13,10 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
   const [imgFlag, setImgFlag] = useState(true);
-  const toWords = new ToWords();
-  const [isImageWorking, setIsImageWorking] = useState(true);
-  const handleImageErrors = () => {
-    setIsImageWorking(false);
-  };
+  // const [isImageWorking, setIsImageWorking] = useState(true);
+  // const handleImageErrors = () => {
+  //   setIsImageWorking(false);
+  // };
  
   useEffect(() => {
     const sendData = async () => {
