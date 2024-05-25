@@ -11,13 +11,14 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
-  const [imgFlag, setImgFlag] = useState(true);
   const [headerFlag, setHeaderFlag] = useState(true);
   const [isImageWorking, setIsImageWorking] = useState(true);
   const [cateName, setCateName] = useState([]);
   const [printWithPrice, setPrintWithPrice] = useState(true);
   const [mainTotal, setMainTotal] = useState();
   const [otherMetal, setOtherMetal] = useState([]);
+  const [goldNetWt, setGoldNetWt] = useState(0);
+  const [goldAmount, setGoldAmount] = useState(0);
   useEffect(() => {
     const sendData = async () => {
       try {
@@ -126,36 +127,21 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           other_metal[findrec].Quantity += b?.Quantity;
         }
       })
+
       other_metal?.sort((a, b) => a?.MetalTypePurity.localeCompare(b?.MetalTypePurity))
+
+      let gold_purewt = 0;
+
+      other_metal?.forEach((a) => {
+        if(a?.MetalType?.toLowerCase() === 'gold'){
+          gold_purewt += a?.convertednetwt;
+        }
+      })
+      setGoldNetWt(gold_purewt);
       setOtherMetal(other_metal)
-      // datas?.json2?.forEach((a) => {
-      //     if(a?.IsPrimaryMetal === 1 && a?.MasterManagement_DiamondStoneTypeid === 4){
-      //         other_metal.push(a);
-      //     }
-      // })
-
-      // let othm2 = [];
-      // other_metal?.forEach((a) => {
-      //   let findrec = othm2?.findIndex((al) => al?.ShapeName === a?.ShapeName)
-      //   if(findrec === -1){
-      //     let obj = {...a};
-      //     obj.mt_Wt = a?.Wt;
-      //     othm2.push(obj);
-      //   }else{
-      //     othm2[findrec].mt_Wt += a?.Wt;
-      //   }
-      // })
-
-      // setOtherMetal(othm2)
 
   }
 
-  const handleImgShow = (e) => {
-    if (imgFlag) setImgFlag(false);
-    else {
-      setImgFlag(true);
-    }
-  };
   const handleCheckbox = () => {
     if(headerFlag){
       setHeaderFlag(false);
@@ -757,23 +743,29 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         SUMMARY
                       </div>
                       <div className="d-flex w-100 fsgdp10">
+                        
                         <div className={`${printWithPrice ? 'w-50' : 'w-100'} bright_dp10 bl_dp10`}>
+                        <div className="d-flex justify-content-between px-1 fsg2dp10">
+                            <div className="w-50 fw-bold fsg2dp10">GOLD IN 24KT</div>
+                            <div className="w-50 end_dp10 pe-1"> {(goldNetWt)?.toFixed(3)} gm </div>
+                          </div>
                           {
                               otherMetal?.map((e, i) => {
                                 return (
-                                  <div className="d-flex justify-content-between px-1 fsg2dp10" key={i}>
-                                    <div className="w-50 fw-bold fsg2dp10">{e?.MetalTypePurity}</div>
+                                  <>
+                                  {
+                                    e?.MetalType?.toLowerCase()  === 'gold' ? '' : <div className="d-flex justify-content-between px-1 fsg2dp10" key={i}>
+                                    <div className="w-50 fw-bold fsg2dp10">{e?.MetalType}</div>
                                     <div className="w-50 end_dp10 fsg2dp10  pe-1">
                                       {e?.convertednetwt?.toFixed(3)} gm
                                     </div>
                                   </div>
+                                  }
+                                  </>
                                 )
                               })
                           }
-                          <div className="d-flex justify-content-between px-1 fsg2dp10">
-                            <div className="w-50 fw-bold fsg2dp10">GOLD IN 24KT</div>
-                            <div className="w-50 end_dp10 pe-1"> {(result?.mainTotal?.total_purenetwt)?.toFixed(3)} gm </div>
-                          </div>
+                          
                           <div className="d-flex justify-content-between px-1 fsg2dp10">
                             <div className="w-50 fw-bold fsg2dp10">GROSS WT</div>
                             <div className="w-50 end_dp10 pe-1"> {result?.mainTotal?.grosswt?.toFixed(3)} gm </div>
