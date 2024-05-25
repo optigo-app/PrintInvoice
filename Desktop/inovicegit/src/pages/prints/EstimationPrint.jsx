@@ -77,7 +77,6 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
             let diamondSettingAmount = 0;
             let findingSettingAmount = 0;
             let colorStoneSettingAmount = 0;
-            console.log(e?.diamonds);
 
             let blankDiamonds = cloneDeep(e?.diamonds);
             blankDiamonds?.forEach((ele, ind) => {
@@ -152,7 +151,6 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
         datas.resultArray = blankArr;
         datas.mainTotal = mainTotal;
         datas.organizeDiamonds = organizeDiamonds;
-        console.log(datas);
         setData(datas);
     }
 

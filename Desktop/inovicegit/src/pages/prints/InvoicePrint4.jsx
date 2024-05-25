@@ -656,7 +656,6 @@ useEffect(() => {
 
   async function loadData2(data){
     let datas = data;
-    console.log(datas);
 
     let finalArr = [];
 
@@ -1057,7 +1056,6 @@ useEffect(() => {
                         <div style={{width:'10%'}}></div>
                         <div className="end_invp4_ pe-1" style={{width:'10%'}}>{total_makingcharge_unit}</div>
                         {/* <div style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost))}</div> */}
-                        {console.log(result)}
                         <div className="end_invp4_ pe-1" style={{width:'10%'}}>{formatAmount((result?.mainTotal?.total_Making_Amount + result?.mainTotal?.total_TotalCsSetcost + result?.mainTotal?.total_TotalDiaSetcost + result?.mainTotal?.totalMiscAmount + result?.mainTotal?.total_diamondHandling))}</div>
                         </div>
                         <div className="d-flex w-100  fsinvp3 border-start border-end">

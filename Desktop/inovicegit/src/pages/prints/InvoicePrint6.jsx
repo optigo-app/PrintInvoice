@@ -77,7 +77,6 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
-        console.log(datas);
         let resultArr = [];
         let findings = [];
         let diamonds = [];
@@ -287,7 +286,6 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             });
 
         });
-        console.log(labourAmt);
         if (labourWt !== 0) {
             labourRate = Math?.round(labourAmt / labourWt);
         }
@@ -336,7 +334,6 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
         });
 
-        console.log(colorStones[1], colorStones[2]);
         setTotalss({ ...totalss, total: total2?.total, discount: total2?.discount, totalPcs: totalPcs, });
 
         resultArr?.sort((a, b) => {

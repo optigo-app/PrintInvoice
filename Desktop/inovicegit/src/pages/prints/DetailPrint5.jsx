@@ -229,7 +229,6 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setData(resultArr);
     setTotal(totals);
 
-    console.log(resultArr);
     resultArr.sort((a, b) => {
       const designNoA = a.designno;
       const designNoB = b.designno;

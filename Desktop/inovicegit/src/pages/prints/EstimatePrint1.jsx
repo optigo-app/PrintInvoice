@@ -36,7 +36,6 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         setIsImageWorking(false);
     };
     const loadData = (data) => {
-        console.log(data);
         setJson0Data(data?.BillPrint_Json[0]);
         let documnets = otherAmountDetail(data?.BillPrint_Json[0]?.DocumentDetail);
         setDocument(documnets);
@@ -261,7 +260,6 @@ const EstimatePrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         });
 
         let datass = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
-        console.log(datass);
 
         let bankDetails = ReceiveInBank(data?.BillPrint_Json[0]?.BankPayDet);
         setBank(bankDetails);

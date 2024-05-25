@@ -356,7 +356,6 @@ const MiscDetailPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                                             <div className='w-50  end_mdp pe-1'>{formatAmount((result?.mainTotal?.total_amount))} </div>
                                         </div>  
                                     </div>
-                            {console.log(result)}
                                 </div>
                                 <div className='col1_o_mdp fs_11_mdp d-flex flex-column'>
                                 {

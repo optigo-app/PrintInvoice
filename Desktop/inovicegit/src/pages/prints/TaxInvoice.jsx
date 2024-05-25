@@ -299,7 +299,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <p className={`${style?.pad_1}`}>{e?.SrJobno}</p>
                     </div>
                     {image && <img src={e?.DesignImage} alt="" className="imgWidth" onError={handleImageError} />}
-                    <p className="text-center">Tunch : <span className="fw-bold">{NumberWithCommas(e?.Tunch, 3)}</span></p>
+                    {/* <p className="text-center">Tunch : <span className="fw-bold">{NumberWithCommas(e?.Tunch, 3)}</span></p> */}
                     <p className="text-center"><span className="fw-bold">{NumberWithCommas(e?.grosswt, 3)} gm</span> Gross</p>
                   </div>
                   <div className={`${style?.diamond} border-end border-bottom`}>
@@ -553,7 +553,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <p className={`lightGrey fw-bold ${style?.pad_1} text-center border-bottom`}>Diamond Detail </p>
                   {diamonds.map((e, i) => {
                     return <div key={i} className="d-flex justify-content-between px-1">
-                      <p className="fw-bold">{e?.ShapeName} {e?.QualityName} {e?.Colorname}</p>
+                      <p className="fw-bold">{e?.ShapeName} {e?.QualityName} </p>
                       <p>{NumberWithCommas(e?.Pcs, 0)} / {NumberWithCommas(e?.Wt, 3)} Cts</p>
                     </div>
                   })

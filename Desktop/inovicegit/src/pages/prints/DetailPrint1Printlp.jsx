@@ -1217,7 +1217,6 @@ const DetailPrint1Printlp = ({ token, invoiceNo, printName, urls, evn, ApiVer })
                 );
               })
             }
-            {console.log(finalD)}
             {/* cgst */}
             {pricerateShow ? <div className="d-flex w-100 border-bottom  border-start recordDetailPrint1 detailPrint1L_font_11">
               <div className="cgstDetailPrint1 text-end border-end  paddingLeftDetailPrint1 paddingRightDetailPrint1 py-1">

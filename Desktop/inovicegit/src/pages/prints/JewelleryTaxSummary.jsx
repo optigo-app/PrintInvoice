@@ -60,7 +60,6 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
         let pwise = [];
 
         datas?.resultArray?.forEach((el) => {
-            console.log(el);
             let obj = deepClone(el);
             let findRec = pwise?.findIndex((a) => a?.MetalTypePurity === obj?.MetalTypePurity)
             if(findRec === -1){
@@ -83,7 +82,6 @@ const JewelleryTaxSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer })
       setIsImageWorking(false);
     };
 
-    console.log(result);
   return (
     <>
     {

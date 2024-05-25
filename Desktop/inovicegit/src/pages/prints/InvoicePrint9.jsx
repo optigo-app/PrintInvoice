@@ -117,7 +117,6 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       }
     });
     datas.mainTotal.totalAmounts = totalAmounts;
-    console.log(datas);
     setData(datas);
   };
   useEffect(() => {

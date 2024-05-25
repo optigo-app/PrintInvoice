@@ -14,6 +14,7 @@ const TaxInvoiceExcel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
     const [msg, setMsg] = useState("");
     const [loader, setLoader] = useState(true);
     const [isImageWorking, setIsImageWorking] = useState(true);
+    
     const handleImageErrors = () => {
       setIsImageWorking(false);
     };

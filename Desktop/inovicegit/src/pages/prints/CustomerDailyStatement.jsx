@@ -39,7 +39,6 @@ const CustomerDailyStatement = ({ token, invoiceNo, printName, urls, evn, ApiVer
         });
         datas.resultArray = resultArr;
         // console.log(resultArr);
-        console.log(datas);
         setData(datas);
     }
 

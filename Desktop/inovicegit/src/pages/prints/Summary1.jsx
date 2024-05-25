@@ -627,7 +627,6 @@ const Summary1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                         <div className="wtbsum1 htotalrowsum1 alignrightsum1">
                           <b className="totrowfssum1 pe-1 fsrtis1">
                             {/* {NumberWithCommas(totalOtherAmount, 2)} */}
-                            {console.log(result)}
                             {formatAmount(
                               ((result?.mainTotal?.total_other +
                                 result?.mainTotal?.total_diamondHandling +

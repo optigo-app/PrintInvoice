@@ -68,7 +68,6 @@ const JewelleryInvoice3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) =
 
     setResult(datas);
   }
-console.log(result);
 // http://nzen/R50B3/UFS/ufs2/orail228FT0OWNGEI6DC3BVS/companylogo/preview_logo/projectlogo.png?ts=638499827768597590 
   return (
     <>
@@ -124,7 +123,6 @@ console.log(result);
                         <div className='tbody_ji3'>
                             {
                                 result?.resultArray?.map((e, i) => {
-                                    console.log(e);
                                     return (
                                         <div className='d-flex brright_ji3 brleft_ji3 brbottom_ji3 fs_ji3'>
                                             <div className='col1t_ji3 brright_ji3 center_ji3'>{i+1}</div>

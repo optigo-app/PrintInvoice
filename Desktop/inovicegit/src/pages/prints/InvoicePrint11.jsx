@@ -85,7 +85,6 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
     let datas = OrganizeDataPrint(data?.BillPrint_Json[0], data?.BillPrint_Json1, data?.BillPrint_Json2);
     setTaxes(datas?.allTaxes);
     setMainDatas(datas)
-    console.log(datas);
     let resultArr = [];
     let findings = [];
     let diamonds = [];

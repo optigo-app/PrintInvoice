@@ -506,7 +506,6 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
       setTotObj(tot_obj);
       setMetWise(metwise);
       setResult(datas);
-      console.log(metwise);
 
   };
 
@@ -728,7 +727,6 @@ const JewelleryInvoice2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) =
                     {result?.mainTotal?.metal?.Pcs + result?.mainTotal?.diamonds?.Pcs + result?.mainTotal?.colorstone?.Pcs + result?.mainTotal?.finding?.Pcs + result?.mainTotal?.misc?.withouthscode1_2_pcs  }
                   </div>
                   <div className="col5_ji2 border-end center_ji2">
-                    {console.log(result)}
                      {(result?.mainTotal?.diamonds?.Wt + result?.mainTotal?.colorstone?.Wt)?.toFixed(3)} ctw <br />
                      {((result?.mainTotal?.misc?.Wt + result?.mainTotal?.misc?.allservwt + result?.mainTotal?.metal?.Wt + result?.mainTotal?.finding?.Wt)?.toFixed(3))} gm
                      {/* {(totalCtw)} ctw <br /> {((totalGm))} gm */}

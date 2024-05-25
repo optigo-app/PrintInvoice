@@ -255,7 +255,6 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             })
             let resultArr = [];
             blankArr.forEach((e, i) => {
-                console.log(e?.otherCharge);
 
                 if (e?.GroupJob !== "") {
                     let findIndex = resultArr.findIndex(ele => ele?.GroupJob === e?.GroupJob && ele?.primaryMetal[0]?.Rate === e?.primaryMetal[0]?.Rate);
@@ -313,8 +312,6 @@ const RetailInvoiceprint4 = ({ urls, token, invoiceNo, printName, evn, ApiVer })
             setDocument(documentDetail);
             setdata(resultArr);
             setTotal(totals);
-            console.log(data);
-            console.log(resultArr);
             setLoader(false);
         } catch (error) {
             console.log(error);

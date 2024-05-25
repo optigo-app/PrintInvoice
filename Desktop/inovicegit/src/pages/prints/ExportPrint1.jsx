@@ -95,7 +95,6 @@ const ExportPrint1 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         setUnitCost(unitcosts);
         setData(arr);
         // console.log(arr);
-        console.log(data);
         setJson0Data(data?.BillPrint_Json[0]);
         setMetalArr(metalArrs);
         setGrossWt(gross);

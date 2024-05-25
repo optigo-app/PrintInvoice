@@ -159,7 +159,6 @@ const RetailInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     setResult(datas);
     
   }
-  console.log(result)
 
 
 

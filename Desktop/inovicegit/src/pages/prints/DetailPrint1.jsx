@@ -885,7 +885,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                   <p
                                     className={`col-2 text-end ${dp1lp && "fw-bold"} ${detailPrintK && "fw-bold "
                                       }`}
-                                  >{console.log(ele)}
+                                  >
                                     {NumberWithCommas(ele?.Amount, 2)}
                                   </p>
                                 </div>

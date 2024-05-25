@@ -64,7 +64,6 @@ const LabourSummary = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       copydata?.BillPrint_Json[0]?.HeaderNo,
       copydata?.BillPrint_Json[0]
     );
-      console.log( copydata?.BillPrint_Json[0]?.HeaderNo);
     let footer_comp = FooterComponent(
       "2",
       copydata?.BillPrint_Json[0])
