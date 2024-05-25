@@ -129,13 +129,11 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       {/* table header */}
       <div>
         {result?.header?.PrintHeadLabel  ? ( "PRODUCT DETAIL SHEET" ) : ( <div className="pheaddp12 w-100">PRODUCT DETAIL SHEET {result?.header?.PrintHeadLabel} </div> )}
-        <div className="d-flex justify-content-between align-items-center p-1 ">
+        {/* <div className="d-flex justify-content-between align-items-center p-1 ">
           <div className="w-75 fsgdp12">
             <div className="fw-bold fsgdp12_ lhdp12"> {result?.header?.CompanyFullName} </div>
             <div className="fsgdp12 lhdp12">
-              {/* {result?.header?.CompanyAddress?.split(",")[0]} <br /> */}
               {result?.header?.CompanyAddress} <br />
-              {/* {result?.header?.CompanyAddress2?.split(",")[0]}  */}
               {result?.header?.CompanyAddress2}
             </div>
             <div className="fsgdp12 lhdp12">
@@ -160,16 +158,12 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
           </div>
           <div className="d-flex justify-content-end w-25 fsgdp12 pe-2">
-            {/* <img
-              src={result?.header?.PrintLogo}
-              alt="#companylogo"
-              className="headimgdp12"
-            /> */}
+          
             {isImageWorking && result?.header?.PrintLogo !== "" && (
               <img src={result?.header?.PrintLogo} alt="" className="w-100 h-auto ms-auto d-block object-fit-contain headimgdp12" style={{ minHeight: "75px", maxHeight: "75px", minWidth: "115px", maxWidth: "117px", }} onError={handleImageErrors} height={120} width={150} />
             )}
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* table sub header */}
@@ -226,16 +220,22 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         <div className="theaddp12 hcompdp12 bordersdp12">
           <div className="col1dp12 dp12cen">SR#</div>
           <div className="col2dp12 dp12cen">DESIGN DESCRIPTION</div>
-          <div style={{width:'15%'}} className='brdp12'>
-            <div className='w-50 brdp12 h-100'></div>
-            <div className='w-50'></div>
+          <div style={{width:'36%'}} className='brdp12 d-flex'>
+            <div className='       w-25 h-100'>&nbsp;</div>
+            <div className='brdp12 w-25 h-100'>&nbsp;</div>
+            <div className='brdp12 w-25 h-100 text-break text-center'>METAL / MAKING RATE</div>
+            <div className='       w-25 h-100 text-break text-center'>METAL / MAKING AMOUNT</div>
+            {/* <div className='w-25 brdp12 h-100'></div>
+            <div className='w-25'></div>
+            <div className='w-25 brdp12 h-100'></div>
+            <div className='w-25'></div> */}
           </div>
           {/* <div className="col3dp12 dp12cen"></div>
           <div className="col4dp12 dp12cen"></div> */}
           {/* <div className="col5dp12 dp12cen">NET</div> */}
-          <div className="col5dp12 dp12cen p-1 text-break">METAL / MAKING RATE</div>
+          {/* <div className="col5dp12 dp12cen p-1 text-break">METAL / MAKING RATE</div> */}
           {/* <div className="col6dp12 dp12cen">WASTAGE</div> */}
-          <div className="col6dp12 dp12cen text-break p-1">METAL / MAKING AMOUNT</div>
+          {/* <div className="col6dp12 dp12cen text-break p-1">METAL / MAKING AMOUNT</div> */}
           <div className="col7dp12 d-flex flex-column ">
             <div className="dp12cen brbdp12 h-50">POLKI DIAMOND STONE DESCRIPTION </div>
             <div className="d-flex subcoldp12 h-50">
@@ -277,49 +277,76 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className='w-100 brbdp12'>{( e?.NetWt + e?.LossWt === 0 ? '&nbsp;' : (e?.NetWt + e?.LossWt)?.toFixed(3))}</div>
                   <div className='w-100 brbdp12'>{( e?.NetWt + e?.LossWt === 0 ? '&nbsp;' : (e?.NetWt + e?.LossWt)?.toFixed(3))}</div>
                 </div> */}
-                <div className='rcol4dp12 d-flex flex-column justify-content-between' style={{width:'15%'}}>
+                <div className='rcol4dp12 d-flex flex-column justify-content-between' style={{width:'36%'}}>
                   <div>
                   <div className='d-flex brbdp12 w-100'>
-                    <div className='w-50 brdp12 ps-1'>KT/COL</div>
-                    <div className='w-50 pe-1 end_dp12'> {e?.MetalPurity} {e?.MetalColor} </div>
-                  </div>
-                  <div className='d-flex brbdp12 w-100'>
-                    <div className='w-50 brdp12 ps-1'>GROSS</div>
-                    <div className='w-50 pe-1 end_dp12'> {e?.grosswt?.toFixed(3)} </div>
-                  </div>
-                  <div className='d-flex brbdp12 w-100'>
-                    <div className='w-50 brdp12 ps-1'>NETWT</div>
-                    <div className='w-50 pe-1 end_dp12'> 
-                      {((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}
-                      {/* {(e?.NetWt + e?.LossWt)?.toFixed(3)}  */}
+                    <div className='w-50 brdp12 ps-1 d-flex'>
+                      <div className='w-50 brdp12 ps-1'>KT/COL</div>
+                      <div className='w-50 end_dp12 pe-1 text-break'>{e?.MetalPurity} {e?.MetalColor}</div>
                     </div>
+                    <div className='w-50 ps-1 d-flex'>
+                      <div className='w-50 brdp12 ps-1'></div>
+                      <div className='w-50 end_dp12 pe-1'></div>
+                    </div>
+
+                    {/* <div className='w-50 pe-1 end_dp12'> {e?.MetalPurity} {e?.MetalColor} </div> */}
                   </div>
                   <div className='d-flex brbdp12 w-100'>
-                    <div className='w-50 brdp12 ps-1'>MAKING RATE</div>
-                    <div className='w-50 pe-1 end_dp12'> {(e?.NetWt + e?.LossWt)?.toFixed(3)} </div>
+                    <div className='w-50 brdp12 ps-1 d-flex'>
+                      <div className='w-50 brdp12 ps-1'>GROSS</div>
+                      <div className='w-50 end_dp12 pe-1'>{e?.grosswt?.toFixed(3)}</div>
+                    </div>
+                    <div className='w-50 ps-1 d-flex'>
+                      <div className='w-50 brdp12 ps-1'></div>
+                      <div className='w-50 end_dp12 pe-1'></div>
+                    </div>
+                    {/* <div className='w-50 pe-1 end_dp12'> {e?.grosswt?.toFixed(3)} </div> */}
+                  </div>
+                  <div className='d-flex brbdp12 w-100'>
+                    <div className='w-50 brdp12 ps-1 d-flex'>
+                      <div className='w-50 brdp12 ps-1'>NETWT</div>
+                      <div className='w-50 end_dp12 pe-1'>{((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}</div>
+                    </div>
+                    <div className='w-50 ps-1 d-flex'>
+                      <div className='w-50 brdp12 pe-1 end_dp12'>{e?.MetalAmount === 0 ? '' : formatAmount(((e?.MetalAmount / result?.header?.CurrencyExchRate) / (((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal) === 0 ? 1 : ((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal))))}</div>
+                      <div className='w-50 end_dp12 pe-1'>&nbsp;{e?.MetalAmount === 0 ? '' : formatAmount((e?.MetalAmount / result?.header?.CurrencyExchRate))}</div>
+                    </div>
+                    {/* <div className='w-50 pe-1 end_dp12'> </div> */}
+                      {/* {((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)} */}
+                  </div>
+                  <div className='d-flex brbdp12 w-100'>
+                    <div className='w-50 brdp12 ps-1 d-flex'>
+                      <div className='w-50 brdp12 ps-1'>MAKING RATE</div>
+                      <div className='w-50 end_dp12 pe-1'> {(e?.NetWt + e?.LossWt)?.toFixed(3)} </div>
+                    </div>
+                    <div className='w-50 ps-1 d-flex'>
+                      <div className='w-50 brdp12 pe-1 end_dp12'>&nbsp;{e?.MaKingCharge_Unit === 0 ? '' : formatAmount((e?.MaKingCharge_Unit))}</div>
+                      <div className='w-50 end_dp12 pe-1'>&nbsp;{e?.MakingAmount === 0 ? '' : formatAmount((e?.MakingAmount / result?.header?.CurrencyExchRate))}</div>
+                    </div>
+                    {/* <div className='w-50 pe-1 end_dp12'> {(e?.NetWt + e?.LossWt)?.toFixed(3)} </div> */}
                   </div>
                   </div>
                   <div>
                   <div className='d-flex brbdp12 brtdp12 w-100 fw-bold'>
-                    <div className='w-50 brdp12 ps-1'></div>
-                    <div className='w-50 pe-1 end_dp12'>&nbsp;</div>
+                    <div className='w-50 brdp12 ps-1'>&nbsp;</div>
+                    <div className='w-50 pe-1 d-flex end_dp12'>
+                      <div className='w-50 brdp12'>&nbsp;</div>
+                      <div className='w-50 end_dp12 pe-1'>{e?.MakingAmount === 0 ? '' : formatAmount((e?.MakingAmount + e?.MetalAmount))}</div>
+                    </div>
                   </div>
                   </div>
                 </div>
                   {/* {e?.grosswt?.toFixed(3)}  */}
-                <div className="rcol5dp12 dp12cen1 d-flex flex-column justify-content-between"> 
+                {/* <div className="rcol5dp12 dp12cen1 d-flex flex-column justify-content-between"> 
                     <div className='w-100'>
-                    {/* {((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal)?.toFixed(3)}  */}
                     <div className='w-100 brbdp12'>&nbsp;</div>
                     <div className='w-100 brbdp12'>&nbsp;</div>
                     <div className='w-100 brbdp12 end_dp12 pe-1'>&nbsp;{e?.MetalAmount === 0 ? '' : formatAmount(((e?.MetalAmount / result?.header?.CurrencyExchRate) / (((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal) === 0 ? 1 : ((e?.NetWt + e?.LossWt) - e?.totals?.metal?.WithOutPrimaryMetal))))}</div>
                     <div className='w-100 brbdp12 end_dp12 pe-1'>&nbsp;{e?.MaKingCharge_Unit === 0 ? '' : formatAmount((e?.MaKingCharge_Unit))}</div>
                     </div>
-                    {/* <div className='w-100 brbdp12 brtdp12 end_dp12 pe-1  fw-bold'>{e?.MaKingCharge_Unit === 0 ? '&nbsp;' : formatAmount(e?.MaKingCharge_Unit)}</div> */}
                     <div className='w-100 brbdp12 brtdp12 end_dp12 pe-1  fw-bold'>&nbsp;</div>
                 </div>
                 <div className="rcol6dp12 dp12cen1 d-flex flex-column justify-content-between"> 
-                  {/* {e?.Wastage?.toFixed(3)}  */}
                   <div className='w-100'>
                     <div className='w-100 brbdp12'>&nbsp;</div>
                     <div className='w-100 brbdp12'>&nbsp;</div>
@@ -327,7 +354,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className='w-100 brbdp12 end_dp12 '>&nbsp;{e?.MakingAmount === 0 ? '' : formatAmount((e?.MakingAmount / result?.header?.CurrencyExchRate))}</div>
                   </div>
                   <div className='w-100 brbdp12 brtdp12 end_dp12 pe-1 fw-bold'>&nbsp;{e?.MakingAmount === 0 ? '' : formatAmount((e?.MakingAmount + e?.MetalAmount))}</div>
-                </div>
+                </div> */}
                 <div style={{ width: "" }} className=" col7dp12 d-flex flex-column justify-content-between">
                   {/* <div className="d-grid h-100"> */}
                   <div className="d-grid h-100">
@@ -459,8 +486,6 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <div className="w_subcoldp12 dp12cen2 brdp12"> </div>
                             <div className="w_subcoldp12 dp12cen2" style={{ width: "25%" }} > </div>
                           </div>}
-
-                         
                   </div>
                   {
                     ((e?.totals?.diamonds?.Wt + e?.totals?.colorstone?.Wt + e?.totals?.misc?.Wt + e?.totals?.metal?.WithOutPrimaryMetal === 0 ) && (e?.totals?.diamonds?.Amount + e?.totals?.colorstone?.Amount + e?.totals?.misc?.Amount === 0)) ? '' :
@@ -715,13 +740,13 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       {/* </div> */}
 
       {/* footer */}
-      <div className="mt-1 bradp12 p-1 hcompdp7 fsgdp12" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }} >
+      {/* <div className="mt-1 bradp12 p-1 hcompdp7 fsgdp12" dangerouslySetInnerHTML={{ __html: result?.header?.Declaration }} >
         {}
-      </div>
+      </div> */}
       <div className="border-top-0 bradp12 border-bottom-0 ps-1 fsgdp12">
         <b>REMARKS</b> : {result?.header?.PrintRemark}
       </div>
-      <div className="d-flex footer_bank_dp12 hcompdp12_dp12 fsgdp12">
+      {/* <div className="d-flex footer_bank_dp12 hcompdp12_dp12 fsgdp12">
         <div className="subheaddiv_1_dp12">
           <div className="fw-bold">Bank Detail</div>
           <div>Bank Name: {result?.header?.bankname}</div>
@@ -743,7 +768,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             {result?.header?.CompanyFullName}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
     : <p className="text-danger fs-2 fw-bold mt-5 text-center w-50 mx-auto"> {msg} </p> }
     </>
