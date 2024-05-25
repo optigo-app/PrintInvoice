@@ -145,6 +145,9 @@
 .text_center_smp{
     text-align: center;
 }
+.text_end_smp{
+    text-align: end;
+}
 .align_item_smp{
     align-items: center;
 }

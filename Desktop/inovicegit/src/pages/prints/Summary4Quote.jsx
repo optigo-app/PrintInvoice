@@ -117,7 +117,7 @@ const Summary4Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
                             </div>
 
-                            <div className='d_flex_smp w_main_smp text_center_smp br_top_smp height_34_smp font_bold_smp font_wrap_smp'>
+                            <div className='d_flex_smp w_main_smp text_center_smp br_top_smp height_34_smp font_bold_smp font_wrap_smp br_bottom_smp'>
                                 <div className='w_child1_smp pad_2_px br_right_smp'>SR#</div>
                                 <div className='w_child2_smp pad_2_px br_right_smp'>DESIGN</div>
                                 <div className='w_child3_smp pad_2_px br_right_smp'>Remark</div>
@@ -139,9 +139,9 @@ const Summary4Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             {result?.resultArray?.map((j1, i1) => {
                                 return (
                                     <div className='d_flex_smp w_main_smp br_bottom_smp'>
-                                        <div className='w_child1_smp pad_2_px br_right_smp'>{j1.SrNo}</div>
+                                        <div className='w_child1_smp pad_2_px br_right_smp'>{j1?.SrNo}</div>
                                         <div className='w_child2_smp pad_2_px br_right_smp'>
-                                            <div className='font_13_smp font_bold_smp'>{j1.designno} - {j1.Categoryname}</div>
+                                            <div className='font_13_smp font_bold_smp'>{j1?.designno} - {j1?.Categoryname}</div>
                                             <div className='text_center_smp'><img
                                                 src={j1?.DesignImage}
                                                 onError={(e) => handleImageError(e)}
@@ -150,10 +150,21 @@ const Summary4Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                 width={"60px"}
                                                 height="60px"
                                             /></div>
+                                            <div className='font_bold_smp text_center_smp'>{j1?.MetalType} {j1?.MetalPurity}</div>
                                         </div>
-                                        <div className='w_child3_smp pad_2_px br_right_smp'>Remark</div>
-                                        <div className='w_child4_smp pad_2_px br_right_smp'>DIA WT (ctw)</div>
-                                        <div className='w_child5_smp pad_2_px br_right_smp'>DIA RATE</div>
+                                        <div className='w_child3_smp pad_2_px br_right_smp'>{j1?.CertRemark ? j1?.CertRemark : ""}</div>
+                                        <div className='w_child4_smp pad_2_px br_right_smp'>{j1?.diamonds?.map((d, i) => {
+                                            return (
+                                                <div className='text_end_smp'>{d?.Wt?.toFixed(3)}</div>
+                                            )
+                                        })}</div>
+                                        <div className='w_child5_smp pad_2_px br_right_smp'>
+                                        {j1?.diamonds?.map((d, i) => {
+                                            return (
+                                                <div className='text_end_smp'>{d?.Wt?.toFixed(3)}</div>
+                                            )
+                                        })}
+                                        </div>
                                         <div className='w_child6_smp pad_2_px br_right_smp'>DIA AMT</div>
                                         <div className='w_child7_smp pad_2_px br_right_smp'>G WT (gm)</div>
                                         <div className='w_child8_smp pad_2_px br_right_smp'>NWT (gm)</div>
