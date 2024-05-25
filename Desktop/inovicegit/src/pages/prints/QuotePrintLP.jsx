@@ -182,11 +182,11 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <label htmlFor="imghideshow" className="me-3 user-select-none">
                     With Header
                   </label>
+                  <button className="btn_white blue mb-0 hidedp10 m-0 p-2 me-2 maroon_qlp" onClick={(e) => handlePrintWithOutPrice(e)} >
+                    Print WithOut Price
+                  </button>
                   <button className="btn_white blue mb-0 hidedp10 m-0 p-2" onClick={(e) => handlePrintWithPrice(e)} >
                     Print With Price
-                  </button>
-                  <button className="btn_white blue mb-0 hidedp10 m-0 p-2 mx-2 maroon_qlp" onClick={(e) => handlePrintWithOutPrice(e)} >
-                    Print WithOut Price
                   </button>
                 </div>
                 {/* header */}

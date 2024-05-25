@@ -61,34 +61,16 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
       datas?.resultArray?.forEach((e) => {
         let arr = [];
-        // console.log("hello");
         e?.misc?.forEach((a) => {
           if (a?.IsHSCOE === 0 || a?.IsHSCOE === 3) {
-            // console.log(a);
             arr?.push(a);
           }
-          // if(a?.IsHSCOE === 0){
-          //     if(a?.IsHSCOE === 1 || a?.IsHSCOE === 2){
-          //         return ''
-          //     }else if(a?.IsHSCOE === 0 || a?.IsHSCOE === 3){
-          //       arr?.push(a);
-          //     }
-          // }
         });
         if (arr?.length === 1) {
           if (arr[0]?.IsHSCOE === 3) {
             // arr = [];
           }
         }
-        // let arr2 = [];
-        // arr?.forEach((a) => {
-        //   if(a?.IsHSCOE !== 0){
-        //       return ''
-        //   }else{
-        //     arr2.push(a);
-        //   }
-        // })
-
         e.misc = arr;
       });
       datas?.resultArray?.forEach((e) => {
