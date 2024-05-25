@@ -63,6 +63,17 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             data?.BillPrint_Json1,
             data?.BillPrint_Json2
         );
+        let arr = [];
+        datas?.resultArray?.forEach((a) => {
+            let obj = {...a};
+            obj?.metal?.forEach((al) => {
+                if(obj?.SrJobno === al?.StockBarcode){
+                    obj.metal_color_code = al?.MetalColorCode
+                }
+            })
+            arr.push(obj);
+        })
+        datas.resultArray = arr;
 
         setResult(datas);
     }
@@ -131,6 +142,7 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     <div className='d-flex flex-wrap justify-content-start card_container_qp1'>
                         {result?.resultArray?.map((res, i) => {
+                            
                             return (
                                 <div className='main_div_qp1' key={i}>
                                     <div className='itemdiv_qp1 b_t_qp1'>
@@ -145,7 +157,6 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                             />
                                         </div>
                                         <div className='d_flex_qp1 justify_between_qp1'>
-                                            {/* <div>Sr.No.{res?.SrNo}</div> */}
                                             <div>Sr.No. { i + 1}</div>
                                             <div>{res?.designno}</div>
                                         </div>
@@ -156,13 +167,17 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         </div>
                                         <div>
                                             <div className={removeclass === false ? "j_qp1 d_flex_qp1 text_end_qp1" : 'd_flex_qp1 text_end_qp1'}>
-                                                {res?.metal?.map((m, ind) => {
+                                            <div  className='child1_w_qp1 text_start_qp1'>
+                                                {res?.MetalType} {res?.MetalPurity} &nbsp;
+                                                {(res?.metal_color_code === '' || res?.metal_color_code === undefined) ? res?.MetalColor : res?.metal_color_code}</div>
+                                                {/* {res?.metal?.map((m, ind) => {
+                                                    console.log(m, res?.MetalType, res);
                                                     return (
                                                         <div key={ind} className='child1_w_qp1 text_start_qp1'>{res?.MetalType} {res?.MetalPurity} {m?.MetalColorCode}</div>
 
                                                     )
-                                                })}
-                                                <div className='child2_w_qp1'>{res?.MetalWeight?.toFixed(3)}</div>
+                                                })} */}
+                                                <div className='child2_w_qp1'>{(res?.NetWt + res?.LossWt)?.toFixed(3)}</div>
                                                 <div className={removeclass === false ? "print_btn_qp1" : ""}><div className='child3_w_qp1'>{formatAmount(res?.MetalAmount + res?.totals?.finding?.Amount)}</div></div>
                                             </div>
                                             <div className={removeclass === false ? "j_qp1 d_flex_qp1 text_end_qp1" : 'd_flex_qp1 text_end_qp1'}>
@@ -198,7 +213,7 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
 
                     </div>
                     <div className='d_flex_qp1 m_t_qp1 b_t_qp1 pad_l_qp1'>
-                        <div className='d_flex_qp1 summary_w_qp1'>
+                        <div className=''>
                             <div className='d_flex_qp1 br_black_qp1 br_right_remove_qp1'>
                                 <div className='fix_bottom_qp1'>
                                     <div className='background_qp1 font_bold_qp1 text_center_qp1 br_bottom_qp1'>SUMMARY</div>
@@ -217,7 +232,7 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                                     <p>{result?.mainTotal?.total_purenetwt.toFixed(3)} gm</p>
                                                     <p>{result?.mainTotal?.grosswt.toFixed(3)} gm</p>
                                                     <p>{((result?.mainTotal?.diamonds?.Wt / 5) + result?.mainTotal?.netwt)?.toFixed(3)} gm</p>
-                                                    <p>{result?.mainTotal?.netwt.toFixed(3)} gm</p>
+                                                    <p>{(result?.mainTotal?.netwt + result?.mainTotal?.lossWt).toFixed(3)} gm</p>
                                                     <p>{result?.mainTotal?.diamonds?.Pcs} / {result?.mainTotal?.diamonds?.Wt.toFixed(3)} cts</p>
                                                     <p>{result?.mainTotal?.colorstone?.Pcs} / {result?.mainTotal?.colorstone?.Wt.toFixed(3)} cts</p>
                                                 </div>
@@ -265,28 +280,20 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='summary2_w_qp1 d_flex_qp1'>
-                                <div className='summary3_w_qp1 br_black_qp1 br_right_remove_qp1'>
-                                    <div className='background_qp1 font_bold_qp1 text_center_qp1'>SUMMARY</div>
-                                    <div className='d_flex_qp1 justify_between_qp1 br_all_qp1'>
-                                        <div className='padding_left_qp1 font_bold_qp1'>
-                                            {summary.map((v, i) => {
-                                                return (
-                                                    <p key={i}>{v.Categoryname}</p>
-                                                )
-                                            })}
-                                        </div>
-                                        <div className='padding_right_qp1 text_end_qp1'>
-                                            {summary.map((v, i) => {
-                                                return (
-                                                    <p key={i}>{v.Categoryname_value}</p>
-                                                )
-                                            })}
-                                        </div>
-
-                                    </div>
+                           
+                        </div>
+                        <div className=' d_flex_qp1'>
+                                <div className='summary3_w_qp1 br_black_qp1'>
+                                    <div className='background_qp1 font_bold_qp1 text_center_qp1 br_bottom_qp1'>SUMMARY</div>
                                     <div>
-                                        <div></div>
+                                        {
+                                            summary?.map((el, ind) => {
+                                                return <div className='d-flex justify-content-between align-items-center px-1' key={ind}>
+                                                            <div>{el.Categoryname}</div>
+                                                            <div>{el.Categoryname_value}</div>
+                                                        </div>
+                                            })
+                                        }
                                     </div>
                                 </div>
                                 <div className='d_flex_qp1 summary_check_qp1 br_black_qp1 check_w_qp1'>
@@ -294,7 +301,6 @@ const Print1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                         Checked By
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
