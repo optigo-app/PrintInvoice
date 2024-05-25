@@ -254,7 +254,7 @@ const DetailPrint1 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               data?.Data?.BillPrint_Json1,
               data?.Data?.BillPrint_Json2
             );
-            // console.log(arr);
+            console.log(data?.Data);
             setJson1Data(arr);
             setLoader(false);
           } else {
