@@ -107,11 +107,11 @@
 
     .tax_invoice_container *,
     .container * {
-        font-size: 8px;
+        font-size: 9px;
     }
 
     .customerFirmName {
-        font-size: 10px;
+        font-size: 11px;
     }
 
     .tax_invoice_container *,
@@ -122,7 +122,7 @@
     .font_12 *,
     .font_15,
     .font_15 * {
-        font-size: 8px;
+        font-size: 9px;
     }
 
     .tax_invoice_container {

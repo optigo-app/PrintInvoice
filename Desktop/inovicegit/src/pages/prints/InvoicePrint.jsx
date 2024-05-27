@@ -486,14 +486,10 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                 <p className="fw-bold text-end invp_830_fs">WEIGHT	</p>
               </div>
               <div className="col-2">
-                <p className="fw-bold text-end invp_830_fs">
-                  RATE
-                </p>
+                <p className="fw-bold text-end invp_830_fs"> RATE </p>
               </div>
               <div className="col-3">
-                <p className="fw-bold text-end invp_830_fs">
-                  AMOUNT
-                </p>
+                <p className="fw-bold text-end invp_830_fs"> AMOUNT </p>
               </div>
             </div>
             {/* <div className="minHieght150InvoicePrint pt-1">
