@@ -66,3 +66,12 @@
         height: 50%;
         width: 50%;
 }
+
+@media print {
+        .lines {
+                line-height: 12px;
+                /* padding: 2px; */
+                /* height: 20px; */
+                font-size: 12px;
+        }
+}

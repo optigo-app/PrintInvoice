@@ -183,18 +183,18 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className={`${style1.headline} headerTitle target_header`}>{json0Data?.PrintHeadLabel}</div>
             <div className={`${style1.companyDetails} target_header`}>
               <div className={`${style1.companyhead} p-2`}>
-                <div className={style1.lines} style={{ fontWeight: "bold" }}>
+                <div className={`${style1.lines} tax_fs_12`} style={{ fontWeight: "bold" }}>
                   {json0Data?.CompanyFullName}
                 </div>
-                <div className={style1.lines}>{json0Data?.CompanyAddress}</div>
-                <div className={style1.lines}>{json0Data?.CompanyAddress2}</div>
-                <div className={style1.lines}>{json0Data?.CompanyCity}-{json0Data?.CompanyPinCode},{json0Data?.CompanyState}({json0Data?.CompanyCountry})</div>
-                {/* <div className={style1.lines}>Tell No: {json0Data?.CompanyTellNo}</div> */}
-                <div className={style1.lines}>T {json0Data?.CompanyTellNo} {json0Data?.CompanyTollFreeNo !== "" && ` | TOLL FREE ${json0Data?.CompanyTollFreeNo}`}</div>
-                <div className={style1.lines}>
+                <div className={`${style1.lines} tax_fs_12`}>{json0Data?.CompanyAddress}</div>
+                <div className={`${style1.lines} tax_fs_12`}>{json0Data?.CompanyAddress2}</div>
+                <div className={`${style1.lines} tax_fs_12`}>{json0Data?.CompanyCity}-{json0Data?.CompanyPinCode},{json0Data?.CompanyState}({json0Data?.CompanyCountry})</div>
+                {/* <div className={`${style1.lines} tax_fs_12`}>Tell No: {json0Data?.CompanyTellNo}</div> */}
+                <div className={`${style1.lines} tax_fs_12`}>T {json0Data?.CompanyTellNo} {json0Data?.CompanyTollFreeNo !== "" && ` | TOLL FREE ${json0Data?.CompanyTollFreeNo}`}</div>
+                <div className={`${style1.lines} tax_fs_12`}>
                   {json0Data?.CompanyEmail} | {json0Data?.CompanyWebsite}
                 </div>
-                <div className={style1.lines}>
+                <div className={`${style1.lines} tax_fs_12`}>
                   {/* {json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber} */}
                   {json0Data?.Company_VAT_GST_No} | {json0Data?.Company_CST_STATE}-{json0Data?.Company_CST_STATE_No} | PAN-{json0Data?.Pannumber}
                 </div>
