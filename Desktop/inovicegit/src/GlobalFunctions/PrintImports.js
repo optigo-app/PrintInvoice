@@ -138,10 +138,14 @@ export const QuotationPrints = [
 
 export const MemoPrints = [
   {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
+  {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
 ]
 
 export const EstimatePrints = [
   {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
+]
+export const HallMarkPrints = [
+  {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
 ]
 
 export const excelConditions = [

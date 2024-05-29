@@ -109,6 +109,9 @@ const AllDesignPrint = () => {
       if(etpType === 'print' && evnname === 'estimate'){
         return module.EstimatePrints || []
       }
+      if(etpType === 'print' && evnname === 'hallmark'){
+        return module.HallMarkPrints || []
+      }
   }
 
   const checkFavicon = () => {

@@ -173,6 +173,7 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
     },0)
     
   }
+
   return (
     <>
     { loader ? <Loader /> : msg === '' ? <div className="containerdp10 pab60_dp10">
@@ -615,36 +616,36 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                           </div>
                           <div className="tbcol6dp10 p-1 pr_dp10 d-flex flex-column justify-content-between">
                              <div className='w-100 end_dp10 '>
-                             { printWithPrice && formatAmount( ((e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) * e?.Quantity) )}
+                             {  ( printWithPrice && formatAmount( ((e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) * e?.Quantity)))}
                              </div>
                              <div className='w-100 end_dp10  bgc_dp10 bt_dp10 fw-bold'>
-                             &nbsp;{ printWithPrice && ((e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) * e?.Quantity) === 0 ? '' : formatAmount( ((e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) * e?.Quantity) )}
+                             &nbsp;{  ((e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) * e?.Quantity) === 0 ? '' : ( printWithPrice && formatAmount( ((e?.OtherCharges + e?.MiscAmount + e?.TotalDiamondHandling) * e?.Quantity))) }
                              </div>
                           </div>
                           <div className="tbcol7dp10 d-flex  flex-column justify-content-between ">
                             <div className="d-flex">
                               <div className=" end_dp10 pr_dp10" style={{width:'40%'}}>
-                                { printWithPrice && formatAmount(e?.MaKingCharge_Unit)}
+                                { (printWithPrice && formatAmount(e?.MaKingCharge_Unit))}
                               </div>
                               <div className=" end_dp10  pr_dp10" style={{width:'60%'}}>
-                                { printWithPrice && (((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) * e?.Quantity)) === 0 ? <>&nbsp;</> : formatAmount( (((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) * e?.Quantity)) )}
+                                { printWithPrice && (((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) * e?.Quantity)) === 0 ? <>&nbsp;</> : ( printWithPrice && formatAmount( (((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) * e?.Quantity))) )}
                               </div>
                             </div>
                             <div className="d-flex  bgc_dp10 bt_dp10 fw-bold">
                               <div className=" end_dp10 pr_dp10" style={{width:'37%'}}>
-                                {formatAmount(e?.MaKingCharge_Unit)}
+                                { printWithPrice && formatAmount(e?.MaKingCharge_Unit)}
                               </div>
                               <div className=" end_dp10  pr_dp10  " style={{width:'63%'}}>
-                                &nbsp;{ printWithPrice &&  (((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) * e?.Quantity)) === 0 ? <>&nbsp;</> : formatAmount( (((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) * e?.Quantity)) )}
+                                &nbsp;{ printWithPrice &&  (((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) * e?.Quantity)) === 0 ? <>&nbsp;</> : ( printWithPrice && formatAmount( (((e?.MakingAmount + e?.totals?.diamonds?.SettingAmount + e?.totals?.colorstone?.SettingAmount) * e?.Quantity))) )}
                               </div>
                             </div>
                           </div>
                           <div className="tbcol8dp10 fw-bold p-1 pad_top_dp10 pr_dp10 d-flex flex-column justify-content-between align-items-end">
                             <div className='w-100 end_dp10 '>
-                            { printWithPrice && formatAmount((e?.TotalAmount))}
+                            { printWithPrice && ( formatAmount((e?.TotalAmount)))}
                             </div>
                             <div className='w-100 end_dp10  bgc_dp10 bt_dp10'>
-                            &nbsp;{ printWithPrice &&  e?.TotalAmount === 0 ? <>&nbsp;</> : formatAmount((e?.TotalAmount))}
+                            &nbsp;{ printWithPrice &&  e?.TotalAmount === 0 ? <>&nbsp;</> :  ( printWithPrice && formatAmount((e?.TotalAmount)))}
                             </div>
                           </div>
                         </div>
@@ -692,11 +693,11 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {mainTotal?.diamond_pcs}
                       </div>
                       {/* <div className="theadsubcol1_dp10 end_dp10" style={{width:'20%'}}> */}
-                      <div className=" end_dp10 fsg2dp10"  style={{width:'22%'}}>
+                      <div className=" end_dp10 fsg2dp10"  style={{width:'20%'}}>
                         {mainTotal?.diamond_wt?.toFixed(3)}
                       </div>
                       {/* <div className="theadsubcol1_dp10"></div> */}
-                      <div className="theadsubcol1_dp10 end_dp10 pr_dp10 fsg2dp10" style={{width:'40%'}} >
+                      <div className="theadsubcol1_dp10 end_dp10 pr_dp10 fsg2dp10" style={{width:'42%'}} >
                         { printWithPrice && formatAmount((mainTotal?.diamond_Amt))}
                       </div>
                     </div>
@@ -706,12 +707,12 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
                         {mainTotal?.metal_wt?.toFixed(3)}
                       </div>
-                       <div className="theadsubcol2_dp10 pr_dp10 fsg2dp10 end_dp10" style={{width:'19%'}}>
+                       <div className="theadsubcol2_dp10 pr_dp10 fsg2dp10 end_dp10" style={{width:'18%'}}>
                         {/* {result?.mainTotal?.netwtWithLossWt?.toFixed(3)} */}
                         {mainTotal?.metal_netwt?.toFixed(3)}
                       </div>
                       {/* <div className="theadsubcol2_dp10"></div> */}
-                      <div className="theadsubcol2_dp10 end_dp10 pr_dp10 fsg2dp10" style={{ width: "38%" }} >
+                      <div className="theadsubcol2_dp10 end_dp10 pr_dp10 fsg2dp10" style={{ width: "40%" }} >
                         { printWithPrice && formatAmount(mainTotal?.metal_Amt)}
                       </div>
                     </div>
@@ -721,11 +722,12 @@ const QuotePrintLP = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className=" d-flex align-items-start justify-content-center fsg2dp10">
                         {mainTotal?.colorstone_pcs}
                       </div>
-                      <div className=" end_dp10 fsg2dp10" style={{ width: "26.32%" }}>
+                      <div className=" end_dp10 fsg2dp10" style={{ width: "22.32%" }}>
                         {(mainTotal?.colorstone_wt)?.toFixed(3)}
                       </div>
                       {/* <div className=""></div> */}
-                      <div className=" end_dp10 pr_dp10 fsg2dp10" style={{ width: "27.32%" }} >
+                      {/* <div className=" end_dp10 pr_dp10 fsg2dp10" style={{ width: "27.32%" }} > */}
+                      <div className=" end_dp10 pr_dp10 fsg2dp10" style={{ width: "30.32%" }} >
                         { printWithPrice && formatAmount(mainTotal?.colorstone_Amt)}
                       </div>
                     </div>
