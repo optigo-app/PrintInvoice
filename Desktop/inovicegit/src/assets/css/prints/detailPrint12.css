@@ -420,17 +420,29 @@
     justify-content: flex-end;
     align-items: center;
 }
-
+.h_127_dp12{
+    height: 127px;
+}
+.pad_left_dp12{
+    padding-left: 4rem;
+}
 @media print {
     .hidebtn{
      display: none !important;   
+    }
+    .h_127_dp12{
+        height: 110px;
+    }
+    .pad_left_dp12{
+        padding-left: 3rem;
     }
     .containerdp12{
         box-sizing: border-box;
         word-break: break-all;
         font-size: 11px !important;
         margin: 0px auto !important;
-        padding: 15px !important;
+        padding: 5px !important;
+        margin: 0px !important;
     }
     .fsgdp12{
         font-size: 10px !important;
