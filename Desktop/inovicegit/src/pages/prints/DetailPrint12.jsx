@@ -241,7 +241,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
             <div style={{ width: "40%"}} className="pad_left_dp12">
               <div className="w-100 d-flex align-items-center fsgdp12">
-                <div className="fw-bold w-50">INVOICE NO</div>
+                <div className="fw-bold w-50">SHEET NO</div>
                 <div className="w-50">{result?.header?.InvoiceNo}</div>
               </div>
               <div className="w-100 d-flex align-items-center fsgdp12">
