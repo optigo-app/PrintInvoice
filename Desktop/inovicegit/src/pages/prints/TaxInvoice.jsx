@@ -424,7 +424,6 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className={`${style?.labourAmount} lightGrey border-end border-bottom`}>
                     <div className="d-flex w-100 border-top fw-bold ">
                       <div className="col-1"><p className={`${style?.pad_1} text-end`}>	</p></div>
-                      {console.log(e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost)}
                       <div className="col-11"><p className={`${style?.pad_1} text-end`}>{NumberWithCommas(e?.MakingAmount + e?.TotalDiaSetcost + e?.TotalCsSetcost, 2)}</p></div>
                     </div>
                   </div>

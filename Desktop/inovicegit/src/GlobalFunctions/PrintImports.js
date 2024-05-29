@@ -165,8 +165,8 @@ export const excelConditions = [
 
 
 export const alterationArray = [
-  {label:"alteration", evname: "RepairAlteration"},
-  {label:"alteration receive", evname: "RepairAlterationReceive"},
+  {label:"alteration", evname: "RepairAlteration", componentName:'RepairAlteration'},
+  {label:"alteration receive", evname: "RepairAlterationReceive", componentName: 'RepairAlterationReceive'},
   {printName: 'repair print', etpType: 'print', componentName: 'RepairPrint'},
 ];
 

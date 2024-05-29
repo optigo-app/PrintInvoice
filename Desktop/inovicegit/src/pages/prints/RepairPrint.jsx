@@ -57,6 +57,7 @@ const RepairPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       }
     };
     sendData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return loader ? (
