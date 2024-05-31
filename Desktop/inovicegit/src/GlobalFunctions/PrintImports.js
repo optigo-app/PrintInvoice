@@ -89,6 +89,7 @@ export const printConditions = [
   {printName: 'retail print 3', etpType: 'print', componentName: 'RetailPrint3'},
   {printName: 'retail tax invoice', etpType: 'print', componentName: 'RetailTaxInvoice'},
   {printName: 'retail1 print', etpType: 'print', componentName: 'Retail1Print'},
+  // {printName: 'rough estimate', etpType: 'print', componentName: 'RoughEstimate'},
   {printName: 'rough estimate', etpType: 'print', componentName: 'RoughEstimate'},
   // {printName: 'sale order', etpType: 'print', componentName: 'SaleOrder'},
   {printName: 'solitaire tax invoice', etpType: 'print', componentName: 'SolitaireTaxInvoice'},
@@ -119,9 +120,8 @@ export const printConditions = [
   {printName: 'tax invoice 3', etpType: 'print', componentName: 'TaxInvoice3'},
   {printName: 'tax invoice print 4', etpType: 'print', componentName: 'TaxInvoicePrint4'}, 
   {printName: 'tax invoice 5', etpType: 'print', componentName: 'TaxInvoice5'}, 
-  {printName: 'tax invoice 6', etpType: 'print', componentName: 'TaxInvoice5'}, 
+  {printName: 'tax invoice 6', etpType: 'print', componentName: 'TaxInvoice5'},
 ];
-
 
 export const QuotationPrints = [
   {printName: 'print 1', etpType: 'print', componentName: 'Print1'},
@@ -141,9 +141,14 @@ export const MemoPrints = [
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
 ]
 
+export const ShipmentArray = [
+  {printName: 'rough estimate', etpType: 'print', componentName: 'Shipment'},
+]
+
 export const EstimatePrints = [
   {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
 ]
+
 export const HallMarkPrints = [
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
 ]

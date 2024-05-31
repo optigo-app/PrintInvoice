@@ -112,6 +112,9 @@ const AllDesignPrint = () => {
       if(etpType === 'print' && evnname === 'hallmark'){
         return module.HallMarkPrints || []
       }
+      if(etpType === 'print' && evnname === 'shipment'){
+        return module.ShipmentArray || []
+      }
   }
 
   const checkFavicon = () => {
@@ -134,6 +137,7 @@ const AllDesignPrint = () => {
       setIsFaviconLoaded(false);
     }
   };
+  
   useEffect(() => {
     takePrint();
     checkFaviconUrl();
