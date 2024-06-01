@@ -13,6 +13,7 @@ const Shipment = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
+  const [arr1, setArr1] = useState([]);
  
   useEffect(() => {
     const sendData = async () => {
@@ -75,7 +76,7 @@ const Shipment = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               cateWiseOther.push(obj);
             }
         })
-
+        setArr1(cateWise);
         console.log(cateWise, cateWiseOther);
 
       setResult(datas);
@@ -139,31 +140,31 @@ const Shipment = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
         <div  style={{width:'55%'}}>
           <div className='d-flex border-black border-bottom'>
-            <div className='w-25 border-black border-end fs_shp d_flex_shp text-break fw-bold'>Category</div>
-            <div className='w-25 border-black border-end fs_shp d_flex_shp text-break fw-bold'>18KT</div>
-            <div className='w-25 border-black border-end fs_shp d_flex_shp text-break fw-bold'>14KT</div>
+            <div className='w-50 border-black border-end fs_shp d_flex_shp text-break fw-bold'>Category</div>
+            <div className='w-25 border-black border-end fs_shp d_flex_shp text-break fw-bold'>{arr1[0]?.MetalPurity}</div>
+            <div className='w-25 border-black border-end fs_shp d_flex_shp text-break fw-bold'>{arr1[1]?.MetalPurity}</div>
             <div className='w-25 fs_shp d_flex_shp text-break fw-bold'>Other</div>
           </div>
           <div className='d-flex border-black border-bottom'>
-            <div className='w-25 border-black border-end fs_shp pad_s_shp text-break'>Men</div>
-            <div className='w-25 border-black border-end fs_shp pad_e_shp d_flex_end_shp'>2</div>
-            <div className='w-25 border-black border-end fs_shp pad_e_shp d_flex_end_shp'>0</div>
-            <div className='w-25 fs_shp pad_e_shp d_flex_end_shp'>0</div>
+            <div className='w-50 border-black border-end fs_shp pad_s_shp text-break'>{arr1[0]?.Categoryname}</div>
+            <div className='w-25 border-black border-end fs_shp pad_e_shp d_flex_end_shp'>A</div>
+            <div className='w-25 border-black border-end fs_shp pad_e_shp d_flex_end_shp'>B</div>
+            <div className='w-25 fs_shp pad_e_shp d_flex_end_shp'>C</div>
           </div>
           <div className='d-flex border-black border-bottom'>
-            <div className='w-25 border-black border-end fs_shp pad_s_shp text-break'>Women</div>
-            <div className='w-25 border-black border-end fs_shp pad_e_shp d_flex_end_shp'>1</div>
-            <div className='w-25 border-black border-end fs_shp pad_e_shp d_flex_end_shp'>1</div>
-            <div className='w-25 fs_shp pad_e_shp d_flex_end_shp'>1</div>
+            <div className='w-50 border-black border-end fs_shp pad_s_shp text-break'>{arr1[1]?.Categoryname}</div>
+            <div className='w-25 border-black border-end fs_shp pad_e_shp d_flex_end_shp'>D</div>
+            <div className='w-25 border-black border-end fs_shp pad_e_shp d_flex_end_shp'>E</div>
+            <div className='w-25 fs_shp pad_e_shp d_flex_end_shp'>F</div>
           </div>
           <div className='d-flex border-black border-bottom'>
-            <div className='w-25 border-black border-end fs_shp pad_s_shp text-break'>Other</div>
-            <div className='w-25 border-black border-end fs_shp pad_e_shp d_flex_end_shp'>0</div>
-            <div className='w-25 border-black border-end fs_shp pad_e_shp d_flex_end_shp'>0</div>
-            <div className='w-25 fs_shp pad_e_shp d_flex_end_shp'>0</div>
+            <div className='w-50 border-black border-end fs_shp pad_s_shp text-break'>Other</div>
+            <div className='w-25 border-black border-end fs_shp pad_e_shp d_flex_end_shp'>G</div>
+            <div className='w-25 border-black border-end fs_shp pad_e_shp d_flex_end_shp'>H</div>
+            <div className='w-25 fs_shp pad_e_shp d_flex_end_shp'>I</div>
           </div>
           <div className='d-flex border-black border-bottom'>
-            <div className='w-25 border-black border-end fs_shp'>&nbsp;</div>
+            <div className='w-50 border-black border-end fs_shp'>&nbsp;</div>
             <div className='w-25 border-black border-end fs_shp'></div>
             <div className='w-25 border-black border-end fs_shp'></div>
             <div className='w-25 fs_shp'></div>

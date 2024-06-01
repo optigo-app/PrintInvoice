@@ -179,10 +179,10 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
 
           {/* table sub header */}
-          <div className="d-flex justify-content-between align-items-start w-100 border-start border-end border-bottom">
+          <div className="d-flex justify-content-between align-items-start w-100 border_start_dp12 border_end_dp12 border_bottom_dp12">
             <div style={{ width: "40%" }} className="h_127_dp12" >
               <div className="d-flex w-100 h_127_dp12">
-                <div className="w-50 d-flex flex-column border-end h_127_dp12">
+                <div className="w-50 d-flex flex-column border_end_dp12 h_127_dp12">
                   <div className="fw-bold w-100 _fsgdp12_  pt-3 px-1">
                     {result?.header?.CompanyFullName}
                   </div>
@@ -198,7 +198,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div> */}
                   </div>
                 </div>
-                <div className="w-50 px-1 h_127_dp12 border-end">
+                <div className="w-50 px-1 h_127_dp12 border_end_dp12">
                   <div className=" _fsgdp12_ ">
                     <div className="_fsgdp12_">Bill To, </div>
                     <div className="fw-bold _fsgdp12_">{result?.header?.customerfirmname}</div>
@@ -236,7 +236,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div className="fw-bold w-50">DATE</div>
               <div className="w-50">{result?.header?.EntryDate}</div>
             </div> */}
-            <div style={{ width: "20%" }} className="d-flex justify-content-center align-items-center border-end h_127_dp12" >
+            <div style={{ width: "20%" }} className="d-flex justify-content-center align-items-center border_end_dp12  h_127_dp12" >
               <img src={result?.header?.PrintLogo} alt="#companylogo" className="w-100 h-auto  d-block object-fit-contain headimgdp12" style={{ minHeight: "120px", maxHeight: "120px", minWidth: "120px", maxWidth: "120px", }} />
             </div>
             <div style={{ width: "40%"}} className="pad_left_dp12">
@@ -328,7 +328,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
         </div>
       </div>
       <div>
-      <div className="w-100 fsgdp12 border-end border-start border-bottom">
+      <div className="w-100 fsgdp12 border_end_dp12 border_start_dp12 border_bottom_dp12">
           <div className='w-100 d-flex px-1'>
           <div className="w-100 fsgdp12 lhdp12 d-flex justify-content-between">
             <span className="w-50 fw-bold"> {result?.header?.HSN_No_Label} </span>
@@ -418,7 +418,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className="tbodydp12">
               {result?.resultArray?.map((e, i) => {
                 return (
-                  <div className="d-flex brbdp12 hcompdp12 bordersdp12 border-top" key={i}>
+                  <div className="d-flex brbdp12 hcompdp12 bordersdp12 border_top_dp12" key={i}>
                     <div className="rcol1dp12 dp12cen1">{i + 1}</div>
                     <div className="rcol2dp12 d-flex flex-column  justify-content-center  align-items-start p-1">
                       <div className="d-flex justify-content-between align-items-start w-100">
@@ -875,7 +875,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             </div>
           </div>
           {/* table all row total */}
-          <div className="totaldp12 w-100 brtdp12 border-top-0 border-start border-end fsgdp12">
+          <div className="totaldp12 w-100 brtdp12 border-top-0 border_start_dp12 border_end_dp12 fsgdp12">
             <div className="totcol1dp12"></div>
             <div className="totcol2dp12 dp12cen2" style={{ width: "15%" }}>
               {/* <div>{result?.mainTotal?.grosswt !== 0 && result?.mainTotal?.grosswt?.toFixed(3)} </div> */}
@@ -943,7 +943,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               <div style={{ width: "30.1%" }} className="d-flex">
                 <div
                   style={{ width: "63%" }}
-                  className="border-end border-start px-1  dp12cen2  "
+                  className="border_end_dp12 border_start_dp12 px-1  dp12cen2  "
                 >
                   {" "}
                   {result?.header?.ModeOfDel} :{" "}
@@ -980,9 +980,9 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               );
             })}
           {priceFlag && (
-            <div className="w-100 bradp12 border-top-0 taxdp12 fsgdp12">
+            <div className="w-100 bradp12 border-top-0 taxdp12 fsgdp12 ">
               <div className="taxdp12d4"></div>
-              <div className="taxdp12d2 dp12cen2 bldp12">
+              <div className="taxdp12d2 dp12cen2 bldp12 border_start_dp12">
                 {" "}
                 Sales Rounded Off{" "}
               </div>
@@ -1215,8 +1215,8 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <div
             className={` bradp12  ps-1 fsgdp12 ${
               priceFlag
-                ? "border-top-0 border-bottom"
-                : "border-top border-bottom"
+                ? "border-top-0 border_bottom_dp12"
+                : "border-top border_bottom_dp12"
             }`}
           >
             <b>REMARKS</b> : {result?.header?.PrintRemark}

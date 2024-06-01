@@ -13,12 +13,12 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         invoiceNo: false,
         customerCode: false
     })
-    const [isImageWorking, setIsImageWorking] = useState(true);
+    const [isImageWorking, setIsImageWorking] = useState(true); 
   const handleImageErrors = () => {
     setIsImageWorking(false);
   };
     const loadData = (data) => {
-        // console.log(data);
+        console.log(data);
         setInvoice(data?.BillPrint_Json[0]?.InvoiceNo);
         setCustomerCode(data?.BillPrint_Json[0]?.Customercode);
 
@@ -44,7 +44,9 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
     useEffect(() => {
         const sendData = async () => {
             try {
+                console.log('called');
                 const data = await apiCall(token, invoiceNo, printName, urls, evn, ApiVer);
+                console.log(data);
                 loadData(data?.Data);
                 setLoader(false);
             } catch (error) {
@@ -52,6 +54,7 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             }
         }
         sendData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
@@ -79,15 +82,15 @@ const ExportPrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
         {/* data */}
         <div className={`d-flex flex-wrap pt-2 pad_60_allPrint`}>
             {data && data.map((e, i) => {
-                return <div className={`col-3 px-2 my-3 no_break ${style?.contain}`} key={i}>
-                    <div className="border rounded border-black">
-                        <img src={e?.DesignImage} alt="" className={`w-100 pt-2 object-fit-contain ${style?.img}`} onError={handleImageError} />
+                return <div className={`col-3 ${style?.m_ep} no_break ${style?.contain}`} key={i}>
+                    <div className={`border  border-black ${style?.divbox_ep}`}>
+                        <div className={`${style?.imgbox_ep}`}><img src={e?.DesignImage} alt="" className={`w-100  object-fit-contain ${style?.img}`} onError={handleImageError} /></div>
                         <div className="p-1 border-top border-black">
-                            <div className="d-flex justify-content-between w-100">
+                            <div className="d-flex justify-content-between w-100 px-1">
                                 <p className='fw-bold'>{NumberWithCommas(i + 1, 0)}</p>
                                 <p className='fw-bold'>{e?.designno}</p>
                             </div>
-                            <p className='fw-bold'>{e?.SrJobno} </p>
+                            <div className={`fw-bold px-1 ${style?.lh_ep}`}>{e?.SrJobno} </div>
                         </div>
                     </div>
                 </div>

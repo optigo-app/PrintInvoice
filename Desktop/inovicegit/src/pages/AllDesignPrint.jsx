@@ -94,6 +94,9 @@ const AllDesignPrint = () => {
       if(etpType === 'print' && evnname === 'sale'){
         return module.printConditions || []
       }
+      if(etpType === 'print' && evnname === 'sale return'){
+        return module.SaleReturn || []
+      }
       if(etpType === 'print' && evnname === 'quote'){
         return module.QuotationPrints || []
       }
@@ -105,6 +108,9 @@ const AllDesignPrint = () => {
       }
       if(etpType === 'print' && evnname === 'memo'){
         return module.MemoPrints || []
+      }
+      if(etpType === 'print' && evnname === 'memo return'){
+        return module.MemoReturnPrints || []
       }
       if(etpType === 'print' && evnname === 'estimate'){
         return module.EstimatePrints || []
