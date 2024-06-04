@@ -138,6 +138,7 @@ export const QuotationPrints = [
   {printName: 'summary 4', etpType: 'print', componentName: 'Summary4Quote'},
   {printName: 'summary print', etpType: 'print', componentName: 'SummaryPrint'},
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12Quote'},
+  {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
 ]
 
 export const MemoPrints = [
@@ -146,6 +147,7 @@ export const MemoPrints = [
   {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
   {printName: 'jewellery item wise', etpType: 'print', componentName: 'HallmarkItemWisePrint'},
   {printName: 'detail print 12', etpType: 'print', componentName: 'DetailPrint12Quote'},
+  {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
 ]
 
 export const MemoReturnPrints = [
@@ -160,6 +162,7 @@ export const EstimatePrints = [
   {printName: 'print 1', etpType: 'print', componentName: 'Print1'},
   {printName: 'tax invoice', etpType: 'print', componentName: 'TaxInvoice'},
   {printName: 'export print', etpType: 'print', componentName: 'ExportPrint'},
+  {printName: 'packing list 7', etpType: 'print', componentName: 'PackingList7'},
 ]
 
 export const HallMarkPrints = [

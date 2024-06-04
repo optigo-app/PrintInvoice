@@ -118,7 +118,7 @@ const Summary4Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <label className='print_padd_smp'>With Image</label>
                         </div>
 
-                        <input type="button" class="print_btn_smp" onClick={() => PrintScreen()} value="Print" id="printbtn" accesskey="p"></input>
+                        <input type="button" class="print_btn_smp" onClick={() => PrintScreen()} value="Print" id="printbtn"></input>
                     </div>
                     <div className='container_smp'>
                         <div className={withHeader === true ? "margin_10_bottom_smp" : "d_none_smp"}>
