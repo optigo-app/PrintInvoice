@@ -1281,7 +1281,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                               {e?.ShapeName} {e?.QualityName} {e?.Colorname}
                             </div>
                             <div className="w-50 end_dp10_pcl7">
-                              {e?.pcPcss} / {e?.wtWt?.toFixed(3)} cts
+                              {e?.pcPcss} / {e?.wtWts?.toFixed(3)} cts
                             </div>
                           </div>
                         );
@@ -1323,8 +1323,7 @@ const PackingList7 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="h_bd10 centerdp10_pcl7 bg_dp10_pcl7 fw-bold ball_dp10_pcl7">
                         Remark
                       </div>
-                       <div className="ball_dp10_pcl7 border-top-0 p-1">
-                        {result?.header?.PrintRemark}
+                       <div className="ball_dp10_pcl7 border-top-0 p-1" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}>
                       </div>
                     </div>
                      } 

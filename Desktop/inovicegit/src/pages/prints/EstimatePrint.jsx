@@ -1346,7 +1346,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                             })}
                           {e?.JobRemark !== "" && <div className="pt-2 px-1">
                             <p>Remark:</p>
-                            <p className="fw-bold">{e?.JobRemark}</p>
+                            <p className="fw-bold">  {e?.JobRemark}</p>
                           </div>}
                         </div>
                         <div
@@ -1978,6 +1978,7 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </div>
                     <div className="px-1">
                       <div
+                        className="text-break"
                         dangerouslySetInnerHTML={{
                           __html: json1Data?.PrintRemark,
                         }}

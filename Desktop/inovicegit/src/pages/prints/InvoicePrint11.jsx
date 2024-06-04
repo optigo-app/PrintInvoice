@@ -737,7 +737,7 @@ const InvoicePrint_10_11 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
           dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
         ></div>
         <p className="p-1 no_break">
-          <span className="fw-bold"> REMARKS :</span> {headerData?.PrintRemark}
+          <span className="fw-bold"> REMARKS :</span> <span dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></span> 
         </p>
         {/* {footer} */}
         <div className={`${footerStyle.container} no_break`}>

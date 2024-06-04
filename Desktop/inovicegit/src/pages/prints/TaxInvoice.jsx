@@ -586,7 +586,7 @@ const TaxInvoice = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </div>
               <div className="col-2 border-bottom border-end border-start border-top h-100">
                 <p className={`fw-bold ${style?.pad_1} text-center border-bottom p-1 lightGrey`}>Remark </p>
-                <p className="px-1">{json0Data?.PrintRemark}</p>
+                <p className="px-1 text-break" dangerouslySetInnerHTML={{__html:json0Data?.PrintRemark}}></p>
               </div>
             </div>
             {/* note */}

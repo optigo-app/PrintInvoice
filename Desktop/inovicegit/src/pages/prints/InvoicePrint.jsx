@@ -590,7 +590,7 @@ const InvoicePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
       {/* cgst */}
       <div className="pb-1 d-flex justify-content-end no_break minh_invp_830_3">
         <div className='' style={{width:'30%'}}>
-          { json0?.PrintRemark && <><span className="fw-bold invp_830_fs">  Note: </span>{json0?.PrintRemark}</>}
+          { json0?.PrintRemark && <><span className="fw-bold invp_830_fs">  Note: </span> <span dangerouslySetInnerHTML={{ __html: json0?.PrintRemark }} className='text-break'></span> </>}
         </div>
        <div className='d-flex flex-column justify-content-between border-black border border-2' style={{width:'34%'}}>
        <div className="  w-100 border-bottom-0">

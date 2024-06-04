@@ -485,7 +485,7 @@ const EstimationPrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => 
                 {headerData?.PrintRemark !== "" && <div className="col-2 h-100 p-1">
                     <div className='border'>
                         <p className="fw-bold lightGrey p-1 border-bottom text-center">Remark</p>
-                        <p className='p-1'>{headerData?.PrintRemark}</p>
+                        <p className='p-1' dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
                     </div>
                 </div>}
             </div>

@@ -1280,8 +1280,7 @@ const DetailPrint4 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     <div className="summary_dp4_head border-secondary border border-start-0 border-top-0 border-end-0 fw-bold">
                       Remark
                     </div>
-                    <div className="border-secondary border-bottom border-end-0 pad_s_dp4">
-                      {result?.header?.PrintRemark}
+                    <div className="border-secondary border-bottom border-end-0 pad_s_dp4 text-break" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}>
                     </div>
                     
                   </div>

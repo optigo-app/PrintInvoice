@@ -1039,7 +1039,7 @@ const DetailPrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               REMARK
             </h6>
             <div className={`${style?.min_height_15}`}>
-              <p className="px-1">{headerData?.PrintRemark}</p>
+              <p className="px-1" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
             </div></>}
           </div>
           <div className="col-2 d-flex">

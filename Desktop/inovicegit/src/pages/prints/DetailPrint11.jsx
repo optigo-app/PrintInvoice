@@ -544,7 +544,7 @@ const DetailPrint11 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
          totaljewAmountDetailPrint11 */}
           <div className="col-5 border-end">
             <p className='p-1 fw-bold fs-6'>Remark :</p>
-            <div dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }} className='p-1'></div>
+            <div dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }} className='p-1 text-break'></div>
           </div>
           <div className="col-2 border-end">
           </div>

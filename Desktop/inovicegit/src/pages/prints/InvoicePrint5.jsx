@@ -492,7 +492,7 @@ const InvoicePrint5 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className="text-decoration-underline fw-bold">
                     Remarks:
                   </div>
-                  <div>{result?.header?.PrintRemark}</div>
+                  <div className="text-break" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}></div>
                 </div>
                 <div className="border mt-1 fsgip5 texpartivp5">
                   <div className="text-decoration-underline fw-bold">

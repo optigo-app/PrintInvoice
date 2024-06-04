@@ -434,7 +434,7 @@ const DetailPrint3 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           </div>
           <div className="border-secondary border-top" style={{width:'35%'}}>
             <div className="summary_dp3_head border-secondary border border-start-0 border-top-0 fw-bold">Remark</div>
-            <div className="border-secondary border-bottom border-end pad_s_dp3 ps-2">{result?.header?.PrintRemark}</div>
+            <div className="border-secondary border-bottom border-end pad_s_dp3 ps-2 text-break" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}></div>
           </div>
         </div>
         <div className="check_dp3 border-secondary border border-bottom d-flex justify-content-center align-items-end border-top" style={{width:'15%'}}>

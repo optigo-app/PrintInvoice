@@ -1312,9 +1312,9 @@ const DetailPrintS = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 >
                   {}
                 </div>
-                <div className="border-top-0 bradp7 border-bottom-0 ps-1 fsgdp7">
+                {/* <div className="border-top-0 bradp7 border-bottom-0 ps-1 fsgdp7">
                   <b>REMARKS</b> : {result?.header?.PrintRemark}
-                </div>
+                </div> */}
                 {/* <div className="d-flex footer_bank hcompdp7 fsgdp7">
                   <div className="subheaddiv_1">
                     <div className="fw-bold">Bank Detail</div>

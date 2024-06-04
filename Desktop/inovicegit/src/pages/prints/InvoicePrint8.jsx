@@ -1181,7 +1181,7 @@ const InvoicePrint8 = ({
           dangerouslySetInnerHTML={{ __html: headerData?.Declaration }}
         ></div>
         <p className="p-1 no_break">
-          <span className="fw-bold"> REMARKS :</span> {headerData?.PrintRemark}
+          <span className="fw-bold"> REMARKS :</span> <span dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></span> 
         </p>
         {/* {footer} */}
         <div

@@ -278,7 +278,7 @@ const InvoicePrint4Clone = ({ token, invoiceNo, printName, urls, evn, ApiVer }) 
                     <div className="d-flex border-start border-end border-bottom">
                         <div className="col-8 p-2 border-end">
                             <p className="fw-bold">Remark:</p>
-                            <div dangerouslySetInnerHTML={{ __html: headerData?.Remark }}></div>
+                            <div className='text-break' dangerouslySetInnerHTML={{ __html: headerData?.Remark }}></div>
                         </div>
                         <div className="col-4">
                             {taxes.length > 0 && taxes.map((e, i) => {

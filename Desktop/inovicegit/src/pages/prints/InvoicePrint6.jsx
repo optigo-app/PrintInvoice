@@ -596,7 +596,7 @@ const InvoicePrint6 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             {/* taxes */}
             <div className="no_break d-flex my-2 justify-content-end">
                 <div className="col-4">
-                    <p><span className="fw-bold"> Note:</span> {headerData?.PrintRemark}</p>
+                    <p><span className="fw-bold"> Note:</span> <span dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></span></p>
                 </div>
                 <div className="col-5 border border-black border-2">
                     <div style={{ minHeight: "126px" }}>

@@ -787,7 +787,7 @@ const DetailPrint8 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
       ></div>
       <div className="border-start py-1 px-2 border-end border-bottom d-flex">
         <p className="fw-bold pe-1">REMARKS :</p>
-        <p className="ps-1">{headerData?.PrintRemark}</p>
+        <p className="ps-1" dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
       </div>
 
       {/* footer */}

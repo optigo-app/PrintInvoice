@@ -764,7 +764,7 @@ const DetailPrint11Excel = ({ urls, token, invoiceNo, printName, evn, ApiVer }) 
               return <tr key={i}>
                 <td></td>
                 {i === 0 && <td colSpan={4} rowSpan={len} width={560} style={{ borderBottom: "1px solid #000", borderLeft: "1px solid #000", borderRight: "1px solid #000", padding: "1px", verticalAlign: 'middle' }} VALIGN="TOP">
-                  {i === 0 && <><span>Remark :</span><span dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }} className='p-1'></span></>}
+                  {i === 0 && <><span>Remark :</span><span dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }} className='p-1 text-break'></span></>}
                 </td>}
                 <td colSpan={4} style={{ borderBottom: (i === len - 1 && "1px solid #000"), borderRight: "1px solid #000", padding: "1px", verticalAlign: 'middle' }}><b></b> </td>
                 <td colSpan={2} style={{ borderBottom: (i === len - 1 && "1px solid #000"), padding: "1px", verticalAlign: 'middle' }}>{goldTotal[i] && goldTotal[i]?.label}</td>

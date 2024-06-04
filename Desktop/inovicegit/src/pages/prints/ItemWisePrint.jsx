@@ -723,8 +723,7 @@ const ItemWisePrint = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           <p className="pe-1">
             <span className="fw-bold">Remark : </span>
           </p>
-          <p>
-            {json0Data?.PrintRemark}
+          <p dangerouslySetInnerHTML={{ __html: json0Data?.PrintRemark }}>
           </p>
         </div>
         {/* ${atob(printName).toLowerCase() === "item wise print1" && "itemWisePrint1Font_tab_15"} */}

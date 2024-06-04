@@ -454,7 +454,7 @@ const InvoicePrint_12 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => 
       {/* remark */}
       <div className={`border-bottom border-start no_break border-end p-2`}>
         <p className="fw-bold text-decoration-underline">Remark : </p>
-        <p>  {headerData?.PrintRemark}</p>
+        <p dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }} className="text-break"></p>
       </div>
       {/* declaration */}
       <div className="my-1 border no_break">

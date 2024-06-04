@@ -592,8 +592,7 @@ const InvoicePrint9 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
             </div>
             <div className="d-flex pb-1">
               <p className={`fw-bold pe-1 ${style?.font_15}`}>Remark : </p>
-              <p className={`fw-bold ps-1 ${style?.font_15}`}>
-                {headerData?.Remark}
+              <p className={`fw-bold ps-1 ${style?.font_15}`} dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}>
               </p>
             </div>
             <div className="d-flex justify-content-between pb-1">

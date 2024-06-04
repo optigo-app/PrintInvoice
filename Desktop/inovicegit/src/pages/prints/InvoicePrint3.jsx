@@ -697,7 +697,7 @@ const InvoicePrint3 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   </div>
                   <div className="wordsinvp3 fsinvp3">
                     <p className="fw-bold px-2">NOTE:</p>
-                    <p className="fsinvp3" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }} ></p>
+                    <p className="fsinvp3 text-break" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }} ></p>
                   </div>
                 </div>
               </div>

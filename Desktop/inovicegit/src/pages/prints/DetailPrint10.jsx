@@ -891,8 +891,7 @@ const DetailPrint10 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       <div className="h_bd10 centerdp10 bg_dp10 fw-bold ball_dp10">
                         Remark
                       </div>
-                       <div className="ball_dp10 border-top-0 p-1">
-                        {result?.header?.PrintRemark}
+                       <div className="ball_dp10 border-top-0 p-1 text-break" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }} >
                       </div>
                     </div>
                      } 

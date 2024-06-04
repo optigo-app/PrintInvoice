@@ -416,7 +416,7 @@ const DetailPrint2 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     </div>
                     <div className={`${style?.remark} col-3 border h-100 border-top`}>
                         <p className="fw-bold lightGrey text-center border-bottom">Remark</p>
-                        <p style={{ minHeight: "24px" }} className='px-1'>{headerData?.PrintRemark}</p>
+                        <p style={{ minHeight: "24px" }} className='px-1 text-break' dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></p>
                     </div>
                     <div className={`${style?.blank} col-2`}></div>
                     <div className={`${style?.checkedBy} col-2 d-flex justify-content-center align-items-end border-start border-end border-bottom border-top`} style={{ minHeight: "150px" }}>

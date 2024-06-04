@@ -375,7 +375,7 @@ const InvoicePrint2 = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                   <div className="head3ivp2">
                     <div className="d-flex" style={{ width: "70%" }}>
                       <div className="fw-bold px-2" style={{fontSize: "18px"}}>INVOICE #: {headerData?.InvoiceNo}</div>
-                      <div className=" px-1" style={{fontSize: "18px"}} dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></div>
+                      <div className="text-break px-1" style={{fontSize: "18px"}} dangerouslySetInnerHTML={{ __html: headerData?.PrintRemark }}></div>
                     </div>
                     <div className="p-1" style={{ width: "30%" }}>
                       <div className="d-flex justify-content-end align-items-end binvivp2">

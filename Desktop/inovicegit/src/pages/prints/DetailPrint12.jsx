@@ -1219,7 +1219,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 : "border-top border_bottom_dp12"
             }`}
           >
-            <b>REMARKS</b> : {result?.header?.PrintRemark}
+            <b>REMARKS</b> : <span className="text-break" dangerouslySetInnerHTML={{ __html: result?.header?.PrintRemark }}></span>
           </div>
           {/* <div className="d-flex footer_bank_dp12 hcompdp12_dp12 fsgdp12">
         <div className="subheaddiv_1_dp12">
