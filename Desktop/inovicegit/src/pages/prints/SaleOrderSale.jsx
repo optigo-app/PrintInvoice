@@ -473,12 +473,7 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 PO#: <span className="ps-1 fw-bold">{data[0]?.PO}</span>{" "}
               </p>
             )}
-            {headerData?.DueDate !== "" && (
-              <p>
-                PROMISE DATE#:{" "}
-                <span className="ps-1 fw-bold">{headerData?.DueDate}</span>
-              </p>
-            )}
+        
           </div>
         </div>
       </div>
@@ -647,6 +642,7 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             );
           })}
           <p className="text-end"> TOTAL </p>
+          <p className="text-end"> Courier & Other Charges  </p>
           {headerData?.AddLess !== 0 && (
             <p className="text-end">{headerData?.AddLess > 0 ? "ADD" : "LESS"}</p>
           )}
@@ -669,6 +665,12 @@ const SaleOrderSale = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
             ></span>{" "}
             {NumberWithCommas(total?.afterTax, 2)}
+          </p>
+          <p>
+            <span
+              dangerouslySetInnerHTML={{ __html: headerData?.Currencysymbol }}
+            ></span>{" "}
+            {NumberWithCommas(((headerData?.FreightCharges)/headerData?.CurrencyExchRate), 2)}
           </p>
           {headerData?.AddLess !== 0 && (
             <p>

@@ -474,12 +474,7 @@ const SaleOrderMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
               </p>
             )}
             
-            {headerData?.DueDate !== "" && (
-              <p>
-                PROMISE DATE#:{" "}
-                <span className="ps-1 fw-bold">{headerData?.DueDate}</span>
-              </p>
-            )}
+    
           </div>
         </div>
       </div>
@@ -648,7 +643,7 @@ const SaleOrderMemo = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             );
           })}
           <p className="text-end"> TOTAL </p>
-          <p className="text-end"> {headerData?.ModeOfDel} </p>
+          <p className="text-end"> Courier & Other Charges </p>
 
           {headerData?.AddLess !== 0 && (
             <p className="text-end">{headerData?.AddLess > 0 ? "ADD" : "LESS"}</p>
