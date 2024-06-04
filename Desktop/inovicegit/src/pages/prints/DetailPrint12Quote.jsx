@@ -14,7 +14,7 @@ import { ToWords } from "to-words";
 import "../../assets/css/prints/detailprint12.css";
 import { NumToWord } from "./../../GlobalFunctions/NumToWord";
 
-const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
+const DetailPrint12Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   const [result, setResult] = useState(null);
   const [msg, setMsg] = useState("");
   const [loader, setLoader] = useState(true);
@@ -248,26 +248,26 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 <div className="fw-bold w-50">DATE</div>
                 <div className="w-50">{result?.header?.EntryDate}</div>
               </div>
-              <div className="w-100 d-flex align-items-center fsgdp12">
+              { result?.header?.ModeOfDel !== '' && <div className="w-100 d-flex align-items-center fsgdp12">
                 <div className="fw-bold w-50">Delivery Mode</div>
                 <div className="w-50">{result?.header?.ModeOfDel}</div>
-              </div>
+              </div>}
               <div className="w-100 d-flex align-items-center fsgdp12">
                 <div className="fw-bold w-50">Due Date</div>
                 <div className="w-50">{result?.header?.DueDate}</div>
               </div>
-              <div className="w-100 d-flex align-items-center fsgdp12">
+              { result?.header?.DueDays !== 0 && <div className="w-100 d-flex align-items-center fsgdp12">
                 <div className="fw-bold w-50">Terms</div>
                 <div className="w-50">{result?.header?.DueDays}</div>
-              </div>
+              </div>}
               <div className="w-100 d-flex align-items-center fsgdp12">
                 <div className="fw-bold w-50">{result?.header?.HSN_No_Label}</div>
                 <div className="w-50">{result?.header?.HSN_No}</div>
               </div>
-              <div className="w-100 d-flex align-items-center fsgdp12">
+              { result?.header?.SalPerName !== '' && <div className="w-100 d-flex align-items-center fsgdp12">
                 <div className="fw-bold w-50">Sales Person</div>
                 <div className="w-50">{result?.header?.SalPerName}</div>
-              </div>
+              </div>}
             </div>
           </div>
           {/* <div className='w-100 d-flex justify-content-between align-items-center'>
@@ -418,9 +418,9 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
             <div className="tbodydp12">
               {result?.resultArray?.map((e, i) => {
                 return (
-                  <div className="d-flex brbdp12 hcompdp12 bordersdp12 border_top_dp12" key={i}>
-                    <div className="rcol1dp12 dp12cen1">{i + 1}</div>
-                    <div className="rcol2dp12 d-flex flex-column  justify-content-center  align-items-start p-1">
+                  <div className="d-flex brbdp12 hcompdp12 bordersdp12 " key={i}>
+                    <div className="rcol1dp12 dp12cen1 border_top_dp12">{i + 1}</div>
+                    <div className="rcol2dp12 d-flex flex-column  justify-content-center  align-items-start p-1 border_top_dp12">
                       <div className="d-flex justify-content-between align-items-start w-100">
                         <div>{e?.designno}</div>
                         <div>{e?.SrJobno}</div>
@@ -459,7 +459,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   <div className='w-100 brbdp12'>{( e?.NetWt + e?.LossWt === 0 ? '&nbsp;' : (e?.NetWt + e?.LossWt)?.toFixed(3))}</div>
                 </div> */}
                     <div
-                      className="rcol4dp12 d-flex flex-column justify-content-between"
+                      className="rcol4dp12 d-flex flex-column justify-content-between border_top_dp12"
                       style={{ width: "36%" }}
                     >
                       <div>
@@ -565,7 +565,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                         </div>
                       </div>
                       <div>
-                        <div className="d-flex brbdp12 brtdp12 w-100 fw-bold">
+                        <div className="d-flex  brtdp12 w-100 fw-bold">
                           <div className="w-50 brdp12 ps-1">&nbsp;</div>
                           <div className="w-50 pe-1 d-flex end_dp12">
                             <div className="w-50 brdp12">&nbsp;</div>
@@ -863,7 +863,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                     {/* <div className="rcol12dp12 dp12cen2 bldp12">
                   {formatAmount( (e?.OtherCharges + e?.TotalDiamondHandling) / result?.header?.CurrencyExchRate )}
                 </div> */}
-                    <div className="rcol13dp12 dp12cen2 border-end-0">
+                    <div className="rcol13dp12 dp12cen2 border-end-0 border_top_dp12">
                       {
                         formatAmount(
                           e?.TotalAmount / result?.header?.CurrencyExchRate
@@ -937,7 +937,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
           )}
 
           {/* Courier info and Charges */}
-          {priceFlag && (
+          {/* {priceFlag && (
             <div className="w-100 d-flex border border-top-0 fsgdp12">
               <div style={{ width: "69.9%" }}></div>
               <div style={{ width: "30.1%" }} className="d-flex">
@@ -957,7 +957,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
 
           {/* taxes */}
           {priceFlag &&
@@ -1023,8 +1023,7 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                       result?.mainTotal?.total_amount /
                         result?.header?.CurrencyExchRate +
                         result?.allTaxesTotal +
-                        result?.header?.FreightCharges /
-                          result?.header?.CurrencyExchRate +
+                        
                         result?.header?.AddLess /
                           result?.header?.CurrencyExchRate
                     )}
@@ -1046,8 +1045,8 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                   NumToWord(
                     result?.mainTotal?.total_amount /
                       result?.header?.CurrencyExchRate +
-                      (result?.header?.FreightCharges /
-                        result?.header?.CurrencyExchRate +
+                      (
+                        
                         result?.allTaxesTotal +
                         result?.header?.AddLess /
                           result?.header?.CurrencyExchRate)
@@ -1255,4 +1254,4 @@ const DetailPrint12 = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
   );
 };
 
-export default DetailPrint12;
+export default DetailPrint12Quote;

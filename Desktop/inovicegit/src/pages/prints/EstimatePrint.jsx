@@ -1369,10 +1369,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                               {fixedValues(e?.NetWt + e?.LossWt, 3)}
                             </p>
                           </div>
-                          <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                          {/* <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
                             <p className="text-end fw-bold"></p>
-                          </div>
-                          <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end">
+                          </div> */}
+                          <div className="width200EstimatePrint p_1Estimate d-flex align-items-center justify-content-end" style={{minWidth:'40%', width:'40%'}}>
                             <p className="text-end fw-bold">
                               {NumberWithCommas(e?.primaryMetalAmount, 2)}
                             </p>
@@ -1731,10 +1731,10 @@ const EstimatePrint = ({ urls, token, invoiceNo, printName, evn, ApiVer }) => {
                     </p>
                   </div>
                   {/* <div className='width200EstimatePrint p_1Estimate h-100'><p className='fw-bold fw-bold text-end'>{NumberWithCommas(total?.finalMetalsTotal?.rate, 2)}</p></div> */}
-                  <div className="width200EstimatePrint p_1Estimate h-100">
+                  {/* <div className="width200EstimatePrint p_1Estimate h-100">
                     <p className="fw-bold fw-bold text-end"></p>
-                  </div>
-                  <div className="width200EstimatePrint p_1Estimate h-100">
+                  </div> */}
+                  <div className="width200EstimatePrint p_1Estimate h-100" style={{minWidth:'40%', width:'40%'}}>
                     <p className="fw-bold fw-bold text-end">
                       {total?.finalMetalsTotal?.amount !== 0 && NumberWithCommas(total?.finalMetalsTotal?.amount, 2)}
                     </p>

@@ -1,11 +1,13 @@
 .inoviceprintContainer *:not(.declarationInvoicePrint *){
     font-size: 12px;
     line-height: 120%;
-    line-height: 12px;
+    line-height: 10px;
 }
 
 .declarationInvoicePrint *{
     line-height: 135%;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 /* .minHieght150InvoicePrint{
@@ -40,6 +42,21 @@
 .mb_2{
     margin-bottom: 8px;
 }
+.invp_830{
+    max-width: 830px !important;
+}
+.pad_10_invp_830{
+    padding: 10px;
+}
+.minh_invp_830{
+    min-height: 90px;
+}
+.minh_invp_830_2{
+    min-height: 180px;
+}
+.minh_invp_830_3{
+    min-height: 100px;
+}
 @media print{
     .print_sec_sum4 {
         display: none !important;
@@ -47,7 +64,7 @@
     .pd_top_invp{
         position: absolute;
         top: 35%;
-        left: 2%;
+        left: 30%;
     }
     .p_2{
         padding: 3px;
@@ -55,4 +72,15 @@
     .mb_2{
         margin-bottom: 4px;
     }
+    .invp_830_fs{
+        font-size: 10px !important;
+        line-height: 10px !important;
+    }
+    .invp_830_fs_head_label{
+        font-size: 14px !important;
+    }
+    .minh_invp_830_2{
+        min-height: 120px;
+    }
+    
 }

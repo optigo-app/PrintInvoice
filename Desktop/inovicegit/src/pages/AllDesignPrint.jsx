@@ -91,8 +91,12 @@ const AllDesignPrint = () => {
   };
 
   const checkEvName = (etpType, evnname, module) => {
+    console.log(evnname);
       if(etpType === 'print' && evnname === 'sale'){
         return module.printConditions || []
+      }
+      if(etpType === 'print' && evnname === 'sale return'){
+        return module.SaleReturn || []
       }
       if(etpType === 'print' && evnname === 'quote'){
         return module.QuotationPrints || []
@@ -106,8 +110,17 @@ const AllDesignPrint = () => {
       if(etpType === 'print' && evnname === 'memo'){
         return module.MemoPrints || []
       }
+      if(etpType === 'print' && evnname === 'memo return'){
+        return module.MemoReturnPrints || []
+      }
       if(etpType === 'print' && evnname === 'estimate'){
         return module.EstimatePrints || []
+      }
+      if(etpType === 'print' && evnname === 'hallmark'){
+        return module.HallMarkPrints || []
+      }
+      if(etpType === 'print' && evnname === 'shipment'){
+        return module.ShipmentArray || []
       }
   }
 
@@ -131,6 +144,7 @@ const AllDesignPrint = () => {
       setIsFaviconLoaded(false);
     }
   };
+  
   useEffect(() => {
     takePrint();
     checkFaviconUrl();

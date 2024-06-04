@@ -1,61 +1,86 @@
 .tax_invoice_container {
-    zoom: 1.2;
+    /* zoom: 1.2; */
+    width: 1259px;
+    min-width: 1259px;
+    max-width: 1259px;
+    color: black;
+    box-sizing: border-box;
 }
 
 .tax_invoice_container *,
 .container * {
-    font-size: 9px;
+    font-size: 12px;
     line-height: 120%;
     word-break: normal;
 }
 
 .rowWisePad p {
-    padding: 2px;
+    /* padding: 2px; */
+    padding: 1px;
+    box-sizing: border-box;
 }
 
-.srno {
-    width: 3%;
-    min-width: 3%;
+.srno { 
+    width: 18px;
+    box-sizing: border-box;
+    /* width: 3%;
+    min-width: 3%; */
 }
 
 .design {
-    width: 7%;
-    min-width: 7%;
+    width: 125px;
+    box-sizing: border-box;
+    /* width: 7%;
+    min-width: 7%; */
 }
 
 .diamond {
-    width: 24%;
-    min-width: 24%;
+    width: 337px;
+    box-sizing: border-box;
+    /* width: 24%;
+    min-width: 24%; */
 }
 
 .metal {
-    width: 22%;
-    min-width: 22%;
+    width: 219px;
+    box-sizing: border-box;
+    /* width: 22%;
+    min-width: 22%; */
 }
 
 .stone {
-    width: 24%;
-    min-width: 24%;
+    width: 315px;
+    box-sizing: border-box;
+    /* width: 24%;
+    min-width: 24%; */
 }
 
 .otherAmount {
-    width: 4%;
-    min-width: 4%;
+    width: 59px;
+    box-sizing: border-box;
+    /* width: 50px; */
+    /* width: 4%;
+    min-width: 4%; */
 }
 
 .labourAmount {
-    width: 9%;
-    min-width: 9%;
+    width: 103px;
+    box-sizing: border-box;
+    /* width: 9%;
+    min-width: 9%; */
 }
 
 .totalAmount {
-    width: 7%;
-    min-width: 7%;
+    width: 73px;
+    box-sizing: border-box;
+    /* width: 7%;
+    min-width: 7%; */
 }
 
 .cgst {
-    width: 93%;
-    min-width: 93%;
+    width: 94%;
+    min-width: 94%;
+    box-sizing: border-box;
 }
 
 .pad_1 {
@@ -67,7 +92,7 @@
 }
 
 .wordBreak * {
-    word-break: break-all !important;
+    word-break: break-word !important;
 }
 .nowordBreak * {
     word-break: normal !important;
@@ -107,11 +132,13 @@
 
     .tax_invoice_container *,
     .container * {
-        font-size: 8px;
+        font-size: 9.5px;
+        line-height: 11px;
     }
 
     .customerFirmName {
-        font-size: 10px;
+        font-size: 12px;
+        line-height: 13px;
     }
 
     .tax_invoice_container *,
@@ -122,11 +149,12 @@
     .font_12 *,
     .font_15,
     .font_15 * {
-        font-size: 8px;
+        font-size: 12px;
+        line-height: 12px;
     }
 
-    .tax_invoice_container {
+    /* .tax_invoice_container {
         zoom: unset;
-    }
+    } */
     
 }

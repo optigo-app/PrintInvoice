@@ -224,6 +224,9 @@ const RepairAlteration = ({ data }) => {
         );
       })}
       {/* signature */}
+      <div className="p-1 border-start border-end w-100 border-bottom">
+        <span className="fw-bold">Remark :</span>&nbsp; {headerData?.Remark}
+      </div>
       <div
         className={`d-flex border-start border-bottom border-end ${style?.height_manufacture}`}
       >

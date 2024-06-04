@@ -36,7 +36,9 @@ function BagPrint21A({ queries, headers }) {
                     headers: headers,
                   };
                   const allDatas = await GetData(objs);
+                  console.log(allDatas);
                   let datas = organizeData(allDatas?.rd, allDatas?.rd1);
+                  console.log(datas);
                   // eslint-disable-next-line array-callback-return
                   datas?.map((a) => {
                     let length = 0;
@@ -173,9 +175,9 @@ function BagPrint21A({ queries, headers }) {
                                                                                     <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>DESIGN NO.</div><div className='firstpart_two_chunk w_bg21 workbreak'>{e?.data?.rd?.Designcode}</div></div>
                                                                                     <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>PO. NO</div><div className='firstpart_two_chunk w_bg21 workbreak'>{`${e?.data?.rd?.PO}`}</div></div>
                                                                                     {/* <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>SIZE</div><div className='firstpart_two_chunk workbreak'>{`${e?.data?.rd?.Size}`}</div></div> */}
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>MFG DESIGN</div><div className='firstpart_two_chunk w_bg21 workbreak'></div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>STYLE</div><div className='firstpart_two_chunk w_bg21 workbreak'></div></div>
-                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>DIMENSIONS</div><div className='firstpart_two_chunk w_bg21 workbreak'></div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>MFG DESIGN</div><div className='firstpart_two_chunk w_bg21 workbreak'>{e?.data?.rd?.mfgdesign}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>STYLE</div><div className='firstpart_two_chunk w_bg21 workbreak'>{e?.data?.rd?.style}</div></div>
+                                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>DIMENSIONS</div><div className='firstpart_two_chunk w_bg21 workbreak'>{e?.data?.rd?.Dimension}</div></div>
                                                                                     <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>MAKE TYPE</div><div className='firstpart_two_chunk w_bg21 workbreak'>{`${e?.data?.rd?.mastermanagement_maketypename}`}</div></div>
                                                                                     {/* <div className='firstpart_one_1'><div className='firstpart_two_chunk '>PROPOSED</div><div className='firstpart_two_chunk workbreak'>ISSUE</div></div> */}
                                                                                     {/* <div className='firstpart_one_1'><div className='firstpart_two_chunk _color'>KT</div><div className='firstpart_two_chunk workbreak'>{e?.data?.rd?.MetalType?.split(" ")?.[1]}</div></div> */}
@@ -392,9 +394,9 @@ function BagPrint21A({ queries, headers }) {
                                                                 <div className='firstpart_two'>
                                                                     <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>DESIGN NO</div><div className='firstpart_two_chunk w_bg21 workbreak'>{`${e?.data?.rd?.Designcode ?? ''}`}</div></div>
                                                                     <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>PO. NO</div><div className='firstpart_two_chunk w_bg21 workbreak'>{`${e?.data?.rd?.PO ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>MFG DESIGN</div><div className='firstpart_two_chunk w_bg21 workbreak'>{`${e?.data?.rd?.MetalColorCo ?? ''}`}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>STYLE</div><div className='firstpart_two_chunk w_bg21 workbreak'>{e?.data?.rd?.MetalType ?? ''}</div></div>
-                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>DIMENSIONS</div><div className='firstpart_two_chunk w_bg21 workbreak'>{`${e?.data?.rd?.SalesrepCode ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>MFG DESIGN</div><div className='firstpart_two_chunk w_bg21 workbreak'>{`${e?.data?.rd?.mfgdesign ?? ''}`}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>STYLE</div><div className='firstpart_two_chunk w_bg21 workbreak'>{e?.data?.rd?.style ?? ''}</div></div>
+                                                                    <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>DIMENSIONS</div><div className='firstpart_two_chunk w_bg21 workbreak'>{`${e?.data?.rd?.Dimension ?? ''}`}</div></div>
                                                                     <div className='firstpart_one_1'><div className='firstpart_two_chunk _color fw-bold'>MAKE TYPE</div><div className='firstpart_two_chunk w_bg21 workbreak'>{`${e?.data?.rd?.prioritycode ?? ''}`}</div></div>
                                                                     {/* <div className='firstpart_one_1'><div className='firstpart_two_chunk  fw-bold'>PROPOSED</div><div className='firstpart_two_chunk workbreak'>ISSUE</div></div> */}
                                                                 </div>
