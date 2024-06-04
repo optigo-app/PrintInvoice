@@ -91,6 +91,7 @@ const AllDesignPrint = () => {
   };
 
   const checkEvName = (etpType, evnname, module) => {
+    console.log(evnname);
       if(etpType === 'print' && evnname === 'sale'){
         return module.printConditions || []
       }
