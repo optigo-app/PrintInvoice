@@ -283,6 +283,10 @@ div {
     justify-content: end;
 }
 
+.justify_center_smp{
+    justify-content: center;
+}
+
 .summary_w_smp {
     width: 495px;
 }

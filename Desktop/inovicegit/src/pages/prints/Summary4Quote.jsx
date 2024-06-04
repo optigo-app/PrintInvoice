@@ -118,7 +118,7 @@ const Summary4Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                             <label className='print_padd_smp'>With Image</label>
                         </div>
 
-                        <input type="button" class="print_btn_smp" onClick={() => PrintScreen()} value="Print" id="printbtn" accesskey="p"></input>
+                        <input type="button" class="print_btn_smp" onClick={() => PrintScreen()} value="Print" id="printbtn"></input>
                     </div>
                     <div className='container_smp'>
                         <div className={withHeader === true ? "margin_10_bottom_smp" : "d_none_smp"}>
@@ -171,21 +171,21 @@ const Summary4Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                 </div>
 
                                 <div className='d_flex_smp text_center_smp br_top_smp height_34_smp line_height_smp font_bold_smp background_smp font_wrap_smp br_bottom_smp'>
-                                    <div className='w_child1_smp pad_2_px br_right_smp'>SR#</div>
-                                    <div className='w_child2_smp pad_2_px br_right_smp'>DESIGN</div>
-                                    <div className='w_child3_smp pad_2_px br_right_smp'>Remark</div>
-                                    <div className='w_child4_smp pad_2_px br_right_smp'>DIA WT (ctw)</div>
-                                    <div className='w_child5_smp pad_2_px br_right_smp'>DIA RATE</div>
-                                    <div className='w_child6_smp pad_2_px br_right_smp'>DIA AMT</div>
-                                    <div className='w_child7_smp pad_2_px br_right_smp'>G WT (gm)</div>
-                                    <div className='w_child8_smp pad_2_px br_right_smp'>NWT (gm)</div>
-                                    <div className='w_child9_smp pad_2_px br_right_smp'>OTHER AMT</div>
-                                    <div className='w_child10_smp pad_2_px br_right_smp'>CS WT (ctw)</div>
-                                    <div className='w_child11_smp pad_2_px br_right_smp'>CS RATE</div>
-                                    <div className='w_child12_smp pad_2_px br_right_smp'>CS AMT</div>
-                                    <div className='w_child13_smp pad_2_px br_right_smp'>GOLD FINE (gm)</div>
-                                    <div className='w_child14_smp pad_2_px br_right_smp'>GOLD AMT</div>
-                                    <div className='w_child15_smp pad_2_px '>AMOUNT</div>
+                                    <div className='w_child1_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>SR#</div>
+                                    <div className='w_child2_smp pad_2_px br_right_smp align_item_smp d_flex_smp'>DESIGN</div>
+                                    <div className='w_child3_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>Remark</div>
+                                    <div className='w_child4_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>DIA WT (ctw)</div>
+                                    <div className='w_child5_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>DIA RATE</div>
+                                    <div className='w_child6_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>DIA AMT</div>
+                                    <div className='w_child7_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>G WT (gm)</div>
+                                    <div className='w_child8_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>NWT (gm)</div>
+                                    <div className='w_child9_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>OTHER AMT</div>
+                                    <div className='w_child10_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>CS WT (ctw)</div>
+                                    <div className='w_child11_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>CS RATE</div>
+                                    <div className='w_child12_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>CS AMT</div>
+                                    <div className='w_child13_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>GOLD FINE (gm)</div>
+                                    <div className='w_child14_smp pad_2_px br_right_smp align_item_smp d_flex_smp justify_center_smp'>GOLD AMT</div>
+                                    <div className='w_child15_smp pad_2_px align_item_smp d_flex_smp justify_center_smp'>AMOUNT</div>
                                 </div>
 
 
@@ -269,7 +269,7 @@ const Summary4Quote = ({ token, invoiceNo, printName, urls, evn, ApiVer }) => {
                                     )
                                 })}
 
-                                <div className='d_flex_smp w_main_smp text_center_smp br_right_smp font_14_smp height_34_smp font_bold_smp background_smp b_t_smp'>
+                                <div className='d_flex_smp text_center_smp font_14_smp height_34_smp font_bold_smp background_smp b_t_smp'>
                                     <div className='w_smp pad_2_px br_right_smp'>TOTAL</div>
                                     <div className='w_child3_smp pad_2_px br_right_smp'></div>
                                     <div className='w_child4_smp pad_2_px br_right_smp text_end_smp'>
